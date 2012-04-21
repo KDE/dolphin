@@ -22,7 +22,7 @@
 
 #include <libdolphin_export.h>
 
-#include <kitemviews/kitemlistview.h>
+#include <kitemviews/kstandarditemlistview.h>
 
 class KFileItemModelRolesUpdater;
 class QTimer;
@@ -36,18 +36,11 @@ class QTimer;
  * KItemListView::setWidgetCreator() and KItemListView::setGroupHeaderCreator()
  * to apply customized generators.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListView : public KItemListView
+class LIBDOLPHINPRIVATE_EXPORT KFileItemListView : public KStandardItemListView
 {
     Q_OBJECT
 
 public:
-    enum Layout
-    {
-        IconsLayout,
-        CompactLayout,
-        DetailsLayout
-    };
-
     KFileItemListView(QGraphicsWidget* parent = 0);
     virtual ~KFileItemListView();
 
@@ -61,9 +54,6 @@ public:
      */
     void setEnlargeSmallPreviews(bool enlarge);
     bool enlargeSmallPreviews() const;
-
-    void setItemLayout(Layout layout);
-    Layout itemLayout() const;
 
     /**
      * Sets the list of enabled thumbnail plugins that are used for previews.
@@ -86,8 +76,10 @@ public:
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 
 protected:
-    virtual void initializeItemListWidget(KItemListWidget* item);
-    virtual bool itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const;
+    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
+    virtual KItemListGroupHeaderCreatorBase* defaultGroupHeaderCreator() const;
+    virtual void onPreviewsShownChanged(bool shown);
+    virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
     virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
@@ -111,7 +103,6 @@ private slots:
     void updateIconSize();
 
 private:
-    void updateLayoutOfVisibleItems();
     void updateTimersInterval();
 
     /**
@@ -130,8 +121,6 @@ private:
     QSize availableIconSize() const;
 
 private:
-    Layout m_itemLayout;
-
     KFileItemModelRolesUpdater* m_modelRolesUpdater;
     QTimer* m_updateVisibleIndexRangeTimer;
     QTimer* m_updateIconSizeTimer;

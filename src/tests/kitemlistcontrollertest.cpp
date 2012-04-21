@@ -33,7 +33,7 @@ namespace {
     const int DefaultTimeout = 2000;
 };
 
-Q_DECLARE_METATYPE(KFileItemListView::Layout);
+Q_DECLARE_METATYPE(KFileItemListView::ItemLayout);
 Q_DECLARE_METATYPE(Qt::Orientation);
 Q_DECLARE_METATYPE(KItemListController::SelectionBehavior);
 Q_DECLARE_METATYPE(QSet<int>);
@@ -79,14 +79,12 @@ void KItemListControllerTest::initTestCase()
 
     m_testDir = new TestDir();
     m_model = new KFileItemModel();
-    m_container = new KItemListContainer();
+    m_view = new KFileItemListView();
+    m_controller = new KItemListController(m_model, m_view, this);
+    m_container = new KItemListContainer(m_controller);
     m_controller = m_container->controller();
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
     m_selectionManager = m_controller->selectionManager();
-
-    m_view = new KFileItemListView();
-    m_controller->setView(m_view);
-    m_controller->setModel(m_model);
 
     QStringList files;
     files
@@ -106,15 +104,8 @@ void KItemListControllerTest::initTestCase()
 
 void KItemListControllerTest::cleanupTestCase()
 {
-    delete m_view;
-    m_view = 0;
-
     delete m_container;
     m_container = 0;
-    m_controller = 0;
-
-    delete m_model;
-    m_model = 0;
 
     delete m_testDir;
     m_testDir = 0;
@@ -187,15 +178,15 @@ Q_DECLARE_METATYPE(QList<keyPressViewStatePair>);
  */
 void KItemListControllerTest::testKeyboardNavigation_data()
 {
-    QTest::addColumn<KFileItemListView::Layout>("layout");
+    QTest::addColumn<KFileItemListView::ItemLayout>("layout");
     QTest::addColumn<Qt::Orientation>("scrollOrientation");
     QTest::addColumn<int>("columnCount");
     QTest::addColumn<KItemListController::SelectionBehavior>("selectionBehavior");
     QTest::addColumn<bool>("groupingEnabled");
     QTest::addColumn<QList<QPair<KeyPress, ViewState> > >("testList");
 
-    QList<KFileItemListView::Layout> layoutList;
-    QHash<KFileItemListView::Layout, QString> layoutNames;
+    QList<KFileItemListView::ItemLayout> layoutList;
+    QHash<KFileItemListView::ItemLayout, QString> layoutNames;
     layoutList.append(KFileItemListView::IconsLayout);
     layoutNames[KFileItemListView::IconsLayout] = "Icons";
     layoutList.append(KFileItemListView::CompactLayout);
@@ -219,7 +210,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     groupingEnabledList.append(true);
     groupingEnabledNames[true] = "grouping enabled";
 
-    foreach (KFileItemListView::Layout layout, layoutList) {
+    foreach (KFileItemListView::ItemLayout layout, layoutList) {
         // The following settings depend on the layout.
         // Note that 'columns' are actually 'rows' in
         // Compact layout.
@@ -443,7 +434,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
  */
 void KItemListControllerTest::testKeyboardNavigation()
 {
-    QFETCH(KFileItemListView::Layout, layout);
+    QFETCH(KFileItemListView::ItemLayout, layout);
     QFETCH(Qt::Orientation, scrollOrientation);
     QFETCH(int, columnCount);
     QFETCH(KItemListController::SelectionBehavior, selectionBehavior);

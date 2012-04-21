@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008-2012 by Peter Penz <peter.penz19@gmail.com>        *
- *   Copyright (C) 2010 by Christian Muehlhaeuser <muesli@gmail.com>       *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,35 +17,56 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef PLACESPANEL_H
-#define PLACESPANEL_H
+#ifndef KSTANDARDITEM_H
+#define KSTANDARDITEM_H
 
-#include <panels/panel.h>
+#include <libdolphin_export.h>
 
-class KItemListController;
+#include <QIcon>
+#include <QList>
+
 class KStandardItemModel;
 
 /**
- * @brief Combines bookmarks and mounted devices as list.
+ * @brief Represents and item of KStandardItemModel.
+ *
+ * Provides setter- and getter-methods for most commonly
+ * used properties.
  */
-class PlacesPanel : public Panel
+class LIBDOLPHINPRIVATE_EXPORT KStandardItem
 {
-    Q_OBJECT
 
 public:
-    PlacesPanel(QWidget* parent);
-    virtual ~PlacesPanel();
+    explicit KStandardItem(KStandardItem* parent = 0);
+    explicit KStandardItem(const QString& text, KStandardItem* parent = 0);
+    KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent = 0);
+    virtual ~KStandardItem();
 
-protected:
-    virtual bool urlChanged();
-    virtual void showEvent(QShowEvent* event);
+    void setText(const QString& text);
+    QString text() const;
 
-private slots:
-    void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
+    void setIcon(const QIcon& icon);
+    QIcon icon() const;
+
+    void setGroup(const QString& group);
+    QString group() const;
+
+    void setParent(KStandardItem* parent);
+    KStandardItem* parent() const;
+
+    QList<KStandardItem*> children() const;
 
 private:
-    KItemListController* m_controller;
+    QString m_text;
+    QIcon m_icon;
+    QString m_group;
+    KStandardItem* m_parent;
+    QList<KStandardItem*> m_children;
     KStandardItemModel* m_model;
+
+    friend class KStandardItemModel;
 };
 
-#endif // PLACESPANEL_H
+#endif
+
+

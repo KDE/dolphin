@@ -17,11 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINITEMLISTCONTAINER_H
-#define DOLPHINITEMLISTCONTAINER_H
+#ifndef DOLPHINITEMLISTVIEW_H
+#define DOLPHINITEMLISTVIEW_H
 
 #include <kitemviews/kfileitemlistview.h>
-#include <kitemviews/kitemlistcontainer.h>
 #include <settings/viewmodes/viewmodesettings.h>
 
 #include <libdolphin_export.h>
@@ -29,57 +28,41 @@
 class KFileItemListView;
 
 /**
- * @brief Extends KItemListContainer by Dolphin specific properties.
+ * @brief Dolphin specific view-implementation.
  *
- * The view and model for KFileItems are created automatically when
- * instantating KItemListContainer.
- *
- * The Dolphin settings of the icons-, compact- and details-view are
- * converted internally to properties that can be used to configure e.g.
- * the item-size and visible roles of the KItemListView.
+ * Offers zoom-level support and takes care for translating
+ * the view-properties into the corresponding KItemListView
+ * properties.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinItemListContainer : public KItemListContainer
+class LIBDOLPHINPRIVATE_EXPORT DolphinItemListView : public KFileItemListView
 {
     Q_OBJECT
 
 public:
-    explicit DolphinItemListContainer(QWidget* parent = 0);
-
-    virtual ~DolphinItemListContainer();
-
-    void setPreviewsShown(bool show);
-    bool previewsShown() const;
-
-    void setVisibleRoles(const QList<QByteArray>& roles);
-    QList<QByteArray> visibleRoles() const;
+    explicit DolphinItemListView(QGraphicsWidget* parent = 0);
+    virtual ~DolphinItemListView();
 
     void setZoomLevel(int level);
     int zoomLevel() const;
 
-    void setItemLayout(KFileItemListView::Layout layout);
-    KFileItemListView::Layout itemLayout() const;
-
-    void beginTransaction();
-    void endTransaction();
-
     void readSettings();
     void writeSettings();
+
+protected:
+    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
+    virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
+    virtual void onPreviewsShownChanged(bool shown);
+    virtual void onVisibleRolesChanged(const QList<QByteArray>& current,
+                                       const QList<QByteArray>& previous);
 
 private:
     void updateGridSize();
     void updateFont();
 
-    /**
-     * Updates the auto activation delay of the itemlist controller
-     * dependent on the 'autoExpand' setting from the general settings.
-     */
-    void updateAutoActivationDelay();
-
     ViewModeSettings::ViewMode viewMode() const;
 
 private:
     int m_zoomLevel;
-    KFileItemListView* m_fileItemListView;
 };
 
 #endif

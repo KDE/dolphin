@@ -42,6 +42,7 @@ class KItemListRubberBand;
 class KItemListViewAnimation;
 class KItemListViewLayouter;
 class KItemListWidget;
+class KItemListWidgetInformant;
 class KItemListWidgetCreatorBase;
 class KItemListViewCreatorBase;
 class QTimer;
@@ -53,11 +54,8 @@ class QTimer;
  * a GraphicsItem. Each visible item is represented by a KItemListWidget.
  *
  * The created view must be applied to the KItemListController with
- * KItemListController::setView(). For showing a custom model it is not
- * mandatory to derive from KItemListView, all that is necessary is
- * to set a widget-creator that is capable to create KItemListWidgets
- * showing the model items. A widget-creator can be set with
- * KItemListView::setWidgetCreator().
+ * KItemListController::setView() or with the constructor of
+ * KItemListController.
  *
  * @see KItemListWidget
  * @see KItemModelBase
@@ -72,17 +70,6 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListView : public QGraphicsWidget
 public:
     KItemListView(QGraphicsWidget* parent = 0);
     virtual ~KItemListView();
-
-    /**
-     * If the scroll-orientation is vertical, the items are ordered
-     * from top to bottom (= default setting). If the scroll-orientation
-     * is horizontal, the items are ordered from left to right.
-     */
-    void setScrollOrientation(Qt::Orientation orientation);
-    Qt::Orientation scrollOrientation() const;
-
-    void setItemSize(const QSizeF& size);
-    QSizeF itemSize() const;
 
     /**
      * Offset of the scrollbar that represents the scroll-orientation
@@ -145,17 +132,27 @@ public:
      * <code>
      * itemListView->setWidgetCreator(new KItemListWidgetCreator<X>());
      * </code>
-     * Note that the ownership of the widget creator is not transferred to
-     * the item-list view: One instance of a widget creator might get shared
-     * by several item-list view instances.
+     * The ownership of the widget creator is transferred to
+     * the item-list view.
      **/
     void setWidgetCreator(KItemListWidgetCreatorBase* widgetCreator);
     KItemListWidgetCreatorBase* widgetCreator() const;
 
+    /**
+     * Sets the creator that creates a group header. Usually it is sufficient
+     * to implement a custom header widget X derived from KItemListGroupHeader and
+     * set the creator by:
+     * <code>
+     * itemListView->setGroupHeaderCreator(new KItemListGroupHeaderCreator<X>());
+     * </code>
+     * The ownership of the gropup header creator is transferred to
+     * the item-list view.
+     **/
     void setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator);
     KItemListGroupHeaderCreatorBase* groupHeaderCreator() const;
 
-    void setStyleOption(const KItemListStyleOption& option);
+    QSizeF itemSize() const;
+
     const KItemListStyleOption& styleOption() const;
 
     /** @reimp */
@@ -313,6 +310,33 @@ signals:
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 protected:
+    void setItemSize(const QSizeF& size);
+    void setStyleOption(const KItemListStyleOption& option);
+
+    /**
+     * If the scroll-orientation is vertical, the items are ordered
+     * from top to bottom (= default setting). If the scroll-orientation
+     * is horizontal, the items are ordered from left to right.
+     */
+    void setScrollOrientation(Qt::Orientation orientation);
+    Qt::Orientation scrollOrientation() const;
+
+    /**
+     * Factory method for creating a default widget-creator. The method will be used
+     * in case if setWidgetCreator() has not been set by the application.
+     * @return New instance of the widget-creator that should be used per
+     *         default.
+     */
+    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
+
+    /**
+     * Factory method for creating a default group-header-creator. The method will be used
+     * in case if setGroupHeaderCreator() has not been set by the application.
+     * @return New instance of the group-header-creator that should be used per
+     *         default.
+     */
+    virtual KItemListGroupHeaderCreatorBase* defaultGroupHeaderCreator() const;
+
     /**
      * Is called when creating a new KItemListWidget instance and allows derived
      * classes to do a custom initialization.
@@ -656,8 +680,8 @@ private:
     KItemListController* m_controller;
     KItemModelBase* m_model;
     QList<QByteArray> m_visibleRoles;
-    KItemListWidgetCreatorBase* m_widgetCreator;
-    KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;
+    mutable KItemListWidgetCreatorBase* m_widgetCreator;
+    mutable KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;
     KItemListStyleOption m_styleOption;
 
     QHash<int, KItemListWidget*> m_visibleItems;
@@ -747,18 +771,12 @@ public:
 
 /**
  * @brief Template class for creating KItemListWidgets.
- *
- * The template class must provide the following two static methods:
- * - QSizeF itemSizeHint(int index, const KItemListView* view)
- * - preferredRoleColumnWidth(const QByteArray& role, int index, const KItemListView* view)
- * Those static methods are used as implementation for
- * KItemListWidgetCreatorBase::itemSizeHint() and
- * KItemListWidgetCreatorBase::preferedRoleColumnWidth().
  */
 template <class T>
 class KItemListWidgetCreator : public KItemListWidgetCreatorBase
 {
 public:
+    KItemListWidgetCreator();
     virtual ~KItemListWidgetCreator();
 
     virtual KItemListWidget* create(KItemListView* view);
@@ -768,11 +786,20 @@ public:
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
                                            const KItemListView* view) const;
+private:
+    KItemListWidgetInformant* m_informant;
 };
+
+template <class T>
+KItemListWidgetCreator<T>::KItemListWidgetCreator() :
+    m_informant(T::createInformant())
+{
+}
 
 template <class T>
 KItemListWidgetCreator<T>::~KItemListWidgetCreator()
 {
+    delete m_informant;
 }
 
 template <class T>
@@ -780,7 +807,7 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 {
     KItemListWidget* widget = static_cast<KItemListWidget*>(popRecycleableWidget());
     if (!widget) {
-        widget = new T(view);
+        widget = new T(m_informant, view);
         addCreatedWidget(widget);
     }
     return widget;
@@ -789,7 +816,7 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 template<class T>
 QSizeF KItemListWidgetCreator<T>::itemSizeHint(int index, const KItemListView* view) const
 {
-    return T::itemSizeHint(index, view);
+    return m_informant->itemSizeHint(index, view);
 }
 
 template<class T>
@@ -797,7 +824,7 @@ qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role
                                                           int index,
                                                           const KItemListView* view) const
 {
-    return T::preferredRoleColumnWidth(role, index, view);
+    return m_informant->preferredRoleColumnWidth(role, index, view);
 }
 
 /**

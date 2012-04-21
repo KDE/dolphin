@@ -37,6 +37,8 @@ class QPropertyAnimation;
 /**
  * @brief Provides a QWidget based scrolling view for a KItemListController.
  *
+ * The model and view are maintained by the KItemListController.
+ *
  * @see KItemListController
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemListContainer : public QAbstractScrollArea
@@ -44,11 +46,18 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListContainer : public QAbstractScrollArea
     Q_OBJECT
 
 public:
+    /**
+     * @param controller Controller that maintains the model and the view.
+     *                   The KItemListContainer takes ownership of the controller
+     *                   (the parent will be set to the KItemListContainer).
+     * @param parent     Optional parent widget.
+     */
     explicit KItemListContainer(KItemListController* controller, QWidget* parent = 0);
-    KItemListContainer(QWidget* parent = 0);
     virtual ~KItemListContainer();
-
     KItemListController* controller() const;
+
+    void setEnabledFrame(bool enable);
+    bool enabledFrame() const;
 
 protected:
     virtual void keyPressEvent(QKeyEvent* event);
@@ -66,7 +75,6 @@ private slots:
     void updateItemOffsetScrollBar();
 
 private:
-    void initialize();
     void updateGeometries();
     void updateSmoothScrollers(Qt::Orientation orientation);
 

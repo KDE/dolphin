@@ -246,8 +246,8 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        if (!isSortGroup && info.role == "name") {
-            // It should not be possible to hide the "name" role
+        if (!isSortGroup && info.role == "text") {
+            // It should not be possible to hide the "text" role
             continue;
         }
 

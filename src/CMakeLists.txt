@@ -32,6 +32,10 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistview.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
+    kitemviews/kstandarditem.cpp
+    kitemviews/kstandarditemlistview.cpp
+    kitemviews/kstandarditemlistwidget.cpp
+    kitemviews/kstandarditemmodel.cpp
     kitemviews/private/kfileitemclipboard.cpp
     kitemviews/private/kfileitemmodeldirlister.cpp
     kitemviews/private/kfileitemmodelsortalgorithm.cpp
@@ -52,7 +56,7 @@ set(dolphinprivate_LIB_SRCS
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     views/dolphinfileitemlistwidget.cpp
-    views/dolphinitemlistcontainer.cpp
+    views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
     views/dolphinplacesmodel.cpp
     views/dolphinremoteencoding.cpp

@@ -48,7 +48,8 @@
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
     m_updateCurrentItem(false),
-    m_controller(0)
+    m_controller(0),
+    m_model(0)
 {
     setLayoutDirection(Qt::LeftToRight);
 }
@@ -67,7 +68,7 @@ FoldersPanel::~FoldersPanel()
 void FoldersPanel::setShowHiddenFiles(bool show)
 {
     FoldersPanelSettings::setHiddenFilesShown(show);
-    fileItemModel()->setShowHiddenFiles(show);
+    m_model->setShowHiddenFiles(show);
 }
 
 bool FoldersPanel::showHiddenFiles() const
@@ -88,8 +89,8 @@ bool FoldersPanel::autoScrolling() const
 
 void FoldersPanel::rename(const KFileItem& item)
 {
-    const int index = fileItemModel()->index(item);
-    m_controller->view()->editRole(index, "name");
+    const int index = m_model->index(item);
+    m_controller->view()->editRole(index, "text");
 }
 
 bool FoldersPanel::urlChanged()
@@ -115,21 +116,10 @@ void FoldersPanel::showEvent(QShowEvent* event)
     }
 
     if (!m_controller) {
-        // Postpone the creating of the dir lister to the first show event.
-        // This assures that no performance and memory overhead is given when the TreeView is not
-        // used at all (see FoldersPanel::setUrl()).
+        // Postpone the creating of the controller to the first show event.
+        // This assures that no performance and memory overhead is given when the folders panel is not
+        // used at all and stays invisible.
         KFileItemListView* view  = new KFileItemListView();
-        view->setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
-
-        KItemListStyleOption styleOption = view->styleOption();
-        styleOption.padding = 2;
-        styleOption.iconSize = KIconLoader::SizeSmall;
-        styleOption.extendedSelectionRegion = true;
-        view->setStyleOption(styleOption);
-
-        const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
-        view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.padding));
-        view->setItemLayout(KFileItemListView::DetailsLayout);
         view->setSupportsItemExpanding(true);
         // Set the opacity to 0 initially. The opacity will be increased after the loading of the initial tree
         // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when
@@ -139,17 +129,14 @@ void FoldersPanel::showEvent(QShowEvent* event)
         connect(view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                 this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
 
-        KFileItemModel* model = new KFileItemModel(this);
-        model->setShowDirectoriesOnly(true);
-        model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
+        m_model = new KFileItemModel(this);
+        m_model->setShowDirectoriesOnly(true);
+        m_model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
-        connect(model, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
+        connect(m_model, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
 
-        KItemListContainer* container = new KItemListContainer(this);
-        m_controller = container->controller();
-        m_controller->setView(view);
-        m_controller->setModel(model);
+        m_controller = new KItemListController(m_model, view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setAutoActivationDelay(750);
         m_controller->setSingleClickActivation(true);
@@ -160,21 +147,8 @@ void FoldersPanel::showEvent(QShowEvent* event)
         connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
         connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
 
-        // TODO: Check whether it makes sense to make an explicit API for KItemListContainer
-        // to make the background transparent.
-        container->setFrameShape(QFrame::NoFrame);
-        QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>(container->viewport());
-        if (graphicsView) {
-            // Make the background of the container transparent and apply the window-text color
-            // to the text color, so that enough contrast is given for all color
-            // schemes
-            QPalette p = graphicsView->palette();
-            p.setColor(QPalette::Active,   QPalette::Text, p.color(QPalette::Active,   QPalette::WindowText));
-            p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
-            p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
-            graphicsView->setPalette(p);
-            graphicsView->viewport()->setAutoFillBackground(false);
-        }
+        KItemListContainer* container = new KItemListContainer(m_controller, this);
+        container->setEnabledFrame(false);
 
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
@@ -197,7 +171,7 @@ void FoldersPanel::keyPressEvent(QKeyEvent* event)
 
 void FoldersPanel::slotItemActivated(int index)
 {
-    const KFileItem item = fileItemModel()->fileItem(index);
+    const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
         emit changeUrl(item.url(), Qt::LeftButton);
     }
@@ -205,7 +179,7 @@ void FoldersPanel::slotItemActivated(int index)
 
 void FoldersPanel::slotItemMiddleClicked(int index)
 {
-    const KFileItem item = fileItemModel()->fileItem(index);
+    const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
         emit changeUrl(item.url(), Qt::MiddleButton);
     }
@@ -215,7 +189,7 @@ void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
     Q_UNUSED(pos);
 
-    const KFileItem fileItem = fileItemModel()->fileItem(index);
+    const KFileItem fileItem = m_model->fileItem(index);
 
     QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
     contextMenu.data()->open();
@@ -238,7 +212,7 @@ void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
 void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
     if (index >= 0) {
-        KFileItem destItem = fileItemModel()->fileItem(index);
+        KFileItem destItem = m_model->fileItem(index);
         if (destItem.isNull()) {
             return;
         }
@@ -255,8 +229,8 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
 
 void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
-    if (role == "name") {
-        const KFileItem item = fileItemModel()->fileItem(index);
+    if (role == "text") {
+        const KFileItem item = m_model->fileItem(index);
         const QString newName = value.toString();
         if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
             KonqOperations::rename(this, item.url(), newName);
@@ -280,7 +254,7 @@ void FoldersPanel::slotLoadingCompleted()
         return;
     }
 
-    const int index = fileItemModel()->index(url());
+    const int index = m_model->index(url());
     updateCurrentItem(index);
     m_updateCurrentItem = false;
 }
@@ -311,18 +285,17 @@ void FoldersPanel::loadTree(const KUrl& url)
         baseUrl.setPath(QString('/'));
     }
 
-    KFileItemModel* model = fileItemModel();
-    if (model->directory() != baseUrl) {
+    if (m_model->directory() != baseUrl) {
         m_updateCurrentItem = true;
-        model->refreshDirectory(baseUrl);
+        m_model->refreshDirectory(baseUrl);
     }
 
-    const int index = model->index(url);
+    const int index = m_model->index(url);
     if (index >= 0) {
         updateCurrentItem(index);
     } else {
         m_updateCurrentItem = true;
-        model->expandParentDirectories(url);
+        m_model->expandParentDirectories(url);
         // slotLoadingCompleted() will be invoked after the model has
         // expanded the url
     }
@@ -336,11 +309,6 @@ void FoldersPanel::updateCurrentItem(int index)
     selectionManager->setSelected(index);
 
     m_controller->view()->scrollToItem(index);
-}
-
-KFileItemModel* FoldersPanel::fileItemModel() const
-{
-    return static_cast<KFileItemModel*>(m_controller->model());
 }
 
 #include "folderspanel.moc"

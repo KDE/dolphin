@@ -26,8 +26,9 @@
 
 #include <KDebug>
 
-DolphinFileItemListWidget::DolphinFileItemListWidget(QGraphicsItem* parent) :
-    KFileItemListWidget(parent)
+DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant* informant,
+                                                     QGraphicsItem* parent) :
+    KFileItemListWidget(informant, parent)
 {
 }
 

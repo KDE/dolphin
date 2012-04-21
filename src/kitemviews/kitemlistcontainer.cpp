@@ -67,8 +67,6 @@ void KItemListContainerViewport::wheelEvent(QWheelEvent* event)
     event->ignore();
 }
 
-
-
 KItemListContainer::KItemListContainer(KItemListController* controller, QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(controller),
@@ -77,25 +75,64 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
 {
     Q_ASSERT(controller);
     controller->setParent(this);
-    initialize();
-}
 
-KItemListContainer::KItemListContainer(QWidget* parent) :
-    QAbstractScrollArea(parent),
-    m_controller(0),
-    m_horizontalSmoothScroller(0),
-    m_verticalSmoothScroller(0)
-{
-    initialize();
+    QGraphicsView* graphicsView = new KItemListContainerViewport(new QGraphicsScene(this), this);
+    setViewport(graphicsView);
+
+    m_horizontalSmoothScroller = new KItemListSmoothScroller(horizontalScrollBar(), this);
+    m_verticalSmoothScroller = new KItemListSmoothScroller(verticalScrollBar(), this);
+
+    if (controller->model()) {
+        slotModelChanged(controller->model(), 0);
+    }
+    if (controller->view()) {
+        slotViewChanged(controller->view(), 0);
+    }
+
+    connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)),
+            this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
+    connect(controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
+            this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
 }
 
 KItemListContainer::~KItemListContainer()
 {
+    // Don't rely on the QObject-order to delete the controller, otherwise
+    // the QGraphicsScene might get deleted before the view.
+    delete m_controller;
+    m_controller = 0;
 }
 
 KItemListController* KItemListContainer::controller() const
 {
     return m_controller;
+}
+
+void KItemListContainer::setEnabledFrame(bool enable)
+{
+    QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>(viewport());
+    if (enable) {
+        setFrameShape(QFrame::StyledPanel);
+        graphicsView->setPalette(palette());
+        graphicsView->viewport()->setAutoFillBackground(true);
+    } else {
+        setFrameShape(QFrame::NoFrame);
+        // Make the background of the container transparent and apply the window-text color
+        // to the text color, so that enough contrast is given for all color
+        // schemes
+        QPalette p = graphicsView->palette();
+        p.setColor(QPalette::Active,   QPalette::Text, p.color(QPalette::Active,   QPalette::WindowText));
+        p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
+        p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
+        graphicsView->setPalette(p);
+        graphicsView->viewport()->setAutoFillBackground(false);
+    }
+}
+
+bool KItemListContainer::enabledFrame() const
+{
+    const QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>(viewport());
+    return graphicsView->autoFillBackground();
 }
 
 void KItemListContainer::keyPressEvent(QKeyEvent* event)
@@ -353,31 +390,6 @@ void KItemListContainer::updateScrollOffsetScrollBarPolicy()
     } else {
         setHorizontalScrollBarPolicy(policy);
     }
-}
-
-void KItemListContainer::initialize()
-{
-    if (m_controller) {
-        if (m_controller->model()) {
-            slotModelChanged(m_controller->model(), 0);
-        }
-        if (m_controller->view()) {
-            slotViewChanged(m_controller->view(), 0);
-        }
-    } else {
-        m_controller = new KItemListController(this);
-    }
-
-    connect(m_controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)),
-            this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
-    connect(m_controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
-            this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
-
-    QGraphicsView* graphicsView = new KItemListContainerViewport(new QGraphicsScene(this), this);
-    setViewport(graphicsView);
-
-    m_horizontalSmoothScroller = new KItemListSmoothScroller(horizontalScrollBar(), this);
-    m_verticalSmoothScroller = new KItemListSmoothScroller(verticalScrollBar(), this);
 }
 
 #include "kitemlistcontainer.moc"

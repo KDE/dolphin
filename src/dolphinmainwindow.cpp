@@ -1847,17 +1847,17 @@ void DolphinMainWindow::setupDockWidgets()
     QList<QAction*> placesActions;
     placesActions.append(separator);
     placesActions.append(lockLayoutAction);
-    placesPanel->addActions(placesActions);
-    placesPanel->setModel(DolphinPlacesModel::instance());
-    placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //placesPanel->addActions(placesActions);
+    //placesPanel->setModel(DolphinPlacesModel::instance());
+    //placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();
     createPanelAction(KIcon("bookmarks"), Qt::Key_F9, placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(placesPanel, SIGNAL(urlChanged(KUrl,Qt::MouseButtons)),
-            this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
+    //connect(placesPanel, SIGNAL(urlChanged(KUrl,Qt::MouseButtons)),
+    //        this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),

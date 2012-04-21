@@ -17,13 +17,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinitemlistcontainer.h"
+#include "dolphinitemlistview.h"
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
-
 #include "dolphinfileitemlistwidget.h"
 
 #include <kitemviews/kfileitemlistview.h>
@@ -38,59 +37,20 @@
 #include "zoomlevelinfo.h"
 
 
-DolphinItemListContainer::DolphinItemListContainer(QWidget* parent) :
-    KItemListContainer(parent),
-    m_zoomLevel(0),
-    m_fileItemListView(0)
+DolphinItemListView::DolphinItemListView(QGraphicsWidget* parent) :
+    KFileItemListView(parent),
+    m_zoomLevel(0)
 {
-    controller()->setModel(new KFileItemModel(this));
-
-    m_fileItemListView = new KFileItemListView();
-    controller()->setView(m_fileItemListView);
-
-    m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());
-    m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
-    m_fileItemListView->setEnlargeSmallPreviews(GeneralSettings::enlargeSmallPreviews());
-
-    updateAutoActivationDelay();
     updateFont();
     updateGridSize();
 }
 
-DolphinItemListContainer::~DolphinItemListContainer()
+DolphinItemListView::~DolphinItemListView()
 {
     writeSettings();
-
-    controller()->setView(0);
-    delete m_fileItemListView;
-    m_fileItemListView = 0;
 }
 
-void DolphinItemListContainer::setPreviewsShown(bool show)
-{
-    beginTransaction();
-    m_fileItemListView->setPreviewsShown(show);
-    updateGridSize();
-    endTransaction();
-}
-
-bool DolphinItemListContainer::previewsShown() const
-{
-    return m_fileItemListView->previewsShown();
-}
-
-void DolphinItemListContainer::setVisibleRoles(const QList<QByteArray>& roles)
-{
-    m_fileItemListView->setVisibleRoles(roles);
-    updateGridSize();
-}
-
-QList<QByteArray> DolphinItemListContainer::visibleRoles() const
-{
-    return m_fileItemListView->visibleRoles();
-}
-
-void DolphinItemListContainer::setZoomLevel(int level)
+void DolphinItemListView::setZoomLevel(int level)
 {
     if (level < ZoomLevelInfo::minimumLevel()) {
         level = ZoomLevelInfo::minimumLevel();
@@ -116,76 +76,24 @@ void DolphinItemListContainer::setZoomLevel(int level)
     updateGridSize();
 }
 
-int DolphinItemListContainer::zoomLevel() const
+int DolphinItemListView::zoomLevel() const
 {
     return m_zoomLevel;
 }
 
-void DolphinItemListContainer::setItemLayout(KFileItemListView::Layout layout)
-{
-    if (layout == itemLayout()) {
-        return;
-    }
-
-    beginTransaction();
-    m_fileItemListView->setItemLayout(layout);
-
-    switch (layout) {
-    case KFileItemListView::IconsLayout:
-        m_fileItemListView->setScrollOrientation(Qt::Vertical);
-        m_fileItemListView->setHeaderVisible(false);
-        m_fileItemListView->setSupportsItemExpanding(false);
-        break;
-    case KFileItemListView::DetailsLayout:
-        m_fileItemListView->setScrollOrientation(Qt::Vertical);
-        m_fileItemListView->setHeaderVisible(true);
-        m_fileItemListView->setSupportsItemExpanding(DetailsModeSettings::expandableFolders());
-
-        break;
-    case KFileItemListView::CompactLayout:
-        m_fileItemListView->setScrollOrientation(Qt::Horizontal);
-        m_fileItemListView->setHeaderVisible(false);
-        m_fileItemListView->setSupportsItemExpanding(false);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
-    }
-
-    updateFont();
-    updateGridSize();
-    endTransaction();
-}
-
-KFileItemListView::Layout DolphinItemListContainer::itemLayout() const
-{
-    return m_fileItemListView->itemLayout();
-}
-
-void DolphinItemListContainer::beginTransaction()
-{
-    m_fileItemListView->beginTransaction();
-}
-
-void DolphinItemListContainer::endTransaction()
-{
-    m_fileItemListView->endTransaction();
-}
-
-void DolphinItemListContainer::readSettings()
+void DolphinItemListView::readSettings()
 {
     ViewModeSettings settings(viewMode());
     settings.readConfig();
 
     beginTransaction();
 
-    m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
 
     const bool expandableFolders = (itemLayout() && KFileItemListView::DetailsLayout) &&
                                    DetailsModeSettings::expandableFolders();
-    m_fileItemListView->setSupportsItemExpanding(expandableFolders);
+    setSupportsItemExpanding(expandableFolders);
 
-    updateAutoActivationDelay();
     updateFont();
     updateGridSize();
 
@@ -194,26 +102,59 @@ void DolphinItemListContainer::readSettings()
                                                        << "directorythumbnail"
                                                        << "imagethumbnail"
                                                        << "jpegthumbnail");
-    m_fileItemListView->setEnabledPlugins(plugins);
+    setEnabledPlugins(plugins);
 
     endTransaction();
 }
 
-void DolphinItemListContainer::writeSettings()
+void DolphinItemListView::writeSettings()
 {
     IconsModeSettings::self()->writeConfig();
     CompactModeSettings::self()->writeConfig();
     DetailsModeSettings::self()->writeConfig();
 }
 
-void DolphinItemListContainer::updateGridSize()
+KItemListWidgetCreatorBase* DolphinItemListView::defaultWidgetCreator() const
+{
+    return new KItemListWidgetCreator<DolphinFileItemListWidget>();
+}
+
+void DolphinItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
+{
+    Q_UNUSED(previous);
+
+    if (current == DetailsLayout) {
+        setSupportsItemExpanding(DetailsModeSettings::expandableFolders());
+        setHeaderVisible(true);
+    } else {
+        setHeaderVisible(false);
+    }
+
+    updateFont();
+    updateGridSize();
+}
+
+void DolphinItemListView::onPreviewsShownChanged(bool shown)
+{
+    Q_UNUSED(shown);
+    updateGridSize();
+}
+
+void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray>& current,
+                                                const QList<QByteArray>& previous)
+{
+    KFileItemListView::onVisibleRolesChanged(current, previous);
+    updateGridSize();
+}
+
+void DolphinItemListView::updateGridSize()
 {
     const ViewModeSettings settings(viewMode());
 
     // Calculate the size of the icon
     const int iconSize = previewsShown() ? settings.previewSize() : settings.iconSize();
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
-    KItemListStyleOption styleOption = m_fileItemListView->styleOption();
+    KItemListStyleOption option = styleOption();
 
     const int padding = 2;
     int horizontalMargin = 0;
@@ -241,13 +182,13 @@ void DolphinItemListContainer::updateGridSize()
             itemWidth = iconSize + padding * 2;
         }
 
-        itemHeight = padding * 3 + iconSize + styleOption.fontMetrics.lineSpacing();
+        itemHeight = padding * 3 + iconSize + option.fontMetrics.lineSpacing();
         if (IconsModeSettings::maximumTextLines() > 0) {
             // A restriction is given for the maximum number of textlines (0 means
             // having no restriction)
-            const int additionalInfoCount = m_fileItemListView->visibleRoles().count() - 1;
+            const int additionalInfoCount = visibleRoles().count() - 1;
             const int maxAdditionalLines = additionalInfoCount + IconsModeSettings::maximumTextLines();
-            maxTextSize.rheight() = styleOption.fontMetrics.lineSpacing() * maxAdditionalLines;
+            maxTextSize.rheight() = option.fontMetrics.lineSpacing() * maxAdditionalLines;
         }
 
         horizontalMargin = 4;
@@ -255,14 +196,14 @@ void DolphinItemListContainer::updateGridSize()
         break;
     }
     case KFileItemListView::CompactLayout: {
-        itemWidth = padding * 4 + iconSize + styleOption.fontMetrics.height() * 5;
-        const int textLinesCount = m_fileItemListView->visibleRoles().count();
-        itemHeight = padding * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.lineSpacing());
+        itemWidth = padding * 4 + iconSize + option.fontMetrics.height() * 5;
+        const int textLinesCount = visibleRoles().count();
+        itemHeight = padding * 2 + qMax(iconSize, textLinesCount * option.fontMetrics.lineSpacing());
 
         if (CompactModeSettings::maximumTextWidthIndex() > 0) {
             // A restriction is given for the maximum width of the text (0 means
             // having no restriction)
-            maxTextSize.rwidth() = styleOption.fontMetrics.height() * 10 *
+            maxTextSize.rwidth() = option.fontMetrics.height() * 10 *
                                    CompactModeSettings::maximumTextWidthIndex();
         }
 
@@ -271,7 +212,7 @@ void DolphinItemListContainer::updateGridSize()
     }
     case KFileItemListView::DetailsLayout: {
         itemWidth = -1;
-        itemHeight = padding * 2 + qMax(iconSize, styleOption.fontMetrics.lineSpacing());
+        itemHeight = padding * 2 + qMax(iconSize, option.fontMetrics.lineSpacing());
         break;
     }
     default:
@@ -282,20 +223,20 @@ void DolphinItemListContainer::updateGridSize()
     }
 
     // Apply the calculated values
-    styleOption.padding = padding;
-    styleOption.horizontalMargin = horizontalMargin;
-    styleOption.verticalMargin = verticalMargin;
-    styleOption.iconSize = iconSize;
-    styleOption.maxTextSize = maxTextSize;
-    m_fileItemListView->beginTransaction();
-    m_fileItemListView->setStyleOption(styleOption);
-    m_fileItemListView->setItemSize(QSizeF(itemWidth, itemHeight));
-    m_fileItemListView->endTransaction();
+    option.padding = padding;
+    option.horizontalMargin = horizontalMargin;
+    option.verticalMargin = verticalMargin;
+    option.iconSize = iconSize;
+    option.maxTextSize = maxTextSize;
+    beginTransaction();
+    setStyleOption(option);
+    setItemSize(QSizeF(itemWidth, itemHeight));
+    endTransaction();
 }
 
-void DolphinItemListContainer::updateFont()
+void DolphinItemListView::updateFont()
 {
-    KItemListStyleOption styleOption = m_fileItemListView->styleOption();
+    KItemListStyleOption option = styleOption();
 
     const ViewModeSettings settings(viewMode());
 
@@ -304,19 +245,13 @@ void DolphinItemListContainer::updateFont()
     font.setWeight(settings.fontWeight());
     font.setPointSizeF(settings.fontSize());
 
-    styleOption.font = font;
-    styleOption.fontMetrics = QFontMetrics(font);
+    option.font = font;
+    option.fontMetrics = QFontMetrics(font);
 
-    m_fileItemListView->setStyleOption(styleOption);
+    setStyleOption(option);
 }
 
-void DolphinItemListContainer::updateAutoActivationDelay()
-{
-    const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
-    controller()->setAutoActivationDelay(delay);
-}
-
-ViewModeSettings::ViewMode DolphinItemListContainer::viewMode() const
+ViewModeSettings::ViewMode DolphinItemListView::viewMode() const
 {
     ViewModeSettings::ViewMode mode;
 
@@ -332,4 +267,4 @@ ViewModeSettings::ViewMode DolphinItemListContainer::viewMode() const
     return mode;
 }
 
-#include "dolphinitemlistcontainer.moc"
+#include "dolphinitemlistview.moc"

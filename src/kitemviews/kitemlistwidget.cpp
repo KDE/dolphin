@@ -35,8 +35,17 @@
 #include <QPropertyAnimation>
 #include <QStyleOption>
 
-KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
+KItemListWidgetInformant::KItemListWidgetInformant()
+{
+}
+
+KItemListWidgetInformant::~KItemListWidgetInformant()
+{
+}
+
+KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
     QGraphicsWidget(parent, 0),
+    m_informant(informant),
     m_index(-1),
     m_selected(false),
     m_current(false),

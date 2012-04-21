@@ -72,7 +72,12 @@ public:
         MultiSelection
     };
 
-    KItemListController(QObject* parent = 0);
+    /**
+     * @param model  Model of the controller. The ownership is passed to the controller.
+     * @param view   View of the controller. The ownership is passed to the controller.
+     * @param parent Optional parent object.
+     */
+    KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent = 0);
     virtual ~KItemListController();
 
     void setModel(KItemModelBase* model);
@@ -260,6 +265,13 @@ private:
      *         for the vertical scrolling the x-position will be returned.
      */
     qreal keyboardAnchorPos(int index) const;
+
+    /**
+     * Dependent on the selection-behavior the extendedSelectionRegion-property
+     * of the KItemListStyleOption from the view should be adjusted: If no
+     * rubberband selection is used the property should be enabled.
+     */
+    void updateExtendedSelectionRegion();
 
 private:
     bool m_singleClickActivation;

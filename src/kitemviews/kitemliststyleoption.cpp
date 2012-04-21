@@ -26,10 +26,10 @@ KItemListStyleOption::KItemListStyleOption() :
     font(),
     fontMetrics(QFont()),
     palette(),
-    padding(0),
-    horizontalMargin(0),
-    verticalMargin(0),
-    iconSize(KIconLoader::SizeMedium),
+    padding(-1),
+    horizontalMargin(-1),
+    verticalMargin(-1),
+    iconSize(-1),
     extendedSelectionRegion(false),
     maxTextSize()
 {

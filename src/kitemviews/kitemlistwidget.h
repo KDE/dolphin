@@ -32,7 +32,29 @@
 #include <QStyle>
 
 class KItemListSelectionToggle;
+class KItemListView;
 class QPropertyAnimation;
+
+/**
+ * @brief Provides information for creating an instance of KItemListWidget.
+ *
+ * KItemListView only creates KItemListWidget instances for the visible
+ * area. For calculating the required size of all items the expected
+ * size for the invisible items must be accessible. KItemListWidgetInformant
+ * provides this information.
+ */
+class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetInformant
+{
+public:
+    KItemListWidgetInformant();
+    virtual ~KItemListWidgetInformant();
+
+    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const = 0;
+
+    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
+                                           int index,
+                                           const KItemListView* view) const = 0;
+};
 
 /**
  * @brief Widget that shows a visible item from the model.
@@ -46,7 +68,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListWidget(QGraphicsItem* parent);
+    KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
     virtual ~KItemListWidget();
 
     void setIndex(int index);
@@ -176,6 +198,8 @@ protected:
      */
     qreal hoverOpacity() const;
 
+    const KItemListWidgetInformant* informant() const;
+
 private slots:
     void slotHoverAnimationFinished();
 
@@ -188,6 +212,7 @@ private:
 private:
     Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)
 
+    KItemListWidgetInformant* m_informant;
     int m_index;
     bool m_selected;
     bool m_current;
@@ -208,6 +233,12 @@ private:
 
     QByteArray m_editedRole;
 };
+
+inline const KItemListWidgetInformant* KItemListWidget::informant() const
+{
+    return m_informant;
+}
+
 #endif
 
 

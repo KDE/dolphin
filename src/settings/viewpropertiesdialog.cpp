@@ -297,7 +297,7 @@ void ViewPropertiesDialog::configureAdditionalInfo()
         // makes no sense and leads to a usability problem as no viewport area is available
         // anymore. Hence as fallback provide at least a size and date column.
         visibleRoles.clear();
-        visibleRoles.append("name");
+        visibleRoles.append("text");
         visibleRoles.append("size");
         visibleRoles.append("date");
         m_viewProps->setVisibleRoles(visibleRoles);

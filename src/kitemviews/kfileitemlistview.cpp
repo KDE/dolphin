@@ -43,8 +43,7 @@ namespace {
 }
 
 KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
-    KItemListView(parent),
-    m_itemLayout(IconsLayout),
+    KStandardItemListView(parent),
     m_modelRolesUpdater(0),
     m_updateVisibleIndexRangeTimer(0),
     m_updateIconSizeTimer(0)
@@ -52,8 +51,6 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     setAcceptDrops(true);
 
     setScrollOrientation(Qt::Vertical);
-    setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
-    setGroupHeaderCreator(new KItemListGroupHeaderCreator<KFileItemListGroupHeader>());
 
     m_updateVisibleIndexRangeTimer = new QTimer(this);
     m_updateVisibleIndexRangeTimer->setSingleShot(true);
@@ -65,25 +62,26 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateIconSizeTimer->setInterval(ShortInterval);
     connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
 
-    setVisibleRoles(QList<QByteArray>() << "name");
+    setVisibleRoles(QList<QByteArray>() << "text");
 }
 
 KFileItemListView::~KFileItemListView()
 {
-    // The group headers are children of the widgets created by
-    // widgetCreator(). So it is mandatory to delete the group headers
-    // first.
-    delete groupHeaderCreator();
-    delete widgetCreator();
-
     delete m_modelRolesUpdater;
     m_modelRolesUpdater = 0;
 }
 
 void KFileItemListView::setPreviewsShown(bool show)
 {
-    if (m_modelRolesUpdater) {
+    if (!m_modelRolesUpdater) {
+        return;
+    }
+
+    if (m_modelRolesUpdater->previewsShown() != show) {
+        beginTransaction();
         m_modelRolesUpdater->setPreviewsShown(show);
+        onPreviewsShownChanged(show);
+        endTransaction();
     }
 }
 
@@ -102,26 +100,6 @@ void KFileItemListView::setEnlargeSmallPreviews(bool enlarge)
 bool KFileItemListView::enlargeSmallPreviews() const
 {
     return m_modelRolesUpdater ? m_modelRolesUpdater->enlargeSmallPreviews() : false;
-}
-
-void KFileItemListView::setItemLayout(Layout layout)
-{
-    if (m_itemLayout != layout) {
-        const bool updateRoles = (m_itemLayout == DetailsLayout || layout == DetailsLayout);
-        m_itemLayout = layout;
-        if (updateRoles) {
-            // The details-layout requires some invisible roles that
-            // must be added to the model if the new layout is "details".
-            // If the old layout was "details" the roles will get removed.
-            applyRolesToModel();
-        }
-        updateLayoutOfVisibleItems();
-    }
-}
-
-KFileItemListView::Layout KFileItemListView::itemLayout() const
-{
-    return m_itemLayout;
 }
 
 void KFileItemListView::setEnabledPlugins(const QStringList& list)
@@ -207,52 +185,53 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
     return dragPixmap;
 }
 
-void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
+KItemListWidgetCreatorBase* KFileItemListView::defaultWidgetCreator() const
 {
-    KFileItemListWidget* fileItemListWidget = static_cast<KFileItemListWidget*>(item);
-
-    switch (m_itemLayout) {
-    case IconsLayout:   fileItemListWidget->setLayout(KFileItemListWidget::IconsLayout); break;
-    case CompactLayout: fileItemListWidget->setLayout(KFileItemListWidget::CompactLayout); break;
-    case DetailsLayout: fileItemListWidget->setLayout(KFileItemListWidget::DetailsLayout); break;
-    default:            Q_ASSERT(false); break;
-    }
-
-    fileItemListWidget->setSupportsItemExpanding(supportsItemExpanding());
+    return new KItemListWidgetCreator<KFileItemListWidget>();
 }
 
-bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
+KItemListGroupHeaderCreatorBase* KFileItemListView::defaultGroupHeaderCreator() const
 {
-    // Even if the icons have a different size they are always aligned within
-    // the area defined by KItemStyleOption.iconSize and hence result in no
-    // change of the item-size.
-    const bool containsIconName = changedRoles.contains("iconName");
-    const bool containsIconPixmap = changedRoles.contains("iconPixmap");
-    const int count = changedRoles.count();
+    return new KItemListGroupHeaderCreator<KFileItemListGroupHeader>();
+}
 
-    const bool iconChanged = (containsIconName && containsIconPixmap && count == 2) ||
-                             (containsIconName && count == 1) ||
-                             (containsIconPixmap && count == 1);
-    return !iconChanged;
+void KFileItemListView::onPreviewsShownChanged(bool shown)
+{
+    Q_UNUSED(shown);
+}
+
+void KFileItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
+{
+    if (previous == DetailsLayout || current == DetailsLayout) {
+        // The details-layout requires some invisible roles that
+        // must be added to the model if the new layout is "details".
+        // If the old layout was "details" the roles will get removed.
+        applyRolesToModel();
+    }
+    KStandardItemListView::onItemLayoutChanged(current, previous);
+    triggerVisibleIndexRangeUpdate();
 }
 
 void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    Q_UNUSED(previous);
     Q_ASSERT(qobject_cast<KFileItemModel*>(current));
+    KStandardItemListView::onModelChanged(current, previous);
 
     delete m_modelRolesUpdater;
-    m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
-    m_modelRolesUpdater->setIconSize(availableIconSize());
+    m_modelRolesUpdater = 0;
 
-    applyRolesToModel();
+    if (current) {
+        m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
+        m_modelRolesUpdater->setIconSize(availableIconSize());
+
+        applyRolesToModel();
+    }
 }
 
 void KFileItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
-    updateLayoutOfVisibleItems();
+    KStandardItemListView::onScrollOrientationChanged(current, previous);
+    triggerVisibleIndexRangeUpdate();
 }
 
 void KFileItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previous)
@@ -264,39 +243,42 @@ void KFileItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& p
 
 void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    KStandardItemListView::onScrollOffsetChanged(current, previous);
     triggerVisibleIndexRangeUpdate();
 }
 
 void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    KStandardItemListView::onVisibleRolesChanged(current, previous);
     applyRolesToModel();
 }
 
 void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    KStandardItemListView::onStyleOptionChanged(current, previous);
     triggerIconSizeUpdate();
 }
 
 void KFileItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
 {
-    Q_UNUSED(supportsExpanding);
     applyRolesToModel();
-    updateLayoutOfVisibleItems();
+    KStandardItemListView::onSupportsItemExpandingChanged(supportsExpanding);
+    triggerVisibleIndexRangeUpdate();
 }
 
 void KFileItemListView::onTransactionBegin()
 {
-    m_modelRolesUpdater->setPaused(true);
+    if (m_modelRolesUpdater) {
+        m_modelRolesUpdater->setPaused(true);
+    }
 }
 
 void KFileItemListView::onTransactionEnd()
 {
+    if (!m_modelRolesUpdater) {
+        return;
+    }
+
     // Only unpause the model-roles-updater if no timer is active. If one
     // timer is still active the model-roles-updater will be unpaused later as
     // soon as the timer has been exceeded.
@@ -309,13 +291,13 @@ void KFileItemListView::onTransactionEnd()
 
 void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
-    KItemListView::resizeEvent(event);
+    KStandardItemListView::resizeEvent(event);
     triggerVisibleIndexRangeUpdate();
 }
 
 void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    KItemListView::slotItemsRemoved(itemRanges);
+    KStandardItemListView::slotItemsRemoved(itemRanges);
     updateTimersInterval();
 }
 
@@ -326,7 +308,7 @@ void KFileItemListView::slotSortRoleChanged(const QByteArray& current, const QBy
         applyRolesToModel();
     }
 
-    KItemListView::slotSortRoleChanged(current, previous);
+    KStandardItemListView::slotSortRoleChanged(current, previous);
 }
 
 void KFileItemListView::triggerVisibleIndexRangeUpdate()
@@ -391,18 +373,6 @@ void KFileItemListView::updateIconSize()
     updateTimersInterval();
 }
 
-void KFileItemListView::updateLayoutOfVisibleItems()
-{
-    if (!model()) {
-        return;
-    }
-
-    foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-        initializeItemListWidget(widget);
-    }
-    triggerVisibleIndexRangeUpdate();
-}
-
 void KFileItemListView::updateTimersInterval()
 {
     if (!model()) {
@@ -434,7 +404,7 @@ void KFileItemListView::applyRolesToModel()
     QSet<QByteArray> roles = visibleRoles().toSet();
     roles.insert("iconPixmap");
     roles.insert("iconName");
-    roles.insert("name");
+    roles.insert("text");
     roles.insert("isDir");
     if (supportsItemExpanding()) {
         roles.insert("isExpanded");
@@ -453,7 +423,7 @@ QSize KFileItemListView::availableIconSize() const
 {
     const KItemListStyleOption& option = styleOption();
     const int iconSize = option.iconSize;
-    if (m_itemLayout == IconsLayout) {
+    if (itemLayout() == IconsLayout) {
         const int maxIconWidth = itemSize().width() - 2 * option.padding;
         return QSize(maxIconWidth, iconSize);
     }

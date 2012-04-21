@@ -142,10 +142,17 @@ private:
 
     /**
      * Provides backward compatibility with .directory files created with
-     * Dolphin < 2.1: Converts the old additionalInfo-property into
+     * Dolphin < 2.0: Converts the old additionalInfo-property into
      * the visibleRoles-property and clears the additionalInfo-property.
      */
     QStringList convertAdditionalInfo();
+
+    /**
+     * Provides backward compatibility with .directory files created with
+     * Dolphin < 2.1: Converts the old name-role "name" to the generic
+     * role "text".
+     */
+    QStringList convertNameRole();
 
     /**
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).

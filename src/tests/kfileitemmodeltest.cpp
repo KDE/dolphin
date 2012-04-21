@@ -114,13 +114,13 @@ void KFileItemModelTest::testDefaultRoles()
 {
     const QSet<QByteArray> roles = m_model->roles();
     QCOMPARE(roles.count(), 2);
-    QVERIFY(roles.contains("name"));
+    QVERIFY(roles.contains("text"));
     QVERIFY(roles.contains("isDir"));
 }
 
 void KFileItemModelTest::testDefaultSortRole()
 {
-    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
 
     QStringList files;
     files << "c.txt" << "a.txt" << "b.txt";
@@ -131,9 +131,9 @@ void KFileItemModelTest::testDefaultSortRole()
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QCOMPARE(m_model->count(), 3);
-    QCOMPARE(m_model->data(0)["name"].toString(), QString("a.txt"));
-    QCOMPARE(m_model->data(1)["name"].toString(), QString("b.txt"));
-    QCOMPARE(m_model->data(2)["name"].toString(), QString("c.txt"));
+    QCOMPARE(m_model->data(0)["text"].toString(), QString("a.txt"));
+    QCOMPARE(m_model->data(1)["text"].toString(), QString("b.txt"));
+    QCOMPARE(m_model->data(2)["text"].toString(), QString("c.txt"));
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()
@@ -269,7 +269,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
 
     // Changing the value of a sort-role must result in
     // a reordering of the items.
-    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
 
     QStringList files;
     files << "a.txt" << "b.txt" << "c.txt";
@@ -572,7 +572,7 @@ void KFileItemModelTest::testSorting()
     QDateTime now = QDateTime::currentDateTime();
 
     QSet<QByteArray> roles;
-    roles.insert("name");
+    roles.insert("text");
     roles.insert("isExpanded");
     roles.insert("isExpandable");
     roles.insert("expandedParentsCount");
@@ -601,7 +601,7 @@ void KFileItemModelTest::testSorting()
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     // Default: Sort by Name, ascending
-    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(m_model->sortDirectoriesFirst());
     QVERIFY(!m_model->showHiddenFiles());
@@ -611,7 +611,7 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Name, ascending, 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
-    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e");
     QCOMPARE(spyItemsMoved.count(), 1);
@@ -620,7 +620,7 @@ void KFileItemModelTest::testSorting()
     // Sort by Name, descending
     m_model->setSortDirectoriesFirst(true);
     m_model->setSortOrder(Qt::DescendingOrder);
-    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "d" << "b" << "a");
     QCOMPARE(spyItemsMoved.count(), 2);
@@ -654,7 +654,7 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1 << 6 << 7);
 
     // Sort by Name, ascending, 'Sort Folders First' disabled
-    m_model->setSortRole("name");
+    m_model->setSortRole("text");
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e");
@@ -800,7 +800,7 @@ QStringList KFileItemModelTest::itemsInModel() const
 {
     QStringList items;
     for (int i = 0; i < m_model->count(); i++) {
-        items << m_model->data(i).value("name").toString();
+        items << m_model->data(i).value("text").toString();
     }
     return items;
 }

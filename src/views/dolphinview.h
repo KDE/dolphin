@@ -39,10 +39,11 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
-class DolphinItemListContainer;
+class DolphinItemListView;
 class KAction;
 class KActionCollection;
 class KFileItemModel;
+class KItemListContainer;
 class KItemModelBase;
 class KUrl;
 class ToolTipManager;
@@ -659,8 +660,6 @@ private slots:
     void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
 private:
-    KFileItemModel* fileItemModel() const;
-
     void loadDirectory(const KUrl& url, bool reload = false);
 
     /**
@@ -668,6 +667,12 @@ private:
      * to the DolphinView properties.
      */
     void applyViewProperties();
+
+    /**
+     * Applies the m_mode property to the corresponding
+     * itemlayout-property of the KItemListView.
+     */
+    void applyModeToView();
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
@@ -716,7 +721,9 @@ private:
 
     QVBoxLayout* m_topLayout;
 
-    DolphinItemListContainer* m_container;
+    KFileItemModel* m_model;
+    DolphinItemListView* m_view;
+    KItemListContainer* m_container;
 
     ToolTipManager* m_toolTipManager;
 

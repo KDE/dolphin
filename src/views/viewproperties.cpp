@@ -33,8 +33,9 @@
 #include <QFileInfo>
 
 namespace {
-    const int CurrentViewPropertiesVersion = 2;
     const int AdditionalInfoViewPropertiesVersion = 1;
+    const int NameRolePropertiesVersion = 2;
+    const int CurrentViewPropertiesVersion = 3;
 
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
@@ -256,7 +257,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     // is accepted.
 
     QList<QByteArray> roles;
-    roles.append("name");
+    roles.append("text");
 
     // Iterate through all stored keys and append all roles that match to
     // the curren view mode.
@@ -264,16 +265,19 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     const int prefixLength = prefix.length();
 
     QStringList visibleRoles = m_node->visibleRoles();
-    if (visibleRoles.isEmpty() && m_node->version() <= AdditionalInfoViewPropertiesVersion) {
+    const int version = m_node->version();
+    if (visibleRoles.isEmpty() && version <= AdditionalInfoViewPropertiesVersion) {
         // Convert the obsolete additionalInfo-property from older versions into the
         // visibleRoles-property
         visibleRoles = const_cast<ViewProperties*>(this)->convertAdditionalInfo();
+    } else if (version <= NameRolePropertiesVersion) {
+        visibleRoles = const_cast<ViewProperties*>(this)->convertNameRole();
     }
 
     foreach (const QString& visibleRole, visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
-            if (role != "name") {
+            if (role != "text") {
                 roles.append(role);
             }
         }
@@ -281,7 +285,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
 
     // For the details view the size and date should be shown per default
     // until the additional information has been explicitly changed by the user
-    const bool useDefaultValues = roles.count() == 1 // "name"
+    const bool useDefaultValues = roles.count() == 1 // "text"
                                   && (m_node->viewMode() == DolphinView::DetailsView)
                                   && !visibleRoles.contains(CustomizedDetailsString);
     if (useDefaultValues) {
@@ -402,6 +406,23 @@ QStringList ViewProperties::convertAdditionalInfo()
 
     return visibleRoles;
 }
+
+QStringList ViewProperties::convertNameRole()
+{
+    QStringList visibleRoles = m_node->visibleRoles();
+    for (int i = 0; i < visibleRoles.count(); ++i) {
+        if (visibleRoles[i].endsWith("_name")) {
+            const int leftLength = visibleRoles[i].length() - 5;
+            visibleRoles[i] = visibleRoles[i].left(leftLength) + "_text";
+        }
+    }
+
+    m_node->setVisibleRoles(visibleRoles);
+    update();
+
+    return visibleRoles;
+}
+
 
 bool ViewProperties::isPartOfHome(const QString& filePath)
 {

@@ -108,7 +108,7 @@ public:
     virtual bool supportsDropping(int index) const;
 
     /** @reimp */
-    virtual QString roleDescription(const QByteArray& typeForRole) const;
+    virtual QString roleDescription(const QByteArray& role) const;
 
     /** @reimp */
     virtual QList<QPair<int, QVariant> > groups() const;

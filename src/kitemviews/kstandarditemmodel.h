@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,34 +17,50 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINFILEITEMLISTWIDGET_H
-#define DOLPHINFILEITEMLISTWIDGET_H
+#ifndef KSTANDARDITEMMODEL_H
+#define KSTANDARDITEMMODEL_H
 
 #include <libdolphin_export.h>
+#include <kitemviews/kitemmodelbase.h>
+#include <QHash>
+#include <QList>
 
-#include <kitemviews/kfileitemlistwidget.h>
-#include <kversioncontrolplugin2.h>
+class KStandardItem;
 
 /**
- * @brief Extends KFileItemListWidget to handle the "version" role.
+ * @brief Model counterpart for KStandardItemView.
  *
- * The "version" role is set if version-control-plugins have been enabled.
- * @see KVersionControlPlugin
+ * Allows to add items to the model in an easy way by the
+ * class KStandardItem.
+ *
+ * @see KStandardItem
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinFileItemListWidget : public KFileItemListWidget
+class LIBDOLPHINPRIVATE_EXPORT KStandardItemModel : public KItemModelBase
 {
     Q_OBJECT
 
 public:
-    DolphinFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~DolphinFileItemListWidget();
+    explicit KStandardItemModel(QObject* parent = 0);
+    virtual ~KStandardItemModel();
 
-protected:
-    virtual void refreshCache();
+    void insertItem(int index, KStandardItem* item);
+    void appendItem(KStandardItem* item);
+    void removeItem(KStandardItem* item);
+    KStandardItem* item(int index) const;
+    int index(const KStandardItem* item) const;
+
+    virtual int count() const;
+    virtual QHash<QByteArray, QVariant> data(int index) const;
+    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
+    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+    virtual bool supportsDropping(int index) const;
+    virtual QString roleDescription(const QByteArray& role) const;
+    virtual QList<QPair<int, QVariant> > groups() const;
 
 private:
-    static QPixmap overlayForState(KVersionControlPlugin2::ItemVersion version, int size);
-
+    QList<KStandardItem*> m_items;
+    QHash<const KStandardItem*, int> m_indexesForItems;
 };
 
 #endif

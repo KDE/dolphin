@@ -22,6 +22,7 @@
 
 #include "kitemlistview.h"
 
+#include <KDebug>
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
 #include "kitemlistselectionmanager.h"
@@ -32,8 +33,6 @@
 #include "private/kitemlistsizehintresolver.h"
 #include "private/kitemlistviewlayouter.h"
 #include "private/kitemlistviewanimation.h"
-
-#include <KDebug>
 
 #include <QCursor>
 #include <QGraphicsSceneMouseEvent>
@@ -113,91 +112,17 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
 
 KItemListView::~KItemListView()
 {
+    // The group headers are children of the widgets created by
+    // widgetCreator(). So it is mandatory to delete the group headers
+    // first.
+    delete m_groupHeaderCreator;
+    m_groupHeaderCreator = 0;
+
+    delete m_widgetCreator;
+    m_widgetCreator = 0;
+
     delete m_sizeHintResolver;
     m_sizeHintResolver = 0;
-}
-
-void KItemListView::setScrollOrientation(Qt::Orientation orientation)
-{
-    const Qt::Orientation previousOrientation = m_layouter->scrollOrientation();
-    if (orientation == previousOrientation) {
-        return;
-    }
-
-    m_layouter->setScrollOrientation(orientation);
-    m_animation->setScrollOrientation(orientation);
-    m_sizeHintResolver->clearCache();
-
-    if (m_grouped) {
-        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
-        while (it.hasNext()) {
-            it.next();
-            it.value()->setScrollOrientation(orientation);
-        }
-        updateGroupHeaderHeight();
-
-    }
-
-    doLayout(NoAnimation);
-
-    onScrollOrientationChanged(orientation, previousOrientation);
-    emit scrollOrientationChanged(orientation, previousOrientation);
-}
-
-Qt::Orientation KItemListView::scrollOrientation() const
-{
-    return m_layouter->scrollOrientation();
-}
-
-void KItemListView::setItemSize(const QSizeF& size)
-{
-    const QSizeF previousSize = m_itemSize;
-    if (size == previousSize) {
-        return;
-    }
-
-    // Skip animations when the number of rows or columns
-    // are changed in the grid layout. Although the animation
-    // engine can handle this usecase, it looks obtrusive.
-    const bool animate = !changesItemGridLayout(m_layouter->size(),
-                                                size,
-                                                m_layouter->itemMargin());
-
-    const bool alternateBackgroundsChanged = (m_visibleRoles.count() > 1) &&
-                                             (( m_itemSize.isEmpty() && !size.isEmpty()) ||
-                                              (!m_itemSize.isEmpty() && size.isEmpty()));
-
-    m_itemSize = size;
-
-    if (alternateBackgroundsChanged) {
-        // For an empty item size alternate backgrounds are drawn if more than
-        // one role is shown. Assure that the backgrounds for visible items are
-        // updated when changing the size in this context.
-        updateAlternateBackgrounds();
-    }
-
-    if (size.isEmpty()) {
-        if (m_headerWidget->automaticColumnResizing()) {
-            updatePreferredColumnWidths();
-        } else {
-            // Only apply the changed height and respect the header widths
-            // set by the user
-            const qreal currentWidth = m_layouter->itemSize().width();
-            const QSizeF newSize(currentWidth, size.height());
-            m_layouter->setItemSize(newSize);
-        }
-    } else {
-        m_layouter->setItemSize(size);
-    }
-
-    m_sizeHintResolver->clearCache();
-    doLayout(animate ? Animation : NoAnimation);
-    onItemSizeChanged(size, previousSize);
-}
-
-QSizeF KItemListView::itemSize() const
-{
-    return m_itemSize;
 }
 
 void KItemListView::setScrollOffset(qreal offset)
@@ -354,62 +279,39 @@ KItemModelBase* KItemListView::model() const
 
 void KItemListView::setWidgetCreator(KItemListWidgetCreatorBase* widgetCreator)
 {
+    if (m_widgetCreator) {
+        delete m_widgetCreator;
+    }
     m_widgetCreator = widgetCreator;
 }
 
 KItemListWidgetCreatorBase* KItemListView::widgetCreator() const
 {
+    if (!m_widgetCreator) {
+        m_widgetCreator = defaultWidgetCreator();
+    }
     return m_widgetCreator;
 }
 
 void KItemListView::setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator)
 {
+    if (m_groupHeaderCreator) {
+        delete m_groupHeaderCreator;
+    }
     m_groupHeaderCreator = groupHeaderCreator;
 }
 
 KItemListGroupHeaderCreatorBase* KItemListView::groupHeaderCreator() const
 {
+    if (!m_groupHeaderCreator) {
+        m_groupHeaderCreator = defaultGroupHeaderCreator();
+    }
     return m_groupHeaderCreator;
 }
 
-void KItemListView::setStyleOption(const KItemListStyleOption& option)
+QSizeF KItemListView::itemSize() const
 {
-    const KItemListStyleOption previousOption = m_styleOption;
-    m_styleOption = option;
-
-    bool animate = true;
-    const QSizeF margin(option.horizontalMargin, option.verticalMargin);
-    if (margin != m_layouter->itemMargin()) {
-        // Skip animations when the number of rows or columns
-        // are changed in the grid layout. Although the animation
-        // engine can handle this usecase, it looks obtrusive.
-        animate = !changesItemGridLayout(m_layouter->size(),
-                                         m_layouter->itemSize(),
-                                         margin);
-        m_layouter->setItemMargin(margin);
-    }
-
-    if (m_grouped) {
-        updateGroupHeaderHeight();
-    }
-
-    if (animate && previousOption.maxTextSize != option.maxTextSize) {
-        // Animating a change of the maximum text size just results in expensive
-        // temporary eliding and clipping operations and does not look good visually.
-        animate = false;
-    }
-
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-    while (it.hasNext()) {
-        it.next();
-        it.value()->setStyleOption(option);
-    }
-
-    m_sizeHintResolver->clearCache();
-    m_layouter->markAsDirty();
-    doLayout(animate ? Animation : NoAnimation);
-
-    onStyleOptionChanged(option, previousOption);
+    return m_itemSize;
 }
 
 const KItemListStyleOption& KItemListView::styleOption() const
@@ -519,7 +421,7 @@ int KItemListView::lastVisibleIndex() const
 
 QSizeF KItemListView::itemSizeHint(int index) const
 {
-    return m_widgetCreator->itemSizeHint(index, this);
+    return widgetCreator()->itemSizeHint(index, this);
 }
 
 void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
@@ -709,6 +611,134 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 }
 
+void KItemListView::setItemSize(const QSizeF& size)
+{
+    const QSizeF previousSize = m_itemSize;
+    if (size == previousSize) {
+        return;
+    }
+
+    // Skip animations when the number of rows or columns
+    // are changed in the grid layout. Although the animation
+    // engine can handle this usecase, it looks obtrusive.
+    const bool animate = !changesItemGridLayout(m_layouter->size(),
+                                                size,
+                                                m_layouter->itemMargin());
+
+    const bool alternateBackgroundsChanged = (m_visibleRoles.count() > 1) &&
+                                             (( m_itemSize.isEmpty() && !size.isEmpty()) ||
+                                              (!m_itemSize.isEmpty() && size.isEmpty()));
+
+    m_itemSize = size;
+
+    if (alternateBackgroundsChanged) {
+        // For an empty item size alternate backgrounds are drawn if more than
+        // one role is shown. Assure that the backgrounds for visible items are
+        // updated when changing the size in this context.
+        updateAlternateBackgrounds();
+    }
+
+    if (size.isEmpty()) {
+        if (m_headerWidget->automaticColumnResizing()) {
+            updatePreferredColumnWidths();
+        } else {
+            // Only apply the changed height and respect the header widths
+            // set by the user
+            const qreal currentWidth = m_layouter->itemSize().width();
+            const QSizeF newSize(currentWidth, size.height());
+            m_layouter->setItemSize(newSize);
+        }
+    } else {
+        m_layouter->setItemSize(size);
+    }
+
+    m_sizeHintResolver->clearCache();
+    doLayout(animate ? Animation : NoAnimation);
+    onItemSizeChanged(size, previousSize);
+}
+
+void KItemListView::setStyleOption(const KItemListStyleOption& option)
+{
+    const KItemListStyleOption previousOption = m_styleOption;
+    m_styleOption = option;
+
+    bool animate = true;
+    const QSizeF margin(option.horizontalMargin, option.verticalMargin);
+    if (margin != m_layouter->itemMargin()) {
+        // Skip animations when the number of rows or columns
+        // are changed in the grid layout. Although the animation
+        // engine can handle this usecase, it looks obtrusive.
+        animate = !changesItemGridLayout(m_layouter->size(),
+                                         m_layouter->itemSize(),
+                                         margin);
+        m_layouter->setItemMargin(margin);
+    }
+
+    if (m_grouped) {
+        updateGroupHeaderHeight();
+    }
+
+    if (animate && previousOption.maxTextSize != option.maxTextSize) {
+        // Animating a change of the maximum text size just results in expensive
+        // temporary eliding and clipping operations and does not look good visually.
+        animate = false;
+    }
+
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        it.value()->setStyleOption(option);
+    }
+
+    m_sizeHintResolver->clearCache();
+    m_layouter->markAsDirty();
+    doLayout(animate ? Animation : NoAnimation);
+
+    onStyleOptionChanged(option, previousOption);
+}
+
+void KItemListView::setScrollOrientation(Qt::Orientation orientation)
+{
+    const Qt::Orientation previousOrientation = m_layouter->scrollOrientation();
+    if (orientation == previousOrientation) {
+        return;
+    }
+
+    m_layouter->setScrollOrientation(orientation);
+    m_animation->setScrollOrientation(orientation);
+    m_sizeHintResolver->clearCache();
+
+    if (m_grouped) {
+        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        while (it.hasNext()) {
+            it.next();
+            it.value()->setScrollOrientation(orientation);
+        }
+        updateGroupHeaderHeight();
+
+    }
+
+    doLayout(NoAnimation);
+
+    onScrollOrientationChanged(orientation, previousOrientation);
+    emit scrollOrientationChanged(orientation, previousOrientation);
+}
+
+Qt::Orientation KItemListView::scrollOrientation() const
+{
+    return m_layouter->scrollOrientation();
+}
+
+KItemListWidgetCreatorBase* KItemListView::defaultWidgetCreator() const
+{
+    return 0;
+}
+
+KItemListGroupHeaderCreatorBase* KItemListView::defaultGroupHeaderCreator() const
+{
+    return 0;
+}
+
 void KItemListView::initializeItemListWidget(KItemListWidget* item)
 {
     Q_UNUSED(item);
@@ -728,8 +758,13 @@ void KItemListView::onControllerChanged(KItemListController* current, KItemListC
 
 void KItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    Q_UNUSED(current);
     Q_UNUSED(previous);
+
+    m_sizeHintResolver->clearCache();
+    const int itemCount = current->count();
+    if (itemCount > 0) {
+        m_sizeHintResolver->itemsInserted(0, itemCount);
+    }
 }
 
 void KItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
@@ -1205,7 +1240,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
         // by m_visibleWidgets and must be deleted manually after the animation has
         // been finished.
         recycleGroupHeaderForWidget(itemListWidget);
-        m_widgetCreator->recycle(itemListWidget);
+        widgetCreator()->recycle(itemListWidget);
         break;
     }
 
@@ -1713,7 +1748,7 @@ void KItemListView::emitOffsetChanges()
 
 KItemListWidget* KItemListView::createWidget(int index)
 {
-    KItemListWidget* widget = m_widgetCreator->create(this);
+    KItemListWidget* widget = widgetCreator()->create(this);
     widget->setFlag(QGraphicsItem::ItemStacksBehindParent);
 
     m_visibleItems.insert(index, widget);
@@ -1733,7 +1768,7 @@ void KItemListView::recycleWidget(KItemListWidget* widget)
     m_visibleItems.remove(index);
     m_visibleCells.remove(index);
 
-    m_widgetCreator->recycle(widget);
+    widgetCreator()->recycle(widget);
 }
 
 void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
@@ -1813,7 +1848,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 
     KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
     if (!groupHeader) {
-        groupHeader = m_groupHeaderCreator->create(this);
+        groupHeader = groupHeaderCreator()->create(this);
         groupHeader->setParentItem(widget);
         m_visibleGroups.insert(widget, groupHeader);
         connect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
@@ -1859,7 +1894,7 @@ void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
     KItemListGroupHeader* header = m_visibleGroups.value(widget);
     if (header) {
         header->setParentItem(0);
-        m_groupHeaderCreator->recycle(header);
+        groupHeaderCreator()->recycle(header);
         m_visibleGroups.remove(widget);
         disconnect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
     }
@@ -1960,6 +1995,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 
     // Calculate the preferred column withs for each item and ignore values
     // smaller than the width for showing the headline unclipped.
+    const KItemListWidgetCreatorBase* creator = widgetCreator();
     int calculatedItemCount = 0;
     bool maxTimeExceeded = false;
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -1969,7 +2005,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
         for (int i = startIndex; i <= endIndex; ++i) {
             foreach (const QByteArray& visibleRole, visibleRoles()) {
                 qreal maxWidth = widths.value(visibleRole, 0);
-                const qreal width = m_widgetCreator->preferredRoleColumnWidth(visibleRole, i, this);
+                const qreal width = creator->preferredRoleColumnWidth(visibleRole, i, this);
                 maxWidth = qMax(width, maxWidth);
                 widths.insert(visibleRole, maxWidth);
             }
@@ -2071,6 +2107,9 @@ void KItemListView::applyAutomaticColumnWidths()
 {
     Q_ASSERT(m_itemSize.isEmpty());
     Q_ASSERT(m_headerWidget->automaticColumnResizing());
+    if (m_visibleRoles.isEmpty()) {
+        return;
+    }
 
     // Calculate the maximum size of an item by considering the
     // visible role sizes and apply them to the layouter. If the

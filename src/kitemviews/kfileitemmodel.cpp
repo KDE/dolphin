@@ -35,7 +35,7 @@
 // #define KFILEITEMMODEL_DEBUG
 
 KFileItemModel::KFileItemModel(QObject* parent) :
-    KItemModelBase("name", parent),
+    KItemModelBase("text", parent),
     m_dirLister(0),
     m_naturalSorting(KGlobalSettings::naturalSorting()),
     m_sortDirsFirst(true),
@@ -77,7 +77,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     resetRoles();
     m_requestRole[NameRole] = true;
     m_requestRole[IsDirRole] = true;
-    m_roles.insert("name");
+    m_roles.insert("text");
     m_roles.insert("isDir");
 
     // For slow KIO-slaves like used for searching it makes sense to show results periodically even
@@ -253,12 +253,12 @@ int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromInd
 {
     startFromIndex = qMax(0, startFromIndex);
     for (int i = startFromIndex; i < count(); ++i) {
-        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
+        if (data(i)["text"].toString().startsWith(text, Qt::CaseInsensitive)) {
             return i;
         }
     }
     for (int i = 0; i < startFromIndex; ++i) {
-        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
+        if (data(i)["text"].toString().startsWith(text, Qt::CaseInsensitive)) {
             return i;
         }
     }
@@ -1165,7 +1165,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     }
 
     if (m_requestRole[NameRole]) {
-        data.insert("name", item.text());
+        data.insert("text", item.text());
     }
 
     if (m_requestRole[SizeRole]) {
@@ -1523,7 +1523,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
             continue;
         }
 
-        const QString name = m_itemData.at(i)->values.value("name").toString();
+        const QString name = m_itemData.at(i)->values.value("text").toString();
 
         // Use the first character of the name as group indication
         QChar newFirstChar = name.at(0).toUpper();
@@ -1873,7 +1873,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
     static const RoleInfoMap rolesInfoMap[] = {
     //  | role         | roleType       | role translation                                | group translation           | requires Nepomuk | requires indexer
         { 0,             NoRole,          0, 0,                                             0, 0,                                     false, false },
-        { "name",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
+        { "text",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
         { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },
         { "date",        DateRole,        I18N_NOOP2_NOSTRIP("@label", "Date"),             0, 0,                                     false, false },
         { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0,                                     false, false },

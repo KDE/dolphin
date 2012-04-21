@@ -96,11 +96,10 @@ private:
      */
     void updateCurrentItem(int index);
 
-    KFileItemModel* fileItemModel() const;
-
 private:
     bool m_updateCurrentItem;
     KItemListController* m_controller;
+    KFileItemModel* m_model;
 };
 
 #endif // FOLDERSPANEL_H

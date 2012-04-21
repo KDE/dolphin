@@ -41,7 +41,7 @@
 #include <QMimeData>
 #include <QTimer>
 
-KItemListController::KItemListController(QObject* parent) :
+KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),
     m_singleClickActivation(KGlobalSettings::singleClick()),
     m_selectionTogglePressed(false),
@@ -65,10 +65,20 @@ KItemListController::KItemListController(QObject* parent) :
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(-1);
     connect(m_autoActivationTimer, SIGNAL(timeout()), this, SLOT(slotAutoActivationTimeout()));
+
+    setModel(model);
+    setView(view);
 }
 
 KItemListController::~KItemListController()
 {
+    setView(0);
+    delete m_view;
+    m_view = 0;
+
+    setModel(0);
+    delete m_model;
+    m_model = 0;
 }
 
 void KItemListController::setModel(KItemModelBase* model)
@@ -79,6 +89,9 @@ void KItemListController::setModel(KItemModelBase* model)
 
     KItemModelBase* oldModel = m_model;
     m_model = model;
+    if (m_model) {
+        m_model->setParent(this);
+    }
 
     if (m_view) {
         m_view->setModel(m_model);
@@ -116,6 +129,7 @@ void KItemListController::setView(KItemListView* view)
         m_view->setController(this);
         m_view->setModel(m_model);
         connect(m_view, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        updateExtendedSelectionRegion();
     }
 
     emit viewChanged(m_view, oldView);
@@ -129,6 +143,7 @@ KItemListView* KItemListController::view() const
 void KItemListController::setSelectionBehavior(SelectionBehavior behavior)
 {
     m_selectionBehavior = behavior;
+    updateExtendedSelectionRegion();
 }
 
 KItemListController::SelectionBehavior KItemListController::selectionBehavior() const
@@ -1157,6 +1172,18 @@ qreal KItemListController::keyboardAnchorPos(int index) const
     }
 
     return 0;
+}
+
+void KItemListController::updateExtendedSelectionRegion()
+{
+    if (m_view) {
+        const bool extend = (m_selectionBehavior != MultiSelection);
+        KItemListStyleOption option = m_view->styleOption();
+        if (option.extendedSelectionRegion != extend) {
+            option.extendedSelectionRegion = extend;
+            m_view->setStyleOption(option);
+        }
+    }
 }
 
 #include "kitemlistcontroller.moc"
