@@ -22,16 +22,20 @@
 
 #include <libdolphin_export.h>
 
+#include <QByteArray>
+#include <QHash>
 #include <QIcon>
 #include <QList>
+#include <QVariant>
 
 class KStandardItemModel;
 
 /**
  * @brief Represents and item of KStandardItemModel.
  *
- * Provides setter- and getter-methods for most commonly
- * used properties.
+ * Provides setter- and getter-methods for the most commonly
+ * used roles. It is possible to assign values for custom
+ * roles by using setDataValue().
  */
 class LIBDOLPHINPRIVATE_EXPORT KStandardItem
 {
@@ -42,27 +46,39 @@ public:
     KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent = 0);
     virtual ~KStandardItem();
 
+    /**
+     * Sets the text for the "text"-role.
+     */
     void setText(const QString& text);
     QString text() const;
 
+    /**
+     * Sets the icon for the "iconName"-role.
+     */
     void setIcon(const QIcon& icon);
     QIcon icon() const;
 
+    /**
+     * Sets the group for the "group"-role.
+     */
     void setGroup(const QString& group);
     QString group() const;
+
+    void setDataValue(const QByteArray& role, const QVariant& value);
+    QVariant dataValue(const QByteArray& role) const;
 
     void setParent(KStandardItem* parent);
     KStandardItem* parent() const;
 
+    QHash<QByteArray, QVariant> data() const;
     QList<KStandardItem*> children() const;
 
 private:
-    QString m_text;
-    QIcon m_icon;
-    QString m_group;
     KStandardItem* m_parent;
     QList<KStandardItem*> m_children;
     KStandardItemModel* m_model;
+
+    QHash<QByteArray, QVariant> m_data;
 
     friend class KStandardItemModel;
 };

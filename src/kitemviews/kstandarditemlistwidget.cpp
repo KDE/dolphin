@@ -339,9 +339,16 @@ QRectF KStandardItemListWidget::textFocusRect() const
 
     case DetailsLayout: {
         QRectF rect = m_textRect;
-        const TextInfo* textInfo    = m_textInfo.value(m_sortedVisibleRoles.first());
+        const TextInfo* textInfo = m_textInfo.value(m_sortedVisibleRoles.first());
         rect.setTop(textInfo->pos.y());
         rect.setBottom(textInfo->pos.y() + textInfo->staticText.size().height());
+
+        const KItemListStyleOption& option = styleOption();
+        if (option.extendedSelectionRegion) {
+            const QString text = textInfo->staticText.text();
+            rect.setWidth(option.fontMetrics.width(text) + 2 * option.padding);
+        }
+
         return rect;
     }
 

@@ -19,34 +19,33 @@
 
 #include "kstandarditem.h"
 
+#include <KDebug>
+
 KStandardItem::KStandardItem(KStandardItem* parent) :
-    m_text(),
-    m_icon(),
-    m_group(),
     m_parent(parent),
     m_children(),
-    m_model(0)
+    m_model(0),
+    m_data()
 {
 }
 
 KStandardItem::KStandardItem(const QString& text, KStandardItem* parent) :
-    m_text(text),
-    m_icon(),
-    m_group(),
     m_parent(parent),
     m_children(),
-    m_model(0)
+    m_model(0),
+    m_data()
 {
+    setText(text);
 }
 
 KStandardItem::KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent) :
-    m_text(text),
-    m_icon(icon),
-    m_group(),
     m_parent(parent),
     m_children(),
-    m_model(0)
+    m_model(0),
+    m_data()
 {
+    setIcon(icon);
+    setText(text);
 }
 
 KStandardItem::~KStandardItem()
@@ -55,32 +54,42 @@ KStandardItem::~KStandardItem()
 
 void KStandardItem::setText(const QString& text)
 {
-    m_text = text;
+    m_data.insert("text", text);
 }
 
 QString KStandardItem::text() const
 {
-    return m_text;
+    return m_data["text"].toString();
 }
 
 void KStandardItem::setIcon(const QIcon& icon)
 {
-    m_icon = icon;
+    m_data.insert("iconName", icon.name());
 }
 
 QIcon KStandardItem::icon() const
 {
-    return m_icon;
+    return QIcon(m_data["iconName"].toString());
 }
 
 void KStandardItem::setGroup(const QString& group)
 {
-    m_group = group;
+    m_data.insert("group", group);
 }
 
 QString KStandardItem::group() const
 {
-    return m_group;
+    return m_data["group"].toString();
+}
+
+void KStandardItem::setDataValue(const QByteArray& role, const QVariant& value)
+{
+    m_data.insert(role, value);
+}
+
+QVariant KStandardItem::dataValue(const QByteArray& role) const
+{
+    return m_data[role];
 }
 
 void KStandardItem::setParent(KStandardItem* parent)
@@ -92,6 +101,11 @@ void KStandardItem::setParent(KStandardItem* parent)
 KStandardItem* KStandardItem::parent() const
 {
     return m_parent;
+}
+
+QHash<QByteArray, QVariant> KStandardItem::data() const
+{
+    return m_data;
 }
 
 QList<KStandardItem*> KStandardItem::children() const

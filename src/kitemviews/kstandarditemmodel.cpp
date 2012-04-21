@@ -38,6 +38,8 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
         m_indexesForItems.insert(item, index);
         item->m_model = this;
         // TODO: no hierarchical items are handled yet
+
+        emit itemsInserted(KItemRangeList() << KItemRange(index, 1));
     }
 }
 
@@ -77,12 +79,11 @@ int KStandardItemModel::count() const
 
 QHash<QByteArray, QVariant> KStandardItemModel::data(int index) const
 {
-    // TODO: Ugly hack
-    QHash<QByteArray, QVariant> values;
     const KStandardItem* item = m_items[index];
-    values.insert("text", item->text());
-    values.insert("iconName", item->icon().name());
-    return values;
+    if (item) {
+        return item->data();
+    }
+    return QHash<QByteArray, QVariant>();
 }
 
 bool KStandardItemModel::setData(int index, const QHash<QByteArray, QVariant>& values)

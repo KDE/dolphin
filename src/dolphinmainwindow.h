@@ -350,9 +350,15 @@ private slots:
     void openNewTab();
 
     /**
-     * Opens a new tab showing the URL \a url.
+     * Opens a new tab in the background showing the URL \a url.
      */
     void openNewTab(const KUrl& url);
+
+    /**
+     * Opens a new tab showing the URL \a url and activates
+     * the tab.
+     */
+    void openNewActivatedTab(const KUrl& url);
 
     void activateNextTab();
 
@@ -403,13 +409,6 @@ private slots:
      * and sets m_tabIndex to the new index of the current tab.
      */
     void slotTabMoved(int from, int to);
-
-    /**
-     * Handles a click on a places item: if the middle mouse button is
-     * clicked, a new tab is opened for \a url, otherwise the current
-     * view is replaced by \a url.
-     */
-    void handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons);
 
     /**
      * Is connected to the KTabBar signal testCanDecode() and adjusts

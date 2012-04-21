@@ -22,7 +22,9 @@
 #define PLACESPANEL_H
 
 #include <panels/panel.h>
+#include <QSet>
 
+class KBookmarkManager;
 class KItemListController;
 class KStandardItemModel;
 
@@ -37,16 +39,27 @@ public:
     PlacesPanel(QWidget* parent);
     virtual ~PlacesPanel();
 
+signals:
+    void placeActivated(const KUrl& url);
+    void placeMiddleClicked(const KUrl& url);
+
 protected:
     virtual bool urlChanged();
     virtual void showEvent(QShowEvent* event);
 
 private slots:
+    void slotItemActivated(int index);
+    void slotItemMiddleClicked(int index);
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
+
+private:
+    void loadBookmarks();
 
 private:
     KItemListController* m_controller;
     KStandardItemModel* m_model;
+    QSet<QString> m_availableDevices;
+    KBookmarkManager* m_bookmarkManager;
 };
 
 #endif // PLACESPANEL_H

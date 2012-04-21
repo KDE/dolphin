@@ -51,10 +51,8 @@ public:
     void rename(const KFileItem& item);
 
 signals:
-    /**
-     * Is emitted if the an URL change is requested.
-     */
-    void changeUrl(const KUrl& url, Qt::MouseButtons buttons);
+    void folderActivated(const KUrl& url);
+    void folderMiddleClicked(const KUrl& url);
 
 protected:
     /** @see Panel::urlChanged() */

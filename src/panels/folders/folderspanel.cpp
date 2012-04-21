@@ -173,7 +173,7 @@ void FoldersPanel::slotItemActivated(int index)
 {
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
-        emit changeUrl(item.url(), Qt::LeftButton);
+        emit folderActivated(item.url());
     }
 }
 
@@ -181,7 +181,7 @@ void FoldersPanel::slotItemMiddleClicked(int index)
 {
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
-        emit changeUrl(item.url(), Qt::MiddleButton);
+        emit folderMiddleClicked(item.url());
     }
 }
 

@@ -508,6 +508,12 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     }
 }
 
+void DolphinMainWindow::openNewActivatedTab(const KUrl& url)
+{
+    openNewTab(url);
+    m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+}
+
 void DolphinMainWindow::activateNextTab()
 {
     if (m_viewTab.count() >= 2) {
@@ -1260,16 +1266,6 @@ void DolphinMainWindow::slotTabMoved(int from, int to)
     m_tabIndex = m_tabBar->currentIndex();
 }
 
-void DolphinMainWindow::handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons)
-{
-    if (buttons & Qt::MidButton) {
-        openNewTab(url);
-        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
-    } else {
-        changeUrl(url);
-    }
-}
-
 void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& canDecode)
 {
     canDecode = KUrl::List::canDecode(event->mimeData());
@@ -1781,8 +1777,10 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             foldersPanel, SLOT(setUrl(KUrl)));
-    connect(foldersPanel, SIGNAL(changeUrl(KUrl,Qt::MouseButtons)),
-            this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
+    connect(foldersPanel, SIGNAL(folderActivated(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(foldersPanel, SIGNAL(folderMiddleClicked(KUrl)),
+            this, SLOT(openNewActivatedTab(KUrl)));
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
@@ -1856,8 +1854,10 @@ void DolphinMainWindow::setupDockWidgets()
     createPanelAction(KIcon("bookmarks"), Qt::Key_F9, placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    //connect(placesPanel, SIGNAL(urlChanged(KUrl,Qt::MouseButtons)),
-    //        this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
+    connect(placesPanel, SIGNAL(placeActivated(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(placesPanel, SIGNAL(placeMiddleClicked(KUrl)),
+            this, SLOT(openNewActivatedTab(KUrl)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),
