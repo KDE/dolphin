@@ -693,6 +693,10 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     m_layouter->markAsDirty();
     doLayout(animate ? Animation : NoAnimation);
 
+    if (m_itemSize.isEmpty()) {
+        updatePreferredColumnWidths();
+    }
+
     onStyleOptionChanged(option, previousOption);
 }
 
@@ -1461,6 +1465,11 @@ void KItemListView::setModel(KItemModelBase* model)
                 this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
         connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
                 this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+
+        const int itemCount = m_model->count();
+        if (itemCount > 0) {
+            slotItemsInserted(KItemRangeList() << KItemRange(0, itemCount));
+        }
     }
 
     onModelChanged(model, previous);
@@ -2130,7 +2139,7 @@ void KItemListView::applyAutomaticColumnWidths()
         // Stretch the first column to use the whole remaining width
         firstColumnWidth += availableWidth - requiredWidth;
         m_headerWidget->setColumnWidth(firstRole, firstColumnWidth);
-    } else if (requiredWidth > availableWidth) {
+    } else if (requiredWidth > availableWidth && m_visibleRoles.count() > 1) {
         // Shrink the first column to be able to show as much other
         // columns as possible
         qreal shrinkedFirstColumnWidth = firstColumnWidth - requiredWidth + availableWidth;

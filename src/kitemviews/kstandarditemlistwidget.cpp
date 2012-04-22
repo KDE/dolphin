@@ -43,7 +43,7 @@
 #include <QTextLayout>
 #include <QTextLine>
 
-// #define KFILEITEMLISTWIDGET_DEBUG
+// #define KSTANDARDITEMLISTWIDGET_DEBUG
 
 KStandardItemListWidgetInformant::KStandardItemListWidgetInformant() :
     KItemListWidgetInformant()
@@ -143,9 +143,12 @@ qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArra
         width += option.fontMetrics.width(text);
 
         if (role == "text") {
-            // Increase the width by the expansion-toggle and the current expansion level
-            const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-            width += option.padding + (expandedParentsCount + 1) * view->itemSize().height() + KIconLoader::SizeSmall;
+            if (view->supportsItemExpanding()) {
+                // Increase the width by the expansion-toggle and the current expansion level
+                const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+                const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
+                width += (expandedParentsCount + 1) * height;
+            }
 
             // Increase the width by the required space for the icon
             width += option.padding * 2 + option.iconSize;
@@ -295,7 +298,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
         painter->restore();
     }
 
-#ifdef KFILEITEMLISTWIDGET_DEBUG
+#ifdef KSTANDARDITEMLISTWIDGET_DEBUG
     painter->setBrush(Qt::NoBrush);
     painter->setPen(Qt::green);
     painter->drawRect(m_iconRect);
@@ -1130,7 +1133,7 @@ void KStandardItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixma
         KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize);
         painter->drawPixmap(m_pixmapPos, scaledPixmap);
 
-#ifdef KFILEITEMLISTWIDGET_DEBUG
+#ifdef KSTANDARDITEMLISTWIDGET_DEBUG
         painter->setPen(Qt::blue);
         painter->drawRect(QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize)));
 #endif
