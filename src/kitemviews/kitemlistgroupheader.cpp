@@ -20,7 +20,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistgroupheader.h"
+#include "kstandarditemlistgroupheader.h"
 
 #include "kitemlistview.h"
 
@@ -37,7 +37,7 @@ KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
     m_styleOption(),
     m_scrollOrientation(Qt::Vertical),
     m_itemIndex(-1),
-    m_lineColor(),
+    m_separatorColor(),
     m_roleColor(),
     m_roleBounds()
 {
@@ -124,6 +124,7 @@ Qt::Orientation KItemListGroupHeader::scrollOrientation() const
 
 void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    Q_UNUSED(painter);
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
@@ -131,28 +132,8 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
         updateCache();
     }
 
-    if (m_itemIndex == 0) {
-        // No top- or left-line should be drawn for the first group-header
-        return;
-    }
-
-    painter->setPen(m_lineColor);
-
-    if (m_scrollOrientation == Qt::Horizontal) {
-        painter->drawLine(0, 0, 0, size().height() - 1);
-    } else {
-        painter->drawLine(0, 0, size().width() - 1, 0);
-    }
-}
-
-QRectF KItemListGroupHeader::roleBounds() const
-{
-    return m_roleBounds;
-}
-
-QColor KItemListGroupHeader::roleColor() const
-{
-    return m_roleColor;
+    paintSeparator(painter, m_separatorColor);
+    paintRole(painter, m_roleBounds, m_roleColor);
 }
 
 void KItemListGroupHeader::roleChanged(const QByteArray& current, const QByteArray& previous)
@@ -201,7 +182,7 @@ void KItemListGroupHeader::updateCache()
     // performance reasons.
     const QColor c1 = m_styleOption.palette.text().color();
     const QColor c2 = m_styleOption.palette.base().color();
-    m_lineColor = mixedColor(c1, c2, 10);
+    m_separatorColor = mixedColor(c1, c2, 10);
     m_roleColor = mixedColor(c1, c2, 70);
 
     const int padding = qMax(1, m_styleOption.padding);

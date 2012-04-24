@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KFILEITEMLISTGROUPHEADER_H
-#define KFILEITEMLISTGROUPHEADER_H
+#ifndef KSTANDARDITEMLISTGROUPHEADER_H
+#define KSTANDARDITEMLISTGROUPHEADER_H
 
 #include <libdolphin_export.h>
 
@@ -27,17 +27,19 @@
 #include <QPixmap>
 #include <QStaticText>
 
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListGroupHeader : public KItemListGroupHeader
+class LIBDOLPHINPRIVATE_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
 {
     Q_OBJECT
 
 public:
-    KFileItemListGroupHeader(QGraphicsWidget* parent = 0);
-    virtual ~KFileItemListGroupHeader();
+    KStandardItemListGroupHeader(QGraphicsWidget* parent = 0);
+    virtual ~KStandardItemListGroupHeader();
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
+    virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color);
+    virtual void paintSeparator(QPainter* painter, const QColor& color);
     virtual void roleChanged(const QByteArray &current, const QByteArray &previous);
     virtual void dataChanged(const QVariant& current, const QVariant& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);

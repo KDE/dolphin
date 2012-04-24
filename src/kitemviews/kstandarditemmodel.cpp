@@ -123,7 +123,22 @@ QString KStandardItemModel::roleDescription(const QByteArray& role) const
 
 QList<QPair<int, QVariant> > KStandardItemModel::groups() const
 {
-    return QList<QPair<int, QVariant> >();
+    QList<QPair<int, QVariant> > groups;
+
+    const QByteArray role = sortRole();
+    bool isFirstGroupValue = true;
+    QString groupValue;
+    const int maxIndex = count() - 1;
+    for (int i = 0; i <= maxIndex; ++i) {
+        const QString newGroupValue = m_items.at(i)->dataValue(role).toString();
+        if (newGroupValue != groupValue || isFirstGroupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+            isFirstGroupValue = false;
+        }
+    }
+
+    return groups;
 }
 
 #include "kstandarditemmodel.moc"

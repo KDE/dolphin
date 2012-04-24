@@ -68,11 +68,8 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
-    /** @return Bounding rectangle where the role should be drawn into. */
-    QRectF roleBounds() const;
-
-    /** @return Primary color that should be used for drawing the role. */
-    QColor roleColor() const;
+    virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) = 0;
+    virtual void paintSeparator(QPainter* painter, const QColor& color) = 0;
 
     /**
      * Is called after the role has been changed and allows the derived class
@@ -120,7 +117,7 @@ private:
     Qt::Orientation m_scrollOrientation;
     int m_itemIndex;
 
-    QColor m_lineColor;
+    QColor m_separatorColor;
     QColor m_roleColor;
     QRectF m_roleBounds;
 };

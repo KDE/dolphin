@@ -20,12 +20,12 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kfileitemlistgroupheader.h"
+#include "kstandarditemlistgroupheader.h"
 
 #include <kratingpainter.h>
 #include <QPainter>
 
-KFileItemListGroupHeader::KFileItemListGroupHeader(QGraphicsWidget* parent) :
+KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget* parent) :
     KItemListGroupHeader(parent),
     m_dirtyCache(true),
     m_text(),
@@ -35,47 +35,65 @@ KFileItemListGroupHeader::KFileItemListGroupHeader(QGraphicsWidget* parent) :
     m_text.setPerformanceHint(QStaticText::AggressiveCaching);
 }
 
-KFileItemListGroupHeader::~KFileItemListGroupHeader()
+KStandardItemListGroupHeader::~KStandardItemListGroupHeader()
 {
 }
 
-void KFileItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+void KStandardItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    KItemListGroupHeader::paint(painter, option, widget);
-
     if (m_dirtyCache) {
         updateCache();
     }
+    KItemListGroupHeader::paint(painter, option, widget);
+}
 
+void KStandardItemListGroupHeader::paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color)
+{
     if (m_pixmap.isNull()) {
-        painter->setPen(roleColor());
-        painter->drawStaticText(roleBounds().topLeft(), m_text);
+        painter->setPen(color);
+        painter->drawStaticText(roleBounds.topLeft(), m_text);
     } else {
-        painter->drawPixmap(roleBounds().topLeft(), m_pixmap);
+        painter->drawPixmap(roleBounds.topLeft(), m_pixmap);
     }
 }
 
-void KFileItemListGroupHeader::roleChanged(const QByteArray &current, const QByteArray &previous)
+void KStandardItemListGroupHeader::paintSeparator(QPainter* painter, const QColor& color)
+{
+    if (itemIndex() == 0) {
+        // No top- or left-line should be drawn for the first group-header
+        return;
+    }
+
+    painter->setPen(color);
+
+    if (scrollOrientation() == Qt::Horizontal) {
+        painter->drawLine(0, 0, 0, size().height() - 1);
+    } else {
+        painter->drawLine(0, 0, size().width() - 1, 0);
+    }
+}
+
+void KStandardItemListGroupHeader::roleChanged(const QByteArray &current, const QByteArray &previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
     m_dirtyCache = true;
 }
 
-void KFileItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
+void KStandardItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
     m_dirtyCache = true;
 }
 
-void KFileItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
+void KStandardItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
     m_dirtyCache = true;
 }
 
-void KFileItemListGroupHeader::updateCache()
+void KStandardItemListGroupHeader::updateCache()
 {
     Q_ASSERT(m_dirtyCache);
     m_dirtyCache = false;
@@ -104,4 +122,4 @@ void KFileItemListGroupHeader::updateCache()
     }
 }
 
-#include "kfileitemlistgroupheader.moc"
+#include "kstandarditemlistgroupheader.moc"

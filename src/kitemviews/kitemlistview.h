@@ -25,7 +25,7 @@
 
 #include <libdolphin_export.h>
 
-#include <kitemviews/kitemlistgroupheader.h>
+#include <kitemviews/kstandarditemlistgroupheader.h>
 #include <kitemviews/kitemliststyleoption.h>
 #include <kitemviews/kitemlistwidget.h>
 #include <kitemviews/kitemmodelbase.h>

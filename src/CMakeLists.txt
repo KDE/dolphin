@@ -18,7 +18,6 @@ add_subdirectory(tests)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    kitemviews/kfileitemlistgroupheader.cpp
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
     kitemviews/kfileitemmodel.cpp
@@ -33,6 +32,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kstandarditem.cpp
+    kitemviews/kstandarditemlistgroupheader.cpp
     kitemviews/kstandarditemlistview.cpp
     kitemviews/kstandarditemlistwidget.cpp
     kitemviews/kstandarditemmodel.cpp
@@ -143,6 +143,7 @@ set(dolphin_SRCS
     panels/information/pixmapviewer.cpp
     panels/information/phononwidget.cpp
     panels/places/placespanel.cpp
+    panels/places/placesitemlistgroupheader.cpp
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp

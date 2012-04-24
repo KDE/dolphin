@@ -77,7 +77,6 @@ public:
 
 protected:
     virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
-    virtual KItemListGroupHeaderCreatorBase* defaultGroupHeaderCreator() const;
     virtual void onPreviewsShownChanged(bool shown);
     virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
     virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);

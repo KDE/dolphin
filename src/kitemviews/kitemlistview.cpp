@@ -1850,7 +1850,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
     }
 
     const QList<QPair<int, QVariant> > groups = model()->groups();
-    if (groups.isEmpty()) {
+    if (groups.isEmpty() || !groupHeaderCreator()) {
         return;
     }
 

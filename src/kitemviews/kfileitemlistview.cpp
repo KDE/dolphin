@@ -19,7 +19,6 @@
 
 #include "kfileitemlistview.h"
 
-#include "kfileitemlistgroupheader.h"
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
@@ -188,11 +187,6 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
 KItemListWidgetCreatorBase* KFileItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<KFileItemListWidget>();
-}
-
-KItemListGroupHeaderCreatorBase* KFileItemListView::defaultGroupHeaderCreator() const
-{
-    return new KItemListGroupHeaderCreator<KFileItemListGroupHeader>();
 }
 
 void KFileItemListView::onPreviewsShownChanged(bool shown)

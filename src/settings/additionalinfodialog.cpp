@@ -53,7 +53,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     bool nepomukRunning = false;
     bool indexingEnabled = false;
 #ifdef HAVE_NEPOMUK
-    nepomukRunning = (Nepomuk::ResourceManager::instance()->init() == 0);
+    nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
     if (nepomukRunning) {
         KConfig config("nepomukserverrc");
         indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);

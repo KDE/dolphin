@@ -90,7 +90,7 @@ DolphinSearchInformation::DolphinSearchInformation() :
     m_indexingEnabled(false)
 {
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+    if (Nepomuk::ResourceManager::instance()->initialized()) {
         KConfig config("nepomukserverrc");
         m_indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
     }

@@ -22,6 +22,7 @@
 #include <KDebug>
 #include <KIconLoader>
 #include "kstandarditemlistwidget.h"
+#include "kstandarditemlistgroupheader.h"
 
 KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
     KItemListView(parent),
@@ -82,7 +83,7 @@ KItemListWidgetCreatorBase* KStandardItemListView::defaultWidgetCreator() const
 
 KItemListGroupHeaderCreatorBase* KStandardItemListView::defaultGroupHeaderCreator() const
 {
-    return 0; // TODO: new KItemListGroupHeaderCreator<KStandardItemListGroupHeader>()
+    return new KItemListGroupHeaderCreator<KStandardItemListGroupHeader>();
 }
 
 void KStandardItemListView::initializeItemListWidget(KItemListWidget* item)
