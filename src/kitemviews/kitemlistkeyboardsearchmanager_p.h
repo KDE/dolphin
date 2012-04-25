@@ -58,6 +58,8 @@ public:
     void setTimeout(qint64 milliseconds);
     qint64 timeout() const;
 
+    void cancelSearch();
+
 signals:
     /**
      * Is emitted if the current item should be changed corresponding

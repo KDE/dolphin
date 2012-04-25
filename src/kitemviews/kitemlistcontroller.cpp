@@ -358,6 +358,13 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         break;
     }
 
+    case Qt::Key_Escape:
+        if (m_selectionBehavior != SingleSelection) {
+            m_selectionManager->clearSelection();
+        }
+        m_keyboardManager->cancelSearch();
+        break;
+
     default:
         m_keyboardManager->addKeys(event->text());
         return false;
