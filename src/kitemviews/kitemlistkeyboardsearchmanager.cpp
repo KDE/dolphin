@@ -78,3 +78,13 @@ void KItemListKeyboardSearchManager::cancelSearch()
 {
     m_searchedString.clear();
 }
+
+void KItemListKeyboardSearchManager::slotCurrentChanged(int current, int previous)
+{
+    Q_UNUSED(previous);
+
+    if (current < 0) {
+        // The current item has been removed. We should cancel the search.
+        cancelSearch();
+    }
+}

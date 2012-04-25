@@ -60,6 +60,10 @@ public:
 
     void cancelSearch();
 
+public slots:
+
+    void slotCurrentChanged(int current, int previous);
+
 signals:
     /**
      * Is emitted if the current item should be changed corresponding
