@@ -95,6 +95,9 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
         } else if (role == "orientation") {
             const QString orientation = orientationFromValue(value.toInt());
             values.insert(role, orientation);
+        } else if (value.isResource()) {
+            const Nepomuk::Resource resource = value.toResource();
+            values.insert(role, resource.genericLabel());
         } else {
             values.insert(role, value.toString());
         }
