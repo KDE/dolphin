@@ -291,11 +291,14 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
         // emit it only once in this function -> change the current item manually and emit currentChanged
         m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges);
-        if (m_currentItem < 0) {
-            m_currentItem = qMin(previousCurrent, m_model->count() - 1);
-        }
         if (m_currentItem != previousCurrent) {
             emit currentChanged(m_currentItem, previousCurrent);
+        }
+
+        if (m_currentItem < 0) {
+            // The current item has been removed.
+            m_currentItem = qMin(previousCurrent, m_model->count() - 1);
+            emit currentChanged(m_currentItem, -1);
         }
     }
 

@@ -60,6 +60,8 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
 {
     connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
             this, SLOT(slotChangeCurrentItem(QString,bool)));
+    connect(m_selectionManager, SIGNAL(currentChanged(int,int)),
+            m_keyboardManager, SLOT(slotCurrentChanged(int,int)));
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
