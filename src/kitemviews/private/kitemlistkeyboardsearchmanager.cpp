@@ -25,8 +25,6 @@
 #include <QApplication>
 #include <QElapsedTimer>
 
-#include <KDebug>
-
 KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject* parent) :
     QObject(parent),
     m_timeout(1000)
@@ -76,3 +74,7 @@ qint64 KItemListKeyboardSearchManager::timeout() const
     return m_timeout;
 }
 
+void KItemListKeyboardSearchManager::cancelSearch()
+{
+    m_searchedString.clear();
+}
