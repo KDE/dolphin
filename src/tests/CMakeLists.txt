@@ -58,6 +58,7 @@ target_link_libraries(kitemlistkeyboardsearchmanagertest ${KDE4_KIO_LIBS} ${QT_Q
 if (Nepomuk_FOUND)
   set(dolphinsearchboxtest_SRCS
       dolphinsearchboxtest.cpp
+      ../search/dolphinfacetswidget.cpp
       ../search/dolphinsearchbox.cpp
       ../search/dolphinsearchinformation.cpp
   )

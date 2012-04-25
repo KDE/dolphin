@@ -21,22 +21,14 @@
 
 #include "dolphinmainwindow.h"
 
-#include <config-nepomuk.h>
-
 #include "dolphinapplication.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
-#ifdef HAVE_NEPOMUK
-    #include "panels/search/searchpanel.h"
-    #include <Nepomuk/ResourceManager>
-#endif
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
-#include "search/dolphinsearchbox.h"
-#include "search/dolphinsearchinformation.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
@@ -49,7 +41,6 @@
 #endif
 
 #include "dolphin_generalsettings.h"
-#include "dolphin_searchsettings.h"
 
 #include <KAcceleratorManager>
 #include <KAction>
@@ -130,8 +121,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_settingsDialog(),
     m_controlButton(0),
     m_updateToolBarTimer(0),
-    m_lastHandleUrlStatJob(0),
-    m_searchDockIsTemporaryVisible(false)
+    m_lastHandleUrlStatJob(0)
 {
     DolphinPlacesModel::setModel(new KFilePlacesModel(this));
     connect(DolphinPlacesModel::instance(), SIGNAL(errorMessage(QString)),
@@ -637,14 +627,6 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     GeneralSettings::setVersion(CurrentDolphinVersion);
     GeneralSettings::self()->writeConfig();
 
-    if (m_searchDockIsTemporaryVisible) {
-        QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
-        if (searchDock) {
-            searchDock->hide();
-        }
-        m_searchDockIsTemporaryVisible = false;
-    }
-
     KXmlGuiWindow::closeEvent(event);
 }
 
@@ -803,23 +785,6 @@ void DolphinMainWindow::paste()
 void DolphinMainWindow::find()
 {
     m_activeViewContainer->setSearchModeEnabled(true);
-}
-
-void DolphinMainWindow::slotSearchLocationChanged()
-{
-#ifdef HAVE_NEPOMUK
-    QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
-    if (!searchDock) {
-        return;
-    }
-
-    SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
-    if (searchPanel) {
-        searchPanel->setSearchLocation(SearchSettings::location() == QLatin1String("FromHere")
-                                       ? SearchPanel::FromCurrentDir
-                                       : SearchPanel::Everywhere);
-    }
-#endif
 }
 
 void DolphinMainWindow::updatePasteAction()
@@ -1323,52 +1288,6 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     newFileMenu()->setEnabled(isFolderWritable);
 }
 
-void DolphinMainWindow::slotSearchModeChanged(bool enabled)
-{
-#ifdef HAVE_NEPOMUK
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    if (!searchInfo.isIndexingEnabled()) {
-        return;
-    }
-
-    QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
-    if (!searchDock) {
-        return;
-    }
-
-    if (enabled) {
-        if (!searchDock->isVisible()) {
-            m_searchDockIsTemporaryVisible = true;
-        }
-        searchDock->show();
-    } else {
-        if (searchDock->isVisible() && m_searchDockIsTemporaryVisible) {
-            searchDock->hide();
-        }
-        m_searchDockIsTemporaryVisible = false;
-    }
-
-    SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
-    if (!searchPanel) {
-        return;
-    }
-
-    if (enabled) {
-        SearchPanel::SearchLocation searchLocation = SearchPanel::Everywhere;
-        const KUrl url = m_activeViewContainer->url();
-        const bool isSearchUrl = (url.protocol() == QLatin1String("nepomuksearch"));
-        if ((SearchSettings::location() == QLatin1String("FromHere") && !isSearchUrl)) {
-            searchLocation = SearchPanel::FromCurrentDir;
-        }
-        searchPanel->setSearchLocation(searchLocation);
-    } else {
-        searchPanel->setSearchLocation(SearchPanel::Everywhere);
-    }
-#else
-    Q_UNUSED(enabled);
-#endif
-}
-
 void DolphinMainWindow::openContextMenu(const QPoint& pos,
                                         const KFileItem& item,
                                         const KUrl& url,
@@ -1804,32 +1723,11 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    // Setup "Search"
-#ifdef HAVE_NEPOMUK
-    DolphinDockWidget* searchDock = new DolphinDockWidget(i18nc("@title:window", "Search"));
-    searchDock->setLocked(lock);
-    searchDock->setObjectName("searchDock");
-    searchDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    Panel* searchPanel = new SearchPanel(searchDock);
-    searchPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
-    connect(searchPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
-    searchDock->setWidget(searchPanel);
-
-    QAction* searchAction = searchDock->toggleViewAction();
-    createPanelAction(KIcon("system-search"), Qt::Key_F12, searchAction, "show_search_panel");
-    addDockWidget(Qt::RightDockWidgetArea, searchDock);
-    connect(this, SIGNAL(urlChanged(KUrl)),
-            searchPanel, SLOT(setUrl(KUrl)));
-#endif
-
     if (GeneralSettings::version() < 200) {
         infoDock->hide();
         foldersDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
-#endif
-#ifdef HAVE_NEPOMUK
-        searchDock->hide();
 #endif
     }
 
@@ -1873,9 +1771,6 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(ac->action("show_folders_panel"));
 #ifndef Q_OS_WIN
     panelsMenu->addAction(ac->action("show_terminal_panel"));
-#endif
-#ifdef HAVE_NEPOMUK
-    panelsMenu->addAction(ac->action("show_search_panel"));
 #endif
     panelsMenu->addSeparator();
     panelsMenu->addAction(lockLayoutAction);
@@ -2068,12 +1963,6 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(updateFilterBarAction(bool)));
     connect(container, SIGNAL(writeStateChanged(bool)),
             this, SLOT(slotWriteStateChanged(bool)));
-    connect(container, SIGNAL(searchModeChanged(bool)),
-            this, SLOT(slotSearchModeChanged(bool)));
-
-    const DolphinSearchBox* searchBox = container->searchBox();
-    connect(searchBox, SIGNAL(searchLocationChanged(SearchLocation)),
-            this, SLOT(slotSearchLocationChanged()));
 
     DolphinView* view = container->view();
     connect(view, SIGNAL(selectionChanged(KFileItemList)),

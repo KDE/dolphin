@@ -88,9 +88,6 @@ public:
     const DolphinView* view() const;
     DolphinView* view();
 
-    const DolphinSearchBox* searchBox() const;
-    DolphinSearchBox* searchBox();
-
     /**
      * Shows the message \msg with the given type non-modal above
      * the view-content.
@@ -141,13 +138,6 @@ signals:
      * state.
      */
     void writeStateChanged(bool isFolderWritable);
-
-    /**
-     * Is emitted if the search mode has been enabled or disabled.
-     * (see DolphinViewContainer::setSearchModeEnabled() and
-     * DolphinViewContainer::isSearchModeEnabled())
-     */
-    void searchModeChanged(bool enabled);
 
 private slots:
     /**

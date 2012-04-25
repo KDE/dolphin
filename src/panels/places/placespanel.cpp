@@ -204,9 +204,9 @@ void PlacesPanel::createDefaultBookmarks()
                                                       "folder-image",
                                                       i18nc("@item Commonly Accessed", "Images"),
                                                       searchForGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/music"),
+        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/audio"),
                                                       "folder-sound",
-                                                      i18nc("@item Commonly Accessed", "Music"),
+                                                      i18nc("@item Commonly Accessed", "Audio"),
                                                       searchForGroup));
         m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/videos"),
                                                       "folder-video",
@@ -357,7 +357,7 @@ KUrl PlacesPanel::createSearchUrl(const KUrl& url)
         searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
     } else if (path.endsWith("images")) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
-    } else if (path.endsWith("music")) {
+    } else if (path.endsWith("audio")) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
                                                                     Nepomuk::Query::LiteralTerm("audio")));
     } else if (path.endsWith("videos")) {

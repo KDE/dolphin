@@ -208,13 +208,6 @@ private slots:
     void find();
 
     /**
-     * Is invoked when the "Find" is active and the search location
-     * (From Here/Everywhere) has been changed. Updates the
-     * enabled state of the Search Panel.
-     */
-    void slotSearchLocationChanged();
-
-    /**
      * Updates the text of the paste action dependent on
      * the number of items which are in the clipboard.
      */
@@ -440,8 +433,6 @@ private slots:
      */
     void slotWriteStateChanged(bool isFolderWritable);
 
-    void slotSearchModeChanged(bool enabled);
-
     /**
      * Opens the context menu on the current mouse position.
      * @pos           Position in screen coordinates.
@@ -587,12 +578,6 @@ private:
     QTimer* m_updateToolBarTimer;
 
     KIO::Job* m_lastHandleUrlStatJob;
-
-    /**
-     * Set to true, if the filter dock visibility is only temporary set
-     * to true by enabling the search mode.
-     */
-    bool m_searchDockIsTemporaryVisible;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

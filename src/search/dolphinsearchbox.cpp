@@ -20,6 +20,7 @@
 #include "dolphinsearchbox.h"
 
 #include "dolphin_searchsettings.h"
+#include "dolphinfacetswidget.h"
 #include "dolphinsearchinformation.h"
 
 #include <KIcon>
@@ -65,6 +66,8 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_separator(0),
     m_fromHereButton(0),
     m_everywhereButton(0),
+    m_facetsToggleButton(0),
+    m_facetsWidget(0),
     m_searchPath(),
     m_readOnlyQuery(),
     m_startSearchTimer(0)
@@ -109,6 +112,10 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_separator->setVisible(showSearchFromButtons);
     m_fromHereButton->setVisible(showSearchFromButtons);
     m_everywhereButton->setVisible(showSearchFromButtons);
+
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    const bool hasFacetsSupport = searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(m_searchPath);
+    m_facetsWidget->setEnabled(hasFacetsSupport);
 }
 
 KUrl DolphinSearchBox::searchPath() const
@@ -228,6 +235,14 @@ void DolphinSearchBox::slotReturnPressed(const QString& text)
     emit returnPressed(text);
 }
 
+void DolphinSearchBox::slotFacetsButtonToggled()
+{
+    const bool visible = !m_facetsWidget->isVisible();
+    m_facetsWidget->setVisible(visible);
+    SearchSettings::setShowFacetsWidget(visible);
+    updateFacetsToggleButtonIcon();
+}
+
 void DolphinSearchBox::initButton(QToolButton* button)
 {
     button->setAutoExclusive(true);
@@ -249,6 +264,8 @@ void DolphinSearchBox::loadSettings()
     } else {
         m_fileNameButton->setChecked(true);
     }
+
+    m_facetsWidget->setVisible(SearchSettings::showFacetsWidget());
 }
 
 void DolphinSearchBox::saveSettings()
@@ -319,6 +336,14 @@ void DolphinSearchBox::init()
     connect(m_fromHereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
     connect(m_everywhereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
 
+    // Create "Facets" widgets
+    m_facetsToggleButton = new QToolButton(this);
+    m_facetsToggleButton->setAutoRaise(true);
+    connect(m_facetsToggleButton, SIGNAL(clicked()), this, SLOT(slotFacetsButtonToggled()));
+
+    m_facetsWidget = new DolphinFacetsWidget(this);
+    m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
     optionsLayout->setMargin(0);
@@ -328,6 +353,7 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_fromHereButton);
     optionsLayout->addWidget(m_everywhereButton);
     optionsLayout->addStretch(1);
+    optionsLayout->addWidget(m_facetsToggleButton);
 
     // Put the options into a QScrollArea. This prevents increasing the view width
     // in case that not enough width for the options is available.
@@ -347,6 +373,7 @@ void DolphinSearchBox::init()
     m_topLayout->setMargin(0);
     m_topLayout->addLayout(searchInputLayout);
     m_topLayout->addWidget(m_optionsScrollArea);
+    m_topLayout->addWidget(m_facetsWidget);
 
     loadSettings();
 
@@ -357,6 +384,7 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setInterval(1000);
     connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchSignal()));
 
+    updateFacetsToggleButtonIcon();
     applyReadOnlyState();
 }
 
@@ -413,6 +441,18 @@ void DolphinSearchBox::applyReadOnlyState()
 
     m_searchInput->setVisible(!m_readOnly);
     m_optionsScrollArea->setVisible(!m_readOnly);
+
+    if (m_readOnly) {
+        m_facetsWidget->hide();
+    } else {
+        m_facetsWidget->setVisible(SearchSettings::showFacetsWidget());
+    }
+}
+
+void DolphinSearchBox::updateFacetsToggleButtonIcon()
+{
+    const bool visible = SearchSettings::showFacetsWidget();
+    m_facetsToggleButton->setIcon(KIcon(visible ? "list-remove" : "list-add"));
 }
 
 #include "dolphinsearchbox.moc"

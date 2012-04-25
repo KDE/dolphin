@@ -210,16 +210,6 @@ DolphinView* DolphinViewContainer::view()
     return m_view;
 }
 
-const DolphinSearchBox* DolphinViewContainer::searchBox() const
-{
-    return m_searchBox;
-}
-
-DolphinSearchBox* DolphinViewContainer::searchBox()
-{
-    return m_searchBox;
-}
-
 void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
 {
     if (msg.isEmpty()) {
@@ -308,8 +298,6 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
             }
         }
     }
-
-    emit searchModeChanged(enabled);
 }
 
 bool DolphinViewContainer::isSearchModeEnabled() const

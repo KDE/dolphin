@@ -24,10 +24,9 @@
 #include <QList>
 #include <QWidget>
 
-class AbstractSearchFilterWidget;
+class DolphinFacetsWidget;
 class KLineEdit;
 class KSeparator;
-class QFormLayout;
 class QToolButton;
 class QScrollArea;
 class QLabel;
@@ -141,6 +140,7 @@ private slots:
     void slotConfigurationChanged();
     void slotSearchTextChanged(const QString& text);
     void slotReturnPressed(const QString& text);
+    void slotFacetsButtonToggled();
 
 private:
     void initButton(QToolButton* button);
@@ -154,6 +154,8 @@ private:
     KUrl nepomukUrlForSearching() const;
 
     void applyReadOnlyState();
+
+    void updateFacetsToggleButtonIcon();
 
 private:
     bool m_startedSearching;
@@ -169,6 +171,8 @@ private:
     KSeparator* m_separator;
     QToolButton* m_fromHereButton;
     QToolButton* m_everywhereButton;
+    QToolButton* m_facetsToggleButton;
+    DolphinFacetsWidget* m_facetsWidget;
 
     KUrl m_searchPath;
     KUrl m_readOnlyQuery;

@@ -14,5 +14,9 @@
             <label>What</label>
             <default>FileName</default>
         </entry>
+        <entry name="ShowFacetsWidget" type="Bool">
+            <label>Show facets widget</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>

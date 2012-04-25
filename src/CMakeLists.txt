@@ -147,6 +147,7 @@ set(dolphin_SRCS
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
+    search/dolphinfacetswidget.cpp
     search/dolphinsearchbox.cpp
     search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp
@@ -182,10 +183,6 @@ kde4_add_kcfg_files(dolphin_SRCS
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
-
-if(Nepomuk_FOUND)
-    set(dolphin_SRCS ${dolphin_SRCS} panels/search/searchpanel.cpp)
-endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
