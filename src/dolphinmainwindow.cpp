@@ -1738,14 +1738,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     PlacesPanel* placesPanel = new PlacesPanel(placesDock);
-    QAction* separator = new QAction(placesPanel);
-    separator->setSeparator(true);
-    QList<QAction*> placesActions;
-    placesActions.append(separator);
-    placesActions.append(lockLayoutAction);
-    //placesPanel->addActions(placesActions);
-    //placesPanel->setModel(DolphinPlacesModel::instance());
-    //placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    placesPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();

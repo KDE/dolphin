@@ -144,6 +144,7 @@ set(dolphin_SRCS
     panels/information/phononwidget.cpp
     panels/places/placespanel.cpp
     panels/places/placesitemlistgroupheader.cpp
+    panels/places/placesitemmodel.cpp
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp

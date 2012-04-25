@@ -25,23 +25,9 @@
 
 #include <KUrl>
 #include <panels/panel.h>
-#include <QHash>
-#include <QList>
-#include <QSet>
 
-class KBookmarkManager;
 class KItemListController;
-class KStandardItemModel;
-
-#ifdef HAVE_NEPOMUK
-namespace Nepomuk
-{
-    namespace Query
-    {
-        class Term;
-    }
-}
-#endif
+class PlacesItemModel;
 
 /**
  * @brief Combines bookmarks and mounted devices as list.
@@ -70,62 +56,8 @@ private slots:
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
 
 private:
-    void createDefaultBookmarks();
-    void loadBookmarks();
-    KUrl urlForIndex(int index) const;
-
-    /**
-     * @return URL using the timeline-protocol for searching.
-     */
-    static KUrl createTimelineUrl(const KUrl& url);
-
-    /**
-     * Helper method for createTimelineUrl().
-     * @return String that represents a date-path in the format that
-     *         the timeline-protocol expects.
-     */
-    static QString timelineDateString(int year, int month, int day = 0);
-
-    /**
-     * @return URL that can be listed by KIO and results in searching
-     *         for a given term. The URL \a url represents a places-internal
-     *         URL like e.g. "search:/documents"
-     */
-    static KUrl createSearchUrl(const KUrl& url);
-
-#ifdef HAVE_NEPOMUK
-    /**
-     * Helper method for createSearchUrl().
-     * @return URL that can be listed by KIO and results in searching
-     *         for the given term.
-     */
-    static KUrl searchUrlForTerm(const Nepomuk::Query::Term& term);
-#endif
-
-private:
-    bool m_nepomukRunning;
-
     KItemListController* m_controller;
-    KStandardItemModel* m_model;
-
-    QSet<QString> m_availableDevices;
-    KBookmarkManager* m_bookmarkManager;
-
-    struct DefaultBookmarkData
-    {
-        DefaultBookmarkData(const KUrl& url,
-                            const QString& icon,
-                            const QString& text,
-                            const QString& group) :
-            url(url), icon(icon), text(text), group(group) {}
-        KUrl url;
-        QString icon;
-        QString text;
-        QString group;
-    };
-
-    QList<DefaultBookmarkData> m_defaultBookmarks;
-    QHash<KUrl, int> m_defaultBookmarksIndexes;
+    PlacesItemModel* m_model;
 };
 
 #endif // PLACESPANEL_H
