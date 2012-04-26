@@ -1,6 +1,9 @@
 /***************************************************************************
- *   Copyright (C) 2008-2012 by Peter Penz <peter.penz19@gmail.com>        *
- *   Copyright (C) 2010 by Christian Muehlhaeuser <muesli@gmail.com>       *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *                                                                         *
+ *   Based on KFilePlaceEditDialog from kdelibs:                           *
+ *   Copyright (C) 2001,2002,2003 Carsten Pfeiffer <pfeiffer@kde.org>      *
+ *   Copyright (C) 2007 Kevin Ottens <ervin@kde.org>                       *                                                                         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,52 +21,53 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef PLACESPANEL_H
-#define PLACESPANEL_H
+#ifndef PLACESITEMEDITDIALOG_H
+#define PLACESITEMEDITDIALOG_H
 
-#include <config-nepomuk.h>
-
+#include <KDialog>
 #include <KUrl>
-#include <panels/panel.h>
 
-class KItemListController;
-class PlacesItemModel;
+class KIconButton;
+class KLineEdit;
+class KUrlRequester;
+class QCheckBox;
 
-/**
- * @brief Combines bookmarks and mounted devices as list.
- */
-class PlacesPanel : public Panel
+class PlacesItemEditDialog: public KDialog
 {
     Q_OBJECT
 
 public:
-    PlacesPanel(QWidget* parent);
-    virtual ~PlacesPanel();
+    explicit PlacesItemEditDialog(QWidget* parent = 0);
+    virtual ~PlacesItemEditDialog();
 
-signals:
-    void placeActivated(const KUrl& url);
-    void placeMiddleClicked(const KUrl& url);
+    void setIcon(const QString& icon);
+    QString icon() const;
+
+    void setText(const QString& text);
+    QString text() const;
+
+    void setUrl(const KUrl& url);
+    KUrl url() const;
+
+    void setAllowGlobal(bool allow);
+    bool allowGlobal() const;
 
 protected:
-    virtual bool urlChanged();
-    virtual void showEvent(QShowEvent* event);
-
-private slots:
-    void slotItemActivated(int index);
-    void slotItemMiddleClicked(int index);
-    void slotItemContextMenuRequested(int index, const QPointF& pos);
-    void slotViewContextMenuRequested(const QPointF& pos);
-    void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
-    void slotTrashUpdated(KJob* job);
+    virtual bool event(QEvent* event);
 
 private:
-    void emptyTrash();
-    void addEntry();
-    void editEntry(int index);
+    void initialize();
 
 private:
-    KItemListController* m_controller;
-    PlacesItemModel* m_model;
+    QString m_icon;
+    QString m_text;
+    KUrl m_url;
+    bool m_allowGlobal;
+
+    KUrlRequester* m_urlEdit;
+    KLineEdit* m_textEdit;
+    KIconButton* m_iconButton;
+    QCheckBox* m_appLocal;
 };
 
-#endif // PLACESPANEL_H
+#endif

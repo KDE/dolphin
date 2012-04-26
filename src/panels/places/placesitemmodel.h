@@ -30,6 +30,7 @@
 #include <QSet>
 
 class KBookmarkManager;
+class QAction;
 
 #ifdef HAVE_NEPOMUK
     namespace Nepomuk
@@ -48,6 +49,11 @@ class PlacesItemModel: public KStandardItemModel
 public:
     explicit PlacesItemModel(QObject* parent = 0);
     virtual ~PlacesItemModel();
+
+    int hiddenCount() const;
+
+    QAction* ejectAction(int index) const;
+    QAction* tearDownAction(int index) const;
 
 private:
     void loadBookmarks();

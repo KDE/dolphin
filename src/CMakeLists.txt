@@ -143,6 +143,7 @@ set(dolphin_SRCS
     panels/information/pixmapviewer.cpp
     panels/information/phononwidget.cpp
     panels/places/placespanel.cpp
+    panels/places/placesitemeditdialog.cpp
     panels/places/placesitemlistgroupheader.cpp
     panels/places/placesitemmodel.cpp
     panels/panel.cpp

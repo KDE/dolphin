@@ -66,6 +66,23 @@ PlacesItemModel::~PlacesItemModel()
 {
 }
 
+int PlacesItemModel::hiddenCount() const
+{
+    return 0;
+}
+
+QAction* PlacesItemModel::ejectAction(int index) const
+{
+    Q_UNUSED(index);
+    return 0;
+}
+
+QAction* PlacesItemModel::tearDownAction(int index) const
+{
+    Q_UNUSED(index);
+    return 0;
+}
+
 void PlacesItemModel::loadBookmarks()
 {
     KBookmarkGroup root = m_bookmarkManager->root();
