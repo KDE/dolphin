@@ -45,7 +45,6 @@
 #include <KRun>
 
 #include "dolphin_generalsettings.h"
-#include "dolphinmainwindow.h"
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -64,7 +63,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_filterBar(0),
     m_statusBar(0),
     m_statusBarTimer(0),
-    m_statusBarTimestamp()
+    m_statusBarTimestamp(),
+    m_autoGrabFocus(true)
 {
     hide();
 
@@ -178,6 +178,16 @@ bool DolphinViewContainer::isActive() const
 {
     Q_ASSERT(m_view->isActive() == m_urlNavigator->isActive());
     return m_view->isActive();
+}
+
+void DolphinViewContainer::setAutoGrabFocus(bool grab)
+{
+    m_autoGrabFocus = grab;
+}
+
+bool DolphinViewContainer::autoGrabFocus() const
+{
+    return m_autoGrabFocus;
 }
 
 const DolphinStatusBar* DolphinViewContainer::statusBar() const
@@ -496,7 +506,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
         setSearchModeEnabled(isSearchUrl(url));
         m_view->setUrl(url);
 
-        if (isActive() && !isSearchUrl(url)) {
+        if (m_autoGrabFocus && isActive() && !isSearchUrl(url)) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.

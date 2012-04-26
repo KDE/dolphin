@@ -30,6 +30,10 @@ namespace KIO {
     class StatJob;
 }
 
+namespace KParts {
+    class ReadOnlyPart;
+}
+
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
  *        active view.
@@ -49,6 +53,11 @@ public slots:
 signals:
     void hideTerminalPanel();
 
+    /**
+     * Is emitted if the an URL change is requested.
+     */
+    void changeUrl(const KUrl& url);
+
 protected:
     /** @see Panel::urlChanged() */
     virtual bool urlChanged();
@@ -58,6 +67,7 @@ protected:
 
 private slots:
     void slotMostLocalUrlResult(KJob* job);
+    void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
 
 private:
     void changeDir(const KUrl& url);
@@ -70,6 +80,8 @@ private:
     QVBoxLayout* m_layout;
     TerminalInterfaceV2* m_terminal;
     QWidget* m_terminalWidget;
+    KParts::ReadOnlyPart* m_konsolePart;
+    QString m_konsolePartCurrentDirectory;
 };
 
 #endif // TERMINALPANEL_H

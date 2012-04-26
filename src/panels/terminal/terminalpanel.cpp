@@ -38,7 +38,9 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
     m_mostLocalUrlJob(0),
     m_layout(0),
     m_terminal(0),
-    m_terminalWidget(0)
+    m_terminalWidget(0),
+    m_konsolePart(0),
+    m_konsolePartCurrentDirectory()
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
@@ -60,8 +62,18 @@ void TerminalPanel::dockVisibilityChanged()
     // respond when e.g. Dolphin is minimized.
     if (parentWidget() && parentWidget()->isHidden() &&
         m_terminal && (m_terminal->foregroundProcessId() == -1)) {
+        // Make sure that the following "cd /" command will not affect the view.
+        disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
+                   this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
+
         // Make sure this terminal does not prevent unmounting any removable drives
         changeDir(KUrl::fromPath("/"));
+
+        // Because we have disconnected from the part's currentDirectoryChanged()
+        // signal, we have to update m_konsolePartCurrentDirectory manually. If this
+        // was not done, showing the panel again might not set the part's working
+        // directory correctly.
+        m_konsolePartCurrentDirectory = "/";
     }
 }
 
@@ -89,15 +101,17 @@ void TerminalPanel::showEvent(QShowEvent* event)
     if (!m_terminal) {
         m_clearTerminal = true;
         KPluginFactory* factory = KPluginLoader("libkonsolepart").factory();
-        KParts::ReadOnlyPart* part = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
-        if (part) {
-            connect(part, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
-            m_terminalWidget = part->widget();
+        m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
+        if (m_konsolePart) {
+            connect(m_konsolePart, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
+            m_terminalWidget = m_konsolePart->widget();
             m_layout->addWidget(m_terminalWidget);
-            m_terminal = qobject_cast<TerminalInterfaceV2 *>(part);
+            m_terminal = qobject_cast<TerminalInterfaceV2 *>(m_konsolePart);
         }
     }
     if (m_terminal) {
+        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
+                this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
         m_terminal->showShellInDir(url().toLocalFile());
         changeDir(url());
         m_terminalWidget->setFocus();
@@ -124,6 +138,10 @@ void TerminalPanel::changeDir(const KUrl& url)
 
 void TerminalPanel::sendCdToTerminal(const QString& dir)
 {
+    if (dir == m_konsolePartCurrentDirectory) {
+        return;
+    }
+
     if (!m_clearTerminal) {
         // The TerminalV2 interface does not provide a way to delete the
         // current line before sending a new input. This is mandatory,
@@ -152,6 +170,16 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
     }
 
     m_mostLocalUrlJob = 0;
+}
+
+void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
+{
+    m_konsolePartCurrentDirectory = dir;
+
+    const KUrl newUrl(dir);
+    if (newUrl != url()) {
+        emit changeUrl(newUrl);
+    }
 }
 
 #include "terminalpanel.moc"

@@ -376,6 +376,13 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     }
 }
 
+void DolphinMainWindow::slotTerminalDirectoryChanged(const KUrl& url)
+{
+    m_activeViewContainer->setAutoGrabFocus(false);
+    changeUrl(url);
+    m_activeViewContainer->setAutoGrabFocus(true);
+}
+
 void DolphinMainWindow::slotEditableStateChanged(bool editable)
 {
     KToggleAction* editableLocationAction =
@@ -1712,6 +1719,7 @@ void DolphinMainWindow::setupDockWidgets()
     terminalDock->setWidget(terminalPanel);
 
     connect(terminalPanel, SIGNAL(hideTerminalPanel()), terminalDock, SLOT(hide()));
+    connect(terminalPanel, SIGNAL(changeUrl(KUrl)), this, SLOT(slotTerminalDirectoryChanged(KUrl)));
     connect(terminalDock, SIGNAL(visibilityChanged(bool)),
             terminalPanel, SLOT(dockVisibilityChanged()));
 

@@ -79,6 +79,14 @@ public:
     void setActive(bool active);
     bool isActive() const;
 
+    /**
+     * If \a grab is set to true, the container automatically grabs the focus
+     * as soon as the URL has been changed. Per default the grabbing
+     * of the focus is enabled.
+     */
+    void setAutoGrabFocus(bool grab);
+    bool autoGrabFocus() const;
+
     const DolphinStatusBar* statusBar() const;
     DolphinStatusBar* statusBar();
 
@@ -288,6 +296,7 @@ private:
     DolphinStatusBar* m_statusBar;
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
+    bool m_autoGrabFocus;
 };
 
 #endif // DOLPHINVIEWCONTAINER_H

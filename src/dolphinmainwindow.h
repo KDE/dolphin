@@ -125,6 +125,13 @@ public slots:
      */
     void changeUrl(const KUrl& url);
 
+    /**
+     * The current directory of the Terminal Panel has changed, probably because
+     * the user entered a 'cd' command. This slot calls changeUrl(url) and makes
+     * sure that the panel keeps the keyboard focus.
+     */
+    void slotTerminalDirectoryChanged(const KUrl& url);
+
     /** Stores all settings and quits Dolphin. */
     void quit();
 
