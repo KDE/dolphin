@@ -559,7 +559,9 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
 
     if (items.isEmpty()) {
         const KFileItem item = m_model->rootItem();
-        actions = m_versionControlObserver->actions(KFileItemList() << item);
+        if (!item.isNull()) {
+            actions = m_versionControlObserver->actions(KFileItemList() << item);
+        }
     } else {
         actions = m_versionControlObserver->actions(items);
     }

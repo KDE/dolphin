@@ -90,7 +90,17 @@ KFileItemModel* VersionControlObserver::model() const
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
 {
     QList<QAction*> actions;
-    if (!m_model) {
+
+    bool hasNullItems = false;
+    foreach (const KFileItem& item, items) {
+        if (item.isNull()) {
+            kWarning() << "Requesting version-control-actions for empty items";
+            hasNullItems = true;
+            break;
+        }
+    }
+
+    if (!m_model || hasNullItems) {
         return actions;
     }
 
