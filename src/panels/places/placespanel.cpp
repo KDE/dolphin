@@ -24,6 +24,7 @@
 #include "placespanel.h"
 
 #include <KConfigGroup>
+#include <KDebug>
 #include <KDirNotify>
 #include <KIcon>
 #include <KIO/Job>
@@ -31,6 +32,8 @@
 #include <KLocale>
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistcontroller.h>
+#include <kitemviews/kitemlistselectionmanager.h>
+#include <kitemviews/kstandarditem.h>
 #include <kitemviews/kstandarditemlistview.h>
 #include <KMenu>
 #include <KMessageBox>
@@ -89,6 +92,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
         layout->addWidget(container);
+
+        selectClosestItem();
     }
 
     Panel::showEvent(event);
@@ -124,6 +129,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* tearDownAction = 0;
     QAction* ejectAction = 0;
 
+    const bool isSystemItem = m_model->isSystemItem(index);
     const bool isDevice = !data.value("udi").toString().isEmpty();
     if (isDevice) {
         ejectAction = m_model->ejectAction(index);
@@ -149,8 +155,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             menu.addSeparator();
         }
         addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
-        mainSeparator = menu.addSeparator();
-        editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit Entry '%1'...", label));
+        if (!isSystemItem) {
+            mainSeparator = menu.addSeparator();
+            editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit Entry '%1'...", label));
+        }
     }
 
     if (!addAction) {
@@ -172,7 +180,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     QAction* removeAction = 0;
-    if (!isDevice) {
+    if (!isDevice && !isSystemItem) {
         removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove Entry '%1'", label));
     }
 
@@ -182,22 +190,23 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     QAction* action = menu.exec(pos.toPoint());
-    if (!action) {
-        return;
+    if (action) {
+        if (action == emptyTrashAction) {
+            emptyTrash();
+        } else if (action == addAction) {
+            addEntry();
+        } else if (action == editAction) {
+            editEntry(index);
+        } else if (action == removeAction) {
+            m_model->removeItem(index);
+        } else if (action == hideAction) {
+        } else if (action == showAllAction) {
+        } else if (action == tearDownAction) {
+        } else if (action == ejectAction) {
+        }
     }
 
-    if (action == emptyTrashAction) {
-        emptyTrash();
-    } else if (action == addAction) {
-        addEntry();
-    } else if (action == editAction) {
-        editEntry(index);
-    } else if (action == removeAction) {
-    } else if (action == hideAction) {
-    } else if (action == showAllAction) {
-    } else if (action == tearDownAction) {
-    } else if (action == ejectAction) {
-    }
+    selectClosestItem();
 }
 
 void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
@@ -214,6 +223,8 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     if (action == addAction) {
         addEntry();
     }
+
+    selectClosestItem();
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
@@ -252,11 +263,30 @@ void PlacesPanel::emptyTrash()
 
 void PlacesPanel::addEntry()
 {
+    const int index = m_controller->selectionManager()->currentItem();
+    const KUrl url = m_model->data(index).value("url").value<KUrl>();
+
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
     dialog->setCaption(i18nc("@title:window", "Add Places Entry"));
     dialog->setAllowGlobal(true);
+    dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
-        // TODO
+        KStandardItem* item = createStandardItemFromDialog(dialog);
+
+        // Insert the item as last item of the "Places" group
+        bool inserted = false;
+        int i = 0;
+        while (!inserted && i < m_model->count()) {
+            if (m_model->item(i)->group() != m_model->placesGroupName()) {
+                m_model->insertItem(i, item);
+                inserted = true;
+            }
+            ++i;
+        }
+
+        if (!inserted) {
+            m_model->appendItem(item);
+        }
     }
 
     delete dialog;
@@ -264,7 +294,7 @@ void PlacesPanel::addEntry()
 
 void PlacesPanel::editEntry(int index)
 {
-    const QHash<QByteArray, QVariant> data = m_model->data(index);
+    QHash<QByteArray, QVariant> data = m_model->data(index);
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
     dialog->setCaption(i18nc("@title:window", "Edit Places Entry"));
@@ -273,10 +303,37 @@ void PlacesPanel::editEntry(int index)
     dialog->setUrl(data.value("url").value<KUrl>());
     dialog->setAllowGlobal(true);
     if (dialog->exec() == QDialog::Accepted) {
-        // TODO
+        KStandardItem* oldItem = m_model->item(index);
+        if (oldItem) {
+            KStandardItem* item = createStandardItemFromDialog(dialog);
+            item->setGroup(oldItem->group());
+            m_model->replaceItem(index, item);
+        }
     }
 
     delete dialog;
+}
+
+void PlacesPanel::selectClosestItem()
+{
+    const int index = m_model->closestItem(url());
+    KItemListSelectionManager* selectionManager = m_controller->selectionManager();
+    selectionManager->setCurrentItem(index);
+    selectionManager->clearSelection();
+    selectionManager->setSelected(index);
+}
+
+KStandardItem* PlacesPanel::createStandardItemFromDialog(PlacesItemEditDialog* dialog) const
+{
+    Q_ASSERT(dialog);
+
+    KStandardItem* item = new KStandardItem();
+    item->setIcon(KIcon(dialog->icon()));
+    item->setText(dialog->text());
+    item->setDataValue("url", dialog->url());
+    item->setGroup(m_model->placesGroupName());
+
+    return item;
 }
 
 #include "placespanel.moc"

@@ -49,8 +49,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_nepomukRunning(false),
     m_availableDevices(),
     m_bookmarkManager(0),
-    m_defaultBookmarks(),
-    m_defaultBookmarksIndexes()
+    m_systemBookmarks(),
+    m_systemBookmarksIndexes()
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -58,7 +58,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
 
-    createDefaultBookmarks();
+    createSystemBookmarks();
     loadBookmarks();
 }
 
@@ -69,6 +69,49 @@ PlacesItemModel::~PlacesItemModel()
 int PlacesItemModel::hiddenCount() const
 {
     return 0;
+}
+
+bool PlacesItemModel::isSystemItem(int index) const
+{
+    if (index >= 0 && index < count()) {
+        const KUrl url = data(index).value("url").value<KUrl>();
+        return m_systemBookmarksIndexes.contains(url);
+    }
+    return false;
+}
+
+int PlacesItemModel::closestItem(const KUrl& url) const
+{
+    int foundIndex = -1;
+    int maxLength = 0;
+
+    for (int i = 0; i < count(); ++i) {
+        const KUrl itemUrl = data(i).value("url").value<KUrl>();
+        if (itemUrl.isParentOf(url)) {
+            const int length = itemUrl.prettyUrl().length();
+            if (length > maxLength) {
+                foundIndex = i;
+                maxLength = length;
+            }
+        }
+    }
+
+    return foundIndex;
+}
+
+QString PlacesItemModel::placesGroupName() const
+{
+    return i18nc("@item", "Places");
+}
+
+QString PlacesItemModel::recentlyAccessedGroupName() const
+{
+    return i18nc("@item", "Recently Accessed");
+}
+
+QString PlacesItemModel::searchForGroupName() const
+{
+    return i18nc("@item", "Search For");
 }
 
 QAction* PlacesItemModel::ejectAction(int index) const
@@ -89,9 +132,9 @@ void PlacesItemModel::loadBookmarks()
     KBookmark bookmark = root.first();
     QSet<QString> devices = m_availableDevices;
 
-    QSet<KUrl> missingDefaultBookmarks;
-    foreach (const DefaultBookmarkData& data, m_defaultBookmarks) {
-        missingDefaultBookmarks.insert(data.url);
+    QSet<KUrl> missingSystemBookmarks;
+    foreach (const SystemBookmarkData& data, m_systemBookmarks) {
+        missingSystemBookmarks.insert(data.url);
     }
 
     while (!bookmark.isNull()) {
@@ -109,16 +152,16 @@ void PlacesItemModel::loadBookmarks()
             item->setDataValue("address", bookmark.address());
             item->setDataValue("url", url);
 
-            if (missingDefaultBookmarks.contains(url)) {
-                missingDefaultBookmarks.remove(url);
-                // Apply the translated text to the default bookmarks, otherwise an outdated
+            if (missingSystemBookmarks.contains(url)) {
+                missingSystemBookmarks.remove(url);
+                // Apply the translated text to the system bookmarks, otherwise an outdated
                 // translation might be shown.
-                const int index = m_defaultBookmarksIndexes.value(url);
-                item->setText(m_defaultBookmarks[index].text);
+                const int index = m_systemBookmarksIndexes.value(url);
+                item->setText(m_systemBookmarks[index].text);
 
-                // The default bookmarks don't contain "real" queries stored as URLs, so
+                // The system bookmarks don't contain "real" queries stored as URLs, so
                 // they must be translated first.
-                item->setDataValue("url", translatedDefaultBookmarkUrl(url));
+                item->setDataValue("url", translatedSystemBookmarkUrl(url));
             } else {
                 item->setText(bookmark.text());
             }
@@ -136,13 +179,13 @@ void PlacesItemModel::loadBookmarks()
         bookmark = root.next(bookmark);
     }
 
-    if (!missingDefaultBookmarks.isEmpty()) {
-        foreach (const DefaultBookmarkData& data, m_defaultBookmarks) {
-            if (missingDefaultBookmarks.contains(data.url)) {
+    if (!missingSystemBookmarks.isEmpty()) {
+        foreach (const SystemBookmarkData& data, m_systemBookmarks) {
+            if (missingSystemBookmarks.contains(data.url)) {
                 KStandardItem* item = new KStandardItem();
                 item->setIcon(KIcon(data.icon));
                 item->setText(data.text);
-                item->setDataValue("url", translatedDefaultBookmarkUrl(data.url));
+                item->setDataValue("url", translatedSystemBookmarkUrl(data.url));
                 item->setGroup(data.group);
                 appendItem(item);
             }
@@ -150,76 +193,77 @@ void PlacesItemModel::loadBookmarks()
     }
 }
 
-void PlacesItemModel::createDefaultBookmarks()
+void PlacesItemModel::createSystemBookmarks()
 {
-    Q_ASSERT(m_defaultBookmarks.isEmpty());
-    Q_ASSERT(m_defaultBookmarksIndexes.isEmpty());
+    Q_ASSERT(m_systemBookmarks.isEmpty());
+    Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
 
-    const QString placesGroup = i18nc("@item", "Places");
-    const QString recentlyAccessedGroup = i18nc("@item", "Recently Accessed");
-    const QString searchForGroup = i18nc("@item", "Search For");
+    const QString placesGroup = placesGroupName();
+    const QString recentlyAccessedGroup = recentlyAccessedGroupName();
+    const QString searchForGroup = searchForGroupName();
     const QString timeLineIcon = "package_utility_time"; // TODO: Ask the Oxygen team to create
                                                          // a custom icon for the timeline-protocol
 
-    m_defaultBookmarks.append(DefaultBookmarkData(KUrl(KUser().homeDir()),
-                                                  "user-home",
-                                                  i18nc("@item", "Home"),
-                                                  placesGroup));
-    m_defaultBookmarks.append(DefaultBookmarkData(KUrl("remote:/"),
-                                                  "network-workgroup",
-                                                  i18nc("@item", "Network"),
-                                                  placesGroup));
-    m_defaultBookmarks.append(DefaultBookmarkData(KUrl("/"),
-                                                  "folder-red",
-                                                  i18nc("@item", "Root"),
-                                                  placesGroup));
-    m_defaultBookmarks.append(DefaultBookmarkData(KUrl("trash:/"),
-                                                  "user-trash",
-                                                  i18nc("@item", "Trash"),
-                                                  placesGroup));
+    m_systemBookmarks.append(SystemBookmarkData(KUrl(KUser().homeDir()),
+                                                "user-home",
+                                                i18nc("@item", "Home"),
+                                                placesGroup));
+    m_systemBookmarks.append(SystemBookmarkData(KUrl("remote:/"),
+                                                "network-workgroup",
+                                                i18nc("@item", "Network"),
+                                                placesGroup));
+    m_systemBookmarks.append(SystemBookmarkData(KUrl("/"),
+                                                "folder-red",
+                                                i18nc("@item", "Root"),
+                                                placesGroup));
+    m_systemBookmarks.append(SystemBookmarkData(KUrl("trash:/"),
+                                                "user-trash",
+                                                i18nc("@item", "Trash"),
+                                                placesGroup));
 
     if (m_nepomukRunning) {
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("timeline:/today"),
-                                                      timeLineIcon,
-                                                      i18nc("@item Recently Accessed", "Today"),
-                                                      recentlyAccessedGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("timeline:/yesterday"),
-                                                      timeLineIcon,
-                                                      i18nc("@item Recently Accessed", "Yesterday"),
-                                                      recentlyAccessedGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("timeline:/thismonth"),
-                                                      timeLineIcon,
-                                                      i18nc("@item Recently Accessed", "This Month"),
-                                                      recentlyAccessedGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("timeline:/lastmonth"),
-                                                      timeLineIcon,
-                                                      i18nc("@item Recently Accessed", "Last Month"),
-                                                      recentlyAccessedGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/documents"),
-                                                      "folder-txt",
-                                                      i18nc("@item Commonly Accessed", "Documents"),
-                                                      searchForGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/images"),
-                                                      "folder-image",
-                                                      i18nc("@item Commonly Accessed", "Images"),
-                                                      searchForGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/audio"),
-                                                      "folder-sound",
-                                                      i18nc("@item Commonly Accessed", "Audio"),
-                                                      searchForGroup));
-        m_defaultBookmarks.append(DefaultBookmarkData(KUrl("search:/videos"),
-                                                      "folder-video",
-                                                      i18nc("@item Commonly Accessed", "Videos"),
-                                                      searchForGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
+                                                    timeLineIcon,
+                                                    i18nc("@item Recently Accessed", "Today"),
+                                                    recentlyAccessedGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/yesterday"),
+                                                    timeLineIcon,
+                                                    i18nc("@item Recently Accessed", "Yesterday"),
+                                                    recentlyAccessedGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/thismonth"),
+                                                    timeLineIcon,
+                                                    i18nc("@item Recently Accessed", "This Month"),
+                                                    recentlyAccessedGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/lastmonth"),
+                                                    timeLineIcon,
+                                                    i18nc("@item Recently Accessed", "Last Month"),
+                                                    recentlyAccessedGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/documents"),
+                                                    "folder-txt",
+                                                    i18nc("@item Commonly Accessed", "Documents"),
+                                                    searchForGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/images"),
+                                                    "folder-image",
+                                                    i18nc("@item Commonly Accessed", "Images"),
+                                                    searchForGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/audio"),
+                                                    "folder-sound",
+                                                    i18nc("@item Commonly Accessed", "Audio"),
+                                                    searchForGroup));
+        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/videos"),
+                                                    "folder-video",
+                                                    i18nc("@item Commonly Accessed", "Videos"),
+                                                    searchForGroup));
     }
 
-    for (int i = 0; i < m_defaultBookmarks.count(); ++i) {
-        m_defaultBookmarksIndexes.insert(m_defaultBookmarks[i].url, i);
+    for (int i = 0; i < m_systemBookmarks.count(); ++i) {
+        const KUrl url = translatedSystemBookmarkUrl(m_systemBookmarks[i].url);
+        m_systemBookmarksIndexes.insert(url, i);
     }
 }
 
 
-KUrl PlacesItemModel::translatedDefaultBookmarkUrl(const KUrl& url) const
+KUrl PlacesItemModel::translatedSystemBookmarkUrl(const KUrl& url) const
 {
     KUrl translatedUrl = url;
     if (url.protocol() == QLatin1String("timeline")) {

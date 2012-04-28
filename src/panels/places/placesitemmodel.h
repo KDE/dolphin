@@ -52,15 +52,34 @@ public:
 
     int hiddenCount() const;
 
+    /**
+     * @return True if the item is a default item created by
+     *         the system (e.g. the places for home, root, trash etc.)
+     */
+    bool isSystemItem(int index) const;
+
+    /**
+     * Search the item which is equal to the URL or at least
+     * is a parent URL. If there are more than one possible
+     * candidates, return the item which covers the biggest
+     * range of the URL. -1 is returned if no closest item
+     * could be found.
+     */
+    int closestItem(const KUrl& url) const;
+
+    QString placesGroupName() const;
+    QString recentlyAccessedGroupName() const;
+    QString searchForGroupName() const;
+
     QAction* ejectAction(int index) const;
     QAction* tearDownAction(int index) const;
 
 private:
     void loadBookmarks();
 
-    void createDefaultBookmarks();
+    void createSystemBookmarks();
 
-    KUrl translatedDefaultBookmarkUrl(const KUrl& url) const;
+    KUrl translatedSystemBookmarkUrl(const KUrl& url) const;
 
     /**
      * @return URL using the timeline-protocol for searching.
@@ -96,9 +115,9 @@ private:
     QSet<QString> m_availableDevices;
     KBookmarkManager* m_bookmarkManager;
 
-    struct DefaultBookmarkData
+    struct SystemBookmarkData
     {
-        DefaultBookmarkData(const KUrl& url,
+        SystemBookmarkData(const KUrl& url,
                             const QString& icon,
                             const QString& text,
                             const QString& group) :
@@ -109,8 +128,8 @@ private:
         QString group;
     };
 
-    QList<DefaultBookmarkData> m_defaultBookmarks;
-    QHash<KUrl, int> m_defaultBookmarksIndexes;
+    QList<SystemBookmarkData> m_systemBookmarks;
+    QHash<KUrl, int> m_systemBookmarksIndexes;
 };
 
 #endif

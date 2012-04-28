@@ -59,7 +59,7 @@ void PlacesItemEditDialog::setIcon(const QString& icon)
 
 QString PlacesItemEditDialog::icon() const
 {
-    return m_icon;
+    return m_iconButton->icon();
 }
 
 void PlacesItemEditDialog::setText(const QString& text)
@@ -69,7 +69,7 @@ void PlacesItemEditDialog::setText(const QString& text)
 
 QString PlacesItemEditDialog::text() const
 {
-    return m_text;
+    return m_textEdit->text().isEmpty() ? m_urlEdit->url().fileName() : m_textEdit->text();
 }
 
 void PlacesItemEditDialog::setUrl(const KUrl& url)
@@ -79,7 +79,7 @@ void PlacesItemEditDialog::setUrl(const KUrl& url)
 
 KUrl PlacesItemEditDialog::url() const
 {
-    return m_url;
+    return m_urlEdit->url();
 }
 
 void PlacesItemEditDialog::setAllowGlobal(bool allow)
@@ -98,6 +98,11 @@ bool PlacesItemEditDialog::event(QEvent* event)
         initialize();
     }
     return QWidget::event(event);
+}
+
+void PlacesItemEditDialog::slotUrlChanged(const QString& text)
+{
+    enableButtonOk(!text.isEmpty());
 }
 
 PlacesItemEditDialog::~PlacesItemEditDialog()
@@ -122,6 +127,7 @@ void PlacesItemEditDialog::initialize()
     formLayout->addRow(i18nc("@label", "Location:"), m_urlEdit);
     // Provide room for at least 40 chars (average char width is half of height)
     m_urlEdit->setMinimumWidth(m_urlEdit->fontMetrics().height() * (40 / 2));
+    connect(m_urlEdit->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(slotUrlChanged(QString)));
 
     m_iconButton = new KIconButton(mainWidget);
     formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);
@@ -152,7 +158,7 @@ void PlacesItemEditDialog::initialize()
         m_textEdit->setFocus();
     }
 
-    setMainWidget( mainWidget );
+    setMainWidget(mainWidget);
 }
 
 #include "placesitemeditdialog.moc"

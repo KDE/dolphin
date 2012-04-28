@@ -44,8 +44,9 @@ public:
     virtual ~KStandardItemModel();
 
     void insertItem(int index, KStandardItem* item);
+    void replaceItem(int index, KStandardItem* item);
     void appendItem(KStandardItem* item);
-    void removeItem(KStandardItem* item);
+    void removeItem(int index);
     KStandardItem* item(int index) const;
     int index(const KStandardItem* item) const;
 

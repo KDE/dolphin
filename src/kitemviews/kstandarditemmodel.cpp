@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "kstandarditemmodel.h"
+
+#include <KDebug>
 #include "kstandarditem.h"
 
 KStandardItemModel::KStandardItemModel(QObject* parent) :
@@ -29,6 +31,9 @@ KStandardItemModel::KStandardItemModel(QObject* parent) :
 
 KStandardItemModel::~KStandardItemModel()
 {
+    qDeleteAll(m_items);
+    m_items.clear();
+    m_indexesForItems.clear();
 }
 
 void KStandardItemModel::insertItem(int index, KStandardItem* item)
@@ -43,18 +48,56 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
     }
 }
 
+void KStandardItemModel::replaceItem(int index, KStandardItem* item)
+{
+    if (index >= 0 && index < count()) {
+        QSet<QByteArray> changedRoles;
+
+        KStandardItem* oldItem= m_items[index];
+        const QHash<QByteArray, QVariant> oldData = oldItem->data();
+        const QHash<QByteArray, QVariant> newData = item->data();
+
+        // Determine which roles have been changed
+        QHashIterator<QByteArray, QVariant> it(oldData);
+        while (it.hasNext()) {
+            it.next();
+            const QByteArray role = it.key();
+            const QVariant oldValue = it.value();
+            if (newData.contains(role) && newData.value(role) != oldValue) {
+                changedRoles.insert(role);
+            }
+        }
+
+        m_indexesForItems.remove(oldItem);
+        delete oldItem;
+        oldItem = 0;
+
+        m_items[index] = item;
+        m_indexesForItems.insert(item, index);
+
+        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
+    } else {
+        kWarning() << "No item available to replace on the given index" << index;
+        delete item;
+        item = 0;
+    }
+}
+
 void KStandardItemModel::appendItem(KStandardItem *item)
 {
     insertItem(m_items.count(), item);
 }
 
-void KStandardItemModel::removeItem(KStandardItem* item)
+void KStandardItemModel::removeItem(int index)
 {
-    const int index = m_indexesForItems.value(item, -1);
-    if (index >= 0) {
-        m_items.removeAt(index);
+    if (index >= 0 && index < count()) {
+        KStandardItem* item = m_items[index];
         m_indexesForItems.remove(item);
+        m_items.removeAt(index);
         delete item;
+        item = 0;
+
+        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
         // TODO: no hierarchical items are handled yet
     }
 }
@@ -79,9 +122,11 @@ int KStandardItemModel::count() const
 
 QHash<QByteArray, QVariant> KStandardItemModel::data(int index) const
 {
-    const KStandardItem* item = m_items[index];
-    if (item) {
-        return item->data();
+    if (index >= 0 && index < count()) {
+        const KStandardItem* item = m_items[index];
+        if (item) {
+            return item->data();
+        }
     }
     return QHash<QByteArray, QVariant>();
 }

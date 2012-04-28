@@ -55,6 +55,9 @@ public:
 protected:
     virtual bool event(QEvent* event);
 
+private slots:
+    void slotUrlChanged(const QString& text);
+
 private:
     void initialize();
 

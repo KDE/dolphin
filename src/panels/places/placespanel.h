@@ -26,7 +26,9 @@
 #include <KUrl>
 #include <panels/panel.h>
 
+class KStandardItem;
 class KItemListController;
+class PlacesItemEditDialog;
 class PlacesItemModel;
 
 /**
@@ -60,6 +62,18 @@ private:
     void emptyTrash();
     void addEntry();
     void editEntry(int index);
+
+    /**
+     * Selects the item that has the closest URL for the URL set
+     * for the panel (see Panel::setUrl()).
+     */
+    void selectClosestItem();
+
+    /**
+     * @return New instance of a KStandardItem containing the properties that have
+     *         been set in the places-dialog.
+     */
+    KStandardItem* createStandardItemFromDialog(PlacesItemEditDialog* dialog) const;
 
 private:
     KItemListController* m_controller;
