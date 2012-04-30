@@ -50,6 +50,9 @@ public:
     explicit PlacesItemModel(QObject* parent = 0);
     virtual ~PlacesItemModel();
 
+    void setHiddenItemsShown(bool show);
+    bool hiddenItemsShown() const;
+
     int hiddenCount() const;
 
     /**
@@ -67,9 +70,11 @@ public:
      */
     int closestItem(const KUrl& url) const;
 
-    QString placesGroupName() const;
-    QString recentlyAccessedGroupName() const;
-    QString searchForGroupName() const;
+    /**
+     * @return Name of the group where the item with the URL
+     *         \a URL belongs to.
+     */
+    QString groupName(const KUrl& url) const;
 
     QAction* ejectAction(int index) const;
     QAction* tearDownAction(int index) const;
@@ -79,7 +84,11 @@ private:
 
     void createSystemBookmarks();
 
-    KUrl translatedSystemBookmarkUrl(const KUrl& url) const;
+    static QString placesGroupName();
+    static QString recentlyAccessedGroupName();
+    static QString searchForGroupName();
+
+    static KUrl translatedSystemBookmarkUrl(const KUrl& url);
 
     /**
      * @return URL using the timeline-protocol for searching.
@@ -111,6 +120,7 @@ private:
 
 private:
     bool m_nepomukRunning;
+    bool m_hiddenItemsShown;
 
     QSet<QString> m_availableDevices;
     KBookmarkManager* m_bookmarkManager;

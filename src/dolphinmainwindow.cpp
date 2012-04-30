@@ -1431,6 +1431,11 @@ void DolphinMainWindow::slotControlButtonDeleted()
     m_updateToolBarTimer->start();
 }
 
+void DolphinMainWindow::slotPanelErrorMessage(const QString& error)
+{
+    activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
+}
+
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
     Q_ASSERT(viewContainer);
@@ -1707,6 +1712,8 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(changeUrl(KUrl)));
     connect(foldersPanel, SIGNAL(folderMiddleClicked(KUrl)),
             this, SLOT(openNewActivatedTab(KUrl)));
+    connect(foldersPanel, SIGNAL(errorMessage(QString)),
+            this, SLOT(slotPanelErrorMessage(QString)));
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
@@ -1757,6 +1764,8 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(changeUrl(KUrl)));
     connect(placesPanel, SIGNAL(placeMiddleClicked(KUrl)),
             this, SLOT(openNewActivatedTab(KUrl)));
+    connect(placesPanel, SIGNAL(errorMessage(QString)),
+            this, SLOT(slotPanelErrorMessage(QString)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),

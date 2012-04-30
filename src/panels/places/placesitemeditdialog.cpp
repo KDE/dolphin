@@ -25,6 +25,7 @@
 
 #include <KAboutData>
 #include <KComponentData>
+#include <KDebug>
 #include <KFile>
 #include <KIconButton>
 #include <KLineEdit>
@@ -69,7 +70,12 @@ void PlacesItemEditDialog::setText(const QString& text)
 
 QString PlacesItemEditDialog::text() const
 {
-    return m_textEdit->text().isEmpty() ? m_urlEdit->url().fileName() : m_textEdit->text();
+    QString text = m_textEdit->text();
+    if (text.isEmpty()) {
+        const KUrl url = m_urlEdit->url();
+        text = url.fileName().isEmpty() ? url.prettyUrl() : url.fileName();
+    }
+    return text;
 }
 
 void PlacesItemEditDialog::setUrl(const KUrl& url)

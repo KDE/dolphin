@@ -37,6 +37,7 @@
 #include <KBookmarkGroup>
 #include <KBookmarkManager>
 #include <KComponentData>
+#include <KDebug>
 #include <KIcon>
 #include <kitemviews/kstandarditem.h>
 #include <KLocale>
@@ -47,6 +48,7 @@
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
     m_nepomukRunning(false),
+    m_hiddenItemsShown(false),
     m_availableDevices(),
     m_bookmarkManager(0),
     m_systemBookmarks(),
@@ -69,6 +71,18 @@ PlacesItemModel::~PlacesItemModel()
 int PlacesItemModel::hiddenCount() const
 {
     return 0;
+}
+
+void PlacesItemModel::setHiddenItemsShown(bool show)
+{
+    if (m_hiddenItemsShown != show) {
+        m_hiddenItemsShown = show;
+    }
+}
+
+bool PlacesItemModel::hiddenItemsShown() const
+{
+    return m_hiddenItemsShown;
 }
 
 bool PlacesItemModel::isSystemItem(int index) const
@@ -99,19 +113,19 @@ int PlacesItemModel::closestItem(const KUrl& url) const
     return foundIndex;
 }
 
-QString PlacesItemModel::placesGroupName() const
+QString PlacesItemModel::groupName(const KUrl &url) const
 {
-    return i18nc("@item", "Places");
-}
+    const QString protocol = url.protocol();
 
-QString PlacesItemModel::recentlyAccessedGroupName() const
-{
-    return i18nc("@item", "Recently Accessed");
-}
+    if (protocol.contains(QLatin1String("search"))) {
+        return searchForGroupName();
+    }
 
-QString PlacesItemModel::searchForGroupName() const
-{
-    return i18nc("@item", "Search For");
+    if (protocol == QLatin1String("timeline")) {
+        return recentlyAccessedGroupName();
+    }
+
+    return placesGroupName();
 }
 
 QAction* PlacesItemModel::ejectAction(int index) const
@@ -262,8 +276,22 @@ void PlacesItemModel::createSystemBookmarks()
     }
 }
 
+QString PlacesItemModel::placesGroupName()
+{
+    return i18nc("@item", "Places");
+}
 
-KUrl PlacesItemModel::translatedSystemBookmarkUrl(const KUrl& url) const
+QString PlacesItemModel::recentlyAccessedGroupName()
+{
+    return i18nc("@item", "Recently Accessed");
+}
+
+QString PlacesItemModel::searchForGroupName()
+{
+    return i18nc("@item", "Search For");
+}
+
+KUrl PlacesItemModel::translatedSystemBookmarkUrl(const KUrl& url)
 {
     KUrl translatedUrl = url;
     if (url.protocol() == QLatin1String("timeline")) {

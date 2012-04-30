@@ -53,6 +53,7 @@ public:
 signals:
     void folderActivated(const KUrl& url);
     void folderMiddleClicked(const KUrl& url);
+    void errorMessage(const QString& error);
 
 protected:
     /** @see Panel::urlChanged() */

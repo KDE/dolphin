@@ -458,6 +458,12 @@ private slots:
     void updateToolBar();
     void slotControlButtonDeleted();
 
+    /**
+     * Is called if a panel emits an error-message and shows
+     * the error-message in the active view-container.
+     */
+    void slotPanelErrorMessage(const QString& error);
+
 private:
     /**
      * Activates the given view, which means that

@@ -230,7 +230,11 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
     Q_UNUSED(parent);
-    DragAndDropHelper::dropUrls(KFileItem(), dest, event);
+    const QString error = DragAndDropHelper::dropUrls(KFileItem(), dest, event);
+    if (!error.isEmpty()) {
+        emit errorMessage(error);
+    }
+
 }
 
 void PlacesPanel::slotTrashUpdated(KJob* job)
@@ -273,11 +277,15 @@ void PlacesPanel::addEntry()
     if (dialog->exec() == QDialog::Accepted) {
         KStandardItem* item = createStandardItemFromDialog(dialog);
 
-        // Insert the item as last item of the "Places" group
-        bool inserted = false;
+        // Insert the item as last item of the corresponding group.
         int i = 0;
+        while (i < m_model->count() && m_model->item(i)->group() != item->group()) {
+            ++i;
+        }
+
+        bool inserted = false;
         while (!inserted && i < m_model->count()) {
-            if (m_model->item(i)->group() != m_model->placesGroupName()) {
+            if (m_model->item(i)->group() != item->group()) {
                 m_model->insertItem(i, item);
                 inserted = true;
             }
@@ -306,6 +314,9 @@ void PlacesPanel::editEntry(int index)
         KStandardItem* oldItem = m_model->item(index);
         if (oldItem) {
             KStandardItem* item = createStandardItemFromDialog(dialog);
+            // Although the user might have changed the URL of the item in a way
+            // that another group should be assigned, we still apply the old
+            // group to keep the same position for the item.
             item->setGroup(oldItem->group());
             m_model->replaceItem(index, item);
         }
@@ -327,11 +338,12 @@ KStandardItem* PlacesPanel::createStandardItemFromDialog(PlacesItemEditDialog* d
 {
     Q_ASSERT(dialog);
 
+    const KUrl newUrl = dialog->url();
     KStandardItem* item = new KStandardItem();
     item->setIcon(KIcon(dialog->icon()));
     item->setText(dialog->text());
-    item->setDataValue("url", dialog->url());
-    item->setGroup(m_model->placesGroupName());
+    item->setDataValue("url", newUrl);
+    item->setGroup(m_model->groupName(newUrl));
 
     return item;
 }

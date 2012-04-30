@@ -45,6 +45,7 @@ public:
 signals:
     void placeActivated(const KUrl& url);
     void placeMiddleClicked(const KUrl& url);
+    void errorMessage(const QString& error);
 
 protected:
     virtual bool urlChanged();
