@@ -75,12 +75,10 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
 KItemListController::~KItemListController()
 {
     setView(0);
-    delete m_view;
-    m_view = 0;
+    Q_ASSERT(!m_view);
 
     setModel(0);
-    delete m_model;
-    m_model = 0;
+    Q_ASSERT(!m_model);
 }
 
 void KItemListController::setModel(KItemModelBase* model)
@@ -90,6 +88,10 @@ void KItemListController::setModel(KItemModelBase* model)
     }
 
     KItemModelBase* oldModel = m_model;
+    if (oldModel) {
+        oldModel->deleteLater();
+    }
+
     m_model = model;
     if (m_model) {
         m_model->setParent(this);
@@ -123,11 +125,13 @@ void KItemListController::setView(KItemListView* view)
     KItemListView* oldView = m_view;
     if (oldView) {
         disconnect(oldView, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        oldView->deleteLater();
     }
 
     m_view = view;
 
     if (m_view) {
+        m_view->setParent(this);
         m_view->setController(this);
         m_view->setModel(m_model);
         connect(m_view, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));

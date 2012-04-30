@@ -761,13 +761,8 @@ void KItemListView::onControllerChanged(KItemListController* current, KItemListC
 
 void KItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
+    Q_UNUSED(current);
     Q_UNUSED(previous);
-
-    m_sizeHintResolver->clearCache();
-    const int itemCount = current->count();
-    if (itemCount > 0) {
-        m_sizeHintResolver->itemsInserted(0, itemCount);
-    }
 }
 
 void KItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
@@ -1446,6 +1441,8 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
     }
 
+    m_sizeHintResolver->clearCache();
+
     m_model = model;
     m_layouter->setModel(model);
     m_grouped = model->groupedSorting();
@@ -1468,6 +1465,7 @@ void KItemListView::setModel(KItemModelBase* model)
 
         const int itemCount = m_model->count();
         if (itemCount > 0) {
+            m_sizeHintResolver->itemsInserted(0, itemCount);
             slotItemsInserted(KItemRangeList() << KItemRange(0, itemCount));
         }
     }

@@ -66,8 +66,6 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
 
 KFileItemListView::~KFileItemListView()
 {
-    delete m_modelRolesUpdater;
-    m_modelRolesUpdater = 0;
 }
 
 void KFileItemListView::setPreviewsShown(bool show)
