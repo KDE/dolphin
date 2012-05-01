@@ -145,6 +145,7 @@ set(dolphin_SRCS
     panels/places/placespanel.cpp
     panels/places/placesitemeditdialog.cpp
     panels/places/placesitemlistgroupheader.cpp
+    panels/places/placesitemlistwidget.cpp
     panels/places/placesitemmodel.cpp
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp

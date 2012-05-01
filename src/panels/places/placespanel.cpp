@@ -40,6 +40,7 @@
 #include <KNotification>
 #include "placesitemeditdialog.h"
 #include "placesitemlistgroupheader.h"
+#include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
 #include <views/draganddrophelper.h>
 #include <QVBoxLayout>
@@ -77,6 +78,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_model->setSortRole("group");
 
         KStandardItemListView* view = new KStandardItemListView();
+        view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
         view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
 
         m_controller = new KItemListController(m_model, view, this);
@@ -167,7 +169,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide Entry '%1'", label));
     hideAction->setCheckable(true);
-    //hideEntry->setChecked(data.value("hidden").toBool());
+    hideAction->setChecked(data.value("isHidden").toBool());
 
     QAction* showAllAction = 0;
     if (m_model->hiddenCount() > 0) {
@@ -176,7 +178,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
         showAllAction = menu.addAction(i18nc("@item:inmenu", "Show All Entries"));
         showAllAction->setCheckable(true);
-        //showAllEntries->setChecked(showAll)
+        showAllAction->setChecked(m_model->hiddenItemsShown());
     }
 
     QAction* removeAction = 0;
@@ -200,7 +202,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         } else if (action == removeAction) {
             m_model->removeItem(index);
         } else if (action == hideAction) {
+            m_model->setItemHidden(index, hideAction->isChecked());
         } else if (action == showAllAction) {
+            m_model->setHiddenItemsShown(showAllAction->isChecked());
         } else if (action == tearDownAction) {
         } else if (action == ejectAction) {
         }

@@ -88,4 +88,9 @@ bool KFileItemListWidget::isRoleRightAligned(const QByteArray& role) const
     return role == "size";
 }
 
+bool KFileItemListWidget::isHidden() const
+{
+    return data().value("text").toString().startsWith(QLatin1Char('.'));
+}
+
 #include "kfileitemlistwidget.moc"

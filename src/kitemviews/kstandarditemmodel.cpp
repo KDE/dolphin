@@ -38,19 +38,22 @@ KStandardItemModel::~KStandardItemModel()
 
 void KStandardItemModel::insertItem(int index, KStandardItem* item)
 {
-    if (!m_indexesForItems.contains(item) && !item->m_model) {
+    if (item && !m_indexesForItems.contains(item) && !item->m_model) {
+        item->m_model = this;
         m_items.insert(index, item);
         m_indexesForItems.insert(item, index);
-        item->m_model = this;
         // TODO: no hierarchical items are handled yet
 
+        onItemInserted(index);
         emit itemsInserted(KItemRangeList() << KItemRange(index, 1));
     }
 }
 
 void KStandardItemModel::replaceItem(int index, KStandardItem* item)
 {
-    if (index >= 0 && index < count()) {
+    if (item && index >= 0 && index < count() && !item->m_model) {
+        item->m_model = this;
+
         QSet<QByteArray> changedRoles;
 
         KStandardItem* oldItem= m_items[index];
@@ -75,17 +78,13 @@ void KStandardItemModel::replaceItem(int index, KStandardItem* item)
         m_items[index] = item;
         m_indexesForItems.insert(item, index);
 
+        onItemReplaced(index);
         emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
     } else {
         kWarning() << "No item available to replace on the given index" << index;
         delete item;
         item = 0;
     }
-}
-
-void KStandardItemModel::appendItem(KStandardItem *item)
-{
-    insertItem(m_items.count(), item);
 }
 
 void KStandardItemModel::removeItem(int index)
@@ -97,6 +96,7 @@ void KStandardItemModel::removeItem(int index)
         delete item;
         item = 0;
 
+        onItemRemoved(index);
         emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
         // TODO: no hierarchical items are handled yet
     }
@@ -113,6 +113,11 @@ KStandardItem* KStandardItemModel::item(int index) const
 int KStandardItemModel::index(const KStandardItem* item) const
 {
     return m_indexesForItems.value(item, -1);
+}
+
+void KStandardItemModel::appendItem(KStandardItem *item)
+{
+    insertItem(m_items.count(), item);
 }
 
 int KStandardItemModel::count() const
@@ -185,5 +190,21 @@ QList<QPair<int, QVariant> > KStandardItemModel::groups() const
 
     return groups;
 }
+
+void KStandardItemModel::onItemInserted(int index)
+{
+    Q_UNUSED(index);
+}
+
+void KStandardItemModel::onItemReplaced(int index)
+{
+    Q_UNUSED(index);
+}
+
+void KStandardItemModel::onItemRemoved(int index)
+{
+    Q_UNUSED(index);
+}
+
 
 #include "kstandarditemmodel.moc"

@@ -52,7 +52,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_availableDevices(),
     m_bookmarkManager(0),
     m_systemBookmarks(),
-    m_systemBookmarksIndexes()
+    m_systemBookmarksIndexes(),
+    m_hiddenItems()
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -66,11 +67,40 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
 
 PlacesItemModel::~PlacesItemModel()
 {
+    qDeleteAll(m_hiddenItems);
+    m_hiddenItems.clear();
 }
 
 int PlacesItemModel::hiddenCount() const
 {
-    return 0;
+    int itemCount = 0;
+    foreach (const KStandardItem* item, m_hiddenItems) {
+        if (item) {
+            ++itemCount;
+        }
+    }
+
+    return itemCount;
+}
+
+void PlacesItemModel::setItemHidden(int index, bool hide)
+{
+    if (index >= 0 && index < count()) {
+        KStandardItem* shownItem = this->item(index);
+        shownItem->setDataValue("isHidden", hide);
+        if (!m_hiddenItemsShown && hide) {
+            KStandardItem* hiddenItem = new KStandardItem(*shownItem);
+            removeItem(index);
+            index = hiddenIndex(index);
+            Q_ASSERT(!m_hiddenItems[index]);
+            m_hiddenItems[index] = hiddenItem;
+        }
+    }
+}
+
+bool PlacesItemModel::isItemHidden(int index) const
+{
+    return (index >= 0 && index < count()) ? m_hiddenItems[index] != 0 : false;
 }
 
 void PlacesItemModel::setHiddenItemsShown(bool show)
@@ -140,6 +170,18 @@ QAction* PlacesItemModel::tearDownAction(int index) const
     return 0;
 }
 
+void PlacesItemModel::onItemInserted(int index)
+{
+    m_hiddenItems.insert(hiddenIndex(index), 0);
+}
+
+void PlacesItemModel::onItemRemoved(int index)
+{
+    const int removeIndex = hiddenIndex(index);
+    Q_ASSERT(!m_hiddenItems[removeIndex]);
+    m_hiddenItems.removeAt(removeIndex);
+}
+
 void PlacesItemModel::loadBookmarks()
 {
     KBookmarkGroup root = m_bookmarkManager->root();
@@ -187,7 +229,11 @@ void PlacesItemModel::loadBookmarks()
                 item->setGroup(i18nc("@item", "Places"));
             }
 
-            appendItem(item);
+            if (bookmark.metaDataItem("IsHidden") == QLatin1String("true")) {
+                m_hiddenItems.append(item);
+            } else {
+                appendItem(item);
+            }
         }
 
         bookmark = root.next(bookmark);
@@ -274,6 +320,20 @@ void PlacesItemModel::createSystemBookmarks()
         const KUrl url = translatedSystemBookmarkUrl(m_systemBookmarks[i].url);
         m_systemBookmarksIndexes.insert(url, i);
     }
+}
+
+int PlacesItemModel::hiddenIndex(int index) const
+{
+    int hiddenIndex = 0;
+    int visibleItemIndex = 0;
+    while (visibleItemIndex < index && hiddenIndex < m_hiddenItems.count()) {
+        if (!m_hiddenItems[hiddenIndex]) {
+            ++visibleItemIndex;
+        }
+        ++hiddenIndex;
+    }
+
+    return hiddenIndex;
 }
 
 QString PlacesItemModel::placesGroupName()

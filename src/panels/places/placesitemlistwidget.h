@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,35 +17,20 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KFILEITEMLISTWIDGET_H
-#define KFILEITEMLISTWIDGET_H
-
-#include <libdolphin_export.h>
+#ifndef PLACESITEMLISTWIDGET_H
+#define PLACESITEMLISTWIDGET_H
 
 #include <kitemviews/kstandarditemlistwidget.h>
 
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
-{
-public:
-    KFileItemListWidgetInformant();
-    virtual ~KFileItemListWidgetInformant();
-
-protected:
-    virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
-};
-
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KStandardItemListWidget
+class PlacesItemListWidget : public KStandardItemListWidget
 {
     Q_OBJECT
 
 public:
-    KFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~KFileItemListWidget();
-
-    static KItemListWidgetInformant* createInformant();
+    PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    virtual ~PlacesItemListWidget();
 
 protected:
-    virtual bool isRoleRightAligned(const QByteArray& role) const;
     virtual bool isHidden() const;
 };
 

@@ -108,6 +108,12 @@ protected:
      */
     virtual bool isRoleRightAligned(const QByteArray& role) const;
 
+    /**
+     * @return True if the item should be visually marked as hidden item. Per default
+     *         false is returned.
+     */
+    virtual bool isHidden() const;
+
     void setTextColor(const QColor& color);
     QColor textColor() const;
 

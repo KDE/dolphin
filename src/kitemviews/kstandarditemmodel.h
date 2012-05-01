@@ -43,12 +43,29 @@ public:
     explicit KStandardItemModel(QObject* parent = 0);
     virtual ~KStandardItemModel();
 
+    /**
+     * Inserts the item \a item at the index \a index. If the index
+     * is equal to the number of items of the model, the item
+     * gets appended as last element. KStandardItemModel takes
+     * the ownership of the item.
+     */
     void insertItem(int index, KStandardItem* item);
+
+    /**
+     * Replaces the item on the index \a index by \a item.
+     * KStandardItemModel takes the ownership of the item. The
+     * old item gets deleted.
+     */
     void replaceItem(int index, KStandardItem* item);
-    void appendItem(KStandardItem* item);
+
     void removeItem(int index);
     KStandardItem* item(int index) const;
     int index(const KStandardItem* item) const;
+
+    /**
+     * Convenience method for insertItem(count(), item).
+     */
+    void appendItem(KStandardItem* item);
 
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
@@ -58,6 +75,25 @@ public:
     virtual bool supportsDropping(int index) const;
     virtual QString roleDescription(const QByteArray& role) const;
     virtual QList<QPair<int, QVariant> > groups() const;
+
+protected:
+    /**
+     * Is invoked after an item has been inserted and before the signal
+     * itemsInserted() gets emitted.
+     */
+    virtual void onItemInserted(int index);
+
+    /**
+     * Is invoked after an item has been replaced and before the signal
+     * itemsChanged() gets emitted.
+     */
+    virtual void onItemReplaced(int index);
+
+    /**
+     * Is invoked after an item has been removed and before the signal
+     * itemsRemoved() gets emitted.
+     */
+    virtual void onItemRemoved(int index);
 
 private:
     QList<KStandardItem*> m_items;

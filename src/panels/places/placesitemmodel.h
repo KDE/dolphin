@@ -55,6 +55,9 @@ public:
 
     int hiddenCount() const;
 
+    void setItemHidden(int index, bool hide);
+    bool isItemHidden(int index) const;
+
     /**
      * @return True if the item is a default item created by
      *         the system (e.g. the places for home, root, trash etc.)
@@ -79,10 +82,16 @@ public:
     QAction* ejectAction(int index) const;
     QAction* tearDownAction(int index) const;
 
+protected:
+    virtual void onItemInserted(int index);
+    virtual void onItemRemoved(int index);
+
 private:
     void loadBookmarks();
 
     void createSystemBookmarks();
+
+    int hiddenIndex(int index) const;
 
     static QString placesGroupName();
     static QString recentlyAccessedGroupName();
@@ -140,6 +149,8 @@ private:
 
     QList<SystemBookmarkData> m_systemBookmarks;
     QHash<KUrl, int> m_systemBookmarksIndexes;
+
+    QList<KStandardItem*> m_hiddenItems;
 };
 
 #endif

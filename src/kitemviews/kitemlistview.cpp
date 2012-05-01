@@ -1701,17 +1701,22 @@ bool KItemListView::moveWidget(KItemListWidget* widget,const QPointF& newPos)
 
     bool startMovingAnim = false;
 
-    // When having a grid the moving-animation should only be started, if it is done within
-    // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
-    // Otherwise instead of a moving-animation a create-animation on the new position will be used
-    // instead. This is done to prevent overlapping (and confusing) moving-animations.
-    const int index = widget->index();
-    const Cell cell = m_visibleCells.value(index);
-    if (cell.column >= 0 && cell.row >= 0) {
-        if (scrollOrientation() == Qt::Vertical) {
-            startMovingAnim = (cell.row == m_layouter->itemRow(index));
-        } else {
-            startMovingAnim = (cell.column == m_layouter->itemColumn(index));
+    if (m_itemSize.isEmpty()) {
+        // The items are not aligned in a grid but either as columns or rows.
+        startMovingAnim = !supportsItemExpanding();
+    } else {
+        // When having a grid the moving-animation should only be started, if it is done within
+        // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
+        // Otherwise instead of a moving-animation a create-animation on the new position will be used
+        // instead. This is done to prevent overlapping (and confusing) moving-animations.
+        const int index = widget->index();
+        const Cell cell = m_visibleCells.value(index);
+        if (cell.column >= 0 && cell.row >= 0) {
+            if (scrollOrientation() == Qt::Vertical) {
+                startMovingAnim = (cell.row == m_layouter->itemRow(index));
+            } else {
+                startMovingAnim = (cell.column == m_layouter->itemColumn(index));
+            }
         }
     }
 
@@ -2221,6 +2226,12 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
 
 bool KItemListView::animateChangedItemCount(int changedItemCount) const
 {
+    if (m_itemSize.isEmpty()) {
+        // We have only columns or only rows, but no grid: An animation is usually
+        // welcome when inserting or removing items.
+        return !supportsItemExpanding();
+    }
+
     if (m_layouter->size().isEmpty() || m_layouter->itemSize().isEmpty()) {
         return false;
     }

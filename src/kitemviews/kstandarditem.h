@@ -44,6 +44,7 @@ public:
     explicit KStandardItem(KStandardItem* parent = 0);
     explicit KStandardItem(const QString& text, KStandardItem* parent = 0);
     KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent = 0);
+    KStandardItem(const KStandardItem& item);
     virtual ~KStandardItem();
 
     /**
@@ -70,7 +71,9 @@ public:
     void setParent(KStandardItem* parent);
     KStandardItem* parent() const;
 
+    void setData(const QHash<QByteArray, QVariant>& values);
     QHash<QByteArray, QVariant> data() const;
+
     QList<KStandardItem*> children() const;
 
 private:

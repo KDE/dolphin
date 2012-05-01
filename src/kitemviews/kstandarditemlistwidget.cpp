@@ -426,6 +426,11 @@ bool KStandardItemListWidget::isRoleRightAligned(const QByteArray& role) const
     return false;
 }
 
+bool KStandardItemListWidget::isHidden() const
+{
+    return false;
+}
+
 void KStandardItemListWidget::setTextColor(const QColor& color)
 {
     if (color != m_customTextColor) {
@@ -671,7 +676,7 @@ void KStandardItemListWidget::triggerCacheRefreshing()
 
     const QHash<QByteArray, QVariant> values = data();
     m_isExpandable = m_supportsItemExpanding && values["isExpandable"].toBool();
-    m_isHidden = values["text"].toString().startsWith(QLatin1Char('.'));
+    m_isHidden = isHidden();
 
     updateExpansionArea();
     updateTextsCache();

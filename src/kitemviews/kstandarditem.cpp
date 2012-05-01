@@ -48,6 +48,14 @@ KStandardItem::KStandardItem(const QIcon& icon, const QString& text, KStandardIt
     setText(text);
 }
 
+KStandardItem::KStandardItem(const KStandardItem& item) :
+    m_parent(item.m_parent),
+    m_children(item.m_children),
+    m_model(item.m_model),
+    m_data(item.m_data)
+{
+}
+
 KStandardItem::~KStandardItem()
 {
 }
@@ -101,6 +109,11 @@ void KStandardItem::setParent(KStandardItem* parent)
 KStandardItem* KStandardItem::parent() const
 {
     return m_parent;
+}
+
+void KStandardItem::setData(const QHash<QByteArray, QVariant>& values)
+{
+    m_data = values;
 }
 
 QHash<QByteArray, QVariant> KStandardItem::data() const
