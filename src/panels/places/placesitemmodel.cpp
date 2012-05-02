@@ -73,10 +73,16 @@ PlacesItemModel::~PlacesItemModel()
 
 int PlacesItemModel::hiddenCount() const
 {
+    int modelIndex = 0;
     int itemCount = 0;
-    foreach (const KStandardItem* item, m_hiddenItems) {
-        if (item) {
+    foreach (const KStandardItem* hiddenItem, m_hiddenItems) {
+        if (hiddenItem) {
             ++itemCount;
+        } else {
+            if (item(modelIndex)->dataValue("isHidden").toBool()) {
+                ++itemCount;
+            }
+            ++modelIndex;
         }
     }
 
@@ -108,9 +114,31 @@ bool PlacesItemModel::isItemHidden(int index) const
 
 void PlacesItemModel::setHiddenItemsShown(bool show)
 {
-    if (m_hiddenItemsShown != show) {
-        m_hiddenItemsShown = show;
+    if (m_hiddenItemsShown == show) {
+        return;
     }
+
+    m_hiddenItemsShown = show;
+
+    if (show) {
+        int modelIndex = 0;
+        for (int hiddenIndex = 0; hiddenIndex < m_hiddenItems.count(); ++hiddenIndex) {
+            if (m_hiddenItems[hiddenIndex]) {
+                KStandardItem* visibleItem = new KStandardItem(*m_hiddenItems[hiddenIndex]);
+                delete m_hiddenItems[hiddenIndex];
+                m_hiddenItems.removeAt(hiddenIndex);
+                insertItem(modelIndex, visibleItem);
+                Q_ASSERT(!m_hiddenItems[hiddenIndex]);
+            }
+            ++modelIndex;
+        }
+    } else {
+
+    }
+#ifdef PLACESITEMMODEL_DEBUG
+        kDebug() << "Changed visibility of hidden items";
+        showModelState();
+#endif
 }
 
 bool PlacesItemModel::hiddenItemsShown() const
@@ -175,11 +203,24 @@ QAction* PlacesItemModel::tearDownAction(int index) const
 
 void PlacesItemModel::onItemInserted(int index)
 {
-    if (index == count() - 1) {
-        m_hiddenItems.append(0);
-    } else {
-        m_hiddenItems.insert(hiddenIndex(index), 0);
+    int modelIndex = 0;
+    int hiddenIndex = 0;
+    while (hiddenIndex < m_hiddenItems.count()) {
+        if (!m_hiddenItems[hiddenIndex]) {
+            ++modelIndex;
+            if (modelIndex + 1 == index) {
+                ++hiddenIndex;
+                break;
+            }
+        }
+        ++hiddenIndex;
     }
+    m_hiddenItems.insert(hiddenIndex, 0);
+
+#ifdef PLACESITEMMODEL_DEBUG
+    kDebug() << "Inserted item" << index;
+    showModelState();
+#endif
 }
 
 void PlacesItemModel::onItemRemoved(int index)

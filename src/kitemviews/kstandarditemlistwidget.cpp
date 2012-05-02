@@ -259,7 +259,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     }
 
     painter->setFont(itemListStyleOption.font);
-    painter->setPen(textColor());
+    painter->setPen(m_isHidden ? m_additionalInfoTextColor : textColor());
     const TextInfo* textInfo = m_textInfo.value("text");
     painter->drawStaticText(textInfo->pos, textInfo->staticText);
 
@@ -480,11 +480,14 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
     QSet<QByteArray> dirtyRoles;
     if (roles.isEmpty()) {
         dirtyRoles = visibleRoles().toSet();
-        dirtyRoles.insert("iconPixmap");
-        dirtyRoles.insert("iconName");
     } else {
         dirtyRoles = roles;
     }
+
+    // The icon-state might depend from other roles and hence is
+    // marked as dirty whenever a role has been changed
+    dirtyRoles.insert("iconPixmap");
+    dirtyRoles.insert("iconName");
 
     QSetIterator<QByteArray> it(dirtyRoles);
     while (it.hasNext()) {

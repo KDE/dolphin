@@ -922,6 +922,13 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
             }
         }
 
+        // In case if items of the same group have been inserted before an item that
+        // currently represents the first item of the group, the group header of
+        // this item must be removed.
+        if (m_grouped && index + count < m_model->count()) {
+            updateGroupHeaderForWidget(m_visibleItems.value(index + count));
+        }
+
         if (m_model->count() == count && m_activeTransactions == 0) {
             // Check whether a scrollbar is required to show the inserted items. In this case
             // the size of the layouter will be decreased before calling doLayout(): This prevents

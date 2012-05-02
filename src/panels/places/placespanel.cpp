@@ -218,14 +218,26 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     KMenu menu(this);
 
     QAction* addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+
+    QAction* showAllAction = 0;
+    if (m_model->hiddenCount() > 0) {
+        showAllAction = menu.addAction(i18nc("@item:inmenu", "Show All Entries"));
+        showAllAction->setCheckable(true);
+        showAllAction->setChecked(m_model->hiddenItemsShown());
+    }
+
     menu.addSeparator();
     foreach (QAction* action, customContextMenuActions()) {
         menu.addAction(action);
     }
 
     QAction* action = menu.exec(pos.toPoint());
-    if (action == addAction) {
-        addEntry();
+    if (action) {
+        if (action == addAction) {
+            addEntry();
+        } else if (action == showAllAction) {
+            m_model->setHiddenItemsShown(showAllAction->isChecked());
+        }
     }
 
     selectClosestItem();

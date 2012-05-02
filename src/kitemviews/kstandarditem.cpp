@@ -20,6 +20,7 @@
 #include "kstandarditem.h"
 
 #include <KDebug>
+#include "kstandarditemmodel.h"
 
 KStandardItem::KStandardItem(KStandardItem* parent) :
     m_parent(parent),
@@ -62,7 +63,7 @@ KStandardItem::~KStandardItem()
 
 void KStandardItem::setText(const QString& text)
 {
-    m_data.insert("text", text);
+    setDataValue("text", text);
 }
 
 QString KStandardItem::text() const
@@ -72,7 +73,7 @@ QString KStandardItem::text() const
 
 void KStandardItem::setIcon(const QIcon& icon)
 {
-    m_data.insert("iconName", icon.name());
+    setDataValue("iconName", icon.name());
 }
 
 QIcon KStandardItem::icon() const
@@ -82,7 +83,7 @@ QIcon KStandardItem::icon() const
 
 void KStandardItem::setGroup(const QString& group)
 {
-    m_data.insert("group", group);
+    setDataValue("group", group);
 }
 
 QString KStandardItem::group() const
@@ -93,6 +94,12 @@ QString KStandardItem::group() const
 void KStandardItem::setDataValue(const QByteArray& role, const QVariant& value)
 {
     m_data.insert(role, value);
+    if (m_model) {
+        const int index = m_model->index(this);
+        QSet<QByteArray> changedRoles;
+        changedRoles.insert(role);
+        emit m_model->itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
+    }
 }
 
 QVariant KStandardItem::dataValue(const QByteArray& role) const

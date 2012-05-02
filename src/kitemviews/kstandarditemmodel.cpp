@@ -38,7 +38,7 @@ KStandardItemModel::~KStandardItemModel()
 
 void KStandardItemModel::insertItem(int index, KStandardItem* item)
 {
-    if (item && !m_indexesForItems.contains(item) && !item->m_model) {
+    if (item && !m_indexesForItems.contains(item)) {
         item->m_model = this;
         m_items.insert(index, item);
         m_indexesForItems.insert(item, index);
@@ -51,7 +51,7 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
 
 void KStandardItemModel::replaceItem(int index, KStandardItem* item)
 {
-    if (item && index >= 0 && index < count() && !item->m_model) {
+    if (item && index >= 0 && index < count()) {
         item->m_model = this;
 
         QSet<QByteArray> changedRoles;

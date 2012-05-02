@@ -98,6 +98,8 @@ protected:
 private:
     QList<KStandardItem*> m_items;
     QHash<const KStandardItem*, int> m_indexesForItems;
+
+    friend class KStandardItem;
 };
 
 #endif
