@@ -42,6 +42,14 @@ class QAction;
     }
 #endif
 
+#define PLACESITEMMODEL_DEBUG
+
+/**
+ * @brief Model for maintaining the bookmarks of the places panel.
+ *
+ * It is compatible to the KFilePlacesModel from kdelibs but adds
+ * the ability to have groups for places.
+ */
 class PlacesItemModel: public KStandardItemModel
 {
     Q_OBJECT
@@ -89,8 +97,17 @@ protected:
 private:
     void loadBookmarks();
 
+    /**
+     * Creates system bookmarks that are shown per default and can
+     * only be hidden but not removed. The result will be stored
+     * in m_systemBookmarks.
+     */
     void createSystemBookmarks();
 
+    /**
+     * @param index Item index related to the model.
+     * @return      Corresponding item index related to m_hiddenItems.
+     */
     int hiddenIndex(int index) const;
 
     static QString placesGroupName();
@@ -125,6 +142,10 @@ private:
      *         for the given term.
      */
     static KUrl searchUrlForTerm(const Nepomuk::Query::Term& term);
+#endif
+
+#ifdef PLACESITEMMODEL_DEBUG
+    void showModelState();
 #endif
 
 private:

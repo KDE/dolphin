@@ -1049,6 +1049,12 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             }
         }
 
+        // In case if the first item of a group has been removed, the group header
+        // must be applied to the next visible item.
+        if (m_grouped && index < m_model->count()) {
+            updateGroupHeaderForWidget(m_visibleItems.value(index));
+        }
+
         if (!hasMultipleRanges) {
             // The decrease-layout-size optimization in KItemListView::slotItemsInserted()
             // assumes an updated geometry. If items are removed during an active transaction,

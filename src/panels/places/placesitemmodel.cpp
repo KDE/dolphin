@@ -89,12 +89,15 @@ void PlacesItemModel::setItemHidden(int index, bool hide)
         KStandardItem* shownItem = this->item(index);
         shownItem->setDataValue("isHidden", hide);
         if (!m_hiddenItemsShown && hide) {
+            const int newIndex = hiddenIndex(index);
             KStandardItem* hiddenItem = new KStandardItem(*shownItem);
             removeItem(index);
-            index = hiddenIndex(index);
-            Q_ASSERT(!m_hiddenItems[index]);
-            m_hiddenItems[index] = hiddenItem;
+            m_hiddenItems.insert(newIndex, hiddenItem);
         }
+#ifdef PLACESITEMMODEL_DEBUG
+        kDebug() << "Changed hide-state from" << index << "to" << hide;
+        showModelState();
+#endif
     }
 }
 
@@ -172,7 +175,11 @@ QAction* PlacesItemModel::tearDownAction(int index) const
 
 void PlacesItemModel::onItemInserted(int index)
 {
-    m_hiddenItems.insert(hiddenIndex(index), 0);
+    if (index == count() - 1) {
+        m_hiddenItems.append(0);
+    } else {
+        m_hiddenItems.insert(hiddenIndex(index), 0);
+    }
 }
 
 void PlacesItemModel::onItemRemoved(int index)
@@ -180,6 +187,10 @@ void PlacesItemModel::onItemRemoved(int index)
     const int removeIndex = hiddenIndex(index);
     Q_ASSERT(!m_hiddenItems[removeIndex]);
     m_hiddenItems.removeAt(removeIndex);
+#ifdef PLACESITEMMODEL_DEBUG
+    kDebug() << "Removed item" << index;
+    showModelState();
+#endif
 }
 
 void PlacesItemModel::loadBookmarks()
@@ -251,6 +262,11 @@ void PlacesItemModel::loadBookmarks()
             }
         }
     }
+
+#ifdef PLACESITEMMODEL_DEBUG
+    kDebug() << "Loaded bookmarks";
+    showModelState();
+#endif
 }
 
 void PlacesItemModel::createSystemBookmarks()
@@ -326,14 +342,17 @@ int PlacesItemModel::hiddenIndex(int index) const
 {
     int hiddenIndex = 0;
     int visibleItemIndex = 0;
-    while (visibleItemIndex < index && hiddenIndex < m_hiddenItems.count()) {
+    while (hiddenIndex < m_hiddenItems.count()) {
         if (!m_hiddenItems[hiddenIndex]) {
+            if (visibleItemIndex == index) {
+                break;
+            }
             ++visibleItemIndex;
         }
         ++hiddenIndex;
     }
 
-    return hiddenIndex;
+    return hiddenIndex >= m_hiddenItems.count() ? -1 : hiddenIndex;
 }
 
 QString PlacesItemModel::placesGroupName()
@@ -442,6 +461,22 @@ KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk::Query::Term& term)
 {
     const Nepomuk::Query::Query query(term);
     return query.toSearchUrl();
+}
+#endif
+
+#ifdef PLACESITEMMODEL_DEBUG
+void PlacesItemModel::showModelState()
+{
+    kDebug() << "hidden-index   model-index   text";
+    int j = 0;
+    for (int i = 0; i < m_hiddenItems.count(); ++i) {
+        if (m_hiddenItems[i]) {
+            kDebug() <<  i << "(Hidden)    " << "             " << m_hiddenItems[i]->dataValue("text").toString();
+        } else {
+            kDebug() <<  i << "            " << j << "           " << item(j)->dataValue("text").toString();
+            ++j;
+        }
+    }
 }
 #endif
 
