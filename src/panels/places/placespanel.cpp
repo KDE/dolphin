@@ -157,17 +157,23 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             menu.addSeparator();
         }
         addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
-        if (!isSystemItem) {
-            mainSeparator = menu.addSeparator();
-            editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit Entry '%1'...", label));
-        }
+        mainSeparator = menu.addSeparator();
+        editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit '%1'...", label));
     }
 
     if (!addAction) {
         addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
     }
 
-    QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide Entry '%1'", label));
+    QAction* openInNewTabAction = menu.addAction(i18nc("@item:inmenu", "Open '%1' in New Tab", label));
+    openInNewTabAction->setIcon(KIcon("tab-new"));
+
+    QAction* removeAction = 0;
+    if (!isDevice && !isSystemItem) {
+        removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
+    }
+
+    QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide '%1'", label));
     hideAction->setCheckable(true);
     hideAction->setChecked(data.value("isHidden").toBool());
 
@@ -179,11 +185,6 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         showAllAction = menu.addAction(i18nc("@item:inmenu", "Show All Entries"));
         showAllAction->setCheckable(true);
         showAllAction->setChecked(m_model->hiddenItemsShown());
-    }
-
-    QAction* removeAction = 0;
-    if (!isDevice && !isSystemItem) {
-        removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove Entry '%1'", label));
     }
 
     menu.addSeparator();
@@ -203,6 +204,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             m_model->removeItem(index);
         } else if (action == hideAction) {
             m_model->setItemHidden(index, hideAction->isChecked());
+        } else if (action == openInNewTabAction) {
+            const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
+            emit placeMiddleClicked(url);
         } else if (action == showAllAction) {
             m_model->setHiddenItemsShown(showAllAction->isChecked());
         } else if (action == tearDownAction) {
