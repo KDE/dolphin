@@ -121,6 +121,7 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     m_hiddenItemsShown = show;
 
     if (show) {
+        // Move all items that are part of m_hiddenItems to the model.
         int modelIndex = 0;
         for (int hiddenIndex = 0; hiddenIndex < m_hiddenItems.count(); ++hiddenIndex) {
             if (m_hiddenItems[hiddenIndex]) {
@@ -133,7 +134,17 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
             ++modelIndex;
         }
     } else {
-
+        // Move all items of the model, where the "isHidden" property is true, to
+        // m_hiddenItems.
+        Q_ASSERT(m_hiddenItems.count() == count());
+        for (int i = count() - 1; i >= 0; --i) {
+            KStandardItem* visibleItem = item(i);
+            if (visibleItem->dataValue("isHidden").toBool()) {
+                KStandardItem* hiddenItem = new KStandardItem(*visibleItem);
+                removeItem(i);
+                m_hiddenItems.insert(i, hiddenItem);
+            }
+        }
     }
 #ifdef PLACESITEMMODEL_DEBUG
         kDebug() << "Changed visibility of hidden items";
