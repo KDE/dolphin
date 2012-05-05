@@ -1124,23 +1124,23 @@ KFileItem DolphinView::rootItem() const
 void DolphinView::observeCreatedItem(const KUrl& url)
 {
     m_createdItemUrl = url;
-    //connect(m_dirModel, SIGNAL(rowsInserted(QModelIndex,int,int)),
-    //        this, SLOT(selectAndScrollToCreatedItem()));
+    connect(m_model, SIGNAL(directoryLoadingCompleted()),
+            this, SLOT(selectAndScrollToCreatedItem()));
 }
 
 void DolphinView::selectAndScrollToCreatedItem()
 {
-    /*const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForUrl(m_createdItemUrl);
-    if (dirIndex.isValid()) {
-        const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
-        QAbstractItemView* view = m_viewAccessor.itemView();
-        if (view) {
-            view->setCurrentIndex(proxyIndex);
-        }
+    KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    const int index = m_model->index(m_createdItemUrl);
+    if (index != -1) {
+        selectionManager->setCurrentItem(index);
+        selectionManager->clearSelection();
+        selectionManager->setSelected(index);
+        m_view->scrollToItem(index);
     }
 
-    disconnect(m_viewAccessor.dirModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
-               this, SLOT(selectAndScrollToCreatedItem()));*/
+    disconnect(m_model, SIGNAL(directoryLoadingCompleted()),
+               this, SLOT(selectAndScrollToCreatedItem()));
     m_createdItemUrl = KUrl();
 }
 
