@@ -43,7 +43,7 @@ class LIBDOLPHINPRIVATE_EXPORT KStandardItem
 public:
     explicit KStandardItem(KStandardItem* parent = 0);
     explicit KStandardItem(const QString& text, KStandardItem* parent = 0);
-    KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent = 0);
+    KStandardItem(const QString& icon, const QString& text, KStandardItem* parent = 0);
     KStandardItem(const KStandardItem& item);
     virtual ~KStandardItem();
 
@@ -56,8 +56,11 @@ public:
     /**
      * Sets the icon for the "iconName"-role.
      */
-    void setIcon(const QIcon& icon);
-    QIcon icon() const;
+    void setIcon(const QString& icon);
+    QString icon() const;
+
+    void setIconOverlays(const QStringList& overlays);
+    QStringList iconOverlays() const;
 
     /**
      * Sets the group for the "group"-role.

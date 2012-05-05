@@ -91,7 +91,13 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_LIBS})
+target_link_libraries(
+    dolphinprivate
+    ${KDE4_KFILE_LIBS}
+    konq
+    ${KDE4_KNEWSTUFF3_LIBS}
+)
+
 if (Nepomuk_FOUND)
     target_link_libraries(
         dolphinprivate
@@ -104,7 +110,7 @@ if (Nepomuk_FOUND)
 endif (Nepomuk_FOUND)
 
 if(X11_Xrender_FOUND)
-    target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
+    target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
 endif(X11_Xrender_FOUND)
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
@@ -143,6 +149,7 @@ set(dolphin_SRCS
     panels/information/pixmapviewer.cpp
     panels/information/phononwidget.cpp
     panels/places/placespanel.cpp
+    panels/places/placesitem.cpp
     panels/places/placesitemeditdialog.cpp
     panels/places/placesitemlistgroupheader.cpp
     panels/places/placesitemlistwidget.cpp
@@ -203,6 +210,7 @@ target_link_libraries(kdeinit_dolphin
     konq
     dolphinprivate
     knewstuff3
+    ${KDE4_SOLID_LIBS}
     ${KDE4_PHONON_LIBS}
 )
 

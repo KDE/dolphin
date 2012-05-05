@@ -28,8 +28,10 @@
 #include <QHash>
 #include <QList>
 #include <QSet>
+#include <Solid/Predicate>
 
 class KBookmarkManager;
+class PlacesItem;
 class QAction;
 
 #ifdef HAVE_NEPOMUK
@@ -57,6 +59,8 @@ class PlacesItemModel: public KStandardItemModel
 public:
     explicit PlacesItemModel(QObject* parent = 0);
     virtual ~PlacesItemModel();
+
+    PlacesItem* placesItem(int index) const;
 
     void setHiddenItemsShown(bool show);
     bool hiddenItemsShown() const;
@@ -94,8 +98,19 @@ protected:
     virtual void onItemInserted(int index);
     virtual void onItemRemoved(int index);
 
+private slots:
+    void slotDeviceAdded(const QString& udi);
+    void slotDeviceRemoved(const QString& udi);
+
 private:
     void loadBookmarks();
+
+    /**
+     * Helper method for loadBookmarks(): Adds the items
+     * to the model if the "isHidden"-property is false,
+     * otherwise the items get added to m_hiddenItems.
+     */
+    void addItems(const QList<PlacesItem*>& items);
 
     /**
      * Creates system bookmarks that are shown per default and can
@@ -103,6 +118,8 @@ private:
      * in m_systemBookmarks.
      */
     void createSystemBookmarks();
+
+    void initializeAvailableDevices();
 
     /**
      * @param index Item index related to the model.
@@ -153,6 +170,7 @@ private:
     bool m_hiddenItemsShown;
 
     QSet<QString> m_availableDevices;
+    Solid::Predicate m_predicate;
     KBookmarkManager* m_bookmarkManager;
 
     struct SystemBookmarkData
@@ -171,7 +189,7 @@ private:
     QList<SystemBookmarkData> m_systemBookmarks;
     QHash<KUrl, int> m_systemBookmarksIndexes;
 
-    QList<KStandardItem*> m_hiddenItems;
+    QList<PlacesItem*> m_hiddenItems;
 };
 
 #endif

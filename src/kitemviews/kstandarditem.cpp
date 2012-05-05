@@ -39,7 +39,7 @@ KStandardItem::KStandardItem(const QString& text, KStandardItem* parent) :
     setText(text);
 }
 
-KStandardItem::KStandardItem(const QIcon& icon, const QString& text, KStandardItem* parent) :
+KStandardItem::KStandardItem(const QString& icon, const QString& text, KStandardItem* parent) :
     m_parent(parent),
     m_children(),
     m_model(0),
@@ -71,14 +71,24 @@ QString KStandardItem::text() const
     return m_data["text"].toString();
 }
 
-void KStandardItem::setIcon(const QIcon& icon)
+void KStandardItem::setIcon(const QString& icon)
 {
-    setDataValue("iconName", icon.name());
+    setDataValue("iconName", icon);
 }
 
-QIcon KStandardItem::icon() const
+QString KStandardItem::icon() const
 {
-    return QIcon(m_data["iconName"].toString());
+    return m_data["iconName"].toString();
+}
+
+void KStandardItem::setIconOverlays(const QStringList& overlays)
+{
+    setDataValue("iconOverlays", overlays);
+}
+
+QStringList KStandardItem::iconOverlays() const
+{
+    return m_data["iconOverlays"].toStringList();
 }
 
 void KStandardItem::setGroup(const QString& group)

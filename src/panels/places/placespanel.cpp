@@ -360,7 +360,7 @@ KStandardItem* PlacesPanel::createStandardItemFromDialog(PlacesItemEditDialog* d
 
     const KUrl newUrl = dialog->url();
     KStandardItem* item = new KStandardItem();
-    item->setIcon(KIcon(dialog->icon()));
+    item->setIcon(dialog->icon());
     item->setText(dialog->text());
     item->setDataValue("url", newUrl);
     item->setGroup(m_model->groupName(newUrl));

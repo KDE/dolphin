@@ -38,18 +38,21 @@
 #include <KBookmarkManager>
 #include <KComponentData>
 #include <KDebug>
-#include <KIcon>
-#include <kitemviews/kstandarditem.h>
 #include <KLocale>
 #include <KStandardDirs>
 #include <KUser>
+#include "placesitem.h"
 #include <QDate>
+
+#include <Solid/Device>
+#include <Solid/DeviceNotifier>
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
     m_nepomukRunning(false),
     m_hiddenItemsShown(false),
     m_availableDevices(),
+    m_predicate(),
     m_bookmarkManager(0),
     m_systemBookmarks(),
     m_systemBookmarksIndexes(),
@@ -62,6 +65,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
 
     createSystemBookmarks();
+    initializeAvailableDevices();
     loadBookmarks();
 }
 
@@ -71,15 +75,20 @@ PlacesItemModel::~PlacesItemModel()
     m_hiddenItems.clear();
 }
 
+PlacesItem* PlacesItemModel::placesItem(int index) const
+{
+    return dynamic_cast<PlacesItem*>(item(index));
+}
+
 int PlacesItemModel::hiddenCount() const
 {
     int modelIndex = 0;
     int itemCount = 0;
-    foreach (const KStandardItem* hiddenItem, m_hiddenItems) {
+    foreach (const PlacesItem* hiddenItem, m_hiddenItems) {
         if (hiddenItem) {
             ++itemCount;
         } else {
-            if (item(modelIndex)->dataValue("isHidden").toBool()) {
+            if (placesItem(modelIndex)->isHidden()) {
                 ++itemCount;
             }
             ++modelIndex;
@@ -92,11 +101,11 @@ int PlacesItemModel::hiddenCount() const
 void PlacesItemModel::setItemHidden(int index, bool hide)
 {
     if (index >= 0 && index < count()) {
-        KStandardItem* shownItem = this->item(index);
-        shownItem->setDataValue("isHidden", hide);
+        PlacesItem* shownItem = placesItem(index);
+        shownItem->setHidden(true);
         if (!m_hiddenItemsShown && hide) {
             const int newIndex = hiddenIndex(index);
-            KStandardItem* hiddenItem = new KStandardItem(*shownItem);
+            PlacesItem* hiddenItem = new PlacesItem(*shownItem);
             removeItem(index);
             m_hiddenItems.insert(newIndex, hiddenItem);
         }
@@ -125,7 +134,7 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
         int modelIndex = 0;
         for (int hiddenIndex = 0; hiddenIndex < m_hiddenItems.count(); ++hiddenIndex) {
             if (m_hiddenItems[hiddenIndex]) {
-                KStandardItem* visibleItem = new KStandardItem(*m_hiddenItems[hiddenIndex]);
+                PlacesItem* visibleItem = new PlacesItem(*m_hiddenItems[hiddenIndex]);
                 delete m_hiddenItems[hiddenIndex];
                 m_hiddenItems.removeAt(hiddenIndex);
                 insertItem(modelIndex, visibleItem);
@@ -138,9 +147,9 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
         // m_hiddenItems.
         Q_ASSERT(m_hiddenItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
-            KStandardItem* visibleItem = item(i);
-            if (visibleItem->dataValue("isHidden").toBool()) {
-                KStandardItem* hiddenItem = new KStandardItem(*visibleItem);
+            PlacesItem* visibleItem = placesItem(i);
+            if (visibleItem->isHidden()) {
+                PlacesItem* hiddenItem = new PlacesItem(*visibleItem);
                 removeItem(i);
                 m_hiddenItems.insert(i, hiddenItem);
             }
@@ -160,7 +169,7 @@ bool PlacesItemModel::hiddenItemsShown() const
 bool PlacesItemModel::isSystemItem(int index) const
 {
     if (index >= 0 && index < count()) {
-        const KUrl url = data(index).value("url").value<KUrl>();
+        const KUrl url = placesItem(index)->url();
         return m_systemBookmarksIndexes.contains(url);
     }
     return false;
@@ -172,7 +181,7 @@ int PlacesItemModel::closestItem(const KUrl& url) const
     int maxLength = 0;
 
     for (int i = 0; i < count(); ++i) {
-        const KUrl itemUrl = data(i).value("url").value<KUrl>();
+        const KUrl itemUrl = placesItem(i)->url();
         if (itemUrl.isParentOf(url)) {
             const int length = itemUrl.prettyUrl().length();
             if (length > maxLength) {
@@ -245,6 +254,16 @@ void PlacesItemModel::onItemRemoved(int index)
 #endif
 }
 
+void PlacesItemModel::slotDeviceAdded(const QString& udi)
+{
+    Q_UNUSED(udi);
+}
+
+void PlacesItemModel::slotDeviceRemoved(const QString& udi)
+{
+    Q_UNUSED(udi);
+}
+
 void PlacesItemModel::loadBookmarks()
 {
     KBookmarkGroup root = m_bookmarkManager->root();
@@ -256,6 +275,12 @@ void PlacesItemModel::loadBookmarks()
         missingSystemBookmarks.insert(data.url);
     }
 
+    // The bookmarks might have a mixed order of "places" and "devices". In
+    // Dolphin's places panel the devices should always be appended as last
+    // group.
+    QList<PlacesItem*> placesItems;
+    QList<PlacesItem*> devicesItems;
+
     while (!bookmark.isNull()) {
         const QString udi = bookmark.metaDataItem("UDI");
         const KUrl url = bookmark.url();
@@ -266,59 +291,67 @@ void PlacesItemModel::loadBookmarks()
                                  && (m_nepomukRunning || url.protocol() != QLatin1String("timeline"));
 
         if ((udi.isEmpty() && allowedHere) || deviceAvailable) {
-            KStandardItem* item = new KStandardItem();
-            item->setIcon(KIcon(bookmark.icon()));
-            item->setDataValue("address", bookmark.address());
-            item->setDataValue("url", url);
-
-            if (missingSystemBookmarks.contains(url)) {
-                missingSystemBookmarks.remove(url);
-                // Apply the translated text to the system bookmarks, otherwise an outdated
-                // translation might be shown.
-                const int index = m_systemBookmarksIndexes.value(url);
-                item->setText(m_systemBookmarks[index].text);
-
-                // The system bookmarks don't contain "real" queries stored as URLs, so
-                // they must be translated first.
-                item->setDataValue("url", translatedSystemBookmarkUrl(url));
-            } else {
-                item->setText(bookmark.text());
-            }
-
+            PlacesItem* item = new PlacesItem(bookmark, udi);
             if (deviceAvailable) {
-                item->setDataValue("udi", udi);
-                item->setGroup(i18nc("@item", "Devices"));
+                devicesItems.append(item);
             } else {
-                item->setGroup(i18nc("@item", "Places"));
-            }
+                placesItems.append(item);
 
-            if (bookmark.metaDataItem("IsHidden") == QLatin1String("true")) {
-                m_hiddenItems.append(item);
-            } else {
-                appendItem(item);
+                if (missingSystemBookmarks.contains(url)) {
+                    missingSystemBookmarks.remove(url);
+
+                    // Apply the translated text to the system bookmarks, otherwise an outdated
+                    // translation might be shown.
+                    const int index = m_systemBookmarksIndexes.value(url);
+                    item->setText(m_systemBookmarks[index].text);
+
+                    // The system bookmarks don't contain "real" queries stored as URLs, so
+                    // they must be translated first.
+                    item->setUrl(translatedSystemBookmarkUrl(url));
+                }
             }
         }
 
         bookmark = root.next(bookmark);
     }
 
+    addItems(placesItems);
+
     if (!missingSystemBookmarks.isEmpty()) {
         foreach (const SystemBookmarkData& data, m_systemBookmarks) {
             if (missingSystemBookmarks.contains(data.url)) {
-                KStandardItem* item = new KStandardItem();
-                item->setIcon(KIcon(data.icon));
+                PlacesItem* item = new PlacesItem();
+                item->setIcon(data.icon);
                 item->setText(data.text);
-                item->setDataValue("url", translatedSystemBookmarkUrl(data.url));
+                item->setUrl(translatedSystemBookmarkUrl(data.url));
                 item->setGroup(data.group);
                 appendItem(item);
             }
         }
     }
 
+    addItems(devicesItems);
+
+    // TODO: add bookmarks for missing devices
+    // foreach (const QString &udi, devices) {
+    //        bookmark = KFilePlacesItem::createDeviceBookmark(bookmarkManager, udi);
+    // ...
+
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Loaded bookmarks";
     showModelState();
 #endif
+}
+
+void PlacesItemModel::addItems(const QList<PlacesItem*>& items)
+{
+    foreach (PlacesItem* item, items) {
+        if (item->isHidden()) {
+            m_hiddenItems.append(item);
+        } else {
+            appendItem(item);
+        }
+    }
 }
 
 void PlacesItemModel::createSystemBookmarks()
@@ -387,6 +420,28 @@ void PlacesItemModel::createSystemBookmarks()
     for (int i = 0; i < m_systemBookmarks.count(); ++i) {
         const KUrl url = translatedSystemBookmarkUrl(m_systemBookmarks[i].url);
         m_systemBookmarksIndexes.insert(url, i);
+    }
+}
+
+void PlacesItemModel::initializeAvailableDevices()
+{
+    m_predicate = Solid::Predicate::fromString(
+        "[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
+        " OR "
+        "[ IS StorageAccess AND StorageDrive.driveType == 'Floppy' ]]"
+        " OR "
+        "OpticalDisc.availableContent & 'Audio' ]"
+        " OR "
+        "StorageAccess.ignored == false ]");
+    Q_ASSERT(m_predicate.isValid());
+
+    Solid::DeviceNotifier* notifier = Solid::DeviceNotifier::instance();
+    connect(notifier, SIGNAL(deviceAdded(QString)),   this, SLOT(slotDeviceAdded(QString)));
+    connect(notifier, SIGNAL(deviceRemoved(QString)), this, SLOT(slotDeviceRemoved(QString)));
+
+    const QList<Solid::Device>& deviceList = Solid::Device::listFromQuery(m_predicate);
+    foreach(const Solid::Device& device, deviceList) {
+        m_availableDevices << device.udi();
     }
 }
 
