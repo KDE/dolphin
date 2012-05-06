@@ -977,7 +977,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 #ifdef HAVE_NEPOMUK
     if (m_nepomukResourceWatcher) {
         const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        Nepomuk::Resource resource(item.url());
+        Nepomuk::Resource resource(item.nepomukUri());
         QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
         while (it.hasNext()) {
             it.next();
