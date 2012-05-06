@@ -1357,22 +1357,13 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
         break;
     }
 
-    case PermissionsRole:
-    case OwnerRole:
-    case GroupRole:
-    case TypeRole:
-    case DestinationRole:
-    case PathRole:
-    case CommentRole:
-    case TagsRole: {
+    default: {
         const QByteArray role = roleForType(m_sortRole);
         result = QString::compare(a->values.value(role).toString(),
                                   b->values.value(role).toString());
         break;
     }
 
-    default:
-        break;
     }
 
     if (result != 0) {
