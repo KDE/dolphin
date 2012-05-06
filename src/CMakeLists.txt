@@ -77,7 +77,16 @@ if (Nepomuk_FOUND)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
         kitemviews/private/knepomukrolesprovider.cpp
+        kitemviews/private/nepomuk/resourcewatcher.cpp
     )
+
+    qt4_add_dbus_interface(dolphinprivate_LIB_SRCS
+                           kitemviews/private/nepomuk/org.kde.nepomuk.ResourceWatcherConnection.xml
+                           resourcewatcherconnectioninterface)
+
+    qt4_add_dbus_interface(dolphinprivate_LIB_SRCS
+                           kitemviews/private/nepomuk/org.kde.nepomuk.ResourceWatcher.xml
+                           resourcewatchermanagerinterface)
 endif (Nepomuk_FOUND)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -103,7 +112,6 @@ if (Nepomuk_FOUND)
         dolphinprivate
         ${NEPOMUK_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
-        nepomukdatamanagement
         nepomukutils
         ${SOPRANO_LIBRARIES}
     )
@@ -219,7 +227,6 @@ if (Nepomuk_FOUND)
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
-        nepomukdatamanagement
         nepomukutils
     )
 endif (Nepomuk_FOUND)

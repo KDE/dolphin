@@ -39,7 +39,7 @@
 
 #ifdef HAVE_NEPOMUK
     #include "private/knepomukrolesprovider.h"
-    #include "private/knepomukresourcewatcher.h"
+    #include "private/nepomuk/resourcewatcher.h"
 #endif
 
 // Required includes for subItemsCount():

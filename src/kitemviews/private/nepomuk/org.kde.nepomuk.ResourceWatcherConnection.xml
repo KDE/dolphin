@@ -1,0 +1,65 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.nepomuk.ResourceWatcherConnection">
+    <signal name="resourceCreated">
+      <arg name="uri" type="s" direction="out"/>
+      <arg name="types" type="as" direction="out"/>
+    </signal>
+    <signal name="resourceRemoved">
+      <arg name="uri" type="s" direction="out"/>
+      <arg name="types" type="as" direction="out"/>
+    </signal>
+    <signal name="resourceTypesAdded">
+      <arg name="resUri" type="s" direction="out"/>
+      <arg name="types" type="as" direction="out"/>
+    </signal>
+    <signal name="resourceTypesRemoved">
+      <arg name="resUri" type="s" direction="out"/>
+      <arg name="types" type="as" direction="out"/>
+    </signal>
+    <signal name="propertyAdded">
+      <arg name="resource" type="s" direction="out"/>
+      <arg name="property" type="s" direction="out"/>
+      <arg name="values" type="av" direction="out"/>
+    </signal>
+    <signal name="propertyRemoved">
+      <arg name="resource" type="s" direction="out"/>
+      <arg name="property" type="s" direction="out"/>
+      <arg name="values" type="av" direction="out"/>
+    </signal>
+    <signal name="propertyChanged">
+        <arg name="resource" type="s" direction="out"/>
+        <arg name="property" type="s" direction="out"/>
+        <arg name="addedValues" type="av" direction="out"/>
+        <arg name="removedValues" type="av" direction="out"/>
+    </signal>
+    <method name="setResources">
+        <arg name="resources" type="as" direction="in"/>
+    </method>
+    <method name="addResource">
+        <arg name="resource" type="s" direction="in"/>
+    </method>
+    <method name="removeResource">
+        <arg name="resource" type="s" direction="in"/>
+    </method>
+    <method name="setProperties">
+        <arg name="properties" type="as" direction="in"/>
+    </method>
+    <method name="addProperty">
+        <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="removeProperty">
+        <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="setTypes">
+        <arg name="types" type="as" direction="in"/>
+    </method>
+    <method name="addType">
+        <arg name="type" type="s" direction="in"/>
+    </method>
+    <method name="removeType">
+        <arg name="type" type="s" direction="in"/>
+    </method>
+    <method name="close" />
+  </interface>
+</node>
