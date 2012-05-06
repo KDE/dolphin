@@ -71,6 +71,12 @@ private:
      */
     QString orientationFromValue(int value) const;
 
+    /**
+     * @return Duration in the format HH::MM::SS for the value given
+     *         in milliseconds.
+     */
+    QString durationFromValue(int value) const;
+
 private:
     QSet<QByteArray> m_roles;
     QHash<QUrl, QByteArray> m_roleForUri;

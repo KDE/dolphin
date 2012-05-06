@@ -28,6 +28,8 @@
 #include <Nepomuk/Types/Property>
 #include <Nepomuk/Variant>
 
+#include <QTime>
+
 struct KNepomukRolesProviderSingleton
 {
     KNepomukRolesProvider instance;
@@ -95,6 +97,9 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
         } else if (role == "orientation") {
             const QString orientation = orientationFromValue(value.toInt());
             values.insert(role, orientation);
+        } else if (role == "duration") {
+            const QString duration = durationFromValue(value.toInt());
+            values.insert(role, duration);
         } else if (value.isResource()) {
             const Nepomuk::Resource resource = value.toResource();
             values.insert(role, resource.genericLabel());
@@ -180,5 +185,12 @@ QString KNepomukRolesProvider::orientationFromValue(int value) const
         break;
     }
     return string;
+}
+
+QString KNepomukRolesProvider::durationFromValue(int value) const
+{
+    QTime duration;
+    duration = duration.addMSecs(value);
+    return duration.toString("hh:mm:ss");
 }
 
