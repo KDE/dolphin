@@ -323,6 +323,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         // Don't let the ResourceWatcher watch for removed items
         if (m_model->count() == 0) {
             m_nepomukResourceWatcher->setResources(QList<Nepomuk::Resource>());
+            m_nepomukResourceWatcher->stop();
             m_nepomukUriItems.clear();
         } else {
             QList<Nepomuk::Resource> newResources;
@@ -337,6 +338,10 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
                 }
             }
             m_nepomukResourceWatcher->setResources(newResources);
+            if (newResources.isEmpty()) {
+                Q_ASSERT(m_nepomukUriItems.isEmpty());
+                m_nepomukResourceWatcher->stop();
+            }
         }
     }
 #endif
@@ -992,11 +997,11 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
             uri = resource.resourceUri();
         }
         if (!uri.isEmpty() && !m_nepomukUriItems.contains(uri)) {
-            // TODO: Calling stop()/start() is a workaround until
-            // ResourceWatcher has been fixed.
-            m_nepomukResourceWatcher->stop();
             m_nepomukResourceWatcher->addResource(resource);
-            m_nepomukResourceWatcher->start();
+
+            if (m_nepomukUriItems.isEmpty()) {
+                m_nepomukResourceWatcher->start();
+            }
 
             m_nepomukUriItems.insert(uri, item.url());
         }
