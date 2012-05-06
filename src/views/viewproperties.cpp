@@ -28,6 +28,7 @@
 #include <KStandardDirs>
 #include <KUrl>
 
+#include <QCryptographicHash>
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
@@ -58,7 +59,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
     if (useGlobalViewProps) {
         m_filePath = destinationDir("global");
     } else if (url.protocol().contains("search")) {
-        m_filePath = destinationDir("search");
+        m_filePath = destinationDir("search/") + directoryHashForUrl(url);
         useDetailsViewWithPath = true;
     } else if (url.protocol() == QLatin1String("trash")) {
         m_filePath = destinationDir("trash");
@@ -435,4 +436,13 @@ bool ViewProperties::isPartOfHome(const QString& filePath)
     }
 
     return filePath.startsWith(homePath);
+}
+
+QString ViewProperties::directoryHashForUrl(const KUrl& url)
+{
+    const QByteArray hashValue = QCryptographicHash::hash(url.prettyUrl().toLatin1(),
+                                                     QCryptographicHash::Sha1);
+    QString hashString = hashValue.toBase64();
+    hashString.replace('/', '-');
+    return hashString;
 }

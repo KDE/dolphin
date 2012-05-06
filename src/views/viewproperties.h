@@ -159,6 +159,12 @@ private:
      */
     static bool isPartOfHome(const QString& filePath);
 
+    /**
+     * @return A hash-value for an URL that can be used as directory name.
+     *         Is used to be able to remember view-properties for long nepomuksearch-URLs.
+     */
+    static QString directoryHashForUrl(const KUrl& url);
+
     Q_DISABLE_COPY(ViewProperties)
 
 private:
