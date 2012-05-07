@@ -38,10 +38,12 @@
 #include <KBookmarkManager>
 #include <KComponentData>
 #include <KDebug>
+#include <KIcon>
 #include <KLocale>
 #include <KStandardDirs>
 #include <KUser>
 #include "placesitem.h"
+#include <QAction>
 #include <QDate>
 
 #include <Solid/Device>
@@ -211,13 +213,39 @@ QString PlacesItemModel::groupName(const KUrl &url) const
 
 QAction* PlacesItemModel::ejectAction(int index) const
 {
-    Q_UNUSED(index);
+    // TODO: This is a dummy-implementation to have at least all
+    // translation-strings as part of the code before the freeze
+    QString iconName;
+    QString text;
+    QString label;
+    switch (index) {
+    case 0:
+        text = i18nc("@item", "Release '%1'", label);
+        break;
+    case 1:
+        text = i18nc("@item", "Safely Remove '%1'", label);
+        iconName = "media-eject";
+        break;
+    case 2:
+        text = i18nc("@item", "Unmount '%1'", label);
+        iconName = "media-eject";
+        break;
+    default:
+        break;
+    }
+
+    //return new QAction(KIcon(iconName), text, 0);
     return 0;
 }
 
 QAction* PlacesItemModel::tearDownAction(int index) const
 {
+    // TODO: This is a dummy-implementation to have at least all
+    // translation-strings as part of the code before the freeze
     Q_UNUSED(index);
+    QString label;
+    QAction action(KIcon("media-eject"), i18nc("@item", "Eject '%1'", label), 0);
+    Q_UNUSED(action);
     return 0;
 }
 
