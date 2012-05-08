@@ -96,9 +96,6 @@ public:
      */
     bool isSplit() const;
 
-    /** Renames the item represented by \a oldUrl to \a newUrl. */
-    void rename(const KUrl& oldUrl, const KUrl& newUrl);
-
     /**
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
