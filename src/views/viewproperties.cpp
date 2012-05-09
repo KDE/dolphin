@@ -177,6 +177,10 @@ void ViewProperties::setSortRole(const QByteArray& role)
 
 QByteArray ViewProperties::sortRole() const
 {
+    if (m_node->version() <= NameRolePropertiesVersion) {
+        const_cast<ViewProperties*>(this)->convertNameRoleToTextRole();
+    }
+
     return m_node->sortRole().toLatin1();
 }
 
@@ -270,9 +274,11 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     if (visibleRoles.isEmpty() && version <= AdditionalInfoViewPropertiesVersion) {
         // Convert the obsolete additionalInfo-property from older versions into the
         // visibleRoles-property
-        visibleRoles = const_cast<ViewProperties*>(this)->convertAdditionalInfo();
+        const_cast<ViewProperties*>(this)->convertAdditionalInfo();
+        visibleRoles = m_node->visibleRoles();
     } else if (version <= NameRolePropertiesVersion) {
-        visibleRoles = const_cast<ViewProperties*>(this)->convertNameRole();
+        const_cast<ViewProperties*>(this)->convertNameRoleToTextRole();
+        visibleRoles = m_node->visibleRoles();
     }
 
     foreach (const QString& visibleRole, visibleRoles) {
@@ -375,7 +381,7 @@ QString ViewProperties::viewModePrefix() const
     return prefix;
 }
 
-QStringList ViewProperties::convertAdditionalInfo()
+void ViewProperties::convertAdditionalInfo()
 {
     QStringList visibleRoles;
 
@@ -404,11 +410,9 @@ QStringList ViewProperties::convertAdditionalInfo()
     m_node->setAdditionalInfo(QStringList());
     m_node->setVisibleRoles(visibleRoles);
     update();
-
-    return visibleRoles;
 }
 
-QStringList ViewProperties::convertNameRole()
+void ViewProperties::convertNameRoleToTextRole()
 {
     QStringList visibleRoles = m_node->visibleRoles();
     for (int i = 0; i < visibleRoles.count(); ++i) {
@@ -418,12 +422,15 @@ QStringList ViewProperties::convertNameRole()
         }
     }
 
+    QString sortRole = m_node->sortRole();
+    if (sortRole == QLatin1String("name")) {
+        sortRole = QLatin1String("text");
+    }
+
     m_node->setVisibleRoles(visibleRoles);
+    m_node->setSortRole(sortRole);
     update();
-
-    return visibleRoles;
 }
-
 
 bool ViewProperties::isPartOfHome(const QString& filePath)
 {
