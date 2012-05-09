@@ -213,6 +213,16 @@ QString PlacesItemModel::groupName(const KUrl &url) const
 
 QAction* PlacesItemModel::ejectAction(int index) const
 {
+    const PlacesItem* item = placesItem(index);
+    if (item && item->device().is<Solid::OpticalDisc>()) {
+        return new QAction(KIcon("media-eject"), i18nc("@item", "Eject '%1'", item->text()), 0);
+    }
+
+    return 0;
+}
+
+QAction* PlacesItemModel::tearDownAction(int index) const
+{
     // TODO: This is a dummy-implementation to have at least all
     // translation-strings as part of the code before the freeze
     QString iconName;
@@ -235,17 +245,6 @@ QAction* PlacesItemModel::ejectAction(int index) const
     }
 
     //return new QAction(KIcon(iconName), text, 0);
-    return 0;
-}
-
-QAction* PlacesItemModel::tearDownAction(int index) const
-{
-    // TODO: This is a dummy-implementation to have at least all
-    // translation-strings as part of the code before the freeze
-    Q_UNUSED(index);
-    QString label;
-    QAction action(KIcon("media-eject"), i18nc("@item", "Eject '%1'", label), 0);
-    Q_UNUSED(action);
     return 0;
 }
 
@@ -319,7 +318,7 @@ void PlacesItemModel::loadBookmarks()
                                  && (m_nepomukRunning || url.protocol() != QLatin1String("timeline"));
 
         if ((udi.isEmpty() && allowedHere) || deviceAvailable) {
-            PlacesItem* item = new PlacesItem(bookmark, udi);
+            PlacesItem* item = new PlacesItem(bookmark);
             if (deviceAvailable) {
                 devicesItems.append(item);
             } else {
@@ -358,12 +357,13 @@ void PlacesItemModel::loadBookmarks()
         }
     }
 
-    addItems(devicesItems);
+    // Create items for devices that have not stored as bookmark yet
+    foreach (const QString& udi, devices) {
+        PlacesItem* item = new PlacesItem(udi);
+        devicesItems.append(item);
+    }
 
-    // TODO: add bookmarks for missing devices
-    // foreach (const QString &udi, devices) {
-    //        bookmark = KFilePlacesItem::createDeviceBookmark(bookmarkManager, udi);
-    // ...
+    addItems(devicesItems);
 
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Loaded bookmarks";

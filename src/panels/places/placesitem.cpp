@@ -32,39 +32,35 @@ PlacesItem::PlacesItem(PlacesItem* parent) :
 {
 }
 
-PlacesItem::PlacesItem(const KBookmark& bookmark, const QString& udi, PlacesItem* parent) :
+PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
     KStandardItem(parent),
-    m_device(udi),
+    m_device(),
     m_access(),
     m_volume(),
     m_disc()
 {
     setHidden(bookmark.metaDataItem("IsHidden") == QLatin1String("true"));
 
+    const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
         setText(bookmark.text());
         setUrl(bookmark.url());
         setDataValue("address", bookmark.address());
         setGroup(i18nc("@item", "Places"));
-    } else if (m_device.isValid()) {
-        m_access = m_device.as<Solid::StorageAccess>();
-        m_volume = m_device.as<Solid::StorageVolume>();
-        m_disc = m_device.as<Solid::OpticalDisc>();
-
-        setText(m_device.description());
-        setIcon(m_device.icon());
-        setIconOverlays(m_device.emblems());
-        setDataValue("udi", udi);
-        setGroup(i18nc("@item", "Devices"));
-
-        if (m_access) {
-            setUrl(m_access->filePath());
-        } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
-            const QString device = m_device.as<Solid::Block>()->device();
-            setUrl(QString("audiocd:/?device=%1").arg(device));
-        }
+    } else {
+        initializeDevice(udi);
     }
+}
+
+PlacesItem::PlacesItem(const QString& udi, PlacesItem* parent) :
+    KStandardItem(parent),
+    m_device(),
+    m_access(),
+    m_volume(),
+    m_disc()
+{
+    initializeDevice(udi);
 }
 
 PlacesItem::PlacesItem(const PlacesItem& item) :
@@ -100,4 +96,33 @@ bool PlacesItem::isHidden() const
     return dataValue("isHidden").toBool();
 }
 
+Solid::Device PlacesItem::device() const
+{
+    return m_device;
+}
+
+void PlacesItem::initializeDevice(const QString& udi)
+{
+    m_device = Solid::Device(udi);
+    if (!m_device.isValid()) {
+        return;
+    }
+
+    m_access = m_device.as<Solid::StorageAccess>();
+    m_volume = m_device.as<Solid::StorageVolume>();
+    m_disc = m_device.as<Solid::OpticalDisc>();
+
+    setText(m_device.description());
+    setIcon(m_device.icon());
+    setIconOverlays(m_device.emblems());
+    setDataValue("udi", udi);
+    setGroup(i18nc("@item", "Devices"));
+
+    if (m_access) {
+        setUrl(m_access->filePath());
+    } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
+        const QString device = m_device.as<Solid::Block>()->device();
+        setUrl(QString("audiocd:/?device=%1").arg(device));
+    }
+}
 

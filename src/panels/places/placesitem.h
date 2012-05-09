@@ -38,9 +38,8 @@ class PlacesItem : public KStandardItem
 
 public:
     explicit PlacesItem(PlacesItem* parent = 0);
-    PlacesItem(const KBookmark& bookmark,
-               const QString& udi,
-               PlacesItem* parent = 0);
+    explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
+    explicit PlacesItem(const QString& udi, PlacesItem* parent = 0);
     PlacesItem(const PlacesItem& item);
     virtual ~PlacesItem();
 
@@ -49,6 +48,11 @@ public:
 
     void setHidden(bool hidden);
     bool isHidden() const;
+
+    Solid::Device device() const;
+
+private:
+    void initializeDevice(const QString& udi);
 
 private:
     Solid::Device m_device;
