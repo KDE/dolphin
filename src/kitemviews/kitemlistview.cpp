@@ -1905,8 +1905,10 @@ void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
         // In the vertical scroll orientation the group header should always span
         // the whole width no matter which temporary position the parent widget
         // has. In this case the x-position and width will be adjusted manually.
-        groupHeader->setPos(-widget->x(), -groupHeaderRect.height());
-        groupHeader->resize(size().width(), groupHeaderRect.size().height());
+        const qreal x = -widget->x() - itemOffset();
+        const qreal width = maximumItemOffset();
+        groupHeader->setPos(x, -groupHeaderRect.height());
+        groupHeader->resize(width, groupHeaderRect.size().height());
     } else {
         groupHeader->setPos(groupHeaderRect.x() - itemRect.x(), -widget->y());
         groupHeader->resize(groupHeaderRect.size());
