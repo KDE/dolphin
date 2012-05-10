@@ -88,6 +88,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_isFolderWritable(true),
     m_dragging(false),
     m_url(url),
+    m_viewPropertiesContext(),
     m_mode(DolphinView::IconsView),
     m_visibleRoles(),
     m_topLayout(0),
@@ -236,7 +237,7 @@ bool DolphinView::isActive() const
 void DolphinView::setMode(Mode mode)
 {
     if (mode != m_mode) {
-        ViewProperties props(url());
+        ViewProperties props(viewPropertiesUrl());
         props.setViewMode(mode);
         props.save();
 
@@ -255,7 +256,7 @@ void DolphinView::setPreviewsShown(bool show)
         return;
     }
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setPreviewsShown(show);
 
     m_view->setPreviewsShown(show);
@@ -277,7 +278,7 @@ void DolphinView::setHiddenFilesShown(bool show)
     m_selectedUrls.clear();
     m_selectedUrls = itemList.urlList();
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setHiddenFilesShown(show);
 
     m_model->setShowHiddenFiles(show);
@@ -295,7 +296,7 @@ void DolphinView::setGroupedSorting(bool grouped)
         return;
     }
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setGroupedSorting(grouped);
     props.save();
 
@@ -431,7 +432,7 @@ void DolphinView::setVisibleRoles(const QList<QByteArray>& roles)
 {
     const QList<QByteArray> previousRoles = roles;
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setVisibleRoles(roles);
 
     m_visibleRoles = roles;
@@ -788,7 +789,7 @@ void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
 
 void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
 
     QPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
 
@@ -905,7 +906,7 @@ void DolphinView::slotHeaderColumnWidthChanged(const QByteArray& role, qreal cur
 
     const QList<QByteArray> visibleRoles = m_view->visibleRoles();
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     QList<int> columnWidths = props.headerColumnWidths();
     if (columnWidths.count() != visibleRoles.count()) {
         columnWidths.clear();
@@ -1031,7 +1032,7 @@ void DolphinView::emitSelectionChangedSignal()
 
 void DolphinView::updateSortRole(const QByteArray& role)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortRole(role);
 
     KItemModelBase* model = m_container->controller()->model();
@@ -1042,7 +1043,7 @@ void DolphinView::updateSortRole(const QByteArray& role)
 
 void DolphinView::updateSortOrder(Qt::SortOrder order)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortOrder(order);
 
     m_model->setSortOrder(order);
@@ -1052,7 +1053,7 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 
 void DolphinView::updateSortFoldersFirst(bool foldersFirst)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortFoldersFirst(foldersFirst);
 
     m_model->setSortDirectoriesFirst(foldersFirst);
@@ -1119,6 +1120,16 @@ void DolphinView::saveState(QDataStream& stream)
 KFileItem DolphinView::rootItem() const
 {
     return m_model->rootItem();
+}
+
+void DolphinView::setViewPropertiesContext(const QString& context)
+{
+    m_viewPropertiesContext = context;
+}
+
+QString DolphinView::viewPropertiesContext() const
+{
+    return m_viewPropertiesContext;
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
@@ -1267,7 +1278,7 @@ void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOr
     Q_UNUSED(previous);
     Q_ASSERT(m_model->sortOrder() == current);
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortOrder(current);
 
     emit sortOrderChanged(current);
@@ -1278,7 +1289,7 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const Q
     Q_UNUSED(previous);
     Q_ASSERT(m_model->sortRole() == current);
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortRole(current);
 
     emit sortRoleChanged(current);
@@ -1294,7 +1305,7 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
 
     m_visibleRoles = current;
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setVisibleRoles(m_visibleRoles);
 
     emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
@@ -1334,7 +1345,7 @@ void DolphinView::applyViewProperties()
 {
     m_view->beginTransaction();
 
-    const ViewProperties props(url());
+    const ViewProperties props(viewPropertiesUrl());
 
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
@@ -1491,6 +1502,18 @@ void DolphinView::updateWritableState()
     if (m_isFolderWritable != wasFolderWritable) {
         emit writeStateChanged(m_isFolderWritable);
     }
+}
+
+KUrl DolphinView::viewPropertiesUrl() const
+{
+    if (m_viewPropertiesContext.isEmpty()) {
+        return m_url;
+    }
+
+    KUrl url;
+    url.setProtocol(m_url.protocol());
+    url.setPath(m_viewPropertiesContext);
+    return url;
 }
 
 #include "dolphinview.moc"

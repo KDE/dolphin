@@ -297,6 +297,8 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
             m_searchBox->setSearchPath(url);
         }
     } else {
+        m_view->setViewPropertiesContext(QString());
+
         // Restore the URL for the URL navigator. If Dolphin has been
         // started with a search-URL, the home URL is used as fallback.
         const KUrl url = m_searchBox->searchPath();
@@ -589,6 +591,7 @@ void DolphinViewContainer::startSearching()
 {
     const KUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
+        m_view->setViewPropertiesContext("search");
         m_urlNavigator->setLocationUrl(url);
     }
 }

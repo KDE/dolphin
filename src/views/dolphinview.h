@@ -286,6 +286,16 @@ public:
      */
     KFileItem rootItem() const;
 
+    /**
+     * Sets a context that is used for remembering the view-properties.
+     * Per default the context is empty and the path of the currently set URL
+     * is used for remembering the view-properties. Setting a custom context
+     * makes sense if specific types of URLs (e.g. search-URLs) should
+     * share common view-properties.
+     */
+    void setViewPropertiesContext(const QString& context);
+    QString viewPropertiesContext() const;
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -707,6 +717,13 @@ private:
      */
     void updateWritableState();
 
+    /**
+     * @return The current URL if no viewproperties-context is given (see
+     *         DolphinView::viewPropertiesContext(), otherwise the context
+     *         is returned.
+     */
+    KUrl viewPropertiesUrl() const;
+
 private:
     bool m_active;
     bool m_tabsForFiles;
@@ -716,6 +733,7 @@ private:
                      // tooltip may be shown when hovering an item.
 
     KUrl m_url;
+    QString m_viewPropertiesContext;
     Mode m_mode;
     QList<QByteArray> m_visibleRoles;
 
