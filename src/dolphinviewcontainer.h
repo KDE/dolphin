@@ -253,9 +253,8 @@ private slots:
 
     /**
      * Gets the search URL from the searchbox and starts searching.
-     * @param text Text the user has entered into the searchbox.
      */
-    void startSearching(const QString& text);
+    void startSearching();
     void closeSearchBox();
 
     /**

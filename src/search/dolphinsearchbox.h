@@ -46,16 +46,6 @@ class DolphinSearchBox : public QWidget {
     Q_OBJECT
 
 public:
-    enum SearchContext {
-        SearchFileName,
-        SearchContent
-    };
-
-    enum SearchLocation {
-        SearchFromHere,
-        SearchEverywhere
-    };
-
     explicit DolphinSearchBox(QWidget* parent = 0);
     virtual ~DolphinSearchBox();
 
@@ -104,11 +94,9 @@ protected:
 
 signals:
     /**
-     * Is emitted when a searching should be triggered
-     * and provides the text that should be used as input
-     * for searching.
+     * Is emitted when a searching should be triggered.
      */
-    void search(const QString& text);
+    void searchRequest();
 
     /**
      * Is emitted when the user has changed a character of
@@ -119,28 +107,18 @@ signals:
     void returnPressed(const QString& text);
 
     /**
-     * Is emitted if the search location has been changed by the user.
-     */
-    void searchLocationChanged(SearchLocation location);
-
-    /**
-     * Is emitted if the search context has been changed by the user.
-     */
-    void searchContextChanged(SearchContext context);
-
-    /**
      * Emitted as soon as the search box should get closed.
      */
     void closeRequest();
 
 private slots:
-    void emitSearchSignal();
-    void slotSearchLocationChanged();
-    void slotSearchContextChanged();
+    void emitSearchRequest();
+    void emitCloseRequest();
     void slotConfigurationChanged();
     void slotSearchTextChanged(const QString& text);
     void slotReturnPressed(const QString& text);
     void slotFacetsButtonToggled();
+    void slotFacetChanged();
 
 private:
     void initButton(QToolButton* button);

@@ -22,6 +22,12 @@
 
 #include <QWidget>
 
+#include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/Query/Term>
+#endif
+
+class QButtonGroup;
 class QCheckBox;
 class QRadioButton;
 
@@ -29,7 +35,7 @@ class QRadioButton;
  * @brief Allows to filter search-queries by facets.
  *
  * TODO: The current implementation is a temporary
- * workaround for the 4.10 release and represents no
+ * workaround for the 4.9 release and represents no
  * real facets-implementation yet: There have been
  * some Dolphin specific user-interface and interaction
  * issues since 4.6 by embedding the Nepomuk facet-widget
@@ -48,6 +54,29 @@ class DolphinFacetsWidget : public QWidget
 public:
     explicit DolphinFacetsWidget(QWidget* parent = 0);
     virtual ~DolphinFacetsWidget();
+
+#ifdef HAVE_NEPOMUK
+    Nepomuk::Query::Term facetsTerm() const;
+#endif
+
+signals:
+    void facetChanged();
+
+private:
+    /**
+     * @return New checkbox which is connected to the
+     *         slotFacedChanged() slot whenever it has
+     *         been toggled.
+     */
+    QCheckBox* createCheckBox(const QString& text);
+
+    /**
+     * @return New radiobutton which is connected to the
+     *         slotFacedChanged() slot whenever it has
+     *         been toggled.
+     */
+    QRadioButton* createRadioButton(const QString& text,
+                                    QButtonGroup* group);
 
 private:
     QCheckBox* m_documents;

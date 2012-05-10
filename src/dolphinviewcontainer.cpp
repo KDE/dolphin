@@ -90,7 +90,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
     connect(m_searchBox, SIGNAL(closeRequest()), this, SLOT(closeSearchBox()));
-    connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
+    connect(m_searchBox, SIGNAL(searchRequest()), this, SLOT(startSearching()));
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
     m_messageWidget = new KMessageWidget(this);
@@ -585,9 +585,8 @@ void DolphinViewContainer::slotHistoryChanged()
     }
 }
 
-void DolphinViewContainer::startSearching(const QString &text)
+void DolphinViewContainer::startSearching()
 {
-    Q_UNUSED(text);
     const KUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
         m_urlNavigator->setLocationUrl(url);

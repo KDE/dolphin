@@ -20,10 +20,24 @@
 #include "dolphinfacetswidget.h"
 
 #include <KLocale>
+#include <QButtonGroup>
 #include <QCheckBox>
+#include <QDate>
 #include <QRadioButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/Query/AndTerm>
+    #include <Nepomuk/Query/ComparisonTerm>
+    #include <Nepomuk/Query/LiteralTerm>
+    #include <Nepomuk/Query/OrTerm>
+    #include <Nepomuk/Query/Query>
+    #include <Nepomuk/Query/ResourceTypeTerm>
+    #include <Nepomuk/Vocabulary/NFO>
+    #include <Nepomuk/Vocabulary/NIE>
+    #include <Soprano/Vocabulary/NAO>
+#endif
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),
@@ -44,10 +58,10 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_fourOrMore(0),
     m_maxRating(0)
 {
-    m_documents = new QCheckBox(i18nc("@option:check", "Documents"));
-    m_images = new QCheckBox(i18nc("@option:check", "Images"));
-    m_audio = new QCheckBox(i18nc("@option:check", "Audio"));
-    m_videos = new QCheckBox(i18nc("@option:check", "Videos"));
+    m_documents = createCheckBox(i18nc("@option:check", "Documents"));
+    m_images    = createCheckBox(i18nc("@option:check", "Images"));
+    m_audio     = createCheckBox(i18nc("@option:check", "Audio"));
+    m_videos    = createCheckBox(i18nc("@option:check", "Videos"));
 
     QVBoxLayout* typeLayout = new QVBoxLayout();
     typeLayout->setSpacing(0);
@@ -57,12 +71,13 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     typeLayout->addWidget(m_videos);
     typeLayout->addStretch();
 
-    m_anytime = new QRadioButton(i18nc("@option:option", "Anytime"));
-    m_today = new QRadioButton(i18nc("@option:option", "Today"));
-    m_yesterday = new QRadioButton(i18nc("@option:option", "Yesterday"));
-    m_thisWeek = new QRadioButton(i18nc("@option:option", "This Week"));
-    m_thisMonth = new QRadioButton(i18nc("@option:option", "This Month"));
-    m_thisYear = new QRadioButton(i18nc("@option:option", "This Year"));
+    QButtonGroup* timespanGroup = new QButtonGroup(this);
+    m_anytime   = createRadioButton(i18nc("@option:option", "Anytime"), timespanGroup);
+    m_today     = createRadioButton(i18nc("@option:option", "Today"), timespanGroup);
+    m_yesterday = createRadioButton(i18nc("@option:option", "Yesterday"), timespanGroup);
+    m_thisWeek  = createRadioButton(i18nc("@option:option", "This Week"), timespanGroup);
+    m_thisMonth = createRadioButton(i18nc("@option:option", "This Month"), timespanGroup);
+    m_thisYear  = createRadioButton(i18nc("@option:option", "This Year"), timespanGroup);
 
     QVBoxLayout* timespanLayout = new QVBoxLayout();
     timespanLayout->setSpacing(0);
@@ -74,12 +89,13 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     timespanLayout->addWidget(m_thisYear);
     timespanLayout->addStretch();
 
-    m_anyRating = new QRadioButton(i18nc("@option:option", "Any Rating"));
-    m_oneOrMore = new QRadioButton(i18nc("@option:option", "1 or more"));
-    m_twoOrMore = new QRadioButton(i18nc("@option:option", "2 or more"));
-    m_threeOrMore = new QRadioButton(i18nc("@option:option", "3 or more"));
-    m_fourOrMore = new QRadioButton(i18nc("@option:option", "4 or more"));
-    m_maxRating = new QRadioButton(i18nc("@option:option", "Maximum Rating"));
+    QButtonGroup* ratingGroup = new QButtonGroup(this);
+    m_anyRating   = createRadioButton(i18nc("@option:option", "Any Rating"), ratingGroup);
+    m_oneOrMore   = createRadioButton(i18nc("@option:option", "1 or more"), ratingGroup);
+    m_twoOrMore   = createRadioButton(i18nc("@option:option", "2 or more"), ratingGroup);
+    m_threeOrMore = createRadioButton(i18nc("@option:option", "3 or more"), ratingGroup);
+    m_fourOrMore  = createRadioButton(i18nc("@option:option", "4 or more"), ratingGroup);
+    m_maxRating   = createRadioButton(i18nc("@option:option", "Maximum Rating"), ratingGroup);
 
     QVBoxLayout* ratingLayout = new QVBoxLayout();
     ratingLayout->setSpacing(0);
@@ -96,13 +112,102 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     topLayout->addLayout(ratingLayout);
     topLayout->addStretch();
 
-    // TODO:
     m_anytime->setChecked(true);
     m_anyRating->setChecked(true);
 }
 
 DolphinFacetsWidget::~DolphinFacetsWidget()
 {
+}
+
+#ifdef HAVE_NEPOMUK
+Nepomuk::Query::Term DolphinFacetsWidget::facetsTerm() const
+{
+    Nepomuk::Query::AndTerm andTerm;
+
+    const bool hasTypeFilter = m_documents->isChecked() ||
+                               m_images->isChecked() ||
+                               m_audio->isChecked() ||
+                               m_videos->isChecked();
+    if (hasTypeFilter) {
+        Nepomuk::Query::OrTerm orTerm;
+
+        if (m_documents->isChecked()) {
+            orTerm.addSubTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
+        }
+
+        if (m_images->isChecked()) {
+            orTerm.addSubTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+        }
+
+        if (m_audio->isChecked()) {
+            orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                             Nepomuk::Query::LiteralTerm("audio")));
+        }
+
+        if (m_videos->isChecked()) {
+            orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                             Nepomuk::Query::LiteralTerm("video")));
+        }
+
+        andTerm.addSubTerm(orTerm);
+    }
+
+    if (!m_anyRating->isChecked()) {
+        int stars = 1; // represents m_oneOrMore
+        if (m_twoOrMore->isChecked()) {
+            stars = 2;
+        } else if (m_threeOrMore->isChecked()) {
+            stars = 3;
+        } else if (m_fourOrMore->isChecked()) {
+            stars = 4;
+        } else if (m_maxRating->isChecked()) {
+            stars = 5;
+        }
+
+        const int rating = stars * 2;
+        Nepomuk::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::numericRating(),
+                                            Nepomuk::Query::LiteralTerm(rating),
+                                            Nepomuk::Query::ComparisonTerm::GreaterOrEqual);
+        andTerm.addSubTerm(term);
+    }
+
+    if (!m_anytime->isChecked()) {
+        QDate date = QDate::currentDate(); // represents m_today
+        if (m_yesterday->isChecked()) {
+            date.addDays(-1);
+        } else if (m_thisWeek->isChecked()) {
+            date.addDays(1 - date.dayOfWeek());
+        } else if (m_thisMonth->isChecked()) {
+            date.addDays(1 - date.day());
+        } else if (m_thisYear->isChecked()) {
+            date.addDays(1 - date.dayOfYear());
+        }
+
+        Nepomuk::Query::ComparisonTerm term(Nepomuk::Vocabulary::NIE::lastModified(),
+                                            Nepomuk::Query::LiteralTerm(QDateTime(date)),
+                                            Nepomuk::Query::ComparisonTerm::GreaterOrEqual);
+        andTerm.addSubTerm(term);
+    }
+
+    return andTerm;
+}
+#endif
+
+QCheckBox* DolphinFacetsWidget::createCheckBox(const QString& text)
+{
+    QCheckBox* checkBox = new QCheckBox(text);
+    connect(checkBox, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
+    return checkBox;
+}
+
+QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
+                                                     QButtonGroup* group)
+{
+    QRadioButton* button = new QRadioButton(text);
+    connect(button, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
+    group->addButton(button);
+    return button;
 }
 
 #include "dolphinfacetswidget.moc"

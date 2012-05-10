@@ -42,6 +42,7 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
+    #include <Nepomuk/Query/AndTerm>
     #include <Nepomuk/Query/FileQuery>
     #include <Nepomuk/Query/LiteralTerm>
     #include <Nepomuk/Query/OrTerm>
@@ -198,40 +199,41 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
     }
 }
 
-void DolphinSearchBox::emitSearchSignal()
+void DolphinSearchBox::emitSearchRequest()
 {
     m_startSearchTimer->stop();
     m_startedSearching = true;
-    emit search(m_searchInput->text());
+    emit searchRequest();
 }
 
-void DolphinSearchBox::slotSearchLocationChanged()
+void DolphinSearchBox::emitCloseRequest()
 {
-    emit searchLocationChanged(m_fromHereButton->isChecked() ? SearchFromHere : SearchEverywhere);
-}
-
-void DolphinSearchBox::slotSearchContextChanged()
-{
-    emit searchContextChanged(m_fileNameButton->isChecked() ? SearchFileName : SearchContent);
+    m_startSearchTimer->stop();
+    m_startedSearching = false;
+    emit closeRequest();
 }
 
 void DolphinSearchBox::slotConfigurationChanged()
 {
     saveSettings();
     if (m_startedSearching) {
-        emitSearchSignal();
+        emitSearchRequest();
     }
 }
 
 void DolphinSearchBox::slotSearchTextChanged(const QString& text)
 {
-    m_startSearchTimer->start();
+    if (text.isEmpty()) {
+        m_startSearchTimer->stop();
+    } else {
+        m_startSearchTimer->start();
+    }
     emit searchTextChanged(text);
 }
 
 void DolphinSearchBox::slotReturnPressed(const QString& text)
 {
-    emitSearchSignal();
+    emitSearchRequest();
     emit returnPressed(text);
 }
 
@@ -241,6 +243,13 @@ void DolphinSearchBox::slotFacetsButtonToggled()
     m_facetsWidget->setVisible(visible);
     SearchSettings::setShowFacetsWidget(visible);
     updateFacetsToggleButtonIcon();
+}
+
+void DolphinSearchBox::slotFacetChanged()
+{
+    m_startedSearching = true;
+    m_startSearchTimer->stop();
+    emit searchRequest();
 }
 
 void DolphinSearchBox::initButton(QToolButton* button)
@@ -282,7 +291,7 @@ void DolphinSearchBox::init()
     closeButton->setAutoRaise(true);
     closeButton->setIcon(KIcon("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
-    connect(closeButton, SIGNAL(clicked()), SIGNAL(closeRequest()));
+    connect(closeButton, SIGNAL(clicked()), this, SLOT(emitCloseRequest()));
 
     // Create search label
     m_searchLabel = new QLabel(this);
@@ -333,8 +342,6 @@ void DolphinSearchBox::init()
     QButtonGroup* searchLocationGroup = new QButtonGroup(this);
     searchLocationGroup->addButton(m_fromHereButton);
     searchLocationGroup->addButton(m_everywhereButton);
-    connect(m_fromHereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
-    connect(m_everywhereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
 
     // Create "Facets" widgets
     m_facetsToggleButton = new QToolButton(this);
@@ -343,6 +350,7 @@ void DolphinSearchBox::init()
 
     m_facetsWidget = new DolphinFacetsWidget(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    connect(m_facetsWidget, SIGNAL(facetChanged()), this, SLOT(slotFacetChanged()));
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
@@ -382,7 +390,7 @@ void DolphinSearchBox::init()
     m_startSearchTimer = new QTimer(this);
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
-    connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchSignal()));
+    connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchRequest()));
 
     updateFacetsToggleButtonIcon();
     applyReadOnlyState();
@@ -391,29 +399,41 @@ void DolphinSearchBox::init()
 KUrl DolphinSearchBox::nepomukUrlForSearching() const
 {
 #ifdef HAVE_NEPOMUK
-    Nepomuk::Query::Term term;
-
+    // Create the term for the text from the input-field
+    // dependent on whether a searching for content or
+    // filename is done
     const QString text = m_searchInput->text();
-
+    Nepomuk::Query::Term searchLabelTerm;
     if (m_contentButton->isChecked()) {
         // Let Nepomuk parse the query
-        term = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern).term();
-    }
-    else {
+        searchLabelTerm = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern).term();
+    } else {
         // Search the text in the filename only
         QString regex = QRegExp::escape(text);
         regex.replace("\\*", QLatin1String(".*"));
         regex.replace("\\?", QLatin1String("."));
         regex.replace("\\", "\\\\");
-        term = Nepomuk::Query::ComparisonTerm(
-                    Nepomuk::Vocabulary::NFO::fileName(),
-                    Nepomuk::Query::LiteralTerm(regex),
-                    Nepomuk::Query::ComparisonTerm::Regexp);
+        searchLabelTerm = Nepomuk::Query::ComparisonTerm(
+                                Nepomuk::Vocabulary::NFO::fileName(),
+                                Nepomuk::Query::LiteralTerm(regex),
+                                Nepomuk::Query::ComparisonTerm::Regexp);
     }
+
+    // Get the term from the facets and merge it with the
+    // created term from the input-field.
+    Nepomuk::Query::Term facetsTerm = m_facetsWidget->facetsTerm();
 
     Nepomuk::Query::FileQuery fileQuery;
     fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFilesAndFolders);
-    fileQuery.setTerm(term);
+    if (facetsTerm.isValid()) {
+        Nepomuk::Query::AndTerm andTerm;
+        andTerm.addSubTerm(searchLabelTerm);
+        andTerm.addSubTerm(facetsTerm);
+        fileQuery.setTerm(andTerm);
+    } else {
+        fileQuery.setTerm(searchLabelTerm);
+    }
+
     if (m_fromHereButton->isChecked()) {
         const bool recursive = true;
         fileQuery.addIncludeFolder(m_searchPath, recursive);
