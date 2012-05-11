@@ -559,7 +559,7 @@ void DolphinContextMenu::updateRemoveAction()
 
 bool DolphinContextMenu::moveToTrash() const
 {
-    return selectedItemsProperties().isLocal() && !m_shiftPressed;
+    return !m_shiftPressed;
 }
 
 #include "dolphincontextmenu.moc"

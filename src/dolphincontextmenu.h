@@ -176,8 +176,8 @@ private:
     void updateRemoveAction();
 
     /**
-     * @return True if no shift key has been pressed and the selection represents
-     *         only local files.
+     * @return True if a moving to the trash should be done instead of
+     *         deleting the selected items.
      * @see updateRemoveAction(), slotRemoveActionTriggered()
      */
     bool moveToTrash() const;
