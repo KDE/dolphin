@@ -17,63 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef PLACESITEM_H
-#define PLACESITEM_H
+#ifndef PLACESITEMSTORAGEACCESSLISTENER_H
+#define PLACESITEMSTORAGEACCESSLISTENER_H
 
-#include <kitemviews/kstandarditem.h>
-#include <KUrl>
-#include <QPointer>
-#include <Solid/Device>
-#include <Solid/OpticalDisc>
-#include <Solid/StorageAccess>
-#include <Solid/StorageVolume>
+#include <QObject>
 
-class KBookmark;
-class PlacesItemStorageAccessListener;
+class PlacesItem;
 
 /**
- * @brief Extends KStandardItem by places-specific properties.
+ * @brief Helper class for PlacesItem to listen to accessibility changes
+ *        of the storage access.
+ *
+ * Connects to the storage access from the given places item and
+ * calls PlacesItem::onAccessibilityChanged() in case if the accessibility
+ * has been changed.
  */
-class PlacesItem : public KStandardItem
+class PlacesItemStorageAccessListener: public QObject
 {
+    Q_OBJECT
 
 public:
-    explicit PlacesItem(PlacesItem* parent = 0);
-    explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
-    explicit PlacesItem(const QString& udi, PlacesItem* parent = 0);
-    PlacesItem(const PlacesItem& item);
-    virtual ~PlacesItem();
+    explicit PlacesItemStorageAccessListener(PlacesItem* item, QObject* parent = 0);
+    virtual ~PlacesItemStorageAccessListener();
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
-
-    void setUdi(const QString& udi);
-    QString udi() const;
-
-    void setHidden(bool hidden);
-    bool isHidden() const;
-
-    Solid::Device device() const;
+private slots:
+    void slotOnAccessibilityChanged();
 
 private:
-    void initializeDevice(const QString& udi);
-
-    /**
-     * Is invoked by m_accessListener if the accessibility
-     * of the storage access m_access has been changed.
-     */
-    void onAccessibilityChanged();
-
-private:
-    Solid::Device m_device;
-    QPointer<Solid::StorageAccess> m_access;
-    QPointer<Solid::StorageVolume> m_volume;
-    QPointer<Solid::OpticalDisc> m_disc;
-    PlacesItemStorageAccessListener* m_accessListener;
-
-    friend class PlacesItemStorageAccessListener; // Calls onAccessibilityChanged()
+    PlacesItem* m_item;
 };
 
 #endif
-
-

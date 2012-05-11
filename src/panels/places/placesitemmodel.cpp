@@ -48,6 +48,10 @@
 
 #include <Solid/Device>
 #include <Solid/DeviceNotifier>
+#include <Solid/OpticalDisc>
+#include <Solid/OpticalDrive>
+#include <Solid/StorageAccess>
+#include <Solid/StorageDrive>
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
@@ -221,31 +225,82 @@ QAction* PlacesItemModel::ejectAction(int index) const
     return 0;
 }
 
-QAction* PlacesItemModel::tearDownAction(int index) const
+QAction* PlacesItemModel::teardownAction(int index) const
 {
-    // TODO: This is a dummy-implementation to have at least all
-    // translation-strings as part of the code before the freeze
-    QString iconName;
-    QString text;
-    QString label;
-    switch (index) {
-    case 0:
-        text = i18nc("@item", "Release '%1'", label);
-        break;
-    case 1:
-        text = i18nc("@item", "Safely Remove '%1'", label);
-        iconName = "media-eject";
-        break;
-    case 2:
-        text = i18nc("@item", "Unmount '%1'", label);
-        iconName = "media-eject";
-        break;
-    default:
-        break;
+    const PlacesItem* item = placesItem(index);
+    if (!item) {
+        return 0;
     }
 
-    //return new QAction(KIcon(iconName), text, 0);
-    return 0;
+    Solid::Device device = item->device();
+    const bool providesTearDown = device.is<Solid::StorageAccess>() &&
+                                  device.as<Solid::StorageAccess>()->isAccessible();
+    if (!providesTearDown) {
+        return 0;
+    }
+
+    Solid::StorageDrive* drive = device.as<Solid::StorageDrive>();
+    if (!drive) {
+        drive = device.parent().as<Solid::StorageDrive>();
+    }
+
+    bool hotPluggable = false;
+    bool removable = false;
+    if (drive) {
+        hotPluggable = drive->isHotpluggable();
+        removable = drive->isRemovable();
+    }
+
+    QString iconName;
+    QString text;
+    const QString label = item->text();
+    if (device.is<Solid::OpticalDisc>()) {
+        text = i18nc("@item", "Release '%1'", label);
+    } else if (removable || hotPluggable) {
+        text = i18nc("@item", "Safely Remove '%1'", label);
+        iconName = "media-eject";
+    } else {
+        text = i18nc("@item", "Unmount '%1'", label);
+        iconName = "media-eject";
+    }
+
+    if (iconName.isEmpty()) {
+        return new QAction(text, 0);
+    }
+
+    return new QAction(KIcon(iconName), text, 0);
+}
+
+void PlacesItemModel::requestEject(int index)
+{
+    const PlacesItem* item = placesItem(index);
+    if (item) {
+        Solid::OpticalDrive* drive = item->device().parent().as<Solid::OpticalDrive>();
+        if (drive) {
+            connect(drive, SIGNAL(ejectDone(Solid::ErrorType,QVariant,QString)),
+                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+            drive->eject();
+        } else {
+
+        }
+    }
+}
+
+void PlacesItemModel::requestTeardown(int index)
+{
+    const PlacesItem* item = placesItem(index);
+    if (item) {
+        Solid::StorageAccess* access = item->device().as<Solid::StorageAccess>();
+        if (access) {
+            connect(access, SIGNAL(teardownDone(Solid::ErrorType,QVariant,QString)),
+                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+            access->teardown();
+        } else {
+            const QString label = item->text();
+            const QString message = i18nc("@info", "The device '%1' is not a disk and cannot be ejected.", label);
+            emit errorMessage(message);
+        }
+    }
 }
 
 void PlacesItemModel::onItemInserted(int index)
@@ -283,12 +338,33 @@ void PlacesItemModel::onItemRemoved(int index)
 
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
 {
-    Q_UNUSED(udi);
+    appendItem(new PlacesItem(udi));
 }
 
 void PlacesItemModel::slotDeviceRemoved(const QString& udi)
 {
-    Q_UNUSED(udi);
+     for (int i = 0; i < m_hiddenItems.count(); ++i) {
+         PlacesItem* item = m_hiddenItems[i];
+         if (item && item->udi() == udi) {
+             m_hiddenItems.removeAt(i);
+             delete item;
+             return;
+         }
+     }
+
+     for (int i = 0; i < count(); ++i) {
+         if (placesItem(i)->udi() == udi) {
+             removeItem(i);
+             return;
+         }
+     }
+}
+
+void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData)
+{
+    if (error && errorData.isValid()) {
+        emit errorMessage(errorData.toString());
+    }
 }
 
 void PlacesItemModel::loadBookmarks()

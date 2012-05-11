@@ -162,6 +162,7 @@ set(dolphin_SRCS
     panels/places/placesitemlistgroupheader.cpp
     panels/places/placesitemlistwidget.cpp
     panels/places/placesitemmodel.cpp
+    panels/places/placesitemstorageaccesslistener.cpp
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp

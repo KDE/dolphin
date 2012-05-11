@@ -76,6 +76,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_model = new PlacesItemModel(this);
         m_model->setGroupedSorting(true);
         m_model->setSortRole("group");
+        connect(m_model, SIGNAL(errorMessage(QString)),
+                this, SIGNAL(errorMessage(QString)));
 
         KStandardItemListView* view = new KStandardItemListView();
         view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
@@ -128,7 +130,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* addAction = 0;
     QAction* mainSeparator = 0;
     QAction* editAction = 0;
-    QAction* tearDownAction = 0;
+    QAction* teardownAction = 0;
     QAction* ejectAction = 0;
 
     const bool isSystemItem = m_model->isSystemItem(index);
@@ -140,13 +142,13 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             menu.addAction(ejectAction);
         }
 
-        tearDownAction = m_model->tearDownAction(index);
-        if (tearDownAction) {
-            tearDownAction->setParent(&menu);
-            menu.addAction(tearDownAction);
+        teardownAction = m_model->teardownAction(index);
+        if (teardownAction) {
+            teardownAction->setParent(&menu);
+            menu.addAction(teardownAction);
         }
 
-        if (tearDownAction || ejectAction) {
+        if (teardownAction || ejectAction) {
             mainSeparator = menu.addSeparator();
         }
     } else {
@@ -209,8 +211,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             emit placeMiddleClicked(url);
         } else if (action == showAllAction) {
             m_model->setHiddenItemsShown(showAllAction->isChecked());
-        } else if (action == tearDownAction) {
+        } else if (action == teardownAction) {
+            m_model->requestTeardown(index);
         } else if (action == ejectAction) {
+            m_model->requestEject(index);
         }
     }
 

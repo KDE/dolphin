@@ -29,6 +29,7 @@
 #include <QList>
 #include <QSet>
 #include <Solid/Predicate>
+#include <Solid/StorageAccess>
 
 class KBookmarkManager;
 class PlacesItem;
@@ -92,7 +93,13 @@ public:
     QString groupName(const KUrl& url) const;
 
     QAction* ejectAction(int index) const;
-    QAction* tearDownAction(int index) const;
+    QAction* teardownAction(int index) const;
+
+    void requestEject(int index);
+    void requestTeardown(int index);
+
+signals:
+    void errorMessage(const QString& message);
 
 protected:
     virtual void onItemInserted(int index);
@@ -101,6 +108,7 @@ protected:
 private slots:
     void slotDeviceAdded(const QString& udi);
     void slotDeviceRemoved(const QString& udi);
+    void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
 
 private:
     void loadBookmarks();
