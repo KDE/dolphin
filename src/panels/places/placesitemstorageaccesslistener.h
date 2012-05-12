@@ -41,7 +41,7 @@ public:
     virtual ~PlacesItemStorageAccessListener();
 
 private slots:
-    void slotOnAccessibilityChanged();
+    void slotAccessibilityChanged();
 
 private:
     PlacesItem* m_item;

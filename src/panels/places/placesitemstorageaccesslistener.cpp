@@ -29,7 +29,7 @@ PlacesItemStorageAccessListener::PlacesItemStorageAccessListener(PlacesItem* ite
 {
     if (item) {
         connect(item->m_access, SIGNAL(accessibilityChanged(bool,QString)),
-                this, SLOT(onAccessibilityChanged()));
+                this, SLOT(slotAccessibilityChanged()));
     }
 }
 
@@ -37,7 +37,7 @@ PlacesItemStorageAccessListener::~PlacesItemStorageAccessListener()
 {
 }
 
-void PlacesItemStorageAccessListener::slotOnAccessibilityChanged()
+void PlacesItemStorageAccessListener::slotAccessibilityChanged()
 {
     m_item->onAccessibilityChanged();
 }
