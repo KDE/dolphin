@@ -320,13 +320,11 @@ void DolphinSearchBox::init()
 
     m_contentButton = new QToolButton();
     m_contentButton->setText(i18nc("action:button", "Content"));
-    initButton(m_contentButton);;
+    initButton(m_contentButton);
 
     QButtonGroup* searchWhatGroup = new QButtonGroup(this);
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
-    connect(m_fileNameButton, SIGNAL(clicked()), this, SLOT(slotSearchContextChanged()));
-    connect(m_contentButton, SIGNAL(clicked()), this, SLOT(slotSearchContextChanged()));
 
     m_separator = new KSeparator(Qt::Vertical, this);
 
