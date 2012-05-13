@@ -49,14 +49,14 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
     }
 }
 
-void KStandardItemModel::replaceItem(int index, KStandardItem* item)
+void KStandardItemModel::changeItem(int index, KStandardItem* item)
 {
     if (item && index >= 0 && index < count()) {
         item->m_model = this;
 
         QSet<QByteArray> changedRoles;
 
-        KStandardItem* oldItem= m_items[index];
+        KStandardItem* oldItem = m_items[index];
         const QHash<QByteArray, QVariant> oldData = oldItem->data();
         const QHash<QByteArray, QVariant> newData = item->data();
 
@@ -78,7 +78,7 @@ void KStandardItemModel::replaceItem(int index, KStandardItem* item)
         m_items[index] = item;
         m_indexesForItems.insert(item, index);
 
-        onItemReplaced(index);
+        onItemChanged(index, changedRoles);
         emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
     } else {
         kWarning() << "No item available to replace on the given index" << index;
@@ -196,7 +196,7 @@ void KStandardItemModel::onItemInserted(int index)
     Q_UNUSED(index);
 }
 
-void KStandardItemModel::onItemReplaced(int index)
+void KStandardItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
 {
     Q_UNUSED(index);
 }

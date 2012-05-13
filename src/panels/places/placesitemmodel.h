@@ -35,7 +35,7 @@ class KBookmarkManager;
 class PlacesItem;
 class QAction;
 
-#define PLACESITEMMODEL_DEBUG
+// #define PLACESITEMMODEL_DEBUG
 
 /**
  * @brief Model for maintaining the bookmarks of the places panel.
@@ -57,9 +57,6 @@ public:
     bool hiddenItemsShown() const;
 
     int hiddenCount() const;
-
-    void setItemHidden(int index, bool hide);
-    bool isItemHidden(int index) const;
 
     /**
      * Search the item which is equal to the URL or at least
@@ -90,12 +87,13 @@ signals:
 protected:
     virtual void onItemInserted(int index);
     virtual void onItemRemoved(int index);
-    virtual void onItemReplaced(int index);
+    virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles);
 
 private slots:
     void slotDeviceAdded(const QString& udi);
     void slotDeviceRemoved(const QString& udi);
     void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
+    void removeHiddenItem();
 
 private:
     void loadBookmarks();
@@ -155,6 +153,12 @@ private:
     QHash<KUrl, int> m_systemBookmarksIndexes;
 
     QList<PlacesItem*> m_hiddenItems;
+
+    // Index of the hidden item that should be removed in
+    // removeHiddenItem(). The removing must be done
+    // asynchronously as in the scope of onItemChanged()
+    // removing an item is not allowed.
+    int m_hiddenItemToRemove;
 };
 
 #endif

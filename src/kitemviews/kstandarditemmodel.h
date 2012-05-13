@@ -52,11 +52,11 @@ public:
     void insertItem(int index, KStandardItem* item);
 
     /**
-     * Replaces the item on the index \a index by \a item.
+     * Changes the item on the index \a index to \a item.
      * KStandardItemModel takes the ownership of the item. The
      * old item gets deleted.
      */
-    void replaceItem(int index, KStandardItem* item);
+    void changeItem(int index, KStandardItem* item);
 
     void removeItem(int index);
     KStandardItem* item(int index) const;
@@ -84,10 +84,10 @@ protected:
     virtual void onItemInserted(int index);
 
     /**
-     * Is invoked after an item has been replaced and before the signal
-     * itemsChanged() gets emitted.
+     * Is invoked after an item or one of its roles has been changed and
+     * before the signal itemsChanged() gets emitted.
      */
-    virtual void onItemReplaced(int index);
+    virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles);
 
     /**
      * Is invoked after an item has been removed and before the signal

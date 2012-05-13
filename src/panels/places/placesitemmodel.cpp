@@ -35,6 +35,7 @@
 #include "placesitem.h"
 #include <QAction>
 #include <QDate>
+#include <QTimer>
 
 #include <Solid/Device>
 #include <Solid/DeviceNotifier>
@@ -56,7 +57,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_bookmarkManager(0),
     m_systemBookmarks(),
     m_systemBookmarksIndexes(),
-    m_hiddenItems()
+    m_hiddenItems(),
+    m_hiddenItemToRemove(-1)
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -98,29 +100,6 @@ int PlacesItemModel::hiddenCount() const
     return itemCount;
 }
 
-void PlacesItemModel::setItemHidden(int index, bool hide)
-{
-    if (index >= 0 && index < count()) {
-        PlacesItem* shownItem = placesItem(index);
-        shownItem->setHidden(true);
-        if (!m_hiddenItemsShown && hide) {
-            const int newIndex = hiddenIndex(index);
-            PlacesItem* hiddenItem = new PlacesItem(*shownItem);
-            removeItem(index);
-            m_hiddenItems.insert(newIndex, hiddenItem);
-        }
-#ifdef PLACESITEMMODEL_DEBUG
-        kDebug() << "Changed hide-state from" << index << "to" << hide;
-        showModelState();
-#endif
-    }
-}
-
-bool PlacesItemModel::isItemHidden(int index) const
-{
-    return (index >= 0 && index < count()) ? m_hiddenItems[index] != 0 : false;
-}
-
 void PlacesItemModel::setHiddenItemsShown(bool show)
 {
     if (m_hiddenItemsShown == show) {
@@ -145,7 +124,7 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     } else {
         // Move all items of the model, where the "isHidden" property is true, to
         // m_hiddenItems.
-        Q_ASSERT(m_hiddenItems.count() == count());
+        //Q_ASSERT(m_hiddenItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
             PlacesItem* visibleItem = placesItem(i);
             if (visibleItem->isHidden()) {
@@ -305,13 +284,12 @@ void PlacesItemModel::onItemInserted(int index)
         return;
     }
 
-    int modelIndex = 0;
+    int modelIndex = -1;
     int hiddenIndex = 0;
     while (hiddenIndex < m_hiddenItems.count()) {
         if (!m_hiddenItems[hiddenIndex]) {
             ++modelIndex;
             if (modelIndex + 1 == index) {
-                ++hiddenIndex;
                 break;
             }
         }
@@ -336,9 +314,18 @@ void PlacesItemModel::onItemRemoved(int index)
 #endif
 }
 
-void PlacesItemModel::onItemReplaced(int index)
+void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
 {
-    Q_UNUSED(index);
+    if (changedRoles.contains("isHidden")) {
+        const PlacesItem* shownItem = placesItem(index);
+        Q_ASSERT(shownItem);
+        const bool hide = shownItem->isHidden();
+
+        if (!m_hiddenItemsShown && hide) {
+            m_hiddenItemToRemove = index;
+            QTimer::singleShot(0, this, SLOT(removeHiddenItem()));
+        }
+    }
 }
 
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
@@ -379,6 +366,18 @@ void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVar
     if (error && errorData.isValid()) {
         emit errorMessage(errorData.toString());
     }
+}
+
+void PlacesItemModel::removeHiddenItem()
+{
+    const PlacesItem* shownItem = placesItem(m_hiddenItemToRemove);
+    const int newIndex = hiddenIndex(m_hiddenItemToRemove);
+    if (shownItem && newIndex >= 0) {
+        PlacesItem* hiddenItem = new PlacesItem(*shownItem);
+        removeItem(m_hiddenItemToRemove);
+        m_hiddenItems.insert(newIndex, hiddenItem);
+    }
+    m_hiddenItemToRemove = -1;
 }
 
 void PlacesItemModel::loadBookmarks()
@@ -614,7 +613,11 @@ void PlacesItemModel::showModelState()
         if (m_hiddenItems[i]) {
             kDebug() <<  i << "(Hidden)    " << "             " << m_hiddenItems[i]->dataValue("text").toString();
         } else {
-            kDebug() <<  i << "            " << j << "           " << item(j)->dataValue("text").toString();
+            if (item(j)) {
+                kDebug() <<  i << "            " << j << "           " << item(j)->dataValue("text").toString();
+            } else {
+                kDebug() <<  i << "            " << j << "           " << "(not available yet)";
+            }
             ++j;
         }
     }

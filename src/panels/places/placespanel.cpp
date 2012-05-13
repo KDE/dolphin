@@ -131,7 +131,7 @@ void PlacesPanel::slotItemMiddleClicked(int index)
 
 void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
-    const PlacesItem* item = m_model->placesItem(index);
+    PlacesItem* item = m_model->placesItem(index);
     if (!item) {
         return;
     }
@@ -219,7 +219,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             m_model->removeItem(index);
             m_model->save();
         } else if (action == hideAction) {
-            m_model->setItemHidden(index, hideAction->isChecked());
+            item->setHidden(hideAction->isChecked());
             m_model->save();
         } else if (action == openInNewTabAction) {
             const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
@@ -359,7 +359,7 @@ void PlacesPanel::editEntry(int index)
             // that another group should be assigned, we still apply the old
             // group to keep the same position for the item.
             item->setGroup(oldItem->group());
-            m_model->replaceItem(index, item);
+            m_model->changeItem(index, item);
         }
     }
 
