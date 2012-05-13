@@ -35,16 +35,6 @@ class KBookmarkManager;
 class PlacesItem;
 class QAction;
 
-#ifdef HAVE_NEPOMUK
-    namespace Nepomuk
-    {
-        namespace Query
-        {
-            class Term;
-        }
-    }
-#endif
-
 #define PLACESITEMMODEL_DEBUG
 
 /**
@@ -72,12 +62,6 @@ public:
     bool isItemHidden(int index) const;
 
     /**
-     * @return True if the item is a default item created by
-     *         the system (e.g. the places for home, root, trash etc.)
-     */
-    bool isSystemItem(int index) const;
-
-    /**
      * Search the item which is equal to the URL or at least
      * is a parent URL. If there are more than one possible
      * candidates, return the item which covers the biggest
@@ -98,12 +82,15 @@ public:
     void requestEject(int index);
     void requestTeardown(int index);
 
+    void save();
+
 signals:
     void errorMessage(const QString& message);
 
 protected:
     virtual void onItemInserted(int index);
     virtual void onItemRemoved(int index);
+    virtual void onItemReplaced(int index);
 
 private slots:
     void slotDeviceAdded(const QString& udi);
@@ -138,36 +125,6 @@ private:
     static QString placesGroupName();
     static QString recentlyAccessedGroupName();
     static QString searchForGroupName();
-
-    static KUrl translatedSystemBookmarkUrl(const KUrl& url);
-
-    /**
-     * @return URL using the timeline-protocol for searching.
-     */
-    static KUrl createTimelineUrl(const KUrl& url);
-
-    /**
-     * Helper method for createTimelineUrl().
-     * @return String that represents a date-path in the format that
-     *         the timeline-protocol expects.
-     */
-    static QString timelineDateString(int year, int month, int day = 0);
-
-    /**
-     * @return URL that can be listed by KIO and results in searching
-     *         for a given term. The URL \a url represents a places-internal
-     *         URL like e.g. "search:/documents"
-     */
-    static KUrl createSearchUrl(const KUrl& url);
-
-#ifdef HAVE_NEPOMUK
-    /**
-     * Helper method for createSearchUrl().
-     * @return URL that can be listed by KIO and results in searching
-     *         for the given term.
-     */
-    static KUrl searchUrlForTerm(const Nepomuk::Query::Term& term);
-#endif
 
 #ifdef PLACESITEMMODEL_DEBUG
     void showModelState();

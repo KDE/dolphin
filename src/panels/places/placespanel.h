@@ -31,6 +31,16 @@ class KItemListController;
 class PlacesItemEditDialog;
 class PlacesItemModel;
 
+#ifdef HAVE_NEPOMUK
+    namespace Nepomuk
+    {
+        namespace Query
+        {
+            class Term;
+        }
+    }
+#endif
+
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */
@@ -75,6 +85,42 @@ private:
      *         been set in the places-dialog.
      */
     KStandardItem* createStandardItemFromDialog(PlacesItemEditDialog* dialog) const;
+
+    /**
+     * @return Converts the URL, which contains "virtual" URLs for system-items like
+     *         "search:/documents" into a Nepomuk-Query-URL that will be handled by
+     *         the corresponding IO-slave. Virtual URLs for bookmarks are used to
+     *         be independent from internal format changes.
+     */
+    static KUrl convertedUrl(const KUrl& url);
+
+    /**
+     * @return URL using the timeline-protocol for searching (see convertedUrl()).
+     */
+    static KUrl createTimelineUrl(const KUrl& url);
+
+    /**
+     * Helper method for createTimelineUrl().
+     * @return String that represents a date-path in the format that
+     *         the timeline-protocol expects.
+     */
+    static QString timelineDateString(int year, int month, int day = 0);
+
+    /**
+     * @return URL that can be listed by KIO and results in searching
+     *         for a given term. The URL \a url represents a places-internal
+     *         URL like e.g. "search:/documents" (see convertedUrl()).
+     */
+    static KUrl createSearchUrl(const KUrl& url);
+
+#ifdef HAVE_NEPOMUK
+    /**
+     * Helper method for createSearchUrl().
+     * @return URL that can be listed by KIO and results in searching
+     *         for the given term.
+     */
+    static KUrl searchUrlForTerm(const Nepomuk::Query::Term& term);
+#endif
 
 private:
     KItemListController* m_controller;

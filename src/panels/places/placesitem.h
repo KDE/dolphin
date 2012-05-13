@@ -20,6 +20,7 @@
 #ifndef PLACESITEM_H
 #define PLACESITEM_H
 
+#include <KBookmark>
 #include <kitemviews/kstandarditem.h>
 #include <KUrl>
 #include <QPointer>
@@ -28,7 +29,6 @@
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
 
-class KBookmark;
 class PlacesItemStorageAccessListener;
 
 /**
@@ -38,10 +38,8 @@ class PlacesItem : public KStandardItem
 {
 
 public:
-    explicit PlacesItem(PlacesItem* parent = 0);
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
-    explicit PlacesItem(const QString& udi, PlacesItem* parent = 0);
-    PlacesItem(const PlacesItem& item);
+    explicit PlacesItem(const PlacesItem& item);
     virtual ~PlacesItem();
 
     void setUrl(const KUrl& url);
@@ -53,7 +51,29 @@ public:
     void setHidden(bool hidden);
     bool isHidden() const;
 
+    void setSystemItem(bool isSystemItem);
+    bool isSystemItem() const;
+
     Solid::Device device() const;
+
+    void setBookmark(const KBookmark& bookmark);
+    KBookmark bookmark() const;
+
+    static KBookmark createBookmark(KBookmarkManager* manager,
+                                    const QString& text,
+                                    const KUrl& url,
+                                    const QString& iconName,
+                                    PlacesItem* after = 0);
+    static KBookmark createDeviceBookmark(KBookmarkManager* manager,
+                                          const QString& udi);
+
+protected:
+    virtual void onDataValueChanged(const QByteArray& role,
+                                    const QVariant& current,
+                                    const QVariant& previous);
+
+    virtual void onDataChanged(const QHash<QByteArray, QVariant>& current,
+                               const QHash<QByteArray, QVariant>& previous);
 
 private:
     void initializeDevice(const QString& udi);
@@ -64,12 +84,20 @@ private:
      */
     void onAccessibilityChanged();
 
+    /**
+     * Applies the data-value from the role to m_bookmark.
+     */
+    void updateBookmarkForRole(const QByteArray& role);
+
+    static QString generateNewId();
+
 private:
     Solid::Device m_device;
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
-    PlacesItemStorageAccessListener* m_accessListener;
+    QPointer<PlacesItemStorageAccessListener> m_accessListener;
+    KBookmark m_bookmark;
 
     friend class PlacesItemStorageAccessListener; // Calls onAccessibilityChanged()
 };

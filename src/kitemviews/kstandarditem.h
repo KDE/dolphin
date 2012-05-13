@@ -79,6 +79,14 @@ public:
 
     QList<KStandardItem*> children() const;
 
+protected:
+    virtual void onDataValueChanged(const QByteArray& role,
+                                    const QVariant& current,
+                                    const QVariant& previous);
+
+    virtual void onDataChanged(const QHash<QByteArray, QVariant>& current,
+                               const QHash<QByteArray, QVariant>& previous);
+
 private:
     KStandardItem* m_parent;
     QList<KStandardItem*> m_children;

@@ -23,16 +23,6 @@
 
 #include "placesitemmodel.h"
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Query/ComparisonTerm>
-    #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/Query>
-    #include <Nepomuk/Query/ResourceTypeTerm>
-    #include <Nepomuk/Vocabulary/NFO>
-    #include <Nepomuk/Vocabulary/NIE>
-#endif
-
 #include <KBookmark>
 #include <KBookmarkGroup>
 #include <KBookmarkManager>
@@ -52,6 +42,10 @@
 #include <Solid/OpticalDrive>
 #include <Solid/StorageAccess>
 #include <Solid/StorageDrive>
+
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/ResourceManager>
+#endif
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
@@ -170,15 +164,6 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
 bool PlacesItemModel::hiddenItemsShown() const
 {
     return m_hiddenItemsShown;
-}
-
-bool PlacesItemModel::isSystemItem(int index) const
-{
-    if (index >= 0 && index < count()) {
-        const KUrl url = placesItem(index)->url();
-        return m_systemBookmarksIndexes.contains(url);
-    }
-    return false;
 }
 
 int PlacesItemModel::closestItem(const KUrl& url) const
@@ -303,8 +288,23 @@ void PlacesItemModel::requestTeardown(int index)
     }
 }
 
+
+void PlacesItemModel::save()
+{
+    // TODO: Temporary deactivated until 100 % backward compatibility is provided
+    // m_bookmarkManager->emitChanged(m_bookmarkManager->root());
+}
+
 void PlacesItemModel::onItemInserted(int index)
 {
+    if (index == count() - 1) {
+        // The item has been appended as last item to the list. In this
+        // case assure that it is also appended after the hidden items and
+        // not before (like done otherwise).
+        m_hiddenItems.append(0);
+        return;
+    }
+
     int modelIndex = 0;
     int hiddenIndex = 0;
     while (hiddenIndex < m_hiddenItems.count()) {
@@ -336,20 +336,34 @@ void PlacesItemModel::onItemRemoved(int index)
 #endif
 }
 
+void PlacesItemModel::onItemReplaced(int index)
+{
+    Q_UNUSED(index);
+}
+
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
 {
-    appendItem(new PlacesItem(udi));
+    const Solid::Device device(udi);
+    if (m_predicate.matches(device)) {
+        m_availableDevices << udi;
+        const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
+        appendItem(new PlacesItem(bookmark));
+    }
 }
 
 void PlacesItemModel::slotDeviceRemoved(const QString& udi)
 {
-     for (int i = 0; i < m_hiddenItems.count(); ++i) {
-         PlacesItem* item = m_hiddenItems[i];
-         if (item && item->udi() == udi) {
-             m_hiddenItems.removeAt(i);
-             delete item;
-             return;
-         }
+    if (!m_availableDevices.contains(udi)) {
+        return;
+    }
+
+    for (int i = 0; i < m_hiddenItems.count(); ++i) {
+        PlacesItem* item = m_hiddenItems[i];
+        if (item && item->udi() == udi) {
+            m_hiddenItems.removeAt(i);
+            delete item;
+            return;
+        }
      }
 
      for (int i = 0; i < count(); ++i) {
@@ -380,7 +394,7 @@ void PlacesItemModel::loadBookmarks()
 
     // The bookmarks might have a mixed order of "places" and "devices". In
     // Dolphin's places panel the devices should always be appended as last
-    // group.
+    // group, so they are collected as separate lists.
     QList<PlacesItem*> placesItems;
     QList<PlacesItem*> devicesItems;
 
@@ -391,7 +405,8 @@ void PlacesItemModel::loadBookmarks()
         const bool deviceAvailable = devices.remove(udi);
 
         const bool allowedHere = (appName.isEmpty() || appName == KGlobal::mainComponent().componentName())
-                                 && (m_nepomukRunning || url.protocol() != QLatin1String("timeline"));
+                                 && (m_nepomukRunning || (url.protocol() != QLatin1String("timeline") &&
+                                                          url.protocol() != QLatin1String("search")));
 
         if ((udi.isEmpty() && allowedHere) || deviceAvailable) {
             PlacesItem* item = new PlacesItem(bookmark);
@@ -407,10 +422,8 @@ void PlacesItemModel::loadBookmarks()
                     // translation might be shown.
                     const int index = m_systemBookmarksIndexes.value(url);
                     item->setText(m_systemBookmarks[index].text);
-
-                    // The system bookmarks don't contain "real" queries stored as URLs, so
-                    // they must be translated first.
-                    item->setUrl(translatedSystemBookmarkUrl(url));
+                    item->setSystemItem(true);
+                    item->setGroup(m_systemBookmarks[index].group);
                 }
             }
         }
@@ -421,12 +434,24 @@ void PlacesItemModel::loadBookmarks()
     addItems(placesItems);
 
     if (!missingSystemBookmarks.isEmpty()) {
+        // The current bookmarks don't contain all system-bookmarks. Add the missing
+        // bookmarks.
         foreach (const SystemBookmarkData& data, m_systemBookmarks) {
             if (missingSystemBookmarks.contains(data.url)) {
-                PlacesItem* item = new PlacesItem();
-                item->setIcon(data.icon);
-                item->setText(data.text);
-                item->setUrl(translatedSystemBookmarkUrl(data.url));
+                KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
+                                                                data.text,
+                                                                data.url,
+                                                                data.icon);
+
+                const QString protocol = data.url.protocol();
+                if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
+                    // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
+                    // for timeline and search should be a Dolphin-specific setting.
+                    bookmark.setMetaDataItem("OnlyInApp", KGlobal::mainComponent().componentName());
+                }
+
+                PlacesItem* item = new PlacesItem(bookmark);
+                item->setSystemItem(true);
                 item->setGroup(data.group);
                 appendItem(item);
             }
@@ -435,8 +460,8 @@ void PlacesItemModel::loadBookmarks()
 
     // Create items for devices that have not stored as bookmark yet
     foreach (const QString& udi, devices) {
-        PlacesItem* item = new PlacesItem(udi);
-        devicesItems.append(item);
+        const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
+        devicesItems.append(new PlacesItem(bookmark));
     }
 
     addItems(devicesItems);
@@ -450,7 +475,7 @@ void PlacesItemModel::loadBookmarks()
 void PlacesItemModel::addItems(const QList<PlacesItem*>& items)
 {
     foreach (PlacesItem* item, items) {
-        if (item->isHidden()) {
+        if (!m_hiddenItemsShown && item->isHidden()) {
             m_hiddenItems.append(item);
         } else {
             appendItem(item);
@@ -522,8 +547,7 @@ void PlacesItemModel::createSystemBookmarks()
     }
 
     for (int i = 0; i < m_systemBookmarks.count(); ++i) {
-        const KUrl url = translatedSystemBookmarkUrl(m_systemBookmarks[i].url);
-        m_systemBookmarksIndexes.insert(url, i);
+        m_systemBookmarksIndexes.insert(m_systemBookmarks[i].url, i);
     }
 }
 
@@ -580,100 +604,6 @@ QString PlacesItemModel::searchForGroupName()
 {
     return i18nc("@item", "Search For");
 }
-
-KUrl PlacesItemModel::translatedSystemBookmarkUrl(const KUrl& url)
-{
-    KUrl translatedUrl = url;
-    if (url.protocol() == QLatin1String("timeline")) {
-        translatedUrl = createTimelineUrl(url);
-    } else if (url.protocol() == QLatin1String("search")) {
-        translatedUrl = createSearchUrl(url);
-    }
-
-    return translatedUrl;
-}
-
-KUrl PlacesItemModel::createTimelineUrl(const KUrl& url)
-{
-    // TODO: Clarify with the Nepomuk-team whether it makes sense
-    // provide default-timeline-URLs like 'yesterday', 'this month'
-    // and 'last month'.
-    KUrl timelineUrl;
-
-    const QString path = url.pathOrUrl();
-    if (path.endsWith("yesterday")) {
-        const QDate date = QDate::currentDate().addDays(-1);
-        const int year = date.year();
-        const int month = date.month();
-        const int day = date.day();
-        timelineUrl = "timeline:/" + timelineDateString(year, month) +
-              '/' + timelineDateString(year, month, day);
-    } else if (path.endsWith("thismonth")) {
-        const QDate date = QDate::currentDate();
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
-    } else if (path.endsWith("lastmonth")) {
-        const QDate date = QDate::currentDate().addMonths(-1);
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
-    } else {
-        Q_ASSERT(path.endsWith("today"));
-        timelineUrl= url;
-    }
-
-    return timelineUrl;
-}
-
-QString PlacesItemModel::timelineDateString(int year, int month, int day)
-{
-    QString date = QString::number(year) + '-';
-    if (month < 10) {
-        date += '0';
-    }
-    date += QString::number(month);
-
-    if (day >= 1) {
-        date += '-';
-        if (day < 10) {
-            date += '0';
-        }
-        date += QString::number(day);
-    }
-
-    return date;
-}
-
-KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
-{
-    KUrl searchUrl;
-
-#ifdef HAVE_NEPOMUK
-    const QString path = url.pathOrUrl();
-    if (path.endsWith("documents")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
-    } else if (path.endsWith("images")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
-    } else if (path.endsWith("audio")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("audio")));
-    } else if (path.endsWith("videos")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("video")));
-    } else {
-        Q_ASSERT(false);
-    }
-#else
-    Q_UNUSED(url);
-#endif
-
-    return searchUrl;
-}
-
-#ifdef HAVE_NEPOMUK
-KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk::Query::Term& term)
-{
-    const Nepomuk::Query::Query query(term);
-    return query.toSearchUrl();
-}
-#endif
 
 #ifdef PLACESITEMMODEL_DEBUG
 void PlacesItemModel::showModelState()

@@ -38,6 +38,7 @@
 #include <KMenu>
 #include <KMessageBox>
 #include <KNotification>
+#include "placesitem.h"
 #include "placesitemeditdialog.h"
 #include "placesitemlistgroupheader.h"
 #include "placesitemlistwidget.h"
@@ -45,6 +46,15 @@
 #include <views/draganddrophelper.h>
 #include <QVBoxLayout>
 #include <QShowEvent>
+
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/Query/ComparisonTerm>
+    #include <Nepomuk/Query/LiteralTerm>
+    #include <Nepomuk/Query/Query>
+    #include <Nepomuk/Query/ResourceTypeTerm>
+    #include <Nepomuk/Vocabulary/NFO>
+    #include <Nepomuk/Vocabulary/NIE>
+#endif
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
@@ -107,7 +117,7 @@ void PlacesPanel::slotItemActivated(int index)
 {
     const KUrl url = m_model->data(index).value("url").value<KUrl>();
     if (!url.isEmpty()) {
-        emit placeActivated(url);
+        emit placeActivated(convertedUrl(url));
     }
 }
 
@@ -115,14 +125,16 @@ void PlacesPanel::slotItemMiddleClicked(int index)
 {
     const KUrl url = m_model->data(index).value("url").value<KUrl>();
     if (!url.isEmpty()) {
-        emit placeMiddleClicked(url);
+        emit placeMiddleClicked(convertedUrl(url));
     }
 }
 
 void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
-    const QHash<QByteArray, QVariant> data = m_model->data(index);
-    const QString label = data.value("text").toString();
+    const PlacesItem* item = m_model->placesItem(index);
+    if (!item) {
+        return;
+    }
 
     KMenu menu(this);
 
@@ -133,8 +145,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* teardownAction = 0;
     QAction* ejectAction = 0;
 
-    const bool isSystemItem = m_model->isSystemItem(index);
-    const bool isDevice = !data.value("udi").toString().isEmpty();
+    const QString label = item->text();
+
+    const bool isDevice = !item->udi().isEmpty();
     if (isDevice) {
         ejectAction = m_model->ejectAction(index);
         if (ejectAction) {
@@ -152,7 +165,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             mainSeparator = menu.addSeparator();
         }
     } else {
-        if (data.value("url").value<KUrl>() == KUrl("trash:/")) {
+        if (item->url() == KUrl("trash:/")) {
             emptyTrashAction = menu.addAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
             KConfig trashConfig("trashrc", KConfig::SimpleConfig);
             emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
@@ -171,13 +184,13 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     openInNewTabAction->setIcon(KIcon("tab-new"));
 
     QAction* removeAction = 0;
-    if (!isDevice && !isSystemItem) {
+    if (!isDevice && !item->isSystemItem()) {
         removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
     }
 
     QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide '%1'", label));
     hideAction->setCheckable(true);
-    hideAction->setChecked(data.value("isHidden").toBool());
+    hideAction->setChecked(item->isHidden());
 
     QAction* showAllAction = 0;
     if (m_model->hiddenCount() > 0) {
@@ -204,8 +217,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             editEntry(index);
         } else if (action == removeAction) {
             m_model->removeItem(index);
+            m_model->save();
         } else if (action == hideAction) {
             m_model->setItemHidden(index, hideAction->isChecked());
+            m_model->save();
         } else if (action == openInNewTabAction) {
             const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
             emit placeMiddleClicked(url);
@@ -264,7 +279,7 @@ void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* 
 void PlacesPanel::slotTrashUpdated(KJob* job)
 {
     if (job->error()) {
-        // TODO: Show error-string inside Dolphin, don't use job->ui->showErrorMessage().
+        emit errorMessage(job->errorString());
     }
     org::kde::KDirNotify::emitFilesAdded("trash:/");
 }
@@ -322,6 +337,8 @@ void PlacesPanel::addEntry()
     }
 
     delete dialog;
+
+    m_model->save();
 }
 
 void PlacesPanel::editEntry(int index)
@@ -347,6 +364,8 @@ void PlacesPanel::editEntry(int index)
     }
 
     delete dialog;
+
+    m_model->save();
 }
 
 void PlacesPanel::selectClosestItem()
@@ -371,5 +390,99 @@ KStandardItem* PlacesPanel::createStandardItemFromDialog(PlacesItemEditDialog* d
 
     return item;
 }
+
+KUrl PlacesPanel::convertedUrl(const KUrl& url)
+{
+    KUrl newUrl = url;
+    if (url.protocol() == QLatin1String("timeline")) {
+        newUrl = createTimelineUrl(url);
+    } else if (url.protocol() == QLatin1String("search")) {
+        newUrl = createSearchUrl(url);
+    }
+
+    return newUrl;
+}
+
+KUrl PlacesPanel::createTimelineUrl(const KUrl& url)
+{
+    // TODO: Clarify with the Nepomuk-team whether it makes sense
+    // provide default-timeline-URLs like 'yesterday', 'this month'
+    // and 'last month'.
+    KUrl timelineUrl;
+
+    const QString path = url.pathOrUrl();
+    if (path.endsWith("yesterday")) {
+        const QDate date = QDate::currentDate().addDays(-1);
+        const int year = date.year();
+        const int month = date.month();
+        const int day = date.day();
+        timelineUrl = "timeline:/" + timelineDateString(year, month) +
+              '/' + timelineDateString(year, month, day);
+    } else if (path.endsWith("thismonth")) {
+        const QDate date = QDate::currentDate();
+        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+    } else if (path.endsWith("lastmonth")) {
+        const QDate date = QDate::currentDate().addMonths(-1);
+        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+    } else {
+        Q_ASSERT(path.endsWith("today"));
+        timelineUrl= url;
+    }
+
+    return timelineUrl;
+}
+
+QString PlacesPanel::timelineDateString(int year, int month, int day)
+{
+    QString date = QString::number(year) + '-';
+    if (month < 10) {
+        date += '0';
+    }
+    date += QString::number(month);
+
+    if (day >= 1) {
+        date += '-';
+        if (day < 10) {
+            date += '0';
+        }
+        date += QString::number(day);
+    }
+
+    return date;
+}
+
+KUrl PlacesPanel::createSearchUrl(const KUrl& url)
+{
+    KUrl searchUrl;
+
+#ifdef HAVE_NEPOMUK
+    const QString path = url.pathOrUrl();
+    if (path.endsWith("documents")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
+    } else if (path.endsWith("images")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+    } else if (path.endsWith("audio")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk::Query::LiteralTerm("audio")));
+    } else if (path.endsWith("videos")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk::Query::LiteralTerm("video")));
+    } else {
+        Q_ASSERT(false);
+    }
+#else
+    Q_UNUSED(url);
+#endif
+
+    return searchUrl;
+}
+
+#ifdef HAVE_NEPOMUK
+KUrl PlacesPanel::searchUrlForTerm(const Nepomuk::Query::Term& term)
+{
+    const Nepomuk::Query::Query query(term);
+    return query.toSearchUrl();
+}
+#endif
 
 #include "placespanel.moc"
