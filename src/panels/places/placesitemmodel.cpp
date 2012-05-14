@@ -549,7 +549,7 @@ void PlacesItemModel::createSystemBookmarks()
                                                     searchForGroup));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/audio"),
                                                     "folder-sound",
-                                                    i18nc("@item Commonly Accessed", "Audio"),
+                                                    i18nc("@item Commonly Accessed", "Audio Files"),
                                                     searchForGroup));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/videos"),
                                                     "folder-video",

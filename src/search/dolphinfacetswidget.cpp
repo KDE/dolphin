@@ -60,7 +60,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
 {
     m_documents = createCheckBox(i18nc("@option:check", "Documents"));
     m_images    = createCheckBox(i18nc("@option:check", "Images"));
-    m_audio     = createCheckBox(i18nc("@option:check", "Audio"));
+    m_audio     = createCheckBox(i18nc("@option:check", "Audio Files"));
     m_videos    = createCheckBox(i18nc("@option:check", "Videos"));
 
     QVBoxLayout* typeLayout = new QVBoxLayout();
@@ -95,7 +95,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_twoOrMore   = createRadioButton(i18nc("@option:option", "2 or more"), ratingGroup);
     m_threeOrMore = createRadioButton(i18nc("@option:option", "3 or more"), ratingGroup);
     m_fourOrMore  = createRadioButton(i18nc("@option:option", "4 or more"), ratingGroup);
-    m_maxRating   = createRadioButton(i18nc("@option:option", "Maximum Rating"), ratingGroup);
+    m_maxRating   = createRadioButton(i18nc("@option:option", "Highest Rating"), ratingGroup);
 
     QVBoxLayout* ratingLayout = new QVBoxLayout();
     ratingLayout->setSpacing(0);
