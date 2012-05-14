@@ -38,6 +38,14 @@ class PlacesItem : public KStandardItem
 {
 
 public:
+    enum GroupType
+    {
+        PlacesType,
+        SearchForType,
+        RecentlyAccessedType,
+        DevicesType
+    };
+
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
     explicit PlacesItem(const PlacesItem& item);
     virtual ~PlacesItem();
@@ -58,6 +66,8 @@ public:
 
     void setBookmark(const KBookmark& bookmark);
     KBookmark bookmark() const;
+
+    GroupType groupType() const;
 
     static KBookmark createBookmark(KBookmarkManager* manager,
                                     const QString& text,

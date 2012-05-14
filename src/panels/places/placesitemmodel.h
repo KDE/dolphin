@@ -72,12 +72,6 @@ public:
      */
     int closestItem(const KUrl& url) const;
 
-    /**
-     * @return Name of the group where the item with the URL
-     *         \a URL belongs to.
-     */
-    QString groupName(const KUrl& url) const;
-
     QAction* ejectAction(int index) const;
     QAction* teardownAction(int index) const;
 
@@ -124,9 +118,7 @@ private:
      */
     int hiddenIndex(int index) const;
 
-    static QString placesGroupName();
-    static QString recentlyAccessedGroupName();
-    static QString searchForGroupName();
+    void removeHiddenItem(int index);
 
 #ifdef PLACESITEMMODEL_DEBUG
     void showModelState();
@@ -143,14 +135,12 @@ private:
     struct SystemBookmarkData
     {
         SystemBookmarkData(const KUrl& url,
-                            const QString& icon,
-                            const QString& text,
-                            const QString& group) :
-            url(url), icon(icon), text(text), group(group) {}
+                           const QString& icon,
+                           const QString& text) :
+            url(url), icon(icon), text(text) {}
         KUrl url;
         QString icon;
         QString text;
-        QString group;
     };
 
     QList<SystemBookmarkData> m_systemBookmarks;

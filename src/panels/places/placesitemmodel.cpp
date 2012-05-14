@@ -89,9 +89,7 @@ PlacesItem* PlacesItemModel::createPlacesItem(const QString& text,
                                               const QString& iconName)
 {
     const KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager, text, url, iconName);
-    PlacesItem* item = new PlacesItem(bookmark);
-    item->setGroup(groupName(url));
-    return item;
+    return new PlacesItem(bookmark);
 }
 
 PlacesItem* PlacesItemModel::placesItem(int index) const
@@ -143,11 +141,9 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
         // m_hiddenItems.
         Q_ASSERT(m_hiddenItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
-            PlacesItem* visibleItem = placesItem(i);
+            const PlacesItem* visibleItem = placesItem(i);
             if (visibleItem->isHidden()) {
-                PlacesItem* hiddenItem = new PlacesItem(*visibleItem);
-                removeItem(i);
-                m_hiddenItems.insert(i, hiddenItem);
+                removeHiddenItem(i);
             }
         }
     }
@@ -179,21 +175,6 @@ int PlacesItemModel::closestItem(const KUrl& url) const
     }
 
     return foundIndex;
-}
-
-QString PlacesItemModel::groupName(const KUrl &url) const
-{
-    const QString protocol = url.protocol();
-
-    if (protocol.contains(QLatin1String("search"))) {
-        return searchForGroupName();
-    }
-
-    if (protocol == QLatin1String("timeline")) {
-        return recentlyAccessedGroupName();
-    }
-
-    return placesGroupName();
 }
 
 QAction* PlacesItemModel::ejectAction(int index) const
@@ -420,14 +401,7 @@ void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVar
 
 void PlacesItemModel::removeHiddenItem()
 {
-    const PlacesItem* shownItem = placesItem(m_hiddenItemToRemove);
-    const int newIndex = hiddenIndex(m_hiddenItemToRemove);
-    if (shownItem && newIndex >= 0) {
-        PlacesItem* hiddenItem = new PlacesItem(*shownItem);
-        removeItem(m_hiddenItemToRemove);
-        m_hiddenItems.insert(newIndex, hiddenItem);
-        m_saveBookmarksTimer->start();
-    }
+    removeHiddenItem(m_hiddenItemToRemove);
     m_hiddenItemToRemove = -1;
 }
 
@@ -449,10 +423,13 @@ void PlacesItemModel::loadBookmarks()
         missingSystemBookmarks.insert(data.url);
     }
 
-    // The bookmarks might have a mixed order of "places" and "devices". In
-    // Dolphin's places panel the devices should always be appended as last
-    // group, so they are collected as separate lists.
+    // The bookmarks might have a mixed order of places, devices and search-groups due
+    // to the compatibility with the KFilePlacesPanel. In Dolphin's places panel the
+    // items should always be collected in one group so the items are collected first
+    // in separate lists before inserting them.
     QList<PlacesItem*> placesItems;
+    QList<PlacesItem*> recentlyAccessedItems;
+    QList<PlacesItem*> searchForItems;
     QList<PlacesItem*> devicesItems;
 
     while (!bookmark.isNull()) {
@@ -470,8 +447,6 @@ void PlacesItemModel::loadBookmarks()
             if (deviceAvailable) {
                 devicesItems.append(item);
             } else {
-                placesItems.append(item);
-
                 if (missingSystemBookmarks.contains(url)) {
                     missingSystemBookmarks.remove(url);
 
@@ -480,15 +455,20 @@ void PlacesItemModel::loadBookmarks()
                     const int index = m_systemBookmarksIndexes.value(url);
                     item->setText(m_systemBookmarks[index].text);
                     item->setSystemItem(true);
-                    item->setGroup(m_systemBookmarks[index].group);
+                }
+
+                switch (item->groupType()) {
+                case PlacesItem::PlacesType:           placesItems.append(item); break;
+                case PlacesItem::RecentlyAccessedType: recentlyAccessedItems.append(item); break;
+                case PlacesItem::SearchForType:        searchForItems.append(item); break;
+                case PlacesItem::DevicesType:
+                default:                               Q_ASSERT(false); break;
                 }
             }
         }
 
         bookmark = root.next(bookmark);
     }
-
-    addItems(placesItems);
 
     if (!missingSystemBookmarks.isEmpty()) {
         // The current bookmarks don't contain all system-bookmarks. Add the missing
@@ -509,11 +489,21 @@ void PlacesItemModel::loadBookmarks()
 
                 PlacesItem* item = new PlacesItem(bookmark);
                 item->setSystemItem(true);
-                item->setGroup(data.group);
-                appendItem(item);
+
+                switch (item->groupType()) {
+                case PlacesItem::PlacesType:           placesItems.append(item); break;
+                case PlacesItem::RecentlyAccessedType: recentlyAccessedItems.append(item); break;
+                case PlacesItem::SearchForType:        searchForItems.append(item); break;
+                case PlacesItem::DevicesType:
+                default:                               Q_ASSERT(false); break;
+                }
             }
         }
     }
+
+    addItems(placesItems);
+    addItems(recentlyAccessedItems);
+    addItems(searchForItems);
 
     // Create items for devices that have not stored as bookmark yet
     foreach (const QString& udi, devices) {
@@ -545,62 +535,47 @@ void PlacesItemModel::createSystemBookmarks()
     Q_ASSERT(m_systemBookmarks.isEmpty());
     Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
 
-    const QString placesGroup = placesGroupName();
-    const QString recentlyAccessedGroup = recentlyAccessedGroupName();
-    const QString searchForGroup = searchForGroupName();
     const QString timeLineIcon = "package_utility_time"; // TODO: Ask the Oxygen team to create
                                                          // a custom icon for the timeline-protocol
 
     m_systemBookmarks.append(SystemBookmarkData(KUrl(KUser().homeDir()),
                                                 "user-home",
-                                                i18nc("@item", "Home"),
-                                                placesGroup));
+                                                i18nc("@item", "Home")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("remote:/"),
                                                 "network-workgroup",
-                                                i18nc("@item", "Network"),
-                                                placesGroup));
+                                                i18nc("@item", "Network")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("/"),
                                                 "folder-red",
-                                                i18nc("@item", "Root"),
-                                                placesGroup));
+                                                i18nc("@item", "Root")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("trash:/"),
                                                 "user-trash",
-                                                i18nc("@item", "Trash"),
-                                                placesGroup));
+                                                i18nc("@item", "Trash")));
 
     if (m_nepomukRunning) {
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Today"),
-                                                    recentlyAccessedGroup));
+                                                    i18nc("@item Recently Accessed", "Today")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/yesterday"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Yesterday"),
-                                                    recentlyAccessedGroup));
+                                                    i18nc("@item Recently Accessed", "Yesterday")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/thismonth"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "This Month"),
-                                                    recentlyAccessedGroup));
+                                                    i18nc("@item Recently Accessed", "This Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/lastmonth"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Last Month"),
-                                                    recentlyAccessedGroup));
+                                                    i18nc("@item Recently Accessed", "Last Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/documents"),
                                                     "folder-txt",
-                                                    i18nc("@item Commonly Accessed", "Documents"),
-                                                    searchForGroup));
+                                                    i18nc("@item Commonly Accessed", "Documents")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/images"),
                                                     "folder-image",
-                                                    i18nc("@item Commonly Accessed", "Images"),
-                                                    searchForGroup));
+                                                    i18nc("@item Commonly Accessed", "Images")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/audio"),
                                                     "folder-sound",
-                                                    i18nc("@item Commonly Accessed", "Audio Files"),
-                                                    searchForGroup));
+                                                    i18nc("@item Commonly Accessed", "Audio Files")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/videos"),
                                                     "folder-video",
-                                                    i18nc("@item Commonly Accessed", "Videos"),
-                                                    searchForGroup));
+                                                    i18nc("@item Commonly Accessed", "Videos")));
     }
 
     for (int i = 0; i < m_systemBookmarks.count(); ++i) {
@@ -647,19 +622,31 @@ int PlacesItemModel::hiddenIndex(int index) const
     return hiddenIndex >= m_hiddenItems.count() ? -1 : hiddenIndex;
 }
 
-QString PlacesItemModel::placesGroupName()
+void PlacesItemModel::removeHiddenItem(int index)
 {
-    return i18nc("@item", "Places");
-}
+    const PlacesItem* shownItem = placesItem(index);
+    const int newIndex = hiddenIndex(index);
+    if (shownItem && newIndex >= 0) {
+        PlacesItem* hiddenItem = new PlacesItem(*shownItem);
+        const KBookmark hiddenBookmark = hiddenItem->bookmark();
 
-QString PlacesItemModel::recentlyAccessedGroupName()
-{
-    return i18nc("@item", "Recently Accessed");
-}
+        const PlacesItem* previousItem = placesItem(index - 1);
+        KBookmark previousBookmark;
+        if (previousItem) {
+            previousBookmark = previousItem->bookmark();
+        }
 
-QString PlacesItemModel::searchForGroupName()
-{
-    return i18nc("@item", "Search For");
+        removeItem(index);
+
+        // removeItem() also removed the bookmark from m_bookmarkManager in
+        // PlacesItemModel::onItemRemoved(). However for hidden items the
+        // bookmark should still be remembered, so readd it again:
+        m_bookmarkManager->root().addBookmark(hiddenBookmark);
+        m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
+
+        m_hiddenItems.insert(newIndex, hiddenItem);
+        m_saveBookmarksTimer->start();
+    }
 }
 
 #ifdef PLACESITEMMODEL_DEBUG
