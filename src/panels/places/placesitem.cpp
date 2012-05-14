@@ -121,7 +121,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
-        setText(bookmark.text());
+        setText(bookmark.description());
         setUrl(bookmark.url());
         setDataValue("address", bookmark.address());
         setGroup(i18nc("@item", "Places"));
@@ -139,8 +139,7 @@ KBookmark PlacesItem::bookmark() const
 KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
                                      const QString& text,
                                      const KUrl& url,
-                                     const QString& iconName,
-                                     PlacesItem* after)
+                                     const QString& iconName)
 {
     KBookmarkGroup root = manager->root();
     if (root.isNull()) {
@@ -148,11 +147,8 @@ KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
     }
 
     KBookmark bookmark = root.addBookmark(text, url, iconName);
+    bookmark.setDescription(text);
     bookmark.setMetaDataItem("ID", generateNewId());
-
-    if (after) {
-        root.moveBookmark(bookmark, after->bookmark());
-    }
 
     return bookmark;
 }

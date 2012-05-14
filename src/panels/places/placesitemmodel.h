@@ -52,6 +52,10 @@ public:
     explicit PlacesItemModel(QObject* parent = 0);
     virtual ~PlacesItemModel();
 
+    PlacesItem* createPlacesItem(const QString& text,
+                                 const KUrl& url,
+                                 const QString& iconName);
+
     PlacesItem* placesItem(int index) const;
 
     void setHiddenItemsShown(bool show);
@@ -85,7 +89,7 @@ signals:
 
 protected:
     virtual void onItemInserted(int index);
-    virtual void onItemRemoved(int index);
+    virtual void onItemRemoved(int index, KStandardItem* removedItem);
     virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles);
 
 private slots:

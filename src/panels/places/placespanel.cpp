@@ -312,17 +312,17 @@ void PlacesPanel::addEntry()
     dialog->setAllowGlobal(true);
     dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
-        KStandardItem* item = createStandardItemFromDialog(dialog);
+        PlacesItem* item = m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
 
         // Insert the item as last item of the corresponding group.
         int i = 0;
-        while (i < m_model->count() && m_model->item(i)->group() != item->group()) {
+        while (i < m_model->count() && m_model->placesItem(i)->group() != item->group()) {
             ++i;
         }
 
         bool inserted = false;
         while (!inserted && i < m_model->count()) {
-            if (m_model->item(i)->group() != item->group()) {
+            if (m_model->placesItem(i)->group() != item->group()) {
                 m_model->insertItem(i, item);
                 inserted = true;
             }
@@ -348,14 +348,11 @@ void PlacesPanel::editEntry(int index)
     dialog->setUrl(data.value("url").value<KUrl>());
     dialog->setAllowGlobal(true);
     if (dialog->exec() == QDialog::Accepted) {
-        KStandardItem* oldItem = m_model->item(index);
+        PlacesItem* oldItem = m_model->placesItem(index);
         if (oldItem) {
-            KStandardItem* item = createStandardItemFromDialog(dialog);
-            // Although the user might have changed the URL of the item in a way
-            // that another group should be assigned, we still apply the old
-            // group to keep the same position for the item.
-            item->setGroup(oldItem->group());
-            m_model->changeItem(index, item);
+            oldItem->setText(dialog->text());
+            oldItem->setUrl(dialog->url());
+            oldItem->setIcon(dialog->icon());
         }
     }
 
@@ -369,20 +366,6 @@ void PlacesPanel::selectClosestItem()
     selectionManager->setCurrentItem(index);
     selectionManager->clearSelection();
     selectionManager->setSelected(index);
-}
-
-KStandardItem* PlacesPanel::createStandardItemFromDialog(PlacesItemEditDialog* dialog) const
-{
-    Q_ASSERT(dialog);
-
-    const KUrl newUrl = dialog->url();
-    KStandardItem* item = new KStandardItem();
-    item->setIcon(dialog->icon());
-    item->setText(dialog->text());
-    item->setDataValue("url", newUrl);
-    item->setGroup(m_model->groupName(newUrl));
-
-    return item;
 }
 
 KUrl PlacesPanel::convertedUrl(const KUrl& url)

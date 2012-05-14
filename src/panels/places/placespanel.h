@@ -26,9 +26,9 @@
 #include <KUrl>
 #include <panels/panel.h>
 
-class KStandardItem;
 class KItemListController;
 class PlacesItemEditDialog;
+class PlacesItem;
 class PlacesItemModel;
 
 #ifdef HAVE_NEPOMUK
@@ -79,12 +79,6 @@ private:
      * for the panel (see Panel::setUrl()).
      */
     void selectClosestItem();
-
-    /**
-     * @return New instance of a KStandardItem containing the properties that have
-     *         been set in the places-dialog.
-     */
-    KStandardItem* createStandardItemFromDialog(PlacesItemEditDialog* dialog) const;
 
     /**
      * @return Converts the URL, which contains "virtual" URLs for system-items like

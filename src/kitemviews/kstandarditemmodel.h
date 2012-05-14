@@ -91,9 +91,11 @@ protected:
 
     /**
      * Is invoked after an item has been removed and before the signal
-     * itemsRemoved() gets emitted.
+     * itemsRemoved() gets emitted. The item \a removedItem has already
+     * been removed from the model and will get deleted after the
+     * execution of onItemRemoved().
      */
-    virtual void onItemRemoved(int index);
+    virtual void onItemRemoved(int index, KStandardItem* removedItem);
 
 private:
     QList<KStandardItem*> m_items;

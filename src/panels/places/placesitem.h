@@ -62,8 +62,7 @@ public:
     static KBookmark createBookmark(KBookmarkManager* manager,
                                     const QString& text,
                                     const KUrl& url,
-                                    const QString& iconName,
-                                    PlacesItem* after = 0);
+                                    const QString& iconName);
     static KBookmark createDeviceBookmark(KBookmarkManager* manager,
                                           const QString& udi);
 

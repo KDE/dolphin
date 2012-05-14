@@ -103,7 +103,14 @@ QString KStandardItem::group() const
 
 void KStandardItem::setDataValue(const QByteArray& role, const QVariant& value)
 {
+    const QVariant previous = m_data.value(role);
+    if (previous == value) {
+        return;
+    }
+
     m_data.insert(role, value);
+    onDataValueChanged(role, value, previous);
+
     if (m_model) {
         const int index = m_model->index(this);
         QSet<QByteArray> changedRoles;
@@ -131,7 +138,9 @@ KStandardItem* KStandardItem::parent() const
 
 void KStandardItem::setData(const QHash<QByteArray, QVariant>& values)
 {
+    const QHash<QByteArray, QVariant> previous = m_data;
     m_data = values;
+    onDataChanged(values, previous);
 }
 
 QHash<QByteArray, QVariant> KStandardItem::data() const

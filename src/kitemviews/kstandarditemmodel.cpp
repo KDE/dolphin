@@ -93,11 +93,13 @@ void KStandardItemModel::removeItem(int index)
         KStandardItem* item = m_items[index];
         m_indexesForItems.remove(item);
         m_items.removeAt(index);
+
+        onItemRemoved(index, item);
+        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
+
         delete item;
         item = 0;
 
-        onItemRemoved(index);
-        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
         // TODO: no hierarchical items are handled yet
     }
 }
@@ -202,9 +204,10 @@ void KStandardItemModel::onItemChanged(int index, const QSet<QByteArray>& change
     Q_UNUSED(changedRoles);
 }
 
-void KStandardItemModel::onItemRemoved(int index)
+void KStandardItemModel::onItemRemoved(int index, KStandardItem* removedItem)
 {
     Q_UNUSED(index);
+    Q_UNUSED(removedItem);
 }
 
 

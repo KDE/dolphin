@@ -84,6 +84,16 @@ PlacesItemModel::~PlacesItemModel()
     m_hiddenItems.clear();
 }
 
+PlacesItem* PlacesItemModel::createPlacesItem(const QString& text,
+                                              const KUrl& url,
+                                              const QString& iconName)
+{
+    const KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager, text, url, iconName);
+    PlacesItem* item = new PlacesItem(bookmark);
+    item->setGroup(groupName(url));
+    return item;
+}
+
 PlacesItem* PlacesItemModel::placesItem(int index) const
 {
     return dynamic_cast<PlacesItem*>(item(index));
@@ -276,6 +286,21 @@ void PlacesItemModel::requestTeardown(int index)
 
 void PlacesItemModel::onItemInserted(int index)
 {
+    const PlacesItem* insertedItem = placesItem(index);
+    if (insertedItem) {
+        // Take care to apply the PlacesItemModel-order of the inserted item
+        // also to the bookmark-manager.
+        const KBookmark insertedBookmark = insertedItem->bookmark();
+
+        const PlacesItem* previousItem = placesItem(index - 1);
+        KBookmark previousBookmark;
+        if (previousItem) {
+            previousBookmark = previousItem->bookmark();
+        }
+
+        m_bookmarkManager->root().moveBookmark(insertedBookmark, previousBookmark);
+    }
+
     if (index == count() - 1) {
         // The item has been appended as last item to the list. In this
         // case assure that it is also appended after the hidden items and
@@ -305,8 +330,14 @@ void PlacesItemModel::onItemInserted(int index)
 #endif
 }
 
-void PlacesItemModel::onItemRemoved(int index)
+void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
 {
+    PlacesItem* placesItem = dynamic_cast<PlacesItem*>(removedItem);
+    if (placesItem) {
+        const KBookmark bookmark = placesItem->bookmark();
+        m_bookmarkManager->root().deleteBookmark(bookmark);
+    }
+
     const int removeIndex = hiddenIndex(index);
     Q_ASSERT(!m_hiddenItems[removeIndex]);
     m_hiddenItems.removeAt(removeIndex);
@@ -321,6 +352,21 @@ void PlacesItemModel::onItemRemoved(int index)
 
 void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
 {
+    const PlacesItem* changedItem = placesItem(index);
+    if (changedItem) {
+        // Take care to apply the PlacesItemModel-order of the inserted item
+        // also to the bookmark-manager.
+        const KBookmark insertedBookmark = changedItem->bookmark();
+
+        const PlacesItem* previousItem = placesItem(index - 1);
+        KBookmark previousBookmark;
+        if (previousItem) {
+            previousBookmark = previousItem->bookmark();
+        }
+
+        m_bookmarkManager->root().moveBookmark(insertedBookmark, previousBookmark);
+    }
+
     if (changedRoles.contains("isHidden")) {
         const PlacesItem* shownItem = placesItem(index);
         Q_ASSERT(shownItem);
