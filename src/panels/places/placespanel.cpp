@@ -217,10 +217,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             editEntry(index);
         } else if (action == removeAction) {
             m_model->removeItem(index);
-            m_model->save();
         } else if (action == hideAction) {
             item->setHidden(hideAction->isChecked());
-            m_model->save();
         } else if (action == openInNewTabAction) {
             const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
             emit placeMiddleClicked(url);
@@ -337,8 +335,6 @@ void PlacesPanel::addEntry()
     }
 
     delete dialog;
-
-    m_model->save();
 }
 
 void PlacesPanel::editEntry(int index)
@@ -364,8 +360,6 @@ void PlacesPanel::editEntry(int index)
     }
 
     delete dialog;
-
-    m_model->save();
 }
 
 void PlacesPanel::selectClosestItem()

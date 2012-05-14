@@ -199,6 +199,7 @@ void KStandardItemModel::onItemInserted(int index)
 void KStandardItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
 {
     Q_UNUSED(index);
+    Q_UNUSED(changedRoles);
 }
 
 void KStandardItemModel::onItemRemoved(int index)

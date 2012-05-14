@@ -34,6 +34,7 @@
 class KBookmarkManager;
 class PlacesItem;
 class QAction;
+class QTimer;
 
 // #define PLACESITEMMODEL_DEBUG
 
@@ -79,8 +80,6 @@ public:
     void requestEject(int index);
     void requestTeardown(int index);
 
-    void save();
-
 signals:
     void errorMessage(const QString& message);
 
@@ -94,9 +93,10 @@ private slots:
     void slotDeviceRemoved(const QString& udi);
     void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
     void removeHiddenItem();
+    void saveBookmarks();
 
 private:
-    void loadBookmarks();
+    void loadBookmarks();   
 
     /**
      * Helper method for loadBookmarks(): Adds the items
@@ -159,6 +159,8 @@ private:
     // asynchronously as in the scope of onItemChanged()
     // removing an item is not allowed.
     int m_hiddenItemToRemove;
+
+    QTimer* m_saveBookmarksTimer;
 };
 
 #endif

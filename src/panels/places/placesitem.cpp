@@ -44,13 +44,16 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
 
 PlacesItem::PlacesItem(const PlacesItem& item) :
     KStandardItem(item),
-    m_device(),
-    m_access(),
-    m_volume(),
-    m_disc(),
+    m_device(item.m_device),
+    m_access(item.m_access),
+    m_volume(item.m_volume),
+    m_disc(item.m_disc),
     m_accessListener(0),
-    m_bookmark()
+    m_bookmark(item.m_bookmark)
 {
+    if (item.m_accessListener) {
+        m_accessListener = new PlacesItemStorageAccessListener(this);
+    }
 }
 
 PlacesItem::~PlacesItem()

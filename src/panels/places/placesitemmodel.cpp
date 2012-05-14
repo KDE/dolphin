@@ -58,7 +58,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_systemBookmarks(),
     m_systemBookmarksIndexes(),
     m_hiddenItems(),
-    m_hiddenItemToRemove(-1)
+    m_hiddenItemToRemove(-1),
+    m_saveBookmarksTimer(0)
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -69,10 +70,16 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     createSystemBookmarks();
     initializeAvailableDevices();
     loadBookmarks();
+
+    m_saveBookmarksTimer = new QTimer(this);
+    m_saveBookmarksTimer->setInterval(100);
+    m_saveBookmarksTimer->setSingleShot(true);
+    connect(m_saveBookmarksTimer, SIGNAL(timeout()), this, SLOT(saveBookmarks()));
 }
 
 PlacesItemModel::~PlacesItemModel()
 {
+    saveBookmarks();
     qDeleteAll(m_hiddenItems);
     m_hiddenItems.clear();
 }
@@ -124,7 +131,7 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     } else {
         // Move all items of the model, where the "isHidden" property is true, to
         // m_hiddenItems.
-        //Q_ASSERT(m_hiddenItems.count() == count());
+        Q_ASSERT(m_hiddenItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
             PlacesItem* visibleItem = placesItem(i);
             if (visibleItem->isHidden()) {
@@ -267,13 +274,6 @@ void PlacesItemModel::requestTeardown(int index)
     }
 }
 
-
-void PlacesItemModel::save()
-{
-    // TODO: Temporary deactivated until 100 % backward compatibility is provided
-    // m_bookmarkManager->emitChanged(m_bookmarkManager->root());
-}
-
 void PlacesItemModel::onItemInserted(int index)
 {
     if (index == count() - 1) {
@@ -297,6 +297,8 @@ void PlacesItemModel::onItemInserted(int index)
     }
     m_hiddenItems.insert(hiddenIndex, 0);
 
+    m_saveBookmarksTimer->start();
+
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Inserted item" << index;
     showModelState();
@@ -308,6 +310,9 @@ void PlacesItemModel::onItemRemoved(int index)
     const int removeIndex = hiddenIndex(index);
     Q_ASSERT(!m_hiddenItems[removeIndex]);
     m_hiddenItems.removeAt(removeIndex);
+
+    m_saveBookmarksTimer->start();
+
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Removed item" << index;
     showModelState();
@@ -319,13 +324,12 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
     if (changedRoles.contains("isHidden")) {
         const PlacesItem* shownItem = placesItem(index);
         Q_ASSERT(shownItem);
-        const bool hide = shownItem->isHidden();
-
-        if (!m_hiddenItemsShown && hide) {
+        if (!m_hiddenItemsShown && shownItem->isHidden()) {
             m_hiddenItemToRemove = index;
             QTimer::singleShot(0, this, SLOT(removeHiddenItem()));
         }
     }
+    m_saveBookmarksTimer->start();
 }
 
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
@@ -376,8 +380,16 @@ void PlacesItemModel::removeHiddenItem()
         PlacesItem* hiddenItem = new PlacesItem(*shownItem);
         removeItem(m_hiddenItemToRemove);
         m_hiddenItems.insert(newIndex, hiddenItem);
+        m_saveBookmarksTimer->start();
     }
     m_hiddenItemToRemove = -1;
+}
+
+
+void PlacesItemModel::saveBookmarks()
+{
+    // TODO: Temporary deactivated until 100 % backward compatibility is provided
+    // m_bookmarkManager->emitChanged(m_bookmarkManager->root());
 }
 
 void PlacesItemModel::loadBookmarks()
