@@ -149,28 +149,41 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
 
     if (show) {
         // Move all items that are part of m_bookmarkedItems to the model.
+        QList<PlacesItem*> itemsToInsert;
+        QList<int> insertPos;
         int modelIndex = 0;
         for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
             if (m_bookmarkedItems[i]) {
-                PlacesItem* visibleItem = new PlacesItem(*m_bookmarkedItems[i]);
-                delete m_bookmarkedItems[i];
-                m_bookmarkedItems.removeAt(i);
-                insertItem(modelIndex, visibleItem);
-                Q_ASSERT(!m_bookmarkedItems[i]);
+                itemsToInsert.append(m_bookmarkedItems[i]);
+                m_bookmarkedItems[i] = 0;
+                insertPos.append(modelIndex);
             }
             ++modelIndex;
         }
+
+        // Inserting the items will automatically insert an item
+        // to m_bookmarkedItems in PlacesItemModel::onItemsInserted().
+        // The items are temporary saved in itemsToInsert, so
+        // m_bookmarkedItems can be shrinked now.
+        m_bookmarkedItems.erase(m_bookmarkedItems.begin(),
+                                m_bookmarkedItems.begin() + itemsToInsert.count());
+
+        for (int i = 0; i < itemsToInsert.count(); ++i) {
+            insertItem(insertPos[i], itemsToInsert[i]);
+        }
+
+        Q_ASSERT(m_bookmarkedItems.count() == count());
     } else {
         // Move all items of the model, where the "isHidden" property is true, to
-        // m_allItems.
+        // m_bookmarkedItems.
         Q_ASSERT(m_bookmarkedItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
-            const PlacesItem* visibleItem = placesItem(i);
-            if (visibleItem->isHidden()) {
+            if (placesItem(i)->isHidden()) {
                 hideItem(i);
             }
         }
     }
+
 #ifdef PLACESITEMMODEL_DEBUG
         kDebug() << "Changed visibility of hidden items";
         showModelState();
@@ -311,23 +324,23 @@ void PlacesItemModel::onItemInserted(int index)
         // case assure that it is also appended after the hidden items and
         // not before (like done otherwise).
         m_bookmarkedItems.append(0);
-        return;
-    }
+    } else {
 
-    int modelIndex = -1;
-    int bookmarkIndex = 0;
-    while (bookmarkIndex < m_bookmarkedItems.count()) {
-        if (!m_bookmarkedItems[bookmarkIndex]) {
-            ++modelIndex;
-            if (modelIndex + 1 == index) {
-                break;
+        int modelIndex = -1;
+        int bookmarkIndex = 0;
+        while (bookmarkIndex < m_bookmarkedItems.count()) {
+            if (!m_bookmarkedItems[bookmarkIndex]) {
+                ++modelIndex;
+                if (modelIndex + 1 == index) {
+                    break;
+                }
             }
+            ++bookmarkIndex;
         }
-        ++bookmarkIndex;
+        m_bookmarkedItems.insert(bookmarkIndex, 0);
     }
-    m_bookmarkedItems.insert(bookmarkIndex, 0);
 
-    m_saveBookmarksTimer->start();
+    triggerBookmarksSaving();
 
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Inserted item" << index;
@@ -347,7 +360,7 @@ void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
     Q_ASSERT(!m_bookmarkedItems[boomarkIndex]);
     m_bookmarkedItems.removeAt(boomarkIndex);
 
-    m_saveBookmarksTimer->start();
+    triggerBookmarksSaving();
 
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Removed item" << index;
@@ -381,7 +394,7 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
         }
     }
 
-    m_saveBookmarksTimer->start();
+    triggerBookmarksSaving();
 }
 
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
@@ -766,10 +779,17 @@ void PlacesItemModel::hideItem(int index)
             // bookmark should still be remembered, so readd it again:
             m_bookmarkManager->root().addBookmark(hiddenBookmark);
             m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
-            m_saveBookmarksTimer->start();
+            triggerBookmarksSaving();
         }
 
         m_bookmarkedItems.insert(newIndex, hiddenItem);
+    }
+}
+
+void PlacesItemModel::triggerBookmarksSaving()
+{
+    if (m_saveBookmarksTimer) {
+        m_saveBookmarksTimer->start();
     }
 }
 

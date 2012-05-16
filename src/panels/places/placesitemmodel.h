@@ -159,6 +159,12 @@ private:
     void hideItem(int index);
 
     /**
+     * Triggers a delayed saving of bookmarks by starting
+     * m_saveBookmarksTimer.
+     */
+    void triggerBookmarksSaving();
+
+    /**
      * @return True if the bookmarks have the same identifiers. The identifier
      *         is the unique "ID"-property in case if no UDI is set, otherwise
      *         the UDI is used as identifier.
