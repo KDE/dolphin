@@ -24,9 +24,10 @@
 
 #include <KBookmarkManager>
 #include <KDebug>
+#include <KDirLister>
 #include <KIcon>
 #include <KLocale>
-#include "placesitemstorageaccesslistener.h"
+#include "placesitemsignalhandler.h"
 #include <QDateTime>
 #include <Solid/Block>
 
@@ -36,29 +37,18 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
     m_access(),
     m_volume(),
     m_disc(),
-    m_accessListener(0),
+    m_signalHandler(0),
+    m_trashDirLister(0),
     m_bookmark()
 {
+    m_signalHandler = new PlacesItemSignalHandler(this);
     setBookmark(bookmark);
-}
-
-PlacesItem::PlacesItem(const PlacesItem& item) :
-    KStandardItem(item),
-    m_device(item.m_device),
-    m_access(item.m_access),
-    m_volume(item.m_volume),
-    m_disc(item.m_disc),
-    m_accessListener(0),
-    m_bookmark(item.m_bookmark)
-{
-    if (item.m_accessListener) {
-        m_accessListener = new PlacesItemStorageAccessListener(this);
-    }
 }
 
 PlacesItem::~PlacesItem()
 {
-    delete m_accessListener;
+    delete m_signalHandler;
+    delete m_trashDirLister;
 }
 
 void PlacesItem::setUrl(const KUrl& url)
@@ -69,6 +59,20 @@ void PlacesItem::setUrl(const KUrl& url)
     // setting an equal URL results in an itemsChanged()
     // signal.
     if (dataValue("url").value<KUrl>() != url) {
+        delete m_trashDirLister;
+        if (url.protocol() == QLatin1String("trash")) {
+            // The trash icon must always be updated dependent on whether
+            // the trash is empty or not. We use a KDirLister that automatically
+            // watches for changes if the number of items has been changed.
+            // The update of the icon is handled in onTrashDirListerCompleted().
+            m_trashDirLister = new KDirLister();
+            m_trashDirLister->setAutoErrorHandlingEnabled(false, 0);
+            m_trashDirLister->setDelayedMimeTypes(true);
+            QObject::connect(m_trashDirLister, SIGNAL(completed()),
+                             m_signalHandler, SLOT(onTrashDirListerCompleted()));
+            m_trashDirLister->openUrl(url);
+        }
+
         setDataValue("url", url);
     }
 }
@@ -120,7 +124,6 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     delete m_access;
     delete m_volume;
     delete m_disc;
-    delete m_accessListener;
 
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
@@ -240,11 +243,8 @@ void PlacesItem::initializeDevice(const QString& udi)
 
     if (m_access) {
         setUrl(m_access->filePath());
-        if (!m_accessListener) {
-            // The access listener takes care to call PlacesItem::onAccessibilityChanged()
-            // in case if the accessibility of m_access has been changed.
-            m_accessListener = new PlacesItemStorageAccessListener(this);
-        }
+        QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
+                         m_signalHandler, SLOT(onAccessibilityChanged()));
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         const QString device = m_device.as<Solid::Block>()->device();
         setUrl(QString("audiocd:/?device=%1").arg(device));
@@ -254,6 +254,14 @@ void PlacesItem::initializeDevice(const QString& udi)
 void PlacesItem::onAccessibilityChanged()
 {
     setIconOverlays(m_device.emblems());
+}
+
+void PlacesItem::onTrashDirListerCompleted()
+{
+    Q_ASSERT(url().protocol() == QLatin1String("trash"));
+
+    const bool isTrashEmpty = m_trashDirLister->items().isEmpty();
+    setIcon(isTrashEmpty ? "user-trash" : "user-trash-full");
 }
 
 void PlacesItem::updateBookmarkForRole(const QByteArray& role)

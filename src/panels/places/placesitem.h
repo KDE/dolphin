@@ -29,7 +29,8 @@
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
 
-class PlacesItemStorageAccessListener;
+class KDirLister;
+class PlacesItemSignalHandler;
 
 /**
  * @brief Extends KStandardItem by places-specific properties.
@@ -47,7 +48,6 @@ public:
     };
 
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
-    explicit PlacesItem(const PlacesItem& item);
     virtual ~PlacesItem();
 
     void setUrl(const KUrl& url);
@@ -85,13 +85,21 @@ protected:
                                const QHash<QByteArray, QVariant>& previous);
 
 private:
+    PlacesItem(const PlacesItem& item);
+
     void initializeDevice(const QString& udi);
 
     /**
-     * Is invoked by m_accessListener if the accessibility
-     * of the storage access m_access has been changed.
+     * Is invoked if the accessibility of the storage access
+     * m_access has been changed and updates the emblem.
      */
     void onAccessibilityChanged();
+
+    /**
+     * Is invoked if the listing of the trash has been completed.
+     * Updates the state of the trash-icon to be empty or full.
+     */
+    void onTrashDirListerCompleted();
 
     /**
      * Applies the data-value from the role to m_bookmark.
@@ -105,10 +113,11 @@ private:
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
-    QPointer<PlacesItemStorageAccessListener> m_accessListener;
+    QPointer<PlacesItemSignalHandler> m_signalHandler;
+    QPointer<KDirLister> m_trashDirLister;
     KBookmark m_bookmark;
 
-    friend class PlacesItemStorageAccessListener; // Calls onAccessibilityChanged()
+    friend class PlacesItemSignalHandler; // Calls onAccessibilityChanged()
 };
 
 #endif

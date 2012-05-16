@@ -761,8 +761,8 @@ void PlacesItemModel::hideItem(int index)
 
     const int newIndex = bookmarkIndex(index);
     if (newIndex >= 0) {
-        PlacesItem* hiddenItem = new PlacesItem(*shownItem);
-        const KBookmark hiddenBookmark = hiddenItem->bookmark();
+        const KBookmark hiddenBookmark = shownItem->bookmark();
+        PlacesItem* hiddenItem = new PlacesItem(hiddenBookmark);
 
         const PlacesItem* previousItem = placesItem(index - 1);
         KBookmark previousBookmark;

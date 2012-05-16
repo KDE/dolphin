@@ -22,6 +22,10 @@
 
 #include <kitemviews/kstandarditemlistwidget.h>
 
+/**
+ * @brief Extends KStandardItemListWidget to interpret the hidden
+ *        property of the PlacesModel.
+*/
 class PlacesItemListWidget : public KStandardItemListWidget
 {
     Q_OBJECT

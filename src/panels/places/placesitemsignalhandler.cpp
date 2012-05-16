@@ -17,29 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "placesitemstorageaccesslistener.h"
+#include "placesitemsignalhandler.h"
 
 #include "placesitem.h"
 #include <Solid/StorageAccess>
 
-PlacesItemStorageAccessListener::PlacesItemStorageAccessListener(PlacesItem* item,
-                                                                 QObject* parent) :
+PlacesItemSignalHandler::PlacesItemSignalHandler(PlacesItem* item,
+                                                 QObject* parent) :
     QObject(parent),
     m_item(item)
 {
-    if (item) {
-        connect(item->m_access, SIGNAL(accessibilityChanged(bool,QString)),
-                this, SLOT(slotAccessibilityChanged()));
+}
+
+PlacesItemSignalHandler::~PlacesItemSignalHandler()
+{
+}
+
+void PlacesItemSignalHandler::onAccessibilityChanged()
+{
+    if (m_item) {
+        m_item->onAccessibilityChanged();
     }
 }
 
-PlacesItemStorageAccessListener::~PlacesItemStorageAccessListener()
+void PlacesItemSignalHandler::onTrashDirListerCompleted()
 {
+    if (m_item) {
+        m_item->onTrashDirListerCompleted();
+    }
 }
 
-void PlacesItemStorageAccessListener::slotAccessibilityChanged()
-{
-    m_item->onAccessibilityChanged();
-}
-
-#include "placesitemstorageaccesslistener.moc"
+#include "placesitemsignalhandler.moc"
