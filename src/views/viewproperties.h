@@ -118,13 +118,12 @@ public:
     void save();
 
     /**
-     * Returns the URL of the directory, where the mirrored view properties
-     * are stored into. Mirrored view properties are used if:
-     * - there is no write access for storing the view properties into
-     *   the original directory
-     * - for non local directories
+     * @return True if properties for the given URL exist:
+     *         As soon as the properties for an URL have been saved with
+     *         ViewProperties::save(), true will be returned. If false is
+     *         returned, the default view-properties are used.
      */
-    static KUrl mirroredDirectory();
+    bool exist() const;
 
 private:
     /**
@@ -164,6 +163,15 @@ private:
      *         Is used to be able to remember view-properties for long nepomuksearch-URLs.
      */
     static QString directoryHashForUrl(const KUrl& url);
+
+    /**
+     * Returns the URL of the directory, where the mirrored view properties
+     * are stored into. Mirrored view properties are used if:
+     * - there is no write access for storing the view properties into
+     *   the original directory
+     * - for non local directories
+     */
+    static KUrl mirroredDirectory();
 
     Q_DISABLE_COPY(ViewProperties)
 

@@ -42,6 +42,9 @@ namespace {
     // the details view as customized by the user. See
     // ViewProperties::visibleRoles() for more information.
     const char* CustomizedDetailsString = "CustomizedDetails";
+
+    // Filename that is used for storing the properties
+    const char* ViewPropertiesFileName = ".directory";
 }
 
 ViewProperties::ViewProperties(const KUrl& url) :
@@ -78,13 +81,13 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filePath = destinationDir("remote") + m_filePath;
     }
 
-    const QString file = m_filePath + QDir::separator() + QLatin1String(".directory");
+    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     // If the .directory file does not exist or the timestamp is too old,
     // use default values instead.
     const bool useDefaultProps = (!useGlobalViewProps || useDetailsViewWithPath) &&
-                                 (!QFileInfo(file).exists() ||
+                                 (!QFile::exists(file) ||
                                   (m_node->timestamp() < settings->viewPropsTimestamp()));
     if (useDefaultProps) {
         if (useDetailsViewWithPath) {
@@ -353,11 +356,10 @@ void ViewProperties::save()
     m_changedProps = false;
 }
 
-KUrl ViewProperties::mirroredDirectory()
+bool ViewProperties::exist() const
 {
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/view_properties/");
-    return KUrl(KStandardDirs::locateLocal("data", basePath));
+    const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
+    return QFile::exists(file);
 }
 
 QString ViewProperties::destinationDir(const QString& subDir) const
@@ -452,4 +454,11 @@ QString ViewProperties::directoryHashForUrl(const KUrl& url)
     QString hashString = hashValue.toBase64();
     hashString.replace('/', '-');
     return hashString;
+}
+
+KUrl ViewProperties::mirroredDirectory()
+{
+    QString basePath = KGlobal::mainComponent().componentName();
+    basePath.append("/view_properties/");
+    return KUrl(KStandardDirs::locateLocal("data", basePath));
 }

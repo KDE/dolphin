@@ -23,6 +23,8 @@
 
 #include "placesitemmodel.h"
 
+#include "dolphin_generalsettings.h"
+
 #include <KBookmark>
 #include <KBookmarkGroup>
 #include <KBookmarkManager>
@@ -44,8 +46,17 @@
 #include <Solid/StorageAccess>
 #include <Solid/StorageDrive>
 
+#include <views/dolphinview.h>
+#include <views/viewproperties.h>
+
 #ifdef HAVE_NEPOMUK
     #include <Nepomuk/ResourceManager>
+    #include <Nepomuk/Query/ComparisonTerm>
+    #include <Nepomuk/Query/LiteralTerm>
+    #include <Nepomuk/Query/Query>
+    #include <Nepomuk/Query/ResourceTypeTerm>
+    #include <Nepomuk/Vocabulary/NFO>
+    #include <Nepomuk/Vocabulary/NIE>
 #endif
 
 namespace {
@@ -300,6 +311,18 @@ void PlacesItemModel::requestTeardown(int index)
             emit errorMessage(message);
         }
     }
+}
+
+KUrl PlacesItemModel::convertedUrl(const KUrl& url)
+{
+    KUrl newUrl = url;
+    if (url.protocol() == QLatin1String("timeline")) {
+        newUrl = createTimelineUrl(url);
+    } else if (url.protocol() == QLatin1String("search")) {
+        newUrl = createSearchUrl(url);
+    }
+
+    return newUrl;
 }
 
 void PlacesItemModel::onItemInserted(int index)
@@ -583,23 +606,7 @@ void PlacesItemModel::loadBookmarks()
         // bookmarks.
         foreach (const SystemBookmarkData& data, m_systemBookmarks) {
             if (missingSystemBookmarks.contains(data.url)) {
-                KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
-                                                                data.text,
-                                                                data.url,
-                                                                data.icon);
-
-                const QString protocol = data.url.protocol();
-                if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
-                    // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
-                    // for "Recently Accessed" and "Search For" should be a setting available only
-                    // in the Places Panel (see description of AppNamePrefix for more details).
-                    const QString appName = KGlobal::mainComponent().componentName() + AppNamePrefix;
-                    bookmark.setMetaDataItem("OnlyInApp", appName);
-                }
-
-                PlacesItem* item = new PlacesItem(bookmark);
-                item->setSystemItem(true);
-
+                PlacesItem* item = createSystemPlacesItem(data);
                 switch (item->groupType()) {
                 case PlacesItem::PlacesType:           placesItems.append(item); break;
                 case PlacesItem::RecentlyAccessedType: recentlyAccessedItems.append(item); break;
@@ -651,6 +658,61 @@ bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark) const
                                                       url.protocol() != QLatin1String("search")));
 
     return (udi.isEmpty() && allowedHere) || deviceAvailable;
+}
+
+PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& data)
+{
+    KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
+                                                    data.text,
+                                                    data.url,
+                                                    data.icon);
+
+    const QString protocol = data.url.protocol();
+    if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
+        // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
+        // for "Recently Accessed" and "Search For" should be a setting available only
+        // in the Places Panel (see description of AppNamePrefix for more details).
+        const QString appName = KGlobal::mainComponent().componentName() + AppNamePrefix;
+        bookmark.setMetaDataItem("OnlyInApp", appName);
+    }
+
+    PlacesItem* item = new PlacesItem(bookmark);
+    item->setSystemItem(true);
+
+    // Create default view-properties for all "Search For" and "Recently Accessed" bookmarks
+    // in case if the user has not already created custom view-properties for a corresponding
+    // query yet.
+    const bool createDefaultViewProperties = (item->groupType() == PlacesItem::SearchForType ||
+                                              item->groupType() == PlacesItem::RecentlyAccessedType) &&
+                                              !GeneralSettings::self()->globalViewProps();
+    if (createDefaultViewProperties) {
+        ViewProperties props(convertedUrl(data.url));
+        if (!props.exist()) {
+            const QString path = data.url.path();
+            if (path == QLatin1String("/documents")) {
+                props.setViewMode(DolphinView::DetailsView);
+                props.setPreviewsShown(false);
+                props.setVisibleRoles(QList<QByteArray>() << "text" << "path");
+            } else if (path == QLatin1String("/images")) {
+                props.setViewMode(DolphinView::IconsView);
+                props.setPreviewsShown(true);
+                props.setVisibleRoles(QList<QByteArray>() << "text" << "imageSize");
+            } else if (path == QLatin1String("/audio")) {
+                props.setViewMode(DolphinView::DetailsView);
+                props.setPreviewsShown(false);
+                props.setVisibleRoles(QList<QByteArray>() << "text" << "artist" << "album");
+            } else if (path == QLatin1String("/videos")) {
+                props.setViewMode(DolphinView::IconsView);
+                props.setPreviewsShown(true);
+                props.setVisibleRoles(QList<QByteArray>() << "text");
+            } else if (data.url.protocol() == "timeline") {
+                props.setViewMode(DolphinView::DetailsView);
+                props.setVisibleRoles(QList<QByteArray>() << "text" << "date");
+            }
+        }
+    }
+
+    return item;
 }
 
 void PlacesItemModel::createSystemBookmarks()
@@ -803,6 +865,88 @@ bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookm
         return b1.metaDataItem("ID") == b2.metaDataItem("ID");
     }
 }
+
+KUrl PlacesItemModel::createTimelineUrl(const KUrl& url)
+{
+    // TODO: Clarify with the Nepomuk-team whether it makes sense
+    // provide default-timeline-URLs like 'yesterday', 'this month'
+    // and 'last month'.
+    KUrl timelineUrl;
+
+    const QString path = url.pathOrUrl();
+    if (path.endsWith("yesterday")) {
+        const QDate date = QDate::currentDate().addDays(-1);
+        const int year = date.year();
+        const int month = date.month();
+        const int day = date.day();
+        timelineUrl = "timeline:/" + timelineDateString(year, month) +
+              '/' + timelineDateString(year, month, day);
+    } else if (path.endsWith("thismonth")) {
+        const QDate date = QDate::currentDate();
+        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+    } else if (path.endsWith("lastmonth")) {
+        const QDate date = QDate::currentDate().addMonths(-1);
+        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+    } else {
+        Q_ASSERT(path.endsWith("today"));
+        timelineUrl= url;
+    }
+
+    return timelineUrl;
+}
+
+QString PlacesItemModel::timelineDateString(int year, int month, int day)
+{
+    QString date = QString::number(year) + '-';
+    if (month < 10) {
+        date += '0';
+    }
+    date += QString::number(month);
+
+    if (day >= 1) {
+        date += '-';
+        if (day < 10) {
+            date += '0';
+        }
+        date += QString::number(day);
+    }
+
+    return date;
+}
+
+KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
+{
+    KUrl searchUrl;
+
+#ifdef HAVE_NEPOMUK
+    const QString path = url.pathOrUrl();
+    if (path.endsWith("documents")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
+    } else if (path.endsWith("images")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+    } else if (path.endsWith("audio")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk::Query::LiteralTerm("audio")));
+    } else if (path.endsWith("videos")) {
+        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk::Query::LiteralTerm("video")));
+    } else {
+        Q_ASSERT(false);
+    }
+#else
+    Q_UNUSED(url);
+#endif
+
+    return searchUrl;
+}
+
+#ifdef HAVE_NEPOMUK
+KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk::Query::Term& term)
+{
+    const Nepomuk::Query::Query query(term);
+    return query.toSearchUrl();
+}
+#endif
 
 #ifdef PLACESITEMMODEL_DEBUG
 void PlacesItemModel::showModelState()

@@ -47,15 +47,6 @@
 #include <QVBoxLayout>
 #include <QShowEvent>
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk/Query/ComparisonTerm>
-    #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/Query>
-    #include <Nepomuk/Query/ResourceTypeTerm>
-    #include <Nepomuk/Vocabulary/NFO>
-    #include <Nepomuk/Vocabulary/NIE>
-#endif
-
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
     m_controller(0),
@@ -117,7 +108,7 @@ void PlacesPanel::slotItemActivated(int index)
 {
     const KUrl url = m_model->data(index).value("url").value<KUrl>();
     if (!url.isEmpty()) {
-        emit placeActivated(convertedUrl(url));
+        emit placeActivated(PlacesItemModel::convertedUrl(url));
     }
 }
 
@@ -125,7 +116,7 @@ void PlacesPanel::slotItemMiddleClicked(int index)
 {
     const KUrl url = m_model->data(index).value("url").value<KUrl>();
     if (!url.isEmpty()) {
-        emit placeMiddleClicked(convertedUrl(url));
+        emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));
     }
 }
 
@@ -367,99 +358,5 @@ void PlacesPanel::selectClosestItem()
     selectionManager->clearSelection();
     selectionManager->setSelected(index);
 }
-
-KUrl PlacesPanel::convertedUrl(const KUrl& url)
-{
-    KUrl newUrl = url;
-    if (url.protocol() == QLatin1String("timeline")) {
-        newUrl = createTimelineUrl(url);
-    } else if (url.protocol() == QLatin1String("search")) {
-        newUrl = createSearchUrl(url);
-    }
-
-    return newUrl;
-}
-
-KUrl PlacesPanel::createTimelineUrl(const KUrl& url)
-{
-    // TODO: Clarify with the Nepomuk-team whether it makes sense
-    // provide default-timeline-URLs like 'yesterday', 'this month'
-    // and 'last month'.
-    KUrl timelineUrl;
-
-    const QString path = url.pathOrUrl();
-    if (path.endsWith("yesterday")) {
-        const QDate date = QDate::currentDate().addDays(-1);
-        const int year = date.year();
-        const int month = date.month();
-        const int day = date.day();
-        timelineUrl = "timeline:/" + timelineDateString(year, month) +
-              '/' + timelineDateString(year, month, day);
-    } else if (path.endsWith("thismonth")) {
-        const QDate date = QDate::currentDate();
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
-    } else if (path.endsWith("lastmonth")) {
-        const QDate date = QDate::currentDate().addMonths(-1);
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
-    } else {
-        Q_ASSERT(path.endsWith("today"));
-        timelineUrl= url;
-    }
-
-    return timelineUrl;
-}
-
-QString PlacesPanel::timelineDateString(int year, int month, int day)
-{
-    QString date = QString::number(year) + '-';
-    if (month < 10) {
-        date += '0';
-    }
-    date += QString::number(month);
-
-    if (day >= 1) {
-        date += '-';
-        if (day < 10) {
-            date += '0';
-        }
-        date += QString::number(day);
-    }
-
-    return date;
-}
-
-KUrl PlacesPanel::createSearchUrl(const KUrl& url)
-{
-    KUrl searchUrl;
-
-#ifdef HAVE_NEPOMUK
-    const QString path = url.pathOrUrl();
-    if (path.endsWith("documents")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
-    } else if (path.endsWith("images")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
-    } else if (path.endsWith("audio")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("audio")));
-    } else if (path.endsWith("videos")) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("video")));
-    } else {
-        Q_ASSERT(false);
-    }
-#else
-    Q_UNUSED(url);
-#endif
-
-    return searchUrl;
-}
-
-#ifdef HAVE_NEPOMUK
-KUrl PlacesPanel::searchUrlForTerm(const Nepomuk::Query::Term& term)
-{
-    const Nepomuk::Query::Query query(term);
-    return query.toSearchUrl();
-}
-#endif
 
 #include "placespanel.moc"
