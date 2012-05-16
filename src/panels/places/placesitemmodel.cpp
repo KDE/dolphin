@@ -48,6 +48,17 @@
     #include <Nepomuk/ResourceManager>
 #endif
 
+namespace {
+    // As long as KFilePlacesView from kdelibs is available in parallel, the
+    // system-bookmarks for "Recently Accessed" and "Search For" should be
+    // shown only inside the Places Panel. This is necessary as the stored
+    // URLs needs to get translated to a Nepomuk-search-URL on-the-fly to
+    // be independent from changes in the Nepomuk-search-URL-syntax.
+    // Hence a prefix to the application-name of the stored bookmarks is
+    // added, which is only read by PlacesItemModel.
+    const char* AppNamePrefix = "-places-panel";
+}
+
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
     m_nepomukRunning(false),
@@ -57,9 +68,10 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_bookmarkManager(0),
     m_systemBookmarks(),
     m_systemBookmarksIndexes(),
-    m_hiddenItems(),
+    m_bookmarkedItems(),
     m_hiddenItemToRemove(-1),
-    m_saveBookmarksTimer(0)
+    m_saveBookmarksTimer(0),
+    m_updateBookmarksTimer(0)
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -71,17 +83,29 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     initializeAvailableDevices();
     loadBookmarks();
 
+    const int syncBookmarksTimeout = 1000;
+
     m_saveBookmarksTimer = new QTimer(this);
-    m_saveBookmarksTimer->setInterval(100);
+    m_saveBookmarksTimer->setInterval(syncBookmarksTimeout);
     m_saveBookmarksTimer->setSingleShot(true);
     connect(m_saveBookmarksTimer, SIGNAL(timeout()), this, SLOT(saveBookmarks()));
+
+    m_updateBookmarksTimer = new QTimer(this);
+    m_updateBookmarksTimer->setInterval(syncBookmarksTimeout);
+    m_updateBookmarksTimer->setSingleShot(true);
+    connect(m_updateBookmarksTimer, SIGNAL(timeout()), this, SLOT(updateBookmarks()));
+
+    connect(m_bookmarkManager, SIGNAL(changed(QString,QString)),
+            m_updateBookmarksTimer, SLOT(start()));
+    connect(m_bookmarkManager, SIGNAL(bookmarksChanged(QString)),
+            m_updateBookmarksTimer, SLOT(start()));
 }
 
 PlacesItemModel::~PlacesItemModel()
 {
     saveBookmarks();
-    qDeleteAll(m_hiddenItems);
-    m_hiddenItems.clear();
+    qDeleteAll(m_bookmarkedItems);
+    m_bookmarkedItems.clear();
 }
 
 PlacesItem* PlacesItemModel::createPlacesItem(const QString& text,
@@ -100,19 +124,19 @@ PlacesItem* PlacesItemModel::placesItem(int index) const
 int PlacesItemModel::hiddenCount() const
 {
     int modelIndex = 0;
-    int itemCount = 0;
-    foreach (const PlacesItem* hiddenItem, m_hiddenItems) {
-        if (hiddenItem) {
-            ++itemCount;
+    int hiddenItemCount = 0;
+    foreach (const PlacesItem* item, m_bookmarkedItems) {
+        if (item) {
+            ++hiddenItemCount;
         } else {
             if (placesItem(modelIndex)->isHidden()) {
-                ++itemCount;
+                ++hiddenItemCount;
             }
             ++modelIndex;
         }
     }
 
-    return itemCount;
+    return hiddenItemCount;
 }
 
 void PlacesItemModel::setHiddenItemsShown(bool show)
@@ -124,26 +148,26 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     m_hiddenItemsShown = show;
 
     if (show) {
-        // Move all items that are part of m_hiddenItems to the model.
+        // Move all items that are part of m_bookmarkedItems to the model.
         int modelIndex = 0;
-        for (int hiddenIndex = 0; hiddenIndex < m_hiddenItems.count(); ++hiddenIndex) {
-            if (m_hiddenItems[hiddenIndex]) {
-                PlacesItem* visibleItem = new PlacesItem(*m_hiddenItems[hiddenIndex]);
-                delete m_hiddenItems[hiddenIndex];
-                m_hiddenItems.removeAt(hiddenIndex);
+        for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
+            if (m_bookmarkedItems[i]) {
+                PlacesItem* visibleItem = new PlacesItem(*m_bookmarkedItems[i]);
+                delete m_bookmarkedItems[i];
+                m_bookmarkedItems.removeAt(i);
                 insertItem(modelIndex, visibleItem);
-                Q_ASSERT(!m_hiddenItems[hiddenIndex]);
+                Q_ASSERT(!m_bookmarkedItems[i]);
             }
             ++modelIndex;
         }
     } else {
         // Move all items of the model, where the "isHidden" property is true, to
-        // m_hiddenItems.
-        Q_ASSERT(m_hiddenItems.count() == count());
+        // m_allItems.
+        Q_ASSERT(m_bookmarkedItems.count() == count());
         for (int i = count() - 1; i >= 0; --i) {
             const PlacesItem* visibleItem = placesItem(i);
             if (visibleItem->isHidden()) {
-                removeHiddenItem(i);
+                hideItem(i);
             }
         }
     }
@@ -286,22 +310,22 @@ void PlacesItemModel::onItemInserted(int index)
         // The item has been appended as last item to the list. In this
         // case assure that it is also appended after the hidden items and
         // not before (like done otherwise).
-        m_hiddenItems.append(0);
+        m_bookmarkedItems.append(0);
         return;
     }
 
     int modelIndex = -1;
-    int hiddenIndex = 0;
-    while (hiddenIndex < m_hiddenItems.count()) {
-        if (!m_hiddenItems[hiddenIndex]) {
+    int bookmarkIndex = 0;
+    while (bookmarkIndex < m_bookmarkedItems.count()) {
+        if (!m_bookmarkedItems[bookmarkIndex]) {
             ++modelIndex;
             if (modelIndex + 1 == index) {
                 break;
             }
         }
-        ++hiddenIndex;
+        ++bookmarkIndex;
     }
-    m_hiddenItems.insert(hiddenIndex, 0);
+    m_bookmarkedItems.insert(bookmarkIndex, 0);
 
     m_saveBookmarksTimer->start();
 
@@ -319,9 +343,9 @@ void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
         m_bookmarkManager->root().deleteBookmark(bookmark);
     }
 
-    const int removeIndex = hiddenIndex(index);
-    Q_ASSERT(!m_hiddenItems[removeIndex]);
-    m_hiddenItems.removeAt(removeIndex);
+    const int boomarkIndex = bookmarkIndex(index);
+    Q_ASSERT(!m_bookmarkedItems[boomarkIndex]);
+    m_bookmarkedItems.removeAt(boomarkIndex);
 
     m_saveBookmarksTimer->start();
 
@@ -353,9 +377,10 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
         Q_ASSERT(shownItem);
         if (!m_hiddenItemsShown && shownItem->isHidden()) {
             m_hiddenItemToRemove = index;
-            QTimer::singleShot(0, this, SLOT(removeHiddenItem()));
+            QTimer::singleShot(0, this, SLOT(hideItem()));
         }
     }
+
     m_saveBookmarksTimer->start();
 }
 
@@ -375,10 +400,10 @@ void PlacesItemModel::slotDeviceRemoved(const QString& udi)
         return;
     }
 
-    for (int i = 0; i < m_hiddenItems.count(); ++i) {
-        PlacesItem* item = m_hiddenItems[i];
+    for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
+        PlacesItem* item = m_bookmarkedItems[i];
         if (item && item->udi() == udi) {
-            m_hiddenItems.removeAt(i);
+            m_bookmarkedItems.removeAt(i);
             delete item;
             return;
         }
@@ -399,17 +424,94 @@ void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVar
     }
 }
 
-void PlacesItemModel::removeHiddenItem()
+void PlacesItemModel::hideItem()
 {
-    removeHiddenItem(m_hiddenItemToRemove);
+    hideItem(m_hiddenItemToRemove);
     m_hiddenItemToRemove = -1;
 }
 
+void PlacesItemModel::updateBookmarks()
+{
+    // Verify whether new bookmarks have been added or existing
+    // bookmarks have been changed.
+    KBookmarkGroup root = m_bookmarkManager->root();
+    KBookmark newBookmark = root.first();
+    while (!newBookmark.isNull()) {
+        if (acceptBookmark(newBookmark)) {
+            bool found = false;
+            int modelIndex = 0;
+            for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
+                PlacesItem* item = m_bookmarkedItems[i];
+                if (!item) {
+                    item = placesItem(modelIndex);
+                    ++modelIndex;
+                }
+
+                const KBookmark oldBookmark = item->bookmark();
+                if (equalBookmarkIdentifiers(newBookmark, oldBookmark)) {
+                    // The bookmark has been found in the model or as
+                    // a hidden item. The content of the bookmark might
+                    // have been changed, so an update is done.
+                    found = true;
+                    if (newBookmark.metaDataItem("UDI").isEmpty()) {
+                        item->setBookmark(newBookmark);
+                    }
+                    break;
+                }
+            }
+
+            if (!found) {
+                PlacesItem* item = new PlacesItem(newBookmark);
+                if (item->isHidden() && !m_hiddenItemsShown) {
+                    m_bookmarkedItems.append(item);
+                } else {
+                    appendItem(item);
+                }
+            }
+        }
+
+        newBookmark = root.next(newBookmark);
+    }
+
+    // Remove items that are not part of the bookmark-manager anymore
+    int modelIndex = 0;
+    for (int i = m_bookmarkedItems.count() - 1; i >= 0; --i) {
+        PlacesItem* item = m_bookmarkedItems[i];
+        const bool itemIsPartOfModel = (item == 0);
+        if (itemIsPartOfModel) {
+            item = placesItem(modelIndex);
+        }
+
+        bool hasBeenRemoved = true;
+        const KBookmark oldBookmark = item->bookmark();
+        KBookmark newBookmark = root.first();
+        while (!newBookmark.isNull()) {
+            if (equalBookmarkIdentifiers(newBookmark, oldBookmark)) {
+                hasBeenRemoved = false;
+                break;
+            }
+            newBookmark = root.next(newBookmark);
+        }
+
+        if (hasBeenRemoved) {
+            if (m_bookmarkedItems[i]) {
+                delete m_bookmarkedItems[i];
+                m_bookmarkedItems.removeAt(i);
+            } else {
+                removeItem(modelIndex);
+                --modelIndex;
+            }
+        }
+
+        if (itemIsPartOfModel) {
+            ++modelIndex;
+        }
+    }
+}
 
 void PlacesItemModel::saveBookmarks()
 {
-    // TODO: Temporary deactivated until 100 % backward compatibility is provided
-    // m_bookmarkManager->emitChanged(m_bookmarkManager->root());
+    m_bookmarkManager->emitChanged(m_bookmarkManager->root());
 }
 
 void PlacesItemModel::loadBookmarks()
@@ -433,20 +535,13 @@ void PlacesItemModel::loadBookmarks()
     QList<PlacesItem*> devicesItems;
 
     while (!bookmark.isNull()) {
-        const QString udi = bookmark.metaDataItem("UDI");
-        const KUrl url = bookmark.url();
-        const QString appName = bookmark.metaDataItem("OnlyInApp");
-        const bool deviceAvailable = devices.remove(udi);
-
-        const bool allowedHere = (appName.isEmpty() || appName == KGlobal::mainComponent().componentName())
-                                 && (m_nepomukRunning || (url.protocol() != QLatin1String("timeline") &&
-                                                          url.protocol() != QLatin1String("search")));
-
-        if ((udi.isEmpty() && allowedHere) || deviceAvailable) {
+        const bool deviceAvailable = devices.remove(bookmark.metaDataItem("UDI"));
+        if (acceptBookmark(bookmark)) {
             PlacesItem* item = new PlacesItem(bookmark);
             if (deviceAvailable) {
                 devicesItems.append(item);
             } else {
+                const KUrl url = bookmark.url();
                 if (missingSystemBookmarks.contains(url)) {
                     missingSystemBookmarks.remove(url);
 
@@ -483,8 +578,10 @@ void PlacesItemModel::loadBookmarks()
                 const QString protocol = data.url.protocol();
                 if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
                     // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
-                    // for timeline and search should be a Dolphin-specific setting.
-                    bookmark.setMetaDataItem("OnlyInApp", KGlobal::mainComponent().componentName());
+                    // for "Recently Accessed" and "Search For" should be a setting available only
+                    // in the Places Panel (see description of AppNamePrefix for more details).
+                    const QString appName = KGlobal::mainComponent().componentName() + AppNamePrefix;
+                    bookmark.setMetaDataItem("OnlyInApp", appName);
                 }
 
                 PlacesItem* item = new PlacesItem(bookmark);
@@ -501,17 +598,25 @@ void PlacesItemModel::loadBookmarks()
         }
     }
 
-    addItems(placesItems);
-    addItems(recentlyAccessedItems);
-    addItems(searchForItems);
-
-    // Create items for devices that have not stored as bookmark yet
+    // Create items for devices that have not been stored as bookmark yet
     foreach (const QString& udi, devices) {
         const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
         devicesItems.append(new PlacesItem(bookmark));
     }
 
-    addItems(devicesItems);
+    QList<PlacesItem*> items;
+    items.append(placesItems);
+    items.append(recentlyAccessedItems);
+    items.append(searchForItems);
+    items.append(devicesItems);
+
+    foreach (PlacesItem* item, items) {
+        if (!m_hiddenItemsShown && item->isHidden()) {
+            m_bookmarkedItems.append(item);
+        } else {
+            appendItem(item);
+        }
+    }
 
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Loaded bookmarks";
@@ -519,15 +624,20 @@ void PlacesItemModel::loadBookmarks()
 #endif
 }
 
-void PlacesItemModel::addItems(const QList<PlacesItem*>& items)
+bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark) const
 {
-    foreach (PlacesItem* item, items) {
-        if (!m_hiddenItemsShown && item->isHidden()) {
-            m_hiddenItems.append(item);
-        } else {
-            appendItem(item);
-        }
-    }
+    const QString udi = bookmark.metaDataItem("UDI");
+    const KUrl url = bookmark.url();
+    const QString appName = bookmark.metaDataItem("OnlyInApp");
+    const bool deviceAvailable = m_availableDevices.contains(udi);
+
+    const bool allowedHere = (appName.isEmpty()
+                              || appName == KGlobal::mainComponent().componentName()
+                              || appName == KGlobal::mainComponent().componentName() + AppNamePrefix)
+                             && (m_nepomukRunning || (url.protocol() != QLatin1String("timeline") &&
+                                                      url.protocol() != QLatin1String("search")));
+
+    return (udi.isEmpty() && allowedHere) || deviceAvailable;
 }
 
 void PlacesItemModel::createSystemBookmarks()
@@ -605,28 +715,39 @@ void PlacesItemModel::initializeAvailableDevices()
     }
 }
 
-int PlacesItemModel::hiddenIndex(int index) const
+int PlacesItemModel::bookmarkIndex(int index) const
 {
-    int hiddenIndex = 0;
-    int visibleItemIndex = 0;
-    while (hiddenIndex < m_hiddenItems.count()) {
-        if (!m_hiddenItems[hiddenIndex]) {
-            if (visibleItemIndex == index) {
+    int bookmarkIndex = 0;
+    int modelIndex = 0;
+    while (bookmarkIndex < m_bookmarkedItems.count()) {
+        if (!m_bookmarkedItems[bookmarkIndex]) {
+            if (modelIndex == index) {
                 break;
             }
-            ++visibleItemIndex;
+            ++modelIndex;
         }
-        ++hiddenIndex;
+        ++bookmarkIndex;
     }
 
-    return hiddenIndex >= m_hiddenItems.count() ? -1 : hiddenIndex;
+    return bookmarkIndex >= m_bookmarkedItems.count() ? -1 : bookmarkIndex;
 }
 
-void PlacesItemModel::removeHiddenItem(int index)
+void PlacesItemModel::hideItem(int index)
 {
-    const PlacesItem* shownItem = placesItem(index);
-    const int newIndex = hiddenIndex(index);
-    if (shownItem && newIndex >= 0) {
+    PlacesItem* shownItem = placesItem(index);
+    if (!shownItem) {
+        return;
+    }
+
+    shownItem->setHidden(true);
+    if (m_hiddenItemsShown) {
+        // Removing items from the model is not allowed if all hidden
+        // items should be shown.
+        return;
+    }
+
+    const int newIndex = bookmarkIndex(index);
+    if (newIndex >= 0) {
         PlacesItem* hiddenItem = new PlacesItem(*shownItem);
         const KBookmark hiddenBookmark = hiddenItem->bookmark();
 
@@ -636,35 +757,70 @@ void PlacesItemModel::removeHiddenItem(int index)
             previousBookmark = previousItem->bookmark();
         }
 
+        const bool updateBookmark = (m_bookmarkManager->root().indexOf(hiddenBookmark) >= 0);
         removeItem(index);
 
-        // removeItem() also removed the bookmark from m_bookmarkManager in
-        // PlacesItemModel::onItemRemoved(). However for hidden items the
-        // bookmark should still be remembered, so readd it again:
-        m_bookmarkManager->root().addBookmark(hiddenBookmark);
-        m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
+        if (updateBookmark) {
+            // removeItem() also removed the bookmark from m_bookmarkManager in
+            // PlacesItemModel::onItemRemoved(). However for hidden items the
+            // bookmark should still be remembered, so readd it again:
+            m_bookmarkManager->root().addBookmark(hiddenBookmark);
+            m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
+            m_saveBookmarksTimer->start();
+        }
 
-        m_hiddenItems.insert(newIndex, hiddenItem);
-        m_saveBookmarksTimer->start();
+        m_bookmarkedItems.insert(newIndex, hiddenItem);
+    }
+}
+
+bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookmark& b2)
+{
+    const QString udi1 = b1.metaDataItem("UDI");
+    const QString udi2 = b2.metaDataItem("UDI");
+    if (!udi1.isEmpty() && !udi2.isEmpty()) {
+        return udi1 == udi2;
+    } else {
+        return b1.metaDataItem("ID") == b2.metaDataItem("ID");
     }
 }
 
 #ifdef PLACESITEMMODEL_DEBUG
 void PlacesItemModel::showModelState()
 {
-    kDebug() << "hidden-index   model-index   text";
-    int j = 0;
-    for (int i = 0; i < m_hiddenItems.count(); ++i) {
-        if (m_hiddenItems[i]) {
-            kDebug() <<  i << "(Hidden)    " << "             " << m_hiddenItems[i]->dataValue("text").toString();
+    kDebug() << "=================================";
+    kDebug() << "Model:";
+    kDebug() << "hidden-index model-index   text";
+    int modelIndex = 0;
+    for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
+        if (m_bookmarkedItems[i]) {
+            kDebug() <<  i << "(Hidden)    " << "             " << m_bookmarkedItems[i]->dataValue("text").toString();
         } else {
-            if (item(j)) {
-                kDebug() <<  i << "            " << j << "           " << item(j)->dataValue("text").toString();
+            if (item(modelIndex)) {
+                kDebug() <<  i << "          " << modelIndex << "           " << item(modelIndex)->dataValue("text").toString();
             } else {
-                kDebug() <<  i << "            " << j << "           " << "(not available yet)";
+                kDebug() <<  i << "          " << modelIndex << "           " << "(not available yet)";
             }
-            ++j;
+            ++modelIndex;
         }
+    }
+
+    kDebug();
+    kDebug() << "Bookmarks:";
+
+    int bookmarkIndex = 0;
+    KBookmarkGroup root = m_bookmarkManager->root();
+    KBookmark bookmark = root.first();
+    while (!bookmark.isNull()) {
+        const QString udi = bookmark.metaDataItem("UDI");
+        const QString text = udi.isEmpty() ? bookmark.text() : udi;
+        if (bookmark.metaDataItem("IsHidden") == QLatin1String("true")) {
+            kDebug() << bookmarkIndex << "(Hidden)" << text;
+        } else {
+            kDebug() << bookmarkIndex << "        " << text;
+        }
+
+        bookmark = root.next(bookmark);
+        ++bookmarkIndex;
     }
 }
 #endif

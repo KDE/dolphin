@@ -31,6 +31,7 @@
 #include <Solid/Predicate>
 #include <Solid/StorageAccess>
 
+class KBookmark;
 class KBookmarkManager;
 class PlacesItem;
 class QAction;
@@ -52,15 +53,31 @@ public:
     explicit PlacesItemModel(QObject* parent = 0);
     virtual ~PlacesItemModel();
 
+    /**
+     * @return A new instance of a places item with the given
+     *         attributes.
+     */
     PlacesItem* createPlacesItem(const QString& text,
                                  const KUrl& url,
                                  const QString& iconName);
 
     PlacesItem* placesItem(int index) const;
 
+    /**
+     * If set to true, all items that are marked as hidden
+     * will be shown in the view. The items will
+     * stay marked as hidden, which is visually indicated
+     * by the view by desaturating the icon and the text.
+     */
     void setHiddenItemsShown(bool show);
     bool hiddenItemsShown() const;
 
+    /**
+     * @return Number of items that are marked as hidden.
+     *         Note that this does not mean that the items
+     *         are really hidden
+     *         (see PlacesItemModel::setHiddenItemsShown()).
+     */
     int hiddenCount() const;
 
     /**
@@ -90,18 +107,35 @@ private slots:
     void slotDeviceAdded(const QString& udi);
     void slotDeviceRemoved(const QString& udi);
     void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
-    void removeHiddenItem();
+    void hideItem();
+
+    /**
+     * Updates the bookmarks from the model corresponding to the changed
+     * bookmarks stored by the bookmark-manager. Is called whenever the bookmarks
+     * have been changed by another application.
+     */
+    void updateBookmarks();
+
+    /**
+     * Saves the bookmarks and indicates to other applications that the
+     * state of the bookmarks has been changed. Is only called by the
+     * timeout of m_saveBookmarksTimer to prevent unnecessary savings.
+     */
     void saveBookmarks();
 
 private:
-    void loadBookmarks();   
+    /**
+     * Loads the bookmarks from the bookmark-manager and creates items for
+     * the model or moves hidden items to m_bookmarkedItems.
+     */
+    void loadBookmarks();
 
     /**
-     * Helper method for loadBookmarks(): Adds the items
-     * to the model if the "isHidden"-property is false,
-     * otherwise the items get added to m_hiddenItems.
+     * @return True, if the bookmark can be accepted in the context of the
+     *         current application (e.g. bookmarks from other applications
+     *         will be ignored).
      */
-    void addItems(const QList<PlacesItem*>& items);
+    bool acceptBookmark(const KBookmark& bookmark) const;
 
     /**
      * Creates system bookmarks that are shown per default and can
@@ -114,11 +148,22 @@ private:
 
     /**
      * @param index Item index related to the model.
-     * @return      Corresponding item index related to m_hiddenItems.
+     * @return      Corresponding index related to m_bookmarkedItems.
      */
-    int hiddenIndex(int index) const;
+    int bookmarkIndex(int index) const;
 
-    void removeHiddenItem(int index);
+    /**
+     * Marks the item with the index \a index as hidden and
+     * removes it from the model so that it gets invisible.
+     */
+    void hideItem(int index);
+
+    /**
+     * @return True if the bookmarks have the same identifiers. The identifier
+     *         is the unique "ID"-property in case if no UDI is set, otherwise
+     *         the UDI is used as identifier.
+     */
+    static bool equalBookmarkIdentifiers(const KBookmark& b1, const KBookmark& b2);
 
 #ifdef PLACESITEMMODEL_DEBUG
     void showModelState();
@@ -146,7 +191,12 @@ private:
     QList<SystemBookmarkData> m_systemBookmarks;
     QHash<KUrl, int> m_systemBookmarksIndexes;
 
-    QList<PlacesItem*> m_hiddenItems;
+    // Contains hidden and unhidden items that are stored as
+    // bookmark (the model itself only contains items that
+    // are shown in the view). If an entry is 0, then the
+    // places-item is part of the model. If an entry is not
+    // 0, the item is hidden and not part of the model.
+    QList<PlacesItem*> m_bookmarkedItems;
 
     // Index of the hidden item that should be removed in
     // removeHiddenItem(). The removing must be done
@@ -155,6 +205,7 @@ private:
     int m_hiddenItemToRemove;
 
     QTimer* m_saveBookmarksTimer;
+    QTimer* m_updateBookmarksTimer;
 };
 
 #endif
