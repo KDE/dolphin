@@ -41,8 +41,8 @@
 
         <entry name="SortRole" type="String" >
             <label context="@label">Sort files by</label>
-            <whatsthis context="@info:whatsthis">This option defines which attribute (name, size, date, etc.) sorting is performed on.</whatsthis>
-            <default code="true">"name"</default>
+            <whatsthis context="@info:whatsthis">This option defines which attribute (text, size, date, etc.) sorting is performed on.</whatsthis>
+            <default>text</default>
         </entry>
 
         <entry name="SortOrder" type="Int" >
