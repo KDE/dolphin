@@ -43,7 +43,7 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
         return;
     }
 
-    if (item && !m_indexesForItems.contains(item)) {
+    if (!m_indexesForItems.contains(item)) {
         item->m_model = this;
         m_items.insert(index, item);
         m_indexesForItems.insert(item, index);
@@ -63,7 +63,7 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
 
 void KStandardItemModel::changeItem(int index, KStandardItem* item)
 {
-    if (index < 0 || index > count() || !item) {
+    if (index < 0 || index >= count() || !item) {
         delete item;
         return;
     }
