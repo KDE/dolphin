@@ -459,8 +459,8 @@ private:
 
     friend class KFileItemModelSortAlgorithm;  // Accesses lessThan() method
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
-    friend class KFileItemModelTest;           // For unit testing (accesses m_dirLister)
-    friend class KFileItemListViewTest;        // For unit testing (accesses m_dirLister)
+    friend class KFileItemModelTest;           // For unit testing
+    friend class KFileItemListViewTest;        // For unit testing
 };
 
 inline bool KFileItemModel::isChildItem(int index) const

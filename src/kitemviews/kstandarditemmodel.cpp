@@ -38,6 +38,11 @@ KStandardItemModel::~KStandardItemModel()
 
 void KStandardItemModel::insertItem(int index, KStandardItem* item)
 {
+    if (index < 0 || index > count() || !item) {
+        delete item;
+        return;
+    }
+
     if (item && !m_indexesForItems.contains(item)) {
         item->m_model = this;
         m_items.insert(index, item);
@@ -58,40 +63,39 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
 
 void KStandardItemModel::changeItem(int index, KStandardItem* item)
 {
-    if (item && index >= 0 && index < count()) {
-        item->m_model = this;
-
-        QSet<QByteArray> changedRoles;
-
-        KStandardItem* oldItem = m_items[index];
-        const QHash<QByteArray, QVariant> oldData = oldItem->data();
-        const QHash<QByteArray, QVariant> newData = item->data();
-
-        // Determine which roles have been changed
-        QHashIterator<QByteArray, QVariant> it(oldData);
-        while (it.hasNext()) {
-            it.next();
-            const QByteArray role = it.key();
-            const QVariant oldValue = it.value();
-            if (newData.contains(role) && newData.value(role) != oldValue) {
-                changedRoles.insert(role);
-            }
-        }
-
-        m_indexesForItems.remove(oldItem);
-        delete oldItem;
-        oldItem = 0;
-
-        m_items[index] = item;
-        m_indexesForItems.insert(item, index);
-
-        onItemChanged(index, changedRoles);
-        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
-    } else {
-        kWarning() << "No item available to replace on the given index" << index;
+    if (index < 0 || index > count() || !item) {
         delete item;
-        item = 0;
+        return;
     }
+
+    item->m_model = this;
+
+    QSet<QByteArray> changedRoles;
+
+    KStandardItem* oldItem = m_items[index];
+    const QHash<QByteArray, QVariant> oldData = oldItem->data();
+    const QHash<QByteArray, QVariant> newData = item->data();
+
+    // Determine which roles have been changed
+    QHashIterator<QByteArray, QVariant> it(oldData);
+    while (it.hasNext()) {
+        it.next();
+        const QByteArray role = it.key();
+        const QVariant oldValue = it.value();
+        if (newData.contains(role) && newData.value(role) != oldValue) {
+            changedRoles.insert(role);
+        }
+    }
+
+    m_indexesForItems.remove(oldItem);
+    delete oldItem;
+    oldItem = 0;
+
+    m_items[index] = item;
+    m_indexesForItems.insert(item, index);
+
+    onItemChanged(index, changedRoles);
+    emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 }
 
 void KStandardItemModel::removeItem(int index)

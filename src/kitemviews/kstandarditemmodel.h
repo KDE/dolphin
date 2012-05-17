@@ -47,14 +47,16 @@ public:
      * Inserts the item \a item at the index \a index. If the index
      * is equal to the number of items of the model, the item
      * gets appended as last element. KStandardItemModel takes
-     * the ownership of the item.
+     * the ownership of the item. If the index is invalid, the item
+     * gets deleted.
      */
     void insertItem(int index, KStandardItem* item);
 
     /**
      * Changes the item on the index \a index to \a item.
      * KStandardItemModel takes the ownership of the item. The
-     * old item gets deleted.
+     * old item gets deleted. If the index is invalid, the item
+     * gets deleted.
      */
     void changeItem(int index, KStandardItem* item);
 
@@ -102,6 +104,7 @@ private:
     QHash<const KStandardItem*, int> m_indexesForItems;
 
     friend class KStandardItem;
+    friend class KStandardItemModelTest;  // For unit testing
 };
 
 #endif

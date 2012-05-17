@@ -68,3 +68,14 @@ if (Nepomuk_FOUND)
   kde4_add_unit_test(dolphinsearchboxtest TEST ${dolphinsearchboxtest_SRCS})
   target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${SOPRANO_LIBRARIES} ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${QT_QTTEST_LIBRARY})
 endif (Nepomuk_FOUND)
+
+# KStandardItemModelTest
+set(kstandarditemmodeltest_SRCS
+    kstandarditemmodeltest.cpp
+    ../kitemviews/kstandarditem.cpp
+    ../kitemviews/kstandarditemmodel.cpp
+    ../kitemviews/kitemmodelbase.cpp
+)
+kde4_add_unit_test(kstandarditemmodeltest TEST ${kstandarditemmodeltest_SRCS})
+target_link_libraries(kstandarditemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
