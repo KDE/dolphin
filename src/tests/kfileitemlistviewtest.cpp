@@ -19,9 +19,9 @@
 
 #include <qtest_kde.h>
 
-#include <KDirLister>
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
 #include <QGraphicsView>
@@ -37,11 +37,11 @@ class KFileItemListViewTest : public QObject
 private slots:
     void init();
     void cleanup();
+    void testGroupedItemChanges();
 
 private:
     KFileItemListView* m_listView;
     KFileItemModel* m_model;
-    KDirLister* m_dirLister;
     TestDir* m_testDir;
     QGraphicsView* m_graphicsView;
 };
@@ -52,8 +52,8 @@ void KFileItemListViewTest::init()
     qRegisterMetaType<KFileItemList>("KFileItemList");
 
     m_testDir = new TestDir();
-    m_dirLister = new KDirLister();
-    m_model = new KFileItemModel(m_dirLister);
+    m_model = new KFileItemModel();
+    m_model->m_dirLister->setAutoUpdate(false);
 
     m_listView = new KFileItemListView();
     m_listView->onModelChanged(m_model, 0);
@@ -74,11 +74,42 @@ void KFileItemListViewTest::cleanup()
     delete m_model;
     m_model = 0;
 
-    delete m_dirLister;
-    m_dirLister = 0;
-
     delete m_testDir;
     m_testDir = 0;
+}
+
+/**
+ * If grouping is enabled, the group headers must be updated
+ * when items have been inserted or removed. This updating
+ * may only be done after all multiple ranges have been inserted
+ * or removed and not after each individual range (see description
+ * in #ifndef QT_NO_DEBUG-block of KItemListView::slotItemsInserted()
+ * and KItemListView::slotItemsRemoved()). This test inserts and
+ * removes multiple ranges and will trigger the Q_ASSERT in the
+ * ifndef QT_NO_DEBUG-block in case if a group-header will be updated
+ * too early.
+ */
+void KFileItemListViewTest::testGroupedItemChanges()
+{
+    m_model->setGroupedSorting(true);
+
+    m_testDir->createFiles(QStringList() << "1" << "3" << "5");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 3);
+
+    m_testDir->createFiles(QStringList() << "2" << "4");
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5);
+
+    m_testDir->removeFile("1");
+    m_testDir->removeFile("3");
+    m_testDir->removeFile("5");
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 2);
 }
 
 QTEST_KDEMAIN(KFileItemListViewTest, GUI)
