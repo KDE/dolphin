@@ -922,13 +922,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
             }
         }
 
-        // In case if items of the same group have been inserted before an item that
-        // currently represents the first item of the group, the group header of
-        // this item must be removed.
-        if (m_grouped && index + count < m_model->count()) {
-            updateGroupHeaderForWidget(m_visibleItems.value(index + count));
-        }
-
         if (m_model->count() == count && m_activeTransactions == 0) {
             // Check whether a scrollbar is required to show the inserted items. In this case
             // the size of the layouter will be decreased before calling doLayout(): This prevents
@@ -967,7 +960,15 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 #endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
+
         updateSiblingsInformation();
+    }
+
+    if (m_grouped && (hasMultipleRanges || itemRanges.first().count < m_model->count())) {
+        // In case if items of the same group have been inserted before an item that
+        // currently represents the first item of the group, the group header of
+        // this item must be removed.
+        updateVisibleGroupHeaders();
     }
 
     if (useAlternateBackgrounds()) {
@@ -1056,12 +1057,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             }
         }
 
-        // In case if the first item of a group has been removed, the group header
-        // must be applied to the next visible item.
-        if (m_grouped && index < m_model->count()) {
-            updateGroupHeaderForWidget(m_visibleItems.value(index));
-        }
-
         if (!hasMultipleRanges) {
             // The decrease-layout-size optimization in KItemListView::slotItemsInserted()
             // assumes an updated geometry. If items are removed during an active transaction,
@@ -1089,6 +1084,12 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
         updateSiblingsInformation();
+    }
+
+    if (m_grouped && (hasMultipleRanges || m_model->count() > 0)) {
+        // In case if the first item of a group has been removed, the group header
+        // must be applied to the next visible item.
+        updateVisibleGroupHeaders();
     }
 
     if (useAlternateBackgrounds()) {
