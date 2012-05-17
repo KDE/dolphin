@@ -395,7 +395,7 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
 {
     const PlacesItem* changedItem = placesItem(index);
     if (changedItem) {
-        // Take care to apply the PlacesItemModel-order of the inserted item
+        // Take care to apply the PlacesItemModel-order of the changed item
         // also to the bookmark-manager.
         const KBookmark insertedBookmark = changedItem->bookmark();
 
@@ -409,9 +409,7 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
     }
 
     if (changedRoles.contains("isHidden")) {
-        const PlacesItem* shownItem = placesItem(index);
-        Q_ASSERT(shownItem);
-        if (!m_hiddenItemsShown && shownItem->isHidden()) {
+        if (!m_hiddenItemsShown && changedItem->isHidden()) {
             m_hiddenItemToRemove = index;
             QTimer::singleShot(0, this, SLOT(hideItem()));
         }

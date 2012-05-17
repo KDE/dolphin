@@ -42,6 +42,13 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
         item->m_model = this;
         m_items.insert(index, item);
         m_indexesForItems.insert(item, index);
+
+        // Inserting an item requires to update the indexes
+        // afterwards from m_indexesForItems.
+        for (int i = index + 1; i < m_items.count(); ++i) {
+            m_indexesForItems.insert(m_items[i], i);
+        }
+
         // TODO: no hierarchical items are handled yet
 
         onItemInserted(index);
@@ -94,11 +101,18 @@ void KStandardItemModel::removeItem(int index)
         m_indexesForItems.remove(item);
         m_items.removeAt(index);
 
+        // Removing an item requires to update the indexes
+        // afterwards from m_indexesForItems.
+        for (int i = index; i < m_items.count(); ++i) {
+            m_indexesForItems.insert(m_items[i], i);
+        }
+
         onItemRemoved(index, item);
-        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
 
         delete item;
         item = 0;
+
+        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
 
         // TODO: no hierarchical items are handled yet
     }
