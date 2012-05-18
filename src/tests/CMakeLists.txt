@@ -79,3 +79,15 @@ set(kstandarditemmodeltest_SRCS
 kde4_add_unit_test(kstandarditemmodeltest TEST ${kstandarditemmodeltest_SRCS})
 target_link_libraries(kstandarditemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
+# ViewPropertiesTest
+set(viewpropertiestest_SRCS
+    viewpropertiestest.cpp
+    testdir.cpp
+    ../views/viewproperties.cpp
+)
+kde4_add_kcfg_files(viewpropertiestest_SRCS
+  ../settings/dolphin_generalsettings.kcfgc
+  ../settings/dolphin_directoryviewpropertysettings.kcfgc
+)
+kde4_add_unit_test(viewpropertiestest TEST ${viewpropertiestest_SRCS})
+target_link_libraries(viewpropertiestest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})

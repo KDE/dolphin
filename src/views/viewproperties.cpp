@@ -105,6 +105,22 @@ ViewProperties::ViewProperties(const KUrl& url) :
             m_changedProps = false;
         }
     }
+
+    if (m_node->version() < CurrentViewPropertiesVersion) {
+        // The view-properties have an outdated version. Convert the properties
+        // to the changes of the current version.
+        if (m_node->version() < AdditionalInfoViewPropertiesVersion) {
+            convertAdditionalInfo();
+            Q_ASSERT(m_node->version() == AdditionalInfoViewPropertiesVersion);
+        }
+
+        if (m_node->version() < NameRolePropertiesVersion) {
+            convertNameRoleToTextRole();
+            Q_ASSERT(m_node->version() == NameRolePropertiesVersion);
+        }
+
+        m_node->setVersion(CurrentViewPropertiesVersion);
+    }
 }
 
 ViewProperties::~ViewProperties()
@@ -180,10 +196,6 @@ void ViewProperties::setSortRole(const QByteArray& role)
 
 QByteArray ViewProperties::sortRole() const
 {
-    if (m_node->version() <= NameRolePropertiesVersion) {
-        const_cast<ViewProperties*>(this)->convertNameRoleToTextRole();
-    }
-
     return m_node->sortRole().toLatin1();
 }
 
@@ -215,6 +227,10 @@ bool ViewProperties::sortFoldersFirst() const
 
 void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
 {
+    if (roles == visibleRoles()) {
+        return;
+    }
+
     // See ViewProperties::visibleRoles() for the storage format
     // of the additional information.
 
@@ -272,18 +288,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     const QString prefix = viewModePrefix();
     const int prefixLength = prefix.length();
 
-    QStringList visibleRoles = m_node->visibleRoles();
-    const int version = m_node->version();
-    if (visibleRoles.isEmpty() && version <= AdditionalInfoViewPropertiesVersion) {
-        // Convert the obsolete additionalInfo-property from older versions into the
-        // visibleRoles-property
-        const_cast<ViewProperties*>(this)->convertAdditionalInfo();
-        visibleRoles = m_node->visibleRoles();
-    } else if (version <= NameRolePropertiesVersion) {
-        const_cast<ViewProperties*>(this)->convertNameRoleToTextRole();
-        visibleRoles = m_node->visibleRoles();
-    }
-
+    const QStringList visibleRoles = m_node->visibleRoles();
     foreach (const QString& visibleRole, visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
@@ -330,6 +335,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setSortFoldersFirst(props.sortFoldersFirst());
     setVisibleRoles(props.visibleRoles());
     setHeaderColumnWidths(props.headerColumnWidths());
+    m_node->setVersion(props.m_node->version());
 }
 
 void ViewProperties::setAutoSaveEnabled(bool autoSave)
@@ -350,6 +356,7 @@ void ViewProperties::update()
 
 void ViewProperties::save()
 {
+    kDebug() << "Saving view-properties to" << m_filePath;
     KStandardDirs::makeDir(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
     m_node->writeConfig();
@@ -411,6 +418,7 @@ void ViewProperties::convertAdditionalInfo()
 
     m_node->setAdditionalInfo(QStringList());
     m_node->setVisibleRoles(visibleRoles);
+    m_node->setVersion(AdditionalInfoViewPropertiesVersion);
     update();
 }
 
@@ -431,6 +439,7 @@ void ViewProperties::convertNameRoleToTextRole()
 
     m_node->setVisibleRoles(visibleRoles);
     m_node->setSortRole(sortRole);
+    m_node->setVersion(NameRolePropertiesVersion);
     update();
 }
 

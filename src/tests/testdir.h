@@ -33,7 +33,7 @@ class TestDir : public KTempDir
 {
 
 public:
-    TestDir();
+    TestDir(const QString& directoryPrefix = QString());
     virtual ~TestDir();
 
     KUrl url() const;

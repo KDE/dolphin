@@ -27,7 +27,8 @@
 #include <sys/utime.h>
 #endif
 
-TestDir::TestDir()
+TestDir::TestDir(const QString& directoryPrefix) :
+    KTempDir(directoryPrefix)
 {
 }
 
