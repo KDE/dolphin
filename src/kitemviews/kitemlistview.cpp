@@ -36,6 +36,7 @@
 
 #include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QStyle>
@@ -566,8 +567,21 @@ KItemListHeader* KItemListView::header() const
 
 QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
 {
-    Q_UNUSED(indexes);
-    return QPixmap();
+    QPixmap pixmap;
+
+    if (indexes.count() == 1) {
+        KItemListWidget* item = m_visibleItems.value(indexes.toList().first());
+        QGraphicsView* graphicsView = scene()->views()[0];
+        if (item && graphicsView) {
+            pixmap = item->createDragPixmap(0, graphicsView);
+        }
+    } else {
+        // TODO: Not implemented yet. Probably extend the interface
+        // from KItemListWidget::createDragPixmap() to return a pixmap
+        // that can be used for multiple indexes.
+    }
+
+    return pixmap;
 }
 
 void KItemListView::editRole(int index, const QByteArray& role)

@@ -175,6 +175,12 @@ public:
      */
     virtual QRectF expansionToggleRect() const;
 
+    /**
+     * @return Pixmap that is used when dragging an item. Per default the current state of the
+     *         widget is returned as pixmap.
+     */
+    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+
 signals:
     void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);

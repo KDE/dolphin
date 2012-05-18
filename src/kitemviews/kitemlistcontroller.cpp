@@ -1063,6 +1063,11 @@ void KItemListController::startDragging()
     const QPixmap pixmap = m_view->createDragPixmap(selectedItems);
     drag->setPixmap(pixmap);
 
+    // TODO: The vertical hotspot of -24 should be replaced by the
+    // height of the QCursor-pixmap.
+    const QPoint hotSpot(pixmap.width() / 2, -24);
+    drag->setHotSpot(hotSpot);
+
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
 }
 

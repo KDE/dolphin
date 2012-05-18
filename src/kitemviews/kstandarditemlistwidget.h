@@ -86,6 +86,7 @@ public:
     virtual QRectF textFocusRect() const;
     virtual QRectF expansionToggleRect() const;
     virtual QRectF selectionToggleRect() const;
+    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
     static KItemListWidgetInformant* createInformant();
 

@@ -405,6 +405,32 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
     return QRectF(pos, QSizeF(toggleSize, toggleSize));
 }
 
+QPixmap KStandardItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option,
+                                                  QWidget* widget)
+{
+    QPixmap pixmap = KItemListWidget::createDragPixmap(option, widget);
+    if (m_layout != DetailsLayout || styleOption().extendedSelectionRegion) {
+        return pixmap;
+    }
+
+    // Only return the content of the text-column as pixmap
+    const int leftClip = m_pixmapPos.x();
+
+    const TextInfo* textInfo = m_textInfo.value("text");
+    const int rightClip = textInfo->pos.x() +
+                          textInfo->staticText.size().width() +
+                          2 * styleOption().padding;
+
+    QPixmap clippedPixmap(rightClip - leftClip + 1, pixmap.height());
+    clippedPixmap.fill(Qt::transparent);
+
+    QPainter painter(&clippedPixmap);
+    painter.drawPixmap(-leftClip, 0, pixmap);
+
+    return clippedPixmap;
+}
+
+
 KItemListWidgetInformant* KStandardItemListWidget::createInformant()
 {
     return new KStandardItemListWidgetInformant();

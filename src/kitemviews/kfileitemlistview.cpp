@@ -119,6 +119,9 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
 
     const int itemCount = indexes.count();
     Q_ASSERT(itemCount > 0);
+    if (itemCount == 1) {
+        return KItemListView::createDragPixmap(indexes);
+    }
 
     // If more than one item is dragged, align the items inside a
     // rectangular grid. The maximum grid size is limited to 5 x 5 items.

@@ -257,8 +257,7 @@ public:
 
     /**
      * @return Pixmap that is used for a drag operation based on the
-     *         items given by \a indexes. The default implementation returns
-     *         a null-pixmap.
+     *         items given by \a indexes.
      */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 

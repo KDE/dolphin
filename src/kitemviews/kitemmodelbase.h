@@ -154,7 +154,8 @@ public:
     /**
      * @return MIME-data for the items given by \a indexes. The default implementation
      *         returns 0. The ownership of the returned instance is in the hand of the
-     *         caller of this method.
+     *         caller of this method. The method must be implemented if dragging of
+     *         items should be possible.
      */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 

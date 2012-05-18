@@ -37,6 +37,7 @@
 #include "placesitem.h"
 #include <QAction>
 #include <QDate>
+#include <QMimeData>
 #include <QTimer>
 
 #include <Solid/Device>
@@ -291,7 +292,9 @@ void PlacesItemModel::requestEject(int index)
                     this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
             drive->eject();
         } else {
-
+            const QString label = item->text();
+            const QString message = i18nc("@info", "The device '%1' is not a disk and cannot be ejected.", label);
+            emit errorMessage(message);
         }
     }
 }
@@ -305,12 +308,41 @@ void PlacesItemModel::requestTeardown(int index)
             connect(access, SIGNAL(teardownDone(Solid::ErrorType,QVariant,QString)),
                     this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
             access->teardown();
-        } else {
-            const QString label = item->text();
-            const QString message = i18nc("@info", "The device '%1' is not a disk and cannot be ejected.", label);
-            emit errorMessage(message);
         }
     }
+}
+
+QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
+{
+    KUrl::List urls;
+    QByteArray itemData;
+
+    QDataStream stream(&itemData, QIODevice::WriteOnly);
+
+    foreach (int index, indexes) {
+        const KUrl itemUrl = placesItem(index)->url();
+        if (itemUrl.isValid()) {
+            urls << itemUrl;
+        }
+        stream << index;
+    }
+
+    QMimeData* mimeData = new QMimeData();
+    if (!urls.isEmpty()) {
+        urls.populateMimeData(mimeData);
+    }
+
+    const QString internalMimeType = "application/x-dolphinplacesmodel-" +
+                                     QString::number((qptrdiff)this);
+    mimeData->setData(internalMimeType, itemData);
+
+    return mimeData;
+}
+
+bool PlacesItemModel::supportsDropping(int index) const
+{
+    Q_UNUSED(index);
+    return true;
 }
 
 KUrl PlacesItemModel::convertedUrl(const KUrl& url)

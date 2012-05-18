@@ -360,6 +360,22 @@ QRectF KItemListWidget::expansionToggleRect() const
     return QRectF();
 }
 
+QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option,
+                                          QWidget* widget)
+{
+    QPixmap pixmap(size().toSize());
+    pixmap.fill(Qt::transparent);
+
+    QPainter painter(&pixmap);
+
+    const bool oldAlternateBackground = m_alternateBackground;
+    setAlternateBackground(false);
+    paint(&painter, option, widget);
+    setAlternateBackground(oldAlternateBackground);
+
+    return pixmap;
+}
+
 void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
                                   const QSet<QByteArray>& roles)
 {
