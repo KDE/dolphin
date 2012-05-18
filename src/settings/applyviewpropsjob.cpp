@@ -51,8 +51,6 @@ ApplyViewPropsJob::~ApplyViewPropsJob()
 
 void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
 {
-    KIO::UDSEntryList::ConstIterator it = list.begin();
-    const KIO::UDSEntryList::ConstIterator end = list.end();
     foreach(const KIO::UDSEntry& entry, list) {
         const QString name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
         if ((name != ".") && (name != "..") && entry.isDir()) {
