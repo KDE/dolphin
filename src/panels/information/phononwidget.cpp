@@ -126,11 +126,13 @@ void PhononWidget::showEvent(QShowEvent *event)
         m_playButton->setToolTip(i18n("play"));
         m_playButton->setIconSize(QSize(16, 16));
         m_playButton->setIcon(KIcon("media-playback-start"));
+        m_playButton->setAutoRaise(true);
         connect(m_playButton, SIGNAL(clicked()), this, SLOT(play()));
 
         m_stopButton->setToolTip(i18n("stop"));
         m_stopButton->setIconSize(QSize(16, 16));
         m_stopButton->setIcon(KIcon("media-playback-stop"));
+        m_stopButton->setAutoRaise(true);
         m_stopButton->hide();
         connect(m_stopButton, SIGNAL(clicked()), this, SLOT(stop()));
 
