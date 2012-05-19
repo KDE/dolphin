@@ -92,8 +92,7 @@ private slots:
      */
     void markOutdatedPreview();
 
-    void slotPlayingStarted();
-    void slotPlayingStopped();
+    void slotHasVideoChanged(bool hasVideo);
 
     /**
      * Is invoked after the file meta data configuration dialog has been

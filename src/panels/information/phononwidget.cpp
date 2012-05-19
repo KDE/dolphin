@@ -20,10 +20,11 @@
 
 #include "phononwidget.h"
 
+#include <Phonon/AudioOutput>
 #include <Phonon/Global>
 #include <Phonon/MediaObject>
 #include <Phonon/SeekSlider>
-#include <Phonon/VideoPlayer>
+#include <Phonon/VideoWidget>
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -35,11 +36,11 @@
 #include <KUrl>
 #include <KLocale>
 
-class EmbeddedVideoPlayer : public Phonon::VideoPlayer
+class EmbeddedVideoPlayer : public Phonon::VideoWidget
 {
     public:
-        EmbeddedVideoPlayer(Phonon::Category category, QWidget *parent = 0) :
-            Phonon::VideoPlayer(category, parent)
+        EmbeddedVideoPlayer(QWidget *parent = 0) :
+            Phonon::VideoWidget(parent)
         {
         }
 
@@ -51,7 +52,7 @@ class EmbeddedVideoPlayer : public Phonon::VideoPlayer
 
         virtual QSize sizeHint() const
         {
-            return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoPlayer::sizeHint();
+            return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoWidget::sizeHint();
         }
 
     private:
@@ -60,14 +61,13 @@ class EmbeddedVideoPlayer : public Phonon::VideoPlayer
 
 PhononWidget::PhononWidget(QWidget *parent)
     : QWidget(parent),
-    m_mode(Audio),
     m_url(),
     m_playButton(0),
     m_stopButton(0),
     m_topLayout(0),
-    m_audioMedia(0),
     m_media(0),
     m_seekSlider(0),
+    m_audioOutput(0),
     m_videoPlayer(0)
 {
 }
@@ -83,19 +83,6 @@ void PhononWidget::setUrl(const KUrl &url)
 KUrl PhononWidget::url() const
 {
     return m_url;
-}
-
-void PhononWidget::setMode(Mode mode)
-{
-    if (m_mode != mode) {
-        stop(); // emits playingStopped() signal
-        m_mode = mode;
-    }
-}
-
-PhononWidget::Mode PhononWidget::mode() const
-{
-    return m_mode;
 }
 
 void PhononWidget::setVideoSize(const QSize& size)
@@ -183,47 +170,31 @@ void PhononWidget::stateChanged(Phonon::State newstate)
 
 void PhononWidget::play()
 {
-    switch (m_mode) {
-    case Audio:
-        if (!m_audioMedia) {
-            m_audioMedia = Phonon::createPlayer(Phonon::MusicCategory, m_url);
-            m_audioMedia->setParent(this);
-        }
-        m_media = m_audioMedia;
-        m_media->setCurrentSource(m_url);
-        m_media->play();
-        break;
-
-    case Video:
-        if (!m_videoPlayer) {
-            m_videoPlayer = new EmbeddedVideoPlayer(Phonon::VideoCategory, this);
-            m_topLayout->insertWidget(0, m_videoPlayer);
-        }
-        applyVideoSize();
-        m_videoPlayer->show();
-        m_videoPlayer->play(m_url);
-        m_media = m_videoPlayer->mediaObject();
-        break;
-
-    default:
-        break;
+    if (!m_media) {
+        m_media = new Phonon::MediaObject(this);
+        connect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
+                this, SLOT(stateChanged(Phonon::State)));
+        connect(m_media, SIGNAL(hasVideoChanged(bool)),
+                this, SLOT(slotHasVideoChanged(bool)));
+        m_seekSlider->setMediaObject(m_media);
     }
 
-    Q_ASSERT(m_media);
-    connect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-            this, SLOT(stateChanged(Phonon::State)));
-    m_seekSlider->setMediaObject(m_media);
+    if (!m_audioOutput) {
+        m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+        Phonon::createPath(m_media, m_audioOutput);
+    }
 
-    emit playingStarted();
+    emit hasVideoChanged(false);
+
+    m_media->setCurrentSource(m_url);
+    m_media->hasVideo();
+    m_media->play();
 }
 
 void PhononWidget::stop()
 {
     if (m_media) {
         m_media->stop();
-        disconnect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-                   this, SLOT(stateChanged(Phonon::State)));
-        emit playingStopped();
 
         m_stopButton->hide();
         m_playButton->show();
@@ -231,6 +202,26 @@ void PhononWidget::stop()
 
     if (m_videoPlayer) {
         m_videoPlayer->hide();
+    }
+
+    emit hasVideoChanged(false);
+}
+
+void PhononWidget::slotHasVideoChanged(bool hasVideo)
+{
+    emit hasVideoChanged(hasVideo);
+
+    if (hasVideo) {
+        if (!m_videoPlayer) {
+            // Replay the media to apply path changes
+            m_media->stop();
+            m_videoPlayer = new EmbeddedVideoPlayer(this);
+            m_topLayout->insertWidget(0, m_videoPlayer);
+            Phonon::createPath(m_media, m_videoPlayer);
+            m_media->play();
+        }
+        applyVideoSize();
+        m_videoPlayer->show();
     }
 }
 

@@ -90,10 +90,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget = new PhononWidget(parent);
     m_phononWidget->hide();
     m_phononWidget->setMinimumWidth(minPreviewWidth);
-    connect(m_phononWidget, SIGNAL(playingStarted()),
-            this, SLOT(slotPlayingStarted()));
-    connect(m_phononWidget, SIGNAL(playingStopped()),
-            this, SLOT(slotPlayingStopped()));
+    connect(m_phononWidget, SIGNAL(hasVideoChanged(bool)),
+            this, SLOT(slotHasVideoChanged(bool)));
 
     // name
     m_nameLabel = new QLabel(parent);
@@ -200,12 +198,8 @@ void InformationPanelContent::showItem(const KFileItem& item)
                                                            // thinks it supports PNG images
         if (usePhonon) {
             m_phononWidget->show();
-            PhononWidget::Mode mode = mimeType.startsWith(QLatin1String("video"))
-                                      ? PhononWidget::Video
-                                      : PhononWidget::Audio;
-            m_phononWidget->setMode(mode);
             m_phononWidget->setUrl(item.targetUrl());
-            if ((mode == PhononWidget::Video) && m_preview->isVisible()) {
+            if (m_preview->isVisible()) {
                 m_phononWidget->setVideoSize(m_preview->size());
             }
         } else {
@@ -338,14 +332,9 @@ void InformationPanelContent::markOutdatedPreview()
     m_preview->setPixmap(disabledPixmap);
 }
 
-void InformationPanelContent::slotPlayingStarted()
+void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 {
-    m_preview->setVisible(m_phononWidget->mode() != PhononWidget::Video);
-}
-
-void InformationPanelContent::slotPlayingStopped()
-{
-    m_preview->setVisible(true);
+    m_preview->setVisible(!hasVideo);
 }
 
 void InformationPanelContent::refreshMetaData()
@@ -423,7 +412,7 @@ void InformationPanelContent::adjustWidgetSizes(int width)
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
 
-    if (m_phononWidget->isVisible() && (m_phononWidget->mode() == PhononWidget::Video)) {
+    if (m_phononWidget->isVisible()) {
         // assure that the size of the video player is the same as the preview size
         m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
     }

@@ -30,6 +30,7 @@
 
 namespace Phonon
 {
+    class AudioOutput;
     class MediaObject;
     class SeekSlider;
     class VideoPlayer;
@@ -43,26 +44,24 @@ class PhononWidget : public QWidget
 {
     Q_OBJECT
     public:
-        enum Mode
-        {
-            Audio,
-            Video
-        };
-
         PhononWidget(QWidget *parent = 0);
 
         void setUrl(const KUrl &url);
         KUrl url() const;
 
-        void setMode(Mode mode);
-        Mode mode() const;
-
         void setVideoSize(const QSize& size);
         QSize videoSize() const;
 
     signals:
-        void playingStarted();
-        void playingStopped();
+        /**
+         * Is emitted whenever the video-state
+         * has changed: If true is returned, a video
+         * including control-buttons will be shown.
+         * If false is returned, no video is shown
+         * and the control-buttons are available for
+         * audio only.
+         */
+        void hasVideoChanged(bool hasVideo);
 
     protected:
         virtual void showEvent(QShowEvent *event);
@@ -72,12 +71,12 @@ class PhononWidget : public QWidget
         void stateChanged(Phonon::State);
         void play();
         void stop();
+        void slotHasVideoChanged(bool);
 
     private:
         void applyVideoSize();
 
     private:
-        Mode m_mode;
         KUrl m_url;
         QSize m_videoSize;
 
@@ -85,9 +84,9 @@ class PhononWidget : public QWidget
         QToolButton *m_stopButton;
 
         QVBoxLayout *m_topLayout;
-        Phonon::MediaObject *m_audioMedia;
         Phonon::MediaObject *m_media;
         Phonon::SeekSlider *m_seekSlider;
+        Phonon::AudioOutput *m_audioOutput;
         EmbeddedVideoPlayer *m_videoPlayer;
 };
 
