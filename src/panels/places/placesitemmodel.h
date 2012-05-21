@@ -108,9 +108,6 @@ public:
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
-    /** @reimp */
-    virtual bool supportsDropping(int index) const;
-
     /**
      * @return Converts the URL, which contains "virtual" URLs for system-items like
      *         "search:/documents" into a Nepomuk-Query-URL that will be handled by

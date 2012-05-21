@@ -76,7 +76,6 @@ void PlacesPanel::showEvent(QShowEvent* event)
         // used at all and stays invisible.
         m_model = new PlacesItemModel(this);
         m_model->setGroupedSorting(true);
-        m_model->setSortRole("group");
         connect(m_model, SIGNAL(errorMessage(QString)),
                 this, SIGNAL(errorMessage(QString)));
 

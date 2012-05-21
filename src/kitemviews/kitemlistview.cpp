@@ -84,7 +84,8 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_autoScrollIncrement(0),
     m_autoScrollTimer(0),
     m_header(0),
-    m_headerWidget(0)
+    m_headerWidget(0),
+    m_dropIndicator()
 {
     setAcceptHoverEvents(true);
 
@@ -621,6 +622,22 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         opt.opaque = false;
         opt.rect = rubberBandRect.toRect();
         style()->drawControl(QStyle::CE_RubberBand, &opt, painter);
+    }
+
+    if (!m_dropIndicator.isEmpty()) {
+        const QRectF r = m_dropIndicator.toRect();
+
+        QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
+        painter->setPen(color);
+
+        // TODO: The following implementation works only for a vertical scroll-orientation
+        // and assumes a height of the m_draggingInsertIndicator of 1.
+        Q_ASSERT(r.height() == 1);
+        painter->drawLine(r.left() + 1, r.top(), r.right() - 1, r.top());
+
+        color.setAlpha(128);
+        painter->setPen(color);
+        painter->drawRect(r.left(), r.top() - 1, r.width() - 1, 2);
     }
 }
 
@@ -2284,6 +2301,39 @@ bool KItemListView::scrollBarRequired(const QSizeF& size) const
 
     return m_layouter->scrollOrientation() == Qt::Vertical ? maxOffset > size.height()
                                                            : maxOffset > size.width();
+}
+
+int KItemListView::showDropIndicator(const QPointF& pos)
+{
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        const KItemListWidget* widget = it.value();
+
+        const QPointF mappedPos = widget->mapFromItem(this, pos);
+        const QRectF rect = itemRect(widget->index());
+        if (mappedPos.y() >= 0 && mappedPos.y() <= rect.height()) {
+            const qreal y = (mappedPos.y () < rect.height() / 2) ?
+                            rect.top() : rect.bottom();
+
+            const QRectF draggingInsertIndicator(rect.left(), y, rect.width(), 1);
+            if (m_dropIndicator != draggingInsertIndicator) {
+                m_dropIndicator = draggingInsertIndicator;
+                update();
+            }
+            return widget->index();
+        }
+    }
+
+    return -1;
+}
+
+void KItemListView::hideDropIndicator()
+{
+    if (!m_dropIndicator.isNull()) {
+        m_dropIndicator = QRectF();
+        update();
+    }
 }
 
 void KItemListView::updateGroupHeaderHeight()

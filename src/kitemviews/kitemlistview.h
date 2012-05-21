@@ -151,6 +151,10 @@ public:
     void setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator);
     KItemListGroupHeaderCreatorBase* groupHeaderCreator() const;
 
+    /**
+     * @return The basic size of all items. The size of an item may be larger than
+     *         the basic size (see KItemListView::itemSizeHint() and KItemListView::itemRect()).
+     */
     QSizeF itemSize() const;
 
     const KItemListStyleOption& styleOption() const;
@@ -627,6 +631,15 @@ private:
     bool scrollBarRequired(const QSizeF& size) const;
 
     /**
+     * Shows a drop-indicator between items dependent on the given
+     * cursor position. The cursor position is relative the the upper left
+     * edge of the view.
+     * @return Index of the item where the dropping is done.
+     */
+    int showDropIndicator(const QPointF& pos);
+    void hideDropIndicator();
+
+    /**
      * Applies the height of the group header to the layouter. The height
      * depends on the used scroll orientation.
      */
@@ -715,6 +728,14 @@ private:
 
     KItemListHeader* m_header;
     KItemListHeaderWidget* m_headerWidget;
+
+    // When dragging items into the view where the sort-role of the model
+    // is empty, a visual indicator should be shown during dragging where
+    // the dropping will happen. This indicator is specified by an index
+    // of the item. -1 means that no indicator will be shown at all.
+    // The m_dropIndicator is set by the KItemListController
+    // by KItemListView::showDropIndicator() and KItemListView::hideDropIndicator().
+    QRectF m_dropIndicator;
 
     friend class KItemListContainer; // Accesses scrollBarRequired()
     friend class KItemListHeader;    // Accesses m_headerWidget

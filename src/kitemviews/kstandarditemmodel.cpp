@@ -195,7 +195,7 @@ QList<QPair<int, QVariant> > KStandardItemModel::groups() const
 {
     QList<QPair<int, QVariant> > groups;
 
-    const QByteArray role = sortRole();
+    const QByteArray role = sortRole().isEmpty() ? "group" : sortRole();
     bool isFirstGroupValue = true;
     QString groupValue;
     const int maxIndex = count() - 1;

@@ -339,12 +339,6 @@ QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
     return mimeData;
 }
 
-bool PlacesItemModel::supportsDropping(int index) const
-{
-    Q_UNUSED(index);
-    return true;
-}
-
 KUrl PlacesItemModel::convertedUrl(const KUrl& url)
 {
     KUrl newUrl = url;
