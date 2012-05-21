@@ -23,7 +23,6 @@
 
 #include "placespanel.h"
 
-#include <KConfigGroup>
 #include <KDebug>
 #include <KDirNotify>
 #include <KIcon>
@@ -157,8 +156,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     } else {
         if (item->url() == KUrl("trash:/")) {
             emptyTrashAction = menu.addAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
-            KConfig trashConfig("trashrc", KConfig::SimpleConfig);
-            emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
+            emptyTrashAction->setEnabled(item->icon() == "user-trash-full");
             menu.addSeparator();
         }
         addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
