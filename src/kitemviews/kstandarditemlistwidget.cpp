@@ -559,6 +559,7 @@ void KStandardItemListWidget::selectedChanged(bool selected)
 {
     Q_UNUSED(selected);
     updateAdditionalInfoTextColor();
+    m_dirtyContent = true;
 }
 
 void KStandardItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
@@ -792,11 +793,19 @@ void KStandardItemListWidget::updatePixmapCache()
         }
 
         if (m_isCut) {
-            applyCutEffect(m_pixmap);
+            KIconEffect* effect = KIconLoader::global()->iconEffect();
+            m_pixmap = effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
         }
 
         if (m_isHidden) {
-            applyHiddenEffect(m_pixmap);
+            KIconEffect::semiTransparent(m_pixmap);
+        }
+
+        if (isSelected()) {
+            const QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
+            QImage image = m_pixmap.toImage();
+            KIconEffect::colorize(image, color, 1.0f);
+            m_pixmap = QPixmap::fromImage(image);
         }
     }
 
@@ -1251,17 +1260,6 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, int size)
     }
 
     return pixmap;
-}
-
-void KStandardItemListWidget::applyCutEffect(QPixmap& pixmap)
-{
-    KIconEffect* effect = KIconLoader::global()->iconEffect();
-    pixmap = effect->apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-}
-
-void KStandardItemListWidget::applyHiddenEffect(QPixmap& pixmap)
-{
-    KIconEffect::semiTransparent(pixmap);
 }
 
 QSizeF KStandardItemListWidget::preferredRatingSize(const KItemListStyleOption& option)

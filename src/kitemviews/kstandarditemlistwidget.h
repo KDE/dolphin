@@ -161,8 +161,6 @@ private:
     QRectF roleEditingRect(const QByteArray &role) const;
 
     static QPixmap pixmapForIcon(const QString& name, int size);
-    static void applyCutEffect(QPixmap& pixmap);
-    static void applyHiddenEffect(QPixmap& pixmap);
 
     /**
      * @return Preferred size of the rating-image based on the given
