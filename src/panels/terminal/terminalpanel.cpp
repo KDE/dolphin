@@ -103,7 +103,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
         m_clearTerminal = true;
         KPluginFactory* factory = 0;
         KService::Ptr service = KService::serviceByDesktopName("konsolepart");
-        if(service) {
+        if (service) {
             factory = KPluginLoader(service->library()).factory();
         }
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;

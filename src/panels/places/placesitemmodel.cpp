@@ -816,7 +816,7 @@ void PlacesItemModel::initializeAvailableDevices()
     connect(notifier, SIGNAL(deviceRemoved(QString)), this, SLOT(slotDeviceRemoved(QString)));
 
     const QList<Solid::Device>& deviceList = Solid::Device::listFromQuery(m_predicate);
-    foreach(const Solid::Device& device, deviceList) {
+    foreach (const Solid::Device& device, deviceList) {
         m_availableDevices << device.udi();
     }
 }

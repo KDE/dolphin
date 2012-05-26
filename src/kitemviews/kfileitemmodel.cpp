@@ -653,7 +653,7 @@ void KFileItemModel::slotCompleted()
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        foreach(const KUrl& url, m_urlsToExpand) {
+        foreach (const KUrl& url, m_urlsToExpand) {
             const int index = m_items.value(url, -1);
             if (index >= 0) {
                 m_urlsToExpand.remove(url);

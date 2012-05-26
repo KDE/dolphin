@@ -188,7 +188,7 @@ void PreviewsSettingsPage::loadSettings()
     // Note that the upgrade to the correct plugin is done already in KFilePreviewGenerator. However, if Konqueror is
     // opened in web browsing mode and the Settings dialog is opened, we might end up here before KFilePreviewGenerator's
     // constructor is ever called -> the plugin replacement should be done here as well.
-    if(m_enabledPreviewPlugins.contains(QLatin1String("jpegrotatedthumbnail"))) {
+    if (m_enabledPreviewPlugins.contains(QLatin1String("jpegrotatedthumbnail"))) {
         m_enabledPreviewPlugins.removeAll(QLatin1String("jpegrotatedthumbnail"));
         m_enabledPreviewPlugins.append(QLatin1String("jpegthumbnail"));
         globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
