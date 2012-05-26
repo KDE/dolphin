@@ -277,7 +277,7 @@ private:
         WordCountRole, LineCountRole, ArtistRole, AlbumRole, DurationRole, TrackRole,
         CopiedFromRole,
         // Non-visible roles:
-        IsDirRole, IsExpandedRole, IsExpandableRole, ExpandedParentsCountRole,
+        IsDirRole, IsLinkRole, IsExpandedRole, IsExpandableRole, ExpandedParentsCountRole,
         // Mandatory last entry:
         RolesCount
     };

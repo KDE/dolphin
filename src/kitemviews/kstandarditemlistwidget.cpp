@@ -172,6 +172,8 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     KItemListWidget(informant, parent),
     m_isCut(false),
     m_isHidden(false),
+    m_customizedFont(),
+    m_customizedFontMetrics(m_customizedFont),
     m_isExpandable(false),
     m_supportsItemExpanding(false),
     m_dirtyLayout(true),
@@ -258,7 +260,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
         drawPixmap(painter, m_pixmap);
     }
 
-    painter->setFont(itemListStyleOption.font);
+    painter->setFont(m_customizedFont);
     painter->setPen(m_isHidden ? m_additionalInfoTextColor : textColor());
     const TextInfo* textInfo = m_textInfo.value("text");
     painter->drawStaticText(textInfo->pos, textInfo->staticText);
@@ -277,7 +279,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     }
 
     painter->setPen(m_additionalInfoTextColor);
-    painter->setFont(itemListStyleOption.font);
+    painter->setFont(m_customizedFont);
 
     for (int i = 1; i < m_sortedVisibleRoles.count(); ++i) {
         const TextInfo* textInfo = m_textInfo.value(m_sortedVisibleRoles[i]);
@@ -304,7 +306,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     painter->drawRect(m_iconRect);
 
     painter->setPen(Qt::red);
-    painter->drawText(QPointF(0, itemListStyleOption.fontMetrics.height()), QString::number(index()));
+    painter->drawText(QPointF(0, m_customizedFontMetrics.height()), QString::number(index()));
     painter->drawRect(rect());
 #endif
 }
@@ -349,7 +351,7 @@ QRectF KStandardItemListWidget::textFocusRect() const
         const KItemListStyleOption& option = styleOption();
         if (option.extendedSelectionRegion) {
             const QString text = textInfo->staticText.text();
-            rect.setWidth(option.fontMetrics.width(text) + 2 * option.padding);
+            rect.setWidth(m_customizedFontMetrics.width(text) + 2 * option.padding);
         }
 
         return rect;
@@ -455,6 +457,11 @@ bool KStandardItemListWidget::isRoleRightAligned(const QByteArray& role) const
 bool KStandardItemListWidget::isHidden() const
 {
     return false;
+}
+
+QFont KStandardItemListWidget::customizedFont(const QFont& baseFont) const
+{
+    return baseFont;
 }
 
 void KStandardItemListWidget::setTextColor(const QColor& color)
@@ -707,6 +714,8 @@ void KStandardItemListWidget::triggerCacheRefreshing()
     const QHash<QByteArray, QVariant> values = data();
     m_isExpandable = m_supportsItemExpanding && values["isExpandable"].toBool();
     m_isHidden = isHidden();
+    m_customizedFont = customizedFont(styleOption().font);
+    m_customizedFontMetrics = QFontMetrics(m_customizedFont);
 
     updateExpansionArea();
     updateTextsCache();
@@ -820,7 +829,7 @@ void KStandardItemListWidget::updatePixmapCache()
         scaledIconSize = static_cast<int>(textInfo->pos.y() - 2 * padding);
     } else {
         const int textRowsCount = (m_layout == CompactLayout) ? visibleRoles().count() : 1;
-        const qreal requiredTextHeight = textRowsCount * option.fontMetrics.height();
+        const qreal requiredTextHeight = textRowsCount * m_customizedFontMetrics.height();
         scaledIconSize = (requiredTextHeight < maxIconHeight) ?
                            widgetSize.height() - 2 * padding : maxIconHeight;
     }
@@ -940,7 +949,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     const qreal padding = option.padding;
     const qreal maxWidth = size().width() - 2 * padding;
     const qreal widgetHeight = size().height();
-    const qreal lineSpacing = option.fontMetrics.lineSpacing();
+    const qreal lineSpacing = m_customizedFontMetrics.lineSpacing();
 
     // Initialize properties for the "text" role. It will be used as anchor
     // for initializing the position of the other roles.
@@ -956,7 +965,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
     const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) - additionalRolesCount;
 
-    QTextLayout layout(nameTextInfo->staticText.text(), option.font);
+    QTextLayout layout(nameTextInfo->staticText.text(), m_customizedFont);
     layout.setTextOption(nameTextInfo->staticText.textOption());
     layout.beginLayout();
     int nameLineIndex = 0;
@@ -973,9 +982,9 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             if (textLength < nameText.length()) {
                 // Elide the last line of the text
                 QString lastTextLine = nameText.mid(line.textStart(), line.textLength());
-                lastTextLine = option.fontMetrics.elidedText(lastTextLine,
-                                                             Qt::ElideRight,
-                                                             line.naturalTextWidth() - 1);
+                lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
+                                                                  Qt::ElideRight,
+                                                                  line.naturalTextWidth() - 1);
                 const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                 nameTextInfo->staticText.setText(elidedText);
             }
@@ -1008,7 +1017,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
 
         qreal requiredWidth = 0;
 
-        QTextLayout layout(text, option.font);
+        QTextLayout layout(text, m_customizedFont);
         QTextOption textOption;
         textOption.setWrapMode(QTextOption::NoWrap);
         layout.setTextOption(textOption);
@@ -1019,9 +1028,9 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             textLine.setLineWidth(maxWidth);
             requiredWidth = textLine.naturalTextWidth();
             if (requiredWidth > maxWidth) {
-                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
+                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
                 textInfo->staticText.setText(elidedText);
-                requiredWidth = option.fontMetrics.width(elidedText);
+                requiredWidth = m_customizedFontMetrics.width(elidedText);
             }
         }
         layout.endLayout();
@@ -1049,7 +1058,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
 
     const KItemListStyleOption& option = styleOption();
     const qreal widgetHeight = size().height();
-    const qreal lineSpacing = option.fontMetrics.lineSpacing();
+    const qreal lineSpacing = m_customizedFontMetrics.lineSpacing();
     const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * lineSpacing;
     const int scaledIconSize = (textLinesHeight < option.iconSize) ? widgetHeight - 2 * option.padding : option.iconSize;
 
@@ -1062,10 +1071,10 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
 
-        qreal requiredWidth = option.fontMetrics.width(text);
+        qreal requiredWidth = m_customizedFontMetrics.width(text);
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
-            const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
+            const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
             textInfo->staticText.setText(elidedText);
         }
 
@@ -1095,7 +1104,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
     const qreal widgetHeight = size().height();
     const int scaledIconSize = widgetHeight - 2 * option.padding;
-    const int fontHeight = option.fontMetrics.height();
+    const int fontHeight = m_customizedFontMetrics.height();
 
     const qreal columnWidthInc = columnPadding(option);
     qreal firstColumnInc = scaledIconSize;
@@ -1112,7 +1121,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         QString text = roleText(role, values);
 
         // Elide the text in case it does not fit into the available column-width
-        qreal requiredWidth = option.fontMetrics.width(text);
+        qreal requiredWidth = m_customizedFontMetrics.width(text);
         const qreal roleWidth = columnWidth(role);
         qreal availableTextWidth = roleWidth - columnWidthInc;
 
@@ -1122,8 +1131,8 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         }
 
         if (requiredWidth > availableTextWidth) {
-            text = option.fontMetrics.elidedText(text, Qt::ElideRight, availableTextWidth);
-            requiredWidth = option.fontMetrics.width(text);
+            text = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, availableTextWidth);
+            requiredWidth = m_customizedFontMetrics.width(text);
         }
 
         TextInfo* textInfo = m_textInfo.value(role);

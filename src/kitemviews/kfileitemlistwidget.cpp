@@ -93,4 +93,12 @@ bool KFileItemListWidget::isHidden() const
     return data().value("text").toString().startsWith(QLatin1Char('.'));
 }
 
+QFont KFileItemListWidget::customizedFont(const QFont& baseFont) const
+{
+    // The customized font should be italic if the file is a symbolic link.
+    QFont font(baseFont);
+    font.setItalic(data().value("isLink").toBool());
+    return font;
+}
+
 #include "kfileitemlistwidget.moc"

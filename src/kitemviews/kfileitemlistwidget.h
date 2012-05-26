@@ -47,6 +47,7 @@ public:
 protected:
     virtual bool isRoleRightAligned(const QByteArray& role) const;
     virtual bool isHidden() const;
+    virtual QFont customizedFont(const QFont& baseFont) const;
 };
 
 #endif

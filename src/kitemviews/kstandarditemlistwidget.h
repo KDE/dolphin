@@ -115,6 +115,11 @@ protected:
      */
     virtual bool isHidden() const;
 
+    /**
+     * @return A font based on baseFont which is customized according to the data shown in the widget.
+     */
+    virtual QFont customizedFont(const QFont& baseFont) const;
+
     void setTextColor(const QColor& color);
     QColor textColor() const;
 
@@ -178,6 +183,8 @@ private:
 private:
     bool m_isCut;
     bool m_isHidden;
+    QFont m_customizedFont;
+    QFontMetrics m_customizedFontMetrics;
     bool m_isExpandable;
     bool m_supportsItemExpanding;
 

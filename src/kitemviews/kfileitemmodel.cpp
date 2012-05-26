@@ -77,8 +77,10 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     resetRoles();
     m_requestRole[NameRole] = true;
     m_requestRole[IsDirRole] = true;
+    m_requestRole[IsLinkRole] = true;
     m_roles.insert("text");
     m_roles.insert("isDir");
+    m_roles.insert("isLink");
 
     // For slow KIO-slaves like used for searching it makes sense to show results periodically even
     // before the completed() or canceled() signal has been emitted.
@@ -1116,6 +1118,7 @@ KFileItemModel::RoleType KFileItemModel::typeForRole(const QByteArray& role) con
         // Insert internal roles (take care to synchronize the implementation
         // with KFileItemModel::roleForType() in case if a change is done).
         roles.insert("isDir", IsDirRole);
+        roles.insert("isLink", IsLinkRole);
         roles.insert("isExpanded", IsExpandedRole);
         roles.insert("isExpandable", IsExpandableRole);
         roles.insert("expandedParentsCount", ExpandedParentsCountRole);
@@ -1141,6 +1144,7 @@ QByteArray KFileItemModel::roleForType(RoleType roleType) const
         // Insert internal roles (take care to synchronize the implementation
         // with KFileItemModel::typeForRole() in case if a change is done).
         roles.insert(IsDirRole, "isDir");
+        roles.insert(IsLinkRole, "isLink");
         roles.insert(IsExpandedRole, "isExpanded");
         roles.insert(IsExpandableRole, "isExpandable");
         roles.insert(ExpandedParentsCountRole, "expandedParentsCount");
@@ -1162,6 +1166,11 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     const bool isDir = item.isDir();
     if (m_requestRole[IsDirRole]) {
         data.insert("isDir", isDir);
+    }
+
+    if (m_requestRole[IsLinkRole]) {
+        const bool isLink = item.isLink();
+        data.insert("isLink", isLink);
     }
 
     if (m_requestRole[NameRole]) {
