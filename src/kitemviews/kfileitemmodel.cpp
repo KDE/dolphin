@@ -530,7 +530,7 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
             const KFileItem item = it.next();
             if (m_filter.matches(item)) {
                 newVisibleItems.append(item);
-                m_filteredItems.remove(item);
+                it.remove();
             }
         }
 
