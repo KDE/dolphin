@@ -602,10 +602,10 @@ void PlacesItemModel::loadBookmarks()
     QList<PlacesItem*> devicesItems;
 
     while (!bookmark.isNull()) {
-        const bool deviceAvailable = devices.remove(bookmark.metaDataItem("UDI"));
         if (acceptBookmark(bookmark)) {
             PlacesItem* item = new PlacesItem(bookmark);
-            if (deviceAvailable) {
+            if (item->groupType() == PlacesItem::DevicesType) {
+                devices.remove(item->udi());
                 devicesItems.append(item);
             } else {
                 const KUrl url = bookmark.url();
