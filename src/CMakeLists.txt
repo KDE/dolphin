@@ -121,6 +121,8 @@ if(X11_Xrender_FOUND)
     target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
 endif(X11_Xrender_FOUND)
 
+target_link_libraries(dolphinprivate ${KDE4_PLASMA_LIBS})
+
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
 

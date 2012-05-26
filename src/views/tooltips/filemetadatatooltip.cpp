@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *   Copyright (C) 2008 by Fredrik Höglund <fredrik@kde.org>               *
+ *   Copyright (C) 2012 by Mark Gaiser <markg85@gmail.com>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,6 +30,9 @@
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QVBoxLayout>
+
+// For the blurred tooltip background
+#include <plasma/windoweffects.h>
 
 FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     QWidget(parent),
@@ -121,6 +125,12 @@ void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
     painter.end();
 
     QWidget::paintEvent(event);
+}
+
+void FileMetaDataToolTip::showEvent(QShowEvent *)
+{
+    Plasma::WindowEffects::overrideShadow(winId(), true);
+    Plasma::WindowEffects::enableBlurBehind(winId(), true, mask());
 }
 
 #include "filemetadatatooltip.moc"

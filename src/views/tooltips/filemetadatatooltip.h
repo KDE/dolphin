@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *   Copyright (C) 2008 by Fredrik Höglund <fredrik@kde.org>               *
+ *   Copyright (C) 2012 by Mark Gaiser <markg85@gmail.com>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -62,6 +63,7 @@ signals:
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
+    virtual void showEvent(QShowEvent *);
 
 private:
     QLabel* m_preview;
