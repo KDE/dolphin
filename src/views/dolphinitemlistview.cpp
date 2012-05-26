@@ -173,7 +173,7 @@ void DolphinItemListView::updateGridSize()
         if (previewsShown()) {
             // Optimize the width for previews with a 3:2 aspect ratio instead
             // of a 1:1 ratio to avoid wasting too much vertical space when
-            // photos.
+            // showing photos.
             const int minWidth = iconSize * 3 / 2;
             itemWidth = qMax(itemWidth, minWidth);
         }

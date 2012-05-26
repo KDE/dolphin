@@ -43,6 +43,7 @@
 #include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
 #include <views/draganddrophelper.h>
+#include <QGraphicsSceneDragDropEvent>
 #include <QVBoxLayout>
 #include <QShowEvent>
 
@@ -88,6 +89,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
         connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
         connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
+        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);
@@ -250,6 +252,11 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     }
 
     selectClosestItem();
+}
+
+void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
+{
+    m_model->dropMimeData(index, event->mimeData());
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)

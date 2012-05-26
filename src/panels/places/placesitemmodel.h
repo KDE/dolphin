@@ -108,6 +108,8 @@ public:
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
+    void dropMimeData(int index, const QMimeData* mimeData);
+
     /**
      * @return Converts the URL, which contains "virtual" URLs for system-items like
      *         "search:/documents" into a Nepomuk-Query-URL that will be handled by
@@ -194,6 +196,8 @@ private:
      * m_saveBookmarksTimer.
      */
     void triggerBookmarksSaving();
+
+    QString internalMimeType() const;
 
     /**
      * @return True if the bookmarks have the same identifiers. The identifier

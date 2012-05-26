@@ -2313,15 +2313,20 @@ int KItemListView::showDropIndicator(const QPointF& pos)
         const QPointF mappedPos = widget->mapFromItem(this, pos);
         const QRectF rect = itemRect(widget->index());
         if (mappedPos.y() >= 0 && mappedPos.y() <= rect.height()) {
-            const qreal y = (mappedPos.y () < rect.height() / 2) ?
-                            rect.top() : rect.bottom();
+            const bool isAboveItem = (mappedPos.y () < rect.height() / 2);
+            const qreal y = isAboveItem ? rect.top() : rect.bottom();
 
             const QRectF draggingInsertIndicator(rect.left(), y, rect.width(), 1);
             if (m_dropIndicator != draggingInsertIndicator) {
                 m_dropIndicator = draggingInsertIndicator;
                 update();
             }
-            return widget->index();
+
+            int index = widget->index();
+            if (!isAboveItem) {
+                ++index;
+            }
+            return index;
         }
     }
 

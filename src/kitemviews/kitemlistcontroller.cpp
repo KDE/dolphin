@@ -795,12 +795,10 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
             if (m_model->supportsDropping(index)) {
                 newHoveredWidget->setHovered(true);
             } else if (m_model->sortRole().isEmpty()) {
-                // The model supports the inserting of items on
-                // the given index as no sort-role has been
-                // specified. Assure that a drag-indicator
+                // The model supports inserting of items on
+                // the given index. Assure that a drop-indicator
                 // is shown by the view.
-                const int dropIndex = m_view->showDropIndicator(pos);
-                Q_UNUSED(dropIndex); // TODO
+                m_view->showDropIndicator(pos);
             }
             emit itemHovered(index);
 
@@ -825,8 +823,15 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
     m_view->setAutoScroll(false);
 
     const QPointF pos = transform.map(event->pos());
-    const int index = m_view->itemAt(pos);
-    emit itemDropEvent(index, event);
+    if (m_model->sortRole().isEmpty()) {
+        // The model supports inserting of items on
+        // a given index.
+        const int dropIndex = m_view->showDropIndicator(pos);
+        m_view->hideDropIndicator();
+        emit itemDropEvent(dropIndex, event);
+    } else {
+        emit itemDropEvent(m_view->itemAt(pos), event);
+    }
 
     return true;
 }

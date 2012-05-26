@@ -28,6 +28,7 @@ class KItemListController;
 class PlacesItemEditDialog;
 class PlacesItem;
 class PlacesItemModel;
+class QGraphicsSceneDragDropEvent;
 
 /**
  * @brief Combines bookmarks and mounted devices as list.
@@ -54,6 +55,7 @@ private slots:
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
+    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
     void slotTrashUpdated(KJob* job);
 

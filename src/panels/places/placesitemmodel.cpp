@@ -331,12 +331,19 @@ QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
     if (!urls.isEmpty()) {
         urls.populateMimeData(mimeData);
     }
-
-    const QString internalMimeType = "application/x-dolphinplacesmodel-" +
-                                     QString::number((qptrdiff)this);
-    mimeData->setData(internalMimeType, itemData);
+    mimeData->setData(internalMimeType(), itemData);
 
     return mimeData;
+}
+
+void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
+{
+    Q_UNUSED(index); // TODO
+    if (mimeData->hasFormat(internalMimeType())) {
+        // TODO
+    } else if (mimeData->hasFormat("text/uri-list")) {
+        // TODO
+    }
 }
 
 KUrl PlacesItemModel::convertedUrl(const KUrl& url)
@@ -877,6 +884,12 @@ void PlacesItemModel::triggerBookmarksSaving()
     if (m_saveBookmarksTimer) {
         m_saveBookmarksTimer->start();
     }
+}
+
+QString PlacesItemModel::internalMimeType() const
+{
+    return "application/x-dolphinplacesmodel-" +
+            QString::number((qptrdiff)this);
 }
 
 bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookmark& b2)
