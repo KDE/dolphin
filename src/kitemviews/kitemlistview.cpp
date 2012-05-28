@@ -1616,6 +1616,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         }
 
         if (animate) {
+            if (m_animation->isStarted(widget, KItemListViewAnimation::MovingAnimation)) {
+                m_animation->start(widget,  KItemListViewAnimation::MovingAnimation, newPos);
+                applyNewPos = false;
+            }
+
             const bool itemsRemoved = (changedCount < 0);
             const bool itemsInserted = (changedCount > 0);
             if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
@@ -2330,7 +2335,8 @@ int KItemListView::showDropIndicator(const QPointF& pos)
         }
     }
 
-    return -1;
+    const QRectF firstItemRect = itemRect(firstVisibleIndex());
+    return (pos.y() <= firstItemRect.top()) ? 0 : -1;
 }
 
 void KItemListView::hideDropIndicator()

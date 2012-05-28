@@ -200,6 +200,12 @@ private:
     QString internalMimeType() const;
 
     /**
+     * @return Adjusted drop index which assures that the item is aligned
+     *         into the same group as specified by PlacesItem::groupType().
+     */
+    int groupedDropIndex(int index, const PlacesItem* item) const;
+
+    /**
      * @return True if the bookmarks have the same identifiers. The identifier
      *         is the unique "ID"-property in case if no UDI is set, otherwise
      *         the UDI is used as identifier.

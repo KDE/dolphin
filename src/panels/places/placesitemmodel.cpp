@@ -338,11 +338,46 @@ QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
 
 void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
 {
-    Q_UNUSED(index); // TODO
     if (mimeData->hasFormat(internalMimeType())) {
-        // TODO
+        // The item has been moved inside the view
+        QByteArray itemData = mimeData->data(internalMimeType());
+        QDataStream stream(&itemData, QIODevice::ReadOnly);
+        int oldIndex;
+        stream >> oldIndex;
+
+        PlacesItem* oldItem = placesItem(oldIndex);
+        if (!oldItem) {
+            return;
+        }
+
+        PlacesItem* newItem = new PlacesItem(oldItem->bookmark());
+        removeItem(oldIndex);
+
+        if (oldIndex <= index) {
+            --index;
+        }
+
+        const int dropIndex = groupedDropIndex(index, newItem);
+        insertItem(dropIndex, newItem);
     } else if (mimeData->hasFormat("text/uri-list")) {
-        // TODO
+        // One or more items must be added to the model
+        const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+        for (int i = urls.count() - 1; i >= 0; --i) {
+            const KUrl& url = urls[i];
+
+            QString text = url.fileName();
+            if (text.isEmpty()) {
+                text = url.host();
+            }
+
+            KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
+                                                            text,
+                                                            url,
+                                                            "folder");
+            PlacesItem* newItem = new PlacesItem(bookmark);
+            const int dropIndex = groupedDropIndex(index, newItem);
+            insertItem(dropIndex, newItem);
+        }
     }
 }
 
@@ -890,6 +925,50 @@ QString PlacesItemModel::internalMimeType() const
 {
     return "application/x-dolphinplacesmodel-" +
             QString::number((qptrdiff)this);
+}
+
+int PlacesItemModel::groupedDropIndex(int index, const PlacesItem* item) const
+{
+    Q_ASSERT(item);
+
+    int dropIndex = index;
+    const PlacesItem::GroupType type = item->groupType();
+
+    const int itemCount = count();
+    if (index < 0) {
+        dropIndex = itemCount;
+    }
+
+    // Search nearest previous item with the same group
+    int previousIndex = -1;
+    for (int i = dropIndex - 1; i >= 0; --i) {
+        if (placesItem(i)->groupType() == type) {
+            previousIndex = i;
+            break;
+        }
+    }
+
+    // Search nearest next item with the same group
+    int nextIndex = -1;
+    for (int i = dropIndex; i < count(); ++i) {
+        if (placesItem(i)->groupType() == type) {
+            nextIndex = i;
+            break;
+        }
+    }
+
+    // Adjust the drop-index to be inserted to the
+    // nearest item with the same group.
+    if (previousIndex >= 0 && nextIndex >= 0) {
+        dropIndex = (dropIndex - previousIndex < nextIndex - dropIndex) ?
+                    previousIndex + 1 : nextIndex;
+    } else if (previousIndex >= 0) {
+        dropIndex = previousIndex + 1;
+    } else if (nextIndex >= 0) {
+        dropIndex = nextIndex;
+    }
+
+    return dropIndex;
 }
 
 bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookmark& b2)

@@ -634,7 +634,8 @@ private:
      * Shows a drop-indicator between items dependent on the given
      * cursor position. The cursor position is relative the the upper left
      * edge of the view.
-     * @return Index of the item where the dropping is done.
+     * @return Index of the item where the dropping is done. An index of -1
+     *         indicates that the item has been dropped after the last item.
      */
     int showDropIndicator(const QPointF& pos);
     void hideDropIndicator();
