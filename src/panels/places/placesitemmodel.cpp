@@ -95,7 +95,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     initializeAvailableDevices();
     loadBookmarks();
 
-    const int syncBookmarksTimeout = 1000;
+    const int syncBookmarksTimeout = 100;
 
     m_saveBookmarksTimer = new QTimer(this);
     m_saveBookmarksTimer->setInterval(syncBookmarksTimeout);

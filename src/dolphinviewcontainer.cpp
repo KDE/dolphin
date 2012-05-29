@@ -48,7 +48,6 @@
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "views/dolphinplacesmodel.h"
 #include "views/draganddrophelper.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
@@ -72,7 +71,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    m_urlNavigator = new KUrlNavigator(DolphinPlacesModel::instance(), url, this);
+    m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
     connect(m_urlNavigator, SIGNAL(urlsDropped(KUrl,QDropEvent*)),
             this, SLOT(dropUrls(KUrl,QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),

@@ -80,8 +80,6 @@
 #include <KUrlComboBox>
 #include <KToolInvocation>
 
-#include "views/dolphinplacesmodel.h"
-
 #include <QDesktopWidget>
 #include <QDBusMessage>
 #include <QKeyEvent>
@@ -123,10 +121,6 @@ DolphinMainWindow::DolphinMainWindow() :
     m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0)
 {
-    DolphinPlacesModel::setModel(new KFilePlacesModel(this));
-    connect(DolphinPlacesModel::instance(), SIGNAL(errorMessage(QString)),
-            this, SLOT(showErrorMessage(QString)));
-
     // Workaround for a X11-issue in combination with KModifierInfo
     // (see DolphinContextMenu::initializeModifierKeyInfo() for
     // more information):

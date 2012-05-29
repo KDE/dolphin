@@ -58,7 +58,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinfileitemlistwidget.cpp
     views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
-    views/dolphinplacesmodel.cpp
     views/dolphinremoteencoding.cpp
     views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp

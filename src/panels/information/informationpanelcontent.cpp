@@ -53,7 +53,6 @@
 #include "filemetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
-#include "views/dolphinplacesmodel.h"
 
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget(parent),
@@ -64,7 +63,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget(0),
     m_nameLabel(0),
     m_metaDataWidget(0),
-    m_metaDataArea(0)
+    m_metaDataArea(0),
+    m_placesModel(0)
 {
     parent->installEventFilter(this);
 
@@ -136,6 +136,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator());
     layout->addWidget(m_metaDataArea);
+
+    m_placesModel = new KFilePlacesModel(this);
 }
 
 InformationPanelContent::~InformationPanelContent()
@@ -346,15 +348,12 @@ void InformationPanelContent::refreshMetaData()
 
 bool InformationPanelContent::applyPlace(const KUrl& url)
 {
-    KFilePlacesModel* placesModel = DolphinPlacesModel::instance();
-    const int count = placesModel->rowCount();
-
+    const int count = m_placesModel->rowCount();
     for (int i = 0; i < count; ++i) {
-        QModelIndex index = placesModel->index(i, 0);
-
-        if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
-            setNameLabelText(placesModel->text(index));
-            m_preview->setPixmap(placesModel->icon(index).pixmap(128, 128));
+        QModelIndex index = m_placesModel->index(i, 0);
+        if (url.equals(m_placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
+            setNameLabelText(m_placesModel->text(index));
+            m_preview->setPixmap(m_placesModel->icon(index).pixmap(128, 128));
             return true;
         }
     }

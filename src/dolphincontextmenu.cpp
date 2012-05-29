@@ -54,7 +54,6 @@
 #include <QClipboard>
 #include <QDir>
 
-#include "views/dolphinplacesmodel.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
@@ -175,14 +174,6 @@ void DolphinContextMenu::openTrashContextMenu()
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     m_popup->addAction(emptyTrashAction);
 
-    QAction* addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
-                                                  i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-
-    // Don't show if url is already in places
-    if (placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction->setVisible(false);
-    }
-
     addCustomActions();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
@@ -190,14 +181,8 @@ void DolphinContextMenu::openTrashContextMenu()
 
     addShowMenuBarAction();
 
-    QAction *action = m_popup->exec(m_pos);
-    if (action == emptyTrashAction) {
+    if (m_popup->exec(m_pos) == emptyTrashAction) {
         KonqOperations::emptyTrash(m_mainWindow);
-    } else if (action == addToPlacesAction) {
-        const KUrl url = m_mainWindow->activeViewContainer()->url();
-        if (url.isValid()) {
-            DolphinPlacesModel::instance()->addPlace(i18nc("@label", "Trash"), url);
-        }
     }
 }
 
@@ -307,8 +292,8 @@ void DolphinContextMenu::openItemContextMenu()
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
-                DolphinPlacesModel::instance()->addPlace(placesName(selectedUrl),
-                                                         selectedUrl);
+                KFilePlacesModel model;
+                model.addPlace(placesName(selectedUrl), selectedUrl);
             }
         } else if (activatedAction == openParentInNewWindowAction) {
             m_command = OpenParentFolderInNewWindow;
@@ -368,7 +353,8 @@ void DolphinContextMenu::openViewportContextMenu()
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            DolphinPlacesModel::instance()->addPlace(placesName(url), url);
+            KFilePlacesModel model;
+            model.addPlace(placesName(url), url);
         }
     }
 }
@@ -419,13 +405,12 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
 
 bool DolphinContextMenu::placeExists(const KUrl& url) const
 {
-    const KFilePlacesModel* placesModel = DolphinPlacesModel::instance();
-    const int count = placesModel->rowCount();
+    KFilePlacesModel model;
 
+    const int count = model.rowCount();
     for (int i = 0; i < count; ++i) {
-        const QModelIndex index = placesModel->index(i, 0);
-
-        if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
+        const QModelIndex index = model.index(i, 0);
+        if (url.equals(model.url(index), KUrl::CompareWithoutTrailingSlash)) {
             return true;
         }
     }
