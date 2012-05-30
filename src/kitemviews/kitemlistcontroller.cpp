@@ -251,7 +251,15 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
     case Qt::Key_Left:
         if (index > 0) {
-            --index;
+            const int expandedParentsCount = m_model->expandedParentsCount(index);
+            if (expandedParentsCount == 0) {
+                --index;
+            } else {
+                // Go to the parent of the current item.
+                do {
+                    --index;
+                } while (index > 0 && m_model->expandedParentsCount(index) == expandedParentsCount);
+            }
             m_keyboardAnchorIndex = index;
             m_keyboardAnchorPos = keyboardAnchorPos(index);
         }
