@@ -85,6 +85,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
         m_controller = new KItemListController(m_model, view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
+        m_controller->setSingleClickActivation(true);
         connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
         connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
