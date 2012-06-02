@@ -295,8 +295,8 @@ void DolphinContextMenu::openItemContextMenu()
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
-                PlacesItem* item = model.createPlacesItem(placesName(selectedUrl),
-                                                          selectedUrl);
+                const QString text = m_mainWindow->activeViewContainer()->placesText();
+                PlacesItem* item = model.createPlacesItem(text, selectedUrl);
                 model.appendItemToGroup(item);
             }
         } else if (activatedAction == openParentInNewWindowAction) {
@@ -355,10 +355,11 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* action = m_popup->exec(m_pos);
     if (addToPlacesAction && (action == addToPlacesAction)) {
-        const KUrl url = m_mainWindow->activeViewContainer()->url();
-        if (url.isValid()) {
+        const DolphinViewContainer* container =  m_mainWindow->activeViewContainer();
+        if (container->url().isValid()) {
             PlacesItemModel model;
-            PlacesItem* item = model.createPlacesItem(placesName(url), url);
+            PlacesItem* item = model.createPlacesItem(container->placesText(),
+                                                      container->url());
             model.appendItemToGroup(item);
         }
     }
@@ -397,15 +398,6 @@ void DolphinContextMenu::addShowMenuBarAction()
         m_popup->addSeparator();
         m_popup->addAction(showMenuBar);
     }
-}
-
-QString DolphinContextMenu::placesName(const KUrl& url) const
-{
-    QString name = url.fileName();
-    if (name.isEmpty()) {
-        name = url.host();
-    }
-    return name;
 }
 
 bool DolphinContextMenu::placeExists(const KUrl& url) const

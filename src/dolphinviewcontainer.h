@@ -117,6 +117,12 @@ public:
     void setSearchModeEnabled(bool enabled);
     bool isSearchModeEnabled() const;
 
+    /**
+     * @return Text that should be used for the current URL when creating
+     *         a new place.
+     */
+    QString placesText() const;
+
 public slots:
     /**
      * Sets the current active URL, where all actions are applied. The

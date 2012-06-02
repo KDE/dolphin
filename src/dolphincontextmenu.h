@@ -130,11 +130,6 @@ private:
      */
     void addShowMenuBarAction();
 
-    /**
-     * Returns a name for adding the URL \a url to the Places panel.
-     */
-    QString placesName(const KUrl& url) const;
-
     bool placeExists(const KUrl& url) const;
 
     QAction* createPasteAction();

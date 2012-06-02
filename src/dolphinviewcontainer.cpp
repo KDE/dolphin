@@ -316,6 +316,22 @@ bool DolphinViewContainer::isSearchModeEnabled() const
     return m_searchBox->isVisible();
 }
 
+QString DolphinViewContainer::placesText() const
+{
+    QString text;
+
+    if (isSearchModeEnabled()) {
+        text = m_searchBox->searchPath().fileName() + QLatin1String(": ") + m_searchBox->text();
+    } else {
+        text = url().fileName();
+        if (text.isEmpty()) {
+            text = url().host();
+        }
+    }
+
+    return text;
+}
+
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
