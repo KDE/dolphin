@@ -51,7 +51,6 @@
 #include <kdeversion.h>
 #include <kdualaction.h>
 #include <KFileDialog>
-#include <KFilePlacesModel>
 #include <KGlobal>
 #include <KLineEdit>
 #include <KToolBar>

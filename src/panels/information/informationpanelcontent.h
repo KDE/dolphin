@@ -27,9 +27,9 @@
 
 class KFileItemList;
 class KFileMetaDataWidget;
-class KFilePlacesModel;
 class PhononWidget;
 class PixmapViewer;
+class PlacesItemModel;
 class QPixmap;
 class QString;
 class QLabel;
@@ -136,7 +136,7 @@ private:
     KFileMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
 
-    KFilePlacesModel* m_placesModel;
+    PlacesItemModel* m_placesItemModel;
 };
 
 #endif // INFORMATIONPANELCONTENT_H

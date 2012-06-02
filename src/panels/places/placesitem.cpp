@@ -125,6 +125,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     delete m_volume;
     delete m_disc;
 
+
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
@@ -134,7 +135,18 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
         initializeDevice(udi);
     }
 
-    switch (groupType()) {
+    const GroupType type = groupType();
+    if (icon().isEmpty()) {
+        switch (type) {
+        case RecentlyAccessedType: setIcon("package_utility_time"); break;
+        case SearchForType:        setIcon("nepomuk"); break;
+        case PlacesType:
+        default:                   setIcon("folder");
+        }
+
+    }
+
+    switch (type) {
     case PlacesType:           setGroup(i18nc("@item", "Places")); break;
     case RecentlyAccessedType: setGroup(i18nc("@item", "Recently Accessed")); break;
     case SearchForType:        setGroup(i18nc("@item", "Search For")); break;
@@ -158,7 +170,7 @@ PlacesItem::GroupType PlacesItem::groupType() const
             return RecentlyAccessedType;
         }
 
-        if (protocol == QLatin1String("search")) {
+        if (protocol.contains(QLatin1String("search"))) {
             return SearchForType;
         }
 

@@ -31,7 +31,6 @@
 #include <kabstractfileitemactionplugin.h>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
-#include <KFilePlacesModel>
 #include <KGlobal>
 #include <KIconLoader>
 #include <KIO/NetAccess>
@@ -49,6 +48,9 @@
 #include <KStandardAction>
 #include <KStandardDirs>
 #include <KToolBar>
+
+#include <panels/places/placesitem.h>
+#include <panels/places/placesitemmodel.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -292,8 +294,10 @@ void DolphinContextMenu::openItemContextMenu()
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
-                KFilePlacesModel model;
-                model.addPlace(placesName(selectedUrl), selectedUrl);
+                PlacesItemModel model;
+                PlacesItem* item = model.createPlacesItem(placesName(selectedUrl),
+                                                          selectedUrl);
+                model.appendItemToGroup(item);
             }
         } else if (activatedAction == openParentInNewWindowAction) {
             m_command = OpenParentFolderInNewWindow;
@@ -353,8 +357,9 @@ void DolphinContextMenu::openViewportContextMenu()
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            KFilePlacesModel model;
-            model.addPlace(placesName(url), url);
+            PlacesItemModel model;
+            PlacesItem* item = model.createPlacesItem(placesName(url), url);
+            model.appendItemToGroup(item);
         }
     }
 }
@@ -405,15 +410,16 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
 
 bool DolphinContextMenu::placeExists(const KUrl& url) const
 {
-    KFilePlacesModel model;
+    PlacesItemModel model;
 
-    const int count = model.rowCount();
+    const int count = model.count();
     for (int i = 0; i < count; ++i) {
-        const QModelIndex index = model.index(i, 0);
-        if (url.equals(model.url(index), KUrl::CompareWithoutTrailingSlash)) {
+        const KUrl placeUrl = model.placesItem(i)->url();
+        if (placeUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
             return true;
         }
     }
+
     return false;
 }
 

@@ -22,7 +22,6 @@
 #include <KDialog>
 #include <KFileItem>
 #include <kfilemetadatawidget.h>
-#include <KFilePlacesModel>
 #include <KGlobalSettings>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
@@ -32,6 +31,9 @@
 #include <KMenu>
 #include <kseparator.h>
 #include <KStringHandler>
+
+#include <panels/places/placesitem.h>
+#include <panels/places/placesitemmodel.h>
 
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
@@ -64,7 +66,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel(0),
     m_metaDataWidget(0),
     m_metaDataArea(0),
-    m_placesModel(0)
+    m_placesItemModel(0)
 {
     parent->installEventFilter(this);
 
@@ -137,7 +139,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(new KSeparator());
     layout->addWidget(m_metaDataArea);
 
-    m_placesModel = new KFilePlacesModel(this);
+    m_placesItemModel = new PlacesItemModel(this);
 }
 
 InformationPanelContent::~InformationPanelContent()
@@ -348,12 +350,12 @@ void InformationPanelContent::refreshMetaData()
 
 bool InformationPanelContent::applyPlace(const KUrl& url)
 {
-    const int count = m_placesModel->rowCount();
+    const int count = m_placesItemModel->count();
     for (int i = 0; i < count; ++i) {
-        QModelIndex index = m_placesModel->index(i, 0);
-        if (url.equals(m_placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
-            setNameLabelText(m_placesModel->text(index));
-            m_preview->setPixmap(m_placesModel->icon(index).pixmap(128, 128));
+        const PlacesItem* item = m_placesItemModel->placesItem(i);
+        if (item->url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
+            setNameLabelText(item->text());
+            m_preview->setPixmap(KIcon(item->icon()).pixmap(128, 128));
             return true;
         }
     }

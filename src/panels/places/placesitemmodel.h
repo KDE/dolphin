@@ -69,7 +69,7 @@ public:
      */
     PlacesItem* createPlacesItem(const QString& text,
                                  const KUrl& url,
-                                 const QString& iconName);
+                                 const QString& iconName = QString());
 
     PlacesItem* placesItem(int index) const;
 
@@ -98,6 +98,15 @@ public:
      * could be found.
      */
     int closestItem(const KUrl& url) const;
+
+    /**
+     * Appends the item \a item as last element of the group
+     * the item belongs to. If no item with the same group is
+     * present, the item gets appended as last element of the
+     * model. PlacesItemModel takes the ownership
+     * of the item.
+     */
+    void appendItemToGroup(PlacesItem* item);
 
     QAction* ejectAction(int index) const;
     QAction* teardownAction(int index) const;

@@ -309,25 +309,7 @@ void PlacesPanel::addEntry()
     dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* item = m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
-
-        // Insert the item as last item of the corresponding group.
-        int i = 0;
-        while (i < m_model->count() && m_model->placesItem(i)->group() != item->group()) {
-            ++i;
-        }
-
-        bool inserted = false;
-        while (!inserted && i < m_model->count()) {
-            if (m_model->placesItem(i)->group() != item->group()) {
-                m_model->insertItem(i, item);
-                inserted = true;
-            }
-            ++i;
-        }
-
-        if (!inserted) {
-            m_model->appendItem(item);
-        }
+        m_model->appendItemToGroup(item);
     }
 
     delete dialog;

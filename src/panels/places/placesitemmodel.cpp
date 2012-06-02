@@ -226,6 +226,32 @@ int PlacesItemModel::closestItem(const KUrl& url) const
     return foundIndex;
 }
 
+void PlacesItemModel::appendItemToGroup(PlacesItem* item)
+{
+    if (!item) {
+        return;
+    }
+
+    int i = 0;
+    while (i < count() && placesItem(i)->group() != item->group()) {
+        ++i;
+    }
+
+    bool inserted = false;
+    while (!inserted && i < count()) {
+        if (placesItem(i)->group() != item->group()) {
+            insertItem(i, item);
+            inserted = true;
+        }
+        ++i;
+    }
+
+    if (!inserted) {
+        appendItem(item);
+    }
+}
+
+
 QAction* PlacesItemModel::ejectAction(int index) const
 {
     const PlacesItem* item = placesItem(index);
@@ -370,11 +396,7 @@ void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
                 text = url.host();
             }
 
-            KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
-                                                            text,
-                                                            url,
-                                                            "folder");
-            PlacesItem* newItem = new PlacesItem(bookmark);
+            PlacesItem* newItem = createPlacesItem(text, url);
             const int dropIndex = groupedDropIndex(index, newItem);
             insertItem(dropIndex, newItem);
         }
@@ -567,7 +589,7 @@ void PlacesItemModel::updateBookmarks()
                 if (item->isHidden() && !m_hiddenItemsShown) {
                     m_bookmarkedItems.append(item);
                 } else {
-                    appendItem(item);
+                    appendItemToGroup(item);
                 }
             }
         }
