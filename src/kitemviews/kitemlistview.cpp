@@ -1753,7 +1753,7 @@ bool KItemListView::moveWidget(KItemListWidget* widget,const QPointF& newPos)
 
     if (m_itemSize.isEmpty()) {
         // The items are not aligned in a grid but either as columns or rows.
-        startMovingAnim = !supportsItemExpanding();
+        startMovingAnim = true;
     } else {
         // When having a grid the moving-animation should only be started, if it is done within
         // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
