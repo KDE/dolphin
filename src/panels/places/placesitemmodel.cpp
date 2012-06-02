@@ -370,6 +370,10 @@ void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
         QDataStream stream(&itemData, QIODevice::ReadOnly);
         int oldIndex;
         stream >> oldIndex;
+        if (oldIndex == index || oldIndex == index - 1) {
+            // No moving has been done
+            return;
+        }
 
         PlacesItem* oldItem = placesItem(oldIndex);
         if (!oldItem) {
@@ -379,7 +383,7 @@ void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
         PlacesItem* newItem = new PlacesItem(oldItem->bookmark());
         removeItem(oldIndex);
 
-        if (oldIndex <= index) {
+        if (oldIndex < index) {
             --index;
         }
 
