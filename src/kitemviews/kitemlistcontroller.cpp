@@ -553,7 +553,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
             break;
 
         case MultiSelection:
-            if (controlPressed) {
+            if (controlPressed && !shiftPressed) {
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex);
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
