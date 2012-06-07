@@ -180,6 +180,11 @@ PlacesItem::GroupType PlacesItem::groupType() const
     return DevicesType;
 }
 
+bool PlacesItem::storageSetupNeeded() const
+{
+    return m_access ? !m_access->isAccessible() : false;
+}
+
 KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
                                      const QString& text,
                                      const KUrl& url,

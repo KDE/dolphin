@@ -114,6 +114,9 @@ public:
     void requestEject(int index);
     void requestTeardown(int index);
 
+    bool storageSetupNeeded(int index) const;
+    void requestStorageSetup(int index);
+
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
@@ -129,6 +132,7 @@ public:
 
 signals:
     void errorMessage(const QString& message);
+    void storageSetupDone(int index, bool success);
 
 protected:
     virtual void onItemInserted(int index);
@@ -139,6 +143,7 @@ private slots:
     void slotDeviceAdded(const QString& udi);
     void slotDeviceRemoved(const QString& udi);
     void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
+    void slotStorageSetupDone(Solid::ErrorType error, const QVariant& errorData, const QString& udi);
     void hideItem();
 
     /**
@@ -169,7 +174,8 @@ private:
      *         current application (e.g. bookmarks from other applications
      *         will be ignored).
      */
-    bool acceptBookmark(const KBookmark& bookmark) const;
+    bool acceptBookmark(const KBookmark& bookmark,
+                        const QSet<QString>& availableDevices) const;
 
     /**
      * Creates a PlacesItem for a system-bookmark:
@@ -290,6 +296,8 @@ private:
 
     QTimer* m_saveBookmarksTimer;
     QTimer* m_updateBookmarksTimer;
+
+    QHash<QObject*, int> m_storageSetupInProgress;
 };
 
 #endif

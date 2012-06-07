@@ -69,6 +69,8 @@ public:
 
     GroupType groupType() const;
 
+    bool storageSetupNeeded() const;
+
     static KBookmark createBookmark(KBookmarkManager* manager,
                                     const QString& text,
                                     const KUrl& url,

@@ -83,7 +83,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_bookmarkedItems(),
     m_hiddenItemToRemove(-1),
     m_saveBookmarksTimer(0),
-    m_updateBookmarksTimer(0)
+    m_updateBookmarksTimer(0),
+    m_storageSetupInProgress()
 {
 #ifdef HAVE_NEPOMUK
     m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
@@ -338,6 +339,35 @@ void PlacesItemModel::requestTeardown(int index)
     }
 }
 
+bool PlacesItemModel::storageSetupNeeded(int index) const
+{
+    const PlacesItem* item = placesItem(index);
+    return item ? item->storageSetupNeeded() : false;
+}
+
+void PlacesItemModel::requestStorageSetup(int index)
+{
+    const PlacesItem* item = placesItem(index);
+    if (!item) {
+        return;
+    }
+
+    Solid::Device device = item->device();
+    const bool setup = device.is<Solid::StorageAccess>()
+                       && !m_storageSetupInProgress.contains(device.as<Solid::StorageAccess>())
+                       && !device.as<Solid::StorageAccess>()->isAccessible();
+    if (setup) {
+        Solid::StorageAccess* access = device.as<Solid::StorageAccess>();
+
+        m_storageSetupInProgress[access] = index;
+
+        connect(access, SIGNAL(setupDone(Solid::ErrorType,QVariant,QString)),
+                this, SLOT(slotStorageSetupDone(Solid::ErrorType,QVariant,QString)));
+
+        access->setup();
+    }
+}
+
 QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
 {
     KUrl::List urls;
@@ -552,6 +582,37 @@ void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVar
     }
 }
 
+void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
+                                           const QVariant& errorData,
+                                           const QString& udi)
+{
+    Q_UNUSED(udi);
+
+    const int index = m_storageSetupInProgress.take(sender());
+    const PlacesItem*  item = placesItem(index);
+    if (!item) {
+        return;
+    }
+
+    if (error) {
+        // TODO: Request message-freeze exception
+        if (errorData.isValid()) {
+        //    emit errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
+        //                            item->text(),
+        //                            errorData.toString()));
+            emit errorMessage(QString("An error occurred while accessing '%1', the system responded: %2")
+                              .arg(item->text()).arg(errorData.toString()));
+        } else {
+        //    emit errorMessage(i18nc("@info", "An error occurred while accessing '%1'",
+        //                            item->text()));
+            emit errorMessage(QString("An error occurred while accessing '%1'").arg(item->text()));
+        }
+        emit storageSetupDone(index, false);
+    } else {
+        emit storageSetupDone(index, true);
+    }
+}
+
 void PlacesItemModel::hideItem()
 {
     hideItem(m_hiddenItemToRemove);
@@ -565,7 +626,7 @@ void PlacesItemModel::updateBookmarks()
     KBookmarkGroup root = m_bookmarkManager->root();
     KBookmark newBookmark = root.first();
     while (!newBookmark.isNull()) {
-        if (acceptBookmark(newBookmark)) {
+        if (acceptBookmark(newBookmark, m_availableDevices)) {
             bool found = false;
             int modelIndex = 0;
             for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
@@ -663,7 +724,7 @@ void PlacesItemModel::loadBookmarks()
     QList<PlacesItem*> devicesItems;
 
     while (!bookmark.isNull()) {
-        if (acceptBookmark(bookmark)) {
+        if (acceptBookmark(bookmark, devices)) {
             PlacesItem* item = new PlacesItem(bookmark);
             if (item->groupType() == PlacesItem::DevicesType) {
                 devices.remove(item->udi());
@@ -736,12 +797,13 @@ void PlacesItemModel::loadBookmarks()
 #endif
 }
 
-bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark) const
+bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
+                                     const QSet<QString>& availableDevices) const
 {
     const QString udi = bookmark.metaDataItem("UDI");
     const KUrl url = bookmark.url();
     const QString appName = bookmark.metaDataItem("OnlyInApp");
-    const bool deviceAvailable = m_availableDevices.contains(udi);
+    const bool deviceAvailable = availableDevices.contains(udi);
 
     const bool allowedHere = (appName.isEmpty()
                               || appName == KGlobal::mainComponent().componentName()

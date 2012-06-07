@@ -58,6 +58,7 @@ private slots:
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
     void slotTrashUpdated(KJob* job);
+    void slotStorageSetupDone(int index, bool success);
 
 private:
     void emptyTrash();
@@ -70,9 +71,14 @@ private:
      */
     void selectClosestItem();
 
+    void triggerItem(int index, Qt::MouseButton button);
+
 private:
     KItemListController* m_controller;
     PlacesItemModel* m_model;
+
+    KUrl m_storageSetupFailedUrl;
+    Qt::MouseButton m_triggerStorageSetupButton;
 };
 
 #endif // PLACESPANEL_H

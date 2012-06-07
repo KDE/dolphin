@@ -50,7 +50,9 @@
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
     m_controller(0),
-    m_model(0)
+    m_model(0),
+    m_storageSetupFailedUrl(),
+    m_triggerStorageSetupButton()
 {
 }
 
@@ -107,18 +109,12 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
 void PlacesPanel::slotItemActivated(int index)
 {
-    const KUrl url = m_model->data(index).value("url").value<KUrl>();
-    if (!url.isEmpty()) {
-        emit placeActivated(PlacesItemModel::convertedUrl(url));
-    }
+    triggerItem(index, Qt::LeftButton);
 }
 
 void PlacesPanel::slotItemMiddleClicked(int index)
 {
-    const KUrl url = m_model->data(index).value("url").value<KUrl>();
-    if (!url.isEmpty()) {
-        emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));
-    }
+    triggerItem(index, Qt::MiddleButton);
 }
 
 void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
@@ -278,6 +274,25 @@ void PlacesPanel::slotTrashUpdated(KJob* job)
     org::kde::KDirNotify::emitFilesAdded("trash:/");
 }
 
+void PlacesPanel::slotStorageSetupDone(int index, bool success)
+{
+    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
+               this, SLOT(slotStorageSetupDone(int,bool)));
+
+    if (m_triggerStorageSetupButton == Qt::NoButton) {
+        return;
+    }
+
+    if (success) {
+        Q_ASSERT(!m_model->storageSetupNeeded(index));
+        triggerItem(index, m_triggerStorageSetupButton);
+        m_triggerStorageSetupButton = Qt::NoButton;
+    } else {
+        setUrl(m_storageSetupFailedUrl);
+        m_storageSetupFailedUrl = KUrl();
+    }
+}
+
 void PlacesPanel::emptyTrash()
 {
     const QString text = i18nc("@info", "Do you really want to empty the Trash? All items will be deleted.");
@@ -345,5 +360,35 @@ void PlacesPanel::selectClosestItem()
     selectionManager->clearSelection();
     selectionManager->setSelected(index);
 }
+
+void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
+{
+    const PlacesItem* item = m_model->placesItem(index);
+    if (!item) {
+        return;
+    }
+
+    if (m_model->storageSetupNeeded(index)) {
+        m_triggerStorageSetupButton = button;
+        m_storageSetupFailedUrl = url();
+
+        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
+                this, SLOT(slotStorageSetupDone(int,bool)));
+
+        m_model->requestStorageSetup(index);
+    } else {
+        m_triggerStorageSetupButton = Qt::NoButton;
+
+        const KUrl url = m_model->data(index).value("url").value<KUrl>();
+        if (!url.isEmpty()) {
+            if (button == Qt::MiddleButton) {
+                emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));
+            } else {
+                emit placeActivated(PlacesItemModel::convertedUrl(url));
+            }
+        }
+    }
+}
+
 
 #include "placespanel.moc"
