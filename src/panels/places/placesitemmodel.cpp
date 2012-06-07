@@ -73,7 +73,7 @@ namespace {
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
-    m_nepomukRunning(false),
+    m_fileIndexingEnabled(false),
     m_hiddenItemsShown(false),
     m_availableDevices(),
     m_predicate(),
@@ -87,7 +87,11 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_storageSetupInProgress()
 {
 #ifdef HAVE_NEPOMUK
-    m_nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
+    if (Nepomuk::ResourceManager::instance()->initialized()) {
+        KConfig config("nepomukserverrc");
+        m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
+    }
+
 #endif
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
@@ -808,8 +812,8 @@ bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
     const bool allowedHere = (appName.isEmpty()
                               || appName == KGlobal::mainComponent().componentName()
                               || appName == KGlobal::mainComponent().componentName() + AppNamePrefix)
-                             && (m_nepomukRunning || (url.protocol() != QLatin1String("timeline") &&
-                                                      url.protocol() != QLatin1String("search")));
+                             && (m_fileIndexingEnabled || (url.protocol() != QLatin1String("timeline") &&
+                                                           url.protocol() != QLatin1String("search")));
 
     return (udi.isEmpty() && allowedHere) || deviceAvailable;
 }
@@ -890,7 +894,7 @@ void PlacesItemModel::createSystemBookmarks()
                                                 "user-trash",
                                                 i18nc("@item", "Trash")));
 
-    if (m_nepomukRunning) {
+    if (m_fileIndexingEnabled) {
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
                                                     timeLineIcon,
                                                     i18nc("@item Recently Accessed", "Today")));

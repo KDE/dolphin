@@ -260,7 +260,7 @@ private:
 #endif
 
 private:
-    bool m_nepomukRunning;
+    bool m_fileIndexingEnabled;
     bool m_hiddenItemsShown;
 
     QSet<QString> m_availableDevices;
