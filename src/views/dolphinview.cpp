@@ -259,8 +259,14 @@ void DolphinView::setPreviewsShown(bool show)
     ViewProperties props(viewPropertiesUrl());
     props.setPreviewsShown(show);
 
+    const int oldZoomLevel = m_view->zoomLevel();
     m_view->setPreviewsShown(show);
     emit previewsShownChanged(show);
+
+    const int newZoomLevel = m_view->zoomLevel();
+    if (newZoomLevel != oldZoomLevel) {
+        emit zoomLevelChanged(newZoomLevel, oldZoomLevel);
+    }
 }
 
 bool DolphinView::previewsShown() const
