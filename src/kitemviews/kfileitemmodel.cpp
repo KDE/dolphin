@@ -167,6 +167,12 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
     }
 
     m_itemData[index]->values = currentValues;
+    if (changedRoles.contains("text")) {
+        KUrl url = m_itemData[index]->item.url();
+        url.setFileName(currentValues["text"].toString());
+        m_itemData[index]->item.setUrl(url);
+    }
+
     emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
     if (changedRoles.contains(sortRole())) {

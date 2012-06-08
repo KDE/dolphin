@@ -597,6 +597,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
     m_roleEditor = new KItemListRoleEditor(parent);
     m_roleEditor->setIndex(index());
     m_roleEditor->setRole(current);
+    m_roleEditor->setFont(styleOption().font);
 
     const QString text = data().value(current).toString();
     m_roleEditor->setPlainText(text);

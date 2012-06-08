@@ -29,11 +29,14 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setAcceptRichText(false);
     document()->setDocumentMargin(0);
 
     if (parent) {
         parent->installEventFilter(this);
     }
+
+    connect(this, SIGNAL(textChanged()), this, SLOT(autoAdjustSize()));
 }
 
 KItemListRoleEditor::~KItemListRoleEditor()
@@ -60,7 +63,7 @@ QByteArray KItemListRoleEditor::role() const
     return m_role;
 }
 
-bool  KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
+bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
         emit roleEditingFinished(m_index, m_role, toPlainText());
@@ -72,7 +75,10 @@ bool  KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 bool KItemListRoleEditor::event(QEvent* event)
 {
     if (event->type() == QEvent::FocusOut) {
-        emit roleEditingFinished(m_index, m_role, toPlainText());
+        QFocusEvent* focusEvent = static_cast<QFocusEvent*>(event);
+        if (focusEvent->reason() != Qt::PopupFocusReason) {
+            emit roleEditingFinished(m_index, m_role, toPlainText());
+        }
     }
     return KTextEdit::event(event);
 }
@@ -94,7 +100,6 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
     }
 
     KTextEdit::keyPressEvent(event);
-    autoAdjustSize();
 }
 
 void KItemListRoleEditor::autoAdjustSize()
