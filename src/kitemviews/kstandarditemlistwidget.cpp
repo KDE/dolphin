@@ -688,8 +688,7 @@ void KStandardItemListWidget::slotRoleEditingCanceled(int index,
                                                   const QByteArray& role,
                                                   const QVariant& value)
 {
-    m_roleEditor->deleteLater();
-    m_roleEditor = 0;
+    closeRoleEditor();
     emit roleEditingCanceled(index, role, value);
     setEditedRole(QByteArray());
 }
@@ -698,8 +697,7 @@ void KStandardItemListWidget::slotRoleEditingFinished(int index,
                                                   const QByteArray& role,
                                                   const QVariant& value)
 {
-    m_roleEditor->deleteLater();
-    m_roleEditor = 0;
+    closeRoleEditor();
     emit roleEditingFinished(index, role, value);
     setEditedRole(QByteArray());
 }
@@ -1239,6 +1237,17 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray& role) const
     }
 
     return rect;
+}
+
+void KStandardItemListWidget::closeRoleEditor()
+{
+    if (m_roleEditor->hasFocus()) {
+        // If the editing was not ended by a FocusOut event, we have
+        // to transfer the keyboard focus back to the KItemListContainer.
+        scene()->views()[0]->parentWidget()->setFocus();
+    }
+    m_roleEditor->deleteLater();
+    m_roleEditor = 0;
 }
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, int size)

@@ -628,7 +628,6 @@ private slots:
     void slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
                                          const QList<QByteArray>& previous);
 
-    void slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
     void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
     /**

@@ -165,6 +165,12 @@ private:
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
+    /**
+     * Closes the role editor and returns the focus back
+     * to the KItemListContainer.
+     */
+    void closeRoleEditor();
+
     static QPixmap pixmapForIcon(const QString& name, int size);
 
     /**
