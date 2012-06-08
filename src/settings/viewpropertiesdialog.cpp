@@ -394,9 +394,8 @@ void ViewPropertiesDialog::loadSettings()
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     int sortRoleIndex = 0;
-    for (int i = 0; i < rolesInfo.count(); ++i)
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        if (info.role == m_viewProps->sortRole()) {
+    for (int i = 0; i < rolesInfo.count(); ++i) {
+        if (rolesInfo[i].role == m_viewProps->sortRole()) {
             sortRoleIndex = i;
             break;
         }
