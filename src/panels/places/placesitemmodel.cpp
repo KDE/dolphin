@@ -1082,21 +1082,21 @@ KUrl PlacesItemModel::createTimelineUrl(const KUrl& url)
     KUrl timelineUrl;
 
     const QString path = url.pathOrUrl();
-    if (path.endsWith("yesterday")) {
+    if (path.endsWith(QLatin1String("yesterday"))) {
         const QDate date = QDate::currentDate().addDays(-1);
         const int year = date.year();
         const int month = date.month();
         const int day = date.day();
         timelineUrl = "timeline:/" + timelineDateString(year, month) +
               '/' + timelineDateString(year, month, day);
-    } else if (path.endsWith("thismonth")) {
+    } else if (path.endsWith(QLatin1String("thismonth"))) {
         const QDate date = QDate::currentDate();
         timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
-    } else if (path.endsWith("lastmonth")) {
+    } else if (path.endsWith(QLatin1String("lastmonth"))) {
         const QDate date = QDate::currentDate().addMonths(-1);
         timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
     } else {
-        Q_ASSERT(path.endsWith("today"));
+        Q_ASSERT(path.endsWith(QLatin1String("today")));
         timelineUrl= url;
     }
 
@@ -1128,14 +1128,14 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 
 #ifdef HAVE_NEPOMUK
     const QString path = url.pathOrUrl();
-    if (path.endsWith("documents")) {
+    if (path.endsWith(QLatin1String("documents"))) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
-    } else if (path.endsWith("images")) {
+    } else if (path.endsWith(QLatin1String("images"))) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
-    } else if (path.endsWith("audio")) {
+    } else if (path.endsWith(QLatin1String("audio"))) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
                                                                     Nepomuk::Query::LiteralTerm("audio")));
-    } else if (path.endsWith("videos")) {
+    } else if (path.endsWith(QLatin1String("videos"))) {
         searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
                                                                     Nepomuk::Query::LiteralTerm("video")));
     } else {

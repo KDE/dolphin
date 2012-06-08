@@ -1482,7 +1482,7 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
     KUrl::List urls;
 
     const KFileItemList items = selectedItems();
-    foreach (const KFileItem &item, items) {
+    foreach (const KFileItem& item, items) {
         urls.append(item.url());
     }
 
@@ -1507,7 +1507,7 @@ void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
     KUrl::List destUrls;
     foreach (const KUrl& source, sourceUrls) {
-        KUrl destination(url().url() + "/" + source.fileName());
+        KUrl destination(url().url() + '/' + source.fileName());
         destUrls << destination;
     }
     markUrlsAsSelected(destUrls);

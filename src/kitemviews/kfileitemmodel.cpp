@@ -938,7 +938,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
             insertedCount = 0;
         }
 
-        // Insert item at the position targetIndex by transfering
+        // Insert item at the position targetIndex by transferring
         // the ownership of the item-data from sortedItems to m_itemData.
         // m_items will be inserted after the loop (see comment below)
         m_itemData.insert(targetIndex, sortedItems.at(sourceIndex));
@@ -1920,7 +1920,7 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
 {
     QElapsedTimer timer;
     timer.start();
-    foreach (KFileItem item, items) {
+    foreach (KFileItem item, items) { // krazy:exclude=foreach
         item.determineMimeType();
         if (timer.elapsed() > timeout) {
             // Don't block the user interface, let the remaining items

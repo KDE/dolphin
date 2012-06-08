@@ -532,7 +532,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
     } else if (KProtocolManager::isSourceProtocol(url)) {
         QString app = "konqueror";
         if (url.protocol().startsWith(QLatin1String("http"))) {
-            showMessage(i18nc("@info:status",
+            showMessage(i18nc("@info:status", // krazy:exclude=qmethods
                               "Dolphin does not support web pages, the web browser has been launched"),
                         Information);
 

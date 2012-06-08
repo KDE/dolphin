@@ -101,7 +101,7 @@ void KStandardItemListGroupHeader::updateCache()
     const qreal maxWidth = size().width() - 4 * styleOption().padding;
 
     if (role() == "rating") {
-        m_text = QString();
+        m_text = QString(); // krazy:exlude=nullstrassign
 
         const qreal height = styleOption().fontMetrics.ascent();
         const QSizeF pixmapSize(qMin(height * 5, maxWidth), height);

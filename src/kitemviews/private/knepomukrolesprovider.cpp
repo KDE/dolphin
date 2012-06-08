@@ -79,9 +79,9 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
             // Merge the two Nepomuk properties for width and height
             // as one string into the "imageSize" role
             const QString uri = property.uri().toString();
-            if (uri.endsWith("#width")) {
+            if (uri.endsWith(QLatin1String("#width"))) {
                 width = value.toInt();
-            } else if (uri.endsWith("#height")) {
+            } else if (uri.endsWith(QLatin1String("#height"))) {
                 height = value.toInt();
             }
 

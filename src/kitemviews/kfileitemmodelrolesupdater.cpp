@@ -1070,10 +1070,10 @@ int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
 
     int count = -1;
     DIR* dir = ::opendir(QFile::encodeName(path));
-    if (dir) {
+    if (dir) {  // krazy:exclude=syscalls
         count = 0;
         struct dirent *dirEntry = 0;
-        while ((dirEntry = ::readdir(dir))) { // krazy:exclude=syscalls
+        while ((dirEntry = ::readdir(dir))) {
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
                     // Skip "." or hidden files

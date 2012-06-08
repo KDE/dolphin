@@ -419,7 +419,7 @@ void KFileItemModelTest::testExpandItems()
 
     // Store the URLs of all folders in a set.
     QSet<KUrl> allFolders;
-    allFolders << KUrl(m_testDir->name() + "a") << KUrl(m_testDir->name() + "a/a") << KUrl(m_testDir->name() + "a/a-1");
+    allFolders << KUrl(m_testDir->name() + 'a') << KUrl(m_testDir->name() + "a/a") << KUrl(m_testDir->name() + "a/a-1");
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
@@ -437,7 +437,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/a/", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + "a"));
+    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + 'a'));
 
     QCOMPARE(spyInserted.count(), 1);
     KItemRangeList itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -453,7 +453,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + "a") << KUrl(m_testDir->name() + "a/a"));
+    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + 'a') << KUrl(m_testDir->name() + "a/a"));
 
     QCOMPARE(spyInserted.count(), 1);
     itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -482,7 +482,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(0, false);
     QVERIFY(!m_model->isExpanded(0));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(!m_model->expandedDirectories().contains(KUrl(m_testDir->name() + "a"))); // TODO: Make sure that child URLs are also removed
+    QVERIFY(!m_model->expandedDirectories().contains(KUrl(m_testDir->name() + 'a'))); // TODO: Make sure that child URLs are also removed
 
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
@@ -593,7 +593,7 @@ void KFileItemModelTest::testSorting()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
-    int index = m_model->index(KUrl(m_testDir->url().url() + "c"));
+    int index = m_model->index(KUrl(m_testDir->url().url() + 'c'));
     m_model->setExpanded(index, true);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 

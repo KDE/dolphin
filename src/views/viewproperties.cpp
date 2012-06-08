@@ -284,7 +284,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     roles.append("text");
 
     // Iterate through all stored keys and append all roles that match to
-    // the curren view mode.
+    // the current view mode.
     const QString prefix = viewModePrefix();
     const int prefixLength = prefix.length();
 
@@ -426,7 +426,7 @@ void ViewProperties::convertNameRoleToTextRole()
 {
     QStringList visibleRoles = m_node->visibleRoles();
     for (int i = 0; i < visibleRoles.count(); ++i) {
-        if (visibleRoles[i].endsWith("_name")) {
+        if (visibleRoles[i].endsWith(QLatin1String("_name"))) {
             const int leftLength = visibleRoles[i].length() - 5;
             visibleRoles[i] = visibleRoles[i].left(leftLength) + "_text";
         }

@@ -38,8 +38,8 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListSmoothScroller : public QObject
     Q_OBJECT
 
 public:
-    KItemListSmoothScroller(QScrollBar* scrollBar,
-                            QObject* parent = 0);
+    explicit KItemListSmoothScroller(QScrollBar* scrollBar,
+                                     QObject* parent = 0);
     virtual ~KItemListSmoothScroller();
 
     void setScrollBar(QScrollBar* scrollBar);

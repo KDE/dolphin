@@ -20,8 +20,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KITEMLISTKEYBOARDMANAGER_H
-#define KITEMLISTKEYBOARDMANAGER_H
+#ifndef KITEMLISTKEYBOARDSEARCHMANAGER_H
+#define KITEMLISTKEYBOARDSEARCHMANAGER_H
 
 #include <libdolphin_export.h>
 

@@ -74,7 +74,7 @@ void TerminalPanel::dockVisibilityChanged()
         // signal, we have to update m_konsolePartCurrentDirectory manually. If this
         // was not done, showing the panel again might not set the part's working
         // directory correctly.
-        m_konsolePartCurrentDirectory = "/";
+        m_konsolePartCurrentDirectory = '/';
     }
 }
 

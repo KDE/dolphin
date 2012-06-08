@@ -63,7 +63,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemModelBase : public QObject
 
 public:
     KItemModelBase(QObject* parent = 0);
-    KItemModelBase(const QByteArray& sortRole, QObject* parent = 0);
+    explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = 0);
     virtual ~KItemModelBase();
 
     /** @return The number of items. */
