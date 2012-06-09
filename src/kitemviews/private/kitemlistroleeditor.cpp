@@ -25,7 +25,8 @@
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
     KTextEdit(parent),
     m_index(0),
-    m_role()
+    m_role(),
+    m_blockFinishedSignal(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -66,7 +67,7 @@ QByteArray KItemListRoleEditor::role() const
 bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
-        emit roleEditingFinished(m_index, m_role, toPlainText());
+        emitRoleEditingFinished();
     }
 
     return KTextEdit::eventFilter(watched, event);
@@ -77,7 +78,7 @@ bool KItemListRoleEditor::event(QEvent* event)
     if (event->type() == QEvent::FocusOut) {
         QFocusEvent* focusEvent = static_cast<QFocusEvent*>(event);
         if (focusEvent->reason() != Qt::PopupFocusReason) {
-            emit roleEditingFinished(m_index, m_role, toPlainText());
+            emitRoleEditingFinished();
         }
     }
     return KTextEdit::event(event);
@@ -87,12 +88,18 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
 {
     switch (event->key()) {
     case Qt::Key_Escape:
+        // Emitting the signal roleEditingCanceled might result
+        // in losing the focus. Per default losing the focus emits
+        // a roleEditingFinished signal (see KItemListRoleEditor::event),
+        // which is not wanted in this case.
+        m_blockFinishedSignal = true;
         emit roleEditingCanceled(m_index, m_role, toPlainText());
+        m_blockFinishedSignal = false;
         event->accept();
         return;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-        emit roleEditingFinished(m_index, m_role, toPlainText());
+        emitRoleEditingFinished();
         event->accept();
         return;
     default:
@@ -124,6 +131,13 @@ void KItemListRoleEditor::autoAdjustSize()
             newHeight = parentWidget()->height() - pos().y();
         }
         resize(size().width(), newHeight);
+    }
+}
+
+void KItemListRoleEditor::emitRoleEditingFinished()
+{
+    if (!m_blockFinishedSignal) {
+        emit roleEditingFinished(m_index, m_role, toPlainText());
     }
 }
 

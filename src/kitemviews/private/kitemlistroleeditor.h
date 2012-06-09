@@ -65,9 +65,16 @@ private slots:
     void autoAdjustSize();
 
 private:
+    /**
+     * Emits the signal roleEditingFinished if m_blockFinishedSignal
+     * is false.
+     */
+    void emitRoleEditingFinished();
+
+private:
     int m_index;
     QByteArray m_role;
-
+    bool m_blockFinishedSignal;
 };
 
 #endif

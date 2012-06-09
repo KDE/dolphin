@@ -685,8 +685,8 @@ void KStandardItemListWidget::slotCutItemsChanged()
 }
 
 void KStandardItemListWidget::slotRoleEditingCanceled(int index,
-                                                  const QByteArray& role,
-                                                  const QVariant& value)
+                                                      const QByteArray& role,
+                                                      const QVariant& value)
 {
     closeRoleEditor();
     emit roleEditingCanceled(index, role, value);
@@ -694,8 +694,8 @@ void KStandardItemListWidget::slotRoleEditingCanceled(int index,
 }
 
 void KStandardItemListWidget::slotRoleEditingFinished(int index,
-                                                  const QByteArray& role,
-                                                  const QVariant& value)
+                                                      const QByteArray& role,
+                                                      const QVariant& value)
 {
     closeRoleEditor();
     emit roleEditingFinished(index, role, value);
