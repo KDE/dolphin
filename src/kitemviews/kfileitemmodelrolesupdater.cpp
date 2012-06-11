@@ -24,6 +24,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDebug>
+#include <KDirWatch>
 #include <KFileItem>
 #include <KGlobal>
 #include <KIO/JobUiDelegate>
@@ -84,7 +85,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_pendingInvisibleItems(),
     m_previewJobs(),
     m_changedItemsTimer(0),
-    m_changedItems()
+    m_changedItems(),
+    m_dirWatcher(0),
+    m_watchedDirs()
   #ifdef HAVE_NEPOMUK
   , m_nepomukResourceWatcher(0),
     m_nepomukUriItems()
@@ -121,6 +124,11 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 #ifdef HAVE_NEPOMUK
     m_resolvableRoles += KNepomukRolesProvider::instance().roles();
 #endif
+
+    // When folders are expandable or the item-count is shown for folders, it is necessary
+    // to watch the number of items of the sub-folder to be able to react on changes.
+    m_dirWatcher = new KDirWatch(this);
+    connect(m_dirWatcher, SIGNAL(dirty(QString)), this, SLOT(slotDirWatchDirty(QString)));
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -318,10 +326,31 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 {
     Q_UNUSED(itemRanges);
 
+    const bool allItemsRemoved = (m_model->count() == 0);
+
+    if (!m_watchedDirs.isEmpty()) {
+        // Don't let KDirWatch watch for removed items
+        if (allItemsRemoved) {
+            foreach (const QString& path, m_watchedDirs) {
+                m_dirWatcher->removeDir(path);
+            }
+            m_watchedDirs.clear();
+        } else {
+            QMutableSetIterator<QString> it(m_watchedDirs);
+            while (it.hasNext()) {
+                const QString& path = it.next();
+                if (m_model->index(KUrl(path)) < 0) {
+                    m_dirWatcher->removeDir(path);
+                    it.remove();
+                }
+            }
+        }
+    }
+
 #ifdef HAVE_NEPOMUK
     if (m_nepomukResourceWatcher) {
         // Don't let the ResourceWatcher watch for removed items
-        if (m_model->count() == 0) {
+        if (allItemsRemoved) {
             m_nepomukResourceWatcher->setResources(QList<Nepomuk::Resource>());
             m_nepomukResourceWatcher->stop();
             m_nepomukUriItems.clear();
@@ -352,7 +381,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         return;
     }
 
-    if (m_model->count() == 0) {
+    if (allItemsRemoved) {
         // Most probably a directory change is done. Clear all pending items
         // and also kill all ongoing preview-jobs.
         resetPendingRoles();
@@ -583,6 +612,29 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk::Resourc
 #else
     Q_UNUSED(resource);
 #endif
+}
+
+void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
+{
+    const bool getSizeRole = m_roles.contains("size");
+    const bool getIsExpandableRole = m_roles.contains("isExpandable");
+
+    if (getSizeRole || getIsExpandableRole) {
+        const int index = m_model->index(KUrl(path));
+        if (index >= 0) {
+            QHash<QByteArray, QVariant> data;
+
+            const int count = subItemsCount(path);
+            if (getSizeRole) {
+                data.insert("size", count);
+            }
+            if (getIsExpandableRole) {
+                data.insert("isExpandable", count > 0);
+            }
+
+            m_model->setData(index, data);
+        }
+    }
 }
 
 void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
@@ -967,6 +1019,11 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
             }
             if (getIsExpandableRole) {
                 data.insert("isExpandable", count > 0);
+            }
+
+            if (!m_dirWatcher->contains(path)) {
+                m_dirWatcher->addDir(path);
+                m_watchedDirs.insert(path);
             }
         } else if (getSizeRole) {
             data.insert("size", -1); // -1 indicates an unknown number of items
