@@ -369,14 +369,18 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option
     QPainter painter(&pixmap);
 
     const bool oldAlternateBackground = m_alternateBackground;
-    setAlternateBackground(false);
     const bool wasSelected = m_selected;
+    const bool wasHovered = m_hovered;
+
+    setAlternateBackground(false);
     setSelected(false);
+    setHovered(false);
 
     paint(&painter, option, widget);
 
     setAlternateBackground(oldAlternateBackground);
     setSelected(wasSelected);
+    setHovered(wasHovered);
 
     return pixmap;
 }
