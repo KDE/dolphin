@@ -411,7 +411,7 @@ QPixmap KStandardItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem
                                                   QWidget* widget)
 {
     QPixmap pixmap = KItemListWidget::createDragPixmap(option, widget);
-    if (m_layout != DetailsLayout || styleOption().extendedSelectionRegion) {
+    if (m_layout != DetailsLayout) {
         return pixmap;
     }
 
