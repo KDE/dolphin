@@ -244,6 +244,12 @@ signals:
      */
     void directoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
+    /**
+     * Is emitted when the URL passed by KFileItemModel::setUrl() represents a file.
+     * In this case no signal errorMessage() will be emitted.
+     */
+    void urlIsFileError(const KUrl& url);
+
 protected:
     virtual void onGroupedSortingChanged(bool current);
     virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);

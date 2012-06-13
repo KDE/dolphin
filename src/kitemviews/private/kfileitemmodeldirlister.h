@@ -40,6 +40,12 @@ signals:
     /** Is emitted whenever an error has occurred. */
     void errorMessage(const QString& msg);
 
+    /**
+     * Is emitted when the URL of the directory lister represents a file.
+     * In this case no signal errorMessage() will be emitted.
+     */
+    void urlIsFileError(const KUrl& url);
+
 protected:
     virtual void handleError(KIO::Job* job);
 };

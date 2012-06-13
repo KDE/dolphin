@@ -160,6 +160,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_model, SIGNAL(infoMessage(QString)),            this, SIGNAL(infoMessage(QString)));
     connect(m_model, SIGNAL(errorMessage(QString)),           this, SIGNAL(errorMessage(QString)));
     connect(m_model, SIGNAL(directoryRedirection(KUrl,KUrl)), this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
+    connect(m_model, SIGNAL(urlIsFileError(KUrl)),            this, SIGNAL(urlIsFileError(KUrl)));
 
     m_view->installEventFilter(this);
     connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),

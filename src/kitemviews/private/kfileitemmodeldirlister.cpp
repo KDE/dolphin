@@ -33,11 +33,15 @@ KFileItemModelDirLister::~KFileItemModelDirLister()
 
 void KFileItemModelDirLister::handleError(KIO::Job* job)
 {
-    const QString errorString = job->errorString();
-    if (errorString.isEmpty()) {
-        emit errorMessage(i18nc("@info:status", "Unknown error."));
+    if (job->error() == KIO::ERR_IS_FILE) {
+        emit urlIsFileError(url());
     } else {
-        emit errorMessage(errorString);
+        const QString errorString = job->errorString();
+        if (errorString.isEmpty()) {
+            emit errorMessage(i18nc("@info:status", "Unknown error."));
+        } else {
+            emit errorMessage(errorString);
+        }
     }
 }
 

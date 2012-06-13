@@ -494,6 +494,12 @@ signals:
     void redirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
+     * Is emitted when the URL set by DolphinView::setUrl() represents a file.
+     * In this case no signal errorMessage() will be emitted.
+     */
+    void urlIsFileError(const KUrl& url);
+
+    /**
      * Is emitted when the write state of the folder has been changed. The application
      * should disable all actions like "Create New..." that depend on the write
      * state.

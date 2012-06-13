@@ -110,6 +110,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
     connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(urlIsFileError(KUrl)),               this, SLOT(slotUrlIsFileError(KUrl)));
 
     connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
             this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
@@ -421,6 +422,12 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
     } else {
         updateStatusBar();
     }
+}
+
+void DolphinViewContainer::slotUrlIsFileError(const KUrl& url)
+{
+    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    slotItemActivated(item);
 }
 
 void DolphinViewContainer::slotItemActivated(const KFileItem& item)

@@ -189,6 +189,12 @@ private slots:
     void slotDirectoryLoadingCompleted();
 
     /**
+     * Is called if the URL set by DolphinView::setUrl() represents
+     * a file and not a directory. Takes care to activate the file.
+     */
+    void slotUrlIsFileError(const KUrl& url);
+
+    /**
      * Handles clicking on an item. If the item is a directory, the
      * directory is opened in the view. If the item is a file, the file
      * gets started by the corresponding application.
