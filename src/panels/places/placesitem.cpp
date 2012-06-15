@@ -271,6 +271,7 @@ void PlacesItem::initializeDevice(const QString& udi)
 void PlacesItem::onAccessibilityChanged()
 {
     setIconOverlays(m_device.emblems());
+    setUrl(m_access->filePath());
 }
 
 void PlacesItem::onTrashDirListerCompleted()
