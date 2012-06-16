@@ -738,10 +738,12 @@ void PlacesItemModel::loadBookmarks()
                 if (missingSystemBookmarks.contains(url)) {
                     missingSystemBookmarks.remove(url);
 
-                    // Apply the translated text to the system bookmarks, otherwise an outdated
-                    // translation might be shown.
-                    const int index = m_systemBookmarksIndexes.value(url);
-                    item->setText(m_systemBookmarks[index].text);
+                    // Try to retranslate the text of system bookmarks to have translated
+                    // items when changing the language. In case if the user has applied a custom
+                    // text, the retranslation will fail and the users custom text is still used.
+                    // It is important to use "KFile System Bookmarks" as context (see
+                    // createSystemBookmarks()).
+                    item->setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().data()));
                     item->setSystemItem(true);
                 }
 
@@ -881,44 +883,48 @@ void PlacesItemModel::createSystemBookmarks()
     const QString timeLineIcon = "package_utility_time"; // TODO: Ask the Oxygen team to create
                                                          // a custom icon for the timeline-protocol
 
+    // Note: The context of the I18N_NOOP2 must be "KFile System Bookmarks". The real
+    // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
+    // done here is because otherwise switching the language would not result in retranslating the
+    // bookmarks.
     m_systemBookmarks.append(SystemBookmarkData(KUrl(KUser().homeDir()),
                                                 "user-home",
-                                                i18nc("@item", "Home")));
+                                                I18N_NOOP2("KFile System Bookmarks", "Home")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("remote:/"),
                                                 "network-workgroup",
-                                                i18nc("@item", "Network")));
+                                                I18N_NOOP2("KFile System Bookmarks", "Network")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("/"),
                                                 "folder-red",
-                                                i18nc("@item", "Root")));
+                                                I18N_NOOP2("KFile System Bookmarks", "Root")));
     m_systemBookmarks.append(SystemBookmarkData(KUrl("trash:/"),
                                                 "user-trash",
-                                                i18nc("@item", "Trash")));
+                                                I18N_NOOP2("KFile System Bookmarks", "Trash")));
 
     if (m_fileIndexingEnabled) {
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Today")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Today")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/yesterday"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Yesterday")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Yesterday")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/thismonth"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "This Month")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "This Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/lastmonth"),
                                                     timeLineIcon,
-                                                    i18nc("@item Recently Accessed", "Last Month")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Last Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/documents"),
                                                     "folder-txt",
-                                                    i18nc("@item Commonly Accessed", "Documents")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Documents")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/images"),
                                                     "folder-image",
-                                                    i18nc("@item Commonly Accessed", "Images")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Images")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/audio"),
                                                     "folder-sound",
-                                                    i18nc("@item Commonly Accessed", "Audio Files")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Audio Files")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/videos"),
                                                     "folder-video",
-                                                    i18nc("@item Commonly Accessed", "Videos")));
+                                                    I18N_NOOP2("KFile System Bookmarks", "Videos")));
     }
 
     for (int i = 0; i < m_systemBookmarks.count(); ++i) {
