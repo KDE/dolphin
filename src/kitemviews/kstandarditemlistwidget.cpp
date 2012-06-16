@@ -606,10 +606,17 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
     m_roleEditor->document()->setDefaultTextOption(textOption);
 
     // Select the text without MIME-type extension
+    // TODO: This is file-item-specific and should be moved
+    // into KFileItemListWidget.
     int selectionLength = text.length();
 
     const QString extension = KMimeType::extractKnownExtension(text);
-    if (!extension.isEmpty()) {
+    if (extension.isEmpty()) {
+        // For an unknown extension just exclude the extension after
+        // the last point. This does not work for multiple extensions like
+        // *.tar.gz but usually this is anyhow a known extension.
+        selectionLength = text.lastIndexOf(QLatin1Char('.'));
+    } else {
         selectionLength -= extension.length() + 1;
     }
 
