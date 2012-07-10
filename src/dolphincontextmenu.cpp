@@ -295,7 +295,7 @@ void DolphinContextMenu::openItemContextMenu()
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
-                const QString text = m_mainWindow->activeViewContainer()->placesText();
+                const QString text = selectedUrl.fileName();
                 PlacesItem* item = model.createPlacesItem(text, selectedUrl);
                 model.appendItemToGroup(item);
             }
