@@ -767,6 +767,14 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
         items.append(m_model->fileItem(index));
     }
 
+    if (items.count() > 5) {
+        QString question = QString("Are you sure you want to open %1 items?").arg(items.count());
+        const int answer = KMessageBox::warningYesNo(this, question);
+        if (answer != KMessageBox::Yes) {
+            return;
+        }
+    }
+
     foreach (const KFileItem& item, items) {
         if (item.isDir()) {
             emit tabRequested(item.url());
