@@ -396,7 +396,12 @@ QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
     return mimeData;
 }
 
-void PlacesItemModel::dropMimeData(int index, const QMimeData* mimeData)
+bool PlacesItemModel::supportsDropping(int index) const
+{
+    return index >= 0 && index < count();
+}
+
+void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
 {
     if (mimeData->hasFormat(internalMimeType())) {
         // The item has been moved inside the view

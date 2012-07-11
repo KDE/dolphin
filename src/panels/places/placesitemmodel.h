@@ -120,7 +120,10 @@ public:
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
-    void dropMimeData(int index, const QMimeData* mimeData);
+    /** @reimp */
+    virtual bool supportsDropping(int index) const;
+
+    void dropMimeDataBefore(int index, const QMimeData* mimeData);
 
     /**
      * @return Converts the URL, which contains "virtual" URLs for system-items like

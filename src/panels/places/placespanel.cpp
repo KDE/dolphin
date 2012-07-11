@@ -93,6 +93,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
         connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
         connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+        connect(m_controller, SIGNAL(aboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotAboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);
@@ -253,7 +254,23 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 
 void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
-    m_model->dropMimeData(index, event->mimeData());
+    if (index < 0) {
+        return;
+    }
+
+    KUrl destUrl = m_model->placesItem(index)->url();
+    QDropEvent dropEvent(event->pos().toPoint(),
+                         event->possibleActions(),
+                         event->mimeData(),
+                         event->buttons(),
+                         event->modifiers());
+
+    DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent);
+}
+
+void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
+{
+    m_model->dropMimeDataBefore(index, event->mimeData());
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)

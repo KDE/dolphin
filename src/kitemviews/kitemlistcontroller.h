@@ -201,8 +201,17 @@ signals:
      * Is emitted if a drop event is done above the item with the index
      * \a index. If \a index is < 0 the drop event is done above an
      * empty area of the view.
+     * TODO: Introduce a new signal viewDropEvent(QGraphicsSceneDragDropEvent),
+     *       which is emitted if the drop event occurs on an empty area in
+     *       the view, and make sure that index is always >= 0 in itemDropEvent().
      */
     void itemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+
+    /**
+     * Is emitted if a drop event is done between the item with the index
+     * \a index and the previous item.
+     */
+    void aboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
