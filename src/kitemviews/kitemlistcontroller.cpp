@@ -778,7 +778,6 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
 
 bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(transform);
     if (!m_model || !m_view) {
         return false;
     }
@@ -799,20 +798,23 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
         }
 
         if (newHoveredWidget) {
-            const int index = newHoveredWidget->index();
-            if (m_model->supportsDropping(index)) {
-                newHoveredWidget->setHovered(true);
-            } else if (m_model->sortRole().isEmpty()) {
-                // The model supports inserting of items on
-                // the given index. Assure that a drop-indicator
-                // is shown by the view.
-                m_view->showDropIndicator(pos);
+            bool droppingBetweenItems = false;
+            if (m_model->sortRole().isEmpty()) {
+                // The model supports inserting items between other items.
+                droppingBetweenItems = (m_view->showDropIndicator(pos) >= 0);
             }
-            emit itemHovered(index);
 
-            if (m_autoActivationTimer->interval() >= 0) {
-                m_autoActivationTimer->setProperty("index", index);
-                m_autoActivationTimer->start();
+            const int index = newHoveredWidget->index();
+            if (!droppingBetweenItems && m_model->supportsDropping(index)) {
+                // Something has been dragged on an item.
+                m_view->hideDropIndicator();
+                newHoveredWidget->setHovered(true);
+                emit itemHovered(index);
+
+                if (m_autoActivationTimer->interval() >= 0) {
+                    m_autoActivationTimer->setProperty("index", index);
+                    m_autoActivationTimer->start();
+                }
             }
         }
     }
@@ -822,7 +824,6 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
 
 bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(transform)
     if (!m_view) {
         return false;
     }
@@ -831,13 +832,19 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
     m_view->setAutoScroll(false);
 
     const QPointF pos = transform.map(event->pos());
+
+    int dropAboveIndex = -1;
     if (m_model->sortRole().isEmpty()) {
-        // The model supports inserting of items on
-        // a given index.
-        const int dropIndex = m_view->showDropIndicator(pos);
+        // The model supports inserting of items between other items.
+        dropAboveIndex = m_view->showDropIndicator(pos);
+    }
+
+    if (dropAboveIndex >= 0) {
+        // Something has been dropped between two items.
         m_view->hideDropIndicator();
-        emit itemDropEvent(dropIndex, event);
+        emit aboveItemDropEvent(dropAboveIndex, event);
     } else {
+        // Something has been dropped on an item or on an empty part of the view.
         emit itemDropEvent(m_view->itemAt(pos), event);
     }
 

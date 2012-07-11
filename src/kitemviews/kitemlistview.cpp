@@ -2318,6 +2318,13 @@ int KItemListView::showDropIndicator(const QPointF& pos)
         const QPointF mappedPos = widget->mapFromItem(this, pos);
         const QRectF rect = itemRect(widget->index());
         if (mappedPos.y() >= 0 && mappedPos.y() <= rect.height()) {
+            if (m_model->supportsDropping(widget->index())) {
+                const int gap = qMax(4, m_styleOption.padding);
+                if (mappedPos.y() >= gap && mappedPos.y() <= rect.height() - gap) {
+                    return -1;
+                }
+            }
+
             const bool isAboveItem = (mappedPos.y () < rect.height() / 2);
             const qreal y = isAboveItem ? rect.top() : rect.bottom();
 
