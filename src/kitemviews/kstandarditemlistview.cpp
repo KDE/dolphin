@@ -141,9 +141,9 @@ void KStandardItemListView::onSupportsItemExpandingChanged(bool supportsExpandin
 void KStandardItemListView::polishEvent()
 {
     switch (m_itemLayout) {
-    case IconsLayout:   applyDefaultStyleOption(KIconLoader::SizeMedium, 2, 4, 8); break;
-    case CompactLayout: applyDefaultStyleOption(KIconLoader::SizeSmall,  2, 8, 0); break;
-    case DetailsLayout: applyDefaultStyleOption(KIconLoader::SizeSmall,  2, 0, 0); break;
+    case IconsLayout:   applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_LargeIconSize), 2, 4, 8); break;
+    case CompactLayout: applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize),  2, 8, 0); break;
+    case DetailsLayout: applyDefaultStyleOption(style()->pixelMetric(QStyle::PM_SmallIconSize),  2, 0, 0); break;
     default:            Q_ASSERT(false); break;
     }
 
