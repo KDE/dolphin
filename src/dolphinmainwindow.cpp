@@ -434,7 +434,7 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
 
 void DolphinMainWindow::openNewMainWindow()
 {
-    KRun::run("dolphin", KUrl::List(), this);
+    KRun::run("dolphin %u", KUrl::List(), this);
 }
 
 void DolphinMainWindow::openNewTab()
@@ -545,7 +545,7 @@ void DolphinMainWindow::openInNewWindow()
     }
 
     if (!newWindowUrl.isEmpty()) {
-        KRun::run("dolphin", KUrl::List() << newWindowUrl, this);
+        KRun::run("dolphin %u", KUrl::List() << newWindowUrl, this);
     }
 }
 
@@ -1299,7 +1299,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 
     switch (command) {
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
-        KRun::run("dolphin", KUrl::List() << item.url().upUrl(), this);
+        KRun::run("dolphin %u", KUrl::List() << item.url().upUrl(), this);
         break;
     }
 
