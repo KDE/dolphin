@@ -56,6 +56,7 @@ K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
+      ,m_openTerminalAction(0)
 {
     Q_UNUSED(args)
     setComponentData(DolphinPartFactory::componentData(), false);
@@ -190,18 +191,18 @@ void DolphinPart::createActions()
                    goActionGroup);
 
     // Tools menu
-    KAction* findFile = actionCollection()->addAction("find_file");
-    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
-    findFile->setShortcut(Qt::CTRL | Qt::Key_F);
-    findFile->setIcon(KIcon("edit-find"));
-    connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
+    m_findFileAction = actionCollection()->addAction("find_file");
+    m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
+    m_findFileAction->setShortcut(Qt::CTRL | Qt::Key_F);
+    m_findFileAction->setIcon(KIcon("edit-find"));
+    connect(m_findFileAction, SIGNAL(triggered()), this, SLOT(slotFindFile()));
 
     if (KAuthorized::authorizeKAction("shell_access")) {
-        KAction* action = actionCollection()->addAction("open_terminal");
-        action->setIcon(KIcon("utilities-terminal"));
-        action->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
-        connect(action, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
-        action->setShortcut(Qt::Key_F4);
+        m_openTerminalAction = actionCollection()->addAction("open_terminal");
+        m_openTerminalAction->setIcon(KIcon("utilities-terminal"));
+        m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
+        connect(m_openTerminalAction, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
+        m_openTerminalAction->setShortcut(Qt::Key_F4);
     }
 }
 
@@ -296,6 +297,13 @@ bool DolphinPart::openUrl(const KUrl& url)
     emit aboutToOpenURL();
     if (reload)
         m_view->reload();
+    // Disable "Find File" and "Open Terminal" actions for non-file URLs,
+    // e.g. ftp, smb, etc. #279283
+    const bool isLocalUrl = url.isLocalFile();
+    m_findFileAction->setEnabled(isLocalUrl);
+    if (m_openTerminalAction) {
+        m_openTerminalAction->setEnabled(isLocalUrl);
+    }
     return true;
 }
 
