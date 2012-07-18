@@ -238,6 +238,8 @@ private:
     DolphinRemoteEncoding* m_remoteEncoding;
     DolphinPartBrowserExtension* m_extension;
     KNewFileMenu* m_newFileMenu;
+    KAction* m_findFileAction;
+    KAction* m_openTerminalAction;
     QString m_nameFilter;
     Q_DISABLE_COPY(DolphinPart)
 };
