@@ -131,6 +131,19 @@ protected:
      */
     QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
 
+    /**
+     * Fixes:
+     * Select the text without MIME-type extension
+     * This is file-item-specific and should be moved
+     * into KFileItemListWidget.
+     *
+     * Inherited classes can define, if the MIME-type extension
+     * should be selected or not.
+     *
+     * @return Selection length (with or without MIME-type extension)
+     */
+    virtual int selectionLength(const QString& text) const;
+
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);

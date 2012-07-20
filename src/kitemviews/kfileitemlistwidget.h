@@ -48,6 +48,11 @@ protected:
     virtual bool isRoleRightAligned(const QByteArray& role) const;
     virtual bool isHidden() const;
     virtual QFont customizedFont(const QFont& baseFont) const;
+
+    /**
+     * @return Selection length without MIME-type extension
+     */
+    virtual int selectionLength(const QString& text) const;
 };
 
 #endif

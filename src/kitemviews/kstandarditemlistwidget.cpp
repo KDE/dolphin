@@ -576,6 +576,11 @@ void KStandardItemListWidget::siblingsInformationChanged(const QBitArray& curren
     m_dirtyLayout = true;
 }
 
+int KStandardItemListWidget::selectionLength(const QString& text) const
+{
+    return text.length();
+}
+
 void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(previous);
@@ -605,25 +610,12 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
     QTextOption textOption = textInfo->staticText.textOption();
     m_roleEditor->document()->setDefaultTextOption(textOption);
 
-    // Select the text without MIME-type extension
-    // TODO: This is file-item-specific and should be moved
-    // into KFileItemListWidget.
-    int selectionLength = text.length();
+    const int textSelectionLength = selectionLength(text);
 
-    const QString extension = KMimeType::extractKnownExtension(text);
-    if (extension.isEmpty()) {
-        // For an unknown extension just exclude the extension after
-        // the last point. This does not work for multiple extensions like
-        // *.tar.gz but usually this is anyhow a known extension.
-        selectionLength = text.lastIndexOf(QLatin1Char('.'));
-    } else {
-        selectionLength -= extension.length() + 1;
-    }
-
-    if (selectionLength > 0) {
+    if (textSelectionLength > 0) {
         QTextCursor cursor = m_roleEditor->textCursor();
         cursor.movePosition(QTextCursor::StartOfBlock);
-        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, selectionLength);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, textSelectionLength);
         m_roleEditor->setTextCursor(cursor);
     }
 
