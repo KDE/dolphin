@@ -90,7 +90,7 @@ void DolphinItemListView::readSettings()
 
     setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
 
-    const bool expandableFolders = (itemLayout() && KFileItemListView::DetailsLayout) &&
+    const bool expandableFolders = (itemLayout() == KFileItemListView::DetailsLayout) &&
                                    DetailsModeSettings::expandableFolders();
     setSupportsItemExpanding(expandableFolders);
 
