@@ -19,6 +19,7 @@
 
 #include "kfileitemlistwidget.h"
 
+#include <kmimetype.h>
 #include <KDebug>
 #include <KGlobal>
 #include <KLocale>
@@ -99,6 +100,36 @@ QFont KFileItemListWidget::customizedFont(const QFont& baseFont) const
     QFont font(baseFont);
     font.setItalic(data().value("isLink").toBool());
     return font;
+}
+
+int KFileItemListWidget::selectionLength(const QString& text) const
+{
+    // Select the text without MIME-type extension
+    int selectionLength = text.length();
+
+    // If item is a directory, use the whole text length for
+    // selection (ignore all points)
+    if(data().value("isDir").toBool()) {
+        return selectionLength;
+    }
+
+    const QString extension = KMimeType::extractKnownExtension(text);
+    if (extension.isEmpty()) {
+        // For an unknown extension just exclude the extension after
+        // the last point. This does not work for multiple extensions like
+        // *.tar.gz but usually this is anyhow a known extension.
+        selectionLength = text.lastIndexOf(QLatin1Char('.'));
+
+        // If no point could be found, use whole text length for selection.
+        if (selectionLength < 1) {
+            selectionLength = text.length();
+        }
+
+    } else {
+        selectionLength -= extension.length() + 1;
+    }
+
+    return selectionLength;
 }
 
 #include "kfileitemlistwidget.moc"

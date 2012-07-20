@@ -87,7 +87,9 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     if (m_renameOneItem) {
         const QString fileName = items.first().url().prettyUrl();
         const QString extension = KMimeType::extractKnownExtension(fileName.toLower());
-        if (extension.length() > 0) {
+
+        // If the current item is a directory, select the whole file name.
+        if ((extension.length() > 0) && !items.first().isDir()) {
             // Don't select the extension
             selectionLength -= extension.length() + 1;
         }
