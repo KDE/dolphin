@@ -610,7 +610,9 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk::Resourc
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
 #else
+#ifndef Q_CC_MSVC
     Q_UNUSED(resource);
+#endif
 #endif
 }
 
