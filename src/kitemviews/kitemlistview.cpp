@@ -43,6 +43,8 @@
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 
+#include "kitemlistviewaccessible.h"
+
 namespace {
     // Time in ms until reaching the autoscroll margin triggers
     // an initial autoscrolling
@@ -50,6 +52,14 @@ namespace {
 
     // Delay in ms for triggering the next autoscroll
     const int RepeatingAutoScrollDelay = 1000 / 60;
+}
+
+QAccessibleInterface* accessibleViewFactory(const QString &key, QObject *object)
+{
+    Q_UNUSED(key)
+    if (KItemListView *view = qobject_cast<KItemListView*>(object))
+        return new KItemListViewAccessible(view);
+    return 0;
 }
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
@@ -110,6 +120,8 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_headerWidget->setVisible(false);
 
     m_header = new KItemListHeader(this);
+
+    QAccessible::installFactory(accessibleViewFactory);
 }
 
 KItemListView::~KItemListView()
@@ -125,6 +137,8 @@ KItemListView::~KItemListView()
 
     delete m_sizeHintResolver;
     m_sizeHintResolver = 0;
+
+    QAccessible::removeFactory(accessibleViewFactory);
 }
 
 void KItemListView::setScrollOffset(qreal offset)

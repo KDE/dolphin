@@ -38,6 +38,8 @@
 
 #include <KDebug>
 
+#include "kitemlistviewaccessible.h"
+
 /**
  * Replaces the default viewport of KItemListContainer by a
  * non-scrollable viewport. The scrolling is done in an optimized
@@ -67,6 +69,14 @@ void KItemListContainerViewport::wheelEvent(QWheelEvent* event)
     event->ignore();
 }
 
+QAccessibleInterface* accessibleContainerFactory(const QString &key, QObject *object)
+{
+    Q_UNUSED(key)
+    if (KItemListView *view = qobject_cast<KItemListView*>(object))
+        return new KItemListViewAccessible(view);
+    return 0;
+}
+
 KItemListContainer::KItemListContainer(KItemListController* controller, QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(controller),
@@ -93,6 +103,8 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
             this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
     connect(controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
             this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
+
+    QAccessible::installFactory(accessibleContainerFactory);
 }
 
 KItemListContainer::~KItemListContainer()
@@ -101,6 +113,8 @@ KItemListContainer::~KItemListContainer()
     // the QGraphicsScene might get deleted before the view.
     delete m_controller;
     m_controller = 0;
+
+    QAccessible::removeFactory(accessibleContainerFactory);
 }
 
 KItemListController* KItemListContainer::controller() const

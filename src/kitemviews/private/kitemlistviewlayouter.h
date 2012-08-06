@@ -164,6 +164,11 @@ public:
      */
     void markAsDirty();
 
+    inline int columnCount() const
+    {
+        return m_columnCount;
+    }
+
 #ifndef QT_NO_DEBUG
     /**
      * @return True if the layouter has been marked as dirty and hence has
