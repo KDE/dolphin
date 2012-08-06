@@ -152,9 +152,8 @@ public:
     { return index; }
 
 private:
-    QPointer<KItemListView > view;
+    QPointer<KItemListView> view;
     int index;
-    KItemListWidget *widget;
 
 friend class KItemListViewAccessible;
 //friend class QAccessibleTree;

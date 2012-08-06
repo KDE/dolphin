@@ -366,7 +366,9 @@ int KItemListWidgetAccessible::rowIndex() const
 //Done
 bool KItemListWidgetAccessible::isSelected() const
 {
-    return widget->isSelected();
+    //return widget->isSelected();
+    // FIXME
+    return false;
 }
 
 void KItemListWidgetAccessible::rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const
@@ -400,8 +402,8 @@ QAccessible::State KItemListWidgetAccessible::state(int child) const
     //if (!globalRect.intersects(rect(0)))
     //    st |= Invisible;
 
-    if (widget->isSelected())
-        st |= Selected;
+//     if (widget->isSelected())
+//         st |= Selected;
     if (view->controller()->selectionManager()->currentItem() == index)
         st |= Focused;
 
@@ -454,24 +456,23 @@ QString KItemListWidgetAccessible::text(Text t, int child) const
 {
     Q_ASSERT(child == 0);
 
-    QHash<QByteArray, QVariant> data = widget->data();
-    switch (t) {
-    case QAccessible::Value:
-    case QAccessible::Name:
-        return data["text"].toString();
-    case QAccessible::Description:
-        return data["text"].toString() + " : " + data["group"].toString();
-    default:
-        break;
-    }
-    return "";
+//     switch (t) {
+//     case QAccessible::Value:
+//     case QAccessible::Name:
+//         //return data["text"].toString();
+//     case QAccessible::Description:
+//         //return data["text"].toString() + " : " + data["group"].toString();
+//     default:
+//         break;
+//     }
+    return QString();
 }
 
 //Done
 void KItemListWidgetAccessible::setText(QAccessible::Text /*t*/, int child, const QString &text)
 {
     Q_ASSERT(child == 0);
-    (widget->data())["text"]=QVariant(text);
+    // FIXME - is this even allowed on the KItemListWidget?
 }
 
 //Done
