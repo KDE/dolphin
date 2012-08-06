@@ -133,6 +133,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
 {
+    resetPendingRoles();
 }
 
 void KFileItemModelRolesUpdater::setIconSize(const QSize& size)
