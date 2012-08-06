@@ -256,6 +256,7 @@ int KItemListViewAccessible::indexOfChild(const QAccessibleInterface *iface) con
 QString KItemListViewAccessible::text(Text t, int child) const
 {
     Q_ASSERT(child == 0);
+    // FIXME: I don't think this is needed, but if at all it needs i18n
     if (t == QAccessible::Description)
         return "List of files present in the current directory";
     return "File List";
@@ -266,6 +267,8 @@ QRect KItemListViewAccessible::rect(int child) const
     Q_UNUSED(child)
     if (!view()->isVisible())
         return QRect();
+
+    // FIXME: map to global
     return view()->geometry().toRect();
 }
 
@@ -432,7 +435,10 @@ bool KItemListWidgetAccessible::isExpandable() const
 //Done
 QRect KItemListWidgetAccessible::rect(int child) const
 {
-    Q_ASSERT(child == 0);
+    // Q_ASSERT(child == 0);
+    return QRect();
+
+    // FIXME
 
     //QRect r;
     //r = view->visualRect(m_index);
@@ -440,7 +446,7 @@ QRect KItemListWidgetAccessible::rect(int child) const
     //if (!r.isNull())
     //    r.translate(view->viewport()->mapTo(view, QPoint(0,0)));
     //    r.translate(view->mapToGlobal(QPoint(0, 0)));
-    return widget->textRect().toRect();
+    //return widget->textRect().toRect();
 }
 
 //Done
