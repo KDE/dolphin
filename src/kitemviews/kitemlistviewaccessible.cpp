@@ -5,7 +5,7 @@
 
 #include <QtGui/qtableview.h>
 #include <QtGui/qaccessible2.h>
-#include <QDebug>
+#include <KDebug>
 
 #ifndef QT_NO_ACCESSIBILITY
 
@@ -471,7 +471,7 @@ void KItemListWidgetAccessible::setText(QAccessible::Text /*t*/, int child, cons
 bool KItemListWidgetAccessible::isValid() const
 {
     if (index <= 0) {
-        qDebug() << "Interface is not valid";
+        kDebug() << "Interface is not valid";
     }
 
     return index > 0;
