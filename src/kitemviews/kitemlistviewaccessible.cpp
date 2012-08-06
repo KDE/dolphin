@@ -575,7 +575,6 @@ bool KItemListWidgetAccessible::doAction(int, int, const QVariantList &)
 
 KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer *container)
     : QAccessibleWidgetEx(container)
-    , m_container(container)
 {}
 
 KItemListContainerAccessible::~KItemListContainerAccessible ()
@@ -588,54 +587,18 @@ int KItemListContainerAccessible::childCount () const
 
 int KItemListContainerAccessible::indexOfChild ( const QAccessibleInterface * child ) const
 {
-    if(child == QAccessible::queryAccessibleInterface(m_container->controller()->view()))
+    if(child == QAccessible::queryAccessibleInterface(container()->controller()->view()))
         return 1;
     return -1;
-}
-
-bool KItemListContainerAccessible::isValid () const
-{
-    return true;
 }
 
 int KItemListContainerAccessible::navigate ( QAccessible::RelationFlag relation, int index, QAccessibleInterface ** target ) const
 {
     if (relation == QAccessible::Child) {
-        *target = new KItemListViewAccessible(m_container->controller()->view());
+        *target = new KItemListViewAccessible(container()->controller()->view());
         return 0;
     }
     return QAccessibleWidgetEx::navigate(relation, index, target);
-}
-
-QObject *KItemListContainerAccessible::object() const
-{
-    return m_container;
-}
-
-QRect KItemListContainerAccessible::rect ( int child ) const
-{
-    if(child){
-        KItemListViewAccessible *iface = static_cast<KItemListViewAccessible* >(QAccessible::queryAccessibleInterface(m_container->controller()->view()));
-        return iface->rect(0);
-    }
-    return m_container->frameRect();
-}
-
-QAccessible::Relation KItemListContainerAccessible::relationTo ( int , const QAccessibleInterface *, int ) const
-{
-    return QAccessible::Unrelated;
-}
-
-QAccessible::Role KItemListContainerAccessible::role ( int child ) const 
-{
-    if(child)
-        return QAccessible::Table;
-    return QAccessible::Pane;
-}
-
-QAccessible::State KItemListContainerAccessible::state ( int child ) const
-{
-    return Normal | HasInvokeExtension;
 }
 
 #endif // QT_NO_ITEMVIEWS

@@ -165,18 +165,15 @@ class KItemListContainerAccessible : public QAccessibleWidgetEx
     Q_ACCESSIBLE_OBJECT
 public:
     explicit KItemListContainerAccessible(KItemListContainer*);
-    virtual  ~KItemListContainerAccessible ();
-    int  childCount () const ;
-    int  indexOfChild ( const QAccessibleInterface * child ) const ;
-    bool isValid () const ;
-    int  navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const ;
-    QObject * object () const ;
-    QRect rect ( int child ) const ;
-    QAccessible::Relation relationTo ( int child, const QAccessibleInterface * other, int otherChild ) const ;
-    QAccessible::Role role ( int child ) const ;
-    QAccessible::State state ( int child ) const ;
+    virtual  ~KItemListContainerAccessible();
+    int  childCount () const;
+    int  indexOfChild ( const QAccessibleInterface * child ) const;
+    int  navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const;
+
 private:
-    KItemListContainer *m_container ;
+    inline KItemListContainer *container() const {
+        return static_cast<KItemListContainer *>(object());
+    }
 };
 
 #endif // QT_NO_ITEMVIEWS
