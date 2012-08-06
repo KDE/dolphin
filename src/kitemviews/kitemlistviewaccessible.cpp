@@ -80,6 +80,7 @@ QAccessibleInterface *KItemListViewAccessible::caption() const
 
 QString KItemListViewAccessible::columnDescription(int) const
 {
+    // FIXME: no i18n
     return "No Column Description";
 }
 
@@ -635,11 +636,6 @@ QAccessible::Role KItemListContainerAccessible::role ( int child ) const
 QAccessible::State KItemListContainerAccessible::state ( int child ) const
 {
     return Normal | HasInvokeExtension;
-}
-
-QString KItemListContainerAccessible::text ( QAccessible::Text, int ) const
-{
-    return "";
 }
 
 #endif // QT_NO_ITEMVIEWS

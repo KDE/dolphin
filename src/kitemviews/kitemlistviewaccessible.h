@@ -175,7 +175,6 @@ public:
     QAccessible::Relation relationTo ( int child, const QAccessibleInterface * other, int otherChild ) const ;
     QAccessible::Role role ( int child ) const ;
     QAccessible::State state ( int child ) const ;
-    QString text ( QAccessible::Text, int ) const ;
 private:
     KItemListContainer *m_container ;
 };
