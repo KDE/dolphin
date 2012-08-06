@@ -214,7 +214,7 @@ QAccessible::Role KItemListViewAccessible::role(int child) const
 QAccessible::State KItemListViewAccessible::state(int child) const
 {
     Q_ASSERT(child == 0);
-    return QAccessible::Normal | HasInvokeExtension;
+    return QAccessible::Normal;
 }
 
 int KItemListViewAccessible::childAt(int x, int y) const
@@ -424,7 +424,6 @@ QAccessible::State KItemListWidgetAccessible::state(int child) const
     //        st |= Expanded;
     //}
 
-    st |= HasInvokeExtension;
     return st;
 }
 
