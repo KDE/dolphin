@@ -597,24 +597,13 @@ bool KItemListContainerAccessible::isValid () const
     return true;
 }
 
-int KItemListContainerAccessible::navigate ( QAccessible::RelationFlag relation, int , QAccessibleInterface ** target ) const
+int KItemListContainerAccessible::navigate ( QAccessible::RelationFlag relation, int index, QAccessibleInterface ** target ) const
 {
-    *target=0;
-    switch(relation){
-        case QAccessible::Child :
-            *target = new KItemListViewAccessible(m_container->controller()->view());
-            return 1; 
-        case QAccessible::Ancestor :
-            //FIXME
-            *target = 0;
-            return -1;
-        case QAccessible::Self :
-            *target = static_cast<QAccessibleInterface*>(const_cast<KItemListContainerAccessible* >(this));
-            return 0;
-        default:
-            *target=0;
+    if (relation == QAccessible::Child) {
+        *target = new KItemListViewAccessible(m_container->controller()->view());
+        return 0;
     }
-    return -1;
+    return QAccessibleWidgetEx::navigate(relation, index, target);
 }
 
 QObject *KItemListContainerAccessible::object() const
