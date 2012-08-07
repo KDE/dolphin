@@ -61,10 +61,7 @@ QAccessibleTable2CellInterface *KItemListViewAccessible::cellAt(int row, int col
         return 0;
     }
     return cell(index);*/
-    Q_UNUSED(row)
-    Q_UNUSED(column)
-    return cell(1);
-
+    return column * (row - 1) + column ;
 }
 
 QAccessibleInterface *KItemListViewAccessible::caption() const
@@ -74,7 +71,6 @@ QAccessibleInterface *KItemListViewAccessible::caption() const
 
 QString KItemListViewAccessible::columnDescription(int) const
 {
-    // FIXME: no i18n
     return QObject::tr("No Column Description");
 }
 
@@ -146,47 +142,31 @@ QAccessibleInterface *KItemListViewAccessible::summary() const
 
 bool KItemListViewAccessible::isColumnSelected(int) const
 {
-    return false; //view()->selectionModel()->isColumnSelected(column, QModelIndex());
+    return false;
 }
 
 bool KItemListViewAccessible::isRowSelected(int) const
 {
-    return false; //view()->selectionModel()->isRowSelected(row, QModelIndex());
+    return false;
 }
 
-bool KItemListViewAccessible::selectRow(int)
+bool KItemListViewAccessible::selectRow(int row)
 {
-    /*QModelIndex index = view()->model()->index(row, 0);
-    if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
-        return false;
-    view()->selectionModel()->select(index, QItemSelectionModel::Select);*/
     return true;
 }
 
 bool KItemListViewAccessible::selectColumn(int)
 {
-    /*QModelIndex index = view()->model()->index(0, column);
-    if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
-        return false;
-    view()->selectionModel()->select(index, QItemSelectionModel::Select);*/
     return true;
 }
 
 bool KItemListViewAccessible::unselectRow(int)
 {
-    /*QModelIndex index = view()->model()->index(row, 0);
-    if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
-        return false;
-    view()->selectionModel()->select(index, QItemSelectionModel::Deselect);*/
     return true;
 }
 
 bool KItemListViewAccessible::unselectColumn(int)
 {
-    /*QModelIndex index = view()->model()->index(0, column);
-    if (!index.isValid() || view()->selectionMode() & QAbstractItemView::NoSelection)
-        return false;
-    view()->selectionModel()->select(index, QItemSelectionModel::Columns & QItemSelectionModel::Deselect);*/
     return true;
 }
 
@@ -207,8 +187,7 @@ QAccessible::Role KItemListViewAccessible::role(int child) const
 
 QAccessible::State KItemListViewAccessible::state(int child) const
 {
-    Q_ASSERT(child == 0);
-    return QAccessible::Normal;
+    return QAccessible::Normal | QAccessible::HasInvokeExtension;
 }
 
 int KItemListViewAccessible::childAt(int x, int y) const
@@ -365,12 +344,9 @@ int KItemListAccessibleCell::rowIndex() const
     return view->layouter()->itemRow(index);
 }
 
-//Done
 bool KItemListAccessibleCell::isSelected() const
 {
-    //return widget->isSelected();
-    // FIXME
-    return false;
+    return view->controller()->selectionManager()->isSelected(index-1);
 }
 
 void KItemListAccessibleCell::rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const
@@ -404,8 +380,8 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     //if (!globalRect.intersects(rect(0)))
     //    st |= Invisible;
 
-//     if (widget->isSelected())
-//         st |= Selected;
+    if (view->controller()->selectionManager()->isSelected(index-1))
+         st |= Selected;
     if (view->controller()->selectionManager()->currentItem() == index)
         st |= Focused;
 
@@ -449,7 +425,8 @@ QRect KItemListAccessibleCell::rect(int) const
 QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
 {
     Q_ASSERT(child == 0);
-    QHash<QByteArray, QVariant> data = view->model()->data(index);
+    Q_UNUSED(child)
+    const QHash<QByteArray, QVariant> data = view->model()->data(index-1);
     switch (t) {
     case QAccessible::Value:
     case QAccessible::Name:
