@@ -291,7 +291,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
         QPointF pos = ratingTextInfo->pos;
         const Qt::Alignment align = ratingTextInfo->staticText.textOption().alignment();
         if (align & Qt::AlignHCenter) {
-            pos.rx() += (size().width() - m_rating.width()) / 2;
+            pos.rx() += (size().width() - m_rating.width()) / 2 - 2;
         }
         painter->drawPixmap(pos, m_rating);
     }
@@ -921,7 +921,7 @@ void KStandardItemListWidget::updateTextsCache()
 
         const qreal availableWidth = (m_layout == DetailsLayout)
                                      ? columnWidth("rating") - columnPadding(option)
-                                     : m_textRect.width();
+                                     : size().width();
         if (ratingSize.width() > availableWidth) {
             ratingSize.rwidth() = availableWidth;
         }
@@ -1037,6 +1037,9 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.width(elidedText);
+            } else if (role == "rating") { 
+		// Use the width of the rating pixmap, because the rating text is empty.
+                requiredWidth = m_rating.width();
             }
         }
         layout.endLayout();
