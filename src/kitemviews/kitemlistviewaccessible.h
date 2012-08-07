@@ -114,9 +114,9 @@ public:
     KItemListAccessibleCell(KItemListView *view, int m_index);
 
     QObject *object() const { return 0; }
-    Role role(int child) const;
-    State state(int child) const;
-    QRect rect(int child) const;
+    Role role(int) const;
+    State state(int) const;
+    QRect rect(int) const;
     bool isValid() const;
 
     int childAt(int, int) const { return 0; }

@@ -5,6 +5,9 @@
 
 #include <QtGui/qtableview.h>
 #include <QtGui/qaccessible2.h>
+#include <qgraphicsscene.h>
+#include <qgraphicsview.h>
+
 #include <KDebug>
 #include <QHash>
 
@@ -258,8 +261,9 @@ QRect KItemListViewAccessible::rect(int child) const
     Q_UNUSED(child)
     if (!view()->isVisible())
         return QRect();
-    // FIXME: map to global
-    return view()->rect().toRect();
+    QPoint origin = view()->scene()->views()[0]->mapToGlobal(QPoint(0, 0));
+    QRect viewRect = view()->geometry().toRect();
+    return viewRect.translated(origin);
 }
 
 int KItemListViewAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const
@@ -432,26 +436,19 @@ bool KItemListAccessibleCell::isExpandable() const
 }
 
 //Done
-QRect KItemListAccessibleCell::rect(int child) const
+QRect KItemListAccessibleCell::rect(int) const
 {
-    // Q_ASSERT(child == 0);
-    return QRect();
-
-    // FIXME
-
-    //QRect r;
-    //r = view->visualRect(m_index);
-
-    //if (!r.isNull())
-    //    r.translate(view->viewport()->mapTo(view, QPoint(0,0)));
-    //    r.translate(view->mapToGlobal(QPoint(0, 0)));
-    //return widget->textRect().toRect();
+    QRect r = view->itemRect(index).toRect();
+    if (r.isNull())
+        return QRect();
+    r.translate(view->mapToScene(QPointF(0.0, 0.0)).toPoint());
+    r.translate(view->scene()->views()[0]->mapToGlobal(QPoint(0, 0)));
+    return r;
 }
 
 QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
 {
-    //Q_ASSERT(child == 0)
-    Q_UNUSED(child)
+    Q_ASSERT(child == 0);
     QHash<QByteArray, QVariant> data = view->model()->data(index);
     switch (t) {
     case QAccessible::Value:
@@ -473,11 +470,7 @@ void KItemListAccessibleCell::setText(QAccessible::Text /*t*/, int child, const 
 
 bool KItemListAccessibleCell::isValid() const
 {
-    if (index <= 0) {
-        kDebug() << "Interface is not valid";
-    }
-
-    return index > 0;
+    return view && (index > 0);
 }
 
 int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const
@@ -508,31 +501,6 @@ int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessi
                 return ret;
         }
         return -1;
-
-// From table1 implementation:
-//    case Up:
-//    case Down:
-//    case Left:
-//    case Right: {
-//        // This is in the "not so nice" category. In order to find out which item
-//        // is geometrically around, we have to set the current index, navigate
-//        // and restore the index as well as the old selection
-//        view()->setUpdatesEnabled(false);
-//        const QModelIndex oldIdx = view()->currentIndex();
-//        QList<QModelIndex> kids = children();
-//        const QModelIndex currentIndex = index ? kids.at(index - 1) : QModelIndex(row);
-//        const QItemSelection oldSelection = view()->selectionModel()->selection();
-//        view()->setCurrentIndex(currentIndex);
-//        const QModelIndex idx = view()->moveCursor(toCursorAction(relation), Qt::NoModifier);
-//        view()->setCurrentIndex(oldIdx);
-//        view()->selectionModel()->select(oldSelection, QItemSelectionModel::ClearAndSelect);
-//        view()->setUpdatesEnabled(true);
-//        if (!idx.isValid())
-//            return -1;
-
-//        if (idx.parent() != row.parent() || idx.row() != row.row())
-//            *iface = cell(idx);
-//        return index ? kids.indexOf(idx) + 1 : 0; }
     default:
         break;
     }
@@ -589,7 +557,7 @@ int KItemListContainerAccessible::childCount () const
 
 int KItemListContainerAccessible::indexOfChild ( const QAccessibleInterface * child ) const
 {
-    if(child == QAccessible::queryAccessibleInterface(container()->controller()->view()))
+    if(child->object() == container()->controller()->view())
         return 1;
     return -1;
 }
