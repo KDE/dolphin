@@ -15,7 +15,7 @@
 
 #ifndef QT_NO_ITEMVIEWS
 
-class KItemListWidgetAccessible;
+class KItemListAccessibleCell;
 
 class KItemListViewAccessible: public QAccessibleTable2Interface, public QAccessibleObjectEx
 {
@@ -108,10 +108,10 @@ private:
     //QAccessibleInterface *childFromLogical(int logicalIndex) const;
 };
 
-class KItemListWidgetAccessible: public QAccessibleTable2CellInterface
+class KItemListAccessibleCell: public QAccessibleTable2CellInterface
 {
 public:
-    KItemListWidgetAccessible(KItemListView *view, int m_index);
+    KItemListAccessibleCell(KItemListView *view, int m_index);
 
     QObject *object() const { return 0; }
     Role role(int child) const;
@@ -170,7 +170,8 @@ public:
     int  navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const;
 
 private:
-    inline KItemListContainer *container() const {
+    inline KItemListContainer *container() const
+    {
         return static_cast<KItemListContainer *>(object());
     }
 };

@@ -6,20 +6,11 @@
 #include <QtGui/qtableview.h>
 #include <QtGui/qaccessible2.h>
 #include <KDebug>
+#include <QHash>
 
 #ifndef QT_NO_ACCESSIBILITY
 
 #ifndef QT_NO_ITEMVIEWS
-/*
-Implementation of the IAccessible2 table2 interface. Much simpler than
-the other table interfaces since there is only the main table and cells:
-
-TABLE/LIST/TREE
-  |- HEADER CELL
-  |- CELL
-  |- CELL
-  ...
-*/
 
 KItemListView *KItemListViewAccessible::view() const
 {
@@ -53,7 +44,7 @@ void KItemListViewAccessible::modelReset()
 QAccessibleTable2CellInterface *KItemListViewAccessible::cell(int index) const
 {
     if (index > 0)
-        return new KItemListWidgetAccessible(view(), index);
+        return new KItemListAccessibleCell(view(), index);
     return 0;
 }
 
@@ -81,7 +72,7 @@ QAccessibleInterface *KItemListViewAccessible::caption() const
 QString KItemListViewAccessible::columnDescription(int) const
 {
     // FIXME: no i18n
-    return "No Column Description";
+    return QObject::tr("No Column Description");
 }
 
 int KItemListViewAccessible::columnCount() const
@@ -249,7 +240,7 @@ int KItemListViewAccessible::indexOfChild(const QAccessibleInterface *iface) con
     // FIXME: we are in denial of our children. this should stop.
     return -1;*/
     
-    const KItemListWidgetAccessible *widget = static_cast<const KItemListWidgetAccessible*>(iface);
+    const KItemListAccessibleCell *widget = static_cast<const KItemListAccessibleCell*>(iface);
     return widget->getIndex();
 }
 
@@ -258,8 +249,8 @@ QString KItemListViewAccessible::text(Text t, int child) const
     Q_ASSERT(child == 0);
     // FIXME: I don't think this is needed, but if at all it needs i18n
     if (t == QAccessible::Description)
-        return "List of files present in the current directory";
-    return "File List";
+        return QObject::tr("List of files present in the current directory");
+    return QObject::tr("File List");
 }
 
 QRect KItemListViewAccessible::rect(int child) const
@@ -267,9 +258,8 @@ QRect KItemListViewAccessible::rect(int child) const
     Q_UNUSED(child)
     if (!view()->isVisible())
         return QRect();
-
     // FIXME: map to global
-    return view()->geometry().toRect();
+    return view()->rect().toRect();
 }
 
 int KItemListViewAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const
@@ -320,16 +310,24 @@ bool KItemListViewAccessible::doAction(int, int, const QVariantList &)
 
 // TABLE CELL
 
-KItemListWidgetAccessible::KItemListWidgetAccessible(KItemListView *view_, int index_)
-    : /* QAccessibleSimpleEditableTextInterface(this), */ view(view_), index(index_)
+KItemListAccessibleCell::KItemListAccessibleCell(KItemListView *view_, int index_)
+    : /* QAccessibleSimpleEditableTextInterface(this), */ view(view_)
+    , index(index_)
 {
-    Q_ASSERT(index_>0);
+    Q_ASSERT(index_ > 0);
 }
 
-int KItemListWidgetAccessible::columnExtent() const { return 1; }
-int KItemListWidgetAccessible::rowExtent() const { return 1; }
+int KItemListAccessibleCell::columnExtent() const
+{
+    return 1;
+}
 
-QList<QAccessibleInterface*> KItemListWidgetAccessible::rowHeaderCells() const
+int KItemListAccessibleCell::rowExtent() const
+{
+    return 1;
+}
+
+QList<QAccessibleInterface*> KItemListAccessibleCell::rowHeaderCells() const
 {
     QList<QAccessibleInterface*> headerCell;
     /*if (verticalHeader()) {
@@ -338,7 +336,7 @@ QList<QAccessibleInterface*> KItemListWidgetAccessible::rowHeaderCells() const
     return headerCell;
 }
 
-QList<QAccessibleInterface*> KItemListWidgetAccessible::columnHeaderCells() const
+QList<QAccessibleInterface*> KItemListAccessibleCell::columnHeaderCells() const
 {
     QList<QAccessibleInterface*> headerCell;
     /*if (horizontalHeader()) {
@@ -347,12 +345,12 @@ QList<QAccessibleInterface*> KItemListWidgetAccessible::columnHeaderCells() cons
     return headerCell;
 }
 
-int KItemListWidgetAccessible::columnIndex() const
+int KItemListAccessibleCell::columnIndex() const
 {
     return view->layouter()->itemColumn(index);
 }
 
-int KItemListWidgetAccessible::rowIndex() const
+int KItemListAccessibleCell::rowIndex() const
 {
     /*if (role(0) == QAccessible::TreeItem) {
        const QTreeView *treeView = qobject_cast<const QTreeView*>(view);
@@ -364,14 +362,14 @@ int KItemListWidgetAccessible::rowIndex() const
 }
 
 //Done
-bool KItemListWidgetAccessible::isSelected() const
+bool KItemListAccessibleCell::isSelected() const
 {
     //return widget->isSelected();
     // FIXME
     return false;
 }
 
-void KItemListWidgetAccessible::rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const
+void KItemListAccessibleCell::rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const
 {
     KItemListViewLayouter* layouter = view->layouter();
     *row = layouter->itemRow(index);
@@ -381,18 +379,18 @@ void KItemListWidgetAccessible::rowColumnExtents(int *row, int *column, int *row
     *selected = isSelected();
 }
 
-QAccessibleTable2Interface* KItemListWidgetAccessible::table() const
+QAccessibleTable2Interface* KItemListAccessibleCell::table() const
 {
     return QAccessible::queryAccessibleInterface(view)->table2Interface();
 }
 
-QAccessible::Role KItemListWidgetAccessible::role(int child) const
+QAccessible::Role KItemListAccessibleCell::role(int child) const
 {
     Q_ASSERT(child == 0);
     return QAccessible::Cell;
 }
 
-QAccessible::State KItemListWidgetAccessible::state(int child) const
+QAccessible::State KItemListAccessibleCell::state(int child) const
 {
     Q_ASSERT(child == 0);
     QAccessible::State st = Normal;
@@ -428,13 +426,13 @@ QAccessible::State KItemListWidgetAccessible::state(int child) const
 }
 
 //Done
-bool KItemListWidgetAccessible::isExpandable() const
+bool KItemListAccessibleCell::isExpandable() const
 {
     return false; //view->model()->hasChildren(m_index);
 }
 
 //Done
-QRect KItemListWidgetAccessible::rect(int child) const
+QRect KItemListAccessibleCell::rect(int child) const
 {
     // Q_ASSERT(child == 0);
     return QRect();
@@ -450,32 +448,30 @@ QRect KItemListWidgetAccessible::rect(int child) const
     //return widget->textRect().toRect();
 }
 
-//Done
-QString KItemListWidgetAccessible::text(Text t, int child) const
+QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
 {
-    Q_ASSERT(child == 0);
-
-//     switch (t) {
-//     case QAccessible::Value:
-//     case QAccessible::Name:
-//         //return data["text"].toString();
-//     case QAccessible::Description:
-//         //return data["text"].toString() + " : " + data["group"].toString();
-//     default:
-//         break;
-//     }
+    //Q_ASSERT(child == 0)
+    Q_UNUSED(child)
+    QHash<QByteArray, QVariant> data = view->model()->data(index);
+    switch (t) {
+    case QAccessible::Value:
+    case QAccessible::Name:
+        return data["text"].toString();
+    case QAccessible::Description:
+        return data["text"].toString() + " : " + data["group"].toString();
+    default:
+        break;
+    }
     return QString();
 }
 
-//Done
-void KItemListWidgetAccessible::setText(QAccessible::Text /*t*/, int child, const QString &text)
+void KItemListAccessibleCell::setText(QAccessible::Text /*t*/, int child, const QString &text)
 {
     Q_ASSERT(child == 0);
     // FIXME - is this even allowed on the KItemListWidget?
 }
 
-//Done
-bool KItemListWidgetAccessible::isValid() const
+bool KItemListAccessibleCell::isValid() const
 {
     if (index <= 0) {
         kDebug() << "Interface is not valid";
@@ -484,7 +480,7 @@ bool KItemListWidgetAccessible::isValid() const
     return index > 0;
 }
 
-int KItemListWidgetAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const
+int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const
 {
     if (relation == Ancestor && index == 1) {
         //if (m_role == QAccessible::TreeItem) {
@@ -544,7 +540,7 @@ int KItemListWidgetAccessible::navigate(RelationFlag relation, int index, QAcces
     return -1;
 }
 
-QAccessible::Relation KItemListWidgetAccessible::relationTo(int child, const QAccessibleInterface *, int otherChild) const
+QAccessible::Relation KItemListAccessibleCell::relationTo(int child, const QAccessibleInterface *, int otherChild) const
 {
     Q_ASSERT(child == 0);
     Q_ASSERT(otherChild == 0);
@@ -562,17 +558,17 @@ QAccessible::Relation KItemListWidgetAccessible::relationTo(int child, const QAc
 }
 
 #ifndef QT_NO_ACTION
-int KItemListWidgetAccessible::userActionCount(int) const
+int KItemListAccessibleCell::userActionCount(int) const
 {
     return 0;
 }
 
-QString KItemListWidgetAccessible::actionText(int, Text, int) const
+QString KItemListAccessibleCell::actionText(int, Text, int) const
 {
     return QString();
 }
 
-bool KItemListWidgetAccessible::doAction(int, int, const QVariantList &)
+bool KItemListAccessibleCell::doAction(int, int, const QVariantList &)
 {
     return false;
 }
