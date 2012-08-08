@@ -163,6 +163,7 @@ void KItemListContainer::keyPressEvent(QKeyEvent* event)
     if (view) {
         QApplication::sendEvent(view, event);
     }
+    //QAccessible::updateAccessibility(view, 0, QAccessible::Focus);
 }
 
 void KItemListContainer::showEvent(QShowEvent* event)

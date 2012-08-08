@@ -61,7 +61,7 @@ QAccessibleTable2CellInterface *KItemListViewAccessible::cellAt(int row, int col
         return 0;
     }
     return cell(index);*/
-    return column * (row - 1) + column ;
+    return cell(column * (row - 1) + column) ;
 }
 
 QAccessibleInterface *KItemListViewAccessible::caption() const
@@ -187,6 +187,12 @@ QAccessible::Role KItemListViewAccessible::role(int child) const
 
 QAccessible::State KItemListViewAccessible::state(int child) const
 {
+    if(child){
+        QAccessibleInterface *iface;
+        navigate(Child,child,&iface);
+        if(iface)
+            return iface->state(0);
+    }
     return QAccessible::Normal | QAccessible::HasInvokeExtension;
 }
 
@@ -405,16 +411,14 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     return st;
 }
 
-//Done
 bool KItemListAccessibleCell::isExpandable() const
 {
     return false; //view->model()->hasChildren(m_index);
 }
 
-//Done
 QRect KItemListAccessibleCell::rect(int) const
 {
-    QRect r = view->itemRect(index).toRect();
+    QRect r = view->itemRect(index-1).toRect();
     if (r.isNull())
         return QRect();
     r.translate(view->mapToScene(QPointF(0.0, 0.0)).toPoint());
@@ -439,7 +443,7 @@ QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
     return QString();
 }
 
-void KItemListAccessibleCell::setText(QAccessible::Text /*t*/, int child, const QString &text)
+void KItemListAccessibleCell::setText(QAccessible::Text /*t*/, int child, const QString &/*text*/)
 {
     Q_ASSERT(child == 0);
     // FIXME - is this even allowed on the KItemListWidget?

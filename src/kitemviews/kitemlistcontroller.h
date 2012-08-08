@@ -30,6 +30,8 @@
 #include <QPointF>
 #include <QSet>
 
+#include <QAccessible>
+
 class KItemModelBase;
 class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
