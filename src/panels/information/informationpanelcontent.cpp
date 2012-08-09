@@ -197,9 +197,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
 
     if (InformationPanelSettings::previewsShown()) {
         const QString mimeType = item.mimetype();
-        const bool usePhonon = Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType) &&
-                               (mimeType != "image/png");  // TODO: workaround, as Phonon
-                                                           // thinks it supports PNG images
+        const bool usePhonon = mimeType.startsWith("audio/") || mimeType.startsWith("video/");
         if (usePhonon) {
             m_phononWidget->show();
             m_phononWidget->setUrl(item.targetUrl());
