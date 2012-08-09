@@ -138,7 +138,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const GroupType type = groupType();
     if (icon().isEmpty()) {
         switch (type) {
-        case RecentlyAccessedType: setIcon("actions/chronometer"); break;
+        case RecentlyAccessedType: setIcon("chronometer"); break;
         case SearchForType:        setIcon("nepomuk"); break;
         case PlacesType:
         default:                   setIcon("folder");
