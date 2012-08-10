@@ -164,6 +164,8 @@ void KItemListContainer::keyPressEvent(QKeyEvent* event)
     if (view) {
         QApplication::sendEvent(view, event);
     }
+    QAccessible::updateAccessibility(view, m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
+    QAccessible::updateAccessibility(view, m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
 }
 
 void KItemListContainer::showEvent(QShowEvent* event)
@@ -182,7 +184,8 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
 {
     m_horizontalSmoothScroller->scrollContentsBy(dx);
     m_verticalSmoothScroller->scrollContentsBy(dy);
-    //QAccessible::updateAccessibility(view(), , );
+    QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
+    QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
 }
 
 void KItemListContainer::wheelEvent(QWheelEvent* event)
@@ -371,7 +374,8 @@ void KItemListContainer::updateGeometries()
         updateScrollOffsetScrollBar();
         updateItemOffsetScrollBar();
         QAccessible::updateAccessibility(m_controller->view(), 0, QAccessible::LocationChanged);
-        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem(), QAccessible::LocationChanged);
+        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
+        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
     }
 }
 
