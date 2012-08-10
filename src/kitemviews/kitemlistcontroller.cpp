@@ -40,6 +40,7 @@
 #include <QGraphicsView>
 #include <QMimeData>
 #include <QTimer>
+#include <QAccessible>
 
 KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),

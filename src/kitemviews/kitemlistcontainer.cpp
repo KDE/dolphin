@@ -23,6 +23,7 @@
 #include "kitemlistcontainer.h"
 
 #include "kitemlistcontroller.h"
+#include "kitemlistselectionmanager.h"
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
 
@@ -163,7 +164,6 @@ void KItemListContainer::keyPressEvent(QKeyEvent* event)
     if (view) {
         QApplication::sendEvent(view, event);
     }
-    //QAccessible::updateAccessibility(view, 0, QAccessible::Focus);
 }
 
 void KItemListContainer::showEvent(QShowEvent* event)
@@ -182,6 +182,7 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
 {
     m_horizontalSmoothScroller->scrollContentsBy(dx);
     m_verticalSmoothScroller->scrollContentsBy(dy);
+    //QAccessible::updateAccessibility(view(), , );
 }
 
 void KItemListContainer::wheelEvent(QWheelEvent* event)
@@ -369,6 +370,8 @@ void KItemListContainer::updateGeometries()
 
         updateScrollOffsetScrollBar();
         updateItemOffsetScrollBar();
+        QAccessible::updateAccessibility(m_controller->view(), 0, QAccessible::LocationChanged);
+        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem(), QAccessible::LocationChanged);
     }
 }
 

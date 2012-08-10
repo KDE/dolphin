@@ -71,7 +71,7 @@ QAccessibleInterface *KItemListViewAccessible::caption() const
 
 QString KItemListViewAccessible::columnDescription(int) const
 {
-    return QObject::tr("No Column Description");
+    return "";
 }
 
 int KItemListViewAccessible::columnCount() const
@@ -105,7 +105,7 @@ int KItemListViewAccessible::selectedRowCount() const
 
 QString KItemListViewAccessible::rowDescription(int) const
 {
-    return "No Row Description";
+    return "";
 }
 
 QList<QAccessibleTable2CellInterface*> KItemListViewAccessible::selectedCells() const
@@ -386,7 +386,7 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     //if (!globalRect.intersects(rect(0)))
     //    st |= Invisible;
 
-    if (view->controller()->selectionManager()->isSelected(index-1))
+    if (isSelected())
          st |= Selected;
     if (view->controller()->selectionManager()->currentItem() == index)
         st |= Focused;
@@ -435,8 +435,8 @@ QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
     case QAccessible::Value:
     case QAccessible::Name:
         return data["text"].toString();
-    case QAccessible::Description:
-        return data["text"].toString() + " : " + data["group"].toString();
+    //case QAccessible::Description:
+        //return data["text"].toString() + " : " + data["group"].toString();
     default:
         break;
     }
