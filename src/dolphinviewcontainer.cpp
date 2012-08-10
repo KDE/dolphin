@@ -44,6 +44,10 @@
 #include <KUrlNavigator>
 #include <KRun>
 
+#ifdef KActivities_FOUND
+#include <KActivities/ResourceInstance>
+#endif
+
 #include "dolphin_generalsettings.h"
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
@@ -64,6 +68,9 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_statusBarTimer(0),
     m_statusBarTimestamp(),
     m_autoGrabFocus(true)
+#ifdef KActivities_FOUND
+    , m_activityResourceInstance(0)
+#endif
 {
     hide();
 
@@ -157,6 +164,14 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->addWidget(m_statusBar);
 
     setSearchModeEnabled(isSearchUrl(url));
+
+    // Initialize kactivities resource instance
+
+    #ifdef KActivities_FOUND
+    m_activityResourceInstance = new KActivities::ResourceInstance(
+            window()->winId(), url);
+    m_activityResourceInstance->setParent(this);
+    #endif
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -172,6 +187,14 @@ void DolphinViewContainer::setActive(bool active)
 {
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
+
+    #ifdef KActivities_FOUND
+    if (active) {
+        m_activityResourceInstance->notifyFocusedIn();
+    } else {
+        m_activityResourceInstance->notifyFocusedOut();
+    }
+    #endif
 }
 
 bool DolphinViewContainer::isActive() const
@@ -338,6 +361,10 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
     }
+
+    #ifdef KActivities_FOUND
+    m_activityResourceInstance->setUri(newUrl);
+    #endif
 }
 
 void DolphinViewContainer::setFilterBarVisible(bool visible)

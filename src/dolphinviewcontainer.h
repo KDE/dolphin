@@ -31,6 +31,13 @@
 #include <QWidget>
 
 #include <views/dolphinview.h>
+#include <config-apps.h>
+
+#ifdef KActivities_FOUND
+namespace KActivities {
+    class ResourceInstance;
+}
+#endif
 
 class FilterBar;
 class KMessageWidget;
@@ -308,6 +315,11 @@ private:
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
+
+#ifdef KActivities_FOUND
+private:
+    KActivities::ResourceInstance * m_activityResourceInstance;
+#endif
 };
 
 #endif // DOLPHINVIEWCONTAINER_H
