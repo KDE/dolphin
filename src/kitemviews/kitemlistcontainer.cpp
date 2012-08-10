@@ -107,7 +107,9 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
     connect(controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
             this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
 
+#ifndef QT_NO_ACCESSIBILITY
     QAccessible::installFactory(accessibleContainerFactory);
+#endif
 }
 
 KItemListContainer::~KItemListContainer()
@@ -116,8 +118,9 @@ KItemListContainer::~KItemListContainer()
     // the QGraphicsScene might get deleted before the view.
     delete m_controller;
     m_controller = 0;
-
+#ifndef QT_NO_ACCESSIBIILTY
     QAccessible::removeFactory(accessibleContainerFactory);
+#endif
 }
 
 KItemListController* KItemListContainer::controller() const

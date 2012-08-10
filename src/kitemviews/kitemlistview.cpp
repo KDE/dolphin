@@ -120,8 +120,9 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_headerWidget->setVisible(false);
 
     m_header = new KItemListHeader(this);
-
+#ifndef QT_NO_ACCESSIBILITY
     QAccessible::installFactory(accessibleViewFactory);
+#endif
 }
 
 KItemListView::~KItemListView()
@@ -137,8 +138,9 @@ KItemListView::~KItemListView()
 
     delete m_sizeHintResolver;
     m_sizeHintResolver = 0;
-
+#ifndef QT_NO_ACCESSIBILITY
     QAccessible::removeFactory(accessibleViewFactory);
+#endif
 }
 
 void KItemListView::setScrollOffset(qreal offset)
