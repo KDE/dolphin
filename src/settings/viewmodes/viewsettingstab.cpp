@@ -32,6 +32,8 @@
 #include <QLabel>
 #include <QSlider>
 #include <QVBoxLayout>
+#include <QHelpEvent>
+#include <QApplication>
 
 #include <views/zoomlevelinfo.h>
 
@@ -59,12 +61,16 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_defaultSizeSlider->setRange(minRange, maxRange);
+    connect(m_defaultSizeSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(slotDefaultSliderMoved(int)));
 
     QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
     m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_previewSizeSlider->setRange(minRange, maxRange);
+    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
+            this, SLOT(slotPreviewSliderMoved(int)));
 
     QGridLayout* layout = new QGridLayout(iconSizeGroup);
     layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
@@ -261,4 +267,26 @@ ViewModeSettings::ViewMode ViewSettingsTab::viewMode() const
 }
 
 
+void ViewSettingsTab::slotDefaultSliderMoved(int value)
+{
+    showToolTip(m_defaultSizeSlider, value);
+}
+
+void ViewSettingsTab::slotPreviewSliderMoved(int value)
+{
+    showToolTip(m_previewSizeSlider, value);
+}
+
+void ViewSettingsTab::showToolTip(QSlider* slider, int value)
+{
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(value);
+    slider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
+    if (!slider->isVisible()) {
+        return;
+    }
+    QPoint global = slider->rect().topLeft();
+    global.ry() += slider->height() / 2;
+    QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
+    QApplication::sendEvent(slider, &toolTipEvent);
+}
 #include "viewsettingstab.moc"
