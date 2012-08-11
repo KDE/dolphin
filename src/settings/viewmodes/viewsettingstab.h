@@ -52,8 +52,13 @@ public:
 signals:
     void changed();
 
+private slots:
+
+    void slotDefaultSliderMoved(int value);
+    void slotPreviewSliderMoved(int value);
 private:
     void loadSettings();
+    void showToolTip(QSlider* slider, int value);
 
     ViewModeSettings::ViewMode viewMode() const;
 
