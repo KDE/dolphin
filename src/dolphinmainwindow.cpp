@@ -1560,12 +1560,12 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* editableLocation = actionCollection()->add<KToggleAction>("editable_location");
     editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
-    editableLocation->setShortcut(Qt::CTRL | Qt::Key_L);
+    editableLocation->setShortcut(Qt::Key_F6);
     connect(editableLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
     KAction* replaceLocation = actionCollection()->addAction("replace_location");
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
-    replaceLocation->setShortcut(Qt::Key_F6);
+    replaceLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(replaceLocation, SIGNAL(triggered()), this, SLOT(replaceLocation()));
 
     // setup 'Go' menu
