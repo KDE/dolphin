@@ -1267,6 +1267,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     if (currentWidget) {
         currentWidget->setCurrent(true);
     }
+    QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
 }
 
 void KItemListView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)

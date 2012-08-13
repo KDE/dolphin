@@ -22,8 +22,6 @@
  ***************************************************************************/
 
 #include "kitemlistselectionmanager.h"
-#include "kitemlistcontroller.h"
-#include "kitemlistview.h"
 #include "kitemmodelbase.h"
 #include <KDebug>
 #include <QAccessible>
@@ -63,8 +61,6 @@ void KItemListSelectionManager::setCurrentItem(int current)
             }
         }
     }
-    KItemListController *controller = static_cast<KItemListController*>(parent());
-    QAccessible::updateAccessibility(controller->view(), current+1, QAccessible::Focus);
 }
 
 int KItemListSelectionManager::currentItem() const

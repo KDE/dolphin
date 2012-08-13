@@ -84,28 +84,8 @@ protected:
 protected:
     inline QAccessibleTable2CellInterface *cell(int index) const;
     inline QAccessible::Role cellRole() const {
-    /*
-        switch (m_role) {
-        case QAccessible::List:
-            return QAccessible::ListItem;
-        case QAccessible::Table:
-            return QAccessible::Cell;
-        case QAccessible::Tree:
-            return QAccessible::TreeItem;
-        default:
-            Q_ASSERT(0);
-        }
-        return QAccessible::NoRole;
-    */
-    return QAccessible::Cell;
+        return QAccessible::Cell;
     }
-
-private:
-    //QAccessible::Role m_role;
-    // the child index for a model index
-    //inline int logicalIndex(const QModelIndex &index) const;
-    // the model index from the child index
-    //QAccessibleInterface *childFromLogical(int logicalIndex) const;
 };
 
 class KItemListAccessibleCell: public QAccessibleTable2CellInterface
@@ -113,15 +93,24 @@ class KItemListAccessibleCell: public QAccessibleTable2CellInterface
 public:
     KItemListAccessibleCell(KItemListView *view, int m_index);
 
-    QObject *object() const { return 0; }
+    QObject *object() const
+    {
+        return 0;
+    }
     Role role(int) const;
     State state(int) const;
     QRect rect(int) const;
     bool isValid() const;
 
-    int childAt(int, int) const { return 0; }
-    int childCount() const { return 0; }
-    int indexOfChild(const QAccessibleInterface *) const  { return -1; }
+    inline int childAt(int, int) const {
+        return 0;
+    }
+    inline int childCount() const {
+        return 0;
+    }
+    inline int indexOfChild(const QAccessibleInterface *) const {
+        return -1;
+    }
 
     QString text(Text t, int child) const;
     void setText(Text t, int child, const QString &text);
@@ -148,15 +137,15 @@ public:
     virtual void rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const;
     virtual QAccessibleTable2Interface* table() const;
 
-    inline int getIndex() const
-    { return index; }
+    inline int getIndex() const {
+        return index;
+    }
 
 private:
     QPointer<KItemListView> view;
     int index;
 
 friend class KItemListViewAccessible;
-//friend class QAccessibleTree;
 };
 
 class KItemListContainerAccessible : public QAccessibleWidgetEx
