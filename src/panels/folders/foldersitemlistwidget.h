@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *  Copyright (C) 2012 by Emmanuel Pescosta <emmanuelpescosta099@gmail.com>*
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,27 +17,26 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "placesitemlistwidget.h"
+#ifndef FOLDERSITEMLISTWIDGET_H
+#define FOLDERSITEMLISTWIDGET_H
 
-#include "kdebug.h"
+#include <kitemviews/kfileitemlistwidget.h>
 
-PlacesItemListWidget::PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    KStandardItemListWidget(informant, parent)
+/**
+ * @brief Extends KFileItemListWidget to use the right text color.
+*/
+class FoldersItemListWidget : public KFileItemListWidget
 {
-}
+    Q_OBJECT
 
-PlacesItemListWidget::~PlacesItemListWidget()
-{
-}
+public:
+    FoldersItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
+    virtual ~FoldersItemListWidget();
 
-bool PlacesItemListWidget::isHidden() const
-{
-    return data().value("isHidden").toBool();
-}
+protected:
+    virtual QPalette::ColorRole normalTextColorPalette() const;
+};
 
-QPalette::ColorRole PlacesItemListWidget::normalTextColorPalette() const
-{
-    return QPalette::WindowText;
-}
+#endif
 
-#include "placesitemlistwidget.moc"
+
