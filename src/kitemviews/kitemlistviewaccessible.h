@@ -2,8 +2,6 @@
 #define ACCESSIBLE_ITEMVIEWS_H
 
 #include "QtCore/qpointer.h"
-#include <QtGui/qabstractitemview.h>
-#include <QtGui/qheaderview.h>
 #include <QtGui/qaccessible.h>
 #include <QtGui/qaccessible2.h>
 #include <QtGui/qaccessiblewidget.h>
@@ -12,8 +10,6 @@
 #include "kitemlistcontainer.h"
 
 #ifndef QT_NO_ACCESSIBILITY
-
-#ifndef QT_NO_ITEMVIEWS
 
 class KItemListAccessibleCell;
 
@@ -137,13 +133,13 @@ public:
     virtual void rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const;
     virtual QAccessibleTable2Interface* table() const;
 
-    inline int getIndex() const {
+    inline int index() const {
         return index;
     }
 
 private:
-    QPointer<KItemListView> view;
-    int index;
+    QPointer<KItemListView> m_view;
+    int m_index;
 
 friend class KItemListViewAccessible;
 };
@@ -164,8 +160,6 @@ private:
         return static_cast<KItemListContainer *>(object());
     }
 };
-
-#endif // QT_NO_ITEMVIEWS
 
 #endif // QT_NO_ACCESSIBILITY
 

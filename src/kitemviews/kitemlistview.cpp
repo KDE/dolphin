@@ -54,13 +54,16 @@ namespace {
     const int RepeatingAutoScrollDelay = 1000 / 60;
 }
 
+#ifndef QT_NO_ACCESSIBILITY
 QAccessibleInterface* accessibleViewFactory(const QString &key, QObject *object)
 {
     Q_UNUSED(key)
-    if (KItemListView *view = qobject_cast<KItemListView*>(object))
+    if (KItemListView *view = qobject_cast<KItemListView*>(object)) {
         return new KItemListViewAccessible(view);
+    }
     return 0;
 }
+#endif
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
@@ -120,9 +123,11 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_headerWidget->setVisible(false);
 
     m_header = new KItemListHeader(this);
+
 #ifndef QT_NO_ACCESSIBILITY
     QAccessible::installFactory(accessibleViewFactory);
 #endif
+
 }
 
 KItemListView::~KItemListView()
@@ -138,9 +143,6 @@ KItemListView::~KItemListView()
 
     delete m_sizeHintResolver;
     m_sizeHintResolver = 0;
-#ifndef QT_NO_ACCESSIBILITY
-    QAccessible::removeFactory(accessibleViewFactory);
-#endif
 }
 
 void KItemListView::setScrollOffset(qreal offset)

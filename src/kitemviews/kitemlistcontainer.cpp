@@ -23,7 +23,6 @@
 #include "kitemlistcontainer.h"
 
 #include "kitemlistcontroller.h"
-#include "kitemlistselectionmanager.h"
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
 
@@ -38,8 +37,6 @@
 #include <QStyleOption>
 
 #include <KDebug>
-
-#include "kitemlistviewaccessible.h"
 
 /**
  * Replaces the default viewport of KItemListContainer by a
@@ -70,16 +67,6 @@ void KItemListContainerViewport::wheelEvent(QWheelEvent* event)
     event->ignore();
 }
 
-QAccessibleInterface* accessibleContainerFactory(const QString &key, QObject *object)
-{
-    Q_UNUSED(key)
-    if (KItemListContainer*view = qobject_cast<KItemListContainer*>(object))
-        return new KItemListContainerAccessible(view);
-    if (KItemListView *view = qobject_cast<KItemListView*>(object))
-        return new KItemListViewAccessible(view);
-    return 0;
-}
-
 KItemListContainer::KItemListContainer(KItemListController* controller, QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(controller),
@@ -106,10 +93,6 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
             this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
     connect(controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
             this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
-
-#ifndef QT_NO_ACCESSIBILITY
-    QAccessible::installFactory(accessibleContainerFactory);
-#endif
 }
 
 KItemListContainer::~KItemListContainer()
@@ -118,9 +101,6 @@ KItemListContainer::~KItemListContainer()
     // the QGraphicsScene might get deleted before the view.
     delete m_controller;
     m_controller = 0;
-#ifndef QT_NO_ACCESSIBIILTY
-    QAccessible::removeFactory(accessibleContainerFactory);
-#endif
 }
 
 KItemListController* KItemListContainer::controller() const
@@ -167,8 +147,6 @@ void KItemListContainer::keyPressEvent(QKeyEvent* event)
     if (view) {
         QApplication::sendEvent(view, event);
     }
-    QAccessible::updateAccessibility(view, m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
-    QAccessible::updateAccessibility(view, m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
 }
 
 void KItemListContainer::showEvent(QShowEvent* event)
@@ -187,8 +165,6 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
 {
     m_horizontalSmoothScroller->scrollContentsBy(dx);
     m_verticalSmoothScroller->scrollContentsBy(dy);
-    QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
-    QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
 }
 
 void KItemListContainer::wheelEvent(QWheelEvent* event)
@@ -376,9 +352,6 @@ void KItemListContainer::updateGeometries()
 
         updateScrollOffsetScrollBar();
         updateItemOffsetScrollBar();
-        QAccessible::updateAccessibility(m_controller->view(), 0, QAccessible::LocationChanged);
-        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::LocationChanged);
-        QAccessible::updateAccessibility(m_controller->view(), m_controller->selectionManager()->currentItem()+1, QAccessible::Focus);
     }
 }
 
