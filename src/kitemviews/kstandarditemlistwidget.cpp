@@ -464,6 +464,11 @@ QFont KStandardItemListWidget::customizedFont(const QFont& baseFont) const
     return baseFont;
 }
 
+QPalette::ColorRole KStandardItemListWidget::normalTextColorPalette() const
+{
+    return QPalette::Text;
+}
+
 void KStandardItemListWidget::setTextColor(const QColor& color)
 {
     if (color != m_customTextColor) {
@@ -480,7 +485,7 @@ QColor KStandardItemListWidget::textColor() const
     }
 
     const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
-    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : QPalette::Text;
+    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorPalette();
     return styleOption().palette.brush(group, role).color();
 }
 
@@ -1029,7 +1034,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.width(elidedText);
-            } else if (role == "rating") { 
+            } else if (role == "rating") {
 		// Use the width of the rating pixmap, because the rating text is empty.
                 requiredWidth = m_rating.width();
             }

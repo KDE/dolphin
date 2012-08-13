@@ -165,6 +165,7 @@ set(dolphin_SRCS
     panels/places/placesitemmodel.cpp
     panels/places/placesitemsignalhandler.cpp
     panels/panel.cpp
+    panels/folders/foldersitemlistwidget.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
     search/dolphinfacetswidget.cpp

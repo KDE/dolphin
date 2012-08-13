@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *  Copyright (C) 2012 by Emmanuel Pescosta <emmanuelpescosta099@gmail.com>*
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,27 +17,20 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "placesitemlistwidget.h"
+#include "foldersitemlistwidget.h"
 
-#include "kdebug.h"
-
-PlacesItemListWidget::PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    KStandardItemListWidget(informant, parent)
+FoldersItemListWidget::FoldersItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
+    KFileItemListWidget(informant, parent)
 {
 }
 
-PlacesItemListWidget::~PlacesItemListWidget()
+FoldersItemListWidget::~FoldersItemListWidget()
 {
 }
 
-bool PlacesItemListWidget::isHidden() const
-{
-    return data().value("isHidden").toBool();
-}
-
-QPalette::ColorRole PlacesItemListWidget::normalTextColorPalette() const
+QPalette::ColorRole FoldersItemListWidget::normalTextColorPalette() const
 {
     return QPalette::WindowText;
 }
 
-#include "placesitemlistwidget.moc"
+#include "foldersitemlistwidget.moc"

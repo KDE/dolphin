@@ -24,7 +24,7 @@
 
 /**
  * @brief Extends KStandardItemListWidget to interpret the hidden
- *        property of the PlacesModel.
+ *        property of the PlacesModel and use the right text color.
 */
 class PlacesItemListWidget : public KStandardItemListWidget
 {
@@ -36,6 +36,7 @@ public:
 
 protected:
     virtual bool isHidden() const;
+    virtual QPalette::ColorRole normalTextColorPalette() const;
 };
 
 #endif

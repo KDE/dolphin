@@ -22,6 +22,7 @@
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
 #include "treeviewcontextmenu.h"
+#include "foldersitemlistwidget.h"
 
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kfileitemlistview.h>
@@ -120,6 +121,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // This assures that no performance and memory overhead is given when the folders panel is not
         // used at all and stays invisible.
         KFileItemListView* view  = new KFileItemListView();
+        view->setWidgetCreator(new KItemListWidgetCreator<FoldersItemListWidget>());
         view->setSupportsItemExpanding(true);
         // Set the opacity to 0 initially. The opacity will be increased after the loading of the initial tree
         // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when
