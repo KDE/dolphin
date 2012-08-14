@@ -5,6 +5,7 @@
 #include <QtGui/qaccessible.h>
 #include <QtGui/qaccessible2.h>
 #include <QtGui/qaccessiblewidget.h>
+#include <QtGui/qaccessibleobject.h>
 
 #include "kitemlistview.h"
 #include "kitemlistcontainer.h"
@@ -17,7 +18,7 @@ class KItemListViewAccessible: public QAccessibleTable2Interface, public QAccess
 {
     Q_ACCESSIBLE_OBJECT
 public:
-    explicit KItemListViewAccessible(KItemListView *view);
+    explicit KItemListViewAccessible(KItemListView* view);
 
     virtual ~KItemListViewAccessible();
 
@@ -28,22 +29,22 @@ public:
 
     int childAt(int x, int y) const;
     int childCount() const;
-    int indexOfChild(const QAccessibleInterface *) const;
+    int indexOfChild(const QAccessibleInterface* ) const;
 
-    int navigate(RelationFlag relation, int index, QAccessibleInterface **iface) const;
-    Relation relationTo(int child, const QAccessibleInterface *other, int otherChild) const;
+    int navigate(RelationFlag relation, int index, QAccessibleInterface** iface) const;
+    Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
 
 #ifndef QT_NO_ACTION
     int userActionCount(int child) const;
     QString actionText(int action, Text t, int child) const;
     bool doAction(int action, int child, const QVariantList &params);
 #endif
-    QVariant invokeMethodEx(Method, int, const QVariantList &) { return QVariant(); }
+    QVariant invokeMethodEx(Method, int, const QVariantList &);
 
     // Table2 interface
-    virtual QAccessibleTable2CellInterface *cellAt(int row, int column) const;
-    virtual QAccessibleInterface *caption() const;
-    virtual QAccessibleInterface *summary() const;
+    virtual QAccessibleTable2CellInterface* cellAt(int row, int column) const;
+    virtual QAccessibleInterface* caption() const;
+    virtual QAccessibleInterface* summary() const;
     virtual QString columnDescription(int column) const;
     virtual QString rowDescription(int row) const;
     virtual int columnCount() const;
@@ -70,46 +71,31 @@ public:
     virtual bool unselectRow(int row);
     virtual bool unselectColumn(int column);
 
-    KItemListView *view() const;
+    KItemListView* view() const;
 
 protected:
     virtual void modelReset();
-    inline QAccessibleTable2CellInterface *cell(int index) const;
-    inline QAccessible::Role cellRole() const {
-        return QAccessible::Cell;
-    }
+    inline QAccessibleTable2CellInterface* cell(int index) const;
+    inline QAccessible::Role cellRole() const;
 };
 
 class KItemListAccessibleCell: public QAccessibleTable2CellInterface
 {
 public:
-    KItemListAccessibleCell(KItemListView *view, int m_index);
+    KItemListAccessibleCell(KItemListView* view, int m_index);
 
-    QObject *object() const
-    {
-        return 0;
-    }
+    QObject* object() const;
     Role role(int) const;
     State state(int) const;
     QRect rect(int) const;
     bool isValid() const;
-
-    inline int childAt(int, int) const {
-        return 0;
-    }
-    inline int childCount() const {
-        return 0;
-    }
-    inline int indexOfChild(const QAccessibleInterface *) const {
-        return -1;
-    }
-
+    int childAt(int, int) const;
+    int childCount() const;
+    int indexOfChild(const QAccessibleInterface*) const;
     QString text(Text t, int child) const;
-    void setText(Text t, int child, const QString &text);
-
-    int navigate(RelationFlag relation, int m_index, QAccessibleInterface **iface) const;
-    Relation relationTo(int child, const QAccessibleInterface *other, int otherChild) const;
-
+    void setText(Text t, int child, const QString& text);
+    int navigate(RelationFlag relation, int m_index, QAccessibleInterface** iface) const;
+    Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
     bool isExpandable() const;
 
 #ifndef QT_NO_ACTION
@@ -120,18 +106,16 @@ public:
 
     // Cell Interface
     virtual int columnExtent() const;
-    virtual QList<QAccessibleInterface*> columnHeaderCells() const;
+    virtual QList<QAccessibleInterface* > columnHeaderCells() const;
     virtual int columnIndex() const;
     virtual int rowExtent() const;
-    virtual QList<QAccessibleInterface*> rowHeaderCells() const;
+    virtual QList<QAccessibleInterface* > rowHeaderCells() const;
     virtual int rowIndex() const;
     virtual bool isSelected() const;
-    virtual void rowColumnExtents(int *row, int *column, int *rowExtents, int *columnExtents, bool *selected) const;
+    virtual void rowColumnExtents(int* row, int* column, int* rowExtents, int* columnExtents, bool* selected) const;
     virtual QAccessibleTable2Interface* table() const;
 
-    inline int index() const {
-        return m_index;
-    }
+    inline int index() const;
 
 private:
     QPointer<KItemListView> m_view;
@@ -147,13 +131,13 @@ public:
     explicit KItemListContainerAccessible(KItemListContainer*);
     virtual ~KItemListContainerAccessible();
     int childCount () const;
-    int indexOfChild ( const QAccessibleInterface * child ) const;
-    int navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const;
+    int indexOfChild ( const QAccessibleInterface* child ) const;
+    int navigate ( RelationFlag relation, int entry, QAccessibleInterface** target ) const;
 
 private:
-    inline KItemListContainer *container() const
+    inline KItemListContainer* container() const
     {
-        return static_cast<KItemListContainer *>(object());
+        return static_cast<KItemListContainer* >(object());
     }
 };
 

@@ -659,6 +659,11 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 }
 
+KItemListViewLayouter* layouter() const
+{
+    return m_layouter;
+}
+
 void KItemListView::setItemSize(const QSizeF& size)
 {
     const QSizeF previousSize = m_itemSize;

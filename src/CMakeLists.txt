@@ -34,8 +34,8 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemmodelbase.cpp
     kitemviews/kstandarditem.cpp
     kitemviews/kstandarditemlistgroupheader.cpp
-    kitemviews/kstandarditemlistview.cpp
     kitemviews/kstandarditemlistwidget.cpp
+    kitemviews/kstandarditemlistview.cpp
     kitemviews/kstandarditemmodel.cpp
     kitemviews/private/kfileitemclipboard.cpp
     kitemviews/private/kfileitemmodeldirlister.cpp
