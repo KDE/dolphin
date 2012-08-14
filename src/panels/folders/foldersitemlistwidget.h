@@ -34,7 +34,7 @@ public:
     virtual ~FoldersItemListWidget();
 
 protected:
-    virtual QPalette::ColorRole normalTextColorPalette() const;
+    virtual QPalette::ColorRole normalTextColorRole() const;
 };
 
 #endif

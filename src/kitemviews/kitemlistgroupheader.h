@@ -104,10 +104,16 @@ protected:
     /** @reimp */
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
+    virtual QPalette::ColorRole normalTextColorRole() const;
+    virtual QPalette::ColorRole normalBaseColorRole() const;
+
 private:
     void updateCache();
 
     static QColor mixedColor(const QColor& c1, const QColor& c2, int c1Percent = 50);
+
+    QColor textColor() const;
+    QColor baseColor() const;
 
 private:
     bool m_dirtyCache;

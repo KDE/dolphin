@@ -37,4 +37,9 @@ void PlacesItemListGroupHeader::paintSeparator(QPainter* painter, const QColor& 
     Q_UNUSED(color);
 }
 
+QPalette::ColorRole PlacesItemListGroupHeader::normalTextColorRole() const
+{
+    return QPalette::WindowText;
+}
+
 #include "placesitemlistgroupheader.moc"

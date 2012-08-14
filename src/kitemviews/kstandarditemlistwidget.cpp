@@ -464,7 +464,7 @@ QFont KStandardItemListWidget::customizedFont(const QFont& baseFont) const
     return baseFont;
 }
 
-QPalette::ColorRole KStandardItemListWidget::normalTextColorPalette() const
+QPalette::ColorRole KStandardItemListWidget::normalTextColorRole() const
 {
     return QPalette::Text;
 }
@@ -485,8 +485,8 @@ QColor KStandardItemListWidget::textColor() const
     }
 
     const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
-    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorPalette();
-    return styleOption().palette.brush(group, role).color();
+    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : normalTextColorRole();
+    return styleOption().palette.color(group, role);
 }
 
 void KStandardItemListWidget::setOverlay(const QPixmap& overlay)
