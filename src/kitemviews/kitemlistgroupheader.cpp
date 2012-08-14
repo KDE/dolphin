@@ -180,10 +180,10 @@ void KItemListGroupHeader::updateCache()
 
     // Calculate the role- and line-color. No alphablending is used for
     // performance reasons.
-    const QColor c1 = m_styleOption.palette.text().color();
-    const QColor c2 = m_styleOption.palette.base().color();
+    const QColor c1 = textColor();
+    const QColor c2 = baseColor();
     m_separatorColor = mixedColor(c1, c2, 10);
-    m_roleColor = mixedColor(c1, c2, 70);
+    m_roleColor = mixedColor(c1, c2, 60);
 
     const int padding = qMax(1, m_styleOption.padding);
     const int horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
@@ -209,6 +209,28 @@ QColor KItemListGroupHeader::mixedColor(const QColor& c1, const QColor& c2, int 
     return QColor((c1.red()   * c1Percent + c2.red()   * c2Percent) / 100,
                   (c1.green() * c1Percent + c2.green() * c2Percent) / 100,
                   (c1.blue()  * c1Percent + c2.blue()  * c2Percent) / 100);
+}
+
+QPalette::ColorRole KItemListGroupHeader::normalTextColorRole() const
+{
+    return QPalette::Text;
+}
+
+QPalette::ColorRole KItemListGroupHeader::normalBaseColorRole() const
+{
+    return QPalette::Window;
+}
+
+QColor KItemListGroupHeader::textColor() const
+{
+    const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
+    return styleOption().palette.color(group, normalTextColorRole());
+}
+
+QColor KItemListGroupHeader::baseColor() const
+{
+    const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
+    return styleOption().palette.color(group, normalBaseColorRole());
 }
 
 #include "kitemlistgroupheader.moc"

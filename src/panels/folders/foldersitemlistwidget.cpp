@@ -28,7 +28,7 @@ FoldersItemListWidget::~FoldersItemListWidget()
 {
 }
 
-QPalette::ColorRole FoldersItemListWidget::normalTextColorPalette() const
+QPalette::ColorRole FoldersItemListWidget::normalTextColorRole() const
 {
     return QPalette::WindowText;
 }

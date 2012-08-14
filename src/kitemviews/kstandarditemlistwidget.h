@@ -120,7 +120,7 @@ protected:
      */
     virtual QFont customizedFont(const QFont& baseFont) const;
 
-    virtual QPalette::ColorRole normalTextColorPalette() const;
+    virtual QPalette::ColorRole normalTextColorRole() const;
 
     void setTextColor(const QColor& color);
     QColor textColor() const;

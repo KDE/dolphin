@@ -36,7 +36,7 @@ public:
 
 protected:
     virtual bool isHidden() const;
-    virtual QPalette::ColorRole normalTextColorPalette() const;
+    virtual QPalette::ColorRole normalTextColorRole() const;
 };
 
 #endif

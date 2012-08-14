@@ -32,6 +32,8 @@ public:
 
 protected:
     virtual void paintSeparator(QPainter* painter, const QColor& color);
+
+    virtual QPalette::ColorRole normalTextColorRole() const;
 };
 #endif
 

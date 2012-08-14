@@ -35,7 +35,7 @@ bool PlacesItemListWidget::isHidden() const
     return data().value("isHidden").toBool();
 }
 
-QPalette::ColorRole PlacesItemListWidget::normalTextColorPalette() const
+QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
 {
     return QPalette::WindowText;
 }
