@@ -22,6 +22,7 @@
  ***************************************************************************/
 
 #include "kitemlistselectionmanager.h"
+
 #include "kitemmodelbase.h"
 #include <KDebug>
 

@@ -40,7 +40,7 @@ public:
 #endif
     QVariant invokeMethodEx(Method, int, const QVariantList &) { return QVariant(); }
 
-    // table2 interface
+    // Table2 interface
     virtual QAccessibleTable2CellInterface *cellAt(int row, int column) const;
     virtual QAccessibleInterface *caption() const;
     virtual QAccessibleInterface *summary() const;
@@ -49,8 +49,6 @@ public:
     virtual int columnCount() const;
     virtual int rowCount() const;
     virtual QAccessible2::TableModelChange modelChange() const;
-
-    //Table
     virtual void rowsInserted(const QModelIndex&, int, int) {}
     virtual void rowsRemoved(const QModelIndex&, int, int) {}
     virtual void columnsInserted(const QModelIndex&, int, int) {}
@@ -58,7 +56,7 @@ public:
     virtual void rowsMoved(const QModelIndex&, int, int, const QModelIndex&, int) {}
     virtual void columnsMoved(const QModelIndex&, int, int, const QModelIndex&, int) {}
 
-    // selection
+    // Selection
     virtual int selectedCellCount() const;
     virtual int selectedColumnCount() const;
     virtual int selectedRowCount() const;
@@ -76,8 +74,6 @@ public:
 
 protected:
     virtual void modelReset();
-
-protected:
     inline QAccessibleTable2CellInterface *cell(int index) const;
     inline QAccessible::Role cellRole() const {
         return QAccessible::Cell;
@@ -122,7 +118,7 @@ public:
     bool doAction(int action, int child, const QVariantList &params);
 #endif
 
-    // cell interface
+    // Cell Interface
     virtual int columnExtent() const;
     virtual QList<QAccessibleInterface*> columnHeaderCells() const;
     virtual int columnIndex() const;
@@ -134,7 +130,7 @@ public:
     virtual QAccessibleTable2Interface* table() const;
 
     inline int index() const {
-        return index;
+        return m_index;
     }
 
 private:
@@ -149,10 +145,10 @@ class KItemListContainerAccessible : public QAccessibleWidgetEx
     Q_ACCESSIBLE_OBJECT
 public:
     explicit KItemListContainerAccessible(KItemListContainer*);
-    virtual  ~KItemListContainerAccessible();
-    int  childCount () const;
-    int  indexOfChild ( const QAccessibleInterface * child ) const;
-    int  navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const;
+    virtual ~KItemListContainerAccessible();
+    int childCount () const;
+    int indexOfChild ( const QAccessibleInterface * child ) const;
+    int navigate ( RelationFlag relation, int entry, QAccessibleInterface ** target ) const;
 
 private:
     inline KItemListContainer *container() const
