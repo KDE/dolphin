@@ -278,7 +278,7 @@ public:
     /**
      * @return The Layouter for the view
      */
-    inline KItemListViewLayouter* layouter() const;
+    KItemListViewLayouter* layouter() const;
 
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);

@@ -464,6 +464,7 @@ QObject* KItemListAccessibleCell::object() const
     return 0;
 }
 
+// Container Interface
 KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer* container) :
     QAccessibleWidgetEx(container)
 {}

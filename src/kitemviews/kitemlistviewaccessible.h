@@ -20,8 +20,6 @@ class KItemListViewAccessible: public QAccessibleTable2Interface, public QAccess
 public:
     explicit KItemListViewAccessible(KItemListView* view);
 
-    virtual ~KItemListViewAccessible();
-
     Role role(int child) const;
     State state(int child) const;
     QString text(Text t, int child) const;

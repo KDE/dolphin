@@ -659,7 +659,7 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 }
 
-KItemListViewLayouter* layouter() const
+KItemListViewLayouter* KItemListView::layouter() const
 {
     return m_layouter;
 }
