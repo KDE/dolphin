@@ -234,6 +234,13 @@ if (Nepomuk_FOUND)
     )
 endif (Nepomuk_FOUND)
 
+if (KActivities_FOUND)
+    target_link_libraries(
+        kdeinit_dolphin
+        ${KACTIVITIES_LIBRARY}
+    )
+endif (KActivities_FOUND)
+
 install(TARGETS kdeinit_dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
