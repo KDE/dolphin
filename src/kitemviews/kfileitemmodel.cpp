@@ -287,7 +287,7 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
         int count = 0;
         const RoleInfoMap* map = rolesInfoMap(count);
         for (int i = 0; i < count; ++i) {
-            description.insert(map[i].role, map[i].roleTranslation);
+            description.insert(map[i].role, i18nc(map[i].roleTranslationContext, map[i].roleTranslation));
         }
     }
 
@@ -560,8 +560,8 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
             if (map[i].roleType != NoRole) {
                 RoleInfo info;
                 info.role = map[i].role;
-                info.translation = map[i].roleTranslation;
-                info.group = map[i].groupTranslation;
+                info.translation = i18nc(map[i].roleTranslationContext, map[i].roleTranslation);
+                info.group = i18nc(map[i].groupTranslationContext, map[i].groupTranslation);
                 info.requiresNepomuk = map[i].requiresNepomuk;
                 info.requiresIndexer = map[i].requiresIndexer;
                 rolesInfo.append(info);
