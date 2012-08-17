@@ -22,7 +22,6 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
-#include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinview.h"
 
