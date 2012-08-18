@@ -1704,7 +1704,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, SIGNAL(folderActivated(KUrl)),
             this, SLOT(changeUrl(KUrl)));
     connect(foldersPanel, SIGNAL(folderMiddleClicked(KUrl)),
-            this, SLOT(openNewActivatedTab(KUrl)));
+            this, SLOT(openNewTab(KUrl)));
     connect(foldersPanel, SIGNAL(errorMessage(QString)),
             this, SLOT(slotPanelErrorMessage(QString)));
 
@@ -1756,7 +1756,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(placesPanel, SIGNAL(placeActivated(KUrl)),
             this, SLOT(changeUrl(KUrl)));
     connect(placesPanel, SIGNAL(placeMiddleClicked(KUrl)),
-            this, SLOT(openNewActivatedTab(KUrl)));
+            this, SLOT(openNewTab(KUrl)));
     connect(placesPanel, SIGNAL(errorMessage(QString)),
             this, SLOT(slotPanelErrorMessage(QString)));
     connect(this, SIGNAL(urlChanged(KUrl)),
