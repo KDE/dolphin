@@ -6,7 +6,7 @@ configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk
 macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
+include_directories( ${KACTIVITIES_INCLUDE_DIRS} )
 
 if (Nepomuk_FOUND)
   # Yes, Soprano includes is what we need here
