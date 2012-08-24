@@ -561,7 +561,14 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
                 RoleInfo info;
                 info.role = map[i].role;
                 info.translation = i18nc(map[i].roleTranslationContext, map[i].roleTranslation);
-                info.group = i18nc(map[i].groupTranslationContext, map[i].groupTranslation);
+                if (map[i].groupTranslation) {
+                    info.group = i18nc(map[i].groupTranslationContext, map[i].groupTranslation);
+                } else {
+                    // For top level roles, groupTranslation is 0. We must make sure that
+                    // info.group is an empty string then because the code that generates
+                    // menus tries to put the actions into sub menus otherwise.
+                    info.group = QString();
+                }
                 info.requiresNepomuk = map[i].requiresNepomuk;
                 info.requiresIndexer = map[i].requiresIndexer;
                 rolesInfo.append(info);
