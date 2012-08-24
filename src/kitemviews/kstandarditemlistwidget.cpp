@@ -594,6 +594,11 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
    if (current.isEmpty() || !parent || current != "text") {
         if (m_roleEditor) {
             emit roleEditingCanceled(index(), current, data().value(current));
+
+            disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+                       this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+            disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+                       this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
             m_roleEditor->deleteLater();
             m_roleEditor = 0;
         }
@@ -1253,6 +1258,11 @@ void KStandardItemListWidget::closeRoleEditor()
         // to transfer the keyboard focus back to the KItemListContainer.
         scene()->views()[0]->parentWidget()->setFocus();
     }
+
+    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
     m_roleEditor->deleteLater();
     m_roleEditor = 0;
 }
