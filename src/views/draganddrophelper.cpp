@@ -35,10 +35,13 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destU
     }
 
     const QMimeData* mimeData = event->mimeData();
-    if (mimeData->hasFormat("application/x-kde-dndextract")) {
-        const QString remoteDBusClient = mimeData->data("application/x-kde-dndextract");
-        QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, "/DndExtract",
-                                                              "org.kde.DndExtract", "extractSelectedFilesTo");
+    if (mimeData->hasFormat("application/x-kde-ark-dndextract-service") &&
+        mimeData->hasFormat("application/x-kde-ark-dndextract-path")) {
+        const QString remoteDBusClient = mimeData->data("application/x-kde-ark-dndextract-service");
+        const QString remoteDBusPath = mimeData->data("application/x-kde-ark-dndextract-path");
+
+        QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
+                                                              "org.kde.ark.DndExtract", "extractSelectedFilesTo");
         message.setArguments(QVariantList() << destUrl.pathOrUrl());
         QDBusConnection::sessionBus().call(message);
     } else if (!destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile())) {
