@@ -38,6 +38,16 @@ DolphinApplication::DolphinApplication() :
 
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
+    const int argsCount = args->count();
+
+    QList<KUrl> urls;
+    for (int i = 0; i < argsCount; ++i) {
+        const KUrl url = args->url(i);
+        if (url.isValid()) {
+            urls.append(url);
+        }
+    }
+
     bool resetSplitSettings = false;
     if (args->isSet("split") && !GeneralSettings::splitView()) {
         // Dolphin should be opened with a split view although this is not
@@ -45,31 +55,29 @@ DolphinApplication::DolphinApplication() :
         // all passed URLs have been opened.
         GeneralSettings::setSplitView(true);
         resetSplitSettings = true;
-    }
 
-    const int argsCount = args->count();
-    if (argsCount > 0) {
-        QList<KUrl> urls;
-        for (int i = 0; i < argsCount; ++i) {
-            const KUrl url = args->url(i);
-            if (url.isValid()) {
-                urls.append(url);
-            }
-        }
-
-        if (!urls.isEmpty()) {
-            if (args->isSet("select")) {
-                m_mainWindow->openFiles(urls);
-            } else {
-                m_mainWindow->openDirectories(urls);
-            }
+        // We need 2 URLs to open Dolphin in split view mode
+        if (urls.isEmpty()) { // No URL given - Open home URL in all two views
+            urls.append(GeneralSettings::homeUrl());
+            urls.append(GeneralSettings::homeUrl());
+        } else if (urls.length() == 1) { // Only 1 URL given - Open given URL in all two views
+            urls.append(urls.at(0));
         }
     }
-    args->clear();
+
+    if (!urls.isEmpty()) {
+        if (args->isSet("select")) {
+            m_mainWindow->openFiles(urls);
+        } else {
+            m_mainWindow->openDirectories(urls);
+        }
+    }
 
     if (resetSplitSettings) {
         GeneralSettings::setSplitView(false);
     }
+
+    args->clear();
 }
 
 DolphinApplication::~DolphinApplication()
