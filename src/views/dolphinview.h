@@ -181,8 +181,8 @@ public:
     void markUrlsAsSelected(const QList<KUrl>& urls);
 
     /**
-     * Marks the item indicated by \p url as the current item after the
-     * directory DolphinView::url() has been loaded.
+     * Marks the item indicated by \p url to be scrolled to and as the
+     * current item after directory DolphinView::url() has been loaded.
      */
     void markUrlAsCurrent(const KUrl& url);
 
@@ -640,16 +640,8 @@ private slots:
      * Observes the item with the URL \a url. As soon as the directory
      * model indicates that the item is available, the item will
      * get selected and it is assured that the item stays visible.
-     *
-     * @see selectAndScrollToCreatedItem()
      */
     void observeCreatedItem(const KUrl& url);
-
-    /**
-     * Selects and scrolls to the item that got observed
-     * by observeCreatedItem().
-     */
-    void selectAndScrollToCreatedItem();
 
     /**
      * Called when a redirection happens.
@@ -754,8 +746,8 @@ private:
     QTimer* m_selectionChangedTimer;
 
     KUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
+    bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
     QPoint m_restoredContentsPosition;
-    KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
 
     QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
 
