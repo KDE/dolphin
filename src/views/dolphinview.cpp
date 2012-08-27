@@ -98,8 +98,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_toolTipManager(0),
     m_selectionChangedTimer(0),
     m_currentItemUrl(),
+    m_scrollToCurrentItem(false),
     m_restoredContentsPosition(),
-    m_createdItemUrl(),
     m_selectedUrls(),
     m_versionControlObserver(0)
 {
@@ -363,6 +363,7 @@ void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
 void DolphinView::markUrlAsCurrent(const KUrl& url)
 {
     m_currentItemUrl = url;
+    m_scrollToCurrentItem = true;
 }
 
 void DolphinView::selectItems(const QRegExp& pattern, bool enabled)
@@ -1150,25 +1151,8 @@ QString DolphinView::viewPropertiesContext() const
 
 void DolphinView::observeCreatedItem(const KUrl& url)
 {
-    m_createdItemUrl = url;
-    connect(m_model, SIGNAL(directoryLoadingCompleted()),
-            this, SLOT(selectAndScrollToCreatedItem()));
-}
-
-void DolphinView::selectAndScrollToCreatedItem()
-{
-    KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-    const int index = m_model->index(m_createdItemUrl);
-    if (index != -1) {
-        selectionManager->setCurrentItem(index);
-        selectionManager->clearSelection();
-        selectionManager->setSelected(index);
-        m_view->scrollToItem(index);
-    }
-
-    disconnect(m_model, SIGNAL(directoryLoadingCompleted()),
-               this, SLOT(selectAndScrollToCreatedItem()));
-    m_createdItemUrl = KUrl();
+    markUrlAsCurrent(url);
+    markUrlsAsSelected(QList<KUrl>() << url);
 }
 
 void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
@@ -1186,6 +1170,12 @@ void DolphinView::updateViewState()
         const int currentIndex = m_model->index(m_currentItemUrl);
         if (currentIndex != -1) {
             selectionManager->setCurrentItem(currentIndex);
+
+            // scroll to current item and reset the state
+            if (m_scrollToCurrentItem) {
+                m_view->scrollToItem(currentIndex);
+                m_scrollToCurrentItem = false;
+            }
         } else {
             selectionManager->setCurrentItem(0);
         }

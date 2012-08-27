@@ -554,7 +554,12 @@ void DolphinPart::createDirectory()
 
 void DolphinPart::setFilesToSelect(const KUrl::List& files)
 {
+    if (files.isEmpty()) {
+        return;
+    }
+
     m_view->markUrlsAsSelected(files);
+    m_view->markUrlAsCurrent(files.at(0));
 }
 
 ////
