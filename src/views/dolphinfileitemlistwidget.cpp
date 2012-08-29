@@ -115,6 +115,8 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemV
         iconName = "vcs-conflicting";
         break;
     case KVersionControlPlugin::UnversionedVersion:
+    case KVersionControlPlugin2::IgnoredVersion:
+    case KVersionControlPlugin2::MissingVersion:
         break;
     default:
         Q_ASSERT(false);
