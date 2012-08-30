@@ -54,7 +54,7 @@
     #include <Nepomuk/ResourceManager>
     #include <Nepomuk/Query/ComparisonTerm>
     #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/Query>
+    #include <Nepomuk/Query/FileQuery>
     #include <Nepomuk/Query/ResourceTypeTerm>
     #include <Nepomuk/Vocabulary/NFO>
     #include <Nepomuk/Vocabulary/NIE>
@@ -1162,7 +1162,7 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 #ifdef HAVE_NEPOMUK
 KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk::Query::Term& term)
 {
-    const Nepomuk::Query::Query query(term);
+    const Nepomuk::Query::FileQuery query(term);
     return query.toSearchUrl();
 }
 #endif
