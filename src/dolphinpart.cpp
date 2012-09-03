@@ -61,7 +61,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     Q_UNUSED(args)
     setComponentData(DolphinPartFactory::componentData(), false);
     m_extension = new DolphinPartBrowserExtension(this);
-    new DolphinPartFileInfoExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
     KIconLoader::global()->addAppDir("dolphin");
@@ -115,6 +114,11 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updatePasteAction()));
+
+    // Create file info and listing filter extensions.
+    // NOTE: Listing filter needs to be instantiated after the creation of the view.
+    new DolphinPartFileInfoExtension(this);
+    new DolphinPartListingFilterExtension(this);
 
     createActions();
     m_actionHandler->updateViewActions();
@@ -645,6 +649,61 @@ KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::
     }
 
     return list;
+}
+
+DolphinPartListingFilterExtension::DolphinPartListingFilterExtension (DolphinPart* part)
+    : KParts::ListingFilterExtension(part)
+      , m_part(part)
+{
+}
+
+KParts::ListingFilterExtension::FilterModes DolphinPartListingFilterExtension::supportedFilterModes() const
+{
+    return (KParts::ListingFilterExtension::MimeType |
+            KParts::ListingFilterExtension::SubString |
+            KParts::ListingFilterExtension::WildCard);
+}
+
+bool DolphinPartListingFilterExtension::supportsMultipleFilters (KParts::ListingFilterExtension::FilterMode mode) const
+{
+    if (mode == KParts::ListingFilterExtension::MimeType)
+        return true;
+
+    return false;
+}
+
+QVariant DolphinPartListingFilterExtension::filter (KParts::ListingFilterExtension::FilterMode mode) const
+{
+    QVariant result;
+
+    switch (mode) {
+    case KParts::ListingFilterExtension::MimeType:
+        result = m_part->view()->mimeTypeFilters();
+        break;
+    case KParts::ListingFilterExtension::SubString:
+    case KParts::ListingFilterExtension::WildCard:
+        result = m_part->view()->nameFilter();
+        break;
+    default:
+      break;
+    }
+
+    return result;
+}
+
+void DolphinPartListingFilterExtension::setFilter (KParts::ListingFilterExtension::FilterMode mode, const QVariant& filter)
+{
+    switch (mode) {
+    case KParts::ListingFilterExtension::MimeType:
+        m_part->view()->setMimeTypeFilters(filter.toStringList());
+        break;
+    case KParts::ListingFilterExtension::SubString:
+    case KParts::ListingFilterExtension::WildCard:
+        m_part->view()->setNameFilter(filter.toString());
+        break;
+    default:
+      break;
+    }
 }
 
 #include "dolphinpart.moc"

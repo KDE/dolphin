@@ -508,46 +508,64 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
 {
     if (m_filter.pattern() != nameFilter) {
         dispatchPendingItemsToInsert();
-
         m_filter.setPattern(nameFilter);
-
-        // Check which shown items from m_itemData must get
-        // hidden and hence moved to m_filteredItems.
-        KFileItemList newFilteredItems;
-
-        foreach (ItemData* itemData, m_itemData) {
-            if (!m_filter.matches(itemData->item)) {
-                // Only filter non-expanded items as child items may never
-                // exist without a parent item
-                if (!itemData->values.value("isExpanded").toBool()) {
-                    newFilteredItems.append(itemData->item);
-                    m_filteredItems.insert(itemData->item);
-                }
-            }
-        }
-
-        removeItems(newFilteredItems);
-
-        // Check which hidden items from m_filteredItems should
-        // get visible again and hence removed from m_filteredItems.
-        KFileItemList newVisibleItems;
-
-        QMutableSetIterator<KFileItem> it(m_filteredItems);
-        while (it.hasNext()) {
-            const KFileItem item = it.next();
-            if (m_filter.matches(item)) {
-                newVisibleItems.append(item);
-                it.remove();
-            }
-        }
-
-        insertItems(newVisibleItems);
+        applyFilters();
     }
 }
 
 QString KFileItemModel::nameFilter() const
 {
     return m_filter.pattern();
+}
+
+void KFileItemModel::setMimeTypeFilters(const QStringList& filters)
+{
+    if (m_filter.mimeTypes() != filters) {
+        dispatchPendingItemsToInsert();
+        m_filter.setMimeTypes(filters);
+        applyFilters();
+    }
+}
+
+QStringList KFileItemModel::mimeTypeFilters() const
+{
+    return m_filter.mimeTypes();
+}
+
+
+void KFileItemModel::applyFilters()
+{
+    // Check which shown items from m_itemData must get
+    // hidden and hence moved to m_filteredItems.
+    KFileItemList newFilteredItems;
+
+    foreach (ItemData* itemData, m_itemData) {
+        // Only filter non-expanded items as child items may never
+        // exist without a parent item
+        if (!itemData->values.value("isExpanded").toBool()) {
+            if (!m_filter.matches(itemData->item)) {
+                newFilteredItems.append(itemData->item);
+                m_filteredItems.insert(itemData->item);
+            }
+        }
+    }
+
+    removeItems(newFilteredItems);
+
+    // Check which hidden items from m_filteredItems should
+    // get visible again and hence removed from m_filteredItems.
+    KFileItemList newVisibleItems;
+
+    QMutableSetIterator<KFileItem> it(m_filteredItems);
+    while (it.hasNext()) {
+        const KFileItem item = it.next();
+        if (m_filter.matches(item)) {
+            newVisibleItems.append(item);
+            it.remove();
+        }
+    }
+
+    insertItems(newVisibleItems);
 }
 
 QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
@@ -729,10 +747,10 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
         }
     }
 
-    if (m_filter.pattern().isEmpty()) {
+    if (!m_filter.hasSetFilters()) {
         m_pendingItemsToInsert.append(items);
     } else {
-        // The name-filter is active. Hide filtered items
+        // The name or type filter is active. Hide filtered items
         // before inserting them into the model and remember
         // the filtered items in m_filteredItems.
         KFileItemList filteredItems;

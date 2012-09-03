@@ -510,6 +510,16 @@ QString DolphinView::nameFilter() const
     return m_model->nameFilter();
 }
 
+void DolphinView::setMimeTypeFilters(const QStringList& filters)
+{
+    return m_model->setMimeTypeFilters(filters);
+}
+
+QStringList DolphinView::mimeTypeFilters() const
+{
+    return m_model->mimeTypeFilters();
+}
+
 QString DolphinView::statusBarText() const
 {
     QString summary;

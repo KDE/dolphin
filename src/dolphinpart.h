@@ -23,6 +23,7 @@
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
+#include <kparts/listingextension.h>
 
 #include <QItemSelectionModel>
 
@@ -279,6 +280,21 @@ public:
     virtual KFileItemList queryFor(QueryMode mode) const;
 protected:
     DolphinPart* part() const;
+};
+
+class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
+{
+    Q_OBJECT
+
+public:
+    DolphinPartListingFilterExtension (DolphinPart* part);
+    virtual FilterModes supportedFilterModes() const;
+    virtual bool supportsMultipleFilters (FilterMode mode) const;
+    virtual QVariant filter (FilterMode mode) const;
+    virtual void setFilter (FilterMode mode, const QVariant& filter);
+
+private:
+    DolphinPart* m_part;
 };
 
 #endif /* DOLPHINPART_H */

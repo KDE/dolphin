@@ -238,6 +238,14 @@ public:
     QString nameFilter() const;
 
     /**
+     * Filters the currently shown items by \a filters. All items
+     * whose content-type matches those given by the list of filters
+     * will be shown.
+     */
+    void setMimeTypeFilters(const QStringList& filters);
+    QStringList mimeTypeFilters() const;
+
+    /**
      * Returns a textual representation of the state of the current
      * folder or selected items, suitable for use in the status bar.
      */

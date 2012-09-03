@@ -22,7 +22,7 @@
 #define KFILEITEMMODELFILTER_H
 
 #include <libdolphin_export.h>
-#include <QString>
+#include <QStringList>
 
 class KFileItem;
 class QRegExp;
@@ -52,18 +52,41 @@ public:
     QString pattern() const;
 
     /**
+     * Set the list of mimetypes that are used for comparison with the
+     * item in KFileItemModelFilter::matchesMimeType.
+     */
+    void setMimeTypes(const QStringList& types);
+    QStringList mimeTypes() const;
+
+    /**
+     * @return True if either the pattern or mimetype filters has been set.
+     */
+    bool hasSetFilters() const;
+
+    /**
      * @return True if the item matches with the pattern defined by
-     *         KFileItemModelFilter::setPattern().
+     *         @ref setPattern() or @ref setMimeTypes
      */
     bool matches(const KFileItem& item) const;
 
 private:
+    /**
+     * @return True if item matches pattern set by @ref setPattern.
+     */
+    bool matchesPattern(const KFileItem& item) const;
+
+    /**
+     * @return True if item matches mimetypes set by @ref setMimeTypes.
+     */
+    bool matchesType(const KFileItem& item) const;
+
     bool m_useRegExp;           // If true, m_regExp is used for filtering,
                                 // otherwise m_lowerCaseFilter is used.
     QRegExp* m_regExp;
     QString m_lowerCasePattern; // Lowercase version of m_filter for
                                 // faster comparison in matches().
-    QString m_pattern;          // Property set by setFilter().
+    QString m_pattern;          // Property set by setPattern().
+    QStringList m_mimeTypes;    // Property set by setMimeTypes()
 };
 #endif
 
