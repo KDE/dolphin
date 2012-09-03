@@ -179,6 +179,9 @@ public:
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
 
+    void setMimeTypeFilters(const QStringList& filters);
+    QStringList mimeTypeFilters() const;
+
     struct RoleInfo
     {   QByteArray role;
         QString translation;
@@ -387,6 +390,11 @@ private:
      * sortProgress signal with a percent-value of the progress.
      */
     void emitSortProgress(int resolvedCount);
+
+    /**
+     * Applies the filters set through @ref setNameFilter and @ref setMimeTypeFilters.
+     */
+    void applyFilters();
 
     /**
      * Maps the QByteArray-roles to RoleTypes and provides translation- and
