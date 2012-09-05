@@ -45,6 +45,8 @@
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/private/kfileitemmodeldirlister.h"
 
 #include <QActionGroup>
 #include <QApplication>
@@ -120,6 +122,15 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     new DolphinPartFileInfoExtension(this);
     new DolphinPartListingFilterExtension(this);
 
+    KDirLister* lister = m_view->m_model->m_dirLister;
+    if (lister) {
+        DolphinPartListingNotificationExtension* notifyExt = new DolphinPartListingNotificationExtension(this);
+        connect(lister, SIGNAL(newItems(KFileItemList)), notifyExt, SLOT(slotNewItems(KFileItemList)));
+        connect(lister, SIGNAL(itemsDeleted(KFileItemList)), notifyExt, SLOT(slotItemsDeleted(KFileItemList)));
+    } else {
+        kWarning() << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
+    }
+
     createActions();
     m_actionHandler->updateViewActions();
     slotSelectionChanged(KFileItemList()); // initially disable selection-dependent actions
@@ -128,7 +139,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // (sort of spacial navigation)
 
     loadPlugins(this, this, componentData());
-
 }
 
 DolphinPart::~DolphinPart()
@@ -704,6 +714,29 @@ void DolphinPartListingFilterExtension::setFilter (KParts::ListingFilterExtensio
     default:
       break;
     }
+}
+
+////
+
+DolphinPartListingNotificationExtension::DolphinPartListingNotificationExtension(DolphinPart* part)
+    :KParts::ListingNotificationExtension(part)
+{
+}
+
+KParts::ListingNotificationExtension::NotificationEventTypes DolphinPartListingNotificationExtension::supportedNotificationEventTypes() const
+{
+    return (KParts::ListingNotificationExtension::ItemsAdded |
+            KParts::ListingNotificationExtension::ItemsDeleted);
+}
+
+void DolphinPartListingNotificationExtension::slotNewItems(const KFileItemList& items)
+{
+    emit listingEvent(KParts::ListingNotificationExtension::ItemsAdded, items);
+}
+
+void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemList& items)
+{
+    emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
 
 #include "dolphinpart.moc"

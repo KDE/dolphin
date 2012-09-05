@@ -764,6 +764,7 @@ private:
     // For unit tests
     friend class TestBase;
     friend class DolphinDetailsViewTest;
+    friend class DolphinPart;                   // Accesses m_model
 };
 
 /// Allow using DolphinView::Mode in QVariant
