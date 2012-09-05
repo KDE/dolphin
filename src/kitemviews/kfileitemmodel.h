@@ -475,6 +475,7 @@ private:
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
     friend class KFileItemListViewTest;        // For unit testing
+    friend class DolphinPart;                  // Accesses m_dirLister
 };
 
 inline bool KFileItemModel::isChildItem(int index) const

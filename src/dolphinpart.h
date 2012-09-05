@@ -297,4 +297,17 @@ private:
     DolphinPart* m_part;
 };
 
+class DolphinPartListingNotificationExtension : public KParts::ListingNotificationExtension
+{
+    Q_OBJECT
+
+public:
+    DolphinPartListingNotificationExtension(DolphinPart* part);
+    virtual NotificationEventTypes supportedNotificationEventTypes() const;
+
+public Q_SLOTS:
+   void slotNewItems(const KFileItemList&);
+   void slotItemsDeleted(const KFileItemList&);
+};
+
 #endif /* DOLPHINPART_H */
