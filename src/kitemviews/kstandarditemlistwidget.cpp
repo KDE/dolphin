@@ -68,6 +68,14 @@ QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemList
         const qreal maxWidth = itemWidth - 2 * option.padding;
         QTextLine line;
 
+        int emptyRolesCount = 0;
+        foreach (const QByteArray& role, view->visibleRoles()) {
+            const QString text = roleText(role, values);
+            if (role != "text" && role != "rating" && text.isEmpty()) {
+                emptyRolesCount++;
+            }
+        }
+
         // Calculate the number of lines required for wrapping the name
         QTextOption textOption(Qt::AlignHCenter);
         textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -84,7 +92,7 @@ QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemList
         layout.endLayout();
 
         // Add one line for each additional information
-        textHeight += additionalRolesCount * option.fontMetrics.lineSpacing();
+        textHeight += (additionalRolesCount - emptyRolesCount) * option.fontMetrics.lineSpacing();
 
         const qreal maxTextHeight = option.maxTextSize.height();
         if (maxTextHeight > 0 && textHeight > maxTextHeight) {
@@ -970,8 +978,17 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     qreal nameHeight = 0;
     QTextLine line;
 
+    int emptyRolesCount = 0;
+    foreach (const QByteArray& role, visibleRoles()) {
+        const QString text = roleText(role, values);
+        if (role != "text" && role != "rating" && text.isEmpty()) {
+            emptyRolesCount++;
+        }
+    }
+
     const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
-    const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) - additionalRolesCount;
+    const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) -
+                             (additionalRolesCount - emptyRolesCount);
 
     QTextLayout layout(nameTextInfo->staticText.text(), m_customizedFont);
     layout.setTextOption(nameTextInfo->staticText.textOption());
@@ -1005,7 +1022,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     nameTextInfo->staticText.setTextWidth(maxWidth);
     nameTextInfo->pos = QPointF(padding, widgetHeight -
                                          nameHeight -
-                                         additionalRolesCount * lineSpacing -
+                                         (additionalRolesCount - emptyRolesCount)* lineSpacing -
                                          padding);
     m_textRect = QRectF(padding + (maxWidth - nameWidth) / 2,
                         nameTextInfo->pos.y(),
@@ -1020,6 +1037,11 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
         }
 
         const QString text = roleText(role, values);
+
+        if (role != "text" && role != "rating" && text.isEmpty()) {
+            continue;
+        }
+
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
 
