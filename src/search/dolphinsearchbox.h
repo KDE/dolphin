@@ -133,8 +133,7 @@ private:
 
     void applyReadOnlyState();
 
-    void updateFacetsToggleButtonIcon();
-
+    void updateFacetsToggleButton();
 private:
     bool m_startedSearching;
     bool m_readOnly;

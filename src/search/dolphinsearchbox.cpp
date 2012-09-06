@@ -239,10 +239,9 @@ void DolphinSearchBox::slotReturnPressed(const QString& text)
 
 void DolphinSearchBox::slotFacetsButtonToggled()
 {
-    const bool visible = !m_facetsWidget->isVisible();
-    m_facetsWidget->setVisible(visible);
-    SearchSettings::setShowFacetsWidget(visible);
-    updateFacetsToggleButtonIcon();
+    const bool facetsIsVisible = !m_facetsWidget->isVisible();
+    m_facetsWidget->setVisible(facetsIsVisible);
+    updateFacetsToggleButton();
 }
 
 void DolphinSearchBox::slotFacetChanged()
@@ -281,6 +280,7 @@ void DolphinSearchBox::saveSettings()
 {
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? "FromHere" : "Everywhere");
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? "FileName" : "Content");
+    SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked() ? true : false);
     SearchSettings::self()->writeConfig();
 }
 
@@ -343,7 +343,8 @@ void DolphinSearchBox::init()
 
     // Create "Facets" widgets
     m_facetsToggleButton = new QToolButton(this);
-    m_facetsToggleButton->setAutoRaise(true);
+    m_facetsToggleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    initButton(m_facetsToggleButton);
     connect(m_facetsToggleButton, SIGNAL(clicked()), this, SLOT(slotFacetsButtonToggled()));
 
     m_facetsWidget = new DolphinFacetsWidget(this);
@@ -390,7 +391,7 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setInterval(1000);
     connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchRequest()));
 
-    updateFacetsToggleButtonIcon();
+    updateFacetsToggleButton();
     applyReadOnlyState();
 }
 
@@ -467,10 +468,12 @@ void DolphinSearchBox::applyReadOnlyState()
     }
 }
 
-void DolphinSearchBox::updateFacetsToggleButtonIcon()
+void DolphinSearchBox::updateFacetsToggleButton()
 {
-    const bool visible = SearchSettings::showFacetsWidget();
-    m_facetsToggleButton->setIcon(KIcon(visible ? "list-remove" : "list-add"));
+    const bool facetsIsVisible = SearchSettings::showFacetsWidget();
+    m_facetsToggleButton->setChecked(facetsIsVisible ? true : false);
+    m_facetsToggleButton->setIcon(KIcon(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
+    m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Less Options") : i18nc("action:button", "More Options"));
 }
 
 #include "dolphinsearchbox.moc"
