@@ -280,7 +280,7 @@ void DolphinSearchBox::saveSettings()
 {
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? "FromHere" : "Everywhere");
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? "FileName" : "Content");
-    SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked() ? true : false);
+    SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
     SearchSettings::self()->writeConfig();
 }
 
