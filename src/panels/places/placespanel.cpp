@@ -23,6 +23,8 @@
 
 #include "placespanel.h"
 
+#include "dolphin_generalsettings.h"
+
 #include <KDebug>
 #include <KDirNotify>
 #include <KIcon>
@@ -75,6 +77,14 @@ bool PlacesPanel::urlChanged()
     return true;
 }
 
+void PlacesPanel::readSettings()
+{
+    if (m_controller) {
+	const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
+	m_controller->setAutoActivationDelay(delay);
+    }
+}
+
 void PlacesPanel::showEvent(QShowEvent* event)
 {
     if (event->spontaneous()) {
@@ -98,6 +108,9 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_controller = new KItemListController(m_model, view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setSingleClickActivation(true);
+
+	readSettings();
+
         connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
         connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));

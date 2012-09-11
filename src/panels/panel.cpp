@@ -71,4 +71,9 @@ void Panel::setUrl(const KUrl& url)
     }
 }
 
+void Panel::readSettings()
+{
+
+}
+
 #include "panel.moc"

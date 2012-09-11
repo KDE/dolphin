@@ -50,6 +50,9 @@ protected:
     virtual bool urlChanged();
     virtual void showEvent(QShowEvent* event);
 
+public slots:
+    virtual void readSettings();
+
 private slots:
     void slotItemActivated(int index);
     void slotItemMiddleClicked(int index);

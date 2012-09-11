@@ -1763,6 +1763,8 @@ void DolphinMainWindow::setupDockWidgets()
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),
             this, SLOT(slotPlacesPanelVisibilityChanged(bool)));
+    connect(this, SIGNAL(settingsChanged()),
+	    placesPanel, SLOT(readSettings()));
 
     // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
@@ -1953,6 +1955,8 @@ void DolphinMainWindow::refreshViews()
             toggleSplitView();
         }
     }
+
+    emit settingsChanged();
 }
 
 void DolphinMainWindow::clearStatusBar()

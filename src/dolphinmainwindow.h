@@ -151,6 +151,11 @@ signals:
      */
     void requestItemInfo(const KFileItem& item);
 
+    /**
+     * Is emitted if the settings have been changed.
+     */
+    void settingsChanged();
+
 protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);

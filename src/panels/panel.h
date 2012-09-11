@@ -60,6 +60,11 @@ public slots:
      */
     void setUrl(const KUrl& url);
 
+    /**
+     * Refreshes the view to get synchronized with the settings.
+     */
+    virtual void readSettings();
+
 protected:
     /**
      * Must be implemented by derived classes and is invoked when
