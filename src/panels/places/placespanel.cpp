@@ -52,7 +52,10 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
     m_controller(0),
     m_model(0),
     m_storageSetupFailedUrl(),
-    m_triggerStorageSetupButton()
+    m_triggerStorageSetupButton(),
+    m_itemDropEventIndex(-1),
+    m_itemDropEventMimeData(0),
+    m_itemDropEvent(0)
 {
 }
 
@@ -268,6 +271,30 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         return;
     }
 
+    if (m_model->storageSetupNeeded(index)) {
+        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
+                this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+
+        m_itemDropEventIndex = index;
+
+        // Make a full copy of the Mime-Data
+        m_itemDropEventMimeData = new QMimeData;
+        m_itemDropEventMimeData->setText(event->mimeData()->text());
+        m_itemDropEventMimeData->setHtml(event->mimeData()->html());
+        m_itemDropEventMimeData->setUrls(event->mimeData()->urls());
+        m_itemDropEventMimeData->setImageData(event->mimeData()->imageData());
+        m_itemDropEventMimeData->setColorData(event->mimeData()->colorData());
+
+        m_itemDropEvent = new QDropEvent(event->pos().toPoint(),
+                                         event->possibleActions(),
+                                         m_itemDropEventMimeData,
+                                         event->buttons(),
+                                         event->modifiers());
+
+        m_model->requestStorageSetup(index);
+        return;
+    }
+
     KUrl destUrl = m_model->placesItem(index)->url();
     QDropEvent dropEvent(event->pos().toPoint(),
                          event->possibleActions(),
@@ -276,6 +303,27 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->modifiers());
 
     DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent);
+}
+
+void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
+{
+    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
+               this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+
+    if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
+        if (success) {
+            KUrl destUrl = m_model->placesItem(index)->url();
+
+            DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent);
+        }
+
+        delete m_itemDropEventMimeData;
+        delete m_itemDropEvent;
+
+        m_itemDropEventIndex = -1;
+        m_itemDropEventMimeData = 0;
+        m_itemDropEvent = 0;
+    }
 }
 
 void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)

@@ -56,6 +56,7 @@ private slots:
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void slotItemDropEventStorageSetupDone(int index, bool success);
     void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
     void slotTrashUpdated(KJob* job);
@@ -80,6 +81,10 @@ private:
 
     KUrl m_storageSetupFailedUrl;
     Qt::MouseButton m_triggerStorageSetupButton;
+
+    int m_itemDropEventIndex;
+    QMimeData* m_itemDropEventMimeData;
+    QDropEvent* m_itemDropEvent;
 };
 
 #endif // PLACESPANEL_H
