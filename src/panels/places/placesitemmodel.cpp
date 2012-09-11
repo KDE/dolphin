@@ -885,8 +885,7 @@ void PlacesItemModel::createSystemBookmarks()
     Q_ASSERT(m_systemBookmarks.isEmpty());
     Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
 
-    const QString timeLineIcon = "package_utility_time"; // TODO: Ask the Oxygen team to create
-                                                         // a custom icon for the timeline-protocol
+    const QString timeLineIcon = "chronometer";
 
     // Note: The context of the I18N_NOOP2 must be "KFile System Bookmarks". The real
     // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
