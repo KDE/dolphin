@@ -120,6 +120,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // Create file info and listing filter extensions.
     // NOTE: Listing filter needs to be instantiated after the creation of the view.
     new DolphinPartFileInfoExtension(this);
+
+#if KDE_IS_VERSION(4, 9, 2)
     new DolphinPartListingFilterExtension(this);
 
     KDirLister* lister = m_view->m_model->m_dirLister;
@@ -130,6 +132,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     } else {
         kWarning() << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
     }
+#endif
 
     createActions();
     m_actionHandler->updateViewActions();
@@ -661,6 +664,8 @@ KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::
     return list;
 }
 
+#if KDE_IS_VERSION(4, 9, 2)
+
 DolphinPartListingFilterExtension::DolphinPartListingFilterExtension (DolphinPart* part)
     : KParts::ListingFilterExtension(part)
       , m_part(part)
@@ -738,5 +743,7 @@ void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemLi
 {
     emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
+
+#endif
 
 #include "dolphinpart.moc"
