@@ -20,10 +20,15 @@
 #ifndef DOLPHINPART_H
 #define DOLPHINPART_H
 
+#include <kdeversion.h>
+
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
+
+#if KDE_IS_VERSION(4, 9, 2)
 #include <kparts/listingextension.h>
+#endif
 
 #include <QItemSelectionModel>
 
@@ -282,6 +287,7 @@ protected:
     DolphinPart* part() const;
 };
 
+#if KDE_IS_VERSION(4, 9, 2)
 class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
 {
     Q_OBJECT
@@ -309,5 +315,6 @@ public Q_SLOTS:
    void slotNewItems(const KFileItemList&);
    void slotItemsDeleted(const KFileItemList&);
 };
+#endif
 
 #endif /* DOLPHINPART_H */
