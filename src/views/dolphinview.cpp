@@ -1321,6 +1321,10 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
+    if (index < 0 || index >= m_model->count()) {
+        return;
+    }
+
     if (role == "text") {
         const KFileItem oldItem = m_model->fileItem(index);
         const QString newName = value.toString();
