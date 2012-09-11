@@ -263,6 +263,16 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     painter->setFont(m_customizedFont);
     painter->setPen(m_isHidden ? m_additionalInfoTextColor : textColor());
     const TextInfo* textInfo = m_textInfo.value("text");
+
+    if (!textInfo) {
+        // It seems that we can end up here even if m_textInfo does not contain
+        // the key "text", see bug 306167. According to triggerCacheRefreshing(),
+        // this can only happen if the index is negative. This can happen when
+        // the item is about to be removed, see KItemListView::slotItemsRemoved().
+        // TODO: try to reproduce the crash and find a better fix.
+        return;
+    }
+
     painter->drawStaticText(textInfo->pos, textInfo->staticText);
 
     bool clipAdditionalInfoBounds = false;
