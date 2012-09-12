@@ -20,15 +20,9 @@
 #ifndef DOLPHINPART_H
 #define DOLPHINPART_H
 
-#include <kdeversion.h>
-
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
-
-#if KDE_IS_VERSION(4, 9, 2)
-#include <kparts/listingextension.h>
-#endif
 
 #include <QItemSelectionModel>
 
@@ -286,35 +280,5 @@ public:
 protected:
     DolphinPart* part() const;
 };
-
-#if KDE_IS_VERSION(4, 9, 2)
-class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
-{
-    Q_OBJECT
-
-public:
-    DolphinPartListingFilterExtension (DolphinPart* part);
-    virtual FilterModes supportedFilterModes() const;
-    virtual bool supportsMultipleFilters (FilterMode mode) const;
-    virtual QVariant filter (FilterMode mode) const;
-    virtual void setFilter (FilterMode mode, const QVariant& filter);
-
-private:
-    DolphinPart* m_part;
-};
-
-class DolphinPartListingNotificationExtension : public KParts::ListingNotificationExtension
-{
-    Q_OBJECT
-
-public:
-    DolphinPartListingNotificationExtension(DolphinPart* part);
-    virtual NotificationEventTypes supportedNotificationEventTypes() const;
-
-public Q_SLOTS:
-   void slotNewItems(const KFileItemList&);
-   void slotItemsDeleted(const KFileItemList&);
-};
-#endif
 
 #endif /* DOLPHINPART_H */

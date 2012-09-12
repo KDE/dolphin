@@ -40,6 +40,11 @@
 #include <KMenu>
 #include <KInputDialog>
 #include <KProtocolInfo>
+#include <kdeversion.h>
+
+#if KDE_IS_VERSION(4, 9, 2)
+#include "dolphinpart_ext.h"
+#endif
 
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
@@ -663,87 +668,5 @@ KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::
 
     return list;
 }
-
-#if KDE_IS_VERSION(4, 9, 2)
-
-DolphinPartListingFilterExtension::DolphinPartListingFilterExtension (DolphinPart* part)
-    : KParts::ListingFilterExtension(part)
-      , m_part(part)
-{
-}
-
-KParts::ListingFilterExtension::FilterModes DolphinPartListingFilterExtension::supportedFilterModes() const
-{
-    return (KParts::ListingFilterExtension::MimeType |
-            KParts::ListingFilterExtension::SubString |
-            KParts::ListingFilterExtension::WildCard);
-}
-
-bool DolphinPartListingFilterExtension::supportsMultipleFilters (KParts::ListingFilterExtension::FilterMode mode) const
-{
-    if (mode == KParts::ListingFilterExtension::MimeType)
-        return true;
-
-    return false;
-}
-
-QVariant DolphinPartListingFilterExtension::filter (KParts::ListingFilterExtension::FilterMode mode) const
-{
-    QVariant result;
-
-    switch (mode) {
-    case KParts::ListingFilterExtension::MimeType:
-        result = m_part->view()->mimeTypeFilters();
-        break;
-    case KParts::ListingFilterExtension::SubString:
-    case KParts::ListingFilterExtension::WildCard:
-        result = m_part->view()->nameFilter();
-        break;
-    default:
-      break;
-    }
-
-    return result;
-}
-
-void DolphinPartListingFilterExtension::setFilter (KParts::ListingFilterExtension::FilterMode mode, const QVariant& filter)
-{
-    switch (mode) {
-    case KParts::ListingFilterExtension::MimeType:
-        m_part->view()->setMimeTypeFilters(filter.toStringList());
-        break;
-    case KParts::ListingFilterExtension::SubString:
-    case KParts::ListingFilterExtension::WildCard:
-        m_part->view()->setNameFilter(filter.toString());
-        break;
-    default:
-      break;
-    }
-}
-
-////
-
-DolphinPartListingNotificationExtension::DolphinPartListingNotificationExtension(DolphinPart* part)
-    :KParts::ListingNotificationExtension(part)
-{
-}
-
-KParts::ListingNotificationExtension::NotificationEventTypes DolphinPartListingNotificationExtension::supportedNotificationEventTypes() const
-{
-    return (KParts::ListingNotificationExtension::ItemsAdded |
-            KParts::ListingNotificationExtension::ItemsDeleted);
-}
-
-void DolphinPartListingNotificationExtension::slotNewItems(const KFileItemList& items)
-{
-    emit listingEvent(KParts::ListingNotificationExtension::ItemsAdded, items);
-}
-
-void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemList& items)
-{
-    emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
-}
-
-#endif
 
 #include "dolphinpart.moc"
