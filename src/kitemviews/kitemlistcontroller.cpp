@@ -467,7 +467,16 @@ void KItemListController::slotAutoActivationTimeout()
         return;
     }
 
-    if (m_model->supportsDropping(index)) {
+    /* m_view->isUnderMouse() fixes a bug in the Folder-View-Panel and in the
+     * Places-Panel.
+     *
+     * Bug: When you drag a file onto a Folder-View-Item or a Places-Item and
+     * then move away before the auto-activation timeout triggers, than the
+     * item still becomes activated/expanded.
+     *
+     * See Bug 293200 and 305783
+     */
+    if (m_model->supportsDropping(index) && m_view->isUnderMouse()) {
         if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
