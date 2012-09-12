@@ -635,7 +635,7 @@ void DolphinView::renameSelectedItems()
          return;
      }
 
-     if (items.count() == 1) {
+     if (items.count() == 1 && GeneralSettings::renameInline()) {
          const int index = m_model->index(items.first());
          m_view->editRole(index, "text");
      } else {
