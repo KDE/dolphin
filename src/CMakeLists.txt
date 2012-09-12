@@ -131,6 +131,13 @@ set(dolphinpart_SRCS
    dolphinpart.cpp
 )
 
+# Add dolphinpart_ext.cpp conditionally, only with KDE > 4.9.1.
+if (${KDE_VERSION} VERSION_GREATER "4.9.1")
+set(dolphinpart_SRCS
+    ${dolphinpart_SRCS}
+    dolphinpart_ext.cpp)
+endif (${KDE_VERSION} VERSION_GREATER "4.9.1")
+
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
 target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS})
