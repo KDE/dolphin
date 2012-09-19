@@ -64,12 +64,18 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListController : public QObject
     Q_PROPERTY(KItemModelBase* model READ model WRITE setModel)
     Q_PROPERTY(KItemListView *view READ view WRITE setView)
     Q_PROPERTY(SelectionBehavior selectionBehavior READ selectionBehavior WRITE setSelectionBehavior)
+    Q_PROPERTY(AutoActivationBehavior autoActivationBehavior READ autoActivationBehavior WRITE setAutoActivationBehavior)
 
 public:
     enum SelectionBehavior {
         NoSelection,
         SingleSelection,
         MultiSelection
+    };
+
+    enum AutoActivationBehavior {
+        ActivationAndExpansion,
+        ExpansionOnly
     };
 
     /**
@@ -90,6 +96,9 @@ public:
 
     void setSelectionBehavior(SelectionBehavior behavior);
     SelectionBehavior selectionBehavior() const;
+
+    void setAutoActivationBehavior(AutoActivationBehavior behavior);
+    AutoActivationBehavior autoActivationBehavior() const;
 
     /**
      * Sets the delay in milliseconds when dragging an object above an item
@@ -287,6 +296,7 @@ private:
     bool m_selectionTogglePressed;
     bool m_clearSelectionIfItemsAreNotDragged;
     SelectionBehavior m_selectionBehavior;
+    AutoActivationBehavior m_autoActivationBehavior;
     KItemModelBase* m_model;
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;

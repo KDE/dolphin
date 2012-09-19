@@ -47,6 +47,7 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_selectionTogglePressed(false),
     m_clearSelectionIfItemsAreNotDragged(false),
     m_selectionBehavior(NoSelection),
+    m_autoActivationBehavior(ActivationAndExpansion),
     m_model(0),
     m_view(0),
     m_selectionManager(new KItemListSelectionManager(this)),
@@ -155,6 +156,16 @@ void KItemListController::setSelectionBehavior(SelectionBehavior behavior)
 KItemListController::SelectionBehavior KItemListController::selectionBehavior() const
 {
     return m_selectionBehavior;
+}
+
+void KItemListController::setAutoActivationBehavior(AutoActivationBehavior behavior)
+{
+    m_autoActivationBehavior = behavior;
+}
+
+KItemListController::AutoActivationBehavior KItemListController::autoActivationBehavior() const
+{
+    return m_autoActivationBehavior;
 }
 
 void KItemListController::setAutoActivationDelay(int delay)
@@ -471,7 +482,7 @@ void KItemListController::slotAutoActivationTimeout()
         if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
-        } else {
+        } else if (m_autoActivationBehavior != ExpansionOnly) {
             emit itemActivated(index);
         }
     }
