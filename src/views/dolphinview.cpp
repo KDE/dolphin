@@ -753,6 +753,20 @@ void DolphinView::hideEvent(QHideEvent* event)
     QWidget::hideEvent(event);
 }
 
+bool DolphinView::event(QEvent* event)
+{
+    /* See Bug 297355
+     * Dolphin leaves file preview tooltips open even when is not visible.
+     *
+     * Hide tool-tip when Dolphin loses focus.
+     */
+    if (event->type() == QEvent::WindowDeactivate) {
+        hideToolTip();
+    }
+
+    return QWidget::event(event);
+}
+
 void DolphinView::activate()
 {
     setActive(true);
