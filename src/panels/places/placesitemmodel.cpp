@@ -659,11 +659,22 @@ void PlacesItemModel::updateBookmarks()
             }
 
             if (!found) {
-                PlacesItem* item = new PlacesItem(newBookmark);
-                if (item->isHidden() && !m_hiddenItemsShown) {
-                    m_bookmarkedItems.append(item);
-                } else {
-                    appendItemToGroup(item);
+                const QString udi = newBookmark.metaDataItem("UDI");
+
+                /*
+                 * See Bug 304878
+                 * Only add a new places item, if the item text is not empty
+                 * and if the device is available. Fixes the strange behaviour -
+                 * add a places item without text in the Places section - when you
+                 * remove a device (e.g. a usb stick) without unmounting.
+                 */
+                if (udi.isEmpty() || Solid::Device(udi).isValid()) {
+                    PlacesItem* item = new PlacesItem(newBookmark);
+                    if (item->isHidden() && !m_hiddenItemsShown) {
+                        m_bookmarkedItems.append(item);
+                    } else {
+                        appendItemToGroup(item);
+                    }
                 }
             }
         }
