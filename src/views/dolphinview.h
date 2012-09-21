@@ -532,6 +532,7 @@ protected:
 
     /** @reimp */
     virtual void hideEvent(QHideEvent* event);
+    virtual bool event(QEvent* event);
 
 private slots:
     /**

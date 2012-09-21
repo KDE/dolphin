@@ -47,6 +47,8 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_selectionTogglePressed(false),
     m_clearSelectionIfItemsAreNotDragged(false),
     m_selectionBehavior(NoSelection),
+    m_autoActivationBehavior(ActivationAndExpansion),
+    m_mouseDoubleClickAction(ActivateItemOnly),
     m_model(0),
     m_view(0),
     m_selectionManager(new KItemListSelectionManager(this)),
@@ -155,6 +157,26 @@ void KItemListController::setSelectionBehavior(SelectionBehavior behavior)
 KItemListController::SelectionBehavior KItemListController::selectionBehavior() const
 {
     return m_selectionBehavior;
+}
+
+void KItemListController::setAutoActivationBehavior(AutoActivationBehavior behavior)
+{
+    m_autoActivationBehavior = behavior;
+}
+
+KItemListController::AutoActivationBehavior KItemListController::autoActivationBehavior() const
+{
+    return m_autoActivationBehavior;
+}
+
+void KItemListController::setMouseDoubleClickAction(MouseDoubleClickAction action)
+{
+    m_mouseDoubleClickAction = action;
+}
+
+KItemListController::MouseDoubleClickAction KItemListController::mouseDoubleClickAction() const
+{
+    return m_mouseDoubleClickAction;
 }
 
 void KItemListController::setAutoActivationDelay(int delay)
@@ -480,7 +502,7 @@ void KItemListController::slotAutoActivationTimeout()
         if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
-        } else {
+        } else if (m_autoActivationBehavior != ExpansionOnly) {
             emit itemActivated(index);
         }
     }
@@ -752,6 +774,14 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
 {
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
+
+    // Expand item if desired - See Bug 295573
+    if (m_mouseDoubleClickAction != ActivateItemOnly) {
+        if (m_view && m_model && m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
+            const bool expanded = m_model->isExpanded(index);
+            m_model->setExpanded(index, !expanded);
+        }
+    }
 
     bool emitItemActivated = !m_singleClickActivation &&
                              (event->button() & Qt::LeftButton) &&

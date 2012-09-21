@@ -159,6 +159,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
     }
 
     m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
+    m_konsolePartCurrentDirectory = dir;
 
     if (m_clearTerminal) {
         m_terminal->sendInput(" clear\n");

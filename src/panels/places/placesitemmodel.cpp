@@ -659,11 +659,22 @@ void PlacesItemModel::updateBookmarks()
             }
 
             if (!found) {
-                PlacesItem* item = new PlacesItem(newBookmark);
-                if (item->isHidden() && !m_hiddenItemsShown) {
-                    m_bookmarkedItems.append(item);
-                } else {
-                    appendItemToGroup(item);
+                const QString udi = newBookmark.metaDataItem("UDI");
+
+                /*
+                 * See Bug 304878
+                 * Only add a new places item, if the item text is not empty
+                 * and if the device is available. Fixes the strange behaviour -
+                 * add a places item without text in the Places section - when you
+                 * remove a device (e.g. a usb stick) without unmounting.
+                 */
+                if (udi.isEmpty() || Solid::Device(udi).isValid()) {
+                    PlacesItem* item = new PlacesItem(newBookmark);
+                    if (item->isHidden() && !m_hiddenItemsShown) {
+                        m_bookmarkedItems.append(item);
+                    } else {
+                        appendItemToGroup(item);
+                    }
                 }
             }
         }
@@ -885,8 +896,7 @@ void PlacesItemModel::createSystemBookmarks()
     Q_ASSERT(m_systemBookmarks.isEmpty());
     Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
 
-    const QString timeLineIcon = "package_utility_time"; // TODO: Ask the Oxygen team to create
-                                                         // a custom icon for the timeline-protocol
+    const QString timeLineIcon = "chronometer";
 
     // Note: The context of the I18N_NOOP2 must be "KFile System Bookmarks". The real
     // i18nc call is done after reading the bookmark. The reason why the i18nc call is not

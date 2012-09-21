@@ -635,7 +635,7 @@ void DolphinView::renameSelectedItems()
          return;
      }
 
-     if (items.count() == 1) {
+     if (items.count() == 1 && GeneralSettings::renameInline()) {
          const int index = m_model->index(items.first());
          m_view->editRole(index, "text");
      } else {
@@ -751,6 +751,20 @@ void DolphinView::hideEvent(QHideEvent* event)
 {
     hideToolTip();
     QWidget::hideEvent(event);
+}
+
+bool DolphinView::event(QEvent* event)
+{
+    /* See Bug 297355
+     * Dolphin leaves file preview tooltips open even when is not visible.
+     *
+     * Hide tool-tip when Dolphin loses focus.
+     */
+    if (event->type() == QEvent::WindowDeactivate) {
+        hideToolTip();
+    }
+
+    return QWidget::event(event);
 }
 
 void DolphinView::activate()
@@ -1329,6 +1343,10 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
+    if (index < 0 || index >= m_model->count()) {
+        return;
+    }
+
     if (role == "text") {
         const KFileItem oldItem = m_model->fileItem(index);
         const QString newName = value.toString();
