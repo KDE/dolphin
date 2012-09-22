@@ -73,6 +73,10 @@ public:
 
 protected:
     virtual void modelReset();
+    /**
+     * Create an QAccessibleTable2CellInterface representing the table
+     * cell at the @index. Index is 0-based.
+     */
     inline QAccessibleTable2CellInterface* cell(int index) const;
     inline QAccessible::Role cellRole() const;
 };
