@@ -46,7 +46,7 @@ QVariant KItemListViewAccessible::invokeMethodEx(Method, int, const QVariantList
 
 QAccessibleTable2CellInterface* KItemListViewAccessible::cellAt(int row, int column) const
 {
-    return cell(column * (row-1) + column) ;
+    return cell(column*row + column + 1);
 }
 
 QAccessibleInterface* KItemListViewAccessible::caption() const
