@@ -418,16 +418,6 @@ int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessi
     case Child: {
         return -1;
     }
-    case Sibling:
-        if (index > 0) {
-            QAccessibleInterface* parent = queryAccessibleInterface(m_view);
-            int ret = parent->navigate(QAccessible::Child, index, iface);
-            delete parent;
-            if (*iface) {
-                return ret;
-            }
-        }
-        return -1;
     default:
         break;
     }
