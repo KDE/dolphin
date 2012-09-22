@@ -275,6 +275,11 @@ public:
      */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
+    /**
+     * @return The Layouter for the view
+     */
+    KItemListViewLayouter* layouter() const;
+
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void scrollOffsetChanged(qreal current, qreal previous);

@@ -20,6 +20,7 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kfileitemlistview.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemlistview.cpp
+    ../kitemviews/kitemlistviewaccessible.cpp
 )
 kde4_add_unit_test(kitemlistcontrollertest TEST ${kitemlistcontrollertest_SRCS})
 target_link_libraries(kitemlistcontrollertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
@@ -32,6 +33,7 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kfileitemlistview.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemlistview.cpp
+    ../kitemviews/kitemlistviewaccessible.cpp
 )
 kde4_add_unit_test(kfileitemlistviewtest TEST ${kfileitemlistviewtest_SRCS})
 target_link_libraries(kfileitemlistviewtest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})

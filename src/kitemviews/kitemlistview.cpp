@@ -43,6 +43,8 @@
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 
+#include "kitemlistviewaccessible.h"
+
 namespace {
     // Time in ms until reaching the autoscroll margin triggers
     // an initial autoscrolling
@@ -51,6 +53,20 @@ namespace {
     // Delay in ms for triggering the next autoscroll
     const int RepeatingAutoScrollDelay = 1000 / 60;
 }
+
+#ifndef QT_NO_ACCESSIBILITY
+QAccessibleInterface* accessibleInterfaceFactory(const QString &key, QObject *object)
+{
+    Q_UNUSED(key)
+    if (KItemListContainer*view = qobject_cast<KItemListContainer*>(object)) {
+        return new KItemListContainerAccessible(view);
+    }
+    if (KItemListView *view = qobject_cast<KItemListView*>(object)) {
+        return new KItemListViewAccessible(view);
+    }
+    return 0;
+}
+#endif
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
@@ -110,6 +126,11 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_headerWidget->setVisible(false);
 
     m_header = new KItemListHeader(this);
+
+#ifndef QT_NO_ACCESSIBILITY
+    QAccessible::installFactory(accessibleInterfaceFactory);
+#endif
+
 }
 
 KItemListView::~KItemListView()
@@ -639,6 +660,11 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         painter->setPen(color);
         painter->drawRect(r.left(), r.top() - 1, r.width() - 1, 2);
     }
+}
+
+KItemListViewLayouter* KItemListView::layouter() const
+{
+    return m_layouter;
 }
 
 void KItemListView::setItemSize(const QSizeF& size)
@@ -1251,6 +1277,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     if (currentWidget) {
         currentWidget->setCurrent(true);
     }
+    QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
 }
 
 void KItemListView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)

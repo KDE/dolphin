@@ -29,12 +29,13 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistselectionmanager.cpp
     kitemviews/kitemliststyleoption.cpp
     kitemviews/kitemlistview.cpp
+    kitemviews/kitemlistviewaccessible.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kstandarditem.cpp
     kitemviews/kstandarditemlistgroupheader.cpp
-    kitemviews/kstandarditemlistview.cpp
     kitemviews/kstandarditemlistwidget.cpp
+    kitemviews/kstandarditemlistview.cpp
     kitemviews/kstandarditemmodel.cpp
     kitemviews/private/kfileitemclipboard.cpp
     kitemviews/private/kfileitemmodeldirlister.cpp
