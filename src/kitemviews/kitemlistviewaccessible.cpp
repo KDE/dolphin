@@ -66,8 +66,14 @@ int KItemListViewAccessible::columnCount() const
 
 int KItemListViewAccessible::rowCount() const
 {
+    if(columnCount()<=0) {
+        return 0;
+    }
     int itemCount = view()->model()->count();
     int rowCount = itemCount / columnCount();
+    if(rowCount <= 0){
+        return 0;
+    }
     if (itemCount % rowCount) {
         ++rowCount;
     }
@@ -257,7 +263,7 @@ KItemListAccessibleCell::KItemListAccessibleCell(KItemListView* view, int index)
     m_view(view),
     m_index(index)
 {
-    Q_ASSERT(index > 0);
+    Q_ASSERT(index >= 0);
 }
 
 int KItemListAccessibleCell::columnExtent() const
