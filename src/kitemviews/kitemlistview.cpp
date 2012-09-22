@@ -55,9 +55,12 @@ namespace {
 }
 
 #ifndef QT_NO_ACCESSIBILITY
-QAccessibleInterface* accessibleViewFactory(const QString &key, QObject *object)
+QAccessibleInterface* accessibleInterfaceFactory(const QString &key, QObject *object)
 {
     Q_UNUSED(key)
+    if (KItemListContainer*view = qobject_cast<KItemListContainer*>(object)) {
+        return new KItemListContainerAccessible(view);
+    }
     if (KItemListView *view = qobject_cast<KItemListView*>(object)) {
         return new KItemListViewAccessible(view);
     }
@@ -125,7 +128,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_header = new KItemListHeader(this);
 
 #ifndef QT_NO_ACCESSIBILITY
-    QAccessible::installFactory(accessibleViewFactory);
+    QAccessible::installFactory(accessibleInterfaceFactory);
 #endif
 
 }
