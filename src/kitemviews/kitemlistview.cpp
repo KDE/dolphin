@@ -662,11 +662,6 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 }
 
-KItemListViewLayouter* KItemListView::layouter() const
-{
-    return m_layouter;
-}
-
 void KItemListView::setItemSize(const QSizeF& size)
 {
     const QSizeF previousSize = m_itemSize;
@@ -1215,6 +1210,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             doLayout(NoAnimation);
         }
     }
+    QAccessible::updateAccessibility(this, 0, QAccessible::TableModelChanged);
 }
 
 void KItemListView::slotGroupedSortingChanged(bool current)

@@ -33,7 +33,6 @@ QAccessible::Role KItemListViewAccessible::cellRole() const
 
 QAccessibleTable2CellInterface* KItemListViewAccessible::cell(int index) const
 {
-    Q_ASSERT(index >= 0 && index < view()->model()->count());
     if (index < 0 || index >= view()->model()->count())
         return 0;
     return new KItemListAccessibleCell(view(), index);
@@ -62,12 +61,12 @@ QString KItemListViewAccessible::columnDescription(int) const
 
 int KItemListViewAccessible::columnCount() const
 {
-    return view()->layouter()->columnCount();
+    return view()->m_layouter->columnCount();
 }
 
 int KItemListViewAccessible::rowCount() const
 {
-    if(columnCount()<=0) {
+    if(columnCount() <= 0) {
         return 0;
     }
     int itemCount = view()->model()->count();
@@ -158,6 +157,8 @@ bool KItemListViewAccessible::unselectColumn(int)
 QAccessible2::TableModelChange KItemListViewAccessible::modelChange() const
 {
     QAccessible2::TableModelChange change;
+    change.lastRow = rowCount();
+    change.lastColumn = columnCount();
     return change;
 }
 
@@ -289,12 +290,12 @@ QList<QAccessibleInterface*> KItemListAccessibleCell::columnHeaderCells() const
 
 int KItemListAccessibleCell::columnIndex() const
 {
-    return m_view->layouter()->itemColumn(m_index);
+    return m_view->m_layouter->itemColumn(m_index);
 }
 
 int KItemListAccessibleCell::rowIndex() const
 {
-    return m_view->layouter()->itemRow(m_index);
+    return m_view->m_layouter->itemRow(m_index);
 }
 
 bool KItemListAccessibleCell::isSelected() const
@@ -304,7 +305,7 @@ bool KItemListAccessibleCell::isSelected() const
 
 void KItemListAccessibleCell::rowColumnExtents(int* row, int* column, int* rowExtents, int* columnExtents, bool* selected) const
 {
-    KItemListViewLayouter* layouter = m_view->layouter();
+    KItemListViewLayouter* layouter = m_view->m_layouter;
     *row = layouter->itemRow(m_index);
     *column = layouter->itemColumn(m_index);
     *rowExtents = 1;
@@ -342,12 +343,20 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
         state |= MultiSelectable;
     }
 
+    if (m_view->model()->isExpandable(m_index)) {
+        if(m_view->model()->isExpanded(m_index)) {
+            state |= Expanded;
+        }
+        else {
+            state |= Collapsed;
+        }
+    }
     return state;
 }
 
 bool KItemListAccessibleCell::isExpandable() const
 {
-    return false;
+    return m_view->model()->isExpandable(m_index);
 }
 
 QRect KItemListAccessibleCell::rect(int) const
@@ -398,6 +407,7 @@ int KItemListAccessibleCell::childCount() const
 
 int KItemListAccessibleCell::indexOfChild(const QAccessibleInterface* child) const
 {
+    Q_UNUSED(child);
     return -1;
 }
 

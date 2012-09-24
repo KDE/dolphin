@@ -275,11 +275,6 @@ public:
      */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
-    /**
-     * @return The Layouter for the view
-     */
-    KItemListViewLayouter* layouter() const;
-
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void scrollOffsetChanged(qreal current, qreal previous);
@@ -747,6 +742,8 @@ private:
     friend class KItemListHeader;    // Accesses m_headerWidget
     friend class KItemListController;
     friend class KItemListControllerTest;
+    friend class KItemListViewAccessible;
+    friend class KItemListAccessibleCell;
 };
 
 /**
