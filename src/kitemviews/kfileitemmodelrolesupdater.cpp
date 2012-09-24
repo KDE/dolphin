@@ -595,6 +595,13 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk::Resourc
 #ifdef HAVE_NEPOMUK
     const KUrl itemUrl = m_nepomukUriItems.value(resource.resourceUri());
     const KFileItem item = m_model->fileItem(itemUrl);
+
+    if (item.isNull()) {
+        // itemUrl is not in the model anymore, probably because
+        // the corresponding file has been deleted in the meantime.
+        return;
+    }
+
     QHash<QByteArray, QVariant> data = rolesData(item);
 
     const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
