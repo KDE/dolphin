@@ -66,7 +66,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
-    m_zoomSlider->setAccessibleName(i18n("Zoom slider"));
+    m_zoomSlider->setAccessibleName(i18n("Zoom"));
+    m_zoomSlider->setAccessibleDescription(i18nc("Description for zoom-slider (accessibility)", "Sets the size of the file icons."));
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setRange(ZoomLevelInfo::minimumLevel(), ZoomLevelInfo::maximumLevel());
 
