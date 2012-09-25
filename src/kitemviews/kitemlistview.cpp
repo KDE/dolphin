@@ -846,6 +846,8 @@ bool KItemListView::event(QEvent* event)
         event->accept();
         return true;
     }
+    // Make sure events unconsumed events get propagated up the chain. #302329
+    event->ignore();
     return QGraphicsWidget::event(event);
 }
 
