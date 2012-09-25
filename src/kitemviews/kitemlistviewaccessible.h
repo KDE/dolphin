@@ -1,22 +1,21 @@
-#ifndef ACCESSIBLE_ITEMVIEWS_H
-#define ACCESSIBLE_ITEMVIEWS_H
+#ifndef KITEMLISTVIEWACCESSIBLE_H
+#define KITEMLISTVIEWACCESSIBLE_H
 
-#include "QtCore/qpointer.h"
+#include <QtCore/qpointer.h>
 #include <QtGui/qaccessible.h>
 #include <QtGui/qaccessible2.h>
 #include <QtGui/qaccessiblewidget.h>
 #include <QtGui/qaccessibleobject.h>
 
-#include "kitemlistview.h"
-#include "kitemlistcontainer.h"
-
 #ifndef QT_NO_ACCESSIBILITY
 
-class KItemListAccessibleCell;
+class KItemListView;
+class KItemListContainer;
 
 class KItemListViewAccessible: public QAccessibleTable2Interface, public QAccessibleObjectEx
 {
     Q_ACCESSIBLE_OBJECT
+
 public:
     explicit KItemListViewAccessible(KItemListView* view);
 
@@ -27,17 +26,17 @@ public:
 
     int childAt(int x, int y) const;
     int childCount() const;
-    int indexOfChild(const QAccessibleInterface* ) const;
+    int indexOfChild(const QAccessibleInterface*) const;
 
-    int navigate(RelationFlag relation, int index, QAccessibleInterface** iface) const;
+    int navigate(RelationFlag relation, int index, QAccessibleInterface** interface) const;
     Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
 
 #ifndef QT_NO_ACTION
     int userActionCount(int child) const;
     QString actionText(int action, Text t, int child) const;
-    bool doAction(int action, int child, const QVariantList &params);
+    bool doAction(int action, int child, const QVariantList& params);
 #endif
-    QVariant invokeMethodEx(Method, int, const QVariantList &);
+    QVariant invokeMethodEx(Method, int, const QVariantList&);
 
     // Table2 interface
     virtual QAccessibleTable2CellInterface* cellAt(int row, int column) const;
@@ -96,22 +95,22 @@ public:
     int indexOfChild(const QAccessibleInterface*) const;
     QString text(Text t, int child) const;
     void setText(Text t, int child, const QString& text);
-    int navigate(RelationFlag relation, int m_index, QAccessibleInterface** iface) const;
+    int navigate(RelationFlag relation, int m_index, QAccessibleInterface** interface) const;
     Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
     bool isExpandable() const;
 
 #ifndef QT_NO_ACTION
     int userActionCount(int child) const;
     QString actionText(int action, Text t, int child) const;
-    bool doAction(int action, int child, const QVariantList &params);
+    bool doAction(int action, int child, const QVariantList& params);
 #endif
 
     // Cell Interface
     virtual int columnExtent() const;
-    virtual QList<QAccessibleInterface* > columnHeaderCells() const;
+    virtual QList<QAccessibleInterface*> columnHeaderCells() const;
     virtual int columnIndex() const;
     virtual int rowExtent() const;
-    virtual QList<QAccessibleInterface* > rowHeaderCells() const;
+    virtual QList<QAccessibleInterface*> rowHeaderCells() const;
     virtual int rowIndex() const;
     virtual bool isSelected() const;
     virtual void rowColumnExtents(int* row, int* column, int* rowExtents, int* columnExtents, bool* selected) const;
@@ -122,27 +121,24 @@ public:
 private:
     QPointer<KItemListView> m_view;
     int m_index;
-
-friend class KItemListViewAccessible;
 };
 
 class KItemListContainerAccessible : public QAccessibleWidgetEx
 {
     Q_ACCESSIBLE_OBJECT
+
 public:
-    explicit KItemListContainerAccessible(KItemListContainer*);
+    explicit KItemListContainerAccessible(KItemListContainer* container);
     virtual ~KItemListContainerAccessible();
-    int childCount () const;
-    int indexOfChild ( const QAccessibleInterface* child ) const;
-    int navigate ( RelationFlag relation, int entry, QAccessibleInterface** target ) const;
+
+    int childCount() const;
+    int indexOfChild(const QAccessibleInterface* child) const;
+    int navigate(RelationFlag relation, int entry, QAccessibleInterface** target) const;
 
 private:
-    inline KItemListContainer* container() const
-    {
-        return static_cast<KItemListContainer* >(object());
-    }
+    const KItemListContainer* container() const;
 };
 
 #endif // QT_NO_ACCESSIBILITY
 
-#endif // ACCESSIBLE_ITEMVIEWS_H
+#endif

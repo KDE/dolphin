@@ -23,6 +23,7 @@
 #include "kitemlistview.h"
 
 #include <KDebug>
+#include "kitemlistcontainer.h"
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
 #include "kitemlistselectionmanager.h"
@@ -58,12 +59,13 @@ namespace {
 QAccessibleInterface* accessibleInterfaceFactory(const QString &key, QObject *object)
 {
     Q_UNUSED(key)
-    if (KItemListContainer*view = qobject_cast<KItemListContainer*>(object)) {
-        return new KItemListContainerAccessible(view);
-    }
-    if (KItemListView *view = qobject_cast<KItemListView*>(object)) {
+
+    if (KItemListContainer* container = qobject_cast<KItemListContainer*>(object)) {
+        return new KItemListContainerAccessible(container);
+    } else if (KItemListView* view = qobject_cast<KItemListView*>(object)) {
         return new KItemListViewAccessible(view);
     }
+
     return 0;
 }
 #endif

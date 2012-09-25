@@ -1,6 +1,9 @@
 #include "kitemlistviewaccessible.h"
+
+#include "kitemlistcontainer.h"
 #include "kitemlistcontroller.h"
 #include "kitemlistselectionmanager.h"
+#include "kitemlistview.h"
 #include "private/kitemlistviewlayouter.h"
 
 #include <QtGui/qaccessible2.h>
@@ -24,7 +27,8 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView* view_) :
 }
 
 void KItemListViewAccessible::modelReset()
-{}
+{
+}
 
 QAccessible::Role KItemListViewAccessible::cellRole() const
 {
@@ -33,20 +37,22 @@ QAccessible::Role KItemListViewAccessible::cellRole() const
 
 QAccessibleTable2CellInterface* KItemListViewAccessible::cell(int index) const
 {
-    if (index < 0 || index >= view()->model()->count())
+    if (index < 0 || index >= view()->model()->count()) {
         return 0;
-    return new KItemListAccessibleCell(view(), index);
+    } else {
+        return new KItemListAccessibleCell(view(), index);
+    }
 }
 
-QVariant KItemListViewAccessible::invokeMethodEx(Method, int, const QVariantList &)
+QVariant KItemListViewAccessible::invokeMethodEx(Method, int, const QVariantList&)
 {
     return QVariant();
 }
 
 QAccessibleTable2CellInterface* KItemListViewAccessible::cellAt(int row, int column) const
 {
-    qDebug() << "cellAt: " << row << column << " is: " << column*row + column;
-    return cell(columnCount()*row + column);
+    kDebug() << "cellAt: " << row << column << " is: " << column*row + column;
+    return cell(columnCount() * row + column);
 }
 
 QAccessibleInterface* KItemListViewAccessible::caption() const
@@ -66,14 +72,17 @@ int KItemListViewAccessible::columnCount() const
 
 int KItemListViewAccessible::rowCount() const
 {
-    if(columnCount() <= 0) {
+    if (columnCount() <= 0) {
         return 0;
     }
+
     int itemCount = view()->model()->count();
     int rowCount = itemCount / columnCount();
-    if(rowCount <= 0){
+
+    if (rowCount <= 0) {
         return 0;
     }
+
     if (itemCount % columnCount()) {
         ++rowCount;
     }
@@ -165,27 +174,30 @@ QAccessible2::TableModelChange KItemListViewAccessible::modelChange() const
 QAccessible::Role KItemListViewAccessible::role(int child) const
 {
     Q_ASSERT(child >= 0);
+
     if (child > 0) {
         return QAccessible::Cell;
+    } else {
+        return QAccessible::Table;
     }
-    return QAccessible::Table;
 }
 
 QAccessible::State KItemListViewAccessible::state(int child) const
 {
     if (child) {
-        QAccessibleInterface* iface = 0;
-        navigate(Child, child, &iface);
-        if (iface) {
-            return iface->state(0);
+        QAccessibleInterface* interface = 0;
+        navigate(Child, child, &interface);
+        if (interface) {
+            return interface->state(0);
         }
     }
+
     return QAccessible::Normal | QAccessible::HasInvokeExtension;
 }
 
 int KItemListViewAccessible::childAt(int x, int y) const
 {
-    QPointF point = QPointF(x,y);
+    const QPointF point = QPointF(x,y);
     return view()->itemAt(view()->mapFromScene(point));
 }
 
@@ -194,13 +206,13 @@ int KItemListViewAccessible::childCount() const
     return view()->model()->count();
 }
 
-int KItemListViewAccessible::indexOfChild(const QAccessibleInterface* iface) const
+int KItemListViewAccessible::indexOfChild(const QAccessibleInterface* interface) const
 {
-    const KItemListAccessibleCell* widget = static_cast<const KItemListAccessibleCell*>(iface);
+    const KItemListAccessibleCell* widget = static_cast<const KItemListAccessibleCell*>(interface);
     return widget->index() + 1;
 }
 
-QString KItemListViewAccessible::text(Text , int child) const
+QString KItemListViewAccessible::text(Text, int child) const
 {
     Q_ASSERT(child == 0);
     return QString();
@@ -212,30 +224,32 @@ QRect KItemListViewAccessible::rect(int child) const
     if (!view()->isVisible()) {
         return QRect();
     }
-    QPoint origin = view()->scene()->views()[0]->mapToGlobal(QPoint(0, 0));
-    QRect viewRect = view()->geometry().toRect();
+    const QPoint origin = view()->scene()->views()[0]->mapToGlobal(QPoint(0, 0));
+    const QRect viewRect = view()->geometry().toRect();
     return viewRect.translated(origin);
 }
 
-int KItemListViewAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface* *iface) const
+int KItemListViewAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface** interface) const
 {
-    *iface = 0;
+    *interface = 0;
+
     switch (relation) {
-        case QAccessible::Child: {
-            Q_ASSERT(index > 0);
-            *iface = cell(index - 1);
-            if (*iface) {
-                return 0;
-            }
-            break;
+    case QAccessible::Child:
+        Q_ASSERT(index > 0);
+        *interface = cell(index - 1);
+        if (*interface) {
+            return 0;
         }
-        default:
-            break;
+        break;
+
+    default:
+        break;
     }
+
     return -1;
 }
 
-QAccessible::Relation KItemListViewAccessible::relationTo(int, const QAccessibleInterface* , int) const
+QAccessible::Relation KItemListViewAccessible::relationTo(int, const QAccessibleInterface*, int) const
 {
     return QAccessible::Unrelated;
 }
@@ -252,7 +266,7 @@ QString KItemListViewAccessible::actionText(int, Text, int) const
     return QString();
 }
 
-bool KItemListViewAccessible::doAction(int, int, const QVariantList &)
+bool KItemListViewAccessible::doAction(int, int, const QVariantList&)
 {
     return false;
 }
@@ -305,7 +319,7 @@ bool KItemListAccessibleCell::isSelected() const
 
 void KItemListAccessibleCell::rowColumnExtents(int* row, int* column, int* rowExtents, int* columnExtents, bool* selected) const
 {
-    KItemListViewLayouter* layouter = m_view->m_layouter;
+    const KItemListViewLayouter* layouter = m_view->m_layouter;
     *row = layouter->itemRow(m_index);
     *column = layouter->itemColumn(m_index);
     *rowExtents = 1;
@@ -332,6 +346,7 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     if (isSelected()) {
          state |= Selected;
     }
+
     if (m_view->controller()->selectionManager()->currentItem() == m_index) {
         state |= Focused;
     }
@@ -339,18 +354,18 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     state |= Selectable;
     state |= Focusable;
 
-    if (m_view->controller()->selectionBehavior() == KItemListController::MultiSelection){
+    if (m_view->controller()->selectionBehavior() == KItemListController::MultiSelection) {
         state |= MultiSelectable;
     }
 
     if (m_view->model()->isExpandable(m_index)) {
-        if(m_view->model()->isExpanded(m_index)) {
+        if (m_view->model()->isExpanded(m_index)) {
             state |= Expanded;
-        }
-        else {
+        } else {
             state |= Collapsed;
         }
     }
+
     return state;
 }
 
@@ -362,9 +377,11 @@ bool KItemListAccessibleCell::isExpandable() const
 QRect KItemListAccessibleCell::rect(int) const
 {
     QRect rect = m_view->itemRect(m_index).toRect();
+
     if (rect.isNull()) {
         return QRect();
     }
+
     rect.translate(m_view->mapToScene(QPointF(0.0, 0.0)).toPoint());
     rect.translate(m_view->scene()->views()[0]->mapToGlobal(QPoint(0, 0)));
     return rect;
@@ -374,18 +391,22 @@ QString KItemListAccessibleCell::text(QAccessible::Text t, int child) const
 {
     Q_ASSERT(child == 0);
     Q_UNUSED(child)
-    const QHash<QByteArray, QVariant> data = m_view->model()->data(m_index);
+
     switch (t) {
     case QAccessible::Value:
-    case QAccessible::Name:
+    case QAccessible::Name: {
+        const QHash<QByteArray, QVariant> data = m_view->model()->data(m_index);
         return data["text"].toString();
+    }
+
     default:
         break;
     }
+
     return QString();
 }
 
-void KItemListAccessibleCell::setText(QAccessible::Text /*t*/, int child, const QString &/*text*/)
+void KItemListAccessibleCell::setText(QAccessible::Text, int child, const QString&)
 {
     Q_ASSERT(child == 0);
 }
@@ -411,27 +432,14 @@ int KItemListAccessibleCell::indexOfChild(const QAccessibleInterface* child) con
     return -1;
 }
 
-int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessibleInterface* *iface) const
+int KItemListAccessibleCell::navigate(RelationFlag relation, int index, QAccessibleInterface** interface) const
 {
     if (relation == Ancestor && index == 1) {
-        *iface = new KItemListViewAccessible(m_view);
+        *interface = new KItemListViewAccessible(m_view);
         return 0;
     }
 
-    *iface = 0;
-    if (!m_view) {
-        return -1;
-    }
-
-    switch (relation) {
-
-    case Child: {
-        return -1;
-    }
-    default:
-        break;
-    }
-
+    *interface = 0;
     return -1;
 }
 
@@ -454,7 +462,7 @@ QString KItemListAccessibleCell::actionText(int, Text, int) const
     return QString();
 }
 
-bool KItemListAccessibleCell::doAction(int, int, const QVariantList &)
+bool KItemListAccessibleCell::doAction(int, int, const QVariantList&)
 {
     return false;
 }
@@ -474,31 +482,40 @@ QObject* KItemListAccessibleCell::object() const
 // Container Interface
 KItemListContainerAccessible::KItemListContainerAccessible(KItemListContainer* container) :
     QAccessibleWidgetEx(container)
-{}
+{
+}
 
-KItemListContainerAccessible::~KItemListContainerAccessible ()
-{}
+KItemListContainerAccessible::~KItemListContainerAccessible()
+{
+}
 
-int KItemListContainerAccessible::childCount () const
+int KItemListContainerAccessible::childCount() const
 {
     return 1;
 }
 
-int KItemListContainerAccessible::indexOfChild ( const QAccessibleInterface*  child ) const
+int KItemListContainerAccessible::indexOfChild(const QAccessibleInterface* child) const
 {
     if (child->object() == container()->controller()->view()) {
         return 1;
+    } else {
+        return -1;
     }
-    return -1;
 }
 
-int KItemListContainerAccessible::navigate ( QAccessible::RelationFlag relation, int index, QAccessibleInterface** target ) const
+int KItemListContainerAccessible::navigate(QAccessible::RelationFlag relation, int index, QAccessibleInterface** target) const
 {
     if (relation == QAccessible::Child) {
         *target = new KItemListViewAccessible(container()->controller()->view());
         return 0;
+    } else {
+        return QAccessibleWidgetEx::navigate(relation, index, target);
     }
-    return QAccessibleWidgetEx::navigate(relation, index, target);
+}
+
+const KItemListContainer* KItemListContainerAccessible::container() const
+{
+    return qobject_cast<KItemListContainer*>(object());
 }
 
 #endif // QT_NO_ACCESSIBILITY
