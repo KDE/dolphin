@@ -215,7 +215,7 @@ bool KFileItemModelRolesUpdater::enlargeSmallPreviews() const
 
 void KFileItemModelRolesUpdater::setEnabledPlugins(const QStringList& list)
 {
-    if (m_enabledPlugins == list) {
+    if (m_enabledPlugins != list) {
         m_enabledPlugins = list;
         if (m_previewShown) {
             updateAllPreviews();
