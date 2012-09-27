@@ -1,0 +1,4 @@
+File=dolphin_placespanelsettings.kcfg
+ClassName=PlacesPanelSettings
+Singleton=true
+Mutators=true
