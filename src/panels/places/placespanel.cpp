@@ -33,7 +33,6 @@
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kstandarditem.h>
-#include <kitemviews/kstandarditemlistview.h>
 #include <KMenu>
 #include <KMessageBox>
 #include <KNotification>
@@ -42,6 +41,7 @@
 #include "placesitemlistgroupheader.h"
 #include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
+#include "placesview.h"
 #include <views/draganddrophelper.h>
 #include <QGraphicsSceneDragDropEvent>
 #include <QVBoxLayout>
@@ -94,7 +94,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         connect(m_model, SIGNAL(errorMessage(QString)),
                 this, SIGNAL(errorMessage(QString)));
 
-        KStandardItemListView* view = new KStandardItemListView();
+        PlacesView* view = new PlacesView();
         view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
         view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
 

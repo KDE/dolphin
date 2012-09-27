@@ -171,6 +171,7 @@ set(dolphin_SRCS
     panels/places/placesitemlistwidget.cpp
     panels/places/placesitemmodel.cpp
     panels/places/placesitemsignalhandler.cpp
+    panels/places/placesview.cpp
     panels/panel.cpp
     panels/folders/foldersitemlistwidget.cpp
     panels/folders/treeviewcontextmenu.cpp
@@ -204,6 +205,7 @@ set(dolphin_SRCS
 kde4_add_kcfg_files(dolphin_SRCS
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
+    panels/places/dolphin_placespanelsettings.kcfgc
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_generalsettings.kcfgc
