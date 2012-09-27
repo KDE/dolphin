@@ -92,7 +92,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
   , m_nepomukResourceWatcher(0),
     m_nepomukUriItems()
   #endif
-
 {
     Q_ASSERT(model);
 
@@ -542,11 +541,10 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
     bool changed = false;
     for (int i = 0; i <= 1; ++i) {
         QSet<KFileItem>& pendingItems = (i == 0) ? m_pendingVisibleItems : m_pendingInvisibleItems;
-        QSetIterator<KFileItem> it(pendingItems);
-        while (it.hasNext() && !changed && resolvedCount < MaxResolveItemsCount) {
-            const KFileItem item = it.next();
-            pendingItems.remove(item);
-            changed = applyResolvedRoles(item, ResolveAll);
+        QSet<KFileItem>::iterator it = pendingItems.begin();
+        while (it != pendingItems.end() && !changed && resolvedCount < MaxResolveItemsCount) {
+            changed = applyResolvedRoles(*it, ResolveAll);
+            it = pendingItems.erase(it);
             ++resolvedCount;
         }
     }
@@ -649,13 +647,15 @@ void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
     if (hasValidIndexRange) {
         // Move all current pending visible items that are not visible anymore
         // to the pending invisible items.
-        QSetIterator<KFileItem> it(m_pendingVisibleItems);
-        while (it.hasNext()) {
-            const KFileItem item = it.next();
+        QSet<KFileItem>::iterator it = m_pendingVisibleItems.begin();
+        while (it != m_pendingVisibleItems.end()) {
+            const KFileItem item = *it;
             const int index = m_model->index(item);
             if (index < m_firstVisibleIndex || index > m_lastVisibleIndex) {
-                m_pendingVisibleItems.remove(item);
+                it = m_pendingVisibleItems.erase(it);
                 m_pendingInvisibleItems.insert(item);
+            } else {
+                ++it;
             }
         }
     }
@@ -702,11 +702,14 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
     // MIME-type in a fast way.
     QElapsedTimer timer;
     timer.start();
+
     KFileItemList itemSubSet;
-    for (int i = 0; i < items.count(); ++i) {
+    const int count = items.count();
+    itemSubSet.reserve(count);
+    for (int i = 0; i < count; ++i) {
         KFileItem item = items.at(i);
         item.determineMimeType();
-        itemSubSet.append(items.at(i));
+        itemSubSet.append(item);
         if (timer.elapsed() > MaxBlockTimeout) {
 #ifdef KFILEITEMMODELROLESUPDATER_DEBUG
             kDebug() << "Maximum time of" << MaxBlockTimeout << "ms exceeded, creating only previews for"
@@ -761,13 +764,15 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
     timer.start();
 
     // Resolve the MIME type of all visible items
-    QSetIterator<KFileItem> visibleIt(m_pendingVisibleItems);
-    while (visibleIt.hasNext()) {
-        const KFileItem item = visibleIt.next();
+    QSet<KFileItem>::iterator visibleIt = m_pendingVisibleItems.begin();
+    while (visibleIt != m_pendingVisibleItems.end()) {
+        const KFileItem item = *visibleIt;
         if (!hasSlowRoles) {
             Q_ASSERT(!m_pendingInvisibleItems.contains(item));
             // All roles will be resolved by applyResolvedRoles()
-            m_pendingVisibleItems.remove(item);
+            visibleIt = m_pendingVisibleItems.erase(visibleIt);
+        } else {
+            ++visibleIt;
         }
         applyResolvedRoles(item, resolveHint);
         ++resolvedCount;
@@ -865,7 +870,8 @@ void KFileItemModelRolesUpdater::sortAndResolveAllRoles()
             m_pendingInvisibleItems.insert(item);
         }
     }
-    for (int i = m_lastVisibleIndex + 1; i < m_model->count(); ++i) {
+    const int count = m_model->count();
+    for (int i = m_lastVisibleIndex + 1; i < count; ++i) {
         const KFileItem item = m_model->fileItem(i);
         if (!item.isNull()) {
             m_pendingInvisibleItems.insert(item);
@@ -888,26 +894,42 @@ void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
 
     // Trigger a preview generation of all pending items. Assure that the visible
     // pending items get generated first.
-    QSet<KFileItem> pendingItems;
-    pendingItems += m_pendingVisibleItems;
-    pendingItems += m_pendingInvisibleItems;
 
-    resetPendingRoles();
-    Q_ASSERT(m_pendingVisibleItems.isEmpty());
-    Q_ASSERT(m_pendingInvisibleItems.isEmpty());
-
-    QSetIterator<KFileItem> it(pendingItems);
-    while (it.hasNext()) {
-        const KFileItem item = it.next();
+    // Step 1: Check if any items in m_pendingVisibleItems are not visible any more
+    //         and move them to m_pendingInvisibleItems.
+    QSet<KFileItem>::iterator itVisible = m_pendingVisibleItems.begin();
+    while (itVisible != m_pendingVisibleItems.end()) {
+        const KFileItem item = *itVisible;
         if (item.isNull()) {
+            itVisible = m_pendingVisibleItems.erase(itVisible);
             continue;
         }
 
         const int index = m_model->index(item);
         if (!hasValidIndexRange || (index >= m_firstVisibleIndex && index <= m_lastVisibleIndex)) {
+            ++itVisible;
+        } else {
+            itVisible = m_pendingVisibleItems.erase(itVisible);
+            m_pendingInvisibleItems.insert(item);
+        }
+    }
+
+    // Step 2: Check if any items in m_pendingInvisibleItems have become visible
+    //         and move them to m_pendingVisibleItems.
+    QSet<KFileItem>::iterator itInvisible = m_pendingInvisibleItems.begin();
+    while (itInvisible != m_pendingInvisibleItems.end()) {
+        const KFileItem item = *itInvisible;
+        if (item.isNull()) {
+            itInvisible = m_pendingInvisibleItems.erase(itInvisible);
+            continue;
+        }
+
+        const int index = m_model->index(item);
+        if (!hasValidIndexRange || (index >= m_firstVisibleIndex && index <= m_lastVisibleIndex)) {
+            itInvisible = m_pendingInvisibleItems.erase(itInvisible);
             m_pendingVisibleItems.insert(item);
         } else {
-            m_pendingInvisibleItems.insert(item);
+            ++itInvisible;
         }
     }
 
