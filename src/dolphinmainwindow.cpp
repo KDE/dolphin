@@ -2057,7 +2057,13 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     const int newWidth = (viewTab.primaryView->width() - splitter->handleWidth()) / 2;
 
     const DolphinView* view = viewTab.primaryView->view();
-    viewTab.secondaryView = createViewContainer(view->url(), 0);
+    // The final parent of the new view container will be set by adding it
+    // to the splitter. However, we must make sure that the DolphinMainWindow
+    // is a parent of the view container already when it is constructed
+    // because this enables the container's KFileItemModel to assign its
+    // dir lister to the right main window. The dir lister can then cache
+    // authentication data.
+    viewTab.secondaryView = createViewContainer(view->url(), this);
     splitter->addWidget(viewTab.secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
 
