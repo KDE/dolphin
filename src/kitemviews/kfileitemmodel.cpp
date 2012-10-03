@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QTimer>
+#include <QWidget>
 
 // #define KFILEITEMMODEL_DEBUG
 
@@ -59,7 +60,11 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setDelayedMimeTypes(true);
-    m_dirLister->setMainWindow(qApp->activeWindow());
+
+    const QWidget* parentWidget = qobject_cast<QWidget*>(parent);
+    if (parentWidget) {
+        m_dirLister->setMainWindow(parentWidget->window());
+    }
 
     connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
     connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));

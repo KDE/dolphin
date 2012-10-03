@@ -420,6 +420,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
     default:
         m_keyboardManager->addKeys(event->text());
+        // Make sure unconsumed events get propagated up the chain. #302329
+        event->ignore();
         return false;
     }
 
