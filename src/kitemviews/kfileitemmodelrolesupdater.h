@@ -39,7 +39,7 @@ class QPixmap;
 class QTimer;
 
 #ifdef HAVE_NEPOMUK
-    namespace Nepomuk
+    namespace Nepomuk2
     {
         class ResourceWatcher;
         class Resource;
@@ -47,7 +47,7 @@ class QTimer;
 #else
     // Required for the slot applyChangedNepomukRoles() that
     // cannot be ifdefined due to moc.
-    namespace Nepomuk
+    namespace Nepomuk2
     {
         class Resource;
     }
@@ -160,7 +160,7 @@ private slots:
      */
     void resolveChangedItems();
 
-    void applyChangedNepomukRoles(const Nepomuk::Resource& resource);
+    void applyChangedNepomukRoles(const Nepomuk2::Resource& resource);
 
     /**
      * Is invoked if a directory watched by KDirWatch got dirty. Updates
@@ -274,7 +274,7 @@ private:
     mutable QSet<QString> m_watchedDirs; // Required as sadly KDirWatch does not offer a getter method
                                          // to get all watched directories.
 #ifdef HAVE_NEPOMUK
-    Nepomuk::ResourceWatcher* m_nepomukResourceWatcher;
+    Nepomuk2::ResourceWatcher* m_nepomukResourceWatcher;
     mutable QHash<QUrl, KUrl> m_nepomukUriItems;
 #endif
 };

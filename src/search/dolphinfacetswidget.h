@@ -24,7 +24,7 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/Query/Term>
+    #include <Nepomuk2/Query/Term>
 #endif
 
 class QButtonGroup;
@@ -56,7 +56,7 @@ public:
     virtual ~DolphinFacetsWidget();
 
 #ifdef HAVE_NEPOMUK
-    Nepomuk::Query::Term facetsTerm() const;
+    Nepomuk2::Query::Term facetsTerm() const;
 #endif
 
 signals:

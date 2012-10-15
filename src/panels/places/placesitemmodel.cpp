@@ -51,13 +51,13 @@
 #include <views/viewproperties.h>
 
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Query/ComparisonTerm>
-    #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/FileQuery>
-    #include <Nepomuk/Query/ResourceTypeTerm>
-    #include <Nepomuk/Vocabulary/NFO>
-    #include <Nepomuk/Vocabulary/NIE>
+    #include <Nepomuk2/ResourceManager>
+    #include <Nepomuk2/Query/ComparisonTerm>
+    #include <Nepomuk2/Query/LiteralTerm>
+    #include <Nepomuk2/Query/FileQuery>
+    #include <Nepomuk2/Query/ResourceTypeTerm>
+    #include <Nepomuk2/Vocabulary/NFO>
+    #include <Nepomuk2/Vocabulary/NIE>
 #endif
 
 namespace {
@@ -87,7 +87,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_storageSetupInProgress()
 {
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->initialized()) {
+    if (Nepomuk2::ResourceManager::instance()->initialized()) {
         KConfig config("nepomukserverrc");
         m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
     }
@@ -1150,15 +1150,15 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 #ifdef HAVE_NEPOMUK
     const QString path = url.pathOrUrl();
     if (path.endsWith(QLatin1String("documents"))) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
+        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Document()));
     } else if (path.endsWith(QLatin1String("images"))) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Image()));
     } else if (path.endsWith(QLatin1String("audio"))) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("audio")));
+        searchUrl = searchUrlForTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk2::Query::LiteralTerm("audio")));
     } else if (path.endsWith(QLatin1String("videos"))) {
-        searchUrl = searchUrlForTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk::Query::LiteralTerm("video")));
+        searchUrl = searchUrlForTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
+                                                                    Nepomuk2::Query::LiteralTerm("video")));
     } else {
         Q_ASSERT(false);
     }
@@ -1170,9 +1170,9 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 }
 
 #ifdef HAVE_NEPOMUK
-KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk::Query::Term& term)
+KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk2::Query::Term& term)
 {
-    const Nepomuk::Query::FileQuery query(term);
+    const Nepomuk2::Query::FileQuery query(term);
     return query.toSearchUrl();
 }
 #endif

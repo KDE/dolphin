@@ -28,14 +28,14 @@
 #include <QVBoxLayout>
 
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/Query/AndTerm>
-    #include <Nepomuk/Query/ComparisonTerm>
-    #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/OrTerm>
-    #include <Nepomuk/Query/Query>
-    #include <Nepomuk/Query/ResourceTypeTerm>
-    #include <Nepomuk/Vocabulary/NFO>
-    #include <Nepomuk/Vocabulary/NIE>
+    #include <Nepomuk2/Query/AndTerm>
+    #include <Nepomuk2/Query/ComparisonTerm>
+    #include <Nepomuk2/Query/LiteralTerm>
+    #include <Nepomuk2/Query/OrTerm>
+    #include <Nepomuk2/Query/Query>
+    #include <Nepomuk2/Query/ResourceTypeTerm>
+    #include <Nepomuk2/Vocabulary/NFO>
+    #include <Nepomuk2/Vocabulary/NIE>
     #include <Soprano/Vocabulary/NAO>
 #endif
 
@@ -121,33 +121,33 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 }
 
 #ifdef HAVE_NEPOMUK
-Nepomuk::Query::Term DolphinFacetsWidget::facetsTerm() const
+Nepomuk2::Query::Term DolphinFacetsWidget::facetsTerm() const
 {
-    Nepomuk::Query::AndTerm andTerm;
+    Nepomuk2::Query::AndTerm andTerm;
 
     const bool hasTypeFilter = m_documents->isChecked() ||
                                m_images->isChecked() ||
                                m_audio->isChecked() ||
                                m_videos->isChecked();
     if (hasTypeFilter) {
-        Nepomuk::Query::OrTerm orTerm;
+        Nepomuk2::Query::OrTerm orTerm;
 
         if (m_documents->isChecked()) {
-            orTerm.addSubTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Document()));
+            orTerm.addSubTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Document()));
         }
 
         if (m_images->isChecked()) {
-            orTerm.addSubTerm(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+            orTerm.addSubTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Image()));
         }
 
         if (m_audio->isChecked()) {
-            orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                             Nepomuk::Query::LiteralTerm("audio")));
+            orTerm.addSubTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
+                                                             Nepomuk2::Query::LiteralTerm("audio")));
         }
 
         if (m_videos->isChecked()) {
-            orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
-                                                             Nepomuk::Query::LiteralTerm("video")));
+            orTerm.addSubTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
+                                                             Nepomuk2::Query::LiteralTerm("video")));
         }
 
         andTerm.addSubTerm(orTerm);
@@ -166,9 +166,9 @@ Nepomuk::Query::Term DolphinFacetsWidget::facetsTerm() const
         }
 
         const int rating = stars * 2;
-        Nepomuk::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::numericRating(),
-                                            Nepomuk::Query::LiteralTerm(rating),
-                                            Nepomuk::Query::ComparisonTerm::GreaterOrEqual);
+        Nepomuk2::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::numericRating(),
+                                            Nepomuk2::Query::LiteralTerm(rating),
+                                            Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
         andTerm.addSubTerm(term);
     }
 
@@ -184,9 +184,9 @@ Nepomuk::Query::Term DolphinFacetsWidget::facetsTerm() const
             date.addDays(1 - date.dayOfYear());
         }
 
-        Nepomuk::Query::ComparisonTerm term(Nepomuk::Vocabulary::NIE::lastModified(),
-                                            Nepomuk::Query::LiteralTerm(QDateTime(date)),
-                                            Nepomuk::Query::ComparisonTerm::GreaterOrEqual);
+        Nepomuk2::Query::ComparisonTerm term(Nepomuk2::Vocabulary::NIE::lastModified(),
+                                            Nepomuk2::Query::LiteralTerm(QDateTime(date)),
+                                            Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
         andTerm.addSubTerm(term);
     }
 

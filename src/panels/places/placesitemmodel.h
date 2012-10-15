@@ -38,7 +38,7 @@ class QAction;
 class QTimer;
 
 #ifdef HAVE_NEPOMUK
-    namespace Nepomuk
+    namespace Nepomuk2
     {
         namespace Query
         {
@@ -255,7 +255,7 @@ private:
      * @return URL that can be listed by KIO and results in searching
      *         for the given term.
      */
-    static KUrl searchUrlForTerm(const Nepomuk::Query::Term& term);
+    static KUrl searchUrlForTerm(const Nepomuk2::Query::Term& term);
 #endif
 
 #ifdef PLACESITEMMODEL_DEBUG

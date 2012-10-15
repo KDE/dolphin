@@ -1,6 +1,6 @@
-macro_optional_find_package(Nepomuk)
-macro_log_feature(Nepomuk_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
-macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
+macro_optional_find_package(NepomukCore)
+macro_log_feature(NepomukCore_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
+macro_bool_to_01(NepomukCore_FOUND HAVE_NEPOMUK)
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
@@ -8,10 +8,10 @@ configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 
 include_directories( ${KACTIVITIES_INCLUDE_DIRS} )
 
-if (Nepomuk_FOUND)
+if (NepomukCore_FOUND)
   # Yes, Soprano includes is what we need here
-  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_INCLUDE_DIR} )
-endif (Nepomuk_FOUND)
+  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} )
+endif (NepomukCore_FOUND)
 
 add_subdirectory(tests)
 
@@ -73,21 +73,12 @@ set(dolphinprivate_LIB_SRCS
     views/zoomlevelinfo.cpp
 )
 
-if (Nepomuk_FOUND)
+if (NepomukCore_FOUND)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
         kitemviews/private/knepomukrolesprovider.cpp
-        kitemviews/private/nepomuk/resourcewatcher.cpp
     )
-
-    qt4_add_dbus_interface(dolphinprivate_LIB_SRCS
-                           kitemviews/private/nepomuk/org.kde.nepomuk.ResourceWatcherConnection.xml
-                           resourcewatcherconnectioninterface)
-
-    qt4_add_dbus_interface(dolphinprivate_LIB_SRCS
-                           kitemviews/private/nepomuk/org.kde.nepomuk.ResourceWatcher.xml
-                           resourcewatchermanagerinterface)
-endif (Nepomuk_FOUND)
+endif (NepomukCore_FOUND)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_compactmodesettings.kcfgc
@@ -107,15 +98,13 @@ target_link_libraries(
     ${KDE4_KNEWSTUFF3_LIBS}
 )
 
-if (Nepomuk_FOUND)
+if (NepomukCore_FOUND)
     target_link_libraries(
         dolphinprivate
-        ${NEPOMUK_LIBRARIES}
-        ${NEPOMUK_QUERY_LIBRARIES}
-        nepomukutils
+        ${NEPOMUK_CORE_LIBRARY}
         ${SOPRANO_LIBRARIES}
     )
-endif (Nepomuk_FOUND)
+endif (NepomukCore_FOUND)
 
 if(X11_Xrender_FOUND)
     target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
@@ -235,14 +224,12 @@ target_link_libraries(kdeinit_dolphin
     ${KDE4_PHONON_LIBS}
 )
 
-if (Nepomuk_FOUND)
+if (NepomukCore_FOUND)
     target_link_libraries(kdeinit_dolphin
-        ${NEPOMUK_LIBRARIES}
+        ${NEPOMUK_CORE_LIBRARY}
         ${SOPRANO_LIBRARIES}
-        ${NEPOMUK_QUERY_LIBRARIES}
-        nepomukutils
     )
-endif (Nepomuk_FOUND)
+endif (NepomukCore_FOUND)
 
 if (KActivities_FOUND)
     target_link_libraries(
@@ -313,12 +300,12 @@ target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
 target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
-if (Nepomuk_FOUND)
-  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
-  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_LIBRARIES})
-  target_link_libraries(kcm_dolphinservices ${NEPOMUK_LIBRARIES})
-  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_LIBRARIES})
-endif (Nepomuk_FOUND)
+if (NepomukCore_FOUND)
+  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_CORE_LIBRARY})
+  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_CORE_LIBRARY})
+  target_link_libraries(kcm_dolphinservices ${NEPOMUK_CORE_LIBRARY})
+  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_CORE_LIBRARY})
+endif (NepomukCore_FOUND)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )

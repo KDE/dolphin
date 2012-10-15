@@ -23,10 +23,10 @@
 #include <KGlobal>
 #include <KLocale>
 
-#include <Nepomuk/Resource>
-#include <Nepomuk/Tag>
-#include <Nepomuk/Types/Property>
-#include <Nepomuk/Variant>
+#include <Nepomuk2/Resource>
+#include <Nepomuk2/Tag>
+#include <Nepomuk2/Types/Property>
+#include <Nepomuk2/Variant>
 
 #include <QTime>
 
@@ -51,7 +51,7 @@ QSet<QByteArray> KNepomukRolesProvider::roles() const
     return m_roles;
 }
 
-QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Resource& resource,
+QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk2::Resource& resource,
                                                               const QSet<QByteArray>& roles) const
 {
     if (!resource.isValid()) {
@@ -63,17 +63,17 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
     int width = -1;
     int height = -1;
 
-    QHashIterator<QUrl, Nepomuk::Variant> it(resource.properties());
+    QHashIterator<QUrl, Nepomuk2::Variant> it(resource.properties());
     while (it.hasNext()) {
         it.next();
 
-        const Nepomuk::Types::Property property = it.key();
+        const Nepomuk2::Types::Property property = it.key();
         const QByteArray role = m_roleForUri.value(property.uri());
         if (role.isEmpty() || !roles.contains(role)) {
             continue;
         }
 
-        const Nepomuk::Variant value = it.value();
+        const Nepomuk2::Variant value = it.value();
 
         if (role == "imageSize") {
             // Merge the two Nepomuk properties for width and height
@@ -101,7 +101,7 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
             const QString duration = durationFromValue(value.toInt());
             values.insert(role, duration);
         } else if (value.isResource()) {
-            const Nepomuk::Resource resource = value.toResource();
+            const Nepomuk2::Resource resource = value.toResource();
             values.insert(role, resource.genericLabel());
         } else {
             values.insert(role, value.toString());
@@ -155,7 +155,7 @@ QString KNepomukRolesProvider::tagsFromValues(const QStringList& values) const
             tags.append(QLatin1String(", "));
         }
 
-        const Nepomuk::Tag tag(values[i]);
+        const Nepomuk2::Tag tag(values[i]);
         tags += tag.genericLabel();
     }
 

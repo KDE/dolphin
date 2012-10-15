@@ -68,7 +68,7 @@ if (Nepomuk_FOUND)
       ../search/dolphin_searchsettings.kcfgc
   )
   kde4_add_unit_test(dolphinsearchboxtest TEST ${dolphinsearchboxtest_SRCS})
-  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${SOPRANO_LIBRARIES} ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${QT_QTTEST_LIBRARY})
+  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${SOPRANO_LIBRARIES} ${NEPOMUK_CORE_LIBRARY}  nepomukutils ${QT_QTTEST_LIBRARY})
 endif (Nepomuk_FOUND)
 
 # KStandardItemModelTest

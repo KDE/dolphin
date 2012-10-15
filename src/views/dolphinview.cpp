@@ -73,7 +73,7 @@
 #include "zoomlevelinfo.h"
 
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/ResourceManager>
+    #include <Nepomuk2/ResourceManager>
 #endif
 
 namespace {
@@ -843,7 +843,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     bool nepomukRunning = false;
     bool indexingEnabled = false;
 #ifdef HAVE_NEPOMUK
-    nepomukRunning = (Nepomuk::ResourceManager::instance()->initialized());
+    nepomukRunning = (Nepomuk2::ResourceManager::instance()->initialized());
     if (nepomukRunning) {
         KConfig config("nepomukserverrc");
         indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);

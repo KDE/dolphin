@@ -42,16 +42,16 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/Query/AndTerm>
-    #include <Nepomuk/Query/FileQuery>
-    #include <Nepomuk/Query/LiteralTerm>
-    #include <Nepomuk/Query/OrTerm>
-    #include <Nepomuk/Query/Query>
-    #include <Nepomuk/Query/QueryParser>
-    #include <Nepomuk/Query/ResourceTypeTerm>
-    #include <Nepomuk/Query/ComparisonTerm>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Vocabulary/NFO>
+    #include <Nepomuk2/Query/AndTerm>
+    #include <Nepomuk2/Query/FileQuery>
+    #include <Nepomuk2/Query/LiteralTerm>
+    #include <Nepomuk2/Query/OrTerm>
+    #include <Nepomuk2/Query/Query>
+    #include <Nepomuk2/Query/QueryParser>
+    #include <Nepomuk2/Query/ResourceTypeTerm>
+    #include <Nepomuk2/Query/ComparisonTerm>
+    #include <Nepomuk2/ResourceManager>
+    #include <Nepomuk2/Vocabulary/NFO>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
@@ -402,30 +402,30 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
     // dependent on whether a searching for content or
     // filename is done
     const QString text = m_searchInput->text();
-    Nepomuk::Query::Term searchLabelTerm;
+    Nepomuk2::Query::Term searchLabelTerm;
     if (m_contentButton->isChecked()) {
         // Let Nepomuk parse the query
-        searchLabelTerm = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern).term();
+        searchLabelTerm = Nepomuk2::Query::QueryParser::parseQuery(text, Nepomuk2::Query::QueryParser::DetectFilenamePattern).term();
     } else {
         // Search the text in the filename only
         QString regex = QRegExp::escape(text);
         regex.replace("\\*", QLatin1String(".*"));
         regex.replace("\\?", QLatin1String("."));
         regex.replace("\\", "\\\\");
-        searchLabelTerm = Nepomuk::Query::ComparisonTerm(
-                                Nepomuk::Vocabulary::NFO::fileName(),
-                                Nepomuk::Query::LiteralTerm(regex),
-                                Nepomuk::Query::ComparisonTerm::Regexp);
+        searchLabelTerm = Nepomuk2::Query::ComparisonTerm(
+                                Nepomuk2::Vocabulary::NFO::fileName(),
+                                Nepomuk2::Query::LiteralTerm(regex),
+                                Nepomuk2::Query::ComparisonTerm::Regexp);
     }
 
     // Get the term from the facets and merge it with the
     // created term from the input-field.
-    Nepomuk::Query::Term facetsTerm = m_facetsWidget->facetsTerm();
+    Nepomuk2::Query::Term facetsTerm = m_facetsWidget->facetsTerm();
 
-    Nepomuk::Query::FileQuery fileQuery;
-    fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFilesAndFolders);
+    Nepomuk2::Query::FileQuery fileQuery;
+    fileQuery.setFileMode(Nepomuk2::Query::FileQuery::QueryFilesAndFolders);
     if (facetsTerm.isValid()) {
-        Nepomuk::Query::AndTerm andTerm;
+        Nepomuk2::Query::AndTerm andTerm;
         andTerm.addSubTerm(searchLabelTerm);
         andTerm.addSubTerm(facetsTerm);
         fileQuery.setTerm(andTerm);
@@ -450,7 +450,7 @@ void DolphinSearchBox::applyReadOnlyState()
 {
 #ifdef HAVE_NEPOMUK
     if (m_readOnly) {
-        m_searchLabel->setText(Nepomuk::Query::Query::titleFromQueryUrl(m_readOnlyQuery));
+        m_searchLabel->setText(Nepomuk2::Query::Query::titleFromQueryUrl(m_readOnlyQuery));
     } else {
 #else
     {

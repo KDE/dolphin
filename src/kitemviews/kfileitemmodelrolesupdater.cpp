@@ -40,7 +40,7 @@
 
 #ifdef HAVE_NEPOMUK
     #include "private/knepomukrolesprovider.h"
-    #include "private/nepomuk/resourcewatcher.h"
+    #include <Nepomuk2/ResourceWatcher>
 #endif
 
 // Required includes for subItemsCount():
@@ -276,15 +276,15 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
         if (hasNepomukRole && !m_nepomukResourceWatcher) {
             Q_ASSERT(m_nepomukUriItems.isEmpty());
 
-            m_nepomukResourceWatcher = new Nepomuk::ResourceWatcher(this);
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk::Resource,Nepomuk::Types::Property,QVariantList,QVariantList)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyRemoved(Nepomuk::Resource,Nepomuk::Types::Property,QVariant)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyAdded(Nepomuk::Resource,Nepomuk::Types::Property,QVariant)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(resourceCreated(Nepomuk::Resource,QList<QUrl>)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+            m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyRemoved(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariant)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyAdded(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariant)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(resourceCreated(Nepomuk2::Resource,QList<QUrl>)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
         } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
             delete m_nepomukResourceWatcher;
             m_nepomukResourceWatcher = 0;
@@ -351,14 +351,14 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
     if (m_nepomukResourceWatcher) {
         // Don't let the ResourceWatcher watch for removed items
         if (allItemsRemoved) {
-            m_nepomukResourceWatcher->setResources(QList<Nepomuk::Resource>());
+            m_nepomukResourceWatcher->setResources(QList<Nepomuk2::Resource>());
             m_nepomukResourceWatcher->stop();
             m_nepomukUriItems.clear();
         } else {
-            QList<Nepomuk::Resource> newResources;
-            const QList<Nepomuk::Resource> oldResources = m_nepomukResourceWatcher->resources();
-            foreach (const Nepomuk::Resource& resource, oldResources) {
-                const QUrl uri = resource.resourceUri();
+            QList<Nepomuk2::Resource> newResources;
+            const QList<Nepomuk2::Resource> oldResources = m_nepomukResourceWatcher->resources();
+            foreach (const Nepomuk2::Resource& resource, oldResources) {
+                const QUrl uri = resource.uri();
                 const KUrl itemUrl = m_nepomukUriItems.value(uri);
                 if (m_model->index(itemUrl) >= 0) {
                     newResources.append(resource);
@@ -588,10 +588,10 @@ void KFileItemModelRolesUpdater::resolveChangedItems()
     startUpdating(itemRanges);
 }
 
-void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk::Resource& resource)
+void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resource& resource)
 {
 #ifdef HAVE_NEPOMUK
-    const KUrl itemUrl = m_nepomukUriItems.value(resource.resourceUri());
+    const KUrl itemUrl = m_nepomukUriItems.value(resource.uri());
     const KFileItem item = m_model->fileItem(itemUrl);
 
     if (item.isNull()) {
@@ -1071,19 +1071,19 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 #ifdef HAVE_NEPOMUK
     if (m_nepomukResourceWatcher) {
         const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        Nepomuk::Resource resource(item.nepomukUri());
+        Nepomuk2::Resource resource(item.nepomukUri());
         QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
         while (it.hasNext()) {
             it.next();
             data.insert(it.key(), it.value());
         }
 
-        QUrl uri = resource.resourceUri();
+        QUrl uri = resource.uri();
         if (uri.isEmpty()) {
             // TODO: Is there another way to explicitly create a resource?
             // We need a resource to be able to track it for changes.
             resource.setRating(0);
-            uri = resource.resourceUri();
+            uri = resource.uri();
         }
         if (!uri.isEmpty() && !m_nepomukUriItems.contains(uri)) {
             m_nepomukResourceWatcher->addResource(resource);
