@@ -896,8 +896,6 @@ void PlacesItemModel::createSystemBookmarks()
     Q_ASSERT(m_systemBookmarks.isEmpty());
     Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
 
-    const QString timeLineIcon = "chronometer";
-
     // Note: The context of the I18N_NOOP2 must be "KFile System Bookmarks". The real
     // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
     // done here is because otherwise switching the language would not result in retranslating the
@@ -917,16 +915,16 @@ void PlacesItemModel::createSystemBookmarks()
 
     if (m_fileIndexingEnabled) {
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
-                                                    timeLineIcon,
+                                                    "go-jump-today",
                                                     I18N_NOOP2("KFile System Bookmarks", "Today")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/yesterday"),
-                                                    timeLineIcon,
+                                                    "view-calendar-day",
                                                     I18N_NOOP2("KFile System Bookmarks", "Yesterday")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/thismonth"),
-                                                    timeLineIcon,
+                                                    "view-calendar-month",
                                                     I18N_NOOP2("KFile System Bookmarks", "This Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/lastmonth"),
-                                                    timeLineIcon,
+                                                    "view-calendar-month",
                                                     I18N_NOOP2("KFile System Bookmarks", "Last Month")));
         m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/documents"),
                                                     "folder-txt",
