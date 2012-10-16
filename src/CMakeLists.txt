@@ -1,3 +1,4 @@
+macro_optional_find_package(Soprano)
 macro_optional_find_package(NepomukCore)
 macro_log_feature(NepomukCore_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
 macro_bool_to_01(NepomukCore_FOUND HAVE_NEPOMUK)
