@@ -45,10 +45,12 @@ UpdateItemStatesThread::~UpdateItemStatesThread()
 void UpdateItemStatesThread::setData(KVersionControlPlugin* plugin,
                                      const QList<VersionControlObserver::ItemState>& itemStates)
 {
-    QMutexLocker itemLocker(&m_itemMutex);
-    m_itemStates = itemStates;
-
+    // The locks are taken in the same order as in run()
+    // to avoid potential deadlock.
     QMutexLocker pluginLocker(m_globalPluginMutex);
+    QMutexLocker itemLocker(&m_itemMutex);
+
+    m_itemStates = itemStates;
     m_plugin = plugin;
 }
 
@@ -58,11 +60,12 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(m_plugin);
 
     QMutexLocker itemLocker(&m_itemMutex);
+
     const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
+    m_retrievedItems = false;
     itemLocker.unlock();
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
-    m_retrievedItems = false;
     if (m_plugin->beginRetrieval(directory)) {
         itemLocker.relock();
         const int count = m_itemStates.count();
