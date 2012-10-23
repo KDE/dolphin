@@ -37,6 +37,7 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
     m_access(),
     m_volume(),
     m_disc(),
+    m_mtp(),
     m_signalHandler(0),
     m_trashDirLister(0),
     m_bookmark()
@@ -124,6 +125,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     delete m_access;
     delete m_volume;
     delete m_disc;
+    delete m_mtp;
 
 
     const QString udi = bookmark.metaDataItem("UDI");
@@ -252,6 +254,7 @@ void PlacesItem::initializeDevice(const QString& udi)
     m_access = m_device.as<Solid::StorageAccess>();
     m_volume = m_device.as<Solid::StorageVolume>();
     m_disc = m_device.as<Solid::OpticalDisc>();
+    m_mtp = m_device.as<Solid::PortableMediaPlayer>();
 
     setText(m_device.description());
     setIcon(m_device.icon());
@@ -265,6 +268,9 @@ void PlacesItem::initializeDevice(const QString& udi)
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         const QString device = m_device.as<Solid::Block>()->device();
         setUrl(QString("audiocd:/?device=%1").arg(device));
+    } else if (m_mtp && m_mtp->supportedProtocols().contains("mtp")) {
+        setText(m_device.product());
+        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
     }
 }
 
