@@ -31,6 +31,7 @@
 #include <KComponentData>
 #include <KDebug>
 #include <KIcon>
+#include <kprotocolinfo.h>
 #include <KLocale>
 #include <KStandardDirs>
 #include <KUser>
@@ -554,11 +555,14 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
 {
     const Solid::Device device(udi);
-    if (m_predicate.matches(device)) {
-        m_availableDevices << udi;
-        const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
-        appendItem(new PlacesItem(bookmark));
+
+    if (!m_predicate.matches(device)) {
+        return;
     }
+
+    m_availableDevices << udi;
+    const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
+    appendItem(new PlacesItem(bookmark));
 }
 
 void PlacesItemModel::slotDeviceRemoved(const QString& udi)
@@ -949,14 +953,21 @@ void PlacesItemModel::createSystemBookmarks()
 
 void PlacesItemModel::initializeAvailableDevices()
 {
-    m_predicate = Solid::Predicate::fromString(
-        "[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
+    QString predicate("[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
         " OR "
         "[ IS StorageAccess AND StorageDrive.driveType == 'Floppy' ]]"
         " OR "
         "OpticalDisc.availableContent & 'Audio' ]"
         " OR "
         "StorageAccess.ignored == false ]");
+
+
+    if (KProtocolInfo::isKnownProtocol("mtp")) {
+        predicate.prepend("[");
+        predicate.append(" OR PortableMediaPlayer.supportedProtocols == 'mtp']");
+    }
+
+    m_predicate = Solid::Predicate::fromString(predicate);
     Q_ASSERT(m_predicate.isValid());
 
     Solid::DeviceNotifier* notifier = Solid::DeviceNotifier::instance();

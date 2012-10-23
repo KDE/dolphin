@@ -28,6 +28,7 @@
 #include <Solid/OpticalDisc>
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
+#include <Solid/PortableMediaPlayer>
 
 class KDirLister;
 class PlacesItemSignalHandler;
@@ -115,6 +116,7 @@ private:
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
+    QPointer<Solid::PortableMediaPlayer> m_mtp;
     QPointer<PlacesItemSignalHandler> m_signalHandler;
     QPointer<KDirLister> m_trashDirLister;
     KBookmark m_bookmark;
