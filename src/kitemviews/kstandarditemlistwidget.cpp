@@ -1223,6 +1223,7 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
     QRect siblingRect(x, 0, siblingSize, siblingSize);
 
     QStyleOption option;
+    option.palette.setColor(QPalette::Text, option.palette.color(normalTextColorRole()));
     bool isItemSibling = true;
 
     const QBitArray siblings = siblingsInformation();
