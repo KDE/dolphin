@@ -42,6 +42,7 @@
 #include <QStyleOption>
 #include <QTextLayout>
 #include <QTextLine>
+#include <QPixmapCache>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
 
@@ -1279,30 +1280,37 @@ void KStandardItemListWidget::closeRoleEditor()
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, int size)
 {
-    const KIcon icon(name);
+    const QString key = "KStandardItemListWidget:" % name  % ":" % QString::number(size);
+    QPixmap pixmap;
 
-    int requestedSize;
-    if (size <= KIconLoader::SizeSmall) {
-        requestedSize = KIconLoader::SizeSmall;
-    } else if (size <= KIconLoader::SizeSmallMedium) {
-        requestedSize = KIconLoader::SizeSmallMedium;
-    } else if (size <= KIconLoader::SizeMedium) {
-        requestedSize = KIconLoader::SizeMedium;
-    } else if (size <= KIconLoader::SizeLarge) {
-        requestedSize = KIconLoader::SizeLarge;
-    } else if (size <= KIconLoader::SizeHuge) {
-        requestedSize = KIconLoader::SizeHuge;
-    } else if (size <= KIconLoader::SizeEnormous) {
-        requestedSize = KIconLoader::SizeEnormous;
-    } else if (size <= KIconLoader::SizeEnormous * 2) {
-        requestedSize = KIconLoader::SizeEnormous * 2;
-    } else {
-        requestedSize = size;
-    }
+    if (!QPixmapCache::find(key, pixmap)) {
+        const KIcon icon(name);
 
-    QPixmap pixmap = icon.pixmap(requestedSize, requestedSize);
-    if (requestedSize != size) {
-        KPixmapModifier::scale(pixmap, QSize(size, size));
+        int requestedSize;
+        if (size <= KIconLoader::SizeSmall) {
+            requestedSize = KIconLoader::SizeSmall;
+        } else if (size <= KIconLoader::SizeSmallMedium) {
+            requestedSize = KIconLoader::SizeSmallMedium;
+        } else if (size <= KIconLoader::SizeMedium) {
+            requestedSize = KIconLoader::SizeMedium;
+        } else if (size <= KIconLoader::SizeLarge) {
+            requestedSize = KIconLoader::SizeLarge;
+        } else if (size <= KIconLoader::SizeHuge) {
+            requestedSize = KIconLoader::SizeHuge;
+        } else if (size <= KIconLoader::SizeEnormous) {
+            requestedSize = KIconLoader::SizeEnormous;
+        } else if (size <= KIconLoader::SizeEnormous * 2) {
+            requestedSize = KIconLoader::SizeEnormous * 2;
+        } else {
+            requestedSize = size;
+        }
+
+        pixmap = icon.pixmap(requestedSize, requestedSize);
+        if (requestedSize != size) {
+            KPixmapModifier::scale(pixmap, QSize(size, size));
+        }
+
+        QPixmapCache::insert(key, pixmap);
     }
 
     return pixmap;
