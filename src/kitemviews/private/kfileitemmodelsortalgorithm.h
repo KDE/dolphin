@@ -44,6 +44,15 @@ public:
                      QList<KFileItemModel::ItemData*>::iterator end);
 
 private:
+    static void sequentialSort(KFileItemModel* model,
+                               QList<KFileItemModel::ItemData*>::iterator begin,
+                               QList<KFileItemModel::ItemData*>::iterator end);
+
+    static void parallelSort(KFileItemModel* model,
+                             QList<KFileItemModel::ItemData*>::iterator begin,
+                             QList<KFileItemModel::ItemData*>::iterator end,
+                             const int numberOfThreads);
+
     static void merge(KFileItemModel* model,
                       QList<KFileItemModel::ItemData*>::iterator begin,
                       QList<KFileItemModel::ItemData*>::iterator pivot,

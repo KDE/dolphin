@@ -19,9 +19,20 @@
 
 #include "kfileitemmodelsortalgorithm.h"
 
+#include <QThread>
+#include <QtCore>
+
 void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
                                        QList<KFileItemModel::ItemData*>::iterator begin,
                                        QList<KFileItemModel::ItemData*>::iterator end)
+{
+    static const int numberOfThreads = QThread::idealThreadCount();
+    parallelSort(model, begin, end, numberOfThreads);
+}
+
+void KFileItemModelSortAlgorithm::sequentialSort(KFileItemModel* model,
+                                                 QList< KFileItemModel::ItemData* >::iterator begin,
+                                                 QList< KFileItemModel::ItemData* >::iterator end)
 {
     // The implementation is based on qStableSortHelper() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -35,6 +46,28 @@ void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
     sort(model, begin, middle);
     sort(model, middle, end);
     merge(model, begin, middle, end);
+}
+
+void KFileItemModelSortAlgorithm::parallelSort(KFileItemModel* model,
+                                               QList< KFileItemModel::ItemData* >::iterator begin,
+                                               QList< KFileItemModel::ItemData* >::iterator end,
+                                               const int numberOfThreads)
+{
+    const int span = end - begin;
+
+    if (numberOfThreads > 1 && span > 100) {
+        const int newNumberOfThreads = numberOfThreads / 2;
+        const QList<KFileItemModel::ItemData*>::iterator middle = begin + span / 2;
+
+        QFuture<void> future = QtConcurrent::run(parallelSort, model, begin, middle, newNumberOfThreads);
+        parallelSort(model, middle, end, newNumberOfThreads);
+
+        future.waitForFinished();
+
+        merge(model, begin, middle, end);
+    } else {
+        sequentialSort(model, begin, end);
+    }
 }
 
 void KFileItemModelSortAlgorithm::merge(KFileItemModel* model,
