@@ -24,6 +24,7 @@
 #include "treeviewcontextmenu.h"
 #include "foldersitemlistwidget.h"
 
+#include <views/renamedialog.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kfileitemlistwidget.h>
@@ -90,8 +91,16 @@ bool FoldersPanel::autoScrolling() const
 
 void FoldersPanel::rename(const KFileItem& item)
 {
-    const int index = m_model->index(item);
-    m_controller->view()->editRole(index, "text");
+    if (GeneralSettings::renameInline()) {
+        const int index = m_model->index(item);
+        m_controller->view()->editRole(index, "text");
+    } else {
+        RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        dialog->raise();
+        dialog->activateWindow();
+    }
 }
 
 bool FoldersPanel::urlChanged()

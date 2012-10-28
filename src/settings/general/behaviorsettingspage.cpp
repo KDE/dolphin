@@ -42,7 +42,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_globalViewProps(0),
     m_showToolTips(0),
     m_showSelectionToggle(0),
-    m_naturalSorting(0)
+    m_naturalSorting(0),
+    m_renameInline(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -66,10 +67,14 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     // 'Natural sorting of items'
     m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
 
+    // 'Inline renaming of items'
+    m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"), this);
+
     topLayout->addWidget(viewPropsBox);
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
     topLayout->addWidget(m_naturalSorting);
+    topLayout->addWidget(m_renameInline);
     topLayout->addStretch();
 
     loadSettings();
@@ -79,6 +84,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()
@@ -95,6 +101,7 @@ void BehaviorSettingsPage::applySettings()
 
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->setRenameInline(m_renameInline->isChecked());
     settings->writeConfig();
 
     if (useGlobalViewProps) {
@@ -131,6 +138,7 @@ void BehaviorSettingsPage::loadSettings()
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
+    m_renameInline->setChecked(GeneralSettings::renameInline());
 }
 
 #include "behaviorsettingspage.moc"

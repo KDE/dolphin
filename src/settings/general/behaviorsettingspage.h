@@ -58,6 +58,7 @@ private:
     QLabel* m_configureToolTips;
     QCheckBox* m_showSelectionToggle;
     QCheckBox* m_naturalSorting;
+    QCheckBox* m_renameInline;
 };
 
 #endif
