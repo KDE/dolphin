@@ -43,8 +43,8 @@ void KFileItemModelSortAlgorithm::sequentialSort(KFileItemModel* model,
     }
 
     const QList<KFileItemModel::ItemData*>::iterator middle = begin + span / 2;
-    sort(model, begin, middle);
-    sort(model, middle, end);
+    sequentialSort(model, begin, middle);
+    sequentialSort(model, middle, end);
     merge(model, begin, middle, end);
 }
 
