@@ -111,6 +111,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
     connect(m_view, SIGNAL(directoryLoadingStarted()),          this, SLOT(slotDirectoryLoadingStarted()));
     connect(m_view, SIGNAL(directoryLoadingCompleted()),        this, SLOT(slotDirectoryLoadingCompleted()));
+    connect(m_view, SIGNAL(directoryLoadingCanceled()),         this, SLOT(slotDirectoryLoadingCanceled()));
     connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(directoryLoadingProgress(int)),      this, SLOT(updateDirectoryLoadingProgress(int)));
     connect(m_view, SIGNAL(directorySortingProgress(int)),      this, SLOT(updateDirectorySortingProgress(int)));
@@ -449,6 +450,16 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
     } else {
         updateStatusBar();
     }
+}
+
+void DolphinViewContainer::slotDirectoryLoadingCanceled()
+{
+    if (!m_statusBar->progressText().isEmpty()) {
+        m_statusBar->setProgressText(QString());
+        m_statusBar->setProgress(100);
+    }
+
+    showErrorMessage("Directory loading has been canceled.");
 }
 
 void DolphinViewContainer::slotUrlIsFileError(const KUrl& url)

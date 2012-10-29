@@ -484,6 +484,12 @@ signals:
     void directoryLoadingCompleted();
 
     /**
+     * Is emitted after the directory loading triggered by DolphinView::setUrl()
+     * has been canceled.
+     */
+    void directoryLoadingCanceled();
+
+    /**
      * Is emitted after DolphinView::setUrl() has been invoked and provides
      * the information how much percent of the current directory have been loaded.
      */

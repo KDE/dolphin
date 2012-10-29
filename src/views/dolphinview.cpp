@@ -154,6 +154,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     connect(m_model, SIGNAL(directoryLoadingStarted()),       this, SLOT(slotDirectoryLoadingStarted()));
     connect(m_model, SIGNAL(directoryLoadingCompleted()),     this, SLOT(slotDirectoryLoadingCompleted()));
+    connect(m_model, SIGNAL(directoryLoadingCanceled()),      this, SIGNAL(directoryLoadingCanceled()));
     connect(m_model, SIGNAL(directoryLoadingProgress(int)),   this, SIGNAL(directoryLoadingProgress(int)));
     connect(m_model, SIGNAL(directorySortingProgress(int)),   this, SIGNAL(directorySortingProgress(int)));
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),

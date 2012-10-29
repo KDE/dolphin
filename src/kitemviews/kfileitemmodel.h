@@ -217,6 +217,11 @@ signals:
     void directoryLoadingCompleted();
 
     /**
+     * Is emitted after the loading of a directory has been canceled.
+     */
+    void directoryLoadingCanceled();
+
+    /**
      * Informs about the progress in percent when loading a directory. It is assured
      * that the signal directoryLoadingStarted() has been emitted before.
      */

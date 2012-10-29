@@ -716,6 +716,8 @@ void KFileItemModel::slotCanceled()
 {
     m_maximumUpdateIntervalTimer->stop();
     dispatchPendingItemsToInsert();
+
+    emit directoryLoadingCanceled();
 }
 
 void KFileItemModel::slotNewItems(const KFileItemList& items)

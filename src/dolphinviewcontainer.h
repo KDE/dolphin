@@ -196,6 +196,12 @@ private slots:
     void slotDirectoryLoadingCompleted();
 
     /**
+     * Updates the statusbar to show, that the directory loading has
+     * been canceled.
+     */
+    void slotDirectoryLoadingCanceled();
+
+    /**
      * Is called if the URL set by DolphinView::setUrl() represents
      * a file and not a directory. Takes care to activate the file.
      */
