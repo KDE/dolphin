@@ -68,8 +68,12 @@ void DolphinDockWidget::setLocked(bool lock)
                 m_dockTitleBar = new DolphinDockTitleBar(this);
             }
             setTitleBarWidget(m_dockTitleBar);
+            setFeatures(QDockWidget::NoDockWidgetFeatures);
         } else {
             setTitleBarWidget(0);
+            setFeatures(QDockWidget::DockWidgetMovable |
+                        QDockWidget::DockWidgetFloatable |
+                        QDockWidget::DockWidgetClosable);
         }
     }
 }
