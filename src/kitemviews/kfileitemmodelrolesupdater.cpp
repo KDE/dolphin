@@ -438,21 +438,8 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
 
 void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
 {
-    const int oldNumberOfPendingItems = m_pendingVisibleItems.count() + m_pendingInvisibleItems.count();
-
     m_pendingVisibleItems.remove(item);
     m_pendingInvisibleItems.remove(item);
-
-    const int newNumberOfPendingItems = m_pendingVisibleItems.count() + m_pendingInvisibleItems.count();
-
-    if (oldNumberOfPendingItems == newNumberOfPendingItems) {
-        // 'item' could not be removed from either of the sets. It looks like
-        // we have hit bug 304986. Replace the items in the sets by the items
-        // in the model to work around the problem.
-        // NOTE: This workaround is not needed any more in KDE 4.10.
-        m_pendingVisibleItems = sortedItems(m_pendingVisibleItems).toSet();
-        m_pendingInvisibleItems = sortedItems(m_pendingInvisibleItems).toSet();
-    }
 
     const int index = m_model->index(item);
     if (index < 0) {
@@ -511,21 +498,8 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
 void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
 {
-    const int oldNumberOfPendingItems = m_pendingVisibleItems.count() + m_pendingInvisibleItems.count();
-
     m_pendingVisibleItems.remove(item);
     m_pendingInvisibleItems.remove(item);
-
-    const int newNumberOfPendingItems = m_pendingVisibleItems.count() + m_pendingInvisibleItems.count();
-
-    if (oldNumberOfPendingItems == newNumberOfPendingItems) {
-        // 'item' could not be removed from either of the sets. It looks like
-        // we have hit bug 304986. Replace the items in the sets by the items
-        // in the model to work around the problem.
-        // NOTE: This workaround is not needed any more in KDE 4.10.
-        m_pendingVisibleItems = sortedItems(m_pendingVisibleItems).toSet();
-        m_pendingInvisibleItems = sortedItems(m_pendingInvisibleItems).toSet();
-    }
 
     const bool clearPreviews = m_clearPreviews;
     m_clearPreviews = true;
