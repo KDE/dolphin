@@ -635,25 +635,25 @@ void DolphinView::clearSelection()
 void DolphinView::renameSelectedItems()
 {
     const KFileItemList items = selectedItems();
-     if (items.isEmpty()) {
-         return;
-     }
+    if (items.isEmpty()) {
+        return;
+    }
 
-     if (items.count() == 1 && GeneralSettings::renameInline()) {
-         const int index = m_model->index(items.first());
-         m_view->editRole(index, "text");
-     } else {
-         RenameDialog* dialog = new RenameDialog(this, items);
-         dialog->setAttribute(Qt::WA_DeleteOnClose);
-         dialog->show();
-         dialog->raise();
-         dialog->activateWindow();
-     }
+    if (items.count() == 1 && GeneralSettings::renameInline()) {
+        const int index = m_model->index(items.first());
+        m_view->editRole(index, "text");
+    } else {
+        RenameDialog* dialog = new RenameDialog(this, items);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        dialog->raise();
+        dialog->activateWindow();
+    }
 
-     // Assure that the current index remains visible when KFileItemModel
-     // will notify the view about changed items (which might result in
-     // a changed sorting).
-     m_assureVisibleCurrentIndex = true;
+    // Assure that the current index remains visible when KFileItemModel
+    // will notify the view about changed items (which might result in
+    // a changed sorting).
+    m_assureVisibleCurrentIndex = true;
 }
 
 void DolphinView::trashSelectedItems()

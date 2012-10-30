@@ -28,20 +28,20 @@
 void myMessageOutput(QtMsgType type, const char* msg)
 {
     switch (type) {
-     case QtDebugMsg:
-         break;
-     case QtWarningMsg:
-         break;
-     case QtCriticalMsg:
-         fprintf(stderr, "Critical: %s\n", msg);
-         break;
-     case QtFatalMsg:
-         fprintf(stderr, "Fatal: %s\n", msg);
-         abort();
-     default:
+    case QtDebugMsg:
         break;
+    case QtWarningMsg:
+        break;
+    case QtCriticalMsg:
+        fprintf(stderr, "Critical: %s\n", msg);
+        break;
+    case QtFatalMsg:
+        fprintf(stderr, "Fatal: %s\n", msg);
+        abort();
+    default:
+       break;
     }
- }
+}
 
 namespace {
     const int DefaultTimeout = 5000;

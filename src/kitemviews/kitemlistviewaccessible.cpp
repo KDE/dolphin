@@ -362,7 +362,7 @@ QAccessible::State KItemListAccessibleCell::state(int child) const
     QAccessible::State state = Normal;
 
     if (isSelected()) {
-         state |= Selected;
+        state |= Selected;
     }
 
     if (m_view->controller()->selectionManager()->currentItem() == m_index) {

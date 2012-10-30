@@ -578,14 +578,14 @@ void PlacesItemModel::slotDeviceRemoved(const QString& udi)
             delete item;
             return;
         }
-     }
+    }
 
-     for (int i = 0; i < count(); ++i) {
-         if (placesItem(i)->udi() == udi) {
-             removeItem(i);
-             return;
-         }
-     }
+    for (int i = 0; i < count(); ++i) {
+        if (placesItem(i)->udi() == udi) {
+            removeItem(i);
+            return;
+        }
+    }
 }
 
 void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData)

@@ -617,7 +617,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
                 break;
             case KDialog::No:
                 // Close only the current tab
-              closeTab();
+                closeTab();
             default:
                 event->ignore();
                 return;
@@ -683,7 +683,7 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 
         // openNewTab() needs to be called only tabCount - 1 times
         if (i != tabCount - 1) {
-             openNewTab();
+            openNewTab();
         }
     }
 

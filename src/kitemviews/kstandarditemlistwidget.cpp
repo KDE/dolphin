@@ -601,8 +601,8 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
 {
     Q_UNUSED(previous);
 
-   QGraphicsView* parent = scene()->views()[0];
-   if (current.isEmpty() || !parent || current != "text") {
+    QGraphicsView* parent = scene()->views()[0];
+    if (current.isEmpty() || !parent || current != "text") {
         if (m_roleEditor) {
             emit roleEditingCanceled(index(), current, data().value(current));
 

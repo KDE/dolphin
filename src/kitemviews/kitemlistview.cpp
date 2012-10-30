@@ -1438,9 +1438,9 @@ void KItemListView::triggerAutoScrolling()
     const qreal newScrollOffset = qMin(scrollOffset() + m_autoScrollIncrement, maxVisibleOffset);
     setScrollOffset(newScrollOffset);
 
-   // Trigger the autoscroll timer which will periodically call
-   // triggerAutoScrolling()
-   m_autoScrollTimer->start(RepeatingAutoScrollDelay);
+    // Trigger the autoscroll timer which will periodically call
+    // triggerAutoScrolling()
+    m_autoScrollTimer->start(RepeatingAutoScrollDelay);
 }
 
 void KItemListView::slotGeometryOfGroupHeaderParentChanged()
