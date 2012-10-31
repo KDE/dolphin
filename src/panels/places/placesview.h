@@ -33,6 +33,9 @@ class PlacesView : public KStandardItemListView
 
 public:
     explicit PlacesView(QGraphicsWidget* parent = 0);
+
+    void setIconSize(int size);
+    int iconSize() const;
 };
 
 #endif

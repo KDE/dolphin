@@ -28,6 +28,7 @@ class KItemListController;
 class PlacesItemEditDialog;
 class PlacesItem;
 class PlacesItemModel;
+class PlacesView;
 class QGraphicsSceneDragDropEvent;
 
 /**
@@ -81,6 +82,7 @@ private:
 private:
     KItemListController* m_controller;
     PlacesItemModel* m_model;
+    PlacesView* m_view;
 
     KUrl m_storageSetupFailedUrl;
     Qt::MouseButton m_triggerStorageSetupButton;

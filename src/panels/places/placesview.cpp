@@ -26,10 +26,27 @@ PlacesView::PlacesView(QGraphicsWidget* parent) :
 {
     const int iconSize = PlacesPanelSettings::iconSize();
     if (iconSize >= 0) {
+        setIconSize(iconSize);
+    }
+}
+
+void PlacesView::setIconSize(int size)
+{
+    if (size != iconSize()) {
+        PlacesPanelSettings* settings = PlacesPanelSettings::self();
+        settings->setIconSize(size);
+        settings->writeConfig();
+
         KItemListStyleOption option = styleOption();
-        option.iconSize = iconSize;
+        option.iconSize = size;
         setStyleOption(option);
     }
+}
+
+int PlacesView::iconSize() const
+{
+    const KItemListStyleOption option = styleOption();
+    return option.iconSize;
 }
 
 #include "placesview.moc"

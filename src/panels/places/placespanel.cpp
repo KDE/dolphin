@@ -104,11 +104,11 @@ void PlacesPanel::showEvent(QShowEvent* event)
         connect(m_model, SIGNAL(errorMessage(QString)),
                 this, SIGNAL(errorMessage(QString)));
 
-        PlacesView* view = new PlacesView();
-        view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
-        view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
+        m_view = new PlacesView();
+        m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
+        m_view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
 
-        m_controller = new KItemListController(m_model, view, this);
+        m_controller = new KItemListController(m_model, m_view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setSingleClickActivation(true);
 
@@ -217,6 +217,33 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     menu.addSeparator();
+    KMenu* iconSizeSubMenu = new KMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
+
+    typedef QPair<QString, int> PairQStringInt;
+    QList<PairQStringInt> iconSizes;
+
+    iconSizes << qMakePair(i18nc("Small icon size", "Small (%1x%2)", 16, 16), 16);
+    iconSizes << qMakePair(i18nc("Medium icon size", "Medium (%1x%2)", 22, 22), 22);
+    iconSizes << qMakePair(i18nc("Large icon size", "Large (%1x%2)", 32, 32), 32);
+    iconSizes << qMakePair(i18nc("Huge icon size", "Huge (%1x%2)", 48, 48), 48);
+
+    QMap<QAction*, int> iconSizeActionMap;
+    QActionGroup* iconSizeGroup = new QActionGroup(iconSizeSubMenu);
+
+    foreach (const PairQStringInt& pair, iconSizes) {
+        const QString& text = pair.first;
+        const int size = pair.second;
+
+        QAction* action = iconSizeSubMenu->addAction(text);
+        iconSizeActionMap.insert(action, size);
+        action->setActionGroup(iconSizeGroup);
+        action->setCheckable(true);
+        action->setChecked(m_view->iconSize() == size);
+    }
+
+    menu.addMenu(iconSizeSubMenu);
+
+    menu.addSeparator();
     foreach (QAction* action, customContextMenuActions()) {
         menu.addAction(action);
     }
@@ -242,6 +269,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             m_model->requestTeardown(index);
         } else if (action == ejectAction) {
             m_model->requestEject(index);
+        } else if (iconSizeActionMap.contains(action)) {
+            m_view->setIconSize(iconSizeActionMap.value(action));
         }
     }
 
