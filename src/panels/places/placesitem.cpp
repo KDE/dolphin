@@ -268,8 +268,7 @@ void PlacesItem::initializeDevice(const QString& udi)
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         const QString device = m_device.as<Solid::Block>()->device();
         setUrl(QString("audiocd:/?device=%1").arg(device));
-    } else if (m_mtp && m_mtp->supportedProtocols().contains("mtp")) {
-        setText(m_device.product());
+    } else if (m_mtp) {
         setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
     }
 }
