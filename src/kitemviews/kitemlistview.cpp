@@ -1429,12 +1429,16 @@ void KItemListView::slotGeometryOfGroupHeaderParentChanged()
 
 void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
 {
+    disconnectRoleEditingSignals(index);
+
     emit roleEditingCanceled(index, role, value);
     m_editingRole = false;
 }
 
 void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
+    disconnectRoleEditingSignals(index);
+
     emit roleEditingFinished(index, role, value);
     m_editingRole = false;
 }
@@ -2503,6 +2507,17 @@ bool KItemListView::hasSiblingSuccessor(int index) const
     }
 
     return hasSuccessor;
+}
+
+void KItemListView::disconnectRoleEditingSignals(int index)
+{
+    KItemListWidget* widget = m_visibleItems.value(index);
+    if (!widget) {
+        return;
+    }
+
+    widget->disconnect(SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)), this);
+    widget->disconnect(SIGNAL(roleEditingFinished(int,QByteArray,QVariant)), this);
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

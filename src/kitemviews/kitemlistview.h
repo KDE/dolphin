@@ -663,6 +663,13 @@ private:
     bool hasSiblingSuccessor(int index) const;
 
     /**
+     * Helper method for slotRoleEditingCanceled() and slotRoleEditingFinished().
+     * Disconnects the two Signals "roleEditingCanceled" and
+     * "roleEditingFinished"
+     */
+    void disconnectRoleEditingSignals(int index);
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.
