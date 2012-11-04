@@ -123,14 +123,17 @@ void PhononWidget::showEvent(QShowEvent *event)
 
         m_topLayout->addLayout(controlsLayout);
 
+        const int smallIconSize = IconSize(KIconLoader::Small);
+        const QSize buttonSize(smallIconSize, smallIconSize);
+
         m_playButton->setToolTip(i18n("play"));
-        m_playButton->setIconSize(QSize(16, 16));
+        m_playButton->setIconSize(buttonSize);
         m_playButton->setIcon(KIcon("media-playback-start"));
         m_playButton->setAutoRaise(true);
         connect(m_playButton, SIGNAL(clicked()), this, SLOT(play()));
 
         m_stopButton->setToolTip(i18n("stop"));
-        m_stopButton->setIconSize(QSize(16, 16));
+        m_stopButton->setIconSize(buttonSize);
         m_stopButton->setIcon(KIcon("media-playback-stop"));
         m_stopButton->setAutoRaise(true);
         m_stopButton->hide();
