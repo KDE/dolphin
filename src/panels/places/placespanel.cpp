@@ -219,20 +219,28 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     menu.addSeparator();
     KMenu* iconSizeSubMenu = new KMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
 
-    typedef QPair<QString, int> PairQStringInt;
-    QList<PairQStringInt> iconSizes;
+    struct IconSizeInfo
+    {
+        int size;
+        const char* context;
+        const char* text;
+    };
 
-    iconSizes << qMakePair(i18nc("Small icon size", "Small (%1x%2)", 16, 16), 16);
-    iconSizes << qMakePair(i18nc("Medium icon size", "Medium (%1x%2)", 22, 22), 22);
-    iconSizes << qMakePair(i18nc("Large icon size", "Large (%1x%2)", 32, 32), 32);
-    iconSizes << qMakePair(i18nc("Huge icon size", "Huge (%1x%2)", 48, 48), 48);
+    const int iconSizeCount = 4;
+    static const IconSizeInfo iconSizes[iconSizeCount] = {
+        {KIconLoader::SizeSmall,        I18N_NOOP2_NOSTRIP("Small icon size", "Small (%1x%2)")},
+        {KIconLoader::SizeSmallMedium,  I18N_NOOP2_NOSTRIP("Medium icon size", "Medium (%1x%2)")},
+        {KIconLoader::SizeMedium,       I18N_NOOP2_NOSTRIP("Large icon size", "Large (%1x%2)")},
+        {KIconLoader::SizeLarge,        I18N_NOOP2_NOSTRIP("Huge icon size", "Huge (%1x%2)")}
+    };
 
     QMap<QAction*, int> iconSizeActionMap;
     QActionGroup* iconSizeGroup = new QActionGroup(iconSizeSubMenu);
 
-    foreach (const PairQStringInt& pair, iconSizes) {
-        const QString& text = pair.first;
-        const int size = pair.second;
+    for (int i = 0; i < iconSizeCount; ++i) {
+        const int size = iconSizes[i].size;
+        const QString text = i18nc(iconSizes[i].context, iconSizes[i].text,
+                                   size, size);
 
         QAction* action = iconSizeSubMenu->addAction(text);
         iconSizeActionMap.insert(action, size);
