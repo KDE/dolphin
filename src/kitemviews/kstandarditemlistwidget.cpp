@@ -610,7 +610,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
                        this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
             disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                        this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
-            m_roleEditor->deleteLater();
+            // Do not delete the role editor using deleteLater() because we might be
+            // inside a nested event loop which has been started by one of its event
+            // handlers (contextMenuEvent() or drag&drop inside mouseMoveEvent()).
+            m_roleEditor->deleteWhenIdle();
             m_roleEditor = 0;
         }
         return;
@@ -1275,7 +1278,11 @@ void KStandardItemListWidget::closeRoleEditor()
                this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
     disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
-    m_roleEditor->deleteLater();
+
+    // Do not delete the role editor using deleteLater() because we might be
+    // inside a nested event loop which has been started by one of its event
+    // handlers (contextMenuEvent() or drag&drop inside mouseMoveEvent()).
+    m_roleEditor->deleteWhenIdle();
     m_roleEditor = 0;
 }
 

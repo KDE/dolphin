@@ -1357,9 +1357,18 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
             const KUrl oldUrl = oldItem.url();
 
-            QHash<QByteArray, QVariant> data;
-            data.insert(role, value);
-            m_model->setData(index, data);
+            const KUrl newUrl(url().path(KUrl::AddTrailingSlash) + newName);
+            const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
+            if (!newNameExistsAlready) {
+                // Only change the data in the model if no item with the new name
+                // is in the model yet. If there is an item with the new name
+                // already, calling KonqOperations::rename() will open a dialog
+                // asking for a new name, and KFileItemModel will update the
+                // data when the dir lister signals that the file name has changed.
+                QHash<QByteArray, QVariant> data;
+                data.insert(role, value);
+                m_model->setData(index, data);
+            }
 
             KonqOperations::rename(this, oldUrl, newName);
         }
