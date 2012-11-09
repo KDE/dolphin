@@ -598,6 +598,8 @@ void DolphinView::setUrl(const KUrl& url)
         return;
     }
 
+    clearSelection();
+
     emit urlAboutToBeChanged(url);
     m_url = url;
 
@@ -628,6 +630,7 @@ void DolphinView::invertSelection()
 
 void DolphinView::clearSelection()
 {
+    m_selectedUrls.clear();
     m_container->controller()->selectionManager()->clearSelection();
 }
 
@@ -1211,20 +1214,18 @@ void DolphinView::updateViewState()
     }
 
     if (!m_selectedUrls.isEmpty()) {
-        clearSelection();
-
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
         QSet<int> selectedItems = selectionManager->selectedItems();
 
-        foreach (const KUrl& url, m_selectedUrls) {
-            const int index = m_model->index(url);
+        for (QList<KUrl>::iterator it = m_selectedUrls.begin(); it != m_selectedUrls.end(); ++it) {
+            const int index = m_model->index(*it);
             if (index >= 0) {
                 selectedItems.insert(index);
+                m_selectedUrls.erase(it);
             }
         }
 
         selectionManager->setSelectedItems(selectedItems);
-        m_selectedUrls.clear();
     }
 }
 
