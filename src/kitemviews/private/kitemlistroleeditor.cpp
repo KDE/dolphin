@@ -144,7 +144,8 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         return;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-        emitRoleEditingFinished();
+        // TODO: find a better way to fix the bug 309760
+        clearFocus(); // emitRoleEditingFinished(); results in a crash
         event->accept();
         return;
     default:
