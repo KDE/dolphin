@@ -759,6 +759,7 @@ private:
     QPoint m_restoredContentsPosition;
 
     QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
+    bool m_clearSelectionBeforeSelectingNewItems;
 
     VersionControlObserver* m_versionControlObserver;
 
