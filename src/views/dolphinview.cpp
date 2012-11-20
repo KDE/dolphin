@@ -1182,8 +1182,11 @@ QString DolphinView::viewPropertiesContext() const
 
 void DolphinView::observeCreatedItem(const KUrl& url)
 {
-    markUrlAsCurrent(url);
-    markUrlsAsSelected(QList<KUrl>() << url);
+    if (m_active) {
+        clearSelection();
+        markUrlAsCurrent(url);
+        markUrlsAsSelected(QList<KUrl>() << url);
+    }
 }
 
 void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
