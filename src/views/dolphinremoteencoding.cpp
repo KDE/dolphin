@@ -38,7 +38,6 @@
 #include <KMenu>
 #include <KProtocolInfo>
 #include <KProtocolManager>
-#include <KIO/SlaveConfig>
 #include <KIO/Scheduler>
 #include <KConfigGroup>
 
@@ -132,9 +131,7 @@ void DolphinRemoteEncoding::updateMenu()
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
 
-    QString charset = KGlobal::charsets()->descriptionForEncoding(KIO::SlaveConfig::self()->configData(m_currentURL.protocol(),
-                                                                  m_currentURL.host(), DATA_KEY));
-
+    const QString charset = KGlobal::charsets()->descriptionForEncoding(KProtocolManager::charsetFor(m_currentURL));
     if (!charset.isEmpty()) {
         int id = 0;
         bool isFound = false;
