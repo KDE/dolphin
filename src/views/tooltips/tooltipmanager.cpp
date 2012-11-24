@@ -104,7 +104,9 @@ void ToolTipManager::hideToolTip()
 
     if (m_fileMetaDataToolTip) {
         m_fileMetaDataToolTip->hide();
-        delete m_fileMetaDataToolTip;
+        // Do not delete the tool tip immediately to prevent crashes when
+        // QCoreApplication tries to deliver an 'Enter' event to it, see bug 310579.
+        m_fileMetaDataToolTip->deleteLater();
         m_fileMetaDataToolTip = 0;
     }
 }
