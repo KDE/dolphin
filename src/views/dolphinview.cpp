@@ -101,6 +101,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_scrollToCurrentItem(false),
     m_restoredContentsPosition(),
     m_selectedUrls(),
+    m_clearSelectionBeforeSelectingNewItems(false),
     m_versionControlObserver(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -1227,6 +1228,12 @@ void DolphinView::updateViewState()
 
     if (!m_selectedUrls.isEmpty()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+
+        if (m_clearSelectionBeforeSelectingNewItems) {
+            selectionManager->clearSelection();
+            m_clearSelectionBeforeSelectingNewItems = false;
+        }
+
         QSet<int> selectedItems = selectionManager->selectedItems();
 
         for (QList<KUrl>::iterator it = m_selectedUrls.begin(); it != m_selectedUrls.end(); ++it) {
@@ -1544,6 +1551,7 @@ void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
         destUrls << destination;
     }
     markUrlsAsSelected(destUrls);
+    m_clearSelectionBeforeSelectingNewItems = true;
 }
 
 void DolphinView::updateWritableState()
