@@ -69,8 +69,13 @@ ViewProperties::ViewProperties(const KUrl& url) :
         useDetailsViewWithPath = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
-        const QFileInfo info(m_filePath);
-        if (!info.isWritable() || !isPartOfHome(m_filePath)) {
+        const QFileInfo dirInfo(m_filePath);
+        const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
+        // Check if the directory is writable and check if the ".directory" file exists and
+        // is read- and writable.
+        if (!dirInfo.isWritable()
+                || (fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()))
+                || !isPartOfHome(m_filePath)) {
 #ifdef Q_OS_WIN
 			// m_filePath probably begins with C:/ - the colon is not a valid character for paths though
 			m_filePath =  QDir::separator() + m_filePath.remove(QLatin1Char(':'));
