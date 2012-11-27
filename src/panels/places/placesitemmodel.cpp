@@ -90,7 +90,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
 #ifdef HAVE_NEPOMUK
     if (Nepomuk2::ResourceManager::instance()->initialized()) {
         KConfig config("nepomukserverrc");
-        m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
+        m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
     }
 
 #endif
