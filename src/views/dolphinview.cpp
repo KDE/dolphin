@@ -851,7 +851,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     nepomukRunning = (Nepomuk2::ResourceManager::instance()->initialized());
     if (nepomukRunning) {
         KConfig config("nepomukserverrc");
-        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
+        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
     }
 #endif
 
