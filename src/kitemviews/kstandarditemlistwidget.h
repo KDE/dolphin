@@ -241,6 +241,7 @@ private:
     QPixmap m_rating;
 
     KItemListRoleEditor* m_roleEditor;
+    KItemListRoleEditor* m_oldRoleEditor;
 
     friend class KStandardItemListWidgetInformant; // Accesses private static methods to be able to
                                                    // share a common layout calculation

@@ -82,11 +82,13 @@ KDE_EXPORT int kdemain(int argc, char **argv)
     options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
-    DolphinApplication app;
-    if (app.isSessionRestored()) {
-        app.restoreSession();
+    {
+        DolphinApplication app;
+        if (app.isSessionRestored()) {
+            app.restoreSession();
+        }
+        app.exec(); // krazy:exclude=crashy
     }
-    app.exec(); // krazy:exclude=crashy
 
     return 0;
 }

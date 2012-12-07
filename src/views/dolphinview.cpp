@@ -1236,11 +1236,14 @@ void DolphinView::updateViewState()
 
         QSet<int> selectedItems = selectionManager->selectedItems();
 
-        for (QList<KUrl>::iterator it = m_selectedUrls.begin(); it != m_selectedUrls.end(); ++it) {
+        QList<KUrl>::iterator it = m_selectedUrls.begin();
+        while (it != m_selectedUrls.end()) {
             const int index = m_model->index(*it);
             if (index >= 0) {
                 selectedItems.insert(index);
-                m_selectedUrls.erase(it);
+                it = m_selectedUrls.erase(it);
+            } else {
+                 ++it;
             }
         }
 
