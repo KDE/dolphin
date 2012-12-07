@@ -193,7 +193,8 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     m_additionalInfoTextColor(),
     m_overlay(),
     m_rating(),
-    m_roleEditor(0)
+    m_roleEditor(0),
+    m_oldRoleEditor(0)
 {
 }
 
@@ -203,6 +204,7 @@ KStandardItemListWidget::~KStandardItemListWidget()
     m_textInfo.clear();
 
     delete m_roleEditor;
+    delete m_oldRoleEditor;
 }
 
 void KStandardItemListWidget::setLayout(Layout layout)
@@ -609,13 +611,16 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
                        this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
             disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                        this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
-            // Do not delete the role editor using deleteLater() because we might be
-            // inside a nested event loop which has been started by one of its event
-            // handlers (contextMenuEvent() or drag&drop inside mouseMoveEvent()).
-            m_roleEditor->deleteWhenIdle();
+            m_oldRoleEditor = m_roleEditor;
+            m_roleEditor->hide();
             m_roleEditor = 0;
         }
         return;
+    } else if (m_oldRoleEditor) {
+        // Delete the old editor before constructing the new one to
+        // prevent a memory leak.
+        m_oldRoleEditor->deleteLater();
+        m_oldRoleEditor = 0;
     }
 
     Q_ASSERT(!m_roleEditor);
@@ -1267,21 +1272,19 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray& role) const
 
 void KStandardItemListWidget::closeRoleEditor()
 {
+    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+
     if (m_roleEditor->hasFocus()) {
         // If the editing was not ended by a FocusOut event, we have
         // to transfer the keyboard focus back to the KItemListContainer.
         scene()->views()[0]->parentWidget()->setFocus();
     }
 
-    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
-    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
-
-    // Do not delete the role editor using deleteLater() because we might be
-    // inside a nested event loop which has been started by one of its event
-    // handlers (contextMenuEvent() or drag&drop inside mouseMoveEvent()).
-    m_roleEditor->deleteWhenIdle();
+    m_oldRoleEditor = m_roleEditor;
+    m_roleEditor->hide();
     m_roleEditor = 0;
 }
 

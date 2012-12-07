@@ -47,15 +47,6 @@ public:
     void setRole(const QByteArray& role);
     QByteArray role() const;
 
-    /**
-     * Calls deleteLater() if no event is being handled at the moment.
-     * Otherwise, the deletion is deferred until the event handling is
-     * finished. This prevents that the deletion happens inside a nested
-     * event loop which might be run in contextMenuEvent() or
-     * mouseMoveEvent() because this would probably cause a crash.
-     */
-    void deleteWhenIdle();
-
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
 signals:
@@ -64,7 +55,6 @@ signals:
 
 protected:
     virtual bool event(QEvent* event);
-    virtual bool viewportEvent(QEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
 
 private slots:
@@ -85,8 +75,6 @@ private:
     int m_index;
     QByteArray m_role;
     bool m_blockFinishedSignal;
-    int m_eventHandlingLevel;
-    bool m_deleteAfterEventHandling;
 };
 
 #endif

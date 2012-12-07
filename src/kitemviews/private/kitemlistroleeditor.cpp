@@ -26,9 +26,7 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
     KTextEdit(parent),
     m_index(0),
     m_role(),
-    m_blockFinishedSignal(false),
-    m_eventHandlingLevel(0),
-    m_deleteAfterEventHandling(false)
+    m_blockFinishedSignal(false)
 {
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -66,20 +64,6 @@ QByteArray KItemListRoleEditor::role() const
     return m_role;
 }
 
-void KItemListRoleEditor::deleteWhenIdle()
-{
-    if (m_eventHandlingLevel > 0) {
-        // We are handling an event at the moment. It could be that we
-        // are in a nested event loop run by contextMenuEvent() or a
-        // call of mousePressEvent() which results in drag&drop.
-        // -> do not call deleteLater() to prevent a crash when we
-        //    return from the nested event loop.
-        m_deleteAfterEventHandling = true;
-    } else {
-        deleteLater();
-    }
-}
-
 bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
@@ -91,42 +75,13 @@ bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 
 bool KItemListRoleEditor::event(QEvent* event)
 {
-    ++m_eventHandlingLevel;
-
     if (event->type() == QEvent::FocusOut) {
         QFocusEvent* focusEvent = static_cast<QFocusEvent*>(event);
         if (focusEvent->reason() != Qt::PopupFocusReason) {
             emitRoleEditingFinished();
         }
     }
-
-    const int result = KTextEdit::event(event);
-    --m_eventHandlingLevel;
-
-    if (m_deleteAfterEventHandling && m_eventHandlingLevel == 0) {
-        // Schedule this object for deletion and make sure that we do not try
-        // to deleteLater() again when the DeferredDelete event is received.
-        deleteLater();
-        m_deleteAfterEventHandling = false;
-    }
-
-    return result;
-}
-
-bool KItemListRoleEditor::viewportEvent(QEvent* event)
-{
-    ++m_eventHandlingLevel;
-    const bool result = KTextEdit::viewportEvent(event);
-    --m_eventHandlingLevel;
-
-    if (m_deleteAfterEventHandling && m_eventHandlingLevel == 0) {
-        // Schedule this object for deletion and make sure that we do not try
-        // to deleteLater() again when the DeferredDelete event is received.
-        deleteLater();
-        m_deleteAfterEventHandling = false;
-    }
-
-    return result;
+    return KTextEdit::event(event);
 }
 
 void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
@@ -144,8 +99,7 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         return;
     case Qt::Key_Enter:
     case Qt::Key_Return:
-        // TODO: find a better way to fix the bug 309760
-        clearFocus(); // emitRoleEditingFinished(); results in a crash
+        emitRoleEditingFinished();
         event->accept();
         return;
     default:
