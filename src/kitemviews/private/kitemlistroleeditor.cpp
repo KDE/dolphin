@@ -20,6 +20,7 @@
 #include "kitemlistroleeditor.h"
 
 #include <KDebug>
+#include <kio/global.h>
 #include <QKeyEvent>
 
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
@@ -93,7 +94,7 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         // a roleEditingFinished signal (see KItemListRoleEditor::event),
         // which is not wanted in this case.
         m_blockFinishedSignal = true;
-        emit roleEditingCanceled(m_index, m_role, toPlainText());
+        emit roleEditingCanceled(m_index, m_role, KIO::encodeFileName(toPlainText()));
         m_blockFinishedSignal = false;
         event->accept();
         return;
@@ -137,7 +138,7 @@ void KItemListRoleEditor::autoAdjustSize()
 void KItemListRoleEditor::emitRoleEditingFinished()
 {
     if (!m_blockFinishedSignal) {
-        emit roleEditingFinished(m_index, m_role, toPlainText());
+        emit roleEditingFinished(m_index, m_role, KIO::encodeFileName(toPlainText()));
     }
 }
 
