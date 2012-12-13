@@ -801,7 +801,7 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
     }
 
     if (items.count() > 5) {
-        QString question = QString("Are you sure you want to open %1 items?").arg(items.count());
+        QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", items.count());
         const int answer = KMessageBox::warningYesNo(this, question);
         if (answer != KMessageBox::Yes) {
             return;
