@@ -792,28 +792,33 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
 {
     Q_ASSERT(indexes.count() >= 2);
 
-    KFileItemList items;
-
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
-        items.append(m_model->fileItem(index));
-    }
-
-    if (items.count() > 5) {
-        QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", items.count());
+    if (indexes.count() > 5) {
+        QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
         const int answer = KMessageBox::warningYesNo(this, question);
         if (answer != KMessageBox::Yes) {
             return;
         }
     }
 
-    foreach (const KFileItem& item, items) {
-        if (item.isDir()) {
+    KFileItemList items;
+    items.reserve(indexes.count());
+
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        KFileItem item = m_model->fileItem(index);
+
+        if (item.isDir()) { // Open folders in new tabs
             emit tabRequested(item.url());
         } else {
-            emit itemActivated(item);
+            items.append(item);
         }
+    }
+
+    if (items.count() == 1) {
+        emit itemActivated(items.first());
+    } else if (items.count() > 1) {
+        emit itemsActivated(items);
     }
 }
 

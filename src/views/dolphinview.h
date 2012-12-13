@@ -386,6 +386,12 @@ signals:
     void itemActivated(const KFileItem& item);
 
     /**
+     * Is emitted when multiple items have been activated by e. g.
+     * context menu open with.
+     */
+    void itemsActivated(const KFileItemList& items);
+
+    /**
      * Is emitted if items have been added or deleted.
      */
     void itemCountChanged();

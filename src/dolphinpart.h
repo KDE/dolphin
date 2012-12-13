@@ -129,6 +129,10 @@ private Q_SLOTS:
      */
     void slotItemActivated(const KFileItem& item);
     /**
+     * Handles activation of multiple items
+     */
+    void slotItemsActivated(const KFileItemList& items);
+    /**
      * Creates a new window showing the content of \a url.
      */
     void createNewWindow(const KUrl& url);

@@ -90,6 +90,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotErrorMessage(QString)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),
             this, SLOT(slotItemActivated(KFileItem)));
+    connect(m_view, SIGNAL(itemsActivated(KFileItemList)),
+            this, SLOT(slotItemsActivated(KFileItemList)));
     connect(m_view, SIGNAL(tabRequested(KUrl)),
             this, SLOT(createNewWindow(KUrl)));
     connect(m_view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
@@ -365,6 +367,13 @@ void DolphinPart::slotItemActivated(const KFileItem& item)
     KParts::BrowserArguments browserArgs;
     browserArgs.trustedSource = true;
     emit m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
+}
+
+void DolphinPart::slotItemsActivated(const KFileItemList& items)
+{
+    foreach (const KFileItem& item, items) {
+        slotItemActivated(item);
+    }
 }
 
 void DolphinPart::createNewWindow(const KUrl& url)

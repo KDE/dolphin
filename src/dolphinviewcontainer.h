@@ -215,6 +215,12 @@ private slots:
     void slotItemActivated(const KFileItem& item);
 
     /**
+     * Handles activation of multiple files. The files get started by
+     * the corresponding applications.
+     */
+    void slotItemsActivated(const KFileItemList& items);
+
+    /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
      */

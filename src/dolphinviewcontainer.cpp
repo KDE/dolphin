@@ -29,6 +29,7 @@
 
 #include <KDesktopFile>
 #include <KFileItemDelegate>
+#include <KFileItemActions>
 #include <KFilePlacesModel>
 #include <KLocale>
 #include <KIconEffect>
@@ -108,6 +109,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(writeStateChanged(bool)),            this, SIGNAL(writeStateChanged(bool)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),         this, SLOT(showItemInfo(KFileItem)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
+    connect(m_view, SIGNAL(itemsActivated(KFileItemList)),      this, SLOT(slotItemsActivated(KFileItemList)));
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
     connect(m_view, SIGNAL(directoryLoadingStarted()),          this, SLOT(slotDirectoryLoadingStarted()));
     connect(m_view, SIGNAL(directoryLoadingCompleted()),        this, SLOT(slotDirectoryLoadingCompleted()));
@@ -507,6 +509,14 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
     }
 
     item.run();
+}
+
+void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
+{
+    Q_ASSERT(items.count() >= 2);
+
+    KFileItemActions fileItemActions(this);
+    fileItemActions.runPreferredApplications(items, QString());
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
