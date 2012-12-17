@@ -162,11 +162,6 @@ void RenameDialog::slotTextChanged(const QString& newName)
 
 void RenameDialog::renameItems()
 {
-    // Currently the items are sorted by the selection order, resort
-    // them by the filename. This assures that the new sort order is similar to
-    // the current filename sort order.
-    qSort(m_items.begin(), m_items.end(), lessThan);
-
     // Iterate through all items and rename them...
     int index = m_spinBox->value();
     foreach (const KFileItem& item, m_items) {
