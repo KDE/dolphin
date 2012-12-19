@@ -461,7 +461,7 @@ void DolphinViewContainer::slotDirectoryLoadingCanceled()
         m_statusBar->setProgress(100);
     }
 
-    showErrorMessage("Directory loading has been canceled.");
+    m_statusBar->setText(QString());
 }
 
 void DolphinViewContainer::slotUrlIsFileError(const KUrl& url)
