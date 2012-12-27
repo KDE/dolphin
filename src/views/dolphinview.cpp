@@ -343,10 +343,12 @@ int DolphinView::itemsCount() const
 KFileItemList DolphinView::selectedItems() const
 {
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-    const QSet<int> selectedIndexes = selectionManager->selectedItems();
+    QList<int> selectedIndexes = selectionManager->selectedItems().toList();
+
+    qSort(selectedIndexes);
 
     KFileItemList selectedItems;
-    QSetIterator<int> it(selectedIndexes);
+    QListIterator<int> it(selectedIndexes);
     while (it.hasNext()) {
         const int index = it.next();
         selectedItems.append(m_model->fileItem(index));
