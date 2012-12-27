@@ -196,6 +196,7 @@ Exec=dolphin
 [Desktop Action compact]
 Name=Compact
 Name[ar]=مضغوط
+Name[bs]=Sabij
 Name[ca]=Compacte
 Name[ca@valencia]=Compacte
 Name[cs]=Kompaktní
