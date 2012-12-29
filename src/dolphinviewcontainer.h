@@ -282,6 +282,8 @@ private slots:
 
     void slotHistoryChanged();
 
+    void slotReturnPressed();
+
     /**
      * Gets the search URL from the searchbox and starts searching.
      */

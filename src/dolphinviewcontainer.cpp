@@ -128,6 +128,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(slotUrlNavigatorLocationChanged(KUrl)));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
+    connect(m_urlNavigator, SIGNAL(returnPressed()),
+            this, SLOT(slotReturnPressed()));
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -574,6 +576,8 @@ void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const KUrl& 
 
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 {
+    slotReturnPressed();
+
     if (KProtocolManager::supportsListing(url)) {
         setSearchModeEnabled(isSearchUrl(url));
         m_view->setUrl(url);
@@ -654,6 +658,13 @@ void DolphinViewContainer::slotHistoryChanged()
     if (!locationState.isEmpty()) {
         QDataStream stream(&locationState, QIODevice::ReadOnly);
         m_view->restoreState(stream);
+    }
+}
+
+void DolphinViewContainer::slotReturnPressed()
+{
+    if (!GeneralSettings::editableUrl()) {
+        m_urlNavigator->setUrlEditable(false);
     }
 }
 
