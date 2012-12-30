@@ -1,6 +1,10 @@
-macro_optional_find_package(Soprano)
 macro_optional_find_package(NepomukCore)
-macro_log_feature(NepomukCore_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
+set_package_properties(NepomukCore PROPERTIES DESCRIPTION "Nepomuk Core libraries"
+                       URL "http://www.kde.org"
+                       TYPE OPTIONAL
+                       PURPOSE "For adding desktop-wide tagging support to dolphin"
+                      )
+
 macro_bool_to_01(NepomukCore_FOUND HAVE_NEPOMUK)
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
@@ -10,6 +14,13 @@ configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 include_directories( ${KACTIVITIES_INCLUDE_DIRS} )
 
 if (NepomukCore_FOUND)
+  find_package(Soprano 2.7.56)
+  set_package_properties(Soprano PROPERTIES DESCRIPTION "Qt-based RDF storage and parsing solution"
+                         URL "http://soprano.sourceforge.net"
+                         TYPE REQUIRED
+                         PURPOSE "Required for everything (storage and general data management)"
+                        )
+
   # Yes, Soprano includes is what we need here
   include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} )
 endif (NepomukCore_FOUND)
