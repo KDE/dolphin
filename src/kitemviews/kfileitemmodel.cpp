@@ -1499,7 +1499,7 @@ int KFileItemModel::expandedParentsCountCompare(const ItemData* a, const ItemDat
     if (index > maxIndex) {
         index = maxIndex;
     }
-    while ((pathA.at(index) != QLatin1Char('/') || pathB.at(index) != QLatin1Char('/')) && index > 0) {
+    while (index > 0 && (pathA.at(index) != QLatin1Char('/') || pathB.at(index) != QLatin1Char('/'))) {
         --index;
     }
 
