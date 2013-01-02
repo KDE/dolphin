@@ -8,6 +8,8 @@ set_package_properties(NepomukCore PROPERTIES DESCRIPTION "Nepomuk Core librarie
 macro_bool_to_01(NepomukCore_FOUND HAVE_NEPOMUK)
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
+macro_optional_find_package(NepomukWidgets)
+
 macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 
@@ -22,7 +24,7 @@ if (NepomukCore_FOUND)
                         )
 
   # Yes, Soprano includes is what we need here
-  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} )
+  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} ${NEPOMUK_WIDGETS_INCLUDE_DIR} )
 endif (NepomukCore_FOUND)
 
 add_subdirectory(tests)
@@ -114,6 +116,7 @@ if (NepomukCore_FOUND)
     target_link_libraries(
         dolphinprivate
         ${NEPOMUK_CORE_LIBRARY}
+        ${NEPOMUK_WIDGETS_LIBRARY}
         ${SOPRANO_LIBRARIES}
     )
 endif (NepomukCore_FOUND)
@@ -239,6 +242,7 @@ target_link_libraries(kdeinit_dolphin
 if (NepomukCore_FOUND)
     target_link_libraries(kdeinit_dolphin
         ${NEPOMUK_CORE_LIBRARY}
+        ${NEPOMUK_WIDGETS_LIBRARY}
         ${SOPRANO_LIBRARIES}
     )
 endif (NepomukCore_FOUND)
@@ -313,10 +317,10 @@ target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIB
 target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
 target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
 if (NepomukCore_FOUND)
-  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_CORE_LIBRARY})
-  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_CORE_LIBRARY})
-  target_link_libraries(kcm_dolphinservices ${NEPOMUK_CORE_LIBRARY})
-  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_CORE_LIBRARY})
+  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
+  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
+  target_link_libraries(kcm_dolphinservices ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
+  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
 endif (NepomukCore_FOUND)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )

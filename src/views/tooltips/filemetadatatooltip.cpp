@@ -22,7 +22,6 @@
 #include "filemetadatatooltip.h"
 
 #include <KColorScheme>
-#include <kfilemetadatawidget.h>
 #include <KSeparator>
 #include <KWindowSystem>
 
@@ -30,6 +29,8 @@
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QVBoxLayout>
+
+#include <nepomuk2/filemetadatawidget.h>
 
 // For the blurred tooltip background
 #include <plasma/windoweffects.h>
@@ -55,7 +56,7 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_name->setFont(font);
 
     // Create widget for the meta data
-    m_fileMetaDataWidget = new KFileMetaDataWidget(this);
+    m_fileMetaDataWidget = new Nepomuk2::FileMetaDataWidget(this);
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
     connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished(KFileItemList)),
