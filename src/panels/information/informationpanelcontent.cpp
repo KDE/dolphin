@@ -21,7 +21,6 @@
 
 #include <KDialog>
 #include <KFileItem>
-#include <kfilemetadatawidget.h>
 #include <KGlobalSettings>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
@@ -31,6 +30,8 @@
 #include <KMenu>
 #include <kseparator.h>
 #include <KStringHandler>
+
+#include <nepomuk2/filemetadatawidget.h>
 
 #include <panels/places/placesitem.h>
 #include <panels/places/placesitemmodel.h>
@@ -106,7 +107,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
 
-    m_metaDataWidget = new KFileMetaDataWidget(parent);
+    m_metaDataWidget = new Nepomuk2::FileMetaDataWidget(parent);
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));

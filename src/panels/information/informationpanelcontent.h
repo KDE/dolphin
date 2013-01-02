@@ -26,7 +26,6 @@
 #include <KVBox>
 
 class KFileItemList;
-class KFileMetaDataWidget;
 class PhononWidget;
 class PixmapViewer;
 class PlacesItemModel;
@@ -34,6 +33,10 @@ class QPixmap;
 class QString;
 class QLabel;
 class QScrollArea;
+
+namespace Nepomuk2 {
+    class FileMetaDataWidget;
+}
 
 /**
  * @brief Manages the widgets that display the meta information
@@ -133,7 +136,7 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     QLabel* m_nameLabel;
-    KFileMetaDataWidget* m_metaDataWidget;
+    Nepomuk2::FileMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
 
     PlacesItemModel* m_placesItemModel;

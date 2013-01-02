@@ -25,8 +25,11 @@
 #include <QWidget>
 
 class KFileItemList;
-class KFileMetaDataWidget;
 class QLabel;
+
+namespace Nepomuk2 {
+    class FileMetaDataWidget;
+}
 
 /**
  * @brief Tooltip, that shows the meta information and a preview of one
@@ -68,7 +71,7 @@ protected:
 private:
     QLabel* m_preview;
     QLabel* m_name;
-    KFileMetaDataWidget* m_fileMetaDataWidget;
+    Nepomuk2::FileMetaDataWidget* m_fileMetaDataWidget;
 };
 
 #endif
