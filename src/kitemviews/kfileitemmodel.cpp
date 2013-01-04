@@ -58,7 +58,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_urlsToExpand()
 {
     m_dirLister = new KFileItemModelDirLister(this);
-    m_dirLister->setAutoUpdate(true);
     m_dirLister->setDelayedMimeTypes(true);
 
     const QWidget* parentWidget = qobject_cast<QWidget*>(parent);
