@@ -23,13 +23,18 @@
 #define FILEMETADATATOOLTIP_H
 
 #include <QWidget>
+#include "config-nepomuk.h"
 
 class KFileItemList;
 class QLabel;
 
+#ifndef HAVE_NEPOMUK
+class KFileMetaDataWidget;
+#else
 namespace Nepomuk2 {
     class FileMetaDataWidget;
 }
+#endif
 
 /**
  * @brief Tooltip, that shows the meta information and a preview of one
@@ -71,7 +76,11 @@ protected:
 private:
     QLabel* m_preview;
     QLabel* m_name;
+#ifndef HAVE_NEPOMUK
+    KFileMetaDataWidget* m_fileMetaDataWidget;
+#else
     Nepomuk2::FileMetaDataWidget* m_fileMetaDataWidget;
+#endif
 };
 
 #endif
