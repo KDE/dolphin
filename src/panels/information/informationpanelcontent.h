@@ -20,6 +20,7 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
+#include "config-nepomuk.h"
 #include <KConfig>
 #include <KFileItem>
 #include <KUrl>
@@ -34,9 +35,13 @@ class QString;
 class QLabel;
 class QScrollArea;
 
+#ifndef HAVE_NEPOMUK
+class KFileMetaDataWidget;
+#else
 namespace Nepomuk2 {
     class FileMetaDataWidget;
 }
+#endif
 
 /**
  * @brief Manages the widgets that display the meta information
@@ -136,7 +141,11 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     QLabel* m_nameLabel;
+#ifndef HAVE_NEPOMUK
+    KFileMetaDataWidget* m_metaDataWidget;
+#else
     Nepomuk2::FileMetaDataWidget* m_metaDataWidget;
+#endif
     QScrollArea* m_metaDataArea;
 
     PlacesItemModel* m_placesItemModel;

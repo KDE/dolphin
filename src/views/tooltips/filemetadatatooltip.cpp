@@ -30,7 +30,11 @@
 #include <QStylePainter>
 #include <QVBoxLayout>
 
+#ifndef HAVE_NEPOMUK
+#include <KFileMetaDataWidget>
+#else
 #include <nepomuk2/filemetadatawidget.h>
+#endif
 
 // For the blurred tooltip background
 #include <plasma/windoweffects.h>
@@ -56,7 +60,11 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_name->setFont(font);
 
     // Create widget for the meta data
+#ifndef HAVE_NEPOMUK
+    m_fileMetaDataWidget = new KFileMetaDataWidget(this);
+#else
     m_fileMetaDataWidget = new Nepomuk2::FileMetaDataWidget(this);
+#endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
     connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished(KFileItemList)),

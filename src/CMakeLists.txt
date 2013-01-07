@@ -1,8 +1,12 @@
 macro_optional_find_package(Soprano)
 macro_optional_find_package(NepomukCore)
 macro_optional_find_package(NepomukWidgets)
-macro_log_feature(NepomukCore_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
-macro_bool_to_01(NepomukCore_FOUND HAVE_NEPOMUK)
+macro_log_feature(NepomukCore_FOUND "Nepomuk Core" "Nepomuk Core functionality" "http://www.kde.org" FALSE "" "For fetching additional file metadata in dolphin")
+macro_log_feature(NepomukWidgets_FOUND "Nepomuk Widgets" "Nepomuk Widgets" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
+if( DEFINED NepomukCore_FOUND AND DEFINED NepomukWidgets_FOUND )
+    set(HAVE_NEPOMUK TRUE)
+endif()
+
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
