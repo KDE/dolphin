@@ -40,6 +40,7 @@ Name[lv]=Dolphin skata režīmi
 Name[mai]=डाल्फिनक दृश्य विधि
 Name[mk]=Режими на преглед во Делфин
 Name[ml]=ഡോള്‍ഫിന്‍ അവതരണദശകള്‍
+Name[mr]=डॉल्फिन दृश्य पद्धत
 Name[ms]=Mod Paparan Dolphin
 Name[nb]=Dolphin visningsmåter
 Name[nds]=Dolphin-Ansichten
@@ -109,6 +110,7 @@ Comment[lv]=Šis serviss ļauj konfigurēt Dolphin skata režīmus.
 Comment[mai]=ई सेवा अहाँकेँ डॉल्फिन दृश्य मोड केँ विन्यस्त करै दैछ
 Comment[mk]=Овој сервис овозможува конфигурација на режимите за преглед во Делфин.
 Comment[ml]=ഡോള്‍ഫിന്‍ അവതരണദശകള്‍ ക്രമീകരിയ്ക്കാന്‍ ഈ സേവനം അനുവദിയ്ക്കുന്നു.
+Comment[mr]=ही सेवा तुम्हाला डॉल्फिन दृश्य पद्धतिचे संयोजन करण्यास मदत करते.
 Comment[nb]=Denne tjenesten tilbyr oppsett av Dolphin visningsmåter.
 Comment[nds]=Mit dissen Deenst laat sik de Dolphin-Ansichten instellen.
 Comment[nl]=Met deze dienst kunt u Dolphin-weergavemodussen configureren.
@@ -189,6 +191,7 @@ Name[lv]=Skata režīmi
 Name[mai]=दृश्यक विधि
 Name[mk]=Режими на преглед
 Name[ml]=അവതരണ ദശകള്‍
+Name[mr]=दृश्य पद्धती
 Name[ms]=Mod Paparan
 Name[nb]=Visningsmåter
 Name[nds]=Ansichten
@@ -260,6 +263,7 @@ Comment[lv]=Konfigurē failu pārvaldnieka skata režīmus
 Comment[mai]=फाइलक प्रबंधक दृश्य विधि बिन्यस्त करू
 Comment[mk]=Конфигурирајте ги режимите за преглед за менаџерот на датотеки
 Comment[ml]=ഫയല്‍ നടത്തിപ്പുകാരന്റെ അവതരണ ദശകള്‍ ക്രമീകരിയ്ക്കുക
+Comment[mr]=फाइल व्यवस्थापक दृश्य पद्धत संयोजीत करा
 Comment[ms]=Selaraskan mod pengurus fail
 Comment[nb]=Tilpass filbehandlerens visningsmåter
 Comment[nds]=Den Dateipleger sien Ansichten instellen
@@ -312,6 +316,7 @@ X-KDE-Keywords[km]=កម្មវិធី​គ្រប់គ្រង​ឯ�
 X-KDE-Keywords[ko]=파일 관리자
 X-KDE-Keywords[lt]=Failų tvarkyklė
 X-KDE-Keywords[lv]=failu pārvaldnieks
+X-KDE-Keywords[mr]=फाइल व्यवस्थापक
 X-KDE-Keywords[nb]=filbehandler
 X-KDE-Keywords[nds]=Dateipleger
 X-KDE-Keywords[nl]=bestandsbeheerder
