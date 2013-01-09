@@ -105,6 +105,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QFont font = m_nameLabel->font();
     font.setBold(true);
     m_nameLabel->setFont(font);
+    m_nameLabel->setTextFormat(Qt::PlainText);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
