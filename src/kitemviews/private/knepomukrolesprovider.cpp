@@ -183,7 +183,7 @@ QString KNepomukRolesProvider::orientationFromValue(int value) const
 QString KNepomukRolesProvider::durationFromValue(int value) const
 {
     QTime duration;
-    duration = duration.addMSecs(value);
+    duration = duration.addSecs(value);
     return duration.toString("hh:mm:ss");
 }
 
