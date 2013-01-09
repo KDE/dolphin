@@ -28,10 +28,13 @@
 #include <QtDBus>
 #include <QDropEvent>
 
-QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destUrl, QDropEvent* event)
+KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destUrl, QDropEvent* event, QString& error)
 {
+    error.clear();
+
     if (!destItem.isNull() && !destItem.isWritable()) {
-        return i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
+        error = i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
+        return 0;
     }
 
     const QMimeData* mimeData = event->mimeData();
@@ -49,15 +52,16 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destU
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         foreach (const KUrl& url, urls) {
             if (url == destUrl) {
-                return i18nc("@info:status", "A folder cannot be dropped into itself");
+                error = i18nc("@info:status", "A folder cannot be dropped into itself");
+                return 0;
             }
         }
 
-        KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow());
+        return KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow(), QList<QAction*>());
     } else {
-        KonqOperations::doDrop(KFileItem(), destUrl, event, QApplication::activeWindow());
+        return KonqOperations::doDrop(KFileItem(), destUrl, event, QApplication::activeWindow(), QList<QAction*>());
     }
 
-    return QString();
+    return 0;
 }
 

@@ -1276,7 +1276,8 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
         const ViewTab& viewTab = m_viewTab[tab];
         const DolphinView* view = viewTab.isPrimaryViewActive ? viewTab.primaryView->view()
                                                               : viewTab.secondaryView->view();
-        const QString error = DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event);
+        QString error;
+        DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event, error);
         if (!error.isEmpty()) {
             activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
         }

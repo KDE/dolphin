@@ -1023,14 +1023,16 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    const QString error = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent);
+    QString error;
+    KonqOperations* op = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
     if (!error.isEmpty()) {
         emit errorMessage(error);
     }
 
-    if (destUrl == url()) {
+    if (op && destUrl == url()) {
         // Mark the dropped urls as selected.
-        markPastedUrlsAsSelected(event->mimeData());
+        m_clearSelectionBeforeSelectingNewItems = true;
+        connect(op, SIGNAL(urlPasted(KUrl)), this, SLOT(slotUrlPasted(KUrl)));
     }
 }
 
@@ -1064,6 +1066,11 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
             emit goForwardRequested();
         }
     }
+}
+
+void DolphinView::slotAboutToCreate(const KUrl::List& urls)
+{
+    m_selectedUrls << urls;
 }
 
 void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
@@ -1523,8 +1530,11 @@ void DolphinView::applyModeToView()
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
-    markPastedUrlsAsSelected(QApplication::clipboard()->mimeData());
-    KonqOperations::doPaste(this, url);
+    KonqOperations* op = KonqOperations::doPasteV2(this, url);
+    if (op) {
+        m_clearSelectionBeforeSelectingNewItems = true;
+        connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
+    }
 }
 
 KUrl::List DolphinView::simplifiedSelectedUrls() const
@@ -1550,18 +1560,6 @@ QMimeData* DolphinView::selectionMimeData() const
     const QSet<int> selectedIndexes = selectionManager->selectedItems();
 
     return m_model->createMimeData(selectedIndexes);
-}
-
-void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
-{
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-    KUrl::List destUrls;
-    foreach (const KUrl& source, sourceUrls) {
-        KUrl destination(url().url() + '/' + source.fileName());
-        destUrls << destination;
-    }
-    markUrlsAsSelected(destUrls);
-    m_clearSelectionBeforeSelectingNewItems = true;
 }
 
 void DolphinView::updateWritableState()

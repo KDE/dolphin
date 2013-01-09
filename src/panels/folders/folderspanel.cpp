@@ -236,7 +236,8 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
                              event->buttons(),
                              event->modifiers());
 
-        const QString error = DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent);
+        QString error;
+        DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent, error);
         if (!error.isEmpty()) {
             emit errorMessage(error);
         }

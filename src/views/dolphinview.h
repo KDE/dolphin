@@ -566,6 +566,11 @@ private slots:
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
 
+    /*
+     * Is called when new items get pasted or dropped.
+     */
+    void slotAboutToCreate(const KUrl::List& urls);
+
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
      * because getting all file items for the selection can be an expensive
@@ -720,14 +725,6 @@ private:
      * Returns the MIME data for all selected items.
      */
     QMimeData* selectionMimeData() const;
-
-    /**
-     * Is invoked after a paste operation or a drag & drop
-     * operation and URLs from \a mimeData as selected.
-     * This allows to select all newly pasted
-     * items in restoreViewState().
-     */
-    void markPastedUrlsAsSelected(const QMimeData* mimeData);
 
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by

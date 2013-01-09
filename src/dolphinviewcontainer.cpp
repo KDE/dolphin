@@ -620,7 +620,8 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    const QString error = DragAndDropHelper::dropUrls(KFileItem(), destination, event);
+    QString error;
+    DragAndDropHelper::dropUrls(KFileItem(), destination, event, error);
     if (!error.isEmpty()) {
         showMessage(error, Error);
     }

@@ -352,7 +352,11 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent);
+    QString error;
+    DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent, error);
+    if (!error.isEmpty()) {
+        emit errorMessage(error);
+    }
 }
 
 void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
@@ -364,7 +368,11 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
         if (success) {
             KUrl destUrl = m_model->placesItem(index)->url();
 
-            DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent);
+            QString error;
+            DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent, error);
+            if (!error.isEmpty()) {
+                emit errorMessage(error);
+            }
         }
 
         delete m_itemDropEventMimeData;
@@ -384,7 +392,8 @@ void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent*
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
     Q_UNUSED(parent);
-    const QString error = DragAndDropHelper::dropUrls(KFileItem(), dest, event);
+    QString error;
+    DragAndDropHelper::dropUrls(KFileItem(), dest, event, error);
     if (!error.isEmpty()) {
         emit errorMessage(error);
     }

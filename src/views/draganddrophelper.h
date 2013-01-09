@@ -29,6 +29,7 @@ class KFileItem;
 class KUrl;
 class QDropEvent;
 class QWidget;
+class KonqOperations;
 
 class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper
 {
@@ -46,13 +47,15 @@ public:
      * @param destUrl   URL of the item destination. Is used only if destItem::isNull()
      *                  is true.
      * @param event     Drop event.
-     * @return          Error message intended to be shown for users if dropping is not
+     * @param error     Error message intended to be shown for users if dropping is not
      *                  possible. If an empty string is returned, the dropping has been
      *                  successful.
+     * @return          KonqOperations pointer
      */
-    static QString dropUrls(const KFileItem& destItem,
-                            const KUrl& destUrl,
-                            QDropEvent* event);
+    static KonqOperations* dropUrls(const KFileItem& destItem,
+                                    const KUrl& destUrl,
+                                    QDropEvent* event,
+                                    QString& error);
 };
 
 #endif
