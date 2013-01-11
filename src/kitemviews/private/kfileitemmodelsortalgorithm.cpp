@@ -26,8 +26,17 @@ void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
                                        QList<KFileItemModel::ItemData*>::iterator begin,
                                        QList<KFileItemModel::ItemData*>::iterator end)
 {
-    static const int numberOfThreads = QThread::idealThreadCount();
-    parallelSort(model, begin, end, numberOfThreads);
+    if (model->sortRole() == model->roleForType(KFileItemModel::NameRole)) {
+        // Sorting by name can be expensive, in particular if natural sorting is
+        // enabled. Use all CPU cores to speed up the sorting process.
+        static const int numberOfThreads = QThread::idealThreadCount();
+        parallelSort(model, begin, end, numberOfThreads);
+    } else {
+        // Sorting by other roles is quite fast. Use only one thread to prevent
+        // problems caused by non-reentrant comparison functions, see
+        // https://bugs.kde.org/show_bug.cgi?id=312679
+        sequentialSort(model, begin, end);
+    }
 }
 
 void KFileItemModelSortAlgorithm::sequentialSort(KFileItemModel* model,
