@@ -72,6 +72,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
         m_newName = items.first().name();
         editLabel = new QLabel(i18nc("@label:textbox", "Rename the item <filename>%1</filename> to:", m_newName),
                                page);
+        editLabel->setTextFormat(Qt::PlainText);
     } else {
         m_newName = i18nc("@info:status", "New name #");
         editLabel = new QLabel(i18ncp("@label:textbox",

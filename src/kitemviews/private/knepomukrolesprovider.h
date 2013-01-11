@@ -73,7 +73,7 @@ private:
 
     /**
      * @return Duration in the format HH::MM::SS for the value given
-     *         in milliseconds.
+     *         in seconds.
      */
     QString durationFromValue(int value) const;
 
