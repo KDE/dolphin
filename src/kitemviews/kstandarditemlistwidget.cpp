@@ -840,7 +840,7 @@ void KStandardItemListWidget::updatePixmapCache()
         if (isSelected()) {
             const QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
             QImage image = m_pixmap.toImage();
-            KIconEffect::colorize(image, color, 1.0f);
+            KIconEffect::colorize(image, color, 0.8f);
             m_pixmap = QPixmap::fromImage(image);
         }
     }
