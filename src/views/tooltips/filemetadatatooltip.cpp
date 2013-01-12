@@ -55,6 +55,7 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     // Create widget for file name
     m_name = new QLabel(this);
     m_name->setForegroundRole(QPalette::ToolTipText);
+    m_name->setTextFormat(Qt::PlainText);
     QFont font = m_name->font();
     font.setBold(true);
     m_name->setFont(font);
