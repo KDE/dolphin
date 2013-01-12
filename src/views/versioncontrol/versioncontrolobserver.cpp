@@ -108,12 +108,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
     if (pluginV2) {
         // Use version 2 of the KVersionControlPlugin which allows providing actions
         // also for non-versioned directories.
-        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
-            actions = pluginV2->actions(items);
-            m_updateItemStatesThread->unlockPlugin();
-        } else {
-            actions = pluginV2->actions(items);
-        }
+        actions = pluginV2->actions(items);
     } else if (isVersioned()) {
         // Support deprecated interfaces from KVersionControlPlugin version 1.
         // Context menu actions where only available for versioned directories.
@@ -125,14 +120,8 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
             }
         }
 
-        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
-            actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
-                                          : m_plugin->contextMenuActions(directory);
-            m_updateItemStatesThread->unlockPlugin();
-        } else {
-            actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
-                                          : m_plugin->contextMenuActions(directory);
-        }
+        actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
+                                      : m_plugin->contextMenuActions(directory);
     }
 
     return actions;
