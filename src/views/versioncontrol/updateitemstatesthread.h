@@ -38,9 +38,6 @@ class LIBDOLPHINPRIVATE_EXPORT UpdateItemStatesThread : public QThread
     Q_OBJECT
 
 public:
-    UpdateItemStatesThread();
-    virtual ~UpdateItemStatesThread();
-
     /**
      * @param plugin     Version control plugin that is used to update the
      *                   state of the items. Whenever the plugin is accessed
@@ -49,8 +46,9 @@ public:
      *                   UpdateItemStatesThread::unlockPlugin() must be used.
      * @param itemStates List of items, where the states get updated.
      */
-    void setData(KVersionControlPlugin* plugin,
-                 const QList<VersionControlObserver::ItemState>& itemStates);
+    UpdateItemStatesThread(KVersionControlPlugin* plugin,
+                           const QList<VersionControlObserver::ItemState>& itemStates);
+    virtual ~UpdateItemStatesThread();
 
     /**
      * Whenever the plugin is accessed by the thread creator, lockPlugin() must
@@ -76,7 +74,6 @@ private:
     QMutex* m_globalPluginMutex; // Protects the m_plugin globally
     KVersionControlPlugin* m_plugin;
 
-    mutable QMutex m_itemMutex; // Protects m_retrievedItems and m_itemStates
     bool m_retrievedItems;
     QList<VersionControlObserver::ItemState> m_itemStates;
 };

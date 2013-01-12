@@ -23,13 +23,13 @@
 
 #include <QMutexLocker>
 
-UpdateItemStatesThread::UpdateItemStatesThread() :
+UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
+                                     const QList<VersionControlObserver::ItemState>& itemStates) :
     QThread(),
     m_globalPluginMutex(0),
-    m_plugin(0),
-    m_itemMutex(),
+    m_plugin(plugin),
     m_retrievedItems(false),
-    m_itemStates()
+    m_itemStates(itemStates)
 {
     // Several threads may share one instance of a plugin. A global
     // mutex is required to serialize the retrieval of version control
@@ -42,32 +42,16 @@ UpdateItemStatesThread::~UpdateItemStatesThread()
 {
 }
 
-void UpdateItemStatesThread::setData(KVersionControlPlugin* plugin,
-                                     const QList<VersionControlObserver::ItemState>& itemStates)
-{
-    // The locks are taken in the same order as in run()
-    // to avoid potential deadlock.
-    QMutexLocker pluginLocker(m_globalPluginMutex);
-    QMutexLocker itemLocker(&m_itemMutex);
-
-    m_itemStates = itemStates;
-    m_plugin = plugin;
-}
-
 void UpdateItemStatesThread::run()
 {
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin);
 
-    QMutexLocker itemLocker(&m_itemMutex);
-
     const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
     m_retrievedItems = false;
-    itemLocker.unlock();
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
     if (m_plugin->beginRetrieval(directory)) {
-        itemLocker.relock();
         const int count = m_itemStates.count();
 
         KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
@@ -99,13 +83,11 @@ void UpdateItemStatesThread::unlockPlugin()
 
 QList<VersionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
 {
-    QMutexLocker locker(&m_itemMutex);
     return m_itemStates;
 }
 
 bool UpdateItemStatesThread::retrievedItems() const
 {
-    QMutexLocker locker(&m_itemMutex);
     return m_retrievedItems;
 }
 

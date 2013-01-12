@@ -238,20 +238,12 @@ void VersionControlObserver::slotThreadFinished()
 void VersionControlObserver::updateItemStates()
 {
     Q_ASSERT(m_plugin);
-    if (!m_updateItemStatesThread) {
-        m_updateItemStatesThread = new UpdateItemStatesThread();
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                this, SLOT(slotThreadFinished()));
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                m_updateItemStatesThread, SLOT(deleteLater()));
-    }
-    else {
+    if (m_updateItemStatesThread) {
         // An update is currently ongoing. Wait until the thread has finished
         // the update (see slotThreadFinished()).
         m_pendingItemStatesUpdate = true;
         return;
     }
-
     QList<ItemState> itemStates;
     const int itemCount = m_model->count();
     itemStates.reserve(itemCount);
@@ -269,7 +261,12 @@ void VersionControlObserver::updateItemStates()
         if (!m_silentUpdate) {
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
         }
-        m_updateItemStatesThread->setData(m_plugin, itemStates);
+        m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
+        connect(m_updateItemStatesThread, SIGNAL(finished()),
+                this, SLOT(slotThreadFinished()));
+        connect(m_updateItemStatesThread, SIGNAL(finished()),
+                m_updateItemStatesThread, SLOT(deleteLater()));
+
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
 }
