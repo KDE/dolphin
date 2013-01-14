@@ -1484,6 +1484,7 @@ void DolphinMainWindow::setupActions()
     KMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
+    m_newFileMenu->setDelayed(false);
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
@@ -1577,6 +1578,7 @@ void DolphinMainWindow::setupActions()
 
     m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
     m_recentTabsMenu->setIcon(KIcon("edit-undo"));
+    m_recentTabsMenu->setDelayed(false);
     actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
     connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction*)),
             this, SLOT(restoreClosedTab(QAction*)));
