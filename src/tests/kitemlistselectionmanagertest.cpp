@@ -499,7 +499,7 @@ void KItemListSelectionManagerTest::testDeleteCurrentItem_data()
     QTest::newRow("Remove before")               << 50 <<  0 << 10 << 40;
     QTest::newRow("Remove after")                << 50 << 51 << 10 << 50;
     QTest::newRow("Remove exactly current item") << 50 << 50 <<  1 << 50;
-    QTest::newRow("Remove around current item")  << 50 << 45 << 10 << 50;
+    QTest::newRow("Remove around current item")  << 50 << 45 << 10 << 45;
     QTest::newRow("Remove all except one item")  << 50 <<  1 << 99 <<  0;
 }
 

@@ -245,7 +245,7 @@ void VersionControlObserver::updateItemStates()
         connect(m_updateItemStatesThread, SIGNAL(finished()),
                 m_updateItemStatesThread, SLOT(deleteLater()));
     }
-    if (m_updateItemStatesThread->isRunning()) {
+    else {
         // An update is currently ongoing. Wait until the thread has finished
         // the update (see slotThreadFinished()).
         m_pendingItemStatesUpdate = true;

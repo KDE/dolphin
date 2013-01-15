@@ -284,27 +284,23 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
     const QSet<int> previousSelection = selectedItems();
+    const int previousCurrent = m_currentItem;
 
     // Update the current item
-    if (m_currentItem >= 0) {
-        const int previousCurrent = m_currentItem;
-        // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
-        // emit it only once in this function -> change the current item manually and emit currentChanged
-        m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges);
-        if (m_currentItem != previousCurrent) {
-            emit currentChanged(m_currentItem, previousCurrent);
-        }
-
+    m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges, DiscardRemovedIndex);
+    if (m_currentItem != previousCurrent) {
+        emit currentChanged(m_currentItem, previousCurrent);
         if (m_currentItem < 0) {
-            // The current item has been removed.
-            m_currentItem = qMin(previousCurrent, m_model->count() - 1);
+            // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
+            // emit it only once in this function -> change the current item manually and emit currentChanged
+            m_currentItem = indexAfterRangesRemoving(previousCurrent, itemRanges, AdjustRemovedIndex);
             emit currentChanged(m_currentItem, -1);
         }
     }
 
     // Update the anchor item
     if (m_anchorItem >= 0) {
-        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges);
+        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges, DiscardRemovedIndex);
         if (m_anchorItem < 0) {
             m_isAnchoredSelectionActive = false;
         }
@@ -317,7 +313,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         m_selectedItems.reserve(previous.count());
         QSetIterator<int> it(previous);
         while (it.hasNext()) {
-            const int index = indexAfterRangesRemoving(it.next(), itemRanges);
+            const int index = indexAfterRangesRemoving(it.next(), itemRanges, DiscardRemovedIndex);
             if (index >= 0)  {
                 m_selectedItems.insert(index);
             }
@@ -377,7 +373,8 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     }
 }
 
-int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges) const
+int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges,
+                                                        const RangesRemovingBehaviour behaviour) const
 {
     int dec = 0;
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -385,13 +382,20 @@ int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRa
             break;
         }
 
-        if (index < itemRange.index + itemRange.count) {
-            // The index is part of the removed range
-            return -1;
-        }
-
         dec += itemRange.count;
+
+        const int firstIndexAfterRange = itemRange.index + itemRange.count;
+        if (index < firstIndexAfterRange) {
+            // The index is part of the removed range
+            if (behaviour == DiscardRemovedIndex) {
+                return -1;
+            } else {
+                // Use the first item after the range as new index
+                index = firstIndexAfterRange;
+                break;
+            }
+        }
     }
-    return index - dec;
+    return qBound(-1, index - dec, m_model->count() - 1);
 }
 #include "kitemlistselectionmanager.moc"
