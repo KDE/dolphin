@@ -32,8 +32,6 @@
  *
  * The implementation is based on qStableSortHelper() from qalgorithms.h
  * Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
- * The sorting implementations of qAlgorithms could not be used as they
- * don't support having a member-function as comparison criteria.
  */
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -95,8 +93,6 @@ static void parallelMergeSort(RandomAccessIterator begin,
  *
  * The implementation is based on qMerge() from qalgorithms.h
  * Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
- * The sorting implementations of qAlgorithms could not be used as they
- * don't support having a member-function as comparison criteria.
  */
 
 template <typename RandomAccessIterator, typename LessThan>
