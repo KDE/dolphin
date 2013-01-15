@@ -476,7 +476,8 @@ private:
     // and done step after step in slotCompleted().
     QSet<KUrl> m_urlsToExpand;
 
-    friend class KFileItemModelSortAlgorithm;  // Accesses lessThan() method
+    friend class KFileItemModelLessThan;       // Accesses lessThan() method
+    friend class KFileItemModelSortAlgorithm;  // Accesses NameRole
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
     friend class KFileItemListViewTest;        // For unit testing

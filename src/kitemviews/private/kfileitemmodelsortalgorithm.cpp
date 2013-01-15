@@ -24,26 +24,46 @@
 
 #include <algorithm>
 
+class KFileItemModelLessThan
+{
+public:
+    KFileItemModelLessThan(KFileItemModel* model) :
+        m_model(model)
+    {
+    }
+
+    bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b)
+    {
+        return m_model->lessThan(a, b);
+    }
+
+private:
+    KFileItemModel* m_model;
+};
+
 void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
                                        QList<KFileItemModel::ItemData*>::iterator begin,
                                        QList<KFileItemModel::ItemData*>::iterator end)
 {
+    KFileItemModelLessThan lessThan(model);
+
     if (model->sortRole() == model->roleForType(KFileItemModel::NameRole)) {
         // Sorting by name can be expensive, in particular if natural sorting is
         // enabled. Use all CPU cores to speed up the sorting process.
         static const int numberOfThreads = QThread::idealThreadCount();
-        parallelSort(model, begin, end, numberOfThreads);
+        parallelSort(begin, end, lessThan, numberOfThreads);
     } else {
         // Sorting by other roles is quite fast. Use only one thread to prevent
         // problems caused by non-reentrant comparison functions, see
         // https://bugs.kde.org/show_bug.cgi?id=312679
-        sequentialSort(model, begin, end);
+        sequentialSort(begin, end, lessThan);
     }
 }
 
-void KFileItemModelSortAlgorithm::sequentialSort(KFileItemModel* model,
-                                                 QList< KFileItemModel::ItemData* >::iterator begin,
-                                                 QList< KFileItemModel::ItemData* >::iterator end)
+template <typename RandomAccessIterator, typename LessThan>
+static void sequentialSort(RandomAccessIterator begin,
+                           RandomAccessIterator end,
+                           LessThan lessThan)
 {
     // The implementation is based on qStableSortHelper() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -53,38 +73,41 @@ void KFileItemModelSortAlgorithm::sequentialSort(KFileItemModel* model,
         return;
     }
 
-    const QList<KFileItemModel::ItemData*>::iterator middle = begin + span / 2;
-    sequentialSort(model, begin, middle);
-    sequentialSort(model, middle, end);
-    merge(model, begin, middle, end);
+    const RandomAccessIterator middle = begin + span / 2;
+    sequentialSort(begin, middle, lessThan);
+    sequentialSort(middle, end, lessThan);
+    merge(begin, middle, end, lessThan);
 }
 
-void KFileItemModelSortAlgorithm::parallelSort(KFileItemModel* model,
-                                               QList< KFileItemModel::ItemData* >::iterator begin,
-                                               QList< KFileItemModel::ItemData* >::iterator end,
-                                               const int numberOfThreads)
+template <typename RandomAccessIterator, typename LessThan>
+static void parallelSort(RandomAccessIterator begin,
+                         RandomAccessIterator end,
+                         LessThan lessThan,
+                         int numberOfThreads,
+                         int parallelSortingThreshold)
 {
     const int span = end - begin;
 
-    if (numberOfThreads > 1 && span > 100) {
+    if (numberOfThreads > 1 && span > parallelSortingThreshold) {
         const int newNumberOfThreads = numberOfThreads / 2;
-        const QList<KFileItemModel::ItemData*>::iterator middle = begin + span / 2;
+        const RandomAccessIterator middle = begin + span / 2;
 
-        QFuture<void> future = QtConcurrent::run(parallelSort, model, begin, middle, newNumberOfThreads);
-        parallelSort(model, middle, end, newNumberOfThreads);
+        QFuture<void> future = QtConcurrent::run(parallelSort<RandomAccessIterator, LessThan>, begin, middle, lessThan, newNumberOfThreads, parallelSortingThreshold);
+        parallelSort(middle, end, lessThan, newNumberOfThreads, parallelSortingThreshold);
 
         future.waitForFinished();
 
-        merge(model, begin, middle, end);
+        merge(begin, middle, end, lessThan);
     } else {
-        sequentialSort(model, begin, end);
+        sequentialSort(begin, end, lessThan);
     }
 }
 
-void KFileItemModelSortAlgorithm::merge(KFileItemModel* model,
-                                        QList<KFileItemModel::ItemData*>::iterator begin,
-                                        QList<KFileItemModel::ItemData*>::iterator pivot,
-                                        QList<KFileItemModel::ItemData*>::iterator end)
+template <typename RandomAccessIterator, typename LessThan>
+static void merge(RandomAccessIterator begin,
+                  RandomAccessIterator pivot,
+                  RandomAccessIterator end,
+                  LessThan lessThan)
 {
     // The implementation is based on qMerge() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -97,82 +120,29 @@ void KFileItemModelSortAlgorithm::merge(KFileItemModel* model,
     }
 
     if (len1 + len2 == 2) {
-        if (model->lessThan(*(begin + 1), *(begin))) {
+        if (lessThan(*(begin + 1), *(begin))) {
             qSwap(*begin, *(begin + 1));
         }
         return;
     }
 
-    QList<KFileItemModel::ItemData*>::iterator firstCut;
-    QList<KFileItemModel::ItemData*>::iterator secondCut;
+    RandomAccessIterator firstCut;
+    RandomAccessIterator secondCut;
     int len2Half;
     if (len1 > len2) {
         const int len1Half = len1 / 2;
         firstCut = begin + len1Half;
-        secondCut = lowerBound(model, pivot, end, *firstCut);
+        secondCut = std::lower_bound(pivot, end, *firstCut, lessThan);
         len2Half = secondCut - pivot;
     } else {
         len2Half = len2 / 2;
         secondCut = pivot + len2Half;
-        firstCut = upperBound(model, begin, pivot, *secondCut);
+        firstCut = std::upper_bound(begin, pivot, *secondCut, lessThan);
     }
 
     std::rotate(firstCut, pivot, secondCut);
 
-    const QList<KFileItemModel::ItemData*>::iterator newPivot = firstCut + len2Half;
-    merge(model, begin, firstCut, newPivot);
-    merge(model, newPivot, secondCut, end);
-}
-
-
-QList<KFileItemModel::ItemData*>::iterator
-KFileItemModelSortAlgorithm::lowerBound(KFileItemModel* model,
-                                        QList<KFileItemModel::ItemData*>::iterator begin,
-                                        QList<KFileItemModel::ItemData*>::iterator end,
-                                        const KFileItemModel::ItemData* value)
-{
-    // The implementation is based on qLowerBound() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    QList<KFileItemModel::ItemData*>::iterator middle;
-    int n = int(end - begin);
-    int half;
-
-    while (n > 0) {
-        half = n >> 1;
-        middle = begin + half;
-        if (model->lessThan(*middle, value)) {
-            begin = middle + 1;
-            n -= half + 1;
-        } else {
-            n = half;
-        }
-    }
-    return begin;
-}
-
-QList<KFileItemModel::ItemData*>::iterator
-KFileItemModelSortAlgorithm::upperBound(KFileItemModel* model,
-                                        QList<KFileItemModel::ItemData*>::iterator begin,
-                                        QList<KFileItemModel::ItemData*>::iterator end,
-                                        const KFileItemModel::ItemData* value)
-{
-    // The implementation is based on qUpperBound() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    QList<KFileItemModel::ItemData*>::iterator middle;
-    int n = end - begin;
-    int half;
-
-    while (n > 0) {
-        half = n >> 1;
-        middle = begin + half;
-        if (model->lessThan(value, *middle)) {
-            n = half;
-        } else {
-            begin = middle + 1;
-            n -= half + 1;
-        }
-    }
-    return begin;
+    RandomAccessIterator newPivot = firstCut + len2Half;
+    merge(begin, firstCut, newPivot, lessThan);
+    merge(newPivot, secondCut, end, lessThan);
 }

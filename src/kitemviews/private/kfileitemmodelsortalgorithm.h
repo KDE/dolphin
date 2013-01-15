@@ -42,34 +42,25 @@ public:
     static void sort(KFileItemModel* model,
                      QList<KFileItemModel::ItemData*>::iterator begin,
                      QList<KFileItemModel::ItemData*>::iterator end);
-
-private:
-    static void sequentialSort(KFileItemModel* model,
-                               QList<KFileItemModel::ItemData*>::iterator begin,
-                               QList<KFileItemModel::ItemData*>::iterator end);
-
-    static void parallelSort(KFileItemModel* model,
-                             QList<KFileItemModel::ItemData*>::iterator begin,
-                             QList<KFileItemModel::ItemData*>::iterator end,
-                             const int numberOfThreads);
-
-    static void merge(KFileItemModel* model,
-                      QList<KFileItemModel::ItemData*>::iterator begin,
-                      QList<KFileItemModel::ItemData*>::iterator pivot,
-                      QList<KFileItemModel::ItemData*>::iterator end);
-
-    static QList<KFileItemModel::ItemData*>::iterator
-                lowerBound(KFileItemModel* model,
-                           QList<KFileItemModel::ItemData*>::iterator begin,
-                           QList<KFileItemModel::ItemData*>::iterator end,
-                           const KFileItemModel::ItemData* value);
-
-    static QList<KFileItemModel::ItemData*>::iterator
-                upperBound(KFileItemModel* model,
-                           QList<KFileItemModel::ItemData*>::iterator begin,
-                           QList<KFileItemModel::ItemData*>::iterator end,
-                           const KFileItemModel::ItemData* value);
 };
+
+template <typename RandomAccessIterator, typename LessThan>
+static void sequentialSort(RandomAccessIterator begin,
+                           RandomAccessIterator end,
+                           LessThan lessThan);
+
+template <typename RandomAccessIterator, typename LessThan>
+static void parallelSort(RandomAccessIterator begin,
+                         RandomAccessIterator end,
+                         LessThan lessThan,
+                         int numberOfThreads,
+                         int parallelSortingThreshold = 100);
+
+template <typename RandomAccessIterator, typename LessThan>
+static void merge(RandomAccessIterator begin,
+                  RandomAccessIterator pivot,
+                  RandomAccessIterator end,
+                  LessThan lessThan);
 
 #endif
 
