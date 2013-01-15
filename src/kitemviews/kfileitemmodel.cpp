@@ -657,7 +657,7 @@ void KFileItemModel::resortAllItems()
     m_items.clear();
 
     // Resort the items
-    KFileItemModelSortAlgorithm::sort(this, m_itemData.begin(), m_itemData.end());
+    sort(m_itemData.begin(), m_itemData.end());
     for (int i = 0; i < itemCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
@@ -940,7 +940,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     m_groups.clear();
 
     QList<ItemData*> sortedItems = createItemDataList(items);
-    KFileItemModelSortAlgorithm::sort(this, sortedItems.begin(), sortedItems.end());
+    sort(sortedItems.begin(), sortedItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Sorting:" << timer.elapsed();
@@ -1019,7 +1019,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
             sortedItems.append(m_itemData.at(index));
         }
     }
-    KFileItemModelSortAlgorithm::sort(this, sortedItems.begin(), sortedItems.end());
+    sort(sortedItems.begin(), sortedItems.end());
 
     QList<int> indexesToRemove;
     indexesToRemove.reserve(items.count());
@@ -1343,6 +1343,44 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
     result = sortRoleCompare(a, b);
 
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
+}
+
+/**
+ * Helper class for KFileItemModel::sort().
+ */
+class KFileItemModelLessThan
+{
+public:
+    KFileItemModelLessThan(const KFileItemModel* model) :
+        m_model(model)
+    {
+    }
+
+    bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b) const
+    {
+        return m_model->lessThan(a, b);
+    }
+
+private:
+    const KFileItemModel* m_model;
+};
+
+void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
+                          QList<KFileItemModel::ItemData*>::iterator end) const
+{
+    KFileItemModelLessThan lessThan(this);
+
+    if (m_sortRole == NameRole) {
+        // Sorting by name can be expensive, in particular if natural sorting is
+        // enabled. Use all CPU cores to speed up the sorting process.
+        static const int numberOfThreads = QThread::idealThreadCount();
+        parallelMergeSort(begin, end, lessThan, numberOfThreads);
+    } else {
+        // Sorting by other roles is quite fast. Use only one thread to prevent
+        // problems caused by non-reentrant comparison functions, see
+        // https://bugs.kde.org/show_bug.cgi?id=312679
+        mergeSort(begin, end, lessThan);
+    }
 }
 
 int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const

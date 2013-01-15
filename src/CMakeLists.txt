@@ -60,7 +60,6 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kstandarditemmodel.cpp
     kitemviews/private/kfileitemclipboard.cpp
     kitemviews/private/kfileitemmodeldirlister.cpp
-    kitemviews/private/kfileitemmodelsortalgorithm.cpp
     kitemviews/private/kfileitemmodelfilter.cpp
     kitemviews/private/kitemlistheaderwidget.cpp
     kitemviews/private/kitemlistkeyboardsearchmanager.cpp

@@ -342,6 +342,12 @@ private:
     bool lessThan(const ItemData* a, const ItemData* b) const;
 
     /**
+     * Sorts the items between \a begin and \a end using the comparison
+     * function lessThan().
+     */
+    void sort(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end) const;
+
+    /**
      * Helper method for lessThan() and expandedParentsCountCompare(): Compares
      * the passed item-data using m_sortRole as criteria. Both items must
      * have the same parent item, otherwise the comparison will be wrong.
@@ -477,7 +483,6 @@ private:
     QSet<KUrl> m_urlsToExpand;
 
     friend class KFileItemModelLessThan;       // Accesses lessThan() method
-    friend class KFileItemModelSortAlgorithm;  // Accesses NameRole
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
     friend class KFileItemListViewTest;        // For unit testing
