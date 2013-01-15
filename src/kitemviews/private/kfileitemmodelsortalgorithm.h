@@ -69,9 +69,6 @@ private:
                            QList<KFileItemModel::ItemData*>::iterator begin,
                            QList<KFileItemModel::ItemData*>::iterator end,
                            const KFileItemModel::ItemData* value);
-
-    static void reverse(QList<KFileItemModel::ItemData*>::iterator begin,
-                        QList<KFileItemModel::ItemData*>::iterator end);
 };
 
 #endif

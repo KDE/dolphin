@@ -22,6 +22,8 @@
 #include <QThread>
 #include <QtCore>
 
+#include <algorithm>
+
 void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
                                        QList<KFileItemModel::ItemData*>::iterator begin,
                                        QList<KFileItemModel::ItemData*>::iterator end)
@@ -115,9 +117,7 @@ void KFileItemModelSortAlgorithm::merge(KFileItemModel* model,
         firstCut = upperBound(model, begin, pivot, *secondCut);
     }
 
-    reverse(firstCut, pivot);
-    reverse(pivot, secondCut);
-    reverse(firstCut, secondCut);
+    std::rotate(firstCut, pivot, secondCut);
 
     const QList<KFileItemModel::ItemData*>::iterator newPivot = firstCut + len2Half;
     merge(model, begin, firstCut, newPivot);
@@ -175,16 +175,4 @@ KFileItemModelSortAlgorithm::upperBound(KFileItemModel* model,
         }
     }
     return begin;
-}
-
-void KFileItemModelSortAlgorithm::reverse(QList<KFileItemModel::ItemData*>::iterator begin,
-                                          QList<KFileItemModel::ItemData*>::iterator end)
-{
-    // The implementation is based on qReverse() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    --end;
-    while (begin < end) {
-        qSwap(*begin++, *end--);
-    }
 }
