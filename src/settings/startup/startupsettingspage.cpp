@@ -119,7 +119,7 @@ void StartupSettingsPage::applySettings()
 
     const KUrl url(m_homeUrl->text());
     KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, url);
-    if (url.isValid() && fileItem.isDir()) {
+    if ((url.isValid() && fileItem.isDir()) || (url.protocol() == QLatin1String("timeline"))) {
         settings->setHomeUrl(url.prettyUrl());
     } else {
         KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
