@@ -137,7 +137,7 @@ void PlacesItemEditDialog::initialize()
 
     m_iconButton = new KIconButton(mainWidget);
     formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);
-    m_iconButton->setIconSize(KIconLoader::SizeLarge);
+    m_iconButton->setIconSize(IconSize(KIconLoader::Desktop));
     m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
     if (m_icon.isEmpty()) {
         m_iconButton->setIcon(KMimeType::iconNameForUrl(m_url));
