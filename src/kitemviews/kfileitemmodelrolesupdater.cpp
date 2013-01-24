@@ -279,12 +279,6 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
             m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
             connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
                     this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyRemoved(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariant)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyAdded(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariant)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
-            connect(m_nepomukResourceWatcher, SIGNAL(resourceCreated(Nepomuk2::Resource,QList<QUrl>)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
         } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
             delete m_nepomukResourceWatcher;
             m_nepomukResourceWatcher = 0;
