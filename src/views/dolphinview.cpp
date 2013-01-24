@@ -1026,7 +1026,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     QString error;
     KonqOperations* op = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
     if (!error.isEmpty()) {
-        emit errorMessage(error);
+        emit infoMessage(error);
     }
 
     if (op && destUrl == url()) {
