@@ -105,7 +105,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QFont font = m_nameLabel->font();
     font.setBold(true);
     m_nameLabel->setFont(font);
-    m_nameLabel->setTextFormat(Qt::PlainText);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
@@ -164,7 +163,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     const KUrl itemUrl = item.url();
     const bool isSearchUrl = itemUrl.protocol().contains("search") && item.nepomukUri().isEmpty();
     if (!applyPlace(itemUrl)) {
-        setNameLabelText(item.text());
+        setNameLabelText(Qt::escape(item.text()));
         if (isSearchUrl) {
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
@@ -362,7 +361,7 @@ bool InformationPanelContent::applyPlace(const KUrl& url)
     for (int i = 0; i < count; ++i) {
         const PlacesItem* item = m_placesItemModel->placesItem(i);
         if (item->url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
-            setNameLabelText(item->text());
+            setNameLabelText(Qt::escape(item->text()));
             m_preview->setPixmap(KIcon(item->icon()).pixmap(128, 128));
             return true;
         }
