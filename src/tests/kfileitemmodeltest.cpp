@@ -72,10 +72,9 @@ private slots:
     void testExpandItems();
     void testExpandParentItems();
     void testSorting();
-
     void testIndexForKeyboardSearch();
-
     void testNameFilter();
+    void testEmptyPath();
 
 private:
     bool isModelConsistent() const;
@@ -772,6 +771,31 @@ void KFileItemModelTest::testNameFilter()
 
     m_model->setNameFilter(QString()); // Shows again all items
     QCOMPARE(m_model->count(), 5);
+}
+
+/**
+ * Verifies that we do not crash when adding a KFileItem with an empty path.
+ * Before this issue was fixed, KFileItemModel::expandedParentsCountCompare()
+ * tried to always read the first character of the path, even if the path is empty.
+ */
+void KFileItemModelTest::testEmptyPath()
+{
+    QSet<QByteArray> roles;
+    roles.insert("text");
+    roles.insert("isExpanded");
+    roles.insert("isExpandable");
+    roles.insert("expandedParentsCount");
+    m_model->setRoles(roles);
+
+    const KUrl emptyUrl;
+    QVERIFY(emptyUrl.path().isEmpty());
+    
+    const KUrl url("file:///test/");
+    
+    KFileItemList items;
+    items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
+    m_model->slotNewItems(items);
+    m_model->slotCompleted();
 }
 
 bool KFileItemModelTest::isModelConsistent() const
