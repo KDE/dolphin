@@ -999,6 +999,36 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 #endif
 }
 
+static KItemRangeList sortedIndexesToKItemRangeList(const QList<int> sortedNumbers)
+{
+    if (sortedNumbers.empty()) {
+        return KItemRangeList();
+    }
+
+    KItemRangeList result;
+
+    QList<int>::const_iterator it = sortedNumbers.begin();
+    int index = *it;
+    int count = 1;
+
+    ++it;
+
+    QList<int>::const_iterator end = sortedNumbers.end();
+    while (it != end) {
+        if (*it == index + count) {
+            ++count;
+        } else {
+            result << KItemRange(index, count);
+            index = *it;
+            count = 1;
+        }
+        ++it;
+    }
+
+    result << KItemRange(index, count);
+    return result;
+}
+
 void KFileItemModel::removeItems(const KFileItemList& items)
 {
     if (items.isEmpty()) {
@@ -1011,68 +1041,55 @@ void KFileItemModel::removeItems(const KFileItemList& items)
 
     m_groups.clear();
 
-    QList<ItemData*> sortedItems;
-    sortedItems.reserve(items.count());
-    foreach (const KFileItem& item, items) {
-        const int index = m_items.value(item.url(), -1);
-        if (index >= 0) {
-            sortedItems.append(m_itemData.at(index));
-        }
-    }
-    sort(sortedItems.begin(), sortedItems.end());
-
+    // Step 1: Determine the indexes of the removed items, remove them from
+    //         the hash m_items, and free the ItemData.
     QList<int> indexesToRemove;
     indexesToRemove.reserve(items.count());
+    foreach (const KFileItem& item, items) {
+        const KUrl url = item.url();
+        const int index = m_items.value(url, -1);
+        if (index >= 0) {
+            indexesToRemove.append(index);
 
-    // Calculate the item ranges that will get deleted
-    KItemRangeList itemRanges;
-    int removedAtIndex = -1;
-    int removedCount = 0;
-    int targetIndex = 0;
-    foreach (const ItemData* itemData, sortedItems) {
-        const KFileItem& itemToRemove = itemData->item;
+            // Prevent repeated expensive rehashing by using QHash::erase(),
+            // rather than QHash::remove().
+            QHash<KUrl, int>::iterator it = m_items.find(url);
+            m_items.erase(it);
 
-        const int previousTargetIndex = targetIndex;
-        while (targetIndex < m_itemData.count()) {
-            if (m_itemData.at(targetIndex)->item.url() == itemToRemove.url()) {
-                break;
-            }
-            ++targetIndex;
-        }
-        if (targetIndex >= m_itemData.count()) {
+            ItemData* data = m_itemData.at(index);
+            delete data;
+            m_itemData[index] = 0;
+        } else {
             kWarning() << "Item that should be deleted has not been found!";
-            return;
         }
-
-        if (targetIndex - previousTargetIndex > 0 && removedAtIndex >= 0) {
-            itemRanges << KItemRange(removedAtIndex, removedCount);
-            removedAtIndex = targetIndex;
-            removedCount = 0;
-        }
-
-        indexesToRemove.append(targetIndex);
-        if (removedAtIndex < 0) {
-            removedAtIndex = targetIndex;
-        }
-        ++removedCount;
-        ++targetIndex;
     }
 
-    // Delete the items
-    for (int i = indexesToRemove.count() - 1; i >= 0; --i) {
-        const int indexToRemove = indexesToRemove.at(i);
-        ItemData* data = m_itemData.at(indexToRemove);
+    std::sort(indexesToRemove.begin(), indexesToRemove.end());
 
-        m_items.remove(data->item.url());
+    // Step 2: Remove the ItemData pointers from the list m_itemData.
+    const KItemRangeList itemRanges = sortedIndexesToKItemRangeList(indexesToRemove);
+    int target = itemRanges.at(0).index;
+    int source = itemRanges.at(0).index + itemRanges.at(0).count;
+    int nextRange = 1;
 
-        delete data;
-        m_itemData.removeAt(indexToRemove);
+    const int oldItemDataCount = m_itemData.count();
+    while (source < oldItemDataCount) {
+        if (nextRange < itemRanges.count() - 1 && source == itemRanges.at(nextRange).index) {
+            // Skip the items in the next removed range.
+            source += itemRanges.at(nextRange).count;
+            ++nextRange;
+        }
+        m_itemData[target] = m_itemData[source];
+        ++target;
+        ++source;
     }
 
-    // The indexes of all m_items must be adjusted, not only the index
-    // of the removed items
-    const int itemDataCount = m_itemData.count();
-    for (int i = 0; i < itemDataCount; ++i) {
+    m_itemData.erase(m_itemData.end() - indexesToRemove.count(), m_itemData.end());
+
+    // Step 3: Adjust indexes in the hash m_items. Note that all indexes
+    //         might have been changed by the removal of the items.
+    const int newItemDataCount = m_itemData.count();
+    for (int i = 0; i < newItemDataCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
@@ -1080,7 +1097,6 @@ void KFileItemModel::removeItems(const KFileItemList& items)
         m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
     }
 
-    itemRanges << KItemRange(removedAtIndex, removedCount);
     emit itemsRemoved(itemRanges);
 }
 
