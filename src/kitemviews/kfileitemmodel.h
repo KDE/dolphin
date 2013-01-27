@@ -485,6 +485,7 @@ private:
     friend class KFileItemModelLessThan;       // Accesses lessThan() method
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
+    friend class KFileItemModelBenchmark;      // For unit testing
     friend class KFileItemListViewTest;        // For unit testing
     friend class DolphinPart;                  // Accesses m_dirLister
 };

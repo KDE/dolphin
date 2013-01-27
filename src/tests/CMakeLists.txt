@@ -48,6 +48,16 @@ set(kfileitemmodeltest_SRCS
 kde4_add_unit_test(kfileitemmodeltest TEST ${kfileitemmodeltest_SRCS})
 target_link_libraries(kfileitemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
+# KFileItemModelBenchmark
+set(kfileitemmodelbenchmark_SRCS
+    kfileitemmodelbenchmark.cpp
+    testdir.cpp
+    ../kitemviews/kfileitemmodel.cpp
+    ../kitemviews/kitemmodelbase.cpp
+)
+kde4_add_executable(kfileitemmodelbenchmark TEST ${kfileitemmodelbenchmark_SRCS})
+target_link_libraries(kfileitemmodelbenchmark dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
 # KItemListKeyboardSearchManagerTest
 set(kitemlistkeyboardsearchmanagertest_SRCS
     kitemlistkeyboardsearchmanagertest.cpp
