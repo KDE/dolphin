@@ -78,7 +78,6 @@ private slots:
     void testNameFilter();
 
 private:
-    bool isModelConsistent() const;
     QStringList itemsInModel() const;
 
 private:
@@ -153,7 +152,7 @@ void KFileItemModelTest::testNewItems()
 
     QCOMPARE(m_model->count(), 3);
 
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testRemoveItems()
@@ -163,13 +162,13 @@ void KFileItemModelTest::testRemoveItems()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 2);
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 
     m_testDir->removeFile("a.txt");
     m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testDirLoadingCompleted()
@@ -212,7 +211,7 @@ void KFileItemModelTest::testDirLoadingCompleted()
     QCOMPARE(itemsRemovedSpy.count(), 2);
     QCOMPARE(m_model->count(), 4);
 
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testSetData()
@@ -233,7 +232,7 @@ void KFileItemModelTest::testSetData()
     values = m_model->data(0);
     QCOMPARE(values.value("customRole1").toString(), QString("Test1"));
     QCOMPARE(values.value("customRole2").toString(), QString("Test2"));
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testSetDataWithModifiedSortRole_data()
@@ -314,7 +313,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     QCOMPARE(m_model->data(0).value("rating").toInt(), ratingIndex0);
     QCOMPARE(m_model->data(1).value("rating").toInt(), ratingIndex1);
     QCOMPARE(m_model->data(2).value("rating").toInt(), ratingIndex2);
-    QVERIFY(isModelConsistent());
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
@@ -353,7 +352,7 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
             QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
         }
 
-        QVERIFY(isModelConsistent());
+        QVERIFY(m_model->isConsistent());
     }
 
     QCOMPARE(m_model->count(), 201);
@@ -772,29 +771,6 @@ void KFileItemModelTest::testNameFilter()
 
     m_model->setNameFilter(QString()); // Shows again all items
     QCOMPARE(m_model->count(), 5);
-}
-
-bool KFileItemModelTest::isModelConsistent() const
-{
-    if (m_model->m_items.count() != m_model->m_itemData.count()) {
-        return false;
-    }
-
-    for (int i = 0; i < m_model->count(); ++i) {
-        const KFileItem item = m_model->fileItem(i);
-        if (item.isNull()) {
-            qWarning() << "Item" << i << "is null";
-            return false;
-        }
-
-        const int itemIndex = m_model->index(item);
-        if (itemIndex != i) {
-            qWarning() << "Item" << i << "has a wrong index:" << itemIndex;
-            return false;
-        }
-    }
-
-    return true;
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

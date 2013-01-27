@@ -183,6 +183,8 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
         QCOMPARE(model.count(), initialItems.count() + newItems.count() - removedItems.count());
     }
 
+    QVERIFY(model.isConsistent());
+
     for (int i = 0; i < model.count(); ++i) {
         QCOMPARE(model.fileItem(i), expectedFinalItems.at(i));
     }

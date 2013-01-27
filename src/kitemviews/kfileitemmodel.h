@@ -434,6 +434,11 @@ private:
      */
     static void determineMimeTypes(const KFileItemList& items, int timeout);
 
+    /**
+     * Checks if the model's internal data structures are consistent.
+     */
+    bool isConsistent() const;
+
 private:
     KFileItemModelDirLister* m_dirLister;
 

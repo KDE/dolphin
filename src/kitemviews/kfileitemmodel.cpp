@@ -2016,4 +2016,34 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
     }
 }
 
+bool KFileItemModel::isConsistent() const
+{
+    // Check that m_items and m_itemData are consistent, and that the items are sorted.
+    if (m_items.count() != m_itemData.count()) {
+        return false;
+    }
+
+    for (int i = 0; i < count(); ++i) {
+        const KFileItem item = fileItem(i);
+        if (item.isNull()) {
+            qWarning() << "Item" << i << "is null";
+            return false;
+        }
+
+        const int itemIndex = index(item);
+        if (itemIndex != i) {
+            qWarning() << "Item" << i << "has a wrong index:" << itemIndex;
+            return false;
+        }
+
+        if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i))) {
+            qWarning() << "The order of items" << i - 1 << "and" << i << "is wrong:"
+                << fileItem(i - 1) << fileItem(i);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 #include "kfileitemmodel.moc"
