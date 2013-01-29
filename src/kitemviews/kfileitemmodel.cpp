@@ -1064,6 +1064,10 @@ void KFileItemModel::removeItems(const KFileItemList& items)
         }
     }
 
+    if (indexesToRemove.isEmpty()) {
+        return;
+    }
+
     std::sort(indexesToRemove.begin(), indexesToRemove.end());
 
     // Step 2: Remove the ItemData pointers from the list m_itemData.
@@ -1074,14 +1078,15 @@ void KFileItemModel::removeItems(const KFileItemList& items)
 
     const int oldItemDataCount = m_itemData.count();
     while (source < oldItemDataCount) {
-        if (nextRange < itemRanges.count() - 1 && source == itemRanges.at(nextRange).index) {
+        m_itemData[target] = m_itemData[source];
+        ++target;
+        ++source;
+
+        if (nextRange < itemRanges.count() && source == itemRanges.at(nextRange).index) {
             // Skip the items in the next removed range.
             source += itemRanges.at(nextRange).count;
             ++nextRange;
         }
-        m_itemData[target] = m_itemData[source];
-        ++target;
-        ++source;
     }
 
     m_itemData.erase(m_itemData.end() - indexesToRemove.count(), m_itemData.end());
