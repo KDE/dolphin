@@ -75,6 +75,7 @@ private slots:
     void testIndexForKeyboardSearch();
     void testNameFilter();
     void testEmptyPath();
+    void testRemoveHiddenItems();
 
 private:
     bool isModelConsistent() const;
@@ -796,6 +797,56 @@ void KFileItemModelTest::testEmptyPath()
     items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
     m_model->slotNewItems(items);
     m_model->slotCompleted();
+}
+
+/**
+ * Verify that removing hidden files and folders from the model does not
+ * result in a crash, see https://bugs.kde.org/show_bug.cgi?id=314046
+ */
+void KFileItemModelTest::testRemoveHiddenItems()
+{
+    m_testDir->createDir(".a");
+    m_testDir->createDir(".b");
+    m_testDir->createDir("c");
+    m_testDir->createDir("d");
+    m_testDir->createFiles(QStringList() << ".f" << ".g" << "h" << "i");
+
+    QSignalSpy spyItemsInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy spyItemsRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+
+    m_model->setShowHiddenFiles(true);
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
+    QCOMPARE(spyItemsInserted.count(), 1);
+    QCOMPARE(spyItemsRemoved.count(), 0);
+    KItemRangeList itemRangeList = spyItemsInserted.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 8));
+
+    m_model->setShowHiddenFiles(false);
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "h" << "i");
+    QCOMPARE(spyItemsInserted.count(), 0);
+    QCOMPARE(spyItemsRemoved.count(), 1);
+    itemRangeList = spyItemsRemoved.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 2) << KItemRange(4, 2));
+
+    m_model->setShowHiddenFiles(true);
+    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
+    QCOMPARE(spyItemsInserted.count(), 1);
+    QCOMPARE(spyItemsRemoved.count(), 0);
+    itemRangeList = spyItemsInserted.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 2) << KItemRange(2, 2));
+
+    m_model->clear();
+    QCOMPARE(itemsInModel(), QStringList());
+    QCOMPARE(spyItemsInserted.count(), 0);
+    QCOMPARE(spyItemsRemoved.count(), 1);
+    itemRangeList = spyItemsRemoved.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 8));
+
+    // Hiding hidden files makes the dir lister emit its itemsDeleted signal.
+    // Verify that this does not make the model crash.
+    m_model->setShowHiddenFiles(false);
 }
 
 bool KFileItemModelTest::isModelConsistent() const
