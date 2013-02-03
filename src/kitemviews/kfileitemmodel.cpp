@@ -1031,10 +1031,6 @@ static KItemRangeList sortedIndexesToKItemRangeList(const QList<int>& sortedNumb
 
 void KFileItemModel::removeItems(const KFileItemList& items)
 {
-    if (items.isEmpty()) {
-        return;
-    }
-
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "Removing " << items.count() << "items";
 #endif
@@ -1059,8 +1055,6 @@ void KFileItemModel::removeItems(const KFileItemList& items)
             ItemData* data = m_itemData.at(index);
             delete data;
             m_itemData[index] = 0;
-        } else {
-            kWarning() << "Item that should be deleted has not been found!";
         }
     }
 
