@@ -999,7 +999,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 #endif
 }
 
-static KItemRangeList sortedIndexesToKItemRangeList(const QList<int> sortedNumbers)
+static KItemRangeList sortedIndexesToKItemRangeList(const QList<int>& sortedNumbers)
 {
     if (sortedNumbers.empty()) {
         return KItemRangeList();
