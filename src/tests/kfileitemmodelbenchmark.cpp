@@ -20,8 +20,6 @@
 
 #include <qtest_kde.h>
 
-#include <KGlobalSettings>
-
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
