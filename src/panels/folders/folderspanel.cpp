@@ -152,7 +152,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_controller->setAutoActivationBehavior(KItemListController::ExpansionOnly);
         m_controller->setMouseDoubleClickAction(KItemListController::ActivateAndExpandItem);
         m_controller->setAutoActivationDelay(750);
-        m_controller->setSingleClickActivation(true);
+        m_controller->setSingleClickActivationEnforced(true);
 
         connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
