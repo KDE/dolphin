@@ -29,6 +29,11 @@
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
+#include <KConfigGroup>
+#include <KGlobalSettings>
+
+#include <QGraphicsSceneMouseEvent>
+
 namespace {
     const int DefaultTimeout = 2000;
 };
@@ -51,6 +56,7 @@ private slots:
 
     void testKeyboardNavigation_data();
     void testKeyboardNavigation();
+    void testMouseClickActivation();
 
 private:
     /**
@@ -503,6 +509,108 @@ void KItemListControllerTest::testKeyboardNavigation()
                 break;
             }
         }
+    }
+}
+
+void KItemListControllerTest::testMouseClickActivation()
+{
+    m_view->setItemLayout(KFileItemListView::IconsLayout);
+
+    // Make sure that we have a large window, such that
+    // the items are visible and clickable.
+    adjustGeometryForColumnCount(5);
+
+    // Make sure that the first item is visible in the view.
+    QTest::keyClick(m_container, Qt::Key_End, Qt::NoModifier);
+    QTest::keyClick(m_container, Qt::Key_Home, Qt::NoModifier);
+    while (m_view->firstVisibleIndex() > 0) {
+        QTest::qWait(50);
+    }
+    
+    const QPointF pos = m_view->itemContextRect(0).center();
+
+    // Save the "single click" setting.
+    const bool restoreKGlobalSettingsSingleClick = KGlobalSettings::singleClick();
+
+    KConfig config("kcminputrc");
+    KConfigGroup group = config.group("KDE");
+
+    QGraphicsSceneMouseEvent mousePressEvent(QEvent::GraphicsSceneMousePress);
+    mousePressEvent.setPos(pos);
+    mousePressEvent.setButton(Qt::LeftButton);
+    mousePressEvent.setButtons(Qt::LeftButton);
+
+    QGraphicsSceneMouseEvent mouseReleaseEvent(QEvent::GraphicsSceneMouseRelease);
+    mouseReleaseEvent.setPos(pos);
+    mouseReleaseEvent.setButton(Qt::LeftButton);
+    mouseReleaseEvent.setButtons(Qt::NoButton);
+    
+    QSignalSpy spyItemActivated(m_controller, SIGNAL(itemActivated(int)));
+        
+    // Default setting: single click activation.
+    group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
+    config.sync();
+    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
+    while (!KGlobalSettings::singleClick()) {
+        QTest::qWait(50);
+    }
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 1);
+    spyItemActivated.clear();
+    
+    // Set the global setting to "double click activation".
+    group.writeEntry("SingleClick", false, KConfig::Persistent|KConfig::Global);
+    config.sync();
+    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
+    while (KGlobalSettings::singleClick()) {
+        QTest::qWait(50);
+    }
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 0);
+    spyItemActivated.clear();
+    
+    // Enforce single click activation in the controller.
+    m_controller->setSingleClickActivationEnforced(true);
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 1);
+    spyItemActivated.clear();
+
+    // Do not enforce single click activation in the controller.
+    m_controller->setSingleClickActivationEnforced(false);
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 0);
+    spyItemActivated.clear();
+    
+    // Set the global setting back to "single click activation".
+    group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
+    config.sync();
+    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
+    while (!KGlobalSettings::singleClick()) {
+        QTest::qWait(50);
+    }
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 1);
+    spyItemActivated.clear();
+    
+    // Enforce single click activation in the controller.
+    m_controller->setSingleClickActivationEnforced(true);
+    m_view->event(&mousePressEvent);
+    m_view->event(&mouseReleaseEvent);
+    QCOMPARE(spyItemActivated.count(), 1);
+    spyItemActivated.clear();
+
+    // Restore previous settings.
+    m_controller->setSingleClickActivationEnforced(true);
+    group.writeEntry("SingleClick", restoreKGlobalSettingsSingleClick, KConfig::Persistent|KConfig::Global);
+    config.sync();
+    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
+    while (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick) {
+        QTest::qWait(50);
     }
 }
 
