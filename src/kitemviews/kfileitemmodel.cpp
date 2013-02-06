@@ -987,6 +987,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     // The indexes of all m_items must be adjusted, not only the index
     // of the new items
     const int itemDataCount = m_itemData.count();
+    m_items.reserve(itemDataCount);
     for (int i = 0; i < itemDataCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
