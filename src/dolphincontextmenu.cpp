@@ -24,6 +24,7 @@
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
+#include "dolphinremoveaction.h"
 
 #include <KActionCollection>
 #include <KDesktopFile>
@@ -73,17 +74,14 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_context(NoContext),
     m_copyToMenu(parent),
     m_customActions(),
-    m_command(None),
-    m_shiftPressed(qApp->keyboardModifiers() & Qt::ShiftModifier),
-    m_removeAction(0)
+    m_command(None)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
 
-    m_removeAction = new QAction(this);
-    connect(m_removeAction, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
+    m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -129,8 +127,7 @@ DolphinContextMenu::Command DolphinContextMenu::open()
 void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 {
     if (ev->key() == Qt::Key_Shift) {
-        m_shiftPressed = true;
-        updateRemoveAction();
+        m_removeAction->update();
     }
     KMenu::keyPressEvent(ev);
 }
@@ -138,21 +135,9 @@ void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
 {
     if (ev->key() == Qt::Key_Shift) {
-        // not just "m_shiftPressed = false", the user could be playing with both Shift keys...
-        m_shiftPressed = qApp->keyboardModifiers() & Qt::ShiftModifier;
-        updateRemoveAction();
+        m_removeAction->update();
     }
     KMenu::keyReleaseEvent(ev);
-}
-
-void DolphinContextMenu::slotRemoveActionTriggered()
-{
-    const KActionCollection* collection = m_mainWindow->actionCollection();
-    if (moveToTrash()) {
-        collection->action("move_to_trash")->trigger();
-    } else {
-        collection->action("delete")->trigger();
-    }
 }
 
 void DolphinContextMenu::openTrashContextMenu()
@@ -374,7 +359,7 @@ void DolphinContextMenu::insertDefaultItemActions()
         addAction(collection->action("delete"));
     } else {
         addAction(m_removeAction);
-        updateRemoveAction();
+        m_removeAction->update();
     }
 }
 
@@ -507,30 +492,6 @@ void DolphinContextMenu::addCustomActions()
     foreach (QAction* action, m_customActions) {
         addAction(action);
     }
-}
-
-void DolphinContextMenu::updateRemoveAction()
-{
-    const KActionCollection* collection = m_mainWindow->actionCollection();
-
-    // Using m_removeAction->setText(action->text()) does not apply the &-shortcut.
-    // This is only done until the original action has been shown at least once. To
-    // bypass this issue, the text and &-shortcut is applied manually.
-    const QAction* action = 0;
-    if (moveToTrash()) {
-        action = collection->action("move_to_trash");
-        m_removeAction->setText(i18nc("@action:inmenu", "&Move to Trash"));
-    } else {
-        action = collection->action("delete");
-        m_removeAction->setText(i18nc("@action:inmenu", "&Delete"));
-    }
-    m_removeAction->setIcon(action->icon());
-    m_removeAction->setShortcuts(action->shortcuts());
-}
-
-bool DolphinContextMenu::moveToTrash() const
-{
-    return !m_shiftPressed;
 }
 
 #include "dolphincontextmenu.moc"

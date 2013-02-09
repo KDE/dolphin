@@ -39,6 +39,7 @@ class DolphinModel;
 class KDirLister;
 class DolphinView;
 class KAboutData;
+class DolphinRemoveAction;
 
 class DolphinPart : public KParts::ReadOnlyPart
 {
@@ -227,6 +228,8 @@ private Q_SLOTS:
     void setFilesToSelect(const KUrl::List& files);
     KUrl::List filesToSelect() const { return KUrl::List(); } // silence moc
 
+    virtual bool eventFilter(QObject*, QEvent*);
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
@@ -245,6 +248,7 @@ private:
     KAction* m_findFileAction;
     KAction* m_openTerminalAction;
     QString m_nameFilter;
+    DolphinRemoveAction* m_removeAction;
     Q_DISABLE_COPY(DolphinPart)
 };
 

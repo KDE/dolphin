@@ -18,6 +18,7 @@
 */
 
 #include "dolphinpart.h"
+#include "dolphinremoveaction.h"
 
 #include <KFileItemListProperties>
 #include <konq_operations.h>
@@ -64,6 +65,7 @@ K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
       ,m_openTerminalAction(0)
+      ,m_removeAction(0)
 {
     Q_UNUSED(args)
     setComponentData(DolphinPartFactory::componentData(), false);
@@ -144,6 +146,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     createActions();
     m_actionHandler->updateViewActions();
     slotSelectionChanged(KFileItemList()); // initially disable selection-dependent actions
+
+    // Listen to events from the app so we can update the remove key by
+    // checking for a Shift key press.
+    qApp->installEventFilter(this);
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
@@ -447,10 +453,18 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
             }
         }
 
-        if (addTrash)
+        if (!addTrash || !addDel) {
+            if (!m_removeAction) {
+                m_removeAction = new DolphinRemoveAction(this, actionCollection());
+            }
+            editActions.append(m_removeAction);
+            m_removeAction->update();
+        } else {
+            delete m_removeAction;
+            m_removeAction = 0;
             editActions.append(actionCollection()->action("move_to_trash"));
-        if (addDel)
             editActions.append(actionCollection()->action("delete"));
+        }
 
         // Normally KonqPopupMenu only shows the "Create new" submenu in the current view
         // since otherwise the created file would not be visible.
@@ -591,6 +605,23 @@ void DolphinPart::setFilesToSelect(const KUrl::List& files)
 
     m_view->markUrlsAsSelected(files);
     m_view->markUrlAsCurrent(files.at(0));
+}
+
+bool DolphinPart::eventFilter(QObject* obj, QEvent* event)
+{
+    const int type = event->type();
+
+    if ((type == QEvent::KeyPress || type == QEvent::KeyRelease) && m_removeAction) {
+        QMenu* menu = qobject_cast<QMenu*>(obj);
+        if (menu && menu->parent() == m_view) {
+            QKeyEvent* ev = static_cast<QKeyEvent*>(event);
+            if (ev->key() == Qt::Key_Shift) {
+                m_removeAction->update();
+            }
+        }
+    }
+
+    return KParts::ReadOnlyPart::eventFilter(obj, event);
 }
 
 ////

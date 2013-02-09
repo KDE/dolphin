@@ -36,6 +36,7 @@ class QAction;
 class DolphinMainWindow;
 class KFileItemActions;
 class KFileItemListProperties;
+class DolphinRemoveAction;
 
 /**
  * @brief Represents the context menu which appears when doing a right
@@ -94,13 +95,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent *ev);
     virtual void keyReleaseEvent(QKeyEvent *ev);
 
-private slots:
-    /**
-     * Triggers the 'Delete'-action if the shift-key has been pressed, otherwise
-     * the 'Move to Trash'-action gets triggered.
-     */
-    void slotRemoveActionTriggered();
-
 private:
     void openTrashContextMenu();
     void openTrashItemContextMenu();
@@ -148,20 +142,6 @@ private:
      */
     void addCustomActions();
 
-    /**
-     * Updates m_removeAction to represent the 'Delete'-action if the shift-key
-     * has been pressed or the selection is not local. Otherwise it represents
-     * the 'Move to Trash'-action.
-     */
-    void updateRemoveAction();
-
-    /**
-     * @return True if a moving to the trash should be done instead of
-     *         deleting the selected items.
-     * @see updateRemoveAction(), slotRemoveActionTriggered()
-     */
-    bool moveToTrash() const;
-
 private:
     struct Entry
     {
@@ -197,8 +177,7 @@ private:
 
     Command m_command;
 
-    bool m_shiftPressed;
-    QAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
+    DolphinRemoveAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
 };
 
 #endif
