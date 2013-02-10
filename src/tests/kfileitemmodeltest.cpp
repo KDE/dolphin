@@ -486,6 +486,7 @@ void KFileItemModelTest::testExpandItems()
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
     QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 4)); // 4 items removed
+    QVERIFY(m_model->isConsistent());
 
     // Clear the model, reload the folder and try to restore the expanded folders.
     m_model->clear();
@@ -502,6 +503,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(!m_model->isExpanded(4));
     QCOMPARE(m_model->expandedDirectories(), allFolders);
+    QVERIFY(m_model->isConsistent());
 
     // Move to a sub folder, then call restoreExpandedFolders() *before* going back.
     // This is how DolphinView restores the expanded folders when navigating in history.
@@ -564,6 +566,7 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(m_model->isExpanded(2));
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(!m_model->isExpanded(4));
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testSorting()

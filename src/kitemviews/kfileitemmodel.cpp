@@ -2018,12 +2018,12 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
 
 bool KFileItemModel::isConsistent() const
 {
-    // Check that m_items and m_itemData are consistent, and that the items are sorted.
     if (m_items.count() != m_itemData.count()) {
         return false;
     }
 
     for (int i = 0; i < count(); ++i) {
+        // Check if m_items and m_itemData are consistent.
         const KFileItem item = fileItem(i);
         if (item.isNull()) {
             qWarning() << "Item" << i << "is null";
@@ -2036,10 +2036,27 @@ bool KFileItemModel::isConsistent() const
             return false;
         }
 
+        // Check if the items are sorted correctly.
         if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i))) {
             qWarning() << "The order of items" << i - 1 << "and" << i << "is wrong:"
                 << fileItem(i - 1) << fileItem(i);
             return false;
+        }
+
+        // Check if all parent-child relationships are consistent.
+        const ItemData* data = m_itemData.at(i);
+        const ItemData* parent = data->parent;
+        if (parent) {
+            if (data->values.value("expandedParentsCount").toInt() != parent->values.value("expandedParentsCount").toInt() + 1) {
+                qWarning() << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
+                return false;
+            }
+
+            const int parentIndex = index(parent->item);
+            if (parentIndex >= i) {
+                qWarning() << "Index" << parentIndex << "of parent" << parent->item << "is not smaller than index" << i << "of child" << data->item;
+                return false;
+            }
         }
     }
 
