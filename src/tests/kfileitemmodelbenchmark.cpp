@@ -23,6 +23,10 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
+#include "testdir.h"
+
+#include <KRandomSequence>
+
 void myMessageOutput(QtMsgType type, const char* msg)
 {
     switch (type) {
@@ -41,6 +45,10 @@ void myMessageOutput(QtMsgType type, const char* msg)
     }
 }
 
+namespace {
+    const int DefaultTimeout = 5000;
+};
+
 Q_DECLARE_METATYPE(KFileItemList)
 Q_DECLARE_METATYPE(KItemRangeList)
 
@@ -54,6 +62,7 @@ public:
 private slots:
     void insertAndRemoveManyItems_data();
     void insertAndRemoveManyItems();
+    void insertManyChildItems();
 
 private:
     static KFileItemList createFileItemList(const QStringList& fileNames, const QString& urlPrefix = QLatin1String("file:///"));
@@ -197,6 +206,106 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
         QVERIFY(!spyItemsRemoved.empty());
         const KItemRangeList actualItemsRemoved = spyItemsRemoved.last().first().value<KItemRangeList>();
         QCOMPARE(actualItemsRemoved, expectedItemsRemoved);
+    }
+}
+
+void KFileItemModelBenchmark::insertManyChildItems()
+{
+    qInstallMsgHandler(myMessageOutput);
+
+    KFileItemModel model;
+
+    // Avoid overhead caused by natural sorting.
+    model.m_naturalSorting = false;
+
+    QSet<QByteArray> modelRoles = model.roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    model.setRoles(modelRoles);
+    model.setSortDirectoriesFirst(false);
+
+    // Create a test folder with a 3-level tree structure of folders.
+    TestDir testFolder;
+    int numberOfFolders = 0;
+
+    QStringList subFolderNames;
+    subFolderNames << "a/" << "b/" << "c/" << "d/";
+
+    foreach (const QString& s1, subFolderNames) {
+        ++numberOfFolders;
+        foreach (const QString& s2, subFolderNames) {
+            ++numberOfFolders;
+            foreach (const QString& s3, subFolderNames) {
+                testFolder.createDir("level-1-" + s1 + "level-2-" + s2 + "level-3-" + s3);
+                ++numberOfFolders;
+            }
+        }
+    }
+
+    // Open the folder in the model and expand all subfolders.
+    model.loadDirectory(testFolder.url());
+    QVERIFY(QTest::kWaitForSignal(&model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    int index = 0;
+    while (index < model.count()) {
+        if (model.isExpandable(index)) {
+            model.setExpanded(index, true);
+
+            if (!model.data(index).value("text").toString().startsWith("level-3")) {
+                // New subfolders will appear unless we are on the final level already.
+                QVERIFY(QTest::kWaitForSignal(&model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+            }
+
+            QVERIFY(model.isExpanded(index));
+        }
+        ++index;
+    }
+
+    QCOMPARE(model.count(), numberOfFolders);
+
+    // Create a list of many file items, which will be added to each of the
+    // "level 1", "level 2", and "level 3" folders.
+    const int filesPerDirectory = 500;
+    QStringList allStrings;
+    for (int i = 0; i < filesPerDirectory; ++i) {
+        allStrings << QString::number(i);
+    }
+    allStrings.sort();
+
+    KFileItemList newItems;
+
+    // Also keep track of all expected items, including the existing
+    // folders, to verify the final state of the model.
+    KFileItemList allExpectedItems;
+
+    for (int i = 0; i < model.count(); ++i) {
+        const KFileItem folderItem = model.fileItem(i);
+        allExpectedItems << folderItem;
+
+        const KUrl folderUrl = folderItem.url();
+        KFileItemList itemsInFolder = createFileItemList(allStrings, folderUrl.url(KUrl::AddTrailingSlash));
+
+        newItems.append(itemsInFolder);
+        allExpectedItems.append(itemsInFolder);
+    }
+
+    // Bring the items into random order.
+    KRandomSequence randomSequence(0);
+    randomSequence.randomize(newItems);
+
+    // Measure how long it takes to insert and then remove all files.
+    QBENCHMARK {
+        model.slotNewItems(newItems);
+        model.slotCompleted();
+
+        QCOMPARE(model.count(), allExpectedItems.count());
+        QVERIFY(model.isConsistent());
+        for (int i = 0; i < model.count(); ++i) {
+            QCOMPARE(model.fileItem(i), allExpectedItems.at(i));
+        }
+
+        model.slotItemsDeleted(newItems);
+        QCOMPARE(model.count(), numberOfFolders);
+        QVERIFY(model.isConsistent());
     }
 }
 
