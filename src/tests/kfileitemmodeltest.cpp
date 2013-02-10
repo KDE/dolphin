@@ -21,6 +21,8 @@
 #include <qtest_kde.h>
 
 #include <KDirLister>
+#include <kio/job.h>
+
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
@@ -71,6 +73,7 @@ private slots:
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
     void testExpandParentItems();
+    void testMakeExpandedItemHidden();
     void testSorting();
     void testIndexForKeyboardSearch();
     void testNameFilter();
@@ -567,6 +570,55 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(!m_model->isExpanded(4));
     QVERIFY(m_model->isConsistent());
+}
+
+/**
+ * Renaming an expanded folder by prepending its name with a dot makes it
+ * hidden. Verify that this does not cause an inconsistent model state and
+ * a crash later on, see https://bugs.kde.org/show_bug.cgi?id=311947
+ */
+void KFileItemModelTest::testMakeExpandedItemHidden()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    m_testDir->createFile("1a/2a/3a");
+    m_testDir->createFile("1a/2a/3b");
+    m_testDir->createFile("1a/2b");
+    m_testDir->createFile("1b");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // So far, the model contains only "1a/" and "1b".
+    QCOMPARE(m_model->count(), 2);
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // Now "1a/2a" and "1a/2b" have appeared.
+    QCOMPARE(m_model->count(), 4);
+    m_model->setExpanded(1, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 6);
+
+    // Rename "1a/2" and make it hidden.
+    const QString oldPath = m_model->fileItem(0).url().path() + "/2a";
+    const QString newPath = m_model->fileItem(0).url().path() + "/.2a";
+
+    KIO::SimpleJob* job = KIO::rename(oldPath, newPath, KIO::HideProgressInfo);
+    bool ok = job->exec();
+    QVERIFY(ok);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+
+    // "1a/2" and its subfolders have disappeared now.
+    QVERIFY(m_model->isConsistent());
+    QCOMPARE(m_model->count(), 3);
+
+    m_model->setExpanded(0, false);
+    QCOMPARE(m_model->count(), 2);
+
 }
 
 void KFileItemModelTest::testSorting()

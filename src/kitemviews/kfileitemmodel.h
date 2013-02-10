@@ -356,22 +356,6 @@ private:
 
     int stringCompare(const QString& a, const QString& b) const;
 
-    /**
-     * Compares the expansion level of both items. The "expansion level" is defined
-     * by the number of parent directories. However simply comparing just the numbers
-     * is not sufficient, it is also important to check the hierarchy for having
-     * a correct order like shown in a tree.
-     */
-    int expandedParentsCountCompare(const ItemData* a, const ItemData* b) const;
-
-    /**
-     * Helper method for expandedParentsCountCompare().
-     */
-    QString subPath(const KFileItem& item,
-                    const QString& itemPath,
-                    int start,
-                    bool* isDir) const;
-
     bool useMaximumUpdateInterval() const;
 
     QList<QPair<int, QVariant> > nameRoleGroups() const;

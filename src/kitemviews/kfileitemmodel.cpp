@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2013 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -1338,11 +1339,34 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 {
     int result = 0;
 
-    if (m_expandedParentsCountRoot >= 0) {
-        result = expandedParentsCountCompare(a, b);
-        if (result != 0) {
-            // The items have parents with different expansion levels
-            return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
+    if (m_expandedParentsCountRoot >= 0 && a->parent != b->parent) {
+        const int expansionLevelA = a->values.value("expandedParentsCount").toInt();
+        const int expansionLevelB = b->values.value("expandedParentsCount").toInt();
+
+        // If b has a higher expansion level than a, check if a is a parent
+        // of b, and make sure that both expansion levels are equal otherwise.
+        for (int i = expansionLevelB; i > expansionLevelA; --i) {
+            if (b->parent == a) {
+                return true;
+            }
+            b = b->parent;
+        }
+
+        // If a has a higher expansion level than a, check if b is a parent
+        // of a, and make sure that both expansion levels are equal otherwise.
+        for (int i = expansionLevelA; i > expansionLevelB; --i) {
+            if (a->parent == b) {
+                return false;
+            }
+            a = a->parent;
+        }
+
+        Q_ASSERT(a->values.value("expandedParentsCount").toInt() == b->values.value("expandedParentsCount").toInt());
+
+        // Compare the last parents of a and b which are different.
+        while (a->parent != b->parent) {
+            a = a->parent;
+            b = b->parent;
         }
     }
 
@@ -1521,88 +1545,6 @@ int KFileItemModel::stringCompare(const QString& a, const QString& b) const
 
     return m_naturalSorting ? KStringHandler::naturalCompare(a, b, Qt::CaseSensitive)
                             : QString::compare(a, b, Qt::CaseSensitive);
-}
-
-int KFileItemModel::expandedParentsCountCompare(const ItemData* a, const ItemData* b) const
-{
-    const KUrl urlA = a->item.url();
-    const KUrl urlB = b->item.url();
-    if (urlA.directory() == urlB.directory()) {
-        // Both items have the same directory as parent
-        return 0;
-    }
-
-    // Check whether one item is the parent of the other item
-    if (urlA.isParentOf(urlB)) {
-        return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
-    } else if (urlB.isParentOf(urlA)) {
-        return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
-    }
-
-    // Determine the maximum common path of both items and
-    // remember the index in 'index'
-    const QString pathA = urlA.path();
-    const QString pathB = urlB.path();
-
-    const int maxIndex = qMin(pathA.length(), pathB.length()) - 1;
-    int index = 0;
-    while (index <= maxIndex && pathA.at(index) == pathB.at(index)) {
-        ++index;
-    }
-    if (index > maxIndex) {
-        index = maxIndex;
-    }
-    while (index > 0 && (pathA.at(index) != QLatin1Char('/') || pathB.at(index) != QLatin1Char('/'))) {
-        --index;
-    }
-
-    // Determine the first sub-path after the common path and
-    // check whether it represents a directory or already a file
-    bool isDirA = true;
-    const QString subPathA = subPath(a->item, pathA, index, &isDirA);
-    bool isDirB = true;
-    const QString subPathB = subPath(b->item, pathB, index, &isDirB);
-
-    if (m_sortDirsFirst || m_sortRole == SizeRole) {
-        if (isDirA && !isDirB) {
-            return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
-        } else if (!isDirA && isDirB) {
-            return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
-        }
-    }
-
-    // Compare the items of the parents that represent the first
-    // different path after the common path.
-    const QString parentPathA = pathA.left(index) + subPathA;
-    const QString parentPathB = pathB.left(index) + subPathB;
-
-    const ItemData* parentA = a;
-    while (parentA && parentA->item.url().path() != parentPathA) {
-        parentA = parentA->parent;
-    }
-
-    const ItemData* parentB = b;
-    while (parentB && parentB->item.url().path() != parentPathB) {
-        parentB = parentB->parent;
-    }
-
-    if (parentA && parentB) {
-        return sortRoleCompare(parentA, parentB);
-    }
-
-    kWarning() << "Child items without parent detected:" << a->item.url() << b->item.url();
-    return QString::compare(urlA.url(), urlB.url(), Qt::CaseSensitive);
-}
-
-QString KFileItemModel::subPath(const KFileItem& item,
-                                const QString& itemPath,
-                                int start,
-                                bool* isDir) const
-{
-    Q_ASSERT(isDir);
-    const int pathIndex = itemPath.indexOf('/', start + 1);
-    *isDir = (pathIndex > 0) || item.isDir();
-    return itemPath.mid(start, pathIndex - start);
 }
 
 bool KFileItemModel::useMaximumUpdateInterval() const
