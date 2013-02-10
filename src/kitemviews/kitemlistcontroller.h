@@ -129,12 +129,11 @@ public:
 
     /**
      * If set to true, the signals itemActivated() and itemsActivated() are emitted
-     * after a single-click of the left mouse button. If set to false, a double-click
-     * is required. Per default the setting from KGlobalSettings::singleClick() is
-     * used.
+     * after a single-click of the left mouse button. If set to false (the default), 
+     * the setting from KGlobalSettings::singleClick() is used.
      */
-    void setSingleClickActivation(bool singleClick);
-    bool singleClickActivation() const;
+    void setSingleClickActivationEnforced(bool singleClick);
+    bool singleClickActivationEnforced() const;
 
     virtual bool showEvent(QShowEvent* event);
     virtual bool hideEvent(QHideEvent* event);
@@ -301,7 +300,7 @@ private:
     void updateExtendedSelectionRegion();
 
 private:
-    bool m_singleClickActivation;
+    bool m_singleClickActivationEnforced;
     bool m_selectionTogglePressed;
     bool m_clearSelectionIfItemsAreNotDragged;
     SelectionBehavior m_selectionBehavior;

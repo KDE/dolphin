@@ -110,7 +110,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
         m_controller = new KItemListController(m_model, m_view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
-        m_controller->setSingleClickActivation(true);
+        m_controller->setSingleClickActivationEnforced(true);
 
 	readSettings();
 
