@@ -249,13 +249,14 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
 
     const KItemListStyleOption& itemListStyleOption = styleOption();
     if (isHovered()) {
+        const qreal opacity = painter->opacity();
         // Blend the unhovered and hovered pixmap if the hovering
         // animation is ongoing
         if (hoverOpacity() < 1.0) {
+            painter->setOpacity((1.0 - hoverOpacity()) * opacity);
             drawPixmap(painter, m_pixmap);
         }
 
-        const qreal opacity = painter->opacity();
         painter->setOpacity(hoverOpacity() * opacity);
         drawPixmap(painter, m_hoverPixmap);
         painter->setOpacity(opacity);
