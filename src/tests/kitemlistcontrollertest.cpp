@@ -521,12 +521,9 @@ void KItemListControllerTest::testMouseClickActivation()
     adjustGeometryForColumnCount(5);
 
     // Make sure that the first item is visible in the view.
-    QTest::keyClick(m_container, Qt::Key_End, Qt::NoModifier);
-    QTest::keyClick(m_container, Qt::Key_Home, Qt::NoModifier);
-    while (m_view->firstVisibleIndex() > 0) {
-        QTest::qWait(50);
-    }
-    
+    m_view->setScrollOffset(0);
+    QCOMPARE(m_view->firstVisibleIndex(), 0);
+
     const QPointF pos = m_view->itemContextRect(0).center();
 
     // Save the "single click" setting.
@@ -544,33 +541,52 @@ void KItemListControllerTest::testMouseClickActivation()
     mouseReleaseEvent.setPos(pos);
     mouseReleaseEvent.setButton(Qt::LeftButton);
     mouseReleaseEvent.setButtons(Qt::NoButton);
-    
+
     QSignalSpy spyItemActivated(m_controller, SIGNAL(itemActivated(int)));
-        
+
     // Default setting: single click activation.
     group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-    while (!KGlobalSettings::singleClick()) {
+
+    int iterations = 0;
+    const int maxIterations = 20;
+    while (!KGlobalSettings::singleClick() && iterations < maxIterations) {
         QTest::qWait(50);
+        ++iterations;
     }
+
+    if (!KGlobalSettings::singleClick()) {
+        // TODO: Try to find a way to make sure that changing the global setting works.
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+    }
+
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
-    
+
     // Set the global setting to "double click activation".
     group.writeEntry("SingleClick", false, KConfig::Persistent|KConfig::Global);
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-    while (KGlobalSettings::singleClick()) {
+
+    iterations = 0;
+    while (KGlobalSettings::singleClick() && iterations < maxIterations) {
         QTest::qWait(50);
+        ++iterations;
     }
+
+    if (KGlobalSettings::singleClick()) {
+        // TODO: Try to find a way to make sure that changing the global setting works.
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+    }
+
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 0);
     spyItemActivated.clear();
-    
+
     // Enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(true);
     m_view->event(&mousePressEvent);
@@ -584,19 +600,28 @@ void KItemListControllerTest::testMouseClickActivation()
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 0);
     spyItemActivated.clear();
-    
+
     // Set the global setting back to "single click activation".
     group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-    while (!KGlobalSettings::singleClick()) {
+
+    iterations = 0;
+    while (!KGlobalSettings::singleClick() && iterations < maxIterations) {
         QTest::qWait(50);
+        ++iterations;
     }
+
+    if (!KGlobalSettings::singleClick()) {
+        // TODO: Try to find a way to make sure that changing the global setting works.
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+    }
+
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
-    
+
     // Enforce single click activation in the controller.
     m_controller->setSingleClickActivationEnforced(true);
     m_view->event(&mousePressEvent);
@@ -609,8 +634,16 @@ void KItemListControllerTest::testMouseClickActivation()
     group.writeEntry("SingleClick", restoreKGlobalSettingsSingleClick, KConfig::Persistent|KConfig::Global);
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-    while (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick) {
+    
+    iterations = 0;
+    while (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick && iterations < maxIterations) {
         QTest::qWait(50);
+        ++iterations;
+    }
+
+    if (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick) {
+        // TODO: Try to find a way to make sure that changing the global setting works.
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
     }
 }
 
