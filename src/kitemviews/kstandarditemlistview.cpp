@@ -104,17 +104,17 @@ void KStandardItemListView::initializeItemListWidget(KItemListWidget* item)
 
 bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
 {
+    // The only thing that can modify the item's size hint is the amount of space
+    // needed to display the text for the visible roles.
     // Even if the icons have a different size they are always aligned within
     // the area defined by KItemStyleOption.iconSize and hence result in no
     // change of the item-size.
-    const bool containsIconName = changedRoles.contains("iconName");
-    const bool containsIconPixmap = changedRoles.contains("iconPixmap");
-    const int count = changedRoles.count();
-
-    const bool iconChanged = (containsIconName && containsIconPixmap && count == 2) ||
-                             (containsIconName && count == 1) ||
-                             (containsIconPixmap && count == 1);
-    return !iconChanged;
+    foreach (const QByteArray& role, visibleRoles()) {
+        if (changedRoles.contains(role)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 void KStandardItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
