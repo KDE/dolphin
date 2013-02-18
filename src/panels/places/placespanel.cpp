@@ -262,23 +262,34 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             emptyTrash();
         } else if (action == addAction) {
             addEntry();
-        } else if (action == editAction) {
-            editEntry(index);
-        } else if (action == removeAction) {
-            m_model->removeItem(index);
-        } else if (action == hideAction) {
-            item->setHidden(hideAction->isChecked());
-        } else if (action == openInNewTabAction) {
-            const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
-            emit placeMiddleClicked(url);
         } else if (action == showAllAction) {
             m_model->setHiddenItemsShown(showAllAction->isChecked());
-        } else if (action == teardownAction) {
-            m_model->requestTeardown(index);
-        } else if (action == ejectAction) {
-            m_model->requestEject(index);
         } else if (iconSizeActionMap.contains(action)) {
             m_view->setIconSize(iconSizeActionMap.value(action));
+        } else {
+            // The index might have changed if devices were added/removed while
+            // the context menu was open.
+            index = m_model->index(item);
+            if (index < 0) {
+                // The item is not in the model any more, probably because it was an
+                // external device that has been removed while the context menu was open.
+                return;
+            }
+
+            if (action == editAction) {
+                editEntry(index);
+            } else if (action == removeAction) {
+                m_model->removeItem(index);
+            } else if (action == hideAction) {
+                item->setHidden(hideAction->isChecked());
+            } else if (action == openInNewTabAction) {
+                const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
+                emit placeMiddleClicked(url);
+            } else if (action == teardownAction) {
+                m_model->requestTeardown(index);
+            } else if (action == ejectAction) {
+                m_model->requestEject(index);
+            }
         }
     }
 
