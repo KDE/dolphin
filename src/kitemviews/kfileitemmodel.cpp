@@ -795,6 +795,33 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         foreach (const KFileItem& item, itemsToRemove) {
             m_filteredItems.remove(item);
         }
+
+        if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
+            // Remove all filtered children of deleted items. First, we put the
+            // deleted URLs into a set to provide fast lookup while iterating
+            // over m_filteredItems and prevent quadratic complexity if there
+            // are N removed items and N filtered items.
+            QSet<KUrl> urlsToRemove;
+            urlsToRemove.reserve(itemsToRemove.count());
+            foreach (const KFileItem& item, itemsToRemove) {
+                KUrl url = item.url();
+                url.adjustPath(KUrl::RemoveTrailingSlash);
+                urlsToRemove.insert(url);
+            }
+
+            QSet<KFileItem>::iterator it = m_filteredItems.begin();
+            while (it != m_filteredItems.end()) {
+                const KUrl url = it->url();
+                KUrl parentUrl = url.upUrl();
+                parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+
+                if (urlsToRemove.contains(parentUrl)) {
+                    it = m_filteredItems.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+        }
     }
 
     removeItems(itemsToRemove);
