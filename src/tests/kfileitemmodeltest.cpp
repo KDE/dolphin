@@ -79,6 +79,7 @@ private slots:
     void testNameFilter();
     void testEmptyPath();
     void testRemoveHiddenItems();
+    void removeParentOfHiddenItems();
 
 private:
     QStringList itemsInModel() const;
@@ -901,6 +902,56 @@ void KFileItemModelTest::testRemoveHiddenItems()
     // Hiding hidden files makes the dir lister emit its itemsDeleted signal.
     // Verify that this does not make the model crash.
     m_model->setShowHiddenFiles(false);
+}
+
+/**
+ * Verify that filtered items are removed when their parent is deleted.
+ */
+void KFileItemModelTest::removeParentOfHiddenItems()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/1" << "a/b/1" << "a/b/c/1" << "a/b/c/d/1";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 1); // Only "a/"
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/1"
+
+    // Expand "a/b/".
+    m_model->setExpanded(1, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5); // 5 items: "a/", "a/b/", "a/b/c", "a/b/1", "a/1"
+
+    // Expand "a/b/c/".
+    m_model->setExpanded(2, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 7); // 7 items: "a/", "a/b/", "a/b/c", "a/b/c/d/", "a/b/c/1", "a/b/1", "a/1"
+
+    // Set a name filter that matches nothing -> only the expanded folders remain.
+    m_model->setNameFilter("xyz");
+    QCOMPARE(m_model->count(), 3);
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c");
+
+    // Simulate the deletion of the directory "a/b/".
+    QSignalSpy spyItemsRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    m_model->slotItemsDeleted(KFileItemList() << m_model->fileItem(1));
+    QCOMPARE(spyItemsRemoved.count(), 1);
+    QCOMPARE(m_model->count(), 1);
+    QCOMPARE(itemsInModel(), QStringList() << "a");
+
+    // Remove the filter -> only the file "a/1" should appear.
+    m_model->setNameFilter(QString());
+    QCOMPARE(m_model->count(), 2);
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
