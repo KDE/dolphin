@@ -84,12 +84,23 @@ void FilterBar::showEvent(QShowEvent* event)
 void FilterBar::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
-    if (event->key() == Qt::Key_Escape) {
+
+    switch (event->key()) {
+    case Qt::Key_Escape:
         if (m_filterInput->text().isEmpty()) {
             emit closeRequest();
         } else {
             m_filterInput->clear();
         }
+        break;
+
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
+        emit focusViewRequest();
+        break;
+
+    default:
+        break;
     }
 }
 

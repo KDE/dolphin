@@ -59,6 +59,11 @@ signals:
      */
     void closeRequest();
 
+    /*
+     * Emitted as soon as the focus should be returned back to the view.
+     */
+    void focusViewRequest();
+
 protected:
     virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
