@@ -850,7 +850,7 @@ void KFileItemModelTest::testEmptyPath()
     
     KFileItemList items;
     items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
-    m_model->slotNewItems(items);
+    m_model->slotItemsAdded(emptyUrl, items);
     m_model->slotCompleted();
 }
 

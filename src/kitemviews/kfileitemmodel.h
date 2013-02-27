@@ -272,7 +272,7 @@ private slots:
 
     void slotCompleted();
     void slotCanceled();
-    void slotNewItems(const KFileItemList& items);
+    void slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items);
     void slotItemsDeleted(const KFileItemList& items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
     void slotClear();
@@ -303,8 +303,13 @@ private:
         ItemData* parent;
     };
 
-    void insertItems(const KFileItemList& items);
-    void removeItems(const KFileItemList& items);
+    enum RemoveItemsBehavior {
+        KeepItemData,
+        DeleteItemData
+    };
+
+    void insertItems(QList<ItemData*>& items);
+    void removeItems(const KFileItemList& items, RemoveItemsBehavior behavior);
 
     /**
      * Helper method for insertItems() and removeItems(): Creates
@@ -312,7 +317,7 @@ private:
      * Note that the ItemData instances are created dynamically and
      * must be deleted by the caller.
      */
-    QList<ItemData*> createItemDataList(const KFileItemList& items) const;
+    QList<ItemData*> createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const;
 
     void removeExpandedItems();
 
@@ -333,7 +338,7 @@ private:
      */
     QByteArray roleForType(RoleType roleType) const;
 
-    QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
+    QHash<QByteArray, QVariant> retrieveData(const KFileItem& item, const ItemData* parent) const;
 
     /**
      * @return True if the item-data \a a should be ordered before the item-data
@@ -416,7 +421,7 @@ private:
      * Determines the MIME-types of all items that can be done within
      * the given timeout.
      */
-    static void determineMimeTypes(const KFileItemList& items, int timeout);
+    static void determineMimeTypes(const QList<ItemData*>& items, int timeout);
 
     /**
      * Checks if the model's internal data structures are consistent.
@@ -438,13 +443,13 @@ private:
     QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
 
     KFileItemModelFilter m_filter;
-    QSet<KFileItem> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
+    QHash<KFileItem, ItemData*> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
 
     bool m_requestRole[RolesCount];
 
     QTimer* m_maximumUpdateIntervalTimer;
     QTimer* m_resortAllItemsTimer;
-    KFileItemList m_pendingItemsToInsert;
+    QList<ItemData*> m_pendingItemsToInsert;
 
     // Cache for KFileItemModel::groups()
     mutable QList<QPair<int, QVariant> > m_groups;

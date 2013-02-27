@@ -69,7 +69,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
     connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
-    connect(m_dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
+    connect(m_dirLister, SIGNAL(itemsAdded(KUrl,KFileItemList)), this, SLOT(slotItemsAdded(KUrl,KFileItemList)));
     connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
     connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
     connect(m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
@@ -110,7 +110,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
 KFileItemModel::~KFileItemModel()
 {
     qDeleteAll(m_itemData);
-    m_itemData.clear();
+    qDeleteAll(m_filteredItems.values());
 }
 
 void KFileItemModel::loadDirectory(const KUrl& url)
@@ -397,7 +397,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
         // Update m_data with the changed requested roles
         const int maxIndex = count() - 1;
         for (int i = 0; i <= maxIndex; ++i) {
-            m_itemData[i]->values = retrieveData(m_itemData.at(i)->item);
+            m_itemData[i]->values = retrieveData(m_itemData.at(i)->item, m_itemData.at(i)->parent);
         }
 
         kWarning() << "TODO: Emitting itemsChanged() with no information what has changed!";
@@ -438,7 +438,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
             itemsToRemove.append(m_itemData.at(index)->item);
             ++index;
         }
-        removeItems(itemsToRemove);
+        removeItems(itemsToRemove, DeleteItemData);
     }
 
     return true;
@@ -548,25 +548,27 @@ void KFileItemModel::applyFilters()
         // Only filter non-expanded items as child items may never
         // exist without a parent item
         if (!itemData->values.value("isExpanded").toBool()) {
-            if (!m_filter.matches(itemData->item)) {
-                newFilteredItems.append(itemData->item);
-                m_filteredItems.insert(itemData->item);
+            const KFileItem item = itemData->item;
+            if (!m_filter.matches(item)) {
+                newFilteredItems.append(item);
+                m_filteredItems.insert(item, itemData);
             }
         }
     }
 
-    removeItems(newFilteredItems);
+    removeItems(newFilteredItems, KeepItemData);
 
     // Check which hidden items from m_filteredItems should
     // get visible again and hence removed from m_filteredItems.
-    KFileItemList newVisibleItems;
+    QList<ItemData*> newVisibleItems;
 
-    QMutableSetIterator<KFileItem> it(m_filteredItems);
-    while (it.hasNext()) {
-        const KFileItem item = it.next();
-        if (m_filter.matches(item)) {
-            newVisibleItems.append(item);
-            it.remove();
+    QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
+    while (it != m_filteredItems.end()) {
+        if (m_filter.matches(it.key())) {
+            newVisibleItems.append(it.value());
+            it = m_filteredItems.erase(it);
+        } else {
+            ++it;
         }
     }
 
@@ -720,9 +722,12 @@ void KFileItemModel::slotCanceled()
     emit directoryLoadingCanceled();
 }
 
-void KFileItemModel::slotNewItems(const KFileItemList& items)
+void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
+
+    KUrl parentUrl = directoryUrl;
+    parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
 
     if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
         // To be able to compare whether the new items may be inserted as children
@@ -745,8 +750,6 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
         // KDirLister keeps the children of items that got expanded once even if
         // they got collapsed again with KFileItemModel::setExpanded(false). So it must be
         // checked whether the parent for new items is still expanded.
-        KUrl parentUrl = item.url().upUrl();
-        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
         const int parentIndex = m_items.value(parentUrl, -1);
         if (parentIndex >= 0 && !m_itemData[parentIndex]->values.value("isExpanded").toBool()) {
             // The parent is not expanded.
@@ -754,22 +757,21 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
         }
     }
 
+    QList<ItemData*> itemDataList = createItemDataList(parentUrl, items);
+
     if (!m_filter.hasSetFilters()) {
-        m_pendingItemsToInsert.append(items);
+        m_pendingItemsToInsert.append(itemDataList);
     } else {
         // The name or type filter is active. Hide filtered items
         // before inserting them into the model and remember
         // the filtered items in m_filteredItems.
-        KFileItemList filteredItems;
-        foreach (const KFileItem& item, items) {
-            if (m_filter.matches(item)) {
-                filteredItems.append(item);
+        foreach (ItemData* itemData, itemDataList) {
+            if (m_filter.matches(itemData->item)) {
+                m_pendingItemsToInsert.append(itemData);
             } else {
-                m_filteredItems.insert(item);
+                m_filteredItems.insert(itemData->item, itemData);
             }
         }
-
-        m_pendingItemsToInsert.append(filteredItems);
     }
 
     if (useMaximumUpdateInterval() && !m_maximumUpdateIntervalTimer->isActive()) {
@@ -793,7 +795,11 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
 
     if (!m_filteredItems.isEmpty()) {
         foreach (const KFileItem& item, itemsToRemove) {
-            m_filteredItems.remove(item);
+            QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(item);
+            if (it != m_filteredItems.end()) {
+                delete it.value();
+                m_filteredItems.erase(it);
+            }
         }
 
         if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
@@ -801,6 +807,10 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
             // deleted URLs into a set to provide fast lookup while iterating
             // over m_filteredItems and prevent quadratic complexity if there
             // are N removed items and N filtered items.
+            //
+            // TODO: This does currently *not* work if the parent-child
+            // relationships can not be determined just by using KUrl::upUrl().
+            // This is the case, e.g., when browsing smb:/.
             QSet<KUrl> urlsToRemove;
             urlsToRemove.reserve(itemsToRemove.count());
             foreach (const KFileItem& item, itemsToRemove) {
@@ -809,13 +819,14 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
                 urlsToRemove.insert(url);
             }
 
-            QSet<KFileItem>::iterator it = m_filteredItems.begin();
+            QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
             while (it != m_filteredItems.end()) {
-                const KUrl url = it->url();
+                const KUrl url = it.key().url();
                 KUrl parentUrl = url.upUrl();
                 parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
 
                 if (urlsToRemove.contains(parentUrl)) {
+                    delete it.value();
                     it = m_filteredItems.erase(it);
                 } else {
                     ++it;
@@ -824,7 +835,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         }
     }
 
-    removeItems(itemsToRemove);
+    removeItems(itemsToRemove, DeleteItemData);
 }
 
 void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items)
@@ -851,7 +862,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 
             // Keep old values as long as possible if they could not retrieved synchronously yet.
             // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
-            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem));
+            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, m_itemData.at(index)->parent));
             while (it.hasNext()) {
                 it.next();
                 m_itemData[index]->values.insert(it.key(), it.value());
@@ -906,6 +917,7 @@ void KFileItemModel::slotClear()
     kDebug() << "Clearing all items";
 #endif
 
+    qDeleteAll(m_filteredItems.values());
     m_filteredItems.clear();
     m_groups.clear();
 
@@ -945,7 +957,7 @@ void KFileItemModel::dispatchPendingItemsToInsert()
     }
 }
 
-void KFileItemModel::insertItems(const KFileItemList& items)
+void KFileItemModel::insertItems(QList<ItemData*>& items)
 {
     if (items.isEmpty()) {
         return;
@@ -967,8 +979,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 
     m_groups.clear();
 
-    QList<ItemData*> sortedItems = createItemDataList(items);
-    sort(sortedItems.begin(), sortedItems.end());
+    sort(items.begin(), items.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Sorting:" << timer.elapsed();
@@ -980,12 +991,12 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     int insertedAtIndex = -1;        // Index for the current item-range
     int insertedCount = 0;           // Count for the current item-range
     int previouslyInsertedCount = 0; // Sum of previously inserted items for all ranges
-    while (sourceIndex < sortedItems.count()) {
+    while (sourceIndex < items.count()) {
         // Find target index from m_items to insert the current item
         // in a sorted order
         const int previousTargetIndex = targetIndex;
         while (targetIndex < m_itemData.count()) {
-            if (!lessThan(m_itemData.at(targetIndex), sortedItems.at(sourceIndex))) {
+            if (!lessThan(m_itemData.at(targetIndex), items.at(sourceIndex))) {
                 break;
             }
             ++targetIndex;
@@ -999,9 +1010,9 @@ void KFileItemModel::insertItems(const KFileItemList& items)
         }
 
         // Insert item at the position targetIndex by transferring
-        // the ownership of the item-data from sortedItems to m_itemData.
+        // the ownership of the item-data from 'items' to m_itemData.
         // m_items will be inserted after the loop (see comment below)
-        m_itemData.insert(targetIndex, sortedItems.at(sourceIndex));
+        m_itemData.insert(targetIndex, items.at(sourceIndex));
         ++insertedCount;
 
         if (insertedAtIndex < 0) {
@@ -1058,7 +1069,7 @@ static KItemRangeList sortedIndexesToKItemRangeList(const QList<int>& sortedNumb
     return result;
 }
 
-void KFileItemModel::removeItems(const KFileItemList& items)
+void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior behavior)
 {
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "Removing " << items.count() << "items";
@@ -1081,8 +1092,10 @@ void KFileItemModel::removeItems(const KFileItemList& items)
             QHash<KUrl, int>::iterator it = m_items.find(url);
             m_items.erase(it);
 
-            ItemData* data = m_itemData.at(index);
-            delete data;
+            if (behavior == DeleteItemData) {
+                delete m_itemData.at(index);
+            }
+
             m_itemData[index] = 0;
         }
     }
@@ -1128,30 +1141,19 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     emit itemsRemoved(itemRanges);
 }
 
-QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KFileItemList& items) const
+QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const
 {
+    const int parentIndex = m_items.value(parentUrl, -1);
+    ItemData* parentItem = parentIndex < 0 ? 0 : m_itemData.at(parentIndex);
+
     QList<ItemData*> itemDataList;
     itemDataList.reserve(items.count());
 
     foreach (const KFileItem& item, items) {
         ItemData* itemData = new ItemData();
         itemData->item = item;
-        itemData->values = retrieveData(item);
-        itemData->parent = 0;
-
-        const bool determineParent = m_requestRole[ExpandedParentsCountRole]
-                                     && itemData->values["expandedParentsCount"].toInt() > 0;
-        if (determineParent) {
-            KUrl parentUrl = item.url().upUrl();
-            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
-            const int parentIndex = m_items.value(parentUrl, -1);
-            if (parentIndex >= 0) {
-                itemData->parent = m_itemData.at(parentIndex);
-            } else {
-                kWarning() << "Parent item not found for" << item.url();
-            }
-        }
-
+        itemData->values = retrieveData(item, parentItem);
+        itemData->parent = parentItem;
         itemDataList.append(itemData);
     }
 
@@ -1172,7 +1174,7 @@ void KFileItemModel::removeExpandedItems()
 
     // The m_expandedParentsCountRoot may not get reset before all items with
     // a bigger count have been removed.
-    removeItems(expandedItems);
+    removeItems(expandedItems, DeleteItemData);
 
     m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
     m_expandedDirs.clear();
@@ -1237,7 +1239,7 @@ QByteArray KFileItemModel::roleForType(RoleType roleType) const
     return roles.value(roleType);
 }
 
-QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) const
+QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, const ItemData* parent) const
 {
     // It is important to insert only roles that are fast to retrieve. E.g.
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
@@ -1346,7 +1348,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
             data.insert("expandedParentsCount", -1);
         } else {
             const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
-            const int level = dir.count('/') - m_expandedParentsCountRoot;
+            int level = 0;
+            if (parent) {
+                level = parent->values["expandedParentsCount"].toInt() + 1;
+            }
             data.insert("expandedParentsCount", level);
         }
     }
@@ -1971,12 +1976,12 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
     return rolesInfoMap;
 }
 
-void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
+void KFileItemModel::determineMimeTypes(const QList<ItemData*>& items, int timeout)
 {
     QElapsedTimer timer;
     timer.start();
-    foreach (KFileItem item, items) { // krazy:exclude=foreach
-        item.determineMimeType();
+    foreach (const ItemData* itemData, items) { // krazy:exclude=foreach
+        itemData->item.determineMimeType();
         if (timer.elapsed() > timeout) {
             // Don't block the user interface, let the remaining items
             // be resolved asynchronously.
