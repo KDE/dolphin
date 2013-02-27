@@ -454,21 +454,6 @@ private:
     // Cache for KFileItemModel::groups()
     mutable QList<QPair<int, QVariant> > m_groups;
 
-    // Stores the smallest expansion level of the root-URL. Is required to calculate
-    // the "expandedParentsCount" role in an efficient way. A value < 0 indicates a
-    // special meaning:
-    enum ExpandedParentsCountRootTypes
-    {
-        // m_expandedParentsCountRoot is uninitialized and must be determined by checking
-        // the root URL from the KDirLister.
-        UninitializedExpandedParentsCountRoot = -1,
-        // All items should be forced to get an expanded parents count of 0 even if they
-        // represent child items. This is useful for slaves that provide no parent items
-        // for child items like e.g. the search IO slaves.
-        ForceExpandedParentsCountRoot = -2
-    };
-    mutable int m_expandedParentsCountRoot;
-
     // Stores the URLs of the expanded directories.
     QSet<KUrl> m_expandedDirs;
 

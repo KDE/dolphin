@@ -54,7 +54,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_resortAllItemsTimer(0),
     m_pendingItemsToInsert(),
     m_groups(),
-    m_expandedParentsCountRoot(UninitializedExpandedParentsCountRoot),
     m_expandedDirs(),
     m_urlsToExpand()
 {
@@ -729,7 +728,7 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
     KUrl parentUrl = directoryUrl;
     parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
 
-    if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
+    if (m_requestRole[ExpandedParentsCountRole]) {
         // To be able to compare whether the new items may be inserted as children
         // of a parent item the pending items must be added to the model first.
         dispatchPendingItemsToInsert();
@@ -786,7 +785,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     dispatchPendingItemsToInsert();
 
     KFileItemList itemsToRemove = items;
-    if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
+    if (m_requestRole[ExpandedParentsCountRole]) {
         // Assure that removing a parent item also results in removing all children
         foreach (const KFileItem& item, items) {
             itemsToRemove.append(childItems(item));
@@ -802,7 +801,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
             }
         }
 
-        if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
+        if (m_requestRole[ExpandedParentsCountRole]) {
             // Remove all filtered children of deleted items. First, we put the
             // deleted URLs into a set to provide fast lookup while iterating
             // over m_filteredItems and prevent quadratic complexity if there
@@ -924,8 +923,6 @@ void KFileItemModel::slotClear()
     m_maximumUpdateIntervalTimer->stop();
     m_resortAllItemsTimer->stop();
     m_pendingItemsToInsert.clear();
-
-    m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
 
     const int removedCount = m_itemData.count();
     if (removedCount > 0) {
@@ -1134,10 +1131,6 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
-    if (count() <= 0) {
-        m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
-    }
-
     emit itemsRemoved(itemRanges);
 }
 
@@ -1176,7 +1169,6 @@ void KFileItemModel::removeExpandedItems()
     // a bigger count have been removed.
     removeItems(expandedItems, DeleteItemData);
 
-    m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
     m_expandedDirs.clear();
 }
 
@@ -1329,31 +1321,12 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        if (m_expandedParentsCountRoot == UninitializedExpandedParentsCountRoot) {
-            const KUrl rootUrl = m_dirLister->url();
-            const QString protocol = rootUrl.protocol();
-            const bool forceExpandedParentsCountRoot = (protocol == QLatin1String("trash") ||
-                                                        protocol == QLatin1String("nepomuk") ||
-                                                        protocol == QLatin1String("remote") ||
-                                                        protocol.contains(QLatin1String("search")));
-            if (forceExpandedParentsCountRoot) {
-                m_expandedParentsCountRoot = ForceExpandedParentsCountRoot;
-            } else {
-                const QString rootDir = rootUrl.path(KUrl::AddTrailingSlash);
-                m_expandedParentsCountRoot = rootDir.count('/');
-            }
+        int level = 0;
+        if (parent) {
+            level = parent->values["expandedParentsCount"].toInt() + 1;
         }
 
-        if (m_expandedParentsCountRoot == ForceExpandedParentsCountRoot) {
-            data.insert("expandedParentsCount", -1);
-        } else {
-            const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
-            int level = 0;
-            if (parent) {
-                level = parent->values["expandedParentsCount"].toInt() + 1;
-            }
-            data.insert("expandedParentsCount", level);
-        }
+        data.insert("expandedParentsCount", level);
     }
 
     if (item.isMimeTypeKnown()) {
@@ -1371,7 +1344,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 {
     int result = 0;
 
-    if (m_expandedParentsCountRoot >= 0 && a->parent != b->parent) {
+    if (a->parent != b->parent) {
         const int expansionLevelA = a->values.value("expandedParentsCount").toInt();
         const int expansionLevelB = b->values.value("expandedParentsCount").toInt();
 
