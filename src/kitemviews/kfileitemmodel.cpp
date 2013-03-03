@@ -1664,12 +1664,6 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
 
     const QDate currentDate = KDateTime::currentLocalDateTime().date();
 
-    int yearForCurrentWeek = 0;
-    int currentWeek = currentDate.weekNumber(&yearForCurrentWeek);
-    if (yearForCurrentWeek == currentDate.year() + 1) {
-        currentWeek = 53;
-    }
-
     QDate previousModifiedDate;
     QString groupValue;
     for (int i = 0; i <= maxIndex; ++i) {
@@ -1687,20 +1681,9 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
 
         const int daysDistance = modifiedDate.daysTo(currentDate);
 
-        int yearForModifiedWeek = 0;
-        int modifiedWeek = modifiedDate.weekNumber(&yearForModifiedWeek);
-        if (yearForModifiedWeek == modifiedDate.year() + 1) {
-            modifiedWeek = 53;
-        }
-
         QString newGroupValue;
         if (currentDate.year() == modifiedDate.year() && currentDate.month() == modifiedDate.month()) {
-            if (modifiedWeek > currentWeek) {
-                // Usecase: modified date = 2010-01-01, current date = 2010-01-22
-                //          modified week = 53,         current week = 3
-                modifiedWeek = 0;
-            }
-            switch (currentWeek - modifiedWeek) {
+            switch (daysDistance / 7) {
             case 0:
                 switch (daysDistance) {
                 case 0:  newGroupValue = i18nc("@title:group Date", "Today"); break;
@@ -1709,7 +1692,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
                 }
                 break;
             case 1:
-                newGroupValue = i18nc("@title:group Date", "Last Week");
+                newGroupValue = i18nc("@title:group Date", "One Week Ago");
                 break;
             case 2:
                 newGroupValue = i18nc("@title:group Date", "Two Weeks Ago");
@@ -1732,7 +1715,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
                 } else if (daysDistance <= 7) {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: %A, %B is full month name in current locale, and %Y is full year number", "%A (%B, %Y)"));
                 } else if (daysDistance <= 7 * 2) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Last Week (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "One Week Ago (%B, %Y)"));
                 } else if (daysDistance <= 7 * 3) {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Two Weeks Ago (%B, %Y)"));
                 } else if (daysDistance <= 7 * 4) {
