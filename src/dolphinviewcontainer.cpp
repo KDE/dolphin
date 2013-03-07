@@ -159,7 +159,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
     connect(m_filterBar, SIGNAL(focusViewRequest()),
-            this, SLOT(focusView()));
+            this, SLOT(requestFocus()));
     connect(m_view, SIGNAL(urlChanged(KUrl)),
             m_filterBar, SLOT(clear()));
 
@@ -384,12 +384,6 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
     } else {
         closeFilterBar();
     }
-}
-
-void DolphinViewContainer::focusView()
-{
-    Q_ASSERT(m_view);
-    m_view->setFocus();
 }
 
 void DolphinViewContainer::delayedStatusBarUpdate()

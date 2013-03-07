@@ -147,11 +147,6 @@ public slots:
      */
     void setFilterBarVisible(bool visible);
 
-    /**
-     * Sets focus to the item view.
-     */
-    void focusView();
-
 signals:
     /**
      * Is emitted whenever the filter bar has changed its visibility state.
