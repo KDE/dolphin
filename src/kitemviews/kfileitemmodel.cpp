@@ -438,6 +438,29 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
             itemsToRemove.append(m_itemData.at(index)->item);
             ++index;
         }
+
+        QSet<KUrl> urlsToRemove;
+        urlsToRemove.reserve(itemsToRemove.count() + 1);
+        urlsToRemove.insert(url);
+        foreach (const KFileItem& item, itemsToRemove) {
+            KUrl url = item.url();
+            url.adjustPath(KUrl::RemoveTrailingSlash);
+            urlsToRemove.insert(url);
+        }
+
+        QSet<KFileItem>::iterator it = m_filteredItems.begin();
+        while (it != m_filteredItems.end()) {
+            const KUrl url = it->url();
+            KUrl parentUrl = url.upUrl();
+            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+
+            if (urlsToRemove.contains(parentUrl)) {
+                it = m_filteredItems.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
         removeItems(itemsToRemove);
     }
 
