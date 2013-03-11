@@ -163,6 +163,12 @@ public:
     virtual void setGeometry(const QRectF& rect);
 
     /**
+     * @return The page step which should be used by the vertical scroll bar.
+     *         This is the height of the view except for the header widget.
+     */
+    qreal verticalPageStep() const;
+
+    /**
      * @return Index of the item that is below the point \a pos.
      *         The position is relative to the upper right of
      *         the visible area. Only (at least partly) visible
