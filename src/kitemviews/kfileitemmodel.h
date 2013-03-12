@@ -421,7 +421,7 @@ private:
      * Determines the MIME-types of all items that can be done within
      * the given timeout.
      */
-    static void determineMimeTypes(const QList<ItemData*>& items, int timeout);
+    static void determineMimeTypes(const KFileItemList& items, int timeout);
 
     /**
      * Checks if the model's internal data structures are consistent.

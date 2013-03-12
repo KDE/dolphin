@@ -984,13 +984,6 @@ void KFileItemModel::insertItems(QList<ItemData*>& items)
         return;
     }
 
-    if (m_sortRole == TypeRole) {
-        // Try to resolve the MIME-types synchronously to prevent a reordering of
-        // the items when sorting by type (per default MIME-types are resolved
-        // asynchronously by KFileItemModelRolesUpdater).
-        determineMimeTypes(items, 200);
-    }
-
 #ifdef KFILEITEMMODEL_DEBUG
     QElapsedTimer timer;
     timer.start();
@@ -1160,6 +1153,13 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
 
 QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const
 {
+    if (m_sortRole == TypeRole) {
+        // Try to resolve the MIME-types synchronously to prevent a reordering of
+        // the items when sorting by type (per default MIME-types are resolved
+        // asynchronously by KFileItemModelRolesUpdater).
+        determineMimeTypes(items, 200);
+    }
+
     const int parentIndex = m_items.value(parentUrl, -1);
     ItemData* parentItem = parentIndex < 0 ? 0 : m_itemData.at(parentIndex);
 
@@ -1956,12 +1956,12 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
     return rolesInfoMap;
 }
 
-void KFileItemModel::determineMimeTypes(const QList<ItemData*>& items, int timeout)
+void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
 {
     QElapsedTimer timer;
     timer.start();
-    foreach (const ItemData* itemData, items) { // krazy:exclude=foreach
-        itemData->item.determineMimeType();
+    foreach (const KFileItem& item, items) { // krazy:exclude=foreach
+        item.determineMimeType();
         if (timer.elapsed() > timeout) {
             // Don't block the user interface, let the remaining items
             // be resolved asynchronously.
