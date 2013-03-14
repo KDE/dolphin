@@ -144,6 +144,7 @@ void TerminalPanel::changeDir(const KUrl& url)
 void TerminalPanel::sendCdToTerminal(const QString& dir)
 {
     if (dir == m_konsolePartCurrentDirectory) {
+        m_clearTerminal = false;
         return;
     }
 
