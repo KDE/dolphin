@@ -388,6 +388,15 @@ void KItemListView::setGeometry(const QRectF& rect)
     }
 }
 
+qreal KItemListView::verticalPageStep() const
+{
+    qreal headerHeight = 0;
+    if (m_headerWidget->isVisible()) {
+        headerHeight = m_headerWidget->size().height();
+    }
+    return size().height() - headerHeight;
+}
+
 int KItemListView::itemAt(const QPointF& pos) const
 {
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
