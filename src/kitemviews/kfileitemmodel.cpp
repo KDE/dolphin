@@ -1,22 +1,23 @@
-/***************************************************************************
- *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
- *   Copyright (C) 2013 by Frank Reininghaus <frank78ac@googlemail.com>    *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+/*****************************************************************************
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>               *
+ *   Copyright (C) 2013 by Frank Reininghaus <frank78ac@googlemail.com>      *
+ *   Copyright (C) 2013 by Emmanuel Pescosta <emmanuelpescosta099@gmail.com> *
+ *                                                                           *
+ *   This program is free software; you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by    *
+ *   the Free Software Foundation; either version 2 of the License, or       *
+ *   (at your option) any later version.                                     *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ *   GNU General Public License for more details.                            *
+ *                                                                           *
+ *   You should have received a copy of the GNU General Public License       *
+ *   along with this program; if not, write to the                           *
+ *   Free Software Foundation, Inc.,                                         *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
+ *****************************************************************************/
 
 #include "kfileitemmodel.h"
 
@@ -421,7 +422,8 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
-    const KUrl url = m_itemData.at(index)->item.url();
+    const KFileItem item = m_itemData.at(index)->item;
+    const KUrl url = item.url();
     if (expanded) {
         m_expandedDirs.insert(url);
         m_dirLister->openUrl(url, KDirLister::Keep);
@@ -429,38 +431,10 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         m_expandedDirs.remove(url);
         m_dirLister->stop(url);
 
+        removeFilteredChildren(KFileItemList() << item);
 
-        KFileItemList itemsToRemove;
-        const int expandedParentsCount = data(index)["expandedParentsCount"].toInt();
-        ++index;
-        while (index < count() && data(index)["expandedParentsCount"].toInt() > expandedParentsCount) {
-            itemsToRemove.append(m_itemData.at(index)->item);
-            ++index;
-        }
-
-        QSet<KUrl> urlsToRemove;
-        urlsToRemove.reserve(itemsToRemove.count() + 1);
-        urlsToRemove.insert(url);
-        foreach (const KFileItem& item, itemsToRemove) {
-            KUrl url = item.url();
-            url.adjustPath(KUrl::RemoveTrailingSlash);
-            urlsToRemove.insert(url);
-        }
-
-        QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
-        while (it != m_filteredItems.end()) {
-            const KUrl url = it.key().url();
-            KUrl parentUrl = url.upUrl();
-            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
-
-            if (urlsToRemove.contains(parentUrl)) {
-                delete it.value();
-                it = m_filteredItems.erase(it);
-            } else {
-                ++it;
-            }
-        }
-
+        const KFileItemList itemsToRemove = childItems(item);
+        removeFilteredChildren(itemsToRemove);
         removeItems(itemsToRemove, DeleteItemData);
     }
 
@@ -596,6 +570,30 @@ void KFileItemModel::applyFilters()
     }
 
     insertItems(newVisibleItems);
+}
+
+void KFileItemModel::removeFilteredChildren(const KFileItemList& parentsList)
+{
+    if (m_filteredItems.isEmpty()) {
+        return;
+    }
+
+    // First, we put the parent items into a set to provide fast lookup
+    // while iterating over m_filteredItems and prevent quadratic
+    // complexity if there are N parents and N filtered items.
+    const QSet<KFileItem> parents = parentsList.toSet();
+
+    QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
+    while (it != m_filteredItems.end()) {
+        const ItemData* parent = it.value()->parent;
+
+        if (parent && parents.contains(parent->item)) {
+            delete it.value();
+            it = m_filteredItems.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
@@ -826,35 +824,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         }
 
         if (m_requestRole[ExpandedParentsCountRole]) {
-            // Remove all filtered children of deleted items. First, we put the
-            // deleted URLs into a set to provide fast lookup while iterating
-            // over m_filteredItems and prevent quadratic complexity if there
-            // are N removed items and N filtered items.
-            //
-            // TODO: This does currently *not* work if the parent-child
-            // relationships can not be determined just by using KUrl::upUrl().
-            // This is the case, e.g., when browsing smb:/.
-            QSet<KUrl> urlsToRemove;
-            urlsToRemove.reserve(itemsToRemove.count());
-            foreach (const KFileItem& item, itemsToRemove) {
-                KUrl url = item.url();
-                url.adjustPath(KUrl::RemoveTrailingSlash);
-                urlsToRemove.insert(url);
-            }
-
-            QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
-            while (it != m_filteredItems.end()) {
-                const KUrl url = it.key().url();
-                KUrl parentUrl = url.upUrl();
-                parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
-
-                if (urlsToRemove.contains(parentUrl)) {
-                    delete it.value();
-                    it = m_filteredItems.erase(it);
-                } else {
-                    ++it;
-                }
-            }
+            removeFilteredChildren(itemsToRemove);
         }
     }
 

@@ -397,6 +397,12 @@ private:
     void applyFilters();
 
     /**
+     * Removes filtered items whose expanded parents have been deleted
+     * or collapsed via setExpanded(parentIndex, false).
+     */
+    void removeFilteredChildren(const KFileItemList& parentsList);
+
+    /**
      * Maps the QByteArray-roles to RoleTypes and provides translation- and
      * group-contexts.
      */

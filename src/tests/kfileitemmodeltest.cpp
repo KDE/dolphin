@@ -81,6 +81,7 @@ private slots:
     void testRemoveHiddenItems();
     void collapseParentOfHiddenItems();
     void removeParentOfHiddenItems();
+    void testGeneralParentChildRelationships();
 
 private:
     QStringList itemsInModel() const;
@@ -1002,6 +1003,98 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     m_model->setNameFilter(QString());
     QCOMPARE(m_model->count(), 2);
     QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
+}
+
+/**
+ * Create a tree structure where parent-child relationships can not be
+ * determined by parsing the URLs, and verify that KFileItemModel
+ * handles them correctly.
+ */
+void KFileItemModelTest::testGeneralParentChildRelationships()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "parent1/realChild1/realGrandChild1" << "parent2/realChild2/realGrandChild2";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "parent2");
+
+    // Expand all folders.
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2");
+
+    m_model->setExpanded(1, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2");
+
+    m_model->setExpanded(3, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2" << "realChild2");
+
+    m_model->setExpanded(4, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2" << "realChild2" << "realGrandChild2");
+
+    // Add some more children and grand-children.
+    const KUrl parent1 = m_model->fileItem(0).url();
+    const KUrl parent2 = m_model->fileItem(3).url();
+    const KUrl realChild1 = m_model->fileItem(1).url();
+    const KUrl realChild2 = m_model->fileItem(4).url();
+
+    m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(KUrl("child1"), QString(), KFileItem::Unknown));
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2");
+
+    m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(KUrl("child2"), QString(), KFileItem::Unknown));
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
+
+    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(KUrl("grandChild1"), QString(), KFileItem::Unknown));
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
+
+    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(KUrl("grandChild1"), QString(), KFileItem::Unknown));
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
+
+    m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(KUrl("grandChild2"), QString(), KFileItem::Unknown));
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "grandChild2" << "realGrandChild2" << "child2");
+
+    // Set a name filter that matches nothing -> only expanded folders remain.
+    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    m_model->setNameFilter("xyz");
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2" << "realChild2");
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+    QList<QVariant> arguments = itemsRemovedSpy.takeFirst();
+    KItemRangeList itemRangeList = arguments.at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(2, 3) << KItemRange(7, 3));
+
+    // Collapse "parent1".
+    m_model->setExpanded(0, false);
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "parent2" << "realChild2");
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+    arguments = itemsRemovedSpy.takeFirst();
+    itemRangeList = arguments.at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 1));
+
+    // Remove "parent2".
+    m_model->slotItemsDeleted(KFileItemList() << m_model->fileItem(1));
+    QCOMPARE(itemsInModel(), QStringList() << "parent1");
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+    arguments = itemsRemovedSpy.takeFirst();
+    itemRangeList = arguments.at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 2));
+
+    // Clear filter, verify that no items reappear.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "parent1");
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
