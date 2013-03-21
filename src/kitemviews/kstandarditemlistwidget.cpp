@@ -249,17 +249,46 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
 
     const KItemListStyleOption& itemListStyleOption = styleOption();
     if (isHovered()) {
-        const qreal opacity = painter->opacity();
-        // Blend the unhovered and hovered pixmap if the hovering
-        // animation is ongoing
         if (hoverOpacity() < 1.0) {
-            painter->setOpacity((1.0 - hoverOpacity()) * opacity);
-            drawPixmap(painter, m_pixmap);
-        }
+            /*
+             * Linear interpolation between m_pixmap and m_hoverPixmap.
+             *
+             * Note that this cannot be achieved by painting m_hoverPixmap over
+             * m_pixmap, even if the opacities are adjusted. For details see
+             * https://git.reviewboard.kde.org/r/109614/
+             */
+            // Paint pixmap1 so that pixmap1 = m_pixmap * (1.0 - hoverOpacity())
+            QPixmap pixmap1(option->rect.size());
+            pixmap1.fill(Qt::transparent);
+            {
+                QPainter p(&pixmap1);
+                p.setOpacity(1.0 - hoverOpacity());
+                drawPixmap(&p, m_pixmap);
+            }
 
-        painter->setOpacity(hoverOpacity() * opacity);
-        drawPixmap(painter, m_hoverPixmap);
-        painter->setOpacity(opacity);
+            // Paint pixmap2 so that pixmap2 = m_hoverPixmap * hoverOpacity()
+            QPixmap pixmap2(option->rect.size());
+            pixmap2.fill(Qt::transparent);
+            {
+                QPainter p(&pixmap2);
+                p.setOpacity(hoverOpacity());
+                drawPixmap(&p, m_hoverPixmap);
+            }
+
+            // Paint pixmap2 on pixmap1 using CompositionMode_Plus
+            // Now pixmap1 = pixmap2 + m_pixmap * (1.0 - hoverOpacity())
+            //             = m_hoverPixmap * hoverOpacity() + m_pixmap * (1.0 - hoverOpacity())
+            {
+                QPainter p(&pixmap1);
+                p.setCompositionMode(QPainter::CompositionMode_Plus);
+                p.drawPixmap(0, 0, pixmap2);
+            }
+
+            // Finally paint pixmap1 on the widget
+            painter->drawPixmap(0, 0, pixmap1);
+        } else {
+            drawPixmap(painter, m_hoverPixmap);
+        }
     } else {
         drawPixmap(painter, m_pixmap);
     }

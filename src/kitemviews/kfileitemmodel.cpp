@@ -120,6 +120,11 @@ void KFileItemModel::loadDirectory(const KUrl& url)
 
 void KFileItemModel::refreshDirectory(const KUrl& url)
 {
+    // Refresh all expanded directories first (Bug 295300)
+    foreach (const KUrl& expandedUrl, m_expandedDirs) {
+        m_dirLister->openUrl(expandedUrl, KDirLister::Reload);
+    }
+
     m_dirLister->openUrl(url, KDirLister::Reload);
 }
 
