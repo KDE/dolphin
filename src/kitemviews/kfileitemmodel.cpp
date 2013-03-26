@@ -33,6 +33,9 @@
 #include <QTimer>
 #include <QWidget>
 
+#include <algorithm>
+#include <vector>
+
 // #define KFILEITEMMODEL_DEBUG
 
 KFileItemModel::KFileItemModel(QObject* parent) :
@@ -1612,6 +1615,11 @@ bool KFileItemModel::useMaximumUpdateInterval() const
     return !m_dirLister->url().isLocalFile();
 }
 
+static bool localeAwareLessThan(const QChar& c1, const QChar& c2)
+{
+    return QString::localeAwareCompare(c1, c2) < 0;
+}
+
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
 {
     Q_ASSERT(!m_itemData.isEmpty());
@@ -1621,7 +1629,6 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
 
     QString groupValue;
     QChar firstChar;
-    bool isLetter = false;
     for (int i = 0; i <= maxIndex; ++i) {
         if (isChildItem(i)) {
             continue;
@@ -1637,31 +1644,31 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
 
         if (firstChar != newFirstChar) {
             QString newGroupValue;
-            if (newFirstChar >= QLatin1Char('A') && newFirstChar <= QLatin1Char('Z')) {
-                // Apply group 'A' - 'Z'
-                newGroupValue = newFirstChar;
-                isLetter = true;
+            if (newFirstChar.isLetter()) {
+                // Try to find a matching group in the range 'A' to 'Z'.
+                static std::vector<QChar> lettersAtoZ;
+                if (lettersAtoZ.empty()) {
+                    for (char c = 'A'; c <= 'Z'; ++c) {
+                        lettersAtoZ.push_back(QLatin1Char(c));
+                    }
+                }
+
+                std::vector<QChar>::iterator it = std::lower_bound(lettersAtoZ.begin(), lettersAtoZ.end(), newFirstChar, localeAwareLessThan);
+                if (it != lettersAtoZ.end()) {
+                    if (localeAwareLessThan(newFirstChar, *it) && it != lettersAtoZ.begin()) {
+                        // newFirstChar belongs to the group preceding *it.
+                        // Example: for an umlaut 'A' in the German locale, *it would be 'B' now.
+                        --it;
+                    }
+                    newGroupValue = *it;
+                } else {
+                    newGroupValue = newFirstChar;
+                }
             } else if (newFirstChar >= QLatin1Char('0') && newFirstChar <= QLatin1Char('9')) {
                 // Apply group '0 - 9' for any name that starts with a digit
                 newGroupValue = i18nc("@title:group Groups that start with a digit", "0 - 9");
-                isLetter = false;
             } else {
-                if (isLetter) {
-                    // If the current group is 'A' - 'Z' check whether a locale character
-                    // fits into the existing group.
-                    // TODO: This does not work in the case if e.g. the group 'O' starts with
-                    // an umlaut 'O' -> provide unit-test to document this known issue
-                    const QChar prevChar(firstChar.unicode() - ushort(1));
-                    const QChar nextChar(firstChar.unicode() + ushort(1));
-                    const QString currChar(newFirstChar);
-                    const bool partOfCurrentGroup = currChar.localeAwareCompare(prevChar) > 0 &&
-                                                    currChar.localeAwareCompare(nextChar) < 0;
-                    if (partOfCurrentGroup) {
-                        continue;
-                    }
-                }
                 newGroupValue = i18nc("@title:group", "Others");
-                isLetter = false;
             }
 
             if (newGroupValue != groupValue) {
