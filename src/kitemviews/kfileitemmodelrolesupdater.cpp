@@ -996,7 +996,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, Resol
     const bool resolveAll = (hint == ResolveAll);
 
     bool mimeTypeChanged = false;
-    if (!item.isMimeTypeKnown()) {
+    if (!item.isMimeTypeKnown() || !item.isFinalIconKnown()) {
         item.determineMimeType();
         mimeTypeChanged = true;
     }
