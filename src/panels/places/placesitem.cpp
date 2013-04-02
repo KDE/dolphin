@@ -176,6 +176,10 @@ PlacesItem::GroupType PlacesItem::groupType() const
             return SearchForType;
         }
 
+        if (protocol == QLatin1String("bluetooth")) {
+            return DevicesType;
+        }
+
         return PlacesType;
     }
 
