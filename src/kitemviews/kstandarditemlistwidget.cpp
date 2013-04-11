@@ -258,21 +258,21 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
              * https://git.reviewboard.kde.org/r/109614/
              */
             // Paint pixmap1 so that pixmap1 = m_pixmap * (1.0 - hoverOpacity())
-            QPixmap pixmap1(option->rect.size());
+            QPixmap pixmap1(m_pixmap.size());
             pixmap1.fill(Qt::transparent);
             {
                 QPainter p(&pixmap1);
                 p.setOpacity(1.0 - hoverOpacity());
-                drawPixmap(&p, m_pixmap);
+                p.drawPixmap(0, 0, m_pixmap);
             }
 
             // Paint pixmap2 so that pixmap2 = m_hoverPixmap * hoverOpacity()
-            QPixmap pixmap2(option->rect.size());
+            QPixmap pixmap2(pixmap1.size());
             pixmap2.fill(Qt::transparent);
             {
                 QPainter p(&pixmap2);
                 p.setOpacity(hoverOpacity());
-                drawPixmap(&p, m_hoverPixmap);
+                p.drawPixmap(0, 0, m_hoverPixmap);
             }
 
             // Paint pixmap2 on pixmap1 using CompositionMode_Plus
@@ -285,7 +285,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
             }
 
             // Finally paint pixmap1 on the widget
-            painter->drawPixmap(0, 0, pixmap1);
+            drawPixmap(painter, pixmap1);
         } else {
             drawPixmap(painter, m_hoverPixmap);
         }
