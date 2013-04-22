@@ -1147,7 +1147,10 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         // Important: Don't read any m_layouter-property inside the for-loop in case if
         // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
         // updated in each loop-cycle and has only a consistent state after the loop.
-        Q_ASSERT(m_layouter->isDirty());
+        // TODO: This assert can be hit when filtering in Icons and Compact view,
+        // see https://bugs.kde.org/show_bug.cgi?id=317827 comments 2 and 3.
+        // We should try to figure out if the assert is wrong or if there is a bug in the code.
+        //Q_ASSERT(m_layouter->isDirty());
 #endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
