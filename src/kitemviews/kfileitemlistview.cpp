@@ -323,6 +323,7 @@ void KFileItemListView::updateVisibleIndexRange()
 
     const int index = firstVisibleIndex();
     const int count = lastVisibleIndex() - index + 1;
+    m_modelRolesUpdater->setMaximumVisibleItems(maximumVisibleItems());
     m_modelRolesUpdater->setVisibleIndexRange(index, count);
 
     if (m_updateIconSizeTimer->isActive()) {

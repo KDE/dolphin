@@ -77,6 +77,8 @@ public:
      */
     void setVisibleIndexRange(int index, int count);
 
+    void setMaximumVisibleItems(int count);
+
     /**
      * If \a show is set to true, the "iconPixmap" role will be filled with a preview
      * of the file. If \a show is false the MIME type icon will be used for the "iconPixmap"
@@ -254,6 +256,7 @@ private:
     QSize m_iconSize;
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
+    int m_maximumVisibleItems;
     QSet<QByteArray> m_roles;
     QSet<QByteArray> m_resolvableRoles;
     QStringList m_enabledPlugins;

@@ -208,6 +208,11 @@ qreal KItemListView::maximumItemOffset() const
     return m_layouter->maximumItemOffset();
 }
 
+int KItemListView::maximumVisibleItems() const
+{
+    return m_layouter->maximumVisibleItems();
+}
+
 void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
 {
     const QList<QByteArray> previousRoles = m_visibleRoles;
