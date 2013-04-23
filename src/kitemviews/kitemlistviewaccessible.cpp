@@ -242,9 +242,15 @@ QRect KItemListViewAccessible::rect(int child) const
     if (!view()->isVisible()) {
         return QRect();
     }
-    const QPoint origin = view()->scene()->views()[0]->mapToGlobal(QPoint(0, 0));
-    const QRect viewRect = view()->geometry().toRect();
-    return viewRect.translated(origin);
+
+    const QGraphicsScene* scene = view()->scene();
+    if (scene) {
+        const QPoint origin = scene->views()[0]->mapToGlobal(QPoint(0, 0));
+        const QRect viewRect = view()->geometry().toRect();
+        return viewRect.translated(origin);
+    } else {
+        return QRect();
+    }
 }
 
 int KItemListViewAccessible::navigate(RelationFlag relation, int index, QAccessibleInterface** interface) const
