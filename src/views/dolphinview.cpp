@@ -102,6 +102,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_restoredContentsPosition(),
     m_selectedUrls(),
     m_clearSelectionBeforeSelectingNewItems(false),
+    m_markFirstNewlySelectedItemAsCurrent(false),
     m_versionControlObserver(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -1070,7 +1071,13 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
 
 void DolphinView::slotAboutToCreate(const KUrl::List& urls)
 {
-    m_selectedUrls << urls;
+    if (!urls.isEmpty()) {
+        if (m_markFirstNewlySelectedItemAsCurrent) {
+            markUrlAsCurrent(urls.first());
+            m_markFirstNewlySelectedItemAsCurrent = false;
+        }
+        m_selectedUrls << urls;
+    }
 }
 
 void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
@@ -1225,10 +1232,11 @@ void DolphinView::updateViewState()
                 m_view->scrollToItem(currentIndex);
                 m_scrollToCurrentItem = false;
             }
+
+            m_currentItemUrl = KUrl();
         } else {
             selectionManager->setCurrentItem(0);
         }
-        m_currentItemUrl = KUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
@@ -1533,6 +1541,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
     KonqOperations* op = KonqOperations::doPasteV2(this, url);
     if (op) {
         m_clearSelectionBeforeSelectingNewItems = true;
+        m_markFirstNewlySelectedItemAsCurrent = true;
         connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
     }
 }

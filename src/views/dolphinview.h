@@ -769,6 +769,7 @@ private:
 
     QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
     bool m_clearSelectionBeforeSelectingNewItems;
+    bool m_markFirstNewlySelectedItemAsCurrent;
 
     VersionControlObserver* m_versionControlObserver;
 
