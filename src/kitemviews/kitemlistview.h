@@ -92,6 +92,8 @@ public:
 
     qreal maximumItemOffset() const;
 
+    int maximumVisibleItems() const;
+
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
 

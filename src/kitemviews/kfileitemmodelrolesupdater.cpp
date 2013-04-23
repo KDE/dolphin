@@ -79,6 +79,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_iconSize(),
     m_firstVisibleIndex(0),
     m_lastVisibleIndex(-1),
+    m_maximumVisibleItems(100),
     m_roles(),
     m_enabledPlugins(),
     m_pendingVisibleItems(),
@@ -176,6 +177,11 @@ void KFileItemModelRolesUpdater::setVisibleIndexRange(int index, int count)
     if (hasPendingRoles() && !m_paused) {
         sortAndResolvePendingRoles();
     }
+}
+
+void KFileItemModelRolesUpdater::setMaximumVisibleItems(int count)
+{
+    m_maximumVisibleItems = count;
 }
 
 void KFileItemModelRolesUpdater::setPreviewsShown(bool show)
@@ -670,7 +676,16 @@ void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
         const int lastIndex = range.index + range.count - 1;
         for (int i = range.index; i <= lastIndex; ++i) {
             const KFileItem item = m_model->fileItem(i);
-            if (!hasValidIndexRange || (i >= m_firstVisibleIndex && i <= m_lastVisibleIndex)) {
+            bool visible;
+            if (hasValidIndexRange) {
+                visible = (i >= m_firstVisibleIndex && i <= m_lastVisibleIndex);
+            } else {
+                // If the view has not informed us about the visible range yet,
+                // just assume that the first items are visible.
+                visible = (i < m_maximumVisibleItems);
+            }
+
+            if (visible) {
                 m_pendingVisibleItems.insert(item);
             } else {
                 m_pendingInvisibleItems.insert(item);
