@@ -473,7 +473,7 @@ void DolphinSearchBox::updateFacetsToggleButton()
     const bool facetsIsVisible = SearchSettings::showFacetsWidget();
     m_facetsToggleButton->setChecked(facetsIsVisible ? true : false);
     m_facetsToggleButton->setIcon(KIcon(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
-    m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Less Options") : i18nc("action:button", "More Options"));
+    m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
 }
 
 #include "dolphinsearchbox.moc"
