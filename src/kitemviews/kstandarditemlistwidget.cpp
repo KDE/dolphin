@@ -294,7 +294,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     }
 
     painter->setFont(m_customizedFont);
-    painter->setPen(m_isHidden ? m_additionalInfoTextColor : textColor());
+    painter->setPen(textColor());
     const TextInfo* textInfo = m_textInfo.value("text");
 
     if (!textInfo) {
@@ -523,8 +523,12 @@ void KStandardItemListWidget::setTextColor(const QColor& color)
 
 QColor KStandardItemListWidget::textColor() const
 {
-    if (m_customTextColor.isValid() && !isSelected()) {
-        return m_customTextColor;
+    if (!isSelected()) {
+        if (m_isHidden) {
+            return m_additionalInfoTextColor;
+        } else if (m_customTextColor.isValid()) {
+            return m_customTextColor;
+        }
     }
 
     const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
