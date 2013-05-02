@@ -31,6 +31,7 @@
 #include <KIO/JobUiDelegate>
 
 #include <QBoxLayout>
+#include <QDir>
 #include <QShowEvent>
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
@@ -183,8 +184,12 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
 {
     m_konsolePartCurrentDirectory = dir;
 
+    // Only change the view URL if 'dir' is different from the current view URL.
+    // Note that the current view URL could also be a symbolic link to 'dir'
+    // -> use QDir::canonicalPath() to check that.
+    const KUrl oldUrl(url());
     const KUrl newUrl(dir);
-    if (newUrl != url()) {
+    if (newUrl != oldUrl && dir != QDir(oldUrl.path()).canonicalPath()) {
         emit changeUrl(newUrl);
     }
 }
