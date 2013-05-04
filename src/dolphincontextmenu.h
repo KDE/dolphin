@@ -24,6 +24,7 @@
 #include <KService>
 #include <KUrl>
 #include <konq_copytomenu.h>
+#include <KMenu>
 
 #include <QObject>
 
@@ -31,8 +32,6 @@
 
 #include <QScopedPointer>
 
-class KMenu;
-class KFileItem;
 class QAction;
 class DolphinMainWindow;
 class KFileItemActions;
@@ -50,7 +49,7 @@ class KFileItemListProperties;
  * - 'Actions':   Contains all actions which can be applied to the
  *                given item.
  */
-class DolphinContextMenu : public QObject
+class DolphinContextMenu : public KMenu
 {
     Q_OBJECT
 
@@ -91,25 +90,11 @@ public:
      */
     Command open();
 
-    /**
-     * TODO: This method is a workaround for a X11-issue in combination
-     * with KModifierKeyInfo: When constructing KModifierKeyInfo in the
-     * constructor of the context menu, the user interface might freeze.
-     * To bypass this, the KModifierKeyInfo is constructed in DolphinMainWindow
-     * directly after starting the application. Remove this method, if
-     * the X11-issue got fixed (contact the maintainer of KModifierKeyInfo for
-     * more details).
-     */
-    static void initializeModifierKeyInfo();
+protected:
+    virtual void keyPressEvent(QKeyEvent *ev);
+    virtual void keyReleaseEvent(QKeyEvent *ev);
 
 private slots:
-    /**
-     * Is invoked if a key modifier has been pressed and updates the context
-     * menu to show the 'Delete' action instead of the 'Move To Trash' action
-     * if the shift-key has been pressed.
-     */
-    void slotKeyModifierPressed(Qt::Key key, bool pressed);
-
     /**
      * Triggers the 'Delete'-action if the shift-key has been pressed, otherwise
      * the 'Move to Trash'-action gets triggered.
@@ -209,7 +194,6 @@ private:
     int m_context;
     KonqCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
-    KMenu* m_popup;
 
     Command m_command;
 

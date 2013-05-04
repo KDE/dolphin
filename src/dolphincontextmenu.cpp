@@ -38,7 +38,6 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
-#include <KModifierKeyInfo>
 #include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -59,13 +58,11 @@
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
-K_GLOBAL_STATIC(KModifierKeyInfo, m_keyInfo)
-
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const QPoint& pos,
                                        const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
-    QObject(parent),
+    KMenu(parent),
     m_pos(pos),
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
@@ -76,9 +73,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_context(NoContext),
     m_copyToMenu(parent),
     m_customActions(),
-    m_popup(0),
     m_command(None),
-    m_shiftPressed(false),
+    m_shiftPressed(qApp->keyboardModifiers() & Qt::ShiftModifier),
     m_removeAction(0)
 {
     // The context menu either accesses the URLs of the selected items
@@ -86,27 +82,14 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
 
-    if (m_keyInfo) {
-        if (m_keyInfo->isKeyPressed(Qt::Key_Shift) || m_keyInfo->isKeyLatched(Qt::Key_Shift)) {
-            m_shiftPressed = true;
-        }
-        connect(m_keyInfo, SIGNAL(keyPressed(Qt::Key,bool)),
-                this, SLOT(slotKeyModifierPressed(Qt::Key,bool)));
-    }
-
     m_removeAction = new QAction(this);
     connect(m_removeAction, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
-
-    m_popup = new KMenu(m_mainWindow);
 }
 
 DolphinContextMenu::~DolphinContextMenu()
 {
     delete m_selectedItemsProperties;
     m_selectedItemsProperties = 0;
-
-    delete m_popup;
-    m_popup = 0;
 }
 
 void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
@@ -143,18 +126,23 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     return m_command;
 }
 
-void DolphinContextMenu::initializeModifierKeyInfo()
+void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 {
-    // Access m_keyInfo, so that it gets instantiated by
-    // K_GLOBAL_STATIC
-    KModifierKeyInfo* keyInfo = m_keyInfo;
-    Q_UNUSED(keyInfo);
+    if (ev->key() == Qt::Key_Shift) {
+        m_shiftPressed = true;
+        updateRemoveAction();
+    }
+    KMenu::keyPressEvent(ev);
 }
 
-void DolphinContextMenu::slotKeyModifierPressed(Qt::Key key, bool pressed)
+void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
 {
-    m_shiftPressed = (key == Qt::Key_Shift) && pressed;
-    updateRemoveAction();
+    if (ev->key() == Qt::Key_Shift) {
+        // not just "m_shiftPressed = false", the user could be playing with both Shift keys...
+        m_shiftPressed = qApp->keyboardModifiers() & Qt::ShiftModifier;
+        updateRemoveAction();
+    }
+    KMenu::keyReleaseEvent(ev);
 }
 
 void DolphinContextMenu::slotRemoveActionTriggered()
@@ -171,19 +159,19 @@ void DolphinContextMenu::openTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), m_popup);
+    QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), this);
     KConfig trashConfig("trashrc", KConfig::SimpleConfig);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
-    m_popup->addAction(emptyTrashAction);
+    addAction(emptyTrashAction);
 
     addCustomActions();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-    m_popup->addAction(propertiesAction);
+    addAction(propertiesAction);
 
     addShowMenuBarAction();
 
-    if (m_popup->exec(m_pos) == emptyTrashAction) {
+    if (exec(m_pos) == emptyTrashAction) {
         KonqOperations::emptyTrash(m_mainWindow);
     }
 }
@@ -194,15 +182,15 @@ void DolphinContextMenu::openTrashItemContextMenu()
     Q_ASSERT(m_context & ItemContext);
 
     QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
-    m_popup->addAction(restoreAction);
+    addAction(restoreAction);
 
     QAction* deleteAction = m_mainWindow->actionCollection()->action("delete");
-    m_popup->addAction(deleteAction);
+    addAction(deleteAction);
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-    m_popup->addAction(propertiesAction);
+    addAction(propertiesAction);
 
-    if (m_popup->exec(m_pos) == restoreAction) {
+    if (exec(m_pos) == restoreAction) {
         KUrl::List selectedUrls;
         foreach (const KFileItem &item, m_selectedItems) {
             selectedUrls.append(item.url());
@@ -234,41 +222,41 @@ void DolphinContextMenu::openItemContextMenu()
             KMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
             menu->setIcon(KIcon("document-new"));
-            m_popup->addMenu(menu);
-            m_popup->addSeparator();
+            addMenu(menu);
+            addSeparator();
 
             // insert 'Open in new window' and 'Open in new tab' entries
-            m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
-            m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+            addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+            addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
 
             // insert 'Add to Places' entry
             if (!placeExists(m_fileInfo.url())) {
-                addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
+                addToPlacesAction = addAction(KIcon("bookmark-new"),
                                                        i18nc("@action:inmenu Add selected folder to places",
                                                              "Add to Places"));
             }
 
-            m_popup->addSeparator();
+            addSeparator();
         } else if (m_baseUrl.protocol().contains("search")) {
             openParentInNewWindowAction = new QAction(KIcon("window-new"),
                                                     i18nc("@action:inmenu",
                                                           "Open Path in New Window"),
                                                     this);
-            m_popup->addAction(openParentInNewWindowAction);
+            addAction(openParentInNewWindowAction);
 
             openParentInNewTabAction = new QAction(KIcon("tab-new"),
                                                    i18nc("@action:inmenu",
                                                          "Open Path in New Tab"),
                                                    this);
-            m_popup->addAction(openParentInNewTabAction);
+            addAction(openParentInNewTabAction);
 
-            m_popup->addSeparator();
+            addSeparator();
         }
     }
 
     insertDefaultItemActions();
 
-    m_popup->addSeparator();
+    addSeparator();
 
     KFileItemActions fileItemActions;
     fileItemActions.setItemListProperties(selectedItemsProperties());
@@ -282,14 +270,14 @@ void DolphinContextMenu::openItemContextMenu()
     if (GeneralSettings::showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
         m_copyToMenu.setReadOnly(!selectedItemsProperties().supportsWriting());
-        m_copyToMenu.addActionsTo(m_popup);
+        m_copyToMenu.addActionsTo(this);
     }
 
     // insert 'Properties...' entry
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-    m_popup->addAction(propertiesAction);
+    addAction(propertiesAction);
 
-    QAction* activatedAction = m_popup->exec(m_pos);
+    QAction* activatedAction = exec(m_pos);
     if (activatedAction) {
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
@@ -315,26 +303,26 @@ void DolphinContextMenu::openViewportContextMenu()
     newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
     newFileMenu->checkUpToDate();
     newFileMenu->setPopupFiles(m_baseUrl);
-    m_popup->addMenu(newFileMenu->menu());
-    m_popup->addSeparator();
+    addMenu(newFileMenu->menu());
+    addSeparator();
 
     // Insert 'New Window' and 'New Tab' entries. Don't use "open_in_new_window" and
     // "open_in_new_tab" here, as the current selection should get ignored.
-    m_popup->addAction(m_mainWindow->actionCollection()->action("new_window"));
-    m_popup->addAction(m_mainWindow->actionCollection()->action("new_tab"));
+    addAction(m_mainWindow->actionCollection()->action("new_window"));
+    addAction(m_mainWindow->actionCollection()->action("new_tab"));
 
     // Insert 'Add to Places' entry if exactly one item is selected
     QAction* addToPlacesAction = 0;
     if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
+        addToPlacesAction = addAction(KIcon("bookmark-new"),
                                              i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     }
 
-    m_popup->addSeparator();
+    addSeparator();
 
     QAction* pasteAction = createPasteAction();
-    m_popup->addAction(pasteAction);
-    m_popup->addSeparator();
+    addAction(pasteAction);
+    addSeparator();
 
     // Insert service actions
     const KFileItemListProperties baseUrlProperties(KFileItemList() << baseFileItem());
@@ -349,11 +337,11 @@ void DolphinContextMenu::openViewportContextMenu()
     addCustomActions();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
-    m_popup->addAction(propertiesAction);
+    addAction(propertiesAction);
 
     addShowMenuBarAction();
 
-    QAction* action = m_popup->exec(m_pos);
+    QAction* action = exec(m_pos);
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const DolphinViewContainer* container =  m_mainWindow->activeViewContainer();
         if (container->url().isValid()) {
@@ -370,22 +358,22 @@ void DolphinContextMenu::insertDefaultItemActions()
     const KActionCollection* collection = m_mainWindow->actionCollection();
 
     // Insert 'Cut', 'Copy' and 'Paste'
-    m_popup->addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
-    m_popup->addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
-    m_popup->addAction(createPasteAction());
+    addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
+    addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
+    addAction(createPasteAction());
 
-    m_popup->addSeparator();
+    addSeparator();
 
     // Insert 'Rename'
     QAction* renameAction = collection->action("rename");
-    m_popup->addAction(renameAction);
+    addAction(renameAction);
 
     // Insert 'Move to Trash' and/or 'Delete'
     if (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false)) {
-        m_popup->addAction(collection->action("move_to_trash"));
-        m_popup->addAction(collection->action("delete"));
+        addAction(collection->action("move_to_trash"));
+        addAction(collection->action("delete"));
     } else {
-        m_popup->addAction(m_removeAction);
+        addAction(m_removeAction);
         updateRemoveAction();
     }
 }
@@ -395,8 +383,8 @@ void DolphinContextMenu::addShowMenuBarAction()
     const KActionCollection* ac = m_mainWindow->actionCollection();
     QAction* showMenuBar = ac->action(KStandardAction::name(KStandardAction::ShowMenubar));
     if (!m_mainWindow->menuBar()->isVisible() && !m_mainWindow->toolBar()->isVisible()) {
-        m_popup->addSeparator();
-        m_popup->addAction(showMenuBar);
+        addSeparator();
+        addAction(showMenuBar);
     }
 }
 
@@ -453,10 +441,10 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
     fileItemActions.setParentWidget(m_mainWindow);
 
     // insert 'Open With...' action or sub menu
-    fileItemActions.addOpenWithActionsTo(m_popup, "DesktopEntryName != 'dolphin'");
+    fileItemActions.addOpenWithActionsTo(this, "DesktopEntryName != 'dolphin'");
 
     // insert 'Actions' sub menu
-    fileItemActions.addServiceActionsTo(m_popup);
+    fileItemActions.addServiceActionsTo(this);
 }
 
 void DolphinContextMenu::addFileItemPluginActions()
@@ -490,14 +478,14 @@ void DolphinContextMenu::addFileItemPluginActions()
         // Old API (kdelibs-4.6.0 only)
         KFileItemActionPlugin* plugin = service->createInstance<KFileItemActionPlugin>();
         if (plugin) {
-            plugin->setParent(m_popup);
-            m_popup->addActions(plugin->actions(props, m_mainWindow));
+            plugin->setParent(this);
+            addActions(plugin->actions(props, m_mainWindow));
         }
         // New API (kdelibs >= 4.6.1)
         KAbstractFileItemActionPlugin* abstractPlugin = service->createInstance<KAbstractFileItemActionPlugin>();
         if (abstractPlugin) {
-            abstractPlugin->setParent(m_popup);
-            m_popup->addActions(abstractPlugin->actions(props, m_mainWindow));
+            abstractPlugin->setParent(this);
+            addActions(abstractPlugin->actions(props, m_mainWindow));
         }
     }
 }
@@ -508,16 +496,16 @@ void DolphinContextMenu::addVersionControlPluginActions()
     const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
     if (!versionControlActions.isEmpty()) {
         foreach (QAction* action, versionControlActions) {
-            m_popup->addAction(action);
+            addAction(action);
         }
-        m_popup->addSeparator();
+        addSeparator();
     }
 }
 
 void DolphinContextMenu::addCustomActions()
 {
     foreach (QAction* action, m_customActions) {
-        m_popup->addAction(action);
+        addAction(action);
     }
 }
 
