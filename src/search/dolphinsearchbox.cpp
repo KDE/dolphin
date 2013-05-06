@@ -159,7 +159,7 @@ void DolphinSearchBox::selectAll()
 
 void DolphinSearchBox::setReadOnly(bool readOnly, const KUrl& query)
 {
-    if (m_readOnly != readOnly) {
+    if (m_readOnly != readOnly || m_readOnlyQuery != query) {
         m_readOnly = readOnly;
         m_readOnlyQuery = query;
         applyReadOnlyState();
