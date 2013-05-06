@@ -133,6 +133,7 @@ public:
      */
     static KUrl convertedUrl(const KUrl& url);
 
+    virtual void clear();
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
@@ -163,6 +164,8 @@ private slots:
      */
     void saveBookmarks();
 
+    void slotNepomukStarted();
+    void slotNepomukStopped();
 private:
     struct SystemBookmarkData;
 

@@ -78,6 +78,7 @@ public:
     virtual QString roleDescription(const QByteArray& role) const;
     virtual QList<QPair<int, QVariant> > groups() const;
 
+    virtual void clear();
 protected:
     /**
      * Is invoked after an item has been inserted and before the signal

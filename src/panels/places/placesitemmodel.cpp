@@ -88,7 +88,11 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_storageSetupInProgress()
 {
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk2::ResourceManager::instance()->initialized()) {
+    Nepomuk2::ResourceManager* rm = Nepomuk2::ResourceManager::instance();
+    connect(rm, SIGNAL(nepomukSystemStarted()), this, SLOT(slotNepomukStarted()));
+    connect(rm, SIGNAL(nepomukSystemStopped()), this, SLOT(slotNepomukStopped()));
+
+    if (rm->initialized()) {
         KConfig config("nepomukserverrc");
         m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
     }
@@ -948,6 +952,40 @@ void PlacesItemModel::createSystemBookmarks()
         m_systemBookmarksIndexes.insert(m_systemBookmarks[i].url, i);
     }
 }
+
+void PlacesItemModel::clear() {
+    m_bookmarkedItems.clear();
+    KStandardItemModel::clear();
+}
+
+void PlacesItemModel::slotNepomukStarted()
+{
+    KConfig config("nepomukserverrc");
+    m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
+    if (m_fileIndexingEnabled) {
+        m_systemBookmarks.clear();
+        m_systemBookmarksIndexes.clear();
+        createSystemBookmarks();
+
+        clear();
+        loadBookmarks();
+    }
+}
+
+void PlacesItemModel::slotNepomukStopped()
+{
+    if (m_fileIndexingEnabled) {
+        m_fileIndexingEnabled = false;
+
+        m_systemBookmarks.clear();
+        m_systemBookmarksIndexes.clear();
+        createSystemBookmarks();
+
+        clear();
+        loadBookmarks();
+    }
+}
+
 
 void PlacesItemModel::initializeAvailableDevices()
 {
