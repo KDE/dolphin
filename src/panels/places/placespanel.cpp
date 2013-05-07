@@ -332,6 +332,12 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         return;
     }
 
+    const PlacesItem* destItem = m_model->placesItem(index);
+    const PlacesItem::GroupType group = destItem->groupType();
+    if (group == PlacesItem::SearchForType || group == PlacesItem::RecentlyAccessedType) {
+        return;
+    }
+
     if (m_model->storageSetupNeeded(index)) {
         connect(m_model, SIGNAL(storageSetupDone(int,bool)),
                 this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
@@ -356,7 +362,7 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         return;
     }
 
-    KUrl destUrl = m_model->placesItem(index)->url();
+    KUrl destUrl = destItem->url();
     QDropEvent dropEvent(event->pos().toPoint(),
                          event->possibleActions(),
                          event->mimeData(),
