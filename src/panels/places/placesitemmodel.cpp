@@ -444,6 +444,11 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
                 text = url.host();
             }
 
+            if (url.isLocalFile() && !QFileInfo(url.toLocalFile()).isDir()) {
+                // Only directories are allowed
+                continue;
+            }
+
             PlacesItem* newItem = createPlacesItem(text, url);
             const int dropIndex = groupedDropIndex(index, newItem);
             insertItem(dropIndex, newItem);
