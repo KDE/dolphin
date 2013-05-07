@@ -838,25 +838,35 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
             oldHoveredWidget->setHovered(false);
             emit itemUnhovered(oldHoveredWidget->index());
         }
+    }
 
-        if (newHoveredWidget) {
-            bool droppingBetweenItems = false;
-            if (m_model->sortRole().isEmpty()) {
-                // The model supports inserting items between other items.
-                droppingBetweenItems = (m_view->showDropIndicator(pos) >= 0);
-            }
+    if (newHoveredWidget) {
+        bool droppingBetweenItems = false;
+        if (m_model->sortRole().isEmpty()) {
+            // The model supports inserting items between other items.
+            droppingBetweenItems = (m_view->showDropIndicator(pos) >= 0);
+        }
 
-            const int index = newHoveredWidget->index();
-            if (!droppingBetweenItems && m_model->supportsDropping(index)) {
+        const int index = newHoveredWidget->index();
+        if (!droppingBetweenItems) {
+            if (m_model->supportsDropping(index)) {
                 // Something has been dragged on an item.
                 m_view->hideDropIndicator();
-                newHoveredWidget->setHovered(true);
-                emit itemHovered(index);
+                if (!newHoveredWidget->isHovered()) {
+                    newHoveredWidget->setHovered(true);
+                    emit itemHovered(index);
+                }
 
-                if (m_autoActivationTimer->interval() >= 0) {
+                if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
                     m_autoActivationTimer->setProperty("index", index);
                     m_autoActivationTimer->start();
                 }
+            }
+        } else {
+            m_autoActivationTimer->stop();
+            if (newHoveredWidget && newHoveredWidget->isHovered()) {
+                newHoveredWidget->setHovered(false);
+                emit itemUnhovered(index);
             }
         }
     }

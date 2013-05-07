@@ -2365,7 +2365,8 @@ int KItemListView::showDropIndicator(const QPointF& pos)
         const QRectF rect = itemRect(widget->index());
         if (mappedPos.y() >= 0 && mappedPos.y() <= rect.height()) {
             if (m_model->supportsDropping(widget->index())) {
-                const int gap = qMax(4, m_styleOption.padding);
+                // Keep 30% of the rectangle as the gap instead of always having a fixed gap
+                const int gap = qMax(4.0, 0.3 * rect.height());
                 if (mappedPos.y() >= gap && mappedPos.y() <= rect.height() - gap) {
                     return -1;
                 }
