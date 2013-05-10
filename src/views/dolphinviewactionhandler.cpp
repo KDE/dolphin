@@ -528,8 +528,10 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
     if (action) {
         action->setChecked(true);
 
-        QAction* sortByMenu =  m_actionCollection->action("sort");
-        sortByMenu->setIcon(KIcon(action->icon()));
+        if (!action->icon().isNull()) {
+            QAction* sortByMenu = m_actionCollection->action("sort");
+            sortByMenu->setIcon(KIcon(action->icon()));
+        }
     }
 }
 
