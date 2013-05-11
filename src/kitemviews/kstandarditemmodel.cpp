@@ -122,6 +122,15 @@ void KStandardItemModel::removeItem(int index)
     }
 }
 
+void KStandardItemModel::clear()
+{
+    int size = m_items.size();
+    m_items.clear();
+    m_indexesForItems.clear();
+
+    emit itemsRemoved(KItemRangeList() << KItemRange(0, size));
+}
+
 KStandardItem* KStandardItemModel::item(int index) const
 {
     if (index < 0 || index >= m_items.count()) {
