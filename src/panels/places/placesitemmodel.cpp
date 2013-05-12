@@ -612,17 +612,13 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
     }
 
     if (error) {
-        // TODO: Request message-freeze exception
         if (errorData.isValid()) {
-        //    emit errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
-        //                            item->text(),
-        //                            errorData.toString()));
-            emit errorMessage(QString("An error occurred while accessing '%1', the system responded: %2")
-                              .arg(item->text()).arg(errorData.toString()));
+            emit errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
+                                    item->text(),
+                                    errorData.toString()));
         } else {
-        //    emit errorMessage(i18nc("@info", "An error occurred while accessing '%1'",
-        //                            item->text()));
-            emit errorMessage(QString("An error occurred while accessing '%1'").arg(item->text()));
+            emit errorMessage(i18nc("@info", "An error occurred while accessing '%1'",
+                                    item->text()));
         }
         emit storageSetupDone(index, false);
     } else {
