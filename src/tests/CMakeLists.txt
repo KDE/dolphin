@@ -18,6 +18,7 @@ set(kitemlistcontrollertest_SRCS
     testdir.cpp
     ../kitemviews/kfileitemmodel.cpp
     ../kitemviews/kfileitemlistview.cpp
+    ../kitemviews/kfileitemlistwidget.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemlistview.cpp
     ../kitemviews/kitemlistcontainer.cpp
