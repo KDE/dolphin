@@ -321,6 +321,7 @@ signals:
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 protected:
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void setItemSize(const QSizeF& size);
     void setStyleOption(const KItemListStyleOption& option);
 

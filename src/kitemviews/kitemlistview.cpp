@@ -678,6 +678,16 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     }
 }
 
+QVariant KItemListView::itemChange(GraphicsItemChange change, const QVariant &value)
+{
+    if (change == QGraphicsItem::ItemSceneHasChanged && scene()) {
+        if (!scene()->views().isEmpty()) {
+            m_styleOption.palette = scene()->views().at(0)->palette();
+        }
+    }
+    return QGraphicsItem::itemChange(change, value);
+}
+
 void KItemListView::setItemSize(const QSizeF& size)
 {
     const QSizeF previousSize = m_itemSize;
