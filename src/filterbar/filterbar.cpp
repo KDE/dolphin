@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
+ *   Copyright (C) 2012 by Stuart Citrin <ctrn3e8@gmail.com>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -39,6 +40,13 @@ FilterBar::FilterBar(QWidget* parent) :
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
     connect(closeButton, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
 
+    // Create button to lock text when changing folders
+    m_lockButton = new QToolButton(this);
+    m_lockButton->setCheckable(true);
+    m_lockButton->setIcon(KIcon("system-lock-screen.png"));
+    m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
+    connect(m_lockButton, SIGNAL(toggled(bool)), this, SLOT(slotToggleLockButton(bool)));
+
     // Create label
     QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
 
@@ -56,12 +64,22 @@ FilterBar::FilterBar(QWidget* parent) :
     hLayout->addWidget(closeButton);
     hLayout->addWidget(filterLabel);
     hLayout->addWidget(m_filterInput);
+    hLayout->addWidget(m_lockButton);
 
     filterLabel->setBuddy(m_filterInput);
 }
 
 FilterBar::~FilterBar()
 {
+}
+
+void FilterBar::closeFilterBar()
+{
+    hide();
+    clear();
+    if (m_lockButton) {
+        m_lockButton->setChecked(false);
+    }
 }
 
 void FilterBar::selectAll()
@@ -72,6 +90,20 @@ void FilterBar::selectAll()
 void FilterBar::clear()
 {
     m_filterInput->clear();
+}
+
+void FilterBar::slotUrlChanged()
+{
+    if (!m_lockButton || !(m_lockButton->isChecked())) {
+        clear();
+    }
+}
+
+void FilterBar::slotToggleLockButton(bool checked)
+{
+    if (!checked) {
+        clear();
+    }
 }
 
 void FilterBar::showEvent(QShowEvent* event)

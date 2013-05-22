@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
+ *   Copyright (C) 2012 by Stuart Citrin <ctrn3e8@gmail.com>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,6 +25,7 @@
 #include <QWidget>
 
 class KLineEdit;
+class QToolButton;
 
 /**
  * @brief Provides an input field for filtering the currently shown items.
@@ -38,6 +40,9 @@ public:
     explicit FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
 
+    /** Called by view container to hide this **/
+    void closeFilterBar();
+
     /**
      * Selects the whole text of the filter bar.
      */
@@ -46,6 +51,10 @@ public:
 public slots:
     /** Clears the input field. */
     void clear();
+    /** Clears the input field if the "lock button" is disabled. */
+    void slotUrlChanged();
+    /** The input field is cleared also if the "lock button" is released. */
+    void slotToggleLockButton(bool checked);
 
 signals:
     /**
@@ -70,6 +79,7 @@ protected:
 
 private:
     KLineEdit* m_filterInput;
+    QToolButton* m_lockButton;
 };
 
 #endif

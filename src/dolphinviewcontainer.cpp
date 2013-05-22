@@ -162,7 +162,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_filterBar, SIGNAL(focusViewRequest()),
             this, SLOT(requestFocus()));
     connect(m_view, SIGNAL(urlChanged(KUrl)),
-            m_filterBar, SLOT(clear()));
+            m_filterBar, SLOT(slotUrlChanged()));
 
     m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(m_searchBox);
@@ -536,8 +536,7 @@ void DolphinViewContainer::showItemInfo(const KFileItem& item)
 
 void DolphinViewContainer::closeFilterBar()
 {
-    m_filterBar->hide();
-    m_filterBar->clear();
+    m_filterBar->closeFilterBar();
     m_view->setFocus();
     emit showFilterBarChanged(false);
 }
