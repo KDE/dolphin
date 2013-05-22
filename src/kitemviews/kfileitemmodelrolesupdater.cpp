@@ -630,6 +630,13 @@ void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
     if (getSizeRole || getIsExpandableRole) {
         const int index = m_model->index(KUrl(path));
         if (index >= 0) {
+            if (!m_model->fileItem(index).isDir()) {
+                // If INotify is used, KDirWatch issues the dirty() signal
+                // also for changed files inside the directory, even if we
+                // don't enable this behavior explicitly (see bug 309740).
+                return;
+            }
+
             QHash<QByteArray, QVariant> data;
 
             const int count = subItemsCount(path);
