@@ -956,9 +956,9 @@ void KFileItemModel::dispatchPendingItemsToInsert()
     }
 }
 
-void KFileItemModel::insertItems(QList<ItemData*>& items)
+void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 {
-    if (items.isEmpty()) {
+    if (newItems.isEmpty()) {
         return;
     }
 
@@ -966,68 +966,81 @@ void KFileItemModel::insertItems(QList<ItemData*>& items)
     QElapsedTimer timer;
     timer.start();
     kDebug() << "===========================================================";
-    kDebug() << "Inserting" << items.count() << "items";
+    kDebug() << "Inserting" << newItems.count() << "items";
 #endif
 
     m_groups.clear();
 
-    sort(items.begin(), items.end());
+    sort(newItems.begin(), newItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Sorting:" << timer.elapsed();
 #endif
 
     KItemRangeList itemRanges;
-    int targetIndex = 0;
-    int sourceIndex = 0;
-    int insertedAtIndex = -1;        // Index for the current item-range
-    int insertedCount = 0;           // Count for the current item-range
-    int previouslyInsertedCount = 0; // Sum of previously inserted items for all ranges
-    while (sourceIndex < items.count()) {
-        // Find target index from m_items to insert the current item
-        // in a sorted order
-        const int previousTargetIndex = targetIndex;
-        while (targetIndex < m_itemData.count()) {
-            if (!lessThan(m_itemData.at(targetIndex), items.at(sourceIndex))) {
-                break;
+    const int existingItemCount = m_itemData.count();
+    const int newItemCount = newItems.count();
+    const int totalItemCount = existingItemCount + newItemCount;
+
+    if (existingItemCount == 0) {
+        // Optimization for the common special case that there are no
+        // items in the model yet. Happens, e.g., when entering a folder.
+        m_itemData = newItems;
+        itemRanges << KItemRange(0, newItemCount);
+    } else {
+        m_itemData.reserve(totalItemCount);
+        for (int i = existingItemCount; i < totalItemCount; ++i) {
+            m_itemData.append(0);
+        }
+
+        // We build the new list m_items in reverse order to minimize
+        // the number of moves and guarantee O(N) complexity.
+        int targetIndex = totalItemCount - 1;
+        int sourceIndexExistingItems = existingItemCount - 1;
+        int sourceIndexNewItems = newItemCount - 1;
+
+        int rangeCount = 0;
+
+        while (sourceIndexNewItems >= 0) {
+            ItemData* newItem = newItems.at(sourceIndexNewItems);
+            if (sourceIndexExistingItems >= 0 && lessThan(newItem, m_itemData.at(sourceIndexExistingItems))) {
+                // Move an existing item to its new position. If any new items
+                // are behind it, push the item range to itemRanges.
+                if (rangeCount > 0) {
+                    itemRanges << KItemRange(sourceIndexExistingItems + 1, rangeCount);
+                    rangeCount = 0;
+                }
+
+                m_itemData[targetIndex] = m_itemData.at(sourceIndexExistingItems);
+                --sourceIndexExistingItems;
+            } else {
+                // Insert a new item into the list.
+                ++rangeCount;
+                m_itemData[targetIndex] = newItem;
+                --sourceIndexNewItems;
             }
-            ++targetIndex;
+            --targetIndex;
         }
 
-        if (targetIndex - previousTargetIndex > 0 && insertedAtIndex >= 0) {
-            itemRanges << KItemRange(insertedAtIndex, insertedCount);
-            previouslyInsertedCount += insertedCount;
-            insertedAtIndex = targetIndex - previouslyInsertedCount;
-            insertedCount = 0;
+        // Push the final item range to itemRanges.
+        if (rangeCount > 0) {
+            itemRanges << KItemRange(sourceIndexExistingItems + 1, rangeCount);
         }
 
-        // Insert item at the position targetIndex by transferring
-        // the ownership of the item-data from 'items' to m_itemData.
-        // m_items will be inserted after the loop (see comment below)
-        m_itemData.insert(targetIndex, items.at(sourceIndex));
-        ++insertedCount;
-
-        if (insertedAtIndex < 0) {
-            insertedAtIndex = targetIndex;
-            Q_ASSERT(previouslyInsertedCount == 0);
-        }
-        ++targetIndex;
-        ++sourceIndex;
+        // Note that itemRanges is still sorted in reverse order.
+        std::reverse(itemRanges.begin(), itemRanges.end());
     }
 
-    // The indexes of all m_items must be adjusted, not only the index
-    // of the new items
-    const int itemDataCount = m_itemData.count();
-    m_items.reserve(itemDataCount);
-    for (int i = 0; i < itemDataCount; ++i) {
+    // The indexes starting from the first inserted item must be adjusted.
+    m_items.reserve(totalItemCount);
+    for (int i = itemRanges.front().index; i < totalItemCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
-    itemRanges << KItemRange(insertedAtIndex, insertedCount);
     emit itemsInserted(itemRanges);
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Inserting of" << items.count() << "items:" << timer.elapsed();
+    kDebug() << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
 #endif
 }
 
@@ -1119,10 +1132,10 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
 
     m_itemData.erase(m_itemData.end() - indexesToRemove.count(), m_itemData.end());
 
-    // Step 3: Adjust indexes in the hash m_items. Note that all indexes
-    //         might have been changed by the removal of the items.
+    // Step 3: Adjust indexes in the hash m_items, starting from the
+    //         index of the first removed item.
     const int newItemDataCount = m_itemData.count();
-    for (int i = 0; i < newItemDataCount; ++i) {
+    for (int i = itemRanges.front().index; i < newItemDataCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
