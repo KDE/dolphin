@@ -237,6 +237,20 @@ void DolphinContextMenu::openItemContextMenu()
 
             addSeparator();
         }
+    } else {
+        bool selectionHasOnlyDirs = true;
+        foreach (const KFileItem& item, m_selectedItems) {
+            if (!item.isDir()) {
+                selectionHasOnlyDirs = false;
+                break;
+            }
+        }
+
+        if (selectionHasOnlyDirs) {
+            // insert 'Open in new tab' entry
+            addAction(m_mainWindow->actionCollection()->action("open_in_new_tabs"));
+            addSeparator();
+        }
     }
 
     insertDefaultItemActions();

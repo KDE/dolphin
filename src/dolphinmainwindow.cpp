@@ -520,11 +520,15 @@ void DolphinMainWindow::activatePrevTab()
 
 void DolphinMainWindow::openInNewTab()
 {
-    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    const KFileItemList& list = m_activeViewContainer->view()->selectedItems();
     if (list.isEmpty()) {
         openNewTab(m_activeViewContainer->url());
-    } else if ((list.count() == 1) && list[0].isDir()) {
-        openNewTab(list[0].url());
+    } else {
+        foreach (const KFileItem& item, list) {
+            if (item.isDir()) {
+                openNewTab(item.url());
+            }
+        }
     }
 }
 
@@ -1644,6 +1648,11 @@ void DolphinMainWindow::setupActions()
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
     openInNewTab->setIcon(KIcon("tab-new"));
     connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+
+    KAction* openInNewTabs = actionCollection()->addAction("open_in_new_tabs");
+    openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
+    openInNewTabs->setIcon(KIcon("tab-new"));
+    connect(openInNewTabs, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
     KAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
