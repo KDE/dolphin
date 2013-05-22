@@ -75,6 +75,7 @@ private slots:
     void testIndexForKeyboardSearch();
     void testNameFilter();
     void testEmptyPath();
+    void testRefreshExpandedItem();
     void testRemoveHiddenItems();
     void collapseParentOfHiddenItems();
     void removeParentOfHiddenItems();
@@ -799,6 +800,39 @@ void KFileItemModelTest::testEmptyPath()
     items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
     m_model->slotNewItems(items);
     m_model->slotCompleted();
+}
+
+/**
+ * Verifies that the 'isExpanded' state of folders does not change when the
+ * 'refreshItems' signal is received, see https://bugs.kde.org/show_bug.cgi?id=299675.
+ */
+void KFileItemModelTest::testRefreshExpandedItem()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/1" << "a/2" << "3" << "4";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 3); // "a/", "3", "4"
+
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5); // "a/", "a/1", "a/2", "3", "4"
+    QVERIFY(m_model->isExpanded(0));
+
+    QSignalSpy spyItemsChanged(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)));
+
+    const KFileItem item = m_model->fileItem(0);
+    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(item, item));
+    QVERIFY(!spyItemsChanged.isEmpty());
+
+    QCOMPARE(m_model->count(), 5); // "a/", "a/1", "a/2", "3", "4"
+    QVERIFY(m_model->isExpanded(0));
 }
 
 /**

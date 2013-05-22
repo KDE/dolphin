@@ -1333,10 +1333,6 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
         data.insert("path", path);
     }
 
-    if (m_requestRole[IsExpandedRole]) {
-        data.insert("isExpanded", false);
-    }
-
     if (m_requestRole[IsExpandableRole]) {
         data.insert("isExpandable", item.isDir() && item.url() == item.targetUrl());
     }
