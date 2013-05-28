@@ -28,6 +28,8 @@
 
 #include <KGlobal>
 #include <KUrl>
+#include <QFileInfo>
+#include <QDir>
 
 struct DolphinSearchInformationSingleton
 {
@@ -50,11 +52,34 @@ bool DolphinSearchInformation::isIndexingEnabled() const
     return m_indexingEnabled;
 }
 
+namespace {
+    /// recursively check if a folder is hidden
+    bool isDirHidden( QDir& dir ) {
+        if (QFileInfo(dir.path()).isHidden()) {
+            return true;
+        } else if (dir.cdUp()) {
+            return isDirHidden(dir);
+        } else {
+            return false;
+        }
+    }
+
+    bool isDirHidden(const QString& path) {
+        QDir dir(path);
+        return isDirHidden(dir);
+    }
+}
+
 bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 {
 #ifdef HAVE_NEPOMUK
     const KConfig strigiConfig("nepomukstrigirc");
     const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
+
+    // Nepomuk does not index hidden folders
+    if (isDirHidden(url.toLocalFile())) {
+        return false;
+    }
 
     // Check whether the path is part of an indexed folder
     bool isIndexed = false;
