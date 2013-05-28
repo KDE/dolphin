@@ -525,8 +525,9 @@ void DolphinMainWindow::openInNewTab()
         openNewTab(m_activeViewContainer->url());
     } else {
         foreach (const KFileItem& item, list) {
-            if (item.isDir()) {
-                openNewTab(item.url());
+            const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+            if (!url.isEmpty()) {
+                openNewTab(url);
             }
         }
     }
@@ -539,8 +540,9 @@ void DolphinMainWindow::openInNewWindow()
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
     if (list.isEmpty()) {
         newWindowUrl = m_activeViewContainer->url();
-    } else if ((list.count() == 1) && list[0].isDir()) {
-        newWindowUrl = list[0].url();
+    } else if (list.count() == 1) {
+        const KFileItem& item = list.first();
+        newWindowUrl = DolphinView::openItemAsFolderUrl(item);
     }
 
     if (!newWindowUrl.isEmpty()) {

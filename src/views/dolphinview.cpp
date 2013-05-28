@@ -33,6 +33,8 @@
 #include <QTimer>
 #include <QScrollBar>
 
+#include <KDesktopFile>
+#include <KProtocolManager>
 #include <KActionCollection>
 #include <KColorScheme>
 #include <KDirModel>
@@ -810,9 +812,10 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
     while (it.hasNext()) {
         const int index = it.next();
         KFileItem item = m_model->fileItem(index);
+        const KUrl& url = openItemAsFolderUrl(item);
 
-        if (item.isDir()) { // Open folders in new tabs
-            emit tabRequested(item.url());
+        if (!url.isEmpty()) { // Open folders in new tabs
+            emit tabRequested(url);
         } else {
             items.append(item);
         }
@@ -827,8 +830,11 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
 
 void DolphinView::slotItemMiddleClicked(int index)
 {
-    const KFileItem item = m_model->fileItem(index);
-    if (item.isDir() || isTabsForFilesEnabled()) {
+    const KFileItem& item = m_model->fileItem(index);
+    const KUrl& url = openItemAsFolderUrl(item);
+    if (!url.isEmpty()) {
+        emit tabRequested(url);
+    } else if (isTabsForFilesEnabled()) {
         emit tabRequested(item.url());
     }
 }
@@ -1200,6 +1206,46 @@ void DolphinView::setViewPropertiesContext(const QString& context)
 QString DolphinView::viewPropertiesContext() const
 {
     return m_viewPropertiesContext;
+}
+
+KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives)
+{
+    if (item.isNull()) {
+        return KUrl();
+    }
+
+    KUrl url = item.targetUrl();
+
+    if (item.isDir()) {
+        return url;
+    }
+
+    if (item.isMimeTypeKnown()) {
+        const QString& mimetype = item.mimetype();
+
+        if (browseThroughArchives && item.isFile() && url.isLocalFile()) {
+            // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
+            // zip:/<path>/ when clicking on a zip file, etc.
+            // The .protocol file specifies the mimetype that the kioslave handles.
+            // Note that we don't use mimetype inheritance since we don't want to
+            // open OpenDocument files as zip folders...
+            const QString& protocol = KProtocolManager::protocolForArchiveMimetype(mimetype);
+            if (!protocol.isEmpty()) {
+                url.setProtocol(protocol);
+                return url;
+            }
+        }
+
+        if (mimetype == QLatin1String("application/x-desktop")) {
+            // Redirect to the URL in Type=Link desktop files
+            KDesktopFile desktopFile(url.toLocalFile());
+            if (desktopFile.hasLinkType()) {
+                return desktopFile.readUrl();
+            }
+        }
+    }
+
+    return KUrl();
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)

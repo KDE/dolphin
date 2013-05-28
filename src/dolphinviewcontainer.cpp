@@ -482,35 +482,10 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
     // results in an active view.
     m_view->setActive(true);
 
-    KUrl url = item.targetUrl();
-
-    if (item.isDir()) {
+    const KUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
+    if (!url.isEmpty()) {
         m_view->setUrl(url);
         return;
-    }
-
-    if (GeneralSettings::browseThroughArchives() && item.isFile() && url.isLocalFile()) {
-        // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
-        // zip:/<path>/ when clicking on a zip file, etc.
-        // The .protocol file specifies the mimetype that the kioslave handles.
-        // Note that we don't use mimetype inheritance since we don't want to
-        // open OpenDocument files as zip folders...
-        const QString protocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
-        if (!protocol.isEmpty()) {
-            url.setProtocol(protocol);
-            m_view->setUrl(url);
-            return;
-        }
-    }
-
-    if (item.mimetype() == QLatin1String("application/x-desktop")) {
-        // Redirect to the URL in Type=Link desktop files
-        KDesktopFile desktopFile(url.toLocalFile());
-        if (desktopFile.hasLinkType()) {
-            url = desktopFile.readUrl();
-            m_view->setUrl(url);
-            return;
-        }
     }
 
     item.run();

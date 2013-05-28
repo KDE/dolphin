@@ -236,11 +236,18 @@ void DolphinContextMenu::openItemContextMenu()
             addAction(openParentInNewTabAction);
 
             addSeparator();
+        } else if (!DolphinView::openItemAsFolderUrl(m_fileInfo).isEmpty()) {
+            // insert 'Open in new window' and 'Open in new tab' entries
+            addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+            addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+
+            addSeparator();
         }
     } else {
         bool selectionHasOnlyDirs = true;
         foreach (const KFileItem& item, m_selectedItems) {
-            if (!item.isDir()) {
+            const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+            if (url.isEmpty()) {
                 selectionHasOnlyDirs = false;
                 break;
             }
