@@ -1041,6 +1041,8 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         m_clearSelectionBeforeSelectingNewItems = true;
         connect(op, SIGNAL(urlPasted(KUrl)), this, SLOT(slotUrlPasted(KUrl)));
     }
+
+    setActive(true);
 }
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
