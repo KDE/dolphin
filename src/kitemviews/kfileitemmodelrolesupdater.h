@@ -59,6 +59,38 @@ class QTimer;
  * KFileItemModel only resolves roles that are inexpensive like e.g. the file name or
  * the permissions. Creating previews or determining the MIME-type can be quite expensive
  * and KFileItemModelRolesUpdater takes care to update such roles asynchronously.
+ *
+ * To prevent a huge CPU and I/O load, these roles are not updated for all
+ * items, but only for the visible items, some items around the visible area,
+ * and the items on the first and last pages of the view. This is a compromise
+ * that aims to minimize the risk that the user sees items with unknown icons
+ * in the view when scrolling or pressing Home or End.
+ *
+ * Determining the roles is done in several phases:
+ *
+ * 1.   If the sort role is "slow", it is determined for all items. If this
+ *      cannot be finished synchronously in 200 ms, the remaining items are
+ *      handled asynchronously by \a resolveNextSortRole().
+ *
+ * 2.   The function startUpdating(), which is called if either the sort role
+ *      has been successfully determined for all items, or items are inserted
+ *      in the view, or the visible items might have changed because items
+ *      were removed or moved, tries to determine the icons for all visible
+ *      items synchronously for 200 ms. Then:
+ *
+ *      (a) If previews are disabled, icons and all other roles are determined
+ *          asynchronously for the interesting items. This is done by the
+ *          function \a resolveNextPendingRoles().
+ *
+ *      (b) If previews are enabled, a \a KIO::PreviewJob is started that loads
+ *          the previews for the interesting items. At the same time, the icons
+ *          for these items are determined asynchronously as fast as possible
+ *          by \a resolveNextPendingRoles(). This minimizes the risk that the
+ *          user sees "unknown" icons when scrolling before the previews have
+ *          arrived.
+ *
+ * 3.   Finally, the entire process is repeated for any items that might have
+ *      changed in the mean time.
  */
 class LIBDOLPHINPRIVATE_EXPORT KFileItemModelRolesUpdater : public QObject
 {
@@ -129,6 +161,7 @@ public:
 private slots:
     void slotItemsInserted(const KItemRangeList& itemRanges);
     void slotItemsRemoved(const KItemRangeList& itemRanges);
+    void slotItemsMoved(const KItemRange& itemRange, QList<int> movedToIndexes);
     void slotItemsChanged(const KItemRangeList& itemRanges,
                           const QSet<QByteArray>& roles);
     void slotSortRoleChanged(const QByteArray& current,
@@ -147,20 +180,33 @@ private slots:
     void slotPreviewFailed(const KFileItem& item);
 
     /**
-     * Is invoked when the preview job has been finished and
-     * removes the job from the m_previewJobs list.
+     * Is invoked when the preview job has been finished. Starts a new preview
+     * job if there are any interesting items without previews left, or updates
+     * the changed items otherwise.     *
      * @see startPreviewJob()
      */
     void slotPreviewJobFinished(KJob* job);
 
+    /**
+     * Resolves the sort role of the next item in m_pendingSortRole, applies it
+     * to the model, and invokes itself if there are any pending items left. If
+     * that is not the case, \a startUpdating() is called.
+     */
+    void resolveNextSortRole();
+
+    /**
+     * Resolves the icon name and (if previews are disabled) all other roles
+     * for the next interesting item. If there are no pending items left, any
+     * changed items are updated.
+     */
     void resolveNextPendingRoles();
 
     /**
      * Resolves items that have not been resolved yet after the change has been
      * notified by slotItemsChanged(). Is invoked if the m_changedItemsTimer
-     * exceeds.
+     * expires.
      */
-    void resolveChangedItems();
+    void resolveRecentlyChangedItems();
 
     void applyChangedNepomukRoles(const Nepomuk2::Resource& resource);
 
@@ -173,10 +219,9 @@ private slots:
 
 private:
     /**
-     * Updates the roles for the given item ranges. The roles for the currently
-     * visible items will get updated first.
+     * Starts the updating of all roles. The visible items are handled first.
      */
-    void startUpdating(const KItemRangeList& itemRanges);
+    void startUpdating();
 
     /**
      * Creates previews for the items starting from the first item of the
@@ -185,29 +230,20 @@ private:
      * @see slotPreviewFailed()
      * @see slotPreviewJobFinished()
      */
-    void startPreviewJob(const KFileItemList& items);
+    void startPreviewJob(const KFileItemList items);
 
-    bool hasPendingRoles() const;
-    void resolvePendingRoles();
-    void resetPendingRoles();
-    void sortAndResolveAllRoles();
-    void sortAndResolvePendingRoles();
+    /**
+     * Ensures that icons, previews, and other roles are determined for any
+     * items that have been changed.
+     */
+    void updateChangedItems();
+
+    /**
+     * Resolves the sort role of the item and applies it to the model.
+     */
+    void applySortRole(int index);
+
     void applySortProgressToModel();
-
-    /**
-     * Updates m_sortProgress to be 0 if the sort-role
-     * needs to get resolved asynchronously and hence a
-     * progress is required. Otherwise m_sortProgress
-     * will be set to -1 which means that no progress
-     * will be provided.
-     */
-    void updateSortProgress();
-
-    /**
-     * @return True, if at least one item from the model
-     *         has an unknown MIME-type.
-     */
-    bool hasUnknownMimeTypes() const;
 
     enum ResolveHint {
         ResolveFast,
@@ -215,8 +251,6 @@ private:
     };
     bool applyResolvedRoles(const KFileItem& item, ResolveHint hint);
     QHash<QByteArray, QVariant> rolesData(const KFileItem& item) const;
-
-    KFileItemList sortedItems(const QSet<KFileItem>& items) const;
 
     /**
      * @return The number of items of the path \a path.
@@ -229,9 +263,20 @@ private:
      */
     void updateAllPreviews();
 
+    void killPreviewJob();
+
+    QList<int> indexesToResolve() const;
+
 private:
-    // Property for setPaused()/isPaused().
-    bool m_paused;
+    enum State {
+        Idle,
+        Paused,
+        ResolvingSortRole,
+        ResolvingAllRoles,
+        PreviewJobRunning
+    };
+
+    State m_state;
 
     // Property changes during pausing must be remembered to be able
     // to react when unpausing again:
@@ -250,7 +295,9 @@ private:
     // during the roles-updater has been paused by setPaused().
     bool m_clearPreviews;
 
-    int m_sortingProgress;
+    // Remembers which items have been handled already, to prevent that
+    // previews and other expensive roles are determined again.
+    QSet<KFileItem> m_finishedItems;
 
     KFileItemModel* m_model;
     QSize m_iconSize;
@@ -261,16 +308,33 @@ private:
     QSet<QByteArray> m_resolvableRoles;
     QStringList m_enabledPlugins;
 
-    QSet<KFileItem> m_pendingVisibleItems;
-    QSet<KFileItem> m_pendingInvisibleItems;
-    QList<KJob*> m_previewJobs;
+    // Items for which the sort role still has to be determined.
+    QSet<KFileItem> m_pendingSortRoleItems;
+
+    // While the sort role is being resolved, we also keep the indexes
+    // in a sorted list. The reason is that this enables us to determine
+    // both the sort role and the icon for the visible items first.
+    QList<int> m_pendingSortRoleIndexes;
+
+    // Indexes of items which still have to be handled by
+    // resolveNextPendingRoles().
+    QList<int> m_pendingIndexes;
+
+    // Items which have been left over from the last call of startPreviewJob().
+    // A new preview job will be started from them once the first one finishes.
+    KFileItemList m_pendingPreviewItems;
+
+    KJob* m_previewJob;
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent
     // a high CPU-load by generating e.g. previews for each notification, the update
     // will be postponed until no file change has been done within a longer period
     // of time.
-    QTimer* m_changedItemsTimer;
+    QTimer* m_recentlyChangedItemsTimer;
+    QSet<KFileItem> m_recentlyChangedItems;
+
+    // Items which have not been changed repeatedly recently.
     QSet<KFileItem> m_changedItems;
 
     KDirWatch* m_dirWatcher;
