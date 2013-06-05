@@ -430,6 +430,12 @@ private:
     static void determineMimeTypes(const KFileItemList& items, int timeout);
 
     /**
+     * @return Returns a copy of \a value that is implicitly shared
+     * with other users to save memory.
+     */
+    static QByteArray sharedValue(const QByteArray& value);
+
+    /**
      * Checks if the model's internal data structures are consistent.
      */
     bool isConsistent() const;

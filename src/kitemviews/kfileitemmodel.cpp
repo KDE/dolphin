@@ -167,7 +167,7 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
     QHashIterator<QByteArray, QVariant> it(values);
     while (it.hasNext()) {
         it.next();
-        const QByteArray role = it.key();
+        const QByteArray role = sharedValue(it.key());
         const QVariant value = it.value();
 
         if (currentValues[role] != value) {
@@ -425,7 +425,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
     }
 
     QHash<QByteArray, QVariant> values;
-    values.insert("isExpanded", expanded);
+    values.insert(sharedValue("isExpanded"), expanded);
     if (!setData(index, values)) {
         return false;
     }
@@ -1252,27 +1252,27 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
     QHash<QByteArray, QVariant> data;
-    data.insert("url", item.url());
+    data.insert(sharedValue("url"), item.url());
 
     const bool isDir = item.isDir();
     if (m_requestRole[IsDirRole]) {
-        data.insert("isDir", isDir);
+        data.insert(sharedValue("isDir"), isDir);
     }
 
     if (m_requestRole[IsLinkRole]) {
         const bool isLink = item.isLink();
-        data.insert("isLink", isLink);
+        data.insert(sharedValue("isLink"), isLink);
     }
 
     if (m_requestRole[NameRole]) {
-        data.insert("text", item.text());
+        data.insert(sharedValue("text"), item.text());
     }
 
     if (m_requestRole[SizeRole]) {
         if (isDir) {
-            data.insert("size", QVariant());
+            data.insert(sharedValue("size"), QVariant());
         } else {
-            data.insert("size", item.size());
+            data.insert(sharedValue("size"), item.size());
         }
     }
 
@@ -1281,19 +1281,19 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         // having several thousands of items. Instead the formatting of the
         // date-time will be done on-demand by the view when the date will be shown.
         const KDateTime dateTime = item.time(KFileItem::ModificationTime);
-        data.insert("date", dateTime.dateTime());
+        data.insert(sharedValue("date"), dateTime.dateTime());
     }
 
     if (m_requestRole[PermissionsRole]) {
-        data.insert("permissions", item.permissionsString());
+        data.insert(sharedValue("permissions"), item.permissionsString());
     }
 
     if (m_requestRole[OwnerRole]) {
-        data.insert("owner", item.user());
+        data.insert(sharedValue("owner"), item.user());
     }
 
     if (m_requestRole[GroupRole]) {
-        data.insert("group", item.group());
+        data.insert(sharedValue("group"), item.group());
     }
 
     if (m_requestRole[DestinationRole]) {
@@ -1301,7 +1301,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         if (destination.isEmpty()) {
             destination = QLatin1String("-");
         }
-        data.insert("destination", destination);
+        data.insert(sharedValue("destination"), destination);
     }
 
     if (m_requestRole[PathRole]) {
@@ -1324,11 +1324,11 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
 
         const int index = path.lastIndexOf(item.text());
         path = path.mid(0, index - 1);
-        data.insert("path", path);
+        data.insert(sharedValue("path"), path);
     }
 
     if (m_requestRole[IsExpandableRole]) {
-        data.insert("isExpandable", item.isDir() && item.url() == item.targetUrl());
+        data.insert(sharedValue("isExpandable"), item.isDir() && item.url() == item.targetUrl());
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
@@ -1337,14 +1337,14 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
             level = parent->values["expandedParentsCount"].toInt() + 1;
         }
 
-        data.insert("expandedParentsCount", level);
+        data.insert(sharedValue("expandedParentsCount"), level);
     }
 
     if (item.isMimeTypeKnown()) {
-        data.insert("iconName", item.iconName());
+        data.insert(sharedValue("iconName"), item.iconName());
 
         if (m_requestRole[TypeRole]) {
-            data.insert("type", item.mimeComment());
+            data.insert(sharedValue("type"), item.mimeComment());
         }
     }
 
@@ -1958,6 +1958,19 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
             // be resolved asynchronously.
             return;
         }
+    }
+}
+
+QByteArray KFileItemModel::sharedValue(const QByteArray& value)
+{
+    static QSet<QByteArray> pool;
+    const QSet<QByteArray>::const_iterator it = pool.constFind(value);
+
+    if (it != pool.constEnd()) {
+        return *it;
+    } else {
+        pool.insert(value);
+        return value;
     }
 }
 
