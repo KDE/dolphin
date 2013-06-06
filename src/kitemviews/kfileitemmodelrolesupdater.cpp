@@ -1015,6 +1015,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
         const int index = m_model->index(item);
 
         if (index < 0) {
+            m_changedItems.remove(item);
             continue;
         }
 
