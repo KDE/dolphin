@@ -912,7 +912,7 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList items)
     m_state = PreviewJobRunning;
 
     if (items.isEmpty()) {
-        slotPreviewJobFinished(0);
+        QMetaObject::invokeMethod(this, "slotPreviewJobFinished", Qt::QueuedConnection, Q_ARG(KJob*, 0));
         return;
     }
 
