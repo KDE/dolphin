@@ -898,12 +898,12 @@ void KFileItemModelRolesUpdater::startUpdating()
         startPreviewJob(itemsToResolve);
 
         // Determine the icons asynchronously as fast as possible.
-        resolveNextPendingRoles();
+        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
     } else {
         m_pendingIndexes = indexes;
         // Trigger the asynchronous resolving of all roles.
         m_state = ResolvingAllRoles;
-        resolveNextPendingRoles();
+        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
     }
 }
 
@@ -1002,7 +1002,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
             // asynchronous determination of the sort role.
             killPreviewJob();
             m_state = ResolvingSortRole;
-            resolveNextSortRole();
+            QTimer::singleShot(0, this, SLOT(resolveNextSortRole()));
         }
 
         return;
@@ -1050,7 +1050,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
         if (!resolvingInProgress) {
             // Trigger the asynchronous resolving of the changed roles.
             m_state = ResolvingAllRoles;
-            resolveNextPendingRoles();
+            QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
         }
     }
 }
