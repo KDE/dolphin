@@ -185,7 +185,7 @@ private slots:
      * the changed items otherwise.     *
      * @see startPreviewJob()
      */
-    void slotPreviewJobFinished(KJob* job);
+    void slotPreviewJobFinished();
 
     /**
      * Resolves the sort role of the next item in m_pendingSortRole, applies it

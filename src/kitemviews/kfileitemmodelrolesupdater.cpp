@@ -611,10 +611,8 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
     }
 }
 
-void KFileItemModelRolesUpdater::slotPreviewJobFinished(KJob* job)
+void KFileItemModelRolesUpdater::slotPreviewJobFinished()
 {
-    Q_UNUSED(job);
-
     m_previewJob = 0;
 
     if (m_state != PreviewJobRunning) {
@@ -912,7 +910,7 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList items)
     m_state = PreviewJobRunning;
 
     if (items.isEmpty()) {
-        QMetaObject::invokeMethod(this, "slotPreviewJobFinished", Qt::QueuedConnection, Q_ARG(KJob*, 0));
+        QTimer::singleShot(0, this, SLOT(slotPreviewJobFinished()));
         return;
     }
 
@@ -977,7 +975,7 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList items)
     connect(job,  SIGNAL(failed(KFileItem)),
             this, SLOT(slotPreviewFailed(KFileItem)));
     connect(job,  SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished(KJob*)));
+            this, SLOT(slotPreviewJobFinished()));
 
     m_previewJob = job;
 }
@@ -1282,7 +1280,7 @@ void KFileItemModelRolesUpdater::killPreviewJob()
         disconnect(m_previewJob,  SIGNAL(failed(KFileItem)),
                    this, SLOT(slotPreviewFailed(KFileItem)));
         disconnect(m_previewJob,  SIGNAL(finished(KJob*)),
-                   this, SLOT(slotPreviewJobFinished(KJob*)));
+                   this, SLOT(slotPreviewJobFinished()));
         m_previewJob->kill();
         m_previewJob = 0;
         m_pendingPreviewItems.clear();
