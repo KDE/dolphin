@@ -314,14 +314,7 @@ void DolphinViewActionHandler::slotRename()
 void DolphinViewActionHandler::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers modifiers)
 {
     emit actionBeingHandled();
-    // Note: kde3's konq_mainwindow.cpp used to check
-    // reason == KAction::PopupMenuActivation && ...
-    // but this isn't supported anymore
-    if (modifiers & Qt::ShiftModifier) {
-        m_currentView->deleteSelectedItems();
-    } else {
-        m_currentView->trashSelectedItems();
-    }
+    m_currentView->trashSelectedItems();
 }
 
 void DolphinViewActionHandler::slotDeleteItems()
