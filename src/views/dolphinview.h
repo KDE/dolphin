@@ -632,6 +632,8 @@ private slots:
      */
     void slotDeleteFileFinished(KJob* job);
 
+    void slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl);
+
     /**
      * Invoked when the file item model has started the loading
      * of the directory specified by DolphinView::url().

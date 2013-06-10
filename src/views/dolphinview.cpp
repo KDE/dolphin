@@ -1363,6 +1363,16 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
+void DolphinView::slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    const int index = m_model->index(newUrl);
+    if (index >= 0) {
+        QHash<QByteArray, QVariant> data;
+        data.insert("text", oldUrl.fileName());
+        m_model->setData(index, data);
+    }
+}
+
 void DolphinView::slotDirectoryLoadingStarted()
 {
     // Disable the writestate temporary until it can be determined in a fast way
@@ -1454,7 +1464,10 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                 m_model->setData(index, data);
             }
 
-            KonqOperations::rename(this, oldUrl, newName);
+            KonqOperations* op = KonqOperations::renameV2(this, oldUrl, newName);
+            if (op) {
+                connect(op, SIGNAL(renamingFailed(KUrl,KUrl)), SLOT(slotRenamingFailed(KUrl,KUrl)));
+            }
         }
     }
 }
