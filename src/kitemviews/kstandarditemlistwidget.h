@@ -160,8 +160,8 @@ protected:
 
 private slots:
     void slotCutItemsChanged();
-    void slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
-    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+    void slotRoleEditingCanceled(const QByteArray& role, const QVariant& value);
+    void slotRoleEditingFinished(const QByteArray& role, const QVariant& value);
 
 private:
     void triggerCacheRefreshing();

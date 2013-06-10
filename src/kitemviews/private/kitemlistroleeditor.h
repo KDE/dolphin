@@ -41,17 +41,14 @@ public:
     explicit KItemListRoleEditor(QWidget* parent);
     virtual ~KItemListRoleEditor();
 
-    void setIndex(int index);
-    int index() const;
-
     void setRole(const QByteArray& role);
     QByteArray role() const;
 
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
 signals:
-    void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
-    void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
+    void roleEditingFinished(const QByteArray& role, const QVariant& value);
+    void roleEditingCanceled(const QByteArray& role, const QVariant& value);
 
 protected:
     virtual bool event(QEvent* event);
@@ -72,7 +69,6 @@ private:
     void emitRoleEditingFinished();
 
 private:
-    int m_index;
     QByteArray m_role;
     bool m_blockFinishedSignal;
 };
