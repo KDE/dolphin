@@ -25,7 +25,6 @@
 
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
     KTextEdit(parent),
-    m_index(0),
     m_role(),
     m_blockFinishedSignal(false)
 {
@@ -44,16 +43,6 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
 
 KItemListRoleEditor::~KItemListRoleEditor()
 {
-}
-
-void KItemListRoleEditor::setIndex(int index)
-{
-    m_index = index;
-}
-
-int KItemListRoleEditor::index() const
-{
-    return m_index;
 }
 
 void KItemListRoleEditor::setRole(const QByteArray& role)
@@ -95,7 +84,7 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         // a roleEditingFinished signal (see KItemListRoleEditor::event),
         // which is not wanted in this case.
         m_blockFinishedSignal = true;
-        emit roleEditingCanceled(m_index, m_role, KIO::encodeFileName(toPlainText()));
+        emit roleEditingCanceled(m_role, KIO::encodeFileName(toPlainText()));
         m_blockFinishedSignal = false;
         event->accept();
         return;
@@ -139,7 +128,7 @@ void KItemListRoleEditor::autoAdjustSize()
 void KItemListRoleEditor::emitRoleEditingFinished()
 {
     if (!m_blockFinishedSignal) {
-        emit roleEditingFinished(m_index, m_role, KIO::encodeFileName(toPlainText()));
+        emit roleEditingFinished(m_role, KIO::encodeFileName(toPlainText()));
     }
 }
 

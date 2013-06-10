@@ -177,8 +177,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
     connect(m_view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
             this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
-    connect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    connect(m_view, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
     connect(m_view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
             this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
 
@@ -612,6 +612,9 @@ void DolphinView::setUrl(const KUrl& url)
 
     hideToolTip();
 
+    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+
     // It is important to clear the items from the model before
     // applying the view properties, otherwise expensive operations
     // might be done on the existing items although they get cleared
@@ -651,6 +654,9 @@ void DolphinView::renameSelectedItems()
     if (items.count() == 1 && GeneralSettings::renameInline()) {
         const int index = m_model->index(items.first());
         m_view->editRole(index, "text");
+
+        connect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
     } else {
         RenameDialog* dialog = new RenameDialog(this, items);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -1439,8 +1445,17 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
     emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
 }
 
+void DolphinView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
+{
+    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+}
+
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
+    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+
     if (index < 0 || index >= m_model->count()) {
         return;
     }

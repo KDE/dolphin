@@ -642,10 +642,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         if (m_roleEditor) {
             emit roleEditingCanceled(index(), current, data().value(current));
 
-            disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
-            disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+            disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
+                       this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
+            disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
+                       this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
             m_oldRoleEditor = m_roleEditor;
             m_roleEditor->hide();
             m_roleEditor = 0;
@@ -663,7 +663,6 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
     const TextInfo* textInfo = m_textInfo.value("text");
 
     m_roleEditor = new KItemListRoleEditor(parent);
-    m_roleEditor->setIndex(index());
     m_roleEditor->setRole(current);
     m_roleEditor->setFont(styleOption().font);
 
@@ -682,10 +681,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         m_roleEditor->setTextCursor(cursor);
     }
 
-    connect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
-    connect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    connect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
+    connect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
 
     // Adjust the geometry of the editor
     QRectF rect = roleEditingRect(current);
@@ -746,21 +745,19 @@ void KStandardItemListWidget::slotCutItemsChanged()
     }
 }
 
-void KStandardItemListWidget::slotRoleEditingCanceled(int index,
-                                                      const QByteArray& role,
+void KStandardItemListWidget::slotRoleEditingCanceled(const QByteArray& role,
                                                       const QVariant& value)
 {
     closeRoleEditor();
-    emit roleEditingCanceled(index, role, value);
+    emit roleEditingCanceled(index(), role, value);
     setEditedRole(QByteArray());
 }
 
-void KStandardItemListWidget::slotRoleEditingFinished(int index,
-                                                      const QByteArray& role,
+void KStandardItemListWidget::slotRoleEditingFinished(const QByteArray& role,
                                                       const QVariant& value)
 {
     closeRoleEditor();
-    emit roleEditingFinished(index, role, value);
+    emit roleEditingFinished(index(), role, value);
     setEditedRole(QByteArray());
 }
 
@@ -1307,10 +1304,10 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray& role) const
 
 void KStandardItemListWidget::closeRoleEditor()
 {
-    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
-    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
+    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
+               this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
 
     if (m_roleEditor->hasFocus()) {
         // If the editing was not ended by a FocusOut event, we have
