@@ -848,9 +848,9 @@ void KFileItemModelTest::testEmptyPath()
 
     const KUrl emptyUrl;
     QVERIFY(emptyUrl.path().isEmpty());
-    
+
     const KUrl url("file:///test/");
-    
+
     KFileItemList items;
     items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
     m_model->slotItemsAdded(emptyUrl, items);
