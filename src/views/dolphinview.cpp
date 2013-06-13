@@ -178,7 +178,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
             this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
     connect(m_view, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+            this, SLOT(slotRoleEditingCanceled()));
     connect(m_view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
             this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
 
@@ -1445,7 +1445,7 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
     emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
 }
 
-void DolphinView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
+void DolphinView::slotRoleEditingCanceled()
 {
     disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
