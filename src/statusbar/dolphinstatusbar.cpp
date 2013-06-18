@@ -107,14 +107,18 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     const int zoomSliderHeight = m_zoomSlider->minimumSizeHint().height();
     const int contentHeight = qMax(fontHeight, zoomSliderHeight);
 
-    m_label->setMinimumHeight(contentHeight);
-    m_label->setMaximumHeight(contentHeight);
+    m_label->setFixedHeight(contentHeight);
     m_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    const QSize size(150, contentHeight);
-    applyFixedWidgetSize(m_spaceInfo, size);
-    applyFixedWidgetSize(m_progressBar, size);
-    applyFixedWidgetSize(m_zoomSlider, size);
+    m_zoomSlider->setFixedHeight(contentHeight);
+    m_zoomSlider->setMaximumWidth(150);
+
+    m_spaceInfo->setFixedHeight(contentHeight);
+    m_spaceInfo->setMaximumWidth(150);
+    m_spaceInfo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    m_progressBar->setFixedHeight(contentHeight);
+    m_progressBar->setMaximumWidth(150);
 
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setMargin(0);
@@ -347,13 +351,6 @@ void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
     m_zoomSlider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
-}
-
-void DolphinStatusBar::applyFixedWidgetSize(QWidget* widget, const QSize& size)
-{
-    widget->setMinimumSize(size);
-    widget->setMaximumSize(size);
-    widget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
 
 #include "dolphinstatusbar.moc"

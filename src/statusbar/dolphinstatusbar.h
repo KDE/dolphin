@@ -137,8 +137,6 @@ private:
      */
     void updateZoomSliderToolTip(int zoomLevel);
 
-    void applyFixedWidgetSize(QWidget* widget, const QSize& size);
-
 private:
     QString m_text;
     QString m_defaultText;
