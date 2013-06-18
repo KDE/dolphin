@@ -67,6 +67,7 @@ private slots:
     void testSetData();
     void testSetDataWithModifiedSortRole_data();
     void testSetDataWithModifiedSortRole();
+    void testChangeSortRole();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
@@ -274,6 +275,8 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     // Changing the value of a sort-role must result in
     // a reordering of the items.
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
+    m_model->setSortRole("rating");
+    QCOMPARE(m_model->sortRole(), QByteArray("rating"));
 
     QStringList files;
     files << "a.txt" << "b.txt" << "c.txt";
@@ -299,7 +302,6 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     ratingC.insert("rating", 6);
     m_model->setData(2, ratingC);
 
-    m_model->setSortRole("rating");
     QCOMPARE(m_model->data(0).value("rating").toInt(), 2);
     QCOMPARE(m_model->data(1).value("rating").toInt(), 4);
     QCOMPARE(m_model->data(2).value("rating").toInt(), 6);
@@ -318,6 +320,45 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     QCOMPARE(m_model->data(1).value("rating").toInt(), ratingIndex1);
     QCOMPARE(m_model->data(2).value("rating").toInt(), ratingIndex2);
     QVERIFY(isModelConsistent());
+}
+
+void KFileItemModelTest::testChangeSortRole()
+{
+    QCOMPARE(m_model->sortRole(), QByteArray("text"));
+
+    QStringList files;
+    files << "a.txt" << "b.jpg" << "c.txt";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.jpg" << "c.txt");
+
+    // Simulate that KFileItemModelRolesUpdater determines the mime type.
+    // Resorting the files by 'type' will only work immediately if their
+    // mime types are known.
+    for (int index = 0; index < m_model->count(); ++index) {
+        m_model->fileItem(index).determineMimeType();
+    }
+
+    // Now: sort by type.
+    QSignalSpy spyItemsMoved(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    m_model->setSortRole("type");
+    QCOMPARE(m_model->sortRole(), QByteArray("type"));
+    QVERIFY(!spyItemsMoved.isEmpty());
+
+    // The actual order of the files might depend on the translation of the
+    // result of KFileItem::mimeComment() in the user's language.
+    QStringList version1;
+    version1 << "b.jpg" << "a.txt" << "c.txt";
+
+    QStringList version2;
+    version2 << "a.txt" << "c.txt" << "b.jpg";
+
+    const bool ok1 = (itemsInModel() == version1);
+    const bool ok2 = (itemsInModel() == version2);
+
+    QVERIFY(ok1 || ok2);
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
