@@ -88,7 +88,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvableRoles(),
     m_enabledPlugins(),
     m_pendingSortRoleItems(),
-    m_pendingSortRoleIndexes(),
     m_pendingIndexes(),
     m_pendingPreviewItems(),
     m_previewJob(),
@@ -261,8 +260,9 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
             resolveNextSortRole();
         } else {
             m_state = Idle;
-            startUpdating();
         }
+
+        startUpdating();
     }
 }
 
@@ -345,16 +345,13 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
 
         applySortProgressToModel();
 
-        // If there are still items whose sort role is unknown, return
-        // and handle them asynchronously.
-        if (!m_pendingSortRoleItems.isEmpty()) {
-            if (m_state != ResolvingSortRole) {
-                // Trigger the asynchronous determination of the sort role.
-                killPreviewJob();
-                m_state = ResolvingSortRole;
-                resolveNextSortRole();
-            }
-            return;
+        // If there are still items whose sort role is unknown, check if the
+        // asynchronous determination of the sort role is already in progress,
+        // and start it if that is not the case.
+        if (!m_pendingSortRoleItems.isEmpty() && m_state != ResolvingSortRole) {
+            killPreviewJob();
+            m_state = ResolvingSortRole;
+            resolveNextSortRole();
         }
     }
 
@@ -419,7 +416,6 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 
         m_finishedItems.clear();
         m_pendingSortRoleItems.clear();
-        m_pendingSortRoleIndexes.clear();
         m_pendingIndexes.clear();
         m_pendingPreviewItems.clear();
         m_recentlyChangedItems.clear();
@@ -448,9 +444,6 @@ void KFileItemModelRolesUpdater::slotItemsMoved(const KItemRange& itemRange, QLi
 {
     Q_UNUSED(itemRange);
     Q_UNUSED(movedToIndexes);
-
-    // The indexes of the items with missing sort role are not valid any more.
-    m_pendingSortRoleIndexes.clear();
 
     // The visible items might have changed.
     startUpdating();
@@ -492,7 +485,6 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
 
     if (m_resolvableRoles.contains(current)) {
         m_pendingSortRoleItems.clear();
-        m_pendingSortRoleIndexes.clear();
         m_finishedItems.clear();
 
         const int count = m_model->count();
@@ -519,7 +511,6 @@ void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
     } else {
         m_state = Idle;
         m_pendingSortRoleItems.clear();
-        m_pendingSortRoleIndexes.clear();
         applySortProgressToModel();
     }
 }
@@ -636,55 +627,20 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
         return;
     }
 
-    if (m_pendingSortRoleItems.count() != m_pendingSortRoleIndexes.count()) {
-        // The indexes with missing sort role have to be updated.
-        m_pendingSortRoleIndexes.clear();
-        foreach (const KFileItem& item, m_pendingSortRoleItems) {
-            const int index = m_model->index(item);
-            if (index < 0) {
-                m_pendingSortRoleItems.remove(item);
-            } else {
-                m_pendingSortRoleIndexes.append(index);
-            }
-        }
-
-        std::sort(m_pendingSortRoleIndexes.begin(), m_pendingSortRoleIndexes.end());
-    }
-
-    // Try to update an item in the visible range.
-    QList<int>::iterator it = std::lower_bound(m_pendingSortRoleIndexes.begin(),
-                                                m_pendingSortRoleIndexes.end(),
-                                                m_firstVisibleIndex);
-
-    // It seems that there is no such item. Start with the first item in the list.
-    if (it == m_pendingSortRoleIndexes.end()) {
-        it = m_pendingSortRoleIndexes.begin();
-    }
-
-    while (it != m_pendingSortRoleIndexes.end()) {
-        // TODO: Note that removing an index from the list m_pendingSortRoleIndexes
-        // at a random position is O(N). We might need a better solution
-        // to make sure that this does not harm the performance if
-        // many items have to be sorted.
-        const int index = *it;
-        const KFileItem item = m_model->fileItem(index);
+    QSet<KFileItem>::iterator it = m_pendingSortRoleItems.begin();
+    while (it != m_pendingSortRoleItems.end()) {
+        const KFileItem item = *it;
+        const int index = m_model->index(item);
 
         // Continue if the sort role has already been determined for the
         // item, and the item has not been changed recently.
         if (!m_changedItems.contains(item) && m_model->data(index).contains(m_model->sortRole())) {
-            m_pendingSortRoleItems.remove(item);
-            m_pendingSortRoleIndexes.erase(it);
-
-            // Check if we are at the end of the list (note that the list's end has changed).
-            if (it != m_pendingSortRoleIndexes.end()) {
-                ++it;
-            }
+            it = m_pendingSortRoleItems.erase(it);
             continue;
         }
 
         applySortRole(index);
-        m_pendingSortRoleItems.remove(item);
-        m_pendingSortRoleIndexes.erase(it);
+        m_pendingSortRoleItems.erase(it);
         break;
     }
 
@@ -836,9 +792,7 @@ void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
 
 void KFileItemModelRolesUpdater::startUpdating()
 {
-    // Updating the items in and near the visible area makes sense only
-    // if sorting is finished.
-    if (m_state == ResolvingSortRole || m_state == Paused) {
+    if (m_state == Paused) {
         return;
     }
 
@@ -846,16 +800,6 @@ void KFileItemModelRolesUpdater::startUpdating()
         // All roles have been resolved already.
         m_state = Idle;
         return;
-    }
-
-    int lastVisibleIndex = m_lastVisibleIndex;
-    if (lastVisibleIndex <= 0) {
-        // Guess a reasonable value for the last visible index if the view
-        // has not told us about the real value yet.
-        lastVisibleIndex = qMin(m_firstVisibleIndex + m_maximumVisibleItems, m_model->count() - 1);
-        if (lastVisibleIndex <= 0) {
-            lastVisibleIndex = qMin(200, m_model->count() - 1);
-        }
     }
 
     // Terminate all updates that are currently active.
@@ -866,12 +810,13 @@ void KFileItemModelRolesUpdater::startUpdating()
     timer.start();
 
     // Determine the icons for the visible items synchronously.
-    int index;
-    for (index = m_firstVisibleIndex; index <= lastVisibleIndex && timer.elapsed() < MaxBlockTimeout; ++index) {
-        const KFileItem item = m_model->fileItem(index);
-        applyResolvedRoles(item, ResolveFast);
+    updateVisibleIcons();
+
+    // A detailed update of the items in and near the visible area
+    // only makes sense if sorting is finished.
+    if (m_state == ResolvingSortRole) {
+        return;
     }
-    const int firstIndexWithoutIcon = index;
 
     // Start the preview job or the asynchronous resolving of all roles.
     QList<int> indexes = indexesToResolve();
@@ -894,6 +839,51 @@ void KFileItemModelRolesUpdater::startUpdating()
         m_state = ResolvingAllRoles;
         QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
     }
+}
+
+void KFileItemModelRolesUpdater::updateVisibleIcons()
+{
+    int lastVisibleIndex = m_lastVisibleIndex;
+    if (lastVisibleIndex <= 0) {
+        // Guess a reasonable value for the last visible index if the view
+        // has not told us about the real value yet.
+        lastVisibleIndex = qMin(m_firstVisibleIndex + m_maximumVisibleItems, m_model->count() - 1);
+        if (lastVisibleIndex <= 0) {
+            lastVisibleIndex = qMin(200, m_model->count() - 1);
+        }
+    }
+
+    QElapsedTimer timer;
+    timer.start();
+
+    // Try to determine the final icons for all visible items.
+    int index;
+    for (index = m_firstVisibleIndex; index <= lastVisibleIndex && timer.elapsed() < MaxBlockTimeout; ++index) {
+        const KFileItem item = m_model->fileItem(index);
+        applyResolvedRoles(item, ResolveFast);
+    }
+
+    if (index > lastVisibleIndex) {
+        return;
+    }
+
+    // If this didn't work before MaxBlockTimeout was reached, at least
+    // prevent that the user sees 'unknown' icons.
+    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+
+    while (index <= lastVisibleIndex) {
+        if (!m_model->data(index).contains("iconName")) {
+            const KFileItem item = m_model->fileItem(index);
+            QHash<QByteArray, QVariant> data;
+            data.insert("iconName", item.iconName());
+            m_model->setData(index, data);
+        }
+        ++index;
+    }
+
+    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
 }
 
 void KFileItemModelRolesUpdater::startPreviewJob()
@@ -1031,11 +1021,6 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
 {
     QHash<QByteArray, QVariant> data;
     const KFileItem item = m_model->fileItem(index);
-
-    if (index >= m_firstVisibleIndex && index <= m_lastVisibleIndex) {
-        // Determine the icon.
-        applyResolvedRoles(item, ResolveFast);
-    }
 
     if (m_model->sortRole() == "type") {
         if (!item.isMimeTypeKnown()) {

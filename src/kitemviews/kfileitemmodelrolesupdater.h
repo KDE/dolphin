@@ -224,6 +224,15 @@ private:
     void startUpdating();
 
     /**
+     * Loads the icons for the visible items. After 200 ms, the function
+     * stops determining mime types and only loads preliminary icons.
+     * This is a compromise that prevents that
+     * (a) the GUI is blocked for more than 200 ms, and
+     * (b) "unknown" icons could be shown in the view.
+     */
+    void updateVisibleIcons();
+
+    /**
      * Creates previews for the items starting from the first item in
      * m_pendingPreviewItems.
      * @see slotGotPreview()
@@ -310,11 +319,6 @@ private:
 
     // Items for which the sort role still has to be determined.
     QSet<KFileItem> m_pendingSortRoleItems;
-
-    // While the sort role is being resolved, we also keep the indexes
-    // in a sorted list. The reason is that this enables us to determine
-    // both the sort role and the icon for the visible items first.
-    QList<int> m_pendingSortRoleIndexes;
 
     // Indexes of items which still have to be handled by
     // resolveNextPendingRoles().
