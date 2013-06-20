@@ -678,7 +678,7 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
 
 void KFileItemModelRolesUpdater::resolveNextPendingRoles()
 {
-    if (m_state != ResolvingAllRoles && m_state != PreviewJobRunning) {
+    if (m_state != ResolvingAllRoles) {
         return;
     }
 
@@ -690,21 +690,15 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
             continue;
         }
 
-        if (m_previewShown) {
-            // Only determine the icon. The other roles are resolved when the preview is received.
-            applyResolvedRoles(item, ResolveFast);
-        } else {
-            applyResolvedRoles(item, ResolveAll);
-            m_finishedItems.insert(item);
-            m_changedItems.remove(item);
-        }
-
+        applyResolvedRoles(item, ResolveAll);
+        m_finishedItems.insert(item);
+        m_changedItems.remove(item);
         break;
     }
 
     if (!m_pendingIndexes.isEmpty()) {
         QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
-    } else if (m_state != PreviewJobRunning) {
+    } else {
         m_state = Idle;
 
         if (m_clearPreviews) {
@@ -1117,9 +1111,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, Resol
     if (!item.isMimeTypeKnown() || !item.isFinalIconKnown()) {
         item.determineMimeType();
         iconChanged = true;
-    } else if (m_state == ResolvingSortRole || m_state == PreviewJobRunning) {
-        // We are currently performing a fast determination of all icons
-        // in the visible area.
+    } else {
         const int index = m_model->index(item);
         if (!m_model->data(index).contains("iconName")) {
             iconChanged = true;
