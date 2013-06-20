@@ -45,6 +45,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     m_newName(),
     m_lineEdit(0),
     m_items(items),
+    m_allExtensionsDifferent(true),
     m_spinBox(0)
 {
     const QSize minSize = minimumSize();
@@ -107,6 +108,18 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     topLayout->addWidget(m_lineEdit);
 
     if (!m_renameOneItem) {
+        QSet<QString> extensions;
+        foreach (const KFileItem& item, m_items) {
+            const QString extension = KMimeType::extractKnownExtension(item.url().prettyUrl().toLower());
+
+            if (extensions.contains(extension)) {
+                m_allExtensionsDifferent = false;
+                break;
+            }
+
+            extensions.insert(extension);
+        }
+
         QLabel* infoLabel = new QLabel(i18nc("@info", "# will be replaced by ascending numbers starting with:"), page);
         m_spinBox = new KIntSpinBox(0, 10000, 1, 1, page, 10);
 
@@ -146,11 +159,16 @@ void RenameDialog::slotTextChanged(const QString& newName)
 {
     bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String("."));
     if (enable && !m_renameOneItem) {
-        // Assure that the new name contains exactly one # (or a connected sequence of #'s)
         const int count = newName.count(QLatin1Char('#'));
-        const int first = newName.indexOf(QLatin1Char('#'));
-        const int last = newName.lastIndexOf(QLatin1Char('#'));
-        enable = (last - first + 1 == count);
+        if (count == 0) {
+            // Renaming multiple files without '#' will only work if all extensions are different.
+            enable = m_allExtensionsDifferent;
+        } else {
+            // Assure that the new name contains exactly one # (or a connected sequence of #'s)
+            const int first = newName.indexOf(QLatin1Char('#'));
+            const int last = newName.lastIndexOf(QLatin1Char('#'));
+            enable = (last - first + 1 == count);
+        }
     }
     enableButtonOk(enable);
 }

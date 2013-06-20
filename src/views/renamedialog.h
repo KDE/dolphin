@@ -64,6 +64,7 @@ private:
     QString m_newName;
     KLineEdit* m_lineEdit;
     KFileItemList m_items;
+    bool m_allExtensionsDifferent;
     KIntSpinBox* m_spinBox;
 };
 
