@@ -869,6 +869,8 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
                 emit itemUnhovered(index);
             }
         }
+    } else {
+        m_view->hideDropIndicator();
     }
 
     return false;
