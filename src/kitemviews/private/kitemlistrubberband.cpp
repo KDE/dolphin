@@ -50,6 +50,22 @@ void KItemListRubberBand::setEndPosition(const QPointF& pos)
     if (m_endPos != pos) {
         const QPointF previous = m_endPos;
         m_endPos = pos;
+
+        if (m_startPos.x() == m_endPos.x()) {
+            if (previous.x() < m_startPos.x()) {
+                m_endPos.rx() = m_startPos.x() - 1.0;
+            } else {
+                m_endPos.rx() = m_startPos.x() + 1.0;
+            }
+        }
+        if (m_startPos.y() == m_endPos.y()) {
+            if (previous.y() < m_startPos.y()) {
+                m_endPos.ry() = m_startPos.y() - 1.0;
+            } else {
+                m_endPos.ry() = m_startPos.y() + 1.0;
+            }
+        }
+
         emit endPositionChanged(m_endPos, previous);
     }
 }
