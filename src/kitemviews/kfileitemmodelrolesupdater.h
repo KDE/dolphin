@@ -224,13 +224,13 @@ private:
     void startUpdating();
 
     /**
-     * Creates previews for the items starting from the first item of the
-     * given list.
+     * Creates previews for the items starting from the first item in
+     * m_pendingPreviewItems.
      * @see slotGotPreview()
      * @see slotPreviewFailed()
      * @see slotPreviewJobFinished()
      */
-    void startPreviewJob(const KFileItemList items);
+    void startPreviewJob();
 
     /**
      * Ensures that icons, previews, and other roles are determined for any

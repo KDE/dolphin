@@ -622,7 +622,7 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished()
     m_state = Idle;
 
     if (!m_pendingPreviewItems.isEmpty()) {
-        startPreviewJob(m_pendingPreviewItems);
+        startPreviewJob();
     } else {
         if (!m_changedItems.isEmpty()) {
             updateChangedItems();
@@ -877,26 +877,17 @@ void KFileItemModelRolesUpdater::startUpdating()
     QList<int> indexes = indexesToResolve();
 
     if (m_previewShown) {
-        KFileItemList itemsToResolve;
+        m_pendingPreviewItems.clear();
+        m_pendingPreviewItems.reserve(indexes.count());
+
         foreach (int index, indexes) {
             const KFileItem item = m_model->fileItem(index);
             if (!m_finishedItems.contains(item)) {
-                itemsToResolve.append(m_model->fileItem(index));
-
-                // Remember the items which have no icon yet. A fast
-                // asynchronous resolving will be done to make sure
-                // that icons are loaded as quickly as possible, i.e.,
-                // before the previews arrive.
-                if (index < m_firstVisibleIndex || index >= firstIndexWithoutIcon) {
-                    m_pendingIndexes.append(index);
-                }
+                m_pendingPreviewItems.append(item);
             }
         }
 
-        startPreviewJob(itemsToResolve);
-
-        // Determine the icons asynchronously as fast as possible.
-        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
+        startPreviewJob();
     } else {
         m_pendingIndexes = indexes;
         // Trigger the asynchronous resolving of all roles.
@@ -905,11 +896,11 @@ void KFileItemModelRolesUpdater::startUpdating()
     }
 }
 
-void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList items)
+void KFileItemModelRolesUpdater::startPreviewJob()
 {
     m_state = PreviewJobRunning;
 
-    if (items.isEmpty()) {
+    if (m_pendingPreviewItems.isEmpty()) {
         QTimer::singleShot(0, this, SLOT(slotPreviewJobFinished()));
         return;
     }
@@ -924,43 +915,30 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList items)
 
     // KIO::filePreview() will request the MIME-type of all passed items, which (in the
     // worst case) might block the application for several seconds. To prevent such
-    // a blocking, we only pass items with known mime type to the preview job
-    // (if the icon has already been determined for an item in startUpdating()
-    // or resolveNextPendingRoles(), the type is known).
-    // This also prevents that repeated expensive mime type determinations are
-    // triggered here if a huge folder is loaded, and startUpdating() is called
-    // repeatedly.
-    //
-    // Note that we always pass at least one item to the preview job to prevent
-    // that we get an endless startPreviewJob()/slotPreviewJobFinished() loop
-    // if there are no items with known mime types yet for some reason.
-    const int count = items.count();
-    int previewJobItemCount = 1;
-
-    // TODO: This will start a job with one item only if this function is
-    // called from slotPreviewJobFinished(), and resolveNextPendingRoles()
-    // has not reached the items yet. This can happen if the previous preview
-    // job has finished very fast because generating previews failed for all
-    // items.
-    //
-    // Idea to improve this: if the mime type of the first item is unknown,
-    // determine mime types synchronously for a while.
-    while (previewJobItemCount < qMin(count, m_maximumVisibleItems) &&
-           items.at(previewJobItemCount).isMimeTypeKnown()) {
-        ++previewJobItemCount;
-    }
-
+    // a blocking, we only pass items with known mime type to the preview job.
+    const int count = m_pendingPreviewItems.count();
     KFileItemList itemSubSet;
-    itemSubSet.reserve(previewJobItemCount);
-    m_pendingPreviewItems.clear();
-    m_pendingPreviewItems.reserve(count - previewJobItemCount);
+    itemSubSet.reserve(count);
 
-    for (int i = 0; i < previewJobItemCount; ++i) {
-        itemSubSet.append(items.at(i));
-    }
+    if (m_pendingPreviewItems.first().isMimeTypeKnown()) {
+        // Some mime types are known already, probably because they were
+        // determined when loading the icons for the visible items. Start
+        // a preview job for all items at the beginning of the list which
+        // have a known mime type.
+        do {
+            itemSubSet.append(m_pendingPreviewItems.takeFirst());
+        } while (!m_pendingPreviewItems.isEmpty() && m_pendingPreviewItems.first().isMimeTypeKnown());
+    } else {
+        // Determine mime types for MaxBlockTimeout ms, and start a preview
+        // job for the corresponding items.
+        QElapsedTimer timer;
+        timer.start();
 
-    for (int i = previewJobItemCount; i < count; ++i) {
-        m_pendingPreviewItems.append(items.at(i));
+        do {
+            const KFileItem item = m_pendingPreviewItems.takeFirst();
+            item.determineMimeType();
+            itemSubSet.append(item);
+        } while (!m_pendingPreviewItems.isEmpty() && timer.elapsed() < MaxBlockTimeout);
     }
 
     KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
@@ -1027,21 +1005,16 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     std::sort(visibleChangedIndexes.begin(), visibleChangedIndexes.end());
 
     if (m_previewShown) {
-        KFileItemList visibleChangedItems;
-        KFileItemList invisibleChangedItems;
-
         foreach (int index, visibleChangedIndexes) {
-            visibleChangedItems.append(m_model->fileItem(index));
+            m_pendingPreviewItems.append(m_model->fileItem(index));
         }
 
         foreach (int index, invisibleChangedIndexes) {
-            invisibleChangedItems.append(m_model->fileItem(index));
+            m_pendingPreviewItems.append(m_model->fileItem(index));
         }
 
-        if (m_previewJob) {
-            m_pendingPreviewItems += visibleChangedItems + invisibleChangedItems;
-        } else {
-            startPreviewJob(visibleChangedItems + invisibleChangedItems);
+        if (!m_previewJob) {
+            startPreviewJob();
         }
     } else {
         const bool resolvingInProgress = !m_pendingIndexes.isEmpty();
