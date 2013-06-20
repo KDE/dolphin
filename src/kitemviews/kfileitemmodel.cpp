@@ -644,11 +644,11 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
     Q_UNUSED(previous);
     m_sortRole = typeForRole(current);
 
-#ifdef KFILEITEMMODEL_DEBUG
     if (!m_requestRole[m_sortRole]) {
-        kWarning() << "The sort-role has been changed to a role that has not been received yet";
+        QSet<QByteArray> newRoles = m_roles;
+        newRoles << current;
+        setRoles(newRoles);
     }
-#endif
 
     resortAllItems();
 }
