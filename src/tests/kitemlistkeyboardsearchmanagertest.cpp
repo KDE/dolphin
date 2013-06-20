@@ -31,6 +31,7 @@ private slots:
     void testBasicKeyboardSearch();
     void testAbortedKeyboardSearch();
     void testRepeatedKeyPress();
+    void testPressShift();
 
 private:
     KItemListKeyboardSearchManager m_keyboardSearchManager;
@@ -39,7 +40,7 @@ private:
 void KItemListKeyboardSearchManagerTest::init()
 {
     // Make sure that the previous search string is cleared
-    m_keyboardSearchManager.addKeys("");
+    m_keyboardSearchManager.cancelSearch();
 }
 
 void KItemListKeyboardSearchManagerTest::testBasicKeyboardSearch()
@@ -118,6 +119,32 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
     m_keyboardSearchManager.addKeys("q");
     QCOMPARE(spy.count(), 1);
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "pppq" << false);
+}
+
+void KItemListKeyboardSearchManagerTest::testPressShift()
+{
+    // If the user presses Shift, i.e., to get a character like '_',
+    // KItemListController calls the addKeys(QString) method with an empty
+    // string. Make sure that this does not reset the current search. See
+    // https://bugs.kde.org/show_bug.cgi?id=321286
+
+    QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString,bool)));
+
+    // Simulate that the user enters "a_b".
+    m_keyboardSearchManager.addKeys("a");
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << true);
+
+    m_keyboardSearchManager.addKeys("");
+    QCOMPARE(spy.count(), 0);
+
+    m_keyboardSearchManager.addKeys("_");
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a_" << false);
+
+    m_keyboardSearchManager.addKeys("b");
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a_b" << false);
 }
 
 QTEST_KDEMAIN(KItemListKeyboardSearchManagerTest, NoGUI)
