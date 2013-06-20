@@ -846,11 +846,11 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     kDebug() << "Refreshing" << items.count() << "items";
 #endif
 
-    m_groups.clear();
-
     // Get the indexes of all items that have been refreshed
     QList<int> indexes;
     indexes.reserve(items.count());
+
+    QSet<QByteArray> changedRoles;
 
     QListIterator<QPair<KFileItem, KFileItem> > it(items);
     while (it.hasNext()) {
@@ -864,9 +864,14 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
             // Keep old values as long as possible if they could not retrieved synchronously yet.
             // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
             QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, m_itemData.at(index)->parent));
+            QHash<QByteArray, QVariant>& values = m_itemData[index]->values;
             while (it.hasNext()) {
                 it.next();
-                m_itemData[index]->values.insert(it.key(), it.value());
+                const QByteArray& role = it.key();
+                if (values.value(role) != it.value()) {
+                    values.insert(role, it.value());
+                    changedRoles.insert(role);
+                }
             }
 
             m_items.remove(oldItem.url());
@@ -907,9 +912,11 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         itemRangeList.append(KItemRange(rangeIndex, rangeCount));
     }
 
-    emit itemsChanged(itemRangeList, m_roles);
+    emit itemsChanged(itemRangeList, changedRoles);
 
-    resortAllItems();
+    if (changedRoles.contains(sortRole())) {
+        resortAllItems();
+    }
 }
 
 void KFileItemModel::slotClear()
