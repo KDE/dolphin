@@ -233,6 +233,12 @@ private:
     void updateVisibleIcons();
 
     /**
+     * Tries to load at least preliminary icons (without determining the
+     * mime type) for all items for \a timeout milliseconds.
+     */
+    void updateAllIconsFast(int timeout);
+
+    /**
      * Creates previews for the items starting from the first item in
      * m_pendingPreviewItems.
      * @see slotGotPreview()
@@ -319,6 +325,11 @@ private:
 
     // Items for which the sort role still has to be determined.
     QSet<KFileItem> m_pendingSortRoleItems;
+
+    // Determines if the next call of startUpdating() will try to do a fast
+    // icon loading (i.e., without determining the mime type) for all items.
+    bool m_hasUnknownIcons;
+    int m_firstIndexWithoutIcon;
 
     // Indexes of items which still have to be handled by
     // resolveNextPendingRoles().
