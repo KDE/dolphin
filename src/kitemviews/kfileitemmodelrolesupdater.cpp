@@ -43,6 +43,7 @@
 #ifdef HAVE_NEPOMUK
     #include "private/knepomukrolesprovider.h"
     #include <Nepomuk2/ResourceWatcher>
+    #include <Nepomuk2/ResourceManager>
 #endif
 
 // Required includes for subItemsCount():
@@ -274,31 +275,33 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
         m_roles = roles;
 
 #ifdef HAVE_NEPOMUK
-        // Check whether there is at least one role that must be resolved
-        // with the help of Nepomuk. If this is the case, a (quite expensive)
-        // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
-        // the role gets watched for changes.
-        const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        bool hasNepomukRole = false;
-        QSetIterator<QByteArray> it(roles);
-        while (it.hasNext()) {
-            const QByteArray& role = it.next();
-            if (rolesProvider.roles().contains(role)) {
-                hasNepomukRole = true;
-                break;
+        if (Nepomuk2::ResourceManager::instance()->initialized()) {
+            // Check whether there is at least one role that must be resolved
+            // with the help of Nepomuk. If this is the case, a (quite expensive)
+            // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
+            // the role gets watched for changes.
+            const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
+            bool hasNepomukRole = false;
+            QSetIterator<QByteArray> it(roles);
+            while (it.hasNext()) {
+                const QByteArray& role = it.next();
+                if (rolesProvider.roles().contains(role)) {
+                    hasNepomukRole = true;
+                    break;
+                }
             }
-        }
 
-        if (hasNepomukRole && !m_nepomukResourceWatcher) {
-            Q_ASSERT(m_nepomukUriItems.isEmpty());
+            if (hasNepomukRole && !m_nepomukResourceWatcher) {
+                Q_ASSERT(m_nepomukUriItems.isEmpty());
 
-            m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
-            connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
-                    this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
-        } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
-            delete m_nepomukResourceWatcher;
-            m_nepomukResourceWatcher = 0;
-            m_nepomukUriItems.clear();
+                m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
+                connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
+                        this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
+            } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
+                delete m_nepomukResourceWatcher;
+                m_nepomukResourceWatcher = 0;
+                m_nepomukUriItems.clear();
+            }
         }
 #endif
 
@@ -737,6 +740,10 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
 void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resource& resource)
 {
 #ifdef HAVE_NEPOMUK
+    if (!Nepomuk2::ResourceManager::instance()->initialized()) {
+        return;
+    }
+
     const KUrl itemUrl = m_nepomukUriItems.value(resource.uri());
     const KFileItem item = m_model->fileItem(itemUrl);
 
