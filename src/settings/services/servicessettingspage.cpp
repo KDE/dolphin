@@ -22,7 +22,6 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 
-#include <kabstractfileitemactionplugin.h>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDesktopFile>
@@ -224,15 +223,7 @@ void ServicesSettingsPage::loadServices()
     foreach (const KSharedPtr<KService>& service, pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
-            bool checked;
-
-            KAbstractFileItemActionPlugin* abstractPlugin = service->createInstance<KAbstractFileItemActionPlugin>();
-            if (abstractPlugin) {
-                checked = showGroup.readEntry(desktopEntryName, abstractPlugin->enabledByDefault());
-            } else {
-                checked = showGroup.readEntry(desktopEntryName, true);
-            }
-
+            const bool checked = showGroup.readEntry(desktopEntryName, true);
             addRow(service->icon(), service->name(), desktopEntryName, checked);
         }
     }

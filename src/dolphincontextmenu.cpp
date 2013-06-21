@@ -476,25 +476,20 @@ void DolphinContextMenu::addFileItemPluginActions()
     const KConfigGroup showGroup = config.group("Show");
 
     foreach (const KSharedPtr<KService>& service, pluginServices) {
+        if (!showGroup.readEntry(service->desktopEntryName(), true)) {
+            // The plugin has been disabled
+            continue;
+        }
+
         // Old API (kdelibs-4.6.0 only)
         KFileItemActionPlugin* plugin = service->createInstance<KFileItemActionPlugin>();
         if (plugin) {
-            if (!showGroup.readEntry(service->desktopEntryName(), true)) {
-                // The plugin has been disabled
-                continue;
-            }
-
             plugin->setParent(this);
             addActions(plugin->actions(props, m_mainWindow));
         }
         // New API (kdelibs >= 4.6.1)
         KAbstractFileItemActionPlugin* abstractPlugin = service->createInstance<KAbstractFileItemActionPlugin>();
         if (abstractPlugin) {
-            if (!showGroup.readEntry(service->desktopEntryName(), abstractPlugin->enabledByDefault())) {
-                // The plugin has been disabled
-                continue;
-            }
-
             abstractPlugin->setParent(this);
             addActions(abstractPlugin->actions(props, m_mainWindow));
         }
