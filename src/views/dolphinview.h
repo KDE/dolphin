@@ -709,9 +709,16 @@ private:
 
     /**
      * Applies the view properties which are defined by the current URL
-     * to the DolphinView properties.
+     * to the DolphinView properties. The view properties are read from a
+     * .directory file either in the current directory, or in the
+     * share/apps/dolphin/view_properties/ subfolder of the user's .kde folder.
      */
     void applyViewProperties();
+
+    /**
+     * Applies the given view properties to the DolphinView.
+     */
+    void applyViewProperties(const ViewProperties& props);
 
     /**
      * Applies the m_mode property to the corresponding

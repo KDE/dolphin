@@ -248,9 +248,12 @@ void DolphinView::setMode(Mode mode)
     if (mode != m_mode) {
         ViewProperties props(viewPropertiesUrl());
         props.setViewMode(mode);
-        props.save();
 
-        applyViewProperties();
+        // We pass the new ViewProperties to applyViewProperties, rather than
+        // storing them on disk and letting applyViewProperties() read them
+        // from there, to prevent that changing the view mode fails if the
+        // .directory file is not writable (see bug 318534).
+        applyViewProperties(props);
     }
 }
 
@@ -1508,9 +1511,13 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 
 void DolphinView::applyViewProperties()
 {
-    m_view->beginTransaction();
-
     const ViewProperties props(viewPropertiesUrl());
+    applyViewProperties(props);
+}
+
+void DolphinView::applyViewProperties(const ViewProperties& props)
+{
+    m_view->beginTransaction();
 
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
