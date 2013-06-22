@@ -146,7 +146,13 @@ void RenameDialog::slotButtonClicked(int button)
             const KUrl oldUrl = m_items.first().url();
             KUrl newUrl = oldUrl;
             newUrl.setFileName(KIO::encodeFileName(m_newName));
-            KonqOperations::rename(this, oldUrl, newUrl);
+
+            QWidget* widget = parentWidget();
+            if (!widget) {
+                widget = this;
+            }
+
+            KonqOperations::rename(widget, oldUrl, newUrl);
         } else {
             renameItems();
         }
@@ -191,7 +197,13 @@ void RenameDialog::renameItems()
         if (oldUrl.fileName() != newName) {
             KUrl newUrl = oldUrl;
             newUrl.setFileName(KIO::encodeFileName(newName));
-            KonqOperations::rename(this, oldUrl, newUrl);
+
+            QWidget* widget = parentWidget();
+            if (!widget) {
+                widget = this;
+            }
+
+            KonqOperations::rename(widget, oldUrl, newUrl);
         }
     }
 }
