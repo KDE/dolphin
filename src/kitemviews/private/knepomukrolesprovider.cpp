@@ -103,6 +103,13 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk2::Re
         } else if (value.isResource()) {
             const Nepomuk2::Resource resource = value.toResource();
             values.insert(role, resource.genericLabel());
+        } else if (value.isResourceList()) {
+            const QList<Nepomuk2::Resource> resList = value.toResourceList();
+            QStringList strList;
+            foreach (const Nepomuk2::Resource& res, resList) {
+                strList << res.genericLabel();
+            }
+            values.insert(role, strList.join(QLatin1String(", ")));
         } else {
             values.insert(role, value.toString());
         }
