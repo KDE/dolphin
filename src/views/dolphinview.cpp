@@ -850,6 +850,12 @@ void DolphinView::slotItemMiddleClicked(int index)
 
 void DolphinView::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
+    // Force emit of a selection changed signal before we request the
+    // context menu, to update the edit-actions first. (See Bug 294013)
+    if (m_selectionChangedTimer->isActive()) {
+        emitSelectionChangedSignal();
+    }
+
     const KFileItem item = m_model->fileItem(index);
     emit requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
 }

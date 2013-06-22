@@ -53,8 +53,9 @@ void DolphinRemoveAction::update()
         setText(i18nc("@action:inmenu", "&Move to Trash"));
     }
 
-   if (m_action) {
+    if (m_action) {
         setIcon(m_action->icon());
         setShortcuts(m_action->shortcuts());
+        setEnabled(m_action->isEnabled());
     }
 }
