@@ -426,44 +426,32 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
     editActions += customActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
-        bool supportsDeleting = capabilities.supportsDeleting();
-        bool supportsMoving = capabilities.supportsMoving();
+        const bool supportsMoving = capabilities.supportsMoving();
 
-        if (!supportsDeleting) {
+        if (capabilities.supportsDeleting()) {
+            const bool showDeleteAction = (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+                                           !item.isLocalFile());
+            const bool showMoveToTrashAction = capabilities.isLocal() && supportsMoving;
+
+            if (showDeleteAction && showMoveToTrashAction) {
+                delete m_removeAction;
+                m_removeAction = 0;
+                editActions.append(actionCollection()->action("move_to_trash"));
+                editActions.append(actionCollection()->action("delete"));
+            } else if (showDeleteAction && !showMoveToTrashAction) {
+                editActions.append(actionCollection()->action("delete"));
+            } else {
+                if (!m_removeAction)
+                    m_removeAction = new DolphinRemoveAction(this, actionCollection());
+                editActions.append(m_removeAction);
+                m_removeAction->update();
+            }
+        } else {
             popupFlags |= KParts::BrowserExtension::NoDeletion;
         }
 
         if (supportsMoving) {
             editActions.append(actionCollection()->action("rename"));
-        }
-
-        bool addTrash = capabilities.isLocal() && supportsMoving;
-        bool addDel = false;
-        if (supportsDeleting) {
-            if ( !item.isLocalFile() )
-                addDel = true;
-            else if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
-                addTrash = false;
-                addDel = true;
-            }
-            else {
-                KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
-                KConfigGroup configGroup(globalConfig, "KDE");
-                addDel = configGroup.readEntry("ShowDeleteCommand", false);
-            }
-        }
-
-        if (!addTrash || !addDel) {
-            if (!m_removeAction) {
-                m_removeAction = new DolphinRemoveAction(this, actionCollection());
-            }
-            editActions.append(m_removeAction);
-            m_removeAction->update();
-        } else {
-            delete m_removeAction;
-            m_removeAction = 0;
-            editActions.append(actionCollection()->action("move_to_trash"));
-            editActions.append(actionCollection()->action("delete"));
         }
 
         // Normally KonqPopupMenu only shows the "Create new" submenu in the current view

@@ -74,14 +74,13 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_context(NoContext),
     m_copyToMenu(parent),
     m_customActions(),
-    m_command(None)
+    m_command(None),
+    m_removeAction(0)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
-
-    m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -126,7 +125,7 @@ DolphinContextMenu::Command DolphinContextMenu::open()
 
 void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 {
-    if (ev->key() == Qt::Key_Shift) {
+    if (m_removeAction && ev->key() == Qt::Key_Shift) {
         m_removeAction->update();
     }
     KMenu::keyPressEvent(ev);
@@ -134,7 +133,7 @@ void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 
 void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
 {
-    if (ev->key() == Qt::Key_Shift) {
+    if (m_removeAction && ev->key() == Qt::Key_Shift) {
         m_removeAction->update();
     }
     KMenu::keyReleaseEvent(ev);
@@ -192,6 +191,8 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* openParentInNewWindowAction = 0;
     QAction* openParentInNewTabAction = 0;
     QAction* addToPlacesAction = 0;
+    const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
+
     if (m_selectedItems.count() == 1) {
         if (m_fileInfo.isDir()) {
             // setup 'Create New' menu
@@ -200,7 +201,7 @@ void DolphinContextMenu::openItemContextMenu()
             newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
             newFileMenu->checkUpToDate();
             newFileMenu->setPopupFiles(m_fileInfo.url());
-            newFileMenu->setEnabled(selectedItemsProperties().supportsWriting());
+            newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
             connect(newFileMenu, SIGNAL(fileCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
             connect(newFileMenu, SIGNAL(directoryCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
 
@@ -260,12 +261,12 @@ void DolphinContextMenu::openItemContextMenu()
         }
     }
 
-    insertDefaultItemActions();
+    insertDefaultItemActions(selectedItemsProps);
 
     addSeparator();
 
     KFileItemActions fileItemActions;
-    fileItemActions.setItemListProperties(selectedItemsProperties());
+    fileItemActions.setItemListProperties(selectedItemsProps);
     addServiceActions(fileItemActions);
 
     addFileItemPluginActions();
@@ -275,7 +276,7 @@ void DolphinContextMenu::openItemContextMenu()
     // insert 'Copy To' and 'Move To' sub menus
     if (GeneralSettings::showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
-        m_copyToMenu.setReadOnly(!selectedItemsProperties().supportsWriting());
+        m_copyToMenu.setReadOnly(!selectedItemsProps.supportsWriting());
         m_copyToMenu.addActionsTo(this);
     }
 
@@ -359,7 +360,7 @@ void DolphinContextMenu::openViewportContextMenu()
     }
 }
 
-void DolphinContextMenu::insertDefaultItemActions()
+void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties& properties)
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
 
@@ -375,12 +376,26 @@ void DolphinContextMenu::insertDefaultItemActions()
     addAction(renameAction);
 
     // Insert 'Move to Trash' and/or 'Delete'
-    if (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false)) {
-        addAction(collection->action("move_to_trash"));
-        addAction(collection->action("delete"));
-    } else {
-        addAction(m_removeAction);
-        m_removeAction->update();
+    if (properties.supportsDeleting()) {
+        const bool showDeleteAction = (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+                                       !properties.isLocal());
+        const bool showMoveToTrashAction = (properties.isLocal() &&
+                                            properties.supportsMoving());
+
+        if (showDeleteAction && showMoveToTrashAction) {
+            delete m_removeAction;
+            m_removeAction = 0;
+            addAction(m_mainWindow->actionCollection()->action("move_to_trash"));
+            addAction(m_mainWindow->actionCollection()->action("delete"));
+        } else if (showDeleteAction && !showMoveToTrashAction) {
+            addAction(m_mainWindow->actionCollection()->action("delete"));
+        } else {
+            if (!m_removeAction) {
+                m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());
+            }
+            addAction(m_removeAction);
+            m_removeAction->update();
+        }
     }
 }
 

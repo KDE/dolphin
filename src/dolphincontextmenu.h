@@ -101,7 +101,7 @@ private:
     void openItemContextMenu();
     void openViewportContextMenu();
 
-    void insertDefaultItemActions();
+    void insertDefaultItemActions(const KFileItemListProperties&);
 
     /**
      * Adds the "Show menubar" action to the menu if the
