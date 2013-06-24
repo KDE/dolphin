@@ -53,7 +53,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_node(0)
 {
     GeneralSettings* settings = GeneralSettings::self();
-    const bool useGlobalViewProps = settings->globalViewProps();
+    const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
     bool useDetailsViewWithPath = false;
 
     // We try and save it to the file .directory in the directory being viewed.
@@ -100,13 +100,13 @@ ViewProperties::ViewProperties(const KUrl& url) :
             setVisibleRoles(QList<QByteArray>() << "path");
         } else {
             // The global view-properties act as default for directories without
-            // any view-property configuration
-            settings->setGlobalViewProps(true);
-
-            ViewProperties defaultProps(url);
+            // any view-property configuration. Constructing a ViewProperties 
+            // instance for an empty KUrl ensures that the global view-properties
+            // are loaded.
+            KUrl emptyUrl;
+            ViewProperties defaultProps(emptyUrl);
             setDirProperties(defaultProps);
 
-            settings->setGlobalViewProps(false);
             m_changedProps = false;
         }
     }

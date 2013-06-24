@@ -249,7 +249,7 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
         const int index = it.next();
         const KFileItem item = fileItem(index);
         if (!item.isNull()) {
-            urls << item.url();
+            urls << item.targetUrl();
 
             bool isLocal;
             mostLocalUrls << item.mostLocalUrl(isLocal);
