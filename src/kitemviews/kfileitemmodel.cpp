@@ -759,10 +759,6 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
     parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        // To be able to compare whether the new items may be inserted as children
-        // of a parent item the pending items must be added to the model first.
-        dispatchPendingItemsToInsert();
-
         KFileItem item = items.first();
 
         // If the expanding of items is enabled, the call
@@ -774,6 +770,12 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
         if (index >= 0) {
             // The items are already part of the model.
             return;
+        }
+
+        if (directoryUrl != directory()) {
+            // To be able to compare whether the new items may be inserted as children
+            // of a parent item the pending items must be added to the model first.
+            dispatchPendingItemsToInsert();
         }
 
         // KDirLister keeps the children of items that got expanded once even if
