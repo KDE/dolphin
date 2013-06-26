@@ -124,8 +124,10 @@ void KFileItemModel::loadDirectory(const KUrl& url)
 void KFileItemModel::refreshDirectory(const KUrl& url)
 {
     // Refresh all expanded directories first (Bug 295300)
-    foreach (const KUrl& expandedUrl, m_expandedDirs) {
-        m_dirLister->openUrl(expandedUrl, KDirLister::Reload);
+    QHashIterator<KUrl, KUrl> expandedDirs(m_expandedDirs);
+    while (expandedDirs.hasNext()) {
+        expandedDirs.next();
+        m_dirLister->openUrl(expandedDirs.value(), KDirLister::Reload);
     }
 
     m_dirLister->openUrl(url, KDirLister::Reload);
@@ -432,11 +434,12 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
 
     const KFileItem item = m_itemData.at(index)->item;
     const KUrl url = item.url();
+    const KUrl targetUrl = item.targetUrl();
     if (expanded) {
-        m_expandedDirs.insert(url);
+        m_expandedDirs.insert(targetUrl, url);
         m_dirLister->openUrl(url, KDirLister::Keep);
     } else {
-        m_expandedDirs.remove(url);
+        m_expandedDirs.remove(targetUrl);
         m_dirLister->stop(url);
 
         removeFilteredChildren(KFileItemList() << item);
@@ -478,7 +481,7 @@ int KFileItemModel::expandedParentsCount(int index) const
 
 QSet<KUrl> KFileItemModel::expandedDirectories() const
 {
-    return m_expandedDirs;
+    return m_expandedDirs.values().toSet();
 }
 
 void KFileItemModel::restoreExpandedDirectories(const QSet<KUrl>& urls)
@@ -755,8 +758,13 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
 {
     Q_ASSERT(!items.isEmpty());
 
-    KUrl parentUrl = directoryUrl;
-    parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+    KUrl parentUrl;
+    if (m_expandedDirs.contains(directoryUrl)) {
+        parentUrl = m_expandedDirs.value(directoryUrl);
+    } else {
+        parentUrl = directoryUrl;
+        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+    }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
         KFileItem item = items.first();
@@ -1337,7 +1345,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     }
 
     if (m_requestRole[IsExpandableRole]) {
-        data.insert(sharedValue("isExpandable"), item.isDir() && item.url() == item.targetUrl());
+        data.insert(sharedValue("isExpandable"), item.isDir());
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {

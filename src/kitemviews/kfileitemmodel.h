@@ -466,8 +466,8 @@ private:
     // Cache for KFileItemModel::groups()
     mutable QList<QPair<int, QVariant> > m_groups;
 
-    // Stores the URLs of the expanded directories.
-    QSet<KUrl> m_expandedDirs;
+    // Stores the URLs (key: target url, value: url) of the expanded directories.
+    QHash<KUrl, KUrl> m_expandedDirs;
 
     // URLs that must be expanded. The expanding is initially triggered in setExpanded()
     // and done step after step in slotCompleted().
