@@ -175,13 +175,13 @@ Nepomuk2::Query::Term DolphinFacetsWidget::facetsTerm() const
     if (!m_anytime->isChecked()) {
         QDate date = QDate::currentDate(); // represents m_today
         if (m_yesterday->isChecked()) {
-            date.addDays(-1);
+            date = date.addDays(-1);
         } else if (m_thisWeek->isChecked()) {
-            date.addDays(1 - date.dayOfWeek());
+            date = date.addDays(1 - date.dayOfWeek());
         } else if (m_thisMonth->isChecked()) {
-            date.addDays(1 - date.day());
+            date = date.addDays(1 - date.day());
         } else if (m_thisYear->isChecked()) {
-            date.addDays(1 - date.dayOfYear());
+            date = date.addDays(1 - date.dayOfYear());
         }
 
         Nepomuk2::Query::ComparisonTerm term(Nepomuk2::Vocabulary::NIE::lastModified(),
