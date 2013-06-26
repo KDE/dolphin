@@ -42,8 +42,9 @@ FilterBar::FilterBar(QWidget* parent) :
 
     // Create button to lock text when changing folders
     m_lockButton = new QToolButton(this);
+    m_lockButton->setAutoRaise(true);
     m_lockButton->setCheckable(true);
-    m_lockButton->setIcon(KIcon("system-lock-screen.png"));
+    m_lockButton->setIcon(KIcon("object-unlocked"));
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
     connect(m_lockButton, SIGNAL(toggled(bool)), this, SLOT(slotToggleLockButton(bool)));
 
@@ -101,7 +102,10 @@ void FilterBar::slotUrlChanged()
 
 void FilterBar::slotToggleLockButton(bool checked)
 {
-    if (!checked) {
+    if (checked) {
+        m_lockButton->setIcon(KIcon("object-locked"));
+    } else {
+        m_lockButton->setIcon(KIcon("object-unlocked"));
         clear();
     }
 }
