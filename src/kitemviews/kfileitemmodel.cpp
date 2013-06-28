@@ -114,6 +114,7 @@ KFileItemModel::~KFileItemModel()
 {
     qDeleteAll(m_itemData);
     qDeleteAll(m_filteredItems.values());
+    qDeleteAll(m_pendingItemsToInsert);
 }
 
 void KFileItemModel::loadDirectory(const KUrl& url)
@@ -941,6 +942,8 @@ void KFileItemModel::slotClear()
 
     m_maximumUpdateIntervalTimer->stop();
     m_resortAllItemsTimer->stop();
+
+    qDeleteAll(m_pendingItemsToInsert);
     m_pendingItemsToInsert.clear();
 
     const int removedCount = m_itemData.count();
