@@ -22,9 +22,17 @@
 
 #include <KDialog>
 #include <KFileItem>
+#include "config-nepomuk.h"
+
+#ifndef HAVE_NEPOMUK
+class KFileMetaDataConfigurationWidget;
+#else
+namespace Nepomuk2 {
+    class FileMetaDataConfigWidget;
+}
+#endif
 
 class QLabel;
-class KFileMetaDataConfigurationWidget;
 
 /**
  * @brief Dialog which allows to configure which meta data should be shown
@@ -63,7 +71,11 @@ protected slots:
 
 private:
     QLabel* m_descriptionLabel;
+#ifndef HAVE_NEPOMUK
     KFileMetaDataConfigurationWidget* m_configWidget;
+#else
+    Nepomuk2::FileMetaDataConfigWidget* m_configWidget;
+#endif
 };
 
 #endif

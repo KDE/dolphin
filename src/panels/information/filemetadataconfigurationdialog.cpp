@@ -19,7 +19,12 @@
 
 #include "filemetadataconfigurationdialog.h"
 
+#ifndef HAVE_NEPOMUK
 #include <kfilemetadataconfigurationwidget.h>
+#else
+#include <nepomuk2/filemetadataconfigwidget.h>
+#endif
+
 #include <KLocale>
 #include <QLabel>
 #include <QVBoxLayout>
@@ -34,13 +39,17 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
     setButtons(KDialog::Ok | KDialog::Cancel);
     setDefaultButton(KDialog::Ok);
 
-
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
                                           "Select which data should "
                                           "be shown:"), this);
     m_descriptionLabel->setWordWrap(true);
 
+#ifndef HAVE_NEPOMUK
     m_configWidget = new KFileMetaDataConfigurationWidget(this);
+#else
+    m_configWidget = new Nepomuk2::FileMetaDataConfigWidget(this);
+#endif
+
 
     QWidget* mainWidget = new QWidget(this);
     QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
