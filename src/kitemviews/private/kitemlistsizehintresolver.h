@@ -23,8 +23,8 @@
 #include <libdolphin_export.h>
 
 #include <QByteArray>
-#include <QList>
 #include <QSizeF>
+#include <QVector>
 
 class KItemListView;
 
@@ -47,7 +47,7 @@ public:
 
 private:
     const KItemListView* m_itemListView;
-    mutable QList<QSizeF> m_sizeHintCache;
+    mutable QVector<QSizeF> m_sizeHintCache;
 };
 
 #endif

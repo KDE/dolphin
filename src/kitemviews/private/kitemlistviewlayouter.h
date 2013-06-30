@@ -26,6 +26,7 @@
 #include <QRectF>
 #include <QSet>
 #include <QSizeF>
+#include <QVector>
 
 class KItemModelBase;
 class KItemListSizeHintResolver;
@@ -230,7 +231,7 @@ private:
         int column;
         int row;
     };
-    QList<ItemInfo> m_itemInfos;
+    QVector<ItemInfo> m_itemInfos;
 
     friend class KItemListControllerTest;
 };

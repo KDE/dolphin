@@ -55,8 +55,8 @@ void KItemListSizeHintResolver::itemsInserted(int index, int count)
 
 void KItemListSizeHintResolver::itemsRemoved(int index, int count)
 {
-    const QList<QSizeF>::iterator begin = m_sizeHintCache.begin() + index;
-    const QList<QSizeF>::iterator end = begin + count;
+    const QVector<QSizeF>::iterator begin = m_sizeHintCache.begin() + index;
+    const QVector<QSizeF>::iterator end = begin + count;
     m_sizeHintCache.erase(begin, end);
 }
 
