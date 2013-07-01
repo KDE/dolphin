@@ -58,6 +58,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
+#include <QTextDocument>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))
@@ -355,7 +356,8 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
     if (item.isNull()) {
         updateStatusBar();
     } else {
-        ReadOnlyPart::setStatusBarText(item.getStatusBarInfo());
+        const QString escapedText = Qt::escape(item.getStatusBarInfo());
+        ReadOnlyPart::setStatusBarText(QString("<qt>%1</qt>").arg(escapedText));
     }
 }
 

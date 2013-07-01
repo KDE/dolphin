@@ -62,6 +62,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     // Initialize text label
     m_label = new QLabel(this);
     m_label->setWordWrap(true);
+    m_label->setTextFormat(Qt::PlainText);
     m_label->installEventFilter(this);
 
     // Initialize zoom widget
