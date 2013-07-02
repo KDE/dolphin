@@ -73,8 +73,16 @@ Qt::Orientation KItemListViewLayouter::scrollOrientation() const
 void KItemListViewLayouter::setSize(const QSizeF& size)
 {
     if (m_size != size) {
+        if (m_scrollOrientation == Qt::Vertical) {
+            if (m_size.width() != size.width()) {
+                m_dirty = true;
+            }
+        } else if (m_size.height() != size.height()) {
+            m_dirty = true;
+        }
+
         m_size = size;
-        m_dirty = true;
+        m_visibleIndexesDirty = true;
     }
 }
 
