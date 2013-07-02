@@ -68,7 +68,9 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_statusBar(0),
     m_statusBarTimer(0),
     m_statusBarTimestamp(),
-    m_autoGrabFocus(true)
+    m_autoGrabFocus(true),
+    m_dropDestination(),
+    m_dropEvent(0)
 #ifdef KActivities_FOUND
     , m_activityResourceInstance(0)
 #endif
@@ -597,11 +599,37 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
+    m_dropDestination = destination;
+
+    const QMimeData* mimeData = event->mimeData();
+    QMimeData* mimeDataCopy = new QMimeData;
+    foreach (const QString& format, mimeData->formats()) {
+        mimeDataCopy->setData(format, mimeData->data(format));
+    }
+
+    m_dropEvent.reset(new QDropEvent(event->pos(),
+                                     event->possibleActions(),
+                                     mimeDataCopy,
+                                     event->mouseButtons(),
+                                     event->keyboardModifiers()));
+
+    QTimer::singleShot(0, this, SLOT(dropUrlsDelayed()));
+}
+
+void DolphinViewContainer::dropUrlsDelayed()
+{
+    if (m_dropEvent.isNull()) {
+        return;
+    }
+
     QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), destination, event, error);
+    DragAndDropHelper::dropUrls(KFileItem(), m_dropDestination, m_dropEvent.data(), error);
     if (!error.isEmpty()) {
         showMessage(error, Error);
     }
+
+    delete m_dropEvent->mimeData();
+    m_dropEvent.reset();
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
