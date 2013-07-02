@@ -41,20 +41,28 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
-    QLabel* confirmLabel = new QLabel(i18nc("@title:group", "Ask for confirmation when:"), this);
+    QLabel* confirmLabelKde = new QLabel(i18nc("@title:group", "Ask for confirmation in all KDE applications when:"), this);
+    confirmLabelKde->setWordWrap(true);
 
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                "Moving files or folders to trash"), this);
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                           "Deleting files or folders"), this);
+
+    QLabel* confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation when:"), this);
+    confirmLabelDolphin->setWordWrap(true);
+
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                                       "Closing windows with multiple tabs"), this);
+                                                       "Closing Dolphin windows with multiple tabs"), this);
 
     topLayout->addSpacing(KDialog::spacingHint());
-    topLayout->addWidget(confirmLabel);
+    topLayout->addWidget(confirmLabelKde);
     topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmMoveToTrash);
     topLayout->addWidget(m_confirmDelete);
+    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addWidget(confirmLabelDolphin);
+    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmClosingMultipleTabs);
     topLayout->addStretch();
 
