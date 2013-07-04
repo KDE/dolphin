@@ -22,7 +22,7 @@
 
 #include <libdolphin_export.h>
 
-#include <QByteArray>
+#include <kitemviews/kitemmodelbase.h>
 #include <QSizeF>
 #include <QVector>
 
@@ -38,8 +38,8 @@ public:
     virtual ~KItemListSizeHintResolver();
     QSizeF sizeHint(int index) const;
 
-    void itemsInserted(int index, int count);
-    void itemsRemoved(int index, int count);
+    void itemsInserted(const KItemRangeList& itemRanges);
+    void itemsRemoved(const KItemRangeList& itemRanges);
     void itemsMoved(int index, int count);
     void itemsChanged(int index, int count, const QSet<QByteArray>& roles);
 

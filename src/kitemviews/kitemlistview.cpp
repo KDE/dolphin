@@ -958,6 +958,8 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
     m_layouter->markAsDirty();
 
+    m_sizeHintResolver->itemsInserted(itemRanges);
+
     int previouslyInsertedCount = 0;
     foreach (const KItemRange& range, itemRanges) {
         // range.index is related to the model before anything has been inserted.
@@ -970,8 +972,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
             continue;
         }
         previouslyInsertedCount += count;
-
-        m_sizeHintResolver->itemsInserted(index, count);
 
         // Determine which visible items must be moved
         QList<int> itemsToMove;
@@ -1030,12 +1030,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
-#ifndef QT_NO_DEBUG
-        // Important: Don't read any m_layouter-property inside the for-loop in case if
-        // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
-        // updated in each loop-cycle and has only a consistent state after the loop.
-        Q_ASSERT(m_layouter->isDirty());
-#endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
 
@@ -1074,6 +1068,8 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         removedItemsCount += itemRanges[i].count;
     }
 
+    m_sizeHintResolver->itemsRemoved(itemRanges);
+
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
         const KItemRange& range = itemRanges[i];
         const int index = range.index;
@@ -1082,8 +1078,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             kWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
-
-        m_sizeHintResolver->itemsRemoved(index, count);
 
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
@@ -1153,15 +1147,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
-#ifndef QT_NO_DEBUG
-        // Important: Don't read any m_layouter-property inside the for-loop in case if
-        // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
-        // updated in each loop-cycle and has only a consistent state after the loop.
-        // TODO: This assert can be hit when filtering in Icons and Compact view,
-        // see https://bugs.kde.org/show_bug.cgi?id=317827 comments 2 and 3.
-        // We should try to figure out if the assert is wrong or if there is a bug in the code.
-        //Q_ASSERT(m_layouter->isDirty());
-#endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
         updateSiblingsInformation();
@@ -1540,9 +1525,9 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
         disconnect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
                    this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
-    }
 
-    m_sizeHintResolver->clearCache();
+        m_sizeHintResolver->itemsRemoved(KItemRangeList() << KItemRange(0, m_model->count()));
+    }
 
     m_model = model;
     m_layouter->setModel(model);
@@ -1566,7 +1551,6 @@ void KItemListView::setModel(KItemModelBase* model)
 
         const int itemCount = m_model->count();
         if (itemCount > 0) {
-            m_sizeHintResolver->itemsInserted(0, itemCount);
             slotItemsInserted(KItemRangeList() << KItemRange(0, itemCount));
         }
     }
