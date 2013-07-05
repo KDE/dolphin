@@ -44,6 +44,8 @@
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 
+#include <algorithm>
+
 #include "kitemlistviewaccessible.h"
 
 namespace {
@@ -1063,11 +1065,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
     m_layouter->markAsDirty();
 
-    int removedItemsCount = 0;
-    for (int i = 0; i < itemRanges.count(); ++i) {
-        removedItemsCount += itemRanges[i].count;
-    }
-
     m_sizeHintResolver->itemsRemoved(itemRanges);
 
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
@@ -1081,13 +1078,17 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
-        const int lastIndex = m_model->count() - 1 + removedItemsCount;
-        removedItemsCount -= count;
+
+        // Remeber which items have to be moved because they are behind the removed range.
+        QVector<int> itemsToMove;
 
         // Remove all KItemListWidget instances that got deleted
-        for (int i = firstRemovedIndex; i <= lastRemovedIndex; ++i) {
-            KItemListWidget* widget = m_visibleItems.value(i);
-            if (!widget) {
+        foreach (KItemListWidget* widget, m_visibleItems) {
+            const int i = widget->index();
+            if (i < firstRemovedIndex) {
+                continue;
+            } else if (i > lastRemovedIndex) {
+                itemsToMove.append(i);
                 continue;
             }
 
@@ -1115,17 +1116,18 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         }
 
         // Update the indexes of all KItemListWidget instances that are located
-        // after the deleted items
-        for (int i = lastRemovedIndex + 1; i <= lastIndex; ++i) {
+        // after the deleted items. It is important to update them in ascending
+        // order to prevent overlaps when setting the new index.
+        std::sort(itemsToMove.begin(), itemsToMove.end());
+        foreach (int i, itemsToMove) {
             KItemListWidget* widget = m_visibleItems.value(i);
-            if (widget) {
-                const int newIndex = i - count;
-                if (hasMultipleRanges) {
-                    setWidgetIndex(widget, newIndex);
-                } else {
-                    // Try to animate the moving of the item
-                    moveWidgetToIndex(widget, newIndex);
-                }
+            Q_ASSERT(widget);
+            const int newIndex = i - count;
+            if (hasMultipleRanges) {
+                setWidgetIndex(widget, newIndex);
+            } else {
+                // Try to animate the moving of the item
+                moveWidgetToIndex(widget, newIndex);
             }
         }
 
