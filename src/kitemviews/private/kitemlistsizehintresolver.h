@@ -40,7 +40,7 @@ public:
 
     void itemsInserted(const KItemRangeList& itemRanges);
     void itemsRemoved(const KItemRangeList& itemRanges);
-    void itemsMoved(int index, int count);
+    void itemsMoved(const KItemRange& range, const QList<int>& movedToIndexes);
     void itemsChanged(int index, int count, const QSet<QByteArray>& roles);
 
     void clearCache();

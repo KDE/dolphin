@@ -114,13 +114,17 @@ void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList& itemRanges)
     }
 }
 
-void KItemListSizeHintResolver::itemsMoved(int index, int count)
+void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<int>& movedToIndexes)
 {
-    while (count) {
-        m_sizeHintCache[index] = QSizeF();
-        ++index;
-        --count;
+    QVector<QSizeF> newSizeHintCache(m_sizeHintCache);
+
+    const int movedRangeEnd = range.index + range.count;
+    for (int i = range.index; i < movedRangeEnd; ++i) {
+        const int newIndex = movedToIndexes.at(i);
+        newSizeHintCache[newIndex] = m_sizeHintCache.at(i);
     }
+
+    m_sizeHintCache = newSizeHintCache;
 }
 
 void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray>& roles)

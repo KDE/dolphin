@@ -1165,7 +1165,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
 {
-    m_sizeHintResolver->itemsMoved(itemRange.index, itemRange.count);
+    m_sizeHintResolver->itemsMoved(itemRange, movedToIndexes);
     m_layouter->markAsDirty();
 
     if (m_controller) {
