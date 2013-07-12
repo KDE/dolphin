@@ -190,6 +190,22 @@ KItemListWidgetCreatorBase* KFileItemListView::defaultWidgetCreator() const
     return new KItemListWidgetCreator<KFileItemListWidget>();
 }
 
+void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
+{
+    KStandardItemListView::initializeItemListWidget(item);
+
+    // Make sure that the item has an icon.
+    QHash<QByteArray, QVariant> data = item->data();
+    if (!data.contains("iconName") && data["iconPixmap"].value<QPixmap>().isNull()) {
+        Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
+        KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
+
+        const KFileItem fileItem = fileItemModel->fileItem(item->index());
+        data.insert("iconName", fileItem.iconName());
+        item->setData(data, QSet<QByteArray>() << "iconName");
+    }
+}
+
 void KFileItemListView::onPreviewsShownChanged(bool shown)
 {
     Q_UNUSED(shown);
