@@ -294,7 +294,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
                 m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
                 connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
-                        this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource)));
+                        this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource,Nepomuk2::Types::Property)));
             } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
                 delete m_nepomukResourceWatcher;
                 m_nepomukResourceWatcher = 0;
@@ -721,7 +721,7 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
     updateChangedItems();
 }
 
-void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resource& resource)
+void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resource& resource, const Nepomuk2::Types::Property& property)
 {
 #ifdef HAVE_NEPOMUK
     if (!Nepomuk2::ResourceManager::instance()->initialized()) {
@@ -740,6 +740,14 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resour
     QHash<QByteArray, QVariant> data = rolesData(item);
 
     const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
+    const QByteArray role = rolesProvider.roleForPropertyUri(property.uri());
+    if (!role.isEmpty() && m_roles.contains(role)) {
+        // Overwrite the changed role value with an empty QVariant, because the roles
+        // provider doesn't overwrite it when the property value list is empty.
+        // See bug 322348
+        data.insert(role, QVariant());
+    }
+
     QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
     while (it.hasNext()) {
         it.next();

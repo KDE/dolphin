@@ -68,7 +68,7 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk2::Re
         it.next();
 
         const Nepomuk2::Types::Property property = it.key();
-        const QByteArray role = m_roleForUri.value(property.uri());
+        const QByteArray role = roleForPropertyUri(property.uri());
         if (role.isEmpty() || !roles.contains(role)) {
             continue;
         }
@@ -116,6 +116,11 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk2::Re
     }
 
     return values;
+}
+
+QByteArray KNepomukRolesProvider::roleForPropertyUri(const QUrl& uri) const
+{
+    return m_roleForUri.value(uri);
 }
 
 KNepomukRolesProvider::KNepomukRolesProvider() :

@@ -43,6 +43,10 @@ class QTimer;
     {
         class ResourceWatcher;
         class Resource;
+        namespace Types
+        {
+            class Property;
+        }
     }
 #else
     // Required for the slot applyChangedNepomukRoles() that
@@ -208,7 +212,7 @@ private slots:
      */
     void resolveRecentlyChangedItems();
 
-    void applyChangedNepomukRoles(const Nepomuk2::Resource& resource);
+    void applyChangedNepomukRoles(const Nepomuk2::Resource& resource, const Nepomuk2::Types::Property& property);
 
     /**
      * Is invoked if a directory watched by KDirWatch got dirty. Updates

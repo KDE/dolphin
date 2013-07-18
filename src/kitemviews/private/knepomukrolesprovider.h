@@ -55,6 +55,8 @@ public:
     QHash<QByteArray, QVariant> roleValues(const Nepomuk2::Resource& resource,
                                            const QSet<QByteArray>& roles) const;
 
+    QByteArray roleForPropertyUri(const QUrl& uri) const;
+
 protected:
     KNepomukRolesProvider();
 
