@@ -54,6 +54,10 @@ class QTimer;
     namespace Nepomuk2
     {
         class Resource;
+        namespace Types
+        {
+            class Property;
+        }
     }
 #endif
 
