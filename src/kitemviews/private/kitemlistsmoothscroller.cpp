@@ -130,8 +130,13 @@ void KItemListSmoothScroller::scrollContentsBy(qreal distance)
 
 void KItemListSmoothScroller::scrollTo(qreal position)
 {
-    m_smoothScrolling = true;
-    m_scrollBar->setValue(position);
+    int newValue = position;
+    newValue = qBound(0, newValue, m_scrollBar->maximum());
+
+    if (newValue != m_scrollBar->value()) {
+        m_smoothScrolling = true;
+        m_scrollBar->setValue(newValue);
+    }
 }
 
 bool KItemListSmoothScroller::requestScrollBarUpdate(int newMaximum)
