@@ -181,13 +181,6 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
         ++orderIndex;
     }
 
-    // Draw background without roles
-    QStyleOption opt;
-    opt.init(widget);
-    opt.rect = QRect(x, 0, size().width() - x, size().height());
-    opt.state |= QStyle::State_Horizontal;
-    style()->drawControl(QStyle::CE_HeaderEmptyArea, &opt, painter);
-
     if (!m_movingRole.pixmap.isNull()) {
         Q_ASSERT(m_roleOperation == MoveRoleOperation);
         painter->drawPixmap(m_movingRole.x, 0, m_movingRole.pixmap);
@@ -405,12 +398,21 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     }
     option.rect = rect.toRect();
 
+    bool paintBackgroundForEmptyArea = false;
+
     if (m_columns.count() == 1) {
         option.position = QStyleOptionHeader::OnlyOneSection;
     } else if (orderIndex == 0) {
         option.position = QStyleOptionHeader::Beginning;
     } else if (orderIndex == m_columns.count() - 1) {
-        option.position = QStyleOptionHeader::End;
+        // We are just painting the header for the last column. Check if there
+        // is some empty space to the right which needs to be filled.
+        if (rect.right() < size().width()) {
+            option.position = QStyleOptionHeader::Middle;
+            paintBackgroundForEmptyArea = true;
+        } else {
+            option.position = QStyleOptionHeader::End;
+        }
     } else {
         option.position = QStyleOptionHeader::Middle;
     }
@@ -420,6 +422,20 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     option.text = m_model->roleDescription(role);
 
     style()->drawControl(QStyle::CE_Header, &option, painter, widget);
+
+    if (paintBackgroundForEmptyArea) {
+        option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
+        option.section = m_columns.count();
+        option.sortIndicator = QStyleOptionHeader::None;
+
+        qreal backgroundRectX = rect.x() + rect.width();
+        QRectF backgroundRect(backgroundRectX, 0.0, size().width() - backgroundRectX, rect.height());
+        option.rect = backgroundRect.toRect();
+        option.position = QStyleOptionHeader::End;
+        option.text = QString();
+
+        style()->drawControl(QStyle::CE_Header, &option, painter, widget);
+    }
 }
 
 void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF& pos)
