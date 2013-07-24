@@ -48,23 +48,8 @@ void KStandardItemListView::setItemLayout(ItemLayout layout)
     const ItemLayout previous = m_itemLayout;
     m_itemLayout = layout;
 
-    switch (layout) {
-    case IconsLayout:
-        setScrollOrientation(Qt::Vertical);
-        setSupportsItemExpanding(false);
-        break;
-    case DetailsLayout:
-        setScrollOrientation(Qt::Vertical);
-        setSupportsItemExpanding(true);
-        break;
-    case CompactLayout:
-        setScrollOrientation(Qt::Horizontal);
-        setSupportsItemExpanding(false);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
-    }
+    setSupportsItemExpanding(itemLayoutSupportsItemExpanding(layout));
+    setScrollOrientation(layout == CompactLayout ? Qt::Horizontal : Qt::Vertical);
 
     onItemLayoutChanged(layout, previous);
 
@@ -115,6 +100,11 @@ bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& c
         }
     }
     return false;
+}
+
+bool KStandardItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const
+{
+    return layout == DetailsLayout;
 }
 
 void KStandardItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)

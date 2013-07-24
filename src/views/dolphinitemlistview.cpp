@@ -89,10 +89,7 @@ void DolphinItemListView::readSettings()
     beginTransaction();
 
     setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
-
-    const bool expandableFolders = (itemLayout() == KFileItemListView::DetailsLayout) &&
-                                   DetailsModeSettings::expandableFolders();
-    setSupportsItemExpanding(expandableFolders);
+    setSupportsItemExpanding(itemLayoutSupportsItemExpanding(itemLayout()));
 
     updateFont();
     updateGridSize();
@@ -119,19 +116,19 @@ KItemListWidgetCreatorBase* DolphinItemListView::defaultWidgetCreator() const
     return new KItemListWidgetCreator<DolphinFileItemListWidget>();
 }
 
+bool DolphinItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const
+{
+    return layout == DetailsLayout && DetailsModeSettings::expandableFolders();
+}
+
 void DolphinItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
 {
-    Q_UNUSED(previous);
-
-    if (current == DetailsLayout) {
-        setSupportsItemExpanding(DetailsModeSettings::expandableFolders());
-        setHeaderVisible(true);
-    } else {
-        setHeaderVisible(false);
-    }
+    setHeaderVisible(current == DetailsLayout);
 
     updateFont();
     updateGridSize();
+
+    KFileItemListView::onItemLayoutChanged(current, previous);
 }
 
 void DolphinItemListView::onPreviewsShownChanged(bool shown)

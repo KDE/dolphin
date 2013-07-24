@@ -213,12 +213,6 @@ void KFileItemListView::onPreviewsShownChanged(bool shown)
 
 void KFileItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
 {
-    if (previous == DetailsLayout || current == DetailsLayout) {
-        // The details-layout requires some invisible roles that
-        // must be added to the model if the new layout is "details".
-        // If the old layout was "details" the roles will get removed.
-        applyRolesToModel();
-    }
     KStandardItemListView::onItemLayoutChanged(current, previous);
     triggerVisibleIndexRangeUpdate();
 }
