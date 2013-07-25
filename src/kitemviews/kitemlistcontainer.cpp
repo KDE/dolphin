@@ -257,6 +257,7 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     QScrollBar* scrollOffsetScrollBar = 0;
     int singleStep = 0;
     int pageStep = 0;
+    int maximum = 0;
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
         scrollOffsetScrollBar = verticalScrollBar();
@@ -264,15 +265,21 @@ void KItemListContainer::updateScrollOffsetScrollBar()
         // We cannot use view->size().height() because this height might
         // include the header widget, which is not part of the scrolled area.
         pageStep = view->verticalPageStep();
+
+        // However, the total height of the view must be considered for the
+        // maximum value of the scroll bar. Note that the view's scrollOffset()
+        // refers to the offset of the top part of the view, which might be
+        // hidden behind the header.
+        maximum = qMax(0, int(view->maximumScrollOffset() - view->size().height()));
     } else {
         smoothScroller = m_horizontalSmoothScroller;
         scrollOffsetScrollBar = horizontalScrollBar();
         singleStep = view->itemSize().width();
         pageStep = view->size().width();
+        maximum = qMax(0, int(view->maximumScrollOffset() - view->size().width()));
     }
 
     const int value = view->scrollOffset();
-    const int maximum = qMax(0, int(view->maximumScrollOffset() - pageStep));
     if (smoothScroller->requestScrollBarUpdate(maximum)) {
         const bool updatePolicy = (scrollOffsetScrollBar->maximum() > 0 && maximum == 0)
                                   || horizontalScrollBarPolicy() == Qt::ScrollBarAlwaysOn;
