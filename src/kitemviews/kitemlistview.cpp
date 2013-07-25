@@ -1635,18 +1635,22 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             widget->resize(itemBounds.size());
 
             if (animate && changedCount < 0) {
-                // Items have been deleted, move the created item to the
-                // imaginary old position. They will get animated to the new position
-                // later.
-                const QRectF itemRect = m_layouter->itemRect(i - changedCount);
-                if (itemRect.isEmpty()) {
-                    const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical)
-                                                    ? QPointF(0, size().height()) : QPointF(size().width(), 0);
-                    widget->setPos(invisibleOldPos);
-                } else {
-                    widget->setPos(itemRect.topLeft());
+                // Items have been deleted.
+                if (i >= changedIndex) {
+                    // The item is located behind the removed range. Move the
+                    // created item to the imaginary old position outside the
+                    // view. It will get animated to the new position later.
+                    const int previousIndex = i - changedCount;
+                    const QRectF itemRect = m_layouter->itemRect(previousIndex);
+                    if (itemRect.isEmpty()) {
+                        const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical)
+                                                        ? QPointF(0, size().height()) : QPointF(size().width(), 0);
+                        widget->setPos(invisibleOldPos);
+                    } else {
+                        widget->setPos(itemRect.topLeft());
+                    }
+                    applyNewPos = false;
                 }
-                applyNewPos = false;
             }
 
             if (supportsExpanding && changedCount == 0) {
@@ -1665,7 +1669,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
             const bool itemsRemoved = (changedCount < 0);
             const bool itemsInserted = (changedCount > 0);
-            if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
+            if (itemsRemoved && (i >= changedIndex)) {
                 // The item is located after the removed items. Animate the moving of the position.
                 applyNewPos = !moveWidget(widget, newPos);
             } else if (itemsInserted && i >= changedIndex) {
