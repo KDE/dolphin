@@ -1099,7 +1099,7 @@ void DolphinView::slotAboutToCreate(const KUrl::List& urls)
             markUrlAsCurrent(urls.first());
             m_markFirstNewlySelectedItemAsCurrent = false;
         }
-        m_selectedUrls << urls;
+        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
     }
 }
 
