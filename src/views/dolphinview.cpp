@@ -1099,7 +1099,7 @@ void DolphinView::slotAboutToCreate(const KUrl::List& urls)
             markUrlAsCurrent(urls.first());
             m_markFirstNewlySelectedItemAsCurrent = false;
         }
-        m_selectedUrls << urls;
+        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
     }
 }
 
@@ -1254,10 +1254,13 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
         }
 
         if (mimetype == QLatin1String("application/x-desktop")) {
-            // Redirect to the URL in Type=Link desktop files
+            // Redirect to the URL in Type=Link desktop files, unless it is a http(s) URL.
             KDesktopFile desktopFile(url.toLocalFile());
             if (desktopFile.hasLinkType()) {
-                return desktopFile.readUrl();
+                const QString linkUrl = desktopFile.readUrl();
+                if (!linkUrl.startsWith(QLatin1String("http"))) {
+                    return linkUrl;
+                }
             }
         }
     }

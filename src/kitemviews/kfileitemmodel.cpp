@@ -702,7 +702,7 @@ void KFileItemModel::resortAllItems()
     QList<int> movedToIndexes;
     movedToIndexes.reserve(itemCount);
     for (int i = 0; i < itemCount; i++) {
-        const int newIndex = m_items.value(oldUrls.at(i).url());
+        const int newIndex = m_items.value(oldUrls.at(i));
         movedToIndexes.append(newIndex);
     }
 
