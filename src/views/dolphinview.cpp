@@ -1666,7 +1666,7 @@ QMimeData* DolphinView::selectionMimeData() const
 void DolphinView::updateWritableState()
 {
     const bool wasFolderWritable = m_isFolderWritable;
-    m_isFolderWritable = true;
+    m_isFolderWritable = false;
 
     const KFileItem item = m_model->rootItem();
     if (!item.isNull()) {
