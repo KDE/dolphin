@@ -34,6 +34,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
+#include <QTextDocument>
 #include <QToolButton>
 #include <QTime>
 #include <QTimer>
@@ -324,10 +325,17 @@ void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
 
+    // Set status bar text and elide it if too long
     QFontMetrics fontMetrics(m_label->font());
     const QString elidedText = fontMetrics.elidedText(text, Qt::ElideRight, m_label->width());
     m_label->setText(elidedText);
-    m_label->setToolTip(text == elidedText ? QString() : text);
+
+    // If the text has been elided, set the original text as tooltip
+    if (text != elidedText) {
+        m_label->setToolTip(Qt::convertFromPlainText(text));
+    } else {
+        m_label->setToolTip(QString());
+    }
 }
 
 void DolphinStatusBar::slotResetToDefaultText()
