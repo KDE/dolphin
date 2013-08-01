@@ -356,7 +356,7 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
     if (item.isNull()) {
         updateStatusBar();
     } else {
-        const QString escapedText = Qt::escape(item.getStatusBarInfo());
+        const QString escapedText = Qt::convertFromPlainText(item.getStatusBarInfo());
         ReadOnlyPart::setStatusBarText(QString("<qt>%1</qt>").arg(escapedText));
     }
 }
