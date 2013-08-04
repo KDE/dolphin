@@ -106,6 +106,9 @@ void KFileItemModelTest::init()
     m_testDir = new TestDir();
     m_model = new KFileItemModel();
     m_model->m_dirLister->setAutoUpdate(false);
+
+    // Reduce the timer interval to make the test run faster.
+    m_model->m_resortAllItemsTimer->setInterval(0);
 }
 
 void KFileItemModelTest::cleanup()
