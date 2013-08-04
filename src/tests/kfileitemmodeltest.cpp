@@ -84,6 +84,7 @@ private slots:
     void collapseParentOfHiddenItems();
     void removeParentOfHiddenItems();
     void testGeneralParentChildRelationships();
+    void testNameRoleGroups();
 
 private:
     QStringList itemsInModel() const;
@@ -106,6 +107,9 @@ void KFileItemModelTest::init()
     m_testDir = new TestDir();
     m_model = new KFileItemModel();
     m_model->m_dirLister->setAutoUpdate(false);
+
+    // Reduce the timer interval to make the test run faster.
+    m_model->m_resortAllItemsTimer->setInterval(0);
 }
 
 void KFileItemModelTest::cleanup()
@@ -1170,6 +1174,53 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
     // Clear filter, verify that no items reappear.
     m_model->setNameFilter(QString());
     QCOMPARE(itemsInModel(), QStringList() << "parent1");
+}
+
+void KFileItemModelTest::testNameRoleGroups()
+{
+    QStringList files;
+    files << "b.txt" << "c.txt" << "d.txt" << "e.txt";
+
+    m_testDir->createFiles(files);
+
+    m_model->setGroupedSorting(true);
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt" << "e.txt");
+
+    QList<QPair<int, QVariant> > expectedGroups;
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("B"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("C"));
+    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QCOMPARE(m_model->groups(), expectedGroups);
+
+    // Rename d.txt to a.txt.
+    QHash<QByteArray, QVariant> data;
+    data.insert("text", "a.txt");
+    m_model->setData(2, data);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "e.txt");
+
+    expectedGroups.clear();
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << QPair<int, QVariant>(2, QLatin1String("C"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QCOMPARE(m_model->groups(), expectedGroups);
+
+    // Rename c.txt to d.txt.
+    data.insert("text", "d.txt");
+    m_model->setData(2, data);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.txt" << "e.txt");
+
+    expectedGroups.clear();
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QCOMPARE(m_model->groups(), expectedGroups);
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
