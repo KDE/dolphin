@@ -218,10 +218,19 @@ signals:
      * with the items 5 and 6 then the parameters look like this:
      * - itemRange: has the index 0 and a count of 7.
      * - movedToIndexes: Contains the seven values 5, 6, 2, 3, 4, 0, 1
+     *
+     * This signal implies that the groups might have changed. Therefore,
+     * gropusChanged() is not emitted if this signal is emitted.
      */
     void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
 
     void itemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
+
+    /**
+     * Is emitted if the groups have changed, even though the order of the
+     * items has not been modified.
+     */
+    void groupsChanged();
 
     void groupedSortingChanged(bool current);
     void sortRoleChanged(const QByteArray& current, const QByteArray& previous);

@@ -394,6 +394,7 @@ protected slots:
     virtual void slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
     virtual void slotItemsChanged(const KItemRangeList& itemRanges,
                                   const QSet<QByteArray>& roles);
+    virtual void slotGroupsChanged();
 
     virtual void slotGroupedSortingChanged(bool current);
     virtual void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);

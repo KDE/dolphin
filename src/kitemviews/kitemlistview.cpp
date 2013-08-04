@@ -1229,6 +1229,13 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
     QAccessible::updateAccessibility(this, 0, QAccessible::TableModelChanged);
 }
 
+void KItemListView::slotGroupsChanged()
+{
+    updateVisibleGroupHeaders();
+    doLayout(NoAnimation);
+    updateSiblingsInformation();
+}
+
 void KItemListView::slotGroupedSortingChanged(bool current)
 {
     m_grouped = current;
@@ -1521,6 +1528,8 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotItemsRemoved(KItemRangeList)));
         disconnect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
                    this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        disconnect(m_model, SIGNAL(groupsChanged()),
+                   this,    SLOT(slotGroupsChanged()));
         disconnect(m_model, SIGNAL(groupedSortingChanged(bool)),
                    this,    SLOT(slotGroupedSortingChanged(bool)));
         disconnect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
@@ -1544,6 +1553,8 @@ void KItemListView::setModel(KItemModelBase* model)
                 this,    SLOT(slotItemsRemoved(KItemRangeList)));
         connect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
                 this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        connect(m_model, SIGNAL(groupsChanged()),
+                this,    SLOT(slotGroupsChanged()));
         connect(m_model, SIGNAL(groupedSortingChanged(bool)),
                 this,    SLOT(slotGroupedSortingChanged(bool)));
         connect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),

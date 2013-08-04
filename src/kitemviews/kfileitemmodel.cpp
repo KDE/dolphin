@@ -689,7 +689,6 @@ void KFileItemModel::resortAllItems()
         oldUrls.append(itemData->item.url());
     }
 
-    m_groups.clear();
     m_items.clear();
 
     // Resort the items
@@ -698,20 +697,45 @@ void KFileItemModel::resortAllItems()
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
-    // Determine the indexes that have been moved
-    QList<int> movedToIndexes;
-    movedToIndexes.reserve(itemCount);
-    for (int i = 0; i < itemCount; i++) {
-        const int newIndex = m_items.value(oldUrls.at(i));
-        movedToIndexes.append(newIndex);
+    // Determine the first index that has been moved.
+    int firstMovedIndex = 0;
+    while (firstMovedIndex < itemCount
+           && firstMovedIndex == m_items.value(oldUrls.at(firstMovedIndex))) {
+        ++firstMovedIndex;
     }
 
-    // Don't check whether items have really been moved and always emit a
-    // itemsMoved() signal after resorting: In case of grouped items
-    // the groups might change even if the items themselves don't change their
-    // position. Let the receiver of the signal decide whether a check for moved
-    // items makes sense.
-    emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
+    const bool itemsHaveMoved = firstMovedIndex < itemCount;
+    if (itemsHaveMoved) {
+        m_groups.clear();
+
+        int lastMovedIndex = itemCount - 1;
+        while (lastMovedIndex > firstMovedIndex
+               && lastMovedIndex == m_items.value(oldUrls.at(lastMovedIndex))) {
+            --lastMovedIndex;
+        }
+
+        Q_ASSERT(firstMovedIndex <= lastMovedIndex);
+
+        // Create a list movedToIndexes, which has the property that
+        // movedToIndexes[i] is the new index of the item with the old index
+        // firstMovedIndex + i.
+        const int movedItemsCount = lastMovedIndex - firstMovedIndex + 1;
+        QList<int> movedToIndexes;
+        movedToIndexes.reserve(movedItemsCount);
+        for (int i = firstMovedIndex; i <= lastMovedIndex; ++i) {
+            const int newIndex = m_items.value(oldUrls.at(i));
+            movedToIndexes.append(newIndex);
+        }
+
+        emit itemsMoved(KItemRange(firstMovedIndex, movedItemsCount), movedToIndexes);
+    } else if (groupedSorting()) {
+        // The groups might have changed even if the order of the items has not.
+        const QList<QPair<int, QVariant> > oldGroups = m_groups;
+        m_groups.clear();
+        if (groups() != oldGroups) {
+            emit groupsChanged();
+        }
+    }
 
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
