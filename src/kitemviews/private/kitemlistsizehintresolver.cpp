@@ -120,7 +120,7 @@ void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<
 
     const int movedRangeEnd = range.index + range.count;
     for (int i = range.index; i < movedRangeEnd; ++i) {
-        const int newIndex = movedToIndexes.at(i);
+        const int newIndex = movedToIndexes.at(i - range.index);
         newSizeHintCache[newIndex] = m_sizeHintCache.at(i);
     }
 
