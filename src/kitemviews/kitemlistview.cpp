@@ -1237,8 +1237,10 @@ void KItemListView::slotGroupedSortingChanged(bool current)
     if (m_grouped) {
         updateGroupHeaderHeight();
     } else {
-        // Clear all visible headers
-        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        // Clear all visible headers. Note that the QHashIterator takes a copy of
+        // m_visibleGroups. Therefore, it remains valid even if items are removed
+        // from m_visibleGroups in recycleGroupHeaderForWidget().
+        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_visibleGroups);
         while (it.hasNext()) {
             it.next();
             recycleGroupHeaderForWidget(it.key());
