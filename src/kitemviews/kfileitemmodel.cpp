@@ -1275,25 +1275,20 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     data.insert(sharedValue("url"), item.url());
 
     const bool isDir = item.isDir();
-    if (m_requestRole[IsDirRole]) {
-        data.insert(sharedValue("isDir"), isDir);
+    if (m_requestRole[IsDirRole] && isDir) {
+        data.insert(sharedValue("isDir"), true);
     }
 
-    if (m_requestRole[IsLinkRole]) {
-        const bool isLink = item.isLink();
-        data.insert(sharedValue("isLink"), isLink);
+    if (m_requestRole[IsLinkRole] && item.isLink()) {
+        data.insert(sharedValue("isLink"), true);
     }
 
     if (m_requestRole[NameRole]) {
         data.insert(sharedValue("text"), item.text());
     }
 
-    if (m_requestRole[SizeRole]) {
-        if (isDir) {
-            data.insert(sharedValue("size"), QVariant());
-        } else {
-            data.insert(sharedValue("size"), item.size());
-        }
+    if (m_requestRole[SizeRole] && !isDir) {
+        data.insert(sharedValue("size"), item.size());
     }
 
     if (m_requestRole[DateRole]) {
@@ -1347,17 +1342,15 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("path"), path);
     }
 
-    if (m_requestRole[IsExpandableRole]) {
-        data.insert(sharedValue("isExpandable"), item.isDir());
+    if (m_requestRole[IsExpandableRole] && isDir) {
+        data.insert(sharedValue("isExpandable"), true);
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        int level = 0;
         if (parent) {
-            level = parent->values["expandedParentsCount"].toInt() + 1;
+            const int level = parent->values["expandedParentsCount"].toInt() + 1;
+            data.insert(sharedValue("expandedParentsCount"), level);
         }
-
-        data.insert(sharedValue("expandedParentsCount"), level);
     }
 
     if (item.isMimeTypeKnown()) {

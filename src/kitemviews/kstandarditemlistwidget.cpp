@@ -791,7 +791,6 @@ void KStandardItemListWidget::updateExpansionArea()
 {
     if (m_supportsItemExpanding) {
         const QHash<QByteArray, QVariant> values = data();
-        Q_ASSERT(values.contains("expandedParentsCount"));
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
             const qreal widgetHeight = size().height();
