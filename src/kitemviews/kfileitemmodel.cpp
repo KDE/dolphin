@@ -192,8 +192,30 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
 
     emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
-    if (changedRoles.contains(sortRole())) {
-        m_resortAllItemsTimer->start();
+    // Trigger a resorting if the item's correct position has changed. Note
+    // that this can happen even if the sort role has not changed at all
+    // because the file name can be used as a fallback.
+    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
+        // Compare the changed item with its neighbors to see
+        // if an expensive resorting is needed at all.
+        const ItemData* changedItem = m_itemData.at(index);
+        const ItemData* previousItem = (index == 0) ? 0 : m_itemData.at(index - 1);
+        const ItemData* nextItem = (index == m_itemData.count() - 1) ? 0 : m_itemData.at(index + 1);
+
+        if ((previousItem && lessThan(changedItem, previousItem))
+            || (nextItem && lessThan(nextItem, changedItem))) {
+            m_resortAllItemsTimer->start();
+        } else if (groupedSorting() && changedRoles.contains(sortRole())) {
+            // The position is still correct, but the groups might have changed
+            // if the changed item is either the first or the last item in a
+            // group.
+            // In principle, we could try to find out if the item really is the
+            // first or last one in its group and then update the groups
+            // (possibly with a delayed timer to make sure that we don't
+            // re-calculate the groups very often if items are updated one by
+            // one), but starting m_resortAllItemsTimer is easier.
+            m_resortAllItemsTimer->start();
+        }
     }
 
     return true;
