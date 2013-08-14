@@ -791,7 +791,6 @@ void KStandardItemListWidget::updateExpansionArea()
 {
     if (m_supportsItemExpanding) {
         const QHash<QByteArray, QVariant> values = data();
-        Q_ASSERT(values.contains("expandedParentsCount"));
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
             const qreal widgetHeight = size().height();
@@ -839,27 +838,12 @@ void KStandardItemListWidget::updatePixmapCache()
                 // use a generic icon as fallback
                 iconName = QLatin1String("unknown");
             }
-            m_pixmap = pixmapForIcon(iconName, maxIconHeight);
+            const QStringList overlays = values["iconOverlays"].toStringList();
+            m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight);
         } else if (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
             // is scaled to the maximum available size.
             KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight));
-        }
-
-        const QStringList overlays = values["iconOverlays"].toStringList();
-
-        // Strangely KFileItem::overlays() returns empty string-values, so
-        // we need to check first whether an overlay must be drawn at all.
-        // It is more efficient to do it here, as KIconLoader::drawOverlays()
-        // assumes that an overlay will be drawn and has some additional
-        // setup time.
-        foreach (const QString& overlay, overlays) {
-            if (!overlay.isEmpty()) {
-                // There is at least one overlay, draw all overlays above m_pixmap
-                // and cancel the check
-                KIconLoader::global()->drawOverlays(overlays, m_pixmap, KIconLoader::Desktop);
-                break;
-            }
         }
 
         if (m_isCut) {
@@ -1323,9 +1307,9 @@ void KStandardItemListWidget::closeRoleEditor()
     m_roleEditor = 0;
 }
 
-QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, int size)
+QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size)
 {
-    const QString key = "KStandardItemListWidget:" % name  % ":" % QString::number(size);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(":") % ":" % QString::number(size);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
@@ -1353,6 +1337,20 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, int size)
         pixmap = icon.pixmap(requestedSize, requestedSize);
         if (requestedSize != size) {
             KPixmapModifier::scale(pixmap, QSize(size, size));
+        }
+
+        // Strangely KFileItem::overlays() returns empty string-values, so
+        // we need to check first whether an overlay must be drawn at all.
+        // It is more efficient to do it here, as KIconLoader::drawOverlays()
+        // assumes that an overlay will be drawn and has some additional
+        // setup time.
+        foreach (const QString& overlay, overlays) {
+            if (!overlay.isEmpty()) {
+                // There is at least one overlay, draw all overlays above m_pixmap
+                // and cancel the check
+                KIconLoader::global()->drawOverlays(overlays, pixmap, KIconLoader::Desktop);
+                break;
+            }
         }
 
         QPixmapCache::insert(key, pixmap);

@@ -192,8 +192,30 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
 
     emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
-    if (changedRoles.contains(sortRole())) {
-        m_resortAllItemsTimer->start();
+    // Trigger a resorting if the item's correct position has changed. Note
+    // that this can happen even if the sort role has not changed at all
+    // because the file name can be used as a fallback.
+    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
+        // Compare the changed item with its neighbors to see
+        // if an expensive resorting is needed at all.
+        const ItemData* changedItem = m_itemData.at(index);
+        const ItemData* previousItem = (index == 0) ? 0 : m_itemData.at(index - 1);
+        const ItemData* nextItem = (index == m_itemData.count() - 1) ? 0 : m_itemData.at(index + 1);
+
+        if ((previousItem && lessThan(changedItem, previousItem))
+            || (nextItem && lessThan(nextItem, changedItem))) {
+            m_resortAllItemsTimer->start();
+        } else if (groupedSorting() && changedRoles.contains(sortRole())) {
+            // The position is still correct, but the groups might have changed
+            // if the changed item is either the first or the last item in a
+            // group.
+            // In principle, we could try to find out if the item really is the
+            // first or last one in its group and then update the groups
+            // (possibly with a delayed timer to make sure that we don't
+            // re-calculate the groups very often if items are updated one by
+            // one), but starting m_resortAllItemsTimer is easier.
+            m_resortAllItemsTimer->start();
+        }
     }
 
     return true;
@@ -1299,25 +1321,20 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     data.insert(sharedValue("url"), item.url());
 
     const bool isDir = item.isDir();
-    if (m_requestRole[IsDirRole]) {
-        data.insert(sharedValue("isDir"), isDir);
+    if (m_requestRole[IsDirRole] && isDir) {
+        data.insert(sharedValue("isDir"), true);
     }
 
-    if (m_requestRole[IsLinkRole]) {
-        const bool isLink = item.isLink();
-        data.insert(sharedValue("isLink"), isLink);
+    if (m_requestRole[IsLinkRole] && item.isLink()) {
+        data.insert(sharedValue("isLink"), true);
     }
 
     if (m_requestRole[NameRole]) {
         data.insert(sharedValue("text"), item.text());
     }
 
-    if (m_requestRole[SizeRole]) {
-        if (isDir) {
-            data.insert(sharedValue("size"), QVariant());
-        } else {
-            data.insert(sharedValue("size"), item.size());
-        }
+    if (m_requestRole[SizeRole] && !isDir) {
+        data.insert(sharedValue("size"), item.size());
     }
 
     if (m_requestRole[DateRole]) {
@@ -1371,17 +1388,15 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("path"), path);
     }
 
-    if (m_requestRole[IsExpandableRole]) {
-        data.insert(sharedValue("isExpandable"), item.isDir());
+    if (m_requestRole[IsExpandableRole] && isDir) {
+        data.insert(sharedValue("isExpandable"), true);
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        int level = 0;
         if (parent) {
-            level = parent->values["expandedParentsCount"].toInt() + 1;
+            const int level = parent->values["expandedParentsCount"].toInt() + 1;
+            data.insert(sharedValue("expandedParentsCount"), level);
         }
-
-        data.insert(sharedValue("expandedParentsCount"), level);
     }
 
     if (item.isMimeTypeKnown()) {

@@ -71,6 +71,7 @@ private slots:
     void testSetDataWithModifiedSortRole_data();
     void testSetDataWithModifiedSortRole();
     void testChangeSortRole();
+    void testResortAfterChangingName();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
@@ -367,6 +368,30 @@ void KFileItemModelTest::testChangeSortRole()
     const bool ok2 = (itemsInModel() == version2);
 
     QVERIFY(ok1 || ok2);
+}
+
+void KFileItemModelTest::testResortAfterChangingName()
+{
+    // We sort by size in a directory where all files have the same size.
+    // Therefore, the files are sorted by their names.
+    m_model->setSortRole("size");
+
+    QStringList files;
+    files << "a.txt" << "b.txt" << "c.txt";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
+
+    // We rename a.txt to d.txt. Even though the size has not changed at all,
+    // the model must re-sort the items.
+    QHash<QByteArray, QVariant> data;
+    data.insert("text", "d.txt");
+    m_model->setData(0, data);
+
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt");
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
