@@ -506,8 +506,7 @@ void DolphinViewContainer::showItemInfo(const KFileItem& item)
     if (item.isNull()) {
         m_statusBar->resetToDefaultText();
     } else {
-        const QString text = item.isDir() ? item.text() : item.getStatusBarInfo();
-        m_statusBar->setText(text);
+        m_statusBar->setText(item.getStatusBarInfo());
     }
 }
 
