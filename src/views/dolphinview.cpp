@@ -556,8 +556,8 @@ QString DolphinView::statusBarText() const
         }
 
         if (folderCount + fileCount == 1) {
-            // If only one item is selected, show the filename
-            filesText = i18nc("@info:status", "<filename>%1</filename> selected", list.first().text());
+            // If only one item is selected, show info about it
+            return list.first().getStatusBarInfo();
         } else {
             // At least 2 items are selected
             foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);

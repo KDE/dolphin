@@ -572,7 +572,8 @@ void DolphinPart::updateNewMenu()
 
 void DolphinPart::updateStatusBar()
 {
-    emit ReadOnlyPart::setStatusBarText(m_view->statusBarText());
+    const QString escapedText = Qt::convertFromPlainText(m_view->statusBarText());
+    emit ReadOnlyPart::setStatusBarText(QString("<qt>%1</qt>").arg(escapedText));
 }
 
 void DolphinPart::updateProgress(int percent)
