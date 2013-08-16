@@ -21,8 +21,6 @@
 #define DOLPHINPART_H
 
 #include <kparts/part.h>
-#include <kparts/browserextension.h>
-#include <kparts/fileinfoextension.h>
 
 #include <QItemSelectionModel>
 
@@ -250,43 +248,6 @@ private:
     QString m_nameFilter;
     DolphinRemoveAction* m_removeAction;
     Q_DISABLE_COPY(DolphinPart)
-};
-
-class DolphinPartBrowserExtension : public KParts::BrowserExtension
-{
-    Q_OBJECT
-public:
-    DolphinPartBrowserExtension( DolphinPart* part )
-        : KParts::BrowserExtension( part ), m_part(part) {}
-
-    virtual void restoreState(QDataStream &stream);
-    virtual void saveState(QDataStream &stream);
-
-public Q_SLOTS:
-    void cut();
-    void copy();
-    void paste();
-    void pasteTo(const KUrl&);
-    void reparseConfiguration();
-
-private:
-    DolphinPart* m_part;
-};
-
-
-class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
-{
-    Q_OBJECT
-
-public:
-    DolphinPartFileInfoExtension(DolphinPart* part);
-
-    virtual QueryModes supportedQueryModes() const;
-    virtual bool hasSelection() const;
-
-    virtual KFileItemList queryFor(QueryMode mode) const;
-protected:
-    DolphinPart* part() const;
 };
 
 #endif /* DOLPHINPART_H */

@@ -26,6 +26,92 @@
 
 #include <KFileItemList>
 
+
+DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart* part)
+    :KParts::BrowserExtension( part )
+    ,m_part(part)
+{
+
+}
+
+void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
+{
+    KParts::BrowserExtension::restoreState(stream);
+    m_part->view()->restoreState(stream);
+}
+
+void DolphinPartBrowserExtension::saveState(QDataStream &stream)
+{
+    KParts::BrowserExtension::saveState(stream);
+    m_part->view()->saveState(stream);
+}
+
+void DolphinPartBrowserExtension::cut()
+{
+    m_part->view()->cutSelectedItems();
+}
+
+void DolphinPartBrowserExtension::copy()
+{
+    m_part->view()->copySelectedItems();
+}
+
+void DolphinPartBrowserExtension::paste()
+{
+    m_part->view()->paste();
+}
+
+void DolphinPartBrowserExtension::pasteTo(const KUrl&)
+{
+    m_part->view()->pasteIntoFolder();
+}
+
+void DolphinPartBrowserExtension::reparseConfiguration()
+{
+    m_part->view()->readSettings();
+}
+
+
+DolphinPartFileInfoExtension::DolphinPartFileInfoExtension(DolphinPart* part)
+    :KParts::FileInfoExtension(part)
+    ,m_part(part)
+{
+}
+
+bool DolphinPartFileInfoExtension::hasSelection() const
+{
+    return m_part->view()->selectedItemsCount() > 0;
+}
+
+KParts::FileInfoExtension::QueryModes DolphinPartFileInfoExtension::supportedQueryModes() const
+{
+    return (KParts::FileInfoExtension::AllItems | KParts::FileInfoExtension::SelectedItems);
+}
+
+KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::QueryMode mode) const
+{
+    KFileItemList list;
+
+    if (mode == KParts::FileInfoExtension::None)
+      return list;
+
+    if (!(supportedQueryModes() & mode))
+      return list;
+
+    switch (mode) {
+      case KParts::FileInfoExtension::SelectedItems:
+          if (hasSelection())
+              return m_part->view()->selectedItems();
+          break;
+      case KParts::FileInfoExtension::AllItems:
+          return m_part->view()->items();
+      default:
+          break;
+    }
+
+    return list;
+}
+
 DolphinPartListingFilterExtension::DolphinPartListingFilterExtension(DolphinPart* part)
     : KParts::ListingFilterExtension(part)
     , m_part(part)
