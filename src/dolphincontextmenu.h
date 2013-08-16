@@ -95,6 +95,9 @@ protected:
     virtual void keyPressEvent(QKeyEvent *ev);
     virtual void keyReleaseEvent(QKeyEvent *ev);
 
+signals:
+    void errorMessage(const QString& error);
+
 private:
     void openTrashContextMenu();
     void openTrashItemContextMenu();

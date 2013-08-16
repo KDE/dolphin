@@ -196,7 +196,7 @@ void DolphinContextMenu::openItemContextMenu()
     if (m_selectedItems.count() == 1) {
         if (m_fileInfo.isDir()) {
             // setup 'Create New' menu
-            DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow);
+            DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), this);
             const DolphinView* view = m_mainWindow->activeViewContainer()->view();
             newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
             newFileMenu->checkUpToDate();
@@ -204,6 +204,7 @@ void DolphinContextMenu::openItemContextMenu()
             newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
             connect(newFileMenu, SIGNAL(fileCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
             connect(newFileMenu, SIGNAL(directoryCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
+            connect(newFileMenu, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
             KMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));

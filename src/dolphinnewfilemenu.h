@@ -23,7 +23,6 @@
 
 #include <KNewFileMenu>
 
-class DolphinMainWindow;
 class KJob;
 
 /**
@@ -39,15 +38,15 @@ class DolphinNewFileMenu : public KNewFileMenu
     Q_OBJECT
 
 public:
-    DolphinNewFileMenu(DolphinMainWindow* parent);
+    DolphinNewFileMenu(KActionCollection* collection, QObject* parent);
     virtual ~DolphinNewFileMenu();
+
+signals:
+    void errorMessage(const QString& error);
 
 protected slots:
     /** @see KNewFileMenu::slotResult() */
     virtual void slotResult(KJob* job);
-
-private:
-    DolphinMainWindow* m_mainWin;
 };
 
 #endif

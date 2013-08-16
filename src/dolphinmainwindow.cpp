@@ -1297,6 +1297,8 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 {
     QWeakPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
     contextMenu.data()->setCustomActions(customActions);
+    connect(contextMenu.data(), SIGNAL(errorMessage(QString)),
+            this, SLOT(showErrorMessage(QString)));
     const DolphinContextMenu::Command command = contextMenu.data()->open();
 
     switch (command) {
@@ -1482,13 +1484,15 @@ DolphinViewContainer* DolphinMainWindow::createViewContainer(const KUrl& url, QW
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    m_newFileMenu = new DolphinNewFileMenu(this);
+    m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     KMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
     m_newFileMenu->setDelayed(false);
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
+    connect(m_newFileMenu, SIGNAL(errorMessage(QString)),
+            this, SLOT(showErrorMessage(QString)));
 
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
