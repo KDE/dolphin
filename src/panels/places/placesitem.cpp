@@ -270,8 +270,13 @@ void PlacesItem::initializeDevice(const QString& udi)
         QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
                          m_signalHandler, SLOT(onAccessibilityChanged()));
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
-        const QString device = m_device.as<Solid::Block>()->device();
-        setUrl(QString("audiocd:/?device=%1").arg(device));
+        Solid::Block *block = m_device.as<Solid::Block>();
+        if (block) {
+            const QString device = block->device();
+            setUrl(QString("audiocd:/?device=%1").arg(device));
+        } else {
+            setUrl(QString("audiocd:/"));
+        }
     } else if (m_mtp) {
         setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
     }
