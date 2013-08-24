@@ -46,9 +46,11 @@ public:
 protected:
     virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 private:
     void updatePixmap();
+    int iconSize() const;
 
 private:
     bool m_checked;

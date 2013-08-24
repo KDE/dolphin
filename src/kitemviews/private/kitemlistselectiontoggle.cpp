@@ -79,28 +79,49 @@ void KItemListSelectionToggle::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
     m_pixmap = QPixmap();
 }
 
+void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
+{
+    QGraphicsWidget::resizeEvent(event);
+
+    if (!m_pixmap.isNull()) {
+        const int pixmapSize = m_pixmap.size().width(); // Pixmap width is always equal pixmap height
+
+        if (pixmapSize != iconSize()) {
+            // If the required icon size is different from the actual pixmap size,
+            // overwrite the m_pixmap with an empty pixmap and reload the new
+            // icon on next re-painting.
+            m_pixmap = QPixmap();
+        }
+    }
+}
+
 void KItemListSelectionToggle::updatePixmap()
 {
     const char* icon = m_checked ? "list-remove" : "list-add";
-
-    int iconSize = qMin(size().width(), size().height());
-    if (iconSize < KIconLoader::SizeSmallMedium) {
-        iconSize = KIconLoader::SizeSmall;
-    } else if (iconSize < KIconLoader::SizeMedium) {
-        iconSize = KIconLoader::SizeSmallMedium;
-    } else if (iconSize < KIconLoader::SizeLarge) {
-        iconSize = KIconLoader::SizeMedium;
-    } else if (iconSize < KIconLoader::SizeHuge) {
-        iconSize = KIconLoader::SizeLarge;
-    } else if (iconSize < KIconLoader::SizeEnormous) {
-        iconSize = KIconLoader::SizeHuge;
-    }
-
-    m_pixmap = KIconLoader::global()->loadIcon(QLatin1String(icon), KIconLoader::NoGroup, iconSize);
+    m_pixmap = KIconLoader::global()->loadIcon(QLatin1String(icon), KIconLoader::NoGroup, iconSize());
 
     if (m_hovered) {
         KIconLoader::global()->iconEffect()->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::ActiveState);
     }
+}
+
+int KItemListSelectionToggle::iconSize() const
+{
+    const int iconSize = qMin(size().width(), size().height());
+
+    if (iconSize < KIconLoader::SizeSmallMedium) {
+        return KIconLoader::SizeSmall;
+    } else if (iconSize < KIconLoader::SizeMedium) {
+        return KIconLoader::SizeSmallMedium;
+    } else if (iconSize < KIconLoader::SizeLarge) {
+        return KIconLoader::SizeMedium;
+    } else if (iconSize < KIconLoader::SizeHuge) {
+        return KIconLoader::SizeLarge;
+    } else if (iconSize < KIconLoader::SizeEnormous) {
+        return KIconLoader::SizeHuge;
+    }
+
+    return iconSize;
 }
 
 #include "kitemlistselectiontoggle.moc"

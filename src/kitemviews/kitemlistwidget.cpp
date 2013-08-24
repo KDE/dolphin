@@ -451,6 +451,12 @@ void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
     clearHoverCache();
+
+    if (m_selectionToggle) {
+        const QRectF& toggleRect = selectionToggleRect();
+        m_selectionToggle->setPos(toggleRect.topLeft());
+        m_selectionToggle->resize(toggleRect.size());
+    }
 }
 
 qreal KItemListWidget::hoverOpacity() const
