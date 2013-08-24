@@ -204,8 +204,13 @@ KStandardItemListWidget::~KStandardItemListWidget()
     qDeleteAll(m_textInfo);
     m_textInfo.clear();
 
-    delete m_roleEditor;
-    delete m_oldRoleEditor;
+    if (m_roleEditor) {
+        m_roleEditor->deleteLater();
+    }
+
+    if (m_oldRoleEditor) {
+        m_oldRoleEditor->deleteLater();
+    }
 }
 
 void KStandardItemListWidget::setLayout(Layout layout)
@@ -649,16 +654,15 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
                        this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
             disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
                        this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+
+            if (m_oldRoleEditor) {
+                m_oldRoleEditor->deleteLater();
+            }
             m_oldRoleEditor = m_roleEditor;
             m_roleEditor->hide();
             m_roleEditor = 0;
         }
         return;
-    } else if (m_oldRoleEditor) {
-        // Delete the old editor before constructing the new one to
-        // prevent a memory leak.
-        m_oldRoleEditor->deleteLater();
-        m_oldRoleEditor = 0;
     }
 
     Q_ASSERT(!m_roleEditor);
@@ -1302,6 +1306,9 @@ void KStandardItemListWidget::closeRoleEditor()
         scene()->views()[0]->parentWidget()->setFocus();
     }
 
+    if (m_oldRoleEditor) {
+        m_oldRoleEditor->deleteLater();
+    }
     m_oldRoleEditor = m_roleEditor;
     m_roleEditor->hide();
     m_roleEditor = 0;
