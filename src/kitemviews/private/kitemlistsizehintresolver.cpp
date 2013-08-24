@@ -139,8 +139,5 @@ void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QB
 
 void KItemListSizeHintResolver::clearCache()
 {
-    const int count = m_sizeHintCache.count();
-    for (int i = 0; i < count; ++i) {
-        m_sizeHintCache[i] = QSizeF();
-    }
+    m_sizeHintCache.fill(QSizeF());
 }
