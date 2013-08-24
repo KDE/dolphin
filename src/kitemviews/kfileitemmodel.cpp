@@ -948,7 +948,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     emit itemsChanged(itemRangeList, changedRoles);
 
     if (changedRoles.contains(sortRole())) {
-        resortAllItems();
+        m_resortAllItemsTimer->start();
     }
 }
 
