@@ -1381,6 +1381,9 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         if (m_requestRole[TypeRole]) {
             data.insert(sharedValue("type"), item.mimeComment());
         }
+    } else if (m_requestRole[TypeRole] && isDir) {
+        static const QString folderMimeType = item.mimeComment();
+        data.insert(sharedValue("type"), folderMimeType);
     }
 
     return data;
@@ -1987,7 +1990,15 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
     QElapsedTimer timer;
     timer.start();
     foreach (const KFileItem& item, items) { // krazy:exclude=foreach
-        item.determineMimeType();
+        // Only determine mime types for files here. For directories,
+        // KFileItem::determineMimeType() reads the .directory file inside to
+        // load the icon, but this is not necessary at all if we just need the
+        // type. Some special code for setting the correct mime type for
+        // directories is in retrieveData().
+        if (!item.isDir()) {
+            item.determineMimeType();
+        }
+
         if (timer.elapsed() > timeout) {
             // Don't block the user interface, let the remaining items
             // be resolved asynchronously.
