@@ -1030,12 +1030,15 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             const int textLength = line.textStart() + line.textLength();
             if (textLength < nameText.length()) {
                 // Elide the last line of the text
-                QString lastTextLine = nameText.mid(line.textStart(), line.textLength());
+                QString lastTextLine = nameText.mid(line.textStart());
                 lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
                                                                   Qt::ElideRight,
-                                                                  line.naturalTextWidth() - 1);
+                                                                  maxWidth);
                 const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                 nameTextInfo->staticText.setText(elidedText);
+
+                const qreal lastLineWidth = m_customizedFontMetrics.boundingRect(lastTextLine).width();
+                nameWidth = qMax(nameWidth, lastLineWidth);
             }
             break;
         }
