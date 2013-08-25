@@ -93,6 +93,22 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         emitRoleEditingFinished();
         event->accept();
         return;
+    case Qt::Key_Left:
+    case Qt::Key_Right: {
+        QTextCursor cursor = textCursor();
+        if (event->modifiers() == Qt::NoModifier && cursor.hasSelection()) {
+            if (event->key() == Qt::Key_Left) {
+                cursor.setPosition(cursor.selectionStart());
+            } else {
+                cursor.setPosition(cursor.selectionEnd());
+            }
+            cursor.clearSelection();
+            setTextCursor(cursor);
+            event->accept();
+            return;
+        }
+        break;
+    }
     default:
         break;
     }
