@@ -35,6 +35,7 @@
 #include "views/dolphinremoteencoding.h"
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
+#include "views/dolphinnewfilemenuobserver.h"
 
 #ifndef Q_OS_WIN
 #include "panels/terminal/terminalpanel.h"
@@ -125,6 +126,9 @@ DolphinMainWindow::DolphinMainWindow() :
     m_viewTab.append(ViewTab());
     ViewTab& viewTab = m_viewTab[m_tabIndex];
     viewTab.wasActive = true; // The first opened tab is automatically active
+
+    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(errorMessage(QString)),
+            this, SLOT(showErrorMessage(QString)));
 
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
@@ -1297,8 +1301,6 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 {
     QWeakPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
     contextMenu.data()->setCustomActions(customActions);
-    connect(contextMenu.data(), SIGNAL(errorMessage(QString)),
-            this, SLOT(showErrorMessage(QString)));
     const DolphinContextMenu::Command command = contextMenu.data()->open();
 
     switch (command) {
@@ -1491,8 +1493,6 @@ void DolphinMainWindow::setupActions()
     m_newFileMenu->setDelayed(false);
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
-    connect(m_newFileMenu, SIGNAL(errorMessage(QString)),
-            this, SLOT(showErrorMessage(QString)));
 
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));

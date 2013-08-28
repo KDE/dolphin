@@ -20,7 +20,7 @@
 #include "dolphinnewfilemenuobserver.h"
 
 #include <KGlobal>
-#include <KNewFileMenu>
+#include "dolphinnewfilemenu.h"
 
 class DolphinNewFileMenuObserverSingleton
 {
@@ -34,20 +34,24 @@ DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
     return s_DolphinNewFileMenuObserver->instance;
 }
 
-void DolphinNewFileMenuObserver::attach(const KNewFileMenu* menu)
+void DolphinNewFileMenuObserver::attach(const DolphinNewFileMenu* menu)
 {
     connect(menu, SIGNAL(fileCreated(KUrl)),
             this, SIGNAL(itemCreated(KUrl)));
     connect(menu, SIGNAL(directoryCreated(KUrl)),
             this, SIGNAL(itemCreated(KUrl)));
+    connect(menu, SIGNAL(errorMessage(QString)),
+            this, SIGNAL(errorMessage(QString)));
 }
 
-void DolphinNewFileMenuObserver::detach(const KNewFileMenu* menu)
+void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu* menu)
 {
     disconnect(menu, SIGNAL(fileCreated(KUrl)),
                this, SIGNAL(itemCreated(KUrl)));
     disconnect(menu, SIGNAL(directoryCreated(KUrl)),
                this, SIGNAL(itemCreated(KUrl)));
+    disconnect(menu, SIGNAL(errorMessage(QString)),
+               this, SIGNAL(errorMessage(QString)));
 }
 
 DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :

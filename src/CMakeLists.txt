@@ -92,6 +92,7 @@ set(dolphinprivate_LIB_SRCS
     views/viewproperties.cpp
     views/zoomlevelinfo.cpp
     dolphinremoveaction.cpp
+    dolphinnewfilemenu.cpp
 )
 
 if(HAVE_NEPOMUK)

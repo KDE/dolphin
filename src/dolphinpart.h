@@ -26,7 +26,7 @@
 
 #include <QItemSelectionModel>
 
-class KNewFileMenu;
+class DolphinNewFileMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
 class KAction;
@@ -244,7 +244,7 @@ private:
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
     DolphinPartBrowserExtension* m_extension;
-    KNewFileMenu* m_newFileMenu;
+    DolphinNewFileMenu* m_newFileMenu;
     KAction* m_findFileAction;
     KAction* m_openTerminalAction;
     QString m_nameFilter;

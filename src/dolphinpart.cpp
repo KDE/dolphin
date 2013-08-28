@@ -37,7 +37,6 @@
 #include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
-#include <KNewFileMenu>
 #include <KMenu>
 #include <KInputDialog>
 #include <KProtocolInfo>
@@ -47,6 +46,7 @@
 #include "dolphinpart_ext.h"
 #endif
 
+#include "dolphinnewfilemenu.h"
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinnewfilemenuobserver.h"
@@ -78,6 +78,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_view = new DolphinView(KUrl(), parentWidget);
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
+
+    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(errorMessage(QString)),
+            this, SLOT(slotErrorMessage(QString)));
 
     connect(m_view, SIGNAL(directoryLoadingCompleted()), this, SIGNAL(completed()));
     connect(m_view, SIGNAL(directoryLoadingProgress(int)), this, SLOT(updateProgress(int)));
@@ -160,16 +163,14 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
 DolphinPart::~DolphinPart()
 {
-    DolphinNewFileMenuObserver::instance().detach(m_newFileMenu);
 }
 
 void DolphinPart::createActions()
 {
     // Edit menu
 
-    m_newFileMenu = new KNewFileMenu(actionCollection(), "new_menu", this);
+    m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     m_newFileMenu->setParentWidget(widget());
-    DolphinNewFileMenuObserver::instance().attach(m_newFileMenu);
     connect(m_newFileMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 

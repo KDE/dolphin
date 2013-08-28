@@ -204,7 +204,6 @@ void DolphinContextMenu::openItemContextMenu()
             newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
             connect(newFileMenu, SIGNAL(fileCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
             connect(newFileMenu, SIGNAL(directoryCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
-            connect(newFileMenu, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
             KMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));

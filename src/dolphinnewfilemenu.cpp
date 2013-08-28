@@ -26,7 +26,7 @@
 #include <KIO/Job>
 
 DolphinNewFileMenu::DolphinNewFileMenu(KActionCollection* collection, QObject* parent) :
-    KNewFileMenu(collection, "create_new", parent)
+    KNewFileMenu(collection, "new_menu", parent)
 {
     DolphinNewFileMenuObserver::instance().attach(this);
 }

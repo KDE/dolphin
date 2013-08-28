@@ -2,7 +2,7 @@
 <kpartgui name="dolphin" version="14">
     <MenuBar>
         <Menu name="file">
-            <Action name="create_new" />
+            <Action name="new_menu" />
             <Action name="new_window" />
             <Action name="new_tab" />
             <Action name="close_tab" />
