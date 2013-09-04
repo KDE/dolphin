@@ -69,6 +69,9 @@ void ServiceItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
 QList<QWidget*> ServiceItemDelegate::createItemWidgets() const
 {
     QCheckBox* checkBox = new QCheckBox();
+    QPalette palette = checkBox->palette();
+    palette.setColor(QPalette::WindowText, palette.color(QPalette::Text));
+    checkBox->setPalette(palette);
     connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(slotCheckBoxClicked(bool)));
 
     KPushButton* configureButton = new KPushButton();
