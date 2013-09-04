@@ -31,6 +31,7 @@ public:
     virtual ~KFileItemListWidgetInformant();
 
 protected:
+    virtual QString itemText(int index, const KItemListView* view) const;
     virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
 };
 

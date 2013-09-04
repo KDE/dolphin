@@ -57,13 +57,12 @@ KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
 
 QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemListView* view) const
 {
-    const QHash<QByteArray, QVariant> values = view->model()->data(index);
     const KItemListStyleOption& option = view->styleOption();
     const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
 
     switch (static_cast<const KStandardItemListView*>(view)->itemLayout()) {
     case KStandardItemListWidget::IconsLayout: {
-        const QString text = KStringHandler::preProcessWrap(values["text"].toString());
+        const QString text = KStringHandler::preProcessWrap(itemText(index, view));
 
         const qreal itemWidth = view->itemSize().width();
         const qreal maxWidth = itemWidth - 2 * option.padding;
@@ -100,6 +99,7 @@ QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemList
         // to show all roles without horizontal clipping.
         qreal maximumRequiredWidth = 0.0;
 
+        const QHash<QByteArray, QVariant> values = view->model()->data(index);
         foreach (const QByteArray& role, view->visibleRoles()) {
             const QString text = roleText(role, values);
             const qreal requiredWidth = option.fontMetrics.width(text);
@@ -157,6 +157,11 @@ qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArra
     }
 
     return width;
+}
+
+QString KStandardItemListWidgetInformant::itemText(int index, const KItemListView* view) const
+{
+    return view->model()->data(index).value("text").toString();
 }
 
 QString KStandardItemListWidgetInformant::roleText(const QByteArray& role,

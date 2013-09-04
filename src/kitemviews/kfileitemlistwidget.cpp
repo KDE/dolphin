@@ -18,6 +18,8 @@
  ***************************************************************************/
 
 #include "kfileitemlistwidget.h"
+#include "kfileitemmodel.h"
+#include "kitemlistview.h"
 
 #include <kmimetype.h>
 #include <KDebug>
@@ -33,6 +35,15 @@ KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
 
 KFileItemListWidgetInformant::~KFileItemListWidgetInformant()
 {
+}
+
+QString KFileItemListWidgetInformant::itemText(int index, const KItemListView* view) const
+{
+    Q_ASSERT(qobject_cast<KFileItemModel*>(view->model()));
+    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(view->model());
+
+    const KFileItem item = fileItemModel->fileItem(index);
+    return item.text();
 }
 
 QString KFileItemListWidgetInformant::roleText(const QByteArray& role,

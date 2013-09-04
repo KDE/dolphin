@@ -45,6 +45,15 @@ public:
                                            const KItemListView* view) const;
 protected:
     /**
+     * @return The value of the "text" role. The default implementation returns
+     *         view->model()->data(index)["text"]. If a derived class can
+     *         prevent the (possibly expensive) construction of the
+     *         QHash<QByteArray, QVariant> returned by KItemModelBase::data(int),
+     *         it can reimplement this function.
+     */
+    virtual QString itemText(int index, const KItemListView* view) const;
+
+    /**
      * @return String representation of the role \a role. The representation of
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.
