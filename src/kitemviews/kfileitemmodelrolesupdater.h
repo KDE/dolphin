@@ -32,7 +32,7 @@
 #include <QSize>
 #include <QStringList>
 
-class KDirWatch;
+class KDirectoryContentsCounter;
 class KFileItemModel;
 class KJob;
 class QPixmap;
@@ -218,12 +218,7 @@ private slots:
 
     void applyChangedNepomukRoles(const Nepomuk2::Resource& resource, const Nepomuk2::Types::Property& property);
 
-    /**
-     * Is invoked if a directory watched by KDirWatch got dirty. Updates
-     * the "isExpandable"- and "size"-roles of the item that matches to
-     * the given path.
-     */
-    void slotDirWatchDirty(const QString& path);
+    void slotDirectoryContentsCountReceived(const QString& path, int count);
 
 private:
     /**
@@ -267,7 +262,7 @@ private:
         ResolveAll
     };
     bool applyResolvedRoles(const KFileItem& item, ResolveHint hint);
-    QHash<QByteArray, QVariant> rolesData(const KFileItem& item) const;
+    QHash<QByteArray, QVariant> rolesData(const KFileItem& item);
 
     /**
      * @return The number of items of the path \a path.
@@ -349,9 +344,8 @@ private:
     // Items which have not been changed repeatedly recently.
     QSet<KFileItem> m_changedItems;
 
-    KDirWatch* m_dirWatcher;
-    mutable QSet<QString> m_watchedDirs; // Required as sadly KDirWatch does not offer a getter method
-                                         // to get all watched directories.
+    KDirectoryContentsCounter* m_directoryContentsCounter;
+
 #ifdef HAVE_NEPOMUK
     Nepomuk2::ResourceWatcher* m_nepomukResourceWatcher;
     mutable QHash<QUrl, KUrl> m_nepomukUriItems;

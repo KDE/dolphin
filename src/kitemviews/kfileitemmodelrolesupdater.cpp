@@ -24,13 +24,13 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KDebug>
-#include <KDirWatch>
 #include <KFileItem>
 #include <KGlobal>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 
 #include "private/kpixmapmodifier.h"
+#include "private/kdirectorycontentscounter.h"
 
 #include <QApplication>
 #include <QPainter>
@@ -44,14 +44,6 @@
     #include "private/knepomukrolesprovider.h"
     #include <Nepomuk2/ResourceWatcher>
     #include <Nepomuk2/ResourceManager>
-#endif
-
-// Required includes for subItemsCount():
-#ifdef Q_WS_WIN
-    #include <QDir>
-#else
-    #include <dirent.h>
-    #include <QFile>
 #endif
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
@@ -95,8 +87,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_recentlyChangedItemsTimer(0),
     m_recentlyChangedItems(),
     m_changedItems(),
-    m_dirWatcher(0),
-    m_watchedDirs()
+    m_directoryContentsCounter(0)
   #ifdef HAVE_NEPOMUK
   , m_nepomukResourceWatcher(0),
     m_nepomukUriItems()
@@ -135,10 +126,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvableRoles += KNepomukRolesProvider::instance().roles();
 #endif
 
-    // When folders are expandable or the item-count is shown for folders, it is necessary
-    // to watch the number of items of the sub-folder to be able to react on changes.
-    m_dirWatcher = new KDirWatch(this);
-    connect(m_dirWatcher, SIGNAL(dirty(QString)), this, SLOT(slotDirWatchDirty(QString)));
+    m_directoryContentsCounter = new KDirectoryContentsCounter(m_model, this);
+    connect(m_directoryContentsCounter, SIGNAL(result(QString,int)),
+            this,                       SLOT(slotDirectoryContentsCountReceived(QString,int)));
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -366,25 +356,6 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
     Q_UNUSED(itemRanges);
 
     const bool allItemsRemoved = (m_model->count() == 0);
-
-    if (!m_watchedDirs.isEmpty()) {
-        // Don't let KDirWatch watch for removed items
-        if (allItemsRemoved) {
-            foreach (const QString& path, m_watchedDirs) {
-                m_dirWatcher->removeDir(path);
-            }
-            m_watchedDirs.clear();
-        } else {
-            QMutableSetIterator<QString> it(m_watchedDirs);
-            while (it.hasNext()) {
-                const QString& path = it.next();
-                if (m_model->index(KUrl(path)) < 0) {
-                    m_dirWatcher->removeDir(path);
-                    it.remove();
-                }
-            }
-        }
-    }
 
 #ifdef HAVE_NEPOMUK
     if (m_nepomukResourceWatcher) {
@@ -783,7 +754,7 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resour
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString& path, int count)
 {
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
@@ -791,16 +762,9 @@ void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
     if (getSizeRole || getIsExpandableRole) {
         const int index = m_model->index(KUrl(path));
         if (index >= 0) {
-            if (!m_model->fileItem(index).isDir()) {
-                // If INotify is used, KDirWatch issues the dirty() signal
-                // also for changed files inside the directory, even if we
-                // don't enable this behavior explicitly (see bug 309740).
-                return;
-            }
 
             QHash<QByteArray, QVariant> data;
 
-            const int count = subItemsCount(path);
             if (getSizeRole) {
                 data.insert("size", count);
             }
@@ -808,9 +772,11 @@ void KFileItemModelRolesUpdater::slotDirWatchDirty(const QString& path)
                 data.insert("isExpandable", count > 0);
             }
 
-            // Note that we do not block the itemsChanged signal here.
-            // This ensures that a new preview will be generated.
+            disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+                       this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
             m_model->setData(index, data);
+            connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+                    this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
         }
     }
 }
@@ -1037,7 +1003,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
         const QString path = item.localPath();
-        data.insert("size", subItemsCount(path));
+        data.insert("size", m_directoryContentsCounter->countDirectoryContentsSynchronously(path));
     } else {
         // Probably the sort role is a Nepomuk role - just determine all roles.
         data = rolesData(item);
@@ -1105,7 +1071,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, Resol
     return false;
 }
 
-QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem& item) const
+QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileItem& item)
 {
     QHash<QByteArray, QVariant> data;
 
@@ -1114,19 +1080,10 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
         if (item.isLocalFile()) {
+            // Tell m_directoryContentsCounter that we want to count the items
+            // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
             const QString path = item.localPath();
-            const int count = subItemsCount(path);
-            if (getSizeRole) {
-                data.insert("size", count);
-            }
-            if (getIsExpandableRole) {
-                data.insert("isExpandable", count > 0);
-            }
-
-            if (!m_dirWatcher->contains(path)) {
-                m_dirWatcher->addDir(path);
-                m_watchedDirs.insert(path);
-            }
+            m_directoryContentsCounter->addDirectory(path);
         } else if (getSizeRole) {
             data.insert("size", -1); // -1 indicates an unknown number of items
         }
@@ -1168,61 +1125,6 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 #endif
 
     return data;
-}
-
-int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
-{
-    const bool countHiddenFiles = m_model->showHiddenFiles();
-    const bool showFoldersOnly  = m_model->showDirectoriesOnly();
-
-#ifdef Q_WS_WIN
-    QDir dir(path);
-    QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System;
-    if (countHiddenFiles) {
-        filters |= QDir::Hidden;
-    }
-    if (showFoldersOnly) {
-        filters |= QDir::Dirs;
-    } else {
-        filters |= QDir::AllEntries;
-    }
-    return dir.entryList(filters).count();
-#else
-    // Taken from kdelibs/kio/kio/kdirmodel.cpp
-    // Copyright (C) 2006 David Faure <faure@kde.org>
-
-    int count = -1;
-    DIR* dir = ::opendir(QFile::encodeName(path));
-    if (dir) {  // krazy:exclude=syscalls
-        count = 0;
-        struct dirent *dirEntry = 0;
-        while ((dirEntry = ::readdir(dir))) {
-            if (dirEntry->d_name[0] == '.') {
-                if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
-                    // Skip "." or hidden files
-                    continue;
-                }
-                if (dirEntry->d_name[1] == '.' && dirEntry->d_name[2] == '\0') {
-                    // Skip ".."
-                    continue;
-                }
-            }
-
-            // If only directories are counted, consider an unknown file type and links also
-            // as directory instead of trying to do an expensive stat()
-            // (see bugs 292642 and 299997).
-            const bool countEntry = !showFoldersOnly ||
-                                    dirEntry->d_type == DT_DIR ||
-                                    dirEntry->d_type == DT_LNK ||
-                                    dirEntry->d_type == DT_UNKNOWN;
-            if (countEntry) {
-                ++count;
-            }
-        }
-        ::closedir(dir);
-    }
-    return count;
-#endif
 }
 
 void KFileItemModelRolesUpdater::updateAllPreviews()
