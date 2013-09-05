@@ -58,6 +58,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_startedSearching(false),
     m_readOnly(false),
+    m_active(true),
     m_topLayout(0),
     m_searchLabel(0),
     m_searchInput(0),
@@ -171,6 +172,22 @@ bool DolphinSearchBox::isReadOnly() const
     return m_readOnly;
 }
 
+void DolphinSearchBox::setActive(bool active)
+{
+    if (active != m_active) {
+        m_active = active;
+
+        if (active) {
+            emit activated();
+        }
+    }
+}
+
+bool DolphinSearchBox::isActive() const
+{
+    return m_active;
+}
+
 bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
@@ -197,6 +214,21 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
             m_searchInput->clear();
         }
     }
+}
+
+bool DolphinSearchBox::eventFilter(QObject* obj, QEvent* event)
+{
+    switch (event->type()) {
+    case QEvent::FocusIn:
+        setActive(true);
+        setFocus();
+        break;
+
+    default:
+        break;
+    }
+
+    return QObject::eventFilter(obj, event);
 }
 
 void DolphinSearchBox::emitSearchRequest()
@@ -253,6 +285,7 @@ void DolphinSearchBox::slotFacetChanged()
 
 void DolphinSearchBox::initButton(QToolButton* button)
 {
+    button->installEventFilter(this);
     button->setAutoExclusive(true);
     button->setAutoRaise(true);
     button->setCheckable(true);
@@ -298,6 +331,7 @@ void DolphinSearchBox::init()
 
     // Create search box
     m_searchInput = new KLineEdit(this);
+    m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setFont(KGlobalSettings::generalFont());
     setFocusProxy(m_searchInput);
@@ -348,6 +382,7 @@ void DolphinSearchBox::init()
     connect(m_facetsToggleButton, SIGNAL(clicked()), this, SLOT(slotFacetsButtonToggled()));
 
     m_facetsWidget = new DolphinFacetsWidget(this);
+    m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     connect(m_facetsWidget, SIGNAL(facetChanged()), this, SLOT(slotFacetChanged()));
 

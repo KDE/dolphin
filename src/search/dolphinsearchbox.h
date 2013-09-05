@@ -87,10 +87,27 @@ public:
     void setReadOnly(bool readOnly, const KUrl& query = KUrl());
     bool isReadOnly() const;
 
+    /**
+     * Set the search box to the active mode, if \a active
+     * is true. The active mode is default. The inactive mode only differs
+     * visually from the active mode, no change of the behavior is given.
+     *
+     * Using the search box in the inactive mode is useful when having split views,
+     * where the inactive view is indicated by an search box visually.
+     */
+    void setActive(bool active);
+
+    /**
+     * @return True, if the search box is in the active mode.
+     * @see    DolphinSearchBox::setActive()
+     */
+    bool isActive() const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
+    virtual bool eventFilter(QObject* obj, QEvent* event);
 
 signals:
     /**
@@ -110,6 +127,13 @@ signals:
      * Emitted as soon as the search box should get closed.
      */
     void closeRequest();
+
+    /**
+     * Is emitted, if the searchbox has been activated by
+     * an user interaction
+     * @see DolphinSearchBox::setActive()
+     */
+    void activated();
 
 private slots:
     void emitSearchRequest();
@@ -137,6 +161,7 @@ private:
 private:
     bool m_startedSearching;
     bool m_readOnly;
+    bool m_active;
 
     QVBoxLayout* m_topLayout;
 
