@@ -375,12 +375,9 @@ void KItemListViewLayouter::doLayout()
         if (horizontalScrolling) {
             // Flip everything so that the layout logically can work like having
             // a vertical scrolling
-            itemSize.setWidth(m_itemSize.height());
-            itemSize.setHeight(m_itemSize.width());
-            itemMargin.setWidth(m_itemMargin.height());
-            itemMargin.setHeight(m_itemMargin.width());
-            size.setWidth(m_size.height());
-            size.setHeight(m_size.width());
+            itemSize.transpose();
+            itemMargin.transpose();
+            size.transpose();
 
             if (grouped) {
                 // In the horizontal scrolling case all groups are aligned
@@ -411,7 +408,7 @@ void KItemListViewLayouter::doLayout()
             ++rowCount;
         }
 
-        m_itemInfos.reserve(itemCount);
+        m_itemInfos.resize(itemCount);
 
         qreal y = m_headerHeight + itemMargin.height();
         int row = 0;
@@ -458,18 +455,10 @@ void KItemListViewLayouter::doLayout()
                     }
                 }
 
-                const QRectF bounds(x, y, itemSize.width(), requiredItemHeight);
-                if (index < m_itemInfos.count()) {
-                    m_itemInfos[index].rect = bounds;
-                    m_itemInfos[index].column = column;
-                    m_itemInfos[index].row = row;
-                } else {
-                    ItemInfo itemInfo;
-                    itemInfo.rect = bounds;
-                    itemInfo.column = column;
-                    itemInfo.row = row;
-                    m_itemInfos.append(itemInfo);
-                }
+                ItemInfo& itemInfo = m_itemInfos[index];
+                itemInfo.rect = QRectF(x, y, itemSize.width(), requiredItemHeight);
+                itemInfo.column = column;
+                itemInfo.row = row;
 
                 if (grouped && horizontalScrolling) {
                     // When grouping is enabled in the horizontal mode, the header alignment
@@ -504,10 +493,6 @@ void KItemListViewLayouter::doLayout()
 
             y += maxItemHeight + itemMargin.height();
             ++row;
-        }
-        if (m_itemInfos.count() > itemCount) {
-            m_itemInfos.erase(m_itemInfos.begin() + itemCount,
-                              m_itemInfos.end());
         }
 
         if (itemCount > 0) {
