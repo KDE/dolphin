@@ -486,7 +486,8 @@ void KFileItemModelTest::testExpandItems()
     // KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& b)
     // yields the correct result for "a/a/1" and "a/a-1/", whis is non-trivial because they share the
     // first three characters.
-    QSet<QByteArray> modelRoles = m_model->roles();
+    QSet<QByteArray> originalModelRoles = m_model->roles();
+    QSet<QByteArray> modelRoles = originalModelRoles;
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
@@ -593,6 +594,18 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedDirectories(), allFolders);
+
+    // Remove all expanded items by changing the roles
+    spyRemoved.clear();
+    m_model->setRoles(originalModelRoles);
+    QVERIFY(!m_model->isExpanded(0));
+    QCOMPARE(m_model->count(), 1);
+    QVERIFY(!m_model->expandedDirectories().contains(KUrl(m_testDir->name() + 'a')));
+
+    QCOMPARE(spyRemoved.count(), 1);
+    itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 4)); // 4 items removed
+    QVERIFY(m_model->isConsistent());
 }
 
 void KFileItemModelTest::testExpandParentItems()
@@ -638,6 +651,28 @@ void KFileItemModelTest::testExpandParentItems()
 
     // The model should now contain "a 1/", "a 1/b1/", "a2/", "a2/b2", and "a2/b2/c2/".
     // It's important that only the parents of "a 1/b1/" and "a2/b2/c2/" are expanded.
+    QCOMPARE(m_model->count(), 5);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(!m_model->isExpanded(1));
+    QVERIFY(m_model->isExpanded(2));
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(!m_model->isExpanded(4));
+    QVERIFY(m_model->isConsistent());
+
+    // Expand "a 1/b1/".
+    m_model->setExpanded(1, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
+    QCOMPARE(m_model->count(), 6);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(!m_model->isExpanded(2));
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(m_model->isExpanded(4));
+    QVERIFY(!m_model->isExpanded(5));
+    QVERIFY(m_model->isConsistent());
+
+    // Collapse "a 1/b1/" again, and verify that the previous state is restored.
+    m_model->setExpanded(1, false);
     QCOMPARE(m_model->count(), 5);
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(!m_model->isExpanded(1));

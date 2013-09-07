@@ -494,10 +494,7 @@ bool KFileItemModel::isExpandable(int index) const
 int KFileItemModel::expandedParentsCount(int index) const
 {
     if (index >= 0 && index < count()) {
-        const int parentsCount = m_itemData.at(index)->values.value("expandedParentsCount").toInt();
-        if (parentsCount > 0) {
-            return parentsCount;
-        }
+        return expandedParentsCount(m_itemData.at(index));
     }
     return 0;
 }
@@ -1234,6 +1231,23 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
     return itemDataList;
 }
 
+int KFileItemModel::expandedParentsCount(const ItemData* data)
+{
+    // The hash 'values' is only guaranteed to contain the key "expandedParentsCount"
+    // if the corresponding item is expanded, and it is not a top-level item.
+    const ItemData* parent = data->parent;
+    if (parent) {
+        if (parent->parent) {
+            Q_ASSERT(parent->values.contains("expandedParentsCount"));
+            return parent->values.value("expandedParentsCount").toInt() + 1;
+        } else {
+            return 1;
+        }
+    } else {
+        return 0;
+    }
+}
+
 void KFileItemModel::removeExpandedItems()
 {
     KFileItemList expandedItems;
@@ -1241,15 +1255,12 @@ void KFileItemModel::removeExpandedItems()
     const int maxIndex = m_itemData.count() - 1;
     for (int i = 0; i <= maxIndex; ++i) {
         const ItemData* itemData = m_itemData.at(i);
-        if (itemData->values.value("expandedParentsCount").toInt() > 0) {
+        if (itemData->parent) {
             expandedItems.append(itemData->item);
         }
     }
 
-    // The m_expandedParentsCountRoot may not get reset before all items with
-    // a bigger count have been removed.
     removeItems(expandedItems, DeleteItemData);
-
     m_expandedDirs.clear();
 }
 
@@ -1394,7 +1405,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
 
     if (m_requestRole[ExpandedParentsCountRole]) {
         if (parent) {
-            const int level = parent->values["expandedParentsCount"].toInt() + 1;
+            const int level = expandedParentsCount(parent) + 1;
             data.insert(sharedValue("expandedParentsCount"), level);
         }
     }
@@ -1418,8 +1429,8 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
     int result = 0;
 
     if (a->parent != b->parent) {
-        const int expansionLevelA = a->values.value("expandedParentsCount").toInt();
-        const int expansionLevelB = b->values.value("expandedParentsCount").toInt();
+        const int expansionLevelA = expandedParentsCount(a);
+        const int expansionLevelB = expandedParentsCount(b);
 
         // If b has a higher expansion level than a, check if a is a parent
         // of b, and make sure that both expansion levels are equal otherwise.
@@ -1439,7 +1450,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
             a = a->parent;
         }
 
-        Q_ASSERT(a->values.value("expandedParentsCount").toInt() == b->values.value("expandedParentsCount").toInt());
+        Q_ASSERT(expandedParentsCount(a) == expandedParentsCount(b));
 
         // Compare the last parents of a and b which are different.
         while (a->parent != b->parent) {
@@ -1938,9 +1949,9 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
 
     int index = m_items.value(item.url(), -1);
     if (index >= 0) {
-        const int parentLevel = m_itemData.at(index)->values.value("expandedParentsCount").toInt();
+        const int parentLevel = expandedParentsCount(index);
         ++index;
-        while (index < m_itemData.count() && m_itemData.at(index)->values.value("expandedParentsCount").toInt() > parentLevel) {
+        while (index < m_itemData.count() && expandedParentsCount(index) > parentLevel) {
             items.append(m_itemData.at(index)->item);
             ++index;
         }
@@ -2075,7 +2086,7 @@ bool KFileItemModel::isConsistent() const
         const ItemData* data = m_itemData.at(i);
         const ItemData* parent = data->parent;
         if (parent) {
-            if (data->values.value("expandedParentsCount").toInt() != parent->values.value("expandedParentsCount").toInt() + 1) {
+            if (expandedParentsCount(data) != expandedParentsCount(parent) + 1) {
                 qWarning() << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
                 return false;
             }

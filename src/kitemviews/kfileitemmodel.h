@@ -319,6 +319,8 @@ private:
      */
     QList<ItemData*> createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const;
 
+    static int expandedParentsCount(const ItemData* data);
+
     void removeExpandedItems();
 
     /**
