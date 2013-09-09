@@ -124,6 +124,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
     connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
     connect(m_view, SIGNAL(urlIsFileError(KUrl)),               this, SLOT(slotUrlIsFileError(KUrl)));
+    connect(m_view, SIGNAL(activated()),                        this, SLOT(activate()));
 
     connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
             this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
