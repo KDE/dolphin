@@ -1286,6 +1286,24 @@ void KFileItemModelTest::testNameRoleGroups()
     expectedGroups << QPair<int, QVariant>(2, QLatin1String("D"));
     expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
     QCOMPARE(m_model->groups(), expectedGroups);
+
+    // Change d.txt back to c.txt, but this time using the dir lister's refreshItems() signal.
+    const KFileItem fileItemD = m_model->fileItem(2);
+    KFileItem fileItemC = fileItemD;
+    KUrl urlC = fileItemC.url();
+    urlC.setFileName("c.txt");
+    fileItemC.setUrl(urlC);
+
+    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemC));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(groupsChanged()), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "e.txt");
+
+    expectedGroups.clear();
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("B"));
+    expectedGroups << QPair<int, QVariant>(2, QLatin1String("C"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("E"));
+    QCOMPARE(m_model->groups(), expectedGroups);
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

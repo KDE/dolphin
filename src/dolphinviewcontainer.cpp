@@ -98,6 +98,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
+    connect(m_searchBox, SIGNAL(activated()), this, SLOT(activate()));
     connect(m_searchBox, SIGNAL(closeRequest()), this, SLOT(closeSearchBox()));
     connect(m_searchBox, SIGNAL(searchRequest()), this, SLOT(startSearching()));
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
@@ -195,6 +196,7 @@ KUrl DolphinViewContainer::url() const
 
 void DolphinViewContainer::setActive(bool active)
 {
+    m_searchBox->setActive(active);
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
 
