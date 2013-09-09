@@ -392,6 +392,18 @@ void KFileItemModelTest::testResortAfterChangingName()
 
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
     QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt");
+
+    // We rename d.txt back to a.txt using the dir lister's refreshItems() signal.
+    const KFileItem fileItemD = m_model->fileItem(2);
+    KFileItem fileItemA = fileItemD;
+    KUrl urlA = fileItemA.url();
+    urlA.setFileName("a.txt");
+    fileItemA.setUrl(urlA);
+
+    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemA));
+
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()

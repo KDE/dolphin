@@ -324,6 +324,13 @@ private:
     void removeExpandedItems();
 
     /**
+     * This function is called by setData() and slotRefreshItems(). It emits
+     * the itemsChanged() signal, checks if the sort order is still correct,
+     * and starts m_resortAllItemsTimer if that is not the case.
+     */
+    void emitItemsChangedAndTriggerResorting(const KItemRangeList& itemRanges, const QSet<QByteArray>& changedRoles);
+
+    /**
      * Resets all values from m_requestRole to false.
      */
     void resetRoles();

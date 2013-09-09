@@ -190,33 +190,7 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         m_itemData[index]->item.setUrl(url);
     }
 
-    emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
-
-    // Trigger a resorting if the item's correct position has changed. Note
-    // that this can happen even if the sort role has not changed at all
-    // because the file name can be used as a fallback.
-    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
-        // Compare the changed item with its neighbors to see
-        // if an expensive resorting is needed at all.
-        const ItemData* changedItem = m_itemData.at(index);
-        const ItemData* previousItem = (index == 0) ? 0 : m_itemData.at(index - 1);
-        const ItemData* nextItem = (index == m_itemData.count() - 1) ? 0 : m_itemData.at(index + 1);
-
-        if ((previousItem && lessThan(changedItem, previousItem))
-            || (nextItem && lessThan(nextItem, changedItem))) {
-            m_resortAllItemsTimer->start();
-        } else if (groupedSorting() && changedRoles.contains(sortRole())) {
-            // The position is still correct, but the groups might have changed
-            // if the changed item is either the first or the last item in a
-            // group.
-            // In principle, we could try to find out if the item really is the
-            // first or last one in its group and then update the groups
-            // (possibly with a delayed timer to make sure that we don't
-            // re-calculate the groups very often if items are updated one by
-            // one), but starting m_resortAllItemsTimer is easier.
-            m_resortAllItemsTimer->start();
-        }
-    }
+    emitItemsChangedAndTriggerResorting(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
     return true;
 }
@@ -966,11 +940,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         itemRangeList.append(KItemRange(rangeIndex, rangeCount));
     }
 
-    emit itemsChanged(itemRangeList, changedRoles);
-
-    if (changedRoles.contains(sortRole())) {
-        m_resortAllItemsTimer->start();
-    }
+    emitItemsChangedAndTriggerResorting(itemRangeList, changedRoles);
 }
 
 void KFileItemModel::slotClear()
@@ -1262,6 +1232,58 @@ void KFileItemModel::removeExpandedItems()
 
     removeItems(expandedItems, DeleteItemData);
     m_expandedDirs.clear();
+}
+
+void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& itemRanges, const QSet<QByteArray>& changedRoles)
+{
+    emit itemsChanged(itemRanges, changedRoles);
+
+    // Trigger a resorting if necessary. Note that this can happen even if the sort
+    // role has not changed at all because the file name can be used as a fallback.
+    if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
+        foreach (const KItemRange& range, itemRanges) {
+            bool needsResorting = false;
+
+            const int first = range.index;
+            const int last = range.index + range.count - 1;
+
+            // Resorting the model is necessary if
+            // (a)  The first item in the range is "lessThan" its predecessor,
+            // (b)  the successor of the last item is "lessThan" the last item, or
+            // (c)  the internal order of the items in the range is incorrect.
+            if (first > 0
+                && lessThan(m_itemData.at(first), m_itemData.at(first - 1))) {
+                needsResorting = true;
+            } else if (last < count() - 1
+                && lessThan(m_itemData.at(last + 1), m_itemData.at(last))) {
+                needsResorting = true;
+            } else {
+                for (int index = first; index < last; ++index) {
+                    if (lessThan(m_itemData.at(index + 1), m_itemData.at(index))) {
+                        needsResorting = true;
+                        break;
+                    }
+                }
+            }
+
+            if (needsResorting) {
+                m_resortAllItemsTimer->start();
+                return;
+            }
+        }
+    }
+
+    if (groupedSorting() && changedRoles.contains(sortRole())) {
+        // The position is still correct, but the groups might have changed
+        // if the changed item is either the first or the last item in a
+        // group.
+        // In principle, we could try to find out if the item really is the
+        // first or last one in its group and then update the groups
+        // (possibly with a delayed timer to make sure that we don't
+        // re-calculate the groups very often if items are updated one by
+        // one), but starting m_resortAllItemsTimer is easier.
+        m_resortAllItemsTimer->start();
+    }
 }
 
 void KFileItemModel::resetRoles()
