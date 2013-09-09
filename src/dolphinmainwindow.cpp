@@ -26,6 +26,7 @@
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
+#include "dolphinviewsignaladapter.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
@@ -108,6 +109,7 @@ Q_DECLARE_METATYPE(ClosedTab)
 
 DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(0),
+    m_viewSignalAdapter(0),
     m_newFileMenu(0),
     m_tabBar(0),
     m_activeViewContainer(0),
@@ -150,6 +152,34 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setAcceptDrops(true);
 
+    m_viewSignalAdapter = new DolphinViewSignalAdapter(this);
+    connect(m_viewSignalAdapter, SIGNAL(showFilterBarChanged(bool)),
+            this, SLOT(updateFilterBarAction(bool)));
+    connect(m_viewSignalAdapter, SIGNAL(writeStateChanged(bool)),
+            this, SLOT(slotWriteStateChanged(bool)));
+    connect(m_viewSignalAdapter, SIGNAL(selectionChanged(KFileItemList)),
+            this, SLOT(slotSelectionChanged(KFileItemList)));
+    connect(m_viewSignalAdapter, SIGNAL(requestItemInfo(KFileItem)),
+            this, SLOT(slotRequestItemInfo(KFileItem)));
+    connect(m_viewSignalAdapter, SIGNAL(tabRequested(KUrl)),
+            this, SLOT(openNewTab(KUrl)));
+    connect(m_viewSignalAdapter, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
+            this, SLOT(openContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
+    connect(m_viewSignalAdapter, SIGNAL(directoryLoadingStarted()),
+            this, SLOT(enableStopAction()));
+    connect(m_viewSignalAdapter, SIGNAL(directoryLoadingCompleted()),
+            this, SLOT(disableStopAction()));
+    connect(m_viewSignalAdapter, SIGNAL(goBackRequested()),
+            this, SLOT(goBack()));
+    connect(m_viewSignalAdapter, SIGNAL(goForwardRequested()),
+            this, SLOT(goForward()));
+    connect(m_viewSignalAdapter, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
+    connect(m_viewSignalAdapter, SIGNAL(historyChanged()),
+            this, SLOT(updateHistory()));
+    connect(m_viewSignalAdapter, SIGNAL(editableStateChanged(bool)),
+            this, SLOT(slotEditableStateChanged(bool)));
+
     viewTab.splitter = new QSplitter(this);
     viewTab.splitter->setChildrenCollapsible(false);
 
@@ -164,7 +194,7 @@ DolphinMainWindow::DolphinMainWindow() :
     viewTab.primaryView = createViewContainer(homeUrl, viewTab.splitter);
 
     m_activeViewContainer = viewTab.primaryView;
-    connectViewSignals(m_activeViewContainer);
+    m_viewSignalAdapter->setViewContainer(m_activeViewContainer);
     DolphinView* view = m_activeViewContainer->view();
     m_activeViewContainer->show();
     m_actionHandler->setCurrentView(view);
@@ -476,7 +506,6 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.splitter->setChildrenCollapsible(false);
     viewTab.primaryView = createViewContainer(url, viewTab.splitter);
     viewTab.primaryView->setActive(false);
-    connectViewSignals(viewTab.primaryView);
 
     m_viewTab.append(viewTab);
 
@@ -1444,6 +1473,8 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
         return;
     }
 
+    m_viewSignalAdapter->setViewContainer(m_activeViewContainer);
+
     m_activeViewContainer->setActive(false);
     m_activeViewContainer = viewContainer;
 
@@ -1977,44 +2008,6 @@ void DolphinMainWindow::clearStatusBar()
     m_activeViewContainer->statusBar()->resetToDefaultText();
 }
 
-void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
-{
-    connect(container, SIGNAL(showFilterBarChanged(bool)),
-            this, SLOT(updateFilterBarAction(bool)));
-    connect(container, SIGNAL(writeStateChanged(bool)),
-            this, SLOT(slotWriteStateChanged(bool)));
-
-    DolphinView* view = container->view();
-    connect(view, SIGNAL(selectionChanged(KFileItemList)),
-            this, SLOT(slotSelectionChanged(KFileItemList)));
-    connect(view, SIGNAL(requestItemInfo(KFileItem)),
-            this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(view, SIGNAL(activated()),
-            this, SLOT(toggleActiveView()));
-    connect(view, SIGNAL(tabRequested(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
-    connect(view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
-            this, SLOT(openContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
-    connect(view, SIGNAL(directoryLoadingStarted()),
-            this, SLOT(enableStopAction()));
-    connect(view, SIGNAL(directoryLoadingCompleted()),
-            this, SLOT(disableStopAction()));
-    connect(view, SIGNAL(goBackRequested()),
-            this, SLOT(goBack()));
-    connect(view, SIGNAL(goForwardRequested()),
-            this, SLOT(goForward()));
-
-    const KUrlNavigator* navigator = container->urlNavigator();
-    connect(navigator, SIGNAL(urlChanged(KUrl)),
-            this, SLOT(changeUrl(KUrl)));
-    connect(navigator, SIGNAL(historyChanged()),
-            this, SLOT(updateHistory()));
-    connect(navigator, SIGNAL(editableStateChanged(bool)),
-            this, SLOT(slotEditableStateChanged(bool)));
-    connect(navigator, SIGNAL(tabRequested(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
-}
-
 void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
@@ -2084,7 +2077,6 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     splitter->addWidget(viewTab.secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
 
-    connectViewSignals(viewTab.secondaryView);
     viewTab.secondaryView->setActive(false);
     viewTab.secondaryView->resize(newWidth, viewTab.primaryView->height());
     viewTab.secondaryView->show();

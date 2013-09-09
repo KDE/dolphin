@@ -172,6 +172,7 @@ set(dolphin_SRCS
     dolphinnewfilemenu.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
+    dolphinviewsignaladapter.cpp
     filterbar/filterbar.cpp
     main.cpp
     panels/information/filemetadataconfigurationdialog.cpp

@@ -41,6 +41,7 @@ class DolphinApplication;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
+class DolphinViewSignalAdapter;
 class KAction;
 class KFileItem;
 class KFileItemList;
@@ -502,14 +503,6 @@ private:
     void rememberClosedTab(int index);
 
     /**
-     * Connects the signals from the created DolphinView with
-     * the DolphinViewContainer \a container with the corresponding slots of
-     * the DolphinMainWindow. This method must be invoked each
-     * time a DolphinView has been created.
-     */
-    void connectViewSignals(DolphinViewContainer* container);
-
-    /**
      * Updates the text of the split action:
      * If two views are shown, the text is set to "Split",
      * otherwise the text is set to "Join". The icon
@@ -563,6 +556,8 @@ private:
         virtual ~UndoUiInterface();
         virtual void jobError(KIO::Job* job);
     };
+
+    DolphinViewSignalAdapter* m_viewSignalAdapter;
 
     KNewFileMenu* m_newFileMenu;
     KActionMenu* m_recentTabsMenu;
