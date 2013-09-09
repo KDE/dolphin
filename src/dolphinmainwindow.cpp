@@ -25,6 +25,7 @@
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
+#include "dolphinrecenttabsmenu.h"
 #include "dolphinviewcontainer.h"
 #include "dolphinviewsignaladapter.h"
 #include "panels/folders/folderspanel.h"
@@ -93,19 +94,6 @@ namespace {
     // an updated version of Dolphin is running.
     const int CurrentDolphinVersion = 200;
 };
-
-/*
- * Remembers the tab configuration if a tab has been closed.
- * Each closed tab can be restored by the menu
- * "Go -> Recently Closed Tabs".
- */
-struct ClosedTab
-{
-    KUrl primaryUrl;
-    KUrl secondaryUrl;
-    bool isSplit;
-};
-Q_DECLARE_METATYPE(ClosedTab)
 
 DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(0),
@@ -757,35 +745,6 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     }
 }
 
-void DolphinMainWindow::restoreClosedTab(QAction* action)
-{
-    if (action->data().toBool()) {
-        // clear all actions except the "Empty Recently Closed Tabs"
-        // action and the separator
-        QList<QAction*> actions = m_recentTabsMenu->menu()->actions();
-        const int count = actions.size();
-        for (int i = 2; i < count; ++i) {
-            m_recentTabsMenu->menu()->removeAction(actions.at(i));
-        }
-    } else {
-        const ClosedTab closedTab = action->data().value<ClosedTab>();
-        openNewTab(closedTab.primaryUrl);
-        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
-
-        if (closedTab.isSplit) {
-            // create secondary view
-            toggleSplitView();
-            m_viewTab[m_tabIndex].secondaryView->setUrl(closedTab.secondaryUrl);
-        }
-
-        m_recentTabsMenu->removeAction(action);
-    }
-
-    if (m_recentTabsMenu->menu()->actions().count() == 2) {
-        m_recentTabsMenu->setEnabled(false);
-    }
-}
-
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
     QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
@@ -1181,7 +1140,23 @@ void DolphinMainWindow::closeTab(int index)
         // previous tab before closing the tab.
         m_tabBar->setCurrentIndex((index > 0) ? index - 1 : 1);
     }
-    rememberClosedTab(index);
+
+    const QString primaryPath = m_viewTab[index].primaryView->url().path();
+    const QString iconName = KMimeType::iconNameForUrl(primaryPath);
+
+    ClosedTab tab;
+    tab.text = squeezedText(primaryPath);
+    tab.icon = KIcon(iconName);
+    tab.primaryUrl = m_viewTab[index].primaryView->url();
+
+    if (m_viewTab[index].secondaryView) {
+        tab.secondaryUrl = m_viewTab[index].secondaryView->url();
+        tab.isSplit = true;
+    } else {
+        tab.isSplit = false;
+    }
+
+    emit rememberClosedTab(tab);
 
     // delete tab
     m_viewTab[index].primaryView->deleteLater();
@@ -1464,6 +1439,17 @@ void DolphinMainWindow::slotPanelErrorMessage(const QString& error)
     activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
 }
 
+void DolphinMainWindow::restoreClosedTab(const ClosedTab& tab)
+{
+    openNewActivatedTab(tab.primaryUrl);
+    if (tab.isSplit) {
+        const int index = m_tabBar->currentIndex();
+        createSecondaryView(index);
+        m_viewTab[index].secondaryView->setUrl(tab.secondaryUrl);
+        setActiveViewContainer(m_viewTab[index].secondaryView);
+    }
+}
+
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
     Q_ASSERT(viewContainer);
@@ -1613,19 +1599,12 @@ void DolphinMainWindow::setupActions()
     backShortcut.setAlternate(Qt::Key_Backspace);
     backAction->setShortcut(backShortcut);
 
-    m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
-    m_recentTabsMenu->setIcon(KIcon("edit-undo"));
-    m_recentTabsMenu->setDelayed(false);
-    actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
-    connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction*)),
-            this, SLOT(restoreClosedTab(QAction*)));
-
-    QAction* action = new QAction(i18n("Empty Recently Closed Tabs"), m_recentTabsMenu);
-    action->setIcon(KIcon("edit-clear-list"));
-    action->setData(QVariant::fromValue(true));
-    m_recentTabsMenu->addAction(action);
-    m_recentTabsMenu->addSeparator();
-    m_recentTabsMenu->setEnabled(false);
+    DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
+    actionCollection()->addAction("closed_tabs", recentTabsMenu);
+    connect(this, SIGNAL(rememberClosedTab(ClosedTab)),
+            recentTabsMenu, SLOT(rememberClosedTab(ClosedTab)));
+    connect(recentTabsMenu, SIGNAL(restoreClosedTab(ClosedTab)),
+            this, SLOT(restoreClosedTab(ClosedTab)));
 
     KAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     connect(forwardAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goForward(Qt::MouseButtons)));
@@ -1929,44 +1908,6 @@ bool DolphinMainWindow::addActionToMenu(QAction* action, KMenu* menu)
 
     menu->addAction(action);
     return true;
-}
-
-void DolphinMainWindow::rememberClosedTab(int index)
-{
-    KMenu* tabsMenu = m_recentTabsMenu->menu();
-
-    const QString primaryPath = m_viewTab[index].primaryView->url().path();
-    const QString iconName = KMimeType::iconNameForUrl(primaryPath);
-
-    QAction* action = new QAction(squeezedText(primaryPath), tabsMenu);
-
-    ClosedTab closedTab;
-    closedTab.primaryUrl = m_viewTab[index].primaryView->url();
-
-    if (m_viewTab[index].secondaryView) {
-        closedTab.secondaryUrl = m_viewTab[index].secondaryView->url();
-        closedTab.isSplit = true;
-    } else {
-        closedTab.isSplit = false;
-    }
-
-    action->setData(QVariant::fromValue(closedTab));
-    action->setIcon(KIcon(iconName));
-
-    // add the closed tab menu entry after the separator and
-    // "Empty Recently Closed Tabs" entry
-    if (tabsMenu->actions().size() == 2) {
-        tabsMenu->addAction(action);
-    } else {
-        tabsMenu->insertAction(tabsMenu->actions().at(2), action);
-    }
-
-    // assure that only up to 8 closed tabs are shown in the menu
-    if (tabsMenu->actions().size() > 8) {
-        tabsMenu->removeAction(tabsMenu->actions().last());
-    }
-    actionCollection()->action("closed_tabs")->setEnabled(true);
-    KAcceleratorManager::manage(tabsMenu);
 }
 
 void DolphinMainWindow::refreshViews()

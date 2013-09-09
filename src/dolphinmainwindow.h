@@ -28,7 +28,6 @@
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <KActionMenu>
 #include <KIcon>
 
 #include <QList>
@@ -52,6 +51,7 @@ class KUrl;
 class QSplitter;
 class QToolButton;
 class QVBoxLayout;
+struct ClosedTab;
 
 /**
  * @short Main window for Dolphin.
@@ -157,6 +157,8 @@ signals:
      */
     void settingsChanged();
 
+    void rememberClosedTab(const ClosedTab& tab);
+
 protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
@@ -192,9 +194,6 @@ private slots:
      * on the parameter \a available.
      */
     void slotUndoAvailable(bool available);
-
-    /** Invoked when an action in the recent tabs menu is clicked. */
-    void restoreClosedTab(QAction* action);
 
     /** Sets the text of the 'Undo' menu action to \a text. */
     void slotUndoTextChanged(const QString& text);
@@ -467,6 +466,8 @@ private slots:
      */
     void slotPanelErrorMessage(const QString& error);
 
+    void restoreClosedTab(const ClosedTab& tab);
+
 private:
     /**
      * Activates the given view, which means that
@@ -496,11 +497,6 @@ private:
      * @return True if the action has been added to the menu.
      */
     bool addActionToMenu(QAction* action, KMenu* menu);
-
-    /**
-     * Adds the tab[\a index] to the closed tab menu's list of actions.
-     */
-    void rememberClosedTab(int index);
 
     /**
      * Updates the text of the split action:
@@ -560,7 +556,6 @@ private:
     DolphinViewSignalAdapter* m_viewSignalAdapter;
 
     KNewFileMenu* m_newFileMenu;
-    KActionMenu* m_recentTabsMenu;
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
