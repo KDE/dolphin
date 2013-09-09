@@ -38,6 +38,7 @@
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 #include "views/dolphinnewfilemenuobserver.h"
+#include "views/placespanelvisibilityobserver.h"
 
 #ifndef Q_OS_WIN
 #include "panels/terminal/terminalpanel.h"
@@ -898,19 +899,6 @@ void DolphinMainWindow::togglePanelLockState()
     }
 
     GeneralSettings::setLockPanels(newLockState);
-}
-
-void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
-{
-    const int tabCount = m_viewTab.count();
-    for (int i = 0; i < tabCount; ++i) {
-        ViewTab& tab = m_viewTab[i];
-        Q_ASSERT(tab.primaryView);
-        tab.primaryView->urlNavigator()->setPlacesSelectorVisible(!visible);
-        if (tab.secondaryView) {
-            tab.secondaryView->urlNavigator()->setPlacesSelectorVisible(!visible);
-        }
-    }
 }
 
 void DolphinMainWindow::goBack()
@@ -1785,7 +1773,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),
-            this, SLOT(slotPlacesPanelVisibilityChanged(bool)));
+            &PlacesPanelVisibilityObserver::instance(), SLOT(placesPanelVisibilityChanged(bool)));
     connect(this, SIGNAL(settingsChanged()),
 	    placesPanel, SLOT(readSettings()));
 

@@ -217,6 +217,7 @@ set(dolphin_SRCS
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
+    views/placespanelvisibilityobserver.cpp
 )
 
 kde4_add_kcfg_files(dolphin_SRCS

@@ -56,6 +56,7 @@
 #include "views/draganddrophelper.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
+#include "views/placespanelvisibilityobserver.h"
 
 DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     QWidget(parent),
@@ -82,6 +83,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->setMargin(0);
 
     m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
+    PlacesPanelVisibilityObserver::instance().addUrlNavigator(m_urlNavigator);
     connect(m_urlNavigator, SIGNAL(urlsDropped(KUrl,QDropEvent*)),
             this, SLOT(dropUrls(KUrl,QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
@@ -187,6 +189,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
 DolphinViewContainer::~DolphinViewContainer()
 {
+    PlacesPanelVisibilityObserver::instance().removeUrlNavigator(m_urlNavigator);
 }
 
 KUrl DolphinViewContainer::url() const
