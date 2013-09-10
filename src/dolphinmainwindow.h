@@ -41,17 +41,14 @@ class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class DolphinViewSignalAdapter;
+class DolphinTabWidget;
 class KAction;
 class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class KTabBar;
 class KUrl;
-class QSplitter;
 class QToolButton;
-class QVBoxLayout;
-struct ClosedTab;
 
 /**
  * @short Main window for Dolphin.
@@ -78,6 +75,11 @@ public:
     DolphinViewContainer* activeViewContainer() const;
 
     /**
+     * Returns the tab widget.
+     */
+    DolphinTabWidget* tabWidget() const;
+
+    /**
      * Opens each directory in \p dirs in a separate tab. If the "split view"
      * option is enabled, 2 directories are collected within one tab.
      */
@@ -89,13 +91,6 @@ public:
      * of Dolphin).
      */
     void openFiles(const QList<KUrl>& files);
-
-    /**
-     * Returns true, if the main window contains two instances
-     * of a view container. The active view constainer can be
-     * accessed by DolphinMainWindow::activeViewContainer().
-     */
-    bool isSplit() const;
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared
@@ -157,12 +152,7 @@ signals:
      */
     void settingsChanged();
 
-    void rememberClosedTab(const ClosedTab& tab);
-
 protected:
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
-
     /** @see QMainWindow::closeEvent() */
     virtual void closeEvent(QCloseEvent* event);
 
@@ -231,13 +221,6 @@ private slots:
      * selected.
      */
     void invertSelection();
-
-    /**
-     * Switches between one and two views:
-     * If one view is visible, it will get split into two views.
-     * If already two views are visible, the active view gets closed.
-     */
-    void toggleSplitView();
 
     /** Reloads the currently active view. */
     void reloadView();
@@ -341,24 +324,6 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
-    /** Opens a new view with the current URL that is part of a tab. */
-    void openNewTab();
-
-    /**
-     * Opens a new tab in the background showing the URL \a url.
-     */
-    void openNewTab(const KUrl& url);
-
-    /**
-     * Opens a new tab showing the URL \a url and activates
-     * the tab.
-     */
-    void openNewActivatedTab(const KUrl& url);
-
-    void activateNextTab();
-
-    void activatePrevTab();
-
     /**
      * Opens the selected folder in a new tab.
      */
@@ -369,47 +334,11 @@ private slots:
      */
     void openInNewWindow();
 
-    /** Toggles the active view if two views are shown within the main window. */
-    void toggleActiveView();
-
     /**
      * Indicates in the statusbar that the execution of the command \a command
      * has been finished.
      */
     void showCommand(CommandType command);
-
-    /**
-     * Activates the tab with the index \a index, which means that the current view
-     * is replaced by the view of the given tab.
-     */
-    void setActiveTab(int index);
-
-    /** Closes the currently active tab. */
-    void closeTab();
-
-    /**
-     * Closes the tab with the index \a index and activates the tab with index - 1.
-     */
-    void closeTab(int index);
-
-    /**
-     * Opens a context menu for the tab with the index \a index
-     * on the position \a pos.
-     */
-    void openTabContextMenu(int index, const QPoint& pos);
-
-    /**
-     * Is connected to the QTabBar signal tabMoved(int from, int to).
-     * Reorders the list of tabs after a tab was moved in the tab bar
-     * and sets m_tabIndex to the new index of the current tab.
-     */
-    void slotTabMoved(int from, int to);
-
-    /**
-     * Is connected to the KTabBar signal testCanDecode() and adjusts
-     * the output parameter \a accept.
-     */
-    void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
      * If the URL can be listed, open it in the current view, otherwise
@@ -422,12 +351,6 @@ private slots:
      * be listed.
      */
     void slotHandleUrlStatFinished(KJob* job);
-
-    /**
-     * Is connected to the KTabBar signal receivedDropEvent.
-     * Allows dragging and dropping files onto tabs.
-     */
-    void tabDropEvent(int tab, QDropEvent* event);
 
     /**
      * Is invoked when the write state of a folder has been changed and
@@ -459,22 +382,20 @@ private slots:
      */
     void slotPanelErrorMessage(const QString& error);
 
-    void restoreClosedTab(const ClosedTab& tab);
+    /**
+     * Is called when the active view has been changed, e.g. when the current tab
+     * has been changed or when the active view in split view mode has been changed.
+     * Used to update various menus and to update the window title.
+     */
+    void activeViewChanged();
+
+    /**
+     * Is called whenever a tab has been added or removed.
+     * Used to update the "close_tab" action (enable/disable).
+     */
+    void slotTabsCountChanged(int count);
 
 private:
-    /**
-     * Activates the given view, which means that
-     * all menu actions are applied to this view. When
-     * having a split view setup, the nonactive view
-     * is usually shown in darker colors.
-     */
-    void setActiveViewContainer(DolphinViewContainer* view);
-
-    /**
-     * Creates a view container and does a default initialization.
-     */
-    DolphinViewContainer* createViewContainer(const KUrl& url, QWidget* parent);
-
     void setupActions();
     void setupDockWidgets();
     void updateEditActions();
@@ -499,27 +420,15 @@ private:
      */
     void updateSplitAction();
 
-    /** Returns the name of the tab for the URL \a url. */
-    QString tabName(const KUrl& url) const;
-
     bool isKompareInstalled() const;
 
     void createSecondaryView(int tabIndex);
-
-    /**
-     * Helper method for saveProperties() and readProperties(): Returns
-     * the property string for a tab with the index \a tabIndex and
-     * the property \a property.
-     */
-    QString tabProperty(const QString& property, int tabIndex) const;
 
     /**
      * Sets the window caption to url.fileName() if this is non-empty,
      * "/" if the URL is "file:///", and url.protocol() otherwise.
      */
     void setUrlAsCaption(const KUrl& url);
-
-    QString squeezedText(const QString& text) const;
 
     /**
      * Creates an action for showing/hiding a panel, that is accessible
@@ -547,25 +456,9 @@ private:
     };
 
     DolphinViewSignalAdapter* m_viewSignalAdapter;
-
+    DolphinTabWidget* m_tabWidget;
     KNewFileMenu* m_newFileMenu;
-    KTabBar* m_tabBar;
-    DolphinViewContainer* m_activeViewContainer;
-    QVBoxLayout* m_centralWidgetLayout;
     int m_id;
-
-    // Members for the tab-handling:
-    struct ViewTab
-    {
-        ViewTab() : isPrimaryViewActive(true), wasActive(false), primaryView(0), secondaryView(0), splitter(0) {}
-        bool isPrimaryViewActive;
-        bool wasActive;
-        DolphinViewContainer* primaryView;
-        DolphinViewContainer* secondaryView;
-        QSplitter* splitter;
-    };
-    int m_tabIndex;
-    QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
@@ -578,14 +471,9 @@ private:
     KIO::Job* m_lastHandleUrlStatJob;
 };
 
-inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
+inline DolphinTabWidget* DolphinMainWindow::tabWidget() const
 {
-    return m_activeViewContainer;
-}
-
-inline bool DolphinMainWindow::isSplit() const
-{
-    return m_viewTab[m_tabIndex].secondaryView != 0;
+    return m_tabWidget;
 }
 
 inline KNewFileMenu* DolphinMainWindow::newFileMenu() const
