@@ -64,10 +64,10 @@ void DolphinViewSignalAdapter::setViewContainer(DolphinViewContainer* container)
                        this, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
             disconnect(oldView, SIGNAL(tabRequested(KUrl)),
                        this, SIGNAL(tabRequested(KUrl)));
+            disconnect(oldView, SIGNAL(urlChanged(KUrl)),
+                       this, SIGNAL(urlChanged(KUrl)));
 
             const KUrlNavigator* oldUrlNavigator = oldContainer->urlNavigator();
-            disconnect(oldUrlNavigator, SIGNAL(urlChanged(KUrl)),
-                       this, SIGNAL(urlChanged(KUrl)));
             disconnect(oldUrlNavigator, SIGNAL(historyChanged()),
                        this, SIGNAL(historyChanged()));
             disconnect(oldUrlNavigator, SIGNAL(editableStateChanged(bool)),
@@ -101,10 +101,10 @@ void DolphinViewSignalAdapter::setViewContainer(DolphinViewContainer* container)
                     this, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
             connect(view, SIGNAL(tabRequested(KUrl)),
                     this, SIGNAL(tabRequested(KUrl)));
+            connect(view, SIGNAL(urlChanged(KUrl)),
+                    this, SIGNAL(urlChanged(KUrl)));
 
             const KUrlNavigator* urlNavigator = container->urlNavigator();
-            connect(urlNavigator, SIGNAL(urlChanged(KUrl)),
-                    this, SIGNAL(urlChanged(KUrl)));
             connect(urlNavigator, SIGNAL(historyChanged()),
                     this, SIGNAL(historyChanged()));
             connect(urlNavigator, SIGNAL(editableStateChanged(bool)),

@@ -1282,6 +1282,7 @@ void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUr
     if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
         emit redirection(oldUrl, newUrl);
         m_url = newUrl; // #186947
+        emit urlChanged(newUrl);
     }
 }
 
