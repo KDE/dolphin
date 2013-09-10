@@ -37,7 +37,20 @@ DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     connect(this, SIGNAL(tabCloseRequested(int)), SLOT(closeTab(int)));
     connect(this, SIGNAL(currentChanged(int)), SLOT(slotCurrentChanged()));
 
-    tabBar()->hide();
+    DolphinTabBar* tabBar = new DolphinTabBar(this);
+    connect(tabBar, SIGNAL(openNewActivatedTab()),         SLOT(openNewActivatedTab()));
+    connect(tabBar, SIGNAL(openNewActivatedTab(int)),      SLOT(openNewActivatedTab(int)));
+    connect(tabBar, SIGNAL(openNewActivatedTab(KUrl)),     SLOT(openNewActivatedTab(KUrl)));
+    connect(tabBar, SIGNAL(tabDropEvent(int,QDropEvent*)), SLOT(slotTabDropEvent(int,QDropEvent*)));
+    connect(tabBar, SIGNAL(tabDetachRequested(int)),       SLOT(slotDetachTab(int)));
+    tabBar->setAutoActivationDelay(750);
+    tabBar->hide();
+
+    setTabBar(tabBar);
+    setDocumentMode(true);
+    setElideMode(Qt::ElideLeft);
+    setUsesScrollButtons(true);
+    setTabsClosable(true);
 }
 
 DolphinViewContainer* DolphinTabWidget::activeViewContainer() const
