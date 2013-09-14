@@ -30,7 +30,6 @@
 #include "statusbarspaceinfo.h"
 
 #include <QApplication>
-#include <QClipboard>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
@@ -261,7 +260,6 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
 
     KMenu menu(this);
 
-    QAction* copyAction = menu.addAction(i18nc("@action:inmenu", "Copy Text"));
     QAction* showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
     showZoomSliderAction->setCheckable(true);
     showZoomSliderAction->setChecked(GeneralSettings::showZoomSlider());
@@ -271,11 +269,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
     showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
 
     const QAction* action = menu.exec(QCursor::pos());
-    if (action == copyAction) {
-        QMimeData* mimeData = new QMimeData();
-        mimeData->setText(text());
-        QApplication::clipboard()->setMimeData(mimeData);
-    } else if (action == showZoomSliderAction) {
+    if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
         m_zoomSlider->setVisible(visible);

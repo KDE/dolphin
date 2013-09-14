@@ -504,7 +504,11 @@ void KItemListView::scrollToItem(int index)
         const qreal headerHeight = m_headerWidget->size().height();
         viewGeometry.adjust(0, headerHeight, 0, 0);
     }
-    const QRectF currentRect = itemRect(index);
+    QRectF currentRect = itemRect(index);
+
+    // Fix for Bug 311099 - View the underscore when using Ctrl + PagDown
+    currentRect.adjust(-m_styleOption.horizontalMargin, -m_styleOption.verticalMargin,
+                        m_styleOption.horizontalMargin,  m_styleOption.verticalMargin);
 
     if (!viewGeometry.contains(currentRect)) {
         qreal newOffset = scrollOffset();
