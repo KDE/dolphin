@@ -37,7 +37,15 @@
 // #define KFILEITEMLISTVIEW_DEBUG
 
 namespace {
+    // If the visible index range changes, KFileItemModelRolesUpdater is not
+    // informed immediatetly, but with a short delay. This ensures that scrolling
+    // always feels smooth and is not interrupted by icon loading (which can be
+    // quite expensive if a disk access is required to determine the final icon).
     const int ShortInterval = 50;
+
+    // If the icon size changes, a longer delay is used. This prevents that
+    // the expensive re-generation of all previews is triggered repeatedly when
+    // chaning the zoom level.
     const int LongInterval = 300;
 }
 
@@ -58,7 +66,7 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
 
     m_updateIconSizeTimer = new QTimer(this);
     m_updateIconSizeTimer->setSingleShot(true);
-    m_updateIconSizeTimer->setInterval(ShortInterval);
+    m_updateIconSizeTimer->setInterval(LongInterval);
     connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
 
     setVisibleRoles(QList<QByteArray>() << "text");
@@ -309,7 +317,6 @@ void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
     KStandardItemListView::slotItemsRemoved(itemRanges);
-    updateTimersInterval();
 }
 
 void KFileItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
@@ -328,7 +335,12 @@ void KFileItemListView::triggerVisibleIndexRangeUpdate()
         return;
     }
     m_modelRolesUpdater->setPaused(true);
-    m_updateVisibleIndexRangeTimer->start();
+
+    // If the icon size has been changed recently, wait until
+    // m_updateIconSizeTimer expires.
+    if (!m_updateIconSizeTimer->isActive()) {
+        m_updateVisibleIndexRangeTimer->start();
+    }
 }
 
 void KFileItemListView::updateVisibleIndexRange()
@@ -341,17 +353,7 @@ void KFileItemListView::updateVisibleIndexRange()
     const int count = lastVisibleIndex() - index + 1;
     m_modelRolesUpdater->setMaximumVisibleItems(maximumVisibleItems());
     m_modelRolesUpdater->setVisibleIndexRange(index, count);
-
-    if (m_updateIconSizeTimer->isActive()) {
-        // If the icon-size update is pending do an immediate update
-        // of the icon-size before unpausing m_modelRolesUpdater. This prevents
-        // an unnecessary expensive recreation of all previews afterwards.
-        m_updateIconSizeTimer->stop();
-        m_modelRolesUpdater->setIconSize(availableIconSize());
-    }
-
     m_modelRolesUpdater->setPaused(isTransactionActive());
-    updateTimersInterval();
 }
 
 void KFileItemListView::triggerIconSizeUpdate()
@@ -361,6 +363,11 @@ void KFileItemListView::triggerIconSizeUpdate()
     }
     m_modelRolesUpdater->setPaused(true);
     m_updateIconSizeTimer->start();
+
+    // The visible index range will be updated when m_updateIconSizeTimer expires.
+    // Stop m_updateVisibleIndexRangeTimer to prevent an expensive re-generation
+    // of all previews (note that the user might change the icon size again soon).
+    m_updateVisibleIndexRangeTimer->stop();
 }
 
 void KFileItemListView::updateIconSize()
@@ -371,35 +378,13 @@ void KFileItemListView::updateIconSize()
 
     m_modelRolesUpdater->setIconSize(availableIconSize());
 
-    if (m_updateVisibleIndexRangeTimer->isActive()) {
-        // If the visibility-index-range update is pending do an immediate update
-        // of the range before unpausing m_modelRolesUpdater. This prevents
-        // an unnecessary expensive recreation of all previews afterwards.
-        m_updateVisibleIndexRangeTimer->stop();
-        const int index = firstVisibleIndex();
-        const int count = lastVisibleIndex() - index + 1;
-        m_modelRolesUpdater->setVisibleIndexRange(index, count);
-    }
+    // Update the visible index range (which has most likely changed after the
+    // icon size change) before unpausing m_modelRolesUpdater.
+    const int index = firstVisibleIndex();
+    const int count = lastVisibleIndex() - index + 1;
+    m_modelRolesUpdater->setVisibleIndexRange(index, count);
 
     m_modelRolesUpdater->setPaused(isTransactionActive());
-    updateTimersInterval();
-}
-
-void KFileItemListView::updateTimersInterval()
-{
-    if (!model()) {
-        return;
-    }
-
-    // The ShortInterval is used for cases like switching the directory: If the
-    // model is empty and filled later the creation of the previews should be done
-    // as soon as possible. The LongInterval is used when the model already contains
-    // items and assures that operations like zooming don't result in too many temporary
-    // recreations of the previews.
-
-    const int interval = (model()->count() <= 0) ? ShortInterval : LongInterval;
-    m_updateVisibleIndexRangeTimer->setInterval(interval);
-    m_updateIconSizeTimer->setInterval(interval);
 }
 
 void KFileItemListView::applyRolesToModel()

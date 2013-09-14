@@ -103,8 +103,6 @@ private slots:
     void updateIconSize();
 
 private:
-    void updateTimersInterval();
-
     /**
      * Applies the roles defined by KItemListView::visibleRoles() to the
      * KFileItemModel and KFileItemModelRolesUpdater. As the model does not
