@@ -25,22 +25,14 @@
 
 #include <libdolphin_export.h>
 
+#include <kitemviews/kitemrange.h>
+
 #include <QHash>
 #include <QObject>
 #include <QSet>
 #include <QVariant>
 
 class QMimeData;
-
-struct KItemRange
-{
-    KItemRange(int index = 0, int count = 0);
-    int index;
-    int count;
-
-    bool operator == (const KItemRange& other) const;
-};
-typedef QList<KItemRange> KItemRangeList;
 
 /**
  * @brief Base class for model implementations used by KItemListView and KItemListController.

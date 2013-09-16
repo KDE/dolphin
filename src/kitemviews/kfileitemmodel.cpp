@@ -916,30 +916,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 
     // Extract the item-ranges out of the changed indexes
     qSort(indexes);
-
-    KItemRangeList itemRangeList;
-    int previousIndex = indexes.at(0);
-    int rangeIndex = previousIndex;
-    int rangeCount = 1;
-
-    const int maxIndex = indexes.count() - 1;
-    for (int i = 1; i <= maxIndex; ++i) {
-        const int currentIndex = indexes.at(i);
-        if (currentIndex == previousIndex + 1) {
-            ++rangeCount;
-        } else {
-            itemRangeList.append(KItemRange(rangeIndex, rangeCount));
-
-            rangeIndex = currentIndex;
-            rangeCount = 1;
-        }
-        previousIndex = currentIndex;
-    }
-
-    if (rangeCount > 0) {
-        itemRangeList.append(KItemRange(rangeIndex, rangeCount));
-    }
-
+    const KItemRangeList itemRangeList = KItemRangeList::fromSortedContainer(indexes);
     emitItemsChangedAndTriggerResorting(itemRangeList, changedRoles);
 }
 
@@ -1077,36 +1054,6 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 #endif
 }
 
-static KItemRangeList sortedIndexesToKItemRangeList(const QList<int>& sortedNumbers)
-{
-    if (sortedNumbers.empty()) {
-        return KItemRangeList();
-    }
-
-    KItemRangeList result;
-
-    QList<int>::const_iterator it = sortedNumbers.begin();
-    int index = *it;
-    int count = 1;
-
-    ++it;
-
-    QList<int>::const_iterator end = sortedNumbers.end();
-    while (it != end) {
-        if (*it == index + count) {
-            ++count;
-        } else {
-            result << KItemRange(index, count);
-            index = *it;
-            count = 1;
-        }
-        ++it;
-    }
-
-    result << KItemRange(index, count);
-    return result;
-}
-
 void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior behavior)
 {
 #ifdef KFILEITEMMODEL_DEBUG
@@ -1145,7 +1092,7 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
     std::sort(indexesToRemove.begin(), indexesToRemove.end());
 
     // Step 2: Remove the ItemData pointers from the list m_itemData.
-    const KItemRangeList itemRanges = sortedIndexesToKItemRangeList(indexesToRemove);
+    const KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
     int target = itemRanges.at(0).index;
     int source = itemRanges.at(0).index + itemRanges.at(0).count;
     int nextRange = 1;

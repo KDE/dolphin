@@ -22,17 +22,6 @@
 
 #include "kitemmodelbase.h"
 
-KItemRange::KItemRange(int index, int count) :
-    index(index),
-    count(count)
-{
-}
-
-bool KItemRange::operator == (const KItemRange& other) const
-{
-    return index == other.index && count == other.count;
-}
-
 KItemModelBase::KItemModelBase(QObject* parent) :
     QObject(parent),
     m_groupedSorting(false),
