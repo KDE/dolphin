@@ -76,6 +76,7 @@ private slots:
     void testExpandItems();
     void testExpandParentItems();
     void testMakeExpandedItemHidden();
+    void testRemoveFilteredExpandedItems();
     void testSorting();
     void testIndexForKeyboardSearch();
     void testNameFilter();
@@ -705,6 +706,51 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
     m_model->setExpanded(0, false);
     QCOMPARE(m_model->count(), 2);
 
+}
+
+void KFileItemModelTest::testRemoveFilteredExpandedItems()
+{
+    QSet<QByteArray> originalModelRoles = m_model->roles();
+    QSet<QByteArray> modelRoles = originalModelRoles;
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "folder/child" << "file"; // missing folders are created automatically
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // So far, the model contains only "folder/" and "file".
+    QCOMPARE(m_model->count(), 2);
+    QVERIFY(m_model->isExpandable(0));
+    QVERIFY(!m_model->isExpandable(1));
+    QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(!m_model->isExpanded(1));
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+
+    // Expand "folder" -> "folder/child" becomes visible.
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "child" << "file");
+
+    // Add a name filter.
+    m_model->setNameFilter("f");
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+
+    m_model->setNameFilter("fo");
+    QCOMPARE(itemsInModel(), QStringList() << "folder");
+
+    // Remove all expanded items by changing the roles
+    m_model->setRoles(originalModelRoles);
+    QVERIFY(!m_model->isExpanded(0));
+    QCOMPARE(itemsInModel(), QStringList() << "folder");
+
+    // Remove the name filter and verify that "folder/child" does not reappear.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
 }
 
 void KFileItemModelTest::testSorting()

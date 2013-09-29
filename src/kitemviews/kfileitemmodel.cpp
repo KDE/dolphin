@@ -1197,6 +1197,19 @@ void KFileItemModel::removeExpandedItems()
     removeItems(expandedItems, DeleteItemData);
 
     m_expandedDirs.clear();
+
+    // Also remove all filtered items which have a parent.
+    QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
+    const QHash<KFileItem, ItemData*>::iterator end = m_filteredItems.end();
+
+    while (it != end) {
+        if (it.value()->parent) {
+            delete it.value();
+            it = m_filteredItems.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
 
 void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& itemRanges, const QSet<QByteArray>& changedRoles)
