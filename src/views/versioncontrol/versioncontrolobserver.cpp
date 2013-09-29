@@ -204,11 +204,15 @@ void VersionControlObserver::slotThreadFinished()
         return;
     }
 
-    const QList<ItemState> itemStates = thread->itemStates();
-    foreach (const ItemState& itemState, itemStates) {
-        QHash<QByteArray, QVariant> values;
-        values.insert("version", QVariant(itemState.version));
-        m_model->setData(itemState.index, values);
+    const QMap<QString, QVector<ItemState> >& itemStates = thread->itemStates();
+    foreach (const QString& directory, itemStates.keys()) {
+        const QVector<ItemState>& items = itemStates.value(directory);
+
+        foreach (const ItemState& item, items) {
+            QHash<QByteArray, QVariant> values;
+            values.insert("version", QVariant(item.version));
+            m_model->setData(item.index, values);
+        }
     }
 
     if (!m_silentUpdate) {
@@ -233,18 +237,9 @@ void VersionControlObserver::updateItemStates()
         m_pendingItemStatesUpdate = true;
         return;
     }
-    QList<ItemState> itemStates;
-    const int itemCount = m_model->count();
-    itemStates.reserve(itemCount);
 
-    for (int i = 0; i < itemCount; ++i) {
-        ItemState itemState;
-        itemState.index = i;
-        itemState.item = m_model->fileItem(i);
-        itemState.version = KVersionControlPlugin2::UnversionedVersion;
-
-        itemStates.append(itemState);
-    }
+    QMap<QString, QVector<ItemState> > itemStates;
+    createItemStatesList(itemStates);
 
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
@@ -258,6 +253,42 @@ void VersionControlObserver::updateItemStates()
 
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
+}
+
+int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState> >& itemStates,
+                                                 const int firstIndex)
+{
+    const int itemCount = m_model->count();
+    const int currentExpansionLevel = m_model->expandedParentsCount(firstIndex);
+
+    QVector<ItemState> items;
+    items.reserve(itemCount - firstIndex);
+
+    int index;
+    for (index = firstIndex; index < itemCount; ++index) {
+        const int expansionLevel = m_model->expandedParentsCount(index);
+
+        if (expansionLevel == currentExpansionLevel) {
+            ItemState itemState;
+            itemState.index = index;
+            itemState.item = m_model->fileItem(index);
+            itemState.version = KVersionControlPlugin2::UnversionedVersion;
+
+            items.append(itemState);
+        } else if (expansionLevel > currentExpansionLevel) {
+            // Sub folder
+            index += createItemStatesList(itemStates, index) - 1;
+        } else {
+            break;
+        }
+    }
+
+    if (items.count() > 0) {
+        const KUrl& url = items.first().item.url();
+        itemStates.insert(url.directory(KUrl::AppendTrailingSlash), items);
+    }
+
+    return index - firstIndex; // number of processed items
 }
 
 KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& directory) const

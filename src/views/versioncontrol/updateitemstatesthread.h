@@ -47,7 +47,7 @@ public:
      * @param itemStates List of items, where the states get updated.
      */
     UpdateItemStatesThread(KVersionControlPlugin* plugin,
-                           const QList<VersionControlObserver::ItemState>& itemStates);
+                           const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates);
     virtual ~UpdateItemStatesThread();
 
     /**
@@ -63,7 +63,7 @@ public:
      */
     void unlockPlugin();
 
-    QList<VersionControlObserver::ItemState> itemStates() const;
+    QMap<QString, QVector<VersionControlObserver::ItemState> > itemStates() const;
 
     bool retrievedItems() const;
 
@@ -75,7 +75,7 @@ private:
     KVersionControlPlugin* m_plugin;
 
     bool m_retrievedItems;
-    QList<VersionControlObserver::ItemState> m_itemStates;
+    QMap<QString, QVector<VersionControlObserver::ItemState> > m_itemStates;
 };
 
 #endif // UPDATEITEMSTATESTHREAD_H
