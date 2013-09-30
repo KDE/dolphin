@@ -110,6 +110,22 @@ private:
     void updateItemStates();
 
     /**
+     * It creates a item state list for every expanded directory and stores
+     * this list together with the directory url in the \a itemStates map.
+     *
+     * @itemStates      A map of item state lists for every expanded directory
+     *                  and its items, where the "key" is the directory url and
+     *                  the "value" is a list of ItemStates for every item
+     *                  within this directory.
+     * @firstIndex      The index to start the processing from, this is needed
+     *                  because this function is recursively called.
+     *
+     * @return          The number of (recursive) processed items.
+     */
+    int createItemStatesList(QMap<QString, QVector<ItemState> >& itemStates,
+                             const int firstIndex = 0);
+
+    /**
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */

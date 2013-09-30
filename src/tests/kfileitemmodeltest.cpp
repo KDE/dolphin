@@ -77,6 +77,7 @@ private slots:
     void testExpandItems();
     void testExpandParentItems();
     void testMakeExpandedItemHidden();
+    void testRemoveFilteredExpandedItems();
     void testSorting();
     void testIndexForKeyboardSearch();
     void testNameFilter();
@@ -87,6 +88,7 @@ private slots:
     void removeParentOfHiddenItems();
     void testGeneralParentChildRelationships();
     void testNameRoleGroups();
+    void testNameRoleGroupsWithExpandedItems();
 
 private:
     QStringList itemsInModel() const;
@@ -743,6 +745,51 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
 
 }
 
+void KFileItemModelTest::testRemoveFilteredExpandedItems()
+{
+    QSet<QByteArray> originalModelRoles = m_model->roles();
+    QSet<QByteArray> modelRoles = originalModelRoles;
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "folder/child" << "file"; // missing folders are created automatically
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // So far, the model contains only "folder/" and "file".
+    QCOMPARE(m_model->count(), 2);
+    QVERIFY(m_model->isExpandable(0));
+    QVERIFY(!m_model->isExpandable(1));
+    QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(!m_model->isExpanded(1));
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+
+    // Expand "folder" -> "folder/child" becomes visible.
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "child" << "file");
+
+    // Add a name filter.
+    m_model->setNameFilter("f");
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+
+    m_model->setNameFilter("fo");
+    QCOMPARE(itemsInModel(), QStringList() << "folder");
+
+    // Remove all expanded items by changing the roles
+    m_model->setRoles(originalModelRoles);
+    QVERIFY(!m_model->isExpanded(0));
+    QCOMPARE(itemsInModel(), QStringList() << "folder");
+
+    // Remove the name filter and verify that "folder/child" does not reappear.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "folder" << "file");
+}
+
 void KFileItemModelTest::testSorting()
 {
     // Create some files with different sizes and modification times to check the different sorting options
@@ -1318,11 +1365,50 @@ void KFileItemModelTest::testNameRoleGroups()
     QCOMPARE(m_model->groups(), expectedGroups);
 }
 
+void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/b.txt" << "a/c.txt" << "d/e.txt" << "d/f.txt";
+
+    m_testDir->createFiles(files);
+
+    m_model->setGroupedSorting(true);
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "d");
+
+    QList<QPair<int, QVariant> > expectedGroups;
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << QPair<int, QVariant>(1, QLatin1String("D"));
+    QCOMPARE(m_model->groups(), expectedGroups);
+
+    // Verify that expanding "a" and "d" will not change the groups (except for the index of "D").
+    expectedGroups.clear();
+    expectedGroups << QPair<int, QVariant>(0, QLatin1String("A"));
+    expectedGroups << QPair<int, QVariant>(3, QLatin1String("D"));
+
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b.txt" << "c.txt" << "d");
+    QCOMPARE(m_model->groups(), expectedGroups);
+
+    m_model->setExpanded(3, true);
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b.txt" << "c.txt" << "d" << "e.txt" << "f.txt");
+    QCOMPARE(m_model->groups(), expectedGroups);
+}
+
 QStringList KFileItemModelTest::itemsInModel() const
 {
     QStringList items;
     for (int i = 0; i < m_model->count(); i++) {
-        items << m_model->data(i).value("text").toString();
+        items << m_model->fileItem(i).text();
     }
     return items;
 }

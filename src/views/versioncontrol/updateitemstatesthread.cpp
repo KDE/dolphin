@@ -24,7 +24,7 @@
 #include <QMutexLocker>
 
 UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
-                                     const QList<VersionControlObserver::ItemState>& itemStates) :
+                                               const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates) :
     QThread(),
     m_globalPluginMutex(0),
     m_plugin(plugin),
@@ -47,27 +47,29 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin);
 
-    const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
     m_retrievedItems = false;
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
-    if (m_plugin->beginRetrieval(directory)) {
-        const int count = m_itemStates.count();
+    foreach (const QString& directory, m_itemStates.keys()) {
+        if (m_plugin->beginRetrieval(directory)) {
+            QVector<VersionControlObserver::ItemState>& items = m_itemStates[directory];
+            const int count = items.count();
 
-        KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-        if (pluginV2) {
-            for (int i = 0; i < count; ++i) {
-                m_itemStates[i].version = pluginV2->itemVersion(m_itemStates[i].item);
+            KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
+            if (pluginV2) {
+                for (int i = 0; i < count; ++i) {
+                    items[i].version = pluginV2->itemVersion(items[i].item);
+                }
+            } else {
+                for (int i = 0; i < count; ++i) {
+                    const KVersionControlPlugin::VersionState state = m_plugin->versionState(items[i].item);
+                    items[i].version = static_cast<KVersionControlPlugin2::ItemVersion>(state);
+                }
             }
-        } else {
-            for (int i = 0; i < count; ++i) {
-                const KVersionControlPlugin::VersionState state = m_plugin->versionState(m_itemStates[i].item);
-                m_itemStates[i].version = static_cast<KVersionControlPlugin2::ItemVersion>(state);
-            }
+
+            m_plugin->endRetrieval();
+            m_retrievedItems = true;
         }
-
-        m_plugin->endRetrieval();
-        m_retrievedItems = true;
     }
 }
 
@@ -81,7 +83,7 @@ void UpdateItemStatesThread::unlockPlugin()
     m_globalPluginMutex->unlock();
 }
 
-QList<VersionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
+QMap<QString, QVector<VersionControlObserver::ItemState> > UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
 }
