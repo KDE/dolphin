@@ -492,7 +492,11 @@ private:
 
 inline bool KFileItemModel::isChildItem(int index) const
 {
-    return m_requestRole[ExpandedParentsCountRole] && m_itemData.at(index)->values.value("expandedParentsCount").toInt() > 0;
+    if (m_itemData.at(index)->parent) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 #endif

@@ -152,7 +152,12 @@ int KFileItemModel::count() const
 QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_itemData.at(index)->values;
+        ItemData* data = m_itemData.at(index);
+        if (data->values.isEmpty()) {
+            data->values = retrieveData(data->item, data->parent);
+        }
+
+        return data->values;
     }
     return QHash<QByteArray, QVariant>();
 }
@@ -163,7 +168,7 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         return false;
     }
 
-    QHash<QByteArray, QVariant> currentValues = m_itemData.at(index)->values;
+    QHash<QByteArray, QVariant> currentValues = data(index);
 
     // Determine which roles have been changed
     QSet<QByteArray> changedRoles;
@@ -274,12 +279,12 @@ int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromInd
 {
     startFromIndex = qMax(0, startFromIndex);
     for (int i = startFromIndex; i < count(); ++i) {
-        if (data(i)["text"].toString().startsWith(text, Qt::CaseInsensitive)) {
+        if (fileItem(i).text().startsWith(text, Qt::CaseInsensitive)) {
             return i;
         }
     }
     for (int i = 0; i < startFromIndex; ++i) {
-        if (data(i)["text"].toString().startsWith(text, Qt::CaseInsensitive)) {
+        if (fileItem(i).text().startsWith(text, Qt::CaseInsensitive)) {
             return i;
         }
     }
@@ -460,7 +465,9 @@ bool KFileItemModel::isExpanded(int index) const
 bool KFileItemModel::isExpandable(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_itemData.at(index)->values.value("isExpandable").toBool();
+        // Call data (instead of accessing m_itemData directly)
+        // to ensure that the value is initialized.
+        return data(index).value("isExpandable").toBool();
     }
     return false;
 }
@@ -1140,9 +1147,40 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
     foreach (const KFileItem& item, items) {
         ItemData* itemData = new ItemData();
         itemData->item = item;
-        itemData->values = retrieveData(item, parentItem);
         itemData->parent = parentItem;
         itemDataList.append(itemData);
+    }
+
+    switch (m_sortRole) {
+    case PermissionsRole:
+    case OwnerRole:
+    case GroupRole:
+    case DestinationRole:
+    case PathRole:
+        // These roles can be determined with retrieveData, and they have to be stored
+        // in the QHash "values" for the sorting.
+        foreach (ItemData* itemData, itemDataList) {
+            itemData->values = retrieveData(itemData->item, parentItem);
+        }
+        break;
+
+    case TypeRole:
+        // At least store the data including the file type for items with known MIME type.
+        foreach (ItemData* itemData, itemDataList) {
+            const KFileItem item = itemData->item;
+            if (item.isDir() || item.isMimeTypeKnown()) {
+                itemData->values = retrieveData(itemData->item, parentItem);
+            }
+        }
+        break;
+
+    default:
+        // The other roles are either resolved by KFileItemModelRolesUpdater
+        // (this includes the SizeRole for directories), or they do not need
+        // to be stored in the QHash "values" for sorting because the data can
+        // be retrieved directly from the KFileItem (NameRole, SiezRole for files,
+        // DateRole).
+        break;
     }
 
     return itemDataList;
@@ -1642,7 +1680,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
             continue;
         }
 
-        const QString name = m_itemData.at(i)->values.value("text").toString();
+        const QString name = m_itemData.at(i)->item.text();
 
         // Use the first character of the name as group indication
         QChar newFirstChar = name.at(0).toUpper();
