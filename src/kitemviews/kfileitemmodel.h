@@ -309,7 +309,7 @@ private:
     };
 
     void insertItems(QList<ItemData*>& items);
-    void removeItems(const KFileItemList& items, RemoveItemsBehavior behavior);
+    void removeItems(const KItemRangeList& itemRanges, RemoveItemsBehavior behavior);
 
     /**
      * Helper method for insertItems() and removeItems(): Creates
@@ -390,11 +390,6 @@ private:
     bool isChildItem(int index) const;
 
     /**
-     * @return Recursive list of child items that have \a item as upper most parent.
-     */
-    KFileItemList childItems(const KFileItem& item) const;
-
-    /**
      * Is invoked by KFileItemModelRolesUpdater and results in emitting the
      * sortProgress signal with a percent-value of the progress.
      */
@@ -409,7 +404,7 @@ private:
      * Removes filtered items whose expanded parents have been deleted
      * or collapsed via setExpanded(parentIndex, false).
      */
-    void removeFilteredChildren(const KFileItemList& parentsList);
+    void removeFilteredChildren(const KItemRangeList& parents);
 
     /**
      * Maps the QByteArray-roles to RoleTypes and provides translation- and

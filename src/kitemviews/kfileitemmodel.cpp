@@ -444,11 +444,18 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         m_expandedDirs.remove(targetUrl);
         m_dirLister->stop(url);
 
-        removeFilteredChildren(KFileItemList() << item);
+        const int parentLevel = expandedParentsCount(index);
+        const int itemCount = m_itemData.count();
+        const int firstChildIndex = index + 1;
 
-        const KFileItemList itemsToRemove = childItems(item);
-        removeFilteredChildren(itemsToRemove);
-        removeItems(itemsToRemove, DeleteItemData);
+        int childIndex = firstChildIndex;
+        while (childIndex < itemCount && expandedParentsCount(childIndex) > parentLevel) {
+            ++childIndex;
+        }
+        const int childrenCount = childIndex - firstChildIndex;
+
+        removeFilteredChildren(KItemRangeList() << KItemRange(index, 1 + childrenCount));
+        removeItems(KItemRangeList() << KItemRange(firstChildIndex, childrenCount), DeleteItemData);
     }
 
     return true;
@@ -551,21 +558,25 @@ void KFileItemModel::applyFilters()
 {
     // Check which shown items from m_itemData must get
     // hidden and hence moved to m_filteredItems.
-    KFileItemList newFilteredItems;
+    QVector<int> newFilteredIndexes;
 
-    foreach (ItemData* itemData, m_itemData) {
+    const int itemCount = m_itemData.count();
+    for (int index = 0; index < itemCount; ++index) {
+        ItemData* itemData = m_itemData.at(index);
+
         // Only filter non-expanded items as child items may never
         // exist without a parent item
         if (!itemData->values.value("isExpanded").toBool()) {
             const KFileItem item = itemData->item;
             if (!m_filter.matches(item)) {
-                newFilteredItems.append(item);
+                newFilteredIndexes.append(index);
                 m_filteredItems.insert(item, itemData);
             }
         }
     }
 
-    removeItems(newFilteredItems, KeepItemData);
+    const KItemRangeList removedRanges = KItemRangeList::fromSortedContainer(newFilteredIndexes);
+    removeItems(removedRanges, KeepItemData);
 
     // Check which hidden items from m_filteredItems should
     // get visible again and hence removed from m_filteredItems.
@@ -584,22 +595,24 @@ void KFileItemModel::applyFilters()
     insertItems(newVisibleItems);
 }
 
-void KFileItemModel::removeFilteredChildren(const KFileItemList& parentsList)
+void KFileItemModel::removeFilteredChildren(const KItemRangeList& itemRanges)
 {
-    if (m_filteredItems.isEmpty()) {
+    if (m_filteredItems.isEmpty() || !m_requestRole[ExpandedParentsCountRole]) {
+        // There are either no filtered items, or it is not possible to expand
+        // folders -> there cannot be any filtered children.
         return;
     }
 
-    // First, we put the parent items into a set to provide fast lookup
-    // while iterating over m_filteredItems and prevent quadratic
-    // complexity if there are N parents and N filtered items.
-    const QSet<KFileItem> parents = parentsList.toSet();
+    QSet<ItemData*> parents;
+    foreach (const KItemRange& range, itemRanges) {
+        for (int index = range.index; index < range.index + range.count; ++index) {
+            parents.insert(m_itemData.at(index));
+        }
+    }
 
     QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
     while (it != m_filteredItems.end()) {
-        const ItemData* parent = it.value()->parent;
-
-        if (parent && parents.contains(parent->item)) {
+        if (parents.contains(it.value()->parent)) {
             delete it.value();
             it = m_filteredItems.erase(it);
         } else {
@@ -849,29 +862,49 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
 {
     dispatchPendingItemsToInsert();
 
-    KFileItemList itemsToRemove = items;
-    if (m_requestRole[ExpandedParentsCountRole]) {
-        // Assure that removing a parent item also results in removing all children
-        foreach (const KFileItem& item, items) {
-            itemsToRemove.append(childItems(item));
-        }
-    }
+    QVector<int> indexesToRemove;
+    indexesToRemove.reserve(items.count());
 
-    if (!m_filteredItems.isEmpty()) {
-        foreach (const KFileItem& item, itemsToRemove) {
+    foreach (const KFileItem& item, items) {
+        const KUrl url = item.url();
+        const int index = m_items.value(url, -1);
+        if (index >= 0) {
+            indexesToRemove.append(index);
+        } else {
+            // Probably the item has been filtered.
             QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(item);
             if (it != m_filteredItems.end()) {
                 delete it.value();
                 m_filteredItems.erase(it);
             }
         }
-
-        if (m_requestRole[ExpandedParentsCountRole]) {
-            removeFilteredChildren(itemsToRemove);
-        }
     }
 
-    removeItems(itemsToRemove, DeleteItemData);
+    std::sort(indexesToRemove.begin(), indexesToRemove.end());
+
+    if (m_requestRole[ExpandedParentsCountRole] && !m_expandedDirs.isEmpty()) {
+        // Assure that removing a parent item also results in removing all children
+        QVector<int> indexesToRemoveWithChildren;
+        indexesToRemoveWithChildren.reserve(m_items.count());
+
+        const int itemCount = m_itemData.count();
+        foreach (int index, indexesToRemove) {
+            indexesToRemoveWithChildren.append(index);
+
+            const int parentLevel = expandedParentsCount(index);
+            int childIndex = index + 1;
+            while (childIndex < itemCount && expandedParentsCount(childIndex) > parentLevel) {
+                indexesToRemoveWithChildren.append(childIndex);
+                ++childIndex;
+            }
+        }
+
+        indexesToRemove = indexesToRemoveWithChildren;
+    }
+
+    const KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
+    removeFilteredChildren(itemRanges);
+    removeItems(itemRanges, DeleteItemData);
 }
 
 void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items)
@@ -1061,23 +1094,21 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 #endif
 }
 
-void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior behavior)
+void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBehavior behavior)
 {
-#ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "Removing " << items.count() << "items";
-#endif
+    if (itemRanges.isEmpty()) {
+        return;
+    }
 
     m_groups.clear();
 
-    // Step 1: Determine the indexes of the removed items, remove them from
-    //         the hash m_items, and free the ItemData.
-    QList<int> indexesToRemove;
-    indexesToRemove.reserve(items.count());
-    foreach (const KFileItem& item, items) {
-        const KUrl url = item.url();
-        const int index = m_items.value(url, -1);
-        if (index >= 0) {
-            indexesToRemove.append(index);
+    // Step 1: Remove the items from the hash m_items, and free the ItemData.
+    int removedItemsCount = 0;
+    foreach (const KItemRange& range, itemRanges) {
+        removedItemsCount += range.count;
+
+        for (int index = range.index; index < range.index + range.count; ++index) {
+            const KUrl url = m_itemData.at(index)->item.url();
 
             // Prevent repeated expensive rehashing by using QHash::erase(),
             // rather than QHash::remove().
@@ -1092,14 +1123,7 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
         }
     }
 
-    if (indexesToRemove.isEmpty()) {
-        return;
-    }
-
-    std::sort(indexesToRemove.begin(), indexesToRemove.end());
-
     // Step 2: Remove the ItemData pointers from the list m_itemData.
-    const KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
     int target = itemRanges.at(0).index;
     int source = itemRanges.at(0).index + itemRanges.at(0).count;
     int nextRange = 1;
@@ -1117,7 +1141,7 @@ void KFileItemModel::removeItems(const KFileItemList& items, RemoveItemsBehavior
         }
     }
 
-    m_itemData.erase(m_itemData.end() - indexesToRemove.count(), m_itemData.end());
+    m_itemData.erase(m_itemData.end() - removedItemsCount, m_itemData.end());
 
     // Step 3: Adjust indexes in the hash m_items, starting from the
     //         index of the first removed item.
@@ -1205,17 +1229,17 @@ int KFileItemModel::expandedParentsCount(const ItemData* data)
 
 void KFileItemModel::removeExpandedItems()
 {
-    KFileItemList expandedItems;
+    QVector<int> indexesToRemove;
 
     const int maxIndex = m_itemData.count() - 1;
     for (int i = 0; i <= maxIndex; ++i) {
         const ItemData* itemData = m_itemData.at(i);
         if (itemData->parent) {
-            expandedItems.append(itemData->item);
+            indexesToRemove.append(i);
         }
     }
 
-    removeItems(expandedItems, DeleteItemData);
+    removeItems(KItemRangeList::fromSortedContainer(indexesToRemove), DeleteItemData);
     m_expandedDirs.clear();
 
     // Also remove all filtered items which have a parent.
@@ -1961,23 +1985,6 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     }
 
     return groups;
-}
-
-KFileItemList KFileItemModel::childItems(const KFileItem& item) const
-{
-    KFileItemList items;
-
-    int index = m_items.value(item.url(), -1);
-    if (index >= 0) {
-        const int parentLevel = expandedParentsCount(index);
-        ++index;
-        while (index < m_itemData.count() && expandedParentsCount(index) > parentLevel) {
-            items.append(m_itemData.at(index)->item);
-            ++index;
-        }
-    }
-
-    return items;
 }
 
 void KFileItemModel::emitSortProgress(int resolvedCount)

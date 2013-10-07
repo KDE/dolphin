@@ -89,6 +89,7 @@ private slots:
     void testGeneralParentChildRelationships();
     void testNameRoleGroups();
     void testNameRoleGroupsWithExpandedItems();
+    void testInconsistentModel();
 
 private:
     QStringList itemsInModel() const;
@@ -1402,6 +1403,63 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b.txt" << "c.txt" << "d" << "e.txt" << "f.txt");
     QCOMPARE(m_model->groups(), expectedGroups);
+}
+
+void KFileItemModelTest::testInconsistentModel()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/b/c1.txt" << "a/b/c2.txt";
+
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a");
+
+    // Expand "a/" and "a/b/".
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b");
+
+    m_model->setExpanded(1, true);
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c1.txt" << "c2.txt");
+
+    // Add the files "c1.txt" and "c2.txt" to the model also as top-level items.
+    // Such a thing can in principle happen when performing a search, and there
+    // are files which
+    // (a) match the search string, and
+    // (b) are children of a folder that matches the search string and is expanded.
+    //
+    // Note that the first item in the list of added items must be new (i.e., not
+    // in the model yet). Otherwise, KFileItemModel::slotItemsAdded() will see that
+    // it receives items that are in the model already and ignore them.
+    KUrl url(m_model->directory().url() + "/a2");
+    KFileItem newItem(KFileItem::Unknown, KFileItem::Unknown, url);
+
+    KFileItemList items;
+    items << newItem << m_model->fileItem(2) << m_model->fileItem(3);
+    m_model->slotItemsAdded(m_model->directory(), items);
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c1.txt" << "c2.txt" << "a2" << "c1.txt" << "c2.txt");
+
+    m_model->setExpanded(0, false);
+
+    // Test that the right items have been removed, see
+    // https://bugs.kde.org/show_bug.cgi?id=324371
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "a2" << "c1.txt" << "c2.txt");
+
+    // Test that resorting does not cause a crash, see
+    // https://bugs.kde.org/show_bug.cgi?id=325359
+    // The crash is not 100% reproducible, but Valgrind will report an invalid memory access.
+    m_model->resortAllItems();
+
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

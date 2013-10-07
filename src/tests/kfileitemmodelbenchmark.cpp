@@ -185,7 +185,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
         QCOMPARE(model.count(), initialItems.count() + newItems.count());
 
         if (!removedItems.isEmpty()) {
-            model.removeItems(removedItems, KFileItemModel::DeleteItemData);
+            model.slotItemsDeleted(removedItems);
         }
         QCOMPARE(model.count(), initialItems.count() + newItems.count() - removedItems.count());
     }
