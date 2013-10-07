@@ -46,6 +46,12 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
 
     const bool newSearch = m_searchedString.isEmpty();
 
+    // Do not start a new search if the user pressed Space. Only add
+    // it to the search string if a search is in progress already.
+    if (newSearch && keys == QLatin1String(" ")) {
+        return;
+    }
+
     if (!keys.isEmpty()) {
         m_searchedString.append(keys);
 

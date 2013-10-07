@@ -98,7 +98,7 @@ void KItemListControllerTest::initTestCase()
         << "b1"
         << "c1" << "c2" << "c3" << "c4" << "c5"
         << "d1" << "d2" << "d3" << "d4"
-        << "e1" << "e2" << "e3" << "e4" << "e5" << "e6" << "e7";
+        << "e" << "e 2" << "e 3" << "e 4" << "e 5" << "e 6" << "e 7";
 
     m_testDir->createFiles(files);
     m_model->loadDirectory(m_testDir->url());
@@ -282,7 +282,14 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                         << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, QSet<int>() << 0))
                         << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>()))
                         << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, QSet<int>(), true))
-                        << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>() << 0));
+                        << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>() << 0))
+                        << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>()))
+                        << qMakePair(KeyPress(Qt::Key_Space), ViewState(0, QSet<int>() << 0))
+                        << qMakePair(KeyPress(Qt::Key_E), ViewState(13, QSet<int>() << 13))
+                        << qMakePair(KeyPress(Qt::Key_Space), ViewState(14, QSet<int>() << 14))
+                        << qMakePair(KeyPress(Qt::Key_3), ViewState(15, QSet<int>() << 15))
+                        << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, QSet<int>() << 0))
+                        << qMakePair(KeyPress(Qt::Key_Escape), ViewState(0, QSet<int>()));
 
                     // Next, we test combinations of key presses which only work for a
                     // particular number of columns and either enabled or disabled grouping.
