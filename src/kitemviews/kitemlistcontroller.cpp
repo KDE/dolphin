@@ -375,19 +375,6 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         break;
     }
 
-    case Qt::Key_Space:
-        if (m_selectionBehavior == MultiSelection) {
-            if (controlPressed) {
-                m_selectionManager->endAnchoredSelection();
-                m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
-                m_selectionManager->beginAnchoredSelection(index);
-            } else {
-                const int current = m_selectionManager->currentItem();
-                m_selectionManager->setSelected(current);
-            }
-        }
-        break;
-
     case Qt::Key_Menu: {
         // Emit the signal itemContextMenuRequested() in case if at least one
         // item is selected. Otherwise the signal viewContextMenuRequested() will be emitted.
@@ -417,6 +404,25 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
         m_keyboardManager->cancelSearch();
         break;
+
+    case Qt::Key_Space:
+        if (m_selectionBehavior == MultiSelection) {
+            if (controlPressed) {
+                // Toggle the selection state of the current item.
+                m_selectionManager->endAnchoredSelection();
+                m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
+                m_selectionManager->beginAnchoredSelection(index);
+                break;
+            } else {
+                // Select the current item if it is not selected yet.
+                const int current = m_selectionManager->currentItem();
+                if (!m_selectionManager->isSelected(current)) {
+                    m_selectionManager->setSelected(current);
+                    break;
+                }
+            }
+        }
+        // Fall through to the default case and add the Space to the current search string.
 
     default:
         m_keyboardManager->addKeys(event->text());
@@ -474,9 +480,13 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
     }
     if (index >= 0) {
         m_selectionManager->setCurrentItem(index);
-        m_selectionManager->clearSelection();
-        m_selectionManager->setSelected(index, 1);
-        m_selectionManager->beginAnchoredSelection(index);
+
+        if (m_selectionBehavior != NoSelection) {
+            m_selectionManager->clearSelection();
+            m_selectionManager->setSelected(index, 1);
+            m_selectionManager->beginAnchoredSelection(index);
+        }
+
         m_view->scrollToItem(index);
     }
 }
