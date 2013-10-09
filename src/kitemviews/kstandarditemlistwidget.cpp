@@ -802,11 +802,12 @@ void KStandardItemListWidget::updateExpansionArea()
         const QHash<QByteArray, QVariant> values = data();
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
+            const KItemListStyleOption& option = styleOption();
             const qreal widgetHeight = size().height();
-            const qreal inc = (widgetHeight - KIconLoader::SizeSmall) / 2;
+            const qreal inc = (widgetHeight - option.iconSize) / 2;
             const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
-            m_expansionArea = QRectF(x, y, KIconLoader::SizeSmall, KIconLoader::SizeSmall);
+            m_expansionArea = QRectF(x, y, option.iconSize, option.iconSize);
             return;
         }
     }
