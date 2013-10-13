@@ -31,6 +31,7 @@
 #include "panels/information/informationpanel.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinremoteencoding.h"
 #include "views/draganddrophelper.h"
@@ -243,8 +244,20 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
         return;
     }
 
-    if (dirs.count() == 1) {
-        m_activeViewContainer->setUrl(dirs.first());
+    // dirs could contain URLs that actually point to archives or other files.
+    // Replace them by URLs we can open where possible and filter the rest out.
+    QList<KUrl> urlsToOpen;
+    foreach (const KUrl& rawUrl, dirs) {
+        const KFileItem& item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, rawUrl);
+        item.determineMimeType();
+        const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+        if (!url.isEmpty()) {
+            urlsToOpen.append(url);
+        }
+    }
+
+    if (urlsToOpen.count() == 1) {
+        m_activeViewContainer->setUrl(urlsToOpen.first());
         return;
     }
 
@@ -254,12 +267,12 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
-    QList<KUrl>::const_iterator it = dirs.begin();
-    while (it != dirs.end()) {
+    QList<KUrl>::const_iterator it = urlsToOpen.begin();
+    while (it != urlsToOpen.end()) {
         openNewTab(*it);
         ++it;
 
-        if (hasSplitView && (it != dirs.end())) {
+        if (hasSplitView && (it != urlsToOpen.end())) {
             const int tabIndex = m_viewTab.count() - 1;
             m_viewTab[tabIndex].secondaryView->setUrl(*it);
             ++it;
