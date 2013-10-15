@@ -31,6 +31,7 @@
 #include "panels/information/informationpanel.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinremoteencoding.h"
 #include "views/draganddrophelper.h"
@@ -247,8 +248,20 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
         return;
     }
 
-    if (dirs.count() == 1) {
-        m_activeViewContainer->setUrl(dirs.first());
+    // dirs could contain URLs that actually point to archives or other files.
+    // Replace them by URLs we can open where possible and filter the rest out.
+    QList<KUrl> urlsToOpen;
+    foreach (const KUrl& rawUrl, dirs) {
+        const KFileItem& item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, rawUrl);
+        item.determineMimeType();
+        const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+        if (!url.isEmpty()) {
+            urlsToOpen.append(url);
+        }
+    }
+
+    if (urlsToOpen.count() == 1) {
+        m_activeViewContainer->setUrl(urlsToOpen.first());
         return;
     }
 
@@ -258,12 +271,12 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
-    QList<KUrl>::const_iterator it = dirs.begin();
-    while (it != dirs.end()) {
+    QList<KUrl>::const_iterator it = urlsToOpen.begin();
+    while (it != urlsToOpen.end()) {
         openNewTab(*it);
         ++it;
 
-        if (hasSplitView && (it != dirs.end())) {
+        if (hasSplitView && (it != urlsToOpen.end())) {
             const int tabIndex = m_viewTab.count() - 1;
             m_viewTab[tabIndex].secondaryView->setUrl(*it);
             ++it;
@@ -990,50 +1003,23 @@ void DolphinMainWindow::goHome(Qt::MouseButtons buttons)
 
 void DolphinMainWindow::compareFiles()
 {
-    // The method is only invoked if exactly 2 files have
-    // been selected. The selected files may be:
-    // - both in the primary view
-    // - both in the secondary view
-    // - one in the primary view and the other in the secondary
-    //   view
-    Q_ASSERT(m_viewTab[m_tabIndex].primaryView);
+    const DolphinViewContainer* primaryViewContainer = m_viewTab[m_tabIndex].primaryView;
+    Q_ASSERT(primaryViewContainer);
+    KFileItemList items = primaryViewContainer->view()->selectedItems();
 
-    KUrl urlA;
-    KUrl urlB;
-
-    KFileItemList items = m_viewTab[m_tabIndex].primaryView->view()->selectedItems();
-
-    switch (items.count()) {
-    case 0: {
-        Q_ASSERT(m_viewTab[m_tabIndex].secondaryView);
-        items = m_viewTab[m_tabIndex].secondaryView->view()->selectedItems();
-        Q_ASSERT(items.count() == 2);
-        urlA = items[0].url();
-        urlB = items[1].url();
-        break;
+    const DolphinViewContainer* secondaryViewContainer = m_viewTab[m_tabIndex].secondaryView;
+    if (secondaryViewContainer) {
+        items.append(secondaryViewContainer->view()->selectedItems());
     }
 
-    case 1: {
-        urlA = items[0].url();
-        Q_ASSERT(m_viewTab[m_tabIndex].secondaryView);
-        items = m_viewTab[m_tabIndex].secondaryView->view()->selectedItems();
-        Q_ASSERT(items.count() == 1);
-        urlB = items[0].url();
-        break;
+    if (items.count() != 2) {
+        // The action is disabled in this case, but it could have been triggered
+        // via D-Bus, see https://bugs.kde.org/show_bug.cgi?id=325517
+        return;
     }
 
-    case 2: {
-        urlA = items[0].url();
-        urlB = items[1].url();
-        break;
-    }
-
-    default: {
-        // may not happen: compareFiles may only get invoked if 2
-        // files are selected
-        Q_ASSERT(false);
-    }
-    }
+    KUrl urlA = items.at(0).url();
+    KUrl urlB = items.at(1).url();
 
     QString command("kompare -c \"");
     command.append(urlA.pathOrUrl());
