@@ -154,6 +154,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+    connect(controller, SIGNAL(escapePressed()), this, SLOT(stopLoading()));
     connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
 
     connect(m_model, SIGNAL(directoryLoadingStarted()),       this, SLOT(slotDirectoryLoadingStarted()));
@@ -485,11 +486,6 @@ void DolphinView::reload()
     restoreState(restoreStream);
 }
 
-void DolphinView::stopLoading()
-{
-    m_model->cancelDirectoryLoading();
-}
-
 void DolphinView::readSettings()
 {
     const int oldZoomLevel = m_view->zoomLevel();
@@ -722,6 +718,11 @@ void DolphinView::pasteIntoFolder()
     if ((items.count() == 1) && items.first().isDir()) {
         pasteToUrl(items.first().url());
     }
+}
+
+void DolphinView::stopLoading()
+{
+    m_model->cancelDirectoryLoading();
 }
 
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)

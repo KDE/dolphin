@@ -403,6 +403,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->clearSelection();
         }
         m_keyboardManager->cancelSearch();
+        emit escapePressed();
         break;
 
     case Qt::Key_Space:

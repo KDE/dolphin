@@ -217,7 +217,6 @@ public:
     QList<QByteArray> visibleRoles() const;
 
     void reload();
-    void stopLoading();
 
     /**
      * Refreshes the view to get synchronized with the settings (e.g. icons size,
@@ -368,6 +367,8 @@ public slots:
      * paste operation is done.
      */
     void pasteIntoFolder();
+
+    void stopLoading();
 
     /** Activates the view if the item list container gets focus. */
     virtual bool eventFilter(QObject* watched, QEvent* event);

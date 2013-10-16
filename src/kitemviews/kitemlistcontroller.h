@@ -230,6 +230,11 @@ signals:
      */
     void aboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
 
+    /**
+     * Is emitted if the Escape key is pressed.
+     */
+    void escapePressed();
+
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
 
