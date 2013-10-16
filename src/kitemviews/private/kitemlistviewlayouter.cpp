@@ -403,11 +403,6 @@ void KItemListViewLayouter::doLayout()
             }
         }
 
-        int rowCount = itemCount / m_columnCount;
-        if (itemCount % m_columnCount != 0) {
-            ++rowCount;
-        }
-
         m_itemInfos.resize(itemCount);
 
         qreal y = m_headerHeight + itemMargin.height();
@@ -496,18 +491,7 @@ void KItemListViewLayouter::doLayout()
         }
 
         if (itemCount > 0) {
-            // Calculate the maximum y-range of the last row for m_maximumScrollOffset
-            m_maximumScrollOffset = m_itemInfos.last().rect.bottom();
-            const qreal rowY = m_itemInfos.last().rect.y();
-
-            int index = m_itemInfos.count() - 2;
-            while (index >= 0 && m_itemInfos[index].rect.bottom() >= rowY) {
-                m_maximumScrollOffset = qMax(m_maximumScrollOffset, m_itemInfos[index].rect.bottom());
-                --index;
-            }
-
-            m_maximumScrollOffset += itemMargin.height();
-
+            m_maximumScrollOffset = y;
             m_maximumItemOffset = m_columnCount * m_columnWidth;
         } else {
             m_maximumScrollOffset = 0;
