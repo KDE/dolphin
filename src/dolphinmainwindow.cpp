@@ -271,12 +271,12 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
-    QList<KUrl>::const_iterator it = urlsToOpen.begin();
-    while (it != urlsToOpen.end()) {
+    QList<KUrl>::const_iterator it = urlsToOpen.constBegin();
+    while (it != urlsToOpen.constEnd()) {
         openNewTab(*it);
         ++it;
 
-        if (hasSplitView && (it != urlsToOpen.end())) {
+        if (hasSplitView && (it != urlsToOpen.constEnd())) {
             const int tabIndex = m_viewTab.count() - 1;
             m_viewTab[tabIndex].secondaryView->setUrl(*it);
             ++it;
