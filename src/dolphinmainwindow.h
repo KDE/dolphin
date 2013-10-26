@@ -466,6 +466,13 @@ private slots:
      */
     void slotPanelErrorMessage(const QString& error);
 
+    /**
+     * Is called if the user clicked an item in the Places Panel.
+     * Reloads the view if \a url is the current URL already, and changes the
+     * current URL otherwise.
+     */
+    void slotPlaceActivated(const KUrl& url);
+
 private:
     /**
      * Activates the given view, which means that

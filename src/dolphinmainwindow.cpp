@@ -1417,6 +1417,19 @@ void DolphinMainWindow::slotPanelErrorMessage(const QString& error)
     activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
 }
 
+void DolphinMainWindow::slotPlaceActivated(const KUrl& url)
+{
+    DolphinViewContainer* view = activeViewContainer();
+
+    if (view->url() == url) {
+        // We can end up here if the user clicked a device in the Places Panel
+        // which had been unmounted earlier, see https://bugs.kde.org/show_bug.cgi?id=161385.
+        reloadView();
+    } else {
+        changeUrl(url);
+    }
+}
+
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
     Q_ASSERT(viewContainer);
@@ -1749,7 +1762,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(placesPanel, SIGNAL(placeActivated(KUrl)),
-            this, SLOT(changeUrl(KUrl)));
+            this, SLOT(slotPlaceActivated(KUrl)));
     connect(placesPanel, SIGNAL(placeMiddleClicked(KUrl)),
             this, SLOT(openNewTab(KUrl)));
     connect(placesPanel, SIGNAL(errorMessage(QString)),

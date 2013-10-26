@@ -372,10 +372,6 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
-    } else if (m_view->itemsCount() == 0) {
-        // Maybe a previously unmounted device has been mounted again.
-        // Let's reload the view to be safe (see https://bugs.kde.org/show_bug.cgi?id=161385).
-        m_view->reload();
     }
 
     #ifdef KActivities_FOUND
