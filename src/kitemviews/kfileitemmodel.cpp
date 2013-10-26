@@ -440,6 +440,11 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
     if (expanded) {
         m_expandedDirs.insert(targetUrl, url);
         m_dirLister->openUrl(url, KDirLister::Keep);
+
+        const KUrl::List previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<KUrl::List>();
+        foreach (const KUrl& url, previouslyExpandedChildren) {
+            m_urlsToExpand.insert(url);
+        }
     } else {
         m_expandedDirs.remove(targetUrl);
         m_dirLister->stop(url);
@@ -448,14 +453,24 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         const int itemCount = m_itemData.count();
         const int firstChildIndex = index + 1;
 
+        KUrl::List expandedChildren;
+
         int childIndex = firstChildIndex;
         while (childIndex < itemCount && expandedParentsCount(childIndex) > parentLevel) {
+            ItemData* itemData = m_itemData.at(childIndex);
+            if (itemData->values.value("isExpanded").toBool()) {
+                const KUrl targetUrl = itemData->item.targetUrl();
+                m_expandedDirs.remove(targetUrl);
+                expandedChildren.append(targetUrl);
+            }
             ++childIndex;
         }
         const int childrenCount = childIndex - firstChildIndex;
 
         removeFilteredChildren(KItemRangeList() << KItemRange(index, 1 + childrenCount));
         removeItems(KItemRangeList() << KItemRange(firstChildIndex, childrenCount), DeleteItemData);
+
+        m_itemData.at(index)->values.insert("previouslyExpandedChildren", expandedChildren);
     }
 
     return true;
