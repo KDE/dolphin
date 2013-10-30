@@ -3,11 +3,21 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_BUILD_DIR}/.
 
 # needed on windows to correctly use the files from dolphinprivate
 add_definitions(-DLIBDOLPHINPRIVATE_EXPORT=)
+
+# KItemSetTest
+set(kitemsettest_SRCS
+    kitemsettest.cpp
+    ../kitemviews/kitemset.cpp
+)
+kde4_add_unit_test(kitemsettest TEST ${kitemsettest_SRCS})
+target_link_libraries(kitemsettest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
 # KItemListSelectionManagerTest
 set(kitemlistselectionmanagertest_SRCS
     kitemlistselectionmanagertest.cpp
     ../kitemviews/kitemlistselectionmanager.cpp
     ../kitemviews/kitemmodelbase.cpp
+    ../kitemviews/kitemset.cpp
 )
 kde4_add_unit_test(kitemlistselectionmanagertest TEST ${kitemlistselectionmanagertest_SRCS})
 target_link_libraries(kitemlistselectionmanagertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
@@ -24,6 +34,7 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
     ../kitemviews/kitemlistviewaccessible.cpp
+    ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
 )
@@ -41,6 +52,7 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kitemlistviewaccessible.cpp
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
+    ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
 )

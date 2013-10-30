@@ -26,9 +26,9 @@
 #include <libdolphin_export.h>
 
 #include <kitemviews/kitemmodelbase.h>
+#include <kitemviews/kitemset.h>
 
 #include <QObject>
-#include <QSet>
 
 class KItemModelBase;
 
@@ -57,8 +57,8 @@ public:
     void setCurrentItem(int current);
     int currentItem() const;
 
-    void setSelectedItems(const QSet<int>& items);
-    QSet<int> selectedItems() const;
+    void setSelectedItems(const KItemSet& items);
+    KItemSet selectedItems() const;
     bool isSelected(int index) const;
     bool hasSelection() const;
 
@@ -73,7 +73,7 @@ public:
 
 signals:
     void currentChanged(int current, int previous);
-    void selectionChanged(const QSet<int>& current, const QSet<int>& previous);
+    void selectionChanged(const KItemSet& current, const KItemSet& previous);
 
 private:
     void setModel(KItemModelBase* model);
@@ -91,7 +91,7 @@ private:
 private:
     int m_currentItem;
     int m_anchorItem;
-    QSet<int> m_selectedItems;
+    KItemSet m_selectedItems;
     bool m_isAnchoredSelectionActive;
 
     KItemModelBase* m_model;

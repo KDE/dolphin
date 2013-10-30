@@ -73,7 +73,7 @@ public:
     QStringList enabledPlugins() const;
 
     /** @reimp */
-    virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
+    virtual QPixmap createDragPixmap(const KItemSet& indexes) const;
 
 protected:
     virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;

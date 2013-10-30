@@ -27,6 +27,7 @@
 #include <kitemviews/private/kfileitemmodelfilter.h>
 
 #include <QHash>
+#include <QSet>
 
 class KFileItemModelDirLister;
 class QTimer;
@@ -99,7 +100,7 @@ public:
     bool showDirectoriesOnly() const;
 
     /** @reimp */
-    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
 
     /** @reimp */
     virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;

@@ -25,10 +25,11 @@
 
 #include <libdolphin_export.h>
 
+#include "kitemset.h"
+
 #include <QObject>
 #include <QPixmap>
 #include <QPointF>
-#include <QSet>
 
 class KItemModelBase;
 class KItemListKeyboardSearchManager;
@@ -129,7 +130,7 @@ public:
 
     /**
      * If set to true, the signals itemActivated() and itemsActivated() are emitted
-     * after a single-click of the left mouse button. If set to false (the default), 
+     * after a single-click of the left mouse button. If set to false (the default),
      * the setting from KGlobalSettings::singleClick() is used.
      */
     void setSingleClickActivationEnforced(bool singleClick);
@@ -165,7 +166,7 @@ signals:
      * Is emitted if more than one item has been activated by pressing Return/Enter
      * when having a selection.
      */
-    void itemsActivated(const QSet<int>& indexes);
+    void itemsActivated(const KItemSet& indexes);
 
     void itemMiddleClicked(int index);
 
@@ -326,7 +327,7 @@ private:
      * the current selection it is remembered in m_oldSelection before the
      * rubberband gets activated.
      */
-    QSet<int> m_oldSelection;
+    KItemSet m_oldSelection;
 
     /**
      * Assuming a view is given with a vertical scroll-orientation, grouped items and

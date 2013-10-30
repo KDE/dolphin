@@ -364,11 +364,11 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
     case Qt::Key_Enter:
     case Qt::Key_Return: {
-        const QSet<int> selectedItems = m_selectionManager->selectedItems();
+        const KItemSet selectedItems = m_selectionManager->selectedItems();
         if (selectedItems.count() >= 2) {
             emit itemsActivated(selectedItems);
         } else if (selectedItems.count() == 1) {
-            emit itemActivated(selectedItems.toList().first());
+            emit itemActivated(selectedItems.first());
         } else {
             emit itemActivated(index);
         }
@@ -378,14 +378,14 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Menu: {
         // Emit the signal itemContextMenuRequested() in case if at least one
         // item is selected. Otherwise the signal viewContextMenuRequested() will be emitted.
-        const QSet<int> selectedItems = m_selectionManager->selectedItems();
+        const KItemSet selectedItems = m_selectionManager->selectedItems();
         int index = -1;
         if (selectedItems.count() >= 2) {
             const int currentItemIndex = m_selectionManager->currentItem();
             index = selectedItems.contains(currentItemIndex)
-                    ? currentItemIndex : selectedItems.toList().first();
+                    ? currentItemIndex : selectedItems.first();
         } else if (selectedItems.count() == 1) {
-            index = selectedItems.toList().first();
+            index = selectedItems.first();
         }
 
         if (index >= 0) {
@@ -1079,7 +1079,7 @@ void KItemListController::slotRubberBandChanged()
         }
     }
 
-    QSet<int> selectedItems;
+    KItemSet selectedItems;
 
     // Select all visible items that intersect with the rubberband
     foreach (const KItemListWidget* widget, m_view->visibleItemListWidgets()) {
@@ -1127,7 +1127,7 @@ void KItemListController::slotRubberBandChanged()
         // Therefore, the new selection contains:
         // 1. All previously selected items which are not inside the rubberband, and
         // 2. all items inside the rubberband which have not been selected previously.
-        m_selectionManager->setSelectedItems((m_oldSelection - selectedItems) + (selectedItems - m_oldSelection));
+        m_selectionManager->setSelectedItems(m_oldSelection ^ selectedItems);
     }
     else {
         m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
@@ -1140,7 +1140,7 @@ void KItemListController::startDragging()
         return;
     }
 
-    const QSet<int> selectedItems = m_selectionManager->selectedItems();
+    const KItemSet selectedItems = m_selectionManager->selectedItems();
     if (selectedItems.isEmpty()) {
         return;
     }

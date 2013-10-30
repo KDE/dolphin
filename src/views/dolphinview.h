@@ -34,7 +34,6 @@
 #include <QBoxLayout>
 #include <QKeyEvent>
 #include <QLinkedList>
-#include <QSet>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
@@ -45,6 +44,7 @@ class KActionCollection;
 class KFileItemModel;
 class KItemListContainer;
 class KItemModelBase;
+class KItemSet;
 class KUrl;
 class ToolTipManager;
 class VersionControlObserver;
@@ -563,7 +563,7 @@ private slots:
     void activate();
 
     void slotItemActivated(int index);
-    void slotItemsActivated(const QSet<int>& indexes);
+    void slotItemsActivated(const KItemSet& indexes);
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
@@ -587,7 +587,7 @@ private slots:
      * the signal is emitted only after no selection change has been done
      * within a small delay.
      */
-    void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
+    void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
 
     /**
      * Is called by emitDelayedSelectionChangedSignal() and emits the

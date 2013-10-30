@@ -53,6 +53,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistviewaccessible.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
+    kitemviews/kitemset.cpp
     kitemviews/kstandarditem.cpp
     kitemviews/kstandarditemlistgroupheader.cpp
     kitemviews/kstandarditemlistwidget.cpp

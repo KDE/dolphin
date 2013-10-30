@@ -377,7 +377,7 @@ void PlacesItemModel::requestStorageSetup(int index)
     }
 }
 
-QMimeData* PlacesItemModel::createMimeData(const QSet<int>& indexes) const
+QMimeData* PlacesItemModel::createMimeData(const KItemSet& indexes) const
 {
     KUrl::List urls;
     QByteArray itemData;

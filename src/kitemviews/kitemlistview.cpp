@@ -609,12 +609,12 @@ KItemListHeader* KItemListView::header() const
     return m_header;
 }
 
-QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
+QPixmap KItemListView::createDragPixmap(const KItemSet& indexes) const
 {
     QPixmap pixmap;
 
     if (indexes.count() == 1) {
-        KItemListWidget* item = m_visibleItems.value(indexes.toList().first());
+        KItemListWidget* item = m_visibleItems.value(indexes.first());
         QGraphicsView* graphicsView = scene()->views()[0];
         if (item && graphicsView) {
             pixmap = item->createDragPixmap(0, graphicsView);
@@ -1305,7 +1305,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
 }
 
-void KItemListView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
+void KItemListView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
 {
     Q_UNUSED(previous);
 
@@ -1502,7 +1502,7 @@ void KItemListView::setController(KItemListController* controller)
         if (previous) {
             KItemListSelectionManager* selectionManager = previous->selectionManager();
             disconnect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
-            disconnect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)), this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+            disconnect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)), this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
         }
 
         m_controller = controller;
@@ -1510,7 +1510,7 @@ void KItemListView::setController(KItemListController* controller)
         if (controller) {
             KItemListSelectionManager* selectionManager = controller->selectionManager();
             connect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
-            connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)), this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+            connect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)), this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
         }
 
         onControllerChanged(controller, previous);

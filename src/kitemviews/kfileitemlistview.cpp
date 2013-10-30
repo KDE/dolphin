@@ -119,7 +119,7 @@ QStringList KFileItemListView::enabledPlugins() const
     return m_modelRolesUpdater ? m_modelRolesUpdater->enabledPlugins() : QStringList();
 }
 
-QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
+QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
 {
     if (!model()) {
         return QPixmap();
@@ -165,10 +165,8 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
     QPainter painter(&dragPixmap);
     int x = 0;
     int y = 0;
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
 
+    foreach (int index, indexes) {
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
             KIcon icon(model()->data(index).value("iconName").toString());

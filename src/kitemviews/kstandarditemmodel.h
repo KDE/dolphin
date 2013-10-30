@@ -72,7 +72,7 @@ public:
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
     virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
-    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
     virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
     virtual bool supportsDropping(int index) const;
     virtual QString roleDescription(const QByteArray& role) const;

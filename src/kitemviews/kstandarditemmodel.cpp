@@ -175,7 +175,7 @@ bool KStandardItemModel::setData(int index, const QHash<QByteArray, QVariant>& v
     return true;
 }
 
-QMimeData* KStandardItemModel::createMimeData(const QSet<int>& indexes) const
+QMimeData* KStandardItemModel::createMimeData(const KItemSet& indexes) const
 {
     Q_UNUSED(indexes);
     return 0;

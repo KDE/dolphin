@@ -43,7 +43,7 @@ KItemListSelectionManager::~KItemListSelectionManager()
 void KItemListSelectionManager::setCurrentItem(int current)
 {
     const int previous = m_currentItem;
-    const QSet<int> previousSelection = selectedItems();
+    const KItemSet previousSelection = selectedItems();
 
     if (m_model && current >= 0 && current < m_model->count()) {
         m_currentItem = current;
@@ -55,7 +55,7 @@ void KItemListSelectionManager::setCurrentItem(int current)
         emit currentChanged(m_currentItem, previous);
 
         if (m_isAnchoredSelectionActive) {
-            const QSet<int> selection = selectedItems();
+            const KItemSet selection = selectedItems();
             if (selection != previousSelection) {
                 emit selectionChanged(selection, previousSelection);
             }
@@ -68,18 +68,18 @@ int KItemListSelectionManager::currentItem() const
     return m_currentItem;
 }
 
-void KItemListSelectionManager::setSelectedItems(const QSet<int>& items)
+void KItemListSelectionManager::setSelectedItems(const KItemSet& items)
 {
     if (m_selectedItems != items) {
-        const QSet<int> previous = m_selectedItems;
+        const KItemSet previous = m_selectedItems;
         m_selectedItems = items;
         emit selectionChanged(m_selectedItems, previous);
     }
 }
 
-QSet<int> KItemListSelectionManager::selectedItems() const
+KItemSet KItemListSelectionManager::selectedItems() const
 {
-    QSet<int> selectedItems = m_selectedItems;
+    KItemSet selectedItems = m_selectedItems;
 
     if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
         Q_ASSERT(m_anchorItem >= 0);
@@ -127,7 +127,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
     }
 
     endAnchoredSelection();
-    const QSet<int> previous = selectedItems();
+    const KItemSet previous = selectedItems();
 
     count = qMin(count, m_model->count() - index);
 
@@ -160,7 +160,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
         break;
     }
 
-    const QSet<int> selection = selectedItems();
+    const KItemSet selection = selectedItems();
     if (selection != previous) {
         emit selectionChanged(selection, previous);
     }
@@ -168,11 +168,11 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
 
 void KItemListSelectionManager::clearSelection()
 {
-    const QSet<int> previous = selectedItems();
+    const KItemSet previous = selectedItems();
     if (!previous.isEmpty()) {
         m_selectedItems.clear();
         m_isAnchoredSelectionActive = false;
-        emit selectionChanged(QSet<int>(), previous);
+        emit selectionChanged(KItemSet(), previous);
     }
 }
 
@@ -221,7 +221,7 @@ void KItemListSelectionManager::setModel(KItemModelBase* model)
 void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
-    const QSet<int> previousSelection = selectedItems();
+    const KItemSet previousSelection = selectedItems();
 
     // Update the current item
     if (m_currentItem < 0) {
@@ -257,12 +257,10 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 
     // Update the selections
     if (!m_selectedItems.isEmpty()) {
-        const QSet<int> previous = m_selectedItems;
+        const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
-        m_selectedItems.reserve(previous.count());
-        QSetIterator<int> it(previous);
-        while (it.hasNext()) {
-            const int index = it.next();
+
+        foreach (int index, previous) {
             int inc = 0;
             foreach (const KItemRange& itemRange, itemRanges) {
                 if (index < itemRange.index) {
@@ -274,7 +272,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         }
     }
 
-    const QSet<int> selection = selectedItems();
+    const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
         emit selectionChanged(selection, previousSelection);
     }
@@ -283,7 +281,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
-    const QSet<int> previousSelection = selectedItems();
+    const KItemSet previousSelection = selectedItems();
     const int previousCurrent = m_currentItem;
 
     // Update the current item
@@ -308,19 +306,18 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 
     // Update the selections and the anchor item
     if (!m_selectedItems.isEmpty()) {
-        const QSet<int> previous = m_selectedItems;
+        const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
-        m_selectedItems.reserve(previous.count());
-        QSetIterator<int> it(previous);
-        while (it.hasNext()) {
-            const int index = indexAfterRangesRemoving(it.next(), itemRanges, DiscardRemovedIndex);
+
+        foreach (int oldIndex, previous) {
+            const int index = indexAfterRangesRemoving(oldIndex, itemRanges, DiscardRemovedIndex);
             if (index >= 0)  {
                 m_selectedItems.insert(index);
             }
         }
     }
 
-    const QSet<int> selection = selectedItems();
+    const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
         emit selectionChanged(selection, previousSelection);
     }
@@ -332,7 +329,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
 {
     // Store the current selection (needed in the selectionChanged() signal)
-    const QSet<int> previousSelection = selectedItems();
+    const KItemSet previousSelection = selectedItems();
 
     // Update the current item
     if (m_currentItem >= itemRange.index && m_currentItem < itemRange.index + itemRange.count) {
@@ -352,12 +349,10 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
 
     // Update the selections
     if (!m_selectedItems.isEmpty()) {
-        const QSet<int> previous = m_selectedItems;
+        const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
-        m_selectedItems.reserve(previous.count());
-        QSetIterator<int> it(previous);
-        while (it.hasNext()) {
-            const int index = it.next();
+
+        foreach (int index, previous) {
             if (index >= itemRange.index && index < itemRange.index + itemRange.count) {
                 m_selectedItems.insert(movedToIndexes.at(index - itemRange.index));
             }
@@ -367,7 +362,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
         }
     }
 
-    const QSet<int> selection = selectedItems();
+    const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
         emit selectionChanged(selection, previousSelection);
     }

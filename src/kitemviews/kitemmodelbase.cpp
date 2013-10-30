@@ -123,7 +123,7 @@ int KItemModelBase::expandedParentsCount(int index) const
     return 0;
 }
 
-QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
+QMimeData* KItemModelBase::createMimeData(const KItemSet& indexes) const
 {
     Q_UNUSED(indexes);
     return 0;

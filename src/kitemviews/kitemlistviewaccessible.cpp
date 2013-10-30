@@ -109,7 +109,7 @@ int KItemListViewAccessible::rowCount() const
 
 int KItemListViewAccessible::selectedCellCount() const
 {
-    return view()->controller()->selectionManager()->selectedItems().size();
+    return view()->controller()->selectionManager()->selectedItems().count();
 }
 
 int KItemListViewAccessible::selectedColumnCount() const

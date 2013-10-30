@@ -237,7 +237,7 @@ bool KFileItemModel::showDirectoriesOnly() const
     return m_dirLister->dirOnlyMode();
 }
 
-QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
+QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
 {
     QMimeData* data = new QMimeData();
 
@@ -248,9 +248,7 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
     KUrl::List mostLocalUrls;
     bool canUseMostLocalUrls = true;
 
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
+    foreach (int index, indexes) {
         const KFileItem item = fileItem(index);
         if (!item.isNull()) {
             urls << item.targetUrl();

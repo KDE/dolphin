@@ -118,7 +118,7 @@ public:
     void requestStorageSetup(int index);
 
     /** @reimp */
-    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
 
     /** @reimp */
     virtual bool supportsDropping(int index) const;

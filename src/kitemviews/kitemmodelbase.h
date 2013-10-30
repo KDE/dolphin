@@ -26,10 +26,10 @@
 #include <libdolphin_export.h>
 
 #include <kitemviews/kitemrange.h>
+#include <kitemviews/kitemset.h>
 
 #include <QHash>
 #include <QObject>
-#include <QSet>
 #include <QVariant>
 
 class QMimeData;
@@ -149,7 +149,7 @@ public:
      *         caller of this method. The method must be implemented if dragging of
      *         items should be possible.
      */
-    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
 
     /**
      * @return Reimplement this to return the index for the first item

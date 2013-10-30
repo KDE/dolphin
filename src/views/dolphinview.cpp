@@ -145,7 +145,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-    connect(controller, SIGNAL(itemsActivated(QSet<int>)), this, SLOT(slotItemsActivated(QSet<int>)));
+    connect(controller, SIGNAL(itemsActivated(KItemSet)), this, SLOT(slotItemsActivated(KItemSet)));
     connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
     connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
@@ -184,8 +184,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
-    connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
-            this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+    connect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)),
+            this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
 
     m_toolTipManager = new ToolTipManager(this);
 
@@ -350,14 +350,9 @@ int DolphinView::itemsCount() const
 KFileItemList DolphinView::selectedItems() const
 {
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-    QList<int> selectedIndexes = selectionManager->selectedItems().toList();
-
-    qSort(selectedIndexes);
 
     KFileItemList selectedItems;
-    QListIterator<int> it(selectedIndexes);
-    while (it.hasNext()) {
-        const int index = it.next();
+    foreach (int index, selectionManager->selectedItems()) {
         selectedItems.append(m_model->fileItem(index));
     }
     return selectedItems;
@@ -390,9 +385,9 @@ void DolphinView::selectItems(const QRegExp& pattern, bool enabled)
     for (int index = 0; index < m_model->count(); index++) {
         const KFileItem item = m_model->fileItem(index);
         if (pattern.exactMatch(item.text())) {
-            // An alternative approach would be to store the matching items in a QSet<int> and
+            // An alternative approach would be to store the matching items in a KItemSet and
             // select them in one go after the loop, but we'd need a new function
-            // KItemListSelectionManager::setSelected(QSet<int>, SelectionMode mode)
+            // KItemListSelectionManager::setSelected(KItemSet, SelectionMode mode)
             // for that.
             selectionManager->setSelected(index, 1, mode);
         }
@@ -803,7 +798,7 @@ void DolphinView::slotItemActivated(int index)
     }
 }
 
-void DolphinView::slotItemsActivated(const QSet<int>& indexes)
+void DolphinView::slotItemsActivated(const KItemSet& indexes)
 {
     Q_ASSERT(indexes.count() >= 2);
 
@@ -818,9 +813,7 @@ void DolphinView::slotItemsActivated(const QSet<int>& indexes)
     KFileItemList items;
     items.reserve(indexes.count());
 
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
+    foreach (int index, indexes) {
         KFileItem item = m_model->fileItem(index);
         const KUrl& url = openItemAsFolderUrl(item);
 
@@ -1104,7 +1097,7 @@ void DolphinView::slotAboutToCreate(const KUrl::List& urls)
     }
 }
 
-void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
+void DolphinView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
 {
     const int currentCount = current.count();
     const int previousCount = previous.count();
@@ -1323,7 +1316,7 @@ void DolphinView::updateViewState()
             m_clearSelectionBeforeSelectingNewItems = false;
         }
 
-        QSet<int> selectedItems = selectionManager->selectedItems();
+        KItemSet selectedItems = selectionManager->selectedItems();
 
         QList<KUrl>::iterator it = m_selectedUrls.begin();
         while (it != m_selectedUrls.end()) {
@@ -1659,7 +1652,7 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
 QMimeData* DolphinView::selectionMimeData() const
 {
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-    const QSet<int> selectedIndexes = selectionManager->selectedItems();
+    const KItemSet selectedIndexes = selectionManager->selectedItems();
 
     return m_model->createMimeData(selectedIndexes);
 }

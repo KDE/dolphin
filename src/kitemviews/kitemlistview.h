@@ -271,7 +271,7 @@ public:
      * @return Pixmap that is used for a drag operation based on the
      *         items given by \a indexes.
      */
-    virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
+    virtual QPixmap createDragPixmap(const KItemSet& indexes) const;
 
     /**
      * Lets the user edit the role \a role for item with the index \a index.
@@ -400,7 +400,7 @@ protected slots:
     virtual void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
     virtual void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
     virtual void slotCurrentChanged(int current, int previous);
-    virtual void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
+    virtual void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
 
 private slots:
     void slotAnimationFinished(QGraphicsWidget* widget,
