@@ -350,6 +350,12 @@ private:
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item, const ItemData* parent) const;
 
     /**
+     * @return True if \a a has a KFileItem whose text is 'less than' the one
+     *         of \a b according to QString::operator<(const QString&).
+     */
+    static bool nameLessThan(const ItemData* a, const ItemData* b);
+
+    /**
      * @return True if the item-data \a a should be ordered before the item-data
      *         \b. The item-data may have different parent-items.
      */
@@ -484,6 +490,12 @@ private:
     friend class KFileItemListViewTest;        // For unit testing
     friend class DolphinPart;                  // Accesses m_dirLister
 };
+
+inline bool KFileItemModel::nameLessThan(const ItemData* a, const ItemData* b)
+{
+    return a->item.text() < b->item.text();
+}
+
 
 inline bool KFileItemModel::isChildItem(int index) const
 {

@@ -1036,6 +1036,14 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 
     m_groups.clear();
 
+    if (m_naturalSorting) {
+        // Natural sorting of items can be very slow. However, it becomes much
+        // faster if the input sequence is already mostly sorted. Therefore, we
+        // first sort 'newItems' according to the QStrings returned by
+        // KFileItem::text() using QString::operator<(), which is quite fast.
+        parallelMergeSort(newItems.begin(), newItems.end(), nameLessThan, QThread::idealThreadCount());
+    }
+
     sort(newItems.begin(), newItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
