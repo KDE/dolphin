@@ -227,7 +227,7 @@ private:
     qreal m_groupHeaderMargin;
 
     struct ItemInfo {
-        QRectF rect;
+        QPointF pos;
         int column;
         int row;
     };
