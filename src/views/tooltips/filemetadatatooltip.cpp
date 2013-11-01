@@ -24,11 +24,15 @@
 #include <KColorScheme>
 #include <KSeparator>
 #include <KWindowSystem>
+#include <KStringHandler>
 
 #include <QLabel>
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QVBoxLayout>
+#include <QTextDocument>
+#include <QTextLayout>
+#include <QTextLine>
 
 #ifndef HAVE_NEPOMUK
 #include <KFileMetaDataWidget>
@@ -56,9 +60,14 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_name = new QLabel(this);
     m_name->setForegroundRole(QPalette::ToolTipText);
     m_name->setTextFormat(Qt::PlainText);
+    m_name->setAlignment(Qt::AlignHCenter);
+
     QFont font = m_name->font();
     font.setBold(true);
     m_name->setFont(font);
+
+    QFontMetrics fontMetrics(font);
+    m_name->setMaximumWidth(fontMetrics.averageCharWidth() * 40);
 
     // Create widget for the meta data
 #ifndef HAVE_NEPOMUK
@@ -108,7 +117,33 @@ QPixmap FileMetaDataToolTip::preview() const
 
 void FileMetaDataToolTip::setName(const QString& name)
 {
-    m_name->setText(name);
+    QTextOption textOption;
+    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+    const QString processedName = Qt::mightBeRichText(name) ? name : KStringHandler::preProcessWrap(name);
+
+    QTextLayout textLayout(processedName);
+    textLayout.setFont(m_name->font());
+    textLayout.setTextOption(textOption);
+
+    QString wrappedText;
+    wrappedText.reserve(processedName.length());
+
+    // wrap the text to fit into the maximum width of m_name
+    textLayout.beginLayout();
+    QTextLine line = textLayout.createLine();
+    while (line.isValid()) {
+        line.setLineWidth(m_name->maximumWidth());
+        wrappedText += processedName.mid(line.textStart(), line.textLength());
+
+        line = textLayout.createLine();
+        if (line.isValid()) {
+            wrappedText += QChar::LineSeparator;
+        }
+    }
+    textLayout.endLayout();
+
+    m_name->setText(wrappedText);
 }
 
 QString FileMetaDataToolTip::name() const
