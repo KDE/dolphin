@@ -1034,7 +1034,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 
     m_groups.clear();
 
-    if (m_naturalSorting) {
+    if (m_sortRole == NameRole && m_naturalSorting) {
         // Natural sorting of items can be very slow. However, it becomes much
         // faster if the input sequence is already mostly sorted. Therefore, we
         // first sort 'newItems' according to the QStrings returned by
