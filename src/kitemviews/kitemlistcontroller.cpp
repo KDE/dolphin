@@ -537,6 +537,14 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
     emit mouseButtonPressed(m_pressedIndex, event->buttons());
 
+    if ((event->buttons() & (Qt::XButton1 | Qt::XButton2)) && m_pressedIndex < 0) {
+        // Do not select items when clicking the empty part of the view with
+        // the back/forward buttons, see https://bugs.kde.org/show_bug.cgi?id=327412.
+        // Note that clicking an item with these buttons selects it, see comment in
+        // DolphinView::slotMouseButtonPressed(int, Qt::MouseButtons).
+        return true;
+    }
+
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
         m_selectionManager->setCurrentItem(m_pressedIndex);
