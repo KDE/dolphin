@@ -120,6 +120,10 @@ Solid::Device PlacesItem::device() const
 
 void PlacesItem::setBookmark(const KBookmark& bookmark)
 {
+    if (bookmark == m_bookmark) {
+        return;
+    }
+
     m_bookmark = bookmark;
 
     delete m_access;
@@ -302,7 +306,15 @@ void PlacesItem::updateBookmarkForRole(const QByteArray& role)
     if (role == "iconName") {
         m_bookmark.setIcon(icon());
     } else if (role == "text") {
-        m_bookmark.setFullText(text());
+        // Only store the text in the KBookmark if it is not the translation of
+        // the current text. This makes sure that the text is re-translated if
+        // the user chooses another language, or the translation itself changes.
+        //
+        // NOTE: It is important to use "KFile System Bookmarks" as context
+        // (see PlacesItemModel::createSystemBookmarks()).
+        if (text() != i18nc("KFile System Bookmarks", m_bookmark.text().toUtf8().data())) {
+            m_bookmark.setFullText(text());
+        }
     } else if (role == "url") {
         m_bookmark.setUrl(url());
     } else if (role == "udi)") {
