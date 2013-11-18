@@ -338,16 +338,17 @@ void KItemListContainer::updateGeometries()
     int extra = frameWidth() * 2;
     QStyleOption option;
     option.initFrom(this);
+    int scrollbarSpacing = 0;
     if (style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents, &option, this)) {
-        extra += style()->pixelMetric(QStyle::PM_ScrollView_ScrollBarSpacing, &option, this);
+        scrollbarSpacing = style()->pixelMetric(QStyle::PM_ScrollView_ScrollBarSpacing, &option, this);
     }
 
     const int widthDec = verticalScrollBar()->isVisible()
-                         ? extra + style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this)
+                         ? extra + scrollbarSpacing + style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this)
                          : extra;
 
     const int heightDec = horizontalScrollBar()->isVisible()
-                          ? extra + style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this)
+                          ? extra + scrollbarSpacing + style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this)
                           : extra;
 
     rect.adjust(0, 0, -widthDec, -heightDec);
