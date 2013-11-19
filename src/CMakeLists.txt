@@ -170,7 +170,6 @@ set(dolphin_SRCS
     dolphinapplication.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
-    dolphinnewfilemenu.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
