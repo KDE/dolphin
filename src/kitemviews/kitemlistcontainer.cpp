@@ -351,14 +351,15 @@ void KItemListContainer::updateGeometries()
                           ? extra + scrollbarSpacing + style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this)
                           : extra;
 
-    rect.adjust(0, 0, -widthDec, -heightDec);
-
-    const QRectF newGeometry(0, 0, rect.width(), rect.height());
+    const QRectF newGeometry(0, 0, rect.width() - widthDec,
+                             rect.height() - heightDec);
     if (m_controller->view()->geometry() != newGeometry) {
         m_controller->view()->setGeometry(newGeometry);
 
-        static_cast<KItemListContainerViewport*>(viewport())->scene()->setSceneRect(0, 0, rect.width(), rect.height());
-        static_cast<KItemListContainerViewport*>(viewport())->viewport()->setGeometry(QRect(0, 0, rect.width(), rect.height()));
+        // Get the real geometry of the view again since the scrollbars
+        // visibilities and the view geometry may have changed in re-layout.
+        static_cast<KItemListContainerViewport*>(viewport())->scene()->setSceneRect(m_controller->view()->geometry());
+        static_cast<KItemListContainerViewport*>(viewport())->viewport()->setGeometry(m_controller->view()->geometry().toRect());
 
         updateScrollOffsetScrollBar();
         updateItemOffsetScrollBar();
