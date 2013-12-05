@@ -1486,7 +1486,9 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
             }
 
             KonqOperations* op = KonqOperations::renameV2(this, oldUrl, newName);
-            if (op) {
+            if (op && !newNameExistsAlready) {
+                // Only connect the renamingFailed signal if there is no item with the new name
+                // in the model yet, see bug 328262.
                 connect(op, SIGNAL(renamingFailed(KUrl,KUrl)), SLOT(slotRenamingFailed(KUrl,KUrl)));
             }
         }
