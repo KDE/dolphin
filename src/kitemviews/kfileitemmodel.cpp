@@ -21,7 +21,6 @@
 
 #include "kfileitemmodel.h"
 
-#include <KDirModel>
 #include <KGlobalSettings>
 #include <KLocale>
 #include <KStringHandler>
@@ -247,9 +246,23 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     KUrl::List urls;
     KUrl::List mostLocalUrls;
     bool canUseMostLocalUrls = true;
+    const ItemData* lastAddedItem = 0;
 
     foreach (int index, indexes) {
-        const KFileItem item = fileItem(index);
+        const ItemData* itemData = m_itemData.at(index);
+        const ItemData* parent = itemData->parent;
+
+        while (parent && parent != lastAddedItem) {
+            itemData = itemData->parent;
+        }
+
+        if (parent && parent == lastAddedItem) {
+            // A parent of 'itemData' has been added already.
+            continue;
+        }
+
+        lastAddedItem = itemData;
+        const KFileItem& item = itemData->item;
         if (!item.isNull()) {
             urls << item.targetUrl();
 
@@ -262,9 +275,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     }
 
     const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
-    urls = KDirModel::simplifiedUrlList(urls); // TODO: Check if we still need KDirModel for this in KDE 5.0
     if (different) {
-        mostLocalUrls = KDirModel::simplifiedUrlList(mostLocalUrls);
         urls.populateMimeData(mostLocalUrls, data);
     } else {
         urls.populateMimeData(data);
