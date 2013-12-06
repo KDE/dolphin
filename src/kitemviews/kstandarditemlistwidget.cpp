@@ -99,11 +99,18 @@ QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemList
         // to show all roles without horizontal clipping.
         qreal maximumRequiredWidth = 0.0;
 
-        const QHash<QByteArray, QVariant> values = view->model()->data(index);
-        foreach (const QByteArray& role, view->visibleRoles()) {
-            const QString text = roleText(role, values);
-            const qreal requiredWidth = option.fontMetrics.width(text);
-            maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
+        const QList<QByteArray>& visibleRoles = view->visibleRoles();
+        const bool showOnlyTextRole = (visibleRoles.count() == 1) && (visibleRoles.first() == "text");
+
+        if (showOnlyTextRole) {
+            maximumRequiredWidth = option.fontMetrics.width(itemText(index, view));
+        } else {
+            const QHash<QByteArray, QVariant> values = view->model()->data(index);
+            foreach (const QByteArray& role, view->visibleRoles()) {
+                const QString text = roleText(role, values);
+                const qreal requiredWidth = option.fontMetrics.width(text);
+                maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
+            }
         }
 
         qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
