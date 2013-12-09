@@ -59,6 +59,8 @@
     #include <Nepomuk2/Query/ResourceTypeTerm>
     #include <Nepomuk2/Vocabulary/NFO>
     #include <Nepomuk2/Vocabulary/NIE>
+#elif HAVE_BALOO
+    #include <baloo/query.h>
 #endif
 
 namespace {
@@ -96,7 +98,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
         KConfig config("nepomukserverrc");
         m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
     }
-
+#elif HAVE_BALOO
+    m_fileIndexingEnabled = true;
 #endif
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
@@ -1205,8 +1208,20 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
         searchUrl = searchUrlForTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
                                                                     Nepomuk2::Query::LiteralTerm("audio")));
     } else if (path.endsWith(QLatin1String("videos"))) {
-        searchUrl = searchUrlForTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk2::Query::LiteralTerm("video")));
+        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Video()));
+    } else {
+        Q_ASSERT(false);
+    }
+#elif HAVE_BALOO
+    const QString path = url.pathOrUrl();
+    if (path.endsWith(QLatin1String("documents"))) {
+        searchUrl = searchUrlForType("Document");
+    } else if (path.endsWith(QLatin1String("images"))) {
+        searchUrl = searchUrlForType("Image");
+    } else if (path.endsWith(QLatin1String("audio"))) {
+        searchUrl = searchUrlForType("Audio");
+    } else if (path.endsWith(QLatin1String("videos"))) {
+        searchUrl = searchUrlForType("Video");
     } else {
         Q_ASSERT(false);
     }
@@ -1221,6 +1236,17 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk2::Query::Term& term)
 {
     const Nepomuk2::Query::FileQuery query(term);
+    return query.toSearchUrl();
+}
+#endif
+
+#ifdef HAVE_BALOO
+KUrl PlacesItemModel::searchUrlForType(const QString& type)
+{
+    Baloo::Query query;
+    query.addType("File");
+    query.addType(type);
+
     return query.toSearchUrl();
 }
 #endif

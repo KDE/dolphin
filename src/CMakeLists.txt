@@ -13,7 +13,19 @@ set_package_properties(NepomukWidgets PROPERTIES DESCRIPTION "Nepomuk Widgets"
                       )
 
 if(NepomukCore_FOUND AND NepomukWidgets_FOUND)
-    set(HAVE_NEPOMUK TRUE)
+    # Explicitly disabling Nepomuk support for testing
+    #set(HAVE_NEPOMUK TRUE)
+endif()
+
+macro_optional_find_package(Baloo)
+set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
+                       URL "http://www.kde.org"
+                       TYPE OPTIONAL
+                       PURPOSE "For adding desktop-wide search and tagging support to dolphin"
+                      )
+
+if (Baloo_FOUND)
+    set(HAVE_BALOO TRUE)
 endif()
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
@@ -32,6 +44,10 @@ if(HAVE_NEPOMUK)
                         )
 
   include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} ${NEPOMUK_WIDGETS_INCLUDE_DIR} )
+endif()
+
+if(HAVE_BALOO)
+  include_directories(${BALOO_INCLUDE_DIR})
 endif()
 
 add_subdirectory(tests)
@@ -129,6 +145,13 @@ if(HAVE_NEPOMUK)
         ${NEPOMUK_CORE_LIBRARY}
         ${NEPOMUK_WIDGETS_LIBRARY}
         ${SOPRANO_LIBRARIES}
+    )
+endif()
+
+if(HAVE_BALOO)
+    target_link_libraries(
+        dolphinprivate
+        ${BALOO_LIBRARIES}
     )
 endif()
 
@@ -254,6 +277,12 @@ if(HAVE_NEPOMUK)
         ${NEPOMUK_CORE_LIBRARY}
         ${NEPOMUK_WIDGETS_LIBRARY}
         ${SOPRANO_LIBRARIES}
+    )
+endif()
+
+if(HAVE_BALOO)
+    target_link_libraries(kdeinit_dolphin
+        ${BALOO_LIBRARIES}
     )
 endif()
 

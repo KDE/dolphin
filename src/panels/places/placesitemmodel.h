@@ -261,6 +261,15 @@ private:
     static KUrl searchUrlForTerm(const Nepomuk2::Query::Term& term);
 #endif
 
+#ifdef HAVE_BALOO
+    /**
+     * Helper method for createSearchUrl()
+     * @return URL that can be listed by KIO and results in searching
+     *         for the given type
+     */
+    static KUrl searchUrlForType(const QString& type);
+#endif
+
 #ifdef PLACESITEMMODEL_DEBUG
     void showModelState();
 #endif
