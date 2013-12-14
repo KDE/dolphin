@@ -413,6 +413,15 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
         kWarning() << "TODO: Emitting itemsChanged() with no information what has changed!";
         emit itemsChanged(KItemRangeList() << KItemRange(0, count()), QSet<QByteArray>());
     }
+
+    // Clear the 'values' of all filtered items. They will be re-populated with the
+    // correct roles the next time 'values' will be accessed via data(int).
+    QHash<KFileItem, ItemData*>::iterator filteredIt = m_filteredItems.begin();
+    const QHash<KFileItem, ItemData*>::iterator filteredEnd = m_filteredItems.end();
+    while (filteredIt != filteredEnd) {
+        (*filteredIt)->values.clear();
+        ++filteredIt;
+    }
 }
 
 QSet<QByteArray> KFileItemModel::roles() const
@@ -1033,6 +1042,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 #endif
 
     m_groups.clear();
+    prepareItemsForSorting(newItems);
 
     if (m_sortRole == NameRole && m_naturalSorting) {
         // Natural sorting of items can be very slow. However, it becomes much
@@ -1196,6 +1206,11 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
         itemDataList.append(itemData);
     }
 
+    return itemDataList;
+}
+
+void KFileItemModel::prepareItemsForSorting(QList<ItemData*>& itemDataList)
+{
     switch (m_sortRole) {
     case PermissionsRole:
     case OwnerRole:
@@ -1205,16 +1220,20 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
         foreach (ItemData* itemData, itemDataList) {
-            itemData->values = retrieveData(itemData->item, parentItem);
+            if (itemData->values.isEmpty()) {
+                itemData->values = retrieveData(itemData->item, itemData->parent);
+            }
         }
         break;
 
     case TypeRole:
         // At least store the data including the file type for items with known MIME type.
         foreach (ItemData* itemData, itemDataList) {
-            const KFileItem item = itemData->item;
-            if (item.isDir() || item.isMimeTypeKnown()) {
-                itemData->values = retrieveData(itemData->item, parentItem);
+            if (itemData->values.isEmpty()) {
+                const KFileItem item = itemData->item;
+                if (item.isDir() || item.isMimeTypeKnown()) {
+                    itemData->values = retrieveData(itemData->item, itemData->parent);
+                }
             }
         }
         break;
@@ -1223,12 +1242,10 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
         // The other roles are either resolved by KFileItemModelRolesUpdater
         // (this includes the SizeRole for directories), or they do not need
         // to be stored in the QHash "values" for sorting because the data can
-        // be retrieved directly from the KFileItem (NameRole, SiezRole for files,
+        // be retrieved directly from the KFileItem (NameRole, SizeRole for files,
         // DateRole).
         break;
     }
-
-    return itemDataList;
 }
 
 int KFileItemModel::expandedParentsCount(const ItemData* data)
