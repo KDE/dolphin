@@ -33,13 +33,13 @@ class QLabel;
 class QVBoxLayout;
 
 /**
- * @brief Input box for searching files with or without Nepomuk.
+ * @brief Input box for searching files with or without Baloo.
  *
  * The widget allows to specify:
  * - Where to search: Everywhere or below the current directory
  * - What to search: Filenames or content
  *
- * If Nepomuk is available and the current folder is indexed, further
+ * If Baloo is available and the current folder is indexed, further
  * options are offered.
  */
 class DolphinSearchBox : public QWidget {
@@ -151,9 +151,9 @@ private:
     void init();
 
     /**
-     * @return URL that represents the Nepomuk query for starting the search.
+     * @return URL that represents the Baloo query for starting the search.
      */
-    KUrl nepomukUrlForSearching() const;
+    KUrl balooUrlForSearching() const;
 
     void applyReadOnlyState();
 

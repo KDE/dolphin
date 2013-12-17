@@ -20,10 +20,9 @@
 #include "dolphinsearchinformation.h"
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_BALOO
     #include <KConfig>
     #include <KConfigGroup>
-    #include <Nepomuk2/ResourceManager>
 #endif
 
 #include <KGlobal>
@@ -72,11 +71,11 @@ namespace {
 
 bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 {
-#ifdef HAVE_NEPOMUK
-    const KConfig strigiConfig("nepomukstrigirc");
+#ifdef HAVE_BALOO
+    const KConfig strigiConfig("baloofilerc");
     const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
 
-    // Nepomuk does not index hidden folders
+    // Baloo does not index hidden folders
     if (isDirHidden(url.toLocalFile())) {
         return false;
     }
@@ -114,10 +113,11 @@ bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 DolphinSearchInformation::DolphinSearchInformation() :
     m_indexingEnabled(false)
 {
-#ifdef HAVE_NEPOMUK
-    if (Nepomuk2::ResourceManager::instance()->initialized()) {
-        KConfig config("nepomukserverrc");
-        m_indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
+#ifdef HAVE_BALOO
+    KConfig config("baloofilerc");
+    KConfigGroup group = config.group("Basic Settings");
+    if (group.readEntry("Enabled", true)) {
+        m_indexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
     }
 #endif
 }

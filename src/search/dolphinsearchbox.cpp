@@ -41,17 +41,9 @@
 #include <QVBoxLayout>
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/Query/AndTerm>
-    #include <Nepomuk2/Query/FileQuery>
-    #include <Nepomuk2/Query/LiteralTerm>
-    #include <Nepomuk2/Query/OrTerm>
-    #include <Nepomuk2/Query/Query>
-    #include <Nepomuk2/Query/QueryParser>
-    #include <Nepomuk2/Query/ResourceTypeTerm>
-    #include <Nepomuk2/Query/ComparisonTerm>
-    #include <Nepomuk2/ResourceManager>
-    #include <Nepomuk2/Vocabulary/NFO>
+#ifdef HAVE_BALOO
+    #include <baloo/query.h>
+    #include <baloo/term.h>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
@@ -130,7 +122,7 @@ KUrl DolphinSearchBox::urlForSearching() const
     KUrl url;
     const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
     if (searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(m_searchPath)) {
-        url = nepomukUrlForSearching();
+        url = balooUrlForSearching();
     } else {
         url.setProtocol("filenamesearch");
         url.addQueryItem("search", m_searchInput->text());
@@ -430,52 +422,30 @@ void DolphinSearchBox::init()
     applyReadOnlyState();
 }
 
-KUrl DolphinSearchBox::nepomukUrlForSearching() const
+KUrl DolphinSearchBox::balooUrlForSearching() const
 {
-#ifdef HAVE_NEPOMUK
-    // Create the term for the text from the input-field
-    // dependent on whether a searching for content or
-    // filename is done
+#ifdef HAVE_BALOO
     const QString text = m_searchInput->text();
-    Nepomuk2::Query::Term searchLabelTerm;
+
+    Baloo::Query query;
+    query.addType("File");
+
+    // TODO: Handle Facets
+
     if (m_contentButton->isChecked()) {
-        // Let Nepomuk parse the query
-        searchLabelTerm = Nepomuk2::Query::QueryParser::parseQuery(text, Nepomuk2::Query::QueryParser::DetectFilenamePattern).term();
-    } else {
-        // Search the text in the filename only
-        QString regex = QRegExp::escape(text);
-        regex.replace("\\*", QLatin1String(".*"));
-        regex.replace("\\?", QLatin1String("."));
-        regex.replace("\\", "\\\\");
-        searchLabelTerm = Nepomuk2::Query::ComparisonTerm(
-                                Nepomuk2::Vocabulary::NFO::fileName(),
-                                Nepomuk2::Query::LiteralTerm(regex),
-                                Nepomuk2::Query::ComparisonTerm::Regexp);
+        query.setSearchString(text);
     }
-
-    // Get the term from the facets and merge it with the
-    // created term from the input-field.
-    Nepomuk2::Query::Term facetsTerm = m_facetsWidget->facetsTerm();
-
-    Nepomuk2::Query::FileQuery fileQuery;
-    fileQuery.setFileMode(Nepomuk2::Query::FileQuery::QueryFilesAndFolders);
-    if (facetsTerm.isValid()) {
-        Nepomuk2::Query::AndTerm andTerm;
-        andTerm.addSubTerm(searchLabelTerm);
-        andTerm.addSubTerm(facetsTerm);
-        fileQuery.setTerm(andTerm);
-    } else {
-        fileQuery.setTerm(searchLabelTerm);
+    else {
+        Baloo::Term term("filename", text);
+        query.setTerm(term);
     }
 
     if (m_fromHereButton->isChecked()) {
-        const bool recursive = true;
-        fileQuery.addIncludeFolder(m_searchPath, recursive);
+        query.addCustomOption("includeFolder", m_searchPath.toLocalFile());
     }
 
-    return fileQuery.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
-                                       "Query Results from '%1'",
-                                       text));
+    return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
+                                   "Query Results from '%1'", text));
 #else
     return KUrl();
 #endif

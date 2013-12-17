@@ -32,14 +32,14 @@ public:
     virtual ~DolphinSearchInformation();
 
     /**
-     * @return True if the Nepomuk indexer is enabled. If Nepomuk is
+     * @return True if the Baloo indexer is enabled. If Baloo is
      *         disabled, always false is returned.
      */
     bool isIndexingEnabled() const;
 
     /**
      * @return True if the complete directory tree specified by path
-     *         is indexed by the Nepomuk indexer. If Nepomuk is disabled,
+     *         is indexed by the Baloo indexer. If Baloo is disabled,
      *         always false is returned.
      */
     bool isPathIndexed(const KUrl& url) const;
