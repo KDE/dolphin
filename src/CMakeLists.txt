@@ -24,7 +24,13 @@ set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-if (Baloo_FOUND)
+macro_optional_find_package(BalooWidgets)
+set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
+                       URL "http://www.kde.org"
+                       TYPE OPTIONAL
+                       PURPOSE "For adding desktop-wide tagging support to dolphin"
+                      )
+if (Baloo_FOUND AND BalooWidgets_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
 
@@ -47,7 +53,7 @@ if(HAVE_NEPOMUK)
 endif()
 
 if(HAVE_BALOO)
-  include_directories(${BALOO_INCLUDE_DIR})
+  include_directories(${BALOO_INCLUDE_DIR} ${BALOO_WIDGETS_INCLUDE_DIR})
 endif()
 
 add_subdirectory(tests)
@@ -152,6 +158,7 @@ if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate
         ${BALOO_LIBRARIES}
+        ${BALOO_WIDGET_LIBRARY}
     )
 endif()
 
@@ -283,6 +290,7 @@ endif()
 if(HAVE_BALOO)
     target_link_libraries(kdeinit_dolphin
         ${BALOO_LIBRARIES}
+        ${BALOO_WIDGETS_LIBRARY}
     )
 endif()
 

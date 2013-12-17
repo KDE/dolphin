@@ -31,10 +31,10 @@
 #include <kseparator.h>
 #include <KStringHandler>
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <nepomuk2/filemetadatawidget.h>
+#include <baloo/filemetadatawidget.h>
 #endif
 
 #include <panels/places/placesitem.h>
@@ -112,10 +112,10 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     m_metaDataWidget = new KFileMetaDataWidget(parent);
 #else
-    m_metaDataWidget = new Nepomuk2::FileMetaDataWidget(parent);
+    m_metaDataWidget = new Baloo::FileMetaDataWidget(parent);
 #endif
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);

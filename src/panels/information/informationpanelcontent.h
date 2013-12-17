@@ -35,10 +35,10 @@ class QString;
 class QLabel;
 class QScrollArea;
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 class KFileMetaDataWidget;
 #else
-namespace Nepomuk2 {
+namespace Baloo {
     class FileMetaDataWidget;
 }
 #endif
@@ -141,10 +141,10 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     QLabel* m_nameLabel;
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     KFileMetaDataWidget* m_metaDataWidget;
 #else
-    Nepomuk2::FileMetaDataWidget* m_metaDataWidget;
+    Baloo::FileMetaDataWidget* m_metaDataWidget;
 #endif
     QScrollArea* m_metaDataArea;
 
