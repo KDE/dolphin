@@ -24,10 +24,10 @@
 #include <KFileItem>
 #include "config-nepomuk.h"
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 class KFileMetaDataConfigurationWidget;
 #else
-namespace Nepomuk2 {
+namespace Baloo {
     class FileMetaDataConfigWidget;
 }
 #endif
@@ -71,10 +71,10 @@ protected slots:
 
 private:
     QLabel* m_descriptionLabel;
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     KFileMetaDataConfigurationWidget* m_configWidget;
 #else
-    Nepomuk2::FileMetaDataConfigWidget* m_configWidget;
+    Baloo::FileMetaDataConfigWidget* m_configWidget;
 #endif
 };
 
