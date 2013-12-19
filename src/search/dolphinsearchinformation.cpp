@@ -73,7 +73,8 @@ bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 {
 #ifdef HAVE_BALOO
     const KConfig strigiConfig("baloofilerc");
-    const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
+    const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders",
+                                                                                   QStringList() << QDir::homePath());
 
     // Baloo does not index hidden folders
     if (isDirHidden(url.toLocalFile())) {
