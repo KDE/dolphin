@@ -51,15 +51,7 @@
 #include <views/dolphinview.h>
 #include <views/viewproperties.h>
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/ResourceManager>
-    #include <Nepomuk2/Query/ComparisonTerm>
-    #include <Nepomuk2/Query/LiteralTerm>
-    #include <Nepomuk2/Query/FileQuery>
-    #include <Nepomuk2/Query/ResourceTypeTerm>
-    #include <Nepomuk2/Vocabulary/NFO>
-    #include <Nepomuk2/Vocabulary/NIE>
-#elif HAVE_BALOO
+#ifdef HAVE_BALOO
     #include <baloo/query.h>
 #endif
 
@@ -67,8 +59,8 @@ namespace {
     // As long as KFilePlacesView from kdelibs is available in parallel, the
     // system-bookmarks for "Recently Accessed" and "Search For" should be
     // shown only inside the Places Panel. This is necessary as the stored
-    // URLs needs to get translated to a Nepomuk-search-URL on-the-fly to
-    // be independent from changes in the Nepomuk-search-URL-syntax.
+    // URLs needs to get translated to a Baloo-search-URL on-the-fly to
+    // be independent from changes in the Baloo-search-URL-syntax.
     // Hence a prefix to the application-name of the stored bookmarks is
     // added, which is only read by PlacesItemModel.
     const char* AppNamePrefix = "-places-panel";
@@ -89,17 +81,10 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_updateBookmarksTimer(0),
     m_storageSetupInProgress()
 {
-#ifdef HAVE_NEPOMUK
-    Nepomuk2::ResourceManager* rm = Nepomuk2::ResourceManager::instance();
-    connect(rm, SIGNAL(nepomukSystemStarted()), this, SLOT(slotNepomukStarted()));
-    connect(rm, SIGNAL(nepomukSystemStopped()), this, SLOT(slotNepomukStopped()));
-
-    if (rm->initialized()) {
-        KConfig config("nepomukserverrc");
-        m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
-    }
-#elif HAVE_BALOO
+#ifdef HAVE_BALOO
     m_fileIndexingEnabled = true;
+    KConfig config("baloofilerc");
+    m_fileIndexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
 #endif
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
@@ -962,35 +947,6 @@ void PlacesItemModel::clear() {
     KStandardItemModel::clear();
 }
 
-void PlacesItemModel::slotNepomukStarted()
-{
-    KConfig config("nepomukserverrc");
-    m_fileIndexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
-    if (m_fileIndexingEnabled) {
-        m_systemBookmarks.clear();
-        m_systemBookmarksIndexes.clear();
-        createSystemBookmarks();
-
-        clear();
-        loadBookmarks();
-    }
-}
-
-void PlacesItemModel::slotNepomukStopped()
-{
-    if (m_fileIndexingEnabled) {
-        m_fileIndexingEnabled = false;
-
-        m_systemBookmarks.clear();
-        m_systemBookmarksIndexes.clear();
-        createSystemBookmarks();
-
-        clear();
-        loadBookmarks();
-    }
-}
-
-
 void PlacesItemModel::initializeAvailableDevices()
 {
     QString predicate("[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
@@ -1148,7 +1104,7 @@ bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookm
 
 KUrl PlacesItemModel::createTimelineUrl(const KUrl& url)
 {
-    // TODO: Clarify with the Nepomuk-team whether it makes sense
+    // TODO: Clarify with the Baloo-team whether it makes sense
     // provide default-timeline-URLs like 'yesterday', 'this month'
     // and 'last month'.
     KUrl timelineUrl;
@@ -1198,21 +1154,7 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 {
     KUrl searchUrl;
 
-#ifdef HAVE_NEPOMUK
-    const QString path = url.pathOrUrl();
-    if (path.endsWith(QLatin1String("documents"))) {
-        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Document()));
-    } else if (path.endsWith(QLatin1String("images"))) {
-        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Image()));
-    } else if (path.endsWith(QLatin1String("audio"))) {
-        searchUrl = searchUrlForTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
-                                                                    Nepomuk2::Query::LiteralTerm("audio")));
-    } else if (path.endsWith(QLatin1String("videos"))) {
-        searchUrl = searchUrlForTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Video()));
-    } else {
-        Q_ASSERT(false);
-    }
-#elif HAVE_BALOO
+#ifdef HAVE_BALOO
     const QString path = url.pathOrUrl();
     if (path.endsWith(QLatin1String("documents"))) {
         searchUrl = searchUrlForType("Document");
@@ -1231,14 +1173,6 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 
     return searchUrl;
 }
-
-#ifdef HAVE_NEPOMUK
-KUrl PlacesItemModel::searchUrlForTerm(const Nepomuk2::Query::Term& term)
-{
-    const Nepomuk2::Query::FileQuery query(term);
-    return query.toSearchUrl();
-}
-#endif
 
 #ifdef HAVE_BALOO
 KUrl PlacesItemModel::searchUrlForType(const QString& type)
