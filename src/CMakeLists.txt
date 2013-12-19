@@ -1,22 +1,3 @@
-macro_optional_find_package(NepomukCore)
-set_package_properties(NepomukCore PROPERTIES DESCRIPTION "Nepomuk Core libraries"
-                       URL "http://www.kde.org"
-                       TYPE OPTIONAL
-                       PURPOSE "For adding desktop-wide tagging support to dolphin"
-                      )
-
-macro_optional_find_package(NepomukWidgets)
-set_package_properties(NepomukWidgets PROPERTIES DESCRIPTION "Nepomuk Widgets"
-                       URL "http://www.kde.org"
-                       TYPE OPTIONAL
-                       PURPOSE "For adding desktop-wide tagging support to dolphin"
-                      )
-
-if(NepomukCore_FOUND AND NepomukWidgets_FOUND)
-    # Explicitly disabling Nepomuk support for testing
-    #set(HAVE_NEPOMUK TRUE)
-endif()
-
 macro_optional_find_package(Baloo)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
@@ -34,23 +15,12 @@ if (Baloo_FOUND AND BalooWidgets_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
 
-configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
+configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h )
 
 macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 
-include_directories( ${KACTIVITIES_INCLUDE_DIRS} )
-
-if(HAVE_NEPOMUK)
-  find_package(Soprano 2.7.56)
-  set_package_properties(Soprano PROPERTIES DESCRIPTION "Qt-based RDF storage and parsing solution"
-                         URL "http://soprano.sourceforge.net"
-                         TYPE REQUIRED
-                         PURPOSE "Required for everything (storage and general data management)"
-                        )
-
-  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_CORE_INCLUDE_DIR} ${NEPOMUK_WIDGETS_INCLUDE_DIR} )
-endif()
+include_directories( ${KACTIVITIES_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} )
 
 if(HAVE_BALOO)
   include_directories(${BALOO_INCLUDE_DIR} ${BALOO_WIDGETS_INCLUDE_DIR})
@@ -144,15 +114,6 @@ target_link_libraries(
     konq
     ${KDE4_KNEWSTUFF3_LIBS}
 )
-
-if(HAVE_NEPOMUK)
-    target_link_libraries(
-        dolphinprivate
-        ${NEPOMUK_CORE_LIBRARY}
-        ${NEPOMUK_WIDGETS_LIBRARY}
-        ${SOPRANO_LIBRARIES}
-    )
-endif()
 
 if(HAVE_BALOO)
     target_link_libraries(
@@ -279,14 +240,6 @@ target_link_libraries(kdeinit_dolphin
     ${KDE4_PHONON_LIBS}
 )
 
-if(HAVE_NEPOMUK)
-    target_link_libraries(kdeinit_dolphin
-        ${NEPOMUK_CORE_LIBRARY}
-        ${NEPOMUK_WIDGETS_LIBRARY}
-        ${SOPRANO_LIBRARIES}
-    )
-endif()
-
 if(HAVE_BALOO)
     target_link_libraries(kdeinit_dolphin
         ${BALOO_LIBRARIES}
@@ -363,12 +316,6 @@ target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
 target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
-if(HAVE_NEPOMUK)
-  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
-  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
-  target_link_libraries(kcm_dolphinservices ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
-  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_CORE_LIBRARY} ${NEPOMUK_WIDGETS_LIBRARY})
-endif()
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )

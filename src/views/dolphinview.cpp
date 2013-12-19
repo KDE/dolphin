@@ -20,7 +20,7 @@
 
 #include "dolphinview.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <QAbstractItemView>
 #include <QApplication>

@@ -40,7 +40,7 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 #ifdef HAVE_BALOO
     #include <baloo/query.h>
     #include <baloo/term.h>

@@ -23,7 +23,7 @@
 #define FILEMETADATATOOLTIP_H
 
 #include <QWidget>
-#include "config-nepomuk.h"
+#include "config-baloo.h"
 
 class KFileItemList;
 class QLabel;

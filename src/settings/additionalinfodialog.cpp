@@ -19,7 +19,7 @@
 
 #include "additionalinfodialog.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <KLocale>
 #include "kitemviews/kfileitemmodel.h"

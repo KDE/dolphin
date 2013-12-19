@@ -20,7 +20,7 @@
 #ifndef KFILEITEMMODELROLESUPDATER_H
 #define KFILEITEMMODELROLESUPDATER_H
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <KFileItem>
 #include <kitemviews/kitemmodelbase.h>

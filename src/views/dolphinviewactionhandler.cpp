@@ -20,7 +20,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"

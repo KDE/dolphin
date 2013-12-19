@@ -19,7 +19,7 @@
 
 #include "dolphinsearchinformation.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 #ifdef HAVE_BALOO
     #include <KConfig>
     #include <KConfigGroup>

@@ -20,7 +20,7 @@
 #ifndef PLACESITEMMODEL_H
 #define PLACESITEMMODEL_H
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <kitemviews/kstandarditemmodel.h>
 

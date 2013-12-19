@@ -27,7 +27,7 @@
 #include "dolphin_iconsmodesettings.h"
 #include "viewpropsprogressinfo.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <KComponentData>
 #include <KLocale>

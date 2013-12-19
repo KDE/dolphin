@@ -22,7 +22,7 @@
 
 #include <KDialog>
 #include <KFileItem>
-#include "config-nepomuk.h"
+#include "config-baloo.h"
 
 #ifndef HAVE_BALOO
 class KFileMetaDataConfigurationWidget;

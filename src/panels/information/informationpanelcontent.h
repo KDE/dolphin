@@ -20,7 +20,7 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
-#include "config-nepomuk.h"
+#include "config-baloo.h"
 #include <KConfig>
 #include <KFileItem>
 #include <KUrl>
