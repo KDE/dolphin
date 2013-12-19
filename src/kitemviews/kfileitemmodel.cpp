@@ -664,7 +664,7 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
                     // menus tries to put the actions into sub menus otherwise.
                     info.group = QString();
                 }
-                info.requiresNepomuk = map[i].requiresNepomuk;
+                info.requiresBaloo = map[i].requiresNepomuk;
                 info.requiresIndexer = map[i].requiresIndexer;
                 rolesInfo.append(info);
             }

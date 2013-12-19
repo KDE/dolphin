@@ -187,7 +187,7 @@ public:
     {   QByteArray role;
         QString translation;
         QString group;
-        bool requiresNepomuk;
+        bool requiresBaloo;
         bool requiresIndexer;
     };
 
