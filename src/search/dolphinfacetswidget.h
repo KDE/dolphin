@@ -23,8 +23,8 @@
 #include <QWidget>
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/Query/Term>
+#ifdef HAVE_BALOO
+    #include <baloo/term.h>
 #endif
 
 class QButtonGroup;
@@ -55,8 +55,9 @@ public:
     explicit DolphinFacetsWidget(QWidget* parent = 0);
     virtual ~DolphinFacetsWidget();
 
-#ifdef HAVE_NEPOMUK
-    Nepomuk2::Query::Term facetsTerm() const;
+#ifdef HAVE_BALOO
+    Baloo::Term ratingTerm() const;
+    QStringList facetTypes() const;
 #endif
 
 signals:

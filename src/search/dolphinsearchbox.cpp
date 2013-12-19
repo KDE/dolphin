@@ -429,15 +429,19 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
 
     Baloo::Query query;
     query.addType("File");
+    query.addTypes(m_facetsWidget->facetTypes());
 
-    // TODO: Handle Facets
+    Baloo::Term term(Baloo::Term::And);
+
+    Baloo::Term ratingTerm = m_facetsWidget->ratingTerm();
+    if (ratingTerm.isValid())
+        term.addSubTerm(ratingTerm);
 
     if (m_contentButton->isChecked()) {
         query.setSearchString(text);
     }
     else {
-        Baloo::Term term("filename", text);
-        query.setTerm(term);
+        term.addSubTerm(Baloo::Term("filename", text));
     }
 
     if (m_fromHereButton->isChecked()) {
