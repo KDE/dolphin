@@ -28,9 +28,6 @@
 #include "viewpropsprogressinfo.h"
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include <Nepomuk2/ResourceManager>
-#endif
 
 #include <KComponentData>
 #include <KLocale>
