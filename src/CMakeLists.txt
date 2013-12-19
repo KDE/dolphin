@@ -158,7 +158,7 @@ if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate
         ${BALOO_LIBRARIES}
-        ${BALOO_WIDGET_LIBRARY}
+        ${BALOO_WIDGETS_LIBRARY}
     )
 endif()
 
