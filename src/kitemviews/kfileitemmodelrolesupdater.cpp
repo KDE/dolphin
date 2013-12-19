@@ -40,10 +40,10 @@
 
 #include <algorithm>
 
-#ifdef HAVE_NEPOMUK
-    #include "private/knepomukrolesprovider.h"
-    #include <Nepomuk2/ResourceWatcher>
-    #include <Nepomuk2/ResourceManager>
+#ifdef HAVE_BALOO
+    #include "private/kbaloorolesprovider.h"
+    #include <baloo/file.h>
+    #include <baloo/filefetchjob.h>
 #endif
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
@@ -122,8 +122,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvableRoles.insert("size");
     m_resolvableRoles.insert("type");
     m_resolvableRoles.insert("isExpandable");
-#ifdef HAVE_NEPOMUK
-    m_resolvableRoles += KNepomukRolesProvider::instance().roles();
+#ifdef HAVE_BALOO
+    m_resolvableRoles += KBalooRolesProvider::instance().roles();
 #endif
 
     m_directoryContentsCounter = new KDirectoryContentsCounter(m_model, this);
@@ -291,6 +291,9 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
                 m_nepomukUriItems.clear();
             }
         }
+//#elif HAVE_BALOO
+    // FIXME: Implement file property watching!
+//
 #endif
 
         if (m_state == Paused) {
@@ -1124,6 +1127,20 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 #endif
 
+#ifdef HAVE_BALOO
+    const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
+    // FIXME: Do not run a local event loop over here
+    job->exec();
+
+    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
+    while (it.hasNext()) {
+        it.next();
+        data.insert(it.key(), it.value());
+    }
+
+    // FIXME: Start watching this file for changes
+#endif
     return data;
 }
 

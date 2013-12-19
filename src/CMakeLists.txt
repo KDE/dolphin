@@ -120,10 +120,10 @@ set(dolphinprivate_LIB_SRCS
     dolphinnewfilemenu.cpp
 )
 
-if(HAVE_NEPOMUK)
+if(HAVE_BALOO)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
-        kitemviews/private/knepomukrolesprovider.cpp
+        kitemviews/private/kbaloorolesprovider.cpp
     )
 endif()
 

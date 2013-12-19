@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2013 by Vishesh Handa <me@vhanda.in>                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KNEPOMUKROLESPROVIDER_H
-#define KNEPOMUKROLESPROVIDER_H
+#ifndef KBALOO_ROLESPROVIDER_H
+#define KBALOO_ROLESPROVIDER_H
 
 #include <libdolphin_export.h>
 
@@ -26,25 +27,24 @@
 #include <QSet>
 #include <QUrl>
 
-namespace Nepomuk2
-{
-    class Resource;
+namespace Baloo {
+    class File;
 }
 
 /**
  * @brief Allows accessing metadata of a file by providing KFileItemModel roles.
  *
  * Is a helper class for KFileItemModelRolesUpdater to retrieve roles that
- * are only accessible with Nepomuk.
+ * are only accessible with Baloo.
  */
-class LIBDOLPHINPRIVATE_EXPORT KNepomukRolesProvider
+class LIBDOLPHINPRIVATE_EXPORT KBalooRolesProvider
 {
 public:
-    static KNepomukRolesProvider& instance();
-    virtual ~KNepomukRolesProvider();
+    static KBalooRolesProvider& instance();
+    virtual ~KBalooRolesProvider();
 
     /**
-     * @return Roles that can be provided by KNepomukRolesProvider.
+     * @return Roles that can be provided by KBalooRolesProvider.
      */
     QSet<QByteArray> roles() const;
 
@@ -52,13 +52,13 @@ public:
      * @return Values for the roles \a roles that can be determined from the file
      *         with the URL \a url.
      */
-    QHash<QByteArray, QVariant> roleValues(const Nepomuk2::Resource& resource,
+    QHash<QByteArray, QVariant> roleValues(const Baloo::File& file,
                                            const QSet<QByteArray>& roles) const;
 
-    QByteArray roleForPropertyUri(const QUrl& uri) const;
+    QByteArray roleForProperty(const QString& property) const;
 
 protected:
-    KNepomukRolesProvider();
+    KBalooRolesProvider();
 
 private:
     /**
@@ -81,9 +81,9 @@ private:
 
 private:
     QSet<QByteArray> m_roles;
-    QHash<QUrl, QByteArray> m_roleForUri;
+    QHash<QString, QByteArray> m_roleForProperty;
 
-    friend class KNepomukRolesProviderSingleton;
+    friend class KBalooRolesProviderSingleton;
 };
 
 #endif
