@@ -253,7 +253,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
         const ItemData* parent = itemData->parent;
 
         while (parent && parent != lastAddedItem) {
-            itemData = itemData->parent;
+            parent = parent->parent;
         }
 
         if (parent && parent == lastAddedItem) {
