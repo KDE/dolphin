@@ -320,6 +320,13 @@ private:
      */
     QList<ItemData*> createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const;
 
+    /**
+     * Prepares the items for sorting. Normally, the hash 'values' in ItemData is filled
+     * lazily to save time and memory, but for some sort roles, it is expected that the
+     * sort role data is stored in 'values'.
+     */
+    void prepareItemsForSorting(QList<ItemData*>& itemDataList);
+
     static int expandedParentsCount(const ItemData* data);
 
     void removeExpandedItems();
