@@ -92,6 +92,7 @@ private slots:
     void testInconsistentModel();
     void testChangeRolesForFilteredItems();
     void testChangeSortRoleWhileFiltering();
+    void testRefreshFilteredItems();
 
 private:
     QStringList itemsInModel() const;
@@ -1559,6 +1560,35 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
     // Clear the filter, and verify that the items are sorted correctly.
     m_model->setNameFilter(QString());
     QCOMPARE(itemsInModel(), QStringList() << "c.txt" << "a.txt" << "b.txt");
+}
+
+void KFileItemModelTest::testRefreshFilteredItems()
+{
+    QStringList files;
+    files << "a.txt" << "b.txt" << "c.jpg" << "d.jpg";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.jpg" << "d.jpg");
+
+    const KFileItem fileItemC = m_model->fileItem(2);
+
+    // Show only the .txt files.
+    m_model->setNameFilter(".txt");
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt");
+
+    // Rename one of the .jpg files.
+    KFileItem fileItemE = fileItemC;
+    KUrl urlE = fileItemE.url();
+    urlE.setFileName("e.jpg");
+    fileItemE.setUrl(urlE);
+
+    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemC, fileItemE));
+
+    // Show all files again, and verify that the model has updated the file name.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.jpg" << "e.jpg");
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

@@ -967,6 +967,20 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
             m_items.remove(oldItem.url());
             m_items.insert(newItem.url(), index);
             indexes.append(index);
+        } else {
+            // Check if 'oldItem' is one of the filtered items.
+            QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(oldItem);
+            if (it != m_filteredItems.end()) {
+                ItemData* itemData = it.value();
+                itemData->item = newItem;
+
+                // The data stored in 'values' might have changed. Therefore, we clear
+                // 'values' and re-populate it the next time it is requested via data(int).
+                itemData->values.clear();
+
+                m_filteredItems.erase(it);
+                m_filteredItems.insert(newItem, itemData);
+            }
         }
     }
 
