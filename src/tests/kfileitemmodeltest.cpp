@@ -93,6 +93,7 @@ private slots:
     void testChangeRolesForFilteredItems();
     void testChangeSortRoleWhileFiltering();
     void testRefreshFilteredItems();
+    void testCreateMimeData();
 
 private:
     QStringList itemsInModel() const;
@@ -1589,6 +1590,33 @@ void KFileItemModelTest::testRefreshFilteredItems()
     // Show all files again, and verify that the model has updated the file name.
     m_model->setNameFilter(QString());
     QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.jpg" << "e.jpg");
+}
+
+void KFileItemModelTest::testCreateMimeData()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/1";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a");
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
+
+    // Verify that creating the MIME data for a child of an expanded folder does
+    // not cause a crash, see https://bugs.kde.org/show_bug.cgi?id=329119
+    KItemSet selection;
+    selection.insert(1);
+    QMimeData* mimeData = m_model->createMimeData(selection);
+    delete mimeData;
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
