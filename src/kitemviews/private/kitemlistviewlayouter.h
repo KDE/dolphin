@@ -220,6 +220,9 @@ private:
     qreal m_xPosInc;
     int m_columnCount;
 
+    QVector<qreal> m_rowOffsets;
+    QVector<qreal> m_columnOffsets;
+
     // Stores all item indexes that are the first item of a group.
     // Assures fast access for KItemListViewLayouter::isFirstGroupItem().
     QSet<int> m_groupItemIndexes;
@@ -227,7 +230,6 @@ private:
     qreal m_groupHeaderMargin;
 
     struct ItemInfo {
-        QPointF pos;
         int column;
         int row;
     };
