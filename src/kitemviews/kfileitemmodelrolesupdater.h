@@ -261,7 +261,7 @@ private:
         ResolveFast,
         ResolveAll
     };
-    bool applyResolvedRoles(const KFileItem& item, ResolveHint hint);
+    bool applyResolvedRoles(int index, ResolveHint hint);
     QHash<QByteArray, QVariant> rolesData(const KFileItem& item);
 
     /**
