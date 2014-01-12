@@ -103,7 +103,7 @@ public:
     void setModel(const KItemModelBase* model);
     const KItemModelBase* model() const;
 
-    void setSizeHintResolver(const KItemListSizeHintResolver* sizeHintResolver);
+    void setSizeHintResolver(KItemListSizeHintResolver* sizeHintResolver);
     const KItemListSizeHintResolver* sizeHintResolver() const;
 
     /**
@@ -205,7 +205,7 @@ private:
     QSizeF m_itemMargin;
     qreal m_headerHeight;
     const KItemModelBase* m_model;
-    const KItemListSizeHintResolver* m_sizeHintResolver;
+    KItemListSizeHintResolver* m_sizeHintResolver;
 
     qreal m_scrollOffset;
     qreal m_maximumScrollOffset;

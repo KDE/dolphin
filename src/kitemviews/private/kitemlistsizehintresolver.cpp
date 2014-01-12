@@ -23,7 +23,8 @@
 
 KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemListView) :
     m_itemListView(itemListView),
-    m_sizeHintCache()
+    m_sizeHintCache(),
+    m_needsResolving(false)
 {
 }
 
@@ -31,14 +32,10 @@ KItemListSizeHintResolver::~KItemListSizeHintResolver()
 {
 }
 
-QSizeF KItemListSizeHintResolver::sizeHint(int index) const
+QSizeF KItemListSizeHintResolver::sizeHint(int index)
 {
-    QSizeF size = m_sizeHintCache.at(index);
-    if (size.isEmpty()) {
-        size = m_itemListView->itemSizeHint(index);
-        m_sizeHintCache[index] = size;
-    }
-    return size;
+    updateCache();
+    return m_sizeHintCache.at(index);
 }
 
 void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
@@ -76,6 +73,8 @@ void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
             --targetIndex;
         }
     }
+
+    m_needsResolving = true;
 
     Q_ASSERT(m_sizeHintCache.count() == m_itemListView->model()->count());
 }
@@ -135,9 +134,20 @@ void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QB
         ++index;
         --count;
     }
+
+    m_needsResolving = true;
 }
 
 void KItemListSizeHintResolver::clearCache()
 {
     m_sizeHintCache.fill(QSizeF());
+    m_needsResolving = true;
+}
+
+void KItemListSizeHintResolver::updateCache()
+{
+    if (m_needsResolving) {
+        m_itemListView->calculateItemSizeHints(m_sizeHintCache);
+        m_needsResolving = false;
+    }
 }

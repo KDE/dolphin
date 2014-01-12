@@ -36,7 +36,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListSizeHintResolver
 public:
     KItemListSizeHintResolver(const KItemListView* itemListView);
     virtual ~KItemListSizeHintResolver();
-    QSizeF sizeHint(int index) const;
+    QSizeF sizeHint(int index);
 
     void itemsInserted(const KItemRangeList& itemRanges);
     void itemsRemoved(const KItemRangeList& itemRanges);
@@ -44,10 +44,12 @@ public:
     void itemsChanged(int index, int count, const QSet<QByteArray>& roles);
 
     void clearCache();
+    void updateCache();
 
 private:
     const KItemListView* m_itemListView;
     mutable QVector<QSizeF> m_sizeHintCache;
+    bool m_needsResolving;
 };
 
 #endif

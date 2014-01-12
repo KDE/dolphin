@@ -38,7 +38,7 @@ public:
     KStandardItemListWidgetInformant();
     virtual ~KStandardItemListWidgetInformant();
 
-    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const;
+    virtual void calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -60,6 +60,10 @@ protected:
      */
     virtual QString roleText(const QByteArray& role,
                              const QHash<QByteArray, QVariant>& values) const;
+
+    void calculateIconsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
+    void calculateCompactLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
+    void calculateDetailsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
 
     friend class KStandardItemListWidget; // Accesses roleText()
 };

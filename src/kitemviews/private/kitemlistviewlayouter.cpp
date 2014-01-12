@@ -209,7 +209,7 @@ const KItemModelBase* KItemListViewLayouter::model() const
     return m_model;
 }
 
-void KItemListViewLayouter::setSizeHintResolver(const KItemListSizeHintResolver* sizeHintResolver)
+void KItemListViewLayouter::setSizeHintResolver(KItemListSizeHintResolver* sizeHintResolver)
 {
     if (m_sizeHintResolver != sizeHintResolver) {
         m_sizeHintResolver = sizeHintResolver;

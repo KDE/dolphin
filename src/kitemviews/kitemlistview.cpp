@@ -460,9 +460,9 @@ int KItemListView::lastVisibleIndex() const
     return m_layouter->lastVisibleIndex();
 }
 
-QSizeF KItemListView::itemSizeHint(int index) const
+void KItemListView::calculateItemSizeHints(QVector<QSizeF>& sizeHints) const
 {
-    return widgetCreator()->itemSizeHint(index, this);
+    widgetCreator()->calculateItemSizeHints(sizeHints, this);
 }
 
 void KItemListView::setSupportsItemExpanding(bool supportsExpanding)

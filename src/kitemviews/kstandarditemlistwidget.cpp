@@ -55,84 +55,25 @@ KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
 {
 }
 
-QSizeF KStandardItemListWidgetInformant::itemSizeHint(int index, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
 {
-    const KItemListStyleOption& option = view->styleOption();
-    const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
-
     switch (static_cast<const KStandardItemListView*>(view)->itemLayout()) {
-    case KStandardItemListWidget::IconsLayout: {
-        const QString text = KStringHandler::preProcessWrap(itemText(index, view));
+    case KStandardItemListWidget::IconsLayout:
+        calculateIconsLayoutItemSizeHints(sizeHints, view);
+        break;
 
-        const qreal itemWidth = view->itemSize().width();
-        const qreal maxWidth = itemWidth - 2 * option.padding;
-        QTextLine line;
+    case KStandardItemListWidget::CompactLayout:
+        calculateCompactLayoutItemSizeHints(sizeHints, view);
+        break;
 
-        // Calculate the number of lines required for wrapping the name
-        QTextOption textOption(Qt::AlignHCenter);
-        textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-
-        qreal textHeight = 0;
-        QTextLayout layout(text, option.font);
-        layout.setTextOption(textOption);
-        layout.beginLayout();
-        while ((line = layout.createLine()).isValid()) {
-            line.setLineWidth(maxWidth);
-            line.naturalTextWidth();
-            textHeight += line.height();
-        }
-        layout.endLayout();
-
-        // Add one line for each additional information
-        textHeight += additionalRolesCount * option.fontMetrics.lineSpacing();
-
-        const qreal maxTextHeight = option.maxTextSize.height();
-        if (maxTextHeight > 0 && textHeight > maxTextHeight) {
-            textHeight = maxTextHeight;
-        }
-
-        return QSizeF(itemWidth, textHeight + option.iconSize + option.padding * 3);
-    }
-
-    case KStandardItemListWidget::CompactLayout: {
-        // For each row exactly one role is shown. Calculate the maximum required width that is necessary
-        // to show all roles without horizontal clipping.
-        qreal maximumRequiredWidth = 0.0;
-
-        const QList<QByteArray>& visibleRoles = view->visibleRoles();
-        const bool showOnlyTextRole = (visibleRoles.count() == 1) && (visibleRoles.first() == "text");
-
-        if (showOnlyTextRole) {
-            maximumRequiredWidth = option.fontMetrics.width(itemText(index, view));
-        } else {
-            const QHash<QByteArray, QVariant> values = view->model()->data(index);
-            foreach (const QByteArray& role, view->visibleRoles()) {
-                const QString text = roleText(role, values);
-                const qreal requiredWidth = option.fontMetrics.width(text);
-                maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
-            }
-        }
-
-        qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
-        const qreal maxWidth = option.maxTextSize.width();
-        if (maxWidth > 0 && width > maxWidth) {
-            width = maxWidth;
-        }
-        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
-        return QSizeF(width, height);
-    }
-
-    case KStandardItemListWidget::DetailsLayout: {
-        const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
-        return QSizeF(-1, height);
-    }
+    case KStandardItemListWidget::DetailsLayout:
+        calculateDetailsLayoutItemSizeHints(sizeHints, view);
+        break;
 
     default:
         Q_ASSERT(false);
         break;
     }
-
-    return QSize();
 }
 
 qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArray& role,
@@ -179,6 +120,107 @@ QString KStandardItemListWidgetInformant::roleText(const QByteArray& role,
         return QString();
     }
     return values.value(role).toString();
+}
+
+void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+{
+    const KItemListStyleOption& option = view->styleOption();
+    const QFont& font = option.font;
+    const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
+
+    const qreal itemWidth = view->itemSize().width();
+    const qreal maxWidth = itemWidth - 2 * option.padding;
+    const qreal maxTextHeight = option.maxTextSize.height();
+    const qreal additionalRolesSpacing = additionalRolesCount * option.fontMetrics.lineSpacing();
+    const qreal spacingAndIconHeight = option.iconSize + option.padding * 3;
+
+    QTextOption textOption(Qt::AlignHCenter);
+    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+    for (int index = 0; index < sizeHints.count(); ++index) {
+        if (!sizeHints.at(index).isEmpty()) {
+            continue;
+        }
+
+        const QString& text = KStringHandler::preProcessWrap(itemText(index, view));
+
+        // Calculate the number of lines required for wrapping the name
+        qreal textHeight = 0;
+        QTextLayout layout(text, font);
+        layout.setTextOption(textOption);
+        layout.beginLayout();
+        QTextLine line;
+        while ((line = layout.createLine()).isValid()) {
+            line.setLineWidth(maxWidth);
+            line.naturalTextWidth();
+            textHeight += line.height();
+        }
+        layout.endLayout();
+
+        // Add one line for each additional information
+        textHeight += additionalRolesSpacing;
+
+        if (maxTextHeight > 0 && textHeight > maxTextHeight) {
+            textHeight = maxTextHeight;
+        }
+
+        sizeHints[index] = QSizeF(itemWidth, textHeight + spacingAndIconHeight);
+    }
+}
+
+void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+{
+    const KItemListStyleOption& option = view->styleOption();
+    const QFontMetrics& fontMetrics = option.fontMetrics;
+    const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
+
+    const QList<QByteArray>& visibleRoles = view->visibleRoles();
+    const bool showOnlyTextRole = (visibleRoles.count() == 1) && (visibleRoles.first() == "text");
+    const qreal maxWidth = option.maxTextSize.width();
+    const qreal paddingAndIconWidth = option.padding * 4 + option.iconSize;
+    const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
+
+    for (int index = 0; index < sizeHints.count(); ++index) {
+        if (!sizeHints.at(index).isEmpty()) {
+            continue;
+        }
+
+        // For each row exactly one role is shown. Calculate the maximum required width that is necessary
+        // to show all roles without horizontal clipping.
+        qreal maximumRequiredWidth = 0.0;
+
+        if (showOnlyTextRole) {
+            maximumRequiredWidth = fontMetrics.width(itemText(index, view));
+        } else {
+            const QHash<QByteArray, QVariant>& values = view->model()->data(index);
+            foreach (const QByteArray& role, visibleRoles) {
+                const QString& text = roleText(role, values);
+                const qreal requiredWidth = fontMetrics.width(text);
+                maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
+            }
+        }
+
+        qreal width = paddingAndIconWidth + maximumRequiredWidth;
+        if (maxWidth > 0 && width > maxWidth) {
+            width = maxWidth;
+        }
+
+        sizeHints[index] = QSizeF(width, height);
+    }
+}
+
+void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+{
+    const KItemListStyleOption& option = view->styleOption();
+    const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
+
+    for (int index = 0; index < sizeHints.count(); ++index) {
+        if (!sizeHints.at(index).isEmpty()) {
+            continue;
+        }
+
+        sizeHints[index] = QSizeF(-1, height);
+    }
 }
 
 KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
