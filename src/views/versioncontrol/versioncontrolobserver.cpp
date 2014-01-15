@@ -205,8 +205,9 @@ void VersionControlObserver::slotThreadFinished()
     }
 
     const QMap<QString, QVector<ItemState> >& itemStates = thread->itemStates();
-    foreach (const QString& directory, itemStates.keys()) {
-        const QVector<ItemState>& items = itemStates.value(directory);
+    QMap<QString, QVector<ItemState> >::const_iterator it = itemStates.constBegin();
+    for (; it != itemStates.constEnd(); ++it) {
+        const QVector<ItemState>& items = it.value();
 
         foreach (const ItemState& item, items) {
             QHash<QByteArray, QVariant> values;

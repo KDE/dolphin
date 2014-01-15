@@ -50,9 +50,10 @@ void UpdateItemStatesThread::run()
     m_retrievedItems = false;
 
     QMutexLocker pluginLocker(m_globalPluginMutex);
-    foreach (const QString& directory, m_itemStates.keys()) {
-        if (m_plugin->beginRetrieval(directory)) {
-            QVector<VersionControlObserver::ItemState>& items = m_itemStates[directory];
+    QMap<QString, QVector<VersionControlObserver::ItemState> >::iterator it = m_itemStates.begin();
+    for (; it != m_itemStates.end(); ++it) {
+        if (m_plugin->beginRetrieval(it.key())) {
+            QVector<VersionControlObserver::ItemState>& items = it.value();
             const int count = items.count();
 
             KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
