@@ -65,8 +65,6 @@ public:
 
     QMap<QString, QVector<VersionControlObserver::ItemState> > itemStates() const;
 
-    bool retrievedItems() const;
-
 protected:
     virtual void run();
 
@@ -74,7 +72,6 @@ private:
     QMutex* m_globalPluginMutex; // Protects the m_plugin globally
     KVersionControlPlugin* m_plugin;
 
-    bool m_retrievedItems;
     QMap<QString, QVector<VersionControlObserver::ItemState> > m_itemStates;
 };
 
