@@ -649,6 +649,8 @@ void DolphinView::renameSelectedItems()
         const int index = m_model->index(items.first());
         m_view->editRole(index, "text");
 
+        hideToolTip();
+
         connect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
                 this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
     } else {
