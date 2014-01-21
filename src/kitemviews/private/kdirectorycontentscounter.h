@@ -78,7 +78,9 @@ private:
 
     QQueue<QString> m_queue;
 
-    QThread* m_workerThread;
+    static QThread* m_workerThread;
+    static int m_workersCount;
+
     KDirectoryContentsCounterWorker* m_worker;
     bool m_workerIsBusy;
 
