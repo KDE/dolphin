@@ -81,9 +81,9 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
             }
 
             if (width >= 0 && height >= 0) {
-                const QString widthAndHeight = QString::number(width) +
-                                               QLatin1String(" x ") +
-                                               QString::number(height);
+                QString widthAndHeight = QString::number(width);
+                widthAndHeight += QLatin1String(" x ");
+                widthAndHeight += QString::number(height);
                 values.insert(role, widthAndHeight);
             }
         } else if (role == "tags") {
