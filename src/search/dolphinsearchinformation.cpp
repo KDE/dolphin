@@ -72,9 +72,9 @@ namespace {
 bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 {
 #ifdef HAVE_BALOO
-    const KConfig strigiConfig("baloofilerc");
-    const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders",
-                                                                                   QStringList() << QDir::homePath());
+    const KConfig config("baloofilerc");
+    const QStringList indexedFolders = config.group("General").readPathEntry("folders",
+                                                                             QStringList() << QDir::homePath());
 
     // Baloo does not index hidden folders
     if (isDirHidden(url.toLocalFile())) {
@@ -94,7 +94,7 @@ bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
     if (isIndexed) {
         // The path is part of an indexed folder. Check whether no
         // excluded folder is part of the path.
-        const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
+        const QStringList excludedFolders = config.group("General").readPathEntry("exclude folders", QStringList());
         foreach (const QString& excludedFolder, excludedFolders) {
             const KUrl excludedPath(excludedFolder);
             if (excludedPath.isParentOf(url)) {
