@@ -264,7 +264,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
 #ifdef HAVE_BALOO
         // Check whether there is at least one role that must be resolved
-        // with the help of Nepomuk. If this is the case, a (quite expensive)
+        // with the help of Baloo. If this is the case, a (quite expensive)
         // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
         // the role gets watched for changes.
         const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
@@ -279,8 +279,6 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
         }
 
         if (hasBalooRole && !m_balooFileMonitor) {
-            Q_ASSERT(m_nepomukUriItems.isEmpty());
-
             m_balooFileMonitor = new Baloo::FileMonitor(this);
             connect(m_balooFileMonitor, SIGNAL(fileMetaDataChanged(QString)),
                     this, SLOT(applyChangedBalooRoles(QString)));
@@ -991,7 +989,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         const QString path = item.localPath();
         data.insert("size", m_directoryContentsCounter->countDirectoryContentsSynchronously(path));
     } else {
-        // Probably the sort role is a Nepomuk role - just determine all roles.
+        // Probably the sort role is a baloo role - just determine all roles.
         data = rolesData(item);
     }
 

@@ -160,7 +160,7 @@ private:
 
     /**
      * @return A hash-value for an URL that can be used as directory name.
-     *         Is used to be able to remember view-properties for long nepomuksearch-URLs.
+     *         Is used to be able to remember view-properties for long baloo-URLs.
      */
     static QString directoryHashForUrl(const KUrl& url);
 

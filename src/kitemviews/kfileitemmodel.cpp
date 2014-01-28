@@ -664,7 +664,7 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
                     // menus tries to put the actions into sub menus otherwise.
                     info.group = QString();
                 }
-                info.requiresBaloo = map[i].requiresNepomuk;
+                info.requiresBaloo = map[i].requiresBaloo;
                 info.requiresIndexer = map[i].requiresIndexer;
                 rolesInfo.append(info);
             }
@@ -2050,7 +2050,7 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
 const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
-    //  | role         | roleType       | role translation                                | group translation           | requires Nepomuk | requires indexer
+    //  | role         | roleType       | role translation                                | group translation           | requires Baloo   | requires indexer
         { 0,             NoRole,          0, 0,                                             0, 0,                                     false, false },
         { "text",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
         { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },

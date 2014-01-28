@@ -194,7 +194,7 @@ public:
     /**
      * @return Provides static information for all available roles that
      *         are supported by KFileItemModel. Some roles can only be
-     *         determined if Nepomuk is enabled and/or the Nepomuk
+     *         determined if Baloo is enabled and/or the Baloo
      *         indexing is enabled.
      */
     static QList<RoleInfo> rolesInformation();
@@ -287,7 +287,7 @@ private:
         // User visible roles:
         NoRole, NameRole, SizeRole, DateRole, PermissionsRole, OwnerRole,
         GroupRole, TypeRole, DestinationRole, PathRole,
-        // User visible roles available with Nepomuk:
+        // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
         WordCountRole, LineCountRole, ArtistRole, AlbumRole, DurationRole, TrackRole,
         CopiedFromRole,
@@ -425,7 +425,7 @@ private:
         const char* const roleTranslation;
         const char* const groupTranslationContext;
         const char* const groupTranslation;
-        const bool requiresNepomuk;
+        const bool requiresBaloo;
         const bool requiresIndexer;
     };
 

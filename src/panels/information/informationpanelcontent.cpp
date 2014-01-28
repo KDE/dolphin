@@ -162,7 +162,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     m_pendingPreview = false;
 
     const KUrl itemUrl = item.url();
-    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.nepomukUri().isEmpty();
+    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.localPath().isEmpty();
     if (!applyPlace(itemUrl)) {
         setNameLabelText(item.text());
         if (isSearchUrl) {
@@ -351,7 +351,7 @@ void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 
 void InformationPanelContent::refreshMetaData()
 {
-    if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
+    if (!m_item.isNull()) {
         showItem(m_item);
     }
 }
