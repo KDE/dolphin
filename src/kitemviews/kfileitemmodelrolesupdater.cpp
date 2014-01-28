@@ -44,6 +44,7 @@
     #include "private/kbaloorolesprovider.h"
     #include <baloo/file.h>
     #include <baloo/filefetchjob.h>
+    #include <baloo/filemonitor.h>
 #endif
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
@@ -88,9 +89,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_recentlyChangedItems(),
     m_changedItems(),
     m_directoryContentsCounter(0)
-  #ifdef HAVE_NEPOMUK
-  , m_nepomukResourceWatcher(0),
-    m_nepomukUriItems()
+  #ifdef HAVE_BALOO
+  , m_balooFileMonitor(0)
   #endif
 {
     Q_ASSERT(model);
@@ -262,38 +262,32 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
     if (m_roles != roles) {
         m_roles = roles;
 
-#ifdef HAVE_NEPOMUK
-        if (Nepomuk2::ResourceManager::instance()->initialized()) {
-            // Check whether there is at least one role that must be resolved
-            // with the help of Nepomuk. If this is the case, a (quite expensive)
-            // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
-            // the role gets watched for changes.
-            const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-            bool hasNepomukRole = false;
-            QSetIterator<QByteArray> it(roles);
-            while (it.hasNext()) {
-                const QByteArray& role = it.next();
-                if (rolesProvider.roles().contains(role)) {
-                    hasNepomukRole = true;
-                    break;
-                }
-            }
-
-            if (hasNepomukRole && !m_nepomukResourceWatcher) {
-                Q_ASSERT(m_nepomukUriItems.isEmpty());
-
-                m_nepomukResourceWatcher = new Nepomuk2::ResourceWatcher(this);
-                connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk2::Resource,Nepomuk2::Types::Property,QVariantList,QVariantList)),
-                        this, SLOT(applyChangedNepomukRoles(Nepomuk2::Resource,Nepomuk2::Types::Property)));
-            } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
-                delete m_nepomukResourceWatcher;
-                m_nepomukResourceWatcher = 0;
-                m_nepomukUriItems.clear();
+#ifdef HAVE_BALOO
+        // Check whether there is at least one role that must be resolved
+        // with the help of Nepomuk. If this is the case, a (quite expensive)
+        // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
+        // the role gets watched for changes.
+        const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+        bool hasBalooRole = false;
+        QSetIterator<QByteArray> it(roles);
+        while (it.hasNext()) {
+            const QByteArray& role = it.next();
+            if (rolesProvider.roles().contains(role)) {
+                hasBalooRole = true;
+                break;
             }
         }
-//#elif HAVE_BALOO
-    // FIXME: Implement file property watching!
-//
+
+        if (hasBalooRole && !m_balooFileMonitor) {
+            Q_ASSERT(m_nepomukUriItems.isEmpty());
+
+            m_balooFileMonitor = new Baloo::FileMonitor(this);
+            connect(m_balooFileMonitor, SIGNAL(fileMetaDataChanged(QString)),
+                    this, SLOT(applyChangedBalooRoles(QString)));
+        } else if (!hasBalooRole && m_balooFileMonitor) {
+            delete m_balooFileMonitor;
+            m_balooFileMonitor = 0;
+        }
 #endif
 
         if (m_state == Paused) {
@@ -360,30 +354,19 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 
     const bool allItemsRemoved = (m_model->count() == 0);
 
-#ifdef HAVE_NEPOMUK
-    if (m_nepomukResourceWatcher) {
-        // Don't let the ResourceWatcher watch for removed items
+#ifdef HAVE_BALOO
+    if (m_balooFileMonitor) {
+        // Don't let the FileWatcher watch for removed items
         if (allItemsRemoved) {
-            m_nepomukResourceWatcher->setResources(QList<Nepomuk2::Resource>());
-            m_nepomukResourceWatcher->stop();
-            m_nepomukUriItems.clear();
+            m_balooFileMonitor->clear();
         } else {
-            QList<Nepomuk2::Resource> newResources;
-            const QList<Nepomuk2::Resource> oldResources = m_nepomukResourceWatcher->resources();
-            foreach (const Nepomuk2::Resource& resource, oldResources) {
-                const QUrl uri = resource.uri();
-                const KUrl itemUrl = m_nepomukUriItems.value(uri);
+            QStringList newFileList;
+            foreach (const QString& itemUrl, m_balooFileMonitor->files()) {
                 if (m_model->index(itemUrl) >= 0) {
-                    newResources.append(resource);
-                } else {
-                    m_nepomukUriItems.remove(uri);
+                    newFileList.append(itemUrl);
                 }
             }
-            m_nepomukResourceWatcher->setResources(newResources);
-            if (newResources.isEmpty()) {
-                Q_ASSERT(m_nepomukUriItems.isEmpty());
-                m_nepomukResourceWatcher->stop();
-            }
+            m_balooFileMonitor->setFiles(newFileList);
         }
     }
 #endif
@@ -711,14 +694,9 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
     updateChangedItems();
 }
 
-void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resource& resource, const Nepomuk2::Types::Property& property)
+void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
 {
-#ifdef HAVE_NEPOMUK
-    if (!Nepomuk2::ResourceManager::instance()->initialized()) {
-        return;
-    }
-
-    const KUrl itemUrl = m_nepomukUriItems.value(resource.uri());
+#ifdef HAVE_BALOO
     const KFileItem item = m_model->fileItem(itemUrl);
 
     if (item.isNull()) {
@@ -729,16 +707,21 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resour
 
     QHash<QByteArray, QVariant> data = rolesData(item);
 
-    const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-    const QByteArray role = rolesProvider.roleForPropertyUri(property.uri());
+    const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+    /*
+    const QByteArray role = rolesProvider.roleForProperty(property.uri());
     if (!role.isEmpty() && m_roles.contains(role)) {
         // Overwrite the changed role value with an empty QVariant, because the roles
         // provider doesn't overwrite it when the property value list is empty.
         // See bug 322348
         data.insert(role, QVariant());
     }
+    */
+    // FIXME: Do not run a local event loop over here
+    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
+    job->exec();
 
-    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
+    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
     while (it.hasNext()) {
         it.next();
         data.insert(it.key(), it.value());
@@ -752,7 +735,7 @@ void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk2::Resour
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
 #else
 #ifndef Q_CC_MSVC
-    Q_UNUSED(resource);
+    Q_UNUSED(itemUrl);
 #endif
 #endif
 }
@@ -1098,35 +1081,6 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 
     data.insert("iconOverlays", item.overlays());
 
-#ifdef HAVE_NEPOMUK
-    if (m_nepomukResourceWatcher) {
-        const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        Nepomuk2::Resource resource(item.nepomukUri());
-        QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
-        while (it.hasNext()) {
-            it.next();
-            data.insert(it.key(), it.value());
-        }
-
-        QUrl uri = resource.uri();
-        if (uri.isEmpty()) {
-            // TODO: Is there another way to explicitly create a resource?
-            // We need a resource to be able to track it for changes.
-            resource.setRating(0);
-            uri = resource.uri();
-        }
-        if (!uri.isEmpty() && !m_nepomukUriItems.contains(uri)) {
-            m_nepomukResourceWatcher->addResource(resource);
-
-            if (m_nepomukUriItems.isEmpty()) {
-                m_nepomukResourceWatcher->start();
-            }
-
-            m_nepomukUriItems.insert(uri, item.url());
-        }
-    }
-#endif
-
 #ifdef HAVE_BALOO
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
     Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
@@ -1139,7 +1093,8 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
         data.insert(it.key(), it.value());
     }
 
-    // FIXME: Start watching this file for changes
+    if (m_balooFileMonitor)
+        m_balooFileMonitor->addFile(item.localPath());
 #endif
     return data;
 }

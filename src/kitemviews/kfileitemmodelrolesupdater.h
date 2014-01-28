@@ -38,26 +38,10 @@ class KJob;
 class QPixmap;
 class QTimer;
 
-#ifdef HAVE_NEPOMUK
-    namespace Nepomuk2
+#ifdef HAVE_BALOO
+    namespace Baloo
     {
-        class ResourceWatcher;
-        class Resource;
-        namespace Types
-        {
-            class Property;
-        }
-    }
-#else
-    // Required for the slot applyChangedNepomukRoles() that
-    // cannot be ifdefined due to moc.
-    namespace Nepomuk2
-    {
-        class Resource;
-        namespace Types
-        {
-            class Property;
-        }
+        class FileMonitor;
     }
 #endif
 
@@ -216,7 +200,7 @@ private slots:
      */
     void resolveRecentlyChangedItems();
 
-    void applyChangedNepomukRoles(const Nepomuk2::Resource& resource, const Nepomuk2::Types::Property& property);
+    void applyChangedBalooRoles(const QString& file);
 
     void slotDirectoryContentsCountReceived(const QString& path, int count);
 
@@ -346,9 +330,8 @@ private:
 
     KDirectoryContentsCounter* m_directoryContentsCounter;
 
-#ifdef HAVE_NEPOMUK
-    Nepomuk2::ResourceWatcher* m_nepomukResourceWatcher;
-    mutable QHash<QUrl, KUrl> m_nepomukUriItems;
+#ifdef HAVE_BALOO
+    Baloo::FileMonitor* m_balooFileMonitor;
 #endif
 };
 
