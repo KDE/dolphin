@@ -25,6 +25,7 @@
 #include <KLocale>
 
 #include <baloo/file.h>
+#include <kfilemetadata/propertyinfo.h>
 
 #include <QTime>
 #include <QMap>
@@ -58,11 +59,12 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
     int width = -1;
     int height = -1;
 
-    QMapIterator<QString, QVariant> it(file.properties());
+    QMapIterator<KFileMetaData::Property::Property, QVariant> it(file.properties());
     while (it.hasNext()) {
         it.next();
 
-        const QString property = it.key();
+        const KFileMetaData::PropertyInfo pi(it.key());
+        const QString property = pi.name();
         const QByteArray role = roleForProperty(property);
         if (role.isEmpty() || !roles.contains(role)) {
             continue;

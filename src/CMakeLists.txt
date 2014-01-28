@@ -9,9 +9,16 @@ macro_optional_find_package(BalooWidgets)
 set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
-                       PURPOSE "For adding desktop-wide tagging support to dolphin"
                       )
-if (Baloo_FOUND AND BalooWidgets_FOUND)
+
+macro_optional_find_package(KFileMetaData)
+set_package_properties(KFileMetaData PROPERTIES
+                       URL "https://projects.kde.org/kfilemetadata"
+                       TYPE OPTIONAL
+                       PURPOSE "For accessing file metadata labels"
+                      )
+
+if (Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
 
@@ -120,6 +127,7 @@ if(HAVE_BALOO)
         dolphinprivate
         ${BALOO_LIBRARIES}
         ${BALOO_WIDGETS_LIBRARY}
+        ${KFILEMETADATA_LIBRARY}
     )
 endif()
 
