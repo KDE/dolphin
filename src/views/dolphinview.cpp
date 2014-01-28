@@ -864,7 +864,6 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
-    bool balooRunning = true;
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
     KConfig config("baloofilerc");
@@ -900,7 +899,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         action->setData(info.role);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
-                            (info.requiresBaloo && balooRunning) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
         action->setEnabled(enable);
     }

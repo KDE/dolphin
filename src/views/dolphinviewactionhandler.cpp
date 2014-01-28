@@ -230,7 +230,6 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     KActionMenu* groupMenu = 0;
     QActionGroup* groupMenuGroup = 0;
 
-    bool balooRunning = true;
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
     KConfig config("baloofilerc");
@@ -275,7 +274,7 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
         action->setData(info.role);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
-                            (info.requiresBaloo && balooRunning) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
         action->setEnabled(enable);
 

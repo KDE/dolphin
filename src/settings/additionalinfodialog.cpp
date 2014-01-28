@@ -46,7 +46,6 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     header->setWordWrap(true);
 
     // Add checkboxes
-    bool balooRunning = true;
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
     KConfig config("baloofilerc");
@@ -61,7 +60,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
         item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
-                            (info.requiresBaloo && balooRunning) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
 
         if (!enable) {
