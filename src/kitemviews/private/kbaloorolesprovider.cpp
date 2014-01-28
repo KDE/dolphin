@@ -73,10 +73,12 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         if (role == "imageSize") {
             // Merge the two properties for width and height
             // as one string into the "imageSize" role
-            if (property == QLatin1String("width"))
+            if (property == QLatin1String("width")) {
                 width = value.toInt();
-            else if (property == QLatin1String("height"))
+            }
+            else if (property == QLatin1String("height")) {
                 height = value.toInt();
+            }
 
             if (width >= 0 && height >= 0) {
                 const QString widthAndHeight = QString::number(width) +

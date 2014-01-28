@@ -434,8 +434,9 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
     Baloo::Term term(Baloo::Term::And);
 
     Baloo::Term ratingTerm = m_facetsWidget->ratingTerm();
-    if (ratingTerm.isValid())
+    if (ratingTerm.isValid()) {
         term.addSubTerm(ratingTerm);
+    }
 
     if (m_contentButton->isChecked()) {
         query.setSearchString(text);
