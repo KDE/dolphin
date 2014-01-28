@@ -88,9 +88,6 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
                 widthAndHeight += QString::number(height);
                 values.insert(role, widthAndHeight);
             }
-        } else if (role == "tags") {
-            const QString tags = tagsFromValues(value.toStringList());
-            values.insert(role, tags);
         } else if (role == "orientation") {
             const QString orientation = orientationFromValue(value.toInt());
             values.insert(role, orientation);
@@ -100,6 +97,16 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         } else {
             values.insert(role, value.toString());
         }
+    }
+
+    if (roles.contains("tags")) {
+        values.insert("tags", tagsFromValues(file.tags()));
+    }
+    if (roles.contains("rating")) {
+        values.insert("rating", QString::number(file.rating()));
+    }
+    if (roles.contains("comment")) {
+        values.insert("comment", file.userComment());
     }
 
     return values;
@@ -147,20 +154,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
 
 QString KBalooRolesProvider::tagsFromValues(const QStringList& values) const
 {
-    QString tags;
-
-    /*
-    for (int i = 0; i < values.count(); ++i) {
-        if (i > 0) {
-            tags.append(QLatin1String(", "));
-        }
-
-        const ::Tag tag(values[i]);
-        tags += tag.genericLabel();
-    }
-    */
-
-    return tags;
+    return values.join(", ");
 }
 
 QString KBalooRolesProvider::orientationFromValue(int value) const
