@@ -37,6 +37,10 @@ class QString;
 class QLabel;
 class QScrollArea;
 
+namespace KIO {
+  class PreviewJob;
+}
+
 #ifndef HAVE_BALOO
 class KFileMetaDataWidget;
 #else
