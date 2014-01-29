@@ -198,15 +198,10 @@ void VersionControlObserver::slotThreadFinished()
         return;
     }
 
-    if (!thread->retrievedItems()) {
-        // Ignore m_silentUpdate for an error message
-        emit errorMessage(i18nc("@info:status", "Update of version information failed."));
-        return;
-    }
-
     const QMap<QString, QVector<ItemState> >& itemStates = thread->itemStates();
-    foreach (const QString& directory, itemStates.keys()) {
-        const QVector<ItemState>& items = itemStates.value(directory);
+    QMap<QString, QVector<ItemState> >::const_iterator it = itemStates.constBegin();
+    for (; it != itemStates.constEnd(); ++it) {
+        const QVector<ItemState>& items = it.value();
 
         foreach (const ItemState& item, items) {
             QHash<QByteArray, QVariant> values;

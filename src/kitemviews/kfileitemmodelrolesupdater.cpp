@@ -571,7 +571,7 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
         connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
                 this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
 
-        applyResolvedRoles(item, ResolveAll);
+        applyResolvedRoles(index, ResolveAll);
         m_finishedItems.insert(item);
     }
 }
@@ -648,7 +648,7 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
             continue;
         }
 
-        applyResolvedRoles(item, ResolveAll);
+        applyResolvedRoles(index, ResolveAll);
         m_finishedItems.insert(item);
         m_changedItems.remove(item);
         break;
@@ -834,8 +834,7 @@ void KFileItemModelRolesUpdater::updateVisibleIcons()
     // Try to determine the final icons for all visible items.
     int index;
     for (index = m_firstVisibleIndex; index <= lastVisibleIndex && timer.elapsed() < MaxBlockTimeout; ++index) {
-        const KFileItem item = m_model->fileItem(index);
-        applyResolvedRoles(item, ResolveFast);
+        applyResolvedRoles(index, ResolveFast);
     }
 
     // KFileItemListView::initializeItemListWidget(KItemListWidget*) will load
@@ -1008,27 +1007,20 @@ void KFileItemModelRolesUpdater::applySortProgressToModel()
     m_model->emitSortProgress(resolvedCount);
 }
 
-bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, ResolveHint hint)
+bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 {
-    if (item.isNull()) {
-        return false;
-    }
-
+    const KFileItem item = m_model->fileItem(index);
     const bool resolveAll = (hint == ResolveAll);
 
     bool iconChanged = false;
     if (!item.isMimeTypeKnown() || !item.isFinalIconKnown()) {
         item.determineMimeType();
         iconChanged = true;
-    } else {
-        const int index = m_model->index(item);
-        if (!m_model->data(index).contains("iconName")) {
-            iconChanged = true;
-        }
+    } else if (!m_model->data(index).contains("iconName")) {
+        iconChanged = true;
     }
 
     if (iconChanged || resolveAll || m_clearPreviews) {
-        const int index = m_model->index(item);
         if (index < 0) {
             return false;
         }

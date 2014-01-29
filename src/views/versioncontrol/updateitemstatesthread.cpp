@@ -28,7 +28,6 @@ UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
     QThread(),
     m_globalPluginMutex(0),
     m_plugin(plugin),
-    m_retrievedItems(false),
     m_itemStates(itemStates)
 {
     // Several threads may share one instance of a plugin. A global
@@ -47,12 +46,11 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin);
 
-    m_retrievedItems = false;
-
     QMutexLocker pluginLocker(m_globalPluginMutex);
-    foreach (const QString& directory, m_itemStates.keys()) {
-        if (m_plugin->beginRetrieval(directory)) {
-            QVector<VersionControlObserver::ItemState>& items = m_itemStates[directory];
+    QMap<QString, QVector<VersionControlObserver::ItemState> >::iterator it = m_itemStates.begin();
+    for (; it != m_itemStates.end(); ++it) {
+        if (m_plugin->beginRetrieval(it.key())) {
+            QVector<VersionControlObserver::ItemState>& items = it.value();
             const int count = items.count();
 
             KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
@@ -68,7 +66,6 @@ void UpdateItemStatesThread::run()
             }
 
             m_plugin->endRetrieval();
-            m_retrievedItems = true;
         }
     }
 }
@@ -86,11 +83,6 @@ void UpdateItemStatesThread::unlockPlugin()
 QMap<QString, QVector<VersionControlObserver::ItemState> > UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
-}
-
-bool UpdateItemStatesThread::retrievedItems() const
-{
-    return m_retrievedItems;
 }
 
 #include "updateitemstatesthread.moc"

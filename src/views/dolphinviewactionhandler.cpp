@@ -80,6 +80,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotSortRoleChanged(QByteArray)));
     connect(view, SIGNAL(zoomLevelChanged(int,int)),
             this, SLOT(slotZoomLevelChanged(int,int)));
+    connect(view, SIGNAL(writeStateChanged(bool)),
+            this, SLOT(slotWriteStateChanged(bool)));
 }
 
 DolphinView* DolphinViewActionHandler::currentView()
@@ -95,6 +97,7 @@ void DolphinViewActionHandler::createActions()
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
     newDirAction->setIcon(KIcon("folder-new"));
+    newDirAction->setEnabled(false);    // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
     connect(newDirAction, SIGNAL(triggered()), this, SIGNAL(createDirectory()));
 
     // File menu
@@ -472,6 +475,11 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 {
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
     showHiddenFilesAction->setChecked(shown);
+}
+
+void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
+{
+    m_actionCollection->action("create_dir")->setEnabled(isFolderWritable);
 }
 
 KToggleAction* DolphinViewActionHandler::iconsModeAction()

@@ -65,6 +65,7 @@ set(kfileitemmodeltest_SRCS
     testdir.cpp
     ../kitemviews/kfileitemmodel.cpp
     ../kitemviews/kitemmodelbase.cpp
+    ../kitemviews/kitemset.cpp
 )
 kde4_add_unit_test(kfileitemmodeltest TEST ${kfileitemmodeltest_SRCS})
 target_link_libraries(kfileitemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})

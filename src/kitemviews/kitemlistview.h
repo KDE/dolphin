@@ -194,12 +194,12 @@ public:
     int lastVisibleIndex() const;
 
     /**
-     * @return Required size for the item with the index \p index.
+     * @return Required size for all items in the model.
      *         The returned value might be larger than KItemListView::itemSize().
      *         In this case the layout grid will be stretched to assure an
      *         unclipped item.
      */
-    QSizeF itemSizeHint(int index) const;
+    void calculateItemSizeHints(QVector<QSizeF>& sizeHints) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -802,7 +802,7 @@ public:
 
     virtual void recycle(KItemListWidget* widget);
 
-    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const = 0;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -821,7 +821,7 @@ public:
 
     virtual KItemListWidget* create(KItemListView* view);
 
-    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const;
+    virtual void calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -854,9 +854,9 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 }
 
 template<class T>
-QSizeF KItemListWidgetCreator<T>::itemSizeHint(int index, const KItemListView* view) const
+void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
 {
-    return m_informant->itemSizeHint(index, view);
+    return m_informant->calculateItemSizeHints(sizeHints, view);
 }
 
 template<class T>

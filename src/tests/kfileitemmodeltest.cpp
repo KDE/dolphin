@@ -90,6 +90,10 @@ private slots:
     void testNameRoleGroups();
     void testNameRoleGroupsWithExpandedItems();
     void testInconsistentModel();
+    void testChangeRolesForFilteredItems();
+    void testChangeSortRoleWhileFiltering();
+    void testRefreshFilteredItems();
+    void testCreateMimeData();
 
 private:
     QStringList itemsInModel() const;
@@ -1460,6 +1464,159 @@ void KFileItemModelTest::testInconsistentModel()
     // The crash is not 100% reproducible, but Valgrind will report an invalid memory access.
     m_model->resortAllItems();
 
+}
+
+void KFileItemModelTest::testChangeRolesForFilteredItems()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "owner";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a.txt" << "aa.txt" << "aaa.txt";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "aa.txt" << "aaa.txt");
+
+    for (int index = 0; index < m_model->count(); ++index) {
+        // All items should have the "text" and "owner" roles, but not "group".
+        QVERIFY(m_model->data(index).contains("text"));
+        QVERIFY(m_model->data(index).contains("owner"));
+        QVERIFY(!m_model->data(index).contains("group"));
+    }
+
+    // Add a filter, such that only "aaa.txt" remains in the model.
+    m_model->setNameFilter("aaa");
+    QCOMPARE(itemsInModel(), QStringList() << "aaa.txt");
+
+    // Add the "group" role.
+    modelRoles << "group";
+    m_model->setRoles(modelRoles);
+
+    // Modify the filter, such that "aa.txt" reappears, and verify that all items have the expected roles.
+    m_model->setNameFilter("aa");
+    QCOMPARE(itemsInModel(), QStringList() << "aa.txt" << "aaa.txt");
+
+    for (int index = 0; index < m_model->count(); ++index) {
+        // All items should have the "text", "owner", and "group" roles.
+        QVERIFY(m_model->data(index).contains("text"));
+        QVERIFY(m_model->data(index).contains("owner"));
+        QVERIFY(m_model->data(index).contains("group"));
+    }
+
+    // Remove the "owner" role.
+    modelRoles.remove("owner");
+    m_model->setRoles(modelRoles);
+
+    // Clear the filter, and verify that all items have the expected roles
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "aa.txt" << "aaa.txt");
+
+    for (int index = 0; index < m_model->count(); ++index) {
+        // All items should have the "text" and "group" roles, but now "owner".
+        QVERIFY(m_model->data(index).contains("text"));
+        QVERIFY(!m_model->data(index).contains("owner"));
+        QVERIFY(m_model->data(index).contains("group"));
+    }
+}
+
+void KFileItemModelTest::testChangeSortRoleWhileFiltering()
+{
+    KFileItemList items;
+
+    KIO::UDSEntry entry;
+    entry.insert(KIO::UDSEntry::UDS_FILE_TYPE, 0100000);    // S_IFREG might not be defined on non-Unix platforms.
+    entry.insert(KIO::UDSEntry::UDS_ACCESS, 07777);
+    entry.insert(KIO::UDSEntry::UDS_SIZE, 0);
+    entry.insert(KIO::UDSEntry::UDS_MODIFICATION_TIME, 0);
+    entry.insert(KIO::UDSEntry::UDS_GROUP, "group");
+    entry.insert(KIO::UDSEntry::UDS_ACCESS_TIME, 0);
+
+    entry.insert(KIO::UDSEntry::UDS_NAME, "a.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-b");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
+
+    entry.insert(KIO::UDSEntry::UDS_NAME, "b.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-c");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
+
+    entry.insert(KIO::UDSEntry::UDS_NAME, "c.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-a");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
+
+    m_model->slotItemsAdded(m_testDir->url(), items);
+    m_model->slotCompleted();
+
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
+
+    // Add a filter.
+    m_model->setNameFilter("a");
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt");
+
+    // Sort by "owner".
+    m_model->setSortRole("owner");
+
+    // Clear the filter, and verify that the items are sorted correctly.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "c.txt" << "a.txt" << "b.txt");
+}
+
+void KFileItemModelTest::testRefreshFilteredItems()
+{
+    QStringList files;
+    files << "a.txt" << "b.txt" << "c.jpg" << "d.jpg";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.jpg" << "d.jpg");
+
+    const KFileItem fileItemC = m_model->fileItem(2);
+
+    // Show only the .txt files.
+    m_model->setNameFilter(".txt");
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt");
+
+    // Rename one of the .jpg files.
+    KFileItem fileItemE = fileItemC;
+    KUrl urlE = fileItemE.url();
+    urlE.setFileName("e.jpg");
+    fileItemE.setUrl(urlE);
+
+    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemC, fileItemE));
+
+    // Show all files again, and verify that the model has updated the file name.
+    m_model->setNameFilter(QString());
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "d.jpg" << "e.jpg");
+}
+
+void KFileItemModelTest::testCreateMimeData()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/1";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a");
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "1");
+
+    // Verify that creating the MIME data for a child of an expanded folder does
+    // not cause a crash, see https://bugs.kde.org/show_bug.cgi?id=329119
+    KItemSet selection;
+    selection.insert(1);
+    QMimeData* mimeData = m_model->createMimeData(selection);
+    delete mimeData;
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

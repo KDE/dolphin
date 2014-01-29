@@ -64,7 +64,7 @@
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget(parent),
     m_item(),
-    m_pendingPreview(false),
+    m_previewJob(0),
     m_outdatedPreviewTimer(0),
     m_preview(0),
     m_phononWidget(0),
@@ -159,7 +159,11 @@ InformationPanelContent::~InformationPanelContent()
 
 void InformationPanelContent::showItem(const KFileItem& item)
 {
-    m_pendingPreview = false;
+    // If there is a preview job, kill it to prevent that we have jobs for
+    // multiple items running, and thus a race condition (bug 250787).
+    if (m_previewJob) {
+        m_previewJob->kill();
+    }
 
     const KUrl itemUrl = item.url();
     const bool isSearchUrl = itemUrl.protocol().contains("search") && item.localPath().isEmpty();
@@ -175,7 +179,6 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_preview->setPixmap(icon);
         } else {
             // try to get a preview pixmap from the item...
-            m_pendingPreview = true;
 
             // Mark the currently shown preview as outdated. This is done
             // with a small delay to prevent a flickering when the next preview
@@ -186,16 +189,16 @@ void InformationPanelContent::showItem(const KFileItem& item)
                 m_outdatedPreviewTimer->start();
             }
 
-            KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
-            job->setScaleType(KIO::PreviewJob::Unscaled);
-            job->setIgnoreMaximumSize(item.isLocalFile());
-            if (job->ui()) {
-                job->ui()->setWindow(this);
+            m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
+            m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+            m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
+            if (m_previewJob->ui()) {
+                m_previewJob->ui()->setWindow(this);
             }
 
-            connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
+            connect(m_previewJob, SIGNAL(gotPreview(KFileItem,QPixmap)),
                     this, SLOT(showPreview(KFileItem,QPixmap)));
-            connect(job, SIGNAL(failed(KFileItem)),
+            connect(m_previewJob, SIGNAL(failed(KFileItem)),
                     this, SLOT(showIcon(KFileItem)));
         }
     }
@@ -227,7 +230,11 @@ void InformationPanelContent::showItem(const KFileItem& item)
 
 void InformationPanelContent::showItems(const KFileItemList& items)
 {
-    m_pendingPreview = false;
+    // If there is a preview job, kill it to prevent that we have jobs for
+    // multiple items running, and thus a race condition (bug 250787).
+    if (m_previewJob) {
+        m_previewJob->kill();
+    }
 
     KIconLoader iconLoader;
     QPixmap icon = iconLoader.loadIcon("dialog-information",
@@ -315,7 +322,6 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
 void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
-    m_pendingPreview = false;
     if (!applyPlace(item.targetUrl())) {
         KIcon icon(item.iconName(), KIconLoader::global(), item.overlays());
         m_preview->setPixmap(icon.pixmap(KIconLoader::SizeEnormous));
@@ -327,12 +333,10 @@ void InformationPanelContent::showPreview(const KFileItem& item,
 {
     m_outdatedPreviewTimer->stop();
     Q_UNUSED(item);
-    if (m_pendingPreview) {
-        QPixmap p = pixmap;
-        KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
-        m_preview->setPixmap(p);
-        m_pendingPreview = false;
-    }
+
+    QPixmap p = pixmap;
+    KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
+    m_preview->setPixmap(p);
 }
 
 void InformationPanelContent::markOutdatedPreview()

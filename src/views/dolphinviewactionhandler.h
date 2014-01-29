@@ -197,6 +197,11 @@ private Q_SLOTS:
     void slotHiddenFilesShownChanged(bool shown);
 
     /**
+     * Updates the state of the 'Create Folder...' action.
+     */
+    void slotWriteStateChanged(bool isFolderWritable);
+
+    /**
      * Opens the view properties dialog, which allows to modify the properties
      * of the currently active view.
      */

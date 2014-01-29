@@ -30,7 +30,6 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     QObject(parent),
     m_model(model),
     m_queue(),
-    m_workerThread(0),
     m_worker(0),
     m_workerIsBusy(false),
     m_dirWatcher(0),
@@ -39,16 +38,19 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
             this,    SLOT(slotItemsRemoved()));
 
-    m_workerThread = new QThread(this);
+    if (!m_workerThread) {
+        m_workerThread = new QThread();
+        m_workerThread->start();
+    }
+
     m_worker = new KDirectoryContentsCounterWorker();
     m_worker->moveToThread(m_workerThread);
+    ++m_workersCount;
 
     connect(this,     SIGNAL(requestDirectoryContentsCount(QString,KDirectoryContentsCounterWorker::Options)),
             m_worker, SLOT(countDirectoryContents(QString,KDirectoryContentsCounterWorker::Options)));
     connect(m_worker, SIGNAL(result(QString,int)),
             this,     SLOT(slotResult(QString,int)));
-
-    m_workerThread->start();
 
     m_dirWatcher = new KDirWatch(this);
     connect(m_dirWatcher, SIGNAL(dirty(QString)), this, SLOT(slotDirWatchDirty(QString)));
@@ -56,8 +58,14 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
 
 KDirectoryContentsCounter::~KDirectoryContentsCounter()
 {
-    m_workerThread->quit();
-    m_workerThread->wait();
+    --m_workersCount;
+
+    if (m_workersCount == 0) {
+        m_workerThread->quit();
+        m_workerThread->wait();
+        delete m_workerThread;
+        m_workerThread = 0;
+    }
 
     delete m_worker;
 }
@@ -162,3 +170,6 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
         m_workerIsBusy = true;
     }
 }
+
+QThread* KDirectoryContentsCounter::m_workerThread = 0;
+int KDirectoryContentsCounter::m_workersCount = 0;

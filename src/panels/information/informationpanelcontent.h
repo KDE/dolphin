@@ -26,6 +26,8 @@
 #include <KUrl>
 #include <KVBox>
 
+#include <QPointer>
+
 class KFileItemList;
 class PhononWidget;
 class PixmapViewer;
@@ -135,7 +137,7 @@ private:
 private:
     KFileItem m_item;
 
-    bool m_pendingPreview;
+    QPointer<KIO::PreviewJob> m_previewJob;
     QTimer* m_outdatedPreviewTimer;
 
     PixmapViewer* m_preview;
