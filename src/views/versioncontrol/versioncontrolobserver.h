@@ -102,7 +102,6 @@ private slots:
 private:
     struct ItemState
     {
-        int index;
         KFileItem item;
         KVersionControlPlugin2::ItemVersion version;
     };

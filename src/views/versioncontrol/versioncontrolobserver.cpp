@@ -206,7 +206,7 @@ void VersionControlObserver::slotThreadFinished()
         foreach (const ItemState& item, items) {
             QHash<QByteArray, QVariant> values;
             values.insert("version", QVariant(item.version));
-            m_model->setData(item.index, values);
+            m_model->setData(m_model->index(item.item), values);
         }
     }
 
@@ -265,7 +265,6 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
 
         if (expansionLevel == currentExpansionLevel) {
             ItemState itemState;
-            itemState.index = index;
             itemState.item = m_model->fileItem(index);
             itemState.version = KVersionControlPlugin2::UnversionedVersion;
 
