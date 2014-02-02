@@ -677,6 +677,13 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
                 Q_ASSERT(cont);
             }
 
+            // The right view must be activated before the URL is set. Changing
+            // the URL in the right view will emit the right URL navigator's
+            // urlChanged(KUrl) signal, which is connected to the changeUrl(KUrl)
+            // slot. That slot will change the URL in the left view if it is still
+            // active. See https://bugs.kde.org/show_bug.cgi?id=330047.
+            setActiveViewContainer(cont);
+
             cont->setUrl(secondaryUrl);
             const bool editable = group.readEntry(tabProperty("Secondary Editable", i), false);
             cont->urlNavigator()->setUrlEditable(editable);
