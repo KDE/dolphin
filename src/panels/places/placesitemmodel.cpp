@@ -82,7 +82,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_storageSetupInProgress()
 {
 #ifdef HAVE_BALOO
-    m_fileIndexingEnabled = true;
     KConfig config("baloofilerc");
     m_fileIndexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
 #endif
