@@ -703,6 +703,21 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
         return;
     }
 
+    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
+    connect(job, SIGNAL(finished(KJob*)), this, SLOT(applyChangedBalooRolesJobFinished(KJob*)));
+    job->setProperty("item", QVariant::fromValue(item));
+    job->start();
+#else
+#ifndef Q_CC_MSVC
+    Q_UNUSED(itemUrl);
+#endif
+#endif
+}
+
+void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
+{
+#ifdef HAVE_BALOO
+    const KFileItem item = kjob->property("item").value<KFileItem>();
     QHash<QByteArray, QVariant> data = rolesData(item);
 
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
@@ -713,10 +728,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
         data.insert(role, QVariant());
     }
 
-    // FIXME: Do not run a local event loop over here
-    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
-    job->exec();
-
+    Baloo::FileFetchJob* job = static_cast<Baloo::FileFetchJob*>(kjob);
     QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
     while (it.hasNext()) {
         it.next();
@@ -729,10 +741,6 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
     m_model->setData(index, data);
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
-#else
-#ifndef Q_CC_MSVC
-    Q_UNUSED(itemUrl);
-#endif
 #endif
 }
 

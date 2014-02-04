@@ -201,6 +201,7 @@ private slots:
     void resolveRecentlyChangedItems();
 
     void applyChangedBalooRoles(const QString& file);
+    void applyChangedBalooRolesJobFinished(KJob* job);
 
     void slotDirectoryContentsCountReceived(const QString& path, int count);
 
