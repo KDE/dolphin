@@ -706,15 +706,13 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
     QHash<QByteArray, QVariant> data = rolesData(item);
 
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
-    /*
-    const QByteArray role = rolesProvider.roleForProperty(property.uri());
-    if (!role.isEmpty() && m_roles.contains(role)) {
-        // Overwrite the changed role value with an empty QVariant, because the roles
+    foreach (const QByteArray& role, rolesProvider.roles()) {
+        // Overwrite all the role values with an empty QVariant, because the roles
         // provider doesn't overwrite it when the property value list is empty.
         // See bug 322348
         data.insert(role, QVariant());
     }
-    */
+
     // FIXME: Do not run a local event loop over here
     Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
     job->exec();
