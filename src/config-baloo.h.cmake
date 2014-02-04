@@ -1,1 +1,1 @@
-#define HAVE_BALOO ${HAVE_BALOO}
+#cmakedefine HAVE_BALOO
