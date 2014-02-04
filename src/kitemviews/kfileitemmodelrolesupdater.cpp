@@ -1078,19 +1078,14 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     data.insert("iconOverlays", item.overlays());
 
 #ifdef HAVE_BALOO
-    const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
-    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
-    // FIXME: Do not run a local event loop over here
-    job->exec();
-
-    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
-    while (it.hasNext()) {
-        it.next();
-        data.insert(it.key(), it.value());
-    }
-
     if (m_balooFileMonitor)
         m_balooFileMonitor->addFile(item.localPath());
+
+    // We never fill the Baloo roles over here since that would require
+    // us to block by spawning a local event loop. Instead we call a slot
+    // to fill the values later
+    QMetaObject::invokeMethod(this, "applyChangedBalooRoles",
+                              Qt::QueuedConnection, Q_ARG(QString, item.localPath()));
 #endif
     return data;
 }
