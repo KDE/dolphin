@@ -27,6 +27,10 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
+#endif
+
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
                                            const QList<QByteArray>& visibleRoles) :
     KDialog(parent),
@@ -48,8 +52,8 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     // Add checkboxes
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
-    KConfig config("baloofilerc");
-    indexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     m_listWidget = new QListWidget(mainWidget);

@@ -21,7 +21,6 @@
 
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
-#include "dolphinsearchinformation.h"
 
 #include <KIcon>
 #include <KLineEdit>
@@ -44,6 +43,7 @@
 #ifdef HAVE_BALOO
     #include <baloo/query.h>
     #include <baloo/term.h>
+    #include <baloo/indexerconfig.h>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
@@ -107,8 +107,8 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_fromHereButton->setVisible(showSearchFromButtons);
     m_everywhereButton->setVisible(showSearchFromButtons);
 
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    const bool hasFacetsSupport = searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(m_searchPath);
+    const Baloo::IndexerConfig searchInfo;
+    const bool hasFacetsSupport = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
     m_facetsWidget->setEnabled(hasFacetsSupport);
 }
 
@@ -120,8 +120,8 @@ KUrl DolphinSearchBox::searchPath() const
 KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    if (searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(m_searchPath)) {
+    const Baloo::IndexerConfig searchInfo;
+    if (searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile())) {
         url = balooUrlForSearching();
     } else {
         url.setProtocol("filenamesearch");

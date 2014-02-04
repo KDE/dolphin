@@ -94,7 +94,6 @@ if (Baloo_FOUND)
       dolphinsearchboxtest.cpp
       ../search/dolphinfacetswidget.cpp
       ../search/dolphinsearchbox.cpp
-      ../search/dolphinsearchinformation.cpp
   )
   kde4_add_kcfg_files(dolphinsearchboxtest_SRCS
       ../search/dolphin_searchsettings.kcfgc

@@ -53,6 +53,7 @@
 
 #ifdef HAVE_BALOO
     #include <baloo/query.h>
+    #include <baloo/indexerconfig.h>
 #endif
 
 namespace {
@@ -82,8 +83,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_storageSetupInProgress()
 {
 #ifdef HAVE_BALOO
-    KConfig config("baloofilerc");
-    m_fileIndexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
+    Baloo::IndexerConfig config;
+    m_fileIndexingEnabled = config.fileIndexingEnabled();
 #endif
     const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");

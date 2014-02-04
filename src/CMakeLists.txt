@@ -192,7 +192,6 @@ set(dolphin_SRCS
     panels/folders/folderspanel.cpp
     search/dolphinfacetswidget.cpp
     search/dolphinsearchbox.cpp
-    search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
     settings/general/confirmationssettingspage.cpp

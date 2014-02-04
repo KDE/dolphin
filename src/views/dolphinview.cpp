@@ -74,6 +74,10 @@
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
 
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
+#endif
+
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
 };
@@ -868,8 +872,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
-    KConfig config("baloofilerc");
-    indexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     QString groupName;

@@ -41,6 +41,10 @@
 
 #include <KDebug>
 
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
+#endif
+
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
     QObject(parent),
     m_actionCollection(collection),
@@ -235,8 +239,8 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
-    KConfig config("baloofilerc");
-    indexingEnabled = config.group("Basic Settings").readEntry("Indexing-Enabled", true);
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
