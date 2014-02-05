@@ -1072,23 +1072,8 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     data.insert("iconOverlays", item.overlays());
 
 #ifdef HAVE_BALOO
-    if (m_balooFileMonitor)
+    if (m_balooFileMonitor) {
         m_balooFileMonitor->addFile(item.localPath());
-
-    const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
-
-    bool hasBalooRole = false;
-    foreach (const QByteArray& role, m_roles) {
-        if (rolesProvider.roles().contains(role)) {
-            hasBalooRole = true;
-            break;
-        }
-    }
-
-    // We never fill the Baloo roles over here since that would require
-    // us to block by spawning a local event loop. Instead we call a slot
-    // to fill the values later
-    if (hasBalooRole) {
         applyChangedBalooRoles(item.localPath());
     }
 #endif
