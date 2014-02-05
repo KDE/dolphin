@@ -718,15 +718,9 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
 {
 #ifdef HAVE_BALOO
     const KFileItem item = kjob->property("item").value<KFileItem>();
-    QHash<QByteArray, QVariant> data = rolesData(item);
 
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
-    foreach (const QByteArray& role, rolesProvider.roles()) {
-        // Overwrite all the role values with an empty QVariant, because the roles
-        // provider doesn't overwrite it when the property value list is empty.
-        // See bug 322348
-        data.insert(role, QVariant());
-    }
+    QHash<QByteArray, QVariant> data;
 
     Baloo::FileFetchJob* job = static_cast<Baloo::FileFetchJob*>(kjob);
     QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
