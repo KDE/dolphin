@@ -458,9 +458,9 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
 
 void DolphinSearchBox::applyReadOnlyState()
 {
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_BALOO
     if (m_readOnly) {
-        m_searchLabel->setText(Nepomuk2::Query::Query::titleFromQueryUrl(m_readOnlyQuery));
+        m_searchLabel->setText(Baloo::Query::titleFromQueryUrl(m_readOnlyQuery));
     } else {
 #else
     {
