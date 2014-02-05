@@ -1088,8 +1088,9 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     // We never fill the Baloo roles over here since that would require
     // us to block by spawning a local event loop. Instead we call a slot
     // to fill the values later
-    if (hasBalooRole)
+    if (hasBalooRole) {
         applyChangedBalooRoles(item.localPath());
+    }
 #endif
     return data;
 }
