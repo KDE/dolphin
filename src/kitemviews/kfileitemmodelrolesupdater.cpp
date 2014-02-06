@@ -748,6 +748,13 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
         if (index >= 0) {
 
             QHash<QByteArray, QVariant> data;
+            const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
+            foreach (const QByteArray& role, rolesProvider.roles()) {
+                // Overwrite all the role values with an empty QVariant, because the roles
+                // provider doesn't overwrite it when the property value list is empty.
+                // See bug 322348
+                data.insert(role, QVariant());
+            }
 
             if (getSizeRole) {
                 data.insert("size", count);
