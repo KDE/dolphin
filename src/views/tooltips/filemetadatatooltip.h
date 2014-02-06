@@ -23,15 +23,15 @@
 #define FILEMETADATATOOLTIP_H
 
 #include <QWidget>
-#include "config-nepomuk.h"
+#include "config-baloo.h"
 
 class KFileItemList;
 class QLabel;
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 class KFileMetaDataWidget;
 #else
-namespace Nepomuk2 {
+namespace Baloo {
     class FileMetaDataWidget;
 }
 #endif
@@ -76,10 +76,10 @@ protected:
 private:
     QLabel* m_preview;
     QLabel* m_name;
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     KFileMetaDataWidget* m_fileMetaDataWidget;
 #else
-    Nepomuk2::FileMetaDataWidget* m_fileMetaDataWidget;
+    Baloo::FileMetaDataWidget* m_fileMetaDataWidget;
 #endif
 };
 

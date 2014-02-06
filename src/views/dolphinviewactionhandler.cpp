@@ -20,7 +20,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"
@@ -39,11 +39,11 @@
 #include <KPropertiesDialog>
 #include <KIcon>
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/ResourceManager>
-#endif
-
 #include <KDebug>
+
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
+#endif
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
     QObject(parent),
@@ -237,14 +237,10 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     KActionMenu* groupMenu = 0;
     QActionGroup* groupMenuGroup = 0;
 
-    bool nepomukRunning = false;
     bool indexingEnabled = false;
-#ifdef HAVE_NEPOMUK
-    nepomukRunning = (Nepomuk2::ResourceManager::instance()->initialized());
-    if (nepomukRunning) {
-        KConfig config("nepomukserverrc");
-        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
-    }
+#ifdef HAVE_BALOO
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
@@ -284,8 +280,8 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
         action->setText(info.translation);
         action->setData(info.role);
 
-        const bool enable = (!info.requiresNepomuk && !info.requiresIndexer) ||
-                            (info.requiresNepomuk && nepomukRunning) ||
+        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
         action->setEnabled(enable);
 

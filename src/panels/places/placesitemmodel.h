@@ -20,7 +20,7 @@
 #ifndef PLACESITEMMODEL_H
 #define PLACESITEMMODEL_H
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <kitemviews/kstandarditemmodel.h>
 
@@ -36,16 +36,6 @@ class KBookmarkManager;
 class PlacesItem;
 class QAction;
 class QTimer;
-
-#ifdef HAVE_NEPOMUK
-    namespace Nepomuk2
-    {
-        namespace Query
-        {
-            class Term;
-        }
-    }
-#endif
 
 // #define PLACESITEMMODEL_DEBUG
 
@@ -127,7 +117,7 @@ public:
 
     /**
      * @return Converts the URL, which contains "virtual" URLs for system-items like
-     *         "search:/documents" into a Nepomuk-Query-URL that will be handled by
+     *         "search:/documents" into a Query-URL that will be handled by
      *         the corresponding IO-slave. Virtual URLs for bookmarks are used to
      *         be independent from internal format changes.
      */
@@ -163,9 +153,6 @@ private slots:
      * timeout of m_saveBookmarksTimer to prevent unnecessary savings.
      */
     void saveBookmarks();
-
-    void slotNepomukStarted();
-    void slotNepomukStopped();
 private:
     struct SystemBookmarkData;
 
@@ -252,13 +239,13 @@ private:
      */
     static KUrl createSearchUrl(const KUrl& url);
 
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_BALOO
     /**
-     * Helper method for createSearchUrl().
+     * Helper method for createSearchUrl()
      * @return URL that can be listed by KIO and results in searching
-     *         for the given term.
+     *         for the given type
      */
-    static KUrl searchUrlForTerm(const Nepomuk2::Query::Term& term);
+    static KUrl searchUrlForType(const QString& type);
 #endif
 
 #ifdef PLACESITEMMODEL_DEBUG

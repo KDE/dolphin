@@ -455,7 +455,7 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
     }
 
     if (isSearchUrl(url()) && m_view->itemsCount() == 0) {
-        // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
+        // The dir lister has been completed on a Baloo-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
         m_statusBar->setText(i18nc("@info:status", "No items found."));
     } else {
@@ -708,7 +708,7 @@ void DolphinViewContainer::showErrorMessage(const QString& msg)
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
 {
     const QString protocol = url.protocol();
-    return protocol.contains("search") || (protocol == QLatin1String("nepomuk"));
+    return protocol.contains("search");
 }
 
 void DolphinViewContainer::saveViewState()

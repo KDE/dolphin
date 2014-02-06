@@ -22,7 +22,7 @@
 #ifndef DOLPHIN_MAINWINDOW_H
 #define DOLPHIN_MAINWINDOW_H
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <KFileItemDelegate>
 #include <kio/fileundomanager.h>

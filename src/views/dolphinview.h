@@ -21,7 +21,7 @@
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include "libdolphin_export.h"
 

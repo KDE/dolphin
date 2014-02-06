@@ -27,18 +27,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/Query/AndTerm>
-    #include <Nepomuk2/Query/ComparisonTerm>
-    #include <Nepomuk2/Query/LiteralTerm>
-    #include <Nepomuk2/Query/OrTerm>
-    #include <Nepomuk2/Query/Query>
-    #include <Nepomuk2/Query/ResourceTypeTerm>
-    #include <Nepomuk2/Vocabulary/NFO>
-    #include <Nepomuk2/Vocabulary/NIE>
-    #include <Soprano/Vocabulary/NAO>
-#endif
-
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),
     m_documents(0),
@@ -120,39 +108,9 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 {
 }
 
-#ifdef HAVE_NEPOMUK
-Nepomuk2::Query::Term DolphinFacetsWidget::facetsTerm() const
+#ifdef HAVE_BALOO
+Baloo::Term DolphinFacetsWidget::ratingTerm() const
 {
-    Nepomuk2::Query::AndTerm andTerm;
-
-    const bool hasTypeFilter = m_documents->isChecked() ||
-                               m_images->isChecked() ||
-                               m_audio->isChecked() ||
-                               m_videos->isChecked();
-    if (hasTypeFilter) {
-        Nepomuk2::Query::OrTerm orTerm;
-
-        if (m_documents->isChecked()) {
-            orTerm.addSubTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Document()));
-        }
-
-        if (m_images->isChecked()) {
-            orTerm.addSubTerm(Nepomuk2::Query::ResourceTypeTerm(Nepomuk2::Vocabulary::NFO::Image()));
-        }
-
-        if (m_audio->isChecked()) {
-            orTerm.addSubTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
-                                                             Nepomuk2::Query::LiteralTerm("audio")));
-        }
-
-        if (m_videos->isChecked()) {
-            orTerm.addSubTerm(Nepomuk2::Query::ComparisonTerm(Nepomuk2::Vocabulary::NIE::mimeType(),
-                                                             Nepomuk2::Query::LiteralTerm("video")));
-        }
-
-        andTerm.addSubTerm(orTerm);
-    }
-
     if (!m_anyRating->isChecked()) {
         int stars = 1; // represents m_oneOrMore
         if (m_twoOrMore->isChecked()) {
@@ -166,12 +124,15 @@ Nepomuk2::Query::Term DolphinFacetsWidget::facetsTerm() const
         }
 
         const int rating = stars * 2;
-        Nepomuk2::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::numericRating(),
-                                            Nepomuk2::Query::LiteralTerm(rating),
-                                            Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
-        andTerm.addSubTerm(term);
+
+        Baloo::Term term("rating", rating, Baloo::Term::GreaterEqual);
+        return term;
     }
 
+    return Baloo::Term();
+
+    /*
+    // FIXME: Handle date time filters
     if (!m_anytime->isChecked()) {
         QDate date = QDate::currentDate(); // represents m_today
         if (m_yesterday->isChecked()) {
@@ -189,10 +150,33 @@ Nepomuk2::Query::Term DolphinFacetsWidget::facetsTerm() const
                                             Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
         andTerm.addSubTerm(term);
     }
-
-    return andTerm;
+    */
 }
+
+QStringList DolphinFacetsWidget::facetTypes() const
+{
+    QStringList types;
+    if (m_documents->isChecked()) {
+        types << "Document";
+    }
+
+    if (m_images->isChecked()) {
+        types << "Image";
+    }
+
+    if (m_audio->isChecked()) {
+        types << "Audio";
+    }
+
+    if (m_videos->isChecked()) {
+        types << "Video";
+    }
+
+    return types;
+}
+
 #endif
+
 
 QCheckBox* DolphinFacetsWidget::createCheckBox(const QString& text)
 {

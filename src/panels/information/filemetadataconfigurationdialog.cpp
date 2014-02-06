@@ -19,10 +19,10 @@
 
 #include "filemetadataconfigurationdialog.h"
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 #include <kfilemetadataconfigurationwidget.h>
 #else
-#include <nepomuk2/filemetadataconfigwidget.h>
+#include <baloo/filemetadataconfigwidget.h>
 #endif
 
 #include <KLocale>
@@ -44,10 +44,10 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
                                           "be shown:"), this);
     m_descriptionLabel->setWordWrap(true);
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     m_configWidget = new KFileMetaDataConfigurationWidget(this);
 #else
-    m_configWidget = new Nepomuk2::FileMetaDataConfigWidget(this);
+    m_configWidget = new Baloo::FileMetaDataConfigWidget(this);
 #endif
 
 

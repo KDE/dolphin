@@ -34,10 +34,10 @@
 #include <QTextLayout>
 #include <QTextLine>
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <nepomuk2/filemetadatawidget.h>
+#include <baloo/filemetadatawidget.h>
 #endif
 
 // For the blurred tooltip background
@@ -70,10 +70,10 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_name->setMaximumWidth(fontMetrics.averageCharWidth() * 40);
 
     // Create widget for the meta data
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     m_fileMetaDataWidget = new KFileMetaDataWidget(this);
 #else
-    m_fileMetaDataWidget = new Nepomuk2::FileMetaDataWidget(this);
+    m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);

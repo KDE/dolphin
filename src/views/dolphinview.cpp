@@ -20,7 +20,7 @@
 
 #include "dolphinview.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <QAbstractItemView>
 #include <QApplication>
@@ -74,8 +74,8 @@
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/ResourceManager>
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
 #endif
 
 namespace {
@@ -870,14 +870,10 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
-    bool nepomukRunning = false;
     bool indexingEnabled = false;
-#ifdef HAVE_NEPOMUK
-    nepomukRunning = (Nepomuk2::ResourceManager::instance()->initialized());
-    if (nepomukRunning) {
-        KConfig config("nepomukserverrc");
-        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
-    }
+#ifdef HAVE_BALOO
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     QString groupName;
@@ -908,8 +904,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         action->setChecked(visibleRolesSet.contains(info.role));
         action->setData(info.role);
 
-        const bool enable = (!info.requiresNepomuk && !info.requiresIndexer) ||
-                            (info.requiresNepomuk && nepomukRunning) ||
+        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
         action->setEnabled(enable);
     }

@@ -19,7 +19,7 @@
 
 #include "additionalinfodialog.h"
 
-#include <config-nepomuk.h>
+#include <config-baloo.h>
 
 #include <KLocale>
 #include "kitemviews/kfileitemmodel.h"
@@ -27,8 +27,8 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#ifdef HAVE_NEPOMUK
-    #include <Nepomuk2/ResourceManager>
+#ifdef HAVE_BALOO
+    #include <baloo/indexerconfig.h>
 #endif
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
@@ -50,14 +50,10 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     header->setWordWrap(true);
 
     // Add checkboxes
-    bool nepomukRunning = false;
     bool indexingEnabled = false;
-#ifdef HAVE_NEPOMUK
-    nepomukRunning = (Nepomuk2::ResourceManager::instance()->initialized());
-    if (nepomukRunning) {
-        KConfig config("nepomukserverrc");
-        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", true);
-    }
+#ifdef HAVE_BALOO
+    Baloo::IndexerConfig config;
+    indexingEnabled = config.fileIndexingEnabled();
 #endif
 
     m_listWidget = new QListWidget(mainWidget);
@@ -67,8 +63,8 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
         QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
         item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
-        const bool enable = (!info.requiresNepomuk && !info.requiresIndexer) ||
-                            (info.requiresNepomuk && nepomukRunning) ||
+        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
+                            (info.requiresBaloo) ||
                             (info.requiresIndexer && indexingEnabled);
 
         if (!enable) {

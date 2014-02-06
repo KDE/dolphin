@@ -31,10 +31,10 @@
 #include <kseparator.h>
 #include <KStringHandler>
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <nepomuk2/filemetadatawidget.h>
+#include <baloo/filemetadatawidget.h>
 #endif
 
 #include <panels/places/placesitem.h>
@@ -112,10 +112,10 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
 
-#ifndef HAVE_NEPOMUK
+#ifndef HAVE_BALOO
     m_metaDataWidget = new KFileMetaDataWidget(parent);
 #else
-    m_metaDataWidget = new Nepomuk2::FileMetaDataWidget(parent);
+    m_metaDataWidget = new Baloo::FileMetaDataWidget(parent);
 #endif
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
@@ -166,7 +166,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     }
 
     const KUrl itemUrl = item.url();
-    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.nepomukUri().isEmpty();
+    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.localPath().isEmpty();
     if (!applyPlace(itemUrl)) {
         setNameLabelText(item.text());
         if (isSearchUrl) {
@@ -355,7 +355,7 @@ void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 
 void InformationPanelContent::refreshMetaData()
 {
-    if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
+    if (!m_item.isNull()) {
         showItem(m_item);
     }
 }

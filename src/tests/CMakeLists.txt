@@ -89,19 +89,18 @@ kde4_add_unit_test(kitemlistkeyboardsearchmanagertest TEST ${kitemlistkeyboardse
 target_link_libraries(kitemlistkeyboardsearchmanagertest ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
 # DolphinSearchBox
-if (Nepomuk_FOUND)
+if (Baloo_FOUND)
   set(dolphinsearchboxtest_SRCS
       dolphinsearchboxtest.cpp
       ../search/dolphinfacetswidget.cpp
       ../search/dolphinsearchbox.cpp
-      ../search/dolphinsearchinformation.cpp
   )
   kde4_add_kcfg_files(dolphinsearchboxtest_SRCS
       ../search/dolphin_searchsettings.kcfgc
   )
   kde4_add_unit_test(dolphinsearchboxtest TEST ${dolphinsearchboxtest_SRCS})
-  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${SOPRANO_LIBRARIES} ${NEPOMUK_CORE_LIBRARY}  nepomukutils ${QT_QTTEST_LIBRARY})
-endif (Nepomuk_FOUND)
+  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${BALOO_LIBRARIES} ${QT_QTTEST_LIBRARY})
+endif (Baloo_FOUND)
 
 # KStandardItemModelTest
 set(kstandarditemmodeltest_SRCS
