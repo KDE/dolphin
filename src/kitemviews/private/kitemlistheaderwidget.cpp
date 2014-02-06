@@ -327,6 +327,22 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     }
 }
 
+void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsItem::mouseDoubleClickEvent(event);
+
+    const int roleIndex = roleIndexAt(event->pos());
+    if (roleIndex >= 0 && isAboveRoleGrip(event->pos(), roleIndex)) {
+        const QByteArray role = m_columns.at(roleIndex);
+
+        qreal previousWidth = columnWidth(role);
+        setColumnWidth(role, preferredColumnWidth(role));
+        qreal currentWidth = columnWidth(role);
+
+        emit columnWidthChanged(role, currentWidth, previousWidth);
+    }
+}
+
 void KItemListHeaderWidget::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
 {
     QGraphicsWidget::hoverEnterEvent(event);
