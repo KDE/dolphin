@@ -30,7 +30,7 @@ configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
 include_directories( ${KACTIVITIES_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} )
 
 if(HAVE_BALOO)
-  include_directories(${BALOO_INCLUDE_DIR} ${BALOO_WIDGETS_INCLUDE_DIR})
+  include_directories(${BALOO_INCLUDE_DIR} ${BALOO_WIDGETS_INCLUDE_DIR} ${KFILEMETADATA_INCLUDE_DIR})
 endif()
 
 add_subdirectory(tests)
