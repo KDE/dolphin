@@ -107,8 +107,11 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_fromHereButton->setVisible(showSearchFromButtons);
     m_everywhereButton->setVisible(showSearchFromButtons);
 
+    bool hasFacetsSupport = false;
+#ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
-    const bool hasFacetsSupport = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
+    hasFacetsSupport = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
+#endif
     m_facetsWidget->setEnabled(hasFacetsSupport);
 }
 
@@ -120,8 +123,12 @@ KUrl DolphinSearchBox::searchPath() const
 KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
+    bool useBalooSearch = false;
+#ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
-    if (searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile())) {
+    useBalooSearch = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
+#endif
+    if (useBalooSearch) {
         url = balooUrlForSearching();
     } else {
         url.setProtocol("filenamesearch");
