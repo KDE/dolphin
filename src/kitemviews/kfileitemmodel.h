@@ -130,14 +130,14 @@ public:
 
     /**
      * @return The index for the file-item \a item. -1 is returned if no file-item
-     *         is found or if the file-item is null. The runtime
+     *         is found or if the file-item is null. The amortized runtime
      *         complexity of this call is O(1).
      */
     int index(const KFileItem& item) const;
 
     /**
      * @return The index for the URL \a url. -1 is returned if no file-item
-     *         is found. The runtime complexity of this call is O(1).
+     *         is found. The amortized runtime complexity of this call is O(1).
      */
     int index(const KUrl& url) const;
 
@@ -470,7 +470,12 @@ private:
     Qt::CaseSensitivity m_caseSensitivity;
 
     QList<ItemData*> m_itemData;
-    QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
+
+    // m_items is a cache for the method index(const KUrl&). If it contains N
+    // entries, it is guaranteed that these correspond to the first N items in
+    // the model, i.e., that (for every i between 0 and N - 1)
+    // m_items.value(fileItem(i).url()) == i
+    mutable QHash<KUrl, int> m_items;
 
     KFileItemModelFilter m_filter;
     QHash<KFileItem, ItemData*> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()

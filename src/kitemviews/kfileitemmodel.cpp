@@ -355,27 +355,50 @@ KFileItem KFileItemModel::fileItem(int index) const
 
 KFileItem KFileItemModel::fileItem(const KUrl& url) const
 {
-    const int index = m_items.value(url, -1);
-    if (index >= 0) {
-        return m_itemData.at(index)->item;
+    const int indexForUrl = index(url);
+    if (indexForUrl >= 0) {
+        return m_itemData.at(indexForUrl)->item;
     }
     return KFileItem();
 }
 
 int KFileItemModel::index(const KFileItem& item) const
 {
-    if (item.isNull()) {
-        return -1;
-    }
-
-    return m_items.value(item.url(), -1);
+    return index(item.url());
 }
 
 int KFileItemModel::index(const KUrl& url) const
 {
     KUrl urlToFind = url;
     urlToFind.adjustPath(KUrl::RemoveTrailingSlash);
-    return m_items.value(urlToFind, -1);
+
+    const int itemCount = m_itemData.count();
+    int itemsInHash = m_items.count();
+
+    int index = m_items.value(urlToFind, -1);
+    while (index < 0 && itemsInHash < itemCount) {
+        // Not all URLs are stored yet in m_items. We grow m_items until either
+        // urlToFind is found, or all URLs have been stored in m_items.
+        // Note that we do not add the URLs to m_items one by one, but in
+        // larger blocks. After each block, we check if urlToFind is in
+        // m_items. We could in principle compare urlToFind with each URL while
+        // we are going through m_itemData, but comparing two QUrls will,
+        // unlike calling qHash for the URLs, trigger a parsing of the URLs
+        // which costs both CPU cycles and memory.
+        const int blockSize = 1000;
+        const int currentBlockEnd = qMin(itemsInHash + blockSize, itemCount);
+        for (int i = itemsInHash; i < currentBlockEnd; ++i) {
+            const KUrl nextUrl = m_itemData.at(i)->item.url();
+            m_items.insert(nextUrl, i);
+        }
+
+        itemsInHash = currentBlockEnd;
+        index = m_items.value(urlToFind, -1);
+    }
+
+    Q_ASSERT(index >= 0 || m_items.count() == m_itemData.count());
+
+    return index;
 }
 
 KFileItem KFileItemModel::rootItem() const
@@ -736,6 +759,7 @@ void KFileItemModel::resortAllItems()
     }
 
     m_items.clear();
+    m_items.reserve(itemCount);
 
     // Resort the items
     sort(m_itemData.begin(), m_itemData.end());
@@ -798,10 +822,10 @@ void KFileItemModel::slotCompleted()
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
         foreach (const KUrl& url, m_urlsToExpand) {
-            const int index = m_items.value(url, -1);
-            if (index >= 0) {
+            const int indexForUrl = index(url);
+            if (indexForUrl >= 0) {
                 m_urlsToExpand.remove(url);
-                if (setExpanded(index, true)) {
+                if (setExpanded(indexForUrl, true)) {
                     // The dir lister has been triggered. This slot will be called
                     // again after the directory has been expanded.
                     return;
@@ -838,15 +862,12 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        KFileItem item = items.first();
-
         // If the expanding of items is enabled, the call
         // dirLister->openUrl(url, KDirLister::Keep) in KFileItemModel::setExpanded()
         // might result in emitting the same items twice due to the Keep-parameter.
         // This case happens if an item gets expanded, collapsed and expanded again
         // before the items could be loaded for the first expansion.
-        const int index = m_items.value(item.url(), -1);
-        if (index >= 0) {
+        if (index(items.first().url()) >= 0) {
             // The items are already part of the model.
             return;
         }
@@ -860,7 +881,7 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
         // KDirLister keeps the children of items that got expanded once even if
         // they got collapsed again with KFileItemModel::setExpanded(false). So it must be
         // checked whether the parent for new items is still expanded.
-        const int parentIndex = m_items.value(parentUrl, -1);
+        const int parentIndex = index(parentUrl);
         if (parentIndex >= 0 && !m_itemData[parentIndex]->values.value("isExpanded").toBool()) {
             // The parent is not expanded.
             return;
@@ -899,10 +920,9 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     indexesToRemove.reserve(items.count());
 
     foreach (const KFileItem& item, items) {
-        const KUrl url = item.url();
-        const int index = m_items.value(url, -1);
-        if (index >= 0) {
-            indexesToRemove.append(index);
+        const int indexForItem = index(item);
+        if (indexForItem >= 0) {
+            indexesToRemove.append(indexForItem);
         } else {
             // Probably the item has been filtered.
             QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(item);
@@ -918,7 +938,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     if (m_requestRole[ExpandedParentsCountRole] && !m_expandedDirs.isEmpty()) {
         // Assure that removing a parent item also results in removing all children
         QVector<int> indexesToRemoveWithChildren;
-        indexesToRemoveWithChildren.reserve(m_items.count());
+        indexesToRemoveWithChildren.reserve(m_itemData.count());
 
         const int itemCount = m_itemData.count();
         foreach (int index, indexesToRemove) {
@@ -958,14 +978,14 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         const QPair<KFileItem, KFileItem>& itemPair = it.next();
         const KFileItem& oldItem = itemPair.first;
         const KFileItem& newItem = itemPair.second;
-        const int index = m_items.value(oldItem.url(), -1);
-        if (index >= 0) {
-            m_itemData[index]->item = newItem;
+        const int indexForItem = index(oldItem);
+        if (indexForItem >= 0) {
+            m_itemData[indexForItem]->item = newItem;
 
             // Keep old values as long as possible if they could not retrieved synchronously yet.
             // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
-            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, m_itemData.at(index)->parent));
-            QHash<QByteArray, QVariant>& values = m_itemData[index]->values;
+            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, m_itemData.at(indexForItem)->parent));
+            QHash<QByteArray, QVariant>& values = m_itemData[indexForItem]->values;
             while (it.hasNext()) {
                 it.next();
                 const QByteArray& role = it.key();
@@ -976,8 +996,8 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
             }
 
             m_items.remove(oldItem.url());
-            m_items.insert(newItem.url(), index);
-            indexes.append(index);
+            m_items.insert(newItem.url(), indexForItem);
+            indexes.append(indexForItem);
         } else {
             // Check if 'oldItem' is one of the filtered items.
             QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(oldItem);
@@ -1099,7 +1119,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
             m_itemData.append(0);
         }
 
-        // We build the new list m_items in reverse order to minimize
+        // We build the new list m_itemData in reverse order to minimize
         // the number of moves and guarantee O(N) complexity.
         int targetIndex = totalItemCount - 1;
         int sourceIndexExistingItems = existingItemCount - 1;
@@ -1137,11 +1157,9 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
         std::reverse(itemRanges.begin(), itemRanges.end());
     }
 
-    // The indexes starting from the first inserted item must be adjusted.
-    m_items.reserve(totalItemCount);
-    for (int i = itemRanges.front().index; i < totalItemCount; ++i) {
-        m_items.insert(m_itemData.at(i)->item.url(), i);
-    }
+    // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
+    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    m_items.clear();
 
     emit itemsInserted(itemRanges);
 
@@ -1158,19 +1176,12 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
 
     m_groups.clear();
 
-    // Step 1: Remove the items from the hash m_items, and free the ItemData.
+    // Step 1: Remove the items from m_itemData, and free the ItemData.
     int removedItemsCount = 0;
     foreach (const KItemRange& range, itemRanges) {
         removedItemsCount += range.count;
 
         for (int index = range.index; index < range.index + range.count; ++index) {
-            const KUrl url = m_itemData.at(index)->item.url();
-
-            // Prevent repeated expensive rehashing by using QHash::erase(),
-            // rather than QHash::remove().
-            QHash<KUrl, int>::iterator it = m_items.find(url);
-            m_items.erase(it);
-
             if (behavior == DeleteItemData) {
                 delete m_itemData.at(index);
             }
@@ -1199,12 +1210,9 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
 
     m_itemData.erase(m_itemData.end() - removedItemsCount, m_itemData.end());
 
-    // Step 3: Adjust indexes in the hash m_items, starting from the
-    //         index of the first removed item.
-    const int newItemDataCount = m_itemData.count();
-    for (int i = itemRanges.front().index; i < newItemDataCount; ++i) {
-        m_items.insert(m_itemData.at(i)->item.url(), i);
-    }
+    // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
+    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    m_items.clear();
 
     emit itemsRemoved(itemRanges);
 }
@@ -1218,7 +1226,7 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& 
         determineMimeTypes(items, 200);
     }
 
-    const int parentIndex = m_items.value(parentUrl, -1);
+    const int parentIndex = index(parentUrl);
     ItemData* parentItem = parentIndex < 0 ? 0 : m_itemData.at(parentIndex);
 
     QList<ItemData*> itemDataList;
@@ -2147,7 +2155,9 @@ QByteArray KFileItemModel::sharedValue(const QByteArray& value)
 
 bool KFileItemModel::isConsistent() const
 {
-    if (m_items.count() != m_itemData.count()) {
+    // m_items may contain less items than m_itemData because m_items
+    // is populated lazily, see KFileItemModel::index(const KUrl& url).
+    if (m_items.count() > m_itemData.count()) {
         return false;
     }
 
