@@ -50,19 +50,6 @@ public:
                            const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates);
     virtual ~UpdateItemStatesThread();
 
-    /**
-     * Whenever the plugin is accessed by the thread creator, lockPlugin() must
-     * be invoked. True is returned, if the plugin could be locked within 300
-     * milliseconds.
-     */
-    bool lockPlugin();
-
-    /**
-     * Must be invoked if lockPlugin() returned true and plugin has been accessed
-     * by the thread creator.
-     */
-    void unlockPlugin();
-
     QMap<QString, QVector<VersionControlObserver::ItemState> > itemStates() const;
 
 protected:

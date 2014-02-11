@@ -75,7 +75,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
     connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
     connect(m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
-    connect(m_dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
     connect(m_dirLister, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
     connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
     connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(directoryRedirection(KUrl,KUrl)));
@@ -1052,11 +1051,6 @@ void KFileItemModel::slotClear()
     }
 
     m_expandedDirs.clear();
-}
-
-void KFileItemModel::slotClear(const KUrl& url)
-{
-    Q_UNUSED(url);
 }
 
 void KFileItemModel::slotNaturalSortingChanged()

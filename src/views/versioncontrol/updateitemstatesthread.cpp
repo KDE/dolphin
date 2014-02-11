@@ -70,16 +70,6 @@ void UpdateItemStatesThread::run()
     }
 }
 
-bool UpdateItemStatesThread::lockPlugin()
-{
-    return m_globalPluginMutex->tryLock(300);
-}
-
-void UpdateItemStatesThread::unlockPlugin()
-{
-    m_globalPluginMutex->unlock();
-}
-
 QMap<QString, QVector<VersionControlObserver::ItemState> > UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
