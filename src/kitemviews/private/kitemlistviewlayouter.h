@@ -50,7 +50,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListViewLayouter : public QObject
     Q_OBJECT
 
 public:
-    KItemListViewLayouter(QObject* parent = 0);
+    KItemListViewLayouter(KItemListSizeHintResolver* sizeHintResolver, QObject* parent = 0);
     virtual ~KItemListViewLayouter();
 
     void setScrollOrientation(Qt::Orientation orientation);
@@ -102,9 +102,6 @@ public:
 
     void setModel(const KItemModelBase* model);
     const KItemModelBase* model() const;
-
-    void setSizeHintResolver(KItemListSizeHintResolver* sizeHintResolver);
-    const KItemListSizeHintResolver* sizeHintResolver() const;
 
     /**
      * @return The first (at least partly) visible index. -1 is returned

@@ -26,7 +26,7 @@
 
 // #define KITEMLISTVIEWLAYOUTER_DEBUG
 
-KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
+KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver* sizeHintResolver, QObject* parent) :
     QObject(parent),
     m_dirty(true),
     m_visibleIndexesDirty(true),
@@ -36,7 +36,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_itemMargin(),
     m_headerHeight(0),
     m_model(0),
-    m_sizeHintResolver(0),
+    m_sizeHintResolver(sizeHintResolver),
     m_scrollOffset(0),
     m_maximumScrollOffset(0),
     m_itemOffset(0),
@@ -53,6 +53,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_groupHeaderMargin(0),
     m_itemInfos()
 {
+    Q_ASSERT(m_sizeHintResolver);
 }
 
 KItemListViewLayouter::~KItemListViewLayouter()
@@ -209,19 +210,6 @@ const KItemModelBase* KItemListViewLayouter::model() const
     return m_model;
 }
 
-void KItemListViewLayouter::setSizeHintResolver(KItemListSizeHintResolver* sizeHintResolver)
-{
-    if (m_sizeHintResolver != sizeHintResolver) {
-        m_sizeHintResolver = sizeHintResolver;
-        m_dirty = true;
-    }
-}
-
-const KItemListSizeHintResolver* KItemListViewLayouter::sizeHintResolver() const
-{
-    return m_sizeHintResolver;
-}
-
 int KItemListViewLayouter::firstVisibleIndex() const
 {
     const_cast<KItemListViewLayouter*>(this)->doLayout();
@@ -241,12 +229,7 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         return QRectF();
     }
 
-    QSizeF sizeHint;
-    if (m_sizeHintResolver) {
-        sizeHint = m_sizeHintResolver->sizeHint(index);
-    } else {
-        sizeHint = m_itemSize;
-    }
+    QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
 
     const qreal x = m_columnOffsets.at(m_itemInfos.at(index).column);
     const qreal y = m_rowOffsets.at(m_itemInfos.at(index).row);
@@ -299,12 +282,7 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
                 break;
             }
 
-            qreal itemWidth;
-            if (m_sizeHintResolver) {
-                itemWidth = m_sizeHintResolver->sizeHint(index).width();
-            } else {
-                itemWidth = m_itemSize.width();
-            }
+            const qreal itemWidth = m_sizeHintResolver->sizeHint(index).width();
 
             if (itemWidth > headerWidth) {
                 headerWidth = itemWidth;
@@ -482,12 +460,10 @@ void KItemListViewLayouter::doLayout()
             int column = 0;
             while (index < itemCount && column < m_columnCount) {
                 qreal requiredItemHeight = itemSize.height();
-                if (m_sizeHintResolver) {
-                    const QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
-                    const qreal sizeHintHeight = horizontalScrolling ? sizeHint.width() : sizeHint.height();
-                    if (sizeHintHeight > requiredItemHeight) {
-                        requiredItemHeight = sizeHintHeight;
-                    }
+                const QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
+                const qreal sizeHintHeight = horizontalScrolling ? sizeHint.width() : sizeHint.height();
+                if (sizeHintHeight > requiredItemHeight) {
+                    requiredItemHeight = sizeHintHeight;
                 }
 
                 ItemInfo& itemInfo = m_itemInfos[index];

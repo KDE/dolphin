@@ -111,8 +111,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
 
     m_sizeHintResolver = new KItemListSizeHintResolver(this);
 
-    m_layouter = new KItemListViewLayouter(this);
-    m_layouter->setSizeHintResolver(m_sizeHintResolver);
+    m_layouter = new KItemListViewLayouter(m_sizeHintResolver, this);
 
     m_animation = new KItemListViewAnimation(this);
     connect(m_animation, SIGNAL(finished(QGraphicsWidget*,KItemListViewAnimation::AnimationType)),
