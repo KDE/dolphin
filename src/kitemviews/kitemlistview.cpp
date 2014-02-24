@@ -760,7 +760,8 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
         updateGroupHeaderHeight();
     }
 
-    if (animate && previousOption.maxTextSize != option.maxTextSize) {
+    if (animate &&
+        (previousOption.maxTextLines != option.maxTextLines || previousOption.maxTextWidth != option.maxTextWidth)) {
         // Animating a change of the maximum text size just results in expensive
         // temporary eliding and clipping operations and does not look good visually.
         animate = false;

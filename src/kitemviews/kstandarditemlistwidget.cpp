@@ -130,7 +130,6 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
 
     const qreal itemWidth = view->itemSize().width();
     const qreal maxWidth = itemWidth - 2 * option.padding;
-    const qreal maxTextHeight = option.maxTextSize.height();
     const qreal additionalRolesSpacing = additionalRolesCount * option.fontMetrics.lineSpacing();
     const qreal spacingAndIconHeight = option.iconSize + option.padding * 3;
 
@@ -150,19 +149,21 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         layout.setTextOption(textOption);
         layout.beginLayout();
         QTextLine line;
+        int lineCount = 0;
         while ((line = layout.createLine()).isValid()) {
             line.setLineWidth(maxWidth);
             line.naturalTextWidth();
             textHeight += line.height();
+
+            ++lineCount;
+            if (lineCount == option.maxTextLines) {
+                break;
+            }
         }
         layout.endLayout();
 
         // Add one line for each additional information
         textHeight += additionalRolesSpacing;
-
-        if (maxTextHeight > 0 && textHeight > maxTextHeight) {
-            textHeight = maxTextHeight;
-        }
 
         sizeHints[index] = QSizeF(itemWidth, textHeight + spacingAndIconHeight);
     }
@@ -176,7 +177,7 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
 
     const QList<QByteArray>& visibleRoles = view->visibleRoles();
     const bool showOnlyTextRole = (visibleRoles.count() == 1) && (visibleRoles.first() == "text");
-    const qreal maxWidth = option.maxTextSize.width();
+    const qreal maxWidth = option.maxTextWidth;
     const qreal paddingAndIconWidth = option.padding * 4 + option.iconSize;
     const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
 
@@ -1066,9 +1067,6 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     qreal nameHeight = 0;
     QTextLine line;
 
-    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
-    const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) - additionalRolesCount;
-
     QTextLayout layout(nameTextInfo->staticText.text(), m_customizedFont);
     layout.setTextOption(nameTextInfo->staticText.textOption());
     layout.beginLayout();
@@ -1079,7 +1077,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
         nameHeight += line.height();
 
         ++nameLineIndex;
-        if (nameLineIndex == maxNameLines) {
+        if (nameLineIndex == option.maxTextLines) {
             // The maximum number of textlines has been reached. If this is
             // the case provide an elided text if necessary.
             const int textLength = line.textStart() + line.textLength();
@@ -1101,6 +1099,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     layout.endLayout();
 
     // Use one line for each additional information
+    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
     nameTextInfo->staticText.setTextWidth(maxWidth);
     nameTextInfo->pos = QPointF(padding, widgetHeight -
                                          nameHeight -
