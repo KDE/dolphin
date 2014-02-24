@@ -388,6 +388,9 @@ protected:
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
+    virtual void updateFont();
+    virtual void updatePalette();
+
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);

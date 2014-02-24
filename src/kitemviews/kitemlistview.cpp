@@ -893,11 +893,23 @@ void KItemListView::onTransactionEnd()
 
 bool KItemListView::event(QEvent* event)
 {
-    // Forward all events to the controller and handle them there
-    if (!m_editingRole && m_controller && m_controller->processEvent(event, transform())) {
-        event->accept();
-        return true;
+    switch (event->type()) {
+    case QEvent::PaletteChange:
+        updatePalette();
+        break;
+
+    case QEvent::FontChange:
+        updateFont();
+        break;
+
+    default:
+        // Forward all other events to the controller and handle them there
+        if (!m_editingRole && m_controller && m_controller->processEvent(event, transform())) {
+            event->accept();
+            return true;
+        }
     }
+
     return QGraphicsWidget::event(event);
 }
 
@@ -948,6 +960,27 @@ void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
+}
+
+void KItemListView::updateFont()
+{
+    if (scene() && !scene()->views().isEmpty()) {
+        KItemListStyleOption option = styleOption();
+        option.font = scene()->views().first()->font();
+        option.fontMetrics = QFontMetrics(option.font);
+
+        setStyleOption(option);
+    }
+}
+
+void KItemListView::updatePalette()
+{
+    if (scene() && !scene()->views().isEmpty()) {
+        KItemListStyleOption option = styleOption();
+        option.palette = scene()->views().first()->palette();
+
+        setStyleOption(option);
+    }
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)

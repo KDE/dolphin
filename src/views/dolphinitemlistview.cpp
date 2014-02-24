@@ -144,6 +144,26 @@ void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray>& current
     updateGridSize();
 }
 
+void DolphinItemListView::updateFont()
+{
+    const ViewModeSettings settings(viewMode());
+
+    if (settings.useSystemFont()) {
+        KItemListView::updateFont();
+    } else {
+        QFont font(settings.fontFamily(), qRound(settings.fontSize()));
+        font.setItalic(settings.italicFont());
+        font.setWeight(settings.fontWeight());
+        font.setPointSizeF(settings.fontSize());
+
+        KItemListStyleOption option = styleOption();
+        option.font = font;
+        option.fontMetrics = QFontMetrics(font);
+
+        setStyleOption(option);
+    }
+}
+
 void DolphinItemListView::updateGridSize()
 {
     const ViewModeSettings settings(viewMode());
@@ -229,23 +249,6 @@ void DolphinItemListView::updateGridSize()
     setStyleOption(option);
     setItemSize(QSizeF(itemWidth, itemHeight));
     endTransaction();
-}
-
-void DolphinItemListView::updateFont()
-{
-    KItemListStyleOption option = styleOption();
-
-    const ViewModeSettings settings(viewMode());
-
-    QFont font(settings.fontFamily(), qRound(settings.fontSize()));
-    font.setItalic(settings.italicFont());
-    font.setWeight(settings.fontWeight());
-    font.setPointSizeF(settings.fontSize());
-
-    option.font = font;
-    option.fontMetrics = QFontMetrics(font);
-
-    setStyleOption(option);
 }
 
 ViewModeSettings::ViewMode DolphinItemListView::viewMode() const
