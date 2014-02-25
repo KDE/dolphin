@@ -322,11 +322,18 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         }
     }
 
+    // We use the number of upUrl() calls to find the best matching plugin
+    // for the given directory. The smaller value, the better it is (0 is best).
+    KVersionControlPlugin* bestPlugin = 0;
+    int bestScore = INT_MAX;
+
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     foreach (KVersionControlPlugin* plugin, plugins) {
         const QString fileName = directory.path(KUrl::AddTrailingSlash) + plugin->fileName();
         if (QFile::exists(fileName)) {
+            // The score of this plugin is 0 (best), so we can just return this plugin,
+            // instead of going through the plugin scoring procedure, we can't find a better one ;)
             return plugin;
         }
 
@@ -339,18 +346,24 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         if (m_versionedDirectory) {
             KUrl dirUrl(directory);
             KUrl upUrl = dirUrl.upUrl();
-            while (upUrl != dirUrl) {
+            int upUrlCounter = 1;
+            while ((upUrlCounter < bestScore) && (upUrl != dirUrl)) {
                 const QString fileName = dirUrl.path(KUrl::AddTrailingSlash) + plugin->fileName();
                 if (QFile::exists(fileName)) {
-                    return plugin;
+                    if (upUrlCounter < bestScore) {
+                        bestPlugin = plugin;
+                        bestScore = upUrlCounter;
+                    }
+                    break;
                 }
                 dirUrl = upUrl;
                 upUrl = dirUrl.upUrl();
+                ++upUrlCounter;
             }
         }
     }
 
-    return 0;
+    return bestPlugin;
 }
 
 bool VersionControlObserver::isVersioned() const
