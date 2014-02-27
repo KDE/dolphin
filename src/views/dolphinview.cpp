@@ -1046,6 +1046,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     if (op && destUrl == url()) {
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
+        m_markFirstNewlySelectedItemAsCurrent = true;
         connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
     }
 
