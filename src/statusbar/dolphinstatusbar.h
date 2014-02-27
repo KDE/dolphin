@@ -122,6 +122,12 @@ private slots:
      */
     void slotResetToDefaultText();
 
+    /**
+     * Updates the text of the zoom slider tooltip to show
+     * the currently used size.
+     */
+    void updateZoomSliderToolTip(int zoomLevel);
+
 private:
     /**
      * Makes the space information widget and zoom slider widget
@@ -130,12 +136,6 @@ private:
      * widgets are hidden.
      */
     void setExtensionsVisible(bool visible);
-
-    /**
-     * Updates the text of the zoom slider tooltip to show
-     * the currently used size.
-     */
-    void updateZoomSliderToolTip(int zoomLevel);
 
 private:
     QString m_text;
