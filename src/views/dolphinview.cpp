@@ -1071,17 +1071,15 @@ void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* prev
 
 void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons)
 {
+    Q_UNUSED(itemIndex);
+
     hideToolTip();
 
-    if (itemIndex < 0) {
-        // Trigger the history navigation only when clicking on the viewport:
-        // Above an item the XButtons provide a simple way to select items in
-        // the singleClick mode.
-        if (buttons & Qt::XButton1) {
-            emit goBackRequested();
-        } else if (buttons & Qt::XButton2) {
-            emit goForwardRequested();
-        }
+    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
+    if (buttons & Qt::XButton1) {
+        emit goBackRequested();
+    } else if (buttons & Qt::XButton2) {
+        emit goForwardRequested();
     }
 }
 
