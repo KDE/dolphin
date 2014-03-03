@@ -108,6 +108,8 @@ public:
     void setHovered(bool hovered);
     bool isHovered() const;
 
+    void setHoverPosition(const QPointF& pos);
+
     void setAlternateBackground(bool enable);
     bool alternateBackground() const;
 

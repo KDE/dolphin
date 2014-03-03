@@ -951,8 +951,13 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
 
         if (newHoveredWidget) {
             newHoveredWidget->setHovered(true);
+            const QPointF mappedPos = newHoveredWidget->mapFromItem(m_view, pos);
+            newHoveredWidget->setHoverPosition(mappedPos);
             emit itemHovered(newHoveredWidget->index());
         }
+    } else if (oldHoveredWidget) {
+        const QPointF mappedPos = oldHoveredWidget->mapFromItem(m_view, pos);
+        oldHoveredWidget->setHoverPosition(mappedPos);
     }
 
     return false;
