@@ -30,15 +30,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-/**
- * Helper function for sorting items with qSort() in
- * DolphinView::renameSelectedItems().
- */
-bool lessThan(const KFileItem& item1, const KFileItem& item2)
-{
-    return KStringHandler::naturalCompare(item1.name(), item2.name()) < 0;
-}
-
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     KDialog(parent),
     m_renameOneItem(false),

@@ -1354,16 +1354,6 @@ void DolphinView::calculateItemCount(int& fileCount,
     }
 }
 
-void DolphinView::showHoverInformation(const KFileItem& item)
-{
-    emit requestItemInfo(item);
-}
-
-void DolphinView::clearHoverInformation()
-{
-    emit requestItemInfo(KFileItem());
-}
-
 void DolphinView::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
