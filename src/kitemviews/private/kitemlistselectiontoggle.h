@@ -41,11 +41,11 @@ public:
     void setChecked(bool checked);
     bool isChecked() const;
 
+    void setHovered(bool hovered);
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 private:
