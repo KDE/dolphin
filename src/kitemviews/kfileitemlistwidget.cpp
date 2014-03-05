@@ -46,6 +46,15 @@ QString KFileItemListWidgetInformant::itemText(int index, const KItemListView* v
     return item.text();
 }
 
+bool KFileItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
+{
+    Q_ASSERT(qobject_cast<KFileItemModel*>(view->model()));
+    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(view->model());
+
+    const KFileItem item = fileItemModel->fileItem(index);
+    return item.isLink();
+}
+
 QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
                                                const QHash<QByteArray, QVariant>& values) const
 {
@@ -80,6 +89,15 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
 
     return text;
 }
+
+QFont KFileItemListWidgetInformant::customizedFontForLinks(const QFont& baseFont) const
+{
+    // The customized font should be italic if the file is a symbolic link.
+    QFont font(baseFont);
+    font.setItalic(true);
+    return font;
+}
+
 
 KFileItemListWidget::KFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
     KStandardItemListWidget(informant, parent)
