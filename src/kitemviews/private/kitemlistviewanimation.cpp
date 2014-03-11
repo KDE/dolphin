@@ -225,13 +225,13 @@ void KItemListViewAnimation::slotFinished()
 {
     QPropertyAnimation* finishedAnim = qobject_cast<QPropertyAnimation*>(sender());
     for (int type = 0; type < AnimationTypeCount; ++type) {
-        QHashIterator<QGraphicsWidget*, QPropertyAnimation*> it(m_animation[type]);
+        QMutableHashIterator<QGraphicsWidget*, QPropertyAnimation*> it(m_animation[type]);
         while (it.hasNext()) {
             it.next();
             QPropertyAnimation* propertyAnim = it.value();
             if (propertyAnim == finishedAnim) {
                 QGraphicsWidget* widget = it.key();
-                m_animation[type].remove(widget);
+                it.remove();
                 finishedAnim->deleteLater();
 
                 emit finished(widget, static_cast<AnimationType>(type));
