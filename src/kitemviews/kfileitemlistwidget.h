@@ -32,7 +32,9 @@ public:
 
 protected:
     virtual QString itemText(int index, const KItemListView* view) const;
+    virtual bool itemIsLink(int index, const KItemListView* view) const;
     virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
+    virtual QFont customizedFontForLinks(const QFont& baseFont) const;
 };
 
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KStandardItemListWidget

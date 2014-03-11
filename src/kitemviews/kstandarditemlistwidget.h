@@ -54,12 +54,24 @@ protected:
     virtual QString itemText(int index, const KItemListView* view) const;
 
     /**
+     * @return The value of the "isLink" role. The default implementation returns false.
+     *         The derived class should reimplement this function, when information about
+     *         links is available and in usage.
+     */
+    virtual bool itemIsLink(int index, const KItemListView* view) const;
+
+    /**
      * @return String representation of the role \a role. The representation of
      *         a role might depend on other roles, so the values of all roles
      *         are passed as parameter.
      */
     virtual QString roleText(const QByteArray& role,
                              const QHash<QByteArray, QVariant>& values) const;
+
+    /**
+    * @return A font based on baseFont which is customized for symlinks.
+    */
+    virtual QFont customizedFontForLinks(const QFont& baseFont) const;
 
     void calculateIconsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
     void calculateCompactLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
