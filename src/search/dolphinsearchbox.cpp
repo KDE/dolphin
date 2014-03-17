@@ -455,6 +455,8 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
         query.addCustomOption("includeFolder", m_searchPath.toLocalFile());
     }
 
+    query.setTerm(term);
+
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));
 #else
