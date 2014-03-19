@@ -111,6 +111,9 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 #ifdef HAVE_BALOO
 Baloo::Term DolphinFacetsWidget::ratingTerm() const
 {
+    Baloo::Term ratingTerm;
+    Baloo::Term modifiedTerm;
+
     if (!m_anyRating->isChecked()) {
         int stars = 1; // represents m_oneOrMore
         if (m_twoOrMore->isChecked()) {
@@ -124,15 +127,9 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
         }
 
         const int rating = stars * 2;
-
-        Baloo::Term term("rating", rating, Baloo::Term::GreaterEqual);
-        return term;
+        ratingTerm = Baloo::Term("rating", rating, Baloo::Term::GreaterEqual);
     }
 
-    return Baloo::Term();
-
-    /*
-    // FIXME: Handle date time filters
     if (!m_anytime->isChecked()) {
         QDate date = QDate::currentDate(); // represents m_today
         if (m_yesterday->isChecked()) {
@@ -145,12 +142,22 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
             date = date.addDays(1 - date.dayOfYear());
         }
 
-        Nepomuk2::Query::ComparisonTerm term(Nepomuk2::Vocabulary::NIE::lastModified(),
-                                            Nepomuk2::Query::LiteralTerm(QDateTime(date)),
-                                            Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
-        andTerm.addSubTerm(term);
+        modifiedTerm = Baloo::Term("modified", date, Baloo::Term::GreaterEqual);
     }
-    */
+
+    if (ratingTerm.isValid() && modifiedTerm.isValid()) {
+        Baloo::Term term(Baloo::Term::And);
+        term.addSubTerm(ratingTerm);
+        term.addSubTerm(modifiedTerm);
+
+        return term;
+    } else if (modifiedTerm.isValid()) {
+        return modifiedTerm;
+    } else if (ratingTerm.isValid()) {
+        return ratingTerm;
+    }
+
+    return Baloo::Term();
 }
 
 QStringList DolphinFacetsWidget::facetTypes() const
