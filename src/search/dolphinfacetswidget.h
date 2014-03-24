@@ -57,20 +57,13 @@ public:
 
 #ifdef HAVE_BALOO
     Baloo::Term ratingTerm() const;
-    QStringList facetTypes() const;
+    QString facetType() const;
 #endif
 
 signals:
     void facetChanged();
 
 private:
-    /**
-     * @return New checkbox which is connected to the
-     *         slotFacedChanged() slot whenever it has
-     *         been toggled.
-     */
-    QCheckBox* createCheckBox(const QString& text);
-
     /**
      * @return New radiobutton which is connected to the
      *         slotFacedChanged() slot whenever it has
@@ -80,10 +73,11 @@ private:
                                     QButtonGroup* group);
 
 private:
-    QCheckBox* m_documents;
-    QCheckBox* m_images;
-    QCheckBox* m_audio;
-    QCheckBox* m_videos;
+    QRadioButton* m_anyType;
+    QRadioButton* m_documents;
+    QRadioButton* m_images;
+    QRadioButton* m_audio;
+    QRadioButton* m_videos;
 
     QRadioButton* m_anytime;
     QRadioButton* m_today;

@@ -436,7 +436,7 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
 
     Baloo::Query query;
     query.addType("File");
-    query.addTypes(m_facetsWidget->facetTypes());
+    query.addType(m_facetsWidget->facetType());
 
     Baloo::Term term(Baloo::Term::And);
 

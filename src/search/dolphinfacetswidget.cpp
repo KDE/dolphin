@@ -46,13 +46,16 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_fourOrMore(0),
     m_maxRating(0)
 {
-    m_documents = createCheckBox(i18nc("@option:check", "Documents"));
-    m_images    = createCheckBox(i18nc("@option:check", "Images"));
-    m_audio     = createCheckBox(i18nc("@option:check", "Audio Files"));
-    m_videos    = createCheckBox(i18nc("@option:check", "Videos"));
+    QButtonGroup* filetypeGroup = new QButtonGroup(this);
+    m_anyType   = createRadioButton(i18nc("@option:check", "Any"), filetypeGroup);
+    m_documents = createRadioButton(i18nc("@option:check", "Documents"), filetypeGroup);
+    m_images    = createRadioButton(i18nc("@option:check", "Images"), filetypeGroup);
+    m_audio     = createRadioButton(i18nc("@option:check", "Audio Files"), filetypeGroup);
+    m_videos    = createRadioButton(i18nc("@option:check", "Videos"), filetypeGroup);
 
     QVBoxLayout* typeLayout = new QVBoxLayout();
     typeLayout->setSpacing(0);
+    typeLayout->addWidget(m_anyType);
     typeLayout->addWidget(m_documents);
     typeLayout->addWidget(m_images);
     typeLayout->addWidget(m_audio);
@@ -160,37 +163,23 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
     return Baloo::Term();
 }
 
-QStringList DolphinFacetsWidget::facetTypes() const
+QString DolphinFacetsWidget::facetType() const
 {
-    QStringList types;
     if (m_documents->isChecked()) {
-        types << "Document";
+        return QLatin1String("Document");
+    } else if (m_images->isChecked()) {
+        return QLatin1String("Image");
+    } else if (m_audio->isChecked()) {
+        return QLatin1String("Audio");
+    } else if (m_videos->isChecked()) {
+        return QLatin1String("Video");
     }
 
-    if (m_images->isChecked()) {
-        types << "Image";
-    }
-
-    if (m_audio->isChecked()) {
-        types << "Audio";
-    }
-
-    if (m_videos->isChecked()) {
-        types << "Video";
-    }
-
-    return types;
+    return QString();
 }
 
 #endif
 
-
-QCheckBox* DolphinFacetsWidget::createCheckBox(const QString& text)
-{
-    QCheckBox* checkBox = new QCheckBox(text);
-    connect(checkBox, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
-    return checkBox;
-}
 
 QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
                                                      QButtonGroup* group)
