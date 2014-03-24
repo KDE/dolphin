@@ -447,7 +447,7 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
 
     if (m_contentButton->isChecked()) {
         query.setSearchString(text);
-    } else {
+    } else if (!text.isEmpty()) {
         term.addSubTerm(Baloo::Term(QLatin1String("filename"), text));
     }
 
