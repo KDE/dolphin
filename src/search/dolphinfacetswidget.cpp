@@ -103,6 +103,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     topLayout->addLayout(ratingLayout);
     topLayout->addStretch();
 
+    m_anyType->setChecked(true);
     m_anytime->setChecked(true);
     m_anyRating->setChecked(true);
 }
