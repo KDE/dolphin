@@ -49,7 +49,6 @@
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_startedSearching(false),
-    m_readOnly(false),
     m_active(true),
     m_topLayout(0),
     m_searchLabel(0),
@@ -63,7 +62,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_facetsToggleButton(0),
     m_facetsWidget(0),
     m_searchPath(),
-    m_readOnlyQuery(),
     m_startSearchTimer(0)
 {
 }
@@ -102,7 +100,7 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
 
-    const bool showSearchFromButtons = url.isLocalFile() && !m_readOnly;
+    const bool showSearchFromButtons = url.isLocalFile();
     m_separator->setVisible(showSearchFromButtons);
     m_fromHereButton->setVisible(showSearchFromButtons);
     m_everywhereButton->setVisible(showSearchFromButtons);
@@ -152,23 +150,24 @@ KUrl DolphinSearchBox::urlForSearching() const
     return url;
 }
 
-void DolphinSearchBox::selectAll()
+void DolphinSearchBox::fromSearchUrl(const KUrl& url)
 {
-    m_searchInput->selectAll();
-}
-
-void DolphinSearchBox::setReadOnly(bool readOnly, const KUrl& query)
-{
-    if (m_readOnly != readOnly || m_readOnlyQuery != query) {
-        m_readOnly = readOnly;
-        m_readOnlyQuery = query;
-        applyReadOnlyState();
+    if (url.protocol() == "baloosearch") {
+        fromBalooSearchUrl(url);
+    } else if (url.protocol() == "filenamesearch") {
+        const QMap<QString, QString>& queryItems = url.queryItems();
+        setText(queryItems.value("search"));
+        setSearchPath(queryItems.value("url"));
+        m_contentButton->setChecked(queryItems.value("checkContent") == "yes");
+    } else {
+        setText(QString());
+        setSearchPath(url);
     }
 }
 
-bool DolphinSearchBox::isReadOnly() const
+void DolphinSearchBox::selectAll()
 {
-    return m_readOnly;
+    m_searchInput->selectAll();
 }
 
 void DolphinSearchBox::setActive(bool active)
@@ -426,7 +425,6 @@ void DolphinSearchBox::init()
     connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchRequest()));
 
     updateFacetsToggleButton();
-    applyReadOnlyState();
 }
 
 KUrl DolphinSearchBox::balooUrlForSearching() const
@@ -464,26 +462,46 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
 #endif
 }
 
-void DolphinSearchBox::applyReadOnlyState()
+void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
 {
 #ifdef HAVE_BALOO
-    if (m_readOnly) {
-        m_searchLabel->setText(Baloo::Query::titleFromQueryUrl(m_readOnlyQuery));
+    const Baloo::Query query = Baloo::Query::fromSearchUrl(url);
+    const Baloo::Term term = query.term();
+
+    // Block all signals to avoid unnecessary "searchRequest" signals
+    // while we adjust the search text and the facet widget.
+    blockSignals(true);
+
+    const QVariantHash customOptions = query.customOptions();
+    if (customOptions.contains("includeFolder")) {
+        setSearchPath(customOptions.value("includeFolder").toString());
     } else {
-#else
-    {
+        setSearchPath(QDir::homePath());
+    }
+
+    if (!query.searchString().isEmpty()) {
+        setText(query.searchString());
+    }
+
+    QStringList types = query.types();
+    types.removeOne("File"); // We are only interested in facet widget types
+    if (!types.isEmpty()) {
+        m_facetsWidget->setFacetType(types.first());
+    }
+
+    foreach (const Baloo::Term& subTerm, term.subTerms()) {
+        const QString property = subTerm.property();
+
+        if (property == QLatin1String("filename")) {
+            setText(subTerm.value().toString());
+        } else if (m_facetsWidget->isRatingTerm(subTerm)) {
+            m_facetsWidget->setRatingTerm(subTerm);
+        }
+    }
+
+    m_startSearchTimer->stop();
+    blockSignals(false);
 #endif
-        m_searchLabel->setText(i18nc("@label:textbox", "Find:"));
-    }
-
-    m_searchInput->setVisible(!m_readOnly);
-    m_optionsScrollArea->setVisible(!m_readOnly);
-
-    if (m_readOnly) {
-        m_facetsWidget->hide();
-    } else {
-        m_facetsWidget->setVisible(SearchSettings::showFacetsWidget());
-    }
 }
 
 void DolphinSearchBox::updateFacetsToggleButton()
