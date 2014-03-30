@@ -29,6 +29,7 @@
 
 class QButtonGroup;
 class QCheckBox;
+class QDate;
 class QRadioButton;
 
 /**
