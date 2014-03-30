@@ -46,13 +46,16 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_fourOrMore(0),
     m_maxRating(0)
 {
-    m_documents = createCheckBox(i18nc("@option:check", "Documents"));
-    m_images    = createCheckBox(i18nc("@option:check", "Images"));
-    m_audio     = createCheckBox(i18nc("@option:check", "Audio Files"));
-    m_videos    = createCheckBox(i18nc("@option:check", "Videos"));
+    QButtonGroup* filetypeGroup = new QButtonGroup(this);
+    m_anyType   = createRadioButton(i18nc("@option:check", "Any"), filetypeGroup);
+    m_documents = createRadioButton(i18nc("@option:check", "Documents"), filetypeGroup);
+    m_images    = createRadioButton(i18nc("@option:check", "Images"), filetypeGroup);
+    m_audio     = createRadioButton(i18nc("@option:check", "Audio Files"), filetypeGroup);
+    m_videos    = createRadioButton(i18nc("@option:check", "Videos"), filetypeGroup);
 
     QVBoxLayout* typeLayout = new QVBoxLayout();
     typeLayout->setSpacing(0);
+    typeLayout->addWidget(m_anyType);
     typeLayout->addWidget(m_documents);
     typeLayout->addWidget(m_images);
     typeLayout->addWidget(m_audio);
@@ -100,6 +103,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     topLayout->addLayout(ratingLayout);
     topLayout->addStretch();
 
+    m_anyType->setChecked(true);
     m_anytime->setChecked(true);
     m_anyRating->setChecked(true);
 }
@@ -111,6 +115,9 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 #ifdef HAVE_BALOO
 Baloo::Term DolphinFacetsWidget::ratingTerm() const
 {
+    Baloo::Term ratingTerm;
+    Baloo::Term modifiedTerm;
+
     if (!m_anyRating->isChecked()) {
         int stars = 1; // represents m_oneOrMore
         if (m_twoOrMore->isChecked()) {
@@ -124,15 +131,9 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
         }
 
         const int rating = stars * 2;
-
-        Baloo::Term term("rating", rating, Baloo::Term::GreaterEqual);
-        return term;
+        ratingTerm = Baloo::Term("rating", rating, Baloo::Term::GreaterEqual);
     }
 
-    return Baloo::Term();
-
-    /*
-    // FIXME: Handle date time filters
     if (!m_anytime->isChecked()) {
         QDate date = QDate::currentDate(); // represents m_today
         if (m_yesterday->isChecked()) {
@@ -145,44 +146,149 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
             date = date.addDays(1 - date.dayOfYear());
         }
 
-        Nepomuk2::Query::ComparisonTerm term(Nepomuk2::Vocabulary::NIE::lastModified(),
-                                            Nepomuk2::Query::LiteralTerm(QDateTime(date)),
-                                            Nepomuk2::Query::ComparisonTerm::GreaterOrEqual);
-        andTerm.addSubTerm(term);
+        modifiedTerm = Baloo::Term("modified", date, Baloo::Term::GreaterEqual);
     }
-    */
+
+    if (ratingTerm.isValid() && modifiedTerm.isValid()) {
+        Baloo::Term term(Baloo::Term::And);
+        term.addSubTerm(ratingTerm);
+        term.addSubTerm(modifiedTerm);
+
+        return term;
+    } else if (modifiedTerm.isValid()) {
+        return modifiedTerm;
+    } else if (ratingTerm.isValid()) {
+        return ratingTerm;
+    }
+
+    return Baloo::Term();
 }
 
-QStringList DolphinFacetsWidget::facetTypes() const
+QString DolphinFacetsWidget::facetType() const
 {
-    QStringList types;
     if (m_documents->isChecked()) {
-        types << "Document";
+        return QLatin1String("Document");
+    } else if (m_images->isChecked()) {
+        return QLatin1String("Image");
+    } else if (m_audio->isChecked()) {
+        return QLatin1String("Audio");
+    } else if (m_videos->isChecked()) {
+        return QLatin1String("Video");
     }
 
-    if (m_images->isChecked()) {
-        types << "Image";
+    return QString();
+}
+
+bool DolphinFacetsWidget::isRatingTerm(const Baloo::Term& term) const
+{
+    const QList<Baloo::Term> subTerms = term.subTerms();
+    if (subTerms.isEmpty()) {
+        // If term has no sub terms, then the term itself is either a "rating" term
+        // or a "modified" term.
+        return term.property() == QLatin1String("modified") ||
+               term.property() == QLatin1String("rating");
+
+    } else if (subTerms.size() == 2) {
+        // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
+
+        QStringList properties;
+        foreach (const Baloo::Term& subTerm, subTerms) {
+            properties << subTerm.property();
+        }
+
+        return properties.contains(QLatin1String("modified")) &&
+               properties.contains(QLatin1String("rating"));
     }
 
-    if (m_audio->isChecked()) {
-        types << "Audio";
+    return false;
+}
+
+void DolphinFacetsWidget::setRatingTerm(const Baloo::Term& term)
+{
+    // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
+    // If term has no sub terms, then the term itself is either a "rating" term or a "modified"
+    // term. To avoid code duplication we add term to subTerms list, if the list is empty.
+    QList<Baloo::Term> subTerms = term.subTerms();
+    if (subTerms.isEmpty()) {
+        subTerms << term;
     }
 
-    if (m_videos->isChecked()) {
-        types << "Video";
-    }
+    foreach (const Baloo::Term& subTerm, subTerms) {
+        const QString property = subTerm.property();
 
-    return types;
+        if (property == QLatin1String("modified")) {
+            const QDate date = subTerm.value().toDate();
+            setTimespan(date);
+        } else if (property == QLatin1String("rating")) {
+            const int stars = subTerm.value().toInt() / 2;
+            setRating(stars);
+        }
+    }
 }
 
 #endif
 
-
-QCheckBox* DolphinFacetsWidget::createCheckBox(const QString& text)
+void DolphinFacetsWidget::setFacetType(const QString& type)
 {
-    QCheckBox* checkBox = new QCheckBox(text);
-    connect(checkBox, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
-    return checkBox;
+    if (type == QLatin1String("Document")) {
+        m_documents->setChecked(true);
+    } else if (type == QLatin1String("Image")) {
+        m_images->setChecked(true);
+    } else if (type == QLatin1String("Audio")) {
+        m_audio->setChecked(true);
+    } else if (type == QLatin1String("Video")) {
+        m_videos->setChecked(true);
+    } else {
+        m_anyType->setChecked(true);
+    }
+}
+
+void DolphinFacetsWidget::setRating(const int stars)
+{
+    switch (stars) {
+    case 5:
+        m_maxRating->setChecked(true);
+        break;
+
+    case 4:
+        m_fourOrMore->setChecked(true);
+        break;
+
+    case 3:
+        m_threeOrMore->setChecked(true);
+        break;
+
+    case 2:
+        m_twoOrMore->setChecked(true);
+        break;
+
+    case 1:
+        m_oneOrMore->setChecked(true);
+        break;
+
+    default:
+        m_anyRating->setChecked(true);
+    }
+}
+
+void DolphinFacetsWidget::setTimespan(const QDate& date)
+{
+    const QDate currentDate = QDate::currentDate();
+    const int days = date.daysTo(currentDate);
+
+    if (days <= 0) {
+        m_today->setChecked(true);
+    } else if (days <= 1) {
+        m_yesterday->setChecked(true);
+    } else if (days <= currentDate.dayOfWeek()) {
+        m_thisWeek->setChecked(true);
+    } else if (days <= currentDate.day()) {
+        m_thisMonth->setChecked(true);
+    } else if (days <= currentDate.dayOfYear()) {
+        m_thisYear->setChecked(true);
+    } else {
+        m_anytime->setChecked(true);
+    }
 }
 
 QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
