@@ -650,6 +650,7 @@ void PlacesItemModel::updateBookmarks()
                     found = true;
                     if (newBookmark.metaDataItem("UDI").isEmpty()) {
                         item->setBookmark(newBookmark);
+                        item->setText(i18nc("KFile System Bookmarks", newBookmark.text().toUtf8().data()));
                     }
                     break;
                 }
