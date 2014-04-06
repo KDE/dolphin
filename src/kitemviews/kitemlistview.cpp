@@ -46,7 +46,13 @@
 
 #include <algorithm>
 
+#if 0
 #include "kitemlistviewaccessible.h"
+#else
+#include <QAccessible>
+#define QT_NO_ACCESSIBILITY 1
+#pragma message("TODO: port accessibility to Qt5")
+#endif
 
 namespace {
     // Time in ms until reaching the autoscroll margin triggers

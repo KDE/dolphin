@@ -25,6 +25,7 @@
 #include <KIO/NetAccess>
 #include <KIO/Job>
 #include <KUrl>
+#include <kdemacros.h>
 #include <ktemporaryfile.h>
 
 #include <QCoreApplication>

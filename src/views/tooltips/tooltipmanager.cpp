@@ -23,6 +23,7 @@
 #include <KIcon>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KJobWidgets>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -132,7 +133,7 @@ void ToolTipManager::startContentRetrieval()
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
     job->setIgnoreMaximumSize(m_item.isLocalFile());
     if (job->ui()) {
-        job->ui()->setWindow(qApp->activeWindow());
+        KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),

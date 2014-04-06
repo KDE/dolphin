@@ -20,14 +20,14 @@
 #ifndef DOLPHINPART_H
 #define DOLPHINPART_H
 
-#include <kparts/part.h>
+#include <KParts/ReadOnlyPart>
+#include <KUrl>
 
 #include <QItemSelectionModel>
 
 class DolphinNewFileMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
-class KAction;
 class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
@@ -243,8 +243,8 @@ private:
     DolphinRemoteEncoding* m_remoteEncoding;
     DolphinPartBrowserExtension* m_extension;
     DolphinNewFileMenu* m_newFileMenu;
-    KAction* m_findFileAction;
-    KAction* m_openTerminalAction;
+    QAction* m_findFileAction;
+    QAction* m_openTerminalAction;
     QString m_nameFilter;
     DolphinRemoveAction* m_removeAction;
     Q_DISABLE_COPY(DolphinPart)

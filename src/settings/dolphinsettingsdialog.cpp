@@ -34,6 +34,9 @@
 #include <KMessageBox>
 #include <KIcon>
 
+#include <QPushButton>
+#include <QDialogButtonBox>
+
 DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     KPageDialog(parent),
     m_pages()
@@ -43,10 +46,12 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     setMinimumSize(QSize(512, minSize.height()));
 
     setFaceType(List);
-    setCaption(i18nc("@title:window", "Dolphin Preferences"));
-    setButtons(Ok | Apply | Cancel | Default);
-    enableButtonApply(false);
-    setDefaultButton(Ok);
+    setWindowTitle(i18nc("@title:window", "Dolphin Preferences"));
+    QDialogButtonBox* box = new QDialogButtonBox(QDialogButtonBox::Ok
+            | QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults);
+    box->button(QDialogButtonBox::Apply)->setEnabled(false);
+    box->button(QDialogButtonBox::Ok)->setDefault(true);
+    setButtonBox(box);
 
     // Startup
     StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(url, this);
@@ -91,7 +96,8 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     connect(generalSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
-    restoreDialogSize(dialogConfig);
+#pragma message("TODO: port")
+    //restoreDialogSize(dialogConfig);
 
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
@@ -104,23 +110,25 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
-    saveDialogSize(dialogConfig);
+#pragma message("TODO: port")
+    //saveDialogSize(dialogConfig);
 }
 
 void DolphinSettingsDialog::slotButtonClicked(int button)
 {
-    if ((button == Ok) || (button == Apply)) {
+    if ((button == QDialogButtonBox::Ok) || (button == QDialogButtonBox::Apply)) {
         applySettings();
-    } else if (button == Default) {
+    } else if (button == QDialogButtonBox::RestoreDefaults) {
         restoreDefaults();
     }
 
-    KPageDialog::slotButtonClicked(button);
+#pragma message("TODO: port")
+    //KPageDialog::slotButtonClicked(button);
 }
 
 void DolphinSettingsDialog::enableApply()
 {
-    enableButtonApply(true);
+    buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(true);
 }
 
 void DolphinSettingsDialog::applySettings()
@@ -138,8 +146,7 @@ void DolphinSettingsDialog::applySettings()
         settings->setModifiedStartupSettings(false);
         settings->writeConfig();
     }
-
-    enableButtonApply(false);
+    buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(false);
 }
 
 void DolphinSettingsDialog::restoreDefaults()

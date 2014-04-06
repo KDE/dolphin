@@ -101,7 +101,7 @@ void DolphinRemoteEncoding::slotAboutToOpenUrl()
 
 void DolphinRemoteEncoding::fillMenu()
 {
-    KMenu* menu = m_menu->menu();
+    QMenu* menu = m_menu->menu();
     menu->clear();
 
 

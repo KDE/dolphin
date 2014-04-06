@@ -27,6 +27,8 @@
 #include "views/zoomlevelinfo.h"
 #include <konq_operations.h>
 
+#include <QPointer>
+
 #include <KAction>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -97,7 +99,7 @@ void DolphinViewActionHandler::createActions()
 {
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewFileMenu takes care of the GUI stuff.
-    KAction* newDirAction = m_actionCollection->addAction("create_dir");
+    QAction* newDirAction = m_actionCollection->addAction("create_dir");
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
     newDirAction->setIcon(KIcon("folder-new"));
@@ -106,20 +108,20 @@ void DolphinViewActionHandler::createActions()
 
     // File menu
 
-    KAction* rename = m_actionCollection->addAction("rename");
+    QAction* rename = m_actionCollection->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));
     rename->setShortcut(Qt::Key_F2);
     rename->setIcon(KIcon("edit-rename"));
     connect(rename, SIGNAL(triggered()), this, SLOT(slotRename()));
 
-    KAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
+    QAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
     moveToTrash->setIcon(KIcon("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)),
             this, SLOT(slotTrashActivated(Qt::MouseButtons,Qt::KeyboardModifiers)));
 
-    KAction* deleteAction = m_actionCollection->addAction("delete");
+    QAction* deleteAction = m_actionCollection->addAction("delete");
     deleteAction->setIcon(KIcon("edit-delete"));
     deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
@@ -129,14 +131,14 @@ void DolphinViewActionHandler::createActions()
     // disabled and "delete" is enabled (e.g. non-local files), so that Key_Del
     // can be used for deleting the file (#76016). It needs to be a separate action
     // so that the Edit menu isn't affected.
-    KAction* deleteWithTrashShortcut = m_actionCollection->addAction("delete_shortcut");
+    QAction* deleteWithTrashShortcut = m_actionCollection->addAction("delete_shortcut");
     // The descriptive text is just for the shortcuts editor.
     deleteWithTrashShortcut->setText(i18nc("@action \"Move to Trash\" for non-local files, etc.", "Delete (using shortcut for Trash)"));
     deleteWithTrashShortcut->setShortcut(QKeySequence::Delete);
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
 
-    KAction *propertiesAction = m_actionCollection->addAction( "properties" );
+    QAction *propertiesAction = m_actionCollection->addAction( "properties" );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
     propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
     propertiesAction->setIcon(KIcon("document-properties"));
@@ -213,7 +215,7 @@ void DolphinViewActionHandler::createActions()
     showHiddenFiles->setShortcuts(QList<QKeySequence>() << Qt::ALT + Qt::Key_Period << Qt::Key_F8);
     connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
-    KAction* adjustViewProps = m_actionCollection->addAction("view_properties");
+    QAction* adjustViewProps = m_actionCollection->addAction("view_properties");
     adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
 }

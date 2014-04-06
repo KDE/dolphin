@@ -25,6 +25,7 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KIcon>
+#include <KGlobal>
 
 #include <settings/viewmodes/viewsettingstab.h>
 
@@ -38,7 +39,7 @@ K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewMod
 K_EXPORT_PLUGIN(KCMDolphinViewModesConfigFactory("kcmdolphinviewmodes"))
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinViewModesConfigFactory::componentData(), parent),
+    KCModule(parent),
     m_tabs()
 {
     Q_UNUSED(args);

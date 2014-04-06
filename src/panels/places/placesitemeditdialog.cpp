@@ -24,9 +24,11 @@
 #include "placesitemeditdialog.h"
 
 #include <KAboutData>
+#include <k4aboutdata.h>
 #include <KComponentData>
 #include <KDebug>
 #include <KFile>
+#include <KGlobal>
 #include <KIconButton>
 #include <KLineEdit>
 #include <KLocale>

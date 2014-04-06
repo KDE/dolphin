@@ -34,6 +34,7 @@
 #include <KPluginFactory>
 #include <KRun>
 #include <KToggleAction>
+#include <KGlobal>
 #include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
@@ -42,9 +43,7 @@
 #include <KProtocolInfo>
 #include <kdeversion.h>
 
-#if KDE_IS_VERSION(4, 9, 2)
 #include "dolphinpart_ext.h"
-#endif
 
 #include "dolphinnewfilemenu.h"
 #include "views/dolphinview.h"
@@ -69,7 +68,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
       ,m_removeAction(0)
 {
     Q_UNUSED(args)
-    setComponentData(DolphinPartFactory::componentData(), false);
+#pragma message("TODO: port to KF5")
+    //setComponentData(DolphinPartFactory::componentData(), false);
     m_extension = new DolphinPartBrowserExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
@@ -134,7 +134,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // NOTE: Listing filter needs to be instantiated after the creation of the view.
     new DolphinPartFileInfoExtension(this);
 
-#if KDE_IS_VERSION(4, 9, 2)
     new DolphinPartListingFilterExtension(this);
 
     KDirLister* lister = m_view->m_model->m_dirLister;
@@ -145,7 +144,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     } else {
         kWarning() << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
     }
-#endif
 
     createActions();
     m_actionHandler->updateViewActions();
@@ -174,26 +172,26 @@ void DolphinPart::createActions()
     connect(m_newFileMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
-    KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
+    QAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
 
-    KAction* selectItemsMatching = actionCollection()->addAction("select_items_matching");
+    QAction* selectItemsMatching = actionCollection()->addAction("select_items_matching");
     selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
     selectItemsMatching->setShortcut(Qt::CTRL | Qt::Key_S);
     connect(selectItemsMatching, SIGNAL(triggered()), this, SLOT(slotSelectItemsMatchingPattern()));
 
-    KAction* unselectItemsMatching = actionCollection()->addAction("unselect_items_matching");
+    QAction* unselectItemsMatching = actionCollection()->addAction("unselect_items_matching");
     unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching..."));
     connect(unselectItemsMatching, SIGNAL(triggered()), this, SLOT(slotUnselectItemsMatchingPattern()));
 
     actionCollection()->addAction(KStandardAction::SelectAll, "select_all", m_view, SLOT(selectAll()));
 
-    KAction* unselectAll = actionCollection()->addAction("unselect_all");
+    QAction* unselectAll = actionCollection()->addAction("unselect_all");
     unselectAll->setText(i18nc("@action:inmenu Edit", "Unselect All"));
     connect(unselectAll, SIGNAL(triggered()), m_view, SLOT(clearSelection()));
 
-    KAction* invertSelection = actionCollection()->addAction("invert_selection");
+    QAction* invertSelection = actionCollection()->addAction("invert_selection");
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), m_view, SLOT(invertSelection()));
@@ -219,19 +217,19 @@ void DolphinPart::createActions()
                    i18nc("@action:inmenu Go", "Trash"), QString("trash:/"),
                    goActionGroup);
     createGoAction("go_autostart", "",
-                   i18nc("@action:inmenu Go", "Autostart"), KGlobalSettings::autostartPath(),
+                   i18nc("@action:inmenu Go", "Autostart"), QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/autostart",
                    goActionGroup);
 
     // Tools menu
     m_findFileAction = actionCollection()->addAction("find_file");
     m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
     m_findFileAction->setShortcut(Qt::CTRL | Qt::Key_F);
-    m_findFileAction->setIcon(KIcon("edit-find"));
+    m_findFileAction->setIcon(QIcon::fromTheme("edit-find"));
     connect(m_findFileAction, SIGNAL(triggered()), this, SLOT(slotFindFile()));
 
     if (KAuthorized::authorizeKAction("shell_access")) {
         m_openTerminalAction = actionCollection()->addAction("open_terminal");
-        m_openTerminalAction->setIcon(KIcon("utilities-terminal"));
+        m_openTerminalAction->setIcon(QIcon::fromTheme("utilities-terminal"));
         m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
         connect(m_openTerminalAction, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
         m_openTerminalAction->setShortcut(Qt::Key_F4);
@@ -242,8 +240,8 @@ void DolphinPart::createGoAction(const char* name, const char* iconName,
                                  const QString& text, const QString& url,
                                  QActionGroup* actionGroup)
 {
-    KAction* action = actionCollection()->addAction(name);
-    action->setIcon(KIcon(iconName));
+    QAction* action = actionCollection()->addAction(name);
+    action->setIcon(QIcon::fromTheme(iconName));
     action->setText(text);
     action->setData(url);
     action->setActionGroup(actionGroup);
@@ -301,7 +299,7 @@ void DolphinPart::updatePasteAction()
 
 KAboutData* DolphinPart::createAboutData()
 {
-    return new KAboutData("dolphinpart", "dolphin", ki18nc("@title", "Dolphin Part"), "0.1");
+    return new KAboutData("dolphinpart", "dolphin", i18nc("@title", "Dolphin Part"), "0.1");
 }
 
 bool DolphinPart::openUrl(const KUrl& url)
@@ -559,7 +557,7 @@ void DolphinPart::slotOpenTerminal()
 
 void DolphinPart::slotFindFile()
 {
-    KRun::run("kfind", url(), widget());
+    KRun::run("kfind", QList<QUrl>() << url(), widget());
 }
 
 void DolphinPart::updateNewMenu()

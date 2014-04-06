@@ -26,6 +26,7 @@
 #include <KLineEdit>
 #include <KLocale>
 #include <KSeparator>
+#include <KGlobalSettings>
 
 #include <QButtonGroup>
 #include <QDir>

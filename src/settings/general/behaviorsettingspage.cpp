@@ -115,7 +115,7 @@ void BehaviorSettingsPage::applySettings()
 
     const bool naturalSorting = m_naturalSorting->isChecked();
     if (KGlobalSettings::naturalSorting() != naturalSorting) {
-        KConfigGroup group(KGlobal::config(), "KDE");
+        KConfigGroup group(KSharedConfig::openConfig(), "KDE");
         group.writeEntry("NaturalSorting", naturalSorting, KConfig::Persistent | KConfig::Global);
         KGlobalSettings::emitChange(KGlobalSettings::NaturalSortingChanged);
     }

@@ -20,6 +20,7 @@
 #include "updateitemstatesthread.h"
 
 #include <kversioncontrolplugin2.h>
+#include <QVector>
 
 #include <QMutexLocker>
 

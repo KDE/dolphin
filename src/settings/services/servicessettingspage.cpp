@@ -29,7 +29,7 @@
 #include <KIcon>
 #include <KLocale>
 #include <KMessageBox>
-#include <knewstuff3/knewstuffbutton.h>
+#include <KNS3/Button>
 #include <KService>
 #include <KServiceTypeTrader>
 #include <KStandardDirs>
@@ -194,7 +194,7 @@ void ServicesSettingsPage::loadServices()
 
     // Load generic services
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
-    foreach (const KSharedPtr<KService>& service, entries) {
+    foreach (const KService::Ptr& service, entries) {
         const QString file = KStandardDirs::locate("services", service->entryPath());
         const QList<KServiceAction> serviceActions =
                                     KDesktopFileActions::userDefinedServices(file, true);
@@ -220,7 +220,7 @@ void ServicesSettingsPage::loadServices()
 
     // Load service plugins that implement the KFileItemActionPlugin interface
     const KService::List pluginServices = KServiceTypeTrader::self()->query("KFileItemAction/Plugin");
-    foreach (const KSharedPtr<KService>& service, pluginServices) {
+    foreach (const KService::Ptr& service, pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
             const bool checked = showGroup.readEntry(desktopEntryName, true);

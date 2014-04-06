@@ -22,10 +22,12 @@
 #include "informationpanelcontent.h"
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets>
 #include <KDirNotify>
 #include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>
+#include <QTimer>
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -184,7 +186,7 @@ void InformationPanel::showItemInfo()
             // an item for the currently shown directory.
             m_folderStatJob = KIO::stat(url(), KIO::HideProgressInfo);
             if (m_folderStatJob->ui()) {
-                m_folderStatJob->ui()->setWindow(this);
+                KJobWidgets::setWindow(m_folderStatJob, this);
             }
             connect(m_folderStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotFolderStatFinished(KJob*)));

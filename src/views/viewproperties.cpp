@@ -27,6 +27,8 @@
 #include <KLocale>
 #include <KStandardDirs>
 #include <KUrl>
+#include <KDebug>
+#include <KGlobal>
 
 #include <QCryptographicHash>
 #include <QDate>

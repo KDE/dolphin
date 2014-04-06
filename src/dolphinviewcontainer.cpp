@@ -26,6 +26,7 @@
 #include <QBoxLayout>
 #include <QTimer>
 #include <QScrollBar>
+#include <QMimeData>
 
 #include <KDesktopFile>
 #include <KFileItemDelegate>
@@ -86,15 +87,15 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(dropUrls(KUrl,QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
-    connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
-            this, SLOT(saveUrlCompletionMode(KGlobalSettings::Completion)));
+    connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
+            this, SLOT(saveUrlCompletionMode(KCompletion::CompletionMode)));
 
     const GeneralSettings* settings = GeneralSettings::self();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
     m_urlNavigator->setHomeUrl(KUrl(settings->homeUrl()));
     KUrlComboBox* editor = m_urlNavigator->editor();
-    editor->setCompletionMode(KGlobalSettings::Completion(settings->urlCompletionMode()));
+    editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
 
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
@@ -492,7 +493,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
         return;
     }
 
-    item.run();
+    new KRun(item.targetUrl(), this);
 }
 
 void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
@@ -654,7 +655,7 @@ void DolphinViewContainer::requestFocus()
     m_view->setFocus();
 }
 
-void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion completion)
+void DolphinViewContainer::saveUrlCompletionMode(KCompletion::CompletionMode completion)
 {
     GeneralSettings::setUrlCompletionMode(completion);
 }

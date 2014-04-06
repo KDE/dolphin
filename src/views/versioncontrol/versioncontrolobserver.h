@@ -23,6 +23,7 @@
 #include <libdolphin_export.h>
 
 #include <KFileItem>
+#include <KUrl>
 #include <kversioncontrolplugin2.h>
 #include <QList>
 #include <QMutex>

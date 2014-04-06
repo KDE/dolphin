@@ -53,6 +53,9 @@
 #include <kdualaction.h>
 #include <KFileDialog>
 #include <KGlobal>
+#include <KDialog>
+#include <KJobWidgets>
+#include <KMimeType>
 #include <KLineEdit>
 #include <KToolBar>
 #include <KIcon>
@@ -86,6 +89,8 @@
 #include <QClipboard>
 #include <QToolButton>
 #include <QSplitter>
+#include <QTimer>
+#include <QPushButton>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
@@ -550,7 +555,7 @@ void DolphinMainWindow::openInNewWindow()
     }
 
     if (!newWindowUrl.isEmpty()) {
-        KRun::run("dolphin %u", KUrl::List() << newWindowUrl, this);
+        KRun::run("dolphin %u", QList<QUrl>() << newWindowUrl, this);
     }
 }
 
@@ -593,18 +598,19 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         // KDialog::Yes    -> Quit
         // KDialog::No     -> Close only the current tab
         // KDialog::Cancel -> do nothing
-        KDialog *dialog = new KDialog(this, Qt::Dialog);
-        dialog->setCaption(i18nc("@title:window", "Confirmation"));
-        dialog->setButtons(KDialog::Yes | KDialog::No | KDialog::Cancel);
+        QDialog *dialog = new QDialog(this, Qt::Dialog);
+        dialog->setWindowTitle(i18nc("@title:window", "Confirmation"));
         dialog->setModal(true);
-        dialog->setButtonGuiItem(KDialog::Yes, KStandardGuiItem::quit());
-        dialog->setButtonGuiItem(KDialog::No, KGuiItem(i18n("C&lose Current Tab"), KIcon("tab-close")));
-        dialog->setButtonGuiItem(KDialog::Cancel, KStandardGuiItem::cancel());
-        dialog->setDefaultButton(KDialog::Yes);
+        QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No | QDialogButtonBox::Cancel);
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KStandardGuiItem::quit());
+        KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("C&lose Current Tab"), KIcon("tab-close")));
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
+        buttons->button(QDialogButtonBox::Yes)->setDefault(true);
 
         bool doNotAskAgainCheckboxResult = false;
 
         const int result = KMessageBox::createKMessageBox(dialog,
+            buttons,
             QMessageBox::Warning,
             i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
             QStringList(),
@@ -1232,7 +1238,7 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
         // stat the URL to see if it is a dir or not
         m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
         if (m_lastHandleUrlStatJob->ui()) {
-            m_lastHandleUrlStatJob->ui()->setWindow(this);
+            KJobWidgets::setWindow(m_lastHandleUrlStatJob, this);
         }
         connect(m_lastHandleUrlStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotHandleUrlStatFinished(KJob*)));
@@ -1285,12 +1291,13 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 
     switch (command) {
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
-        KRun::run("dolphin %u", KUrl::List() << item.url().upUrl(), this);
+
+        KRun::run("dolphin %u", QList<QUrl>() << KIO::upUrl(item.url()), this);
         break;
     }
 
     case DolphinContextMenu::OpenParentFolderInNewTab:
-        openNewTab(item.url().upUrl());
+        openNewTab(KIO::upUrl(item.url()));
         break;
 
     case DolphinContextMenu::None:
@@ -1480,26 +1487,26 @@ void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
-    KMenu* menu = m_newFileMenu->menu();
+    QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
     m_newFileMenu->setDelayed(false);
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
-    KAction* newWindow = actionCollection()->addAction("new_window");
+    QAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
-    KAction* newTab = actionCollection()->addAction("new_tab");
+    QAction* newTab = actionCollection()->addAction("new_tab");
     newTab->setIcon(KIcon("tab-new"));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    newTab->setShortcut(KShortcut(Qt::CTRL | Qt::Key_T, Qt::CTRL | Qt::SHIFT | Qt::Key_N));
+    newTab->setShortcuts(QList<QKeySequence>() << QKeySequence(Qt::CTRL | Qt::Key_T) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
     connect(newTab, SIGNAL(triggered()), this, SLOT(openNewTab()));
 
-    KAction* closeTab = actionCollection()->addAction("close_tab");
+    QAction* closeTab = actionCollection()->addAction("close_tab");
     closeTab->setIcon(KIcon("tab-close"));
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
     closeTab->setShortcut(Qt::CTRL | Qt::Key_W);
@@ -1515,12 +1522,12 @@ void DolphinMainWindow::setupActions()
 
     // need to remove shift+del from cut action, else the shortcut for deletejob
     // doesn't work
-    KAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
-    KShortcut cutShortcut = cut->shortcut();
-    cutShortcut.remove(Qt::SHIFT | Qt::Key_Delete, KShortcut::KeepEmpty);
-    cut->setShortcut(cutShortcut);
+    QAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
+    auto cutShortcuts = cut->shortcuts();
+    cutShortcuts.removeAll(QKeySequence(Qt::SHIFT | Qt::Key_Delete));
+    cut->setShortcuts(cutShortcuts);
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
-    KAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
+    QAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
     // (e. g. to "Paste One Folder"). To prevent that the size of the toolbar changes
     // due to the long text, the text "Paste" is used:
@@ -1528,12 +1535,12 @@ void DolphinMainWindow::setupActions()
 
     KStandardAction::find(this, SLOT(find()), actionCollection());
 
-    KAction* selectAll = actionCollection()->addAction("select_all");
+    QAction* selectAll = actionCollection()->addAction("select_all");
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
     selectAll->setShortcut(Qt::CTRL | Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    KAction* invertSelection = actionCollection()->addAction("invert_selection");
+    QAction* invertSelection = actionCollection()->addAction("invert_selection");
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
@@ -1541,18 +1548,18 @@ void DolphinMainWindow::setupActions()
     // setup 'View' menu
     // (note that most of it is set up in DolphinViewActionHandler)
 
-    KAction* split = actionCollection()->addAction("split_view");
+    QAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F3);
     updateSplitAction();
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
-    KAction* reload = actionCollection()->addAction("reload");
+    QAction* reload = actionCollection()->addAction("reload");
     reload->setText(i18nc("@action:inmenu View", "Reload"));
     reload->setShortcut(Qt::Key_F5);
     reload->setIcon(KIcon("view-refresh"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
 
-    KAction* stop = actionCollection()->addAction("stop");
+    QAction* stop = actionCollection()->addAction("stop");
     stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setToolTip(i18nc("@info", "Stop loading"));
     stop->setIcon(KIcon("process-stop"));
@@ -1563,17 +1570,17 @@ void DolphinMainWindow::setupActions()
     editableLocation->setShortcut(Qt::Key_F6);
     connect(editableLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
-    KAction* replaceLocation = actionCollection()->addAction("replace_location");
+    QAction* replaceLocation = actionCollection()->addAction("replace_location");
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
     replaceLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(replaceLocation, SIGNAL(triggered()), this, SLOT(replaceLocation()));
 
     // setup 'Go' menu
-    KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    QAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
     connect(backAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goBack(Qt::MouseButtons)));
-    KShortcut backShortcut = backAction->shortcut();
-    backShortcut.setAlternate(Qt::Key_Backspace);
-    backAction->setShortcut(backShortcut);
+    auto backShortcuts = backAction->shortcuts();
+    backShortcuts.append(QKeySequence(Qt::Key_Backspace));
+    backAction->setShortcuts(backShortcuts);
 
     m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
     m_recentTabsMenu->setIcon(KIcon("edit-undo"));
@@ -1589,29 +1596,29 @@ void DolphinMainWindow::setupActions()
     m_recentTabsMenu->addSeparator();
     m_recentTabsMenu->setEnabled(false);
 
-    KAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
+    QAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     connect(forwardAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goForward(Qt::MouseButtons)));
 
-    KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
+    QAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
     connect(upAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
 
-    KAction* homeAction = KStandardAction::home(this, SLOT(goHome()), actionCollection());
+    QAction* homeAction = KStandardAction::home(this, SLOT(goHome()), actionCollection());
     connect(homeAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goHome(Qt::MouseButtons)));
 
     // setup 'Tools' menu
-    KAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
+    QAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setIcon(KIcon("view-filter"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, SIGNAL(triggered()), this, SLOT(showFilterBar()));
 
-    KAction* compareFiles = actionCollection()->addAction("compare_files");
+    QAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
 
-    KAction* openTerminal = actionCollection()->addAction("open_terminal");
+    QAction* openTerminal = actionCollection()->addAction("open_terminal");
     openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
     openTerminal->setIcon(KIcon("utilities-terminal"));
     openTerminal->setShortcut(Qt::SHIFT | Qt::Key_F4);
@@ -1625,35 +1632,35 @@ void DolphinMainWindow::setupActions()
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys;
-    nextTabKeys.append(KStandardShortcut::tabNext().primary());
+    nextTabKeys.append(KStandardShortcut::tabNext().first()); //TODO: is this correct
     nextTabKeys.append(QKeySequence(Qt::CTRL | Qt::Key_Tab));
 
     QList<QKeySequence> prevTabKeys;
-    prevTabKeys.append(KStandardShortcut::tabPrev().primary());
+    prevTabKeys.append(KStandardShortcut::tabPrev().first()); //TODO: is this correct
     prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
-    KAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
+    QAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     connect(activateNextTab, SIGNAL(triggered()), SLOT(activateNextTab()));
     activateNextTab->setShortcuts(QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
 
-    KAction* activatePrevTab = actionCollection()->addAction("activate_prev_tab");
+    QAction* activatePrevTab = actionCollection()->addAction("activate_prev_tab");
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     connect(activatePrevTab, SIGNAL(triggered()), SLOT(activatePrevTab()));
     activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
 
     // for context menu
-    KAction* openInNewTab = actionCollection()->addAction("open_in_new_tab");
+    QAction* openInNewTab = actionCollection()->addAction("open_in_new_tab");
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
     openInNewTab->setIcon(KIcon("tab-new"));
     connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
-    KAction* openInNewTabs = actionCollection()->addAction("open_in_new_tabs");
+    QAction* openInNewTabs = actionCollection()->addAction("open_in_new_tabs");
     openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
     openInNewTabs->setIcon(KIcon("tab-new"));
     connect(openInNewTabs, SIGNAL(triggered()), this, SLOT(openInNewTab()));
 
-    KAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
+    QAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(KIcon("window-new"));
     connect(openInNewWindow, SIGNAL(triggered()), this, SLOT(openInNewWindow()));
@@ -1895,7 +1902,7 @@ bool DolphinMainWindow::addActionToMenu(QAction* action, KMenu* menu)
 
 void DolphinMainWindow::rememberClosedTab(int index)
 {
-    KMenu* tabsMenu = m_recentTabsMenu->menu();
+    QMenu* tabsMenu = m_recentTabsMenu->menu();
 
     const QString primaryPath = m_viewTab[index].primaryView->url().path();
     const QString iconName = KMimeType::iconNameForUrl(primaryPath);
@@ -2115,7 +2122,7 @@ void DolphinMainWindow::createPanelAction(const KIcon& icon,
                                           QAction* dockAction,
                                           const QString& actionName)
 {
-    KAction* panelAction = actionCollection()->addAction(actionName);
+    QAction* panelAction = actionCollection()->addAction(actionName);
     panelAction->setCheckable(true);
     panelAction->setChecked(dockAction->isChecked());
     panelAction->setText(dockAction->text());

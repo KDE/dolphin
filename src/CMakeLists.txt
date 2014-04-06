@@ -1,17 +1,17 @@
-macro_optional_find_package(Baloo)
+find_package(Baloo)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-macro_optional_find_package(BalooWidgets)
+find_package(BalooWidgets)
 set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                       )
 
-macro_optional_find_package(KFileMetaData)
+find_package(KFileMetaData)
 set_package_properties(KFileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
@@ -21,6 +21,10 @@ set_package_properties(KFileMetaData PROPERTIES
 if (Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
+
+find_package(KF5NewStuff CONFIG REQUIRED)
+find_package(KF5KCMUtils CONFIG REQUIRED)
+find_package(Phonon4Qt5 CONFIG REQUIRED)
 
 configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h )
 
@@ -49,7 +53,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistselectionmanager.cpp
     kitemviews/kitemliststyleoption.cpp
     kitemviews/kitemlistview.cpp
-    kitemviews/kitemlistviewaccessible.cpp
+#    kitemviews/kitemlistviewaccessible.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kitemset.cpp
@@ -117,9 +121,9 @@ kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(
     dolphinprivate
-    ${KDE4_KFILE_LIBS}
     konq
-    ${KDE4_KNEWSTUFF3_LIBS}
+    KF5::NewStuff
+    KF5::KDE4Support
 )
 
 if(HAVE_BALOO)
@@ -144,14 +148,8 @@ install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(dolphinpart_SRCS
    dolphinpart.cpp
+   dolphinpart_ext.cpp
 )
-
-# Add dolphinpart_ext.cpp conditionally, only with KDE > 4.9.1.
-if (${KDE_VERSION} VERSION_GREATER "4.9.1")
-set(dolphinpart_SRCS
-    ${dolphinpart_SRCS}
-    dolphinpart_ext.cpp)
-endif (${KDE_VERSION} VERSION_GREATER "4.9.1")
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
@@ -235,16 +233,17 @@ kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-fi
 
 kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 
+target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
+
 target_link_libraries(kdeinit_dolphin
-    ${KDE4_KDEPRINT_LIBS}
-    ${KDE4_KFILE_LIBS}
-    ${KDE4_KPARTS_LIBS}
-    ${KDE4_KCMUTILS_LIBRARY}
     konq
     dolphinprivate
-    knewstuff3
-    ${KDE4_SOLID_LIBS}
-    ${KDE4_PHONON_LIBS}
+    KF5::NewStuff
+    KF5::Parts
+    KF5::KCMUtils
+    KF5::Solid
+    Phonon::phonon4qt5
+    KF5::KDE4Support
 )
 
 if(HAVE_BALOO)

@@ -30,7 +30,9 @@
 #include <KIcon>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets>
 #include <KLocale>
+#include <KIconLoader>
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemlistselectionmanager.h>
@@ -48,6 +50,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QVBoxLayout>
 #include <QShowEvent>
+#include <QMimeData>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
@@ -422,7 +425,7 @@ void PlacesPanel::slotTrashUpdated(KJob* job)
     if (job->error()) {
         emit errorMessage(job->errorString());
     }
-    org::kde::KDirNotify::emitFilesAdded("trash:/");
+    org::kde::KDirNotify::emitFilesAdded(QUrl("trash:/"));
 }
 
 void PlacesPanel::slotStorageSetupDone(int index, bool success)
@@ -459,7 +462,7 @@ void PlacesPanel::emptyTrash()
         stream << int(1);
         KIO::Job *job = KIO::special(KUrl("trash:/"), packedArgs);
         KNotification::event("Trash: emptied", QString() , QPixmap() , 0, KNotification::DefaultEvent);
-        job->ui()->setWindow(parentWidget());
+        KJobWidgets::setWindow(job, parentWidget());
         connect(job, SIGNAL(result(KJob*)), SLOT(slotTrashUpdated(KJob*)));
     }
 }

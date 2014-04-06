@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QDir>
 #include <QVBoxLayout>
+#include <QUrl>
 
 ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& pluginName,
                                                            const QString& desktopEntryName,
@@ -73,7 +74,7 @@ void ConfigurePreviewPluginDialog::slotOk()
     // for a specific MIME-type should be regenerated. As this is not available yet we
     // delete the whole thumbnails directory.
     QApplication::changeOverrideCursor(Qt::BusyCursor);
-    KIO::NetAccess::del(QString(QDir::homePath() + "/.thumbnails/"), this);
+    KIO::NetAccess::del(QUrl::fromLocalFile(QDir::homePath() + "/.thumbnails/"), this);
     QApplication::restoreOverrideCursor();
 
 }

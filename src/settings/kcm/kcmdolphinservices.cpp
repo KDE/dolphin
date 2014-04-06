@@ -24,6 +24,7 @@
 #include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <KGlobal>
 
 #include <settings/services/servicessettingspage.h>
 
@@ -33,7 +34,7 @@ K_PLUGIN_FACTORY(KCMDolphinServicesConfigFactory, registerPlugin<DolphinServices
 K_EXPORT_PLUGIN(KCMDolphinServicesConfigFactory("kcmdolphinservices"))
 
 DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinServicesConfigFactory::componentData(), parent),
+    KCModule(parent),
     m_services(0)
 {
     Q_UNUSED(args);

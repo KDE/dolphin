@@ -26,6 +26,8 @@
 #include <KDebug>
 #include <KFileItem>
 #include <KGlobal>
+#include <KIconLoader>
+#include <KJobWidgets>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 
@@ -897,7 +899,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
 
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile());
     if (job->ui()) {
-        job->ui()->setWindow(qApp->activeWindow());
+        KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
     connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),

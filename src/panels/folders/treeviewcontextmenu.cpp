@@ -24,6 +24,9 @@
 #include <KIconLoader>
 #include <KIO/DeleteJob>
 #include <KMenu>
+#include <KIcon>
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <konqmimedata.h>
 #include <KFileItemListProperties>
 #include <konq_operations.h>
@@ -34,6 +37,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QMimeData>
 
 TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :
@@ -192,12 +196,12 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-    KonqOperations::del(m_parent, KonqOperations::TRASH, m_fileItem.url());
+    KonqOperations::del(m_parent, KonqOperations::TRASH, KUrl::List() << m_fileItem.url());
 }
 
 void TreeViewContextMenu::deleteItem()
 {
-    KonqOperations::del(m_parent, KonqOperations::DEL, m_fileItem.url());
+    KonqOperations::del(m_parent, KonqOperations::DEL, KUrl::List() << m_fileItem.url());
 }
 
 void TreeViewContextMenu::showProperties()

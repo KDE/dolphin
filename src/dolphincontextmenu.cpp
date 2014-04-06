@@ -39,6 +39,7 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
+#include <KMimeType>
 #include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -205,7 +206,7 @@ void DolphinContextMenu::openItemContextMenu()
             connect(newFileMenu, SIGNAL(fileCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
             connect(newFileMenu, SIGNAL(directoryCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
 
-            KMenu* menu = newFileMenu->menu();
+            QMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
             menu->setIcon(KIcon("document-new"));
             addMenu(menu);
@@ -490,7 +491,7 @@ void DolphinContextMenu::addFileItemPluginActions()
     const KConfig config("kservicemenurc", KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
-    foreach (const KSharedPtr<KService>& service, pluginServices) {
+    foreach (const KService::Ptr& service, pluginServices) {
         if (!showGroup.readEntry(service->desktopEntryName(), true)) {
             // The plugin has been disabled
             continue;

@@ -24,8 +24,10 @@
 #include <KGlobalSettings>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KJobWidgets>
 #include <KIconEffect>
 #include <KIconLoader>
+#include <KIcon>
 #include <KLocale>
 #include <KMenu>
 #include <kseparator.h>
@@ -193,7 +195,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
             m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
             if (m_previewJob->ui()) {
-                m_previewJob->ui()->setWindow(this);
+                KJobWidgets::setWindow(m_previewJob, this);
             }
 
             connect(m_previewJob, SIGNAL(gotPreview(KFileItem,QPixmap)),
@@ -283,7 +285,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     KMenu popup(this);
 
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
-    previewAction->setIcon(KIcon("view-preview"));
+    previewAction->setIcon(QIcon::fromTheme("view-preview"));
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::previewsShown());
 

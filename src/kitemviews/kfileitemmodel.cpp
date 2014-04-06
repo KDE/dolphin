@@ -25,6 +25,7 @@
 #include <KLocale>
 #include <KStringHandler>
 #include <KDebug>
+#include <kstringhandler_deprecated.h> //TODO: port to QCollator
 
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
@@ -363,7 +364,7 @@ KFileItem KFileItemModel::fileItem(const KUrl& url) const
 
 int KFileItemModel::index(const KFileItem& item) const
 {
-    return index(item.url());
+    return index(KUrl(item.url()));
 }
 
 int KFileItemModel::index(const KUrl& url) const
@@ -866,7 +867,7 @@ void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemLis
         // might result in emitting the same items twice due to the Keep-parameter.
         // This case happens if an item gets expanded, collapsed and expanded again
         // before the items could be loaded for the first expansion.
-        if (index(items.first().url()) >= 0) {
+        if (index(KUrl(items.first().url())) >= 0) {
             // The items are already part of the model.
             return;
         }
@@ -1461,8 +1462,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         // Don't use KFileItem::timeString() as this is too expensive when
         // having several thousands of items. Instead the formatting of the
         // date-time will be done on-demand by the view when the date will be shown.
-        const KDateTime dateTime = item.time(KFileItem::ModificationTime);
-        data.insert(sharedValue("date"), dateTime.dateTime());
+        const QDateTime dateTime = item.time(KFileItem::ModificationTime);
+        data.insert(sharedValue("date"), dateTime);
     }
 
     if (m_requestRole[PermissionsRole]) {
@@ -1487,7 +1488,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
 
     if (m_requestRole[PathRole]) {
         QString path;
-        if (item.url().protocol() == QLatin1String("trash")) {
+        if (item.url().scheme() == QLatin1String("trash")) {
             path = item.entry().stringValue(KIO::UDSEntry::UDS_EXTRA);
         } else {
             // For performance reasons cache the home-path in a static QString
@@ -1666,8 +1667,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     }
 
     case DateRole: {
-        const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
-        const KDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
+        const QDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
+        const QDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
@@ -1859,7 +1860,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
 
-    const QDate currentDate = KDateTime::currentLocalDateTime().date();
+    const QDate currentDate = QDate::currentDate();
 
     QDate previousModifiedDate;
     QString groupValue;
@@ -1868,7 +1869,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
             continue;
         }
 
-        const KDateTime modifiedTime = m_itemData.at(i)->item.time(KFileItem::ModificationTime);
+        const QDateTime modifiedTime = m_itemData.at(i)->item.time(KFileItem::ModificationTime);
         const QDate modifiedDate = modifiedTime.date();
         if (modifiedDate == previousModifiedDate) {
             // The current item is in the same group as the previous item
@@ -1955,7 +1956,7 @@ QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
         }
         permissionsString = newPermissionsString;
 
-        const QFileInfo info(itemData->item.url().pathOrUrl());
+        const QFileInfo info(itemData->item.url().toLocalFile());
 
         // Set user string
         QString user;

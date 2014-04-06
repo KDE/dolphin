@@ -24,6 +24,8 @@
 #include <KColorScheme>
 #include <KSeparator>
 #include <KWindowSystem>
+// For the blurred tooltip background
+#include <KWindowEffects>
 #include <KStringHandler>
 
 #include <QLabel>
@@ -39,9 +41,6 @@
 #else
 #include <baloo/filemetadatawidget.h>
 #endif
-
-// For the blurred tooltip background
-#include <plasma/windoweffects.h>
 
 FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     QWidget(parent),
@@ -174,8 +173,9 @@ void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
 
 void FileMetaDataToolTip::showEvent(QShowEvent *)
 {
-    Plasma::WindowEffects::overrideShadow(winId(), true);
-    Plasma::WindowEffects::enableBlurBehind(winId(), true, mask());
+#pragma message("TODO: port Plasma::WindowEffects::overrideShadow")
+    //Plasma::WindowEffects::overrideShadow(winId(), true);
+    KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 
 #include "filemetadatatooltip.moc"

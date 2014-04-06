@@ -22,20 +22,22 @@
 
 #include "dolphinmainwindow.h"
 
-#include <KAboutData>
+#include <k4aboutdata.h>
 #include <KCmdLineArgs>
 #include <KLocale>
 #include <kmainwindow.h>
+#include <kdemacros.h>
+#include <kdeversion.h>
 #include <KDebug>
 
 extern "C"
 KDE_EXPORT int kdemain(int argc, char **argv)
 {
-    KAboutData about("dolphin", 0,
+    K4AboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
                      KDE_VERSION_STRING,
                      ki18nc("@title", "File Manager"),
-                     KAboutData::License_GPL,
+                     K4AboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006-2014 Peter Penz and Frank Reininghaus"));
     about.setHomepage("http://dolphin.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Frank Reininghaus"),

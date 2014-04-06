@@ -66,7 +66,7 @@ void ServiceItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& o
     painter->restore();
 }
 
-QList<QWidget*> ServiceItemDelegate::createItemWidgets() const
+QList<QWidget*> ServiceItemDelegate::createItemWidgets(const QModelIndex&) const
 {
     QCheckBox* checkBox = new QCheckBox();
     QPalette palette = checkBox->palette();

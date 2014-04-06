@@ -42,7 +42,7 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionViewItem& option,
                        const QModelIndex& index) const;
 
-    virtual QList<QWidget*> createItemWidgets() const;
+    virtual QList<QWidget*> createItemWidgets(const QModelIndex&) const Q_DECL_OVERRIDE;
 
     virtual void updateItemWidgets(const QList<QWidget*> widgets,
                                    const QStyleOptionViewItem& option,

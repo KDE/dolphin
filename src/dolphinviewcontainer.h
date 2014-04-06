@@ -22,7 +22,7 @@
 
 #include <KFileItem>
 #include <KFileItemDelegate>
-#include <KGlobalSettings>
+#include <KCompletion>
 #include <KIO/Job>
 
 #include <KUrlNavigator>
@@ -290,7 +290,7 @@ private slots:
      * Saves the currently used URL completion mode of
      * the URL navigator.
      */
-    void saveUrlCompletionMode(KGlobalSettings::Completion completion);
+    void saveUrlCompletionMode(KCompletion::CompletionMode completion);
 
     void slotHistoryChanged();
 

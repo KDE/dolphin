@@ -23,6 +23,7 @@
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
 #include <kparts/listingextension.h>
+#include <KUrl>
 
 class DolphinPart;
 

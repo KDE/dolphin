@@ -33,6 +33,7 @@
 
 #include <KDialog>
 #include <KIcon>
+#include <KIconLoader>
 #include <KUrl>
 #include <KLocale>
 

@@ -23,6 +23,7 @@
 
 #include <KLocale>
 #include <KService>
+#include <KDebug>
 #include <KServiceTypeTrader>
 #include <kitemviews/kfileitemmodel.h>
 #include <kversioncontrolplugin2.h>
@@ -116,7 +117,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
         if (items.count() == 1) {
             const KFileItem rootItem = m_model->rootItem();
             if (!rootItem.isNull() && items.first().url() == rootItem.url()) {
-                directory = rootItem.url().path(KUrl::AddTrailingSlash);
+                directory = rootItem.url().path();
             }
         }
 

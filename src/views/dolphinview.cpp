@@ -32,6 +32,8 @@
 #include <QItemSelection>
 #include <QTimer>
 #include <QScrollBar>
+#include <QPointer>
+#include <QMenu>
 
 #include <KDesktopFile>
 #include <KProtocolManager>
@@ -55,7 +57,9 @@
 #include <KIO/PreviewJob>
 #include <KJob>
 #include <KMenu>
+#include <KGlobal>
 #include <KMessageBox>
+#include <KJobWidgets>
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
@@ -295,7 +299,7 @@ void DolphinView::setHiddenFilesShown(bool show)
 
     const KFileItemList itemList = selectedItems();
     m_selectedUrls.clear();
-    m_selectedUrls = itemList.urlList();
+    m_selectedUrls = KUrl::List(itemList.urlList());
 
     ViewProperties props(viewPropertiesUrl());
     props.setHiddenFilesShown(show);
@@ -472,7 +476,7 @@ void DolphinView::reload()
 
     const KFileItemList itemList = selectedItems();
     m_selectedUrls.clear();
-    m_selectedUrls = itemList.urlList();
+    m_selectedUrls = KUrl::List(itemList.urlList());
 
     setUrl(url());
     loadDirectory(url(), true);
@@ -684,7 +688,7 @@ void DolphinView::deleteSelectedItems()
     if (del) {
         KIO::Job* job = KIO::del(list);
         if (job->ui()) {
-            job->ui()->setWindow(this);
+            KJobWidgets::setWindow(job, this);
         }
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotDeleteFileFinished(KJob*)));
@@ -1091,7 +1095,7 @@ void DolphinView::slotAboutToCreate(const KUrl::List& urls)
             markUrlAsCurrent(urls.first());
             m_markFirstNewlySelectedItemAsCurrent = false;
         }
-        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
+        m_selectedUrls << KUrl::List(KDirModel::simplifiedUrlList(urls));
     }
 }
 

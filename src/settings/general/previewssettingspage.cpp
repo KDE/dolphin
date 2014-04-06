@@ -159,7 +159,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
     QAbstractItemModel* model = m_listView->model();
 
     const KService::List plugins = KServiceTypeTrader::self()->query(QLatin1String("ThumbCreator"));
-    foreach (const KSharedPtr<KService>& service, plugins) {
+    foreach (const KService::Ptr& service, plugins) {
         const bool configurable = service->property("Configurable", QVariant::Bool).toBool();
         const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
 

@@ -23,6 +23,7 @@
 #include <KLocale>
 #include <konq_operations.h>
 #include <KStringHandler>
+#include <kstringhandler_deprecated.h> //TODO port to QCollator
 #include <knuminput.h>
 #include <kmimetype.h>
 
@@ -87,7 +88,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
 
     int selectionLength = m_newName.length();
     if (m_renameOneItem) {
-        const QString fileName = items.first().url().prettyUrl();
+        const QString fileName = items.first().url().toDisplayString();
         const QString extension = KMimeType::extractKnownExtension(fileName.toLower());
 
         // If the current item is a directory, select the whole file name.
@@ -110,7 +111,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     if (!m_renameOneItem) {
         QSet<QString> extensions;
         foreach (const KFileItem& item, m_items) {
-            const QString extension = KMimeType::extractKnownExtension(item.url().prettyUrl().toLower());
+            const QString extension = KMimeType::extractKnownExtension(item.url().toDisplayString().toLower());
 
             if (extensions.contains(extension)) {
                 m_allExtensionsDifferent = false;

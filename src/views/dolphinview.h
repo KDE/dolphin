@@ -30,6 +30,7 @@
 #include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <KIO/Job>
+#include <KUrl>
 
 #include <QBoxLayout>
 #include <QKeyEvent>

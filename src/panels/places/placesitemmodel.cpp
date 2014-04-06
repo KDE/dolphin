@@ -35,6 +35,7 @@
 #include <KLocale>
 #include <KStandardDirs>
 #include <KUser>
+#include <KGlobal>
 #include "placesitem.h"
 #include <QAction>
 #include <QDate>

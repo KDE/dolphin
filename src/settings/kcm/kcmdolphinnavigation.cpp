@@ -24,6 +24,7 @@
 #include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <KGlobal>
 
 #include <settings/navigation/navigationsettingspage.h>
 
@@ -33,7 +34,7 @@ K_PLUGIN_FACTORY(KCMDolphinNavigationConfigFactory, registerPlugin<DolphinNaviga
 K_EXPORT_PLUGIN(KCMDolphinNavigationConfigFactory("kcmdolphinnavigation"))
 
 DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinNavigationConfigFactory::componentData(), parent),
+    KCModule(parent),
     m_navigation(0)
 {
     Q_UNUSED(args);

@@ -24,6 +24,7 @@
 #include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <KGlobal>
 
 #include <settings/general/behaviorsettingspage.h>
 #include <settings/general/previewssettingspage.h>
@@ -36,7 +37,7 @@ K_PLUGIN_FACTORY(KCMDolphinGeneralConfigFactory, registerPlugin<DolphinGeneralCo
 K_EXPORT_PLUGIN(KCMDolphinGeneralConfigFactory("kcmdolphingeneral"))
 
 DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinGeneralConfigFactory::componentData(), parent),
+    KCModule(parent),
     m_pages()
 {
     Q_UNUSED(args);

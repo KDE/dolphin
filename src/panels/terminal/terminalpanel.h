@@ -22,7 +22,7 @@
 
 #include <panels/panel.h>
 
-class TerminalInterfaceV2;
+class TerminalInterface;
 class QVBoxLayout;
 class QWidget;
 
@@ -78,7 +78,7 @@ private:
     KIO::StatJob* m_mostLocalUrlJob;
 
     QVBoxLayout* m_layout;
-    TerminalInterfaceV2* m_terminal;
+    TerminalInterface* m_terminal;
     QWidget* m_terminalWidget;
     KParts::ReadOnlyPart* m_konsolePart;
     QString m_konsolePartCurrentDirectory;
