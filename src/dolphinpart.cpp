@@ -302,7 +302,7 @@ KAboutData* DolphinPart::createAboutData()
     return new KAboutData("dolphinpart", "dolphin", i18nc("@title", "Dolphin Part"), "0.1");
 }
 
-bool DolphinPart::openUrl(const KUrl& url)
+bool DolphinPart::openUrl(const QUrl &url)
 {
     bool reload = arguments().reload();
     // A bit of a workaround so that changing the namefilter works: force reload.

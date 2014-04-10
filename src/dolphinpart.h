@@ -65,7 +65,7 @@ public:
      * Standard KParts::ReadOnlyPart openUrl method.
      * Called by Konqueror to view a directory in DolphinPart.
      */
-    virtual bool openUrl(const KUrl& url);
+    virtual bool openUrl(const QUrl& url) Q_DECL_OVERRIDE;
 
     /// see the supportsUndo property
     bool supportsUndo() const { return true; }
