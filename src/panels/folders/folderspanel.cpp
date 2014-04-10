@@ -137,15 +137,15 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // opening the folders panel.
         view->setOpacity(0);
 
-        connect(view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+        connect(view, &KFileItemListView::roleEditingFinished,
+                this, &FoldersPanel::slotRoleEditingFinished);
 
         m_model = new KFileItemModel(this);
         m_model->setShowDirectoriesOnly(true);
         m_model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
-        connect(m_model, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
+        connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &FoldersPanel::slotLoadingCompleted, Qt::QueuedConnection);
 
         m_controller = new KItemListController(m_model, view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
@@ -154,11 +154,11 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_controller->setAutoActivationDelay(750);
         m_controller->setSingleClickActivationEnforced(true);
 
-        connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-        connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-        connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-        connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+        connect(m_controller, &KItemListController::itemActivated, this, &FoldersPanel::slotItemActivated);
+        connect(m_controller, &KItemListController::itemMiddleClicked, this, &FoldersPanel::slotItemMiddleClicked);
+        connect(m_controller, &KItemListController::itemContextMenuRequested, this, &FoldersPanel::slotItemContextMenuRequested);
+        connect(m_controller, &KItemListController::viewContextMenuRequested, this, &FoldersPanel::slotViewContextMenuRequested);
+        connect(m_controller, &KItemListController::itemDropEvent, this, &FoldersPanel::slotItemDropEvent);
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);

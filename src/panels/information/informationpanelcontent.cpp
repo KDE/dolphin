@@ -83,8 +83,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_outdatedPreviewTimer = new QTimer(this);
     m_outdatedPreviewTimer->setInterval(300);
     m_outdatedPreviewTimer->setSingleShot(true);
-    connect(m_outdatedPreviewTimer, SIGNAL(timeout()),
-            this, SLOT(markOutdatedPreview()));
+    connect(m_outdatedPreviewTimer, &QTimer::timeout,
+            this, &InformationPanelContent::markOutdatedPreview);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(KDialog::spacingHint());
@@ -99,8 +99,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget = new PhononWidget(parent);
     m_phononWidget->hide();
     m_phononWidget->setMinimumWidth(minPreviewWidth);
-    connect(m_phononWidget, SIGNAL(hasVideoChanged(bool)),
-            this, SLOT(slotHasVideoChanged(bool)));
+    connect(m_phononWidget, &PhononWidget::hasVideoChanged,
+            this, &InformationPanelContent::slotHasVideoChanged);
 
     // name
     m_nameLabel = new QLabel(parent);
@@ -121,7 +121,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 #endif
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
+    connect(m_metaDataWidget, &KFileMetaDataWidget::urlActivated, this, &InformationPanelContent::urlActivated);
 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
     // at the bottom. This prevents that the meta data widget gets vertically stretched
@@ -198,10 +198,10 @@ void InformationPanelContent::showItem(const KFileItem& item)
                 KJobWidgets::setWindow(m_previewJob, this);
             }
 
-            connect(m_previewJob, SIGNAL(gotPreview(KFileItem,QPixmap)),
-                    this, SLOT(showPreview(KFileItem,QPixmap)));
-            connect(m_previewJob, SIGNAL(failed(KFileItem)),
-                    this, SLOT(showIcon(KFileItem)));
+            connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
+                    this, &InformationPanelContent::showPreview);
+            connect(m_previewJob.data(), &KIO::PreviewJob::failed,
+                    this, &InformationPanelContent::showIcon);
         }
     }
 
@@ -317,7 +317,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
         dialog->show();
         dialog->raise();
         dialog->activateWindow();
-        connect(dialog, SIGNAL(destroyed()), this, SLOT(refreshMetaData()));
+        connect(dialog, &FileMetaDataConfigurationDialog::destroyed, this, &InformationPanelContent::refreshMetaData);
     }
 }
 

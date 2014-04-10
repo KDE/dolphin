@@ -131,14 +131,14 @@ void PhononWidget::showEvent(QShowEvent *event)
         m_playButton->setIconSize(buttonSize);
         m_playButton->setIcon(KIcon("media-playback-start"));
         m_playButton->setAutoRaise(true);
-        connect(m_playButton, SIGNAL(clicked()), this, SLOT(play()));
+        connect(m_playButton, &QToolButton::clicked, this, &PhononWidget::play);
 
         m_stopButton->setToolTip(i18n("stop"));
         m_stopButton->setIconSize(buttonSize);
         m_stopButton->setIcon(KIcon("media-playback-stop"));
         m_stopButton->setAutoRaise(true);
         m_stopButton->hide();
-        connect(m_stopButton, SIGNAL(clicked()), this, SLOT(stop()));
+        connect(m_stopButton, &QToolButton::clicked, this, &PhononWidget::stop);
 
         m_seekSlider->setIconVisible(false);
 
@@ -178,10 +178,10 @@ void PhononWidget::play()
 {
     if (!m_media) {
         m_media = new Phonon::MediaObject(this);
-        connect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
-                this, SLOT(stateChanged(Phonon::State)));
-        connect(m_media, SIGNAL(hasVideoChanged(bool)),
-                this, SLOT(slotHasVideoChanged(bool)));
+        connect(m_media, &Phonon::MediaObject::stateChanged,
+                this, &PhononWidget::stateChanged);
+        connect(m_media, &Phonon::MediaObject::hasVideoChanged,
+                this, &PhononWidget::slotHasVideoChanged);
         m_seekSlider->setMediaObject(m_media);
     }
 

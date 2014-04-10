@@ -188,8 +188,8 @@ void InformationPanel::showItemInfo()
             if (m_folderStatJob->ui()) {
                 KJobWidgets::setWindow(m_folderStatJob, this);
             }
-            connect(m_folderStatJob, SIGNAL(result(KJob*)),
-                    this, SLOT(slotFolderStatFinished(KJob*)));
+            connect(m_folderStatJob, &KIO::Job::result,
+                    this, &InformationPanel::slotFolderStatFinished);
         } else {
             m_content->showItem(item);
         }
@@ -324,35 +324,35 @@ void InformationPanel::init()
     m_infoTimer = new QTimer(this);
     m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
-    connect(m_infoTimer, SIGNAL(timeout()),
-            this, SLOT(slotInfoTimeout()));
+    connect(m_infoTimer, &QTimer::timeout,
+            this, &InformationPanel::slotInfoTimeout);
 
     m_urlChangedTimer = new QTimer(this);
     m_urlChangedTimer->setInterval(200);
     m_urlChangedTimer->setSingleShot(true);
-    connect(m_urlChangedTimer, SIGNAL(timeout()),
-            this, SLOT(showItemInfo()));
+    connect(m_urlChangedTimer, &QTimer::timeout,
+            this, &InformationPanel::showItemInfo);
 
     m_resetUrlTimer = new QTimer(this);
     m_resetUrlTimer->setInterval(1000);
     m_resetUrlTimer->setSingleShot(true);
-    connect(m_resetUrlTimer, SIGNAL(timeout()),
-            this, SLOT(reset()));
+    connect(m_resetUrlTimer, &QTimer::timeout,
+            this, &InformationPanel::reset);
 
     Q_ASSERT(m_urlChangedTimer->interval() < m_infoTimer->interval());
     Q_ASSERT(m_urlChangedTimer->interval() < m_resetUrlTimer->interval());
 
     org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
                                                                QDBusConnection::sessionBus(), this);
-    connect(dirNotify, SIGNAL(FileRenamed(QString,QString)), SLOT(slotFileRenamed(QString,QString)));
-    connect(dirNotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
-    connect(dirNotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
-    connect(dirNotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));
-    connect(dirNotify, SIGNAL(enteredDirectory(QString)), SLOT(slotEnteredDirectory(QString)));
-    connect(dirNotify, SIGNAL(leftDirectory(QString)), SLOT(slotLeftDirectory(QString)));
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FileRenamed, this, &InformationPanel::slotFileRenamed);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesAdded, this, &InformationPanel::slotFilesAdded);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesChanged, this, &InformationPanel::slotFilesChanged);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesRemoved, this, &InformationPanel::slotFilesRemoved);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::enteredDirectory, this, &InformationPanel::slotEnteredDirectory);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::leftDirectory, this, &InformationPanel::slotLeftDirectory);
 
     m_content = new InformationPanelContent(this);
-    connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
+    connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

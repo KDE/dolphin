@@ -135,7 +135,7 @@ void PlacesItemEditDialog::initialize()
     formLayout->addRow(i18nc("@label", "Location:"), m_urlEdit);
     // Provide room for at least 40 chars (average char width is half of height)
     m_urlEdit->setMinimumWidth(m_urlEdit->fontMetrics().height() * (40 / 2));
-    connect(m_urlEdit->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(slotUrlChanged(QString)));
+    connect(m_urlEdit->lineEdit(), &KLineEdit::textChanged, this, &PlacesItemEditDialog::slotUrlChanged);
 
     m_iconButton = new KIconButton(mainWidget);
     formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);

@@ -110,7 +110,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
         }
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
         if (m_konsolePart) {
-            connect(m_konsolePart, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
+            connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
             m_terminalWidget = m_konsolePart->widget();
             m_layout->addWidget(m_terminalWidget);
             m_terminal = qobject_cast<TerminalInterface*>(m_konsolePart);
@@ -139,7 +139,7 @@ void TerminalPanel::changeDir(const KUrl& url)
         if (m_mostLocalUrlJob->ui()) {
             KJobWidgets::setWindow(m_mostLocalUrlJob, this);
         }
-        connect(m_mostLocalUrlJob, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
+        connect(m_mostLocalUrlJob, &KIO::StatJob::result, this, &TerminalPanel::slotMostLocalUrlResult);
     }
 }
 

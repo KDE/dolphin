@@ -99,17 +99,17 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_saveBookmarksTimer = new QTimer(this);
     m_saveBookmarksTimer->setInterval(syncBookmarksTimeout);
     m_saveBookmarksTimer->setSingleShot(true);
-    connect(m_saveBookmarksTimer, SIGNAL(timeout()), this, SLOT(saveBookmarks()));
+    connect(m_saveBookmarksTimer, &QTimer::timeout, this, &PlacesItemModel::saveBookmarks);
 
     m_updateBookmarksTimer = new QTimer(this);
     m_updateBookmarksTimer->setInterval(syncBookmarksTimeout);
     m_updateBookmarksTimer->setSingleShot(true);
-    connect(m_updateBookmarksTimer, SIGNAL(timeout()), this, SLOT(updateBookmarks()));
+    connect(m_updateBookmarksTimer, &QTimer::timeout, this, &PlacesItemModel::updateBookmarks);
 
-    connect(m_bookmarkManager, SIGNAL(changed(QString,QString)),
-            m_updateBookmarksTimer, SLOT(start()));
-    connect(m_bookmarkManager, SIGNAL(bookmarksChanged(QString)),
-            m_updateBookmarksTimer, SLOT(start()));
+    connect(m_bookmarkManager, &KBookmarkManager::changed,
+            m_updateBookmarksTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
+    connect(m_bookmarkManager, &KBookmarkManager::bookmarksChanged,
+            m_updateBookmarksTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
 }
 
 PlacesItemModel::~PlacesItemModel()
@@ -313,8 +313,8 @@ void PlacesItemModel::requestEject(int index)
     if (item) {
         Solid::OpticalDrive* drive = item->device().parent().as<Solid::OpticalDrive>();
         if (drive) {
-            connect(drive, SIGNAL(ejectDone(Solid::ErrorType,QVariant,QString)),
-                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+            connect(drive, &Solid::OpticalDrive::ejectDone,
+                    this, &PlacesItemModel::slotStorageTeardownDone);
             drive->eject();
         } else {
             const QString label = item->text();
@@ -330,8 +330,8 @@ void PlacesItemModel::requestTeardown(int index)
     if (item) {
         Solid::StorageAccess* access = item->device().as<Solid::StorageAccess>();
         if (access) {
-            connect(access, SIGNAL(teardownDone(Solid::ErrorType,QVariant,QString)),
-                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+            connect(access, &Solid::StorageAccess::teardownDone,
+                    this, &PlacesItemModel::slotStorageTeardownDone);
             access->teardown();
         }
     }
@@ -359,8 +359,8 @@ void PlacesItemModel::requestStorageSetup(int index)
 
         m_storageSetupInProgress[access] = index;
 
-        connect(access, SIGNAL(setupDone(Solid::ErrorType,QVariant,QString)),
-                this, SLOT(slotStorageSetupDone(Solid::ErrorType,QVariant,QString)));
+        connect(access, &Solid::StorageAccess::setupDone,
+                this, &PlacesItemModel::slotStorageSetupDone);
 
         access->setup();
     }
@@ -968,8 +968,8 @@ void PlacesItemModel::initializeAvailableDevices()
     Q_ASSERT(m_predicate.isValid());
 
     Solid::DeviceNotifier* notifier = Solid::DeviceNotifier::instance();
-    connect(notifier, SIGNAL(deviceAdded(QString)),   this, SLOT(slotDeviceAdded(QString)));
-    connect(notifier, SIGNAL(deviceRemoved(QString)), this, SLOT(slotDeviceRemoved(QString)));
+    connect(notifier, &Solid::DeviceNotifier::deviceAdded,   this, &PlacesItemModel::slotDeviceAdded);
+    connect(notifier, &Solid::DeviceNotifier::deviceRemoved, this, &PlacesItemModel::slotDeviceRemoved);
 
     const QList<Solid::Device>& deviceList = Solid::Device::listFromQuery(m_predicate);
     foreach (const Solid::Device& device, deviceList) {

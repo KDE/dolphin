@@ -104,8 +104,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
         // used at all and stays invisible.
         m_model = new PlacesItemModel(this);
         m_model->setGroupedSorting(true);
-        connect(m_model, SIGNAL(errorMessage(QString)),
-                this, SIGNAL(errorMessage(QString)));
+        connect(m_model, &PlacesItemModel::errorMessage,
+                this, &PlacesPanel::errorMessage);
 
         m_view = new PlacesView();
         m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
@@ -117,12 +117,12 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
 	readSettings();
 
-        connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-        connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-        connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-        connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
-        connect(m_controller, SIGNAL(aboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotAboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+        connect(m_controller, &KItemListController::itemActivated, this, &PlacesPanel::slotItemActivated);
+        connect(m_controller, &KItemListController::itemMiddleClicked, this, &PlacesPanel::slotItemMiddleClicked);
+        connect(m_controller, &KItemListController::itemContextMenuRequested, this, &PlacesPanel::slotItemContextMenuRequested);
+        connect(m_controller, &KItemListController::viewContextMenuRequested, this, &PlacesPanel::slotViewContextMenuRequested);
+        connect(m_controller, &KItemListController::itemDropEvent, this, &PlacesPanel::slotItemDropEvent);
+        connect(m_controller, &KItemListController::aboveItemDropEvent, this, &PlacesPanel::slotAboveItemDropEvent);
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);
@@ -342,8 +342,8 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     }
 
     if (m_model->storageSetupNeeded(index)) {
-        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
-                this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+        connect(m_model, &PlacesItemModel::storageSetupDone,
+                this, &PlacesPanel::slotItemDropEventStorageSetupDone);
 
         m_itemDropEventIndex = index;
 
@@ -381,8 +381,8 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 
 void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
 {
-    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
-               this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+    disconnect(m_model, &PlacesItemModel::storageSetupDone,
+               this, &PlacesPanel::slotItemDropEventStorageSetupDone);
 
     if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
         if (success) {
@@ -430,8 +430,8 @@ void PlacesPanel::slotTrashUpdated(KJob* job)
 
 void PlacesPanel::slotStorageSetupDone(int index, bool success)
 {
-    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
-               this, SLOT(slotStorageSetupDone(int,bool)));
+    disconnect(m_model, &PlacesItemModel::storageSetupDone,
+               this, &PlacesPanel::slotStorageSetupDone);
 
     if (m_triggerStorageSetupButton == Qt::NoButton) {
         return;
@@ -463,7 +463,7 @@ void PlacesPanel::emptyTrash()
         KIO::Job *job = KIO::special(KUrl("trash:/"), packedArgs);
         KNotification::event("Trash: emptied", QString() , QPixmap() , 0, KNotification::DefaultEvent);
         KJobWidgets::setWindow(job, parentWidget());
-        connect(job, SIGNAL(result(KJob*)), SLOT(slotTrashUpdated(KJob*)));
+        connect(job, &KIO::Job::result, this, &PlacesPanel::slotTrashUpdated);
     }
 }
 
@@ -526,8 +526,8 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         m_triggerStorageSetupButton = button;
         m_storageSetupFailedUrl = url();
 
-        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
-                this, SLOT(slotStorageSetupDone(int,bool)));
+        connect(m_model, &PlacesItemModel::storageSetupDone,
+                this, &PlacesPanel::slotStorageSetupDone);
 
         m_model->requestStorageSetup(index);
     } else {

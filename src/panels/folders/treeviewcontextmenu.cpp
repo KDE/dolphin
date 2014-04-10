@@ -61,15 +61,15 @@ void TreeViewContextMenu::open()
         // insert 'Cut', 'Copy' and 'Paste'
         QAction* cutAction = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
         cutAction->setEnabled(capabilities.supportsMoving());
-        connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+        connect(cutAction, &QAction::triggered, this, &TreeViewContextMenu::cut);
 
         QAction* copyAction = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
-        connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+        connect(copyAction, &QAction::triggered, this, &TreeViewContextMenu::copy);
 
         QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
-        connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+        connect(pasteAction, &QAction::triggered, this, &TreeViewContextMenu::paste);
         pasteAction->setEnabled(!pasteData.isEmpty() && capabilities.supportsWriting());
 
         popup->addAction(cutAction);
@@ -81,7 +81,7 @@ void TreeViewContextMenu::open()
         QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
         renameAction->setEnabled(capabilities.supportsMoving());
         renameAction->setIcon(KIcon("edit-rename"));
-        connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
+        connect(renameAction, &QAction::triggered, this, &TreeViewContextMenu::rename);
         popup->addAction(renameAction);
 
         // insert 'Move to Trash' and (optionally) 'Delete'
@@ -95,7 +95,7 @@ void TreeViewContextMenu::open()
                                                     i18nc("@action:inmenu", "Move to Trash"), this);
             const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
             moveToTrashAction->setEnabled(enableMoveToTrash);
-            connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
+            connect(moveToTrashAction, &QAction::triggered, this, &TreeViewContextMenu::moveToTrash);
             popup->addAction(moveToTrashAction);
         } else {
             showDeleteCommand = true;
@@ -104,7 +104,7 @@ void TreeViewContextMenu::open()
         if (showDeleteCommand) {
             QAction* deleteAction = new QAction(KIcon("edit-delete"), i18nc("@action:inmenu", "Delete"), this);
             deleteAction->setEnabled(capabilities.supportsDeleting());
-            connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
+            connect(deleteAction, &QAction::triggered, this, &TreeViewContextMenu::deleteItem);
             popup->addAction(deleteAction);
         }
 
@@ -116,7 +116,7 @@ void TreeViewContextMenu::open()
     showHiddenFilesAction->setCheckable(true);
     showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
     popup->addAction(showHiddenFilesAction);
-    connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
+    connect(showHiddenFilesAction, &QAction::toggled, this, &TreeViewContextMenu::setShowHiddenFiles);
 
     // insert 'Automatic Scrolling'
     QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);
@@ -125,13 +125,13 @@ void TreeViewContextMenu::open()
     // TODO: Temporary disabled. Horizontal autoscrolling will be implemented later either
     // in KItemViews or manually as part of the FoldersPanel
     //popup->addAction(autoScrollingAction);
-    connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
+    connect(autoScrollingAction, &QAction::toggled, this, &TreeViewContextMenu::setAutoScrolling);
 
     if (!m_fileItem.isNull()) {
         // insert 'Properties' entry
         QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
         propertiesAction->setIcon(KIcon("document-properties"));
-        connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
+        connect(propertiesAction, &QAction::triggered, this, &TreeViewContextMenu::showProperties);
         popup->addAction(propertiesAction);
     }
 

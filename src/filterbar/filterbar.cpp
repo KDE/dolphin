@@ -38,7 +38,7 @@ FilterBar::FilterBar(QWidget* parent) :
     closeButton->setAutoRaise(true);
     closeButton->setIcon(KIcon("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
-    connect(closeButton, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
+    connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
 
     // Create button to lock text when changing folders
     m_lockButton = new QToolButton(this);
@@ -46,7 +46,7 @@ FilterBar::FilterBar(QWidget* parent) :
     m_lockButton->setCheckable(true);
     m_lockButton->setIcon(KIcon("object-unlocked"));
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
-    connect(m_lockButton, SIGNAL(toggled(bool)), this, SLOT(slotToggleLockButton(bool)));
+    connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
     // Create label
     QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
@@ -55,8 +55,8 @@ FilterBar::FilterBar(QWidget* parent) :
     m_filterInput = new KLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonShown(true);
-    connect(m_filterInput, SIGNAL(textChanged(QString)),
-            this, SIGNAL(filterChanged(QString)));
+    connect(m_filterInput, &KLineEdit::textChanged,
+            this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 
     // Apply layout

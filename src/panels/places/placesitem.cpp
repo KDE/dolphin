@@ -69,8 +69,8 @@ void PlacesItem::setUrl(const KUrl& url)
             m_trashDirLister = new KDirLister();
             m_trashDirLister->setAutoErrorHandlingEnabled(false, 0);
             m_trashDirLister->setDelayedMimeTypes(true);
-            QObject::connect(m_trashDirLister, SIGNAL(completed()),
-                             m_signalHandler, SLOT(onTrashDirListerCompleted()));
+            QObject::connect(m_trashDirLister.data(), static_cast<void(KDirLister::*)()>(&KDirLister::completed),
+                             m_signalHandler.data(), &PlacesItemSignalHandler::onTrashDirListerCompleted);
             m_trashDirLister->openUrl(url);
         }
 
@@ -271,8 +271,8 @@ void PlacesItem::initializeDevice(const QString& udi)
 
     if (m_access) {
         setUrl(m_access->filePath());
-        QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
-                         m_signalHandler, SLOT(onAccessibilityChanged()));
+        QObject::connect(m_access.data(), &Solid::StorageAccess::accessibilityChanged,
+                         m_signalHandler.data(), &PlacesItemSignalHandler::onAccessibilityChanged);
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         Solid::Block *block = m_device.as<Solid::Block>();
         if (block) {
