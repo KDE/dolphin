@@ -49,7 +49,6 @@
 #if 0
 #include "kitemlistviewaccessible.h"
 #else
-#include <QAccessible>
 #define QT_NO_ACCESSIBILITY 1
 #pragma message("TODO: port accessibility to Qt5")
 #endif
@@ -1235,7 +1234,8 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             doLayout(NoAnimation);
         }
     }
-    QAccessible::updateAccessibility(this, 0, QAccessible::TableModelChanged);
+#pragma message("TODO: port accessibility otherwise the following line asserts")
+    //QAccessible::updateAccessibility(this, 0, QAccessible::TableModelChanged);
 }
 
 void KItemListView::slotGroupsChanged()
@@ -1307,7 +1307,8 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     if (currentWidget) {
         currentWidget->setCurrent(true);
     }
-    QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
+#pragma message("TODO: port accessibility otherwise the following line asserts")
+    //QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
 }
 
 void KItemListView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
