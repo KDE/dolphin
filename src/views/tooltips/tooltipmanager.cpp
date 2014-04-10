@@ -52,12 +52,12 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_showToolTipTimer = new QTimer(this);
     m_showToolTipTimer->setSingleShot(true);
     m_showToolTipTimer->setInterval(500);
-    connect(m_showToolTipTimer, SIGNAL(timeout()), this, SLOT(showToolTip()));
+    connect(m_showToolTipTimer, &QTimer::timeout, this, static_cast<void(ToolTipManager::*)()>(&ToolTipManager::showToolTip));
 
     m_contentRetrievalTimer = new QTimer(this);
     m_contentRetrievalTimer->setSingleShot(true);
     m_contentRetrievalTimer->setInterval(200);
-    connect(m_contentRetrievalTimer, SIGNAL(timeout()), this, SLOT(startContentRetrieval()));
+    connect(m_contentRetrievalTimer, &QTimer::timeout, this, &ToolTipManager::startContentRetrieval);
 
     Q_ASSERT(m_contentRetrievalTimer->interval() < m_showToolTipTimer->interval());
 }
@@ -82,8 +82,8 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect)
     // meta data retrieval, when passing rapidly over a lot of items.
     Q_ASSERT(!m_fileMetaDataToolTip);
     m_fileMetaDataToolTip = new FileMetaDataToolTip();
-    connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished(KFileItemList)),
-            this, SLOT(slotMetaDataRequestFinished()));
+    connect(m_fileMetaDataToolTip, &FileMetaDataToolTip::metaDataRequestFinished,
+            this, &ToolTipManager::slotMetaDataRequestFinished);
 
     m_contentRetrievalTimer->start();
     m_showToolTipTimer->start();
@@ -136,10 +136,10 @@ void ToolTipManager::startContentRetrieval()
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
-            this, SLOT(setPreviewPix(KFileItem,QPixmap)));
-    connect(job, SIGNAL(failed(KFileItem)),
-            this, SLOT(previewFailed()));
+    connect(job, &KIO::PreviewJob::gotPreview,
+            this, &ToolTipManager::setPreviewPix);
+    connect(job, &KIO::PreviewJob::failed,
+            this, &ToolTipManager::previewFailed);
 }
 
 

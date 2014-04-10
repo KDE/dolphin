@@ -112,7 +112,7 @@ private Q_SLOTS:
      * Moves the selected items of the active view to the trash.
      * This methods adds "shift means del" handling.
      */
-    void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
+    void slotTrashActivated();
 
     /**
      * Deletes the selected items of the active view.

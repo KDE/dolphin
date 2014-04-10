@@ -51,8 +51,8 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionH
 {
     m_menu = new KActionMenu(KIcon("character-set"), i18n("Select Remote Charset"), this);
     m_actionHandler->actionCollection()->addAction("change_remote_encoding", m_menu);
-    connect(m_menu->menu(), SIGNAL(aboutToShow()),
-          this, SLOT(slotAboutToShow()));
+    connect(m_menu->menu(), &QMenu::aboutToShow,
+          this, &DolphinRemoteEncoding::slotAboutToShow);
 
     m_menu->setEnabled(false);
     m_menu->setDelayed(false);
@@ -117,7 +117,7 @@ void DolphinRemoteEncoding::fillMenu()
     menu->addAction(i18n("Default"), this, SLOT(slotDefault()), 0)->setCheckable(true);
     m_idDefault = m_encodingDescriptions.size() + 2;
 
-    connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(slotItemSelected(QAction*)));
+    connect(menu, &QMenu::triggered, this, &DolphinRemoteEncoding::slotItemSelected);
 }
 
 void DolphinRemoteEncoding::updateMenu()

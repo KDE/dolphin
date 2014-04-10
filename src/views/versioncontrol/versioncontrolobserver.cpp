@@ -52,8 +52,8 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
     m_dirVerificationTimer = new QTimer(this);
     m_dirVerificationTimer->setSingleShot(true);
     m_dirVerificationTimer->setInterval(500);
-    connect(m_dirVerificationTimer, SIGNAL(timeout()),
-            this, SLOT(verifyDirectory()));
+    connect(m_dirVerificationTimer, &QTimer::timeout,
+            this, &VersionControlObserver::verifyDirectory);
 }
 
 VersionControlObserver::~VersionControlObserver()
@@ -67,19 +67,19 @@ VersionControlObserver::~VersionControlObserver()
 void VersionControlObserver::setModel(KFileItemModel* model)
 {
     if (m_model) {
-        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                   this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                   this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_model, &KFileItemModel::itemsInserted,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
+        disconnect(m_model, &KFileItemModel::itemsChanged,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
     }
 
     m_model = model;
 
     if (model) {
-        connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                this, SLOT(delayedDirectoryVerification()));
-        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                this, SLOT(delayedDirectoryVerification()));
+        connect(m_model, &KFileItemModel::itemsInserted,
+                this, &VersionControlObserver::delayedDirectoryVerification);
+        connect(m_model, &KFileItemModel::itemsChanged,
+                this, &VersionControlObserver::delayedDirectoryVerification);
     }
 }
 
@@ -159,18 +159,18 @@ void VersionControlObserver::verifyDirectory()
     if (m_plugin) {
         KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
         if (pluginV2) {
-            connect(pluginV2, SIGNAL(itemVersionsChanged()),
-                    this, SLOT(silentDirectoryVerification()));
+            connect(pluginV2, &KVersionControlPlugin2::itemVersionsChanged,
+                    this, &VersionControlObserver::silentDirectoryVerification);
         } else {
-            connect(m_plugin, SIGNAL(versionStatesChanged()),
-                    this, SLOT(silentDirectoryVerification()));
+            connect(m_plugin, &KVersionControlPlugin::versionStatesChanged,
+                    this, &VersionControlObserver::silentDirectoryVerification);
         }
-        connect(m_plugin, SIGNAL(infoMessage(QString)),
-                this, SIGNAL(infoMessage(QString)));
-        connect(m_plugin, SIGNAL(errorMessage(QString)),
-                this, SIGNAL(errorMessage(QString)));
-        connect(m_plugin, SIGNAL(operationCompletedMessage(QString)),
-                this, SIGNAL(operationCompletedMessage(QString)));
+        connect(m_plugin, &KVersionControlPlugin::infoMessage,
+                this, &VersionControlObserver::infoMessage);
+        connect(m_plugin, &KVersionControlPlugin::errorMessage,
+                this, &VersionControlObserver::errorMessage);
+        connect(m_plugin, &KVersionControlPlugin::operationCompletedMessage,
+                this, &VersionControlObserver::operationCompletedMessage);
 
         if (!m_versionedDirectory) {
             m_versionedDirectory = true;
@@ -242,10 +242,10 @@ void VersionControlObserver::updateItemStates()
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                this, SLOT(slotThreadFinished()));
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                m_updateItemStatesThread, SLOT(deleteLater()));
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
+                this, &VersionControlObserver::slotThreadFinished);
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
+                m_updateItemStatesThread, &UpdateItemStatesThread::deleteLater);
 
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }

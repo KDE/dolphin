@@ -118,14 +118,14 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
-    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(itemCreated(KUrl)),
-            this, SLOT(observeCreatedItem(KUrl)));
+    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::itemCreated,
+            this, &DolphinView::observeCreatedItem);
 
     m_selectionChangedTimer = new QTimer(this);
     m_selectionChangedTimer->setSingleShot(true);
     m_selectionChangedTimer->setInterval(300);
-    connect(m_selectionChangedTimer, SIGNAL(timeout()),
-            this, SLOT(emitSelectionChangedSignal()));
+    connect(m_selectionChangedTimer, &QTimer::timeout,
+            this, &DolphinView::emitSelectionChangedSignal);
 
     m_model = new KFileItemModel(this);
     m_view = new DolphinItemListView();
@@ -144,60 +144,60 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container = new KItemListContainer(controller, this);
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
-    connect(m_container->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
-    connect(m_container->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
+    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
+    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-    connect(controller, SIGNAL(itemsActivated(KItemSet)), this, SLOT(slotItemsActivated(KItemSet)));
-    connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-    connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-    connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(mouseButtonPressed(int,Qt::MouseButtons)), this, SLOT(slotMouseButtonPressed(int,Qt::MouseButtons)));
-    connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
-    connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
-    connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
-    connect(controller, SIGNAL(escapePressed()), this, SLOT(stopLoading()));
-    connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
+    connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
+    connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
+    connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked);
+    connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested);
+    connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested);
+    connect(controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
+    connect(controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
+    connect(controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
+    connect(controller, &KItemListController::itemUnhovered, this, &DolphinView::slotItemUnhovered);
+    connect(controller, &KItemListController::itemDropEvent, this, &DolphinView::slotItemDropEvent);
+    connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
+    connect(controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 
-    connect(m_model, SIGNAL(directoryLoadingStarted()),       this, SLOT(slotDirectoryLoadingStarted()));
-    connect(m_model, SIGNAL(directoryLoadingCompleted()),     this, SLOT(slotDirectoryLoadingCompleted()));
-    connect(m_model, SIGNAL(directoryLoadingCanceled()),      this, SIGNAL(directoryLoadingCanceled()));
-    connect(m_model, SIGNAL(directoryLoadingProgress(int)),   this, SIGNAL(directoryLoadingProgress(int)));
-    connect(m_model, SIGNAL(directorySortingProgress(int)),   this, SIGNAL(directorySortingProgress(int)));
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this, SLOT(slotItemsChanged()));
-    connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),    this, SIGNAL(itemCountChanged()));
-    connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),   this, SIGNAL(itemCountChanged()));
-    connect(m_model, SIGNAL(infoMessage(QString)),            this, SIGNAL(infoMessage(QString)));
-    connect(m_model, SIGNAL(errorMessage(QString)),           this, SIGNAL(errorMessage(QString)));
-    connect(m_model, SIGNAL(directoryRedirection(KUrl,KUrl)), this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
-    connect(m_model, SIGNAL(urlIsFileError(KUrl)),            this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
+    connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
+    connect(m_model, &KFileItemModel::directoryLoadingCanceled,      this, &DolphinView::directoryLoadingCanceled);
+    connect(m_model, &KFileItemModel::directoryLoadingProgress,   this, &DolphinView::directoryLoadingProgress);
+    connect(m_model, &KFileItemModel::directorySortingProgress,   this, &DolphinView::directorySortingProgress);
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this, &DolphinView::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsRemoved,    this, &DolphinView::itemCountChanged);
+    connect(m_model, &KFileItemModel::itemsInserted,   this, &DolphinView::itemCountChanged);
+    connect(m_model, &KFileItemModel::infoMessage,            this, &DolphinView::infoMessage);
+    connect(m_model, &KFileItemModel::errorMessage,           this, &DolphinView::errorMessage);
+    connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
+    connect(m_model, &KFileItemModel::urlIsFileError,            this, &DolphinView::urlIsFileError);
 
     m_view->installEventFilter(this);
-    connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-            this, SLOT(slotSortOrderChangedByHeader(Qt::SortOrder,Qt::SortOrder)));
-    connect(m_view, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-            this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
-    connect(m_view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
-            this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
-    connect(m_view, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled()));
-    connect(m_view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
-            this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
+    connect(m_view, &DolphinItemListView::sortOrderChanged,
+            this, &DolphinView::slotSortOrderChangedByHeader);
+    connect(m_view, &DolphinItemListView::sortRoleChanged,
+            this, &DolphinView::slotSortRoleChangedByHeader);
+    connect(m_view, &DolphinItemListView::visibleRolesChanged,
+            this, &DolphinView::slotVisibleRolesChangedByHeader);
+    connect(m_view, &DolphinItemListView::roleEditingCanceled,
+            this, &DolphinView::slotRoleEditingCanceled);
+    connect(m_view->header(), &KItemListHeader::columnWidthChanged,
+            this, &DolphinView::slotHeaderColumnWidthChanged);
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
-    connect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)),
-            this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
+    connect(selectionManager, &KItemListSelectionManager::selectionChanged,
+            this, &DolphinView::slotSelectionChanged);
 
     m_toolTipManager = new ToolTipManager(this);
 
     m_versionControlObserver = new VersionControlObserver(this);
     m_versionControlObserver->setModel(m_model);
-    connect(m_versionControlObserver, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
-    connect(m_versionControlObserver, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(QString)), this, SIGNAL(operationCompletedMessage(QString)));
+    connect(m_versionControlObserver, &VersionControlObserver::infoMessage, this, &DolphinView::infoMessage);
+    connect(m_versionControlObserver, &VersionControlObserver::errorMessage, this, &DolphinView::errorMessage);
+    connect(m_versionControlObserver, &VersionControlObserver::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
     applyViewProperties();
     m_topLayout->addWidget(m_container);
@@ -610,8 +610,8 @@ void DolphinView::setUrl(const KUrl& url)
 
     hideToolTip();
 
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 
     // It is important to clear the items from the model before
     // applying the view properties, otherwise expensive operations
@@ -655,8 +655,8 @@ void DolphinView::renameSelectedItems()
 
         hideToolTip();
 
-        connect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+        connect(m_view, &DolphinItemListView::roleEditingFinished,
+                this, &DolphinView::slotRoleEditingFinished);
     } else {
         RenameDialog* dialog = new RenameDialog(this, items);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -690,8 +690,8 @@ void DolphinView::deleteSelectedItems()
         if (job->ui()) {
             KJobWidgets::setWindow(job, this);
         }
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotDeleteFileFinished(KJob*)));
+        connect(job, &KIO::Job::result,
+                this, &DolphinView::slotDeleteFileFinished);
     }
 }
 
@@ -1050,7 +1050,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     if (op && destUrl == url()) {
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
-        connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
+        connect(op, static_cast<void(KonqOperations::*)(const KUrl::List&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
     }
 
     setActive(true);
@@ -1059,15 +1059,16 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
     if (previous != 0) {
-        disconnect(previous, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
+        Q_ASSERT(qobject_cast<KFileItemModel*>(previous));
+        KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(previous);
+        disconnect(fileItemModel, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
         m_versionControlObserver->setModel(0);
     }
 
     if (current) {
         Q_ASSERT(qobject_cast<KFileItemModel*>(current));
-        connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
-
         KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
+        connect(fileItemModel, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
         m_versionControlObserver->setModel(fileItemModel);
     }
 }
@@ -1455,14 +1456,14 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
 
 void DolphinView::slotRoleEditingCanceled()
 {
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 }
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 
     if (index < 0 || index >= m_model->count()) {
         return;
@@ -1491,7 +1492,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
             if (op && !newNameExistsAlready) {
                 // Only connect the renamingFailed signal if there is no item with the new name
                 // in the model yet, see bug 328262.
-                connect(op, SIGNAL(renamingFailed(KUrl,KUrl)), SLOT(slotRenamingFailed(KUrl,KUrl)));
+                connect(op, &KonqOperations::renamingFailed, this, &DolphinView::slotRenamingFailed);
             }
         }
     }
@@ -1632,7 +1633,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
     if (op) {
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
+        connect(op, static_cast<void(KonqOperations::*)(const KUrl::List&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
     }
 }
 

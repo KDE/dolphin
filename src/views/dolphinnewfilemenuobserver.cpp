@@ -36,22 +36,22 @@ DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
 
 void DolphinNewFileMenuObserver::attach(const DolphinNewFileMenu* menu)
 {
-    connect(menu, SIGNAL(fileCreated(KUrl)),
-            this, SIGNAL(itemCreated(KUrl)));
-    connect(menu, SIGNAL(directoryCreated(KUrl)),
-            this, SIGNAL(itemCreated(KUrl)));
-    connect(menu, SIGNAL(errorMessage(QString)),
-            this, SIGNAL(errorMessage(QString)));
+    connect(menu, &DolphinNewFileMenu::fileCreated,
+            this, &DolphinNewFileMenuObserver::itemCreated);
+    connect(menu, &DolphinNewFileMenu::directoryCreated,
+            this, &DolphinNewFileMenuObserver::itemCreated);
+    connect(menu, &DolphinNewFileMenu::errorMessage,
+            this, &DolphinNewFileMenuObserver::errorMessage);
 }
 
 void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu* menu)
 {
-    disconnect(menu, SIGNAL(fileCreated(KUrl)),
-               this, SIGNAL(itemCreated(KUrl)));
-    disconnect(menu, SIGNAL(directoryCreated(KUrl)),
-               this, SIGNAL(itemCreated(KUrl)));
-    disconnect(menu, SIGNAL(errorMessage(QString)),
-               this, SIGNAL(errorMessage(QString)));
+    disconnect(menu, &DolphinNewFileMenu::fileCreated,
+               this, &DolphinNewFileMenuObserver::itemCreated);
+    disconnect(menu, &DolphinNewFileMenu::directoryCreated,
+               this, &DolphinNewFileMenuObserver::itemCreated);
+    disconnect(menu, &DolphinNewFileMenu::errorMessage,
+               this, &DolphinNewFileMenuObserver::errorMessage);
 }
 
 DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :

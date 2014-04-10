@@ -76,8 +76,8 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
-    connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished(KFileItemList)),
-            this, SIGNAL(metaDataRequestFinished(KFileItemList)));
+    connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
+            this, &FileMetaDataToolTip::metaDataRequestFinished);
 
     QVBoxLayout* textLayout = new QVBoxLayout();
     textLayout->addWidget(m_name);

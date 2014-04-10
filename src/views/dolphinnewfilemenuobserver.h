@@ -44,7 +44,7 @@ public:
     void detach(const DolphinNewFileMenu* menu);
 
 signals:
-    void itemCreated(const KUrl& url);
+    void itemCreated(const QUrl& url);
     void errorMessage(const QString& error);
 
 private:

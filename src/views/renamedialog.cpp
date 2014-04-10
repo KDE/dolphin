@@ -84,7 +84,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
-    connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
+    connect(m_lineEdit, &KLineEdit::textChanged, this, &RenameDialog::slotTextChanged);
 
     int selectionLength = m_newName.length();
     if (m_renameOneItem) {
