@@ -29,7 +29,7 @@ DolphinRemoveAction::DolphinRemoveAction(QObject* parent, KActionCollection* col
     m_collection(collection)
 {
     update();
-    connect(this, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
+    connect(this, &DolphinRemoveAction::triggered, this, &DolphinRemoveAction::slotRemoveActionTriggered);
 }
 
 void DolphinRemoveAction::slotRemoveActionTriggered()

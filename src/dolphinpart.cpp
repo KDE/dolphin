@@ -79,56 +79,56 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
-    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(errorMessage(QString)),
-            this, SLOT(slotErrorMessage(QString)));
+    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
+            this, &DolphinPart::slotErrorMessage);
 
-    connect(m_view, SIGNAL(directoryLoadingCompleted()), this, SIGNAL(completed()));
-    connect(m_view, SIGNAL(directoryLoadingProgress(int)), this, SLOT(updateProgress(int)));
-    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, static_cast<void(DolphinPart::*)()>(&DolphinPart::completed));
+    connect(m_view, &DolphinView::directoryLoadingProgress, this, &DolphinPart::updateProgress);
+    connect(m_view, &DolphinView::errorMessage, this, &DolphinPart::slotErrorMessage);
 
     setXMLFile("dolphinpart.rc");
 
-    connect(m_view, SIGNAL(infoMessage(QString)),
-            this, SLOT(slotMessage(QString)));
-    connect(m_view, SIGNAL(operationCompletedMessage(QString)),
-            this, SLOT(slotMessage(QString)));
-    connect(m_view, SIGNAL(errorMessage(QString)),
-            this, SLOT(slotErrorMessage(QString)));
-    connect(m_view, SIGNAL(itemActivated(KFileItem)),
-            this, SLOT(slotItemActivated(KFileItem)));
-    connect(m_view, SIGNAL(itemsActivated(KFileItemList)),
-            this, SLOT(slotItemsActivated(KFileItemList)));
-    connect(m_view, SIGNAL(tabRequested(KUrl)),
-            this, SLOT(createNewWindow(KUrl)));
-    connect(m_view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
-            this, SLOT(slotOpenContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
-    connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
-            m_extension, SIGNAL(selectionInfo(KFileItemList)));
-    connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
-            this, SLOT(slotSelectionChanged(KFileItemList)));
-    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
-            this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(modeChanged(DolphinView::Mode,DolphinView::Mode)),
-            this, SIGNAL(viewModeChanged())); // relay signal
-    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),
-            this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
+    connect(m_view, &DolphinView::infoMessage,
+            this, &DolphinPart::slotMessage);
+    connect(m_view, &DolphinView::operationCompletedMessage,
+            this, &DolphinPart::slotMessage);
+    connect(m_view, &DolphinView::errorMessage,
+            this, &DolphinPart::slotErrorMessage);
+    connect(m_view, &DolphinView::itemActivated,
+            this, &DolphinPart::slotItemActivated);
+    connect(m_view, &DolphinView::itemsActivated,
+            this, &DolphinPart::slotItemsActivated);
+    connect(m_view, &DolphinView::tabRequested,
+            this, &DolphinPart::createNewWindow);
+    connect(m_view, &DolphinView::requestContextMenu,
+            this, &DolphinPart::slotOpenContextMenu);
+    connect(m_view, &DolphinView::selectionChanged,
+            m_extension, static_cast<void(DolphinPartBrowserExtension::*)(const KFileItemList&)>(&DolphinPartBrowserExtension::selectionInfo));
+    connect(m_view, &DolphinView::selectionChanged,
+            this, &DolphinPart::slotSelectionChanged);
+    connect(m_view, &DolphinView::requestItemInfo,
+            this, &DolphinPart::slotRequestItemInfo);
+    connect(m_view, &DolphinView::modeChanged,
+            this, &DolphinPart::viewModeChanged); // relay signal
+    connect(m_view, &DolphinView::redirection,
+            this, &DolphinPart::slotDirectoryRedirection);
 
     // Watch for changes that should result in updates to the
     // status bar text.
-    connect(m_view, SIGNAL(itemCountChanged()), this, SLOT(updateStatusBar()));
-    connect(m_view,  SIGNAL(selectionChanged(KFileItemList)), this, SLOT(updateStatusBar()));
+    connect(m_view, &DolphinView::itemCountChanged, this, &DolphinPart::updateStatusBar);
+    connect(m_view,  &DolphinView::selectionChanged, this, &DolphinPart::updateStatusBar);
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
-    connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
+    connect(m_actionHandler, &DolphinViewActionHandler::createDirectory, this, &DolphinPart::createDirectory);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
-    connect(this, SIGNAL(aboutToOpenURL()),
-            m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
+    connect(this, &DolphinPart::aboutToOpenURL,
+            m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
 
     QClipboard* clipboard = QApplication::clipboard();
-    connect(clipboard, SIGNAL(dataChanged()),
-            this, SLOT(updatePasteAction()));
+    connect(clipboard, &QClipboard::dataChanged,
+            this, &DolphinPart::updatePasteAction);
 
     // Create file info and listing filter extensions.
     // NOTE: Listing filter needs to be instantiated after the creation of the view.
@@ -139,8 +139,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     KDirLister* lister = m_view->m_model->m_dirLister;
     if (lister) {
         DolphinPartListingNotificationExtension* notifyExt = new DolphinPartListingNotificationExtension(this);
-        connect(lister, SIGNAL(newItems(KFileItemList)), notifyExt, SLOT(slotNewItems(KFileItemList)));
-        connect(lister, SIGNAL(itemsDeleted(KFileItemList)), notifyExt, SLOT(slotItemsDeleted(KFileItemList)));
+        connect(lister, &KDirLister::newItems, notifyExt, &DolphinPartListingNotificationExtension::slotNewItems);
+        connect(lister, &KDirLister::itemsDeleted, notifyExt, &DolphinPartListingNotificationExtension::slotItemsDeleted);
     } else {
         kWarning() << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
     }
@@ -169,40 +169,40 @@ void DolphinPart::createActions()
 
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     m_newFileMenu->setParentWidget(widget());
-    connect(m_newFileMenu->menu(), SIGNAL(aboutToShow()),
-            this, SLOT(updateNewMenu()));
+    connect(m_newFileMenu->menu(), &QMenu::aboutToShow,
+            this, &DolphinPart::updateNewMenu);
 
     QAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
-    connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
+    connect(editMimeTypeAction, &QAction::triggered, this, &DolphinPart::slotEditMimeType);
 
     QAction* selectItemsMatching = actionCollection()->addAction("select_items_matching");
     selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
     selectItemsMatching->setShortcut(Qt::CTRL | Qt::Key_S);
-    connect(selectItemsMatching, SIGNAL(triggered()), this, SLOT(slotSelectItemsMatchingPattern()));
+    connect(selectItemsMatching, &QAction::triggered, this, &DolphinPart::slotSelectItemsMatchingPattern);
 
     QAction* unselectItemsMatching = actionCollection()->addAction("unselect_items_matching");
     unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching..."));
-    connect(unselectItemsMatching, SIGNAL(triggered()), this, SLOT(slotUnselectItemsMatchingPattern()));
+    connect(unselectItemsMatching, &QAction::triggered, this, &DolphinPart::slotUnselectItemsMatchingPattern);
 
     actionCollection()->addAction(KStandardAction::SelectAll, "select_all", m_view, SLOT(selectAll()));
 
     QAction* unselectAll = actionCollection()->addAction("unselect_all");
     unselectAll->setText(i18nc("@action:inmenu Edit", "Unselect All"));
-    connect(unselectAll, SIGNAL(triggered()), m_view, SLOT(clearSelection()));
+    connect(unselectAll, &QAction::triggered, m_view, &DolphinView::clearSelection);
 
     QAction* invertSelection = actionCollection()->addAction("invert_selection");
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
-    connect(invertSelection, SIGNAL(triggered()), m_view, SLOT(invertSelection()));
+    connect(invertSelection, &QAction::triggered, m_view, &DolphinView::invertSelection);
 
     // View menu: all done by DolphinViewActionHandler
 
     // Go menu
 
     QActionGroup* goActionGroup = new QActionGroup(this);
-    connect(goActionGroup, SIGNAL(triggered(QAction*)),
-            this, SLOT(slotGoTriggered(QAction*)));
+    connect(goActionGroup, &QActionGroup::triggered,
+            this, &DolphinPart::slotGoTriggered);
 
     createGoAction("go_applications", "start-here-kde",
                    i18nc("@action:inmenu Go", "App&lications"), QString("programs:/"),
@@ -225,13 +225,13 @@ void DolphinPart::createActions()
     m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
     m_findFileAction->setShortcut(Qt::CTRL | Qt::Key_F);
     m_findFileAction->setIcon(QIcon::fromTheme("edit-find"));
-    connect(m_findFileAction, SIGNAL(triggered()), this, SLOT(slotFindFile()));
+    connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 
     if (KAuthorized::authorizeKAction("shell_access")) {
         m_openTerminalAction = actionCollection()->addAction("open_terminal");
         m_openTerminalAction->setIcon(QIcon::fromTheme("utilities-terminal"));
         m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
-        connect(m_openTerminalAction, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
+        connect(m_openTerminalAction, &QAction::triggered, this, &DolphinPart::slotOpenTerminal);
         m_openTerminalAction->setShortcut(Qt::Key_F4);
     }
 }

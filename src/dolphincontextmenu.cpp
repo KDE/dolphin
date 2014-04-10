@@ -203,8 +203,8 @@ void DolphinContextMenu::openItemContextMenu()
             newFileMenu->checkUpToDate();
             newFileMenu->setPopupFiles(m_fileInfo.url());
             newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
-            connect(newFileMenu, SIGNAL(fileCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
-            connect(newFileMenu, SIGNAL(directoryCreated(KUrl)), newFileMenu, SLOT(deleteLater()));
+            connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+            connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
 
             QMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
@@ -434,7 +434,7 @@ QAction* DolphinContextMenu::createPasteAction()
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
         action->setEnabled(!pasteData.isEmpty() && selectedItemsProperties().supportsWriting());
-        connect(action, SIGNAL(triggered()), m_mainWindow, SLOT(pasteIntoFolder()));
+        connect(action, &QAction::triggered, m_mainWindow, &DolphinMainWindow::pasteIntoFolder);
     } else {
         action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     }

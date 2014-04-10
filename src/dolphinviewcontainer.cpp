@@ -83,12 +83,12 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->setMargin(0);
 
     m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
-    connect(m_urlNavigator, SIGNAL(urlsDropped(KUrl,QDropEvent*)),
-            this, SLOT(dropUrls(KUrl,QDropEvent*)));
-    connect(m_urlNavigator, SIGNAL(activated()),
-            this, SLOT(activate()));
-    connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
-            this, SLOT(saveUrlCompletionMode(KCompletion::CompletionMode)));
+    connect(m_urlNavigator, &KUrlNavigator::urlsDropped,
+            this, &DolphinViewContainer::dropUrls);
+    connect(m_urlNavigator, &KUrlNavigator::activated,
+            this, &DolphinViewContainer::activate);
+    connect(m_urlNavigator->editor(), &KUrlComboBox::completionModeChanged,
+            this, &DolphinViewContainer::saveUrlCompletionMode);
 
     const GeneralSettings* settings = GeneralSettings::self();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
@@ -99,74 +99,97 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
-    connect(m_searchBox, SIGNAL(activated()), this, SLOT(activate()));
-    connect(m_searchBox, SIGNAL(closeRequest()), this, SLOT(closeSearchBox()));
-    connect(m_searchBox, SIGNAL(searchRequest()), this, SLOT(startSearching()));
-    connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
+    connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
+    connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
+    connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
+    connect(m_searchBox, &DolphinSearchBox::returnPressed, this, &DolphinViewContainer::requestFocus);
 
     m_messageWidget = new KMessageWidget(this);
     m_messageWidget->setCloseButtonVisible(true);
     m_messageWidget->hide();
 
     m_view = new DolphinView(url, this);
-    connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_urlNavigator, SLOT(setUrl(KUrl)));
-    connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_messageWidget, SLOT(hide()));
-    connect(m_view, SIGNAL(writeStateChanged(bool)),            this, SIGNAL(writeStateChanged(bool)));
-    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),         this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
-    connect(m_view, SIGNAL(itemsActivated(KFileItemList)),      this, SLOT(slotItemsActivated(KFileItemList)));
-    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
-    connect(m_view, SIGNAL(directoryLoadingStarted()),          this, SLOT(slotDirectoryLoadingStarted()));
-    connect(m_view, SIGNAL(directoryLoadingCompleted()),        this, SLOT(slotDirectoryLoadingCompleted()));
-    connect(m_view, SIGNAL(directoryLoadingCanceled()),         this, SLOT(slotDirectoryLoadingCanceled()));
-    connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(directoryLoadingProgress(int)),      this, SLOT(updateDirectoryLoadingProgress(int)));
-    connect(m_view, SIGNAL(directorySortingProgress(int)),      this, SLOT(updateDirectorySortingProgress(int)));
-    connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
-    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(urlIsFileError(KUrl)),               this, SLOT(slotUrlIsFileError(KUrl)));
+    connect(m_view, &DolphinView::urlChanged,
+            m_urlNavigator, &KUrlNavigator::setUrl);
+    connect(m_view, &DolphinView::urlChanged,
+            m_messageWidget, &KMessageWidget::hide);
+    connect(m_view, &DolphinView::writeStateChanged,
+            this, &DolphinViewContainer::writeStateChanged);
+    connect(m_view, &DolphinView::requestItemInfo,
+            this, &DolphinViewContainer::showItemInfo);
+    connect(m_view, &DolphinView::itemActivated,
+            this, &DolphinViewContainer::slotItemActivated);
+    connect(m_view, &DolphinView::itemsActivated,
+            this, &DolphinViewContainer::slotItemsActivated);
+    connect(m_view, &DolphinView::redirection,
+            this, &DolphinViewContainer::redirect);
+    connect(m_view, &DolphinView::directoryLoadingStarted,
+            this, &DolphinViewContainer::slotDirectoryLoadingStarted);
+    connect(m_view, &DolphinView::directoryLoadingCompleted,
+            this, &DolphinViewContainer::slotDirectoryLoadingCompleted);
+    connect(m_view, &DolphinView::directoryLoadingCanceled,
+            this, &DolphinViewContainer::slotDirectoryLoadingCanceled);
+    connect(m_view, &DolphinView::itemCountChanged,
+            this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::directoryLoadingProgress,
+            this, &DolphinViewContainer::updateDirectoryLoadingProgress);
+    connect(m_view, &DolphinView::directorySortingProgress,
+            this, &DolphinViewContainer::updateDirectorySortingProgress);
+    connect(m_view, &DolphinView::selectionChanged,
+            this, &DolphinViewContainer::delayedStatusBarUpdate);
+    connect(m_view, &DolphinView::urlAboutToBeChanged,
+            this, &DolphinViewContainer::slotViewUrlAboutToBeChanged);
+    connect(m_view, &DolphinView::errorMessage,
+            this, &DolphinViewContainer::showErrorMessage);
+    connect(m_view, &DolphinView::urlIsFileError,
+            this, &DolphinViewContainer::slotUrlIsFileError);
 
-    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
-            this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
-    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)),
-            this, SLOT(slotUrlNavigatorLocationChanged(KUrl)));
-    connect(m_urlNavigator, SIGNAL(historyChanged()),
-            this, SLOT(slotHistoryChanged()));
-    connect(m_urlNavigator, SIGNAL(returnPressed()),
-            this, SLOT(slotReturnPressed()));
+    connect(m_urlNavigator, &KUrlNavigator::urlAboutToBeChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
+    connect(m_urlNavigator, &KUrlNavigator::urlChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    connect(m_urlNavigator, &KUrlNavigator::historyChanged,
+            this, &DolphinViewContainer::slotHistoryChanged);
+    connect(m_urlNavigator, &KUrlNavigator::returnPressed,
+            this, &DolphinViewContainer::slotReturnPressed);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
-    connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_statusBar, SLOT(setUrl(KUrl)));
-    connect(m_view, SIGNAL(zoomLevelChanged(int,int)),          m_statusBar, SLOT(setZoomLevel(int)));
-    connect(m_view, SIGNAL(infoMessage(QString)),               m_statusBar, SLOT(setText(QString)));
-    connect(m_view, SIGNAL(operationCompletedMessage(QString)), m_statusBar, SLOT(setText(QString)));
-    connect(m_statusBar, SIGNAL(stopPressed()),                 this, SLOT(stopDirectoryLoading()));
-    connect(m_statusBar, SIGNAL(zoomLevelChanged(int)),         this, SLOT(slotStatusBarZoomLevelChanged(int)));
+    connect(m_view, &DolphinView::urlChanged,
+            m_statusBar, &DolphinStatusBar::setUrl);
+    connect(m_view, &DolphinView::zoomLevelChanged,
+            m_statusBar, &DolphinStatusBar::setZoomLevel);
+    connect(m_view, &DolphinView::infoMessage,
+            m_statusBar, &DolphinStatusBar::setText);
+    connect(m_view, &DolphinView::operationCompletedMessage,
+            m_statusBar, &DolphinStatusBar::setText);
+    connect(m_statusBar, &DolphinStatusBar::stopPressed,
+            this, &DolphinViewContainer::stopDirectoryLoading);
+    connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged,
+            this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
     m_statusBarTimer->setInterval(300);
-    connect(m_statusBarTimer, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
+    connect(m_statusBarTimer, &QTimer::timeout, this, &DolphinViewContainer::updateStatusBar);
 
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
-    connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
-            this, SLOT(delayedStatusBarUpdate()));
+    connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
+            this, &DolphinViewContainer::delayedStatusBarUpdate);
 
     // Initialize filter bar
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
-    connect(m_filterBar, SIGNAL(filterChanged(QString)),
-            this, SLOT(setNameFilter(QString)));
-    connect(m_filterBar, SIGNAL(closeRequest()),
-            this, SLOT(closeFilterBar()));
-    connect(m_filterBar, SIGNAL(focusViewRequest()),
-            this, SLOT(requestFocus()));
-    connect(m_view, SIGNAL(urlChanged(KUrl)),
-            m_filterBar, SLOT(slotUrlChanged()));
+    connect(m_filterBar, &FilterBar::filterChanged,
+            this, &DolphinViewContainer::setNameFilter);
+    connect(m_filterBar, &FilterBar::closeRequest,
+            this, &DolphinViewContainer::closeFilterBar);
+    connect(m_filterBar, &FilterBar::focusViewRequest,
+            this, &DolphinViewContainer::requestFocus);
+    connect(m_view, &DolphinView::urlChanged,
+            m_filterBar, &FilterBar::slotUrlChanged);
 
     m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(m_searchBox);
