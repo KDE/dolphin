@@ -29,7 +29,6 @@
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 #include <KActionMenu>
-#include <KIcon>
 
 #include <QList>
 #include <QWeakPointer>
@@ -51,6 +50,7 @@ class KUrl;
 class QSplitter;
 class QToolButton;
 class QVBoxLayout;
+class QIcon;
 
 /**
  * @short Main window for Dolphin.
@@ -552,7 +552,7 @@ private:
      * as the action for toggling the dock visibility is done by Qt which
      * is no KAction instance.
      */
-    void createPanelAction(const KIcon& icon,
+    void createPanelAction(const QIcon &icon,
                            const QKeySequence& shortcut,
                            QAction* dockAction,
                            const QString& actionName);

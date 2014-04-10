@@ -144,7 +144,7 @@ void DolphinContextMenu::openTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), this);
+    QAction* emptyTrashAction = new QAction(QIcon::fromTheme("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), this);
     KConfig trashConfig("trashrc", KConfig::SimpleConfig);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     addAction(emptyTrashAction);
@@ -208,7 +208,7 @@ void DolphinContextMenu::openItemContextMenu()
 
             QMenu* menu = newFileMenu->menu();
             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-            menu->setIcon(KIcon("document-new"));
+            menu->setIcon(QIcon::fromTheme("document-new"));
             addMenu(menu);
             addSeparator();
 
@@ -218,20 +218,20 @@ void DolphinContextMenu::openItemContextMenu()
 
             // insert 'Add to Places' entry
             if (!placeExists(m_fileInfo.url())) {
-                addToPlacesAction = addAction(KIcon("bookmark-new"),
+                addToPlacesAction = addAction(QIcon::fromTheme("bookmark-new"),
                                                        i18nc("@action:inmenu Add selected folder to places",
                                                              "Add to Places"));
             }
 
             addSeparator();
         } else if (m_baseUrl.protocol().contains("search")) {
-            openParentInNewWindowAction = new QAction(KIcon("window-new"),
+            openParentInNewWindowAction = new QAction(QIcon::fromTheme("window-new"),
                                                     i18nc("@action:inmenu",
                                                           "Open Path in New Window"),
                                                     this);
             addAction(openParentInNewWindowAction);
 
-            openParentInNewTabAction = new QAction(KIcon("tab-new"),
+            openParentInNewTabAction = new QAction(QIcon::fromTheme("tab-new"),
                                                    i18nc("@action:inmenu",
                                                          "Open Path in New Tab"),
                                                    this);
@@ -322,7 +322,7 @@ void DolphinContextMenu::openViewportContextMenu()
     // Insert 'Add to Places' entry if exactly one item is selected
     QAction* addToPlacesAction = 0;
     if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction = addAction(KIcon("bookmark-new"),
+        addToPlacesAction = addAction(QIcon::fromTheme("bookmark-new"),
                                              i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     }
 
@@ -430,7 +430,7 @@ QAction* DolphinContextMenu::createPasteAction()
     QAction* action = 0;
     const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
     if (isDir && (m_selectedItems.count() == 1)) {
-        action = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
+        action = new QAction(QIcon::fromTheme("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
         action->setEnabled(!pasteData.isEmpty() && selectedItemsProperties().supportsWriting());

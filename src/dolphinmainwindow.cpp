@@ -55,10 +55,8 @@
 #include <KGlobal>
 #include <KDialog>
 #include <KJobWidgets>
-#include <KMimeType>
 #include <KLineEdit>
 #include <KToolBar>
-#include <KIcon>
 #include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KIO/JobUiDelegate>
@@ -367,8 +365,8 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         if (m_viewTab.count() > 1) {
             m_tabBar->setTabText(m_tabIndex, squeezedText(tabName(m_activeViewContainer->url())));
         }
-        const QString iconName = KMimeType::iconNameForUrl(url);
-        m_tabBar->setTabIcon(m_tabIndex, KIcon(iconName));
+        const QString iconName = KIO::iconNameForUrl(url);
+        m_tabBar->setTabIcon(m_tabIndex, QIcon::fromTheme(iconName));
         emit urlChanged(url);
     }
 }
@@ -468,12 +466,12 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
         const KUrl currentUrl = m_activeViewContainer->url();
-        m_tabBar->addTab(KIcon(KMimeType::iconNameForUrl(currentUrl)),
+        m_tabBar->addTab(QIcon::fromTheme(KIO::iconNameForUrl(currentUrl)),
                          squeezedText(tabName(currentUrl)));
         m_tabBar->blockSignals(false);
     }
 
-    m_tabBar->addTab(KIcon(KMimeType::iconNameForUrl(url)),
+    m_tabBar->addTab(QIcon::fromTheme(KIO::iconNameForUrl(url)),
                      squeezedText(tabName(url)));
 
     ViewTab viewTab;
@@ -603,7 +601,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         dialog->setModal(true);
         QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No | QDialogButtonBox::Cancel);
         KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KStandardGuiItem::quit());
-        KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("C&lose Current Tab"), KIcon("tab-close")));
+        KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("C&lose Current Tab"), QIcon::fromTheme("tab-close")));
         KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
         buttons->button(QDialogButtonBox::Yes)->setDefault(true);
 
@@ -1170,14 +1168,14 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
 {
     KMenu menu(this);
 
-    QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
+    QAction* newTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@action:inmenu", "New Tab"));
     newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
 
-    QAction* detachTabAction = menu.addAction(KIcon("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
+    QAction* detachTabAction = menu.addAction(QIcon::fromTheme("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
 
-    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
+    QAction* closeOtherTabsAction = menu.addAction(QIcon::fromTheme("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
 
-    QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+    QAction* closeTabAction = menu.addAction(QIcon::fromTheme("tab-close"), i18nc("@action:inmenu", "Close Tab"));
     closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
     QAction* selectedAction = menu.exec(pos);
     if (selectedAction == newTabAction) {
@@ -1465,7 +1463,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     setUrlAsCaption(url);
     if (m_viewTab.count() > 1) {
         m_tabBar->setTabText(m_tabIndex, tabName(url));
-        m_tabBar->setTabIcon(m_tabIndex, KIcon(KMimeType::iconNameForUrl(url)));
+        m_tabBar->setTabIcon(m_tabIndex, QIcon::fromTheme(KIO::iconNameForUrl(url)));
     }
 
     emit urlChanged(url);
@@ -1489,25 +1487,25 @@ void DolphinMainWindow::setupActions()
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-    menu->setIcon(KIcon("document-new"));
+    menu->setIcon(QIcon::fromTheme("document-new"));
     m_newFileMenu->setDelayed(false);
     connect(menu, &QMenu::aboutToShow,
             this, &DolphinMainWindow::updateNewMenu);
 
     QAction* newWindow = actionCollection()->addAction("new_window");
-    newWindow->setIcon(KIcon("window-new"));
+    newWindow->setIcon(QIcon::fromTheme("window-new"));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, &QAction::triggered, this, &DolphinMainWindow::openNewMainWindow);
 
     QAction* newTab = actionCollection()->addAction("new_tab");
-    newTab->setIcon(KIcon("tab-new"));
+    newTab->setIcon(QIcon::fromTheme("tab-new"));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
     newTab->setShortcuts(QList<QKeySequence>() << QKeySequence(Qt::CTRL | Qt::Key_T) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewTab));
 
     QAction* closeTab = actionCollection()->addAction("close_tab");
-    closeTab->setIcon(KIcon("tab-close"));
+    closeTab->setIcon(QIcon::fromTheme("tab-close"));
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
     closeTab->setShortcut(Qt::CTRL | Qt::Key_W);
     closeTab->setEnabled(false);
@@ -1556,13 +1554,13 @@ void DolphinMainWindow::setupActions()
     QAction* reload = actionCollection()->addAction("reload");
     reload->setText(i18nc("@action:inmenu View", "Reload"));
     reload->setShortcut(Qt::Key_F5);
-    reload->setIcon(KIcon("view-refresh"));
+    reload->setIcon(QIcon::fromTheme("view-refresh"));
     connect(reload, &QAction::triggered, this, &DolphinMainWindow::reloadView);
 
     QAction* stop = actionCollection()->addAction("stop");
     stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setToolTip(i18nc("@info", "Stop loading"));
-    stop->setIcon(KIcon("process-stop"));
+    stop->setIcon(QIcon::fromTheme("process-stop"));
     connect(stop, &QAction::triggered, this, &DolphinMainWindow::stopLoading);
 
     KToggleAction* editableLocation = actionCollection()->add<KToggleAction>("editable_location");
@@ -1583,14 +1581,14 @@ void DolphinMainWindow::setupActions()
     backAction->setShortcuts(backShortcuts);
 
     m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
-    m_recentTabsMenu->setIcon(KIcon("edit-undo"));
+    m_recentTabsMenu->setIcon(QIcon::fromTheme("edit-undo"));
     m_recentTabsMenu->setDelayed(false);
     actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
     connect(m_recentTabsMenu->menu(), &QMenu::triggered,
             this, &DolphinMainWindow::restoreClosedTab);
 
     QAction* action = new QAction(i18n("Empty Recently Closed Tabs"), m_recentTabsMenu);
-    action->setIcon(KIcon("edit-clear-list"));
+    action->setIcon(QIcon::fromTheme("edit-clear-list"));
     action->setData(QVariant::fromValue(true));
     m_recentTabsMenu->addAction(action);
     m_recentTabsMenu->addSeparator();
@@ -1608,19 +1606,19 @@ void DolphinMainWindow::setupActions()
     // setup 'Tools' menu
     QAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
-    showFilterBar->setIcon(KIcon("view-filter"));
+    showFilterBar->setIcon(QIcon::fromTheme("view-filter"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
 
     QAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
-    compareFiles->setIcon(KIcon("kompare"));
+    compareFiles->setIcon(QIcon::fromTheme("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
     QAction* openTerminal = actionCollection()->addAction("open_terminal");
     openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
-    openTerminal->setIcon(KIcon("utilities-terminal"));
+    openTerminal->setIcon(QIcon::fromTheme("utilities-terminal"));
     openTerminal->setShortcut(Qt::SHIFT | Qt::Key_F4);
     connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
@@ -1652,17 +1650,17 @@ void DolphinMainWindow::setupActions()
     // for context menu
     QAction* openInNewTab = actionCollection()->addAction("open_in_new_tab");
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
-    openInNewTab->setIcon(KIcon("tab-new"));
+    openInNewTab->setIcon(QIcon::fromTheme("tab-new"));
     connect(openInNewTab, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
 
     QAction* openInNewTabs = actionCollection()->addAction("open_in_new_tabs");
     openInNewTabs->setText(i18nc("@action:inmenu", "Open in New Tabs"));
-    openInNewTabs->setIcon(KIcon("tab-new"));
+    openInNewTabs->setIcon(QIcon::fromTheme("tab-new"));
     connect(openInNewTabs, &QAction::triggered, this, &DolphinMainWindow::openInNewTab);
 
     QAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
-    openInNewWindow->setIcon(KIcon("window-new"));
+    openInNewWindow->setIcon(QIcon::fromTheme("window-new"));
     connect(openInNewWindow, &QAction::triggered, this, &DolphinMainWindow::openInNewWindow);
 }
 
@@ -1672,9 +1670,9 @@ void DolphinMainWindow::setupDockWidgets()
 
     KDualAction* lockLayoutAction = actionCollection()->add<KDualAction>("lock_panels");
     lockLayoutAction->setActiveText(i18nc("@action:inmenu Panels", "Unlock Panels"));
-    lockLayoutAction->setActiveIcon(KIcon("object-unlocked"));
+    lockLayoutAction->setActiveIcon(QIcon::fromTheme("object-unlocked"));
     lockLayoutAction->setInactiveText(i18nc("@action:inmenu Panels", "Lock Panels"));
-    lockLayoutAction->setInactiveIcon(KIcon("object-locked"));
+    lockLayoutAction->setInactiveIcon(QIcon::fromTheme("object-locked"));
     lockLayoutAction->setActive(lock);
     connect(lockLayoutAction, &KDualAction::triggered, this, &DolphinMainWindow::togglePanelLockState);
 
@@ -1689,7 +1687,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setWidget(infoPanel);
 
     QAction* infoAction = infoDock->toggleViewAction();
-    createPanelAction(KIcon("dialog-information"), Qt::Key_F11, infoAction, "show_information_panel");
+    createPanelAction(QIcon::fromTheme("dialog-information"), Qt::Key_F11, infoAction, "show_information_panel");
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1709,7 +1707,7 @@ void DolphinMainWindow::setupDockWidgets()
     foldersDock->setWidget(foldersPanel);
 
     QAction* foldersAction = foldersDock->toggleViewAction();
-    createPanelAction(KIcon("folder"), Qt::Key_F7, foldersAction, "show_folders_panel");
+    createPanelAction(QIcon::fromTheme("folder"), Qt::Key_F7, foldersAction, "show_folders_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1737,7 +1735,7 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, &TerminalPanel::dockVisibilityChanged);
 
     QAction* terminalAction = terminalDock->toggleViewAction();
-    createPanelAction(KIcon("utilities-terminal"), Qt::Key_F4, terminalAction, "show_terminal_panel");
+    createPanelAction(QIcon::fromTheme("utilities-terminal"), Qt::Key_F4, terminalAction, "show_terminal_panel");
 
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1763,7 +1761,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();
-    createPanelAction(KIcon("bookmarks"), Qt::Key_F9, placesAction, "show_places_panel");
+    createPanelAction(QIcon::fromTheme("bookmarks"), Qt::Key_F9, placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(placesPanel, &PlacesPanel::placeActivated,
@@ -1850,7 +1848,7 @@ void DolphinMainWindow::createControlButton()
     Q_ASSERT(!m_controlButton);
 
     m_controlButton = new QToolButton(this);
-    m_controlButton->setIcon(KIcon("applications-system"));
+    m_controlButton->setIcon(QIcon::fromTheme("applications-system"));
     m_controlButton->setText(i18nc("@action", "Control"));
     m_controlButton->setPopupMode(QToolButton::InstantPopup);
     m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
@@ -1905,7 +1903,7 @@ void DolphinMainWindow::rememberClosedTab(int index)
     QMenu* tabsMenu = m_recentTabsMenu->menu();
 
     const QString primaryPath = m_viewTab[index].primaryView->url().path();
-    const QString iconName = KMimeType::iconNameForUrl(primaryPath);
+    const QString iconName = KIO::iconNameForUrl(primaryPath);
 
     QAction* action = new QAction(squeezedText(primaryPath), tabsMenu);
 
@@ -1920,7 +1918,7 @@ void DolphinMainWindow::rememberClosedTab(int index)
     }
 
     action->setData(QVariant::fromValue(closedTab));
-    action->setIcon(KIcon(iconName));
+    action->setIcon(QIcon::fromTheme(iconName));
 
     // add the closed tab menu entry after the separator and
     // "Empty Recently Closed Tabs" entry
@@ -2022,16 +2020,16 @@ void DolphinMainWindow::updateSplitAction()
         if (m_activeViewContainer == m_viewTab[m_tabIndex].secondaryView) {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close right view"));
-            splitAction->setIcon(KIcon("view-right-close"));
+            splitAction->setIcon(QIcon::fromTheme("view-right-close"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close left view"));
-            splitAction->setIcon(KIcon("view-left-close"));
+            splitAction->setIcon(QIcon::fromTheme("view-left-close"));
         }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setToolTip(i18nc("@info", "Split view"));
-        splitAction->setIcon(KIcon("view-right-new"));
+        splitAction->setIcon(QIcon::fromTheme("view-right-new"));
     }
 }
 
@@ -2117,7 +2115,7 @@ QString DolphinMainWindow::squeezedText(const QString& text) const
     return fm.elidedText(text, Qt::ElideMiddle, fm.maxWidth() * 10);
 }
 
-void DolphinMainWindow::createPanelAction(const KIcon& icon,
+void DolphinMainWindow::createPanelAction(const QIcon& icon,
                                           const QKeySequence& shortcut,
                                           QAction* dockAction,
                                           const QString& actionName)
