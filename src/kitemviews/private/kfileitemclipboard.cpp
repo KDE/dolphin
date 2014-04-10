@@ -71,8 +71,8 @@ KFileItemClipboard::KFileItemClipboard() :
 {
     updateCutItems();
 
-    connect(QApplication::clipboard(), SIGNAL(dataChanged()),
-            this, SLOT(updateCutItems()));
+    connect(QApplication::clipboard(), &QClipboard::dataChanged,
+            this, &KFileItemClipboard::updateCutItems);
 }
 
 #include "kfileitemclipboard.moc"

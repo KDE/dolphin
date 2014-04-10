@@ -704,10 +704,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         if (m_roleEditor) {
             emit roleEditingCanceled(index(), current, data().value(current));
 
-            disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-            disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+                       this, &KStandardItemListWidget::slotRoleEditingCanceled);
+            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+                       this, &KStandardItemListWidget::slotRoleEditingFinished);
 
             if (m_oldRoleEditor) {
                 m_oldRoleEditor->deleteLater();
@@ -742,10 +742,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         m_roleEditor->setTextCursor(cursor);
     }
 
-    connect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-    connect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+    connect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+            this, &KStandardItemListWidget::slotRoleEditingCanceled);
+    connect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+            this, &KStandardItemListWidget::slotRoleEditingFinished);
 
     // Adjust the geometry of the editor
     QRectF rect = roleEditingRect(current);
@@ -782,14 +782,14 @@ void KStandardItemListWidget::showEvent(QShowEvent* event)
     const KUrl itemUrl = data().value("url").value<KUrl>();
     m_isCut = clipboard->isCut(itemUrl);
 
-    connect(clipboard, SIGNAL(cutItemsChanged()),
-            this, SLOT(slotCutItemsChanged()));
+    connect(clipboard, &KFileItemClipboard::cutItemsChanged,
+            this, &KStandardItemListWidget::slotCutItemsChanged);
 }
 
 void KStandardItemListWidget::hideEvent(QHideEvent* event)
 {
-    disconnect(KFileItemClipboard::instance(), SIGNAL(cutItemsChanged()),
-               this, SLOT(slotCutItemsChanged()));
+    disconnect(KFileItemClipboard::instance(), &KFileItemClipboard::cutItemsChanged,
+               this, &KStandardItemListWidget::slotCutItemsChanged);
 
     KItemListWidget::hideEvent(event);
 }
@@ -1353,10 +1353,10 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray& role) const
 
 void KStandardItemListWidget::closeRoleEditor()
 {
-    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+    disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+               this, &KStandardItemListWidget::slotRoleEditingCanceled);
+    disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+               this, &KStandardItemListWidget::slotRoleEditingFinished);
 
     if (m_roleEditor->hasFocus()) {
         // If the editing was not ended by a FocusOut event, we have

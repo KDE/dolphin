@@ -64,12 +64,12 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateVisibleIndexRangeTimer = new QTimer(this);
     m_updateVisibleIndexRangeTimer->setSingleShot(true);
     m_updateVisibleIndexRangeTimer->setInterval(ShortInterval);
-    connect(m_updateVisibleIndexRangeTimer, SIGNAL(timeout()), this, SLOT(updateVisibleIndexRange()));
+    connect(m_updateVisibleIndexRangeTimer, &QTimer::timeout, this, &KFileItemListView::updateVisibleIndexRange);
 
     m_updateIconSizeTimer = new QTimer(this);
     m_updateIconSizeTimer->setSingleShot(true);
     m_updateIconSizeTimer->setInterval(LongInterval);
-    connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
+    connect(m_updateIconSizeTimer, &QTimer::timeout, this, &KFileItemListView::updateIconSize);
 
     setVisibleRoles(QList<QByteArray>() << "text");
 }

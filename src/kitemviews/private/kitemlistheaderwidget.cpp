@@ -62,19 +62,19 @@ void KItemListHeaderWidget::setModel(KItemModelBase* model)
     }
 
     if (m_model) {
-        disconnect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                   this, SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
-        disconnect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                   this, SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+        disconnect(m_model, &KItemModelBase::sortRoleChanged,
+                   this, &KItemListHeaderWidget::slotSortRoleChanged);
+        disconnect(m_model, &KItemModelBase::sortOrderChanged,
+                   this, &KItemListHeaderWidget::slotSortOrderChanged);
     }
 
     m_model = model;
 
     if (m_model) {
-        connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                this, SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
-        connect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                this, SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+        connect(m_model, &KItemModelBase::sortRoleChanged,
+                this, &KItemListHeaderWidget::slotSortRoleChanged);
+        connect(m_model, &KItemModelBase::sortOrderChanged,
+                this, &KItemListHeaderWidget::slotSortOrderChanged);
     }
 }
 

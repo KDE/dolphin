@@ -69,17 +69,17 @@ KFileItemModel::KFileItemModel(QObject* parent) :
         m_dirLister->setMainWindow(parentWidget->window());
     }
 
-    connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
-    connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
-    connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
-    connect(m_dirLister, SIGNAL(itemsAdded(KUrl,KFileItemList)), this, SLOT(slotItemsAdded(KUrl,KFileItemList)));
-    connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
-    connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
-    connect(m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
-    connect(m_dirLister, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(directoryRedirection(KUrl,KUrl)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)), this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_dirLister, &KFileItemModelDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::canceled), this, &KFileItemModel::slotCanceled);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&)>(&KFileItemModelDirLister::completed), this, &KFileItemModel::slotCompleted);
+    connect(m_dirLister, &KFileItemModelDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
+    connect(m_dirLister, &KFileItemModelDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
+    connect(m_dirLister, &KFileItemModelDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::clear), this, &KFileItemModel::slotClear);
+    connect(m_dirLister, &KFileItemModelDirLister::infoMessage, this, &KFileItemModel::infoMessage);
+    connect(m_dirLister, &KFileItemModelDirLister::errorMessage, this, &KFileItemModel::errorMessage);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&, const QUrl&)>(&KFileItemModelDirLister::redirection), this, &KFileItemModel::directoryRedirection);
+    connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
 
     // Apply default roles that should be determined
     resetRoles();
@@ -95,7 +95,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_maximumUpdateIntervalTimer = new QTimer(this);
     m_maximumUpdateIntervalTimer->setInterval(2000);
     m_maximumUpdateIntervalTimer->setSingleShot(true);
-    connect(m_maximumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
+    connect(m_maximumUpdateIntervalTimer, &QTimer::timeout, this, &KFileItemModel::dispatchPendingItemsToInsert);
 
     // When changing the value of an item which represents the sort-role a resorting must be
     // triggered. Especially in combination with KFileItemModelRolesUpdater this might be done
@@ -104,9 +104,10 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_resortAllItemsTimer = new QTimer(this);
     m_resortAllItemsTimer->setInterval(500);
     m_resortAllItemsTimer->setSingleShot(true);
-    connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
+    connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
-    connect(KGlobalSettings::self(), SIGNAL(naturalSortingChanged()), this, SLOT(slotNaturalSortingChanged()));
+    connect(KGlobalSettings::self(), &KGlobalSettings::naturalSortingChanged,
+            this, &KFileItemModel::slotNaturalSortingChanged);
 }
 
 KFileItemModel::~KFileItemModel()

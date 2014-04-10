@@ -61,15 +61,15 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_keyboardAnchorIndex(-1),
     m_keyboardAnchorPos(0)
 {
-    connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
-            this, SLOT(slotChangeCurrentItem(QString,bool)));
-    connect(m_selectionManager, SIGNAL(currentChanged(int,int)),
-            m_keyboardManager, SLOT(slotCurrentChanged(int,int)));
+    connect(m_keyboardManager, &KItemListKeyboardSearchManager::changeCurrentItem,
+            this, &KItemListController::slotChangeCurrentItem);
+    connect(m_selectionManager, &KItemListSelectionManager::currentChanged,
+            m_keyboardManager, &KItemListKeyboardSearchManager::slotCurrentChanged);
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(-1);
-    connect(m_autoActivationTimer, SIGNAL(timeout()), this, SLOT(slotAutoActivationTimeout()));
+    connect(m_autoActivationTimer, &QTimer::timeout, this, &KItemListController::slotAutoActivationTimeout);
 
     setModel(model);
     setView(view);
@@ -127,7 +127,7 @@ void KItemListController::setView(KItemListView* view)
 
     KItemListView* oldView = m_view;
     if (oldView) {
-        disconnect(oldView, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        disconnect(oldView, &KItemListView::scrollOffsetChanged, this, &KItemListController::slotViewScrollOffsetChanged);
         oldView->deleteLater();
     }
 
@@ -137,7 +137,7 @@ void KItemListController::setView(KItemListView* view)
         m_view->setParent(this);
         m_view->setController(this);
         m_view->setModel(m_model);
-        connect(m_view, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        connect(m_view, &KItemListView::scrollOffsetChanged, this, &KItemListController::slotViewScrollOffsetChanged);
         updateExtendedSelectionRegion();
     }
 
@@ -656,7 +656,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         rubberBand->setStartPosition(startPos);
         rubberBand->setEndPosition(startPos);
         rubberBand->setActive(true);
-        connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        connect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
         m_view->setAutoScroll(true);
     }
 
@@ -744,7 +744,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
-        disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        disconnect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
         rubberBand->setActive(false);
         m_oldSelection.clear();
         m_view->setAutoScroll(false);

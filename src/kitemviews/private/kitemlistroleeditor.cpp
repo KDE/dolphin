@@ -38,7 +38,7 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
         parent->installEventFilter(this);
     }
 
-    connect(this, SIGNAL(textChanged()), this, SLOT(autoAdjustSize()));
+    connect(this, &KItemListRoleEditor::textChanged, this, &KItemListRoleEditor::autoAdjustSize);
 }
 
 KItemListRoleEditor::~KItemListRoleEditor()

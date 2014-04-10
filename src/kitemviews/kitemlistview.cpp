@@ -119,16 +119,16 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layouter = new KItemListViewLayouter(m_sizeHintResolver, this);
 
     m_animation = new KItemListViewAnimation(this);
-    connect(m_animation, SIGNAL(finished(QGraphicsWidget*,KItemListViewAnimation::AnimationType)),
-            this, SLOT(slotAnimationFinished(QGraphicsWidget*,KItemListViewAnimation::AnimationType)));
+    connect(m_animation, &KItemListViewAnimation::finished,
+            this, &KItemListView::slotAnimationFinished);
 
     m_layoutTimer = new QTimer(this);
     m_layoutTimer->setInterval(300);
     m_layoutTimer->setSingleShot(true);
-    connect(m_layoutTimer, SIGNAL(timeout()), this, SLOT(slotLayoutTimerFinished()));
+    connect(m_layoutTimer, &QTimer::timeout, this, &KItemListView::slotLayoutTimerFinished);
 
     m_rubberBand = new KItemListRubberBand(this);
-    connect(m_rubberBand, SIGNAL(activationChanged(bool)), this, SLOT(slotRubberBandActivationChanged(bool)));
+    connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);
 
     m_headerWidget = new KItemListHeaderWidget(this);
     m_headerWidget->setVisible(false);
@@ -272,7 +272,7 @@ void KItemListView::setAutoScroll(bool enabled)
     if (enabled && !m_autoScrollTimer) {
         m_autoScrollTimer = new QTimer(this);
         m_autoScrollTimer->setSingleShot(true);
-        connect(m_autoScrollTimer, SIGNAL(timeout()), this, SLOT(triggerAutoScrolling()));
+        connect(m_autoScrollTimer, &QTimer::timeout, this, &KItemListView::triggerAutoScrolling);
         m_autoScrollTimer->start(InitialAutoScrollDelay);
     } else if (!enabled && m_autoScrollTimer) {
         delete m_autoScrollTimer;
@@ -577,26 +577,26 @@ void KItemListView::setHeaderVisible(bool visible)
         m_headerWidget->setColumns(m_visibleRoles);
         m_headerWidget->setZValue(1);
 
-        connect(m_headerWidget, SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
-                this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
-        connect(m_headerWidget, SIGNAL(columnMoved(QByteArray,int,int)),
-                this, SLOT(slotHeaderColumnMoved(QByteArray,int,int)));
-        connect(m_headerWidget, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                this, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
-        connect(m_headerWidget, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
+        connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
+                this, &KItemListView::slotHeaderColumnWidthChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
+                this, &KItemListView::slotHeaderColumnMoved);
+        connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
+                this, &KItemListView::sortOrderChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged,
+                this, &KItemListView::sortRoleChanged);
 
         m_layouter->setHeaderHeight(headerSize.height());
         m_headerWidget->setVisible(true);
     } else if (!visible && m_headerWidget->isVisible()) {
-        disconnect(m_headerWidget, SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
-                   this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
-        disconnect(m_headerWidget, SIGNAL(columnMoved(QByteArray,int,int)),
-                   this, SLOT(slotHeaderColumnMoved(QByteArray,int,int)));
-        disconnect(m_headerWidget, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                   this, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
-        disconnect(m_headerWidget, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                   this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
+                   this, &KItemListView::slotHeaderColumnWidthChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
+                   this, &KItemListView::slotHeaderColumnMoved);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
+                   this, &KItemListView::sortOrderChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sortRoleChanged,
+                   this, &KItemListView::sortRoleChanged);
 
         m_layouter->setHeaderHeight(0);
         m_headerWidget->setVisible(false);
@@ -642,10 +642,10 @@ void KItemListView::editRole(int index, const QByteArray& role)
     m_editingRole = true;
     widget->setEditedRole(role);
 
-    connect(widget, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
-    connect(widget, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    connect(widget, &KItemListWidget::roleEditingCanceled,
+            this, &KItemListView::slotRoleEditingCanceled);
+    connect(widget, &KItemListWidget::roleEditingFinished,
+            this, &KItemListView::slotRoleEditingFinished);
 }
 
 void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -1375,12 +1375,12 @@ void KItemListView::slotRubberBandPosChanged()
 void KItemListView::slotRubberBandActivationChanged(bool active)
 {
     if (active) {
-        connect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
-        connect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        connect(m_rubberBand, &KItemListRubberBand::startPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
+        connect(m_rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         m_skipAutoScrollForRubberBand = true;
     } else {
-        disconnect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
-        disconnect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        disconnect(m_rubberBand, &KItemListRubberBand::startPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
+        disconnect(m_rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         m_skipAutoScrollForRubberBand = false;
     }
 
@@ -1507,16 +1507,16 @@ void KItemListView::setController(KItemListController* controller)
         KItemListController* previous = m_controller;
         if (previous) {
             KItemListSelectionManager* selectionManager = previous->selectionManager();
-            disconnect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
-            disconnect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)), this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
+            disconnect(selectionManager, &KItemListSelectionManager::currentChanged, this, &KItemListView::slotCurrentChanged);
+            disconnect(selectionManager, &KItemListSelectionManager::selectionChanged, this, &KItemListView::slotSelectionChanged);
         }
 
         m_controller = controller;
 
         if (controller) {
             KItemListSelectionManager* selectionManager = controller->selectionManager();
-            connect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
-            connect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)), this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
+            connect(selectionManager, &KItemListSelectionManager::currentChanged, this, &KItemListView::slotCurrentChanged);
+            connect(selectionManager, &KItemListSelectionManager::selectionChanged, this, &KItemListView::slotSelectionChanged);
         }
 
         onControllerChanged(controller, previous);
@@ -1532,22 +1532,22 @@ void KItemListView::setModel(KItemModelBase* model)
     KItemModelBase* previous = m_model;
 
     if (m_model) {
-        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                   this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
-        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                   this,    SLOT(slotItemsInserted(KItemRangeList)));
-        disconnect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
-                   this,    SLOT(slotItemsRemoved(KItemRangeList)));
-        disconnect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
-                   this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
-        disconnect(m_model, SIGNAL(groupsChanged()),
-                   this,    SLOT(slotGroupsChanged()));
-        disconnect(m_model, SIGNAL(groupedSortingChanged(bool)),
-                   this,    SLOT(slotGroupedSortingChanged(bool)));
-        disconnect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                   this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
-        disconnect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                   this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+        disconnect(m_model, &KItemModelBase::itemsChanged,
+                   this,    &KItemListView::slotItemsChanged);
+        disconnect(m_model, &KItemModelBase::itemsInserted,
+                   this,    &KItemListView::slotItemsInserted);
+        disconnect(m_model, &KItemModelBase::itemsRemoved,
+                   this,    &KItemListView::slotItemsRemoved);
+        disconnect(m_model, &KItemModelBase::itemsMoved,
+                   this,    &KItemListView::slotItemsMoved);
+        disconnect(m_model, &KItemModelBase::groupsChanged,
+                   this,    &KItemListView::slotGroupsChanged);
+        disconnect(m_model, &KItemModelBase::groupedSortingChanged,
+                   this,    &KItemListView::slotGroupedSortingChanged);
+        disconnect(m_model, &KItemModelBase::sortOrderChanged,
+                   this,    &KItemListView::slotSortOrderChanged);
+        disconnect(m_model, &KItemModelBase::sortRoleChanged,
+                   this,    &KItemListView::slotSortRoleChanged);
 
         m_sizeHintResolver->itemsRemoved(KItemRangeList() << KItemRange(0, m_model->count()));
     }
@@ -1557,22 +1557,22 @@ void KItemListView::setModel(KItemModelBase* model)
     m_grouped = model->groupedSorting();
 
     if (m_model) {
-        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
-        connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                this,    SLOT(slotItemsInserted(KItemRangeList)));
-        connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
-                this,    SLOT(slotItemsRemoved(KItemRangeList)));
-        connect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
-                this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
-        connect(m_model, SIGNAL(groupsChanged()),
-                this,    SLOT(slotGroupsChanged()));
-        connect(m_model, SIGNAL(groupedSortingChanged(bool)),
-                this,    SLOT(slotGroupedSortingChanged(bool)));
-        connect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-                this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
-        connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-                this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+        connect(m_model, &KItemModelBase::itemsChanged,
+                this,    &KItemListView::slotItemsChanged);
+        connect(m_model, &KItemModelBase::itemsInserted,
+                this,    &KItemListView::slotItemsInserted);
+        connect(m_model, &KItemModelBase::itemsRemoved,
+                this,    &KItemListView::slotItemsRemoved);
+        connect(m_model, &KItemModelBase::itemsMoved,
+                this,    &KItemListView::slotItemsMoved);
+        connect(m_model, &KItemModelBase::groupsChanged,
+                this,    &KItemListView::slotGroupsChanged);
+        connect(m_model, &KItemModelBase::groupedSortingChanged,
+                this,    &KItemListView::slotGroupedSortingChanged);
+        connect(m_model, &KItemModelBase::sortOrderChanged,
+                this,    &KItemListView::slotSortOrderChanged);
+        connect(m_model, &KItemModelBase::sortRoleChanged,
+                this,    &KItemListView::slotSortRoleChanged);
 
         const int itemCount = m_model->count();
         if (itemCount > 0) {
@@ -1981,7 +1981,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         groupHeader = groupHeaderCreator()->create(this);
         groupHeader->setParentItem(widget);
         m_visibleGroups.insert(widget, groupHeader);
-        connect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
+        connect(widget, &KItemListWidget::geometryChanged, this, &KItemListView::slotGeometryOfGroupHeaderParentChanged);
     }
     Q_ASSERT(groupHeader->parentItem() == widget);
 
@@ -2028,7 +2028,7 @@ void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
         header->setParentItem(0);
         groupHeaderCreator()->recycle(header);
         m_visibleGroups.remove(widget);
-        disconnect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
+        disconnect(widget, &KItemListWidget::geometryChanged, this, &KItemListView::slotGeometryOfGroupHeaderParentChanged);
     }
 }
 
@@ -2582,8 +2582,8 @@ void KItemListView::disconnectRoleEditingSignals(int index)
         return;
     }
 
-    widget->disconnect(SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)), this);
-    widget->disconnect(SIGNAL(roleEditingFinished(int,QByteArray,QVariant)), this);
+    disconnect(widget, &KItemListWidget::roleEditingCanceled, this, nullptr);
+    disconnect(widget, &KItemListWidget::roleEditingFinished, this, nullptr);
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

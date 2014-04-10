@@ -38,6 +38,10 @@ class KJob;
 class QPixmap;
 class QTimer;
 
+namespace KIO {
+    class PreviewJob;
+}
+
 #ifdef HAVE_BALOO
     namespace Baloo
     {
@@ -316,7 +320,7 @@ private:
     // A new preview job will be started from them once the first one finishes.
     KFileItemList m_pendingPreviewItems;
 
-    KJob* m_previewJob;
+    KIO::PreviewJob* m_previewJob;
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent

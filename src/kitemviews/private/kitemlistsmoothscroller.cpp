@@ -38,8 +38,8 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_animation = new QPropertyAnimation(this);
     const int duration = (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) ? 1 : 100;
     m_animation->setDuration(duration);
-    connect(m_animation, SIGNAL(stateChanged(QAbstractAnimation::State,QAbstractAnimation::State)),
-            this, SLOT(slotAnimationStateChanged(QAbstractAnimation::State,QAbstractAnimation::State)));
+    connect(m_animation, &QPropertyAnimation::stateChanged,
+            this, &KItemListSmoothScroller::slotAnimationStateChanged);
 
     m_scrollBar->installEventFilter(this);
 }

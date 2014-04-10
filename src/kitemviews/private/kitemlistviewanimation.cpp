@@ -172,7 +172,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
     }
 
     Q_ASSERT(propertyAnim);
-    connect(propertyAnim, SIGNAL(finished()), this, SLOT(slotFinished()));
+    connect(propertyAnim, &QPropertyAnimation::finished, this, &KItemListViewAnimation::slotFinished);
     m_animation[type].insert(widget, propertyAnim);
 
     propertyAnim->start();

@@ -89,10 +89,10 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
         slotViewChanged(controller->view(), 0);
     }
 
-    connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)),
-            this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
-    connect(controller, SIGNAL(viewChanged(KItemListView*,KItemListView*)),
-            this, SLOT(slotViewChanged(KItemListView*,KItemListView*)));
+    connect(controller, &KItemListController::modelChanged,
+            this, &KItemListContainer::slotModelChanged);
+    connect(controller, &KItemListController::viewChanged,
+            this, &KItemListContainer::slotViewChanged);
 }
 
 KItemListContainer::~KItemListContainer()
@@ -211,23 +211,33 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
     QGraphicsScene* scene = static_cast<QGraphicsView*>(viewport())->scene();
     if (previous) {
         scene->removeItem(previous);
-        disconnect(previous, SIGNAL(scrollOrientationChanged(Qt::Orientation,Qt::Orientation)), this, SLOT(slotScrollOrientationChanged(Qt::Orientation,Qt::Orientation)));
-        disconnect(previous, SIGNAL(scrollOffsetChanged(qreal,qreal)),        this, SLOT(updateScrollOffsetScrollBar()));
-        disconnect(previous, SIGNAL(maximumScrollOffsetChanged(qreal,qreal)), this, SLOT(updateScrollOffsetScrollBar()));
-        disconnect(previous, SIGNAL(itemOffsetChanged(qreal,qreal)),          this, SLOT(updateItemOffsetScrollBar()));
-        disconnect(previous, SIGNAL(maximumItemOffsetChanged(qreal,qreal)),   this, SLOT(updateItemOffsetScrollBar()));
-        disconnect(previous, SIGNAL(scrollTo(qreal)),                         this, SLOT(scrollTo(qreal)));
+        disconnect(previous, &KItemListView::scrollOrientationChanged,
+                   this, &KItemListContainer::slotScrollOrientationChanged);
+        disconnect(previous, &KItemListView::scrollOffsetChanged,
+                   this, &KItemListContainer::updateScrollOffsetScrollBar);
+        disconnect(previous, &KItemListView::maximumScrollOffsetChanged,
+                   this, &KItemListContainer::updateScrollOffsetScrollBar);
+        disconnect(previous, &KItemListView::itemOffsetChanged,
+                   this, &KItemListContainer::updateItemOffsetScrollBar);
+        disconnect(previous, &KItemListView::maximumItemOffsetChanged,
+                   this, &KItemListContainer::updateItemOffsetScrollBar);
+        disconnect(previous, &KItemListView::scrollTo, this, &KItemListContainer::scrollTo);
         m_horizontalSmoothScroller->setTargetObject(0);
         m_verticalSmoothScroller->setTargetObject(0);
     }
     if (current) {
         scene->addItem(current);
-        connect(current, SIGNAL(scrollOrientationChanged(Qt::Orientation,Qt::Orientation)), this, SLOT(slotScrollOrientationChanged(Qt::Orientation,Qt::Orientation)));
-        connect(current, SIGNAL(scrollOffsetChanged(qreal,qreal)),        this, SLOT(updateScrollOffsetScrollBar()));
-        connect(current, SIGNAL(maximumScrollOffsetChanged(qreal,qreal)), this, SLOT(updateScrollOffsetScrollBar()));
-        connect(current, SIGNAL(itemOffsetChanged(qreal,qreal)),          this, SLOT(updateItemOffsetScrollBar()));
-        connect(current, SIGNAL(maximumItemOffsetChanged(qreal,qreal)),   this, SLOT(updateItemOffsetScrollBar()));
-        connect(current, SIGNAL(scrollTo(qreal)),                         this, SLOT(scrollTo(qreal)));
+        connect(current, &KItemListView::scrollOrientationChanged,
+                this, &KItemListContainer::slotScrollOrientationChanged);
+        connect(current, &KItemListView::scrollOffsetChanged,
+                this, &KItemListContainer::updateScrollOffsetScrollBar);
+        connect(current, &KItemListView::maximumScrollOffsetChanged,
+                this, &KItemListContainer::updateScrollOffsetScrollBar);
+        connect(current, &KItemListView::itemOffsetChanged,
+                this, &KItemListContainer::updateItemOffsetScrollBar);
+        connect(current, &KItemListView::maximumItemOffsetChanged,
+                this, &KItemListContainer::updateItemOffsetScrollBar);
+        connect(current, &KItemListView::scrollTo, this, &KItemListContainer::scrollTo);
         m_horizontalSmoothScroller->setTargetObject(current);
         m_verticalSmoothScroller->setTargetObject(current);
         updateSmoothScrollers(current->scrollOrientation());
