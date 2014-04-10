@@ -45,22 +45,22 @@ FileNameSearchProtocol::~FileNameSearchProtocol()
     cleanup();
 }
 
-void FileNameSearchProtocol::listDir(const KUrl& url)
+void FileNameSearchProtocol::listDir(const QUrl& url)
 {
     cleanup();
 
-    const QString search = url.queryItem("search");
+    const QString search = url.queryItemValue("search");
     if (!search.isEmpty()) {
         m_regExp = new QRegExp(search, Qt::CaseInsensitive, QRegExp::Wildcard);
     }
 
     m_checkContent = false;
-    const QString checkContent = url.queryItem("checkContent");
+    const QString checkContent = url.queryItemValue("checkContent");
     if (checkContent == QLatin1String("yes")) {
         m_checkContent = true;
     }
 
-    const QString urlString = url.queryItem("url");
+    const QString urlString = url.queryItemValue("url");
     searchDirectory(KUrl(urlString));
 
     cleanup();

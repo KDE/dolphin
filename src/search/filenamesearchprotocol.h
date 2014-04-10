@@ -39,7 +39,7 @@ public:
     FileNameSearchProtocol(const QByteArray& pool, const QByteArray& app);
     virtual ~FileNameSearchProtocol();
 
-    virtual void listDir(const KUrl& url);
+    virtual void listDir(const QUrl& url) Q_DECL_OVERRIDE;
 
 private:
     void searchDirectory(const KUrl& directory);
