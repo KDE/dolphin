@@ -289,7 +289,7 @@ void DolphinSearchBox::initButton(QToolButton* button)
     button->setAutoExclusive(true);
     button->setAutoRaise(true);
     button->setCheckable(true);
-    connect(button, SIGNAL(clicked(bool)), this, SLOT(slotConfigurationChanged()));
+    connect(button, &QToolButton::clicked, this, &DolphinSearchBox::slotConfigurationChanged);
 }
 
 void DolphinSearchBox::loadSettings()
@@ -324,7 +324,7 @@ void DolphinSearchBox::init()
     closeButton->setAutoRaise(true);
     closeButton->setIcon(KIcon("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(emitCloseRequest()));
+    connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
 
     // Create search label
     m_searchLabel = new QLabel(this);
@@ -335,10 +335,10 @@ void DolphinSearchBox::init()
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setFont(KGlobalSettings::generalFont());
     setFocusProxy(m_searchInput);
-    connect(m_searchInput, SIGNAL(returnPressed(QString)),
-            this, SLOT(slotReturnPressed(QString)));
-    connect(m_searchInput, SIGNAL(textChanged(QString)),
-            this, SLOT(slotSearchTextChanged(QString)));
+    connect(m_searchInput, static_cast<void(KLineEdit::*)(const QString&)>(&KLineEdit::returnPressed),
+            this, &DolphinSearchBox::slotReturnPressed);
+    connect(m_searchInput, &KLineEdit::textChanged,
+            this, &DolphinSearchBox::slotSearchTextChanged);
 
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
@@ -379,12 +379,12 @@ void DolphinSearchBox::init()
     m_facetsToggleButton = new QToolButton(this);
     m_facetsToggleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     initButton(m_facetsToggleButton);
-    connect(m_facetsToggleButton, SIGNAL(clicked()), this, SLOT(slotFacetsButtonToggled()));
+    connect(m_facetsToggleButton, &QToolButton::clicked, this, &DolphinSearchBox::slotFacetsButtonToggled);
 
     m_facetsWidget = new DolphinFacetsWidget(this);
     m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    connect(m_facetsWidget, SIGNAL(facetChanged()), this, SLOT(slotFacetChanged()));
+    connect(m_facetsWidget, &DolphinFacetsWidget::facetChanged, this, &DolphinSearchBox::slotFacetChanged);
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
@@ -424,7 +424,7 @@ void DolphinSearchBox::init()
     m_startSearchTimer = new QTimer(this);
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
-    connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchRequest()));
+    connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
 
     updateFacetsToggleButton();
     applyReadOnlyState();

@@ -46,22 +46,22 @@ GeneralSettingsPage::GeneralSettingsPage(const KUrl& url, QWidget* parent) :
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(url, tabWidget);
     tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
-    connect(behaviorPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(behaviorPage, &BehaviorSettingsPage::changed, this, &GeneralSettingsPage::changed);
 
     // initialize 'Previews' tab
     PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
-    connect(previewsPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(previewsPage, &PreviewsSettingsPage::changed, this, &GeneralSettingsPage::changed);
 
     // initialize 'Context Menu' tab
     ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
     tabWidget->addTab(confirmationsPage, i18nc("@title:tab Confirmations settings", "Confirmations"));
-    connect(confirmationsPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, &GeneralSettingsPage::changed);
 
     // initialize 'Status Bar' tab
     StatusBarSettingsPage* statusBarPage = new StatusBarSettingsPage(tabWidget);
     tabWidget->addTab(statusBarPage, i18nc("@title:tab Status Bar settings", "Status Bar"));
-    connect(statusBarPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(statusBarPage, &StatusBarSettingsPage::changed, this, &GeneralSettingsPage::changed);
 
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);

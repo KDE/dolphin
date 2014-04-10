@@ -55,17 +55,17 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(QDir::homePath(), tabWidget);
     tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
-    connect(behaviorPage, SIGNAL(changed()), this, SLOT(changed()));
+    connect(behaviorPage, &BehaviorSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
 
     // initialize 'Previews' tab
     PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
-    connect(previewsPage, SIGNAL(changed()), this, SLOT(changed()));
+    connect(previewsPage, &PreviewsSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
 
     // initialize 'Confirmations' tab
     ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
     tabWidget->addTab(confirmationsPage,  i18nc("@title:tab Confirmations settings", "Confirmations"));
-    connect(confirmationsPage, SIGNAL(changed()), this, SLOT(changed()));
+    connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
 
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);

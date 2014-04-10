@@ -138,25 +138,25 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     topLayout->addWidget(propsBox);
 
-    connect(m_viewMode, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(slotViewModeChanged(int)));
-    connect(m_sorting, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(slotSortingChanged(int)));
-    connect(m_sortOrder, SIGNAL(currentIndexChanged(int)),
-            this, SLOT(slotSortOrderChanged(int)));
-    connect(m_additionalInfo, SIGNAL(clicked()),
-            this, SLOT(configureAdditionalInfo()));
-    connect(m_sortFoldersFirst, SIGNAL(clicked()),
-            this, SLOT(slotSortFoldersFirstChanged()));
-    connect(m_previewsShown, SIGNAL(clicked()),
-            this, SLOT(slotShowPreviewChanged()));
-    connect(m_showInGroups, SIGNAL(clicked()),
-            this, SLOT(slotGroupedSortingChanged()));
-    connect(m_showHiddenFiles, SIGNAL(clicked()),
-            this, SLOT(slotShowHiddenFilesChanged()));
+    connect(m_viewMode, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+            this, &ViewPropertiesDialog::slotViewModeChanged);
+    connect(m_sorting, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+            this, &ViewPropertiesDialog::slotSortingChanged);
+    connect(m_sortOrder, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+            this, &ViewPropertiesDialog::slotSortOrderChanged);
+    connect(m_additionalInfo, &QPushButton::clicked,
+            this, &ViewPropertiesDialog::configureAdditionalInfo);
+    connect(m_sortFoldersFirst, &QCheckBox::clicked,
+            this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
+    connect(m_previewsShown, &QCheckBox::clicked,
+            this, &ViewPropertiesDialog::slotShowPreviewChanged);
+    connect(m_showInGroups, &QCheckBox::clicked,
+            this, &ViewPropertiesDialog::slotGroupedSortingChanged);
+    connect(m_showHiddenFiles, &QCheckBox::clicked,
+            this, &ViewPropertiesDialog::slotShowHiddenFilesChanged);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-    connect(this, SIGNAL(applyClicked()), this, SLOT(slotApply()));
+    connect(this, &ViewPropertiesDialog::okClicked, this, &ViewPropertiesDialog::slotOk);
+    connect(this, &ViewPropertiesDialog::applyClicked, this, &ViewPropertiesDialog::slotApply);
 
     // Only show the following settings if the view properties are remembered
     // for each directory:
@@ -187,14 +187,14 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         topLayout->addWidget(applyBox);
         topLayout->addWidget(m_useAsDefault);
 
-        connect(m_applyToCurrentFolder, SIGNAL(clicked(bool)),
-                this, SLOT(markAsDirty(bool)));
-        connect(m_applyToSubFolders, SIGNAL(clicked(bool)),
-                this, SLOT(markAsDirty(bool)));
-        connect(m_applyToAllFolders, SIGNAL(clicked(bool)),
-                this, SLOT(markAsDirty(bool)));
-        connect(m_useAsDefault, SIGNAL(clicked(bool)),
-                this, SLOT(markAsDirty(bool)));
+        connect(m_applyToCurrentFolder, &QRadioButton::clicked,
+                this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_applyToSubFolders, &QRadioButton::clicked,
+                this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_applyToAllFolders, &QRadioButton::clicked,
+                this, &ViewPropertiesDialog::markAsDirty);
+        connect(m_useAsDefault, &QCheckBox::clicked,
+                this, &ViewPropertiesDialog::markAsDirty);
     }
 
     main->setLayout(topLayout);

@@ -78,12 +78,12 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
-    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
+    connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
     KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                     "servicemenu.knsrc",
                                                     this);
-    connect(downloadButton, SIGNAL(dialogFinished(KNS3::Entry::List)), this, SLOT(loadServices()));
+    connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_listView);

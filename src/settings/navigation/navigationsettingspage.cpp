@@ -68,10 +68,10 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_singleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_doubleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_openArchivesAsFolder, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_singleClick, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_doubleClick, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_openArchivesAsFolder, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_autoExpandFolders, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
 }
 
 NavigationSettingsPage::~NavigationSettingsPage()

@@ -35,7 +35,7 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     // Use a timer to update the space information. Polling is useful
     // here, as files can be deleted/added outside the scope of Dolphin.
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(calculateSpaceInfo()));
+    connect(m_timer, &QTimer::timeout, this, &StatusBarSpaceInfo::calculateSpaceInfo);
 }
 
 StatusBarSpaceInfo::~StatusBarSpaceInfo()

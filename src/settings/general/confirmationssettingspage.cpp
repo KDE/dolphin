@@ -68,9 +68,9 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 }
 
 ConfirmationsSettingsPage::~ConfirmationsSettingsPage()

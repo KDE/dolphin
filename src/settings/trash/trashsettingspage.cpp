@@ -45,7 +45,7 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
+    connect(m_proxy, static_cast<void(KCModuleProxy::*)(bool)>(&KCModuleProxy::changed), this, &TrashSettingsPage::changed);
 }
 
 TrashSettingsPage::~TrashSettingsPage()

@@ -58,42 +58,42 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
                                                     i18nc("@title:group", "Startup"));
     startupSettingsFrame->setIcon(KIcon("go-home"));
-    connect(startupSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(startupSettingsPage, &StartupSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // View Modes
     ViewSettingsPage* viewSettingsPage = new ViewSettingsPage(this);
     KPageWidgetItem* viewSettingsFrame = addPage(viewSettingsPage,
                                                  i18nc("@title:group", "View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
-    connect(viewSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(viewSettingsPage, &ViewSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Navigation
     NavigationSettingsPage* navigationSettingsPage = new NavigationSettingsPage(this);
     KPageWidgetItem* navigationSettingsFrame = addPage(navigationSettingsPage,
                                                        i18nc("@title:group", "Navigation"));
     navigationSettingsFrame->setIcon(KIcon("input-mouse"));
-    connect(navigationSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(navigationSettingsPage, &NavigationSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Services
     ServicesSettingsPage* servicesSettingsPage = new ServicesSettingsPage(this);
     KPageWidgetItem* servicesSettingsFrame = addPage(servicesSettingsPage,
                                                        i18nc("@title:group", "Services"));
     servicesSettingsFrame->setIcon(KIcon("services"));
-    connect(servicesSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
     TrashSettingsPage* trashSettingsPage = new TrashSettingsPage(this);
     KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
                                                    i18nc("@title:group", "Trash"));
     trashSettingsFrame->setIcon(KIcon("user-trash"));
-    connect(trashSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // General
     GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
     KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
                                                     i18nc("@title:group General settings", "General"));
     generalSettingsFrame->setIcon(KIcon("system-run"));
-    connect(generalSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+    connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
 #pragma message("TODO: port")

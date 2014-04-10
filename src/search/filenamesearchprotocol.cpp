@@ -81,8 +81,8 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     dirLister->openUrl(directory);
 
     QEventLoop eventLoop;
-    QObject::connect(dirLister, SIGNAL(canceled()), &eventLoop, SLOT(quit()));
-    QObject::connect(dirLister, SIGNAL(completed()), &eventLoop, SLOT(quit()));
+    QObject::connect(dirLister, static_cast<void(KDirLister::*)()>(&KDirLister::canceled), &eventLoop, &QEventLoop::quit);
+    QObject::connect(dirLister, static_cast<void(KDirLister::*)()>(&KDirLister::completed), &eventLoop, &QEventLoop::quit);
     eventLoop.exec();
 
     // Visualize all items that match the search pattern

@@ -43,17 +43,17 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
     tabWidget->addTab(iconsTab, QIcon::fromTheme("view-list-icons"), i18nc("@title:tab", "Icons"));
-    connect(iconsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(iconsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     // Initialize 'Compact' tab
     ViewSettingsTab* compactTab = new ViewSettingsTab(ViewSettingsTab::CompactMode, tabWidget);
     tabWidget->addTab(compactTab, QIcon::fromTheme("view-list-details"), i18nc("@title:tab", "Compact"));
-    connect(compactTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(compactTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     // Initialize 'Details' tab
     ViewSettingsTab* detailsTab = new ViewSettingsTab(ViewSettingsTab::DetailsMode, tabWidget);
     tabWidget->addTab(detailsTab, QIcon::fromTheme("view-list-tree"), i18nc("@title:tab", "Details"));
-    connect(detailsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(detailsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     m_tabs.append(iconsTab);
     m_tabs.append(compactTab);

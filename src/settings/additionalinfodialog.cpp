@@ -82,7 +82,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
     restoreDialogSize(dialogConfig);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, &AdditionalInfoDialog::okClicked, this, &AdditionalInfoDialog::slotOk);
 }
 
 AdditionalInfoDialog::~AdditionalInfoDialog()

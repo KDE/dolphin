@@ -70,18 +70,18 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
     selectHomeUrlButton->setAccessibleName(i18nc("@action:button", "Select Home Location"));
 #endif
 
-    connect(selectHomeUrlButton, SIGNAL(clicked()),
-            this, SLOT(selectHomeUrl()));
+    connect(selectHomeUrlButton, &QPushButton::clicked,
+            this, &StartupSettingsPage::selectHomeUrl);
 
     KHBox* buttonBox = new KHBox(homeBox);
     buttonBox->setSpacing(spacing);
 
     QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"), buttonBox);
-    connect(useCurrentButton, SIGNAL(clicked()),
-            this, SLOT(useCurrentLocation()));
+    connect(useCurrentButton, &QPushButton::clicked,
+            this, &StartupSettingsPage::useCurrentLocation);
     QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"), buttonBox);
-    connect(useDefaultButton, SIGNAL(clicked()),
-            this, SLOT(useDefaultLocation()));
+    connect(useDefaultButton, &QPushButton::clicked,
+            this, &StartupSettingsPage::useDefaultLocation);
 
     QVBoxLayout* homeBoxLayout = new QVBoxLayout(homeBox);
     homeBoxLayout->addWidget(homeUrlBox);
@@ -102,11 +102,11 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_homeUrl, SIGNAL(textChanged(QString)), this, SLOT(slotSettingsChanged()));
-    connect(m_splitView,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
-    connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
-    connect(m_showFullPath, SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
-    connect(m_filterBar,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
+    connect(m_homeUrl, &KLineEdit::textChanged, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_splitView,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 }
 
 StartupSettingsPage::~StartupSettingsPage()

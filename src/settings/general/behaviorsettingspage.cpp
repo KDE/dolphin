@@ -79,12 +79,12 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_localViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_globalViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_localViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_globalViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_showToolTips, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_showSelectionToggle, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_naturalSorting, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_renameInline, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()

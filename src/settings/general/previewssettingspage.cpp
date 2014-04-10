@@ -65,8 +65,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView = new QListView(this);
 
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
-    connect(delegate, SIGNAL(requestServiceConfiguration(QModelIndex)),
-            this, SLOT(configureService(QModelIndex)));
+    connect(delegate, &ServiceItemDelegate::requestServiceConfiguration,
+            this, &PreviewsSettingsPage::configureService);
 
     ServiceModel* serviceModel = new ServiceModel(this);
     QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
@@ -95,8 +95,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
-    connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
+    connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
+    connect(m_remoteFileSizeBox, static_cast<void(KIntSpinBox::*)(int)>(&KIntSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
 }
 
 PreviewsSettingsPage::~PreviewsSettingsPage()

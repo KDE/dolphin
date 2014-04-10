@@ -72,10 +72,10 @@ QList<QWidget*> ServiceItemDelegate::createItemWidgets(const QModelIndex&) const
     QPalette palette = checkBox->palette();
     palette.setColor(QPalette::WindowText, palette.color(QPalette::Text));
     checkBox->setPalette(palette);
-    connect(checkBox, SIGNAL(clicked(bool)), this, SLOT(slotCheckBoxClicked(bool)));
+    connect(checkBox, &QCheckBox::clicked, this, &ServiceItemDelegate::slotCheckBoxClicked);
 
     KPushButton* configureButton = new KPushButton();
-    connect(configureButton, SIGNAL(clicked()), this, SLOT(slotConfigureButtonClicked()));
+    connect(configureButton, &KPushButton::clicked, this, &ServiceItemDelegate::slotConfigureButtonClicked);
 
     return QList<QWidget*>() << checkBox << configureButton;
 }

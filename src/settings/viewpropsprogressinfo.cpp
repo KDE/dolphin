@@ -75,18 +75,18 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     // allows to give a progress indication for the user when applying the view
     // properties later.
     m_dirSizeJob = KIO::directorySize(dir);
-    connect(m_dirSizeJob, SIGNAL(result(KJob*)),
-            this, SLOT(applyViewProperties()));
+    connect(m_dirSizeJob, &KIO::DirectorySizeJob::result,
+            this, &ViewPropsProgressInfo::applyViewProperties);
 
     // The directory size job cannot emit any progress signal, as it is not aware
     // about the total number of directories. Therefor a timer is triggered, which
     // periodically updates the current directory count.
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(updateProgress()));
+    connect(m_timer, &QTimer::timeout,
+            this, &ViewPropsProgressInfo::updateProgress);
     m_timer->start(300);
 
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(cancelApplying()));
+    connect(this, &ViewPropsProgressInfo::cancelClicked, this, &ViewPropsProgressInfo::cancelApplying);
 }
 
 ViewPropsProgressInfo::~ViewPropsProgressInfo()
@@ -128,8 +128,8 @@ void ViewPropsProgressInfo::applyViewProperties()
     m_dirSizeJob = 0;
 
     m_applyViewPropsJob = new ApplyViewPropsJob(m_dir, *m_viewProps);
-    connect(m_applyViewPropsJob, SIGNAL(result(KJob*)),
-            this, SLOT(close()));
+    connect(m_applyViewPropsJob, &ApplyViewPropsJob::result,
+            this, &ViewPropsProgressInfo::close);
 }
 
 void ViewPropsProgressInfo::cancelApplying()

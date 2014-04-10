@@ -43,8 +43,8 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showZoomSlider, &QCheckBox::toggled, this, &StatusBarSettingsPage::changed);
+    connect(m_showSpaceInfo, &QCheckBox::toggled, this, &StatusBarSettingsPage::changed);
 }
 
 StatusBarSettingsPage::~StatusBarSettingsPage()

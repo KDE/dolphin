@@ -48,7 +48,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
     topLayout->setSpacing(KDialog::spacingHint());
 
     m_services = new ServicesSettingsPage(this);
-    connect(m_services, SIGNAL(changed()), this, SLOT(changed()));
+    connect(m_services, &ServicesSettingsPage::changed, this, static_cast<void(DolphinServicesConfigModule::*)()>(&DolphinServicesConfigModule::changed));
     topLayout->addWidget(m_services, 0, 0);
 }
 

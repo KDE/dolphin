@@ -181,7 +181,7 @@ QStringList DolphinFacetsWidget::facetTypes() const
 QCheckBox* DolphinFacetsWidget::createCheckBox(const QString& text)
 {
     QCheckBox* checkBox = new QCheckBox(text);
-    connect(checkBox, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
+    connect(checkBox, &QCheckBox::clicked, this, &DolphinFacetsWidget::facetChanged);
     return checkBox;
 }
 
@@ -189,7 +189,7 @@ QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
                                                      QButtonGroup* group)
 {
     QRadioButton* button = new QRadioButton(text);
-    connect(button, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
+    connect(button, &QRadioButton::clicked, this, &DolphinFacetsWidget::facetChanged);
     group->addButton(button);
     return button;
 }

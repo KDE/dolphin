@@ -60,7 +60,7 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
 
     setMainWidget(mainWidget);
 
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    connect(this, &ConfigurePreviewPluginDialog::okClicked, this, &ConfigurePreviewPluginDialog::slotOk);
 }
 
 ConfigurePreviewPluginDialog::~ConfigurePreviewPluginDialog()

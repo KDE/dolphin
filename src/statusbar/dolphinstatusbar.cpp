@@ -72,8 +72,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setRange(ZoomLevelInfo::minimumLevel(), ZoomLevelInfo::maximumLevel());
 
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SIGNAL(zoomLevelChanged(int)));
-    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
+    connect(m_zoomSlider, &QSlider::valueChanged, this, &DolphinStatusBar::zoomLevelChanged);
+    connect(m_zoomSlider, &QSlider::sliderMoved, this, &DolphinStatusBar::showZoomSliderToolTip);
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);
@@ -85,7 +85,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_stopButton->setAutoRaise(true);
     m_stopButton->setToolTip(i18nc("@tooltip", "Stop loading"));
     m_stopButton->hide();
-    connect(m_stopButton, SIGNAL(clicked()), this, SIGNAL(stopPressed()));
+    connect(m_stopButton, &QToolButton::clicked, this, &DolphinStatusBar::stopPressed);
 
     m_progressTextLabel = new QLabel(this);
     m_progressTextLabel->hide();
@@ -96,12 +96,12 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_showProgressBarTimer = new QTimer(this);
     m_showProgressBarTimer->setInterval(500);
     m_showProgressBarTimer->setSingleShot(true);
-    connect(m_showProgressBarTimer, SIGNAL(timeout()), this, SLOT(updateProgressInfo()));
+    connect(m_showProgressBarTimer, &QTimer::timeout, this, &DolphinStatusBar::updateProgressInfo);
 
     m_resetToDefaultTextTimer = new QTimer(this);
     m_resetToDefaultTextTimer->setInterval(ResetToDefaultTimeout);
     m_resetToDefaultTextTimer->setSingleShot(true);
-    connect(m_resetToDefaultTextTimer, SIGNAL(timeout()), this, SLOT(slotResetToDefaultText()));
+    connect(m_resetToDefaultTextTimer, &QTimer::timeout, this, &DolphinStatusBar::slotResetToDefaultText);
 
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_label->font()).height();
