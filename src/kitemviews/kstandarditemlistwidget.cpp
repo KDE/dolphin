@@ -589,6 +589,12 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
         dirtyRoles = roles;
     }
 
+    // The URL might have changed (i.e., if the sort order of the items has
+    // been changed). Therefore, the "is cut" state must be updated.
+    KFileItemClipboard* clipboard = KFileItemClipboard::instance();
+    const KUrl itemUrl = data().value("url").value<KUrl>();
+    m_isCut = clipboard->isCut(itemUrl);
+
     // The icon-state might depend from other roles and hence is
     // marked as dirty whenever a role has been changed
     dirtyRoles.insert("iconPixmap");
