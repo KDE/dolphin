@@ -331,6 +331,11 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     // Store the current selection (needed in the selectionChanged() signal)
     const KItemSet previousSelection = selectedItems();
 
+    // endAnchoredSelection() adds all items between m_currentItem and
+    // m_anchorItem to m_selectedItems. They can then be moved
+    // individually later in this function.
+    endAnchoredSelection();
+
     // Update the current item
     if (m_currentItem >= itemRange.index && m_currentItem < itemRange.index + itemRange.count) {
         const int previousCurrentItem = m_currentItem;
@@ -342,10 +347,8 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
         emit currentChanged(newCurrentItem, previousCurrentItem);
     }
 
-    // Update the anchor item
-    if (m_anchorItem >= itemRange.index && m_anchorItem < itemRange.index + itemRange.count) {
-        m_anchorItem = movedToIndexes.at(m_anchorItem - itemRange.index);
-    }
+    // Start a new anchored selection.
+    beginAnchoredSelection(m_currentItem);
 
     // Update the selections
     if (!m_selectedItems.isEmpty()) {

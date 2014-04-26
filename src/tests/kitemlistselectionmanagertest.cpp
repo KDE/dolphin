@@ -78,6 +78,7 @@ private slots:
     void testChangeSelection();
     void testDeleteCurrentItem_data();
     void testDeleteCurrentItem();
+    void testAnchoredSelectionAfterMovingItems();
 
 private:
     void verifySelectionChange(QSignalSpy& spy, const KItemSet& currentSelection, const KItemSet& previousSelection) const;
@@ -413,6 +414,15 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
                               << QVariant::fromValue(QList<int>() << 4 << 5 << 2 << 3))
         << (KItemSet() << 0 << 1 << 4 << 5);
 
+    QTest::newRow("Move items with active anchored selection")
+        << KItemSet()
+        << 0 << 3
+        << (KItemSet() << 0 << 1 << 2 << 3)
+        << MoveItems
+        << (QList<QVariant>() << QVariant::fromValue(KItemRange(2, 4))
+                              << QVariant::fromValue(QList<int>() << 4 << 5 << 2 << 3))
+        << (KItemSet() << 0 << 1 << 4 << 5);
+
     // Revert sort order
     QTest::newRow("Revert sort order")
         << (KItemSet() << 0 << 1)
@@ -517,6 +527,22 @@ void KItemListSelectionManagerTest::testDeleteCurrentItem()
     m_selectionManager->itemsRemoved(KItemRangeList() << KItemRange(removeIndex, removeCount));
 
     QCOMPARE(m_selectionManager->currentItem(), newCurrentItemIndex);
+}
+
+void KItemListSelectionManagerTest::testAnchoredSelectionAfterMovingItems()
+{
+    m_selectionManager->setCurrentItem(4);
+    m_selectionManager->beginAnchoredSelection(4);
+
+    // Reverse the items between 0 and 5.
+    m_selectionManager->itemsMoved(KItemRange(0, 6), QList<int>() << 5 << 4 << 3 << 2 << 1 << 0);
+
+    QCOMPARE(m_selectionManager->currentItem(), 1);
+    QCOMPARE(m_selectionManager->m_anchorItem, 1);
+
+    // Make 2 the current item -> 1 and 2 should be selected.
+    m_selectionManager->setCurrentItem(2);
+    QCOMPARE(m_selectionManager->selectedItems(), KItemSet() << 1 << 2);
 }
 
 void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,
