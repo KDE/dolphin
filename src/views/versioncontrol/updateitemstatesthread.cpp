@@ -64,9 +64,9 @@ void UpdateItemStatesThread::run()
                     items[i].version = static_cast<KVersionControlPlugin2::ItemVersion>(state);
                 }
             }
-
-            m_plugin->endRetrieval();
         }
+
+        m_plugin->endRetrieval();
     }
 }
 

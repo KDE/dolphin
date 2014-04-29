@@ -216,7 +216,7 @@ void KFileItemModel::setShowHiddenFiles(bool show)
     m_dirLister->setShowingDotFiles(show);
     m_dirLister->emitChanges();
     if (show) {
-        slotCompleted();
+        dispatchPendingItemsToInsert();
     }
 }
 
