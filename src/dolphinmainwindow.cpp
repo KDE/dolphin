@@ -1637,12 +1637,14 @@ void DolphinMainWindow::setupActions()
     prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
     KAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
+    activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, SIGNAL(triggered()), SLOT(activateNextTab()));
     activateNextTab->setShortcuts(QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
 
     KAction* activatePrevTab = actionCollection()->addAction("activate_prev_tab");
+    activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, SIGNAL(triggered()), SLOT(activatePrevTab()));
