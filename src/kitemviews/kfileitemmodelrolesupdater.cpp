@@ -282,8 +282,8 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
         if (hasBalooRole && !m_balooFileMonitor) {
             m_balooFileMonitor = new Baloo::FileMonitor(this);
-            connect(m_balooFileMonitor, SIGNAL(fileMetaDataChanged(QString)),
-                    this, SLOT(applyChangedBalooRoles(QString)));
+            connect(m_balooFileMonitor, &Baloo::FileMonitor::fileMetaDataChanged,
+                    this, &KFileItemModelRolesUpdater::applyChangedBalooRoles);
         } else if (!hasBalooRole && m_balooFileMonitor) {
             delete m_balooFileMonitor;
             m_balooFileMonitor = 0;
@@ -706,7 +706,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
     }
 
     Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
-    connect(job, SIGNAL(finished(KJob*)), this, SLOT(applyChangedBalooRolesJobFinished(KJob*)));
+    connect(job, &Baloo::FileFetchJob::finished, this, &KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished);
     job->setProperty("item", QVariant::fromValue(item));
     job->start();
 #else
@@ -738,12 +738,12 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
         data.insert(it.key(), it.value());
     }
 
-    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    disconnect(m_model, &KFileItemModel::itemsChanged,
+               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
     const int index = m_model->index(item);
     m_model->setData(index, data);
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 #endif
 }
 

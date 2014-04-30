@@ -1,17 +1,17 @@
-find_package(Baloo)
+find_package(Baloo 4.97)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(BalooWidgets)
+find_package(BalooWidgets 4.97)
 set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                       )
 
-find_package(KFileMetaData)
+find_package(KFileMetaData 4.97)
 set_package_properties(KFileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
@@ -120,7 +120,7 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(
-    dolphinprivate
+    dolphinprivate PUBLIC
     konq
     KF5::NewStuff
     KF5::KDE4Support
@@ -128,18 +128,17 @@ target_link_libraries(
 
 if(HAVE_BALOO)
     target_link_libraries(
-        dolphinprivate
-        ${BALOO_LIBRARIES}
+        dolphinprivate PUBLIC
+        KF5::FileMetaData
+        ${BALOO_CORE_LIBRARY}
+        ${BALOO_FILE_LIBRARY}
         ${BALOO_WIDGETS_LIBRARY}
-        ${KFILEMETADATA_LIBRARY}
     )
 endif()
 
 if(X11_Xrender_FOUND)
     target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
 endif(X11_Xrender_FOUND)
-
-target_link_libraries(dolphinprivate ${KDE4_PLASMA_LIBS})
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
@@ -246,19 +245,12 @@ target_link_libraries(kdeinit_dolphin
     KF5::KDE4Support
 )
 
-if(HAVE_BALOO)
-    target_link_libraries(kdeinit_dolphin
-        ${BALOO_LIBRARIES}
-        ${BALOO_WIDGETS_LIBRARY}
-    )
-endif()
-
-if (KActivities_FOUND)
+if (KF5Activities_FOUND)
     target_link_libraries(
         kdeinit_dolphin
-        ${KACTIVITIES_LIBRARY}
+        KF5::Activities
     )
-endif (KActivities_FOUND)
+endif()
 
 install(TARGETS kdeinit_dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -71,13 +71,15 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     // Create widget for the meta data
 #ifndef HAVE_BALOO
     m_fileMetaDataWidget = new KFileMetaDataWidget(this);
+    connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
+            this, &FileMetaDataToolTip::metaDataRequestFinished);
 #else
     m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
+    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished,
+            this, &FileMetaDataToolTip::metaDataRequestFinished);
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
-    connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
-            this, &FileMetaDataToolTip::metaDataRequestFinished);
 
     QVBoxLayout* textLayout = new QVBoxLayout();
     textLayout->addWidget(m_name);

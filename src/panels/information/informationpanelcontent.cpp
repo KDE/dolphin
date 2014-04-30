@@ -116,12 +116,15 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 
 #ifndef HAVE_BALOO
     m_metaDataWidget = new KFileMetaDataWidget(parent);
+    connect(m_metaDataWidget, &KFileMetaDataWidget::urlActivated,
+            this, &InformationPanelContent::urlActivated);
 #else
     m_metaDataWidget = new Baloo::FileMetaDataWidget(parent);
+    connect(m_metaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
+            this, &InformationPanelContent::urlActivated);
 #endif
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    connect(m_metaDataWidget, &KFileMetaDataWidget::urlActivated, this, &InformationPanelContent::urlActivated);
 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
     // at the bottom. This prevents that the meta data widget gets vertically stretched
