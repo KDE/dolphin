@@ -123,7 +123,7 @@ target_link_libraries(
     dolphinprivate PUBLIC
     konq
     KF5::NewStuff
-    KF5::KDE4Support
+    KF5::KDELibs4Support
 )
 
 if(HAVE_BALOO)
@@ -242,7 +242,7 @@ target_link_libraries(kdeinit_dolphin
     KF5::KCMUtils
     KF5::Solid
     Phonon::phonon4qt5
-    KF5::KDE4Support
+    KF5::KDELibs4Support
 )
 
 if (KF5Activities_FOUND)
