@@ -33,7 +33,7 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kitemlistview.cpp
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
-    ../kitemviews/kitemlistviewaccessible.cpp
+#    ../kitemviews/kitemlistviewaccessible.cpp # TODO: enable once accessibility is ported to Qt5
     ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
@@ -49,7 +49,7 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kfileitemlistview.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemlistview.cpp
-    ../kitemviews/kitemlistviewaccessible.cpp
+#    ../kitemviews/kitemlistviewaccessible.cpp # TODO: enable once accessibility is ported to Qt5
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
     ../kitemviews/kitemset.cpp
@@ -99,7 +99,7 @@ if (Baloo_FOUND)
       ../search/dolphin_searchsettings.kcfgc
   )
   kde4_add_unit_test(dolphinsearchboxtest TEST ${dolphinsearchboxtest_SRCS})
-  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${BALOO_LIBRARIES} ${QT_QTTEST_LIBRARY})
+  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${BALOO_FILE_LIBRARY} ${BALOO_CORE_LIBRARY} ${QT_QTTEST_LIBRARY})
 endif (Baloo_FOUND)
 
 # KStandardItemModelTest
