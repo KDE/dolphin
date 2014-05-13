@@ -486,6 +486,18 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
             m_urlsToExpand.insert(url);
         }
     } else {
+        // Note that there might be (indirect) children of the folder which is to be collapsed in
+        // m_pendingItemsToInsert. To prevent that they will be inserted into the model later,
+        // possibly without a parent, which might result in a crash, we insert all pending items
+        // right now. All new items which would be without a parent will then be removed.
+        dispatchPendingItemsToInsert();
+
+        // Check if the index of the collapsed folder has changed. If that is the case, then items
+        // were inserted before the collapsed folder, and its index needs to be updated.
+        if (m_itemData.at(index)->item != item) {
+            index = this->index(item);
+        }
+
         m_expandedDirs.remove(targetUrl);
         m_dirLister->stop(url);
 
