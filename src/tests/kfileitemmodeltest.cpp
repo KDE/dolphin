@@ -93,6 +93,7 @@ private slots:
     void testChangeRolesForFilteredItems();
     void testChangeSortRoleWhileFiltering();
     void testRefreshFilteredItems();
+    void testCollapseFolderWhileLoading();
     void testCreateMimeData();
 
 private:
@@ -1617,6 +1618,83 @@ void KFileItemModelTest::testCreateMimeData()
     selection.insert(1);
     QMimeData* mimeData = m_model->createMimeData(selection);
     delete mimeData;
+}
+
+void KFileItemModelTest::testCollapseFolderWhileLoading()
+{
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a2/b/c1.txt";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a2");
+
+    // Expand "a2/".
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+
+    // Expand "a2/b/".
+    m_model->setExpanded(1, true);
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b" << "c1.txt");
+
+    // Simulate that a new item "c2.txt" appears, but that the dir lister's completed()
+    // signal is not emitted yet.
+    const KFileItem fileItemC1 = m_model->fileItem(2);
+    KFileItem fileItemC2 = fileItemC1;
+    KUrl urlC2 = fileItemC2.url();
+    urlC2.setFileName("c2.txt");
+    fileItemC2.setUrl(urlC2);
+
+    const KUrl urlB = m_model->fileItem(1).url();
+    m_model->slotItemsAdded(urlB, KFileItemList() << fileItemC2);
+    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b" << "c1.txt");
+
+    // Collapse "a2/". This should also remove all its (indirect) children from
+    // the model and from the model's m_pendingItemsToInsert member.
+    m_model->setExpanded(0, false);
+    QCOMPARE(itemsInModel(), QStringList() << "a2");
+
+    // Simulate that the dir lister's completed() signal is emitted. If "c2.txt"
+    // is still in m_pendingItemsToInsert, then we might get a crash, see
+    // https://bugs.kde.org/show_bug.cgi?id=332102. Even if the crash is not
+    // reproducible here, Valgrind will complain, and the item "c2.txt" will appear
+    // without parent in the model.
+    m_model->slotCompleted();
+    QCOMPARE(itemsInModel(), QStringList() << "a2");
+
+    // Expand "a2/" again.
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+
+    // Now simulate that a new folder "a1/" is appears, but that the dir lister's
+    // completed() signal is not emitted yet.
+    const KFileItem fileItemA2 = m_model->fileItem(0);
+    KFileItem fileItemA1 = fileItemA2;
+    KUrl urlA1 = fileItemA1.url();
+    urlA1.setFileName("a1");
+    fileItemA1.setUrl(urlA1);
+
+    m_model->slotItemsAdded(m_model->directory(), KFileItemList() << fileItemA1);
+    QCOMPARE(itemsInModel(), QStringList() << "a2" << "b");
+
+    // Collapse "a2/". Note that this will cause "a1/" to be added to the model,
+    // i.e., the index of "a2/" will change from 0 to 1. Check that this does not
+    // confuse the code which collapses the folder.
+    m_model->setExpanded(0, false);
+    QCOMPARE(itemsInModel(), QStringList() << "a1" << "a2");
+    QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(!m_model->isExpanded(1));
 }
 
 QStringList KFileItemModelTest::itemsInModel() const

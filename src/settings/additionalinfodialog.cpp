@@ -75,7 +75,6 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     QVBoxLayout* layout = new QVBoxLayout(mainWidget);
     layout->addWidget(header);
     layout->addWidget(m_listWidget);
-    layout->addStretch(1);
 
     setMainWidget(mainWidget);
 
