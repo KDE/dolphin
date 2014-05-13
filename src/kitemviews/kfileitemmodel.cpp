@@ -512,7 +512,9 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
             ItemData* itemData = m_itemData.at(childIndex);
             if (itemData->values.value("isExpanded").toBool()) {
                 const KUrl targetUrl = itemData->item.targetUrl();
+                const KUrl url = itemData->item.url();
                 m_expandedDirs.remove(targetUrl);
+                m_dirLister->stop(url);     // TODO: try to unit-test this, see https://bugs.kde.org/show_bug.cgi?id=332102#c11
                 expandedChildren.append(targetUrl);
             }
             ++childIndex;
