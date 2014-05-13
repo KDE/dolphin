@@ -538,11 +538,10 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
     emit mouseButtonPressed(m_pressedIndex, event->buttons());
 
-    if ((event->buttons() & (Qt::XButton1 | Qt::XButton2)) && m_pressedIndex < 0) {
-        // Do not select items when clicking the empty part of the view with
-        // the back/forward buttons, see https://bugs.kde.org/show_bug.cgi?id=327412.
-        // Note that clicking an item with these buttons selects it, see comment in
-        // DolphinView::slotMouseButtonPressed(int, Qt::MouseButtons).
+    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
+    if (event->buttons() & (Qt::XButton1 | Qt::XButton2)) {
+        // Do not select items when clicking the back/forward buttons, see
+        // https://bugs.kde.org/show_bug.cgi?id=327412.
         return true;
     }
 
@@ -952,8 +951,13 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
 
         if (newHoveredWidget) {
             newHoveredWidget->setHovered(true);
+            const QPointF mappedPos = newHoveredWidget->mapFromItem(m_view, pos);
+            newHoveredWidget->setHoverPosition(mappedPos);
             emit itemHovered(newHoveredWidget->index());
         }
+    } else if (oldHoveredWidget) {
+        const QPointF mappedPos = oldHoveredWidget->mapFromItem(m_view, pos);
+        oldHoveredWidget->setHoverPosition(mappedPos);
     }
 
     return false;

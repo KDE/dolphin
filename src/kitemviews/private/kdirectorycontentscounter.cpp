@@ -60,14 +60,23 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
 {
     --m_workersCount;
 
-    if (m_workersCount == 0) {
+    if (m_workersCount > 0) {
+        // The worker thread will continue running. It could even be running
+        // a method of m_worker at the moment, so we delete it using
+        // deleteLater() to prevent a crash.
+        m_worker->deleteLater();
+    } else {
+        // There are no remaining workers -> stop the worker thread.
         m_workerThread->quit();
         m_workerThread->wait();
         delete m_workerThread;
         m_workerThread = 0;
-    }
 
-    delete m_worker;
+        // The worker thread has finished running now, so it's safe to delete
+        // m_worker. deleteLater() would not work at all because the event loop
+        // which would deliver the event to m_worker is not running any more.
+        delete m_worker;
+    }
 }
 
 void KDirectoryContentsCounter::addDirectory(const QString& path)

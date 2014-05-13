@@ -615,20 +615,6 @@ private slots:
     void updateSortFoldersFirst(bool foldersFirst);
 
     /**
-     * Updates the status bar to show hover information for the
-     * item \a item. If currently other items are selected,
-     * no hover information is shown.
-     * @see DolphinView::clearHoverInformation()
-     */
-    void showHoverInformation(const KFileItem& item);
-
-    /**
-     * Clears the hover information shown in the status bar.
-     * @see DolphinView::showHoverInformation().
-     */
-    void clearHoverInformation();
-
-    /**
      * Indicates in the status bar that the delete operation
      * of the job \a job has been finished.
      */

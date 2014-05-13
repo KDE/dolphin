@@ -338,36 +338,18 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_urlNavigator->setVisible(!enabled);
 
     if (enabled) {
-        KUrl url = m_urlNavigator->locationUrl();
-        m_searchBox->setText(QString());
-        m_searchBox->setReadOnly(isSearchUrl(url), url);
-
-        // Remember the most recent non-search URL as search path
-        // of the search-box, so that it can be restored
-        // when switching back to the URL navigator.
-        int index = m_urlNavigator->historyIndex();
-        const int historySize = m_urlNavigator->historySize();
-        while (isSearchUrl(url) && (index < historySize)) {
-            ++index;
-            url = m_urlNavigator->locationUrl(index);
-        }
-
-        if (!isSearchUrl(url)) {
-            m_searchBox->setSearchPath(url);
-        }
+        const KUrl& locationUrl = m_urlNavigator->locationUrl();
+        m_searchBox->fromSearchUrl(locationUrl);
     } else {
         m_view->setViewPropertiesContext(QString());
 
         // Restore the URL for the URL navigator. If Dolphin has been
         // started with a search-URL, the home URL is used as fallback.
-        const KUrl url = m_searchBox->searchPath();
-        if (url.isValid() && !url.isEmpty()) {
-            if (isSearchUrl(url)) {
-                m_urlNavigator->goHome();
-            } else {
-                m_urlNavigator->setLocationUrl(url);
-            }
+        KUrl url = m_searchBox->searchPath();
+        if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
+            url = GeneralSettings::self()->homeUrl();
         }
+        m_urlNavigator->setLocationUrl(url);
     }
 }
 

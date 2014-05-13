@@ -145,6 +145,26 @@ void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray>& current
     updateGridSize();
 }
 
+void DolphinItemListView::updateFont()
+{
+    const ViewModeSettings settings(viewMode());
+
+    if (settings.useSystemFont()) {
+        KItemListView::updateFont();
+    } else {
+        QFont font(settings.fontFamily(), qRound(settings.fontSize()));
+        font.setItalic(settings.italicFont());
+        font.setWeight(settings.fontWeight());
+        font.setPointSizeF(settings.fontSize());
+
+        KItemListStyleOption option = styleOption();
+        option.font = font;
+        option.fontMetrics = QFontMetrics(font);
+
+        setStyleOption(option);
+    }
+}
+
 void DolphinItemListView::updateGridSize()
 {
     const ViewModeSettings settings(viewMode());
@@ -161,7 +181,8 @@ void DolphinItemListView::updateGridSize()
     // Calculate the item-width and item-height
     int itemWidth;
     int itemHeight;
-    QSize maxTextSize;
+    int maxTextLines = 0;
+    int maxTextWidth = 0;
 
     switch (itemLayout()) {
     case KFileItemListView::IconsLayout: {
@@ -181,16 +202,10 @@ void DolphinItemListView::updateGridSize()
         }
 
         itemHeight = padding * 3 + iconSize + option.fontMetrics.lineSpacing();
-        if (IconsModeSettings::maximumTextLines() > 0) {
-            // A restriction is given for the maximum number of textlines (0 means
-            // having no restriction)
-            const int additionalInfoCount = visibleRoles().count() - 1;
-            const int maxAdditionalLines = additionalInfoCount + IconsModeSettings::maximumTextLines();
-            maxTextSize.rheight() = option.fontMetrics.lineSpacing() * maxAdditionalLines;
-        }
 
         horizontalMargin = 4;
         verticalMargin = 8;
+        maxTextLines = IconsModeSettings::maximumTextLines();
         break;
     }
     case KFileItemListView::CompactLayout: {
@@ -201,8 +216,7 @@ void DolphinItemListView::updateGridSize()
         if (CompactModeSettings::maximumTextWidthIndex() > 0) {
             // A restriction is given for the maximum width of the text (0 means
             // having no restriction)
-            maxTextSize.rwidth() = option.fontMetrics.height() * 10 *
-                                   CompactModeSettings::maximumTextWidthIndex();
+            maxTextWidth = option.fontMetrics.height() * 10 * CompactModeSettings::maximumTextWidthIndex();
         }
 
         horizontalMargin = 8;
@@ -225,28 +239,12 @@ void DolphinItemListView::updateGridSize()
     option.horizontalMargin = horizontalMargin;
     option.verticalMargin = verticalMargin;
     option.iconSize = iconSize;
-    option.maxTextSize = maxTextSize;
+    option.maxTextLines = maxTextLines;
+    option.maxTextWidth = maxTextWidth;
     beginTransaction();
     setStyleOption(option);
     setItemSize(QSizeF(itemWidth, itemHeight));
     endTransaction();
-}
-
-void DolphinItemListView::updateFont()
-{
-    KItemListStyleOption option = styleOption();
-
-    const ViewModeSettings settings(viewMode());
-
-    QFont font(settings.fontFamily(), qRound(settings.fontSize()));
-    font.setItalic(settings.italicFont());
-    font.setWeight(settings.fontWeight());
-    font.setPointSizeF(settings.fontSize());
-
-    option.font = font;
-    option.fontMetrics = QFontMetrics(font);
-
-    setStyleOption(option);
 }
 
 ViewModeSettings::ViewMode DolphinItemListView::viewMode() const

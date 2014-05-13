@@ -1050,6 +1050,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     if (op && destUrl == url()) {
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
+        m_markFirstNewlySelectedItemAsCurrent = true;
         connect(op, static_cast<void(KonqOperations::*)(const KUrl::List&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
     }
 
@@ -1075,17 +1076,15 @@ void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* prev
 
 void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons)
 {
+    Q_UNUSED(itemIndex);
+
     hideToolTip();
 
-    if (itemIndex < 0) {
-        // Trigger the history navigation only when clicking on the viewport:
-        // Above an item the XButtons provide a simple way to select items in
-        // the singleClick mode.
-        if (buttons & Qt::XButton1) {
-            emit goBackRequested();
-        } else if (buttons & Qt::XButton2) {
-            emit goForwardRequested();
-        }
+    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
+    if (buttons & Qt::XButton1) {
+        emit goBackRequested();
+    } else if (buttons & Qt::XButton2) {
+        emit goForwardRequested();
     }
 }
 
@@ -1357,16 +1356,6 @@ void DolphinView::calculateItemCount(int& fileCount,
             totalFileSize += item.size();
         }
     }
-}
-
-void DolphinView::showHoverInformation(const KFileItem& item)
-{
-    emit requestItemInfo(item);
-}
-
-void DolphinView::clearHoverInformation()
-{
-    emit requestItemInfo(KFileItem());
 }
 
 void DolphinView::slotDeleteFileFinished(KJob* job)

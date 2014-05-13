@@ -73,6 +73,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_zoomSlider->setRange(ZoomLevelInfo::minimumLevel(), ZoomLevelInfo::maximumLevel());
 
     connect(m_zoomSlider, &QSlider::valueChanged, this, &DolphinStatusBar::zoomLevelChanged);
+    connect(m_zoomSlider, &QSlider::valueChanged, this, &DolphinStatusBar::updateZoomSliderToolTip);
     connect(m_zoomSlider, &QSlider::sliderMoved, this, &DolphinStatusBar::showZoomSliderToolTip);
 
     // Initialize space information
@@ -240,7 +241,6 @@ void DolphinStatusBar::setZoomLevel(int zoomLevel)
 {
     if (zoomLevel != m_zoomSlider->value()) {
         m_zoomSlider->setValue(zoomLevel);
-        updateZoomSliderToolTip(zoomLevel);
     }
 }
 
@@ -338,6 +338,12 @@ void DolphinStatusBar::slotResetToDefaultText()
     updateLabelText();
 }
 
+void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
+{
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
+    m_zoomSlider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
+}
+
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
     bool showSpaceInfo = visible;
@@ -348,12 +354,6 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     }
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
-}
-
-void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
-{
-    const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
-    m_zoomSlider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
 }
 
 #include "dolphinstatusbar.moc"

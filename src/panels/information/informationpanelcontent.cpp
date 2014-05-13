@@ -276,6 +276,10 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
         adjustWidgetSizes(parentWidget()->width());
         break;
 
+    case QEvent::FontChange:
+        m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
+        break;
+
     default:
         break;
     }

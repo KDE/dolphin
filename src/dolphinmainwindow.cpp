@@ -484,6 +484,8 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     m_viewTab.append(viewTab);
 
     actionCollection()->action("close_tab")->setEnabled(true);
+    actionCollection()->action("activate_prev_tab")->setEnabled(true);
+    actionCollection()->action("activate_next_tab")->setEnabled(true);
 
     // Provide a split view, if the startup settings are set this way
     if (GeneralSettings::splitView()) {
@@ -1159,6 +1161,8 @@ void DolphinMainWindow::closeTab(int index)
     if (m_viewTab.count() == 1) {
         m_tabBar->removeTab(0);
         actionCollection()->action("close_tab")->setEnabled(false);
+        actionCollection()->action("activate_prev_tab")->setEnabled(false);
+        actionCollection()->action("activate_next_tab")->setEnabled(false);
     } else {
         m_tabBar->blockSignals(false);
     }
@@ -1638,12 +1642,16 @@ void DolphinMainWindow::setupActions()
     prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
     QAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
+    activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
+    activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, this, &DolphinMainWindow::activateNextTab);
     activateNextTab->setShortcuts(QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
 
     QAction* activatePrevTab = actionCollection()->addAction("activate_prev_tab");
+    activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
+    activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, this, &DolphinMainWindow::activatePrevTab);
     activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
 

@@ -279,6 +279,13 @@ bool KItemListWidget::isHovered() const
     return m_hovered;
 }
 
+void KItemListWidget::setHoverPosition(const QPointF& pos)
+{
+    if (m_selectionToggle) {
+        m_selectionToggle->setHovered(m_selectionToggle->contains(pos));
+    }
+}
+
 void KItemListWidget::setAlternateBackground(bool enable)
 {
     if (m_alternateBackground != enable) {

@@ -286,8 +286,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             } else if (action == hideAction) {
                 item->setHidden(hideAction->isChecked());
             } else if (action == openInNewTabAction) {
-                const KUrl url = m_model->item(index)->dataValue("url").value<KUrl>();
-                emit placeMiddleClicked(url);
+                // TriggerItem does set up the storage first and then it will
+                // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
+                triggerItem(index, Qt::MiddleButton);
             } else if (action == teardownAction) {
                 m_model->requestTeardown(index);
             } else if (action == ejectAction) {

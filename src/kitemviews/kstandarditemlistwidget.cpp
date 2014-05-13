@@ -86,16 +86,22 @@ qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArra
     const QString text = roleText(role, values);
     qreal width = KStandardItemListWidget::columnPadding(option);
 
+    const QFontMetrics& normalFontMetrics = option.fontMetrics;
+    const QFontMetrics linkFontMetrics(customizedFontForLinks(option.font));
+
     if (role == "rating") {
         width += KStandardItemListWidget::preferredRatingSize(option).width();
     } else {
-        width += option.fontMetrics.width(text);
+        // If current item is a link, we use the customized link font metrics instead of the normal font metrics.
+        const QFontMetrics& fontMetrics = itemIsLink(index, view) ? linkFontMetrics : normalFontMetrics;
+
+        width += fontMetrics.width(text);
 
         if (role == "text") {
             if (view->supportsItemExpanding()) {
                 // Increase the width by the expansion-toggle and the current expansion level
                 const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-                const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
+                const qreal height = option.padding * 2 + qMax(option.iconSize, fontMetrics.height());
                 width += (expandedParentsCount + 1) * height;
             }
 
@@ -112,6 +118,11 @@ QString KStandardItemListWidgetInformant::itemText(int index, const KItemListVie
     return view->model()->data(index).value("text").toString();
 }
 
+bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
+{
+    return false;
+}
+
 QString KStandardItemListWidgetInformant::roleText(const QByteArray& role,
                                                    const QHash<QByteArray, QVariant>& values) const
 {
@@ -122,17 +133,23 @@ QString KStandardItemListWidgetInformant::roleText(const QByteArray& role,
     return values.value(role).toString();
 }
 
+QFont KStandardItemListWidgetInformant::customizedFontForLinks(const QFont& baseFont) const
+{
+    return baseFont;
+}
+
 void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
-    const QFont& font = option.font;
+    const QFont& normalFont = option.font;
     const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
 
     const qreal itemWidth = view->itemSize().width();
     const qreal maxWidth = itemWidth - 2 * option.padding;
-    const qreal maxTextHeight = option.maxTextSize.height();
     const qreal additionalRolesSpacing = additionalRolesCount * option.fontMetrics.lineSpacing();
     const qreal spacingAndIconHeight = option.iconSize + option.padding * 3;
+
+    const QFont linkFont = customizedFontForLinks(normalFont);
 
     QTextOption textOption(Qt::AlignHCenter);
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -142,6 +159,9 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
             continue;
         }
 
+        // If the current item is a link, we use the customized link font instead of the normal font.
+        const QFont& font = itemIsLink(index, view) ? linkFont : normalFont;
+
         const QString& text = KStringHandler::preProcessWrap(itemText(index, view));
 
         // Calculate the number of lines required for wrapping the name
@@ -150,19 +170,21 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         layout.setTextOption(textOption);
         layout.beginLayout();
         QTextLine line;
+        int lineCount = 0;
         while ((line = layout.createLine()).isValid()) {
             line.setLineWidth(maxWidth);
             line.naturalTextWidth();
             textHeight += line.height();
+
+            ++lineCount;
+            if (lineCount == option.maxTextLines) {
+                break;
+            }
         }
         layout.endLayout();
 
         // Add one line for each additional information
         textHeight += additionalRolesSpacing;
-
-        if (maxTextHeight > 0 && textHeight > maxTextHeight) {
-            textHeight = maxTextHeight;
-        }
 
         sizeHints[index] = QSizeF(itemWidth, textHeight + spacingAndIconHeight);
     }
@@ -171,19 +193,24 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
 void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
-    const QFontMetrics& fontMetrics = option.fontMetrics;
+    const QFontMetrics& normalFontMetrics = option.fontMetrics;
     const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
 
     const QList<QByteArray>& visibleRoles = view->visibleRoles();
     const bool showOnlyTextRole = (visibleRoles.count() == 1) && (visibleRoles.first() == "text");
-    const qreal maxWidth = option.maxTextSize.width();
+    const qreal maxWidth = option.maxTextWidth;
     const qreal paddingAndIconWidth = option.padding * 4 + option.iconSize;
-    const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
+    const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * normalFontMetrics.lineSpacing());
+
+    const QFontMetrics linkFontMetrics(customizedFontForLinks(option.font));
 
     for (int index = 0; index < sizeHints.count(); ++index) {
         if (!sizeHints.at(index).isEmpty()) {
             continue;
         }
+
+        // If the current item is a link, we use the customized link font metrics instead of the normal font metrics.
+        const QFontMetrics& fontMetrics = itemIsLink(index, view) ? linkFontMetrics : normalFontMetrics;
 
         // For each row exactly one role is shown. Calculate the maximum required width that is necessary
         // to show all roles without horizontal clipping.
@@ -631,6 +658,12 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
         dirtyRoles = roles;
     }
 
+    // The URL might have changed (i.e., if the sort order of the items has
+    // been changed). Therefore, the "is cut" state must be updated.
+    KFileItemClipboard* clipboard = KFileItemClipboard::instance();
+    const KUrl itemUrl = data().value("url").value<KUrl>();
+    m_isCut = clipboard->isCut(itemUrl);
+
     // The icon-state might depend from other roles and hence is
     // marked as dirty whenever a role has been changed
     dirtyRoles.insert("iconPixmap");
@@ -1066,9 +1099,6 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     qreal nameHeight = 0;
     QTextLine line;
 
-    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
-    const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) - additionalRolesCount;
-
     QTextLayout layout(nameTextInfo->staticText.text(), m_customizedFont);
     layout.setTextOption(nameTextInfo->staticText.textOption());
     layout.beginLayout();
@@ -1079,7 +1109,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
         nameHeight += line.height();
 
         ++nameLineIndex;
-        if (nameLineIndex == maxNameLines) {
+        if (nameLineIndex == option.maxTextLines) {
             // The maximum number of textlines has been reached. If this is
             // the case provide an elided text if necessary.
             const int textLength = line.textStart() + line.textLength();
@@ -1101,6 +1131,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     layout.endLayout();
 
     // Use one line for each additional information
+    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
     nameTextInfo->staticText.setTextWidth(maxWidth);
     nameTextInfo->pos = QPointF(padding, widgetHeight -
                                          nameHeight -

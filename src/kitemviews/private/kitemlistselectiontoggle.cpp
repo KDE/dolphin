@@ -30,7 +30,6 @@ KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
     m_checked(false),
     m_hovered(false)
 {
-    setAcceptHoverEvents(true);
 }
 
 KItemListSelectionToggle::~KItemListSelectionToggle()
@@ -51,6 +50,15 @@ bool KItemListSelectionToggle::isChecked() const
     return m_checked;
 }
 
+void KItemListSelectionToggle::setHovered(bool hovered)
+{
+    if (m_hovered != hovered) {
+        m_hovered = hovered;
+        m_pixmap = QPixmap();
+        update();
+    }
+}
+
 void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
@@ -63,20 +71,6 @@ void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphi
     const qreal x = (size().width()  - qreal(m_pixmap.width()))  / 2;
     const qreal y = (size().height() - qreal(m_pixmap.height())) / 2;
     painter->drawPixmap(x, y, m_pixmap);
-}
-
-void KItemListSelectionToggle::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
-{
-    QGraphicsWidget::hoverEnterEvent(event);
-    m_hovered = true;
-    m_pixmap = QPixmap();
-}
-
-void KItemListSelectionToggle::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-    QGraphicsWidget::hoverLeaveEvent(event);
-    m_hovered = false;
-    m_pixmap = QPixmap();
 }
 
 void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
@@ -97,12 +91,9 @@ void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KItemListSelectionToggle::updatePixmap()
 {
-    const char* icon = m_checked ? "list-remove" : "list-add";
-    m_pixmap = KIconLoader::global()->loadIcon(QLatin1String(icon), KIconLoader::NoGroup, iconSize());
-
-    if (m_hovered) {
-        KIconLoader::global()->iconEffect()->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::ActiveState);
-    }
+    const QString icon = m_checked ? "list-remove" : "list-add";
+    const KIconLoader::States state = m_hovered ? KIconLoader::ActiveState : KIconLoader::DisabledState;
+    m_pixmap = KIconLoader::global()->loadIcon(icon, KIconLoader::Desktop, iconSize(), state);
 }
 
 int KItemListSelectionToggle::iconSize() const

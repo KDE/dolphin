@@ -56,9 +56,10 @@ protected:
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current,
                                        const QList<QByteArray>& previous);
 
+    virtual void updateFont();
+
 private:
     void updateGridSize();
-    void updateFont();
 
     ViewModeSettings::ViewMode viewMode() const;
 

@@ -92,8 +92,11 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
         bool addItem = false;
         if (!m_regExp || item.name().contains(*m_regExp)) {
             addItem = true;
-        } else if (m_checkContent && item.mimetype().startsWith(QLatin1String("text/"))) {
+        } else if (m_checkContent && item.determineMimeType().inherits(QLatin1String("text/plain"))) {
+            qDebug() << "### Checking" << item;
             addItem = contentContainsPattern(item.url());
+        } else {
+            qDebug() << "### NOT Checking" << item;
         }
 
         if (addItem) {

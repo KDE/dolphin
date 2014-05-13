@@ -72,20 +72,15 @@ public:
     KUrl urlForSearching() const;
 
     /**
+     * Extracts information from the given search \a url to
+     * initialize the search box properly.
+     */
+    void fromSearchUrl(const KUrl& url);
+
+    /**
      * Selects the whole text of the search box.
      */
     void selectAll();
-
-    /**
-     * @param readOnly If set to true the searchbox cannot be modified
-     *                 by the user and acts as visual indicator for
-     *                 an externally triggered search query.
-     * @param query    If readOnly is true this URL will be used
-     *                 to show a human readable information about the
-     *                 query.
-     */
-    void setReadOnly(bool readOnly, const KUrl& query = KUrl());
-    bool isReadOnly() const;
 
     /**
      * Set the search box to the active mode, if \a active
@@ -155,12 +150,15 @@ private:
      */
     KUrl balooUrlForSearching() const;
 
-    void applyReadOnlyState();
+    /**
+     * Extracts information from the given Baloo search \a url to
+     * initialize the search box properly.
+     */
+    void fromBalooSearchUrl(const KUrl& url);
 
     void updateFacetsToggleButton();
 private:
     bool m_startedSearching;
-    bool m_readOnly;
     bool m_active;
 
     QVBoxLayout* m_topLayout;
@@ -177,7 +175,6 @@ private:
     DolphinFacetsWidget* m_facetsWidget;
 
     KUrl m_searchPath;
-    KUrl m_readOnlyQuery;
 
     QTimer* m_startSearchTimer;
 };
