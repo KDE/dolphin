@@ -473,7 +473,7 @@ void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
     // while we adjust the search text and the facet widget.
     blockSignals(true);
 
-    const QVariantHash customOptions = query.customOptions();
+    const QVariantMap customOptions = query.customOptions();
     if (customOptions.contains("includeFolder")) {
         setSearchPath(customOptions.value("includeFolder").toString());
     } else {
