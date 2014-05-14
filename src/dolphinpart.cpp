@@ -299,7 +299,7 @@ void DolphinPart::updatePasteAction()
 
 KAboutData* DolphinPart::createAboutData()
 {
-    return new KAboutData("dolphinpart", "dolphin", i18nc("@title", "Dolphin Part"), "0.1");
+    return new KAboutData("dolphinpart", i18nc("@title", "Dolphin Part"), "0.1");
 }
 
 bool DolphinPart::openUrl(const QUrl &url)
