@@ -135,7 +135,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
-        setText(bookmark.text());
+        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().data()));
         setUrl(bookmark.url());
     } else {
         initializeDevice(udi);

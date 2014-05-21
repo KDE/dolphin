@@ -220,6 +220,7 @@ DolphinMainWindow::DolphinMainWindow() :
         toggleSplitView();
     }
     updateEditActions();
+    updatePasteAction();
     updateViewActions();
     updateGoActions();
 
@@ -359,6 +360,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     if (view) {
         view->setUrl(url);
         updateEditActions();
+        updatePasteAction();
         updateViewActions();
         updateGoActions();
         setUrlAsCaption(url);
@@ -1460,6 +1462,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 
     updateHistory();
     updateEditActions();
+    updatePasteAction();
     updateViewActions();
     updateGoActions();
 
@@ -1824,7 +1827,6 @@ void DolphinMainWindow::updateEditActions()
         deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         cutAction->setEnabled(capabilities.supportsMoving());
     }
-    updatePasteAction();
 }
 
 void DolphinMainWindow::updateViewActions()
