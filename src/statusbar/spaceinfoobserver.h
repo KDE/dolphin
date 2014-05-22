@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   and Patrice Tremblay                                                  *
+ *   Copyright (C) 2014 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +16,36 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef STATUSBARSPACEINFO_H
-#define STATUSBARSPACEINFO_H
 
-#include <KUrl>
+#ifndef SPACEINFOOBSERVER_H
+#define SPACEINFOOBSERVER_H
 
-#include <QColor>
-#include <QKeyEvent>
-#include <QString>
+#include <QObject>
 
-#include <kcapacitybar.h>
+class KUrl;
+class MountPointObserver;
 
-class QHideEvent;
-class QShowEvent;
-
-class SpaceInfoObserver;
-
-/**
- * @short Shows the available space for the volume represented
- *        by the given URL as part of the status bar.
- */
-class StatusBarSpaceInfo : public KCapacityBar
+class SpaceInfoObserver : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit StatusBarSpaceInfo(QWidget* parent = 0);
-    virtual ~StatusBarSpaceInfo();
+    explicit SpaceInfoObserver(const KUrl& url, QObject* parent = 0);
+    virtual ~SpaceInfoObserver();
+
+    quint64 size() const;
+    quint64 available() const;
 
     void setUrl(const KUrl& url);
-    KUrl url() const;
 
-protected:
-    void showEvent(QShowEvent* event);
-    void hideEvent(QHideEvent* event);
-
-private slots:
-    void slotValuesChanged();
+signals:
+    /**
+     * This signal is emitted if the information that size() and/or available() will  return has changed.
+     */
+    void valuesChanged();
 
 private:
-    QScopedPointer<SpaceInfoObserver> m_observer;
-    KUrl m_url;
+    MountPointObserver* m_mountPointObserver;
 };
 
 #endif

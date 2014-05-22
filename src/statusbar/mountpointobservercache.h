@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   and Patrice Tremblay                                                  *
+ *   Copyright (C) 2014 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +16,43 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef STATUSBARSPACEINFO_H
-#define STATUSBARSPACEINFO_H
 
-#include <KUrl>
+#ifndef MOUNTPOINTOBSERVERCACHE_H
+#define MOUNTPOINTOBSERVERCACHE_H
 
-#include <QColor>
-#include <QKeyEvent>
-#include <QString>
+#include <QHash>
+#include <QObject>
 
-#include <kcapacitybar.h>
+class MountPointObserver;
+class QTimer;
 
-class QHideEvent;
-class QShowEvent;
-
-class SpaceInfoObserver;
-
-/**
- * @short Shows the available space for the volume represented
- *        by the given URL as part of the status bar.
- */
-class StatusBarSpaceInfo : public KCapacityBar
+class MountPointObserverCache : public QObject
 {
     Q_OBJECT
 
+    MountPointObserverCache();
+    virtual ~MountPointObserverCache();
+
 public:
-    explicit StatusBarSpaceInfo(QWidget* parent = 0);
-    virtual ~StatusBarSpaceInfo();
+    static MountPointObserverCache* instance();
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
-
-protected:
-    void showEvent(QShowEvent* event);
-    void hideEvent(QHideEvent* event);
+    /**
+     * Returns a MountPointObserver for the given \a path. A new observer is created if necessary.
+     */
+    MountPointObserver* observerForPath(const QString& path);
 
 private slots:
-    void slotValuesChanged();
+    /**
+     * Removes the given \a observer from the cache.
+     */
+    void slotObserverDestroyed(QObject* observer);
 
 private:
-    QScopedPointer<SpaceInfoObserver> m_observer;
-    KUrl m_url;
+    QHash<QString, MountPointObserver*> m_observerForMountPoint;
+    QHash<QObject*, QString> m_mountPointForObserver;
+    QTimer* m_updateTimer;
+
+    friend class MountPointObserverCacheSingleton;
 };
 
 #endif

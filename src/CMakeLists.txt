@@ -211,6 +211,9 @@ set(dolphin_SRCS
     settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp
     statusbar/dolphinstatusbar.cpp
+    statusbar/mountpointobserver.cpp
+    statusbar/mountpointobservercache.cpp
+    statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
 )
