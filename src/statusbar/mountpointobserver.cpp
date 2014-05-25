@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   and Patrice Tremblay                                                  *
+ *   Copyright (C) 2014 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +16,33 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef STATUSBARSPACEINFO_H
-#define STATUSBARSPACEINFO_H
 
-#include <KUrl>
+#include "mountpointobserver.h"
+#include "mountpointobservercache.h"
 
-#include <QColor>
-#include <QKeyEvent>
-#include <QString>
-
-#include <kcapacitybar.h>
-
-class QHideEvent;
-class QShowEvent;
-
-class SpaceInfoObserver;
-
-/**
- * @short Shows the available space for the volume represented
- *        by the given URL as part of the status bar.
- */
-class StatusBarSpaceInfo : public KCapacityBar
+MountPointObserver::MountPointObserver(const QString& mountPoint, QObject* parent) :
+    QObject(parent),
+    m_mountPoint(mountPoint),
+    m_referenceCount(0),
+    m_spaceInfo(KDiskFreeSpaceInfo::freeSpaceInfo(mountPoint))
 {
-    Q_OBJECT
+}
 
-public:
-    explicit StatusBarSpaceInfo(QWidget* parent = 0);
-    virtual ~StatusBarSpaceInfo();
+MountPointObserver* MountPointObserver::observerForPath(const QString& path)
+{
+    MountPointObserver* observer = MountPointObserverCache::instance()->observerForPath(path);
+    return observer;
+}
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
-
-protected:
-    void showEvent(QShowEvent* event);
-    void hideEvent(QHideEvent* event);
-
-private slots:
-    void slotValuesChanged();
-
-private:
-    QScopedPointer<SpaceInfoObserver> m_observer;
-    KUrl m_url;
-};
-
-#endif
+void MountPointObserver::update()
+{
+    if (m_referenceCount == 0) {
+        delete this;
+    } else {
+        const KDiskFreeSpaceInfo spaceInfo = KDiskFreeSpaceInfo::freeSpaceInfo(m_mountPoint);
+        if (spaceInfo.size() != m_spaceInfo.size() || spaceInfo.available() != m_spaceInfo.available()) {
+            m_spaceInfo = spaceInfo;
+            emit spaceInfoChanged();
+        }
+    }
+}

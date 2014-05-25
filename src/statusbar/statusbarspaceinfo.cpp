@@ -20,22 +20,17 @@
 
 #include "statusbarspaceinfo.h"
 
-#include <KDiskFreeSpaceInfo>
+#include "spaceinfoobserver.h"
+
 #include <KLocale>
 #include <KIO/Job>
 
-#include <QTimer>
 #include <QKeyEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
-    m_kBSize(0),
-    m_timer(0)
+    m_observer(0)
 {
-    // Use a timer to update the space information. Polling is useful
-    // here, as files can be deleted/added outside the scope of Dolphin.
-    m_timer = new QTimer(this);
-    connect(m_timer, &QTimer::timeout, this, &StatusBarSpaceInfo::calculateSpaceInfo);
 }
 
 StatusBarSpaceInfo::~StatusBarSpaceInfo()
@@ -46,8 +41,8 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
     if (m_url != url) {
         m_url = url;
-        if (isVisible()) {
-            calculateSpaceInfo();
+        if (m_observer) {
+            m_observer->setUrl(url);
         }
     }
 }
@@ -60,47 +55,33 @@ KUrl StatusBarSpaceInfo::url() const
 void StatusBarSpaceInfo::showEvent(QShowEvent* event)
 {
     KCapacityBar::showEvent(event);
-    if (!event->spontaneous()) {
-        calculateSpaceInfo();
-        m_timer->start(10000);
-    }
+    m_observer.reset(new SpaceInfoObserver(m_url, this));
+    slotValuesChanged();
+    connect(m_observer.data(), SIGNAL(valuesChanged()), this, SLOT(slotValuesChanged()));
 }
 
 void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
 {
-    m_timer->stop();
+    m_observer.reset();
     KCapacityBar::hideEvent(event);
 }
 
-void StatusBarSpaceInfo::calculateSpaceInfo()
+void StatusBarSpaceInfo::slotValuesChanged()
 {
-    // KDiskFreeSpace is for local paths only
-    if (!m_url.isLocalFile()) {
+    Q_ASSERT(m_observer);
+    const quint64 size = m_observer->size();
+    if (size == 0) {
         setText(i18nc("@info:status", "Unknown size"));
         setValue(0);
         update();
-        return;
-    }
+    } else {
+        const quint64 available = m_observer->available();
+        const quint64 used = size - available;
+        const int percentUsed = qRound(100.0 * qreal(used) / qreal(size));
 
-    KDiskFreeSpaceInfo job = KDiskFreeSpaceInfo::freeSpaceInfo(m_url.toLocalFile());
-    if (!job.isValid()) {
-        setText(i18nc("@info:status", "Unknown size"));
-        setValue(0);
-        update();
-        return;
-    }
-
-    KIO::filesize_t kBSize = job.size() / 1024;
-    KIO::filesize_t kBUsed = job.used() / 1024;
-
-    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) || (kBSize != m_kBSize);
-    if (valuesChanged) {
-        setText(i18nc("@info:status Free disk space", "%1 free",
-                KIO::convertSize(job.available())));
-
+        setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
         setUpdatesEnabled(false);
-        m_kBSize = kBSize;
-        setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);
+        setValue(percentUsed);
         setUpdatesEnabled(true);
         update();
     }
