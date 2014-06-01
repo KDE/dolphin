@@ -1053,11 +1053,17 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
                                               (!verticalScrollOrientation && maximumScrollOffset() > size().width());
             if (decreaseLayouterSize) {
                 const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
+
+                int scrollbarSpacing = 0;
+                if (style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents)) {
+                    scrollbarSpacing = style()->pixelMetric(QStyle::PM_ScrollView_ScrollBarSpacing);
+                }
+
                 QSizeF layouterSize = m_layouter->size();
                 if (verticalScrollOrientation) {
-                    layouterSize.rwidth() -= scrollBarExtent;
+                    layouterSize.rwidth() -= scrollBarExtent + scrollbarSpacing;
                 } else {
-                    layouterSize.rheight() -= scrollBarExtent;
+                    layouterSize.rheight() -= scrollBarExtent + scrollbarSpacing;
                 }
                 m_layouter->setSize(layouterSize);
             }
