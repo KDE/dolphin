@@ -282,7 +282,7 @@ bool KItemListWidget::isHovered() const
 void KItemListWidget::setHoverPosition(const QPointF& pos)
 {
     if (m_selectionToggle) {
-        m_selectionToggle->setHovered(m_selectionToggle->contains(pos));
+        m_selectionToggle->setHovered(selectionToggleRect().contains(pos));
     }
 }
 
