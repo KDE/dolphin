@@ -78,7 +78,10 @@ KItemRangeList KItemRangeList::fromSortedContainer(const Container& container)
     int index = *it;
     int count = 1;
 
-    ++it;
+    // Remove duplicates, see https://bugs.kde.org/show_bug.cgi?id=335672
+    while (it != end && *it == index) {
+        ++it;
+    }
 
     while (it != end) {
         if (*it == index + count) {
@@ -89,6 +92,11 @@ KItemRangeList KItemRangeList::fromSortedContainer(const Container& container)
             count = 1;
         }
         ++it;
+
+        // Remove duplicates, see https://bugs.kde.org/show_bug.cgi?id=335672
+        while (it != end && *it == *(it - 1)) {
+            ++it;
+        }
     }
 
     result << KItemRange(index, count);

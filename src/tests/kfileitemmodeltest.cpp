@@ -95,6 +95,7 @@ private slots:
     void testRefreshFilteredItems();
     void testCollapseFolderWhileLoading();
     void testCreateMimeData();
+    void testDeleteFileMoreThanOnce();
 
 private:
     QStringList itemsInModel() const;
@@ -1695,6 +1696,27 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     QCOMPARE(itemsInModel(), QStringList() << "a1" << "a2");
     QVERIFY(!m_model->isExpanded(0));
     QVERIFY(!m_model->isExpanded(1));
+}
+
+void KFileItemModelTest::testDeleteFileMoreThanOnce()
+{
+    QStringList files;
+    files << "a.txt" << "b.txt" << "c.txt" << "d.txt";
+    m_testDir->createFiles(files);
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "d.txt");
+
+    const KFileItem fileItemB = m_model->fileItem(1);
+
+    // Tell the model that a list of items has been deleted, where "b.txt" appears twice in the list.
+    KFileItemList list;
+    list << fileItemB << fileItemB;
+    m_model->slotItemsDeleted(list);
+
+    QVERIFY(m_model->isConsistent());
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "c.txt" << "d.txt");
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
