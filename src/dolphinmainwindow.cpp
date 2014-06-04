@@ -625,10 +625,10 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         }
 
         switch (result) {
-            case KDialog::Yes:
+            case QDialogButtonBox::Yes:
                 // Quit
                 break;
-            case KDialog::No:
+            case QDialogButtonBox::No:
                 // Close only the current tab
                 closeTab();
             default:
