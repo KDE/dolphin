@@ -35,7 +35,7 @@ KDE_EXPORT int kdemain(int argc, char **argv)
 {
     K4AboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
-                     KDE_VERSION_STRING,
+                     "4.60",
                      ki18nc("@title", "File Manager"),
                      K4AboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006-2014 Peter Penz and Frank Reininghaus"));
