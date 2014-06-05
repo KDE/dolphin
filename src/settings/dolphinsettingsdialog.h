@@ -42,15 +42,9 @@ public:
 signals:
     void settingsChanged();
 
-protected slots:
-    /** @see KDialog::slotButtonClicked() */
-    virtual void slotButtonClicked(int button);
-
 private slots:
     /** Enables the Apply button. */
     void enableApply();
-
-private:
     void applySettings();
     void restoreDefaults();
 

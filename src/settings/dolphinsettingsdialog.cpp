@@ -53,6 +53,10 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     box->button(QDialogButtonBox::Ok)->setDefault(true);
     setButtonBox(box);
 
+    connect(box->button(QDialogButtonBox::Ok), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
+    connect(box->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
+    connect(box->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked, this, &DolphinSettingsDialog::restoreDefaults);
+
     // Startup
     StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(url, this);
     KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
@@ -112,18 +116,6 @@ DolphinSettingsDialog::~DolphinSettingsDialog()
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
 #pragma message("TODO: port")
     //saveDialogSize(dialogConfig);
-}
-
-void DolphinSettingsDialog::slotButtonClicked(int button)
-{
-    if ((button == QDialogButtonBox::Ok) || (button == QDialogButtonBox::Apply)) {
-        applySettings();
-    } else if (button == QDialogButtonBox::RestoreDefaults) {
-        restoreDefaults();
-    }
-
-#pragma message("TODO: port")
-    //KPageDialog::slotButtonClicked(button);
 }
 
 void DolphinSettingsDialog::enableApply()
