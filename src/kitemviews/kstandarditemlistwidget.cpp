@@ -55,19 +55,19 @@ KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
 {
 }
 
-void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     switch (static_cast<const KStandardItemListView*>(view)->itemLayout()) {
     case KStandardItemListWidget::IconsLayout:
-        calculateIconsLayoutItemSizeHints(sizeHints, view);
+        calculateIconsLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
     case KStandardItemListWidget::CompactLayout:
-        calculateCompactLayoutItemSizeHints(sizeHints, view);
+        calculateCompactLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
     case KStandardItemListWidget::DetailsLayout:
-        calculateDetailsLayoutItemSizeHints(sizeHints, view);
+        calculateDetailsLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
     default:
@@ -138,7 +138,7 @@ QFont KStandardItemListWidgetInformant::customizedFontForLinks(const QFont& base
     return baseFont;
 }
 
-void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
     const QFont& normalFont = option.font;
@@ -154,8 +154,8 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
     QTextOption textOption(Qt::AlignHCenter);
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
-    for (int index = 0; index < sizeHints.count(); ++index) {
-        if (!sizeHints.at(index).isEmpty()) {
+    for (int index = 0; index < logicalHeightHints.count(); ++index) {
+        if (logicalHeightHints.at(index) > 0.0) {
             continue;
         }
 
@@ -186,11 +186,13 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         // Add one line for each additional information
         textHeight += additionalRolesSpacing;
 
-        sizeHints[index] = QSizeF(itemWidth, textHeight + spacingAndIconHeight);
+        logicalHeightHints[index] = textHeight + spacingAndIconHeight;
     }
+
+    logicalWidthHint = itemWidth;
 }
 
-void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
     const QFontMetrics& normalFontMetrics = option.fontMetrics;
@@ -204,8 +206,8 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
 
     const QFontMetrics linkFontMetrics(customizedFontForLinks(option.font));
 
-    for (int index = 0; index < sizeHints.count(); ++index) {
-        if (!sizeHints.at(index).isEmpty()) {
+    for (int index = 0; index < logicalHeightHints.count(); ++index) {
+        if (logicalHeightHints.at(index) > 0.0) {
             continue;
         }
 
@@ -232,22 +234,18 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
             width = maxWidth;
         }
 
-        sizeHints[index] = QSizeF(width, height);
+        logicalHeightHints[index] = width;
     }
+
+    logicalWidthHint = height;
 }
 
-void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
     const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
-
-    for (int index = 0; index < sizeHints.count(); ++index) {
-        if (!sizeHints.at(index).isEmpty()) {
-            continue;
-        }
-
-        sizeHints[index] = QSizeF(-1, height);
-    }
+    logicalHeightHints.fill(height);
+    logicalWidthHint = -1.0;
 }
 
 KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :

@@ -48,7 +48,8 @@ public:
 
 private:
     const KItemListView* m_itemListView;
-    mutable QVector<QSizeF> m_sizeHintCache;
+    mutable QVector<qreal> m_logicalHeightHintCache;
+    mutable qreal m_logicalWidthHint;
     bool m_needsResolving;
 };
 

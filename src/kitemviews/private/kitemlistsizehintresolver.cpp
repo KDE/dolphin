@@ -23,7 +23,8 @@
 
 KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemListView) :
     m_itemListView(itemListView),
-    m_sizeHintCache(),
+    m_logicalHeightHintCache(),
+    m_logicalWidthHint(0.0),
     m_needsResolving(false)
 {
 }
@@ -35,7 +36,7 @@ KItemListSizeHintResolver::~KItemListSizeHintResolver()
 QSizeF KItemListSizeHintResolver::sizeHint(int index)
 {
     updateCache();
-    return m_sizeHintCache.at(index);
+    return QSizeF(m_logicalWidthHint, m_logicalHeightHintCache.at(index));
 }
 
 void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
@@ -45,15 +46,15 @@ void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
         insertedCount += range.count;
     }
 
-    const int currentCount = m_sizeHintCache.count();
-    m_sizeHintCache.reserve(currentCount + insertedCount);
+    const int currentCount = m_logicalHeightHintCache.count();
+    m_logicalHeightHintCache.reserve(currentCount + insertedCount);
 
     // We build the new list from the end to the beginning to mimize the
     // number of moves.
-    m_sizeHintCache.insert(m_sizeHintCache.end(), insertedCount, QSizeF());
+    m_logicalHeightHintCache.insert(m_logicalHeightHintCache.end(), insertedCount, 0.0);
 
     int sourceIndex = currentCount - 1;
-    int targetIndex = m_sizeHintCache.count() - 1;
+    int targetIndex = m_logicalHeightHintCache.count() - 1;
     int itemsToInsertBeforeCurrentRange = insertedCount;
 
     for (int rangeIndex = itemRanges.count() - 1; rangeIndex >= 0; --rangeIndex) {
@@ -62,33 +63,33 @@ void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
 
         // First: move all existing items that must be put behind 'range'.
         while (targetIndex >= itemsToInsertBeforeCurrentRange + range.index + range.count) {
-            m_sizeHintCache[targetIndex] = m_sizeHintCache[sourceIndex];
+            m_logicalHeightHintCache[targetIndex] = m_logicalHeightHintCache[sourceIndex];
             --sourceIndex;
             --targetIndex;
         }
 
         // Then: insert QSizeF() for the items which are inserted into 'range'.
         while (targetIndex >= itemsToInsertBeforeCurrentRange + range.index) {
-            m_sizeHintCache[targetIndex] = QSizeF();
+            m_logicalHeightHintCache[targetIndex] = 0.0;
             --targetIndex;
         }
     }
 
     m_needsResolving = true;
 
-    Q_ASSERT(m_sizeHintCache.count() == m_itemListView->model()->count());
+    Q_ASSERT(m_logicalHeightHintCache.count() == m_itemListView->model()->count());
 }
 
 void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList& itemRanges)
 {
-    const QVector<QSizeF>::iterator begin = m_sizeHintCache.begin();
-    const QVector<QSizeF>::iterator end = m_sizeHintCache.end();
+    const QVector<qreal>::iterator begin = m_logicalHeightHintCache.begin();
+    const QVector<qreal>::iterator end = m_logicalHeightHintCache.end();
 
     KItemRangeList::const_iterator rangeIt = itemRanges.constBegin();
     const KItemRangeList::const_iterator rangeEnd = itemRanges.constEnd();
 
-    QVector<QSizeF>::iterator destIt = begin + rangeIt->index;
-    QVector<QSizeF>::iterator srcIt = destIt + rangeIt->count;
+    QVector<qreal>::iterator destIt = begin + rangeIt->index;
+    QVector<qreal>::iterator srcIt = destIt + rangeIt->count;
 
     ++rangeIt;
 
@@ -104,33 +105,33 @@ void KItemListSizeHintResolver::itemsRemoved(const KItemRangeList& itemRanges)
         }
     }
 
-    m_sizeHintCache.erase(destIt, end);
+    m_logicalHeightHintCache.erase(destIt, end);
 
     // Note that the cache size might temporarily not match the model size if
     // this function is called from KItemListView::setModel() to empty the cache.
-    if (!m_sizeHintCache.isEmpty() && m_itemListView->model()) {
-        Q_ASSERT(m_sizeHintCache.count() == m_itemListView->model()->count());
+    if (!m_logicalHeightHintCache.isEmpty() && m_itemListView->model()) {
+        Q_ASSERT(m_logicalHeightHintCache.count() == m_itemListView->model()->count());
     }
 }
 
 void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<int>& movedToIndexes)
 {
-    QVector<QSizeF> newSizeHintCache(m_sizeHintCache);
+    QVector<qreal> newLogicalHeightHintCache(m_logicalHeightHintCache);
 
     const int movedRangeEnd = range.index + range.count;
     for (int i = range.index; i < movedRangeEnd; ++i) {
         const int newIndex = movedToIndexes.at(i - range.index);
-        newSizeHintCache[newIndex] = m_sizeHintCache.at(i);
+        newLogicalHeightHintCache[newIndex] = m_logicalHeightHintCache.at(i);
     }
 
-    m_sizeHintCache = newSizeHintCache;
+    m_logicalHeightHintCache = newLogicalHeightHintCache;
 }
 
 void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray>& roles)
 {
     Q_UNUSED(roles);
     while (count) {
-        m_sizeHintCache[index] = QSizeF();
+        m_logicalHeightHintCache[index] = 0.0;
         ++index;
         --count;
     }
@@ -140,14 +141,14 @@ void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QB
 
 void KItemListSizeHintResolver::clearCache()
 {
-    m_sizeHintCache.fill(QSizeF());
+    m_logicalHeightHintCache.fill(0.0);
     m_needsResolving = true;
 }
 
 void KItemListSizeHintResolver::updateCache()
 {
     if (m_needsResolving) {
-        m_itemListView->calculateItemSizeHints(m_sizeHintCache);
+        m_itemListView->calculateItemSizeHints(m_logicalHeightHintCache, m_logicalWidthHint);
         m_needsResolving = false;
     }
 }

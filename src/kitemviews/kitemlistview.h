@@ -194,12 +194,14 @@ public:
     int lastVisibleIndex() const;
 
     /**
-     * @return Required size for all items in the model.
-     *         The returned value might be larger than KItemListView::itemSize().
+     * @return Calculates the required size for all items in the model.
+     *         It might be larger than KItemListView::itemSize().
      *         In this case the layout grid will be stretched to assure an
      *         unclipped item.
+     *         NOTE: the logical height (width) is actually the
+     *         width (height) if the scroll orientation is Qt::Vertical!
      */
-    void calculateItemSizeHints(QVector<QSizeF>& sizeHints) const;
+    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -805,7 +807,7 @@ public:
 
     virtual void recycle(KItemListWidget* widget);
 
-    virtual void calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -824,7 +826,7 @@ public:
 
     virtual KItemListWidget* create(KItemListView* view);
 
-    virtual void calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const;
+    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -857,9 +859,9 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 }
 
 template<class T>
-void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<QSizeF>& sizeHints, const KItemListView* view) const
+void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
-    return m_informant->calculateItemSizeHints(sizeHints, view);
+    return m_informant->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, view);
 }
 
 template<class T>
