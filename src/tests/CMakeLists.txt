@@ -12,6 +12,13 @@ set(kitemsettest_SRCS
 kde4_add_unit_test(kitemsettest TEST ${kitemsettest_SRCS})
 target_link_libraries(kitemsettest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
+# KItemRangeTest
+set(kitemrangetest_SRCS
+    kitemrangetest.cpp
+)
+kde4_add_unit_test(kitemrangetest TEST ${kitemrangetest_SRCS})
+target_link_libraries(kitemrangetest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
 # KItemListSelectionManagerTest
 set(kitemlistselectionmanagertest_SRCS
     kitemlistselectionmanagertest.cpp
