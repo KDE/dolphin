@@ -397,7 +397,41 @@ int KFileItemModel::index(const KUrl& url) const
         index = m_items.value(urlToFind, -1);
     }
 
-    Q_ASSERT(index >= 0 || m_items.count() == m_itemData.count());
+    if (index < 0) {
+        // The item could not be found, even though all items from m_itemData
+        // should be in m_items now. We print some diagnostic information which
+        // might help to find the cause of the problem, but only once. This
+        // prevents that obtaining and printing the debugging information
+        // wastes CPU cycles and floods the shell or .xsession-errors.
+        static bool printDebugInfo = true;
+
+        if (m_items.count() != m_itemData.count() && printDebugInfo) {
+            printDebugInfo = false;
+
+            kWarning() << "The model is in an inconsistent state.";
+            kWarning() << "m_items.count()    ==" << m_items.count();
+            kWarning() << "m_itemData.count() ==" << m_itemData.count();
+
+            // Check if there are multiple items with the same URL.
+            QMultiHash<KUrl, int> indexesForUrl;
+            for (int i = 0; i < m_itemData.count(); ++i) {
+                indexesForUrl.insert(m_itemData.at(i)->item.url(), i);
+            }
+
+            foreach (const KUrl& url, indexesForUrl.uniqueKeys()) {
+                if (indexesForUrl.count(url) > 1) {
+                    kWarning() << "Multiple items found with the URL" << url;
+                    foreach (int index, indexesForUrl.values(url)) {
+                        const ItemData* data = m_itemData.at(index);
+                        kWarning() << "index" << index << ":" << data->item;
+                        if (data->parent) {
+                            kWarning() << "parent" << data->parent->item;
+                        }
+                    }
+                }
+            }
+        }
+    }
 
     return index;
 }

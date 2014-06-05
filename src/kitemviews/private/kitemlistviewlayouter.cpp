@@ -239,6 +239,7 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         // to get the physical horizontal direction
         QPointF pos(y, x);
         pos.rx() -= m_scrollOffset;
+        sizeHint.transpose();
         return QRectF(pos, sizeHint);
     }
 
@@ -282,7 +283,9 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
                 break;
             }
 
-            const qreal itemWidth = m_sizeHintResolver->sizeHint(index).width();
+            const qreal itemWidth = (m_scrollOrientation == Qt::Vertical)
+                                     ? m_sizeHintResolver->sizeHint(index).width()
+                                     : m_sizeHintResolver->sizeHint(index).height();
 
             if (itemWidth > headerWidth) {
                 headerWidth = itemWidth;
@@ -461,7 +464,7 @@ void KItemListViewLayouter::doLayout()
             while (index < itemCount && column < m_columnCount) {
                 qreal requiredItemHeight = itemSize.height();
                 const QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
-                const qreal sizeHintHeight = horizontalScrolling ? sizeHint.width() : sizeHint.height();
+                const qreal sizeHintHeight = sizeHint.height();
                 if (sizeHintHeight > requiredItemHeight) {
                     requiredItemHeight = sizeHintHeight;
                 }
