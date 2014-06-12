@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<component type="desktop">
+  <id>dolphin.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Dolphin</name>
+  <summary>File Manager</summary>
+  <description>
+    <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
+      <li>Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
+      <li>Split view, allowing you to easily copy or move files between locations.</li>
+      <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
+      <li>Multiple tab support</li>
+      <li>Informational dialogues are displayed in an unobtrusive way.</li>
+      <li>Undo/redo support</li>
+      <li>Transparent network access through the KIO system.</li>
+    </ul>
+  </description>
+  <url type="homepage">http://dolphin.kde.org/</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=dolphin</url>
+  <url type="help">http://docs.kde.org/stable/en/applications/dolphin/index.html</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://kde.org/images/screenshots/dolphin.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>dolphin</binary>
+  </provides>
+</component>
