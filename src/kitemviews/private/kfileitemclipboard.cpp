@@ -55,6 +55,14 @@ KFileItemClipboard::~KFileItemClipboard()
 void KFileItemClipboard::updateCutItems()
 {
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+
+    // mimeData can be 0 according to https://bugs.kde.org/show_bug.cgi?id=335053
+    if (!mimeData) {
+        m_cutItems.clear();
+        emit cutItemsChanged();
+        return;
+    }
+
     const QByteArray data = mimeData->data("application/x-kde-cutselection");
     const bool isCutSelection = (!data.isEmpty() && data.at(0) == QLatin1Char('1'));
     if (isCutSelection) {

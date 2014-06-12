@@ -429,10 +429,9 @@ QAction* DolphinContextMenu::createPasteAction()
     QAction* action = 0;
     const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
     if (isDir && (m_selectedItems.count() == 1)) {
+        const QPair<bool, QString> pasteInfo = KonqOperations::pasteInfo(m_fileInfo.url());
         action = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
-        action->setEnabled(!pasteData.isEmpty() && selectedItemsProperties().supportsWriting());
+        action->setEnabled(pasteInfo.first);
         connect(action, SIGNAL(triggered()), m_mainWindow, SLOT(pasteIntoFolder()));
     } else {
         action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));

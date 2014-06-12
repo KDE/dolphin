@@ -62,11 +62,10 @@ void TreeViewContextMenu::open()
         QAction* copyAction = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
         connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 
-        QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
+        const QPair<bool, QString> pasteInfo = KonqOperations::pasteInfo(m_fileItem.url());
+        QAction* pasteAction = new QAction(KIcon("edit-paste"), pasteInfo.second, this);
         connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
-        pasteAction->setEnabled(!pasteData.isEmpty() && capabilities.supportsWriting());
+        pasteAction->setEnabled(pasteInfo.first);
 
         popup->addAction(cutAction);
         popup->addAction(copyAction);
@@ -172,17 +171,7 @@ void TreeViewContextMenu::copy()
 
 void TreeViewContextMenu::paste()
 {
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    const KUrl::List source = KUrl::List::fromMimeData(mimeData);
-    const KUrl& dest = m_fileItem.url();
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(m_parent, KonqOperations::MOVE, source, dest);
-        clipboard->clear();
-    } else {
-        KonqOperations::copy(m_parent, KonqOperations::COPY, source, dest);
-    }
+    KonqOperations::doPaste(m_parent, m_fileItem.url());
 }
 
 void TreeViewContextMenu::rename()
