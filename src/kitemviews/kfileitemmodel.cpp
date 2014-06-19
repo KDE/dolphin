@@ -477,7 +477,6 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
             m_itemData[i]->values = retrieveData(m_itemData.at(i)->item, m_itemData.at(i)->parent);
         }
 
-        kWarning() << "TODO: Emitting itemsChanged() with no information what has changed!";
         emit itemsChanged(KItemRangeList() << KItemRange(0, count()), QSet<QByteArray>());
     }
 
