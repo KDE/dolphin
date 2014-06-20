@@ -1,5 +1,9 @@
 add_definitions(-DTRANSLATION_DOMAIN=\"dolphin\")
 
+ecm_setup_version(${KDE_BASEAPPS_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
+                       SOVERSION 5
+)
+
 find_package(KF5Baloo 4.97)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
@@ -142,7 +146,7 @@ if(X11_Xrender_FOUND)
     target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
 endif(X11_Xrender_FOUND)
 
-set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
+set_target_properties(dolphinprivate PROPERTIES VERSION ${DOLPHINPRIVATE_VERSION_STRING} SOVERSION ${DOLPHINPRIVATE_SOVERSION} )
 install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
