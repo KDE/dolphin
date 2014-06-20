@@ -1,3 +1,5 @@
+add_definitions(-DTRANSLATION_DOMAIN=\"dolphin\")
+
 find_package(KF5Baloo 4.97)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
