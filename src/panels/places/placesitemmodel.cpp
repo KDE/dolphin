@@ -53,8 +53,8 @@
 #include <views/viewproperties.h>
 
 #ifdef HAVE_BALOO
-    #include <baloo/query.h>
-    #include <baloo/indexerconfig.h>
+    #include <KF5/Baloo/query.h>
+    #include <KF5/Baloo/indexerconfig.h>
 #endif
 
 namespace {

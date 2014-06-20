@@ -1,4 +1,4 @@
-find_package(Baloo 4.97)
+find_package(KF5Baloo 4.97)
 set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
@@ -18,7 +18,7 @@ set_package_properties(KFileMetaData PROPERTIES
                        PURPOSE "For accessing file metadata labels"
                       )
 
-if (Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
+if (KF5Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
 

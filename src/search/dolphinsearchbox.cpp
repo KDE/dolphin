@@ -42,9 +42,9 @@
 
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
-    #include <baloo/query.h>
-    #include <baloo/term.h>
-    #include <baloo/indexerconfig.h>
+    #include <KF5/Baloo/query.h>
+    #include <KF5/Baloo/term.h>
+    #include <KF5/Baloo/indexerconfig.h>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :

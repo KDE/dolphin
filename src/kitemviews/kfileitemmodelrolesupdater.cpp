@@ -44,9 +44,9 @@
 
 #ifdef HAVE_BALOO
     #include "private/kbaloorolesprovider.h"
-    #include <baloo/file.h>
-    #include <baloo/filefetchjob.h>
-    #include <baloo/filemonitor.h>
+    #include <KF5/Baloo/file.h>
+    #include <KF5/Baloo/filefetchjob.h>
+    #include <KF5/Baloo/filemonitor.h>
 #endif
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG

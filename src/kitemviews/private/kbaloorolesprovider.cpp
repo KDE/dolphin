@@ -24,7 +24,7 @@
 #include <KGlobal>
 #include <KLocale>
 
-#include <baloo/file.h>
+#include <KF5/Baloo/file.h>
 #include <kfilemetadata/propertyinfo.h>
 
 #include <QTime>
