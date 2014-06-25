@@ -1582,7 +1582,6 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Go' menu
     QAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
-    connect(backAction, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goBack));
     auto backShortcuts = backAction->shortcuts();
     backShortcuts.append(QKeySequence(Qt::Key_Backspace));
     backAction->setShortcuts(backShortcuts);
@@ -1601,14 +1600,9 @@ void DolphinMainWindow::setupActions()
     m_recentTabsMenu->addSeparator();
     m_recentTabsMenu->setEnabled(false);
 
-    QAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
-    connect(forwardAction, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goForward));
-
-    QAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
-    connect(upAction, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goUp));
-
-    QAction* homeAction = KStandardAction::home(this, SLOT(goHome()), actionCollection());
-    connect(homeAction, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goHome));
+    KStandardAction::forward(this, SLOT(goForward()), actionCollection());
+    KStandardAction::up(this, SLOT(goUp()), actionCollection());
+    KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
     QAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
