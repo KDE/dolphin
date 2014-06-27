@@ -5,26 +5,26 @@ ecm_setup_version(${KDE_BASEAPPS_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
 )
 
 find_package(KF5Baloo 4.97)
-set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
+set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(BalooWidgets 4.97)
-set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
+find_package(KF5BalooWidgets 4.97)
+set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
                       )
 
-find_package(KFileMetaData 4.97)
-set_package_properties(KFileMetaData PROPERTIES
+find_package(KF5FileMetaData 4.97)
+set_package_properties(KF5FileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
                        PURPOSE "For accessing file metadata labels"
                       )
 
-if (KF5Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
+if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
     set(HAVE_BALOO TRUE)
 endif()
 
