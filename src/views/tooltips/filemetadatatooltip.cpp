@@ -39,7 +39,7 @@
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <Baloo/FileMetaDataWidget>
+#include <baloo/filemetadatawidget.h>
 #endif
 
 FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
