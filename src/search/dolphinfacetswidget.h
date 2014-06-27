@@ -24,7 +24,7 @@
 
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
-    #include <KF5/Baloo/term.h>
+    #include <Baloo/Term>
 #endif
 
 class QButtonGroup;

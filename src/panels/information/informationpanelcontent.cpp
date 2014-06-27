@@ -36,7 +36,7 @@
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <baloo/filemetadatawidget.h>
+#include <Baloo/FileMetaDataWidget>
 #endif
 
 #include <panels/places/placesitem.h>

@@ -28,7 +28,7 @@
 #include <QVBoxLayout>
 
 #ifdef HAVE_BALOO
-    #include <KF5/Baloo/indexerconfig.h>
+    #include <Baloo/IndexerConfig>
 #endif
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,

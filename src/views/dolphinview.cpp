@@ -79,7 +79,7 @@
 #include "zoomlevelinfo.h"
 
 #ifdef HAVE_BALOO
-    #include <KF5/Baloo/indexerconfig.h>
+    #include <Baloo/IndexerConfig>
 #endif
 
 namespace {

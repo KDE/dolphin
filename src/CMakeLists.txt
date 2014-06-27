@@ -136,9 +136,9 @@ if(HAVE_BALOO)
     target_link_libraries(
         dolphinprivate PUBLIC
         KF5::FileMetaData
-        ${BALOO_CORE_LIBRARY}
-        ${BALOO_FILE_LIBRARY}
-        ${BALOO_WIDGETS_LIBRARY}
+        KF5::BalooCore
+        KF5::BalooFiles
+        KF5::BalooWidgets
     )
 endif()
 

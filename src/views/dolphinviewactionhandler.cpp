@@ -44,7 +44,7 @@
 #include <KDebug>
 
 #ifdef HAVE_BALOO
-    #include <KF5/Baloo/indexerconfig.h>
+    #include <Baloo/IndexerConfig>
 #endif
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
