@@ -1332,14 +1332,18 @@ void KItemListView::slotCurrentChanged(int current, int previous)
 {
     Q_UNUSED(previous);
 
-    KItemListWidget* previousWidget = m_visibleItems.value(previous, 0);
-    if (previousWidget) {
-        previousWidget->setCurrent(false);
-    }
+    // In SingleSelection mode (e.g., in the Places Panel), the current item is
+    // always the selected item. It is not necessary to highlight the current item then.
+    if (m_controller->selectionBehavior() != KItemListController::SingleSelection) {
+        KItemListWidget* previousWidget = m_visibleItems.value(previous, 0);
+        if (previousWidget) {
+            previousWidget->setCurrent(false);
+        }
 
-    KItemListWidget* currentWidget = m_visibleItems.value(current, 0);
-    if (currentWidget) {
-        currentWidget->setCurrent(true);
+        KItemListWidget* currentWidget = m_visibleItems.value(current, 0);
+        if (currentWidget) {
+            currentWidget->setCurrent(true);
+        }
     }
     QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
 }
@@ -1978,7 +1982,12 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setStyleOption(m_styleOption);
 
     const KItemListSelectionManager* selectionManager = m_controller->selectionManager();
-    widget->setCurrent(index == selectionManager->currentItem());
+
+    // In SingleSelection mode (e.g., in the Places Panel), the current item is
+    // always the selected item. It is not necessary to highlight the current item then.
+    if (m_controller->selectionBehavior() != KItemListController::SingleSelection) {
+        widget->setCurrent(index == selectionManager->currentItem());
+    }
     widget->setSelected(selectionManager->isSelected(index));
     widget->setHovered(false);
     widget->setEnabledSelectionToggle(enabledSelectionToggles());
