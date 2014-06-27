@@ -22,7 +22,7 @@
 #ifndef HAVE_BALOO
 #include <kfilemetadataconfigurationwidget.h>
 #else
-#include <baloo/filemetadataconfigwidget.h>
+#include <Baloo/FileMetaDataConfigWidget>
 #endif
 
 #include <KLocale>
