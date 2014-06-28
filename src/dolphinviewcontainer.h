@@ -31,9 +31,9 @@
 #include <QWidget>
 
 #include <views/dolphinview.h>
-#include <config-apps.h>
+#include <config-dolphin.h>
 
-#ifdef KActivities_FOUND
+#ifdef KF5Activities_FOUND
 namespace KActivities {
     class ResourceInstance;
 }
@@ -345,7 +345,7 @@ private:
     KUrl m_dropDestination;
     QScopedPointer<QDropEvent> m_dropEvent;
 
-#ifdef KActivities_FOUND
+#ifdef KF5Activities_FOUND
 private:
     KActivities::ResourceInstance * m_activityResourceInstance;
 #endif
