@@ -127,7 +127,7 @@ kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(
     dolphinprivate PUBLIC
-    konq
+    KF5::Konq
     KF5::NewStuff
     KF5::KDELibs4Support
 )
@@ -158,7 +158,7 @@ set(dolphinpart_SRCS
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
-target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS})
+target_link_libraries(dolphinpart dolphinprivate KF5::Konq ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS})
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
 
@@ -244,7 +244,7 @@ kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
 
 target_link_libraries(kdeinit_dolphin
-    konq
+    KF5::Konq
     dolphinprivate
     KF5::NewStuff
     KF5::Parts
