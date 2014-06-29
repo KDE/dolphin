@@ -107,7 +107,6 @@ set(kfileitemmodelbenchmark_SRCS
 )
 
 add_executable(kfileitemmodelbenchmark ${kfileitemmodelbenchmark_SRCS})
-add_test(kfileitemmodelbenchmark kfileitemmodelbenchmark)
 ecm_mark_as_test(kfileitemmodelbenchmark)
 target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt5::Test)
 
