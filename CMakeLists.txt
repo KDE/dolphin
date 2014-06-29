@@ -19,7 +19,7 @@ ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
-find_package(KF5 REQUIRED COMPONENTS Init KCMUtils KDELibs4Support NewStuff)
+find_package(KF5 REQUIRED COMPONENTS DocTools Init KCMUtils KDELibs4Support NewStuff)
 find_package(KF5 COMPONENTS Activities)
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)
@@ -55,6 +55,7 @@ if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
 endif()
 
 add_subdirectory(src)
+add_subdirectory(docs)
 
 # TODO Remove the if/endif lines if Dolphin is split.
 if ("${CMAKE_SOURCE_DIR}" STREQUAL "${Dolphin_SOURCE_DIR}")
