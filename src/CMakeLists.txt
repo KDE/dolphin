@@ -13,9 +13,6 @@ endif()
 
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h)
 
-# TODO Reenable
-#add_subdirectory(tests)
-
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
@@ -340,3 +337,5 @@ install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INS
 install( FILES settings/services/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_DIR} )
 install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
 install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
+
+add_subdirectory(tests)
