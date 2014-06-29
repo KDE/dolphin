@@ -5,8 +5,11 @@
   <project_license>GPL-2.0+</project_license>
   <name>Dolphin</name>
   <name xml:lang="ca">Dolphin</name>
+  <name xml:lang="da">Dolphin</name>
+  <name xml:lang="de">Dolphin</name>
   <name xml:lang="nds">Dolphin</name>
   <name xml:lang="nl">Dolphin</name>
+  <name xml:lang="pl">Dolphin</name>
   <name xml:lang="pt">Dolphin</name>
   <name xml:lang="pt-BR">Dolphin</name>
   <name xml:lang="sk">Dolphin</name>
@@ -15,8 +18,10 @@
   <name xml:lang="x-test">xxDolphinxx</name>
   <summary>File Manager</summary>
   <summary xml:lang="ca">Gestor de fitxers</summary>
+  <summary xml:lang="de">Dateiverwaltung</summary>
   <summary xml:lang="nds">Dateipleger</summary>
   <summary xml:lang="nl">Bestandsbeheerder</summary>
+  <summary xml:lang="pl">Zarządzanie plikami</summary>
   <summary xml:lang="pt">Gestor de Ficheiros</summary>
   <summary xml:lang="pt-BR">Gerenciador de arquivos</summary>
   <summary xml:lang="sk">Správca súborov</summary>
@@ -28,6 +33,7 @@
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant en facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="nds">Dolphin is en slank Dateipleger. Dat wöör buut mit de Idee vun't eenfache Bedenen vör Ogen, bides dat liekers flexibel un topassbor wesen schull. Du kannst Dien Dateien also jüst so plegen, as Du dat wullt.</p>
     <p xml:lang="nl">Dolphin is een lichtgewicht bestandsbeheerder. Het is ontworpen met gebruiksgemak en eenvoud in gedachte en staat toch flexibiliteit en aan te passen toe. Dit betekent dat u uw bestandsbeheer kunt doen precies op de manier zoals u dat wilt.</p>
+    <p xml:lang="pl">Dolphin jest lekkim programem do zarządzania plikami. Został on opracowany mając na uwadze łatwość i prostotę obsługi, zapewniając jednocześnie elastyczność i możliwość dostosowania. Oznacza to, że można urządzić zarządzanie plikami w dokładnie taki sposób w jaki jest to pożądane.</p>
     <p xml:lang="pt">O Dolphin é um gestor de ficheiros leve. Foi desenhado com a facilidade de uso e simplicidade em mente, permitindo à mesma a flexibilidade e personalização. Isto significa que poderá fazer a sua gestão de ficheiros exactamente da forma que deseja.</p>
     <p xml:lang="pt-BR">Dolphin é um gerenciador de arquivos leve e fácil de usar. Foi projetado para ser simples e ao mesmo tempo manter a flexibilidade e personalização. Isso significa que você poderá gerenciar seus arquivos da forma que desejar.</p>
     <p xml:lang="sk">Dolphin je odľahčený správca súborov. Bol navrhnutý na jednoduché použitie a jednoduchosť, ale s možnosťami flexibility a prispôsobenia. To znamená, že môžete vykonávať správu súborov presne tak, ako chcete.</p>
@@ -36,8 +42,10 @@
     <p xml:lang="x-test">xxDolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.xx</p>
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
+    <p xml:lang="de">Funktionen:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
+    <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Características:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
     <p xml:lang="sk">Funkcie:</p>
@@ -49,6 +57,7 @@
       <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) per els URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
       <li xml:lang="nds">Steed- (oder Krömelspoor-)Balken för URLs, mit de Du Di fix dör de Hierarchie ut Dateien un Ornern bewegen kannst</li>
       <li xml:lang="nl">Navigatie- (of broodkruimel)balk voor URL's, waarmee u snel kunt navigeren door de hiërarchie van bestanden en mappen.</li>
+      <li xml:lang="pl">Pasek nawigacji (lub okruchy chleba) dla adresów URL, umożliwiające szybkie przechodzenie w hierarchii plików i katalogów.</li>
       <li xml:lang="pt">Barra de navegação dos URL's, que lhe permite navegar rapidamente pela hierarquia de ficheiros e pastas.</li>
       <li xml:lang="pt-BR">Barra de navegação de URLs, permitindo-lhe navegar rapidamente pela hierarquia de arquivos e pastas.</li>
       <li xml:lang="sk">Navigačná lišta pre URL, umožňujúca vám rýchlu navigáciu cez hierarchiu súborov a priečinkov.</li>
@@ -59,6 +68,7 @@
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
       <li xml:lang="nds">Ünnerstütt en Reeg verscheden Ansichtstilen un -egenschappen un lett Di de Ansicht jüst so topassen, as Du dat bruukst.</li>
       <li xml:lang="nl">Ondersteunt een aantal verschillende soorten stijlen van weergave en eigenschappen en biedt u de mogelijkheid de weergave in te stellen precies zoals u dat wilt.</li>
+      <li xml:lang="pl">Obsługa wielu różnych rodzajów stylów widoków i właściwości oraz możliwość ustawienia widoku dopasowanego do potrzeb.</li>
       <li xml:lang="pt">Suposta diferentes tipos de vistas e propriedades e permite-lhe configurar cada vista exactamente como a deseja.</li>
       <li xml:lang="pt-BR">Suporte a diferentes tipos de visualização, permitindo-lhe configurar cada modo de exibição da forma que desejar.</li>
       <li xml:lang="sk">Podporuje niekoľko rôznych typov štýlov zobrazenia a vlastností a umožňuje vám nastaviť pohľad presne tak, ako chcete.</li>
@@ -69,6 +79,7 @@
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
       <li xml:lang="nds">Deelt Ansicht, mit De Du Dateien eenfach twischen Steden koperen oder bewegen kannst.</li>
       <li xml:lang="nl">Gesplitst beeld, waarmee u gemakkelijk bestanden kunt kopiëren of verplaatsen tussen locaties.</li>
+      <li xml:lang="pl">Widok podzielony, umożliwiający łatwe kopiowane lub przenoszenie plików pomiędzy położeniami.</li>
       <li xml:lang="pt">Uma vista dividida, que lhe permite facilmente copiar ou mover os ficheiros entre locais.</li>
       <li xml:lang="pt-BR">Um modo de exibição dividido, permitindo-lhe copiar ou mover arquivos facilmente entre locais.</li>
       <li xml:lang="sk">Rozdelený pohľad, umožňuje vám jednoducho kopírovať alebo presúvať súbory medzi umiestneniami.</li>
@@ -79,6 +90,7 @@
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons acoblables, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="nds">Bito-Infos un Leestekens laat sik as Paneels andocken, Du kannst ehr verschuven un se jüst dat wiesen laten, wat Du weten wullt.</li>
       <li xml:lang="nl">Extra informatie en sneltoetsen zijn beschikbaar als vast te zetten panelen, die u vrij kunt verplaatsen en precies kunt tonen wat u wilt.</li>
+      <li xml:lang="pl">Dodatkowe szczegóły i skróty dostępne jako dokowalne panele, umożliwiające ich dowolne przenoszenie i wyświetlanie dopasowane do potrzeb.</li>
       <li xml:lang="pt">Estão disponíveis informações e atalhos adicionais como painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
       <li xml:lang="pt-BR">As informações e atalhos adicionais estão disponíveis na forma de painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
       <li xml:lang="sk">Dodatočné informácie a skratky sú dostupné ako dokovateľné panely, umožňujúce vám ich voľný presun a zobrazenie presne tak, ako chcete.</li>
@@ -89,6 +101,7 @@
       <li xml:lang="ca">Implementació de pestanyes múltiples</li>
       <li xml:lang="nds">Ünnerstütten för Paneels</li>
       <li xml:lang="nl">Ondersteuning voor meerdere tabbladen</li>
+      <li xml:lang="pl">Obsługa wielu kart</li>
       <li xml:lang="pt">Suporte para várias páginas</li>
       <li xml:lang="pt-BR">Suporte a várias abas</li>
       <li xml:lang="sk">Podpora viacerých kariet</li>
@@ -99,6 +112,7 @@
       <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
       <li xml:lang="nds">Informatschoondialogen kaamt Di nich in'n Weg.</li>
       <li xml:lang="nl">Informatiedialogen worden op een prettige manier getoond.</li>
+      <li xml:lang="pl">Pokazywanie informacyjnych okien dialogowych w nienatrętny sposób.</li>
       <li xml:lang="pt">As janelas informativas são apresentadas de forma não-intrusiva.</li>
       <li xml:lang="pt-BR">As janelas informativas são apresentadas de forma não-intrusiva.</li>
       <li xml:lang="sk">Informačné dialógy sú zobrazené nevtieravým spôsobom.</li>
@@ -109,6 +123,7 @@
       <li xml:lang="ca">Implementació de desfer/refer</li>
       <li xml:lang="nds">Ünnerstütten för Torüchnehmen un Wedderherstellen</li>
       <li xml:lang="nl">Ondersteuning ongedaan maken/opnieuw</li>
+      <li xml:lang="pl">Obsługa cofnij/ponów</li>
       <li xml:lang="pt">Suporte para desfazer/refazer</li>
       <li xml:lang="pt-BR">Suporte para desfazer/refazer</li>
       <li xml:lang="sk">Podpora Späť/Znova</li>
@@ -119,6 +134,7 @@
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="nds">Direkt Nettwarktogriep över dat KDE-In-/Utgaav-(KIO-)Moduulsysteem</li>
       <li xml:lang="nl">Transparante toegang tot het netwerk via het KIO systeem.</li>
+      <li xml:lang="pl">Przezroczysty dostęp do sieci przez system KIO.</li>
       <li xml:lang="pt">Acesso transparente à rede através do sistema KIO.</li>
       <li xml:lang="pt-BR">Acesso transparente à rede através do sistema KIO.</li>
       <li xml:lang="sk">Transparentný prístup na sieť cez KIO systém.</li>
