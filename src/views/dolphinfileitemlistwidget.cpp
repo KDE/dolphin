@@ -126,4 +126,3 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemV
     return KIcon(iconName).pixmap(QSize(overlayHeight, overlayHeight));
 }
 
-#include "dolphinfileitemlistwidget.moc"

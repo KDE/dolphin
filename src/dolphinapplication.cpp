@@ -100,4 +100,3 @@ void DolphinApplication::restoreSession()
     }
 }
 
-#include "dolphinapplication.moc"

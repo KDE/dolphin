@@ -219,4 +219,3 @@ QString RenameDialog::indexedName(const QString& name, int index, const QChar& i
     return newName;
 }
 
-#include "renamedialog.moc"

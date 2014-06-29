@@ -45,4 +45,3 @@ void KFileItemModelDirLister::handleError(KIO::Job* job)
     }
 }
 
-#include "kfileitemmodeldirlister.moc"

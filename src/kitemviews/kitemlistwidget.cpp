@@ -526,4 +526,3 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
-#include "kitemlistwidget.moc"

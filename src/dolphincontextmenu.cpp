@@ -530,4 +530,3 @@ void DolphinContextMenu::addCustomActions()
     }
 }
 
-#include "dolphincontextmenu.moc"

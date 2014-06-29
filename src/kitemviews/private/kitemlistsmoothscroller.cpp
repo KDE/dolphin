@@ -209,4 +209,3 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
     event->accept();
 }
 
-#include "kitemlistsmoothscroller.moc"

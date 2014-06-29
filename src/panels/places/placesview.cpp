@@ -49,4 +49,3 @@ int PlacesView::iconSize() const
     return option.iconSize;
 }
 
-#include "placesview.moc"

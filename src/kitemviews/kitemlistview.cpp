@@ -2717,4 +2717,3 @@ void KItemListGroupHeaderCreatorBase::recycle(KItemListGroupHeader* header)
     pushRecycleableWidget(header);
 }
 
-#include "kitemlistview.moc"

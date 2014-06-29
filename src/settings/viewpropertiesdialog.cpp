@@ -408,4 +408,3 @@ void ViewPropertiesDialog::loadSettings()
     markAsDirty(false);
 }
 
-#include "viewpropertiesdialog.moc"

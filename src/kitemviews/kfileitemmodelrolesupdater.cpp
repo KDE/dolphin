@@ -1170,4 +1170,3 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
     return result;
 }
 
-#include "kfileitemmodelrolesupdater.moc"

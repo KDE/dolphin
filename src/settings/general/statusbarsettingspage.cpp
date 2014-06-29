@@ -73,4 +73,3 @@ void StatusBarSettingsPage::loadSettings()
     m_showSpaceInfo->setChecked(GeneralSettings::showSpaceInfo());
 }
 
-#include "statusbarsettingspage.moc"

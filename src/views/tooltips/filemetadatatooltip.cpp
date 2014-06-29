@@ -180,4 +180,3 @@ void FileMetaDataToolTip::showEvent(QShowEvent *)
     KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 
-#include "filemetadatatooltip.moc"

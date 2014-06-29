@@ -85,4 +85,3 @@ void ViewModeController::setUrl(const KUrl& url)
     }
 }
 
-#include "viewmodecontroller.moc"

@@ -237,5 +237,3 @@ void KStandardItemModel::onItemRemoved(int index, KStandardItem* removedItem)
     Q_UNUSED(removedItem);
 }
 
-
-#include "kstandarditemmodel.moc"

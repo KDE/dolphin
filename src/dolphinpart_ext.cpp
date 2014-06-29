@@ -190,4 +190,3 @@ void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemLi
     emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
 
-#include "dolphinpart_ext.moc"

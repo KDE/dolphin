@@ -40,4 +40,3 @@ QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
     return QPalette::WindowText;
 }
 
-#include "placesitemlistwidget.moc"

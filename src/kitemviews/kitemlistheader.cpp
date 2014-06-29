@@ -85,4 +85,3 @@ KItemListHeader::KItemListHeader(KItemListView* listView) :
             this, &KItemListHeader::columnWidthChanged);
 }
 
-#include "kitemlistheader.moc"

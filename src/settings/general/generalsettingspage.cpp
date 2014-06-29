@@ -89,4 +89,3 @@ void GeneralSettingsPage::restoreDefaults()
     }
 }
 
-#include "generalsettingspage.moc"

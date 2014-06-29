@@ -289,4 +289,4 @@ void ViewSettingsTab::showToolTip(QSlider* slider, int value)
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
     QApplication::sendEvent(slider, &toolTipEvent);
 }
-#include "viewsettingstab.moc"
+

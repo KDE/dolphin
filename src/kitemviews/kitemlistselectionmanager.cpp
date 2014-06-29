@@ -396,4 +396,4 @@ int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRa
     }
     return qBound(-1, index - dec, m_model->count() - 1);
 }
-#include "kitemlistselectionmanager.moc"
+

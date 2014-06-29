@@ -115,4 +115,3 @@ int KItemListSelectionToggle::iconSize() const
     return iconSize;
 }
 
-#include "kitemlistselectiontoggle.moc"

@@ -83,4 +83,3 @@ KFileItemClipboard::KFileItemClipboard() :
             this, &KFileItemClipboard::updateCutItems);
 }
 
-#include "kfileitemclipboard.moc"

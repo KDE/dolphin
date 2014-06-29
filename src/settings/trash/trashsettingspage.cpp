@@ -67,4 +67,3 @@ void TrashSettingsPage::loadSettings()
     m_proxy->load();
 }
 
-#include "trashsettingspage.moc"

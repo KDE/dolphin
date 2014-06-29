@@ -440,4 +440,3 @@ void InformationPanelContent::adjustWidgetSizes(int width)
     }
 }
 
-#include "informationpanelcontent.moc"

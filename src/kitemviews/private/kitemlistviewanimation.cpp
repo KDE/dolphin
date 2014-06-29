@@ -242,4 +242,3 @@ void KItemListViewAnimation::slotFinished()
     Q_ASSERT(false);
 }
 
-#include "kitemlistviewanimation.moc"

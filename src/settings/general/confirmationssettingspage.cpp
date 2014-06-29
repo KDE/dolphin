@@ -111,4 +111,3 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
 }
 
-#include "confirmationssettingspage.moc"

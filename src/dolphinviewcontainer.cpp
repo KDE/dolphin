@@ -725,4 +725,3 @@ void DolphinViewContainer::saveViewState()
     m_urlNavigator->saveLocationState(locationState);
 }
 
-#include "dolphinviewcontainer.moc"

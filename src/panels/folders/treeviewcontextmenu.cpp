@@ -210,4 +210,3 @@ void TreeViewContextMenu::setAutoScrolling(bool enable)
     m_parent->setAutoScrolling(enable);
 }
 
-#include "treeviewcontextmenu.moc"

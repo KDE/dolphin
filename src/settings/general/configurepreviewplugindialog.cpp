@@ -79,4 +79,3 @@ void ConfigurePreviewPluginDialog::slotOk()
 
 }
 
-#include "configurepreviewplugindialog.moc"

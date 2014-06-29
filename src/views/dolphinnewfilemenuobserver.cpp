@@ -63,4 +63,3 @@ DolphinNewFileMenuObserver::~DolphinNewFileMenuObserver()
 {
 }
 
-#include "dolphinnewfilemenuobserver.moc"

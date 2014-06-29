@@ -80,4 +80,3 @@ void ViewSettingsPage::restoreDefaults()
     }
 }
 
-#include "viewsettingspage.moc"

@@ -105,4 +105,3 @@ int ServiceModel::rowCount(const QModelIndex& parent) const
     return m_items.count();
 }
 
-#include "servicemodel.moc"

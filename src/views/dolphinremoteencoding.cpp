@@ -235,4 +235,3 @@ void DolphinRemoteEncoding::updateView()
     m_actionHandler->currentView()->reload();
 }
 
-#include "dolphinremoteencoding.moc"

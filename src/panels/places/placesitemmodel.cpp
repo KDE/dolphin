@@ -1228,4 +1228,3 @@ void PlacesItemModel::showModelState()
 }
 #endif
 
-#include "placesitemmodel.moc"

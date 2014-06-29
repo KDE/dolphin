@@ -1310,4 +1310,3 @@ void KItemListController::updateExtendedSelectionRegion()
     }
 }
 
-#include "kitemlistcontroller.moc"

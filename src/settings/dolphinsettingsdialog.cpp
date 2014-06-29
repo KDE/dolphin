@@ -148,4 +148,3 @@ void DolphinSettingsDialog::restoreDefaults()
     }
 }
 
-#include "dolphinsettingsdialog.moc"

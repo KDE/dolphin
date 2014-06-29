@@ -115,4 +115,3 @@ void NavigationSettingsPage::loadSettings()
     m_autoExpandFolders->setChecked(GeneralSettings::autoExpandFolders());
 }
 
-#include "navigationsettingspage.moc"

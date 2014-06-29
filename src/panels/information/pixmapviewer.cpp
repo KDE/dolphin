@@ -127,4 +127,3 @@ void PixmapViewer::checkPendingPixmaps()
     }
 }
 
-#include "pixmapviewer.moc"

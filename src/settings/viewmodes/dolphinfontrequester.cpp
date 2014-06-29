@@ -104,4 +104,3 @@ void DolphinFontRequester::changeMode(int index)
     emit changed();
 }
 
-#include "dolphinfontrequester.moc"

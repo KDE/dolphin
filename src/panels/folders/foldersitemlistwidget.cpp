@@ -33,4 +33,3 @@ QPalette::ColorRole FoldersItemListWidget::normalTextColorRole() const
     return QPalette::WindowText;
 }
 
-#include "foldersitemlistwidget.moc"

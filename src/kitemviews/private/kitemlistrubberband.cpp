@@ -88,4 +88,3 @@ bool KItemListRubberBand::isActive() const
     return m_active;
 }
 
-#include "kitemlistrubberband.moc"

@@ -513,4 +513,3 @@ void DolphinSearchBox::updateFacetsToggleButton()
     m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
 }
 
-#include "dolphinsearchbox.moc"

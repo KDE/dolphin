@@ -145,4 +145,3 @@ void ViewPropsProgressInfo::cancelApplying()
     }
 }
 
-#include "viewpropsprogressinfo.moc"

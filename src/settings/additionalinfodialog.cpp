@@ -110,4 +110,3 @@ void AdditionalInfoDialog::slotOk()
     }
 }
 
-#include "additionalinfodialog.moc"

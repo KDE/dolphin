@@ -179,4 +179,3 @@ void KStandardItemListView::updateLayoutOfVisibleItems()
     }
 }
 
-#include "kstandarditemlistview.moc"

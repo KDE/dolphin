@@ -169,4 +169,3 @@ void PlacesItemEditDialog::initialize()
     setMainWidget(mainWidget);
 }
 
-#include "placesitemeditdialog.moc"
