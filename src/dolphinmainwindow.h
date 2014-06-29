@@ -28,7 +28,7 @@
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <KActionMenu>
+#include <KIcon>
 
 #include <QList>
 #include <QWeakPointer>
@@ -156,6 +156,11 @@ signals:
      */
     void settingsChanged();
 
+    /**
+     * Is emitted when a tab has been closed.
+     */
+    void rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+
 protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
@@ -191,9 +196,6 @@ private slots:
      * on the parameter \a available.
      */
     void slotUndoAvailable(bool available);
-
-    /** Invoked when an action in the recent tabs menu is clicked. */
-    void restoreClosedTab(QAction* action);
 
     /** Sets the text of the 'Undo' menu action to \a text. */
     void slotUndoTextChanged(const QString& text);
@@ -473,6 +475,12 @@ private slots:
      */
     void slotPlaceActivated(const KUrl& url);
 
+    /**
+     * Is called when the user wants to reopen a previously closed \a tab from
+     * the recent tabs menu.
+     */
+    void restoreClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+
 private:
     /**
      * Activates the given view, which means that
@@ -502,11 +510,6 @@ private:
      * @return True if the action has been added to the menu.
      */
     bool addActionToMenu(QAction* action, KMenu* menu);
-
-    /**
-     * Adds the tab[\a index] to the closed tab menu's list of actions.
-     */
-    void rememberClosedTab(int index);
 
     /**
      * Connects the signals from the created DolphinView with
@@ -572,7 +575,6 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
-    KActionMenu* m_recentTabsMenu;
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;

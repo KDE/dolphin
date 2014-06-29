@@ -451,6 +451,8 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
     if (m_roles == roles) {
         return;
     }
+
+    const QSet<QByteArray> changedRoles = (roles - m_roles) + (m_roles - roles);
     m_roles = roles;
 
     if (count() > 0) {
@@ -479,8 +481,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
             m_itemData[i]->values = retrieveData(m_itemData.at(i)->item, m_itemData.at(i)->parent);
         }
 
-        kWarning() << "TODO: Emitting itemsChanged() with no information what has changed!";
-        emit itemsChanged(KItemRangeList() << KItemRange(0, count()), QSet<QByteArray>());
+        emit itemsChanged(KItemRangeList() << KItemRange(0, count()), changedRoles);
     }
 
     // Clear the 'values' of all filtered items. They will be re-populated with the
