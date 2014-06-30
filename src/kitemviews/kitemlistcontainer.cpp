@@ -185,11 +185,15 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
     KItemListSmoothScroller* smoothScroller = scrollHorizontally ?
                                               m_horizontalSmoothScroller : m_verticalSmoothScroller;
 
-    const int numDegrees = event->delta() / 8;
-    const int numSteps = numDegrees / 15;
-
     const QScrollBar* scrollBar = smoothScroller->scrollBar();
-    smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
+    if (!event->pixelDelta().isNull()) {
+        const int numPixels =  event->pixelDelta().y();
+        smoothScroller->scrollTo(scrollBar->value() - numPixels);
+    } else {
+        const int numDegrees = event->angleDelta().y() / 8;
+        const int numSteps = numDegrees / 15;
+        smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
+    }
 
     event->accept();
 }
