@@ -7,6 +7,7 @@
   <name xml:lang="ca">Dolphin</name>
   <name xml:lang="da">Dolphin</name>
   <name xml:lang="de">Dolphin</name>
+  <name xml:lang="fi">Dolphin</name>
   <name xml:lang="nds">Dolphin</name>
   <name xml:lang="nl">Dolphin</name>
   <name xml:lang="pl">Dolphin</name>
@@ -19,6 +20,7 @@
   <summary>File Manager</summary>
   <summary xml:lang="ca">Gestor de fitxers</summary>
   <summary xml:lang="de">Dateiverwaltung</summary>
+  <summary xml:lang="fi">Tiedostonhallinta</summary>
   <summary xml:lang="nds">Dateipleger</summary>
   <summary xml:lang="nl">Bestandsbeheerder</summary>
   <summary xml:lang="pl">Zarządzanie plikami</summary>
@@ -31,6 +33,7 @@
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant en facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
+    <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="nds">Dolphin is en slank Dateipleger. Dat wöör buut mit de Idee vun't eenfache Bedenen vör Ogen, bides dat liekers flexibel un topassbor wesen schull. Du kannst Dien Dateien also jüst so plegen, as Du dat wullt.</p>
     <p xml:lang="nl">Dolphin is een lichtgewicht bestandsbeheerder. Het is ontworpen met gebruiksgemak en eenvoud in gedachte en staat toch flexibiliteit en aan te passen toe. Dit betekent dat u uw bestandsbeheer kunt doen precies op de manier zoals u dat wilt.</p>
     <p xml:lang="pl">Dolphin jest lekkim programem do zarządzania plikami. Został on opracowany mając na uwadze łatwość i prostotę obsługi, zapewniając jednocześnie elastyczność i możliwość dostosowania. Oznacza to, że można urządzić zarządzanie plikami w dokładnie taki sposób w jaki jest to pożądane.</p>
@@ -43,6 +46,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="de">Funktionen:</p>
+    <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
     <p xml:lang="pl">Możliwości:</p>
@@ -99,6 +103,7 @@
       <li xml:lang="x-test">xxAdditional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.xx</li>
       <li>Multiple tab support</li>
       <li xml:lang="ca">Implementació de pestanyes múltiples</li>
+      <li xml:lang="fi">Useiden välilehtien tuki</li>
       <li xml:lang="nds">Ünnerstütten för Paneels</li>
       <li xml:lang="nl">Ondersteuning voor meerdere tabbladen</li>
       <li xml:lang="pl">Obsługa wielu kart</li>
@@ -121,6 +126,7 @@
       <li xml:lang="x-test">xxInformational dialogues are displayed in an unobtrusive way.xx</li>
       <li>Undo/redo support</li>
       <li xml:lang="ca">Implementació de desfer/refer</li>
+      <li xml:lang="fi">Tuki muutosten kumoamiselle ja tekemiselle uudelleen</li>
       <li xml:lang="nds">Ünnerstütten för Torüchnehmen un Wedderherstellen</li>
       <li xml:lang="nl">Ondersteuning ongedaan maken/opnieuw</li>
       <li xml:lang="pl">Obsługa cofnij/ponów</li>
