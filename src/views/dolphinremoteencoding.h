@@ -30,7 +30,7 @@ class KActionMenu;
 class DolphinViewActionHandler;
 
 /**
- * @brief Allows to chnage character encoding for remote urls like ftp.
+ * @brief Allows to change character encoding for remote urls like ftp.
  *
  * When browsing remote url, its possible to change encoding from Tools Menu.
  */
