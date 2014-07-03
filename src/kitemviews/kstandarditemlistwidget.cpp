@@ -494,6 +494,29 @@ QRectF KStandardItemListWidget::textFocusRect() const
     return m_textRect;
 }
 
+QRectF KStandardItemListWidget::selectionRect() const
+{
+    const_cast<KStandardItemListWidget*>(this)->triggerCacheRefreshing();
+
+    switch (m_layout) {
+    case IconsLayout:
+        return m_textRect;
+
+    case CompactLayout:
+    case DetailsLayout: {
+        const int padding = styleOption().padding;
+        QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
+        return adjustedIconRect | m_textRect;
+    }
+
+    default:
+        Q_ASSERT(false);
+        break;
+    }
+
+    return m_textRect;
+}
+
 QRectF KStandardItemListWidget::expansionToggleRect() const
 {
     const_cast<KStandardItemListWidget*>(this)->triggerCacheRefreshing();
@@ -945,7 +968,7 @@ void KStandardItemListWidget::updatePixmapCache()
             KIconEffect::semiTransparent(m_pixmap);
         }
 
-        if (isSelected()) {
+        if (m_layout == IconsLayout && isSelected()) {
             const QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
             QImage image = m_pixmap.toImage();
             KIconEffect::colorize(image, color, 0.8f);

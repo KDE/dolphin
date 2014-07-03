@@ -522,7 +522,7 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = textRect().toRect();
+    viewItemOption.rect = selectionRect().toRect();
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
