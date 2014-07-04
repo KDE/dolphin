@@ -164,6 +164,11 @@ public:
     virtual QRectF textFocusRect() const;
 
     /**
+     * @return Rectangle around which a selection box should be drawn if the item is selected.
+     */
+    virtual QRectF selectionRect() const = 0;
+
+    /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
      *         Per default an empty rectangle is returned which means that no selection-toggle
      *         is available.

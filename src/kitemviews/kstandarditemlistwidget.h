@@ -109,6 +109,7 @@ public:
     virtual QRectF iconRect() const;
     virtual QRectF textRect() const;
     virtual QRectF textFocusRect() const;
+    virtual QRectF selectionRect() const;
     virtual QRectF expansionToggleRect() const;
     virtual QRectF selectionToggleRect() const;
     virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
