@@ -26,6 +26,7 @@
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinrecenttabsmenu.h"
+#include "dolphintabbar.h"
 #include "dolphinviewcontainer.h"
 #include "dolphintabpage.h"
 #include "panels/folders/folderspanel.h"
@@ -75,7 +76,6 @@
 #include <KStandardDirs>
 #include <kstatusbar.h>
 #include <KStandardAction>
-#include <ktabbar.h>
 #include <KToggleAction>
 #include <KUrlNavigator>
 #include <KUrl>
@@ -144,25 +144,19 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(this, SIGNAL(urlChanged(KUrl)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
-    m_tabBar = new KTabBar(this);
-    m_tabBar->setMovable(true);
-    m_tabBar->setTabsClosable(true);
+    m_tabBar = new DolphinTabBar(this);
     connect(m_tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(setActiveTab(int)));
     connect(m_tabBar, SIGNAL(tabCloseRequested(int)),
             this, SLOT(closeTab(int)));
-    connect(m_tabBar, SIGNAL(contextMenu(int,QPoint)),
-            this, SLOT(openTabContextMenu(int,QPoint)));
-    connect(m_tabBar, SIGNAL(newTabRequest()),
-            this, SLOT(openNewTab()));
-    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*,bool&)),
-            this, SLOT(slotTestCanDecode(const QDragMoveEvent*,bool&)));
-    connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
-            this, SLOT(closeTab(int)));
+    connect(m_tabBar, SIGNAL(openNewActivatedTab(int)),
+            this, SLOT(openNewActivatedTab(int)));
     connect(m_tabBar, SIGNAL(tabMoved(int,int)),
             this, SLOT(slotTabMoved(int,int)));
-    connect(m_tabBar, SIGNAL(receivedDropEvent(int,QDropEvent*)),
+    connect(m_tabBar, SIGNAL(tabDropEvent(int,QDropEvent*)),
             this, SLOT(tabDropEvent(int,QDropEvent*)));
+    connect(m_tabBar, SIGNAL(tabDetachRequested(int)),
+            this, SLOT(detachTab(int)));
 
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
     m_tabBar->hide();
@@ -441,6 +435,13 @@ void DolphinMainWindow::openNewActivatedTab(const KUrl& primaryUrl, const KUrl& 
 {
     openNewTab(primaryUrl, secondaryUrl);
     setActiveTab(m_viewTab.count() - 1);
+}
+
+void DolphinMainWindow::openNewActivatedTab(int index)
+{
+    Q_ASSERT(index >= 0);
+    const DolphinTabPage* tabPage = m_viewTab.at(index);
+    openNewActivatedTab(tabPage->activeViewContainer()->url());
 }
 
 void DolphinMainWindow::activateNextTab()
@@ -981,61 +982,29 @@ void DolphinMainWindow::closeTab(int index)
     }
 }
 
-void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
+void DolphinMainWindow::detachTab(int index)
 {
-    KMenu menu(this);
+    Q_ASSERT(index >= 0);
 
-    QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
-    newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
+    const QString separator(QLatin1Char(' '));
+    QString command = QLatin1String("dolphin");
 
-    QAction* detachTabAction = menu.addAction(KIcon("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
-
-    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
-
-    QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
-    closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
-    QAction* selectedAction = menu.exec(pos);
-    if (selectedAction == newTabAction) {
-        const KUrl url = m_viewTab.at(index)->activeViewContainer()->url();
-        openNewTab(url);
-        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
-    } else if (selectedAction == detachTabAction) {
-        const QString separator(QLatin1Char(' '));
-        QString command = QLatin1String("dolphin");
-
-        const DolphinTabPage* tabPage = m_viewTab.at(index);
-
-        command += separator + tabPage->primaryViewContainer()->url().url();
-        if (tabPage->splitViewEnabled()) {
-            command += separator + tabPage->secondaryViewContainer()->url().url();
-            command += separator + QLatin1String("-split");
-        }
-
-        KRun::runCommand(command, this);
-
-        closeTab(index);
-    } else if (selectedAction == closeOtherTabsAction) {
-        const int count = m_tabBar->count();
-        for (int i = 0; i < index; ++i) {
-            closeTab(0);
-        }
-        for (int i = index + 1; i < count; ++i) {
-            closeTab(1);
-        }
-    } else if (selectedAction == closeTabAction) {
-        closeTab(index);
+    const DolphinTabPage* tabPage = m_viewTab.at(index);
+    command += separator + tabPage->primaryViewContainer()->url().url();
+    if (tabPage->splitViewEnabled()) {
+        command += separator + tabPage->secondaryViewContainer()->url().url();
+        command += separator + QLatin1String("-split");
     }
+
+    KRun::runCommand(command, this);
+
+    closeTab(index);
 }
 
 void DolphinMainWindow::slotTabMoved(int from, int to)
 {
     m_viewTab.move(from, to);
     m_tabIndex = m_tabBar->currentIndex();
-}
-
-void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& canDecode)
-{
-    canDecode = KUrl::List::canDecode(event->mimeData());
 }
 
 void DolphinMainWindow::handleUrl(const KUrl& url)

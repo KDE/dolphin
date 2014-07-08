@@ -38,6 +38,7 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSettingsDialog;
+class DolphinTabBar;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class DolphinTabPage;
@@ -46,7 +47,6 @@ class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class KTabBar;
 class KUrl;
 class QSplitter;
 class QToolButton;
@@ -358,6 +358,12 @@ private slots:
      */
     void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
 
+    /**
+     * Opens a new tab showing the url from tab at the given \a index and
+     * activates the tab.
+     */
+    void openNewActivatedTab(int index);
+
     void activateNextTab();
 
     void activatePrevTab();
@@ -393,10 +399,10 @@ private slots:
     void closeTab(int index);
 
     /**
-     * Opens a context menu for the tab with the index \a index
-     * on the position \a pos.
+     * Opens the tab with the index \a index in a new Dolphin instance and closes
+     * this tab.
      */
-    void openTabContextMenu(int index, const QPoint& pos);
+    void detachTab(int index);
 
     /**
      * Is connected to the QTabBar signal tabMoved(int from, int to).
@@ -404,12 +410,6 @@ private slots:
      * and sets m_tabIndex to the new index of the current tab.
      */
     void slotTabMoved(int from, int to);
-
-    /**
-     * Is connected to the KTabBar signal testCanDecode() and adjusts
-     * the output parameter \a accept.
-     */
-    void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
      * If the URL can be listed, open it in the current view, otherwise
@@ -549,7 +549,7 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
-    KTabBar* m_tabBar;
+    DolphinTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
     int m_id;
