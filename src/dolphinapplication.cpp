@@ -34,7 +34,6 @@ DolphinApplication::DolphinApplication() :
 
     m_mainWindow = new DolphinMainWindow();
     m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
-    m_mainWindow->show();
 
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
@@ -71,6 +70,9 @@ DolphinApplication::DolphinApplication() :
         } else {
             m_mainWindow->openDirectories(urls);
         }
+    } else {
+        const KUrl homeUrl(GeneralSettings::homeUrl());
+        m_mainWindow->openNewActivatedTab(homeUrl);
     }
 
     if (resetSplitSettings) {
@@ -78,6 +80,8 @@ DolphinApplication::DolphinApplication() :
     }
 
     args->clear();
+
+    m_mainWindow->show();
 }
 
 DolphinApplication::~DolphinApplication()

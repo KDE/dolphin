@@ -198,9 +198,6 @@ DolphinMainWindow::DolphinMainWindow() :
     if (!showMenu) {
         createControlButton();
     }
-
-    const KUrl homeUrl(generalSettings->homeUrl());
-    openNewActivatedTab(homeUrl);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -209,17 +206,6 @@ DolphinMainWindow::~DolphinMainWindow()
 
 void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 {
-    if (dirs.isEmpty()) {
-        return;
-    }
-
-    if (dirs.count() == 1) {
-        m_activeViewContainer->setUrl(dirs.first());
-        return;
-    }
-
-    const int oldOpenTabsCount = m_viewTab.count();
-
     const bool hasSplitView = GeneralSettings::splitView();
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
@@ -233,11 +219,6 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
         } else {
             openNewTab(primaryUrl);
         }
-    }
-
-    // Remove the previously opened tabs
-    for (int i = 0; i < oldOpenTabsCount; ++i) {
-        closeTab(0);
     }
 }
 
@@ -516,6 +497,13 @@ void DolphinMainWindow::openInNewWindow()
 void DolphinMainWindow::showEvent(QShowEvent* event)
 {
     KXmlGuiWindow::showEvent(event);
+
+    if (!m_activeViewContainer && m_viewTab.count() > 0) {
+        // If we have no active view container yet, we set the primary view container
+        // of the first tab as active view container.
+        setActiveTab(0);
+    }
+
     if (!event->spontaneous()) {
         m_activeViewContainer->view()->setFocus();
     }
