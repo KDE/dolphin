@@ -150,7 +150,9 @@ set(dolphin_SRCS
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
+    dolphintabbar.cpp
     dolphinrecenttabsmenu.cpp
+    dolphintabpage.cpp
     filterbar/filterbar.cpp
     main.cpp
     panels/information/filemetadataconfigurationdialog.cpp

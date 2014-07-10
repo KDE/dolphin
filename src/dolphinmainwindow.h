@@ -29,6 +29,7 @@
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 #include <KIcon>
+#include <KUrl>
 
 #include <QList>
 #include <QWeakPointer>
@@ -38,15 +39,15 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSettingsDialog;
+class DolphinTabBar;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
+class DolphinTabPage;
 class KAction;
 class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class KTabBar;
-class KUrl;
 class QSplitter;
 class QToolButton;
 class QVBoxLayout;
@@ -88,13 +89,6 @@ public:
      * of Dolphin).
      */
     void openFiles(const QList<KUrl>& files);
-
-    /**
-     * Returns true, if the main window contains two instances
-     * of a view container. The active view constainer can be
-     * accessed by DolphinMainWindow::activeViewContainer().
-     */
-    bool isSplit() const;
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared
@@ -354,15 +348,22 @@ private slots:
     void openNewTab();
 
     /**
-     * Opens a new tab in the background showing the URL \a url.
+     * Opens a new tab in the background showing the URL \a primaryUrl and the
+     * optional URL \a secondaryUrl.
      */
-    void openNewTab(const KUrl& url);
+    void openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
 
     /**
-     * Opens a new tab showing the URL \a url and activates
-     * the tab.
+     * Opens a new tab showing the  URL \a primaryUrl and the optional URL
+     * \a secondaryUrl and activates the tab.
      */
-    void openNewActivatedTab(const KUrl& url);
+    void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+
+    /**
+     * Opens a new tab showing the url from tab at the given \a index and
+     * activates the tab.
+     */
+    void openNewActivatedTab(int index);
 
     void activateNextTab();
 
@@ -377,9 +378,6 @@ private slots:
      * Opens the selected folder in a new window.
      */
     void openInNewWindow();
-
-    /** Toggles the active view if two views are shown within the main window. */
-    void toggleActiveView();
 
     /**
      * Indicates in the statusbar that the execution of the command \a command
@@ -402,10 +400,10 @@ private slots:
     void closeTab(int index);
 
     /**
-     * Opens a context menu for the tab with the index \a index
-     * on the position \a pos.
+     * Opens the tab with the index \a index in a new Dolphin instance and closes
+     * this tab.
      */
-    void openTabContextMenu(int index, const QPoint& pos);
+    void detachTab(int index);
 
     /**
      * Is connected to the QTabBar signal tabMoved(int from, int to).
@@ -413,12 +411,6 @@ private slots:
      * and sets m_tabIndex to the new index of the current tab.
      */
     void slotTabMoved(int from, int to);
-
-    /**
-     * Is connected to the KTabBar signal testCanDecode() and adjusts
-     * the output parameter \a accept.
-     */
-    void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
      * If the URL can be listed, open it in the current view, otherwise
@@ -475,11 +467,7 @@ private slots:
      */
     void slotPlaceActivated(const KUrl& url);
 
-    /**
-     * Is called when the user wants to reopen a previously closed \a tab from
-     * the recent tabs menu.
-     */
-    void restoreClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void activeViewChanged();
 
 private:
     /**
@@ -489,11 +477,6 @@ private:
      * is usually shown in darker colors.
      */
     void setActiveViewContainer(DolphinViewContainer* view);
-
-    /**
-     * Creates a view container and does a default initialization.
-     */
-    DolphinViewContainer* createViewContainer(const KUrl& url, QWidget* parent);
 
     void setupActions();
     void setupDockWidgets();
@@ -530,16 +513,8 @@ private:
     /** Returns the name of the tab for the URL \a url. */
     QString tabName(const KUrl& url) const;
 
+
     bool isKompareInstalled() const;
-
-    void createSecondaryView(int tabIndex);
-
-    /**
-     * Helper method for saveProperties() and readProperties(): Returns
-     * the property string for a tab with the index \a tabIndex and
-     * the property \a property.
-     */
-    QString tabProperty(const QString& property, int tabIndex) const;
 
     /**
      * Sets the window caption to url.fileName() if this is non-empty,
@@ -575,23 +550,13 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
-    KTabBar* m_tabBar;
+    DolphinTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
     int m_id;
 
-    // Members for the tab-handling:
-    struct ViewTab
-    {
-        ViewTab() : isPrimaryViewActive(true), wasActive(false), primaryView(0), secondaryView(0), splitter(0) {}
-        bool isPrimaryViewActive;
-        bool wasActive;
-        DolphinViewContainer* primaryView;
-        DolphinViewContainer* secondaryView;
-        QSplitter* splitter;
-    };
     int m_tabIndex;
-    QList<ViewTab> m_viewTab;
+    QList<DolphinTabPage*> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
@@ -607,11 +572,6 @@ private:
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 {
     return m_activeViewContainer;
-}
-
-inline bool DolphinMainWindow::isSplit() const
-{
-    return m_viewTab[m_tabIndex].secondaryView != 0;
 }
 
 inline KNewFileMenu* DolphinMainWindow::newFileMenu() const

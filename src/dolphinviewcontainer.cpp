@@ -143,6 +143,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::showErrorMessage);
     connect(m_view, &DolphinView::urlIsFileError,
             this, &DolphinViewContainer::slotUrlIsFileError);
+    connect(m_view, &DolphinView::activated,
+            this, &DolphinViewContainer::activate);
 
     connect(m_urlNavigator, &KUrlNavigator::urlAboutToBeChanged,
             this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
