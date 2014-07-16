@@ -76,6 +76,10 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled)
         if (enabled) {
             const KUrl& url = m_primaryViewContainer->url();
             m_secondaryViewContainer = createViewContainer(url);
+
+            const bool placesSelectorVisible = m_primaryViewContainer->urlNavigator()->isPlacesSelectorVisible();
+            m_secondaryViewContainer->urlNavigator()->setPlacesSelectorVisible(placesSelectorVisible);
+
             m_splitter->addWidget(m_secondaryViewContainer);
             m_secondaryViewContainer->show();
             m_secondaryViewContainer->setActive(true);
