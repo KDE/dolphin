@@ -33,7 +33,7 @@ KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUr
     error.clear();
 
     if (!destItem.isNull() && !destItem.isWritable()) {
-        error = i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
+        error = xi18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
         return 0;
     }
 
