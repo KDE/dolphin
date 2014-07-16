@@ -775,7 +775,8 @@ void DolphinMainWindow::togglePanelLockState()
 void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
 {
     foreach (DolphinTabPage* tabPage, m_viewTab) {
-        tabPage->setPlacesSelectorVisible(visible);
+        // The Places selector in the location bar should be shown if and only if the Places panel is hidden.
+        tabPage->setPlacesSelectorVisible(!visible);
     }
 }
 
