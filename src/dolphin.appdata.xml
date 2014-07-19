@@ -11,6 +11,7 @@
   <name xml:lang="de">Dolphin</name>
   <name xml:lang="en-GB">Dolphin</name>
   <name xml:lang="es">Dolphin</name>
+  <name xml:lang="et">Dolphin</name>
   <name xml:lang="fi">Dolphin</name>
   <name xml:lang="ia">Dolphin</name>
   <name xml:lang="lt">Dolphin</name>
@@ -37,6 +38,7 @@
   <summary xml:lang="de">Dateiverwaltung</summary>
   <summary xml:lang="en-GB">File Manager</summary>
   <summary xml:lang="es">Administrador de archivos</summary>
+  <summary xml:lang="et">Failihaldur</summary>
   <summary xml:lang="fi">Tiedostonhallinta</summary>
   <summary xml:lang="ia">Gerente de File</summary>
   <summary xml:lang="lt">Failų tvarkyklė</summary>
@@ -62,6 +64,7 @@
     <p xml:lang="da">Dolphin er letvægtsfilhåndtering. Den er blevet designet med henblik på brugervenlighed og simpelhed, mens fleksibilitet og tilpasning stadig er muligt. Det betyder at du klare din filhåndtering nøjagtig på den måde du vil gøre det.</p>
     <p xml:lang="en-GB">Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="es">Dolphin es un administrador de archivos ligero. Se ha diseñado teniendo en cuenta la facilidad de uso y la simplicidad, así como la flexibilidad y la personalización. Esto significa que el usuario puede administrar los archivos exactamente de la manera que prefiera.</p>
+    <p xml:lang="et">Dolphin on vähest koormust tekitav failihaldur. Selle loomisel on peetud silmas kasutamise hõlpsust ja lihtsust, ometi pakub see suurt paindlikkust ja oma käe järgi kohandamise võimalusi. Sel moel saab faile hallata just, nagu ise soovid.</p>
     <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
     <p xml:lang="nds">Dolphin is en slank Dateipleger. Dat wöör buut mit de Idee vun't eenfache Bedenen vör Ogen, bides dat liekers flexibel un topassbor wesen schull. Du kannst Dien Dateien also jüst so plegen, as Du dat wullt.</p>
@@ -86,6 +89,7 @@
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
+    <p xml:lang="et">Omadused:</p>
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="lt">Galimybės</p>
@@ -110,6 +114,7 @@
       <li xml:lang="da">Navigationsbjælke (eller brødkrumme-bjælke) til URL'er, lader dig navigere hurtigt igennem hierarkiet af filer og mapper.</li>
       <li xml:lang="en-GB">Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="es">barra de navegación (o de ruta completa) para URL que permite navegar rápidamente a través de la jerarquía de archivos y carpetas.</li>
+      <li xml:lang="et">Liikumisriba IRL-idele, mis lubab kiiresti liigelda failide ja kataloogide hierarhias.</li>
       <li xml:lang="ia">Barra de navigation (o "breadcrumb") pro URLs, que il permitte te navigar rapidemente a transverso del hierarchia de files e dossieres.</li>
       <li xml:lang="nds">Steed- (oder Krömelspoor-)Balken för URLs, mit de Du Di fix dör de Hierarchie ut Dateien un Ornern bewegen kannst</li>
       <li xml:lang="nl">Navigatie- (of broodkruimel)balk voor URL's, waarmee u snel kunt navigeren door de hiërarchie van bestanden en mappen.</li>
@@ -131,6 +136,7 @@
       <li xml:lang="da">Understøtter flere forskellige slags visninger og egenskaber og lader dig konfigurere visningen nøjagtig som du vil have den.</li>
       <li xml:lang="en-GB">Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
       <li xml:lang="es">Admite varios tipos diferentes de estilos de vista y propiedades y permite configurar la vista exactamente como prefiera el usuario.</li>
+      <li xml:lang="et">Võimalus kasutada mitut laadi vaatestiile ja -omadusi ning neid igati enda käe järgi seadistada.</li>
       <li xml:lang="ia">Il supporta multe differente typos de stilos de vista e proprietates e il permitte te configurar le vista exactemente como tu vole.</li>
       <li xml:lang="nds">Ünnerstütt en Reeg verscheden Ansichtstilen un -egenschappen un lett Di de Ansicht jüst so topassen, as Du dat bruukst.</li>
       <li xml:lang="nl">Ondersteunt een aantal verschillende soorten stijlen van weergave en eigenschappen en biedt u de mogelijkheid de weergave in te stellen precies zoals u dat wilt.</li>
@@ -152,6 +158,7 @@
       <li xml:lang="da">Opdelt visning lader dig kopiere filer mellem placeringer på en nem måde.</li>
       <li xml:lang="en-GB">Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="es">Dividir vista, para poder copiar o mover archivos fácilmente entre distintas ubicaciones.</li>
+      <li xml:lang="et">Vaate poolitamise võimalus, mis muudab väga lihtsaks failide ühest kohast teise kopeerimise või liigutamise.</li>
       <li xml:lang="ia">Scinde vista,  il permitte te copiar o mover facilemente files inter locationes.</li>
       <li xml:lang="nds">Deelt Ansicht, mit De Du Dateien eenfach twischen Steden koperen oder bewegen kannst.</li>
       <li xml:lang="nl">Gesplitst beeld, waarmee u gemakkelijk bestanden kunt kopiëren of verplaatsen tussen locaties.</li>
@@ -173,6 +180,7 @@
       <li xml:lang="da">Yderligere information og genveje er tilgængelige som dokbare paneler, som lader dig flytte dem frit omkring og vise nøjagtigt det du vil have.</li>
       <li xml:lang="en-GB">Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="es">Hay disponible información adicional y accesos rápidos en forma de paneles separables para que se puedan mover libremente a la vez que muestran exactamente lo que prefiera el usuario.</li>
+      <li xml:lang="et">Lisateave ja otseteed dokitavate paneelidena, mida saab vabalt vajalikku kohta tõsta ja panna näitama just vajalikku teavet.</li>
       <li xml:lang="ia">Information additional e vias breve es disponibile como pannellos de basin (dock-panels), il permitte mover los liberemente e monstrar los exactemente como tu vole.</li>
       <li xml:lang="nds">Bito-Infos un Leestekens laat sik as Paneels andocken, Du kannst ehr verschuven un se jüst dat wiesen laten, wat Du weten wullt.</li>
       <li xml:lang="nl">Extra informatie en sneltoetsen zijn beschikbaar als vast te zetten panelen, die u vrij kunt verplaatsen en precies kunt tonen wat u wilt.</li>
@@ -194,6 +202,7 @@
       <li xml:lang="da">Understøttelse af flere faneblade</li>
       <li xml:lang="en-GB">Multiple tab support</li>
       <li xml:lang="es">Admite varias pestañas</li>
+      <li xml:lang="et">Mitme kaardi kasutamise toetus.</li>
       <li xml:lang="fi">Useiden välilehtien tuki</li>
       <li xml:lang="ia">Supporto de scheda multiple</li>
       <li xml:lang="lt">Daugelio kortelių palaikymas</li>
@@ -217,6 +226,7 @@
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
       <li xml:lang="en-GB">Informational dialogs are displayed in an unobtrusive way.</li>
       <li xml:lang="es">Los diálogos informativos se muestran de manera discreta.</li>
+      <li xml:lang="et">Teavitavate dialoogide näitamine kasutajat liigselt ärritamata.</li>
       <li xml:lang="ia">Dialogos de information es monstrate de modo non importun.</li>
       <li xml:lang="nds">Informatschoondialogen kaamt Di nich in'n Weg.</li>
       <li xml:lang="nl">Informatiedialogen worden op een prettige manier getoond.</li>
@@ -237,6 +247,7 @@
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
       <li xml:lang="en-GB">Undo/redo support</li>
       <li xml:lang="es">Admite las operaciones de deshacer y rehacer</li>
+      <li xml:lang="et">Tagasivõtmise ja uuestitegemise toetus.</li>
       <li xml:lang="fi">Tuki muutosten kumoamiselle ja tekemiselle uudelleen</li>
       <li xml:lang="ia">Supporto de annulla/reface</li>
       <li xml:lang="nds">Ünnerstütten för Torüchnehmen un Wedderherstellen</li>
@@ -260,6 +271,7 @@
       <li xml:lang="da">Transparent netværksadgang igennem KIO-systemet</li>
       <li xml:lang="en-GB">Transparent network access through the KIO system.</li>
       <li xml:lang="es">Acceso transparente a la red a través del sistema KIO.</li>
+      <li xml:lang="et">Võrgu läbipaistev kasutamine KIO-moodulite süsteemi vahendusel.</li>
       <li xml:lang="ia">Accesso de rete transparente a transverso del systema KIO.</li>
       <li xml:lang="nds">Direkt Nettwarktogriep över dat KDE-In-/Utgaav-(KIO-)Moduulsysteem</li>
       <li xml:lang="nl">Transparante toegang tot het netwerk via het KIO systeem.</li>
