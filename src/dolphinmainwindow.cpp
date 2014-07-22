@@ -1362,10 +1362,10 @@ void DolphinMainWindow::setupActions()
     connect(recentTabsMenu, SIGNAL(closedTabsCountChanged(uint)),
             this, SLOT(closedTabsCountChanged(uint)));
 
-    KAction* undoCloseTab = actionCollection()->addAction("undo_close_tab");
+    QAction* undoCloseTab = actionCollection()->addAction("undo_close_tab");
     undoCloseTab->setText(i18nc("@action:inmenu File", "Undo close tab"));
     undoCloseTab->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_T);
-    undoCloseTab->setIcon(KIcon("edit-undo"));
+    undoCloseTab->setIcon(QIcon::fromTheme("edit-undo"));
     undoCloseTab->setEnabled(false);
     connect(undoCloseTab, SIGNAL(triggered()), recentTabsMenu, SLOT(undoCloseTab()));
 
