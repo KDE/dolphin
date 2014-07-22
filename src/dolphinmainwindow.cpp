@@ -1225,6 +1225,11 @@ void DolphinMainWindow::activeViewChanged()
     setActiveViewContainer(tabPage->activeViewContainer());
 }
 
+void DolphinMainWindow::closedTabsCountChanged(unsigned int count)
+{
+    actionCollection()->action("undo_close_tab")->setEnabled(count > 0);
+}
+
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
     Q_ASSERT(viewContainer);
@@ -1354,6 +1359,15 @@ void DolphinMainWindow::setupActions()
             recentTabsMenu, SLOT(rememberClosedTab(KUrl,KUrl)));
     connect(recentTabsMenu, SIGNAL(restoreClosedTab(KUrl,KUrl)),
             this, SLOT(openNewActivatedTab(KUrl,KUrl)));
+    connect(recentTabsMenu, SIGNAL(closedTabsCountChanged(uint)),
+            this, SLOT(closedTabsCountChanged(uint)));
+
+    KAction* undoCloseTab = actionCollection()->addAction("undo_close_tab");
+    undoCloseTab->setText(i18nc("@action:inmenu File", "Undo close tab"));
+    undoCloseTab->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_T);
+    undoCloseTab->setIcon(KIcon("edit-undo"));
+    undoCloseTab->setEnabled(false);
+    connect(undoCloseTab, SIGNAL(triggered()), recentTabsMenu, SLOT(undoCloseTab()));
 
     KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     KStandardAction::up(this, SLOT(goUp()), actionCollection());

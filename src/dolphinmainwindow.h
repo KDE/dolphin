@@ -469,6 +469,8 @@ private slots:
 
     void activeViewChanged();
 
+    void closedTabsCountChanged(unsigned int count);
+
 private:
     /**
      * Activates the given view, which means that
