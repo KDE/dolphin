@@ -60,7 +60,7 @@ void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& primaryUrl, const KUrl
     } else {
         insertAction(menu()->actions().at(2), action);
     }
-
+    emit closedTabsCountChanged(menu()->actions().size() - 2);
     // Assure that only up to 6 closed tabs are shown in the menu.
     // 8 because of clear action + separator + 6 closed tabs
     if (menu()->actions().size() > 8) {
@@ -68,6 +68,12 @@ void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& primaryUrl, const KUrl
     }
     setEnabled(true);
     KAcceleratorManager::manage(menu());
+}
+
+void DolphinRecentTabsMenu::undoCloseTab()
+{
+    Q_ASSERT(menu()->actions().size() > 2);
+    handleAction(menu()->actions().at(2));
 }
 
 void DolphinRecentTabsMenu::handleAction(QAction* action)
@@ -80,14 +86,16 @@ void DolphinRecentTabsMenu::handleAction(QAction* action)
         for (int i = 2; i < count; ++i) {
             removeAction(actions.at(i));
         }
+        emit closedTabsCountChanged(0);
     } else {
         const KUrl::List urls = action->data().value<KUrl::List>();
-        if (urls.count() == 2) {
-            emit restoreClosedTab(urls.first(), urls.last());
-        }
         removeAction(action);
         delete action;
         action = 0;
+        if (urls.count() == 2) {
+            emit restoreClosedTab(urls.first(), urls.last());
+        }
+        emit closedTabsCountChanged(menu()->actions().size() - 2);
     }
 
     if (menu()->actions().count() <= 2) {

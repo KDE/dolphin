@@ -6,6 +6,7 @@
             <Action name="new_window" />
             <Action name="new_tab" />
             <Action name="close_tab" />
+	    <Action name="undo_close_tab" />
             <Separator/>
             <Action name="rename" />
             <Action name="move_to_trash" />

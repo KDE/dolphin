@@ -35,9 +35,11 @@ public:
 
 public slots:
     void rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void undoCloseTab();
 
 signals:
     void restoreClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void closedTabsCountChanged(unsigned int count);
 
 private slots:
     void handleAction(QAction* action);
