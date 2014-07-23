@@ -46,12 +46,7 @@
 
 #include <algorithm>
 
-#if 0
 #include "kitemlistviewaccessible.h"
-#else
-#define QT_NO_ACCESSIBILITY 1
-#pragma message("TODO: port accessibility to Qt5")
-#endif
 
 namespace {
     // Time in ms until reaching the autoscroll margin triggers
@@ -63,7 +58,7 @@ namespace {
 }
 
 #ifndef QT_NO_ACCESSIBILITY
-QAccessibleInterface* accessibleInterfaceFactory(const QString &key, QObject *object)
+QAccessibleInterface* accessibleInterfaceFactory(const QString& key, QObject* object)
 {
     Q_UNUSED(key)
 
@@ -941,7 +936,7 @@ void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
     setAutoScroll(true);
 }
 
-void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent* event)
 {
     QGraphicsWidget::dragMoveEvent(event);
 
@@ -951,7 +946,7 @@ void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
     }
 }
 
-void KItemListView::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+void KItemListView::dragLeaveEvent(QGraphicsSceneDragDropEvent* event)
 {
     QGraphicsWidget::dragLeaveEvent(event);
     setAutoScroll(false);
@@ -1273,9 +1268,12 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             updateVisibleGroupHeaders();
             doLayout(NoAnimation);
         }
+
+        QAccessibleTableModelChangeEvent ev(this, QAccessibleTableModelChangeEvent::DataChanged);
+        ev.setFirstRow(itemRange.index);
+        ev.setLastRow(itemRange.index + itemRange.count);
+        QAccessible::updateAccessibility(&ev);
     }
-#pragma message("TODO: port accessibility otherwise the following line asserts")
-    //QAccessible::updateAccessibility(this, 0, QAccessible::TableModelChanged);
 }
 
 void KItemListView::slotGroupsChanged()
@@ -1351,8 +1349,10 @@ void KItemListView::slotCurrentChanged(int current, int previous)
             currentWidget->setCurrent(true);
         }
     }
-#pragma message("TODO: port accessibility otherwise the following line asserts")
-    //QAccessible::updateAccessibility(this, current+1, QAccessible::Focus);
+
+    QAccessibleEvent ev(this, QAccessible::Focus);
+    ev.setChild(current);
+    QAccessible::updateAccessibility(&ev);
 }
 
 void KItemListView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)

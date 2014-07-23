@@ -27,7 +27,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistselectionmanager.cpp
     kitemviews/kitemliststyleoption.cpp
     kitemviews/kitemlistview.cpp
-#    kitemviews/kitemlistviewaccessible.cpp
+    kitemviews/kitemlistviewaccessible.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kitemset.cpp
