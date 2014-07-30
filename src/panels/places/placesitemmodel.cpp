@@ -313,7 +313,8 @@ void PlacesItemModel::requestEject(int index)
         Solid::OpticalDrive* drive = item->device().parent().as<Solid::OpticalDrive>();
         if (drive) {
             connect(drive, SIGNAL(ejectDone(Solid::ErrorType,QVariant,QString)),
-                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)),
+                    Qt::UniqueConnection);
             drive->eject();
         } else {
             const QString label = item->text();
@@ -330,7 +331,8 @@ void PlacesItemModel::requestTeardown(int index)
         Solid::StorageAccess* access = item->device().as<Solid::StorageAccess>();
         if (access) {
             connect(access, SIGNAL(teardownDone(Solid::ErrorType,QVariant,QString)),
-                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)));
+                    this, SLOT(slotStorageTeardownDone(Solid::ErrorType,QVariant)),
+                    Qt::UniqueConnection);
             access->teardown();
         }
     }
@@ -359,7 +361,8 @@ void PlacesItemModel::requestStorageSetup(int index)
         m_storageSetupInProgress[access] = index;
 
         connect(access, SIGNAL(setupDone(Solid::ErrorType,QVariant,QString)),
-                this, SLOT(slotStorageSetupDone(Solid::ErrorType,QVariant,QString)));
+                this, SLOT(slotStorageSetupDone(Solid::ErrorType,QVariant,QString)),
+                Qt::UniqueConnection);
 
         access->setup();
     }
@@ -598,6 +601,7 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
 {
     Q_UNUSED(udi);
 
+    Q_ASSERT(!m_storageSetupInProgress.isEmpty());
     const int index = m_storageSetupInProgress.take(sender());
     const PlacesItem*  item = placesItem(index);
     if (!item) {
