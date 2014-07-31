@@ -200,6 +200,7 @@
       <li xml:lang="ar">دعم تعدّد الألسنة</li>
       <li xml:lang="ca">Implementació de pestanyes múltiples</li>
       <li xml:lang="da">Understøttelse af flere faneblade</li>
+      <li xml:lang="de">Unterstützung für Unterfenster</li>
       <li xml:lang="en-GB">Multiple tab support</li>
       <li xml:lang="es">Admite varias pestañas</li>
       <li xml:lang="et">Mitme kaardi kasutamise toetus.</li>
@@ -224,6 +225,7 @@
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
       <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
+      <li xml:lang="de">Informationen werden unaufdringlich angezeigt.</li>
       <li xml:lang="en-GB">Informational dialogs are displayed in an unobtrusive way.</li>
       <li xml:lang="es">Los diálogos informativos se muestran de manera discreta.</li>
       <li xml:lang="et">Teavitavate dialoogide näitamine kasutajat liigselt ärritamata.</li>
@@ -245,6 +247,7 @@
       <li>Undo/redo support</li>
       <li xml:lang="ca">Implementació de desfer/refer</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
+      <li xml:lang="de">Unterstützung für Rückgängig/Wiederherstellen</li>
       <li xml:lang="en-GB">Undo/redo support</li>
       <li xml:lang="es">Admite las operaciones de deshacer y rehacer</li>
       <li xml:lang="et">Tagasivõtmise ja uuestitegemise toetus.</li>
@@ -269,6 +272,7 @@
       <li xml:lang="ar">اتصال شبكيّ مباشر باستخدام نظام KIO.</li>
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="da">Transparent netværksadgang igennem KIO-systemet</li>
+      <li xml:lang="de">Transparenter Netzwerkzugriff durch das KIO-System.</li>
       <li xml:lang="en-GB">Transparent network access through the KIO system.</li>
       <li xml:lang="es">Acceso transparente a la red a través del sistema KIO.</li>
       <li xml:lang="et">Võrgu läbipaistev kasutamine KIO-moodulite süsteemi vahendusel.</li>
