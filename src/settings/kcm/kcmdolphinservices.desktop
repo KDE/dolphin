@@ -74,7 +74,7 @@ Name[zh_TW]=Dolphin 服務
 Icon=services
 Type=Service
 X-KDE-ServiceTypes=KCModule
-Exec=kcmshell4 kcmdolphinservices
+Exec=kcmshell5 kcmdolphinservices
 
 X-KDE-Library=kcm_dolphinservices
 X-KDE-PluginKeyword=dolphinservices

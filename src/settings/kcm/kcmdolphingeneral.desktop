@@ -144,7 +144,7 @@ Comment[zh_TW]=此服務允許設定 Dolphin 的一般設定。
 Icon=system-run
 Type=Service
 X-KDE-ServiceTypes=KCModule
-Exec=kcmshell4 kcmdolphingeneral
+Exec=kcmshell5 kcmdolphingeneral
 
 X-KDE-Library=kcm_dolphingeneral
 X-KDE-PluginKeyword=dolphingeneral
