@@ -43,7 +43,6 @@ class DolphinTabBar;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class DolphinTabPage;
-class KAction;
 class KFileItem;
 class KFileItemList;
 class KJob;

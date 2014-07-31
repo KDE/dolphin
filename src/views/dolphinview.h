@@ -40,7 +40,6 @@
 typedef KIO::FileUndoManager::CommandType CommandType;
 
 class DolphinItemListView;
-class KAction;
 class KActionCollection;
 class KFileItemModel;
 class KItemListContainer;

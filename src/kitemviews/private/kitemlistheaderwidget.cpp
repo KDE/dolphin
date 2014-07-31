@@ -19,7 +19,6 @@
 
 #include "kitemlistheaderwidget.h"
 
-#include <KAction>
 #include <KMenu>
 #include <kitemviews/kitemmodelbase.h>
 

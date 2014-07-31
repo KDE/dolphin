@@ -29,7 +29,6 @@
 
 #include <QPointer>
 
-#include <KAction>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <kitemviews/kfileitemmodel.h>

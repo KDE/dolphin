@@ -47,7 +47,6 @@
 #include "dolphin_generalsettings.h"
 
 #include <KAcceleratorManager>
-#include <KAction>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KConfig>
