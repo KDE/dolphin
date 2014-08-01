@@ -60,7 +60,7 @@
 #include <KGlobal>
 #include <KMessageBox>
 #include <KJobWidgets>
-#include <konq_fileitemcapabilities.h>
+#include <KFileItemListProperties>
 #include <konq_operations.h>
 #include <konqmimedata.h>
 #include <KToggleAction>
