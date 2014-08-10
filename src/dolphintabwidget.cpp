@@ -213,12 +213,7 @@ void DolphinTabWidget::closeTab(const int index)
     }
 
     DolphinTabPage* tabPage = tabPageAt(index);
-    if (tabPage->splitViewEnabled()) {
-        emit rememberClosedTab(tabPage->primaryViewContainer()->url(),
-                               tabPage->secondaryViewContainer()->url());
-    } else {
-        emit rememberClosedTab(tabPage->primaryViewContainer()->url(), KUrl());
-    }
+    emit rememberClosedTab(tabPage->activeViewContainer()->url(), tabPage->saveState());
 
     removeTab(index);
     tabPage->deleteLater();
@@ -247,6 +242,12 @@ void DolphinTabWidget::slotPlacesPanelVisibilityChanged(bool visible)
         DolphinTabPage* tabPage = tabPageAt(i);
         tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     }
+}
+
+void DolphinTabWidget::restoreClosedTab(const QByteArray& state)
+{
+    openNewActivatedTab();
+    currentTabPage()->restoreState(state);
 }
 
 void DolphinTabWidget::detachTab(int index)

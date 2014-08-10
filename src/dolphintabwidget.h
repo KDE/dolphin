@@ -70,7 +70,7 @@ signals:
     /**
      * Is emitted when a tab has been closed.
      */
-    void rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void rememberClosedTab(const KUrl& url, const QByteArray& state);
 
 public slots:
     /**
@@ -132,6 +132,12 @@ public slots:
      * is invisible.
      */
     void slotPlacesPanelVisibilityChanged(bool visible);
+
+    /**
+     * Is called when the user wants to reopen a previously closed tab from
+     * the recent tabs menu.
+     */
+    void restoreClosedTab(const QByteArray& state);
 
 private slots:
     /**

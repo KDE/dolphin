@@ -40,18 +40,13 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
             this, SLOT(handleAction(QAction*)));
 }
 
-void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& url, const QByteArray& state)
 {
     QAction* action = new QAction(menu());
-    action->setText(primaryUrl.path());
-
-    const QString iconName = KMimeType::iconNameForUrl(primaryUrl);
+    action->setText(url.path());
+    action->setData(state);
+    const QString iconName = KMimeType::iconNameForUrl(url);
     action->setIcon(KIcon(iconName));
-
-    KUrl::List urls;
-    urls << primaryUrl;
-    urls << secondaryUrl;
-    action->setData(QVariant::fromValue(urls));
 
     // Add the closed tab menu entry after the separator and
     // "Empty Recently Closed Tabs" entry
@@ -88,13 +83,11 @@ void DolphinRecentTabsMenu::handleAction(QAction* action)
         }
         emit closedTabsCountChanged(0);
     } else {
-        const KUrl::List urls = action->data().value<KUrl::List>();
+        const QByteArray state = action->data().value<QByteArray>();
         removeAction(action);
         delete action;
         action = 0;
-        if (urls.count() == 2) {
-            emit restoreClosedTab(urls.first(), urls.last());
-        }
+        emit restoreClosedTab(state);
         emit closedTabsCountChanged(menu()->actions().size() - 2);
     }
 

@@ -34,11 +34,11 @@ public:
     explicit DolphinRecentTabsMenu(QObject* parent);
 
 public slots:
-    void rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void rememberClosedTab(const KUrl& url, const QByteArray& state);
     void undoCloseTab();
 
 signals:
-    void restoreClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
+    void restoreClosedTab(const QByteArray& state);
     void closedTabsCountChanged(unsigned int count);
 
 private slots:

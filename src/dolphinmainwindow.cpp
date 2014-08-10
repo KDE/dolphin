@@ -1058,10 +1058,10 @@ void DolphinMainWindow::setupActions()
 
     DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
     actionCollection()->addAction("closed_tabs", recentTabsMenu);
-    connect(m_tabWidget, SIGNAL(rememberClosedTab(KUrl,KUrl)),
-            recentTabsMenu, SLOT(rememberClosedTab(KUrl,KUrl)));
-    connect(recentTabsMenu, SIGNAL(restoreClosedTab(KUrl,KUrl)),
-            this, SLOT(openNewActivatedTab(KUrl,KUrl)));
+    connect(m_tabWidget, SIGNAL(rememberClosedTab(KUrl,QByteArray)),
+            recentTabsMenu, SLOT(rememberClosedTab(KUrl,QByteArray)));
+    connect(recentTabsMenu, SIGNAL(restoreClosedTab(QByteArray)),
+            m_tabWidget, SLOT(restoreClosedTab(QByteArray)));
     connect(recentTabsMenu, SIGNAL(closedTabsCountChanged(uint)),
             this, SLOT(closedTabsCountChanged(uint)));
 
