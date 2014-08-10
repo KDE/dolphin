@@ -121,7 +121,7 @@ public:
     void restoreState(const QByteArray& state);
 
 signals:
-    void activeViewChanged();
+    void activeViewChanged(DolphinViewContainer* viewContainer);
     void activeViewUrlChanged(const KUrl& url);
 
 private slots:

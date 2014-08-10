@@ -246,7 +246,7 @@ void DolphinTabPage::slotViewActivated()
     }
 
     emit activeViewUrlChanged(activeViewContainer()->url());
-    emit activeViewChanged();
+    emit activeViewChanged(activeViewContainer());
 }
 
 DolphinViewContainer* DolphinTabPage::createViewContainer(const KUrl& url) const
