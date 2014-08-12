@@ -1289,11 +1289,11 @@ void DolphinView::updateViewState()
                 m_view->scrollToItem(currentIndex);
                 m_scrollToCurrentItem = false;
             }
-
-            m_currentItemUrl = KUrl();
         } else {
             selectionManager->setCurrentItem(0);
         }
+
+        m_currentItemUrl = KUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
