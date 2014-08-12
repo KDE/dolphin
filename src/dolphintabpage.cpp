@@ -187,6 +187,10 @@ QByteArray DolphinTabPage::saveState() const
 
 void DolphinTabPage::restoreState(const QByteArray& state)
 {
+    if (state.isEmpty()) {
+        return;
+    }
+
     QByteArray sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
 
