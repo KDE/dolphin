@@ -429,6 +429,12 @@ private slots:
      */
     void tabCountChanged(int count);
 
+    /**
+     * Sets the window caption to url.fileName() if this is non-empty,
+     * "/" if the URL is "file:///", and url.protocol() otherwise.
+     */
+    void setUrlAsCaption(const KUrl& url);
+
 private:
     void setupActions();
     void setupDockWidgets();
@@ -463,12 +469,6 @@ private:
     void updateSplitAction();
 
     bool isKompareInstalled() const;
-
-    /**
-     * Sets the window caption to url.fileName() if this is non-empty,
-     * "/" if the URL is "file:///", and url.protocol() otherwise.
-     */
-    void setUrlAsCaption(const KUrl& url);
 
     /**
      * Creates an action for showing/hiding a panel, that is accessible

@@ -295,12 +295,19 @@ void DolphinTabWidget::tabUrlChanged(const KUrl& url)
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(url));
         tabBar()->setTabIcon(index, KIcon(KMimeType::iconNameForUrl(url)));
+
+        // Emit the currentUrlChanged signal if the url of the current tab has been changed.
+        if (index == currentIndex()) {
+            emit currentUrlChanged(url);
+        }
     }
 }
 
 void DolphinTabWidget::currentTabChanged(int index)
 {
-    emit activeViewChanged(tabPageAt(index)->activeViewContainer());
+    DolphinViewContainer* viewContainer = tabPageAt(index)->activeViewContainer();
+    emit activeViewChanged(viewContainer);
+    emit currentUrlChanged(viewContainer->url());
 }
 
 void DolphinTabWidget::tabInserted(int index)

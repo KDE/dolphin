@@ -72,6 +72,12 @@ signals:
      */
     void rememberClosedTab(const KUrl& url, const QByteArray& state);
 
+    /**
+     * Is emitted when the url of the current tab has been changed. This signal
+     * is also emitted when the active view has been changed.
+     */
+    void currentUrlChanged(const KUrl& url);
+
 public slots:
     /**
      * Opens a new view with the current URL that is part of a tab and activates

@@ -136,6 +136,8 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(activeViewChanged(DolphinViewContainer*)));
     connect(m_tabWidget, SIGNAL(tabCountChanged(int)),
             this, SLOT(tabCountChanged(int)));
+    connect(m_tabWidget, SIGNAL(currentUrlChanged(KUrl)),
+            this, SLOT(setUrlAsCaption(KUrl)));
     setCentralWidget(m_tabWidget);
 
     setupActions();
@@ -236,7 +238,6 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     updatePasteAction();
     updateViewActions();
     updateGoActions();
-    setUrlAsCaption(url);
 
     emit urlChanged(url);
 }
@@ -945,8 +946,6 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     updateGoActions();
 
     const KUrl url = viewContainer->url();
-    setUrlAsCaption(url);
-
     emit urlChanged(url);
 }
 
@@ -956,6 +955,22 @@ void DolphinMainWindow::tabCountChanged(int count)
     actionCollection()->action("close_tab")->setEnabled(enableTabActions);
     actionCollection()->action("activate_next_tab")->setEnabled(enableTabActions);
     actionCollection()->action("activate_prev_tab")->setEnabled(enableTabActions);
+}
+
+void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
+{
+    QString caption;
+    if (!url.isLocalFile()) {
+        caption.append(url.protocol() + " - ");
+        if (url.hasHost()) {
+            caption.append(url.host() + " - ");
+        }
+    }
+
+    const QString fileName = url.fileName().isEmpty() ? "/" : url.fileName();
+    caption.append(fileName);
+
+    setCaption(caption);
 }
 
 void DolphinMainWindow::setupActions()
@@ -1469,22 +1484,6 @@ bool DolphinMainWindow::isKompareInstalled() const
         initialized = true;
     }
     return installed;
-}
-
-void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
-{
-    QString caption;
-    if (!url.isLocalFile()) {
-        caption.append(url.protocol() + " - ");
-        if (url.hasHost()) {
-            caption.append(url.host() + " - ");
-        }
-    }
-
-    const QString fileName = url.fileName().isEmpty() ? "/" : url.fileName();
-    caption.append(fileName);
-
-    setCaption(caption);
 }
 
 void DolphinMainWindow::createPanelAction(const KIcon& icon,

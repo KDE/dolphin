@@ -133,6 +133,13 @@ private slots:
      */
     void slotViewActivated();
 
+    /**
+     * Handles the view url redirection event.
+     *
+     * It emits the activeViewUrlChanged signal with the url \a newUrl.
+     */
+    void slotViewUrlRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+
 private:
     /**
      * Creates a new view container and does the default initialization.
