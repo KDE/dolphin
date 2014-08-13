@@ -41,7 +41,6 @@
 #include <KMimeTypeTrader>
 #include <KMimeType>
 #include <KNewFileMenu>
-#include <konqmimedata.h>
 #include <konq_operations.h>
 #include <KService>
 #include <KLocale>

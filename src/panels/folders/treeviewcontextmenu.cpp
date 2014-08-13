@@ -27,10 +27,11 @@
 #include <KIcon>
 #include <KSharedConfig>
 #include <KConfigGroup>
-#include <konqmimedata.h>
+#include <kurlmimedata.h>
 #include <KFileItemListProperties>
 #include <konq_operations.h>
 #include <KLocale>
+#include <KIO/Paste>
 #include <KPropertiesDialog>
 
 #include "folderspanel.h"
@@ -156,7 +157,8 @@ void TreeViewContextMenu::populateMimeData(QMimeData* mimeData, bool cut)
     KUrl::List mostLocalUrls;
     bool dummy;
     mostLocalUrls.append(m_fileItem.mostLocalUrl(dummy));
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, cut);
+    KIO::setClipboardDataCut(mimeData, cut);
+    KUrlMimeData::setUrls(kdeUrls, mostLocalUrls, mimeData);
 }
 
 void TreeViewContextMenu::cut()

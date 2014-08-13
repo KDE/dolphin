@@ -38,7 +38,6 @@
 #include <KIO/PreviewJob>
 #include <KMessageWidget>
 #include <KNewFileMenu>
-#include <konqmimedata.h>
 #include <konq_operations.h>
 #include <KShell>
 #include <KUrl>

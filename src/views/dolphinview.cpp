@@ -55,13 +55,13 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
+#include <KIO/Paste>
 #include <KJob>
 #include <KMenu>
 #include <KGlobal>
 #include <KMessageBox>
 #include <KJobWidgets>
 #include <konq_operations.h>
-#include <konqmimedata.h>
 #include <KToggleAction>
 #include <KUrl>
 
@@ -697,7 +697,7 @@ void DolphinView::deleteSelectedItems()
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = selectionMimeData();
-    KonqMimeData::addIsCutSelection(mimeData, true);
+    KIO::setClipboardDataCut(mimeData, true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 

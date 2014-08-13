@@ -69,7 +69,6 @@
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KFileItemListProperties>
-#include <konqmimedata.h>
 #include <KProtocolInfo>
 #include <KRun>
 #include <KShell>
