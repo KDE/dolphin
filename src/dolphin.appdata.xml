@@ -33,6 +33,7 @@
   <name xml:lang="sv">Dolphin</name>
   <name xml:lang="uk">Dolphin</name>
   <name xml:lang="x-test">xxDolphinxx</name>
+  <name xml:lang="zh-TW">Dolphin</name>
   <summary>File Manager</summary>
   <summary xml:lang="ar">مدير ملفات</summary>
   <summary xml:lang="ca">Gestor de fitxers</summary>
@@ -63,6 +64,7 @@
   <summary xml:lang="sv">Filhanterare</summary>
   <summary xml:lang="uk">Програма для керування файлами</summary>
   <summary xml:lang="x-test">xxFile Managerxx</summary>
+  <summary xml:lang="zh-TW">檔案管理員</summary>
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تماماً.</p>
@@ -90,6 +92,7 @@
     <p xml:lang="sv">Dolphin är en lättviktig filhanterare. Den har konstruerats med användbarhet och enkelhet i åtanke, men ändå tillåta flexibilitet och anpassning. Det betyder att du kan hantera filer exakt på det sätt som du vill göra det.</p>
     <p xml:lang="uk">Dolphin — невибаглива до ресурсів програма для керування файлами. Її створено простою у користуванні і гнучкою у налаштовуванні. Це означає, що ви можете зробити керування файлами саме таким, як вам потрібно.</p>
     <p xml:lang="x-test">xxDolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.xx</p>
+    <p xml:lang="zh-TW">Dolphin 是一套輕量級的檔案管理員。它設計的理念是易用與簡單，但仍然保持足夠的彈性。這表示您可以用您想要使用的方式來管理您的檔案。</p>
     <p>Features:</p>
     <p xml:lang="ar">المزايا:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -120,6 +123,7 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
+    <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) per els URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
@@ -146,6 +150,7 @@
       <li xml:lang="sv">Navigeringsrad (eller länkstig) för webbadresser, som låter dig snabbt navigera igenom hierarkin av filer och kataloger.</li>
       <li xml:lang="uk">Панель навігації (звичайний режим і режим послідовної навігації) для адрес надає вам змогу швидко пересуватися ієрархією файлів та каталогів.</li>
       <li xml:lang="x-test">xxNavigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.xx</li>
+      <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
       <li xml:lang="ar">يدعم العديد من الأنواع المختلفة من الخصائص وأنماط العرض ويسمك لك بضبط العرض كما تريد تماماً.</li>
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
@@ -172,6 +177,7 @@
       <li xml:lang="sv">Stöder flera olika sorters visningsstilar och egenskaper och låter dig anpassa visningen exakt som du vill ha den.</li>
       <li xml:lang="uk">Підтримка декількох різних типів та параметрів перегляду надає вам змогу налаштувати перегляд каталогів саме так, як вам це потрібно.</li>
       <li xml:lang="x-test">xxSupports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.xx</li>
+      <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="ar">العرض المقسوم، يسمح لك بنسخ ونقل الملفات بين مكانين بسهولة.</li>
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
@@ -198,6 +204,7 @@
       <li xml:lang="sv">Delad visning, som låter dig enkelt kopiera eller flytta filer mellan platser.</li>
       <li xml:lang="uk">За допомогою режиму двопанельного розділеного перегляду ви зможе без проблем копіювати або пересувати файли між каталогами.</li>
       <li xml:lang="x-test">xxSplit view, allowing you to easily copy or move files between locations.xx</li>
+      <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
       <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كألواح قابلة للتركيب، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons acoblables, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
@@ -224,6 +231,7 @@
       <li xml:lang="sv">Ytterligare information och genvägar är tillgängliga som dockningsbara paneler, vilket låter dig flytta omkring dem fritt och visa exakt vad du vill.</li>
       <li xml:lang="uk">За допомогою бічних пересувних панелей ви зможете отримувати додаткову інформацію та пересуватися каталогами. Ви можете розташувати ці панелі так, як вам це зручно, і наказати програмі показувати на них саме те, що вам потрібно.</li>
       <li xml:lang="x-test">xxAdditional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.xx</li>
+      <li xml:lang="zh-TW">分割檢視讓您可以輕鬆複製或移動檔案。</li>
       <li>Multiple tab support</li>
       <li xml:lang="ar">دعم تعدّد الألسنة</li>
       <li xml:lang="ca">Implementació de pestanyes múltiples</li>
@@ -253,6 +261,7 @@
       <li xml:lang="sv">Stöd för flera flikar</li>
       <li xml:lang="uk">Підтримка роботи з вкладками.</li>
       <li xml:lang="x-test">xxMultiple tab supportxx</li>
+      <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
       <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
@@ -279,6 +288,7 @@
       <li xml:lang="sv">Dialogrutor med information visas på ett diskret sätt.</li>
       <li xml:lang="uk">Показ інформаційних панелей у зручний спосіб, що не заважає роботі.</li>
       <li xml:lang="x-test">xxInformational dialogues are displayed in an unobtrusive way.xx</li>
+      <li xml:lang="zh-TW">支援多分頁</li>
       <li>Undo/redo support</li>
       <li xml:lang="ca">Implementació de desfer/refer</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
@@ -306,6 +316,7 @@
       <li xml:lang="sv">Stöd för ångra och gör om</li>
       <li xml:lang="uk">Підтримка скасовування та повторення дій.</li>
       <li xml:lang="x-test">xxUndo/redo supportxx</li>
+      <li xml:lang="zh-TW">以不唐突的方式顯示資訊對話框。</li>
       <li>Transparent network access through the KIO system.</li>
       <li xml:lang="ar">اتصال شبكيّ مباشر باستخدام نظام KIO.</li>
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
@@ -334,6 +345,7 @@
       <li xml:lang="sv">Transparent nätverksåtkomst via I/O-slavsystemet.</li>
       <li xml:lang="uk">Прозорий доступ до ресурсів у мережі за допомогою системи KIO.</li>
       <li xml:lang="x-test">xxTransparent network access through the KIO system.xx</li>
+      <li xml:lang="zh-TW">復原支援</li>
     </ul>
   </description>
   <url type="homepage">http://dolphin.kde.org/</url>
