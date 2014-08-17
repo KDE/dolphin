@@ -34,7 +34,9 @@
 #include <KFileItemListProperties>
 #include <KGlobal>
 #include <KIconLoader>
-#include <KIO/NetAccess>
+#include <KIO/RestoreJob>
+#include <KJobUiDelegate>
+#include <KJobWidgets>
 #include <KMenu>
 #include <KMenuBar>
 #include <KMessageBox>
@@ -180,7 +182,9 @@ void DolphinContextMenu::openTrashItemContextMenu()
             selectedUrls.append(item.url());
         }
 
-        KonqOperations::restoreTrashedItems(selectedUrls, m_mainWindow);
+        KIO::RestoreJob *job = KIO::restoreFromTrash(selectedUrls);
+        KJobWidgets::setWindow(job, m_mainWindow);
+        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
     }
 }
 
