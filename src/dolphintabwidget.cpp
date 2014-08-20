@@ -72,7 +72,7 @@ void DolphinTabWidget::saveProperties(KConfigGroup& group) const
 
     for (int i = 0; i < tabCount; ++i) {
         const DolphinTabPage* tabPage = tabPageAt(i);
-        group.writeEntry("Tab " % QString::number(i), tabPage->saveState());
+        group.writeEntry("Tab Data " % QString::number(i), tabPage->saveState());
     }
 }
 
@@ -83,8 +83,15 @@ void DolphinTabWidget::readProperties(const KConfigGroup& group)
         if (i >= count()) {
             openNewActivatedTab();
         }
-        const QByteArray state = group.readEntry("Tab " % QString::number(i), QByteArray());
-        tabPageAt(i)->restoreState(state);
+        if (group.hasKey("Tab Data " % QString::number(i))) {
+            // Tab state created with Dolphin > 4.14.x
+            const QByteArray state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
+            tabPageAt(i)->restoreState(state);
+        } else {
+            // Tab state created with Dolphin <= 4.14.x
+            const QByteArray state = group.readEntry("Tab " % QString::number(i), QByteArray());
+            tabPageAt(i)->restoreStateV1(state);
+        }
     }
 
     const int index = group.readEntry("Active Tab Index", 0);

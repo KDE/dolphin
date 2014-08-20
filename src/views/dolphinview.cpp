@@ -1167,6 +1167,14 @@ bool DolphinView::itemsExpandable() const
 
 void DolphinView::restoreState(QDataStream& stream)
 {
+    // Read the version number of the view state and check if the version is supported.
+    quint32 version = 0;
+    stream >> version;
+    if (version != 1) {
+        // The version of the view state isn't supported, we can't restore it.
+        return;
+    }
+
     // Restore the current item that had the keyboard focus
     stream >> m_currentItemUrl;
 
@@ -1181,6 +1189,8 @@ void DolphinView::restoreState(QDataStream& stream)
 
 void DolphinView::saveState(QDataStream& stream)
 {
+    stream << quint32(1); // View state version
+
     // Save the current item that has the keyboard focus
     const int currentIndex = m_container->controller()->selectionManager()->currentItem();
     if (currentIndex != -1) {
