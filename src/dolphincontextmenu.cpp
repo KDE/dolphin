@@ -35,6 +35,8 @@
 #include <KGlobal>
 #include <KIconLoader>
 #include <KIO/RestoreJob>
+#include <KIO/EmptyTrashJob>
+#include <KIO/JobUiDelegate>
 #include <KJobUiDelegate>
 #include <KJobWidgets>
 #include <KMenu>
@@ -158,7 +160,13 @@ void DolphinContextMenu::openTrashContextMenu()
     addShowMenuBarAction();
 
     if (exec(m_pos) == emptyTrashAction) {
-        KonqOperations::emptyTrash(m_mainWindow);
+        KIO::JobUiDelegate uiDelegate;
+        uiDelegate.setWindow(m_mainWindow);
+        if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
+            KIO::Job* job = KIO::emptyTrash();
+            KJobWidgets::setWindow(job, m_mainWindow);
+            job->ui()->setAutoErrorHandlingEnabled(true);
+        }
     }
 }
 
