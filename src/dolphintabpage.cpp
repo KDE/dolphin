@@ -41,6 +41,8 @@ DolphinTabPage::DolphinTabPage(const KUrl& primaryUrl, const KUrl& secondaryUrl,
     m_primaryViewContainer = createViewContainer(primaryUrl);
     connect(m_primaryViewContainer->view(), SIGNAL(urlChanged(KUrl)),
             this, SIGNAL(activeViewUrlChanged(KUrl)));
+    connect(m_primaryViewContainer->view(), SIGNAL(redirection(KUrl,KUrl)),
+            this, SLOT(slotViewUrlRedirection(KUrl,KUrl)));
 
     m_splitter->addWidget(m_primaryViewContainer);
     m_primaryViewContainer->show();
@@ -169,14 +171,18 @@ QByteArray DolphinTabPage::saveState() const
     QByteArray state;
     QDataStream stream(&state, QIODevice::WriteOnly);
 
+    stream << quint32(2); // Tab state version
+
     stream << m_splitViewEnabled;
 
     stream << m_primaryViewContainer->url();
     stream << m_primaryViewContainer->urlNavigator()->isUrlEditable();
+    m_primaryViewContainer->view()->saveState(stream);
 
     if (m_splitViewEnabled) {
         stream << m_secondaryViewContainer->url();
         stream << m_secondaryViewContainer->urlNavigator()->isUrlEditable();
+        m_secondaryViewContainer->view()->saveState(stream);
     }
 
     stream << m_primaryViewActive;
@@ -187,6 +193,62 @@ QByteArray DolphinTabPage::saveState() const
 
 void DolphinTabPage::restoreState(const QByteArray& state)
 {
+    if (state.isEmpty()) {
+        return;
+    }
+
+    QByteArray sd = state;
+    QDataStream stream(&sd, QIODevice::ReadOnly);
+
+    // Read the version number of the tab state and check if the version is supported.
+    quint32 version = 0;
+    stream >> version;
+    if (version != 2) {
+        // The version of the tab state isn't supported, we can't restore it.
+        return;
+    }
+
+    bool isSplitViewEnabled = false;
+    stream >> isSplitViewEnabled;
+    setSplitViewEnabled(isSplitViewEnabled);
+
+    KUrl primaryUrl;
+    stream >> primaryUrl;
+    m_primaryViewContainer->setUrl(primaryUrl);
+    bool primaryUrlEditable;
+    stream >> primaryUrlEditable;
+    m_primaryViewContainer->urlNavigator()->setUrlEditable(primaryUrlEditable);
+    m_primaryViewContainer->view()->restoreState(stream);
+
+    if (isSplitViewEnabled) {
+        KUrl secondaryUrl;
+        stream >> secondaryUrl;
+        m_secondaryViewContainer->setUrl(secondaryUrl);
+        bool secondaryUrlEditable;
+        stream >> secondaryUrlEditable;
+        m_secondaryViewContainer->urlNavigator()->setUrlEditable(secondaryUrlEditable);
+        m_secondaryViewContainer->view()->restoreState(stream);
+    }
+
+    stream >> m_primaryViewActive;
+    if (m_primaryViewActive) {
+        m_primaryViewContainer->setActive(true);
+    } else {
+        Q_ASSERT(m_splitViewEnabled);
+        m_secondaryViewContainer->setActive(true);
+    }
+
+    QByteArray splitterState;
+    stream >> splitterState;
+    m_splitter->restoreState(splitterState);
+}
+
+void DolphinTabPage::restoreStateV1(const QByteArray& state)
+{
+    if (state.isEmpty()) {
+        return;
+    }
+
     QByteArray sd = state;
     QDataStream stream(&sd, QIODevice::ReadOnly);
 
@@ -241,12 +303,23 @@ void DolphinTabPage::slotViewActivated()
     if (newActiveView != oldActiveView) {
         disconnect(oldActiveView, SIGNAL(urlChanged(KUrl)),
                    this, SIGNAL(activeViewUrlChanged(KUrl)));
+        disconnect(oldActiveView, SIGNAL(redirection(KUrl,KUrl)),
+                   this, SLOT(slotViewUrlRedirection(KUrl,KUrl)));
         connect(newActiveView, SIGNAL(urlChanged(KUrl)),
                 this, SIGNAL(activeViewUrlChanged(KUrl)));
+        connect(newActiveView, SIGNAL(redirection(KUrl,KUrl)),
+                this, SLOT(slotViewUrlRedirection(KUrl,KUrl)));
     }
 
     emit activeViewUrlChanged(activeViewContainer()->url());
-    emit activeViewChanged();
+    emit activeViewChanged(activeViewContainer());
+}
+
+void DolphinTabPage::slotViewUrlRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    Q_UNUSED(oldUrl);
+
+    emit activeViewUrlChanged(newUrl);
 }
 
 DolphinViewContainer* DolphinTabPage::createViewContainer(const KUrl& url) const

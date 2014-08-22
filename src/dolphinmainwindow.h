@@ -39,17 +39,14 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSettingsDialog;
-class DolphinTabBar;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
-class DolphinTabPage;
+class DolphinTabWidget;
 class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class QSplitter;
 class QToolButton;
-class QVBoxLayout;
 class QIcon;
 
 /**
@@ -148,11 +145,6 @@ signals:
      * Is emitted if the settings have been changed.
      */
     void settingsChanged();
-
-    /**
-     * Is emitted when a tab has been closed.
-     */
-    void rememberClosedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl);
 
 protected:
     /** @see QWidget::showEvent() */
@@ -262,13 +254,6 @@ private slots:
      */
     void togglePanelLockState();
 
-    /**
-     * Is invoked if the Places panel got visible/invisible and takes care
-     * that the places-selector of all views is only shown if the Places panel
-     * is invisible.
-     */
-    void slotPlacesPanelVisibilityChanged(bool visible);
-
     /** Goes back one step of the URL history. */
     void goBack();
 
@@ -343,8 +328,11 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
-    /** Opens a new view with the current URL that is part of a tab. */
-    void openNewTab();
+    /**
+     * Opens a new view with the current URL that is part of a tab and
+     * activates it.
+     */
+    void openNewActivatedTab();
 
     /**
      * Opens a new tab in the background showing the URL \a primaryUrl and the
@@ -357,16 +345,6 @@ private slots:
      * \a secondaryUrl and activates the tab.
      */
     void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
-
-    /**
-     * Opens a new tab showing the url from tab at the given \a index and
-     * activates the tab.
-     */
-    void openNewActivatedTab(int index);
-
-    void activateNextTab();
-
-    void activatePrevTab();
 
     /**
      * Opens the selected folder in a new tab.
@@ -385,33 +363,6 @@ private slots:
     void showCommand(CommandType command);
 
     /**
-     * Activates the tab with the index \a index, which means that the current view
-     * is replaced by the view of the given tab.
-     */
-    void setActiveTab(int index);
-
-    /** Closes the currently active tab. */
-    void closeTab();
-
-    /**
-     * Closes the tab with the index \a index and activates the tab with index - 1.
-     */
-    void closeTab(int index);
-
-    /**
-     * Opens the tab with the index \a index in a new Dolphin instance and closes
-     * this tab.
-     */
-    void detachTab(int index);
-
-    /**
-     * Is connected to the QTabBar signal tabMoved(int from, int to).
-     * Reorders the list of tabs after a tab was moved in the tab bar
-     * and sets m_tabIndex to the new index of the current tab.
-     */
-    void slotTabMoved(int from, int to);
-
-    /**
      * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
@@ -422,12 +373,6 @@ private slots:
      * be listed.
      */
     void slotHandleUrlStatFinished(KJob* job);
-
-    /**
-     * Is connected to the KTabBar signal receivedDropEvent.
-     * Allows dragging and dropping files onto tabs.
-     */
-    void tabDropEvent(int tab, QDropEvent* event);
 
     /**
      * Is invoked when the write state of a folder has been changed and
@@ -466,19 +411,31 @@ private slots:
      */
     void slotPlaceActivated(const KUrl& url);
 
-    void activeViewChanged();
+    /**
+     * Is called if the another view has been activated by changing the current
+     * tab or activating another view in split-view mode.
+     *
+     * Activates the given view, which means that all menu actions are applied
+     * to this view. When having a split view setup, the nonactive view is
+     * usually shown in darker colors.
+     */
+    void activeViewChanged(DolphinViewContainer* viewContainer);
 
     void closedTabsCountChanged(unsigned int count);
 
-private:
     /**
-     * Activates the given view, which means that
-     * all menu actions are applied to this view. When
-     * having a split view setup, the nonactive view
-     * is usually shown in darker colors.
+     * Is called if a new tab has been opened or a tab has been closed to
+     * enable/disable the tab actions.
      */
-    void setActiveViewContainer(DolphinViewContainer* view);
+    void tabCountChanged(int count);
 
+    /**
+     * Sets the window caption to url.fileName() if this is non-empty,
+     * "/" if the URL is "file:///", and url.protocol() otherwise.
+     */
+    void setUrlAsCaption(const KUrl& url);
+
+private:
     void setupActions();
     void setupDockWidgets();
     void updateEditActions();
@@ -511,19 +468,7 @@ private:
      */
     void updateSplitAction();
 
-    /** Returns the name of the tab for the URL \a url. */
-    QString tabName(const KUrl& url) const;
-
-
     bool isKompareInstalled() const;
-
-    /**
-     * Sets the window caption to url.fileName() if this is non-empty,
-     * "/" if the URL is "file:///", and url.protocol() otherwise.
-     */
-    void setUrlAsCaption(const KUrl& url);
-
-    QString squeezedText(const QString& text) const;
 
     /**
      * Creates an action for showing/hiding a panel, that is accessible
@@ -551,13 +496,9 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
-    DolphinTabBar* m_tabBar;
+    DolphinTabWidget* m_tabWidget;
     DolphinViewContainer* m_activeViewContainer;
-    QVBoxLayout* m_centralWidgetLayout;
     int m_id;
-
-    int m_tabIndex;
-    QList<DolphinTabPage*> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;

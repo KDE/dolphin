@@ -1136,14 +1136,24 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             const int textLength = line.textStart() + line.textLength();
             if (textLength < nameText.length()) {
                 // Elide the last line of the text
-                QString lastTextLine = nameText.mid(line.textStart());
-                lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
-                                                                  Qt::ElideRight,
-                                                                  maxWidth);
-                const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
-                nameTextInfo->staticText.setText(elidedText);
+                qreal elidingWidth = maxWidth;
+                qreal lastLineWidth;
+                do {
+                    QString lastTextLine = nameText.mid(line.textStart());
+                    lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
+                                                                      Qt::ElideRight,
+                                                                      elidingWidth);
+                    const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
+                    nameTextInfo->staticText.setText(elidedText);
 
-                const qreal lastLineWidth = m_customizedFontMetrics.boundingRect(lastTextLine).width();
+                    lastLineWidth = m_customizedFontMetrics.boundingRect(lastTextLine).width();
+
+                    // We do the text eliding in a loop with decreasing width (1 px / iteration)
+                    // to avoid problems related to different width calculation code paths
+                    // within Qt. (see bug 337104)
+                    elidingWidth -= 1.0;
+                } while (lastLineWidth > maxWidth);
+
                 nameWidth = qMax(nameWidth, lastLineWidth);
             }
             break;

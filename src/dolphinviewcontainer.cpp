@@ -112,6 +112,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             m_urlNavigator, &KUrlNavigator::setUrl);
     connect(m_view, &DolphinView::urlChanged,
             m_messageWidget, &KMessageWidget::hide);
+    connect(m_view, &DolphinView::directoryLoadingCompleted,
+            m_messageWidget, &KMessageWidget::hide);
     connect(m_view, &DolphinView::writeStateChanged,
             this, &DolphinViewContainer::writeStateChanged);
     connect(m_view, &DolphinView::requestItemInfo,
@@ -301,6 +303,9 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
     const int unwrappedWidth = m_messageWidget->sizeHint().width();
     m_messageWidget->setWordWrap(unwrappedWidth > size().width());
 
+    if (m_messageWidget->isVisible()) {
+        m_messageWidget->hide();
+    }
     m_messageWidget->animatedShow();
 }
 
