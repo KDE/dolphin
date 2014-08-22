@@ -110,6 +110,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_view = new DolphinView(url, this);
     connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_urlNavigator, SLOT(setUrl(KUrl)));
     connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_messageWidget, SLOT(hide()));
+    connect(m_view, SIGNAL(directoryLoadingCompleted()),        m_messageWidget, SLOT(hide()));
     connect(m_view, SIGNAL(writeStateChanged(bool)),            this, SIGNAL(writeStateChanged(bool)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),         this, SLOT(showItemInfo(KFileItem)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
@@ -277,6 +278,9 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
     const int unwrappedWidth = m_messageWidget->sizeHint().width();
     m_messageWidget->setWordWrap(unwrappedWidth > size().width());
 
+    if (m_messageWidget->isVisible()) {
+        m_messageWidget->hide();
+    }
     m_messageWidget->animatedShow();
 }
 
