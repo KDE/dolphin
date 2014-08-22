@@ -22,9 +22,12 @@
 
 #include <KFileItem>
 #include <KIconLoader>
+#include <KIO/CopyJob>
 #include <KIO/DeleteJob>
+#include <KIO/JobUiDelegate>
 #include <KMenu>
 #include <KIcon>
+#include <KJobWidgets>
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <kurlmimedata.h>
@@ -32,6 +35,7 @@
 #include <konq_operations.h>
 #include <KLocale>
 #include <KIO/Paste>
+#include <KIO/FileUndoManager>
 #include <KPropertiesDialog>
 
 #include "folderspanel.h"
@@ -187,12 +191,27 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-    KonqOperations::del(m_parent, KonqOperations::TRASH, KUrl::List() << m_fileItem.url());
+    KUrl::List list = KUrl::List() << m_fileItem.url();
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(m_parent);
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
+        KIO::Job* job = KIO::trash(list);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, KUrl("trash:/"), job);
+        KJobWidgets::setWindow(job, m_parent);
+        job->ui()->setAutoErrorHandlingEnabled(true);
+    }
 }
 
 void TreeViewContextMenu::deleteItem()
 {
-    KonqOperations::del(m_parent, KonqOperations::DEL, KUrl::List() << m_fileItem.url());
+    KUrl::List list = KUrl::List() << m_fileItem.url();
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(m_parent);
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
+        KIO::Job* job = KIO::del(list);
+        KJobWidgets::setWindow(job, m_parent);
+        job->ui()->setAutoErrorHandlingEnabled(true);
+    }
 }
 
 void TreeViewContextMenu::showProperties()

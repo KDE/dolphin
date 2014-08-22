@@ -619,6 +619,12 @@ private slots:
      */
     void slotDeleteFileFinished(KJob* job);
 
+    /**
+     * Indicates in the status bar that the trash operation
+     * of the job \a job has been finished.
+     */
+    void slotTrashFileFinished(KJob* job);
+
     void slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**

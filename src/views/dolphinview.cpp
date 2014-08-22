@@ -51,6 +51,7 @@
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
+#include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/NetAccess>
@@ -673,22 +674,26 @@ void DolphinView::renameSelectedItems()
 void DolphinView::trashSelectedItems()
 {
     const KUrl::List list = simplifiedSelectedUrls();
-    KonqOperations::del(this, KonqOperations::TRASH, list);
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(window());
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
+        KIO::Job* job = KIO::trash(list);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, KUrl("trash:/"), job);
+        KJobWidgets::setWindow(job, this);
+        connect(job, &KIO::Job::result,
+                this, &DolphinView::slotTrashFileFinished);
+    }
 }
 
 void DolphinView::deleteSelectedItems()
 {
     const KUrl::List list = simplifiedSelectedUrls();
-    const bool del = KonqOperations::askDeleteConfirmation(list,
-                     KonqOperations::DEL,
-                     KonqOperations::DEFAULT_CONFIRMATION,
-                     this);
 
-    if (del) {
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(window());
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::del(list);
-        if (job->ui()) {
-            KJobWidgets::setWindow(job, this);
-        }
+        KJobWidgets::setWindow(job, this);
         connect(job, &KIO::Job::result,
                 this, &DolphinView::slotDeleteFileFinished);
     }
@@ -1354,6 +1359,15 @@ void DolphinView::calculateItemCount(int& fileCount,
             ++fileCount;
             totalFileSize += item.size();
         }
+    }
+}
+
+void DolphinView::slotTrashFileFinished(KJob* job)
+{
+    if (job->error() == 0) {
+        emit operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
+    } else if (job->error() != KIO::ERR_USER_CANCELED) {
+        emit errorMessage(job->errorString());
     }
 }
 
