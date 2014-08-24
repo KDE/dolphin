@@ -25,7 +25,7 @@
 #include <KPluginFactory>
 #include <KService>
 #include <kde_terminal_interface.h>
-#include <KParts/Part>
+#include <KParts/ReadOnlyPart>
 #include <KShell>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
