@@ -409,14 +409,6 @@ void DolphinMainWindow::openNewTab(const KUrl& primaryUrl, const KUrl& secondary
     const bool placesSelectorVisible = !placesDock || !placesDock->isVisible();
     tabPage->setPlacesSelectorVisible(placesSelectorVisible);
 
-    DolphinViewContainer* primaryContainer = tabPage->primaryViewContainer();
-    connectViewSignals(primaryContainer);
-
-    if (tabPage->splitViewEnabled()) {
-        DolphinViewContainer* secondaryContainer = tabPage->secondaryViewContainer();
-        connectViewSignals(secondaryContainer);
-    }
-
     tabPage->hide();
 
     m_tabBar->addTab(KIcon(KMimeType::iconNameForUrl(primaryUrl)),
@@ -700,10 +692,6 @@ void DolphinMainWindow::toggleSplitView()
 {
     DolphinTabPage* tabPage = m_viewTab.at(m_tabIndex);
     tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled());
-
-    if (tabPage->splitViewEnabled()) {
-        connectViewSignals(tabPage->secondaryViewContainer());
-    }
 
     updateViewActions();
 }
@@ -1260,7 +1248,17 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
         return;
     }
 
+    if (m_activeViewContainer) {
+        // Disconnect all signals between the old view container (container,
+        // view and url navigator) and main window.
+        m_activeViewContainer->disconnect(this);
+        m_activeViewContainer->view()->disconnect(this);
+        m_activeViewContainer->urlNavigator()->disconnect(this);
+    }
+
     m_activeViewContainer = viewContainer;
+    connectViewSignals(viewContainer);
+
     m_actionHandler->setCurrentView(viewContainer->view());
 
     updateHistory();
