@@ -335,7 +335,7 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 
     const PlacesItem* destItem = m_model->placesItem(index);
     const PlacesItem::GroupType group = destItem->groupType();
-    if (group == PlacesItem::SearchForType || group == PlacesItem::RecentlyAccessedType) {
+    if (group == PlacesItem::SearchForType || group == PlacesItem::RecentlySavedType) {
         return;
     }
 
