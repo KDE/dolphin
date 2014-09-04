@@ -128,6 +128,20 @@ RenameDialog::~RenameDialog()
 {
 }
 
+void RenameDialog::renameItem(const KFileItem &item, const QString& newName)
+{
+    const KUrl oldUrl = item.url();
+    KUrl newUrl = oldUrl;
+    newUrl.setFileName(KIO::encodeFileName(newName));
+
+    QWidget* widget = parentWidget();
+    if (!widget) {
+        widget = this;
+    }
+
+    KonqOperations::rename(widget, oldUrl, newUrl);
+}
+
 void RenameDialog::slotButtonClicked(int button)
 {
     if (button == KDialog::Ok) {
@@ -135,16 +149,7 @@ void RenameDialog::slotButtonClicked(int button)
 
         if (m_renameOneItem) {
             Q_ASSERT(m_items.count() == 1);
-            const KUrl oldUrl = m_items.first().url();
-            KUrl newUrl = oldUrl;
-            newUrl.setFileName(KIO::encodeFileName(m_newName));
-
-            QWidget* widget = parentWidget();
-            if (!widget) {
-                widget = this;
-            }
-
-            KonqOperations::rename(widget, oldUrl, newUrl);
+            renameItem(m_items.first(), m_newName);
         } else {
             renameItems();
         }
@@ -187,15 +192,7 @@ void RenameDialog::renameItems()
         }
 
         if (oldUrl.fileName() != newName) {
-            KUrl newUrl = oldUrl;
-            newUrl.setFileName(KIO::encodeFileName(newName));
-
-            QWidget* widget = parentWidget();
-            if (!widget) {
-                widget = this;
-            }
-
-            KonqOperations::rename(widget, oldUrl, newUrl);
+            renameItem(item, newName);
         }
     }
 }

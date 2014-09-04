@@ -49,6 +49,7 @@ private slots:
 
 private:
     void renameItems();
+    void renameItem(const KFileItem &item, const QString& newName);
 
     /**
      * @return Returns the string \p name, where the characters represented by
