@@ -21,7 +21,10 @@
 
 #include <KLineEdit>
 #include <KLocale>
-#include <konq_operations.h>
+#include <KJobWidgets>
+#include <KJobUiDelegate>
+#include <KIO/CopyJob>
+#include <KIO/FileUndoManager>
 #include <KStringHandler>
 #include <kstringhandler_deprecated.h> //TODO port to QCollator
 #include <knuminput.h>
@@ -130,16 +133,19 @@ RenameDialog::~RenameDialog()
 
 void RenameDialog::renameItem(const KFileItem &item, const QString& newName)
 {
-    const KUrl oldUrl = item.url();
-    KUrl newUrl = oldUrl;
-    newUrl.setFileName(KIO::encodeFileName(newName));
+    const QUrl oldUrl = item.url();
+    QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+    newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
     QWidget* widget = parentWidget();
     if (!widget) {
         widget = this;
     }
 
-    KonqOperations::rename(widget, oldUrl, newUrl);
+    KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
+    KJobWidgets::setWindow(job, widget);
+    KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, QList<QUrl>() << oldUrl, newUrl, job);
+    job->ui()->setAutoErrorHandlingEnabled(true);
 }
 
 void RenameDialog::slotButtonClicked(int button)
@@ -184,8 +190,8 @@ void RenameDialog::renameItems()
         QString newName = indexedName(m_newName, index, QLatin1Char('#'));
         ++index;
 
-        const KUrl oldUrl = item.url();
-        const QString extension = KMimeType::extractKnownExtension(oldUrl.prettyUrl().toLower());
+        const QUrl oldUrl = item.url();
+        const QString extension = KMimeType::extractKnownExtension(oldUrl.path().toLower());
         if (!extension.isEmpty()) {
             newName.append(QLatin1Char('.'));
             newName.append(extension);
