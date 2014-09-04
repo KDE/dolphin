@@ -1389,13 +1389,19 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
-void DolphinView::slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinView::slotRenamingResult(KJob* job)
 {
-    const int index = m_model->index(newUrl);
-    if (index >= 0) {
-        QHash<QByteArray, QVariant> data;
-        data.insert("text", oldUrl.fileName());
-        m_model->setData(index, data);
+    if (job->error()) {
+        KIO::CopyJob *copyJob = qobject_cast<KIO::CopyJob *>(job);
+        Q_ASSERT(copyJob);
+        const QUrl newUrl = copyJob->destUrl();
+        const int index = m_model->index(KUrl(newUrl));
+        if (index >= 0) {
+            QHash<QByteArray, QVariant> data;
+            const QUrl oldUrl = copyJob->srcUrls().first();
+            data.insert("text", oldUrl.fileName());
+            m_model->setData(index, data);
+        }
     }
 }
 
@@ -1486,12 +1492,14 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
             const KUrl oldUrl = oldItem.url();
 
-            const KUrl newUrl(url().path(KUrl::AddTrailingSlash) + newName);
-            const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
+            QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+            newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
+
+            const bool newNameExistsAlready = (m_model->index(KUrl(newUrl)) >= 0);
             if (!newNameExistsAlready) {
                 // Only change the data in the model if no item with the new name
                 // is in the model yet. If there is an item with the new name
-                // already, calling KonqOperations::rename() will open a dialog
+                // already, calling KIO::CopyJob will open a dialog
                 // asking for a new name, and KFileItemModel will update the
                 // data when the dir lister signals that the file name has changed.
                 QHash<QByteArray, QVariant> data;
@@ -1499,11 +1507,15 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                 m_model->setData(index, data);
             }
 
-            KonqOperations* op = KonqOperations::renameV2(this, oldUrl, newName);
-            if (op && !newNameExistsAlready) {
-                // Only connect the renamingFailed signal if there is no item with the new name
+            KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
+            KJobWidgets::setWindow(job, this);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, QList<QUrl>() << oldUrl, newUrl, job);
+            job->ui()->setAutoErrorHandlingEnabled(true);
+
+            if (!newNameExistsAlready) {
+                // Only connect the result signal if there is no item with the new name
                 // in the model yet, see bug 328262.
-                connect(op, &KonqOperations::renamingFailed, this, &DolphinView::slotRenamingFailed);
+                connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);
             }
         }
     }

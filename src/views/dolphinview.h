@@ -625,7 +625,10 @@ private slots:
      */
     void slotTrashFileFinished(KJob* job);
 
-    void slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl);
+    /**
+     * Invoked when the rename job is done, for error handling.
+     */
+    void slotRenamingResult(KJob* job);
 
     /**
      * Invoked when the file item model has started the loading
