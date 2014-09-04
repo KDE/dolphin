@@ -33,7 +33,10 @@
 #include <kitemviews/kfileitemmodel.h>
 
 #include <KFileItem>
-#include <konq_operations.h>
+#include <KJobWidgets>
+#include <KJobUiDelegate>
+#include <KIO/CopyJob>
+#include <KIO/FileUndoManager>
 
 #include <QApplication>
 #include <QBoxLayout>
@@ -250,7 +253,14 @@ void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, co
         const KFileItem item = m_model->fileItem(index);
         const QString newName = value.toString();
         if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
-            KonqOperations::rename(this, item.url(), newName);
+            const QUrl oldUrl = item.url();
+            QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+            newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
+
+            KIO::Job* job = KIO::moveAs(oldUrl, newUrl);
+            KJobWidgets::setWindow(job, this);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, QList<QUrl>() << oldUrl, newUrl, job);
+            job->ui()->setAutoErrorHandlingEnabled(true);
         }
     }
 }
