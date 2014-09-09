@@ -773,6 +773,10 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     const DolphinContextMenu::Command command = contextMenu.data()->open();
 
     switch (command) {
+    case DolphinContextMenu::OpenParentFolder:
+        changeUrl(KIO::upUrl(item.url()));
+        break;
+
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
 
         KRun::run("dolphin %u", QList<QUrl>() << KIO::upUrl(item.url()), this);

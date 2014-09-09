@@ -200,6 +200,7 @@ void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
 
+    QAction* openParentAction = 0;
     QAction* openParentInNewWindowAction = 0;
     QAction* openParentInNewTabAction = 0;
     QAction* addToPlacesAction = 0;
@@ -235,7 +236,13 @@ void DolphinContextMenu::openItemContextMenu()
             }
 
             addSeparator();
-        } else if (m_baseUrl.protocol().contains("search")) {
+        } else if (m_baseUrl.protocol().contains("search") || m_baseUrl.protocol().contains("timeline")) {
+            openParentAction = new QAction(QIcon::fromTheme("document-open-folder"),
+                                           i18nc("@action:inmenu",
+                                                 "Open Path"),
+                                           this);
+            addAction(openParentAction);
+
             openParentInNewWindowAction = new QAction(QIcon::fromTheme("window-new"),
                                                     i18nc("@action:inmenu",
                                                           "Open Path in New Window"),
@@ -306,6 +313,8 @@ void DolphinContextMenu::openItemContextMenu()
                 PlacesItem* item = model.createPlacesItem(text, selectedUrl);
                 model.appendItemToGroup(item);
             }
+        } else if (activatedAction == openParentAction) {
+            m_command = OpenParentFolder;
         } else if (activatedAction == openParentInNewWindowAction) {
             m_command = OpenParentFolderInNewWindow;
         } else if (activatedAction == openParentInNewTabAction) {

@@ -58,6 +58,7 @@ public:
     enum Command
     {
         None,
+        OpenParentFolder,
         OpenParentFolderInNewWindow,
         OpenParentFolderInNewTab
     };
