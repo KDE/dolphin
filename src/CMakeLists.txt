@@ -106,6 +106,7 @@ if(HAVE_BALOO)
         KF5::FileMetaData
         KF5::BalooCore
         KF5::BalooFiles
+        KF5::BalooNaturalQueryParser
         KF5::BalooWidgets
     )
 endif()
