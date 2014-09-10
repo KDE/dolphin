@@ -273,7 +273,7 @@ void DolphinSearchBox::slotReturnPressed()
 
 void DolphinSearchBox::updateSearchInputParsing()
 {
-#ifdef HAVE_NEPOMUK
+#ifdef HAVE_BALOO
     m_searchInput->setParsingEnabled(m_contentButton->isChecked());
 #endif
 }
