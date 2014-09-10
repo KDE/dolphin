@@ -315,6 +315,7 @@ void DolphinTabWidget::currentTabChanged(int index)
     DolphinViewContainer* viewContainer = tabPageAt(index)->activeViewContainer();
     emit activeViewChanged(viewContainer);
     emit currentUrlChanged(viewContainer->url());
+    viewContainer->view()->setFocus();
 }
 
 void DolphinTabWidget::tabInserted(int index)

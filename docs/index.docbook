@@ -192,7 +192,7 @@ The <link linkend="places-panel"><guilabel>Places</guilabel> panel</link>, which
 provides quick access to bookmarked locations and disks or other media.
 </para>
 <para>If desktop search and file indexing are enabled in the <guilabel>Desktop Search</guilabel> 
-module in the &systemsettings; the panel provides <guilabel>Recently Accessed</guilabel> 
+module in the &systemsettings; the panel provides <guilabel>Recently Saved</guilabel> 
 items and allows you to search for <guilabel>Documents</guilabel>, <guilabel>Images</guilabel>,
 <guilabel>Audio Files</guilabel> and <guilabel>Video</guilabel>.
 </para></listitem>
@@ -690,7 +690,7 @@ to a different position, even outside the window.
 <title>Places</title>
 <!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
 context menu Icon Size? No different entries ?-->
-<!--Four groups: Places = Folders, Devices, with Nepomuk Recently Accessed and Search For -->
+<!--Four groups: Places = Folders, Devices, with Baloo Recently Saved and Search For -->
 <para>
 The <guilabel>Places</guilabel> panel is located at the left of the window by
 default. The <guilabel>Places</guilabel> panel shows any locations you have
@@ -800,10 +800,10 @@ Start to type into the find input box and the search starts immediately.
 (<userinput>*foo*</userinput> and <userinput>foo</userinput> are equivalent), 
 but you can use wildcards inside the search term. <userinput>*</userinput> will match 
 zero or more characters, <userinput>?</userinput> only one single character.</para>
-<para>This feature can be used with running Nepomuk/Strigi services; without these services
+<para>This feature can be used with running Baloo services; without these services
 a KIOSlave is launched to provide the search results.</para>
-<para>The option from <guilabel>Everywhere</guilabel> with activated Nepomuk/Strigi 
-services searches in all indexed folders, without Nepomuk/Strigi this option  
+<para>The option from <guilabel>Everywhere</guilabel> with activated Baloo 
+services searches in all indexed folders, without Baloo this option  
 starts the search from the user's <replaceable>Home</replaceable> folder.</para>
 
 <screenshot>
@@ -828,7 +828,7 @@ the user to shrink the number of search results.</para>
   a time period and rating<!--FIXME readd when again implemented: and tag, if you have defined any.--></para>
 
 <para>Alternatively you can use these options in the <guilabel>Places</guilabel> panel 
-together with the <guilabel>Filter</guilabel> bar to find files using Nepomuk or limit 
+together with the <guilabel>Filter</guilabel> bar to find files using Baloo or limit 
 the search to files matching the filter expression.</para>
 
 </sect2>

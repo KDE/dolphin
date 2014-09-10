@@ -44,7 +44,7 @@ public:
     {
         PlacesType,
         SearchForType,
-        RecentlyAccessedType,
+        RecentlySavedType,
         DevicesType
     };
 

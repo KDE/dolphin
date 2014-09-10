@@ -144,20 +144,20 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const GroupType type = groupType();
     if (icon().isEmpty()) {
         switch (type) {
-        case RecentlyAccessedType: setIcon("chronometer"); break;
-        case SearchForType:        setIcon("nepomuk"); break;
+        case RecentlySavedType: setIcon("chronometer"); break;
+        case SearchForType:     setIcon("nepomuk"); break;
         case PlacesType:
-        default:                   setIcon("folder");
+        default:                setIcon("folder");
         }
 
     }
 
     switch (type) {
-    case PlacesType:           setGroup(i18nc("@item", "Places")); break;
-    case RecentlyAccessedType: setGroup(i18nc("@item", "Recently Accessed")); break;
-    case SearchForType:        setGroup(i18nc("@item", "Search For")); break;
-    case DevicesType:          setGroup(i18nc("@item", "Devices")); break;
-    default:                   Q_ASSERT(false); break;
+    case PlacesType:        setGroup(i18nc("@item", "Places")); break;
+    case RecentlySavedType: setGroup(i18nc("@item", "Recently Saved")); break;
+    case SearchForType:     setGroup(i18nc("@item", "Search For")); break;
+    case DevicesType:       setGroup(i18nc("@item", "Devices")); break;
+    default:                Q_ASSERT(false); break;
     }
 
     setHidden(bookmark.metaDataItem("IsHidden") == QLatin1String("true"));
@@ -173,7 +173,7 @@ PlacesItem::GroupType PlacesItem::groupType() const
     if (udi().isEmpty()) {
         const QString protocol = url().protocol();
         if (protocol == QLatin1String("timeline")) {
-            return RecentlyAccessedType;
+            return RecentlySavedType;
         }
 
         if (protocol.contains(QLatin1String("search"))) {

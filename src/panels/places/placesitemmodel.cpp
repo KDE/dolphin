@@ -59,7 +59,7 @@
 
 namespace {
     // As long as KFilePlacesView from kdelibs is available in parallel, the
-    // system-bookmarks for "Recently Accessed" and "Search For" should be
+    // system-bookmarks for "Recently Saved" and "Search For" should be
     // shown only inside the Places Panel. This is necessary as the stored
     // URLs needs to get translated to a Baloo-search-URL on-the-fly to
     // be independent from changes in the Baloo-search-URL-syntax.
@@ -738,7 +738,7 @@ void PlacesItemModel::loadBookmarks()
     // items should always be collected in one group so the items are collected first
     // in separate lists before inserting them.
     QList<PlacesItem*> placesItems;
-    QList<PlacesItem*> recentlyAccessedItems;
+    QList<PlacesItem*> recentlySavedItems;
     QList<PlacesItem*> searchForItems;
     QList<PlacesItem*> devicesItems;
 
@@ -763,11 +763,11 @@ void PlacesItemModel::loadBookmarks()
                 }
 
                 switch (item->groupType()) {
-                case PlacesItem::PlacesType:           placesItems.append(item); break;
-                case PlacesItem::RecentlyAccessedType: recentlyAccessedItems.append(item); break;
-                case PlacesItem::SearchForType:        searchForItems.append(item); break;
+                case PlacesItem::PlacesType:        placesItems.append(item); break;
+                case PlacesItem::RecentlySavedType: recentlySavedItems.append(item); break;
+                case PlacesItem::SearchForType:     searchForItems.append(item); break;
                 case PlacesItem::DevicesType:
-                default:                               Q_ASSERT(false); break;
+                default:                            Q_ASSERT(false); break;
                 }
             }
         }
@@ -782,11 +782,11 @@ void PlacesItemModel::loadBookmarks()
             if (missingSystemBookmarks.contains(data.url)) {
                 PlacesItem* item = createSystemPlacesItem(data);
                 switch (item->groupType()) {
-                case PlacesItem::PlacesType:           placesItems.append(item); break;
-                case PlacesItem::RecentlyAccessedType: recentlyAccessedItems.append(item); break;
-                case PlacesItem::SearchForType:        searchForItems.append(item); break;
+                case PlacesItem::PlacesType:        placesItems.append(item); break;
+                case PlacesItem::RecentlySavedType: recentlySavedItems.append(item); break;
+                case PlacesItem::SearchForType:     searchForItems.append(item); break;
                 case PlacesItem::DevicesType:
-                default:                               Q_ASSERT(false); break;
+                default:                            Q_ASSERT(false); break;
                 }
             }
         }
@@ -800,7 +800,7 @@ void PlacesItemModel::loadBookmarks()
 
     QList<PlacesItem*> items;
     items.append(placesItems);
-    items.append(recentlyAccessedItems);
+    items.append(recentlySavedItems);
     items.append(searchForItems);
     items.append(devicesItems);
 
@@ -845,7 +845,7 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
     const QString protocol = data.url.protocol();
     if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
         // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
-        // for "Recently Accessed" and "Search For" should be a setting available only
+        // for "Recently Saved" and "Search For" should be a setting available only
         // in the Places Panel (see description of AppNamePrefix for more details).
         const QString appName = KGlobal::mainComponent().componentName() + AppNamePrefix;
         bookmark.setMetaDataItem("OnlyInApp", appName);
@@ -854,11 +854,11 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
     PlacesItem* item = new PlacesItem(bookmark);
     item->setSystemItem(true);
 
-    // Create default view-properties for all "Search For" and "Recently Accessed" bookmarks
+    // Create default view-properties for all "Search For" and "Recently Saved" bookmarks
     // in case if the user has not already created custom view-properties for a corresponding
     // query yet.
     const bool createDefaultViewProperties = (item->groupType() == PlacesItem::SearchForType ||
-                                              item->groupType() == PlacesItem::RecentlyAccessedType) &&
+                                              item->groupType() == PlacesItem::RecentlySavedType) &&
                                               !GeneralSettings::self()->globalViewProps();
     if (createDefaultViewProperties) {
         ViewProperties props(convertedUrl(data.url));
