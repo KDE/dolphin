@@ -1084,10 +1084,9 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
 
     hideToolTip();
 
-    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
-    if (buttons & Qt::XButton1) {
+    if (buttons & Qt::BackButton) {
         emit goBackRequested();
-    } else if (buttons & Qt::XButton2) {
+    } else if (buttons & Qt::ForwardButton) {
         emit goForwardRequested();
     }
 }
