@@ -20,7 +20,7 @@
 #include "tooltipmanager.h"
 
 #include "filemetadatatooltip.h"
-#include <KIcon>
+#include <QIcon>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KJobWidgets>
@@ -167,7 +167,7 @@ void ToolTipManager::previewFailed()
         return;
     }
 
-    const QPixmap pixmap = KIcon(m_item.iconName()).pixmap(128, 128);
+    const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
     m_fileMetaDataToolTip->setPreview(pixmap);
     if (!m_showToolTipTimer->isActive()) {
         showToolTip();

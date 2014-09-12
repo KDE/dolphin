@@ -22,7 +22,7 @@
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KLineEdit>
 #include <KLocale>
 #include <KSeparator>
@@ -332,7 +332,7 @@ void DolphinSearchBox::init()
     // Create close button
     QToolButton* closeButton = new QToolButton(this);
     closeButton->setAutoRaise(true);
-    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setIcon(QIcon::fromTheme("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
     connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
 
@@ -534,7 +534,7 @@ void DolphinSearchBox::updateFacetsToggleButton()
 {
     const bool facetsIsVisible = SearchSettings::showFacetsWidget();
     m_facetsToggleButton->setChecked(facetsIsVisible ? true : false);
-    m_facetsToggleButton->setIcon(KIcon(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
+    m_facetsToggleButton->setIcon(QIcon::fromTheme(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
     m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
 }
 

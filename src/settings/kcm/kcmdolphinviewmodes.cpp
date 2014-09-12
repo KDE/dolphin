@@ -24,7 +24,7 @@
 #include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KIcon>
+#include <QIcon>
 #include <KGlobal>
 
 #include <settings/viewmodes/viewsettingstab.h>
@@ -56,17 +56,17 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
 
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
-    tabWidget->addTab(iconsTab, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
+    tabWidget->addTab(iconsTab, QIcon::fromTheme("view-list-icons"), i18nc("@title:tab", "Icons"));
     connect(iconsTab, &ViewSettingsTab::changed, this, &DolphinViewModesConfigModule::viewModeChanged);
 
     // Initialize 'Compact' tab
     ViewSettingsTab* compactTab = new ViewSettingsTab(ViewSettingsTab::CompactMode, tabWidget);
-    tabWidget->addTab(compactTab, KIcon("view-list-details"), i18nc("@title:tab", "Compact"));
+    tabWidget->addTab(compactTab, QIcon::fromTheme("view-list-details"), i18nc("@title:tab", "Compact"));
     connect(compactTab, &ViewSettingsTab::changed, this, &DolphinViewModesConfigModule::viewModeChanged);
 
     // Initialize 'Details' tab
     ViewSettingsTab* detailsTab = new ViewSettingsTab(ViewSettingsTab::DetailsMode, tabWidget);
-    tabWidget->addTab(detailsTab, KIcon("view-list-tree"), i18nc("@title:tab", "Details"));
+    tabWidget->addTab(detailsTab, QIcon::fromTheme("view-list-tree"), i18nc("@title:tab", "Details"));
     connect(detailsTab, &ViewSettingsTab::changed, this, &DolphinViewModesConfigModule::viewModeChanged);
 
     m_tabs.append(iconsTab);

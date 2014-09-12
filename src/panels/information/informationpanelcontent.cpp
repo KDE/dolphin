@@ -27,7 +27,7 @@
 #include <KJobWidgets>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include <KMenu>
 #include <kseparator.h>
@@ -297,7 +297,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     previewAction->setChecked(InformationPanelSettings::previewsShown());
 
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
-    configureAction->setIcon(KIcon("configure"));
+    configureAction->setIcon(QIcon::fromTheme("configure"));
 
     popup.addSeparator();
     foreach (QAction* action, customContextMenuActions) {
@@ -332,8 +332,10 @@ void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
     if (!applyPlace(item.targetUrl())) {
-        KIcon icon(item.iconName(), KIconLoader::global(), item.overlays());
-        m_preview->setPixmap(icon.pixmap(KIconLoader::SizeEnormous));
+        const QPixmap icon = KIconLoader::global()->loadIcon(item.iconName(), KIconLoader::Desktop,
+                                                             KIconLoader::SizeEnormous, KIconLoader::DefaultState,
+                                                             item.overlays());
+        m_preview->setPixmap(icon);
     }
 }
 
@@ -376,7 +378,7 @@ bool InformationPanelContent::applyPlace(const KUrl& url)
         const PlacesItem* item = m_placesItemModel->placesItem(i);
         if (item->url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
             setNameLabelText(item->text());
-            m_preview->setPixmap(KIcon(item->icon()).pixmap(128, 128));
+            m_preview->setPixmap(QIcon::fromTheme(item->icon()).pixmap(128, 128));
             return true;
         }
     }

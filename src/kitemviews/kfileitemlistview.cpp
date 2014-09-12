@@ -27,7 +27,7 @@
 #include "private/kpixmapmodifier.h"
 
 #include <KDebug>
-#include <KIcon>
+#include <QIcon>
 #include <KTextEdit>
 #include <KIconLoader>
 #include <KDateTime>
@@ -171,7 +171,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
     foreach (int index, indexes) {
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
-            KIcon icon(model()->data(index).value("iconName").toString());
+            QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
             pixmap = icon.pixmap(size, size);
         } else {
             KPixmapModifier::scale(pixmap, QSize(size, size));

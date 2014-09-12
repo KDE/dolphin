@@ -25,7 +25,7 @@
 #include <KBookmarkManager>
 #include <KDebug>
 #include <KDirLister>
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include "placesitemsignalhandler.h"
 #include <QDateTime>

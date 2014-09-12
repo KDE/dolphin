@@ -23,7 +23,7 @@
 #include <QDragEnterEvent>
 #include <KLocalizedString>
 #include <KMenu>
-#include <KIcon>
+#include <QIcon>
 #include <KUrl>
 
 DolphinTabBar::DolphinTabBar(QWidget* parent) :
@@ -124,10 +124,10 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent* event)
         // Tab context menu
         KMenu menu(this);
 
-        QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
-        QAction* detachTabAction = menu.addAction(KIcon("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
-        QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
-        QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+        QAction* newTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@action:inmenu", "New Tab"));
+        QAction* detachTabAction = menu.addAction(QIcon::fromTheme("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
+        QAction* closeOtherTabsAction = menu.addAction(QIcon::fromTheme("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
+        QAction* closeTabAction = menu.addAction(QIcon::fromTheme("tab-close"), i18nc("@action:inmenu", "Close Tab"));
 
         QAction* selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {

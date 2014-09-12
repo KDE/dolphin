@@ -38,7 +38,7 @@
 #include <KSelectAction>
 #include <KToggleAction>
 #include <KPropertiesDialog>
-#include <KIcon>
+#include <QIcon>
 
 #include <KDebug>
 
@@ -101,7 +101,7 @@ void DolphinViewActionHandler::createActions()
     QAction* newDirAction = m_actionCollection->addAction("create_dir");
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
-    newDirAction->setIcon(KIcon("folder-new"));
+    newDirAction->setIcon(QIcon::fromTheme("folder-new"));
     newDirAction->setEnabled(false);    // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
     connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectory);
 
@@ -110,18 +110,18 @@ void DolphinViewActionHandler::createActions()
     QAction* rename = m_actionCollection->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));
     rename->setShortcut(Qt::Key_F2);
-    rename->setIcon(KIcon("edit-rename"));
+    rename->setIcon(QIcon::fromTheme("edit-rename"));
     connect(rename, &QAction::triggered, this, &DolphinViewActionHandler::slotRename);
 
     QAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
-    moveToTrash->setIcon(KIcon("user-trash"));
+    moveToTrash->setIcon(QIcon::fromTheme("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, &QAction::triggered,
             this, &DolphinViewActionHandler::slotTrashActivated);
 
     QAction* deleteAction = m_actionCollection->addAction("delete");
-    deleteAction->setIcon(KIcon("edit-delete"));
+    deleteAction->setIcon(QIcon::fromTheme("edit-delete"));
     deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     connect(deleteAction, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
@@ -140,7 +140,7 @@ void DolphinViewActionHandler::createActions()
     QAction *propertiesAction = m_actionCollection->addAction( "properties" );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
     propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
-    propertiesAction->setIcon(KIcon("document-properties"));
+    propertiesAction->setIcon(QIcon::fromTheme("document-properties"));
     propertiesAction->setShortcuts(QList<QKeySequence>() << Qt::ALT + Qt::Key_Return << Qt::ALT + Qt::Key_Enter);
     connect(propertiesAction, &QAction::triggered, this, &DolphinViewActionHandler::slotProperties);
 
@@ -168,7 +168,7 @@ void DolphinViewActionHandler::createActions()
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
     showPreview->setToolTip(i18nc("@info", "Show preview of files and folders"));
-    showPreview->setIcon(KIcon("view-preview"));
+    showPreview->setIcon(QIcon::fromTheme("view-preview"));
     connect(showPreview, &KToggleAction::triggered, this, &DolphinViewActionHandler::togglePreview);
 
     KToggleAction* sortDescending = m_actionCollection->add<KToggleAction>("descending");
@@ -205,7 +205,7 @@ void DolphinViewActionHandler::createActions()
     }
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
-    showInGroups->setIcon(KIcon("view-group"));
+    showInGroups->setIcon(QIcon::fromTheme("view-group"));
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
@@ -302,7 +302,7 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
     m_currentView->setMode(mode);
 
     QAction* viewModeMenu = m_actionCollection->action("view_mode");
-    viewModeMenu->setIcon(KIcon(action->icon()));
+    viewModeMenu->setIcon(action->icon());
 }
 
 void DolphinViewActionHandler::slotRename()
@@ -365,7 +365,7 @@ void DolphinViewActionHandler::updateViewActions()
         viewModeAction->setChecked(true);
 
         QAction* viewModeMenu = m_actionCollection->action("view_mode");
-        viewModeMenu->setIcon(KIcon(viewModeAction->icon()));
+        viewModeMenu->setIcon(viewModeAction->icon());
     }
 
     QAction* showPreviewAction = m_actionCollection->action("show_preview");
@@ -493,7 +493,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setToolTip(i18nc("@info", "Icons view mode"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
-    iconsView->setIcon(KIcon("view-list-icons"));
+    iconsView->setIcon(QIcon::fromTheme("view-list-icons"));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
     return iconsView;
 }
@@ -504,7 +504,7 @@ KToggleAction* DolphinViewActionHandler::compactModeAction()
     iconsView->setText(i18nc("@action:inmenu View Mode", "Compact"));
     iconsView->setToolTip(i18nc("@info", "Compact view mode"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    iconsView->setIcon(KIcon("view-list-details")); // TODO: discuss with Oxygen-team the wrong (?) name
+    iconsView->setIcon(QIcon::fromTheme("view-list-details")); // TODO: discuss with Oxygen-team the wrong (?) name
     iconsView->setData(QVariant::fromValue(DolphinView::CompactView));
     return iconsView;
 }
@@ -515,7 +515,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_3);
-    detailsView->setIcon(KIcon("view-list-tree"));
+    detailsView->setIcon(QIcon::fromTheme("view-list-tree"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
 }
@@ -528,7 +528,7 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
 
         if (!action->icon().isNull()) {
             QAction* sortByMenu = m_actionCollection->action("sort");
-            sortByMenu->setIcon(KIcon(action->icon()));
+            sortByMenu->setIcon(action->icon());
         }
     }
 }

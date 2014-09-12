@@ -22,7 +22,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KIconLoader>
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include <KMenu>
 #include <KVBox>
@@ -81,7 +81,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
 
     // Initialize progress information
     m_stopButton = new QToolButton(this);
-    m_stopButton->setIcon(KIcon("process-stop"));
+    m_stopButton->setIcon(QIcon::fromTheme("process-stop"));
     m_stopButton->setAccessibleName(i18n("Stop"));
     m_stopButton->setAutoRaise(true);
     m_stopButton->setToolTip(i18nc("@tooltip", "Stop loading"));

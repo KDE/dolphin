@@ -30,7 +30,7 @@
 #include <KBookmarkManager>
 #include <KComponentData>
 #include <KDebug>
-#include <KIcon>
+#include <QIcon>
 #include <kprotocolinfo.h>
 #include <KLocale>
 #include <KStandardDirs>
@@ -255,7 +255,7 @@ QAction* PlacesItemModel::ejectAction(int index) const
 {
     const PlacesItem* item = placesItem(index);
     if (item && item->device().is<Solid::OpticalDisc>()) {
-        return new QAction(KIcon("media-eject"), i18nc("@item", "Eject '%1'", item->text()), 0);
+        return new QAction(QIcon::fromTheme("media-eject"), i18nc("@item", "Eject '%1'", item->text()), 0);
     }
 
     return 0;
@@ -304,7 +304,7 @@ QAction* PlacesItemModel::teardownAction(int index) const
         return new QAction(text, 0);
     }
 
-    return new QAction(KIcon(iconName), text, 0);
+    return new QAction(QIcon::fromTheme(iconName), text, 0);
 }
 
 void PlacesItemModel::requestEject(int index)

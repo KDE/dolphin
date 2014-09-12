@@ -29,7 +29,7 @@
 #include <KDebug>
 #include <KActionMenu>
 #include <KActionCollection>
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include <KGlobal>
 #include <KMimeType>
@@ -49,7 +49,7 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionH
     m_loaded(false),
     m_idDefault(0)
 {
-    m_menu = new KActionMenu(KIcon("character-set"), i18n("Select Remote Charset"), this);
+    m_menu = new KActionMenu(QIcon::fromTheme("character-set"), i18n("Select Remote Charset"), this);
     m_actionHandler->actionCollection()->addAction("change_remote_encoding", m_menu);
     connect(m_menu->menu(), &QMenu::aboutToShow,
           this, &DolphinRemoteEncoding::slotAboutToShow);

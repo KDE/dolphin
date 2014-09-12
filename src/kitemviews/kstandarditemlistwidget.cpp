@@ -22,7 +22,7 @@
 #include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KLocale>
@@ -1440,7 +1440,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
-        const KIcon icon(name);
+        const QIcon icon = QIcon::fromTheme(name);
 
         int requestedSize;
         if (size <= KIconLoader::SizeSmall) {

@@ -26,7 +26,7 @@
 #include <KConfigGroup>
 #include <KDesktopFile>
 #include <kdesktopfileactions.h>
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include <KMessageBox>
 #include <KNS3/Button>

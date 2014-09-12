@@ -1461,11 +1461,11 @@ void DolphinMainWindow::updateSplitAction()
         if (tabPage->primaryViewActive()) {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close left view"));
-            splitAction->setIcon(KIcon("view-left-close"));
+            splitAction->setIcon(QIcon::fromTheme("view-left-close"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setToolTip(i18nc("@info", "Close right view"));
-            splitAction->setIcon(KIcon("view-right-close"));
+            splitAction->setIcon(QIcon::fromTheme("view-right-close"));
         }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));

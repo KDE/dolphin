@@ -21,7 +21,7 @@
 
 #include <KDebug>
 #include <KPushButton>
-#include <KIcon>
+#include <QIcon>
 
 #include "servicemodel.h"
 
@@ -94,7 +94,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     checkBox->setText(model->data(index).toString());
     const QString iconName = model->data(index, Qt::DecorationRole).toString();
     if (!iconName.isEmpty()) {
-        checkBox->setIcon(KIcon(iconName));
+        checkBox->setIcon(QIcon::fromTheme(iconName));
     }
     checkBox->setChecked(model->data(index, Qt::CheckStateRole).toBool());
 
@@ -110,7 +110,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     // Update the configuration button
     if (configurable) {
         configureButton->setEnabled(checkBox->isChecked());
-        configureButton->setIcon(KIcon("configure"));
+        configureButton->setIcon(QIcon::fromTheme("configure"));
         configureButton->resize(configureButton->sizeHint());
         configureButton->move(option.rect.right() - configureButton->width(),
                               (itemHeight - configureButton->height()) / 2);

@@ -28,7 +28,7 @@
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <KIcon>
+#include <QIcon>
 #include <KUrl>
 
 #include <QList>

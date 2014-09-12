@@ -19,7 +19,7 @@
 
 #include "dolphinfileitemlistwidget.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KIconLoader>
 #include <kversioncontrolplugin2.h>
 #include <QColor>
@@ -123,6 +123,6 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemV
         break;
     }
 
-    return KIcon(iconName).pixmap(QSize(overlayHeight, overlayHeight));
+    return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight));
 }
 

@@ -27,7 +27,7 @@
 
 #include <KDebug>
 #include <KDirNotify>
-#include <KIcon>
+#include <QIcon>
 #include <KIO/Job>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
@@ -185,25 +185,25 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
     } else {
         if (item->url() == KUrl("trash:/")) {
-            emptyTrashAction = menu.addAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
+            emptyTrashAction = menu.addAction(QIcon::fromTheme("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
             emptyTrashAction->setEnabled(item->icon() == "user-trash-full");
             menu.addSeparator();
         }
-        addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+        addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
         mainSeparator = menu.addSeparator();
-        editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit '%1'...", label));
+        editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit '%1'...", label));
     }
 
     if (!addAction) {
-        addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+        addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
     }
 
     QAction* openInNewTabAction = menu.addAction(i18nc("@item:inmenu", "Open '%1' in New Tab", label));
-    openInNewTabAction->setIcon(KIcon("tab-new"));
+    openInNewTabAction->setIcon(QIcon::fromTheme("tab-new"));
 
     QAction* removeAction = 0;
     if (!isDevice && !item->isSystemItem()) {
-        removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
+        removeAction = menu.addAction(QIcon::fromTheme("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
     }
 
     QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide '%1'", label));
@@ -305,7 +305,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
     KMenu menu(this);
 
-    QAction* addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+    QAction* addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
 
     QAction* showAllAction = 0;
     if (m_model->hiddenCount() > 0) {
