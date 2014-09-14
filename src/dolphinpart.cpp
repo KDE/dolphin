@@ -178,7 +178,7 @@ void DolphinPart::createActions()
 
     QAction* selectItemsMatching = actionCollection()->addAction("select_items_matching");
     selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
-    selectItemsMatching->setShortcut(Qt::CTRL | Qt::Key_S);
+    actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL | Qt::Key_S);
     connect(selectItemsMatching, &QAction::triggered, this, &DolphinPart::slotSelectItemsMatchingPattern);
 
     QAction* unselectItemsMatching = actionCollection()->addAction("unselect_items_matching");
@@ -193,7 +193,7 @@ void DolphinPart::createActions()
 
     QAction* invertSelection = actionCollection()->addAction("invert_selection");
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
-    invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
+    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, m_view, &DolphinView::invertSelection);
 
     // View menu: all done by DolphinViewActionHandler
@@ -223,7 +223,7 @@ void DolphinPart::createActions()
     // Tools menu
     m_findFileAction = actionCollection()->addAction("find_file");
     m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
-    m_findFileAction->setShortcut(Qt::CTRL | Qt::Key_F);
+    actionCollection()->setDefaultShortcut(m_findFileAction, Qt::CTRL | Qt::Key_F);
     m_findFileAction->setIcon(QIcon::fromTheme("edit-find"));
     connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 
@@ -232,7 +232,7 @@ void DolphinPart::createActions()
         m_openTerminalAction->setIcon(QIcon::fromTheme("utilities-terminal"));
         m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
         connect(m_openTerminalAction, &QAction::triggered, this, &DolphinPart::slotOpenTerminal);
-        m_openTerminalAction->setShortcut(Qt::Key_F4);
+        actionCollection()->setDefaultShortcut(m_openTerminalAction, Qt::Key_F4);
     }
 }
 
