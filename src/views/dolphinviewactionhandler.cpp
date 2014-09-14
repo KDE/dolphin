@@ -100,7 +100,7 @@ void DolphinViewActionHandler::createActions()
     // KNewFileMenu takes care of the GUI stuff.
     QAction* newDirAction = m_actionCollection->addAction("create_dir");
     newDirAction->setText(i18nc("@action", "Create Folder..."));
-    newDirAction->setShortcut(Qt::Key_F10);
+    m_actionCollection->setDefaultShortcut(newDirAction, Qt::Key_F10);
     newDirAction->setIcon(QIcon::fromTheme("folder-new"));
     newDirAction->setEnabled(false);    // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
     connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectory);
@@ -109,21 +109,21 @@ void DolphinViewActionHandler::createActions()
 
     QAction* rename = m_actionCollection->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));
-    rename->setShortcut(Qt::Key_F2);
+    m_actionCollection->setDefaultShortcut(rename, Qt::Key_F2);
     rename->setIcon(QIcon::fromTheme("edit-rename"));
     connect(rename, &QAction::triggered, this, &DolphinViewActionHandler::slotRename);
 
     QAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
     moveToTrash->setIcon(QIcon::fromTheme("user-trash"));
-    moveToTrash->setShortcut(QKeySequence::Delete);
+    m_actionCollection->setDefaultShortcut(moveToTrash, QKeySequence::Delete);
     connect(moveToTrash, &QAction::triggered,
             this, &DolphinViewActionHandler::slotTrashActivated);
 
     QAction* deleteAction = m_actionCollection->addAction("delete");
     deleteAction->setIcon(QIcon::fromTheme("edit-delete"));
     deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
-    deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
+    m_actionCollection->setDefaultShortcut(deleteAction, Qt::SHIFT | Qt::Key_Delete);
     connect(deleteAction, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
 
     // This action is useful for being enabled when "move_to_trash" should be
@@ -133,7 +133,7 @@ void DolphinViewActionHandler::createActions()
     QAction* deleteWithTrashShortcut = m_actionCollection->addAction("delete_shortcut");
     // The descriptive text is just for the shortcuts editor.
     deleteWithTrashShortcut->setText(i18nc("@action \"Move to Trash\" for non-local files, etc.", "Delete (using shortcut for Trash)"));
-    deleteWithTrashShortcut->setShortcut(QKeySequence::Delete);
+    m_actionCollection->setDefaultShortcut(deleteWithTrashShortcut, QKeySequence::Delete);
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
 
@@ -492,7 +492,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("icons");
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setToolTip(i18nc("@info", "Icons view mode"));
-    iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(QIcon::fromTheme("view-list-icons"));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
     return iconsView;
@@ -503,7 +503,7 @@ KToggleAction* DolphinViewActionHandler::compactModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("compact");
     iconsView->setText(i18nc("@action:inmenu View Mode", "Compact"));
     iconsView->setToolTip(i18nc("@info", "Compact view mode"));
-    iconsView->setShortcut(Qt::CTRL | Qt::Key_2);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_2);
     iconsView->setIcon(QIcon::fromTheme("view-list-details")); // TODO: discuss with Oxygen-team the wrong (?) name
     iconsView->setData(QVariant::fromValue(DolphinView::CompactView));
     return iconsView;
@@ -514,7 +514,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>("details");
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
-    detailsView->setShortcut(Qt::CTRL | Qt::Key_3);
+    m_actionCollection->setDefaultShortcut(detailsView, Qt::CTRL | Qt::Key_3);
     detailsView->setIcon(QIcon::fromTheme("view-list-tree"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
