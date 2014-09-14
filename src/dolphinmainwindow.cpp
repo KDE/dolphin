@@ -1000,7 +1000,7 @@ void DolphinMainWindow::setupActions()
     QAction* newTab = actionCollection()->addAction("new_tab");
     newTab->setIcon(QIcon::fromTheme("tab-new"));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    newTab->setShortcuts(QList<QKeySequence>() << QKeySequence(Qt::CTRL | Qt::Key_T) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
+    actionCollection()->setDefaultShortcuts(newTab, QList<QKeySequence>() << QKeySequence(Qt::CTRL | Qt::Key_T) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
 
     QAction* closeTab = actionCollection()->addAction("close_tab");
@@ -1022,7 +1022,7 @@ void DolphinMainWindow::setupActions()
     QAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
     auto cutShortcuts = cut->shortcuts();
     cutShortcuts.removeAll(QKeySequence(Qt::SHIFT | Qt::Key_Delete));
-    cut->setShortcuts(cutShortcuts);
+    actionCollection()->setDefaultShortcuts(cut, cutShortcuts);
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     QAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
@@ -1075,7 +1075,7 @@ void DolphinMainWindow::setupActions()
     QAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
     auto backShortcuts = backAction->shortcuts();
     backShortcuts.append(QKeySequence(Qt::Key_Backspace));
-    backAction->setShortcuts(backShortcuts);
+    actionCollection()->setDefaultShortcuts(backAction, backShortcuts);
 
     DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
     actionCollection()->addAction("closed_tabs", recentTabsMenu);
@@ -1136,14 +1136,14 @@ void DolphinMainWindow::setupActions()
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateNextTab);
-    activateNextTab->setShortcuts(QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
+    actionCollection()->setDefaultShortcuts(activateNextTab, QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
 
     QAction* activatePrevTab = actionCollection()->addAction("activate_prev_tab");
     activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
-    activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
+    actionCollection()->setDefaultShortcuts(activatePrevTab, QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
 
     // for context menu
     QAction* openInNewTab = actionCollection()->addAction("open_in_new_tab");

@@ -55,7 +55,7 @@ void DolphinRemoveAction::update()
 
     if (m_action) {
         setIcon(m_action->icon());
-        setShortcuts(m_action->shortcuts());
+        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         setEnabled(m_action->isEnabled());
     }
 }
