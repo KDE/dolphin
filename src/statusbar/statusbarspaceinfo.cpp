@@ -57,7 +57,7 @@ void StatusBarSpaceInfo::showEvent(QShowEvent* event)
     KCapacityBar::showEvent(event);
     m_observer.reset(new SpaceInfoObserver(m_url, this));
     slotValuesChanged();
-    connect(m_observer.data(), SIGNAL(valuesChanged()), this, SLOT(slotValuesChanged()));
+    connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
 }
 
 void StatusBarSpaceInfo::hideEvent(QHideEvent* event)

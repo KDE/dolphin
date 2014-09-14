@@ -22,6 +22,8 @@
 
 #include <QObject>
 
+#include <KIO/Job>
+
 class KUrl;
 class MountPointObserver;
 
@@ -40,12 +42,18 @@ public:
 
 signals:
     /**
-     * This signal is emitted if the information that size() and/or available() will  return has changed.
+     * This signal is emitted when the size or available space changes.
      */
     void valuesChanged();
 
+private slots:
+    void spaceInfoChanged(quint64 size, quint64 available);
+
 private:
     MountPointObserver* m_mountPointObserver;
+
+    quint64 m_dataSize;
+    quint64 m_dataAvailable;
 };
 
 #endif

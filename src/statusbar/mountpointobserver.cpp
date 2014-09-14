@@ -17,20 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
+#include <KIO/FileSystemFreeSpaceJob>
+
 #include "mountpointobserver.h"
 #include "mountpointobservercache.h"
 
-MountPointObserver::MountPointObserver(const QString& mountPoint, QObject* parent) :
+MountPointObserver::MountPointObserver(const QUrl& url, QObject* parent) :
     QObject(parent),
-    m_mountPoint(mountPoint),
-    m_referenceCount(0),
-    m_spaceInfo(KDiskFreeSpaceInfo::freeSpaceInfo(mountPoint))
+    m_url(url),
+    m_referenceCount(0)
 {
 }
 
-MountPointObserver* MountPointObserver::observerForPath(const QString& path)
+MountPointObserver* MountPointObserver::observerForUrl(const QUrl& url)
 {
-    MountPointObserver* observer = MountPointObserverCache::instance()->observerForPath(path);
+    MountPointObserver* observer = MountPointObserverCache::instance()->observerForUrl(url);
     return observer;
 }
 
@@ -39,10 +40,16 @@ void MountPointObserver::update()
     if (m_referenceCount == 0) {
         delete this;
     } else {
-        const KDiskFreeSpaceInfo spaceInfo = KDiskFreeSpaceInfo::freeSpaceInfo(m_mountPoint);
-        if (spaceInfo.size() != m_spaceInfo.size() || spaceInfo.available() != m_spaceInfo.available()) {
-            m_spaceInfo = spaceInfo;
-            emit spaceInfoChanged();
-        }
+        KIO::FileSystemFreeSpaceJob* job = KIO::fileSystemFreeSpace(m_url);
+        connect(job, &KIO::FileSystemFreeSpaceJob::result, this, &MountPointObserver::freeSpaceResult);
+    }
+}
+
+void MountPointObserver::freeSpaceResult(KIO::Job* job, KIO::filesize_t size, KIO::filesize_t available)
+{
+    if (!job->error()) {
+        emit spaceInfoChanged(size, available);
+    } else {
+        emit spaceInfoChanged(0, 0);
     }
 }
