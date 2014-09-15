@@ -335,16 +335,14 @@ private slots:
     void openNewActivatedTab();
 
     /**
-     * Opens a new tab in the background showing the URL \a primaryUrl and the
-     * optional URL \a secondaryUrl.
+     * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+    void openNewTab(const KUrl& url);
 
     /**
-     * Opens a new tab showing the  URL \a primaryUrl and the optional URL
-     * \a secondaryUrl and activates the tab.
+     * Opens a new tab showing the URL \a url and activates the tab.
      */
-    void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+    void openNewActivatedTab(const KUrl& url);
 
     /**
      * Opens the selected folder in a new tab.

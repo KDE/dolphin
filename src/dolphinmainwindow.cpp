@@ -312,14 +312,14 @@ void DolphinMainWindow::openNewActivatedTab()
     m_tabWidget->openNewActivatedTab();
 }
 
-void DolphinMainWindow::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinMainWindow::openNewTab(const KUrl& url)
 {
-    m_tabWidget->openNewTab(primaryUrl, secondaryUrl);
+    m_tabWidget->openNewTab(url);
 }
 
-void DolphinMainWindow::openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinMainWindow::openNewActivatedTab(const KUrl& url)
 {
-    m_tabWidget->openNewActivatedTab(primaryUrl, secondaryUrl);
+    m_tabWidget->openNewActivatedTab(url);
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -1212,8 +1212,8 @@ void DolphinMainWindow::setupDockWidgets()
             foldersPanel, &FoldersPanel::setUrl);
     connect(foldersPanel, &FoldersPanel::folderActivated,
             this, &DolphinMainWindow::changeUrl);
-    connect(foldersPanel, SIGNAL(folderMiddleClicked(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
+    connect(foldersPanel, &FoldersPanel::folderMiddleClicked,
+            this, &DolphinMainWindow::openNewTab);
     connect(foldersPanel, &FoldersPanel::errorMessage,
             this, &DolphinMainWindow::slotPanelErrorMessage);
 
@@ -1429,8 +1429,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::slotSelectionChanged);
     connect(view, &DolphinView::requestItemInfo,
             this, &DolphinMainWindow::slotRequestItemInfo);
-    connect(view, SIGNAL(tabRequested(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
+    connect(view, &DolphinView::tabRequested,
+            this, &DolphinMainWindow::openNewTab);
     connect(view, &DolphinView::requestContextMenu,
             this, &DolphinMainWindow::openContextMenu);
     connect(view, &DolphinView::directoryLoadingStarted,
@@ -1449,8 +1449,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::updateHistory);
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
-    connect(navigator, SIGNAL(tabRequested(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
+    connect(navigator, &KUrlNavigator::tabRequested,
+            this, &DolphinMainWindow::openNewTab);
 }
 
 void DolphinMainWindow::updateSplitAction()
