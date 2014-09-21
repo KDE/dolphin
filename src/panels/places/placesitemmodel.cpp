@@ -432,8 +432,9 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
                 text = url.host();
             }
 
-            if (url.isLocalFile() && !QFileInfo(url.toLocalFile()).isDir()) {
-                // Only directories are allowed
+            if ((url.isLocalFile() && !QFileInfo(url.toLocalFile()).isDir())
+                    || url.protocol() == "trash") {
+                // Only directories outside the trash are allowed
                 continue;
             }
 
