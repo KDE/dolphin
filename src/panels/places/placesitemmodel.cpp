@@ -65,7 +65,7 @@ namespace {
     // be independent from changes in the Baloo-search-URL-syntax.
     // Hence a prefix to the application-name of the stored bookmarks is
     // added, which is only read by PlacesItemModel.
-    const char* AppNamePrefix = "-places-panel";
+    const char AppNamePrefix[] = "-places-panel";
 }
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :

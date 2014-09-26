@@ -49,9 +49,9 @@
 namespace
 {
     const bool ShowDeleteDefault = false;
-    const char* VersionControlServicePrefix = "_version_control_";
-    const char* DeleteService = "_delete";
-    const char* CopyToMoveToService ="_copy_to_move_to";
+    const char VersionControlServicePrefix[] = "_version_control_";
+    const char DeleteService[] = "_delete";
+    const char CopyToMoveToService[] ="_copy_to_move_to";
 }
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :

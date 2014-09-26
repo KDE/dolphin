@@ -43,10 +43,10 @@ namespace {
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
     // ViewProperties::visibleRoles() for more information.
-    const char* CustomizedDetailsString = "CustomizedDetails";
+    const char CustomizedDetailsString[] = "CustomizedDetails";
 
     // Filename that is used for storing the properties
-    const char* ViewPropertiesFileName = ".directory";
+    const char ViewPropertiesFileName[] = ".directory";
 }
 
 ViewProperties::ViewProperties(const KUrl& url) :
