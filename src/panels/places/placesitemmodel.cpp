@@ -33,7 +33,7 @@
 #include <QIcon>
 #include <kprotocolinfo.h>
 #include <KLocale>
-#include <KStandardDirs>
+#include <QStandardPaths>
 #include <KUser>
 #include <KGlobal>
 #include "placesitem.h"
@@ -87,7 +87,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     Baloo::IndexerConfig config;
     m_fileIndexingEnabled = config.fileIndexingEnabled();
 #endif
-    const QString file = KStandardDirs::locateLocal("data", "kfileplaces/bookmarks.xml");
+    const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kfileplaces/bookmarks.xml");
     m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
 
     createSystemBookmarks();

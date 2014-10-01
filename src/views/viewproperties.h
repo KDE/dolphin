@@ -164,15 +164,6 @@ private:
      */
     static QString directoryHashForUrl(const KUrl& url);
 
-    /**
-     * Returns the URL of the directory, where the mirrored view properties
-     * are stored into. Mirrored view properties are used if:
-     * - there is no write access for storing the view properties into
-     *   the original directory
-     * - for non local directories
-     */
-    static KUrl mirroredDirectory();
-
     Q_DISABLE_COPY(ViewProperties)
 
 private:

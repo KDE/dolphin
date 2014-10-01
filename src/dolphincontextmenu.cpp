@@ -50,7 +50,6 @@
 #include <KLocale>
 #include <KPropertiesDialog>
 #include <KStandardAction>
-#include <KStandardDirs>
 #include <KToolBar>
 
 #include <panels/places/placesitem.h>

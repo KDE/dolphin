@@ -25,7 +25,6 @@
 
 #include <KComponentData>
 #include <KLocale>
-#include <KStandardDirs>
 #include <KUrl>
 #include <KDebug>
 #include <KGlobal>
@@ -34,6 +33,7 @@
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 namespace {
     const int AdditionalInfoViewPropertiesVersion = 1;
@@ -364,7 +364,8 @@ void ViewProperties::update()
 void ViewProperties::save()
 {
     kDebug() << "Saving view-properties to" << m_filePath;
-    KStandardDirs::makeDir(m_filePath);
+    QDir dir;
+    dir.mkpath(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
     m_node->writeConfig();
     m_changedProps = false;
@@ -378,9 +379,10 @@ bool ViewProperties::exist() const
 
 QString ViewProperties::destinationDir(const QString& subDir) const
 {
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/view_properties/").append(subDir);
-    return KStandardDirs::locateLocal("data", basePath);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    path.append(KGlobal::mainComponent().componentName());
+    path.append("/view_properties/").append(subDir);
+    return path;
 }
 
 QString ViewProperties::viewModePrefix() const
@@ -470,11 +472,4 @@ QString ViewProperties::directoryHashForUrl(const KUrl& url)
     QString hashString = hashValue.toBase64();
     hashString.replace('/', '-');
     return hashString;
-}
-
-KUrl ViewProperties::mirroredDirectory()
-{
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/view_properties/");
-    return KUrl(KStandardDirs::locateLocal("data", basePath));
 }

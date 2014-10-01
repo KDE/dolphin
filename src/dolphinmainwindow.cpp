@@ -72,7 +72,6 @@
 #include <KProtocolInfo>
 #include <KRun>
 #include <KShell>
-#include <KStandardDirs>
 #include <kstatusbar.h>
 #include <KStandardAction>
 #include <KToggleAction>
@@ -87,6 +86,7 @@
 #include <QToolButton>
 #include <QSplitter>
 #include <QTimer>
+#include <QStandardPaths>
 #include <QPushButton>
 
 namespace {
@@ -1481,7 +1481,7 @@ bool DolphinMainWindow::isKompareInstalled() const
     if (!initialized) {
         // TODO: maybe replace this approach later by using a menu
         // plugin like kdiff3plugin.cpp
-        installed = !KGlobal::dirs()->findExe("kompare").isEmpty();
+        installed = !QStandardPaths::findExecutable(QStringLiteral("kompare")).isEmpty();
         initialized = true;
     }
     return installed;

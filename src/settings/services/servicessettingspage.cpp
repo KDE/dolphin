@@ -32,7 +32,7 @@
 #include <KNS3/Button>
 #include <KService>
 #include <KServiceTypeTrader>
-#include <KStandardDirs>
+#include <QStandardPaths>
 
 #include <settings/serviceitemdelegate.h>
 #include <settings/servicemodel.h>
@@ -195,7 +195,7 @@ void ServicesSettingsPage::loadServices()
     // Load generic services
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
     foreach (const KService::Ptr& service, entries) {
-        const QString file = KStandardDirs::locate("services", service->entryPath());
+        const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
         const QList<KServiceAction> serviceActions =
                                     KDesktopFileActions::userDefinedServices(file, true);
 

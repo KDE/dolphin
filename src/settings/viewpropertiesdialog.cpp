@@ -34,7 +34,6 @@
 #include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KUrl>
 #include <KComboBox>
 
