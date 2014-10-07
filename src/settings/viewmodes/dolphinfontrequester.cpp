@@ -27,6 +27,7 @@
 #include <QEvent>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QFontDatabase>
 
 DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     QWidget(parent),
@@ -72,7 +73,7 @@ DolphinFontRequester::Mode DolphinFontRequester::mode() const
 
 QFont DolphinFontRequester::currentFont() const
 {
-    return (m_mode == CustomFont) ? m_customFont : KGlobalSettings::generalFont();
+    return (m_mode == CustomFont) ? m_customFont : QFontDatabase::systemFont(QFontDatabase::GeneralFont);
 }
 
 void DolphinFontRequester::setCustomFont(const QFont& font)

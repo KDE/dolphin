@@ -80,6 +80,7 @@
 
 #ifdef HAVE_BALOO
     #include <Baloo/IndexerConfig>
+#include <KFormat>
 #endif
 
 namespace {
@@ -489,7 +490,7 @@ void DolphinView::readSettings()
 {
     const int oldZoomLevel = m_view->zoomLevel();
 
-    GeneralSettings::self()->readConfig();
+    GeneralSettings::self()->load();
     m_view->readSettings();
     applyViewProperties();
 
@@ -504,7 +505,7 @@ void DolphinView::readSettings()
 
 void DolphinView::writeSettings()
 {
-    GeneralSettings::self()->writeConfig();
+    GeneralSettings::self()->save();
     m_view->writeSettings();
 }
 
@@ -567,11 +568,11 @@ QString DolphinView::statusBarText() const
     if (fileCount > 0 && folderCount > 0) {
         summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
                         foldersText, filesText,
-                        KGlobal::locale()->formatByteSize(totalFileSize));
+                        KFormat().formatByteSize(totalFileSize));
     } else if (fileCount > 0) {
         summary = i18nc("@info:status files (size)", "%1 (%2)",
                         filesText,
-                        KGlobal::locale()->formatByteSize(totalFileSize));
+                        KFormat().formatByteSize(totalFileSize));
     } else if (folderCount > 0) {
         summary = foldersText;
     } else {

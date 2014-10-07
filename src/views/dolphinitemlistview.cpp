@@ -95,7 +95,7 @@ void DolphinItemListView::readSettings()
     updateFont();
     updateGridSize();
 
-    const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     const QStringList plugins = globalConfig.readEntry("Plugins", QStringList()
                                                        << "directorythumbnail"
                                                        << "imagethumbnail"
@@ -107,9 +107,9 @@ void DolphinItemListView::readSettings()
 
 void DolphinItemListView::writeSettings()
 {
-    IconsModeSettings::self()->writeConfig();
-    CompactModeSettings::self()->writeConfig();
-    DetailsModeSettings::self()->writeConfig();
+    IconsModeSettings::self()->save();
+    CompactModeSettings::self()->save();
+    DetailsModeSettings::self()->save();
 }
 
 KItemListWidgetCreatorBase* DolphinItemListView::defaultWidgetCreator() const

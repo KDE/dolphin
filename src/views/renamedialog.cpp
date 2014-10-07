@@ -33,6 +33,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QMimeDatabase>
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     KDialog(parent),
@@ -83,7 +84,8 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     int selectionLength = m_newName.length();
     if (m_renameOneItem) {
         const QString fileName = items.first().url().toDisplayString();
-        const QString extension = KMimeType::extractKnownExtension(fileName.toLower());
+        QMimeDatabase db;
+        const QString extension = db.suffixForFileName(fileName.toLower());
 
         // If the current item is a directory, select the whole file name.
         if ((extension.length() > 0) && !items.first().isDir()) {
@@ -105,7 +107,8 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     if (!m_renameOneItem) {
         QSet<QString> extensions;
         foreach (const KFileItem& item, m_items) {
-            const QString extension = KMimeType::extractKnownExtension(item.url().toDisplayString().toLower());
+            QMimeDatabase db;
+            const QString extension = db.suffixForFileName(item.url().toDisplayString().toLower());
 
             if (extensions.contains(extension)) {
                 m_allExtensionsDifferent = false;
@@ -191,7 +194,8 @@ void RenameDialog::renameItems()
         ++index;
 
         const QUrl oldUrl = item.url();
-        const QString extension = KMimeType::extractKnownExtension(oldUrl.path().toLower());
+        QMimeDatabase db;
+        const QString extension = db.suffixForFileName(oldUrl.path().toLower());
         if (!extension.isEmpty()) {
             newName.append(QLatin1Char('.'));
             newName.append(extension);

@@ -159,7 +159,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 
 InformationPanelContent::~InformationPanelContent()
 {
-    InformationPanelSettings::self()->writeConfig();
+    InformationPanelSettings::self()->save();
 }
 
 void InformationPanelContent::showItem(const KFileItem& item)

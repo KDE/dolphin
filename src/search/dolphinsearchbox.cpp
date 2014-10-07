@@ -46,6 +46,7 @@
     #include <Baloo/Query>
     #include <Baloo/Term>
     #include <Baloo/IndexerConfig>
+#include <QFontDatabase>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
@@ -324,7 +325,7 @@ void DolphinSearchBox::saveSettings()
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? "FromHere" : "Everywhere");
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? "FileName" : "Content");
     SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
-    SearchSettings::self()->writeConfig();
+    SearchSettings::self()->save();
 }
 
 void DolphinSearchBox::init()
@@ -351,7 +352,7 @@ void DolphinSearchBox::init()
     m_searchInput = new KLineEdit(this);
     m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonShown(true);
-    m_searchInput->setFont(KGlobalSettings::generalFont());
+    m_searchInput->setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
     connect(m_searchInput, &KLineEdit::returnPressed,
             this, &DolphinSearchBox::slotReturnPressed);
     connect(m_searchInput, &KLineEdit::textChanged,

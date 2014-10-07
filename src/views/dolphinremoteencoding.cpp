@@ -70,7 +70,7 @@ void DolphinRemoteEncoding::slotReload()
 void DolphinRemoteEncoding::loadSettings()
 {
     m_loaded = true;
-    m_encodingDescriptions = KGlobal::charsets()->descriptiveEncodingNames();
+    m_encodingDescriptions = KCharsets::charsets()->descriptiveEncodingNames();
 
     fillMenu();
 }
@@ -131,7 +131,7 @@ void DolphinRemoteEncoding::updateMenu()
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
 
-    const QString charset = KGlobal::charsets()->descriptionForEncoding(KProtocolManager::charsetFor(m_currentURL));
+    const QString charset = KCharsets::charsets()->descriptionForEncoding(KProtocolManager::charsetFor(m_currentURL));
     if (!charset.isEmpty()) {
         int id = 0;
         bool isFound = false;
@@ -172,7 +172,7 @@ void DolphinRemoteEncoding::slotItemSelected(QAction* action)
         KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
         QString host = m_currentURL.host();
         if (m_menu->menu()->actions().at(id)->isChecked()) {
-            QString charset = KGlobal::charsets()->encodingForName(m_encodingDescriptions.at(id));
+            QString charset = KCharsets::charsets()->encodingForName(m_encodingDescriptions.at(id));
             KConfigGroup cg(&config, host);
             cg.writeEntry(DATA_KEY, charset);
             config.sync();

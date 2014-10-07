@@ -125,7 +125,7 @@ void ServicesSettingsPage::applySettings()
             configGroup.sync();
         } else if (service == QLatin1String(CopyToMoveToService)) {
             GeneralSettings::setShowCopyMoveMenu(checked);
-            GeneralSettings::self()->writeConfig();
+            GeneralSettings::self()->save();
         } else {
             showGroup.writeEntry(service, checked);
         }
@@ -135,7 +135,7 @@ void ServicesSettingsPage::applySettings()
 
     if (m_enabledVcsPlugins != enabledPlugins) {
         VersionControlSettings::setEnabledPlugins(enabledPlugins);
-        VersionControlSettings::self()->writeConfig();
+        VersionControlSettings::self()->save();
 
         KMessageBox::information(window(),
                                  i18nc("@info", "Dolphin must be restarted to apply the "

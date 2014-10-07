@@ -70,7 +70,7 @@ void TerminalPanel::dockVisibilityChanged()
                    this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
 
         // Make sure this terminal does not prevent unmounting any removable drives
-        changeDir(KUrl::fromPath("/"));
+        changeDir(QUrl::fromLocalFile("/"));
 
         // Because we have disconnected from the part's currentDirectoryChanged()
         // signal, we have to update m_konsolePartCurrentDirectory manually. If this

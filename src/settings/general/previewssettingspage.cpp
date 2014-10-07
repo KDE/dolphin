@@ -119,7 +119,7 @@ void PreviewsSettingsPage::applySettings()
         }
     }
 
-    KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), QLatin1String("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
@@ -176,7 +176,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
 void PreviewsSettingsPage::loadSettings()
 {
-    KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")

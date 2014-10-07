@@ -61,7 +61,7 @@ FoldersPanel::FoldersPanel(QWidget* parent) :
 
 FoldersPanel::~FoldersPanel()
 {
-    FoldersPanelSettings::self()->writeConfig();
+    FoldersPanelSettings::self()->save();
 
     if (m_controller) {
         KItemListView* view = m_controller->view();

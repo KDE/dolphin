@@ -42,7 +42,8 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
 {
     Q_UNUSED(args);
 
-    KGlobal::locale()->insertCatalog("dolphin");
+    //KF5 port: remove this line and define TRANSLATION_DOMAIN in CMakeLists.txt instead
+//KLocale::global()->insertCatalog("dolphin");
 
     setButtons(KCModule::Default | KCModule::Help);
 

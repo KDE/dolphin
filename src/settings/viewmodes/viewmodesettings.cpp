@@ -125,9 +125,9 @@ int ViewModeSettings::fontWeight() const
 void ViewModeSettings::readConfig()
 {
     switch (m_mode) {
-    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->readConfig(); break;
-    case ViewModeSettings::CompactMode: CompactModeSettings::self()->readConfig(); break;
-    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->readConfig(); break;
+    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->load(); break;
+    case ViewModeSettings::CompactMode: CompactModeSettings::self()->load(); break;
+    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->load(); break;
     default: Q_ASSERT(false); break;
     }
 }
@@ -135,9 +135,9 @@ void ViewModeSettings::readConfig()
 void ViewModeSettings::writeConfig()
 {
     switch (m_mode) {
-    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->writeConfig(); break;
-    case ViewModeSettings::CompactMode: CompactModeSettings::self()->writeConfig(); break;
-    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->writeConfig(); break;
+    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->save(); break;
+    case ViewModeSettings::CompactMode: CompactModeSettings::self()->save(); break;
+    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->save(); break;
     default: Q_ASSERT(false); break;
     }
 }

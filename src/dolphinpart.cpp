@@ -430,7 +430,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
         const bool supportsMoving = capabilities.supportsMoving();
 
         if (capabilities.supportsDeleting()) {
-            const bool showDeleteAction = (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+            const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
                                            !item.isLocalFile());
             const bool showMoveToTrashAction = capabilities.isLocal() && supportsMoving;
 

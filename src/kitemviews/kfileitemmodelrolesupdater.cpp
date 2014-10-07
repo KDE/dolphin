@@ -97,7 +97,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 {
     Q_ASSERT(model);
 
-    const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                          << "directorythumbnail"
                                                          << "imagethumbnail"

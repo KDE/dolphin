@@ -417,7 +417,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     }
 
     GeneralSettings::setVersion(CurrentDolphinVersion);
-    GeneralSettings::self()->writeConfig();
+    GeneralSettings::self()->save();
 
     KXmlGuiWindow::closeEvent(event);
 }
