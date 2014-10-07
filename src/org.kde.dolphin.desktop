@@ -186,3 +186,4 @@ GenericName[zh_TW]=檔案管理員
 Terminal=false
 MimeType=inode/directory;
 InitialPreference=10
+X-DBUS-ServiceName=org.kde.dolphin

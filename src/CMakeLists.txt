@@ -324,7 +324,7 @@ install(TARGETS kio_filenamesearch DESTINATION ${PLUGIN_INSTALL_DIR})
 
 ########### install files ###############
 
-install( PROGRAMS dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
