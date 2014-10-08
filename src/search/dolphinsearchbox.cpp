@@ -46,8 +46,8 @@
     #include <Baloo/Query>
     #include <Baloo/Term>
     #include <Baloo/IndexerConfig>
-#include <QFontDatabase>
 #endif
+#include <QFontDatabase>
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),

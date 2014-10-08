@@ -80,8 +80,8 @@
 
 #ifdef HAVE_BALOO
     #include <Baloo/IndexerConfig>
-#include <KFormat>
 #endif
+#include <KFormat>
 
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
