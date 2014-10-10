@@ -448,7 +448,7 @@ private:
      * case if it has not added already to the toolbar.
      * @return True if the action has been added to the menu.
      */
-    bool addActionToMenu(QAction* action, KMenu* menu);
+    bool addActionToMenu(QAction* action, QMenu* menu);
 
     /**
      * Connects the signals from the created DolphinView with

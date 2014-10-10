@@ -38,7 +38,7 @@
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kstandarditem.h>
-#include <KMenu>
+#include <QMenu>
 #include <KMessageBox>
 #include <KNotification>
 #include "placesitem.h"
@@ -155,7 +155,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         return;
     }
 
-    KMenu menu(this);
+    QMenu menu(this);
 
     QAction* emptyTrashAction = 0;
     QAction* addAction = 0;
@@ -221,7 +221,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     menu.addSeparator();
-    KMenu* iconSizeSubMenu = new KMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
+    QMenu* iconSizeSubMenu = new QMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
 
     struct IconSizeInfo
     {
@@ -303,7 +303,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
 void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
-    KMenu menu(this);
+    QMenu menu(this);
 
     QAction* addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
 

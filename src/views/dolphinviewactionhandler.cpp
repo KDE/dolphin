@@ -33,7 +33,7 @@
 #include <KActionMenu>
 #include <kitemviews/kfileitemmodel.h>
 #include <KLocale>
-#include <KMenu>
+#include <QMenu>
 #include <KNewFileMenu>
 #include <KSelectAction>
 #include <KToggleAction>

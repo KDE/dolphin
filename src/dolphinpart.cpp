@@ -38,7 +38,7 @@
 #include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
-#include <KMenu>
+#include <QMenu>
 #include <KInputDialog>
 #include <KProtocolInfo>
 #include <kdeversion.h>

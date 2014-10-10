@@ -65,7 +65,7 @@
 #include <KInputDialog>
 #include <KLocale>
 #include <KProtocolManager>
-#include <KMenu>
+#include <QMenu>
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KFileItemListProperties>
@@ -797,10 +797,10 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 
 void DolphinMainWindow::updateControlMenu()
 {
-    KMenu* menu = qobject_cast<KMenu*>(sender());
+    QMenu* menu = qobject_cast<QMenu*>(sender());
     Q_ASSERT(menu);
 
-    // All actions get cleared by KMenu::clear(). The sub-menus are deleted
+    // All actions get cleared by QMenu::clear(). The sub-menus are deleted
     // by connecting to the aboutToHide() signal from the parent-menu.
     menu->clear();
 
@@ -842,7 +842,7 @@ void DolphinMainWindow::updateControlMenu()
     }
 
     addActionToMenu(ac->action("panels"), menu);
-    KMenu* locationBarMenu = new KMenu(i18nc("@action:inmenu", "Location Bar"), menu);
+    QMenu* locationBarMenu = new QMenu(i18nc("@action:inmenu", "Location Bar"), menu);
     locationBarMenu->addAction(ac->action("editable_location"));
     locationBarMenu->addAction(ac->action("replace_location"));
     menu->addMenu(locationBarMenu);
@@ -850,8 +850,8 @@ void DolphinMainWindow::updateControlMenu()
     menu->addSeparator();
 
     // Add "Go" menu
-    KMenu* goMenu = new KMenu(i18nc("@action:inmenu", "Go"), menu);
-    connect(menu, &KMenu::aboutToHide, goMenu, &KMenu::deleteLater);
+    QMenu* goMenu = new QMenu(i18nc("@action:inmenu", "Go"), menu);
+    connect(menu, &QMenu::aboutToHide, goMenu, &QMenu::deleteLater);
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
@@ -860,8 +860,8 @@ void DolphinMainWindow::updateControlMenu()
     menu->addMenu(goMenu);
 
     // Add "Tool" menu
-    KMenu* toolsMenu = new KMenu(i18nc("@action:inmenu", "Tools"), menu);
-    connect(menu, &KMenu::aboutToHide, toolsMenu, &KMenu::deleteLater);
+    QMenu* toolsMenu = new QMenu(i18nc("@action:inmenu", "Tools"), menu);
+    connect(menu, &QMenu::aboutToHide, toolsMenu, &QMenu::deleteLater);
     toolsMenu->addAction(ac->action("show_filter_bar"));
     toolsMenu->addAction(ac->action("compare_files"));
     toolsMenu->addAction(ac->action("open_terminal"));
@@ -874,8 +874,8 @@ void DolphinMainWindow::updateControlMenu()
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
 
     // Add "Help" menu
-    KMenu* helpMenu = new KMenu(i18nc("@action:inmenu", "Help"), menu);
-    connect(menu, &KMenu::aboutToHide, helpMenu, &KMenu::deleteLater);
+    QMenu* helpMenu = new QMenu(i18nc("@action:inmenu", "Help"), menu);
+    connect(menu, &QMenu::aboutToHide, helpMenu, &QMenu::deleteLater);
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
     helpMenu->addSeparator();
@@ -1352,8 +1352,8 @@ void DolphinMainWindow::createControlButton()
     m_controlButton->setPopupMode(QToolButton::InstantPopup);
     m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
 
-    KMenu* controlMenu = new KMenu(m_controlButton);
-    connect(controlMenu, &KMenu::aboutToShow, this, &DolphinMainWindow::updateControlMenu);
+    QMenu* controlMenu = new QMenu(m_controlButton);
+    connect(controlMenu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateControlMenu);
 
     m_controlButton->setMenu(controlMenu);
 
@@ -1381,7 +1381,7 @@ void DolphinMainWindow::deleteControlButton()
     m_updateToolBarTimer = 0;
 }
 
-bool DolphinMainWindow::addActionToMenu(QAction* action, KMenu* menu)
+bool DolphinMainWindow::addActionToMenu(QAction* action, QMenu* menu)
 {
     Q_ASSERT(action);
     Q_ASSERT(menu);

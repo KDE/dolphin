@@ -28,7 +28,6 @@
 class KFileItem;
 class KUrl;
 class QDropEvent;
-class QWidget;
 class KonqOperations;
 
 class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper

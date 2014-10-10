@@ -35,7 +35,7 @@
 #include <KMimeType>
 #include <KConfig>
 #include <KCharsets>
-#include <KMenu>
+#include <QMenu>
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KIO/Scheduler>

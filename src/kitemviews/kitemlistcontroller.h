@@ -44,7 +44,6 @@ class QGraphicsSceneWheelEvent;
 class QHideEvent;
 class QInputMethodEvent;
 class QKeyEvent;
-class QMimeData;
 class QShowEvent;
 class QTransform;
 

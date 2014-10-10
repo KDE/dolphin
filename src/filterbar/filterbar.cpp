@@ -20,15 +20,14 @@
  ***************************************************************************/
 #include "filterbar.h"
 
-#include <QBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QToolButton>
+#include <QHBoxLayout>
 
 #include <QIcon>
 #include <KLocale>
 #include <KLineEdit>
-#include <KIconLoader>
 
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)

@@ -19,7 +19,7 @@
 
 #include "kitemlistheaderwidget.h"
 
-#include <KMenu>
+#include <QMenu>
 #include <kitemviews/kitemmodelbase.h>
 
 #include <QApplication>

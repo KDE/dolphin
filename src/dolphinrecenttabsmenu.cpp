@@ -22,7 +22,7 @@
 #include <KLocalizedString>
 #include <KAcceleratorManager>
 #include <kio/global.h>
-#include <KMenu>
+#include <QMenu>
 
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
     KActionMenu(QIcon::fromTheme("edit-undo"), i18n("Recently Closed Tabs"), parent)

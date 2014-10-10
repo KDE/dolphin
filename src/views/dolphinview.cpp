@@ -58,7 +58,7 @@
 #include <KIO/PreviewJob>
 #include <KIO/Paste>
 #include <KJob>
-#include <KMenu>
+#include <QMenu>
 #include <KGlobal>
 #include <KMessageBox>
 #include <KJobWidgets>
@@ -874,7 +874,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 {
     ViewProperties props(viewPropertiesUrl());
 
-    QPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
+    QPointer<QMenu> menu = new QMenu(QApplication::activeWindow());
 
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();

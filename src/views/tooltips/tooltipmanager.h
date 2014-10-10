@@ -25,11 +25,7 @@
 
 #include <KFileItem>
 
-class DolphinModel;
-class DolphinSortFilterProxyModel;
 class FileMetaDataToolTip;
-class QAbstractItemView;
-class QModelIndex;
 class QTimer;
 
 /**

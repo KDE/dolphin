@@ -39,7 +39,7 @@
 #include <KIO/JobUiDelegate>
 #include <KJobUiDelegate>
 #include <KJobWidgets>
-#include <KMenu>
+#include <QMenu>
 #include <KMenuBar>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -66,7 +66,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const QPoint& pos,
                                        const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
-    KMenu(parent),
+    QMenu(parent),
     m_pos(pos),
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
@@ -131,7 +131,7 @@ void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
     if (m_removeAction && ev->key() == Qt::Key_Shift) {
         m_removeAction->update();
     }
-    KMenu::keyPressEvent(ev);
+    QMenu::keyPressEvent(ev);
 }
 
 void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
@@ -139,7 +139,7 @@ void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
     if (m_removeAction && ev->key() == Qt::Key_Shift) {
         m_removeAction->update();
     }
-    KMenu::keyReleaseEvent(ev);
+    QMenu::keyReleaseEvent(ev);
 }
 
 void DolphinContextMenu::openTrashContextMenu()

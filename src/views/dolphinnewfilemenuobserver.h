@@ -25,7 +25,6 @@
 #include "libdolphin_export.h"
 
 class DolphinNewFileMenu;
-class KUrl;
 
 /**
  * @brief Allows to observe new file items that have been created

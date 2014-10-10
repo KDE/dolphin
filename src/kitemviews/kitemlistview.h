@@ -44,7 +44,6 @@ class KItemListViewLayouter;
 class KItemListWidget;
 class KItemListWidgetInformant;
 class KItemListWidgetCreatorBase;
-class KItemListViewCreatorBase;
 class QTimer;
 
 /**

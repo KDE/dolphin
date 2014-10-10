@@ -25,7 +25,7 @@
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
-#include <KMenu>
+#include <QMenu>
 #include <QIcon>
 #include <KJobWidgets>
 #include <KSharedConfig>
@@ -58,7 +58,7 @@ TreeViewContextMenu::~TreeViewContextMenu()
 
 void TreeViewContextMenu::open()
 {
-    KMenu* popup = new KMenu(m_parent);
+    QMenu* popup = new QMenu(m_parent);
 
     if (!m_fileItem.isNull()) {
         KFileItemListProperties capabilities(KFileItemList() << m_fileItem);
@@ -147,7 +147,7 @@ void TreeViewContextMenu::open()
         }
     }
 
-    QWeakPointer<KMenu> popupPtr = popup;
+    QWeakPointer<QMenu> popupPtr = popup;
     popup->exec(QCursor::pos());
     if (popupPtr.data()) {
         popupPtr.data()->deleteLater();

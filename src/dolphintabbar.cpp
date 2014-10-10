@@ -22,7 +22,7 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <KLocalizedString>
-#include <KMenu>
+#include <QMenu>
 #include <QIcon>
 #include <KUrl>
 
@@ -122,7 +122,7 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent* event)
 
     if (index >= 0) {
         // Tab context menu
-        KMenu menu(this);
+        QMenu menu(this);
 
         QAction* newTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@action:inmenu", "New Tab"));
         QAction* detachTabAction = menu.addAction(QIcon::fromTheme("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));

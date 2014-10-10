@@ -24,8 +24,6 @@
 #include <QMap>
 #include <QString>
 
-class QCheckBox;
-class QGroupBox;
 class QListView;
 class QSortFilterProxyModel;
 class ServiceModel;

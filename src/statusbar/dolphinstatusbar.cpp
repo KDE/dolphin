@@ -24,7 +24,7 @@
 #include <KIconLoader>
 #include <QIcon>
 #include <KLocale>
-#include <KMenu>
+#include <QMenu>
 #include <KVBox>
 
 #include "statusbarspaceinfo.h"
@@ -259,7 +259,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
 {
     Q_UNUSED(event);
 
-    KMenu menu(this);
+    QMenu menu(this);
 
     QAction* showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
     showZoomSliderAction->setCheckable(true);

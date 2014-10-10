@@ -28,7 +28,6 @@
 
 class KItemListView;
 class QGraphicsWidget;
-class QPointF;
 class QPropertyAnimation;
 
 /**

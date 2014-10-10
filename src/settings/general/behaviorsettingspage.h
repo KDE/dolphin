@@ -23,7 +23,6 @@
 #include <settings/settingspagebase.h>
 #include <KUrl>
 
-class KComboBox;
 class QCheckBox;
 class QLabel;
 class QRadioButton;

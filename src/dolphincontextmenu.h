@@ -24,7 +24,7 @@
 #include <KService>
 #include <KUrl>
 #include <konq_copytomenu.h>
-#include <KMenu>
+#include <QMenu>
 
 #include <QObject>
 
@@ -50,7 +50,7 @@ class DolphinRemoveAction;
  * - 'Actions':   Contains all actions which can be applied to the
  *                given item.
  */
-class DolphinContextMenu : public KMenu
+class DolphinContextMenu : public QMenu
 {
     Q_OBJECT
 

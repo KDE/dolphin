@@ -29,7 +29,7 @@
 #include <KIconLoader>
 #include <QIcon>
 #include <KLocale>
-#include <KMenu>
+#include <QMenu>
 #include <kseparator.h>
 #include <KStringHandler>
 
@@ -289,7 +289,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 
 void InformationPanelContent::configureSettings(const QList<QAction*>& customContextMenuActions)
 {
-    KMenu popup(this);
+    QMenu popup(this);
 
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
     previewAction->setIcon(QIcon::fromTheme("view-preview"));
