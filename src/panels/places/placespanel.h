@@ -25,7 +25,6 @@
 #include <panels/panel.h>
 
 class KItemListController;
-class PlacesItemEditDialog;
 class PlacesItem;
 class PlacesItemModel;
 class PlacesView;

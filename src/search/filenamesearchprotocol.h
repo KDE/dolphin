@@ -22,7 +22,6 @@
 
 #include <kio/slavebase.h>
 
-class KFileItem;
 class KUrl;
 class QRegExp;
 
