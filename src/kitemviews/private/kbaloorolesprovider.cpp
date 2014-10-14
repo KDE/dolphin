@@ -26,6 +26,7 @@
 
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>
+#include <KFileMetaData/UserMetaData>
 
 #include <QTime>
 #include <QMap>
@@ -99,14 +100,15 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         }
     }
 
+    KFileMetaData::UserMetaData md(file.path());
     if (roles.contains("tags")) {
-        values.insert("tags", tagsFromValues(file.tags()));
+        values.insert("tags", tagsFromValues(md.tags()));
     }
     if (roles.contains("rating")) {
-        values.insert("rating", QString::number(file.rating()));
+        values.insert("rating", QString::number(md.rating()));
     }
     if (roles.contains("comment")) {
-        values.insert("comment", file.userComment());
+        values.insert("comment", md.userComment());
     }
 
     return values;

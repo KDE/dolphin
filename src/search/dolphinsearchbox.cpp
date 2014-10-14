@@ -479,7 +479,7 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
     }
 
     if (m_fromHereButton->isChecked()) {
-        query.addCustomOption("includeFolder", m_searchPath.toLocalFile());
+        query.setIncludeFolder(m_searchPath.toLocalFile());
     }
 
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
@@ -499,9 +499,9 @@ void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
     // while we adjust the search text and the facet widget.
     blockSignals(true);
 
-    const QVariantMap customOptions = query.customOptions();
-    if (customOptions.contains("includeFolder")) {
-        setSearchPath(customOptions.value("includeFolder").toString());
+    const QString customDir = query.includeFolder();
+    if (!customDir.isEmpty()) {
+        setSearchPath(customDir);
     } else {
         setSearchPath(QDir::homePath());
     }

@@ -45,7 +45,6 @@
 #ifdef HAVE_BALOO
     #include "private/kbaloorolesprovider.h"
     #include <Baloo/File>
-    #include <Baloo/FileFetchJob>
     #include <Baloo/FileMonitor>
 #endif
 
@@ -705,21 +704,8 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
         return;
     }
 
-    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
-    connect(job, &Baloo::FileFetchJob::finished, this, &KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished);
-    job->setProperty("item", QVariant::fromValue(item));
-    job->start();
-#else
-#ifndef Q_CC_MSVC
-    Q_UNUSED(itemUrl);
-#endif
-#endif
-}
-
-void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
-{
-#ifdef HAVE_BALOO
-    const KFileItem item = kjob->property("item").value<KFileItem>();
+    Baloo::File file(item.localPath());
+    file.load();
 
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
     QHash<QByteArray, QVariant> data;
@@ -731,8 +717,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
         data.insert(role, QVariant());
     }
 
-    Baloo::FileFetchJob* job = static_cast<Baloo::FileFetchJob*>(kjob);
-    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
+    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(file, m_roles));
     while (it.hasNext()) {
         it.next();
         data.insert(it.key(), it.value());
@@ -744,6 +729,10 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
     m_model->setData(index, data);
     connect(m_model, &KFileItemModel::itemsChanged,
             this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+#else
+#ifndef Q_CC_MSVC
+    Q_UNUSED(itemUrl);
+#endif
 #endif
 }
 
