@@ -57,12 +57,15 @@ void UpdateItemStatesThread::run()
             KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
             if (pluginV2) {
                 for (int i = 0; i < count; ++i) {
-                    items[i].version = pluginV2->itemVersion(items[i].item);
+                    const KFileItem& item = items.at(i).first;
+                    const KVersionControlPlugin2::ItemVersion version = pluginV2->itemVersion(item);
+                    items[i].second = version;
                 }
             } else {
                 for (int i = 0; i < count; ++i) {
-                    const KVersionControlPlugin::VersionState state = m_plugin->versionState(items[i].item);
-                    items[i].version = static_cast<KVersionControlPlugin2::ItemVersion>(state);
+                    const KFileItem& item = items.at(i).first;
+                    const KVersionControlPlugin::VersionState state = m_plugin->versionState(item);
+                    items[i].second = static_cast<KVersionControlPlugin2::ItemVersion>(state);
                 }
             }
         }

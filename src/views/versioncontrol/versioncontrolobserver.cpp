@@ -205,9 +205,11 @@ void VersionControlObserver::slotThreadFinished()
         const QVector<ItemState>& items = it.value();
 
         foreach (const ItemState& item, items) {
+            const KFileItem& fileItem = item.first;
+            const KVersionControlPlugin2::ItemVersion version = item.second;
             QHash<QByteArray, QVariant> values;
-            values.insert("version", QVariant(item.version));
-            m_model->setData(m_model->index(item.item), values);
+            values.insert("version", QVariant(version));
+            m_model->setData(m_model->index(fileItem), values);
         }
     }
 
@@ -266,8 +268,8 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
 
         if (expansionLevel == currentExpansionLevel) {
             ItemState itemState;
-            itemState.item = m_model->fileItem(index);
-            itemState.version = KVersionControlPlugin2::UnversionedVersion;
+            itemState.first = m_model->fileItem(index);
+            itemState.second = KVersionControlPlugin2::UnversionedVersion;
 
             items.append(itemState);
         } else if (expansionLevel > currentExpansionLevel) {
@@ -279,7 +281,7 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
     }
 
     if (items.count() > 0) {
-        const KUrl& url = items.first().item.url();
+        const KUrl& url = items.first().first.url();
         itemStates.insert(url.directory(KUrl::AppendTrailingSlash), items);
     }
 

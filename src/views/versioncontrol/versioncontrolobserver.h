@@ -101,11 +101,7 @@ private slots:
     void slotThreadFinished();
 
 private:
-    struct ItemState
-    {
-        KFileItem item;
-        KVersionControlPlugin2::ItemVersion version;
-    };
+    typedef QPair<KFileItem, KVersionControlPlugin2::ItemVersion> ItemState;
 
     void updateItemStates();
 
