@@ -467,7 +467,7 @@ void PlacesPanel::addEntry()
     const KUrl url = m_model->data(index).value("url").value<KUrl>();
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setCaption(i18nc("@title:window", "Add Places Entry"));
+    dialog->setWindowTitle(i18nc("@title:window", "Add Places Entry"));
     dialog->setAllowGlobal(true);
     dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
@@ -483,7 +483,7 @@ void PlacesPanel::editEntry(int index)
     QHash<QByteArray, QVariant> data = m_model->data(index);
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setCaption(i18nc("@title:window", "Edit Places Entry"));
+    dialog->setWindowTitle(i18nc("@title:window", "Edit Places Entry"));
     dialog->setIcon(data.value("iconName").toString());
     dialog->setText(data.value("text").toString());
     dialog->setUrl(data.value("url").value<KUrl>());

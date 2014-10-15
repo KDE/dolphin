@@ -38,9 +38,12 @@
 #include <QEvent>
 #include <QFormLayout>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
-    KDialog(parent),
+    QDialog(parent),
     m_icon(),
     m_text(),
     m_url(),
@@ -50,9 +53,6 @@ PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     m_iconButton(0),
     m_appLocal(0)
 {
-    setButtons( Ok | Cancel );
-    setModal(true);
-    setDefaultButton(Ok);
 }
 
 void PlacesItemEditDialog::setIcon(const QString& icon)
@@ -110,7 +110,7 @@ bool PlacesItemEditDialog::event(QEvent* event)
 
 void PlacesItemEditDialog::slotUrlChanged(const QString& text)
 {
-    enableButtonOk(!text.isEmpty());
+    m_okButton->setEnabled(!text.isEmpty());
 }
 
 PlacesItemEditDialog::~PlacesItemEditDialog()
@@ -119,7 +119,21 @@ PlacesItemEditDialog::~PlacesItemEditDialog()
 
 void PlacesItemEditDialog::initialize()
 {
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    m_okButton = buttonBox->button(QDialogButtonBox::Ok);
+    m_okButton->setDefault(true);
+    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    setModal(true);
+    m_okButton->setDefault(true);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
     QWidget* mainWidget = new QWidget(this);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+
     QVBoxLayout* vBox = new QVBoxLayout(mainWidget);
 
     QFormLayout* formLayout = new QFormLayout();
@@ -166,6 +180,5 @@ void PlacesItemEditDialog::initialize()
         m_textEdit->setFocus();
     }
 
-    setMainWidget(mainWidget);
 }
 

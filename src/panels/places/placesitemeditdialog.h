@@ -24,15 +24,16 @@
 #ifndef PLACESITEMEDITDIALOG_H
 #define PLACESITEMEDITDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 #include <KUrl>
 
 class KIconButton;
 class KLineEdit;
 class KUrlRequester;
 class QCheckBox;
+class QPushButton;
 
-class PlacesItemEditDialog: public KDialog
+class PlacesItemEditDialog: public QDialog
 {
     Q_OBJECT
 
@@ -71,6 +72,7 @@ private:
     KLineEdit* m_textEdit;
     KIconButton* m_iconButton;
     QCheckBox* m_appLocal;
+    QPushButton *m_okButton;
 };
 
 #endif
