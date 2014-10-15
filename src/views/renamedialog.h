@@ -22,18 +22,18 @@
 
 #include "libdolphin_export.h"
 
-#include <KDialog>
+#include <QDialog>
 #include <KFileItem>
 
 class KLineEdit;
 class KIntSpinBox;
-
+class QPushButton;
 #include <QString>
 
 /**
  * @brief Dialog for renaming a variable number of files.
  */
-class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
+class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public QDialog
 {
     Q_OBJECT
 
@@ -41,10 +41,8 @@ public:
     explicit RenameDialog(QWidget* parent, const KFileItemList& items);
     virtual ~RenameDialog();
 
-protected slots:
-    virtual void slotButtonClicked(int button);
-
 private slots:
+    void slotAccepted();
     void slotTextChanged(const QString& newName);
 
 private:
@@ -67,6 +65,7 @@ private:
     KFileItemList m_items;
     bool m_allExtensionsDifferent;
     KIntSpinBox* m_spinBox;
+    QPushButton* m_okButton;
 };
 
 #endif

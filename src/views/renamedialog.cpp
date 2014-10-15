@@ -34,9 +34,13 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QMimeDatabase>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <KGuiItem>
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
-    KDialog(parent),
+    QDialog(parent),
     m_renameOneItem(false),
     m_newName(),
     m_lineEdit(0),
@@ -51,16 +55,24 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     Q_ASSERT(itemCount >= 1);
     m_renameOneItem = (itemCount == 1);
 
-    setCaption(m_renameOneItem ?
+    setWindowTitle(m_renameOneItem ?
                i18nc("@title:window", "Rename Item") :
                i18nc("@title:window", "Rename Items"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    m_okButton = buttonBox->button(QDialogButtonBox::Ok);
+    m_okButton->setDefault(true);
+    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotAccepted()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    m_okButton->setDefault(true);
 
-    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "&Rename"), "dialog-ok-apply"));
+    KGuiItem::assign(m_okButton, KGuiItem(i18nc("@action:button", "&Rename"), "dialog-ok-apply"));
 
     QWidget* page = new QWidget(this);
-    setMainWidget(page);
+    mainLayout->addWidget(page);
+    mainLayout->addWidget(buttonBox);
 
     QVBoxLayout* topLayout = new QVBoxLayout(page);
 
@@ -79,6 +91,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
+    mainLayout->addWidget(m_lineEdit);
     connect(m_lineEdit, &KLineEdit::textChanged, this, &RenameDialog::slotTextChanged);
 
     int selectionLength = m_newName.length();
@@ -119,6 +132,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
         }
 
         QLabel* infoLabel = new QLabel(i18nc("@info", "# will be replaced by ascending numbers starting with:"), page);
+        mainLayout->addWidget(infoLabel);
         m_spinBox = new KIntSpinBox(0, 10000, 1, 1, page, 10);
 
         QHBoxLayout* horizontalLayout = new QHBoxLayout(page);
@@ -151,20 +165,17 @@ void RenameDialog::renameItem(const KFileItem &item, const QString& newName)
     job->ui()->setAutoErrorHandlingEnabled(true);
 }
 
-void RenameDialog::slotButtonClicked(int button)
+void RenameDialog::slotAccepted()
 {
-    if (button == KDialog::Ok) {
-        m_newName = m_lineEdit->text();
+    m_newName = m_lineEdit->text();
 
-        if (m_renameOneItem) {
-            Q_ASSERT(m_items.count() == 1);
-            renameItem(m_items.first(), m_newName);
-        } else {
-            renameItems();
-        }
+    if (m_renameOneItem) {
+        Q_ASSERT(m_items.count() == 1);
+        renameItem(m_items.first(), m_newName);
+    } else {
+        renameItems();
     }
-
-    KDialog::slotButtonClicked(button);
+    accept();
 }
 
 void RenameDialog::slotTextChanged(const QString& newName)
@@ -182,7 +193,7 @@ void RenameDialog::slotTextChanged(const QString& newName)
             enable = (last - first + 1 == count);
         }
     }
-    enableButtonOk(enable);
+    m_okButton->setEnabled(enable);
 }
 
 void RenameDialog::renameItems()
