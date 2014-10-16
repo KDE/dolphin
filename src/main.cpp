@@ -36,10 +36,13 @@ KDE_EXPORT int kdemain(int argc, char **argv)
                      KDE_VERSION_STRING,
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
-                     ki18nc("@info:credit", "(C) 2006-2014 Peter Penz and Frank Reininghaus"));
+                     ki18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
     about.setHomepage("http://dolphin.kde.org");
+    about.addAuthor(ki18nc("@info:credit", "Emmanuel Pescosta"),
+                    ki18nc("@info:credit", "Maintainer (since 2014) and developer"),
+                    "emmanuelpescosta099@gmail.com");
     about.addAuthor(ki18nc("@info:credit", "Frank Reininghaus"),
-                    ki18nc("@info:credit", "Maintainer (since 2012) and developer"),
+                    ki18nc("@info:credit", "Maintainer (2012-2014) and developer"),
                     "frank78ac@googlemail.com");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer (2006-2012)"),
@@ -50,9 +53,6 @@ KDE_EXPORT int kdemain(int argc, char **argv)
     about.addAuthor(ki18nc("@info:credit", "David Faure"),
                     ki18nc("@info:credit", "Developer"),
                     "faure@kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Emmanuel Pescosta"),
-                    ki18nc("@info:credit", "Developer"),
-                    "emmanuelpescosta099@gmail.com");
     about.addAuthor(ki18nc("@info:credit", "Aaron J. Seigo"),
                     ki18nc("@info:credit", "Developer"),
                     "aseigo@kde.org");
