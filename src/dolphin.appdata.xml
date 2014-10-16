@@ -69,7 +69,7 @@
   <summary xml:lang="zh-TW">檔案管理員</summary>
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
-    <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تماماً.</p>
+    <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant en facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="da">Dolphin er letvægtsfilhåndtering. Den er blevet designet med henblik på brugervenlighed og simpelhed, mens fleksibilitet og tilpasning stadig er muligt. Det betyder at du klare din filhåndtering nøjagtig på den måde du vil gøre det.</p>
     <p xml:lang="en-GB">Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
@@ -157,7 +157,7 @@
       <li xml:lang="x-test">xxNavigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.xx</li>
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
-      <li xml:lang="ar">يدعم العديد من الأنواع المختلفة من الخصائص وأنماط العرض ويسمك لك بضبط العرض كما تريد تماماً.</li>
+      <li xml:lang="ar">يدعم العديد من الأنواع المختلفة من الخصائص وأنماط العرض ويسمح لك بضبط العرض كما تريد تمامًا.</li>
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
       <li xml:lang="da">Understøtter flere forskellige slags visninger og egenskaber og lader dig konfigurere visningen nøjagtig som du vil have den.</li>
       <li xml:lang="en-GB">Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
@@ -188,6 +188,7 @@
       <li xml:lang="ar">العرض المقسوم، يسمح لك بنسخ ونقل الملفات بين مكانين بسهولة.</li>
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
       <li xml:lang="da">Opdelt visning lader dig kopiere filer mellem placeringer på en nem måde.</li>
+      <li xml:lang="de">Geteilte Ansichten, damit können Sie einfach Daten zwischen Orten kopieren oder verschieben.</li>
       <li xml:lang="en-GB">Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="es">Dividir vista, para poder copiar o mover archivos fácilmente entre distintas ubicaciones.</li>
       <li xml:lang="et">Vaate poolitamise võimalus, mis muudab väga lihtsaks failide ühest kohast teise kopeerimise või liigutamise.</li>
@@ -213,7 +214,7 @@
       <li xml:lang="x-test">xxSplit view, allowing you to easily copy or move files between locations.xx</li>
       <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
       <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
-      <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كألواح قابلة للتركيب، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
+      <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كلوحات قابلة للرصف، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons acoblables, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="da">Yderligere information og genveje er tilgængelige som dokbare paneler, som lader dig flytte dem frit omkring og vise nøjagtigt det du vil have.</li>
       <li xml:lang="en-GB">Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
@@ -272,6 +273,7 @@
       <li xml:lang="x-test">xxMultiple tab supportxx</li>
       <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
+      <li xml:lang="ar">حواريات المعلومات تُعرَض بطريقة غير مُزعجة.</li>
       <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
       <li xml:lang="de">Informationen werden unaufdringlich angezeigt.</li>
@@ -300,6 +302,7 @@
       <li xml:lang="x-test">xxInformational dialogues are displayed in an unobtrusive way.xx</li>
       <li xml:lang="zh-TW">支援多分頁</li>
       <li>Undo/redo support</li>
+      <li xml:lang="ar">دعم التراجع والإعادة</li>
       <li xml:lang="ca">Implementació de desfer/refer</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
       <li xml:lang="de">Unterstützung für Rückgängig/Wiederherstellen</li>

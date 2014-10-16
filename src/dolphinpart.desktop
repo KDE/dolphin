@@ -98,7 +98,7 @@ Actions=icons;details;compact;
 [Desktop Action icons]
 Name=Icons
 Name[af]=Ikone
-Name[ar]=الأيقونات
+Name[ar]=أيقونات
 Name[as]=আইকন
 Name[ast]=Iconos
 Name[be]=Значкі
@@ -195,7 +195,7 @@ Exec=dolphin
 
 [Desktop Action compact]
 Name=Compact
-Name[ar]=مضغوط
+Name[ar]=مُتضامّ
 Name[bg]=Компактно
 Name[bs]=Sabij
 Name[ca]=Compacte
