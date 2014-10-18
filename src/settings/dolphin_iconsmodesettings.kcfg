@@ -4,7 +4,7 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
-    <include>kglobalsettings.h</include>
+    <include>QFontDatabase</include>
     <include>kiconloader.h</include>
     <kcfgfile name="dolphinrc"/>
     <group name="IconsMode">
@@ -14,11 +14,11 @@
         </entry>
         <entry name="FontFamily" type="String">
             <label>Font family</label>
-            <default code="true">KGlobalSettings::generalFont().family()</default>
+            <default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont).family()</default>
         </entry>
         <entry name="FontSize" type="Double">
             <label>Font size</label>
-            <default code="true">KGlobalSettings::generalFont().pointSizeF()</default>
+            <default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont).pointSizeF()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
             <label>Italic</label>
