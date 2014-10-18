@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
+#include <qtest.h>
+#include <QSignalSpy>
 #include "kitemviews/private/kitemlistkeyboardsearchmanager.h"
 
 class KItemListKeyboardSearchManagerTest : public QObject
@@ -147,6 +147,6 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a_b" << false);
 }
 
-QTEST_KDEMAIN(KItemListKeyboardSearchManagerTest, NoGUI)
+QTEST_MAIN(KItemListKeyboardSearchManagerTest)
 
 #include "kitemlistkeyboardsearchmanagertest.moc"

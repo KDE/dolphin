@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include "dolphin_generalsettings.h"
 #include "views/viewproperties.h"
@@ -96,6 +96,6 @@ void ViewPropertiesTest::testAutoSave()
     QVERIFY(QFile::exists(dotDirectoryFile));
 }
 
-QTEST_KDEMAIN(ViewPropertiesTest, NoGUI)
+QTEST_MAIN(ViewPropertiesTest)
 
 #include "viewpropertiestest.moc"

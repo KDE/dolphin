@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
+#include <qtest.h>
+#include <QSignalSpy>
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
@@ -329,6 +329,6 @@ KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList& fil
     return result;
 }
 
-QTEST_KDEMAIN(KFileItemModelBenchmark, NoGUI)
+QTEST_MAIN(KFileItemModelBenchmark)
 
 #include "kfileitemmodelbenchmark.moc"

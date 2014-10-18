@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include "search/dolphinsearchbox.h"
 #include <qtestkeyboard.h>
@@ -65,6 +65,6 @@ void DolphinSearchBoxTest::testTextClearing()
     QVERIFY(m_searchBox->text().isEmpty());
 }
 
-QTEST_KDEMAIN(DolphinSearchBoxTest, GUI)
+QTEST_MAIN(DolphinSearchBoxTest)
 
 #include "dolphinsearchboxtest.moc"

@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>
 
@@ -33,6 +33,7 @@
 #include <KGlobalSettings>
 
 #include <QGraphicsSceneMouseEvent>
+#include <QSignalSpy>
 
 namespace {
     const int DefaultTimeout = 2000;
@@ -102,7 +103,8 @@ void KItemListControllerTest::initTestCase()
 
     m_testDir->createFiles(files);
     m_model->loadDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
+    QSignalSpy spyDirectoryLoadingCompleted(m_model, SIGNAL(directoryLoadingCompleted()));
+    QVERIFY(spyDirectoryLoadingCompleted.wait(DefaultTimeout));
 
     m_container->show();
     QTest::qWaitForWindowShown(m_container);
@@ -670,6 +672,6 @@ void KItemListControllerTest::adjustGeometryForColumnCount(int count)
     }
 }
 
-QTEST_KDEMAIN(KItemListControllerTest, GUI)
+QTEST_MAIN(KItemListControllerTest)
 
 #include "kitemlistcontrollertest.moc"

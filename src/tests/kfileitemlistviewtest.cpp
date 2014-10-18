@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
+#include <qtest.h>
+#include <QSignalSpy>
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodeldirlister.h"
@@ -96,22 +96,25 @@ void KFileItemListViewTest::testGroupedItemChanges()
     m_testDir->createFiles(QStringList() << "1" << "3" << "5");
 
     m_model->loadDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QSignalSpy psy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QVERIFY(psy.wait(DefaultTimeout));
     QCOMPARE(m_model->count(), 3);
 
     m_testDir->createFiles(QStringList() << "2" << "4");
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QSignalSpy psyItemsInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QVERIFY(psyItemsInserted.wait(DefaultTimeout));
     QCOMPARE(m_model->count(), 5);
 
     m_testDir->removeFile("1");
     m_testDir->removeFile("3");
     m_testDir->removeFile("5");
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+    QSignalSpy psyItemsRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QVERIFY(psyItemsRemoved.wait(DefaultTimeout));
     QCOMPARE(m_model->count(), 2);
 }
 
-QTEST_KDEMAIN(KFileItemListViewTest, GUI)
+QTEST_MAIN(KFileItemListViewTest)
 
 #include "kfileitemlistviewtest.moc"

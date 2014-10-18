@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
+#include <qtest.h>
+#include <QSignalSpy>
 #include "kitemviews/kitemmodelbase.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 
@@ -571,6 +571,6 @@ void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,
     }
 }
 
-QTEST_KDEMAIN(KItemListSelectionManagerTest, NoGUI)
+QTEST_MAIN(KItemListSelectionManagerTest)
 
 #include "kitemlistselectionmanagertest.moc"

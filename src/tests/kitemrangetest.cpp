@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include "kitemviews/kitemrange.h"
 
@@ -70,6 +70,6 @@ void KItemRangeTest::testFromSortedContainer()
     QCOMPARE(expected, result);
 }
 
-QTEST_KDEMAIN(KItemRangeTest, NoGUI)
+QTEST_MAIN(KItemRangeTest)
 
 #include "kitemrangetest.moc"

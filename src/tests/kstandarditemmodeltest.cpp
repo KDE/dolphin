@@ -18,7 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include "kitemviews/kstandarditem.h"
 #include "kitemviews/kstandarditemmodel.h"
@@ -112,6 +112,6 @@ bool KStandardItemModelTest::isModelConsistent() const
     return true;
 }
 
-QTEST_KDEMAIN(KStandardItemModelTest, NoGUI)
+QTEST_MAIN(KStandardItemModelTest)
 
 #include "kstandarditemmodeltest.moc"

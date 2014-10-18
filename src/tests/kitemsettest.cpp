@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <qtest.h>
 
 #include "kitemviews/kitemset.h"
 
@@ -607,6 +607,6 @@ void KItemSetTest::testSymmetricDifference()
 }
 
 
-QTEST_KDEMAIN(KItemSetTest, NoGUI)
+QTEST_MAIN(KItemSetTest)
 
 #include "kitemsettest.moc"
