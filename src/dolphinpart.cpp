@@ -29,7 +29,7 @@
 #include <KDebug>
 #include <KGlobalSettings>
 #include <KIconLoader>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KPluginFactory>
 #include <KRun>

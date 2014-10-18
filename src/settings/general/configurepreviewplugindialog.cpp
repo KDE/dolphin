@@ -20,7 +20,7 @@
 #include "configurepreviewplugindialog.h"
 
 #include <KLibrary>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/NetAccess>
 #include <kio/thumbcreator.h>
 

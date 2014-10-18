@@ -26,7 +26,7 @@
 #include <QHBoxLayout>
 
 #include <QIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KLineEdit>
 
 FilterBar::FilterBar(QWidget* parent) :

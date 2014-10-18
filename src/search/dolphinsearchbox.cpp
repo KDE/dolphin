@@ -24,7 +24,7 @@
 
 #include <QIcon>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KSeparator>
 #include <KGlobalSettings>
 

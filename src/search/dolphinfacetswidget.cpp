@@ -19,7 +19,7 @@
 
 #include "dolphinfacetswidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDate>

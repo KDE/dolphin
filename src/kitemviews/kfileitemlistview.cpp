@@ -22,7 +22,7 @@
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStringHandler>
 #include "private/kpixmapmodifier.h"
 

@@ -20,7 +20,7 @@
 #include "renamedialog.h"
 
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KJobWidgets>
 #include <KJobUiDelegate>
 #include <KIO/CopyJob>

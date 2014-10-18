@@ -47,7 +47,7 @@
 #include <KNewFileMenu>
 #include <konq_operations.h>
 #include <KService>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPropertiesDialog>
 #include <KStandardAction>
 #include <KToolBar>

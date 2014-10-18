@@ -25,7 +25,7 @@
 #include "dolphin_iconsmodesettings.h"
 
 #include <KComboBox>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QGroupBox>

@@ -32,7 +32,7 @@
 #include <KDebug>
 #include <QIcon>
 #include <kprotocolinfo.h>
-#include <KLocale>
+#include <KLocalizedString>
 #include <QStandardPaths>
 #include <KUser>
 #include <KGlobal>

@@ -30,7 +30,7 @@
 #include <KActionMenu>
 #include <KActionCollection>
 #include <QIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KGlobal>
 #include <KMimeType>
 #include <KConfig>

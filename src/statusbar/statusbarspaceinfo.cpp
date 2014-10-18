@@ -22,7 +22,7 @@
 
 #include "spaceinfoobserver.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/Job>
 
 #include <QKeyEvent>

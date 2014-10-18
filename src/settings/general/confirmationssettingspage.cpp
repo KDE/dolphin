@@ -22,7 +22,7 @@
 #include <dolphin_generalsettings.h>
 
 #include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QLabel>

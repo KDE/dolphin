@@ -24,7 +24,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KComponentData>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KUrl>
 #include <KDebug>
 #include <KGlobal>

@@ -26,7 +26,7 @@
 #include <QTimer>
 #include <QBoxLayout>
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/JobClasses>
 
 #include <views/viewproperties.h>

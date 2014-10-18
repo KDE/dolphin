@@ -24,7 +24,7 @@
 
 #include <k4aboutdata.h>
 #include <KCmdLineArgs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <kmainwindow.h>
 #include <kdemacros.h>
 #include <kdeversion.h>

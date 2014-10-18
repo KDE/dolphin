@@ -24,8 +24,8 @@
 #else
 #include <Baloo/FileMetaDataConfigWidget>
 #endif
-
-#include <KLocale>
+#include <KSharedConfig>
+#include <KLocalizedString>
 #include <QLabel>
 #include <QVBoxLayout>
 

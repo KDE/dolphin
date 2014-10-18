@@ -23,7 +23,7 @@
 
 #include <KDialog>
 #include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KVBox>
 
 #include <QCheckBox>

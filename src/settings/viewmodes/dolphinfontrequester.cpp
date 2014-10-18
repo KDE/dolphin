@@ -21,7 +21,7 @@
 
 #include <KFontDialog>
 #include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KComboBox>
 
 #include <QEvent>

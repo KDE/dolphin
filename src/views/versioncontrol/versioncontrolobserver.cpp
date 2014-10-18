@@ -21,7 +21,7 @@
 
 #include "dolphin_versioncontrolsettings.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KService>
 #include <KDebug>
 #include <KServiceTypeTrader>

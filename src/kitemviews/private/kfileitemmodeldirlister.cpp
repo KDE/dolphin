@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "kfileitemmodeldirlister.h"
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/JobClasses>
 
 KFileItemModelDirLister::KFileItemModelDirLister(QObject* parent) :

@@ -32,7 +32,7 @@
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIconLoader>
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistcontroller.h>

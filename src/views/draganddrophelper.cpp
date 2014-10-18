@@ -21,7 +21,7 @@
 #include "draganddrophelper.h"
 
 #include <KFileItem>
-#include <KLocale>
+#include <KLocalizedString>
 #include <konq_operations.h>
 #include <KUrl>
 #include <QApplication>

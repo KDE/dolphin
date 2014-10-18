@@ -31,7 +31,7 @@
 #include <KGlobal>
 #include <KIconButton>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMimeType>
 #include <KUrlRequester>
 #include <QCheckBox>

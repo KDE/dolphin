@@ -22,7 +22,7 @@
 #include "kfileitemmodel.h"
 
 #include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStringHandler>
 #include <KDebug>
 #include <kstringhandler_deprecated.h> //TODO: port to QCollator

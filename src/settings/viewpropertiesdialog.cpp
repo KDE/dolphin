@@ -30,7 +30,7 @@
 #include <config-baloo.h>
 
 #include <KComponentData>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KMessageBox>

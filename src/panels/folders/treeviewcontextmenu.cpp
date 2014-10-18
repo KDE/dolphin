@@ -33,7 +33,7 @@
 #include <kurlmimedata.h>
 #include <KFileItemListProperties>
 #include <konq_operations.h>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/Paste>
 #include <KIO/FileUndoManager>
 #include <KPropertiesDialog>

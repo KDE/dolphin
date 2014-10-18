@@ -27,7 +27,7 @@
 #include "statusbarsettingspage.h"
 
 #include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIconLoader>
 #include <KTabWidget>
 

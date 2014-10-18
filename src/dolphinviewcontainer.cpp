@@ -32,7 +32,7 @@
 #include <KFileItemDelegate>
 #include <KFileItemActions>
 #include <KFilePlacesModel>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIconEffect>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>

@@ -35,7 +35,7 @@
 #include <QIcon>
 #include <KIconLoader>
 #include <KUrl>
-#include <KLocale>
+#include <KLocalizedString>
 
 class EmbeddedVideoPlayer : public Phonon::VideoWidget
 {

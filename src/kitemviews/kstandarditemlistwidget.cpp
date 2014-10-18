@@ -25,7 +25,7 @@
 #include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <KLocale>
+#include <KLocalizedString>
 #include <kratingpainter.h>
 #include <KStringHandler>
 #include <KDebug>

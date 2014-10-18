@@ -28,7 +28,7 @@
 #include <KIconEffect>
 #include <KIconLoader>
 #include <QIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include <QMenu>
 #include <kseparator.h>
 #include <KStringHandler>

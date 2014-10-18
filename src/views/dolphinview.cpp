@@ -43,7 +43,7 @@
 #include <KIconEffect>
 #include <KFileItem>
 #include <KFileItemListProperties>
-#include <KLocale>
+#include <KLocalizedString>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kitemlistcontainer.h>

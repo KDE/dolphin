@@ -26,7 +26,7 @@
 
 #include <KDialog>
 #include <KFileDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KLineEdit>
 #include <KMessageBox>
 #include <KVBox>

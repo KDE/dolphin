@@ -22,7 +22,7 @@
 
 #include <KDebug>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>

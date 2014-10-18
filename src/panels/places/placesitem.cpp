@@ -26,7 +26,7 @@
 #include <KDebug>
 #include <KDirLister>
 #include <QIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include "placesitemsignalhandler.h"
 #include <QDateTime>
 #include <Solid/Block>

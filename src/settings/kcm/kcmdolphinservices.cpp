@@ -21,7 +21,7 @@
 
 #include <KTabWidget>
 #include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KGlobal>

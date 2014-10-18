@@ -21,7 +21,8 @@
 
 #include <config-baloo.h>
 
-#include <KLocale>
+#include <KSharedConfig>
+#include <KLocalizedString>
 #include "kitemviews/kfileitemmodel.h"
 #include <QCheckBox>
 #include <QLabel>

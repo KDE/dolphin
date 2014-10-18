@@ -63,7 +63,7 @@
 #include <KIO/NetAccess>
 #include <KIO/JobUiDelegate>
 #include <KInputDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KProtocolManager>
 #include <QMenu>
 #include <KMenuBar>

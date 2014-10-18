@@ -25,7 +25,7 @@
 #include <KConfigGroup>
 #include <KDialog>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KNumInput>
 #include <KServiceTypeTrader>
 #include <KService>
