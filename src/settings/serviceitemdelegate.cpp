@@ -20,7 +20,7 @@
 #include "serviceitemdelegate.h"
 
 #include <KDebug>
-#include <KPushButton>
+#include <QPushButton>
 #include <QIcon>
 
 #include "servicemodel.h"
@@ -74,8 +74,8 @@ QList<QWidget*> ServiceItemDelegate::createItemWidgets(const QModelIndex&) const
     checkBox->setPalette(palette);
     connect(checkBox, &QCheckBox::clicked, this, &ServiceItemDelegate::slotCheckBoxClicked);
 
-    KPushButton* configureButton = new KPushButton();
-    connect(configureButton, &KPushButton::clicked, this, &ServiceItemDelegate::slotConfigureButtonClicked);
+    QPushButton* configureButton = new QPushButton();
+    connect(configureButton, &QPushButton::clicked, this, &ServiceItemDelegate::slotConfigureButtonClicked);
 
     return QList<QWidget*>() << checkBox << configureButton;
 }
@@ -85,7 +85,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget*> widgets,
                                               const QPersistentModelIndex& index) const
 {
     QCheckBox* checkBox = static_cast<QCheckBox*>(widgets[0]);
-    KPushButton *configureButton = static_cast<KPushButton*>(widgets[1]);
+    QPushButton *configureButton = static_cast<QPushButton*>(widgets[1]);
 
     const int itemHeight = sizeHint(option, index).height();
 
