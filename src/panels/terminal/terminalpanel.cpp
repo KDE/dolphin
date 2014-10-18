@@ -31,9 +31,9 @@
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
 
-#include <QBoxLayout>
 #include <QDir>
 #include <QShowEvent>
+#include <QVBoxLayout>
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),

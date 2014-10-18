@@ -27,7 +27,6 @@
 
 #include <KDialog>
 #include <KLocalizedString>
-#include <KIconLoader>
 #include <KTabWidget>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :

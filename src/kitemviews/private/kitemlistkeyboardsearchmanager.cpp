@@ -22,8 +22,6 @@
 
 #include "kitemlistkeyboardsearchmanager.h"
 
-#include <QApplication>
-#include <QElapsedTimer>
 
 KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject* parent) :
     QObject(parent),

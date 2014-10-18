@@ -20,7 +20,6 @@
 #ifndef KDIRECTORYCONTENTENTSCOUNTERWORKER_H
 #define KDIRECTORYCONTENTENTSCOUNTERWORKER_H
 
-#include <QFlags>
 #include <QMetaType>
 #include <QObject>
 

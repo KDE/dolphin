@@ -31,7 +31,6 @@
 #include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
-#include <QPropertyAnimation>
 #include <QScrollBar>
 #include <QStyle>
 #include <QStyleOption>

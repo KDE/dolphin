@@ -20,24 +20,16 @@
 #include "dolphinviewcontainer.h"
 #include <KProtocolManager>
 
-#include <QApplication>
-#include <QKeyEvent>
-#include <QItemSelection>
-#include <QBoxLayout>
 #include <QTimer>
-#include <QScrollBar>
 #include <QMimeData>
+#include <QVBoxLayout>
 
-#include <KDesktopFile>
-#include <KFileItemDelegate>
 #include <KFileItemActions>
 #include <KFilePlacesModel>
 #include <KLocalizedString>
-#include <KIconEffect>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
 #include <KMessageWidget>
-#include <KNewFileMenu>
 #include <konq_operations.h>
 #include <KShell>
 #include <KUrl>
@@ -46,7 +38,6 @@
 #include <KRun>
 
 #ifdef KActivities_FOUND
-#include <KActivities/ResourceInstance>
 #endif
 
 #include "dolphin_generalsettings.h"

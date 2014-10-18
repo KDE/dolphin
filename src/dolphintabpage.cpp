@@ -23,6 +23,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <QSplitter>
+#include <QVBoxLayout>
 
 DolphinTabPage::DolphinTabPage(const KUrl& primaryUrl, const KUrl& secondaryUrl, QWidget* parent) :
     QWidget(parent),

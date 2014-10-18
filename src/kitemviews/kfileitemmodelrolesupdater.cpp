@@ -25,7 +25,6 @@
 #include <KConfigGroup>
 #include <KDebug>
 #include <KFileItem>
-#include <KGlobal>
 #include <KIconLoader>
 #include <KJobWidgets>
 #include <KIO/JobUiDelegate>

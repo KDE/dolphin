@@ -31,11 +31,11 @@
 #include <KMessageBox>
 #include <KVBox>
 
+#include <QVBoxLayout>
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
-#include <QRadioButton>
 
 #include "views/dolphinview.h"
 

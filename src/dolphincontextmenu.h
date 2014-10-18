@@ -21,16 +21,12 @@
 #define DOLPHINCONTEXTMENU_H
 
 #include <KFileItem>
-#include <KService>
 #include <KUrl>
 #include <konq_copytomenu.h>
 #include <QMenu>
 
-#include <QObject>
 
-#include <QVector>
 
-#include <QScopedPointer>
 
 class QAction;
 class DolphinMainWindow;

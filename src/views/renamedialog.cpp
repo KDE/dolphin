@@ -22,19 +22,17 @@
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <KJobWidgets>
-#include <KJobUiDelegate>
 #include <KIO/CopyJob>
 #include <KIO/FileUndoManager>
-#include <KStringHandler>
 #include <kstringhandler_deprecated.h> //TODO port to QCollator
 #include <knuminput.h>
 #include <kmimetype.h>
+#include <KJobUiDelegate>
 
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QMimeDatabase>
-#include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <KGuiItem>

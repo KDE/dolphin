@@ -31,8 +31,6 @@
 #include <KActionCollection>
 #include <QIcon>
 #include <KLocalizedString>
-#include <KGlobal>
-#include <KMimeType>
 #include <KConfig>
 #include <KCharsets>
 #include <QMenu>

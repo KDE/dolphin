@@ -27,37 +27,28 @@
 #include "dolphinremoveaction.h"
 
 #include <KActionCollection>
-#include <KDesktopFile>
 #include <kfileitemactionplugin.h>
 #include <kabstractfileitemactionplugin.h>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
-#include <KGlobal>
-#include <KIconLoader>
 #include <KIO/RestoreJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
-#include <KJobUiDelegate>
 #include <KJobWidgets>
 #include <QMenu>
-#include <KMenuBar>
-#include <KMessageBox>
 #include <KMimeTypeTrader>
 #include <KMimeType>
 #include <KNewFileMenu>
 #include <konq_operations.h>
 #include <KService>
 #include <KLocalizedString>
-#include <KPropertiesDialog>
 #include <KStandardAction>
 #include <KToolBar>
 
+#include <QMenuBar>
 #include <panels/places/placesitem.h>
 #include <panels/places/placesitemmodel.h>
 
-#include <QApplication>
-#include <QClipboard>
-#include <QDir>
 
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"

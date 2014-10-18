@@ -23,16 +23,15 @@
 
 #include <KColorScheme>
 #include <KSeparator>
-#include <KWindowSystem>
 // For the blurred tooltip background
 #include <KWindowEffects>
 #include <KStringHandler>
+#include <QTextDocument>
 
 #include <QLabel>
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QVBoxLayout>
-#include <QTextDocument>
 #include <QTextLayout>
 #include <QTextLine>
 

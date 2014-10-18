@@ -23,7 +23,6 @@
 #include <KParts/ReadOnlyPart>
 #include <KUrl>
 
-#include <QItemSelectionModel>
 
 class DolphinNewFileMenu;
 class DolphinViewActionHandler;

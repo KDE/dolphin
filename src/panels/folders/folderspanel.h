@@ -26,7 +26,7 @@
 class KFileItemModel;
 class KItemListController;
 class QGraphicsSceneDragDropEvent;
-
+class KFileItem;
 /**
  * @brief Shows a tree view of the directories starting from
  *        the currently selected place.

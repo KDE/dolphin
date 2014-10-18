@@ -23,7 +23,6 @@
 #include "views/viewproperties.h"
 #include "testdir.h"
 
-#include <QDebug>
 #include <QDir>
 
 class ViewPropertiesTest : public QObject

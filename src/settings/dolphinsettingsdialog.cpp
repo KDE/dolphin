@@ -31,7 +31,6 @@
 #include "trash/trashsettingspage.h"
 
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <QIcon>
 
 #include <QPushButton>

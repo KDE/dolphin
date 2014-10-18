@@ -28,7 +28,6 @@
 
 #include <KDialog>
 #include <KLocalizedString>
-#include <KIconLoader>
 #include <KTabWidget>
 
 #include <QVBoxLayout>

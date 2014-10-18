@@ -21,10 +21,8 @@
 
 #include <KIconLoader>
 
-#include <QLayout>
 #include <QPainter>
 #include <QPixmap>
-#include <QKeyEvent>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),

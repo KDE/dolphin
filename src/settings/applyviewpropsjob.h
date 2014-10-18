@@ -24,7 +24,6 @@
 #define APPLYVIEWPROPSJOB_H
 
 #include <KIO/Job>
-#include <KFileItem>
 #include <KUrl>
 
 class ViewProperties;

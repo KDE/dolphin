@@ -21,7 +21,6 @@
 #define DOLPHINVIEWCONTAINER_H
 
 #include <KFileItem>
-#include <KFileItemDelegate>
 #include <KCompletion>
 #include <KIO/Job>
 

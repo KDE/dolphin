@@ -20,11 +20,9 @@
 #include "dolphinfontrequester.h"
 
 #include <KFontDialog>
-#include <KGlobalSettings>
 #include <KLocalizedString>
 #include <KComboBox>
 
-#include <QEvent>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QFontDatabase>

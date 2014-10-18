@@ -22,18 +22,13 @@
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
-#include <KLocalizedString>
-#include <KStringHandler>
 #include "private/kpixmapmodifier.h"
 
 #include <KDebug>
 #include <QIcon>
-#include <KTextEdit>
 #include <KIconLoader>
-#include <KDateTime>
 
 #include <QPainter>
-#include <QTextLine>
 #include <QTimer>
 
 // #define KFILEITEMLISTVIEW_DEBUG

@@ -31,7 +31,6 @@
 #include "updateitemstatesthread.h"
 
 #include <QFile>
-#include <QMutexLocker>
 #include <QTimer>
 
 VersionControlObserver::VersionControlObserver(QObject* parent) :

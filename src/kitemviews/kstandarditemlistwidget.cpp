@@ -25,7 +25,6 @@
 #include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <KLocalizedString>
 #include <kratingpainter.h>
 #include <KStringHandler>
 #include <KDebug>
@@ -34,7 +33,6 @@
 #include "private/kitemlistroleeditor.h"
 #include "private/kpixmapmodifier.h"
 
-#include <QFontMetricsF>
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>

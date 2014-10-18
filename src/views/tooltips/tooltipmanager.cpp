@@ -28,8 +28,6 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QLayout>
-#include <QScrollArea>
-#include <QScrollBar>
 #include <QStyle>
 #include <QTimer>
 

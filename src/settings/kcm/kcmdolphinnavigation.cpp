@@ -19,12 +19,9 @@
 
 #include "kcmdolphinnavigation.h"
 
-#include <KTabWidget>
 #include <KDialog>
-#include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KGlobal>
 
 #include <settings/navigation/navigationsettingspage.h>
 

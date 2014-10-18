@@ -24,7 +24,6 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KGlobal>
 
 #include <settings/general/behaviorsettingspage.h>
 #include <settings/general/previewssettingspage.h>

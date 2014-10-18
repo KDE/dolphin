@@ -26,7 +26,6 @@
 #include <KUrl>
 #include <kversioncontrolplugin2.h>
 #include <QList>
-#include <QMutex>
 #include <QObject>
 #include <QString>
 

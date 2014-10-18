@@ -24,9 +24,7 @@
 
 #include <KCmdLineArgs>
 #include <KDebug>
-#include <KRun>
 #include <KUrl>
-#include <KGlobal>
 
 DolphinApplication::DolphinApplication() :
     m_mainWindow(0)

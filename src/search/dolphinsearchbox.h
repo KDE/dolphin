@@ -21,7 +21,6 @@
 #define DOLPHINSEARCHBOX_H
 
 #include <KUrl>
-#include <QList>
 #include <QWidget>
 
 #include <config-baloo.h>

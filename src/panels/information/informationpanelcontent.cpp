@@ -32,6 +32,7 @@
 #include <QMenu>
 #include <kseparator.h>
 #include <KStringHandler>
+#include <QTextDocument>
 
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
@@ -49,10 +50,8 @@
 #include <QEvent>
 #include <QLabel>
 #include <QPixmap>
-#include <QPointer>
 #include <QResizeEvent>
 #include <QScrollArea>
-#include <QTextDocument>
 #include <QTextLayout>
 #include <QTextLine>
 #include <QTimer>

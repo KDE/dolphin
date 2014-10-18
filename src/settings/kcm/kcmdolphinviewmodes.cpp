@@ -25,13 +25,11 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <QIcon>
-#include <KGlobal>
 
 #include <settings/viewmodes/viewsettingstab.h>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
-#include <QDir>
 #include <QPushButton>
 #include <QVBoxLayout>
 

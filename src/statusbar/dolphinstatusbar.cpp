@@ -21,11 +21,9 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KIconLoader>
 #include <QIcon>
 #include <KLocalizedString>
 #include <QMenu>
-#include <KVBox>
 
 #include "statusbarspaceinfo.h"
 
@@ -33,10 +31,12 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
-#include <QTextDocument>
 #include <QToolButton>
 #include <QTime>
 #include <QTimer>
+#include <QSlider>
+#include <QTextDocument>
+#include <QHelpEvent>
 
 #include <views/dolphinview.h>
 #include <views/zoomlevelinfo.h>

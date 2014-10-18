@@ -25,7 +25,6 @@
 
 #include <libdolphin_export.h>
 
-#include <QAbstractAnimation>
 #include <QAbstractScrollArea>
 
 class KItemListController;

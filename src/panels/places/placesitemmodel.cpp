@@ -28,11 +28,11 @@
 #include <KBookmark>
 #include <KBookmarkGroup>
 #include <KBookmarkManager>
-#include <KComponentData>
 #include <KDebug>
 #include <QIcon>
 #include <kprotocolinfo.h>
 #include <KLocalizedString>
+#include <KComponentData>
 #include <QStandardPaths>
 #include <KUser>
 #include <KGlobal>

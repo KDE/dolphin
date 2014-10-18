@@ -26,12 +26,10 @@
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <KSeparator>
-#include <KGlobalSettings>
 
 #include <QButtonGroup>
 #include <QDir>
 #include <QEvent>
-#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>

@@ -23,9 +23,7 @@
 
 #include "placesitemeditdialog.h"
 
-#include <KAboutData>
 #include <k4aboutdata.h>
-#include <KComponentData>
 #include <KDebug>
 #include <KFile>
 #include <KGlobal>
@@ -34,11 +32,11 @@
 #include <KLocalizedString>
 #include <KMimeType>
 #include <KUrlRequester>
+#include <KComponentData>
 #include <QCheckBox>
 #include <QEvent>
 #include <QFormLayout>
 #include <QVBoxLayout>
-#include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>
 

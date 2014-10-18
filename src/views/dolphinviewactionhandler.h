@@ -23,8 +23,6 @@
 #define DOLPHINVIEWACTIONHANDLER_H
 
 #include "libdolphin_export.h"
-#include <KActionMenu>
-#include <KSelectAction>
 #include "views/dolphinview.h"
 #include <QObject>
 

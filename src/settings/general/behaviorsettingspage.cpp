@@ -22,14 +22,10 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KComboBox>
-#include <KDialog>
 #include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
 

@@ -24,23 +24,18 @@
 
 #include <QAbstractItemView>
 #include <QApplication>
-#include <QBoxLayout>
 #include <QClipboard>
 #include <QDropEvent>
 #include <QGraphicsSceneDragDropEvent>
-#include <QKeyEvent>
-#include <QItemSelection>
 #include <QTimer>
 #include <QScrollBar>
 #include <QPointer>
 #include <QMenu>
-
+#include <QVBoxLayout>
 #include <KDesktopFile>
 #include <KProtocolManager>
-#include <KActionCollection>
 #include <KColorScheme>
 #include <KDirModel>
-#include <KIconEffect>
 #include <KFileItem>
 #include <KFileItemListProperties>
 #include <KLocalizedString>
@@ -59,11 +54,9 @@
 #include <KIO/Paste>
 #include <KJob>
 #include <QMenu>
-#include <KGlobal>
 #include <KMessageBox>
 #include <KJobWidgets>
 #include <konq_operations.h>
-#include <KToggleAction>
 #include <KUrl>
 
 #include "dolphinnewfilemenuobserver.h"

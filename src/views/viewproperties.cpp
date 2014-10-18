@@ -23,12 +23,11 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <KComponentData>
-#include <KLocalizedString>
 #include <KUrl>
 #include <KDebug>
 #include <KGlobal>
 
+#include <KComponentData>
 #include <QCryptographicHash>
 #include <QDate>
 #include <QFile>

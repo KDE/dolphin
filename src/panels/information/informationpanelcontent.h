@@ -21,12 +21,11 @@
 #define INFORMATIONPANELCONTENT_H
 
 #include "config-baloo.h"
-#include <KConfig>
 #include <KFileItem>
 #include <KUrl>
-#include <KVBox>
 
 #include <QPointer>
+#include <QWidget>
 
 class KFileItemList;
 class PhononWidget;

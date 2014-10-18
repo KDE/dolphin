@@ -28,9 +28,8 @@
 #include "kitemset.h"
 
 #include <QObject>
-#include <QPixmap>
 #include <QPointF>
-
+class QTimer;
 class KItemModelBase;
 class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;

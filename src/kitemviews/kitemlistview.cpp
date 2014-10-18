@@ -35,11 +35,9 @@
 #include "private/kitemlistviewlayouter.h"
 #include "private/kitemlistviewanimation.h"
 
-#include <QCursor>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QPainter>
-#include <QPropertyAnimation>
 #include <QStyle>
 #include <QStyleOptionRubberBand>
 #include <QTimer>

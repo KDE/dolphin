@@ -33,7 +33,7 @@ namespace KIO {
 namespace KParts {
     class ReadOnlyPart;
 }
-
+class KJob;
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
  *        active view.

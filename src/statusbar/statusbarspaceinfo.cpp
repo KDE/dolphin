@@ -25,7 +25,6 @@
 #include <KLocalizedString>
 #include <KIO/Job>
 
-#include <QKeyEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),

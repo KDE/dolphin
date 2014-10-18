@@ -29,7 +29,7 @@ class PlacesItem;
 class PlacesItemModel;
 class PlacesView;
 class QGraphicsSceneDragDropEvent;
-
+class KJob;
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */

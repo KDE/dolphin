@@ -22,9 +22,6 @@
 
 #include <KUrl>
 
-#include <QColor>
-#include <QKeyEvent>
-#include <QString>
 
 #include <kcapacitybar.h>
 

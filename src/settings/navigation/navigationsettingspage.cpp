@@ -28,7 +28,6 @@
 
 #include <QCheckBox>
 #include <QGroupBox>
-#include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
 

@@ -27,18 +27,14 @@
 
 #include <kparts/part.h>
 #include <KFileItem>
-#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <KIO/Job>
 #include <KUrl>
 
-#include <QBoxLayout>
-#include <QKeyEvent>
-#include <QLinkedList>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
-
+class QVBoxLayout;
 class DolphinItemListView;
 class KFileItemModel;
 class KItemListContainer;

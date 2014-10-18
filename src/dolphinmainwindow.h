@@ -24,7 +24,6 @@
 
 #include <config-baloo.h>
 
-#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>

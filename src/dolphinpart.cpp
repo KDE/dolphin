@@ -25,26 +25,22 @@
 
 #include <KAboutData>
 #include <KActionCollection>
-#include <KConfigGroup>
 #include <KDebug>
-#include <KGlobalSettings>
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KPluginFactory>
 #include <KRun>
-#include <KToggleAction>
-#include <KGlobal>
 #include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
 #include <QMenu>
 #include <KInputDialog>
-#include <KProtocolInfo>
 #include <kdeversion.h>
+#include <KSharedConfig>
+#include <KConfigGroup>
 
 #include "dolphinpart_ext.h"
-
 #include "dolphinnewfilemenu.h"
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
@@ -53,11 +49,13 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodeldirlister.h"
 
+#include <QStandardPaths>
 #include <QActionGroup>
+#include <QTextDocument>
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
-#include <QTextDocument>
+
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))

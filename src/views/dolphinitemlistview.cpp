@@ -30,8 +30,6 @@
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemliststyleoption.h>
 
-#include <KGlobalSettings>
-#include <KGlobal>
 
 #include <views/viewmodecontroller.h>
 

@@ -21,7 +21,6 @@
 #include "treeviewcontextmenu.h"
 
 #include <KFileItem>
-#include <KIconLoader>
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>

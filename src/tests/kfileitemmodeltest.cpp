@@ -20,7 +20,6 @@
 
 #include <qtest_kde.h>
 
-#include <KDirLister>
 #include <kio/job.h>
 
 #include "kitemviews/kfileitemmodel.h"

@@ -24,7 +24,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QTimer>
-#include <QBoxLayout>
+#include <QVBoxLayout>
 
 #include <KLocalizedString>
 #include <KIO/JobClasses>

@@ -46,48 +46,39 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KAcceleratorManager>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KConfig>
-#include <KDesktopFile>
 #include <kdeversion.h>
 #include <kdualaction.h>
-#include <KFileDialog>
-#include <KGlobal>
 #include <KDialog>
 #include <KJobWidgets>
 #include <KLineEdit>
 #include <KToolBar>
-#include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KIO/JobUiDelegate>
-#include <KInputDialog>
 #include <KLocalizedString>
 #include <KProtocolManager>
 #include <QMenu>
-#include <KMenuBar>
 #include <KMessageBox>
 #include <KFileItemListProperties>
-#include <KProtocolInfo>
 #include <KRun>
 #include <KShell>
 #include <kstatusbar.h>
 #include <KStandardAction>
 #include <KToggleAction>
 #include <KUrlNavigator>
-#include <KUrlComboBox>
 #include <KToolInvocation>
+#include <KUrlComboBox>
 
-#include <QDesktopWidget>
-#include <QDBusMessage>
-#include <QKeyEvent>
+#include <QMenuBar>
 #include <QClipboard>
 #include <QToolButton>
-#include <QSplitter>
 #include <QTimer>
 #include <QStandardPaths>
 #include <QPushButton>
+#include <QCloseEvent>
+#include <QShowEvent>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether

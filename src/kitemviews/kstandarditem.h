@@ -24,7 +24,6 @@
 
 #include <QByteArray>
 #include <QHash>
-#include <QIcon>
 #include <QList>
 #include <QVariant>
 

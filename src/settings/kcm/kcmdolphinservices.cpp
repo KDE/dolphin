@@ -19,12 +19,9 @@
 
 #include "kcmdolphinservices.h"
 
-#include <KTabWidget>
 #include <KDialog>
-#include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <KGlobal>
 
 #include <settings/services/servicessettingspage.h>
 

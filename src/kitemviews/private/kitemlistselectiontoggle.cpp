@@ -19,7 +19,6 @@
 
 #include "kitemlistselectiontoggle.h"
 
-#include <KIconEffect>
 #include <KIconLoader>
 #include <QPainter>
 

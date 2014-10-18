@@ -30,7 +30,6 @@
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
 
-#include <QApplication>
 #include <QMimeData>
 #include <QTimer>
 #include <QWidget>

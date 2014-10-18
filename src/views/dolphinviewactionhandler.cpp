@@ -28,12 +28,12 @@
 #include <konq_operations.h>
 
 #include <QPointer>
+#include <QMenu>
 
 #include <KActionCollection>
 #include <KActionMenu>
 #include <kitemviews/kfileitemmodel.h>
 #include <KLocalizedString>
-#include <QMenu>
 #include <KNewFileMenu>
 #include <KSelectAction>
 #include <KToggleAction>

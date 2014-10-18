@@ -23,7 +23,6 @@
 
 #include <kmimetype.h>
 #include <KDebug>
-#include <KGlobal>
 #include <KLocale>
 #include <KIO/MetaData>
 #include <QDateTime>

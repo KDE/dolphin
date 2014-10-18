@@ -29,24 +29,19 @@
 
 #include <config-baloo.h>
 
-#include <KComponentData>
 #include <KLocalizedString>
-#include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KMessageBox>
 #include <KUrl>
 #include <KComboBox>
 
-#include <QAction>
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
-#include <QMenu>
 #include <QPushButton>
 #include <QRadioButton>
-#include <QBoxLayout>
 
 #include <views/viewproperties.h>
 

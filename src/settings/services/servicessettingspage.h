@@ -21,7 +21,6 @@
 
 #include <settings/settingspagebase.h>
 
-#include <QMap>
 #include <QString>
 
 class QListView;
