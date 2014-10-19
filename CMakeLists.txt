@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8.12)
 project(Dolphin)
 
 # ECM setup
-find_package(ECM 0.0.14 CONFIG REQUIRED)
+find_package(ECM 1.2.0 CONFIG REQUIRED)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 set(DOLPHIN_VERSION "4.97.0")
