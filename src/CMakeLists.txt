@@ -310,17 +310,6 @@ install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinservices DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 
-#########################################
-
-set(kio_search_PART_SRCS
-    search/filenamesearchprotocol.cpp)
-
-add_library(kio_filenamesearch MODULE ${kio_search_PART_SRCS})
-
-target_link_libraries(kio_filenamesearch KF5::KDELibs4Support)
-
-install(TARGETS kio_filenamesearch DESTINATION ${PLUGIN_INSTALL_DIR})
-
 ########### install files ###############
 
 install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
@@ -333,7 +322,6 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
          DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES dolphinui.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphin )
 install( FILES dolphin.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
-install( FILES search/filenamesearch.protocol DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
 ${SERVICES_INSTALL_DIR} )
 install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
