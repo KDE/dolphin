@@ -1646,7 +1646,7 @@ void DolphinView::applyModeToView()
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
-    KonqOperations* op = KonqOperations::doPasteV2(this, url);
+    KonqOperations* op = KonqOperations::doPaste(this, url);
     if (op) {
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
