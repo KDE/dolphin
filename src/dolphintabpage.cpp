@@ -25,7 +25,7 @@
 #include <QSplitter>
 #include <QVBoxLayout>
 
-DolphinTabPage::DolphinTabPage(const KUrl& primaryUrl, const KUrl& secondaryUrl, QWidget* parent) :
+DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget* parent) :
     QWidget(parent),
     m_primaryViewActive(true),
     m_splitViewEnabled(false)
@@ -135,7 +135,7 @@ int DolphinTabPage::selectedItemsCount() const
     return selectedItemsCount;
 }
 
-void DolphinTabPage::markUrlsAsSelected(const QList<KUrl>& urls)
+void DolphinTabPage::markUrlsAsSelected(const QList<QUrl>& urls)
 {
     m_primaryViewContainer->view()->markUrlsAsSelected(urls);
     if (m_splitViewEnabled) {
@@ -143,7 +143,7 @@ void DolphinTabPage::markUrlsAsSelected(const QList<KUrl>& urls)
     }
 }
 
-void DolphinTabPage::markUrlAsCurrent(const KUrl& url)
+void DolphinTabPage::markUrlAsCurrent(const QUrl& url)
 {
     m_primaryViewContainer->view()->markUrlAsCurrent(url);
     if (m_splitViewEnabled) {

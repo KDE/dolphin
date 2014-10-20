@@ -76,14 +76,14 @@ public:
      * Opens each directory in \p dirs in a separate tab. If the "split view"
      * option is enabled, 2 directories are collected within one tab.
      */
-    void openDirectories(const QList<KUrl>& dirs);
+    void openDirectories(const QList<QUrl> &dirs);
 
     /**
      * Opens the directory which contains the files \p files
      * and selects all files (implements the --select option
      * of Dolphin).
      */
-    void openFiles(const QList<KUrl>& files);
+    void openFiles(const QList<QUrl>& files);
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared

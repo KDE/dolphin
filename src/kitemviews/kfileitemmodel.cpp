@@ -116,15 +116,15 @@ KFileItemModel::~KFileItemModel()
     qDeleteAll(m_pendingItemsToInsert);
 }
 
-void KFileItemModel::loadDirectory(const KUrl& url)
+void KFileItemModel::loadDirectory(const QUrl &url)
 {
     m_dirLister->openUrl(url);
 }
 
-void KFileItemModel::refreshDirectory(const KUrl& url)
+void KFileItemModel::refreshDirectory(const QUrl &url)
 {
     // Refresh all expanded directories first (Bug 295300)
-    QHashIterator<KUrl, KUrl> expandedDirs(m_expandedDirs);
+    QHashIterator<QUrl, QUrl> expandedDirs(m_expandedDirs);
     while (expandedDirs.hasNext()) {
         expandedDirs.next();
         m_dirLister->openUrl(expandedDirs.value(), KDirLister::Reload);
@@ -133,7 +133,7 @@ void KFileItemModel::refreshDirectory(const KUrl& url)
     m_dirLister->openUrl(url, KDirLister::Reload);
 }
 
-KUrl KFileItemModel::directory() const
+QUrl KFileItemModel::directory() const
 {
     return m_dirLister->url();
 }
@@ -353,7 +353,7 @@ KFileItem KFileItemModel::fileItem(int index) const
     return KFileItem();
 }
 
-KFileItem KFileItemModel::fileItem(const KUrl& url) const
+KFileItem KFileItemModel::fileItem(const QUrl &url) const
 {
     const int indexForUrl = index(url);
     if (indexForUrl >= 0) {
@@ -364,10 +364,10 @@ KFileItem KFileItemModel::fileItem(const KUrl& url) const
 
 int KFileItemModel::index(const KFileItem& item) const
 {
-    return index(KUrl(item.url()));
+    return index(item.url());
 }
 
-int KFileItemModel::index(const KUrl& url) const
+int KFileItemModel::index(const QUrl& url) const
 {
     KUrl urlToFind = url;
     urlToFind.adjustPath(KUrl::RemoveTrailingSlash);
@@ -592,17 +592,17 @@ int KFileItemModel::expandedParentsCount(int index) const
     return 0;
 }
 
-QSet<KUrl> KFileItemModel::expandedDirectories() const
+QSet<QUrl> KFileItemModel::expandedDirectories() const
 {
     return m_expandedDirs.values().toSet();
 }
 
-void KFileItemModel::restoreExpandedDirectories(const QSet<KUrl>& urls)
+void KFileItemModel::restoreExpandedDirectories(const QSet<QUrl> &urls)
 {
     m_urlsToExpand = urls;
 }
 
-void KFileItemModel::expandParentDirectories(const KUrl& url)
+void KFileItemModel::expandParentDirectories(const QUrl &url)
 {
     const int pos = m_dirLister->url().path().length();
 
@@ -620,7 +620,7 @@ void KFileItemModel::expandParentDirectories(const KUrl& url)
     // KDirLister::open() must called at least once to trigger an initial
     // loading. The pending URLs that must be restored are handled
     // in slotCompleted().
-    QSetIterator<KUrl> it2(m_urlsToExpand);
+    QSetIterator<QUrl> it2(m_urlsToExpand);
     while (it2.hasNext()) {
         const int idx = index(it2.next());
         if (idx >= 0 && !isExpanded(idx)) {
@@ -898,7 +898,7 @@ void KFileItemModel::slotCanceled()
     emit directoryLoadingCanceled();
 }
 
-void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items)
+void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
 

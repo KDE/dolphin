@@ -138,7 +138,7 @@ target_link_libraries(dolphinpart
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
 
-install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
+install(FILES dolphinpart.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR})
 install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 

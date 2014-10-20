@@ -56,13 +56,13 @@ public:
      * indicate the current state of the loading process. The items
      * of the directory are added after the loading has been completed.
      */
-    void loadDirectory(const KUrl& url);
+    void loadDirectory(const QUrl& url);
 
     /**
      * Throws away all currently loaded items and refreshes the directory
      * by reloading all items again.
      */
-    void refreshDirectory(const KUrl& url);
+    void refreshDirectory(const QUrl& url);
 
     /**
      * @return Parent directory of the items that are shown. In case
@@ -70,7 +70,7 @@ public:
      *         the root-parent of all items.
      * @see rootItem()
      */
-    KUrl directory() const;
+    QUrl directory() const;
 
     /**
      * Cancels the loading of a directory which has been started by either
@@ -126,7 +126,7 @@ public:
      *         URL is found KFileItem::isNull() will be true for the returned
      *         file-item. The runtime complexity of this call is O(1).
      */
-    KFileItem fileItem(const KUrl& url) const;
+    KFileItem fileItem(const QUrl& url) const;
 
     /**
      * @return The index for the file-item \a item. -1 is returned if no file-item
@@ -139,7 +139,7 @@ public:
      * @return The index for the URL \a url. -1 is returned if no file-item
      *         is found. The amortized runtime complexity of this call is O(1).
      */
-    int index(const KUrl& url) const;
+    int index(const QUrl &url) const;
 
     /**
      * @return Root item of all items representing the item
@@ -163,19 +163,19 @@ public:
     virtual bool isExpandable(int index) const;
     virtual int expandedParentsCount(int index) const;
 
-    QSet<KUrl> expandedDirectories() const;
+    QSet<QUrl> expandedDirectories() const;
 
     /**
      * Marks the URLs in \a urls as sub-directories which were expanded previously.
      * After calling loadDirectory() or refreshDirectory() the marked sub-directories
      * will be expanded step-by-step.
      */
-    void restoreExpandedDirectories(const QSet<KUrl>& urls);
+    void restoreExpandedDirectories(const QSet<QUrl>& urls);
 
     /**
      * Expands all parent-directories of the item \a url.
      */
-    void expandParentDirectories(const KUrl& url);
+    void expandParentDirectories(const QUrl& url);
 
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
@@ -251,13 +251,13 @@ signals:
      * Is emitted if a redirection from the current URL \a oldUrl
      * to the new URL \a newUrl has been done.
      */
-    void directoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void directoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Is emitted when the URL passed by KFileItemModel::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
 protected:
     virtual void onGroupedSortingChanged(bool current);
@@ -273,7 +273,7 @@ private slots:
 
     void slotCompleted();
     void slotCanceled();
-    void slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items);
+    void slotItemsAdded(const QUrl& directoryUrl, const KFileItemList& items);
     void slotItemsDeleted(const KFileItemList& items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
     void slotClear();
@@ -489,11 +489,11 @@ private:
     mutable QList<QPair<int, QVariant> > m_groups;
 
     // Stores the URLs (key: target url, value: url) of the expanded directories.
-    QHash<KUrl, KUrl> m_expandedDirs;
+    QHash<QUrl, QUrl> m_expandedDirs;
 
     // URLs that must be expanded. The expanding is initially triggered in setExpanded()
     // and done step after step in slotCompleted().
-    QSet<KUrl> m_urlsToExpand;
+    QSet<QUrl> m_urlsToExpand;
 
     friend class KFileItemModelLessThan;       // Accesses lessThan() method
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method

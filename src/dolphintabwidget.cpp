@@ -136,7 +136,7 @@ void DolphinTabWidget::openNewActivatedTab(const KUrl& primaryUrl, const KUrl& s
     setCurrentIndex(count() - 1);
 }
 
-void DolphinTabWidget::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     QWidget* focusWidget = QApplication::focusWidget();
 
@@ -155,17 +155,17 @@ void DolphinTabWidget::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<KUrl>& dirs)
+void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs)
 {
     const bool hasSplitView = GeneralSettings::splitView();
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
-    QList<KUrl>::const_iterator it = dirs.constBegin();
+    QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
-        const KUrl& primaryUrl = *(it++);
+        const QUrl& primaryUrl = *(it++);
         if (hasSplitView && (it != dirs.constEnd())) {
-            const KUrl& secondaryUrl = *(it++);
+            const QUrl& secondaryUrl = *(it++);
             openNewTab(primaryUrl, secondaryUrl);
         } else {
             openNewTab(primaryUrl);
@@ -173,7 +173,7 @@ void DolphinTabWidget::openDirectories(const QList<KUrl>& dirs)
     }
 }
 
-void DolphinTabWidget::openFiles(const QList<KUrl>& files)
+void DolphinTabWidget::openFiles(const QList<QUrl>& files)
 {
     if (files.isEmpty()) {
         return;
@@ -182,7 +182,7 @@ void DolphinTabWidget::openFiles(const QList<KUrl>& files)
     // Get all distinct directories from 'files' and open a tab
     // for each directory. If the "split view" option is enabled, two
     // directories are shown inside one tab (see openDirectories()).
-    QList<KUrl> dirs;
+    QList<QUrl> dirs;
     foreach (const KUrl& url, files) {
         const KUrl dir(url.directory());
         if (!dirs.contains(dir)) {

@@ -39,6 +39,7 @@
 #include <kdeversion.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
+#include <KComponentData>
 
 #include "dolphinpart_ext.h"
 #include "dolphinnewfilemenu.h"
@@ -66,8 +67,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
       ,m_removeAction(0)
 {
     Q_UNUSED(args)
-#pragma message("TODO: port to KF5")
-    //setComponentData(DolphinPartFactory::componentData(), false);
+    setComponentData(*createAboutData(), false);
     m_extension = new DolphinPartBrowserExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
@@ -381,7 +381,7 @@ void DolphinPart::slotItemsActivated(const KFileItemList& items)
     }
 }
 
-void DolphinPart::createNewWindow(const KUrl& url)
+void DolphinPart::createNewWindow(const QUrl& url)
 {
     // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
     // should be moved into DolphinPart::slotItemActivated()
@@ -390,7 +390,7 @@ void DolphinPart::createNewWindow(const KUrl& url)
 
 void DolphinPart::slotOpenContextMenu(const QPoint& pos,
                                       const KFileItem& _item,
-                                      const KUrl&,
+                                      const QUrl &,
                                       const QList<QAction*>& customActions)
 {
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
@@ -471,12 +471,12 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
                                 actionGroups);
 }
 
-void DolphinPart::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinPart::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl)
 {
     //kDebug() << oldUrl << newUrl << "currentUrl=" << url();
-    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash /* #207572 */)) {
+    if (oldUrl.matches(url(), QUrl::StripTrailingSlash /* #207572 */)) {
         KParts::ReadOnlyPart::setUrl(newUrl);
-        const QString prettyUrl = newUrl.pathOrUrl();
+        const QString prettyUrl = newUrl.toDisplayString(QUrl::PreferLocalFile);
         emit m_extension->setLocationBarUrl(prettyUrl);
     }
 }
@@ -585,7 +585,7 @@ void DolphinPart::createDirectory()
     m_newFileMenu->createDirectory();
 }
 
-void DolphinPart::setFilesToSelect(const KUrl::List& files)
+void DolphinPart::setFilesToSelect(const QList<QUrl>& files)
 {
     if (files.isEmpty()) {
         return;

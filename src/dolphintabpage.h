@@ -33,7 +33,7 @@ class DolphinTabPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinTabPage(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl(), QWidget* parent = 0);
+    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = KUrl(), QWidget* parent = 0);
 
     /**
      * @return True if primary view is the active view in this tab.
@@ -85,13 +85,13 @@ public:
      * gets selected if no loading of a directory has been triggered
      * by DolphinView::setUrl() or DolphinView::reload().
      */
-    void markUrlsAsSelected(const QList<KUrl>& urls);
+    void markUrlsAsSelected(const QList<QUrl> &urls);
 
     /**
      * Marks the item indicated by \p url to be scrolled to and as the
      * current item after directory DolphinView::url() has been loaded.
      */
-    void markUrlAsCurrent(const KUrl& url);
+    void markUrlAsCurrent(const QUrl& url);
 
     /**
      * Sets the places selector visible, if \a visible is true.

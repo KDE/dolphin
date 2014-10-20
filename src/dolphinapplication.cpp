@@ -39,7 +39,7 @@ DolphinApplication::DolphinApplication() :
 
     const int argsCount = args->count();
 
-    QList<KUrl> urls;
+    QList<QUrl> urls;
     for (int i = 0; i < argsCount; ++i) {
         const KUrl url = args->url(i);
         if (url.isValid()) {

@@ -404,8 +404,9 @@ void KFileItemModelTest::testResortAfterChangingName()
     // We rename d.txt back to a.txt using the dir lister's refreshItems() signal.
     const KFileItem fileItemD = m_model->fileItem(2);
     KFileItem fileItemA = fileItemD;
-    KUrl urlA = fileItemA.url();
-    urlA.setFileName("a.txt");
+    QUrl urlA = fileItemA.url();
+    urlA.adjusted(QUrl::RemoveFilename);
+    urlA.setPath(urlA.path() + "a.txt");
     fileItemA.setUrl(urlA);
 
     m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemA));
@@ -516,8 +517,10 @@ void KFileItemModelTest::testExpandItems()
     m_testDir->createFiles(files);
 
     // Store the URLs of all folders in a set.
-    QSet<KUrl> allFolders;
-    allFolders << KUrl(m_testDir->name() + 'a') << KUrl(m_testDir->name() + "a/a") << KUrl(m_testDir->name() + "a/a-1");
+    QSet<QUrl> allFolders;
+    allFolders << QUrl::fromLocalFile(m_testDir->name() + 'a')
+               << QUrl::fromLocalFile(m_testDir->name() + "a/a")
+               << QUrl::fromLocalFile(m_testDir->name() + "a/a-1");
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
@@ -535,7 +538,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/a/", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + 'a'));
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl(m_testDir->name() + 'a'));
 
     QCOMPARE(spyInserted.count(), 1);
     KItemRangeList itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -551,7 +554,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<KUrl>() << KUrl(m_testDir->name() + 'a') << KUrl(m_testDir->name() + "a/a"));
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl(m_testDir->name() + 'a') << QUrl(m_testDir->name() + "a/a"));
 
     QCOMPARE(spyInserted.count(), 1);
     itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -580,7 +583,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(0, false);
     QVERIFY(!m_model->isExpanded(0));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(!m_model->expandedDirectories().contains(KUrl(m_testDir->name() + 'a'))); // TODO: Make sure that child URLs are also removed
+    QVERIFY(!m_model->expandedDirectories().contains(QUrl(m_testDir->name() + 'a'))); // TODO: Make sure that child URLs are also removed
 
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
@@ -606,7 +609,7 @@ void KFileItemModelTest::testExpandItems()
 
     // Move to a sub folder, then call restoreExpandedFolders() *before* going back.
     // This is how DolphinView restores the expanded folders when navigating in history.
-    m_model->loadDirectory(KUrl(m_testDir->name() + "a/a/"));
+    m_model->loadDirectory(QUrl(m_testDir->name() + "a/a/"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);  // 1 item: "1"
     m_model->restoreExpandedDirectories(allFolders);
@@ -620,7 +623,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setRoles(originalModelRoles);
     QVERIFY(!m_model->isExpanded(0));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(!m_model->expandedDirectories().contains(KUrl(m_testDir->name() + 'a')));
+    QVERIFY(!m_model->expandedDirectories().contains(QUrl(m_testDir->name() + 'a')));
 
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
@@ -654,7 +657,7 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(m_model->expandedDirectories().empty());
 
     // Expand the parents of "a2/b2/c2".
-    m_model->expandParentDirectories(KUrl(m_testDir->name() + "a2/b2/c2"));
+    m_model->expandParentDirectories(QUrl(m_testDir->name() + "a2/b2/c2"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a2/", "a2/b2/", and "a2/b2/c2/".
@@ -666,7 +669,7 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(!m_model->isExpanded(3));
 
     // Expand the parents of "a 1/b1".
-    m_model->expandParentDirectories(KUrl(m_testDir->name() + "a 1/b1"));
+    m_model->expandParentDirectories(QUrl(m_testDir->name() + "a 1/b1"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a 1/b1/", "a2/", "a2/b2", and "a2/b2/c2/".
@@ -822,11 +825,11 @@ void KFileItemModelTest::testSorting()
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
-    int index = m_model->index(KUrl(m_testDir->url().url() + 'c'));
+    int index = m_model->index(QUrl(m_testDir->url().url() + 'c'));
     m_model->setExpanded(index, true);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
-    index = m_model->index(KUrl(m_testDir->url().url() + "c/c-2"));
+    index = m_model->index(QUrl(m_testDir->url().url() + "c/c-2"));
     m_model->setExpanded(index, true);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
@@ -1021,10 +1024,10 @@ void KFileItemModelTest::testEmptyPath()
     roles.insert("expandedParentsCount");
     m_model->setRoles(roles);
 
-    const KUrl emptyUrl;
+    const QUrl emptyUrl;
     QVERIFY(emptyUrl.path().isEmpty());
 
-    const KUrl url("file:///test/");
+    const QUrl url("file:///test/");
 
     KFileItemList items;
     items << KFileItem(emptyUrl, QString(), KFileItem::Unknown) << KFileItem(url, QString(), KFileItem::Unknown);
@@ -1251,28 +1254,28 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "parent2" << "realChild2" << "realGrandChild2");
 
     // Add some more children and grand-children.
-    const KUrl parent1 = m_model->fileItem(0).url();
-    const KUrl parent2 = m_model->fileItem(3).url();
-    const KUrl realChild1 = m_model->fileItem(1).url();
-    const KUrl realChild2 = m_model->fileItem(4).url();
+    const QUrl parent1 = m_model->fileItem(0).url();
+    const QUrl parent2 = m_model->fileItem(3).url();
+    const QUrl realChild1 = m_model->fileItem(1).url();
+    const QUrl realChild2 = m_model->fileItem(4).url();
 
-    m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(KUrl("child1"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(parent1, KFileItemList() << KFileItem(QUrl("child1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2");
 
-    m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(KUrl("child2"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(parent2, KFileItemList() << KFileItem(QUrl("child2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
 
-    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(KUrl("grandChild1"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(QUrl("grandChild1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
 
-    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(KUrl("grandChild1"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(QUrl("grandChild1"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
 
-    m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(KUrl("grandChild2"), QString(), KFileItem::Unknown));
+    m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(QUrl("grandChild2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "grandChild2" << "realGrandChild2" << "child2");
 
@@ -1355,8 +1358,9 @@ void KFileItemModelTest::testNameRoleGroups()
     // Change d.txt back to c.txt, but this time using the dir lister's refreshItems() signal.
     const KFileItem fileItemD = m_model->fileItem(2);
     KFileItem fileItemC = fileItemD;
-    KUrl urlC = fileItemC.url();
-    urlC.setFileName("c.txt");
+    QUrl urlC = fileItemC.url();
+    urlC.adjusted(QUrl::RemoveFilename);
+    urlC.setPath(urlC.path() + "c.txt");
     fileItemC.setUrl(urlC);
 
     m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemC));
@@ -1445,7 +1449,7 @@ void KFileItemModelTest::testInconsistentModel()
     // Note that the first item in the list of added items must be new (i.e., not
     // in the model yet). Otherwise, KFileItemModel::slotItemsAdded() will see that
     // it receives items that are in the model already and ignore them.
-    KUrl url(m_model->directory().url() + "/a2");
+    QUrl url(m_model->directory().url() + "/a2");
     KFileItem newItem(KFileItem::Unknown, KFileItem::Unknown, url);
 
     KFileItemList items;
@@ -1582,8 +1586,9 @@ void KFileItemModelTest::testRefreshFilteredItems()
 
     // Rename one of the .jpg files.
     KFileItem fileItemE = fileItemC;
-    KUrl urlE = fileItemE.url();
-    urlE.setFileName("e.jpg");
+    QUrl urlE = fileItemE.url();
+    urlE.adjusted(QUrl::RemoveFilename);
+    urlE.setPath(urlE.path() + "e.jpg");
     fileItemE.setUrl(urlE);
 
     m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemC, fileItemE));
@@ -1650,11 +1655,12 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     // signal is not emitted yet.
     const KFileItem fileItemC1 = m_model->fileItem(2);
     KFileItem fileItemC2 = fileItemC1;
-    KUrl urlC2 = fileItemC2.url();
-    urlC2.setFileName("c2.txt");
+    QUrl urlC2 = fileItemC2.url();
+    urlC2.adjusted(QUrl::RemoveFilename);
+    urlC2.setPath(urlC2.path() + "c2.txt");
     fileItemC2.setUrl(urlC2);
 
-    const KUrl urlB = m_model->fileItem(1).url();
+    const QUrl urlB = m_model->fileItem(1).url();
     m_model->slotItemsAdded(urlB, KFileItemList() << fileItemC2);
     QCOMPARE(itemsInModel(), QStringList() << "a2" << "b" << "c1.txt");
 
@@ -1681,8 +1687,9 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     // completed() signal is not emitted yet.
     const KFileItem fileItemA2 = m_model->fileItem(0);
     KFileItem fileItemA1 = fileItemA2;
-    KUrl urlA1 = fileItemA1.url();
-    urlA1.setFileName("a1");
+    QUrl urlA1 = fileItemA1.url();
+    urlA1.adjusted(QUrl::RemoveFilename);
+    urlA1.setPath(urlA1.path() + "a1");
     fileItemA1.setUrl(urlA1);
 
     m_model->slotItemsAdded(m_model->directory(), KFileItemList() << fileItemA1);

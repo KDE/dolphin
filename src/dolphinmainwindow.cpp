@@ -172,12 +172,12 @@ DolphinMainWindow::~DolphinMainWindow()
 {
 }
 
-void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
+void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs)
 {
     m_tabWidget->openDirectories(dirs);
 }
 
-void DolphinMainWindow::openFiles(const QList<KUrl>& files)
+void DolphinMainWindow::openFiles(const QList<QUrl>& files)
 {
     m_tabWidget->openFiles(files);
 }

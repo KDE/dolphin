@@ -80,7 +80,7 @@ namespace {
     const int MaxModeEnum = DolphinView::CompactView;
 };
 
-DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
+DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_active(true),
     m_tabsForFiles(false),
@@ -203,7 +203,7 @@ DolphinView::~DolphinView()
 {
 }
 
-KUrl DolphinView::url() const
+QUrl DolphinView::url() const
 {
     return m_url;
 }
@@ -362,12 +362,12 @@ int DolphinView::selectedItemsCount() const
     return selectionManager->selectedItems().count();
 }
 
-void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
+void DolphinView::markUrlsAsSelected(const QList<QUrl>& urls)
 {
     m_selectedUrls = urls;
 }
 
-void DolphinView::markUrlAsCurrent(const KUrl& url)
+void DolphinView::markUrlAsCurrent(const QUrl &url)
 {
     m_currentItemUrl = url;
     m_scrollToCurrentItem = true;
@@ -1049,7 +1049,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, static_cast<void(KonqOperations::*)(const KUrl::List&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
+        connect(op, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
     }
 
     setActive(true);
@@ -1085,14 +1085,14 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
     }
 }
 
-void DolphinView::slotAboutToCreate(const KUrl::List& urls)
+void DolphinView::slotAboutToCreate(const QList<QUrl>& urls)
 {
     if (!urls.isEmpty()) {
         if (m_markFirstNewlySelectedItemAsCurrent) {
             markUrlAsCurrent(urls.first());
             m_markFirstNewlySelectedItemAsCurrent = false;
         }
-        m_selectedUrls << KUrl::List(KDirModel::simplifiedUrlList(urls));
+        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
     }
 }
 
@@ -1184,7 +1184,7 @@ void DolphinView::restoreState(QDataStream& stream)
     stream >> m_restoredContentsPosition;
 
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
-    QSet<KUrl> urls;
+    QSet<QUrl> urls;
     stream >> urls;
     m_model->restoreExpandedDirectories(urls);
 }
@@ -1271,18 +1271,18 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
     return KUrl();
 }
 
-void DolphinView::observeCreatedItem(const KUrl& url)
+void DolphinView::observeCreatedItem(const QUrl& url)
 {
     if (m_active) {
         clearSelection();
         markUrlAsCurrent(url);
-        markUrlsAsSelected(QList<KUrl>() << url);
+        markUrlsAsSelected(QList<QUrl>() << url);
     }
 }
 
-void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinView::slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl)
 {
-    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
+    if (oldUrl.matches(url(), QUrl::StripTrailingSlash)) {
         emit redirection(oldUrl, newUrl);
         m_url = newUrl; // #186947
     }
@@ -1290,7 +1290,7 @@ void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUr
 
 void DolphinView::updateViewState()
 {
-    if (m_currentItemUrl != KUrl()) {
+    if (m_currentItemUrl != QUrl()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
         const int currentIndex = m_model->index(m_currentItemUrl);
         if (currentIndex != -1) {
@@ -1305,7 +1305,7 @@ void DolphinView::updateViewState()
             selectionManager->setCurrentItem(0);
         }
 
-        m_currentItemUrl = KUrl();
+        m_currentItemUrl = QUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
@@ -1327,7 +1327,7 @@ void DolphinView::updateViewState()
 
         KItemSet selectedItems = selectionManager->selectedItems();
 
-        QList<KUrl>::iterator it = m_selectedUrls.begin();
+        QList<QUrl>::iterator it = m_selectedUrls.begin();
         while (it != m_selectedUrls.end()) {
             const int index = m_model->index(*it);
             if (index >= 0) {
@@ -1389,7 +1389,7 @@ void DolphinView::slotRenamingResult(KJob* job)
         KIO::CopyJob *copyJob = qobject_cast<KIO::CopyJob *>(job);
         Q_ASSERT(copyJob);
         const QUrl newUrl = copyJob->destUrl();
-        const int index = m_model->index(KUrl(newUrl));
+        const int index = m_model->index(newUrl);
         if (index >= 0) {
             QHash<QByteArray, QVariant> data;
             const QUrl oldUrl = copyJob->srcUrls().first();
@@ -1650,7 +1650,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
     if (op) {
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, static_cast<void(KonqOperations::*)(const KUrl::List&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
+        connect(op, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
     }
 }
 

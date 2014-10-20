@@ -92,7 +92,7 @@ public:
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    DolphinView(const KUrl& url, QWidget* parent);
+    DolphinView(const QUrl& url, QWidget* parent);
 
     virtual ~DolphinView();
 
@@ -100,7 +100,7 @@ public:
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * If \a active is true, the view will marked as active. The active
@@ -173,13 +173,13 @@ public:
      * gets selected if no loading of a directory has been triggered
      * by DolphinView::setUrl() or DolphinView::reload().
      */
-    void markUrlsAsSelected(const QList<KUrl>& urls);
+    void markUrlsAsSelected(const QList<QUrl> &urls);
 
     /**
      * Marks the item indicated by \p url to be scrolled to and as the
      * current item after directory DolphinView::url() has been loaded.
      */
-    void markUrlAsCurrent(const KUrl& url);
+    void markUrlAsCurrent(const QUrl& url);
 
     /**
      * All items that match to the pattern \a pattern will get selected
@@ -573,7 +573,7 @@ private slots:
     /*
      * Is called when new items get pasted or dropped.
      */
-    void slotAboutToCreate(const KUrl::List& urls);
+    void slotAboutToCreate(const QList<QUrl> &urls);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
@@ -669,13 +669,13 @@ private slots:
      * model indicates that the item is available, the item will
      * get selected and it is assured that the item stays visible.
      */
-    void observeCreatedItem(const KUrl& url);
+    void observeCreatedItem(const QUrl &url);
 
     /**
      * Called when a redirection happens.
      * Testcase: fish://localhost
      */
-    void slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Applies the state that has been restored by restoreViewState()
@@ -772,11 +772,11 @@ private:
 
     QTimer* m_selectionChangedTimer;
 
-    KUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
+    QUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
     bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
     QPoint m_restoredContentsPosition;
 
-    QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
+    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;
 
