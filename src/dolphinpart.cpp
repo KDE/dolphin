@@ -39,7 +39,7 @@
 #include <kdeversion.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
-#include <KComponentData>
+#include <KMimeTypeEditor>
 
 #include "dolphinpart_ext.h"
 #include "dolphinnewfilemenu.h"
@@ -486,7 +486,7 @@ void DolphinPart::slotEditMimeType()
 {
     const KFileItemList items = m_view->selectedItems();
     if (!items.isEmpty()) {
-        KonqOperations::editMimeType(items.first().mimetype(), m_view);
+        KMimeTypeEditor::editMimeType(items.first().mimetype(), m_view);
     }
 }
 
