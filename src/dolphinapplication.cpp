@@ -29,9 +29,6 @@
 DolphinApplication::DolphinApplication() :
     m_mainWindow(0)
 {
-    //KF5 port: remove this line and define TRANSLATION_DOMAIN in CMakeLists.txt instead
-//KLocale::global()->insertCatalog("libkonq"); // Needed for applications using libkonq
-
     m_mainWindow = new DolphinMainWindow();
     m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
 
