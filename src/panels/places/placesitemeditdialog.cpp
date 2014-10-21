@@ -30,7 +30,7 @@
 #include <KIconButton>
 #include <KLineEdit>
 #include <KLocalizedString>
-#include <KMimeType>
+#include <QMimeDatabase>
 #include <KUrlRequester>
 #include <KComponentData>
 #include <QCheckBox>
@@ -154,7 +154,8 @@ void PlacesItemEditDialog::initialize()
     m_iconButton->setIconSize(IconSize(KIconLoader::Desktop));
     m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
     if (m_icon.isEmpty()) {
-        m_iconButton->setIcon(KMimeType::iconNameForUrl(m_url));
+        QMimeDatabase db;
+        m_iconButton->setIcon(db.mimeTypeForUrl(m_url).iconName());
     } else {
         m_iconButton->setIcon(m_icon);
     }

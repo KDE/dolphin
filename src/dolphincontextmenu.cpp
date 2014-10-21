@@ -37,7 +37,6 @@
 #include <KJobWidgets>
 #include <QMenu>
 #include <KMimeTypeTrader>
-#include <KMimeType>
 #include <KNewFileMenu>
 #include <konq_operations.h>
 #include <KService>
