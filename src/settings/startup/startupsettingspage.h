@@ -20,7 +20,7 @@
 #define STARTUPSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
-#include <KUrl>
+#include <QUrl>
 
 class KLineEdit;
 class QCheckBox;
@@ -36,7 +36,7 @@ class StartupSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    StartupSettingsPage(const KUrl& url, QWidget* parent);
+    StartupSettingsPage(const QUrl& url, QWidget* parent);
     virtual ~StartupSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
@@ -55,7 +55,7 @@ private:
     void loadSettings();
 
 private:
-    KUrl m_url;
+    QUrl m_url;
     KLineEdit* m_homeUrl;
 
     QCheckBox* m_splitView;

@@ -31,7 +31,7 @@
 
 #include <views/viewproperties.h>
 
-BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
+BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
     m_localViewProps(0),

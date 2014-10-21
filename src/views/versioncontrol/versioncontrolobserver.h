@@ -23,7 +23,7 @@
 #include <libdolphin_export.h>
 
 #include <KFileItem>
-#include <KUrl>
+#include <QUrl>
 #include <kversioncontrolplugin2.h>
 #include <QList>
 #include <QObject>
@@ -124,7 +124,7 @@ private:
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */
-    KVersionControlPlugin* searchPlugin(const KUrl& directory) const;
+    KVersionControlPlugin* searchPlugin(const QUrl& directory) const;
 
     /**
      * Returns true, if the directory contains a version control information.

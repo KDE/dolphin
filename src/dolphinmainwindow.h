@@ -28,7 +28,7 @@
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 #include <QIcon>
-#include <KUrl>
+#include <QUrl>
 
 #include <QList>
 #include <QWeakPointer>
@@ -109,14 +109,14 @@ public slots:
      * Inform all affected dolphin components (panels, views) of an URL
      * change.
      */
-    void changeUrl(const KUrl& url);
+    void changeUrl(const QUrl& url);
 
     /**
      * The current directory of the Terminal Panel has changed, probably because
      * the user entered a 'cd' command. This slot calls changeUrl(url) and makes
      * sure that the panel keeps the keyboard focus.
      */
-    void slotTerminalDirectoryChanged(const KUrl& url);
+    void slotTerminalDirectoryChanged(const QUrl& url);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
@@ -132,7 +132,7 @@ signals:
      * Is sent if the url of the currently active view has
      * been changed.
      */
-    void urlChanged(const KUrl& url);
+    void urlChanged(const QUrl& url);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
@@ -336,12 +336,12 @@ private slots:
     /**
      * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTab(const KUrl& url);
+    void openNewTab(const QUrl& url);
 
     /**
      * Opens a new tab showing the URL \a url and activates the tab.
      */
-    void openNewActivatedTab(const KUrl& url);
+    void openNewActivatedTab(const QUrl& url);
 
     /**
      * Opens the selected folder in a new tab.
@@ -363,7 +363,7 @@ private slots:
      * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
-    void handleUrl(const KUrl& url);
+    void handleUrl(const QUrl& url);
 
     /**
      * handleUrl() can trigger a stat job to see if the url can actually
@@ -388,7 +388,7 @@ private slots:
      */
     void openContextMenu(const QPoint& pos,
                          const KFileItem& item,
-                         const KUrl& url,
+                         const QUrl& url,
                          const QList<QAction*>& customActions);
 
     void updateControlMenu();
@@ -406,7 +406,7 @@ private slots:
      * Reloads the view if \a url is the current URL already, and changes the
      * current URL otherwise.
      */
-    void slotPlaceActivated(const KUrl& url);
+    void slotPlaceActivated(const QUrl& url);
 
     /**
      * Is called if the another view has been activated by changing the current
@@ -430,7 +430,7 @@ private slots:
      * Sets the window caption to url.fileName() if this is non-empty,
      * "/" if the URL is "file:///", and url.protocol() otherwise.
      */
-    void setUrlAsCaption(const KUrl& url);
+    void setUrlAsCaption(const QUrl& url);
 
 private:
     void setupActions();

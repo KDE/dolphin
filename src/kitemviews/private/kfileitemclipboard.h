@@ -20,7 +20,7 @@
 #ifndef KFILEITEMCLIPBOARD_H
 #define KFILEITEMCLIPBOARD_H
 
-#include <KUrl>
+#include <QUrl>
 #include <QList>
 #include <QSet>
 #include <QObject>
@@ -38,9 +38,9 @@ class LIBDOLPHINPRIVATE_EXPORT KFileItemClipboard : public QObject
 public:
     static KFileItemClipboard* instance();
 
-    bool isCut(const KUrl& url) const;
+    bool isCut(const QUrl& url) const;
 
-    QList<KUrl> cutItems() const;
+    QList<QUrl> cutItems() const;
 
 signals:
     void cutItemsChanged();
@@ -54,7 +54,7 @@ private slots:
 private:
     KFileItemClipboard();
 
-    QSet<KUrl> m_cutItems;
+    QSet<QUrl> m_cutItems;
 
     friend class KFileItemClipboardSingleton;
 };

@@ -24,7 +24,7 @@
 
 #include <KIO/Job>
 
-class KUrl;
+class QUrl;
 class MountPointObserver;
 
 class SpaceInfoObserver : public QObject
@@ -32,13 +32,13 @@ class SpaceInfoObserver : public QObject
     Q_OBJECT
 
 public:
-    explicit SpaceInfoObserver(const KUrl& url, QObject* parent = 0);
+    explicit SpaceInfoObserver(const QUrl& url, QObject* parent = 0);
     virtual ~SpaceInfoObserver();
 
     quint64 size() const;
     quint64 available() const;
 
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
 signals:
     /**

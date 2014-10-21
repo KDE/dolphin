@@ -22,7 +22,7 @@
 
 #include <KBookmark>
 #include <kitemviews/kstandarditem.h>
-#include <KUrl>
+#include <QUrl>
 #include <QPointer>
 #include <Solid/Device>
 #include <Solid/OpticalDisc>
@@ -51,8 +51,8 @@ public:
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
     virtual ~PlacesItem();
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
+    void setUrl(const QUrl& url);
+    QUrl url() const;
 
     void setUdi(const QString& udi);
     QString udi() const;
@@ -74,7 +74,7 @@ public:
 
     static KBookmark createBookmark(KBookmarkManager* manager,
                                     const QString& text,
-                                    const KUrl& url,
+                                    const QUrl& url,
                                     const QString& iconName);
     static KBookmark createDeviceBookmark(KBookmarkManager* manager,
                                           const QString& udi);

@@ -21,7 +21,7 @@
 #define DOLPHINPART_H
 
 #include <KParts/ReadOnlyPart>
-#include <KUrl>
+#include <QUrl>
 
 
 class DolphinNewFileMenu;

@@ -741,7 +741,7 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if (getSizeRole || getIsExpandableRole) {
-        const int index = m_model->index(KUrl(path));
+        const int index = m_model->index(QUrl::fromLocalFile(path));
         if (index >= 0) {
             QHash<QByteArray, QVariant> data;
 

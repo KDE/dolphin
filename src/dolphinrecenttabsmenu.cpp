@@ -40,7 +40,7 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
             this, SLOT(handleAction(QAction*)));
 }
 
-void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& url, const QByteArray& state)
+void DolphinRecentTabsMenu::rememberClosedTab(const QUrl& url, const QByteArray& state)
 {
     QAction* action = new QAction(menu());
     action->setText(url.path());

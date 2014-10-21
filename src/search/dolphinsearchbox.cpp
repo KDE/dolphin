@@ -82,7 +82,7 @@ QString DolphinSearchBox::text() const
     return m_searchInput->text();
 }
 
-void DolphinSearchBox::setSearchPath(const KUrl& url)
+void DolphinSearchBox::setSearchPath(const QUrl& url)
 {
     m_searchPath = url;
 
@@ -94,7 +94,7 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
         if (url.isLocalFile()) {
             location = QLatin1String("/");
         } else {
-            location = url.protocol() + QLatin1String(" - ") + url.host();
+            location = url.scheme() + QLatin1String(" - ") + url.host();
         }
     }
 
@@ -114,14 +114,14 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_facetsWidget->setEnabled(hasFacetsSupport);
 }
 
-KUrl DolphinSearchBox::searchPath() const
+QUrl DolphinSearchBox::searchPath() const
 {
     return m_searchPath;
 }
 
-KUrl DolphinSearchBox::urlForSearching() const
+QUrl DolphinSearchBox::urlForSearching() const
 {
-    KUrl url;
+    QUrl url;
     bool useBalooSearch = false;
 #ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
@@ -130,7 +130,7 @@ KUrl DolphinSearchBox::urlForSearching() const
     if (useBalooSearch) {
         url = balooUrlForSearching();
     } else {
-        url.setProtocol("filenamesearch");
+        url.setScheme("filenamesearch");
         url.addQueryItem("search", m_searchInput->text());
         if (m_contentButton->isChecked()) {
             url.addQueryItem("checkContent", "yes");
@@ -151,15 +151,14 @@ KUrl DolphinSearchBox::urlForSearching() const
     return url;
 }
 
-void DolphinSearchBox::fromSearchUrl(const KUrl& url)
+void DolphinSearchBox::fromSearchUrl(const QUrl& url)
 {
-    if (url.protocol() == "baloosearch") {
+    if (url.scheme() == "baloosearch") {
         fromBalooSearchUrl(url);
-    } else if (url.protocol() == "filenamesearch") {
-        const QMap<QString, QString>& queryItems = url.queryItems();
-        setText(queryItems.value("search"));
-        setSearchPath(queryItems.value("url"));
-        m_contentButton->setChecked(queryItems.value("checkContent") == "yes");
+    } else if (url.scheme() == "filenamesearch") {
+        setText(url.queryItemValue("search"));
+        setSearchPath(url.queryItemValue("url"));
+        m_contentButton->setChecked(url.queryItemValue("checkContent") == "yes");
     } else {
         setText(QString());
         setSearchPath(url);
@@ -449,7 +448,7 @@ void DolphinSearchBox::init()
     updateFacetsToggleButton();
 }
 
-KUrl DolphinSearchBox::balooUrlForSearching() const
+QUrl DolphinSearchBox::balooUrlForSearching() const
 {
 #ifdef HAVE_BALOO
     const QString text = m_searchInput->text();
@@ -483,11 +482,11 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));
 #else
-    return KUrl();
+    return QUrl();
 #endif
 }
 
-void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
+void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 {
 #ifdef HAVE_BALOO
     const Baloo::Query query = Baloo::Query::fromSearchUrl(url);

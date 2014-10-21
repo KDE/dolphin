@@ -23,7 +23,7 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <KUrl>
+#include <QUrl>
 #include <KDebug>
 #include <KGlobal>
 
@@ -48,7 +48,7 @@ namespace {
     const char ViewPropertiesFileName[] = ".directory";
 }
 
-ViewProperties::ViewProperties(const KUrl& url) :
+ViewProperties::ViewProperties(const QUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
     m_node(0)
@@ -62,10 +62,10 @@ ViewProperties::ViewProperties(const KUrl& url) :
     // we store the properties information in a local file.
     if (useGlobalViewProps) {
         m_filePath = destinationDir("global");
-    } else if (url.protocol().contains("search")) {
+    } else if (url.scheme().contains("search")) {
         m_filePath = destinationDir("search/") + directoryHashForUrl(url);
         useDetailsViewWithPath = true;
-    } else if (url.protocol() == QLatin1String("trash")) {
+    } else if (url.scheme() == QLatin1String("trash")) {
         m_filePath = destinationDir("trash");
         useDetailsViewWithPath = true;
     } else if (url.isLocalFile()) {
@@ -102,9 +102,9 @@ ViewProperties::ViewProperties(const KUrl& url) :
         } else {
             // The global view-properties act as default for directories without
             // any view-property configuration. Constructing a ViewProperties 
-            // instance for an empty KUrl ensures that the global view-properties
+            // instance for an empty QUrl ensures that the global view-properties
             // are loaded.
-            KUrl emptyUrl;
+            QUrl emptyUrl;
             ViewProperties defaultProps(emptyUrl);
             setDirProperties(defaultProps);
 
@@ -464,10 +464,9 @@ bool ViewProperties::isPartOfHome(const QString& filePath)
     return filePath.startsWith(homePath);
 }
 
-QString ViewProperties::directoryHashForUrl(const KUrl& url)
+QString ViewProperties::directoryHashForUrl(const QUrl& url)
 {
-    const QByteArray hashValue = QCryptographicHash::hash(url.prettyUrl().toLatin1(),
-                                                     QCryptographicHash::Sha1);
+    const QByteArray hashValue = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Sha1);
     QString hashString = hashValue.toBase64();
     hashString.replace('/', '-');
     return hashString;

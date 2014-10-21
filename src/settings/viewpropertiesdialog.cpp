@@ -32,7 +32,7 @@
 #include <KLocalizedString>
 #include <KIO/NetAccess>
 #include <KMessageBox>
-#include <KUrl>
+#include <QUrl>
 #include <KComboBox>
 
 #include <QButtonGroup>
@@ -69,7 +69,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     setCaption(i18nc("@title:window", "View Properties"));
     setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
 
-    const KUrl& url = dolphinView->url();
+    const QUrl& url = dolphinView->url();
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 

@@ -32,7 +32,7 @@
 #include <views/viewproperties.h>
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
-                                             const KUrl& dir,
+                                             const QUrl& dir,
                                              const ViewProperties& viewProps) :
     KDialog(parent),
     m_dir(dir),

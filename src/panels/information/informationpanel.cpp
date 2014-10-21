@@ -213,7 +213,7 @@ void InformationPanel::slotInfoTimeout()
 void InformationPanel::reset()
 {
     if (m_invalidUrlCandidate == m_shownUrl) {
-        m_invalidUrlCandidate = KUrl();
+        m_invalidUrlCandidate = QUrl();
 
         // The current URL is still invalid. Reset
         // the content to show the directory URL.
@@ -226,11 +226,11 @@ void InformationPanel::reset()
 
 void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
-    if (m_shownUrl == KUrl(source)) {
-        m_shownUrl = KUrl(dest);
+    if (m_shownUrl == QUrl::fromLocalFile(source)) {
+        m_shownUrl = QUrl::fromLocalFile(dest);
         m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
 
-        if ((m_selection.count() == 1) && (m_selection[0].url() == KUrl(source))) {
+        if ((m_selection.count() == 1) && (m_selection[0].url() == QUrl::fromLocalFile(source))) {
             m_selection[0] = m_fileItem;
             // Implementation note: Updating the selection is only required if exactly one
             // item is selected, as the name of the item is shown. If this should change
@@ -244,10 +244,10 @@ void InformationPanel::slotFileRenamed(const QString& source, const QString& des
 
 void InformationPanel::slotFilesAdded(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
         // the signal filesAdded("trash:/") will be emitted.
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }
@@ -255,7 +255,7 @@ void InformationPanel::slotFilesAdded(const QString& directory)
 void InformationPanel::slotFilesChanged(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
-        if (m_shownUrl == KUrl(fileName)) {
+        if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             showItemInfo();
             break;
         }
@@ -265,7 +265,7 @@ void InformationPanel::slotFilesChanged(const QStringList& files)
 void InformationPanel::slotFilesRemoved(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
-        if (m_shownUrl == KUrl(fileName)) {
+        if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
             markUrlAsInvalid();
@@ -276,15 +276,15 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
 
 void InformationPanel::slotEnteredDirectory(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }
 
 void InformationPanel::slotLeftDirectory(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
         // The signal 'leftDirectory' is also emitted when a media
         // has been unmounted. In this case no directory change will be
         // done in Dolphin, but the Information Panel must be updated to
@@ -308,9 +308,9 @@ void InformationPanel::cancelRequest()
     m_urlCandidate.clear();
 }
 
-bool InformationPanel::isEqualToShownUrl(const KUrl& url) const
+bool InformationPanel::isEqualToShownUrl(const QUrl& url) const
 {
-    return m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash);
+    return m_shownUrl.matches(url, QUrl::StripTrailingSlash);
 }
 
 void InformationPanel::markUrlAsInvalid()

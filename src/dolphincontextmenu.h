@@ -21,7 +21,7 @@
 #define DOLPHINCONTEXTMENU_H
 
 #include <KFileItem>
-#include <KUrl>
+#include <QUrl>
 #include <konq_copytomenu.h>
 #include <QMenu>
 
@@ -72,7 +72,7 @@ public:
     DolphinContextMenu(DolphinMainWindow* parent,
                        const QPoint& pos,
                        const KFileItem& fileInfo,
-                       const KUrl& baseUrl);
+                       const QUrl& baseUrl);
 
     virtual ~DolphinContextMenu();
 
@@ -106,7 +106,7 @@ private:
      */
     void addShowMenuBarAction();
 
-    bool placeExists(const KUrl& url) const;
+    bool placeExists(const QUrl& url) const;
 
     QAction* createPasteAction();
 
@@ -162,7 +162,7 @@ private:
 
     KFileItem m_fileInfo;
 
-    KUrl m_baseUrl;
+    QUrl m_baseUrl;
     KFileItem* m_baseFileItem;  /// File item for m_baseUrl
 
     KFileItemList m_selectedItems;

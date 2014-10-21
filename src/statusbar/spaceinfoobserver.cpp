@@ -21,9 +21,9 @@
 
 #include "mountpointobserver.h"
 
-#include <KUrl>
+#include <QUrl>
 
-SpaceInfoObserver::SpaceInfoObserver(const KUrl& url, QObject* parent) :
+SpaceInfoObserver::SpaceInfoObserver(const QUrl& url, QObject* parent) :
     QObject(parent),
     m_mountPointObserver(0),
     m_dataSize(0),
@@ -53,7 +53,7 @@ quint64 SpaceInfoObserver::available() const
     return m_dataAvailable;
 }
 
-void SpaceInfoObserver::setUrl(const KUrl& url)
+void SpaceInfoObserver::setUrl(const QUrl& url)
 {
     MountPointObserver* newObserver = MountPointObserver::observerForUrl(url);
     if (newObserver != m_mountPointObserver) {

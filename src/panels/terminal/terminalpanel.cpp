@@ -127,7 +127,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
     Panel::showEvent(event);
 }
 
-void TerminalPanel::changeDir(const KUrl& url)
+void TerminalPanel::changeDir(const QUrl& url)
 {
     delete m_mostLocalUrlJob;
     m_mostLocalUrlJob = 0;
@@ -173,7 +173,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
 void TerminalPanel::slotMostLocalUrlResult(KJob* job)
 {
     KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
-    const KUrl url = statJob->mostLocalUrl();
+    const QUrl url = statJob->mostLocalUrl();
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
     }
@@ -188,10 +188,9 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
     // Only change the view URL if 'dir' is different from the current view URL.
     // Note that the current view URL could also be a symbolic link to 'dir'
     // -> use QDir::canonicalPath() to check that.
-    const KUrl oldUrl(url());
-    const KUrl newUrl(dir);
+    const QUrl oldUrl(url());
+    const QUrl newUrl(QUrl::fromLocalFile(dir));
     if (newUrl != oldUrl && dir != QDir(oldUrl.path()).canonicalPath()) {
         emit changeUrl(newUrl);
     }
 }
-

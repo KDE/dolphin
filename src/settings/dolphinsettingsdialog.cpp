@@ -36,7 +36,7 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
-DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
+DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     KPageDialog(parent),
     m_pages()
 

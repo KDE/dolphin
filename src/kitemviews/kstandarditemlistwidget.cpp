@@ -680,7 +680,7 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
     // The URL might have changed (i.e., if the sort order of the items has
     // been changed). Therefore, the "is cut" state must be updated.
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     m_isCut = clipboard->isCut(itemUrl);
 
     // The icon-state might depend from other roles and hence is
@@ -831,7 +831,7 @@ void KStandardItemListWidget::showEvent(QShowEvent* event)
     // Listen to changes of the clipboard to mark the item as cut/uncut
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
 
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     m_isCut = clipboard->isCut(itemUrl);
 
     connect(clipboard, &KFileItemClipboard::cutItemsChanged,
@@ -848,7 +848,7 @@ void KStandardItemListWidget::hideEvent(QHideEvent* event)
 
 void KStandardItemListWidget::slotCutItemsChanged()
 {
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     const bool isCut = KFileItemClipboard::instance()->isCut(itemUrl);
     if (m_isCut != isCut) {
         m_isCut = isCut;

@@ -22,7 +22,7 @@
 
 #include <QWidget>
 #include <QPointer>
-#include <KUrl>
+#include <QUrl>
 
 class QSplitter;
 class DolphinViewContainer;
@@ -33,7 +33,7 @@ class DolphinTabPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = KUrl(), QWidget* parent = 0);
+    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl(), QWidget* parent = 0);
 
     /**
      * @return True if primary view is the active view in this tab.
@@ -131,7 +131,7 @@ public:
 
 signals:
     void activeViewChanged(DolphinViewContainer* viewContainer);
-    void activeViewUrlChanged(const KUrl& url);
+    void activeViewUrlChanged(const QUrl& url);
 
 private slots:
     /**
@@ -147,13 +147,13 @@ private slots:
      *
      * It emits the activeViewUrlChanged signal with the url \a newUrl.
      */
-    void slotViewUrlRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
 private:
     /**
      * Creates a new view container and does the default initialization.
      */
-    DolphinViewContainer* createViewContainer(const KUrl& url) const;
+    DolphinViewContainer* createViewContainer(const QUrl& url) const;
 
 private:
     QSplitter* m_splitter;

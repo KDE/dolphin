@@ -32,7 +32,7 @@
 
 #include <QVBoxLayout>
 
-GeneralSettingsPage::GeneralSettingsPage(const KUrl& url, QWidget* parent) :
+GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_pages()
 {

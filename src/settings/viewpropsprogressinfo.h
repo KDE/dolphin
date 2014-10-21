@@ -22,7 +22,7 @@
 
 #include <KDialog>
 #include <kio/directorysizejob.h>
-#include <KUrl>
+#include <QUrl>
 
 class ApplyViewPropsJob;
 class QLabel;
@@ -50,7 +50,7 @@ public:
      *                  sub directories.
      */
     ViewPropsProgressInfo(QWidget* parent,
-                          const KUrl& dir,
+                          const QUrl& dir,
                           const ViewProperties& viewProps);
 
     virtual ~ViewPropsProgressInfo();
@@ -64,7 +64,7 @@ private slots:
     void cancelApplying();
 
 private:
-    KUrl m_dir;
+    QUrl m_dir;
     ViewProperties* m_viewProps;
 
     QLabel* m_label;

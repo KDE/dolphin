@@ -228,12 +228,12 @@ QString DolphinStatusBar::defaultText() const
     return m_defaultText;
 }
 
-void DolphinStatusBar::setUrl(const KUrl& url)
+void DolphinStatusBar::setUrl(const QUrl& url)
 {
     m_spaceInfo->setUrl(url);
 }
 
-KUrl DolphinStatusBar::url() const
+QUrl DolphinStatusBar::url() const
 {
     return m_spaceInfo->url();
 }

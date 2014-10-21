@@ -92,7 +92,7 @@ void TreeViewContextMenu::open()
         KConfigGroup configGroup(globalConfig, "KDE");
         bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
 
-        const KUrl url = m_fileItem.url();
+        const QUrl url = m_fileItem.url();
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(QIcon::fromTheme("user-trash"),
                                                     i18nc("@action:inmenu", "Move to Trash"), this);
@@ -155,9 +155,9 @@ void TreeViewContextMenu::open()
 
 void TreeViewContextMenu::populateMimeData(QMimeData* mimeData, bool cut)
 {
-    KUrl::List kdeUrls;
+    QList<QUrl> kdeUrls;
     kdeUrls.append(m_fileItem.url());
-    KUrl::List mostLocalUrls;
+    QList<QUrl> mostLocalUrls;
     bool dummy;
     mostLocalUrls.append(m_fileItem.mostLocalUrl(dummy));
     KIO::setClipboardDataCut(mimeData, cut);
@@ -190,12 +190,12 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-    KUrl::List list = KUrl::List() << m_fileItem.url();
+    const QList<QUrl> list {QList<QUrl>() << m_fileItem.url()};
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(m_parent);
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, KUrl("trash:/"), job);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl("trash:/"), job);
         KJobWidgets::setWindow(job, m_parent);
         job->ui()->setAutoErrorHandlingEnabled(true);
     }
@@ -203,7 +203,7 @@ void TreeViewContextMenu::moveToTrash()
 
 void TreeViewContextMenu::deleteItem()
 {
-    KUrl::List list = KUrl::List() << m_fileItem.url();
+    const QList<QUrl> list {QList<QUrl>() << m_fileItem.url()};
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(m_parent);
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {

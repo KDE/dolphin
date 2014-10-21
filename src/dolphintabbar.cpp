@@ -24,7 +24,8 @@
 #include <KLocalizedString>
 #include <QMenu>
 #include <QIcon>
-#include <KUrl>
+#include <QUrl>
+#include <QMimeData>
 
 DolphinTabBar::DolphinTabBar(QWidget* parent) :
     QTabBar(parent),
@@ -47,7 +48,7 @@ void DolphinTabBar::dragEnterEvent(QDragEnterEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (KUrl::List::canDecode(mimeData)) {
+    if (mimeData->hasUrls()) {
         event->acceptProposedAction();
         updateAutoActivationTimer(index);
     }
@@ -67,7 +68,7 @@ void DolphinTabBar::dragMoveEvent(QDragMoveEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (KUrl::List::canDecode(mimeData)) {
+    if (mimeData->hasUrls()) {
         updateAutoActivationTimer(index);
     }
 
@@ -82,7 +83,7 @@ void DolphinTabBar::dropEvent(QDropEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (index >= 0 && KUrl::List::canDecode(mimeData)) {
+    if (index >= 0 && mimeData->hasUrls()) {
         emit tabDropEvent(index, event);
     }
 

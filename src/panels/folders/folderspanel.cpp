@@ -108,7 +108,7 @@ void FoldersPanel::rename(const KFileItem& item)
 
 bool FoldersPanel::urlChanged()
 {
-    if (!url().isValid() || url().protocol().contains("search")) {
+    if (!url().isValid() || url().scheme().contains("search")) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -296,13 +296,13 @@ void FoldersPanel::startFadeInAnimation()
     anim->setDuration(200);
 }
 
-void FoldersPanel::loadTree(const KUrl& url)
+void FoldersPanel::loadTree(const QUrl& url)
 {
     Q_ASSERT(m_controller);
 
     m_updateCurrentItem = false;
 
-    KUrl baseUrl;
+    QUrl baseUrl;
     if (url.isLocalFile()) {
         // Use the root directory as base for local URLs (#150941)
         baseUrl = QDir::rootPath();

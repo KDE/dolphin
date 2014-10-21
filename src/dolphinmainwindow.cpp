@@ -128,8 +128,8 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(activeViewChanged(DolphinViewContainer*)));
     connect(m_tabWidget, SIGNAL(tabCountChanged(int)),
             this, SLOT(tabCountChanged(int)));
-    connect(m_tabWidget, SIGNAL(currentUrlChanged(KUrl)),
-            this, SLOT(setUrlAsCaption(KUrl)));
+    connect(m_tabWidget, SIGNAL(currentUrlChanged(QUrl)),
+            this, SLOT(setUrlAsCaption(QUrl)));
     setCentralWidget(m_tabWidget);
 
     setupActions();
@@ -216,7 +216,7 @@ void DolphinMainWindow::pasteIntoFolder()
     m_activeViewContainer->view()->pasteIntoFolder();
 }
 
-void DolphinMainWindow::changeUrl(const KUrl& url)
+void DolphinMainWindow::changeUrl(const QUrl &url)
 {
     if (!KProtocolManager::supportsListing(url)) {
         // The URL navigator only checks for validity, not
@@ -234,7 +234,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     emit urlChanged(url);
 }
 
-void DolphinMainWindow::slotTerminalDirectoryChanged(const KUrl& url)
+void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl& url)
 {
     m_activeViewContainer->setAutoGrabFocus(false);
     changeUrl(url);
@@ -295,7 +295,7 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
 
 void DolphinMainWindow::openNewMainWindow()
 {
-    KRun::run("dolphin %u", KUrl::List(), this);
+    KRun::run("dolphin %u", QList<QUrl>(), this);
 }
 
 void DolphinMainWindow::openNewActivatedTab()
@@ -303,12 +303,12 @@ void DolphinMainWindow::openNewActivatedTab()
     m_tabWidget->openNewActivatedTab();
 }
 
-void DolphinMainWindow::openNewTab(const KUrl& url)
+void DolphinMainWindow::openNewTab(const QUrl& url)
 {
     m_tabWidget->openNewTab(url);
 }
 
-void DolphinMainWindow::openNewActivatedTab(const KUrl& url)
+void DolphinMainWindow::openNewActivatedTab(const QUrl& url)
 {
     m_tabWidget->openNewActivatedTab(url);
 }
@@ -320,7 +320,7 @@ void DolphinMainWindow::openInNewTab()
         openNewTab(m_activeViewContainer->url());
     } else {
         foreach (const KFileItem& item, list) {
-            const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+            const QUrl& url = DolphinView::openItemAsFolderUrl(item);
             if (!url.isEmpty()) {
                 openNewTab(url);
             }
@@ -330,7 +330,7 @@ void DolphinMainWindow::openInNewTab()
 
 void DolphinMainWindow::openInNewWindow()
 {
-    KUrl newWindowUrl;
+    QUrl newWindowUrl;
 
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
     if (list.isEmpty()) {
@@ -640,7 +640,7 @@ void DolphinMainWindow::goUp(Qt::MouseButtons buttons)
 {
     // The default case (left button pressed) is handled in goUp().
     if (buttons == Qt::MidButton) {
-        openNewTab(activeViewContainer()->url().upUrl());
+        openNewTab(KIO::upUrl(activeViewContainer()->url()));
     }
 }
 
@@ -661,13 +661,13 @@ void DolphinMainWindow::compareFiles()
         return;
     }
 
-    KUrl urlA = items.at(0).url();
-    KUrl urlB = items.at(1).url();
+    QUrl urlA = items.at(0).url();
+    QUrl urlB = items.at(1).url();
 
     QString command("kompare -c \"");
-    command.append(urlA.pathOrUrl());
+    command.append(urlA.toDisplayString(QUrl::PreferLocalFile));
     command.append("\" \"");
-    command.append(urlB.pathOrUrl());
+    command.append(urlB.toDisplayString(QUrl::PreferLocalFile));
     command.append('\"');
     KRun::runCommand(command, "Kompare", "kompare", this);
 }
@@ -689,7 +689,7 @@ void DolphinMainWindow::openTerminal()
 
     // If the given directory is not local, it can still be the URL of an
     // ioslave using UDS_LOCAL_PATH which to be converted first.
-    KUrl url = KIO::NetAccess::mostLocalUrl(m_activeViewContainer->url(), this);
+    QUrl url = KIO::NetAccess::mostLocalUrl(m_activeViewContainer->url(), this);
 
     //If the URL is local after the above conversion, set the directory.
     if (url.isLocalFile()) {
@@ -705,7 +705,7 @@ void DolphinMainWindow::editSettings()
         DolphinViewContainer* container = activeViewContainer();
         container->view()->writeSettings();
 
-        const KUrl url = container->url();
+        const QUrl url = container->url();
         DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
         connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, this, &DolphinMainWindow::refreshViews);
         settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -716,7 +716,7 @@ void DolphinMainWindow::editSettings()
     }
 }
 
-void DolphinMainWindow::handleUrl(const KUrl& url)
+void DolphinMainWindow::handleUrl(const QUrl& url)
 {
     delete m_lastHandleUrlStatJob;
     m_lastHandleUrlStatJob = 0;
@@ -741,7 +741,7 @@ void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
 {
     m_lastHandleUrlStatJob = 0;
     const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
-    const KUrl url = static_cast<KIO::StatJob*>(job)->url();
+    const QUrl url = static_cast<KIO::StatJob*>(job)->url();
     if (entry.isDir()) {
         activeViewContainer()->setUrl(url);
     } else {
@@ -756,7 +756,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::openContextMenu(const QPoint& pos,
                                         const KFileItem& item,
-                                        const KUrl& url,
+                                        const QUrl& url,
                                         const QList<QAction*>& customActions)
 {
     QWeakPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
@@ -900,7 +900,7 @@ void DolphinMainWindow::slotPanelErrorMessage(const QString& error)
     activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
 }
 
-void DolphinMainWindow::slotPlaceActivated(const KUrl& url)
+void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
 {
     DolphinViewContainer* view = activeViewContainer();
 
@@ -943,7 +943,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     updateViewActions();
     updateGoActions();
 
-    const KUrl url = viewContainer->url();
+    const QUrl url = viewContainer->url();
     emit urlChanged(url);
 }
 
@@ -955,12 +955,12 @@ void DolphinMainWindow::tabCountChanged(int count)
     actionCollection()->action("activate_prev_tab")->setEnabled(enableTabActions);
 }
 
-void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
+void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
 {
     QString caption;
     if (!url.isLocalFile()) {
-        caption.append(url.protocol() + " - ");
-        if (url.hasHost()) {
+        caption.append(url.scheme() + " - ");
+        if (!url.host().isEmpty()) {
             caption.append(url.host() + " - ");
         }
     }
@@ -1070,8 +1070,8 @@ void DolphinMainWindow::setupActions()
 
     DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
     actionCollection()->addAction("closed_tabs", recentTabsMenu);
-    connect(m_tabWidget, SIGNAL(rememberClosedTab(KUrl,QByteArray)),
-            recentTabsMenu, SLOT(rememberClosedTab(KUrl,QByteArray)));
+    connect(m_tabWidget, SIGNAL(rememberClosedTab(QUrl,QByteArray)),
+            recentTabsMenu, SLOT(rememberClosedTab(QUrl,QByteArray)));
     connect(recentTabsMenu, SIGNAL(restoreClosedTab(QByteArray)),
             m_tabWidget, SLOT(restoreClosedTab(QByteArray)));
     connect(recentTabsMenu, SIGNAL(closedTabsCountChanged(uint)),
@@ -1255,8 +1255,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
-    connect(placesPanel, SIGNAL(placeMiddleClicked(KUrl)),
-            this, SLOT(openNewTab(KUrl)));
+    connect(placesPanel, SIGNAL(placeMiddleClicked(QUrl)),
+            this, SLOT(openNewTab(QUrl)));
     connect(placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::slotPanelErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1326,8 +1326,8 @@ void DolphinMainWindow::updateViewActions()
 void DolphinMainWindow::updateGoActions()
 {
     QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
-    const KUrl currentUrl = m_activeViewContainer->url();
-    goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
+    const QUrl currentUrl = m_activeViewContainer->url();
+    goUpAction->setEnabled(KIO::upUrl(currentUrl) != currentUrl);
 }
 
 void DolphinMainWindow::createControlButton()

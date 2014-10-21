@@ -72,7 +72,7 @@ PlacesPanel::~PlacesPanel()
 
 bool PlacesPanel::urlChanged()
 {
-    if (!url().isValid() || url().protocol().contains("search")) {
+    if (!url().isValid() || url().scheme().contains("search")) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -185,7 +185,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             mainSeparator = menu.addSeparator();
         }
     } else {
-        if (item->url() == KUrl("trash:/")) {
+        if (item->url() == QUrl("trash:/")) {
             emptyTrashAction = menu.addAction(QIcon::fromTheme("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
             emptyTrashAction->setEnabled(item->icon() == "user-trash-full");
             menu.addSeparator();
@@ -368,7 +368,7 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         return;
     }
 
-    KUrl destUrl = destItem->url();
+    QUrl destUrl = destItem->url();
     QDropEvent dropEvent(event->pos().toPoint(),
                          event->possibleActions(),
                          event->mimeData(),
@@ -389,7 +389,7 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
 
     if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
         if (success) {
-            KUrl destUrl = m_model->placesItem(index)->url();
+            QUrl destUrl = m_model->placesItem(index)->url();
 
             QString error;
             DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent, error);
@@ -412,7 +412,7 @@ void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent*
     m_model->dropMimeDataBefore(index, event->mimeData());
 }
 
-void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
+void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
 {
     Q_UNUSED(parent);
     QString error;
@@ -447,7 +447,7 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
         m_triggerStorageSetupButton = Qt::NoButton;
     } else {
         setUrl(m_storageSetupFailedUrl);
-        m_storageSetupFailedUrl = KUrl();
+        m_storageSetupFailedUrl = QUrl();
     }
 }
 
@@ -465,7 +465,7 @@ void PlacesPanel::emptyTrash()
 void PlacesPanel::addEntry()
 {
     const int index = m_controller->selectionManager()->currentItem();
-    const KUrl url = m_model->data(index).value("url").value<KUrl>();
+    const QUrl url = m_model->data(index).value("url").value<QUrl>();
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
     dialog->setWindowTitle(i18nc("@title:window", "Add Places Entry"));
@@ -487,7 +487,7 @@ void PlacesPanel::editEntry(int index)
     dialog->setWindowTitle(i18nc("@title:window", "Edit Places Entry"));
     dialog->setIcon(data.value("iconName").toString());
     dialog->setText(data.value("text").toString());
-    dialog->setUrl(data.value("url").value<KUrl>());
+    dialog->setUrl(data.value("url").value<QUrl>());
     dialog->setAllowGlobal(true);
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* oldItem = m_model->placesItem(index);
@@ -528,7 +528,7 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
     } else {
         m_triggerStorageSetupButton = Qt::NoButton;
 
-        const KUrl url = m_model->data(index).value("url").value<KUrl>();
+        const QUrl url = m_model->data(index).value("url").value<QUrl>();
         if (!url.isEmpty()) {
             if (button == Qt::MiddleButton) {
                 emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));

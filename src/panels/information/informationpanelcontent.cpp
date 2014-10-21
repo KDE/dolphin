@@ -169,8 +169,8 @@ void InformationPanelContent::showItem(const KFileItem& item)
         m_previewJob->kill();
     }
 
-    const KUrl itemUrl = item.url();
-    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.localPath().isEmpty();
+    const QUrl itemUrl = item.url();
+    const bool isSearchUrl = itemUrl.scheme().contains("search") && item.localPath().isEmpty();
     if (!applyPlace(itemUrl)) {
         setNameLabelText(item.text());
         if (isSearchUrl) {
@@ -370,12 +370,12 @@ void InformationPanelContent::refreshMetaData()
     }
 }
 
-bool InformationPanelContent::applyPlace(const KUrl& url)
+bool InformationPanelContent::applyPlace(const QUrl& url)
 {
     const int count = m_placesItemModel->count();
     for (int i = 0; i < count; ++i) {
         const PlacesItem* item = m_placesItemModel->placesItem(i);
-        if (item->url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
+        if (item->url().matches(url, QUrl::StripTrailingSlash)) {
             setNameLabelText(item->text());
             m_preview->setPixmap(QIcon::fromTheme(item->icon()).pixmap(128, 128));
             return true;

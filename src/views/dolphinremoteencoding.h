@@ -22,7 +22,7 @@
 
 #include <QStringList>
 #include <QAction>
-#include <KUrl>
+#include <QUrl>
 #include "libdolphin_export.h"
 
 
@@ -59,7 +59,7 @@ private:
 
   KActionMenu* m_menu;
   QStringList m_encodingDescriptions;
-  KUrl m_currentURL;
+  QUrl m_currentURL;
   DolphinViewActionHandler* m_actionHandler;
 
   bool m_loaded;

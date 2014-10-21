@@ -25,7 +25,7 @@
 #define PLACESITEMEDITDIALOG_H
 
 #include <QDialog>
-#include <KUrl>
+#include <QUrl>
 
 class KIconButton;
 class KLineEdit;
@@ -47,8 +47,8 @@ public:
     void setText(const QString& text);
     QString text() const;
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
+    void setUrl(const QUrl& url);
+    QUrl url() const;
 
     void setAllowGlobal(bool allow);
     bool allowGlobal() const;
@@ -65,7 +65,7 @@ private:
 private:
     QString m_icon;
     QString m_text;
-    KUrl m_url;
+    QUrl m_url;
     bool m_allowGlobal;
 
     KUrlRequester* m_urlEdit;

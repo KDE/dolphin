@@ -51,16 +51,16 @@ PlacesItem::~PlacesItem()
     delete m_trashDirLister;
 }
 
-void PlacesItem::setUrl(const KUrl& url)
+void PlacesItem::setUrl(const QUrl &url)
 {
     // The default check in KStandardItem::setDataValue()
     // for equal values does not work with a custom value
-    // like KUrl. Hence do a manual check to prevent that
+    // like QUrl. Hence do a manual check to prevent that
     // setting an equal URL results in an itemsChanged()
     // signal.
-    if (dataValue("url").value<KUrl>() != url) {
+    if (dataValue("url").value<QUrl>() != url) {
         delete m_trashDirLister;
-        if (url.protocol() == QLatin1String("trash")) {
+        if (url.scheme() == QLatin1String("trash")) {
             // The trash icon must always be updated dependent on whether
             // the trash is empty or not. We use a KDirLister that automatically
             // watches for changes if the number of items has been changed.
@@ -77,9 +77,9 @@ void PlacesItem::setUrl(const KUrl& url)
     }
 }
 
-KUrl PlacesItem::url() const
+QUrl PlacesItem::url() const
 {
-    return dataValue("url").value<KUrl>();
+    return dataValue("url").value<QUrl>();
 }
 
 void PlacesItem::setUdi(const QString& udi)
@@ -170,7 +170,7 @@ KBookmark PlacesItem::bookmark() const
 PlacesItem::GroupType PlacesItem::groupType() const
 {
     if (udi().isEmpty()) {
-        const QString protocol = url().protocol();
+        const QString protocol = url().scheme();
         if (protocol == QLatin1String("timeline")) {
             return RecentlySavedType;
         }
@@ -196,7 +196,7 @@ bool PlacesItem::storageSetupNeeded() const
 
 KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
                                      const QString& text,
-                                     const KUrl& url,
+                                     const QUrl& url,
                                      const QString& iconName)
 {
     KBookmarkGroup root = manager->root();

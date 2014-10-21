@@ -24,7 +24,7 @@
 
 #include <KCmdLineArgs>
 #include <KDebug>
-#include <KUrl>
+#include <QUrl>
 
 DolphinApplication::DolphinApplication() :
     m_mainWindow(0)
@@ -41,7 +41,7 @@ DolphinApplication::DolphinApplication() :
 
     QList<QUrl> urls;
     for (int i = 0; i < argsCount; ++i) {
-        const KUrl url = args->url(i);
+        const QUrl url = args->url(i);
         if (url.isValid()) {
             urls.append(url);
         }
@@ -71,7 +71,7 @@ DolphinApplication::DolphinApplication() :
             m_mainWindow->openDirectories(urls);
         }
     } else {
-        const KUrl homeUrl(GeneralSettings::homeUrl());
+        const QUrl homeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
         m_mainWindow->openNewActivatedTab(homeUrl);
     }
 

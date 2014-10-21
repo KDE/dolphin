@@ -189,8 +189,9 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
 
     m_itemData[index]->values = currentValues;
     if (changedRoles.contains("text")) {
-        KUrl url = m_itemData[index]->item.url();
-        url.setFileName(currentValues["text"].toString());
+        QUrl url = m_itemData[index]->item.url();
+        url = url.adjusted(QUrl::RemoveFilename);
+        url.setPath(url.path() + currentValues["text"].toString());
         m_itemData[index]->item.setUrl(url);
     }
 
@@ -243,8 +244,8 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     // The following code has been taken from KDirModel::mimeData()
     // (kdelibs/kio/kio/kdirmodel.cpp)
     // Copyright (C) 2006 David Faure <faure@kde.org>
-    KUrl::List urls;
-    KUrl::List mostLocalUrls;
+    QList<QUrl> urls;
+    QList<QUrl> mostLocalUrls;
     bool canUseMostLocalUrls = true;
     const ItemData* lastAddedItem = 0;
 
@@ -276,9 +277,9 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
 
     const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
     if (different) {
-        urls.populateMimeData(mostLocalUrls, data);
+        data->setUrls(mostLocalUrls);
     } else {
-        urls.populateMimeData(data);
+        data->setUrls(urls);
     }
 
     return data;
@@ -369,8 +370,7 @@ int KFileItemModel::index(const KFileItem& item) const
 
 int KFileItemModel::index(const QUrl& url) const
 {
-    KUrl urlToFind = url;
-    urlToFind.adjustPath(KUrl::RemoveTrailingSlash);
+    const QUrl urlToFind = url.adjusted(QUrl::StripTrailingSlash);
 
     const int itemCount = m_itemData.count();
     int itemsInHash = m_items.count();
@@ -388,7 +388,7 @@ int KFileItemModel::index(const QUrl& url) const
         const int blockSize = 1000;
         const int currentBlockEnd = qMin(itemsInHash + blockSize, itemCount);
         for (int i = itemsInHash; i < currentBlockEnd; ++i) {
-            const KUrl nextUrl = m_itemData.at(i)->item.url();
+            const QUrl nextUrl = m_itemData.at(i)->item.url();
             m_items.insert(nextUrl, i);
         }
 
@@ -412,12 +412,12 @@ int KFileItemModel::index(const QUrl& url) const
             kWarning() << "m_itemData.count() ==" << m_itemData.count();
 
             // Check if there are multiple items with the same URL.
-            QMultiHash<KUrl, int> indexesForUrl;
+            QMultiHash<QUrl, int> indexesForUrl;
             for (int i = 0; i < m_itemData.count(); ++i) {
                 indexesForUrl.insert(m_itemData.at(i)->item.url(), i);
             }
 
-            foreach (const KUrl& url, indexesForUrl.uniqueKeys()) {
+            foreach (const QUrl& url, indexesForUrl.uniqueKeys()) {
                 if (indexesForUrl.count(url) > 1) {
                     kWarning() << "Multiple items found with the URL" << url;
                     foreach (int index, indexesForUrl.values(url)) {
@@ -511,15 +511,15 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
     }
 
     const KFileItem item = m_itemData.at(index)->item;
-    const KUrl url = item.url();
-    const KUrl targetUrl = item.targetUrl();
+    const QUrl url = item.url();
+    const QUrl targetUrl = item.targetUrl();
     if (expanded) {
         m_expandedDirs.insert(targetUrl, url);
         m_dirLister->openUrl(url, KDirLister::Keep);
 
-        const KUrl::List previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<KUrl::List>();
-        foreach (const KUrl& url, previouslyExpandedChildren) {
-            m_urlsToExpand.insert(url);
+        const QVariantList previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<QVariantList>();
+        foreach (const QVariant& var, previouslyExpandedChildren) {
+            m_urlsToExpand.insert(var.toUrl());
         }
     } else {
         // Note that there might be (indirect) children of the folder which is to be collapsed in
@@ -541,14 +541,14 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         const int itemCount = m_itemData.count();
         const int firstChildIndex = index + 1;
 
-        KUrl::List expandedChildren;
+        QVariantList expandedChildren;
 
         int childIndex = firstChildIndex;
         while (childIndex < itemCount && expandedParentsCount(childIndex) > parentLevel) {
             ItemData* itemData = m_itemData.at(childIndex);
             if (itemData->values.value("isExpanded").toBool()) {
-                const KUrl targetUrl = itemData->item.targetUrl();
-                const KUrl url = itemData->item.url();
+                const QUrl targetUrl = itemData->item.targetUrl();
+                const QUrl url = itemData->item.url();
                 m_expandedDirs.remove(targetUrl);
                 m_dirLister->stop(url);     // TODO: try to unit-test this, see https://bugs.kde.org/show_bug.cgi?id=332102#c11
                 expandedChildren.append(targetUrl);
@@ -610,10 +610,10 @@ void KFileItemModel::expandParentDirectories(const QUrl &url)
     // expanded is added to m_urlsToExpand. KDirLister
     // does not care whether the parent-URL has already been
     // expanded.
-    KUrl urlToExpand = m_dirLister->url();
+    QUrl urlToExpand = m_dirLister->url();
     const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
     for (int i = 0; i < subDirs.count() - 1; ++i) {
-        urlToExpand.addPath(subDirs.at(i));
+        urlToExpand.setPath(urlToExpand.path() + '/' + subDirs.at(i));
         m_urlsToExpand.insert(urlToExpand);
     }
 
@@ -801,7 +801,7 @@ void KFileItemModel::resortAllItems()
     // Remember the order of the current URLs so
     // that it can be determined which indexes have
     // been moved because of the resorting.
-    QList<KUrl> oldUrls;
+    QList<QUrl> oldUrls;
     oldUrls.reserve(itemCount);
     foreach (const ItemData* itemData, m_itemData) {
         oldUrls.append(itemData->item.url());
@@ -870,7 +870,7 @@ void KFileItemModel::slotCompleted()
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        foreach (const KUrl& url, m_urlsToExpand) {
+        foreach (const QUrl& url, m_urlsToExpand) {
             const int indexForUrl = index(url);
             if (indexForUrl >= 0) {
                 m_urlsToExpand.remove(url);
@@ -902,12 +902,11 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
 {
     Q_ASSERT(!items.isEmpty());
 
-    KUrl parentUrl;
+    QUrl parentUrl;
     if (m_expandedDirs.contains(directoryUrl)) {
         parentUrl = m_expandedDirs.value(directoryUrl);
     } else {
-        parentUrl = directoryUrl;
-        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+        parentUrl = directoryUrl.adjusted(QUrl::StripTrailingSlash);
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
@@ -916,7 +915,7 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
         // might result in emitting the same items twice due to the Keep-parameter.
         // This case happens if an item gets expanded, collapsed and expanded again
         // before the items could be loaded for the first expansion.
-        if (index(KUrl(items.first().url())) >= 0) {
+        if (index(items.first().url()) >= 0) {
             // The items are already part of the model.
             return;
         }
@@ -1202,7 +1201,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     }
 
     // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
-    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
     emit itemsInserted(itemRanges);
@@ -1255,13 +1254,13 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
     m_itemData.erase(m_itemData.end() - removedItemsCount, m_itemData.end());
 
     // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
-    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
     emit itemsRemoved(itemRanges);
 }
 
-QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const
+QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const
 {
     if (m_sortRole == TypeRole) {
         // Try to resolve the MIME-types synchronously to prevent a reordering of
@@ -2200,7 +2199,7 @@ QByteArray KFileItemModel::sharedValue(const QByteArray& value)
 bool KFileItemModel::isConsistent() const
 {
     // m_items may contain less items than m_itemData because m_items
-    // is populated lazily, see KFileItemModel::index(const KUrl& url).
+    // is populated lazily, see KFileItemModel::index(const QUrl& url).
     if (m_items.count() > m_itemData.count()) {
         return false;
     }

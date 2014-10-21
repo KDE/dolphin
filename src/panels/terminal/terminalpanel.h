@@ -56,7 +56,7 @@ signals:
     /**
      * Is emitted if the an URL change is requested.
      */
-    void changeUrl(const KUrl& url);
+    void changeUrl(const QUrl& url);
 
 protected:
     /** @see Panel::urlChanged() */
@@ -70,7 +70,7 @@ private slots:
     void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
 
 private:
-    void changeDir(const KUrl& url);
+    void changeDir(const QUrl& url);
     void sendCdToTerminal(const QString& path);
 
 private:

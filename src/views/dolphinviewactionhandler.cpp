@@ -586,7 +586,7 @@ void DolphinViewActionHandler::slotProperties()
     KPropertiesDialog* dialog = 0;
     const KFileItemList list = m_currentView->selectedItems();
     if (list.isEmpty()) {
-        const KUrl url = m_currentView->url();
+        const QUrl url = m_currentView->url();
         dialog = new KPropertiesDialog(url, m_currentView);
     } else {
         dialog = new KPropertiesDialog(list, m_currentView);

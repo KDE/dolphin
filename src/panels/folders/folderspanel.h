@@ -20,7 +20,7 @@
 #ifndef FOLDERSPANEL_H
 #define FOLDERSPANEL_H
 
-#include <KUrl>
+#include <QUrl>
 #include <panels/panel.h>
 
 class KFileItemModel;
@@ -51,8 +51,8 @@ public:
     void rename(const KFileItem& item);
 
 signals:
-    void folderActivated(const KUrl& url);
-    void folderMiddleClicked(const KUrl& url);
+    void folderActivated(const QUrl& url);
+    void folderMiddleClicked(const QUrl& url);
     void errorMessage(const QString& error);
 
 protected:
@@ -87,7 +87,7 @@ private:
      * directories until \a url.
      * @param url  URL of the leaf directory that should get expanded.
      */
-    void loadTree(const KUrl& url);
+    void loadTree(const QUrl& url);
 
     /**
      * Sets the item with the index \a index as current item, selects

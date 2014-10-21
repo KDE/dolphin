@@ -72,18 +72,18 @@ QString PlacesItemEditDialog::text() const
 {
     QString text = m_textEdit->text();
     if (text.isEmpty()) {
-        const KUrl url = m_urlEdit->url();
-        text = url.fileName().isEmpty() ? url.prettyUrl() : url.fileName();
+        const QUrl url = m_urlEdit->url();
+        text = url.fileName().isEmpty() ? url.toDisplayString(QUrl::PreferLocalFile) : url.fileName();
     }
     return text;
 }
 
-void PlacesItemEditDialog::setUrl(const KUrl& url)
+void PlacesItemEditDialog::setUrl(const QUrl& url)
 {
     m_url = url;
 }
 
-KUrl PlacesItemEditDialog::url() const
+QUrl PlacesItemEditDialog::url() const
 {
     return m_urlEdit->url();
 }
@@ -142,7 +142,7 @@ void PlacesItemEditDialog::initialize()
     m_textEdit->setText(m_text);
     m_textEdit->setClickMessage(i18n("Enter descriptive label here"));
 
-    m_urlEdit = new KUrlRequester(m_url.prettyUrl(), mainWidget);
+    m_urlEdit = new KUrlRequester(m_url, mainWidget);
     m_urlEdit->setMode(KFile::Directory);
     formLayout->addRow(i18nc("@label", "Location:"), m_urlEdit);
     // Provide room for at least 40 chars (average char width is half of height)

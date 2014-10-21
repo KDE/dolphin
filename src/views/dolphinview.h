@@ -29,8 +29,8 @@
 #include <KFileItem>
 #include <kio/fileundomanager.h>
 #include <KIO/Job>
-#include <KUrl>
-
+#include <QUrl>
+#include <QMimeData>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
@@ -40,7 +40,6 @@ class KFileItemModel;
 class KItemListContainer;
 class KItemModelBase;
 class KItemSet;
-class KUrl;
 class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
@@ -304,14 +303,14 @@ public:
      * @return a valid and adjusted url if the item can be opened as folder,
      * otherwise return an empty url.
      */
-    static KUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
+    static QUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
 
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).
      */
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
     /**
      * Selects all items.
@@ -379,10 +378,10 @@ signals:
      * After the URL has been changed the signal urlChanged() will
      * be emitted.
      */
-    void urlAboutToBeChanged(const KUrl& url);
+    void urlAboutToBeChanged(const QUrl& url);
 
     /** Is emitted if the URL of the view has been changed to \a url. */
-    void urlChanged(const KUrl& url);
+    void urlChanged(const QUrl& url);
 
     /**
      * Is emitted when clicking on an item with the left mouse button.
@@ -403,7 +402,7 @@ signals:
     /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
-    void tabRequested(const KUrl& url);
+    void tabRequested(const QUrl& url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
@@ -458,7 +457,7 @@ signals:
      */
     void requestContextMenu(const QPoint& pos,
                             const KFileItem& item,
-                            const KUrl& url,
+                            const QUrl& url,
                             const QList<QAction*>& customActions);
 
     /**
@@ -515,13 +514,13 @@ signals:
      * Emitted when the file-item-model emits redirection.
      * Testcase: fish://localhost
      */
-    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void redirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Is emitted when the URL set by DolphinView::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
     /**
      * Is emitted when the write state of the folder has been changed. The application
@@ -696,7 +695,7 @@ private slots:
     void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
 private:
-    void loadDirectory(const KUrl& url, bool reload = false);
+    void loadDirectory(const QUrl& url, bool reload = false);
 
     /**
      * Applies the view properties which are defined by the current URL
@@ -721,14 +720,14 @@ private:
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
      */
-    void pasteToUrl(const KUrl& url);
+    void pasteToUrl(const QUrl& url);
 
     /**
      * Returns a list of URLs for all selected items. The list is
      * simplified, so that when the URLs are part of different tree
      * levels, only the parent is returned.
      */
-    KUrl::List simplifiedSelectedUrls() const;
+    QList<QUrl> simplifiedSelectedUrls() const;
 
     /**
      * Returns the MIME data for all selected items.
@@ -747,7 +746,7 @@ private:
      *         DolphinView::viewPropertiesContext(), otherwise the context
      *         is returned.
      */
-    KUrl viewPropertiesUrl() const;
+    QUrl viewPropertiesUrl() const;
 
 private:
     bool m_active;
@@ -757,7 +756,7 @@ private:
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
                      // tooltip may be shown when hovering an item.
 
-    KUrl m_url;
+    QUrl m_url;
     QString m_viewPropertiesContext;
     Mode m_mode;
     QList<QByteArray> m_visibleRoles;

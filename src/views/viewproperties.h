@@ -22,7 +22,7 @@
 #define VIEWPROPERTIES_H
 
 #include <views/dolphinview.h>
-#include <KUrl>
+#include <QUrl>
 #include <libdolphin_export.h>
 
 class ViewPropertySettings;
@@ -35,7 +35,7 @@ class ViewPropertySettings;
  * just construct an instance by passing the path of the directory:
  *
  * \code
- * ViewProperties props(KUrl("/home/peter/Documents"));
+ * ViewProperties props(QUrl::fromLocalFile("/home/peter/Documents"));
  * const DolphinView::Mode mode = props.viewMode();
  * const bool hiddenFilesShown = props.hiddenFilesShown();
  * \endcode
@@ -50,7 +50,7 @@ class ViewPropertySettings;
 class LIBDOLPHINPRIVATE_EXPORT ViewProperties
 {
 public:
-    explicit ViewProperties(const KUrl& url);
+    explicit ViewProperties(const QUrl& url);
     virtual ~ViewProperties();
 
     void setViewMode(DolphinView::Mode mode);
@@ -162,7 +162,7 @@ private:
      * @return A hash-value for an URL that can be used as directory name.
      *         Is used to be able to remember view-properties for long baloo-URLs.
      */
-    static QString directoryHashForUrl(const KUrl& url);
+    static QString directoryHashForUrl(const QUrl &url);
 
     Q_DISABLE_COPY(ViewProperties)
 

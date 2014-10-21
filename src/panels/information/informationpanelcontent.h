@@ -22,7 +22,7 @@
 
 #include "config-baloo.h"
 #include <KFileItem>
-#include <KUrl>
+#include <QUrl>
 
 #include <QPointer>
 #include <QWidget>
@@ -81,7 +81,7 @@ public:
     void configureSettings(const QList<QAction*>& customContextMenuActions);
 
 signals:
-    void urlActivated( const KUrl& url );
+    void urlActivated( const QUrl& url );
 
 protected:
     /** @see QObject::eventFilter() */
@@ -121,7 +121,7 @@ private:
      * @return True, if the URL represents exactly a place.
      * @param url The url to check.
      */
-    bool applyPlace(const KUrl& url);
+    bool applyPlace(const QUrl& url);
 
     /**
      * Sets the text for the label \a m_nameLabel and assures that the

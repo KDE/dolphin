@@ -61,7 +61,7 @@ void DolphinPartBrowserExtension::paste()
     m_part->view()->paste();
 }
 
-void DolphinPartBrowserExtension::pasteTo(const KUrl&)
+void DolphinPartBrowserExtension::pasteTo(const QUrl&)
 {
     m_part->view()->pasteIntoFolder();
 }

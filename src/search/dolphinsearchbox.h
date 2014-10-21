@@ -20,7 +20,7 @@
 #ifndef DOLPHINSEARCHBOX_H
 #define DOLPHINSEARCHBOX_H
 
-#include <KUrl>
+#include <QUrl>
 #include <QWidget>
 
 #include <config-baloo.h>
@@ -71,17 +71,17 @@ public:
      * Sets the current path that is used as root for
      * searching files, if "From Here" has been selected.
      */
-    void setSearchPath(const KUrl& url);
-    KUrl searchPath() const;
+    void setSearchPath(const QUrl& url);
+    QUrl searchPath() const;
 
     /** @return URL that will start the searching of files. */
-    KUrl urlForSearching() const;
+    QUrl urlForSearching() const;
 
     /**
      * Extracts information from the given search \a url to
      * initialize the search box properly.
      */
-    void fromSearchUrl(const KUrl& url);
+    void fromSearchUrl(const QUrl& url);
 
     /**
      * Selects the whole text of the search box.
@@ -155,13 +155,13 @@ private:
     /**
      * @return URL that represents the Baloo query for starting the search.
      */
-    KUrl balooUrlForSearching() const;
+    QUrl balooUrlForSearching() const;
 
     /**
      * Extracts information from the given Baloo search \a url to
      * initialize the search box properly.
      */
-    void fromBalooSearchUrl(const KUrl& url);
+    void fromBalooSearchUrl(const QUrl& url);
 
     void updateFacetsToggleButton();
 private:
@@ -186,7 +186,7 @@ private:
     QToolButton* m_facetsToggleButton;
     DolphinFacetsWidget* m_facetsWidget;
 
-    KUrl m_searchPath;
+    QUrl m_searchPath;
 
     QTimer* m_startSearchTimer;
 };

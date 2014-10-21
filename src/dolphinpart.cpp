@@ -73,7 +73,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // make sure that other apps using this part find Dolphin's view-file-columns icons
     KIconLoader::global()->addAppDir("dolphin");
 
-    m_view = new DolphinView(KUrl(), parentWidget);
+    m_view = new DolphinView(QUrl(), parentWidget);
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
@@ -248,7 +248,7 @@ void DolphinPart::createGoAction(const char* name, const char* iconName,
 void DolphinPart::slotGoTriggered(QAction* action)
 {
     const QString url = action->data().toString();
-    emit m_extension->openUrlRequest(KUrl(url));
+    emit m_extension->openUrlRequest(QUrl(url));
 }
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
@@ -311,11 +311,11 @@ bool DolphinPart::openUrl(const QUrl &url)
         return true;
     }
     setUrl(url); // remember it at the KParts level
-    KUrl visibleUrl(url);
+    QUrl visibleUrl(url);
     if (!m_nameFilter.isEmpty()) {
-        visibleUrl.addPath(m_nameFilter);
+        visibleUrl.setPath(visibleUrl.path() + '/' + m_nameFilter);
     }
-    QString prettyUrl = visibleUrl.pathOrUrl();
+    QString prettyUrl = visibleUrl.toDisplayString(QUrl::PreferLocalFile);
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
     emit started(0); // get the wheel to spin
@@ -539,7 +539,7 @@ void DolphinPart::slotOpenTerminal()
 {
     QString dir(QDir::homePath());
 
-    KUrl u(url());
+    QUrl u(url());
 
     // If the given directory is not local, it can still be the URL of an
     // ioslave using UDS_LOCAL_PATH which to be converted first.

@@ -21,7 +21,7 @@
 #define TESTDIR_H
 
 #include <KTempDir>
-#include <KUrl>
+#include <QUrl>
 
 #include <QDateTime>
 
@@ -36,7 +36,7 @@ public:
     TestDir(const QString& directoryPrefix = QString());
     virtual ~TestDir();
 
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * The following functions create either a file, a list of files, or a directory.

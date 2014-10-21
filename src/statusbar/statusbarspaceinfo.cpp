@@ -36,7 +36,7 @@ StatusBarSpaceInfo::~StatusBarSpaceInfo()
 {
 }
 
-void StatusBarSpaceInfo::setUrl(const KUrl& url)
+void StatusBarSpaceInfo::setUrl(const QUrl& url)
 {
     if (m_url != url) {
         m_url = url;
@@ -46,7 +46,7 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
     }
 }
 
-KUrl StatusBarSpaceInfo::url() const
+QUrl StatusBarSpaceInfo::url() const
 {
     return m_url;
 }

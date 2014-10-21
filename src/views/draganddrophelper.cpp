@@ -23,17 +23,19 @@
 #include <KFileItem>
 #include <KLocalizedString>
 #include <konq_operations.h>
-#include <KUrl>
+#include <QUrl>
 #include <QApplication>
 #include <QtDBus>
 #include <QDropEvent>
+#include <KUrlMimeData>
 
-KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destUrl, QDropEvent* event, QString& error)
+KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const QUrl& destUrl, QDropEvent* event, QString& error)
 {
     error.clear();
 
     if (!destItem.isNull() && !destItem.isWritable()) {
-        error = xi18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
+        error = xi18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>",
+                       destUrl.toDisplayString(QUrl::PreferLocalFile));
         return 0;
     }
 
@@ -45,12 +47,12 @@ KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUr
 
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
                                                               "org.kde.ark.DndExtract", "extractSelectedFilesTo");
-        message.setArguments(QVariantList() << destUrl.pathOrUrl());
+        message.setArguments(QVariantList() << destUrl.toDisplayString(QUrl::PreferLocalFile));
         QDBusConnection::sessionBus().call(message);
     } else if (!destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile())) {
         // Drop into a directory or a desktop-file
-        const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-        foreach (const KUrl& url, urls) {
+        const QList<QUrl> urls = KUrlMimeData::urlsFromMimeData(mimeData);
+        foreach (const QUrl& url, urls) {
             if (url == destUrl) {
                 error = i18nc("@info:status", "A folder cannot be dropped into itself");
                 return 0;

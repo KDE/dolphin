@@ -39,7 +39,7 @@
 
 #include "views/dolphinview.h"
 
-StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
+StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
     m_homeUrl(0),
@@ -117,10 +117,10 @@ void StartupSettingsPage::applySettings()
 {
     GeneralSettings* settings = GeneralSettings::self();
 
-    const KUrl url(m_homeUrl->text());
+    const QUrl url(QUrl::fromLocalFile(m_homeUrl->text()));
     KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, url);
-    if ((url.isValid() && fileItem.isDir()) || (url.protocol() == QLatin1String("timeline"))) {
-        settings->setHomeUrl(url.prettyUrl());
+    if ((url.isValid() && fileItem.isDir()) || (url.scheme() == QLatin1String("timeline"))) {
+        settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
     } else {
         KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
     }
@@ -153,31 +153,29 @@ void StartupSettingsPage::slotSettingsChanged()
 void StartupSettingsPage::selectHomeUrl()
 {
     const QString homeUrl = m_homeUrl->text();
-    KUrl url = KFileDialog::getExistingDirectoryUrl(homeUrl, this);
+    QUrl url = KFileDialog::getExistingDirectoryUrl(QUrl::fromLocalFile(homeUrl), this);
     if (!url.isEmpty()) {
-        m_homeUrl->setText(url.prettyUrl());
+        m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
         slotSettingsChanged();
     }
 }
 
 void StartupSettingsPage::useCurrentLocation()
 {
-    m_homeUrl->setText(m_url.prettyUrl());
+    m_homeUrl->setText(m_url.toDisplayString(QUrl::PreferLocalFile));
 }
 
 void StartupSettingsPage::useDefaultLocation()
 {
-    KUrl url(QDir::homePath());
-    m_homeUrl->setText(url.prettyUrl());
+    m_homeUrl->setText(QDir::homePath());
 }
 
 void StartupSettingsPage::loadSettings()
 {
-    const KUrl url(GeneralSettings::homeUrl());
-    m_homeUrl->setText(url.prettyUrl());
+    const QUrl url(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
+    m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
     m_splitView->setChecked(GeneralSettings::splitView());
     m_editableUrl->setChecked(GeneralSettings::editableUrl());
     m_showFullPath->setChecked(GeneralSettings::showFullPath());
     m_filterBar->setChecked(GeneralSettings::filterBar());
 }
-

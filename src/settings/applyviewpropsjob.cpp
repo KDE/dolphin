@@ -23,7 +23,7 @@
 #include "applyviewpropsjob.h"
 #include <views/viewproperties.h>
 
-ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
+ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
                                      const ViewProperties& viewProps) :
     KIO::Job(),
     m_viewProps(0),
@@ -56,8 +56,9 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
         if (name != QLatin1String(".") && name != QLatin1String("..") && entry.isDir()) {
             ++m_progress;
 
-            KUrl url(m_dir);
-            url.addPath(name);
+            QUrl url(m_dir);
+            url = url.adjusted(QUrl::StripTrailingSlash);
+            url.setPath(url.path() + '/' + name);
 
             Q_ASSERT(m_viewProps);
 

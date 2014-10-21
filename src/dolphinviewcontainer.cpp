@@ -32,7 +32,7 @@
 #include <KMessageWidget>
 #include <konq_operations.h>
 #include <KShell>
-#include <KUrl>
+#include <QUrl>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
 #include <KRun>
@@ -48,7 +48,7 @@
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
-DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
+DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_topLayout(0),
     m_urlNavigator(0),
@@ -83,7 +83,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     const GeneralSettings* settings = GeneralSettings::self();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
-    m_urlNavigator->setHomeUrl(KUrl(settings->homeUrl()));
+    m_urlNavigator->setHomeUrl(QUrl::fromLocalFile(settings->homeUrl()));
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
 
@@ -207,7 +207,7 @@ DolphinViewContainer::~DolphinViewContainer()
 {
 }
 
-KUrl DolphinViewContainer::url() const
+QUrl DolphinViewContainer::url() const
 {
     return m_view->url();
 }
@@ -308,7 +308,7 @@ void DolphinViewContainer::readSettings()
         // settings of the URL navigator and the filterbar.
         m_urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
         m_urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
-        m_urlNavigator->setHomeUrl(KUrl(GeneralSettings::homeUrl()));
+        m_urlNavigator->setHomeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
         setFilterBarVisible(GeneralSettings::filterBar());
     }
 
@@ -335,16 +335,16 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_urlNavigator->setVisible(!enabled);
 
     if (enabled) {
-        const KUrl& locationUrl = m_urlNavigator->locationUrl();
+        const QUrl& locationUrl = m_urlNavigator->locationUrl();
         m_searchBox->fromSearchUrl(locationUrl);
     } else {
         m_view->setViewPropertiesContext(QString());
 
         // Restore the URL for the URL navigator. If Dolphin has been
         // started with a search-URL, the home URL is used as fallback.
-        KUrl url = m_searchBox->searchPath();
+        QUrl url = m_searchBox->searchPath();
         if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
-            url = GeneralSettings::self()->homeUrl();
+            url = QUrl::fromLocalFile(GeneralSettings::self()->homeUrl());
         }
         m_urlNavigator->setLocationUrl(url);
     }
@@ -371,7 +371,7 @@ QString DolphinViewContainer::placesText() const
     return text;
 }
 
-void DolphinViewContainer::setUrl(const KUrl& newUrl)
+void DolphinViewContainer::setUrl(const QUrl& newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
@@ -476,14 +476,14 @@ void DolphinViewContainer::slotDirectoryLoadingCanceled()
     m_statusBar->setText(QString());
 }
 
-void DolphinViewContainer::slotUrlIsFileError(const KUrl& url)
+void DolphinViewContainer::slotUrlIsFileError(const QUrl& url)
 {
     const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
 
     // Find out if the file can be opened in the view (for example, this is the
     // case if the file is an archive). The mime type must be known for that.
     item.determineMimeType();
-    const KUrl& folderUrl = DolphinView::openItemAsFolderUrl(item, true);
+    const QUrl& folderUrl = DolphinView::openItemAsFolderUrl(item, true);
     if (!folderUrl.isEmpty()) {
         m_view->setUrl(folderUrl);
     } else {
@@ -498,7 +498,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
     // results in an active view.
     m_view->setActive(true);
 
-    const KUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
+    const QUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
     if (!url.isEmpty()) {
         m_view->setUrl(url);
         return;
@@ -542,7 +542,7 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
-void DolphinViewContainer::slotViewUrlAboutToBeChanged(const KUrl& url)
+void DolphinViewContainer::slotViewUrlAboutToBeChanged(const QUrl& url)
 {
     // URL changes of the view can happen in two ways:
     // 1. The URL navigator gets changed and will trigger the view to update its URL
@@ -554,7 +554,7 @@ void DolphinViewContainer::slotViewUrlAboutToBeChanged(const KUrl& url)
     }
 }
 
-void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const KUrl& url)
+void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl& url)
 {
     // URL changes of the view can happen in two ways:
     // 1. The URL navigator gets changed and will trigger the view to update its URL
@@ -566,7 +566,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const KUrl& 
     }
 }
 
-void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
+void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
 {
     slotReturnPressed();
 
@@ -582,7 +582,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
         }
     } else if (KProtocolManager::isSourceProtocol(url)) {
         QString app = "konqueror";
-        if (url.protocol().startsWith(QLatin1String("http"))) {
+        if (url.scheme().startsWith(QLatin1String("http"))) {
             showMessage(i18nc("@info:status", // krazy:exclude=qmethods
                               "Dolphin does not support web pages, the web browser has been launched"),
                         Information);
@@ -602,7 +602,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
                         Information);
         }
 
-        const QString secureUrl = KShell::quoteArg(url.pathOrUrl());
+        const QString secureUrl = KShell::quoteArg(url.toDisplayString(QUrl::PreferLocalFile));
         const QString command = app + ' ' + secureUrl;
         KRun::runCommand(command, app, app, this);
     } else {
@@ -610,7 +610,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
     }
 }
 
-void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
+void DolphinViewContainer::dropUrls(const QUrl& destination, QDropEvent* event)
 {
     m_dropDestination = destination;
 
@@ -645,7 +645,7 @@ void DolphinViewContainer::dropUrlsDelayed()
     m_dropEvent.reset();
 }
 
-void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)
 {
     Q_UNUSED(oldUrl);
     const bool block = m_urlNavigator->signalsBlocked();
@@ -689,7 +689,7 @@ void DolphinViewContainer::slotReturnPressed()
 
 void DolphinViewContainer::startSearching()
 {
-    const KUrl url = m_searchBox->urlForSearching();
+    const QUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
         m_view->setViewPropertiesContext("search");
         m_urlNavigator->setLocationUrl(url);
@@ -717,10 +717,9 @@ void DolphinViewContainer::showErrorMessage(const QString& msg)
     showMessage(msg, Error);
 }
 
-bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
+bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
 {
-    const QString protocol = url.protocol();
-    return protocol.contains("search");
+    return url.scheme().contains("search");
 }
 
 void DolphinViewContainer::saveViewState()
@@ -730,4 +729,3 @@ void DolphinViewContainer::saveViewState()
     m_view->saveState(stream);
     m_urlNavigator->saveLocationState(locationState);
 }
-

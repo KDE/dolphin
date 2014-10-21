@@ -57,7 +57,7 @@
 #include <KMessageBox>
 #include <KJobWidgets>
 #include <konq_operations.h>
-#include <KUrl>
+#include <QUrl>
 
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
@@ -293,7 +293,7 @@ void DolphinView::setHiddenFilesShown(bool show)
 
     const KFileItemList itemList = selectedItems();
     m_selectedUrls.clear();
-    m_selectedUrls = KUrl::List(itemList.urlList());
+    m_selectedUrls = itemList.urlList();
 
     ViewProperties props(viewPropertiesUrl());
     props.setHiddenFilesShown(show);
@@ -470,7 +470,7 @@ void DolphinView::reload()
 
     const KFileItemList itemList = selectedItems();
     m_selectedUrls.clear();
-    m_selectedUrls = KUrl::List(itemList.urlList());
+    m_selectedUrls = itemList.urlList();
 
     setUrl(url());
     loadDirectory(url(), true);
@@ -591,7 +591,7 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
     return actions;
 }
 
-void DolphinView::setUrl(const KUrl& url)
+void DolphinView::setUrl(const QUrl& url)
 {
     if (url == m_url) {
         return;
@@ -667,12 +667,12 @@ void DolphinView::renameSelectedItems()
 
 void DolphinView::trashSelectedItems()
 {
-    const KUrl::List list = simplifiedSelectedUrls();
+    const QList<QUrl> list = simplifiedSelectedUrls();
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(window());
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, KUrl("trash:/"), job);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl("trash:/"), job);
         KJobWidgets::setWindow(job, this);
         connect(job, &KIO::Job::result,
                 this, &DolphinView::slotTrashFileFinished);
@@ -681,7 +681,7 @@ void DolphinView::trashSelectedItems()
 
 void DolphinView::deleteSelectedItems()
 {
-    const KUrl::List list = simplifiedSelectedUrls();
+    const QList<QUrl> list = simplifiedSelectedUrls();
 
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(window());
@@ -819,7 +819,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
 
     foreach (int index, indexes) {
         KFileItem item = m_model->fileItem(index);
-        const KUrl& url = openItemAsFolderUrl(item);
+        const QUrl& url = openItemAsFolderUrl(item);
 
         if (!url.isEmpty()) { // Open folders in new tabs
             emit tabRequested(url);
@@ -838,7 +838,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
 void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem& item = m_model->fileItem(index);
-    const KUrl& url = openItemAsFolderUrl(item);
+    const QUrl& url = openItemAsFolderUrl(item);
     if (!url.isEmpty()) {
         emit tabRequested(url);
     } else if (isTabsForFilesEnabled()) {
@@ -1021,7 +1021,7 @@ void DolphinView::slotItemUnhovered(int index)
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
-    KUrl destUrl;
+    QUrl destUrl;
     KFileItem destItem = m_model->fileItem(index);
     if (destItem.isNull() || (!destItem.isDir() && !destItem.isDesktopFile())) {
         // Use the URL of the view as drop target if the item is no directory
@@ -1198,10 +1198,10 @@ void DolphinView::saveState(QDataStream& stream)
     if (currentIndex != -1) {
         KFileItem item = m_model->fileItem(currentIndex);
         Q_ASSERT(!item.isNull()); // If the current index is valid a item must exist
-        KUrl currentItemUrl = item.url();
+        QUrl currentItemUrl = item.url();
         stream << currentItemUrl;
     } else {
-        stream << KUrl();
+        stream << QUrl();
     }
 
     // Save view position
@@ -1228,13 +1228,13 @@ QString DolphinView::viewPropertiesContext() const
     return m_viewPropertiesContext;
 }
 
-KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives)
+QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives)
 {
     if (item.isNull()) {
-        return KUrl();
+        return QUrl();
     }
 
-    KUrl url = item.targetUrl();
+    QUrl url = item.targetUrl();
 
     if (item.isDir()) {
         return url;
@@ -1251,7 +1251,7 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
             // open OpenDocument files as zip folders...
             const QString& protocol = KProtocolManager::protocolForArchiveMimetype(mimetype);
             if (!protocol.isEmpty()) {
-                url.setProtocol(protocol);
+                url.setScheme(protocol);
                 return url;
             }
         }
@@ -1268,7 +1268,7 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
         }
     }
 
-    return KUrl();
+    return QUrl();
 }
 
 void DolphinView::observeCreatedItem(const QUrl& url)
@@ -1484,12 +1484,12 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
         const KFileItem oldItem = m_model->fileItem(index);
         const QString newName = value.toString();
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
-            const KUrl oldUrl = oldItem.url();
+            const QUrl oldUrl = oldItem.url();
 
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
-            const bool newNameExistsAlready = (m_model->index(KUrl(newUrl)) >= 0);
+            const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
             if (!newNameExistsAlready) {
                 // Only change the data in the model if no item with the new name
                 // is in the model yet. If there is an item with the new name
@@ -1515,10 +1515,10 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
     }
 }
 
-void DolphinView::loadDirectory(const KUrl& url, bool reload)
+void DolphinView::loadDirectory(const QUrl& url, bool reload)
 {
     if (!url.isValid()) {
-        const QString location(url.pathOrUrl());
+        const QString location(url.toDisplayString(QUrl::PreferLocalFile));
         if (location.isEmpty()) {
             emit errorMessage(i18nc("@info:status", "The location is empty."));
         } else {
@@ -1644,7 +1644,7 @@ void DolphinView::applyModeToView()
     }
 }
 
-void DolphinView::pasteToUrl(const KUrl& url)
+void DolphinView::pasteToUrl(const QUrl& url)
 {
     KonqOperations* op = KonqOperations::doPaste(this, url);
     if (op) {
@@ -1654,9 +1654,9 @@ void DolphinView::pasteToUrl(const KUrl& url)
     }
 }
 
-KUrl::List DolphinView::simplifiedSelectedUrls() const
+QList<QUrl> DolphinView::simplifiedSelectedUrls() const
 {
-    KUrl::List urls;
+    QList<QUrl> urls;
 
     const KFileItemList items = selectedItems();
     foreach (const KFileItem& item, items) {
@@ -1699,15 +1699,14 @@ void DolphinView::updateWritableState()
     }
 }
 
-KUrl DolphinView::viewPropertiesUrl() const
+QUrl DolphinView::viewPropertiesUrl() const
 {
     if (m_viewPropertiesContext.isEmpty()) {
         return m_url;
     }
 
-    KUrl url;
-    url.setProtocol(m_url.protocol());
+    QUrl url;
+    url.setScheme(m_url.scheme());
     url.setPath(m_viewPropertiesContext);
     return url;
 }
-

@@ -26,7 +26,7 @@
 #include <QString>
 
 class KFileItem;
-class KUrl;
+class QUrl;
 class QDropEvent;
 class KonqOperations;
 
@@ -52,7 +52,7 @@ public:
      * @return          KonqOperations pointer
      */
     static KonqOperations* dropUrls(const KFileItem& destItem,
-                                    const KUrl& destUrl,
+                                    const QUrl& destUrl,
                                     QDropEvent* event,
                                     QString& error);
 };

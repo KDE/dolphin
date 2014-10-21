@@ -34,7 +34,7 @@
 #include <KDialog>
 #include <QIcon>
 #include <KIconLoader>
-#include <KUrl>
+#include <QUrl>
 #include <KLocalizedString>
 
 class EmbeddedVideoPlayer : public Phonon::VideoWidget
@@ -73,7 +73,7 @@ PhononWidget::PhononWidget(QWidget *parent)
 {
 }
 
-void PhononWidget::setUrl(const KUrl &url)
+void PhononWidget::setUrl(const QUrl &url)
 {
     if (m_url != url) {
         stop(); // emits playingStopped() signal
@@ -81,7 +81,7 @@ void PhononWidget::setUrl(const KUrl &url)
     }
 }
 
-KUrl PhononWidget::url() const
+QUrl PhononWidget::url() const
 {
     return m_url;
 }

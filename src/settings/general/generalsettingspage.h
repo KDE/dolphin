@@ -23,7 +23,7 @@
 #include <QWidget>
 #include <settings/settingspagebase.h>
 
-class KUrl;
+class QUrl;
 class SettingsPageBase;
 
 /**
@@ -40,7 +40,7 @@ class GeneralSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(const KUrl& url, QWidget* parent);
+    GeneralSettingsPage(const QUrl& url, QWidget* parent);
     virtual ~GeneralSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */

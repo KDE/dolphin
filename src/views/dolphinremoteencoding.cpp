@@ -75,10 +75,10 @@ void DolphinRemoteEncoding::loadSettings()
 
 void DolphinRemoteEncoding::slotAboutToOpenUrl()
 {
-    KUrl oldURL = m_currentURL;
+    QUrl oldURL = m_currentURL;
     m_currentURL = m_actionHandler->currentView()->url();
 
-    if (m_currentURL.protocol() != oldURL.protocol()) {
+    if (m_currentURL.scheme() != oldURL.scheme()) {
         // This plugin works on ftp, fish, etc.
         // everything whose type is T_FILESYSTEM except for local files
         if (!m_currentURL.isLocalFile() &&
@@ -167,7 +167,7 @@ void DolphinRemoteEncoding::slotItemSelected(QAction* action)
     if (action) {
         int id = action->data().toInt();
 
-        KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
+        KConfig config(("kio_" + m_currentURL.scheme() + "rc").toLatin1());
         QString host = m_currentURL.host();
         if (m_menu->menu()->actions().at(id)->isChecked()) {
             QString charset = KCharsets::charsets()->encodingForName(m_encodingDescriptions.at(id));
@@ -185,7 +185,7 @@ void DolphinRemoteEncoding::slotDefault()
 {
     // We have no choice but delete all higher domain level
     // settings here since it affects what will be matched.
-    KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
+    KConfig config(("kio_" + m_currentURL.scheme() + "rc").toLatin1());
 
     QStringList partList = m_currentURL.host().split('.', QString::SkipEmptyParts);
     if (!partList.isEmpty()) {

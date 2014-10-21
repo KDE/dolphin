@@ -23,7 +23,7 @@
 #include <QTime>
 #include <QWidget>
 
-class KUrl;
+class QUrl;
 class StatusBarSpaceInfo;
 class QLabel;
 class QProgressBar;
@@ -79,7 +79,7 @@ public:
     void setDefaultText(const QString& text);
     QString defaultText() const;
 
-    KUrl url() const;
+    QUrl url() const;
     int zoomLevel() const;
 
     /**
@@ -89,7 +89,7 @@ public:
 
 public slots:
     void setText(const QString& text);
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
     void setZoomLevel(int zoomLevel);
 
 signals:

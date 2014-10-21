@@ -36,9 +36,9 @@ TestDir::~TestDir()
 {
 }
 
-KUrl TestDir::url() const
+QUrl TestDir::url() const
 {
-    return KUrl(name());
+    return QUrl::fromLocalFile(name());
 }
 
 /** The following function is taken from kdelibs/kio/tests/kiotesthelper.h, copyright (C) 2006 by David Faure */

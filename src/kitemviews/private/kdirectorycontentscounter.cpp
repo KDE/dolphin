@@ -122,7 +122,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count)
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
 {
-    const int index = m_model->index(KUrl(path));
+    const int index = m_model->index(QUrl::fromLocalFile(path));
     if (index >= 0) {
         if (!m_model->fileItem(index).isDir()) {
             // If INotify is used, KDirWatch issues the dirty() signal
@@ -151,7 +151,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
             QMutableSetIterator<QString> it(m_watchedDirs);
             while (it.hasNext()) {
                 const QString& path = it.next();
-                if (m_model->index(KUrl(path)) < 0) {
+                if (m_model->index(QUrl::fromLocalFile(path)) < 0) {
                     m_dirWatcher->removeDir(path);
                     it.remove();
                 }

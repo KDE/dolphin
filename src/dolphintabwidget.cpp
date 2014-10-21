@@ -130,7 +130,7 @@ void DolphinTabWidget::openNewActivatedTab()
     }
 }
 
-void DolphinTabWidget::openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     openNewTab(primaryUrl, secondaryUrl);
     setCurrentIndex(count() - 1);
@@ -144,8 +144,8 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     connect(tabPage, SIGNAL(activeViewChanged(DolphinViewContainer*)),
             this, SIGNAL(activeViewChanged(DolphinViewContainer*)));
-    connect(tabPage, SIGNAL(activeViewUrlChanged(KUrl)),
-            this, SLOT(tabUrlChanged(KUrl)));
+    connect(tabPage, SIGNAL(activeViewUrlChanged(QUrl)),
+            this, SLOT(tabUrlChanged(QUrl)));
     addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(primaryUrl));
 
     if (focusWidget) {
@@ -183,8 +183,8 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files)
     // for each directory. If the "split view" option is enabled, two
     // directories are shown inside one tab (see openDirectories()).
     QList<QUrl> dirs;
-    foreach (const KUrl& url, files) {
-        const KUrl dir(url.directory());
+    foreach (const QUrl& url, files) {
+        const QUrl dir(url.adjusted(QUrl::RemoveFilename).path());
         if (!dirs.contains(dir)) {
             dirs.append(dir);
         }
@@ -296,7 +296,7 @@ void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
     }
 }
 
-void DolphinTabWidget::tabUrlChanged(const KUrl& url)
+void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 {
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
@@ -342,15 +342,15 @@ void DolphinTabWidget::tabRemoved(int index)
     emit tabCountChanged(count());
 }
 
-QString DolphinTabWidget::tabName(const KUrl& url) const
+QString DolphinTabWidget::tabName(const QUrl& url) const
 {
     QString name;
-    if (url.equals(KUrl("file:///"))) {
+    if (url == QUrl("file:///")) {
         name = '/';
     } else {
         name = url.fileName();
         if (name.isEmpty()) {
-            name = url.protocol();
+            name = url.scheme();
         } else {
             // Make sure that a '&' inside the directory name is displayed correctly
             // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()

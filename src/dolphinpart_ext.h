@@ -23,7 +23,7 @@
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
 #include <kparts/listingextension.h>
-#include <KUrl>
+#include <QUrl>
 
 class DolphinPart;
 
@@ -39,7 +39,7 @@ public Q_SLOTS:
     void cut();
     void copy();
     void paste();
-    void pasteTo(const KUrl&);
+    void pasteTo(const QUrl &);
     void reparseConfiguration();
 
 private:

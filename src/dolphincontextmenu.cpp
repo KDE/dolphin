@@ -56,7 +56,7 @@
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const QPoint& pos,
                                        const KFileItem& fileInfo,
-                                       const KUrl& baseUrl) :
+                                       const QUrl& baseUrl) :
     QMenu(parent),
     m_pos(pos),
     m_mainWindow(parent),
@@ -91,7 +91,7 @@ void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
 DolphinContextMenu::Command DolphinContextMenu::open()
 {
     // get the context information
-    if (m_baseUrl.protocol() == QLatin1String("trash")) {
+    if (m_baseUrl.scheme() == QLatin1String("trash")) {
         m_context |= TrashContext;
     }
 
@@ -175,7 +175,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
     addAction(propertiesAction);
 
     if (exec(m_pos) == restoreAction) {
-        KUrl::List selectedUrls;
+        QList<QUrl> selectedUrls;
         foreach (const KFileItem &item, m_selectedItems) {
             selectedUrls.append(item.url());
         }
@@ -226,7 +226,7 @@ void DolphinContextMenu::openItemContextMenu()
             }
 
             addSeparator();
-        } else if (m_baseUrl.protocol().contains("search") || m_baseUrl.protocol().contains("timeline")) {
+        } else if (m_baseUrl.scheme().contains("search") || m_baseUrl.scheme().contains("timeline")) {
             openParentAction = new QAction(QIcon::fromTheme("document-open-folder"),
                                            i18nc("@action:inmenu",
                                                  "Open Path"),
@@ -256,7 +256,7 @@ void DolphinContextMenu::openItemContextMenu()
     } else {
         bool selectionHasOnlyDirs = true;
         foreach (const KFileItem& item, m_selectedItems) {
-            const KUrl& url = DolphinView::openItemAsFolderUrl(item);
+            const QUrl& url = DolphinView::openItemAsFolderUrl(item);
             if (url.isEmpty()) {
                 selectionHasOnlyDirs = false;
                 break;
@@ -296,7 +296,7 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* activatedAction = exec(m_pos);
     if (activatedAction) {
         if (activatedAction == addToPlacesAction) {
-            const KUrl selectedUrl(m_fileInfo.url());
+            const QUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
                 const QString text = selectedUrl.fileName();
@@ -420,14 +420,14 @@ void DolphinContextMenu::addShowMenuBarAction()
     }
 }
 
-bool DolphinContextMenu::placeExists(const KUrl& url) const
+bool DolphinContextMenu::placeExists(const QUrl& url) const
 {
     PlacesItemModel model;
 
     const int count = model.count();
     for (int i = 0; i < count; ++i) {
-        const KUrl placeUrl = model.placesItem(i)->url();
-        if (placeUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+        const QUrl placeUrl = model.placesItem(i)->url();
+        if (placeUrl.matches(url, QUrl::StripTrailingSlash)) {
             return true;
         }
     }

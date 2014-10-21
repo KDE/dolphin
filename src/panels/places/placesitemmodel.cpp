@@ -41,6 +41,7 @@
 #include <QDate>
 #include <QMimeData>
 #include <QTimer>
+#include <KUrlMimeData>
 
 #include <Solid/Device>
 #include <Solid/DeviceNotifier>
@@ -120,7 +121,7 @@ PlacesItemModel::~PlacesItemModel()
 }
 
 PlacesItem* PlacesItemModel::createPlacesItem(const QString& text,
-                                              const KUrl& url,
+                                              const QUrl& url,
                                               const QString& iconName)
 {
     const KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager, text, url, iconName);
@@ -206,15 +207,15 @@ bool PlacesItemModel::hiddenItemsShown() const
     return m_hiddenItemsShown;
 }
 
-int PlacesItemModel::closestItem(const KUrl& url) const
+int PlacesItemModel::closestItem(const QUrl& url) const
 {
     int foundIndex = -1;
     int maxLength = 0;
 
     for (int i = 0; i < count(); ++i) {
-        const KUrl itemUrl = placesItem(i)->url();
+        const QUrl itemUrl = placesItem(i)->url();
         if (itemUrl.isParentOf(url)) {
-            const int length = itemUrl.prettyUrl().length();
+            const int length = itemUrl.toDisplayString().length();
             if (length > maxLength) {
                 foundIndex = i;
                 maxLength = length;
@@ -368,13 +369,13 @@ void PlacesItemModel::requestStorageSetup(int index)
 
 QMimeData* PlacesItemModel::createMimeData(const KItemSet& indexes) const
 {
-    KUrl::List urls;
+    QList<QUrl> urls;
     QByteArray itemData;
 
     QDataStream stream(&itemData, QIODevice::WriteOnly);
 
     foreach (int index, indexes) {
-        const KUrl itemUrl = placesItem(index)->url();
+        const QUrl itemUrl = placesItem(index)->url();
         if (itemUrl.isValid()) {
             urls << itemUrl;
         }
@@ -383,7 +384,7 @@ QMimeData* PlacesItemModel::createMimeData(const KItemSet& indexes) const
 
     QMimeData* mimeData = new QMimeData();
     if (!urls.isEmpty()) {
-        urls.populateMimeData(mimeData);
+        mimeData->setUrls(urls);
     }
     mimeData->setData(internalMimeType(), itemData);
 
@@ -424,9 +425,9 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
         insertItem(dropIndex, newItem);
     } else if (mimeData->hasFormat("text/uri-list")) {
         // One or more items must be added to the model
-        const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+        const QList<QUrl> urls = KUrlMimeData::urlsFromMimeData(mimeData);
         for (int i = urls.count() - 1; i >= 0; --i) {
-            const KUrl& url = urls[i];
+            const QUrl& url = urls[i];
 
             QString text = url.fileName();
             if (text.isEmpty()) {
@@ -434,7 +435,7 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
             }
 
             if ((url.isLocalFile() && !QFileInfo(url.toLocalFile()).isDir())
-                    || url.protocol() == "trash") {
+                    || url.scheme() == "trash") {
                 // Only directories outside the trash are allowed
                 continue;
             }
@@ -446,12 +447,12 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
     }
 }
 
-KUrl PlacesItemModel::convertedUrl(const KUrl& url)
+QUrl PlacesItemModel::convertedUrl(const QUrl& url)
 {
-    KUrl newUrl = url;
-    if (url.protocol() == QLatin1String("timeline")) {
+    QUrl newUrl = url;
+    if (url.scheme() == QLatin1String("timeline")) {
         newUrl = createTimelineUrl(url);
-    } else if (url.protocol() == QLatin1String("search")) {
+    } else if (url.scheme() == QLatin1String("search")) {
         newUrl = createSearchUrl(url);
     }
 
@@ -606,7 +607,7 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
         return;
     }
 
-    if (error) {
+    if (error != Solid::NoError) {
         if (errorData.isValid()) {
             emit errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
                                     item->text(),
@@ -729,7 +730,7 @@ void PlacesItemModel::loadBookmarks()
     KBookmark bookmark = root.first();
     QSet<QString> devices = m_availableDevices;
 
-    QSet<KUrl> missingSystemBookmarks;
+    QSet<QUrl> missingSystemBookmarks;
     foreach (const SystemBookmarkData& data, m_systemBookmarks) {
         missingSystemBookmarks.insert(data.url);
     }
@@ -750,7 +751,7 @@ void PlacesItemModel::loadBookmarks()
                 devices.remove(item->udi());
                 devicesItems.append(item);
             } else {
-                const KUrl url = bookmark.url();
+                const QUrl url = bookmark.url();
                 if (missingSystemBookmarks.contains(url)) {
                     missingSystemBookmarks.remove(url);
 
@@ -823,15 +824,15 @@ bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
                                      const QSet<QString>& availableDevices) const
 {
     const QString udi = bookmark.metaDataItem("UDI");
-    const KUrl url = bookmark.url();
+    const QUrl url = bookmark.url();
     const QString appName = bookmark.metaDataItem("OnlyInApp");
     const bool deviceAvailable = availableDevices.contains(udi);
 
     const bool allowedHere = (appName.isEmpty()
                               || appName == KGlobal::mainComponent().componentName()
                               || appName == KGlobal::mainComponent().componentName() + AppNamePrefix)
-                             && (m_fileIndexingEnabled || (url.protocol() != QLatin1String("timeline") &&
-                                                           url.protocol() != QLatin1String("search")));
+                             && (m_fileIndexingEnabled || (url.scheme() != QLatin1String("timeline") &&
+                                                           url.scheme() != QLatin1String("search")));
 
     return (udi.isEmpty() && allowedHere) || deviceAvailable;
 }
@@ -843,7 +844,7 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
                                                     data.url,
                                                     data.icon);
 
-    const QString protocol = data.url.protocol();
+    const QString protocol = data.url.scheme();
     if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
         // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
         // for "Recently Saved" and "Search For" should be a setting available only
@@ -881,7 +882,7 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
                 props.setViewMode(DolphinView::IconsView);
                 props.setPreviewsShown(true);
                 props.setVisibleRoles(QList<QByteArray>() << "text");
-            } else if (data.url.protocol() == "timeline") {
+            } else if (data.url.scheme() == "timeline") {
                 props.setViewMode(DolphinView::DetailsView);
                 props.setVisibleRoles(QList<QByteArray>() << "text" << "date");
             }
@@ -900,42 +901,42 @@ void PlacesItemModel::createSystemBookmarks()
     // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
     // done here is because otherwise switching the language would not result in retranslating the
     // bookmarks.
-    m_systemBookmarks.append(SystemBookmarkData(KUrl(KUser().homeDir()),
+    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile(KUser().homeDir()),
                                                 "user-home",
                                                 I18N_NOOP2("KFile System Bookmarks", "Home")));
-    m_systemBookmarks.append(SystemBookmarkData(KUrl("remote:/"),
+    m_systemBookmarks.append(SystemBookmarkData(QUrl("remote:/"),
                                                 "network-workgroup",
                                                 I18N_NOOP2("KFile System Bookmarks", "Network")));
-    m_systemBookmarks.append(SystemBookmarkData(KUrl("/"),
+    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile("/"),
                                                 "folder-red",
                                                 I18N_NOOP2("KFile System Bookmarks", "Root")));
-    m_systemBookmarks.append(SystemBookmarkData(KUrl("trash:/"),
+    m_systemBookmarks.append(SystemBookmarkData(QUrl("trash:/"),
                                                 "user-trash",
                                                 I18N_NOOP2("KFile System Bookmarks", "Trash")));
 
     if (m_fileIndexingEnabled) {
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/today"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("timeline:/today"),
                                                     "go-jump-today",
                                                     I18N_NOOP2("KFile System Bookmarks", "Today")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/yesterday"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("timeline:/yesterday"),
                                                     "view-calendar-day",
                                                     I18N_NOOP2("KFile System Bookmarks", "Yesterday")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/thismonth"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("timeline:/thismonth"),
                                                     "view-calendar-month",
                                                     I18N_NOOP2("KFile System Bookmarks", "This Month")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("timeline:/lastmonth"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("timeline:/lastmonth"),
                                                     "view-calendar-month",
                                                     I18N_NOOP2("KFile System Bookmarks", "Last Month")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/documents"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/documents"),
                                                     "folder-txt",
                                                     I18N_NOOP2("KFile System Bookmarks", "Documents")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/images"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/images"),
                                                     "folder-image",
                                                     I18N_NOOP2("KFile System Bookmarks", "Images")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/audio"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/audio"),
                                                     "folder-sound",
                                                     I18N_NOOP2("KFile System Bookmarks", "Audio Files")));
-        m_systemBookmarks.append(SystemBookmarkData(KUrl("search:/videos"),
+        m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/videos"),
                                                     "folder-video",
                                                     I18N_NOOP2("KFile System Bookmarks", "Videos")));
     }
@@ -1105,14 +1106,14 @@ bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookm
     }
 }
 
-KUrl PlacesItemModel::createTimelineUrl(const KUrl& url)
+QUrl PlacesItemModel::createTimelineUrl(const QUrl& url)
 {
     // TODO: Clarify with the Baloo-team whether it makes sense
     // provide default-timeline-URLs like 'yesterday', 'this month'
     // and 'last month'.
-    KUrl timelineUrl;
+    QUrl timelineUrl;
 
-    const QString path = url.pathOrUrl();
+    const QString path = url.toDisplayString(QUrl::PreferLocalFile);
     if (path.endsWith(QLatin1String("yesterday"))) {
         const QDate date = QDate::currentDate().addDays(-1);
         const int year = date.year();
@@ -1153,12 +1154,12 @@ QString PlacesItemModel::timelineDateString(int year, int month, int day)
     return date;
 }
 
-KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
+QUrl PlacesItemModel::createSearchUrl(const QUrl& url)
 {
-    KUrl searchUrl;
+    QUrl searchUrl;
 
 #ifdef HAVE_BALOO
-    const QString path = url.pathOrUrl();
+    const QString path = url.toDisplayString(QUrl::PreferLocalFile);
     if (path.endsWith(QLatin1String("documents"))) {
         searchUrl = searchUrlForType("Document");
     } else if (path.endsWith(QLatin1String("images"))) {
@@ -1178,7 +1179,7 @@ KUrl PlacesItemModel::createSearchUrl(const KUrl& url)
 }
 
 #ifdef HAVE_BALOO
-KUrl PlacesItemModel::searchUrlForType(const QString& type)
+QUrl PlacesItemModel::searchUrlForType(const QString& type)
 {
     Baloo::Query query;
     query.addType("File");

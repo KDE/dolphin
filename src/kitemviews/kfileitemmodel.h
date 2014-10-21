@@ -22,7 +22,7 @@
 
 #include <libdolphin_export.h>
 #include <KFileItemList>
-#include <KUrl>
+#include <QUrl>
 #include <kitemviews/kitemmodelbase.h>
 #include <kitemviews/private/kfileitemmodelfilter.h>
 
@@ -317,7 +317,7 @@ private:
      * Note that the ItemData instances are created dynamically and
      * must be deleted by the caller.
      */
-    QList<ItemData*> createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const;
+    QList<ItemData*> createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const;
 
     /**
      * Prepares the items for sorting. Normally, the hash 'values' in ItemData is filled
@@ -470,11 +470,11 @@ private:
 
     QList<ItemData*> m_itemData;
 
-    // m_items is a cache for the method index(const KUrl&). If it contains N
+    // m_items is a cache for the method index(const QUrl&). If it contains N
     // entries, it is guaranteed that these correspond to the first N items in
     // the model, i.e., that (for every i between 0 and N - 1)
     // m_items.value(fileItem(i).url()) == i
-    mutable QHash<KUrl, int> m_items;
+    mutable QHash<QUrl, int> m_items;
 
     KFileItemModelFilter m_filter;
     QHash<KFileItem, ItemData*> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()

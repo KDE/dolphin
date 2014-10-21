@@ -22,7 +22,7 @@
 
 #include <libdolphin_export.h>
 #include <KDirLister>
-#include <KUrl>
+#include <QUrl>
 
 /**
  * @brief Extends the class KDirLister by emitting a signal when an
@@ -45,7 +45,7 @@ signals:
      * Is emitted when the URL of the directory lister represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
 protected:
     virtual void handleError(KIO::Job* job);

@@ -24,7 +24,7 @@
 
 #include <kitemviews/kstandarditemmodel.h>
 
-#include <KUrl>
+#include <QUrl>
 #include <QHash>
 #include <QList>
 #include <QSet>
@@ -58,7 +58,7 @@ public:
      *         attributes.
      */
     PlacesItem* createPlacesItem(const QString& text,
-                                 const KUrl& url,
+                                 const QUrl& url,
                                  const QString& iconName = QString());
 
     PlacesItem* placesItem(int index) const;
@@ -87,7 +87,7 @@ public:
      * range of the URL. -1 is returned if no closest item
      * could be found.
      */
-    int closestItem(const KUrl& url) const;
+    int closestItem(const QUrl& url) const;
 
     /**
      * Appends the item \a item as last element of the group
@@ -121,7 +121,7 @@ public:
      *         the corresponding IO-slave. Virtual URLs for bookmarks are used to
      *         be independent from internal format changes.
      */
-    static KUrl convertedUrl(const KUrl& url);
+    static QUrl convertedUrl(const QUrl& url);
 
     virtual void clear();
 signals:
@@ -223,7 +223,7 @@ private:
     /**
      * @return URL using the timeline-protocol for searching (see convertedUrl()).
      */
-    static KUrl createTimelineUrl(const KUrl& url);
+    static QUrl createTimelineUrl(const QUrl& url);
 
     /**
      * Helper method for createTimelineUrl().
@@ -237,7 +237,7 @@ private:
      *         for a given term. The URL \a url represents a places-internal
      *         URL like e.g. "search:/documents" (see convertedUrl()).
      */
-    static KUrl createSearchUrl(const KUrl& url);
+    static QUrl createSearchUrl(const QUrl& url);
 
 #ifdef HAVE_BALOO
     /**
@@ -245,7 +245,7 @@ private:
      * @return URL that can be listed by KIO and results in searching
      *         for the given type
      */
-    static KUrl searchUrlForType(const QString& type);
+    static QUrl searchUrlForType(const QString& type);
 #endif
 
 #ifdef PLACESITEMMODEL_DEBUG
@@ -262,17 +262,17 @@ private:
 
     struct SystemBookmarkData
     {
-        SystemBookmarkData(const KUrl& url,
+        SystemBookmarkData(const QUrl& url,
                            const QString& icon,
                            const QString& text) :
             url(url), icon(icon), text(text) {}
-        KUrl url;
+        QUrl url;
         QString icon;
         QString text;
     };
 
     QList<SystemBookmarkData> m_systemBookmarks;
-    QHash<KUrl, int> m_systemBookmarksIndexes;
+    QHash<QUrl, int> m_systemBookmarksIndexes;
 
     // Contains hidden and unhidden items that are stored as
     // bookmark (the model itself only contains items that
