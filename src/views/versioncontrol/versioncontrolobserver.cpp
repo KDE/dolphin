@@ -326,7 +326,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     foreach (KVersionControlPlugin* plugin, plugins) {
-        const QString fileName = directory.path() + plugin->fileName();
+        const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
             // The score of this plugin is 0 (best), so we can just return this plugin,
             // instead of going through the plugin scoring procedure, we can't find a better one ;)
@@ -344,7 +344,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
             QUrl upUrl = KIO::upUrl(dirUrl);
             int upUrlCounter = 1;
             while ((upUrlCounter < bestScore) && (upUrl != dirUrl)) {
-                const QString fileName = dirUrl.path() + plugin->fileName();
+                const QString fileName = dirUrl.path() + '/' + plugin->fileName();
                 if (QFile::exists(fileName)) {
                     if (upUrlCounter < bestScore) {
                         bestPlugin = plugin;
