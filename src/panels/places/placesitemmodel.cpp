@@ -214,8 +214,12 @@ int PlacesItemModel::closestItem(const QUrl& url) const
 
     for (int i = 0; i < count(); ++i) {
         const QUrl itemUrl = placesItem(i)->url();
-        if (itemUrl.isParentOf(url)) {
-            const int length = itemUrl.toDisplayString().length();
+        if (url == itemUrl) {
+            // We can't find a closer one, so stop here.
+            foundIndex = i;
+            break;
+        } else if (itemUrl.isParentOf(url)) {
+            const int length = itemUrl.path().length();
             if (length > maxLength) {
                 foundIndex = i;
                 maxLength = length;
