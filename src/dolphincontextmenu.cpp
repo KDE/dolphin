@@ -34,8 +34,8 @@
 #include <KIO/RestoreJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/Paste>
 #include <KJobWidgets>
-#include <QMenu>
 #include <KMimeTypeTrader>
 #include <KNewFileMenu>
 #include <konq_operations.h>
@@ -44,7 +44,11 @@
 #include <KStandardAction>
 #include <KToolBar>
 
+#include <QApplication>
+#include <QClipboard>
 #include <QMenuBar>
+#include <QMenu>
+
 #include <panels/places/placesitem.h>
 #include <panels/places/placesitemmodel.h>
 
@@ -439,9 +443,11 @@ QAction* DolphinContextMenu::createPasteAction()
     QAction* action = 0;
     const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
     if (isDir && (m_selectedItems.count() == 1)) {
-        const QPair<bool, QString> pasteInfo = KonqOperations::pasteInfo(m_fileInfo.url());
-        action = new QAction(QIcon::fromTheme("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
-        action->setEnabled(pasteInfo.first);
+        const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+        bool canPaste;
+        const QString text = KIO::pasteActionText(mimeData, &canPaste, m_fileInfo);
+        action = new QAction(QIcon::fromTheme("edit-paste"), text, this);
+        action->setEnabled(canPaste);
         connect(action, &QAction::triggered, m_mainWindow, &DolphinMainWindow::pasteIntoFolder);
     } else {
         action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));

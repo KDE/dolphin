@@ -1149,7 +1149,10 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
 
 QPair<bool, QString> DolphinView::pasteInfo() const
 {
-    return KonqOperations::pasteInfo(url());
+    const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+    QPair<bool, QString> info;
+    info.second = KIO::pasteActionText(mimeData, &info.first, rootItem());
+    return info;
 }
 
 void DolphinView::setTabsForFilesEnabled(bool tabsForFiles)

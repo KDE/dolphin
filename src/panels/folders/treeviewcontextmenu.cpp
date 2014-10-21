@@ -70,10 +70,12 @@ void TreeViewContextMenu::open()
         QAction* copyAction = new QAction(QIcon::fromTheme("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
         connect(copyAction, &QAction::triggered, this, &TreeViewContextMenu::copy);
 
-        const QPair<bool, QString> pasteInfo = KonqOperations::pasteInfo(m_fileItem.url());
-        QAction* pasteAction = new QAction(QIcon::fromTheme("edit-paste"), pasteInfo.second, this);
+        const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+        bool canPaste;
+        const QString text = KIO::pasteActionText(mimeData, &canPaste, m_fileItem);
+        QAction* pasteAction = new QAction(QIcon::fromTheme("edit-paste"), text, this);
         connect(pasteAction, &QAction::triggered, this, &TreeViewContextMenu::paste);
-        pasteAction->setEnabled(pasteInfo.first);
+        pasteAction->setEnabled(canPaste);
 
         popup->addAction(cutAction);
         popup->addAction(copyAction);
