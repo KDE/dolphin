@@ -293,7 +293,7 @@ void PlacesItem::onAccessibilityChanged()
 
 void PlacesItem::onTrashDirListerCompleted()
 {
-    Q_ASSERT(url().protocol() == QLatin1String("trash"));
+    Q_ASSERT(url().scheme() == QLatin1String("trash"));
 
     const bool isTrashEmpty = m_trashDirLister->items().isEmpty();
     setIcon(isTrashEmpty ? "user-trash" : "user-trash-full");
