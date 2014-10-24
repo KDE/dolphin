@@ -185,6 +185,13 @@ void PhononWidget::play()
         m_seekSlider->setMediaObject(m_media);
     }
 
+    if (!m_videoPlayer) {
+        m_videoPlayer = new EmbeddedVideoPlayer(this);
+        m_topLayout->insertWidget(0, m_videoPlayer);
+        Phonon::createPath(m_media, m_videoPlayer);
+        applyVideoSize();
+    }
+
     if (!m_audioOutput) {
         m_audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
         Phonon::createPath(m_media, m_audioOutput);
@@ -218,15 +225,6 @@ void PhononWidget::slotHasVideoChanged(bool hasVideo)
     emit hasVideoChanged(hasVideo);
 
     if (hasVideo) {
-        if (!m_videoPlayer) {
-            // Replay the media to apply path changes
-            m_media->stop();
-            m_videoPlayer = new EmbeddedVideoPlayer(this);
-            m_topLayout->insertWidget(0, m_videoPlayer);
-            Phonon::createPath(m_media, m_videoPlayer);
-            m_media->play();
-        }
-        applyVideoSize();
         m_videoPlayer->show();
     }
 }

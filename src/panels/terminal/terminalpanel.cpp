@@ -43,7 +43,8 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
     m_terminal(0),
     m_terminalWidget(0),
     m_konsolePart(0),
-    m_konsolePartCurrentDirectory()
+    m_konsolePartCurrentDirectory(),
+    m_sendCdToTerminalHistory()
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
@@ -117,11 +118,11 @@ void TerminalPanel::showEvent(QShowEvent* event)
         }
     }
     if (m_terminal) {
-        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
-                this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
         m_terminal->showShellInDir(url().toLocalFile());
         changeDir(url());
         m_terminalWidget->setFocus();
+        connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
+                this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
     }
 
     Panel::showEvent(event);
@@ -162,7 +163,12 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
     }
 
     m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
-    m_konsolePartCurrentDirectory = dir;
+
+    // We want to ignore the currentDirectoryChanged(QString) signal, which we will receive after
+    // the directory change, because this directory change is not caused by a "cd" command that the
+    // user entered in the panel. Therefore, we have to remember 'dir'. Note that it could also be
+    // a symbolic link -> remember the 'canonical' path.
+    m_sendCdToTerminalHistory.enqueue(QDir(dir).canonicalPath());
 
     if (m_clearTerminal) {
         m_terminal->sendInput(" clear\n");
@@ -183,14 +189,15 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
 
 void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
 {
-    m_konsolePartCurrentDirectory = dir;
+    m_konsolePartCurrentDirectory = QDir(dir).canonicalPath();
 
-    // Only change the view URL if 'dir' is different from the current view URL.
-    // Note that the current view URL could also be a symbolic link to 'dir'
-    // -> use QDir::canonicalPath() to check that.
-    const QUrl oldUrl(url());
-    const QUrl newUrl(QUrl::fromLocalFile(dir));
-    if (newUrl != oldUrl && dir != QDir(oldUrl.path()).canonicalPath()) {
-        emit changeUrl(newUrl);
+    // Only emit a changeUrl signal if the directory change was caused by the user inside the
+    // terminal, and not by sendCdToTerminal(QString).
+    while (!m_sendCdToTerminalHistory.empty()) {
+        if (m_konsolePartCurrentDirectory == m_sendCdToTerminalHistory.dequeue()) {
+            return;
+        }
     }
+
+    emit changeUrl(dir);
 }
