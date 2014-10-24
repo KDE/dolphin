@@ -22,6 +22,8 @@
 
 #include <panels/panel.h>
 
+#include <QQueue>
+
 class TerminalInterfaceV2;
 class QVBoxLayout;
 class QWidget;
@@ -82,6 +84,7 @@ private:
     QWidget* m_terminalWidget;
     KParts::ReadOnlyPart* m_konsolePart;
     QString m_konsolePartCurrentDirectory;
+    QQueue<QString> m_sendCdToTerminalHistory;
 };
 
 #endif // TERMINALPANEL_H
