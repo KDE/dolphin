@@ -379,7 +379,6 @@ bool ViewProperties::exist() const
 QString ViewProperties::destinationDir(const QString& subDir) const
 {
     QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    path.append(KGlobal::mainComponent().componentName());
     path.append("/view_properties/").append(subDir);
     return path;
 }
