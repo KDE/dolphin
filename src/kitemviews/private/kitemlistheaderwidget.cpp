@@ -26,7 +26,7 @@
 #include <QPainter>
 #include <QStyleOptionHeader>
 
-#include <KDebug>
+#include <QDebug>
 
 KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),

@@ -24,7 +24,7 @@
 #include "kitemlistcontroller.h"
 
 #include <KGlobalSettings>
-#include <KDebug>
+#include <QDebug>
 
 #include "kitemlistview.h"
 #include "kitemlistselectionmanager.h"

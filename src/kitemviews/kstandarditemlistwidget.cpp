@@ -27,7 +27,7 @@
 #include <KIconLoader>
 #include <kratingpainter.h>
 #include <KStringHandler>
-#include <KDebug>
+#include <QDebug>
 
 #include "private/kfileitemclipboard.h"
 #include "private/kitemlistroleeditor.h"

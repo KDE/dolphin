@@ -22,7 +22,7 @@
 
 #include "kitemlistview.h"
 
-#include <KDebug>
+#include <QDebug>
 #include "kitemlistcontainer.h"
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
@@ -41,6 +41,7 @@
 #include <QStyle>
 #include <QStyleOptionRubberBand>
 #include <QTimer>
+#include <QElapsedTimer>
 
 #include <algorithm>
 
@@ -542,7 +543,7 @@ void KItemListView::endTransaction()
     --m_activeTransactions;
     if (m_activeTransactions < 0) {
         m_activeTransactions = 0;
-        kWarning() << "Mismatch between beginTransaction()/endTransaction()";
+        qWarning() << "Mismatch between beginTransaction()/endTransaction()";
     }
 
     if (m_activeTransactions == 0) {
@@ -1005,7 +1006,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         const int index = range.index + previouslyInsertedCount;
         const int count = range.count;
         if (index < 0 || count <= 0) {
-            kWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
+            qWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
         previouslyInsertedCount += count;
@@ -1113,7 +1114,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         const int index = range.index;
         const int count = range.count;
         if (index < 0 || count <= 0) {
-            kWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
+            qWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
 

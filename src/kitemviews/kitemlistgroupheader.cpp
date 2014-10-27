@@ -27,7 +27,7 @@
 #include <QGraphicsSceneResizeEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <KDebug>
+#include <QDebug>
 
 KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
     QGraphicsWidget(parent, 0),

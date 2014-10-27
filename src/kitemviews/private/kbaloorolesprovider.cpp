@@ -20,7 +20,7 @@
 
 #include "kbaloorolesprovider.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobal>
 #include <KLocalizedString>
 

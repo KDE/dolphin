@@ -24,7 +24,7 @@
 #include "kitemlistselectionmanager.h"
 
 #include "kitemmodelbase.h"
-#include <KDebug>
+#include <QDebug>
 
 KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     QObject(parent),

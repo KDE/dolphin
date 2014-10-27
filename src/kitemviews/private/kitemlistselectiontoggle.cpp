@@ -22,7 +22,7 @@
 #include <KIconLoader>
 #include <QPainter>
 
-#include <KDebug>
+#include <QDebug>
 
 KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
     QGraphicsWidget(parent, 0),

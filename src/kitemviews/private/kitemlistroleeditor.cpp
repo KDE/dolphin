@@ -19,7 +19,7 @@
 
 #include "kitemlistroleeditor.h"
 
-#include <KDebug>
+#include <QDebug>
 #include <kio/global.h>
 #include <QKeyEvent>
 

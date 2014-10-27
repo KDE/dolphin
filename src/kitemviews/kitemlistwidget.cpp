@@ -27,7 +27,7 @@
 
 #include "private/kitemlistselectiontoggle.h"
 
-#include <KDebug>
+#include <QDebug>
 
 #include <KGlobalSettings>
 #include <QApplication>

@@ -21,7 +21,7 @@
 
 #include <kitemviews/kitemlistview.h>
 
-#include <KDebug>
+#include <QDebug>
 #include <KGlobalSettings>
 
 #include <QGraphicsWidget>

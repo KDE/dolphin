@@ -35,7 +35,7 @@
 #include <QStyle>
 #include <QStyleOption>
 
-#include <KDebug>
+#include <QDebug>
 
 /**
  * Replaces the default viewport of KItemListContainer by a

@@ -19,7 +19,7 @@
 
 #include "kstandarditem.h"
 
-#include <KDebug>
+#include <QDebug>
 #include "kstandarditemmodel.h"
 
 KStandardItem::KStandardItem(KStandardItem* parent) :

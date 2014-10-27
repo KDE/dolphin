@@ -21,7 +21,7 @@
 
 #include <KCModuleProxy>
 #include <KDialog>
-#include <KVBox>
+#include <QVBoxLayout>
 
 #include <QVBoxLayout>
 
@@ -31,8 +31,10 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
     const int spacing = KDialog::spacingHint();
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
+    QWidget* vBox = new QWidget(this);
+    QVBoxLayout *vBoxVBoxLayout = new QVBoxLayout(vBox);
+    vBoxVBoxLayout->setMargin(0);
+    vBoxVBoxLayout->setSpacing(spacing);
 
     m_proxy = new KCModuleProxy("kcmtrash");
     topLayout->addWidget(m_proxy);
@@ -40,7 +42,9 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
-    new QWidget(vBox);
+    QWidget *w = new QWidget(vBox);
+    vBoxVBoxLayout->addWidget(w);
+    
     topLayout->addWidget(vBox);
 
     loadSettings();
