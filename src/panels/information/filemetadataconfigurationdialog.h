@@ -20,7 +20,7 @@
 #ifndef FILEMETADATACONFIGURATIONDIALOG_H
 #define FILEMETADATACONFIGURATIONDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 #include <KFileItem>
 #include "config-baloo.h"
 
@@ -38,7 +38,7 @@ class QLabel;
  * @brief Dialog which allows to configure which meta data should be shown
  *        in the KFileMetaDataWidget.
  */
-class FileMetaDataConfigurationDialog : public KDialog
+class FileMetaDataConfigurationDialog : public QDialog
 {
     Q_OBJECT
 
@@ -67,8 +67,7 @@ public:
     QString description() const;
 
 protected slots:
-    virtual void slotButtonClicked(int button);
-
+    void slotAccepted();
 private:
     QLabel* m_descriptionLabel;
 #ifndef HAVE_BALOO

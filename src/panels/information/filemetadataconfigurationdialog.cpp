@@ -28,16 +28,27 @@
 #include <KLocalizedString>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <KWindowConfig>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent) :
-    KDialog(parent),
+    QDialog(parent),
     m_descriptionLabel(0),
     m_configWidget(0)
 
 {
-    setCaption(i18nc("@title:window", "Configure Shown Data"));
-    setButtons(KDialog::Ok | KDialog::Cancel);
-    setDefaultButton(KDialog::Ok);
+    setWindowTitle(i18nc("@title:window", "Configure Shown Data"));
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotAccepted()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
                                           "Select which data should "
@@ -55,18 +66,20 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
     QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
     topLayout->addWidget(m_descriptionLabel);
     topLayout->addWidget(m_configWidget);
-    setMainWidget(mainWidget);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+    
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                                     "FileMetaDataConfigurationDialog");
-    restoreDialogSize(dialogConfig);
+    KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 FileMetaDataConfigurationDialog::~FileMetaDataConfigurationDialog()
 {
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                               "FileMetaDataConfigurationDialog");
-    saveDialogSize(dialogConfig, KConfigBase::Persistent);
+    KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
 void FileMetaDataConfigurationDialog::setItems(const KFileItemList& items)
@@ -79,14 +92,10 @@ KFileItemList FileMetaDataConfigurationDialog::items() const
     return m_configWidget->items();
 }
 
-void FileMetaDataConfigurationDialog::slotButtonClicked(int button)
+void FileMetaDataConfigurationDialog::slotAccepted()
 {
-    if (button == KDialog::Ok) {
-        m_configWidget->save();
-        accept();
-    } else {
-        KDialog::slotButtonClicked(button);
-    }
+    m_configWidget->save();
+    accept();
 }
 
 void FileMetaDataConfigurationDialog::setDescription(const QString& description)

@@ -64,7 +64,6 @@
 #include <KFileItemListProperties>
 #include <KRun>
 #include <KShell>
-#include <kstatusbar.h>
 #include <KStandardAction>
 #include <KToggleAction>
 #include <KUrlNavigator>
