@@ -504,7 +504,8 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
         return;
     }
 
-    new KRun(item.targetUrl(), this);
+    KRun *run = new KRun(item.targetUrl(), this);
+    run->setShowScriptExecutionPrompt(true);
 }
 
 void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
