@@ -497,6 +497,11 @@ void DolphinMainWindow::updatePasteAction()
     pasteAction->setText(pasteInfo.second);
 }
 
+void DolphinMainWindow::slotDirectoryLoadingCompleted()
+{
+    updatePasteAction();
+}
+
 void DolphinMainWindow::selectAll()
 {
     clearStatusBar();
@@ -1427,6 +1432,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::enableStopAction);
     connect(view, &DolphinView::directoryLoadingCompleted,
             this, &DolphinMainWindow::disableStopAction);
+    connect(view, &DolphinView::directoryLoadingCompleted,
+            this, &DolphinMainWindow::slotDirectoryLoadingCompleted);
     connect(view, &DolphinView::goBackRequested,
             this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goBack));
     connect(view, &DolphinView::goForwardRequested,

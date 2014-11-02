@@ -432,6 +432,11 @@ private slots:
      */
     void setUrlAsCaption(const QUrl& url);
 
+    /**
+     * Is called when the view has finished loading the directory.
+     */
+    void slotDirectoryLoadingCompleted();
+
 private:
     void setupActions();
     void setupDockWidgets();
