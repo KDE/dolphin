@@ -572,6 +572,11 @@ private slots:
     /*
      * Is called when new items get pasted or dropped.
      */
+    void slotItemCreated(const QUrl &url);
+    /*
+     * Is called after all pasted or dropped items have been copied to destination.
+     */
+    void slotPasteJobResult(KJob *job);
     void slotAboutToCreate(const QList<QUrl> &urls);
 
     /**

@@ -51,6 +51,7 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
+#include <KIO/PasteJob>
 #include <KIO/Paste>
 #include <KJob>
 #include <QMenu>
@@ -1040,16 +1041,19 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->modifiers());
 
     QString error;
-    KonqOperations* op = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
+    KonqOperations* job = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
     if (!error.isEmpty()) {
         emit infoMessage(error);
     }
 
-    if (op && destUrl == url()) {
+    if (job && destUrl == url()) {
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
+        connect(job, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
+        // TODO
+        //connect(job, &KIO::InteractiveDropJob::itemCreated, this, &DolphinView::slotItemCreated);
+        //connect(job, &KIO::InteractiveDropJob::result, this, &DolphinView::slotPasteJobResult);
     }
 
     setActive(true);
@@ -1093,6 +1097,22 @@ void DolphinView::slotAboutToCreate(const QList<QUrl>& urls)
             m_markFirstNewlySelectedItemAsCurrent = false;
         }
         m_selectedUrls << KDirModel::simplifiedUrlList(urls);
+    }
+}
+
+void DolphinView::slotItemCreated(const QUrl& url)
+{
+    if (m_markFirstNewlySelectedItemAsCurrent) {
+        markUrlAsCurrent(url);
+        m_markFirstNewlySelectedItemAsCurrent = false;
+    }
+    m_selectedUrls << url;
+}
+
+void DolphinView::slotPasteJobResult(KJob *)
+{
+    if (!m_selectedUrls.isEmpty()) {
+        m_selectedUrls << KDirModel::simplifiedUrlList(m_selectedUrls);
     }
 }
 
@@ -1649,12 +1669,12 @@ void DolphinView::applyModeToView()
 
 void DolphinView::pasteToUrl(const QUrl& url)
 {
-    KonqOperations* op = KonqOperations::doPaste(this, url);
-    if (op) {
-        m_clearSelectionBeforeSelectingNewItems = true;
-        m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
-    }
+    KIO::PasteJob *job = KIO::paste(QApplication::clipboard()->mimeData(), url);
+    KJobWidgets::setWindow(job, this);
+    m_clearSelectionBeforeSelectingNewItems = true;
+    m_markFirstNewlySelectedItemAsCurrent = true;
+    connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
+    connect(job, &KIO::PasteJob::result, this, &DolphinView::slotPasteJobResult);
 }
 
 QList<QUrl> DolphinView::simplifiedSelectedUrls() const

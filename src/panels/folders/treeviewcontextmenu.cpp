@@ -31,8 +31,8 @@
 #include <KConfigGroup>
 #include <kurlmimedata.h>
 #include <KFileItemListProperties>
-#include <konq_operations.h>
 #include <KLocalizedString>
+#include <KIO/PasteJob>
 #include <KIO/Paste>
 #include <KIO/FileUndoManager>
 #include <KPropertiesDialog>
@@ -182,7 +182,8 @@ void TreeViewContextMenu::copy()
 
 void TreeViewContextMenu::paste()
 {
-    KonqOperations::doPaste(m_parent, m_fileItem.url());
+    KIO::PasteJob *job = KIO::paste(QApplication::clipboard()->mimeData(), m_fileItem.url());
+    KJobWidgets::setWindow(job, m_parent);
 }
 
 void TreeViewContextMenu::rename()
