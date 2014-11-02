@@ -20,6 +20,7 @@
 #include "dolphinviewcontainer.h"
 #include <KProtocolManager>
 
+#include <QDropEvent>
 #include <QTimer>
 #include <QMimeData>
 #include <QVBoxLayout>

@@ -46,6 +46,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QKeyEvent>
 #include <QMenuBar>
 #include <QMenu>
 

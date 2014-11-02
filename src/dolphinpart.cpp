@@ -56,6 +56,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
+#include <QKeyEvent>
 
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
