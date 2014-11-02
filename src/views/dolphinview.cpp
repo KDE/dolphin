@@ -1050,9 +1050,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(job, static_cast<void(KonqOperations::*)(const QList<QUrl>&)>(&KonqOperations::aboutToCreate), this, &DolphinView::slotAboutToCreate);
-        // TODO
-        //connect(job, &KIO::InteractiveDropJob::itemCreated, this, &DolphinView::slotItemCreated);
+        connect(job, &KonqOperations::itemCreated, this, &DolphinView::slotItemCreated);
         //connect(job, &KIO::InteractiveDropJob::result, this, &DolphinView::slotPasteJobResult);
     }
 
@@ -1086,17 +1084,6 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
         emit goBackRequested();
     } else if (buttons & Qt::ForwardButton) {
         emit goForwardRequested();
-    }
-}
-
-void DolphinView::slotAboutToCreate(const QList<QUrl>& urls)
-{
-    if (!urls.isEmpty()) {
-        if (m_markFirstNewlySelectedItemAsCurrent) {
-            markUrlAsCurrent(urls.first());
-            m_markFirstNewlySelectedItemAsCurrent = false;
-        }
-        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
     }
 }
 

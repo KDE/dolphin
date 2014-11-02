@@ -577,7 +577,6 @@ private slots:
      * Is called after all pasted or dropped items have been copied to destination.
      */
     void slotPasteJobResult(KJob *job);
-    void slotAboutToCreate(const QList<QUrl> &urls);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
