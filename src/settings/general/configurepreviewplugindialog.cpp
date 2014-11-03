@@ -76,6 +76,4 @@ void ConfigurePreviewPluginDialog::slotOk()
     QApplication::changeOverrideCursor(Qt::BusyCursor);
     KIO::NetAccess::del(QUrl::fromLocalFile(QDir::homePath() + "/.thumbnails/"), this);
     QApplication::restoreOverrideCursor();
-
 }
-

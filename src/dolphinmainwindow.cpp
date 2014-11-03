@@ -1118,12 +1118,10 @@ void DolphinMainWindow::setupActions()
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 
     // not in menu actions
-    QList<QKeySequence> nextTabKeys;
-    nextTabKeys.append(KStandardShortcut::tabNext().first()); //TODO: is this correct
+    QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
     nextTabKeys.append(QKeySequence(Qt::CTRL | Qt::Key_Tab));
 
-    QList<QKeySequence> prevTabKeys;
-    prevTabKeys.append(KStandardShortcut::tabPrev().first()); //TODO: is this correct
+    QList<QKeySequence> prevTabKeys = KStandardShortcut::tabPrev();
     prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
     QAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
