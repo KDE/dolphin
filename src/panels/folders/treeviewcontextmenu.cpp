@@ -193,7 +193,7 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-    const QList<QUrl> list {QList<QUrl>() << m_fileItem.url()};
+    const QList<QUrl> list {m_fileItem.url()};
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(m_parent);
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
@@ -206,7 +206,7 @@ void TreeViewContextMenu::moveToTrash()
 
 void TreeViewContextMenu::deleteItem()
 {
-    const QList<QUrl> list {QList<QUrl>() << m_fileItem.url()};
+    const QList<QUrl> list {m_fileItem.url()};
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(m_parent);
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
