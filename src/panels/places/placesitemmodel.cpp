@@ -657,7 +657,7 @@ void PlacesItemModel::updateBookmarks()
                     found = true;
                     if (newBookmark.metaDataItem("UDI").isEmpty()) {
                         item->setBookmark(newBookmark);
-                        item->setText(i18nc("KFile System Bookmarks", newBookmark.text().toUtf8().data()));
+                        item->setText(i18nc("KFile System Bookmarks", newBookmark.text().toUtf8().constData()));
                     }
                     break;
                 }
@@ -764,7 +764,7 @@ void PlacesItemModel::loadBookmarks()
                     // text, the retranslation will fail and the users custom text is still used.
                     // It is important to use "KFile System Bookmarks" as context (see
                     // createSystemBookmarks()).
-                    item->setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().data()));
+                    item->setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
                     item->setSystemItem(true);
                 }
 

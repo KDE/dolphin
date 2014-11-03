@@ -134,7 +134,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
-        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().data()));
+        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
         setUrl(bookmark.url());
     } else {
         initializeDevice(udi);
@@ -269,26 +269,26 @@ void PlacesItem::initializeDevice(const QString& udi)
     setUdi(udi);
 
     if (m_access) {
-        setUrl(m_access->filePath());
-        QObject::connect(m_access.data(), &Solid::StorageAccess::accessibilityChanged,
-                         m_signalHandler.data(), &PlacesItemSignalHandler::onAccessibilityChanged);
+        setUrl(QUrl::fromLocalFile(m_access->filePath()));
+        QObject::connect(m_access.data(), SIGNAL(accessibilityChanged(bool,QString)),
+                         m_signalHandler.data(), SLOT(onAccessibilityChanged()));
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         Solid::Block *block = m_device.as<Solid::Block>();
         if (block) {
             const QString device = block->device();
-            setUrl(QString("audiocd:/?device=%1").arg(device));
+            setUrl(QStringLiteral("audiocd:/?device=%1").arg(device));
         } else {
-            setUrl(QString("audiocd:/"));
+            setUrl(QStringLiteral("audiocd:/"));
         }
     } else if (m_mtp) {
-        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
+        setUrl(QStringLiteral("mtp:udi=%1").arg(m_device.udi()));
     }
 }
 
 void PlacesItem::onAccessibilityChanged()
 {
     setIconOverlays(m_device.emblems());
-    setUrl(m_access->filePath());
+    setUrl(QUrl::fromLocalFile(m_access->filePath()));
 }
 
 void PlacesItem::onTrashDirListerCompleted()

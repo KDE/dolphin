@@ -117,7 +117,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setSingleClickActivationEnforced(true);
 
-	readSettings();
+        readSettings();
 
         connect(m_controller, &KItemListController::itemActivated, this, &PlacesPanel::slotItemActivated);
         connect(m_controller, &KItemListController::itemMiddleClicked, this, &PlacesPanel::slotItemMiddleClicked);
@@ -538,5 +538,3 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         }
     }
 }
-
-

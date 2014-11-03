@@ -82,10 +82,10 @@ public:
 protected:
     virtual void onDataValueChanged(const QByteArray& role,
                                     const QVariant& current,
-                                    const QVariant& previous);
+                                    const QVariant& previous) Q_DECL_OVERRIDE;
 
     virtual void onDataChanged(const QHash<QByteArray, QVariant>& current,
-                               const QHash<QByteArray, QVariant>& previous);
+                               const QHash<QByteArray, QVariant>& previous) Q_DECL_OVERRIDE;
 
 private:
     PlacesItem(const PlacesItem& item);
