@@ -101,8 +101,8 @@ signals:
     void zoomLevelChanged(int zoomLevel);
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void showZoomSliderToolTip(int zoomLevel);

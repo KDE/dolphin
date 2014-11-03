@@ -54,7 +54,7 @@ public:
     bool allowGlobal() const;
 
 protected:
-    virtual bool event(QEvent* event);
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotUrlChanged(const QString& text);

@@ -78,9 +78,9 @@ public:
      */
     void cancelDirectoryLoading();
 
-    virtual int count() const;
-    virtual QHash<QByteArray, QVariant> data(int index) const;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
+    virtual int count() const Q_DECL_OVERRIDE;
+    virtual QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
+    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values) Q_DECL_OVERRIDE;
 
     /**
      * Sets a separate sorting with directories first (true) or a mixed
@@ -99,20 +99,15 @@ public:
     void setShowDirectoriesOnly(bool enabled);
     bool showDirectoriesOnly() const;
 
-    /** @reimp */
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual bool supportsDropping(int index) const;
+    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual QString roleDescription(const QByteArray& role) const;
+    virtual QString roleDescription(const QByteArray& role) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual QList<QPair<int, QVariant> > groups() const;
+    virtual QList<QPair<int, QVariant> > groups() const Q_DECL_OVERRIDE;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -158,10 +153,10 @@ public:
     void setRoles(const QSet<QByteArray>& roles);
     QSet<QByteArray> roles() const;
 
-    virtual bool setExpanded(int index, bool expanded);
-    virtual bool isExpanded(int index) const;
-    virtual bool isExpandable(int index) const;
-    virtual int expandedParentsCount(int index) const;
+    virtual bool setExpanded(int index, bool expanded) Q_DECL_OVERRIDE;
+    virtual bool isExpanded(int index) const Q_DECL_OVERRIDE;
+    virtual bool isExpandable(int index) const Q_DECL_OVERRIDE;
+    virtual int expandedParentsCount(int index) const Q_DECL_OVERRIDE;
 
     QSet<QUrl> expandedDirectories() const;
 
@@ -260,9 +255,9 @@ signals:
     void urlIsFileError(const QUrl& url);
 
 protected:
-    virtual void onGroupedSortingChanged(bool current);
-    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+    virtual void onGroupedSortingChanged(bool current) Q_DECL_OVERRIDE;
+    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous) Q_DECL_OVERRIDE;
+    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) Q_DECL_OVERRIDE;
 
 private slots:
     /**

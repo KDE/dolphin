@@ -58,11 +58,11 @@ public:
     bool enabledFrame() const;
 
 protected:
-    virtual void keyPressEvent(QKeyEvent* event);
-    virtual void showEvent(QShowEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
-    virtual void scrollContentsBy(int dx, int dy);
-    virtual void wheelEvent(QWheelEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    virtual void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
+    virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);

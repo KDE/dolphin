@@ -85,7 +85,7 @@ signals:
 
 protected:
     /** @see QObject::eventFilter() */
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**

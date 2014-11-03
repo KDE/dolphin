@@ -46,8 +46,8 @@ public:
     QUrl url() const;
 
 protected:
-    void showEvent(QShowEvent* event);
-    void hideEvent(QHideEvent* event);
+    void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotValuesChanged();

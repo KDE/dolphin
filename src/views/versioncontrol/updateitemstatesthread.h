@@ -53,7 +53,7 @@ public:
     QMap<QString, QVector<VersionControlObserver::ItemState> > itemStates() const;
 
 protected:
-    virtual void run();
+    virtual void run() Q_DECL_OVERRIDE;
 
 private:
     QMutex* m_globalPluginMutex; // Protects the m_plugin globally

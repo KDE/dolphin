@@ -204,16 +204,16 @@ void DolphinPart::createActions()
             this, &DolphinPart::slotGoTriggered);
 
     createGoAction("go_applications", "start-here-kde",
-                   i18nc("@action:inmenu Go", "App&lications"), QString("programs:/"),
+                   i18nc("@action:inmenu Go", "App&lications"), QStringLiteral("programs:/"),
                    goActionGroup);
     createGoAction("go_network_folders", "folder-remote",
-                   i18nc("@action:inmenu Go", "&Network Folders"), QString("remote:/"),
+                   i18nc("@action:inmenu Go", "&Network Folders"), QStringLiteral("remote:/"),
                    goActionGroup);
     createGoAction("go_settings", "preferences-system",
-                   i18nc("@action:inmenu Go", "Sett&ings"), QString("settings:/"),
+                   i18nc("@action:inmenu Go", "Sett&ings"), QStringLiteral("settings:/"),
                    goActionGroup);
     createGoAction("go_trash", "user-trash",
-                   i18nc("@action:inmenu Go", "Trash"), QString("trash:/"),
+                   i18nc("@action:inmenu Go", "Trash"), QStringLiteral("trash:/"),
                    goActionGroup);
     createGoAction("go_autostart", "",
                    i18nc("@action:inmenu Go", "Autostart"), QStandardPaths::writableLocation(QStandardPaths::GenericConfigLocation) + "/autostart",

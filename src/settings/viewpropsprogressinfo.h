@@ -56,7 +56,7 @@ public:
     virtual ~ViewPropsProgressInfo();
 
 protected:
-    virtual void closeEvent(QCloseEvent* event);
+    virtual void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void updateProgress();

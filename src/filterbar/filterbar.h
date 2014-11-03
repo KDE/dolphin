@@ -74,8 +74,8 @@ signals:
     void focusViewRequest();
 
 protected:
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
 private:
     KLineEdit* m_filterInput;

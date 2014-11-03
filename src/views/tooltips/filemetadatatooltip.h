@@ -70,8 +70,8 @@ signals:
     void metaDataRequestFinished(const KFileItemList& items);
 
 protected:
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void showEvent(QShowEvent *);
+    virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
 
 private:
     QLabel* m_preview;

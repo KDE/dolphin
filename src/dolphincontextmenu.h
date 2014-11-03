@@ -89,8 +89,8 @@ public:
     Command open();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *ev);
-    virtual void keyReleaseEvent(QKeyEvent *ev);
+    virtual void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
 
 private:
     void openTrashContextMenu();

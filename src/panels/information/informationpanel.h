@@ -59,16 +59,16 @@ public slots:
 
 protected:
     /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
 
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QWidget::resizeEvent() */
-    virtual void resizeEvent(QResizeEvent* event);
+    virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**

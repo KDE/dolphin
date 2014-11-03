@@ -40,10 +40,10 @@ public:
     virtual ~StartupSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual void applySettings() Q_DECL_OVERRIDE;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+    virtual void restoreDefaults() Q_DECL_OVERRIDE;
 
 private slots:
     void slotSettingsChanged();

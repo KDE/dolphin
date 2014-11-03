@@ -147,16 +147,16 @@ signals:
 
 protected:
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QMainWindow::closeEvent() */
-    virtual void closeEvent(QCloseEvent* event);
+    virtual void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
 
     /** @see KMainWindow::saveProperties() */
-    virtual void saveProperties(KConfigGroup& group);
+    virtual void saveProperties(KConfigGroup& group) Q_DECL_OVERRIDE;
 
     /** @see KMainWindow::readProperties() */
-    virtual void readProperties(const KConfigGroup& group);
+    virtual void readProperties(const KConfigGroup& group) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -494,7 +494,7 @@ private:
     public:
         UndoUiInterface();
         virtual ~UndoUiInterface();
-        virtual void jobError(KIO::Job* job);
+        virtual void jobError(KIO::Job* job) Q_DECL_OVERRIDE;
     };
 
     KNewFileMenu* m_newFileMenu;

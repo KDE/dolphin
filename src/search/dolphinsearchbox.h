@@ -105,10 +105,10 @@ public:
     bool isActive() const;
 
 protected:
-    virtual bool event(QEvent* event);
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 signals:
     /**

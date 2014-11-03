@@ -82,7 +82,7 @@ public:
      * to show the data of the custom model provided by KItemListWidget::data().
      * @reimp
      */
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
 
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
@@ -203,7 +203,7 @@ protected:
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
 
     /**
      * @return The current opacity of the hover-animation. When implementing a custom painting-code for a hover-state

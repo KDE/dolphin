@@ -223,7 +223,7 @@ private Q_SLOTS:
     void setFilesToSelect(const QList<QUrl> &files);
     QList<QUrl> filesToSelect() const { return QList<QUrl>(); } // silence moc
 
-    virtual bool eventFilter(QObject*, QEvent*);
+    virtual bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
 
 private:
     void createActions();

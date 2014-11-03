@@ -35,17 +35,17 @@ signals:
     void tabDetachRequested(int index);
 
 protected:
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
-    virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dropEvent(QDropEvent* event);
-    virtual void mousePressEvent(QMouseEvent* event);
-    virtual void mouseDoubleClickEvent(QMouseEvent* event);
+    virtual void dragEnterEvent(QDragEnterEvent* event) Q_DECL_OVERRIDE;
+    virtual void dragLeaveEvent(QDragLeaveEvent* event) Q_DECL_OVERRIDE;
+    virtual void dragMoveEvent(QDragMoveEvent* event) Q_DECL_OVERRIDE;
+    virtual void dropEvent(QDropEvent* event) Q_DECL_OVERRIDE;
+    virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+    virtual void mouseDoubleClickEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
     /**
      * Opens a context menu for the tab on the \a event position.
      */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotAutoActivationTimeout();

@@ -40,7 +40,7 @@ public:
     virtual ~DolphinFileItemListWidget();
 
 protected:
-    virtual void refreshCache();
+    virtual void refreshCache() Q_DECL_OVERRIDE;
 
 private:
     static QPixmap overlayForState(KVersionControlPlugin2::ItemVersion version, int size);

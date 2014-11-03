@@ -31,10 +31,10 @@ public:
     virtual ~KFileItemListWidgetInformant();
 
 protected:
-    virtual QString itemText(int index, const KItemListView* view) const;
-    virtual bool itemIsLink(int index, const KItemListView* view) const;
-    virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const;
-    virtual QFont customizedFontForLinks(const QFont& baseFont) const;
+    virtual QString itemText(int index, const KItemListView* view) const Q_DECL_OVERRIDE;
+    virtual bool itemIsLink(int index, const KItemListView* view) const Q_DECL_OVERRIDE;
+    virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const Q_DECL_OVERRIDE;
+    virtual QFont customizedFontForLinks(const QFont& baseFont) const Q_DECL_OVERRIDE;
 };
 
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KStandardItemListWidget
@@ -48,14 +48,14 @@ public:
     static KItemListWidgetInformant* createInformant();
 
 protected:
-    virtual bool isRoleRightAligned(const QByteArray& role) const;
-    virtual bool isHidden() const;
-    virtual QFont customizedFont(const QFont& baseFont) const;
+    virtual bool isRoleRightAligned(const QByteArray& role) const Q_DECL_OVERRIDE;
+    virtual bool isHidden() const Q_DECL_OVERRIDE;
+    virtual QFont customizedFont(const QFont& baseFont) const Q_DECL_OVERRIDE;
 
     /**
      * @return Selection length without MIME-type extension
      */
-    virtual int selectionLength(const QString& text) const;
+    virtual int selectionLength(const QString& text) const Q_DECL_OVERRIDE;
 };
 
 #endif

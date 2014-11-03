@@ -160,8 +160,7 @@ public:
 
     const KItemListStyleOption& styleOption() const;
 
-    /** @reimp */
-    virtual void setGeometry(const QRectF& rect);
+    virtual void setGeometry(const QRectF& rect) Q_DECL_OVERRIDE;
 
     /**
      * @return The page step which should be used by the vertical scroll bar.
@@ -279,10 +278,7 @@ public:
      */
     void editRole(int index, const QByteArray& role);
 
-    /**
-     * @reimp
-     */
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
 
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
@@ -322,7 +318,7 @@ signals:
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
     void setItemSize(const QSizeF& size);
     void setStyleOption(const KItemListStyleOption& option);
 
@@ -379,13 +375,13 @@ protected:
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();
 
-    virtual bool event(QEvent* event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
-    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent* event);
-    virtual void dropEvent(QGraphicsSceneDragDropEvent* event);
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
+    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
+    virtual void dropEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 

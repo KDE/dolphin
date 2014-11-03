@@ -365,7 +365,7 @@ public slots:
     void stopLoading();
 
     /** Activates the view if the item list container gets focus. */
-    virtual bool eventFilter(QObject* watched, QEvent* event);
+    virtual bool eventFilter(QObject* watched, QEvent* event) Q_DECL_OVERRIDE;
 
 signals:
     /**
@@ -543,11 +543,10 @@ signals:
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
-    virtual void wheelEvent(QWheelEvent* event);
+    virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual void hideEvent(QHideEvent* event);
-    virtual bool event(QEvent* event);
+    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**

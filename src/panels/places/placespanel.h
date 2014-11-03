@@ -48,8 +48,8 @@ signals:
     void errorMessage(const QString& error);
 
 protected:
-    virtual bool urlChanged();
-    virtual void showEvent(QShowEvent* event);
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 public slots:
     virtual void readSettings();

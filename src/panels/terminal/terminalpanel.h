@@ -61,11 +61,9 @@ signals:
     void changeUrl(const QUrl& url);
 
 protected:
-    /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
 
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotMostLocalUrlResult(KJob* job);

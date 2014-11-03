@@ -49,8 +49,7 @@ public:
     void setCustomContextMenuActions(const QList<QAction*>& actions);
     QList<QAction*> customContextMenuActions() const;
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
 public slots:
     /**

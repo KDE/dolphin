@@ -71,10 +71,10 @@ public:
      * of the parent widget. Per default no size hint is given.
      */
     void setSizeHint(const QSize& size);
-    virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
 protected:
-    virtual void paintEvent(QPaintEvent* event);
+    virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
 
 private Q_SLOTS:
     void checkPendingPixmaps();

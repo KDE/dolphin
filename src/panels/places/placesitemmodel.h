@@ -107,11 +107,9 @@ public:
     bool storageSetupNeeded(int index) const;
     void requestStorageSetup(int index);
 
-    /** @reimp */
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual bool supportsDropping(int index) const;
+    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
 
     void dropMimeDataBefore(int index, const QMimeData* mimeData);
 
@@ -123,15 +121,15 @@ public:
      */
     static QUrl convertedUrl(const QUrl& url);
 
-    virtual void clear();
+    virtual void clear() Q_DECL_OVERRIDE;
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
 
 protected:
-    virtual void onItemInserted(int index);
-    virtual void onItemRemoved(int index, KStandardItem* removedItem);
-    virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles);
+    virtual void onItemInserted(int index) Q_DECL_OVERRIDE;
+    virtual void onItemRemoved(int index, KStandardItem* removedItem) Q_DECL_OVERRIDE;
+    virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles) Q_DECL_OVERRIDE;
 
 private slots:
     void slotDeviceAdded(const QString& udi);

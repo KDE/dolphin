@@ -47,10 +47,10 @@ public:
     explicit ServiceModel(QObject* parent = 0);
     virtual ~ServiceModel();
 
-    virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex());
-    virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const;
+    virtual bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) Q_DECL_OVERRIDE;
+    virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
+    virtual int rowCount(const QModelIndex& parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
  private:
     struct ServiceItem

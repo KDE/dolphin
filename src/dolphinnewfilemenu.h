@@ -48,7 +48,7 @@ signals:
 
 protected slots:
     /** @see KNewFileMenu::slotResult() */
-    virtual void slotResult(KJob* job);
+    virtual void slotResult(KJob* job) Q_DECL_OVERRIDE;
 };
 
 #endif

@@ -64,7 +64,7 @@ public:
     int progress() const;
 
 private slots:
-    virtual void slotResult(KJob* job);
+    virtual void slotResult(KJob* job) Q_DECL_OVERRIDE;
     void slotEntries(KIO::Job*, const KIO::UDSEntryList&);
 
 private:
