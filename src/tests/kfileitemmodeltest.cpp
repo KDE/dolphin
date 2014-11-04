@@ -404,8 +404,7 @@ void KFileItemModelTest::testResortAfterChangingName()
     // We rename d.txt back to a.txt using the dir lister's refreshItems() signal.
     const KFileItem fileItemD = m_model->fileItem(2);
     KFileItem fileItemA = fileItemD;
-    QUrl urlA = fileItemA.url();
-    urlA.adjusted(QUrl::RemoveFilename);
+    QUrl urlA = fileItemA.url().adjusted(QUrl::RemoveFilename);
     urlA.setPath(urlA.path() + "a.txt");
     fileItemA.setUrl(urlA);
 
@@ -538,7 +537,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/a/", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl(m_testDir->name() + 'a'));
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl::fromLocalFile(m_testDir->name() + 'a'));
 
     QCOMPARE(spyInserted.count(), 1);
     KItemRangeList itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -554,7 +553,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
-    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl(m_testDir->name() + 'a') << QUrl(m_testDir->name() + "a/a"));
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>() << QUrl::fromLocalFile(m_testDir->name() + 'a') << QUrl::fromLocalFile(m_testDir->name() + "a/a"));
 
     QCOMPARE(spyInserted.count(), 1);
     itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -583,7 +582,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(0, false);
     QVERIFY(!m_model->isExpanded(0));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(!m_model->expandedDirectories().contains(QUrl(m_testDir->name() + 'a'))); // TODO: Make sure that child URLs are also removed
+    QVERIFY(!m_model->expandedDirectories().contains(QUrl::fromLocalFile(m_testDir->name() + 'a'))); // TODO: Make sure that child URLs are also removed
 
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
@@ -609,7 +608,7 @@ void KFileItemModelTest::testExpandItems()
 
     // Move to a sub folder, then call restoreExpandedFolders() *before* going back.
     // This is how DolphinView restores the expanded folders when navigating in history.
-    m_model->loadDirectory(QUrl(m_testDir->name() + "a/a/"));
+    m_model->loadDirectory(QUrl::fromLocalFile(m_testDir->name() + "a/a/"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);  // 1 item: "1"
     m_model->restoreExpandedDirectories(allFolders);
@@ -623,7 +622,7 @@ void KFileItemModelTest::testExpandItems()
     m_model->setRoles(originalModelRoles);
     QVERIFY(!m_model->isExpanded(0));
     QCOMPARE(m_model->count(), 1);
-    QVERIFY(!m_model->expandedDirectories().contains(QUrl(m_testDir->name() + 'a')));
+    QVERIFY(!m_model->expandedDirectories().contains(QUrl::fromLocalFile(m_testDir->name() + 'a')));
 
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
@@ -657,7 +656,7 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(m_model->expandedDirectories().empty());
 
     // Expand the parents of "a2/b2/c2".
-    m_model->expandParentDirectories(QUrl(m_testDir->name() + "a2/b2/c2"));
+    m_model->expandParentDirectories(QUrl::fromLocalFile(m_testDir->name() + "a2/b2/c2"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a2/", "a2/b2/", and "a2/b2/c2/".
@@ -669,7 +668,7 @@ void KFileItemModelTest::testExpandParentItems()
     QVERIFY(!m_model->isExpanded(3));
 
     // Expand the parents of "a 1/b1".
-    m_model->expandParentDirectories(QUrl(m_testDir->name() + "a 1/b1"));
+    m_model->expandParentDirectories(QUrl::fromLocalFile(m_testDir->name() + "a 1/b1"));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a 1/b1/", "a2/", "a2/b2", and "a2/b2/c2/".
@@ -1358,8 +1357,7 @@ void KFileItemModelTest::testNameRoleGroups()
     // Change d.txt back to c.txt, but this time using the dir lister's refreshItems() signal.
     const KFileItem fileItemD = m_model->fileItem(2);
     KFileItem fileItemC = fileItemD;
-    QUrl urlC = fileItemC.url();
-    urlC.adjusted(QUrl::RemoveFilename);
+    QUrl urlC = fileItemC.url().adjusted(QUrl::RemoveFilename);
     urlC.setPath(urlC.path() + "c.txt");
     fileItemC.setUrl(urlC);
 
@@ -1586,8 +1584,7 @@ void KFileItemModelTest::testRefreshFilteredItems()
 
     // Rename one of the .jpg files.
     KFileItem fileItemE = fileItemC;
-    QUrl urlE = fileItemE.url();
-    urlE.adjusted(QUrl::RemoveFilename);
+    QUrl urlE = fileItemE.url().adjusted(QUrl::RemoveFilename);
     urlE.setPath(urlE.path() + "e.jpg");
     fileItemE.setUrl(urlE);
 
@@ -1687,8 +1684,7 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     // completed() signal is not emitted yet.
     const KFileItem fileItemA2 = m_model->fileItem(0);
     KFileItem fileItemA1 = fileItemA2;
-    QUrl urlA1 = fileItemA1.url();
-    urlA1.adjusted(QUrl::RemoveFilename);
+    QUrl urlA1 = fileItemA1.url().adjusted(QUrl::RemoveFilename);
     urlA1.setPath(urlA1.path() + "a1");
     fileItemA1.setUrl(urlA1);
 
