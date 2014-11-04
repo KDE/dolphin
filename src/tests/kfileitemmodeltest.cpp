@@ -736,10 +736,10 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
     QCOMPARE(m_model->count(), 6);
 
     // Rename "1a/2" and make it hidden.
-    const QString oldPath = m_model->fileItem(0).url().path() + "/2a";
-    const QString newPath = m_model->fileItem(0).url().path() + "/.2a";
+    const QUrl oldUrl = QUrl::fromLocalFile(m_model->fileItem(0).url().path() + "/2a");
+    const QUrl newUrl = QUrl::fromLocalFile(m_model->fileItem(0).url().path() + "/.2a");
 
-    KIO::SimpleJob* job = KIO::rename(oldPath, newPath, KIO::HideProgressInfo);
+    KIO::SimpleJob* job = KIO::rename(oldUrl, newUrl, KIO::HideProgressInfo);
     bool ok = job->exec();
     QVERIFY(ok);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
