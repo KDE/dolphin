@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSIZEHINTRESOLVER_H
 #define KITEMLISTSIZEHINTRESOLVER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kitemmodelbase.h>
 #include <QSizeF>

@@ -20,7 +20,7 @@
 #ifndef KFILEITEMMODELDIRLISTER_H
 #define KFILEITEMMODELDIRLISTER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <KDirLister>
 #include <QUrl>
 

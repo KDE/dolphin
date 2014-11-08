@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSMOOTHSCROLLER_H
 #define KITEMLISTSMOOTHSCROLLER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QAbstractAnimation>
 #include <QObject>

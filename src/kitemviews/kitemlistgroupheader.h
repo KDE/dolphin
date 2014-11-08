@@ -20,7 +20,7 @@
 #ifndef KITEMLISTGROUPHEADER_H
 #define KITEMLISTGROUPHEADER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 

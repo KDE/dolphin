@@ -20,7 +20,7 @@
 #ifndef UPDATEITEMSTATESTHREAD_H
 #define UPDATEITEMSTATESTHREAD_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <views/versioncontrol/versioncontrolobserver.h>
 
 #include <QMutex>

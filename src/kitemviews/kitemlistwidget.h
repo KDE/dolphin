@@ -23,7 +23,7 @@
 #ifndef KITEMLISTWIDGET_H
 #define KITEMLISTWIDGET_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 

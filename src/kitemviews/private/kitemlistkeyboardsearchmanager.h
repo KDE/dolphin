@@ -23,7 +23,7 @@
 #ifndef KITEMLISTKEYBOARDSEARCHMANAGER_H
 #define KITEMLISTKEYBOARDSEARCHMANAGER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QObject>
 #include <QString>

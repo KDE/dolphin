@@ -20,7 +20,7 @@
 #ifndef KITEMLISTRUBBERBAND_H
 #define KITEMLISTRUBBERBAND_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <QObject>
 #include <QPointF>
 

@@ -23,7 +23,7 @@
 #ifndef KITEMLISTCONTAINER_H
 #define KITEMLISTCONTAINER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QAbstractScrollArea>
 

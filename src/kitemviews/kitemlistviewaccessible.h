@@ -22,7 +22,7 @@
 
 #ifndef QT_NO_ACCESSIBILITY
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QtCore/qpointer.h>
 #include <QtGui/qaccessible.h>

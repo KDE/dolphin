@@ -21,7 +21,7 @@
 #ifndef KBALOO_ROLESPROVIDER_H
 #define KBALOO_ROLESPROVIDER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QHash>
 #include <QSet>

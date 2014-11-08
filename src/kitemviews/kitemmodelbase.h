@@ -23,7 +23,7 @@
 #ifndef KITEMMODELBASE_H
 #define KITEMMODELBASE_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kitemrange.h>
 #include <kitemviews/kitemset.h>

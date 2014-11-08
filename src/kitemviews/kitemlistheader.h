@@ -20,7 +20,7 @@
 #ifndef KITEMLISTHEADER_H
 #define KITEMLISTHEADER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <QHash>
 #include <QObject>
 

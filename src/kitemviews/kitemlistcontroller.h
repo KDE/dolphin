@@ -23,7 +23,7 @@
 #ifndef KITEMLISTCONTROLLER_H
 #define KITEMLISTCONTROLLER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include "kitemset.h"
 

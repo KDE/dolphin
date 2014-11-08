@@ -20,7 +20,7 @@
 #ifndef KFILEITEMMODEL_H
 #define KFILEITEMMODEL_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <KFileItemList>
 #include <QUrl>
 #include <kitemviews/kitemmodelbase.h>

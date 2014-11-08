@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMMODEL_H
 #define KSTANDARDITEMMODEL_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <kitemviews/kitemmodelbase.h>
 #include <QHash>
 #include <QList>

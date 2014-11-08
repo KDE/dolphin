@@ -20,7 +20,7 @@
 #ifndef KITEMLISTVIEWANIMATION_H
 #define KITEMLISTVIEWANIMATION_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QHash>
 #include <QObject>

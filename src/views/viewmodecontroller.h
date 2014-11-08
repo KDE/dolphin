@@ -22,7 +22,7 @@
 
 #include <QUrl>
 #include <QObject>
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <views/dolphinview.h>
 
 /**

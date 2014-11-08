@@ -20,7 +20,7 @@
 #ifndef KPIXMAPMODIFIER_H
 #define KPIXMAPMODIFIER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 class QPixmap;
 class QSize;

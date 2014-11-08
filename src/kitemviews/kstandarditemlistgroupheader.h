@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMLISTGROUPHEADER_H
 #define KSTANDARDITEMLISTGROUPHEADER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kitemlistgroupheader.h>
 

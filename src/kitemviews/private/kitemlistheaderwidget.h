@@ -20,7 +20,7 @@
 #ifndef KITEMLISTHEADERWIDGET_H
 #define KITEMLISTHEADERWIDGET_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <QGraphicsWidget>
 #include <QHash>
 #include <QList>

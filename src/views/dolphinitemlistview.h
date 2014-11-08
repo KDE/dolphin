@@ -23,7 +23,7 @@
 #include <kitemviews/kfileitemlistview.h>
 #include <settings/viewmodes/viewmodesettings.h>
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 class KFileItemListView;
 

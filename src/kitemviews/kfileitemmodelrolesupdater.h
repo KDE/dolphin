@@ -25,7 +25,7 @@
 #include <KFileItem>
 #include <kitemviews/kitemmodelbase.h>
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QObject>
 #include <QSet>

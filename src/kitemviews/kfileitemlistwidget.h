@@ -20,7 +20,7 @@
 #ifndef KFILEITEMLISTWIDGET_H
 #define KFILEITEMLISTWIDGET_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <kitemviews/kstandarditemlistwidget.h>
 

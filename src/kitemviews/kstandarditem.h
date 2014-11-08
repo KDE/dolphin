@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEM_H
 #define KSTANDARDITEM_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QByteArray>
 #include <QHash>

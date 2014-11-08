@@ -20,7 +20,7 @@
 #ifndef KITEMLISTVIEWLAYOUTER_H
 #define KITEMLISTVIEWLAYOUTER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QObject>
 #include <QRectF>

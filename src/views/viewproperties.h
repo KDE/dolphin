@@ -23,7 +23,7 @@
 
 #include <views/dolphinview.h>
 #include <QUrl>
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 class ViewPropertySettings;
 /**

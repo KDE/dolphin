@@ -26,12 +26,10 @@
 #include <KCmdLineArgs>
 #include <KLocalizedString>
 #include <kmainwindow.h>
-#include <kdemacros.h>
 #include <kdeversion.h>
 #include <KDebug>
 
-extern "C"
-KDE_EXPORT int kdemain(int argc, char **argv)
+extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
     K4AboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),

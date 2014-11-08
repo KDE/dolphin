@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSELECTIONTOGGLE_H
 #define KITEMLISTSELECTIONTOGGLE_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 
 #include <QGraphicsWidget>
 #include <QPixmap>

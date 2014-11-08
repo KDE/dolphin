@@ -21,7 +21,7 @@
 #ifndef KFILEITEMMODELFILTER_H
 #define KFILEITEMMODELFILTER_H
 
-#include <libdolphin_export.h>
+#include "libdolphin_export.h"
 #include <QStringList>
 
 class KFileItem;
