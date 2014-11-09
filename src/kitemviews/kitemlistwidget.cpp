@@ -474,7 +474,7 @@ qreal KItemListWidget::hoverOpacity() const
 void KItemListWidget::slotHoverAnimationFinished()
 {
     if (!m_hovered) {
-        delete m_selectionToggle;
+        m_selectionToggle->deleteLater();
         m_selectionToggle = 0;
     }
 }
