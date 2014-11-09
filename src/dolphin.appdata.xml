@@ -9,6 +9,7 @@
   <name xml:lang="cs">Dolphin</name>
   <name xml:lang="da">Dolphin</name>
   <name xml:lang="de">Dolphin</name>
+  <name xml:lang="el">Dolphin</name>
   <name xml:lang="en-GB">Dolphin</name>
   <name xml:lang="es">Dolphin</name>
   <name xml:lang="et">Dolphin</name>
@@ -42,6 +43,7 @@
   <summary xml:lang="cs">Správce souborů</summary>
   <summary xml:lang="da">Filhåndtering</summary>
   <summary xml:lang="de">Dateiverwaltung</summary>
+  <summary xml:lang="el">Διαχειριστής αρχείων</summary>
   <summary xml:lang="en-GB">File Manager</summary>
   <summary xml:lang="es">Administrador de archivos</summary>
   <summary xml:lang="et">Failihaldur</summary>
@@ -74,6 +76,7 @@
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant en facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="da">Dolphin er letvægtsfilhåndtering. Den er blevet designet med henblik på brugervenlighed og simpelhed, mens fleksibilitet og tilpasning stadig er muligt. Det betyder at du klare din filhåndtering nøjagtig på den måde du vil gøre det.</p>
+    <p xml:lang="el">Το Dolphin είναι ένας ελαφρύς διαχειριστής αρχείων. Έχει σχεδιαστεί με φιλοσοφία την απλότητα για ευκολία στη χρήση, ενώ επιτρέπει ευελιξία και προσαρμογές. Αυτό σημαίνει ότι μπορείτε να διαχειριστείτε τα αρχεία σας με τον τρόπο που εσείς θέλετε.</p>
     <p xml:lang="en-GB">Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="es">Dolphin es un administrador de archivos ligero. Se ha diseñado teniendo en cuenta la facilidad de uso y la simplicidad, así como la flexibilidad y la personalización. Esto significa que el usuario puede administrar los archivos exactamente de la manera que prefiera.</p>
     <p xml:lang="et">Dolphin on vähest koormust tekitav failihaldur. Selle loomisel on peetud silmas kasutamise hõlpsust ja lihtsust, ometi pakub see suurt paindlikkust ja oma käe järgi kohandamise võimalusi. Sel moel saab faile hallata just, nagu ise soovid.</p>
@@ -105,6 +108,7 @@
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Funktionen:</p>
+    <p xml:lang="el">Χαρακτηριστικά:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
@@ -136,6 +140,7 @@
       <li>Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) per els URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
       <li xml:lang="da">Navigationsbjælke (eller brødkrumme-bjælke) til URL'er, lader dig navigere hurtigt igennem hierarkiet af filer og mapper.</li>
+      <li xml:lang="el">Η γραμμή πλοήγησης (ή ιχνηλάτησης) για URL, σας επιτρέπει να πλοηγηθείτε γρήγορα μέσα από την ιεραρχία αρχείων και φακέλων.</li>
       <li xml:lang="en-GB">Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="es">barra de navegación (o de ruta completa) para URL que permite navegar rápidamente a través de la jerarquía de archivos y carpetas.</li>
       <li xml:lang="et">Liikumisriba IRL-idele, mis lubab kiiresti liigelda failide ja kataloogide hierarhias.</li>
@@ -164,6 +169,7 @@
       <li xml:lang="ar">يدعم العديد من الأنواع المختلفة من الخصائص وأنماط العرض ويسمح لك بضبط العرض كما تريد تمامًا.</li>
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
       <li xml:lang="da">Understøtter flere forskellige slags visninger og egenskaber og lader dig konfigurere visningen nøjagtig som du vil have den.</li>
+      <li xml:lang="el">Υποστηρίζει πολλά διαφορετικά είδη στιλ και ιδιότητες επισκόπησης και σας επιτρέπει να διαμορφώσετε την επισκόπηση ακριβώς όπως τη θέλετε.</li>
       <li xml:lang="en-GB">Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
       <li xml:lang="es">Admite varios tipos diferentes de estilos de vista y propiedades y permite configurar la vista exactamente como prefiera el usuario.</li>
       <li xml:lang="et">Võimalus kasutada mitut laadi vaatestiile ja -omadusi ning neid igati enda käe järgi seadistada.</li>
@@ -193,6 +199,7 @@
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
       <li xml:lang="da">Opdelt visning lader dig kopiere filer mellem placeringer på en nem måde.</li>
       <li xml:lang="de">Geteilte Ansichten, damit können Sie einfach Daten zwischen Orten kopieren oder verschieben.</li>
+      <li xml:lang="el">Η διαίρεση επισκόπησης, σάς επιτρέπει με ευκολία να αντιγράφετε ή να μετακινείτε αρχεία μεταξύ διαφορετικών θέσεων.</li>
       <li xml:lang="en-GB">Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="es">Dividir vista, para poder copiar o mover archivos fácilmente entre distintas ubicaciones.</li>
       <li xml:lang="et">Vaate poolitamise võimalus, mis muudab väga lihtsaks failide ühest kohast teise kopeerimise või liigutamise.</li>
@@ -221,6 +228,7 @@
       <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كلوحات قابلة للرصف، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons acoblables, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="da">Yderligere information og genveje er tilgængelige som dokbare paneler, som lader dig flytte dem frit omkring og vise nøjagtigt det du vil have.</li>
+      <li xml:lang="el">Πρόσθετες πληροφορίες και συντομεύσεις είναι διαθέσιμα ως προσαρτήσιμοι πίνακες, που σας επιτρέπουν να τα μετακινείτε ελεύθερα και να παρουσιάζετε ακριβώς αυτό που θέλετε.</li>
       <li xml:lang="en-GB">Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="es">Hay disponible información adicional y accesos rápidos en forma de paneles separables para que se puedan mover libremente a la vez que muestran exactamente lo que prefiera el usuario.</li>
       <li xml:lang="et">Lisateave ja otseteed dokitavate paneelidena, mida saab vabalt vajalikku kohta tõsta ja panna näitama just vajalikku teavet.</li>
@@ -250,6 +258,7 @@
       <li xml:lang="ca">Implementació de pestanyes múltiples</li>
       <li xml:lang="da">Understøttelse af flere faneblade</li>
       <li xml:lang="de">Unterstützung für Unterfenster</li>
+      <li xml:lang="el">Υποστήριξη πολλαπλών καρτελών</li>
       <li xml:lang="en-GB">Multiple tab support</li>
       <li xml:lang="es">Admite varias pestañas</li>
       <li xml:lang="et">Mitme kaardi kasutamise toetus.</li>
@@ -281,6 +290,7 @@
       <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
       <li xml:lang="de">Informationen werden unaufdringlich angezeigt.</li>
+      <li xml:lang="el">Ενημερωτικοί διάλογοι εμφανίζονται με μη παρεμβατικό τρόπο.</li>
       <li xml:lang="en-GB">Informational dialogs are displayed in an unobtrusive way.</li>
       <li xml:lang="es">Los diálogos informativos se muestran de manera discreta.</li>
       <li xml:lang="et">Teavitavate dialoogide näitamine kasutajat liigselt ärritamata.</li>
@@ -310,6 +320,7 @@
       <li xml:lang="ca">Implementació de desfer/refer</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
       <li xml:lang="de">Unterstützung für Rückgängig/Wiederherstellen</li>
+      <li xml:lang="el">Υποστήριξη αναίρεσης/επανάληψης</li>
       <li xml:lang="en-GB">Undo/redo support</li>
       <li xml:lang="es">Admite las operaciones de deshacer y rehacer</li>
       <li xml:lang="et">Tagasivõtmise ja uuestitegemise toetus.</li>
@@ -340,6 +351,7 @@
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="da">Transparent netværksadgang igennem KIO-systemet</li>
       <li xml:lang="de">Transparenter Netzwerkzugriff durch das KIO-System.</li>
+      <li xml:lang="el">Διαφανής δικτυακή πρόσβαση με το σύστημα KIO.</li>
       <li xml:lang="en-GB">Transparent network access through the KIO system.</li>
       <li xml:lang="es">Acceso transparente a la red a través del sistema KIO.</li>
       <li xml:lang="et">Võrgu läbipaistev kasutamine KIO-moodulite süsteemi vahendusel.</li>
