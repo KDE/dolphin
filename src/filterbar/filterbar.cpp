@@ -27,7 +27,7 @@
 
 #include <QIcon>
 #include <KLocalizedString>
-#include <KLineEdit>
+#include <QLineEdit>
 
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
@@ -51,10 +51,10 @@ FilterBar::FilterBar(QWidget* parent) :
     QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
 
     // Create filter editor
-    m_filterInput = new KLineEdit(this);
+    m_filterInput = new QLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
-    m_filterInput->setClearButtonShown(true);
-    connect(m_filterInput, &KLineEdit::textChanged,
+    m_filterInput->setClearButtonEnabled(true);
+    connect(m_filterInput, &QLineEdit::textChanged,
             this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 

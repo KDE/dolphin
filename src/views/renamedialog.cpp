@@ -19,7 +19,6 @@
 
 #include "renamedialog.h"
 
-#include <KLineEdit>
 #include <KLocalizedString>
 #include <KJobWidgets>
 #include <KIO/CopyJob>
@@ -35,6 +34,7 @@
 #include <QMimeDatabase>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QLineEdit>
 #include <KGuiItem>
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
@@ -88,9 +88,9 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
                                page);
     }
 
-    m_lineEdit = new KLineEdit(page);
+    m_lineEdit = new QLineEdit(page);
     mainLayout->addWidget(m_lineEdit);
-    connect(m_lineEdit, &KLineEdit::textChanged, this, &RenameDialog::slotTextChanged);
+    connect(m_lineEdit, &QLineEdit::textChanged, this, &RenameDialog::slotTextChanged);
 
     int selectionLength = m_newName.length();
     if (m_renameOneItem) {

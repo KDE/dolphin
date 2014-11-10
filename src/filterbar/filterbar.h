@@ -24,7 +24,7 @@
 
 #include <QWidget>
 
-class KLineEdit;
+class QLineEdit;
 class QToolButton;
 
 /**
@@ -78,7 +78,7 @@ protected:
     virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
 private:
-    KLineEdit* m_filterInput;
+    QLineEdit* m_filterInput;
     QToolButton* m_lockButton;
 };
 

@@ -24,11 +24,11 @@
 
 #include <QDialog>
 #include <KFileItem>
+#include <QString>
 
-class KLineEdit;
+class QLineEdit;
 class KIntSpinBox;
 class QPushButton;
-#include <QString>
 
 /**
  * @brief Dialog for renaming a variable number of files.
@@ -61,7 +61,7 @@ private:
 private:
     bool m_renameOneItem;
     QString m_newName;
-    KLineEdit* m_lineEdit;
+    QLineEdit* m_lineEdit;
     KFileItemList m_items;
     bool m_allExtensionsDifferent;
     KIntSpinBox* m_spinBox;

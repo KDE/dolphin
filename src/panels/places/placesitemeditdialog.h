@@ -28,8 +28,8 @@
 #include <QUrl>
 
 class KIconButton;
-class KLineEdit;
 class KUrlRequester;
+class QLineEdit;
 class QCheckBox;
 class QPushButton;
 
@@ -69,7 +69,7 @@ private:
     bool m_allowGlobal;
 
     KUrlRequester* m_urlEdit;
-    KLineEdit* m_textEdit;
+    QLineEdit* m_textEdit;
     KIconButton* m_iconButton;
     QCheckBox* m_appLocal;
     QPushButton *m_okButton;

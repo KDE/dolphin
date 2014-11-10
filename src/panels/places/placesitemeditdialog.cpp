@@ -28,7 +28,6 @@
 #include <KFile>
 #include <KGlobal>
 #include <KIconButton>
-#include <KLineEdit>
 #include <KLocalizedString>
 #include <QMimeDatabase>
 #include <KUrlRequester>
@@ -39,6 +38,7 @@
 #include <QVBoxLayout>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QLineEdit>
 
 PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     QDialog(parent),
@@ -137,17 +137,17 @@ void PlacesItemEditDialog::initialize()
     QFormLayout* formLayout = new QFormLayout();
     vBox->addLayout( formLayout );
 
-    m_textEdit = new KLineEdit(mainWidget);
+    m_textEdit = new QLineEdit(mainWidget);
     formLayout->addRow(i18nc("@label", "Label:"), m_textEdit);
     m_textEdit->setText(m_text);
-    m_textEdit->setClickMessage(i18n("Enter descriptive label here"));
+    m_textEdit->setPlaceholderText(i18n("Enter descriptive label here"));
 
     m_urlEdit = new KUrlRequester(m_url, mainWidget);
     m_urlEdit->setMode(KFile::Directory);
     formLayout->addRow(i18nc("@label", "Location:"), m_urlEdit);
     // Provide room for at least 40 chars (average char width is half of height)
     m_urlEdit->setMinimumWidth(m_urlEdit->fontMetrics().height() * (40 / 2));
-    connect(m_urlEdit->lineEdit(), &KLineEdit::textChanged, this, &PlacesItemEditDialog::slotUrlChanged);
+    connect(m_urlEdit, &KUrlRequester::textChanged, this, &PlacesItemEditDialog::slotUrlChanged);
 
     m_iconButton = new KIconButton(mainWidget);
     formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);

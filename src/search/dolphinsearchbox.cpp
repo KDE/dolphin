@@ -23,7 +23,7 @@
 #include "dolphinfacetswidget.h"
 
 #include <QIcon>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KSeparator>
 
@@ -346,13 +346,13 @@ void DolphinSearchBox::init()
     connect(m_searchInput, &Baloo::QueryBuilder::textChanged,
             this, &DolphinSearchBox::slotSearchTextChanged);
 #else
-    m_searchInput = new KLineEdit(this);
+    m_searchInput = new QLineEdit(this);
     m_searchInput->installEventFilter(this);
-    m_searchInput->setClearButtonShown(true);
+    m_searchInput->setClearButtonEnabled(true);
     m_searchInput->setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
-    connect(m_searchInput, &KLineEdit::returnPressed,
+    connect(m_searchInput, &QLineEdit::returnPressed,
             this, &DolphinSearchBox::slotReturnPressed);
-    connect(m_searchInput, &KLineEdit::textChanged,
+    connect(m_searchInput, &QLineEdit::textChanged,
             this, &DolphinSearchBox::slotSearchTextChanged);
 #endif
     setFocusProxy(m_searchInput);

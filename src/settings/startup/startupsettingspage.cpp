@@ -27,7 +27,7 @@
 #include <KDialog>
 #include <KFileDialog>
 #include <KLocalizedString>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KMessageBox>
 #include <KVBox>
 
@@ -61,8 +61,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     homeUrlBox->setSpacing(spacing);
 
     new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
-    m_homeUrl = new KLineEdit(homeUrlBox);
-    m_homeUrl->setClearButtonShown(true);
+    m_homeUrl = new QLineEdit(homeUrlBox);
+    m_homeUrl->setClearButtonEnabled(true);
 
     QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme("folder-open"), QString(), homeUrlBox);
 
@@ -102,7 +102,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_homeUrl, &KLineEdit::textChanged, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_homeUrl, &QLineEdit::textChanged, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_splitView,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);

@@ -53,7 +53,7 @@
 #include <kdualaction.h>
 #include <KDialog>
 #include <KJobWidgets>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KToolBar>
 #include <KIO/NetAccess>
 #include <KIO/JobUiDelegate>

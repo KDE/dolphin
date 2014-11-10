@@ -22,7 +22,7 @@
 #include <settings/settingspagebase.h>
 #include <QUrl>
 
-class KLineEdit;
+class QLineEdit;
 class QCheckBox;
 
 /**
@@ -56,7 +56,7 @@ private:
 
 private:
     QUrl m_url;
-    KLineEdit* m_homeUrl;
+    QLineEdit* m_homeUrl;
 
     QCheckBox* m_splitView;
     QCheckBox* m_editableUrl;
