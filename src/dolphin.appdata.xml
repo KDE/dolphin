@@ -34,6 +34,7 @@
   <name xml:lang="sr-ijekavian">Делфин</name>
   <name xml:lang="sr-ijekavianlatin">Dolphin</name>
   <name xml:lang="sv">Dolphin</name>
+  <name xml:lang="tr">Dolphin</name>
   <name xml:lang="uk">Dolphin</name>
   <name xml:lang="x-test">xxDolphinxx</name>
   <name xml:lang="zh-TW">Dolphin</name>
@@ -68,6 +69,7 @@
   <summary xml:lang="sr-ijekavian">Менаџер фајлова</summary>
   <summary xml:lang="sr-ijekavianlatin">Menadžer fajlova</summary>
   <summary xml:lang="sv">Filhanterare</summary>
+  <summary xml:lang="tr">Dosya Yöneticisi</summary>
   <summary xml:lang="uk">Програма для керування файлами</summary>
   <summary xml:lang="x-test">xxFile Managerxx</summary>
   <summary xml:lang="zh-TW">檔案管理員</summary>
@@ -98,6 +100,7 @@
     <p xml:lang="sr-ijekavian">Делфин је лагани менаџер фајлова. Пројектован је да буде лак за употребу и једноставан, а да ипак омогућава флексибилност и прилагођавање. То значи да ће моћи да баратате фајловима тачно онако како бисте желели.</p>
     <p xml:lang="sr-ijekavianlatin">Dolphin je lagani menadžer fajlova. Projektovan je da bude lak za upotrebu i jednostavan, a da ipak omogućava fleksibilnost i prilagođavanje. To znači da će moći da baratate fajlovima tačno onako kako biste želeli.</p>
     <p xml:lang="sv">Dolphin är en lättviktig filhanterare. Den har konstruerats med användbarhet och enkelhet i åtanke, men ändå tillåta flexibilitet och anpassning. Det betyder att du kan hantera filer exakt på det sätt som du vill göra det.</p>
+    <p xml:lang="tr">Dolphin hafif bir dosya yöneticisidir. Kolay kullanım ve basitliğin yanı sıra esneklik ve özelleştirilebilme de akılda tutularak geliştirilmiştir. Bu da dosya yöneticisini tam da istediğiniz gibi kullanabileceğiniz anlamına gelir.</p>
     <p xml:lang="uk">Dolphin — невибаглива до ресурсів програма для керування файлами. Її створено простою у користуванні і гнучкою у налаштовуванні. Це означає, що ви можете зробити керування файлами саме таким, як вам потрібно.</p>
     <p xml:lang="x-test">xxDolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.xx</p>
     <p xml:lang="zh-TW">Dolphin 是一套輕量級的檔案管理員。它設計的理念是易用與簡單，但仍然保持足夠的彈性。這表示您可以用您想要使用的方式來管理您的檔案。</p>
@@ -132,6 +135,7 @@
     <p xml:lang="sr-ijekavian">Могућности:</p>
     <p xml:lang="sr-ijekavianlatin">Mogućnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-TW">功能：</p>
