@@ -79,7 +79,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
 
-    m_remoteFileSizeBox = new KIntSpinBox(this);
+    m_remoteFileSizeBox = new QSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
@@ -96,7 +96,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     loadSettings();
 
     connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
-    connect(m_remoteFileSizeBox, static_cast<void(KIntSpinBox::*)(int)>(&KIntSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
+    connect(m_remoteFileSizeBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
 }
 
 PreviewsSettingsPage::~PreviewsSettingsPage()

@@ -22,7 +22,7 @@
 
 #include <settings/settingspagebase.h>
 
-class KIntSpinBox;
+class QSpinBox;
 class QListView;
 class QModelIndex;
 
@@ -61,7 +61,7 @@ private:
     bool m_initialized;
     QListView *m_listView;
     QStringList m_enabledPreviewPlugins;
-    KIntSpinBox* m_remoteFileSizeBox;
+    QSpinBox* m_remoteFileSizeBox;
 };
 
 #endif

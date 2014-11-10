@@ -131,7 +131,12 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
 
         QLabel* infoLabel = new QLabel(i18nc("@info", "# will be replaced by ascending numbers starting with:"), page);
         mainLayout->addWidget(infoLabel);
-        m_spinBox = new KIntSpinBox(0, 10000, 1, 1, page, 10);
+        m_spinBox = new QSpinBox(page);
+        m_spinBox->setMaximum(10000);
+        m_spinBox->setMinimum(0);
+        m_spinBox->setSingleStep(1);
+        m_spinBox->setValue(1);
+        m_spinBox->setDisplayIntegerBase(10);
 
         QHBoxLayout* horizontalLayout = new QHBoxLayout(page);
         horizontalLayout->setMargin(0);

@@ -27,7 +27,7 @@
 #include <QString>
 
 class QLineEdit;
-class KIntSpinBox;
+class QSpinBox;
 class QPushButton;
 
 /**
@@ -64,7 +64,7 @@ private:
     QLineEdit* m_lineEdit;
     KFileItemList m_items;
     bool m_allExtensionsDifferent;
-    KIntSpinBox* m_spinBox;
+    QSpinBox* m_spinBox;
     QPushButton* m_okButton;
 };
 
