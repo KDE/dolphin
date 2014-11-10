@@ -118,6 +118,8 @@ QString KStandardItemListWidgetInformant::itemText(int index, const KItemListVie
 
 bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
 {
+    Q_UNUSED(index);
+    Q_UNUSED(view);
     return false;
 }
 
