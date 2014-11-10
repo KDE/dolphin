@@ -199,7 +199,7 @@ void KFileItemModelTest::testDirLoadingCompleted()
     QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
     QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
 
-    m_testDir->createFiles(QStringList() << "a.txt" << "b.txt" << "c.txt");
+    m_testDir->createFiles({"a.txt", "b.txt", "c.txt"});
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
@@ -208,7 +208,7 @@ void KFileItemModelTest::testDirLoadingCompleted()
     QCOMPARE(itemsRemovedSpy.count(), 0);
     QCOMPARE(m_model->count(), 3);
 
-    m_testDir->createFiles(QStringList() << "d.txt" << "e.txt");
+    m_testDir->createFiles({"d.txt", "e.txt"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
     QCOMPARE(loadingCompletedSpy.count(), 2);
@@ -408,7 +408,7 @@ void KFileItemModelTest::testResortAfterChangingName()
     urlA.setPath(urlA.path() + "a.txt");
     fileItemA.setUrl(urlA);
 
-    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemA));
+    m_model->slotRefreshItems({qMakePair(fileItemD, fileItemA)});
 
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
     QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt");
@@ -1060,7 +1060,7 @@ void KFileItemModelTest::testRefreshExpandedItem()
     QSignalSpy spyItemsChanged(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)));
 
     const KFileItem item = m_model->fileItem(0);
-    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(item, item));
+    m_model->slotRefreshItems({qMakePair(item, item)});
     QVERIFY(!spyItemsChanged.isEmpty());
 
     QCOMPARE(m_model->count(), 5); // "a/", "a/1", "a/2", "3", "4"
@@ -1077,7 +1077,7 @@ void KFileItemModelTest::testRemoveHiddenItems()
     m_testDir->createDir(".b");
     m_testDir->createDir("c");
     m_testDir->createDir("d");
-    m_testDir->createFiles(QStringList() << ".f" << ".g" << "h" << "i");
+    m_testDir->createFiles({".f", ".g", "h", "i"});
 
     QSignalSpy spyItemsInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
     QSignalSpy spyItemsRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
@@ -1361,7 +1361,7 @@ void KFileItemModelTest::testNameRoleGroups()
     urlC.setPath(urlC.path() + "c.txt");
     fileItemC.setUrl(urlC);
 
-    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemD, fileItemC));
+    m_model->slotRefreshItems({qMakePair(fileItemD, fileItemC)});
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(groupsChanged()), DefaultTimeout));
     QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt" << "c.txt" << "e.txt");
 
@@ -1588,7 +1588,7 @@ void KFileItemModelTest::testRefreshFilteredItems()
     urlE.setPath(urlE.path() + "e.jpg");
     fileItemE.setUrl(urlE);
 
-    m_model->slotRefreshItems(QList<QPair<KFileItem, KFileItem> >() << qMakePair(fileItemC, fileItemE));
+    m_model->slotRefreshItems({qMakePair(fileItemC, fileItemE)});
 
     // Show all files again, and verify that the model has updated the file name.
     m_model->setNameFilter(QString());

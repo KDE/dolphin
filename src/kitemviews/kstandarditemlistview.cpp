@@ -30,7 +30,7 @@ KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
 {
     setAcceptDrops(true);
     setScrollOrientation(Qt::Vertical);
-    setVisibleRoles(QList<QByteArray>() << "text");
+    setVisibleRoles({"text"});
 }
 
 KStandardItemListView::~KStandardItemListView()

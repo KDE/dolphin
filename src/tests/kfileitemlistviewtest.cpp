@@ -93,14 +93,14 @@ void KFileItemListViewTest::testGroupedItemChanges()
 {
     m_model->setGroupedSorting(true);
 
-    m_testDir->createFiles(QStringList() << "1" << "3" << "5");
+    m_testDir->createFiles({"1", "3", "5"});
 
     m_model->loadDirectory(m_testDir->url());
     QSignalSpy psy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
     QVERIFY(psy.wait(DefaultTimeout));
     QCOMPARE(m_model->count(), 3);
 
-    m_testDir->createFiles(QStringList() << "2" << "4");
+    m_testDir->createFiles({"2", "4"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
     QSignalSpy psyItemsInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
     QVERIFY(psyItemsInserted.wait(DefaultTimeout));

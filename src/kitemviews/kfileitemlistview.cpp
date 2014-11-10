@@ -66,7 +66,7 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateIconSizeTimer->setInterval(LongInterval);
     connect(m_updateIconSizeTimer, &QTimer::timeout, this, &KFileItemListView::updateIconSize);
 
-    setVisibleRoles(QList<QByteArray>() << "text");
+    setVisibleRoles({"text"});
 }
 
 KFileItemListView::~KFileItemListView()
@@ -205,7 +205,7 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
 
         const KFileItem fileItem = fileItemModel->fileItem(item->index());
         data.insert("iconName", fileItem.iconName());
-        item->setData(data, QSet<QByteArray>() << "iconName");
+        item->setData(data, {"iconName"});
     }
 }
 

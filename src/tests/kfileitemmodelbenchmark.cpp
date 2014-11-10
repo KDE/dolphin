@@ -167,7 +167,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
     // Avoid overhead caused by natural sorting
     // and determining the isDir/isLink roles.
     model.m_naturalSorting = false;
-    model.setRoles(QSet<QByteArray>() << "text");
+    model.setRoles({"text"});
 
     QSignalSpy spyItemsInserted(&model, SIGNAL(itemsInserted(KItemRangeList)));
     QSignalSpy spyItemsRemoved(&model, SIGNAL(itemsRemoved(KItemRangeList)));

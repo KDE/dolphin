@@ -125,7 +125,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_model = new KFileItemModel(this);
     m_view = new DolphinItemListView();
     m_view->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
-    m_view->setVisibleRoles(QList<QByteArray>() << "text");
+    m_view->setVisibleRoles({"text"});
     applyModeToView();
 
     KItemListController* controller = new KItemListController(m_model, m_view, this);
@@ -1286,7 +1286,7 @@ void DolphinView::observeCreatedItem(const QUrl& url)
     if (m_active) {
         clearSelection();
         markUrlAsCurrent(url);
-        markUrlsAsSelected(QList<QUrl>() << url);
+        markUrlsAsSelected({url});
     }
 }
 
@@ -1513,7 +1513,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
 
             KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
             KJobWidgets::setWindow(job, this);
-            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, QList<QUrl>() << oldUrl, newUrl, job);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->ui()->setAutoErrorHandlingEnabled(true);
 
             if (!newNameExistsAlready) {

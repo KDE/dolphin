@@ -369,7 +369,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 2 << 3
         << (KItemSet() << 2 << 3 << 5 << 6)
         << NoChange
-        << QList<QVariant>()
+        << QList<QVariant>{}
         << (KItemSet() << 2 << 3 << 5 << 6);
 
     QTest::newRow("Insert Items")
@@ -377,7 +377,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 2 << 3
         << (KItemSet() << 2 << 3 << 5 << 6)
         << InsertItems
-        << (QList<QVariant>() << QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5)))
+        << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5))}
         << (KItemSet() << 3 << 4 << 8 << 9);
 
     QTest::newRow("Remove Items")
@@ -385,7 +385,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 2 << 3
         << (KItemSet() << 2 << 3 << 5 << 6)
         << RemoveItems
-        << (QList<QVariant>() << QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5)))
+        << QList<QVariant>{QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))}
         << (KItemSet() << 1 << 2 << 3 << 4);
 
     QTest::newRow("Empty Anchored Selection")
@@ -393,7 +393,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 2 << 2
         << KItemSet()
         << EndAnchoredSelection
-        << QList<QVariant>()
+        << QList<QVariant>{}
         << KItemSet();
 
     QTest::newRow("Toggle selection")
@@ -401,7 +401,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 6 << 8
         << (KItemSet() << 1 << 3 << 4 << 6 << 7 << 8)
         << SetSelected
-        << (QList<QVariant>() << 0 << 10 << QVariant::fromValue(KItemListSelectionManager::Toggle))
+        << QList<QVariant>{0, 10, QVariant::fromValue(KItemListSelectionManager::Toggle)}
         << (KItemSet() << 0 << 2 << 5 << 9);
 
     // Swap items 2, 3 and 4, 5
@@ -410,8 +410,8 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << -1 << -1
         << (KItemSet() << 0 << 1 << 2 << 3)
         << MoveItems
-        << (QList<QVariant>() << QVariant::fromValue(KItemRange(2, 4))
-                              << QVariant::fromValue(QList<int>() << 4 << 5 << 2 << 3))
+        << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)),
+                           QVariant::fromValue(QList<int>{4, 5, 2, 3})}
         << (KItemSet() << 0 << 1 << 4 << 5);
 
     QTest::newRow("Move items with active anchored selection")
@@ -419,8 +419,8 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 0 << 3
         << (KItemSet() << 0 << 1 << 2 << 3)
         << MoveItems
-        << (QList<QVariant>() << QVariant::fromValue(KItemRange(2, 4))
-                              << QVariant::fromValue(QList<int>() << 4 << 5 << 2 << 3))
+        << QList<QVariant>{QVariant::fromValue(KItemRange(2, 4)),
+                           QVariant::fromValue(QList<int>{4, 5, 2, 3})}
         << (KItemSet() << 0 << 1 << 4 << 5);
 
     // Revert sort order
@@ -429,8 +429,8 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 3 << 4
         << (KItemSet() << 0 << 1 << 3 << 4)
         << MoveItems
-        << (QList<QVariant>() << QVariant::fromValue(KItemRange(0, 10))
-                              << QVariant::fromValue(QList<int>() << 9 << 8 << 7 << 6 << 5 << 4 << 3 << 2 << 1 << 0))
+        << QList<QVariant>{QVariant::fromValue(KItemRange(0, 10)),
+                           QVariant::fromValue(QList<int>{9, 8, 7, 6, 5, 4, 3, 2, 1, 0})}
         << (KItemSet() << 5 << 6 << 8 << 9);
 }
 
@@ -476,7 +476,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
         break;
     case MoveItems:
         m_selectionManager->itemsMoved(data.at(0).value<KItemRange>(),
-                                       data.at(1).value<QList<int> >());
+                                       data.at(1).value<QList<int>>());
         break;
     case EndAnchoredSelection:
         m_selectionManager->endAnchoredSelection();
@@ -535,7 +535,7 @@ void KItemListSelectionManagerTest::testAnchoredSelectionAfterMovingItems()
     m_selectionManager->beginAnchoredSelection(4);
 
     // Reverse the items between 0 and 5.
-    m_selectionManager->itemsMoved(KItemRange(0, 6), QList<int>() << 5 << 4 << 3 << 2 << 1 << 0);
+    m_selectionManager->itemsMoved(KItemRange(0, 6), {5, 4, 3, 2, 1, 0});
 
     QCOMPARE(m_selectionManager->currentItem(), 1);
     QCOMPARE(m_selectionManager->m_anchorItem, 1);

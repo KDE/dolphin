@@ -77,7 +77,7 @@ QList<QWidget*> ServiceItemDelegate::createItemWidgets(const QModelIndex&) const
     QPushButton* configureButton = new QPushButton();
     connect(configureButton, &QPushButton::clicked, this, &ServiceItemDelegate::slotConfigureButtonClicked);
 
-    return QList<QWidget*>() << checkBox << configureButton;
+    return {checkBox, configureButton};
 }
 
 void ServiceItemDelegate::updateItemWidgets(const QList<QWidget*> widgets,

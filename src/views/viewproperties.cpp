@@ -98,7 +98,7 @@ ViewProperties::ViewProperties(const QUrl& url) :
     if (useDefaultProps) {
         if (useDetailsViewWithPath) {
             setViewMode(DolphinView::DetailsView);
-            setVisibleRoles(QList<QByteArray>() << "path");
+            setVisibleRoles({"path"});
         } else {
             // The global view-properties act as default for directories without
             // any view-property configuration. Constructing a ViewProperties 
@@ -286,8 +286,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     // by "CustomizedDetails"), also a details-view with no additional information
     // is accepted.
 
-    QList<QByteArray> roles;
-    roles.append("text");
+    QList<QByteArray> roles{"text"};
 
     // Iterate through all stored keys and append all roles that match to
     // the current view mode.

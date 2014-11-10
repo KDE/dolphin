@@ -259,7 +259,7 @@ void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, co
 
             KIO::Job* job = KIO::moveAs(oldUrl, newUrl);
             KJobWidgets::setWindow(job, this);
-            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, QList<QUrl>() << oldUrl, newUrl, job);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->ui()->setAutoErrorHandlingEnabled(true);
         }
     }

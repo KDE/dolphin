@@ -873,22 +873,22 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
             if (path == QLatin1String("/documents")) {
                 props.setViewMode(DolphinView::DetailsView);
                 props.setPreviewsShown(false);
-                props.setVisibleRoles(QList<QByteArray>() << "text" << "path");
+                props.setVisibleRoles({"text", "path"});
             } else if (path == QLatin1String("/images")) {
                 props.setViewMode(DolphinView::IconsView);
                 props.setPreviewsShown(true);
-                props.setVisibleRoles(QList<QByteArray>() << "text" << "imageSize");
+                props.setVisibleRoles({"text", "imageSize"});
             } else if (path == QLatin1String("/audio")) {
                 props.setViewMode(DolphinView::DetailsView);
                 props.setPreviewsShown(false);
-                props.setVisibleRoles(QList<QByteArray>() << "text" << "artist" << "album");
+                props.setVisibleRoles({"text", "artist", "album"});
             } else if (path == QLatin1String("/videos")) {
                 props.setViewMode(DolphinView::IconsView);
                 props.setPreviewsShown(true);
-                props.setVisibleRoles(QList<QByteArray>() << "text");
+                props.setVisibleRoles({"text"});
             } else if (data.url.scheme() == "timeline") {
                 props.setViewMode(DolphinView::DetailsView);
-                props.setVisibleRoles(QList<QByteArray>() << "text" << "date");
+                props.setVisibleRoles({"text", "date"});
             }
         }
     }

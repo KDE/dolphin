@@ -47,7 +47,7 @@ KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const QUr
 
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
                                                               "org.kde.ark.DndExtract", "extractSelectedFilesTo");
-        message.setArguments(QVariantList() << destUrl.toDisplayString(QUrl::PreferLocalFile));
+        message.setArguments({destUrl.toDisplayString(QUrl::PreferLocalFile)});
         QDBusConnection::sessionBus().call(message);
     } else if (!destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile())) {
         // Drop into a directory or a desktop-file

@@ -340,7 +340,7 @@ void DolphinMainWindow::openInNewWindow()
     }
 
     if (!newWindowUrl.isEmpty()) {
-        KRun::run("dolphin %u", QList<QUrl>() << newWindowUrl, this);
+        KRun::run("dolphin %u", {newWindowUrl}, this);
     }
 }
 
@@ -774,7 +774,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
 
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
 
-        KRun::run("dolphin %u", QList<QUrl>() << KIO::upUrl(item.url()), this);
+        KRun::run("dolphin %u", {KIO::upUrl(item.url())}, this);
         break;
     }
 
@@ -995,7 +995,7 @@ void DolphinMainWindow::setupActions()
     QAction* newTab = actionCollection()->addAction("new_tab");
     newTab->setIcon(QIcon::fromTheme("tab-new"));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    actionCollection()->setDefaultShortcuts(newTab, QList<QKeySequence>() << QKeySequence(Qt::CTRL | Qt::Key_T) << QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_N));
+    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL | Qt::Key_T, Qt::CTRL | Qt::SHIFT | Qt::Key_N});
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
 
     QAction* closeTab = actionCollection()->addAction("close_tab");
@@ -1173,7 +1173,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     InformationPanel* infoPanel = new InformationPanel(infoDock);
-    infoPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
+    infoPanel->setCustomContextMenuActions({lockLayoutAction});
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
     infoDock->setWidget(infoPanel);
 
@@ -1194,7 +1194,7 @@ void DolphinMainWindow::setupDockWidgets()
     foldersDock->setObjectName("foldersDock");
     foldersDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     FoldersPanel* foldersPanel = new FoldersPanel(foldersDock);
-    foldersPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
+    foldersPanel->setCustomContextMenuActions({lockLayoutAction});
     foldersDock->setWidget(foldersPanel);
 
     QAction* foldersAction = foldersDock->toggleViewAction();
@@ -1217,7 +1217,7 @@ void DolphinMainWindow::setupDockWidgets()
     terminalDock->setObjectName("terminalDock");
     terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
     TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
-    terminalPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
+    terminalPanel->setCustomContextMenuActions({lockLayoutAction});
     terminalDock->setWidget(terminalPanel);
 
     connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
@@ -1248,7 +1248,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     PlacesPanel* placesPanel = new PlacesPanel(placesDock);
-    placesPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
+    placesPanel->setCustomContextMenuActions({lockLayoutAction});
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();

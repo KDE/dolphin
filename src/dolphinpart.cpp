@@ -556,7 +556,7 @@ void DolphinPart::slotOpenTerminal()
 
 void DolphinPart::slotFindFile()
 {
-    KRun::run("kfind", QList<QUrl>() << url(), widget());
+    KRun::run("kfind", {url()}, widget());
 }
 
 void DolphinPart::updateNewMenu()
