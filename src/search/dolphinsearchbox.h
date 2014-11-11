@@ -26,7 +26,7 @@
 #include <config-baloo.h>
 
 class DolphinFacetsWidget;
-class KLineEdit;
+class QLineEdit;
 class KSeparator;
 class QToolButton;
 class QScrollArea;
@@ -175,7 +175,7 @@ private:
     Baloo::QueryBuilder* m_searchInput;
     QScopedPointer<Baloo::NaturalQueryParser> m_queryParser;
 #else
-    KLineEdit* m_searchInput;
+    QLineEdit* m_searchInput;
 #endif
     QScrollArea* m_optionsScrollArea;
     QToolButton* m_fileNameButton;
