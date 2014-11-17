@@ -162,6 +162,7 @@
       <li xml:lang="sr-ijekavian">Навигациона трака (или мрвице) за УРЛ‑ове, преко које се можете брзо кретати кроз стабло фајлова и фасцикли.</li>
       <li xml:lang="sr-ijekavianlatin">Navigaciona traka (ili mrvice) za URL‑ove, preko koje se možete brzo kretati kroz stablo fajlova i fascikli.</li>
       <li xml:lang="sv">Navigeringsrad (eller länkstig) för webbadresser, som låter dig snabbt navigera igenom hierarkin av filer och kataloger.</li>
+      <li xml:lang="tr">Dosya ve dizinlerin sıralı dizilerinde hızlıca gezinmenize imkan veren adresler için gezinti (veya işaret) çubuğu.</li>
       <li xml:lang="uk">Панель навігації (звичайний режим і режим послідовної навігації) для адрес надає вам змогу швидко пересуватися ієрархією файлів та каталогів.</li>
       <li xml:lang="x-test">xxNavigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.xx</li>
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
@@ -191,6 +192,7 @@
       <li xml:lang="sr-ijekavian">Неколико начина приказа, са својствима које можете подесити по жељи.</li>
       <li xml:lang="sr-ijekavianlatin">Nekoliko načina prikaza, sa svojstvima koje možete podesiti po želji.</li>
       <li xml:lang="sv">Stöder flera olika sorters visningsstilar och egenskaper och låter dig anpassa visningen exakt som du vill ha den.</li>
+      <li xml:lang="tr">Bir çok farklı görünüm tipini ve özelliğini destekler ve görünümü tam istediğiniz gibi yapılandırmanıza izin verir.</li>
       <li xml:lang="uk">Підтримка декількох різних типів та параметрів перегляду надає вам змогу налаштувати перегляд каталогів саме так, як вам це потрібно.</li>
       <li xml:lang="x-test">xxSupports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.xx</li>
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
@@ -221,6 +223,7 @@
       <li xml:lang="sr-ijekavian">Подељени приказ, за лако копирање и премештање фајлова између локација.</li>
       <li xml:lang="sr-ijekavianlatin">Podeljeni prikaz, za lako kopiranje i premeštanje fajlova između lokacija.</li>
       <li xml:lang="sv">Delad visning, som låter dig enkelt kopiera eller flytta filer mellan platser.</li>
+      <li xml:lang="tr">Dosyaları farklı konumlar arasında kolayca kopyalamaya ve taşımaya izin veren ayrık görünüm.</li>
       <li xml:lang="uk">За допомогою режиму двопанельного розділеного перегляду ви зможе без проблем копіювати або пересувати файли між каталогами.</li>
       <li xml:lang="x-test">xxSplit view, allowing you to easily copy or move files between locations.xx</li>
       <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
@@ -250,6 +253,7 @@
       <li xml:lang="sr-ijekavian">Допунски подаци и пречице доступни су као усидриви панели, које можете поставити где вам одговара и подесити да приказују тачно оно што желите.</li>
       <li xml:lang="sr-ijekavianlatin">Dopunski podaci i prečice dostupni su kao usidrivi paneli, koje možete postaviti gde vam odgovara i podesiti da prikazuju tačno ono što želite.</li>
       <li xml:lang="sv">Ytterligare information och genvägar är tillgängliga som dockningsbara paneler, vilket låter dig flytta omkring dem fritt och visa exakt vad du vill.</li>
+      <li xml:lang="tr">Ek bilgi ve kısayollar kilitlenebilen panolar olarak kullanılabilirler, bu sayede onları istediğiniz gibi taşıyabilir ve tam istediğiniz gibi görüntülenmelerini sağlayabilirsiniz.</li>
       <li xml:lang="uk">За допомогою бічних пересувних панелей ви зможете отримувати додаткову інформацію та пересуватися каталогами. Ви можете розташувати ці панелі так, як вам це зручно, і наказати програмі показувати на них саме те, що вам потрібно.</li>
       <li xml:lang="x-test">xxAdditional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.xx</li>
       <li xml:lang="zh-TW">分割檢視讓您可以輕鬆複製或移動檔案。</li>
@@ -282,6 +286,7 @@
       <li xml:lang="sr-ijekavian">Вишеструки језичци.</li>
       <li xml:lang="sr-ijekavianlatin">Višestruki jezičci.</li>
       <li xml:lang="sv">Stöd för flera flikar</li>
+      <li xml:lang="tr">Çoklu sekme desteği</li>
       <li xml:lang="uk">Підтримка роботи з вкладками.</li>
       <li xml:lang="x-test">xxMultiple tab supportxx</li>
       <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
@@ -312,6 +317,7 @@
       <li xml:lang="sr-ijekavian">Информативни дијалози који се ненаметљиво појављују.</li>
       <li xml:lang="sr-ijekavianlatin">Informativni dijalozi koji se nenametljivo pojavljuju.</li>
       <li xml:lang="sv">Dialogrutor med information visas på ett diskret sätt.</li>
+      <li xml:lang="tr">Bilgi pencereleri rahatsız etmeyecek şekilde görüntülenir.</li>
       <li xml:lang="uk">Показ інформаційних панелей у зручний спосіб, що не заважає роботі.</li>
       <li xml:lang="x-test">xxInformational dialogues are displayed in an unobtrusive way.xx</li>
       <li xml:lang="zh-TW">支援多分頁</li>
@@ -343,6 +349,7 @@
       <li xml:lang="sr-ijekavian">Опозивање и понављање.</li>
       <li xml:lang="sr-ijekavianlatin">Opozivanje i ponavljanje.</li>
       <li xml:lang="sv">Stöd för ångra och gör om</li>
+      <li xml:lang="tr">Geri alma/tekrarlama desteği</li>
       <li xml:lang="uk">Підтримка скасовування та повторення дій.</li>
       <li xml:lang="x-test">xxUndo/redo supportxx</li>
       <li xml:lang="zh-TW">以不唐突的方式顯示資訊對話框。</li>
@@ -374,6 +381,7 @@
       <li xml:lang="sr-ijekavian">Прозиран мрежни приступ кроз систем К‑У/И.</li>
       <li xml:lang="sr-ijekavianlatin">Proziran mrežni pristup kroz sistem K‑U/I.</li>
       <li xml:lang="sv">Transparent nätverksåtkomst via I/O-slavsystemet.</li>
+      <li xml:lang="tr">KIO sistemi üzerinden şeffaf ağ erişimi.</li>
       <li xml:lang="uk">Прозорий доступ до ресурсів у мережі за допомогою системи KIO.</li>
       <li xml:lang="x-test">xxTransparent network access through the KIO system.xx</li>
       <li xml:lang="zh-TW">復原支援</li>
