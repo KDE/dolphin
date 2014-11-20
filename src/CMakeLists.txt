@@ -93,6 +93,9 @@ kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
 
+generate_export_header(dolphinprivate BASE_NAME libdolphinprivate
+  EXPORT_FILE_NAME libdolphin_export.h)
+
 target_link_libraries(
     dolphinprivate PUBLIC
     KF5::KDELibs4Support
