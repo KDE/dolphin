@@ -969,7 +969,11 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
         }
     }
 
-    const QString fileName = url.fileName().isEmpty() ? "/" : url.fileName();
+    QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
+    if (fileName.isEmpty()) {
+        fileName = '/';
+    }
+
     caption.append(fileName);
 
     setCaption(caption);

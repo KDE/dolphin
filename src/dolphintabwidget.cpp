@@ -348,7 +348,7 @@ QString DolphinTabWidget::tabName(const QUrl& url) const
     if (url == QUrl("file:///")) {
         name = '/';
     } else {
-        name = url.fileName();
+        name = url.adjusted(QUrl::StripTrailingSlash).fileName();
         if (name.isEmpty()) {
             name = url.scheme();
         } else {
