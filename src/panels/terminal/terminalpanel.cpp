@@ -199,5 +199,6 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
         }
     }
 
-    emit changeUrl(dir);
+    const QUrl url(QUrl::fromLocalFile(dir));
+    emit changeUrl(url);
 }
