@@ -26,6 +26,7 @@
 #include <kitemviews/kitemmodelbase.h>
 #include <kitemviews/private/kfileitemmodelfilter.h>
 
+#include <QCollator>
 #include <QHash>
 #include <QSet>
 
@@ -455,13 +456,13 @@ private:
 private:
     KFileItemModelDirLister* m_dirLister;
 
+    QCollator m_collator;
     bool m_naturalSorting;
     bool m_sortDirsFirst;
 
     RoleType m_sortRole;
     int m_sortingProgressPercent; // Value of directorySortingProgress() signal
     QSet<QByteArray> m_roles;
-    Qt::CaseSensitivity m_caseSensitivity;
 
     QList<ItemData*> m_itemData;
 

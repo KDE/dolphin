@@ -25,7 +25,6 @@
 #include <KLocalizedString>
 #include <KStringHandler>
 #include <KDebug>
-#include <kstringhandler_deprecated.h> //TODO: port to QCollator
 
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
@@ -47,7 +46,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
-    m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
     m_items(),
     m_filter(),
@@ -60,6 +58,9 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_expandedDirs(),
     m_urlsToExpand()
 {
+    m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+    m_collator.setNumericMode(true);
+
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setDelayedMimeTypes(true);
 
@@ -1733,9 +1734,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     case ImageSizeRole: {
         // Alway use a natural comparing to interpret the numbers of a string like
         // "1600 x 1200" for having a correct sorting.
-        result = KStringHandler::naturalCompare(a->values.value("imageSize").toString(),
-                                                b->values.value("imageSize").toString(),
-                                                Qt::CaseSensitive);
+        result = m_collator.compare(a->values.value("imageSize").toString(),
+                                    b->values.value("imageSize").toString());
         break;
     }
 
@@ -1760,8 +1760,7 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     }
 
     // Fallback #2: KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
-    result = stringCompare(itemA.name(m_caseSensitivity == Qt::CaseInsensitive),
-                           itemB.name(m_caseSensitivity == Qt::CaseInsensitive));
+    result = stringCompare(itemA.name(), itemB.name());
     if (result != 0) {
         return result;
     }
@@ -1774,34 +1773,24 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
 
 int KFileItemModel::stringCompare(const QString& a, const QString& b) const
 {
-    // Taken from KDirSortFilterProxyModel (kdelibs/kfile/kdirsortfilterproxymodel.*)
-    // Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>
-    // Copyright (C) 2006 by Dominic Battre <dominic@battre.de>
-    // Copyright (C) 2006 by Martin Pool <mbp@canonical.com>
-
-    if (m_caseSensitivity == Qt::CaseInsensitive) {
-        const int result = m_naturalSorting ? KStringHandler::naturalCompare(a, b, Qt::CaseInsensitive)
-                                            : QString::compare(a, b, Qt::CaseInsensitive);
-        if (result != 0) {
-            // Only return the result, if the strings are not equal. If they are equal by a case insensitive
-            // comparison, still a deterministic sort order is required. A case sensitive
-            // comparison is done as fallback.
-            return result;
-        }
+    if (m_naturalSorting) {
+        return m_collator.compare(a, b);
     }
 
-    return m_naturalSorting ? KStringHandler::naturalCompare(a, b, Qt::CaseSensitive)
-                            : QString::compare(a, b, Qt::CaseSensitive);
+    const int result = QString::compare(a, b, m_collator.caseSensitivity());
+    if (result != 0 || m_collator.caseSensitivity() == Qt::CaseSensitive) {
+        // Only return the result, if the strings are not equal. If they are equal by a case insensitive
+        // comparison, still a deterministic sort order is required. A case sensitive
+        // comparison is done as fallback.
+        return result;
+    }
+
+    return QString::compare(a, b, Qt::CaseSensitive);
 }
 
 bool KFileItemModel::useMaximumUpdateInterval() const
 {
     return !m_dirLister->url().isLocalFile();
-}
-
-static bool localeAwareLessThan(const QChar& c1, const QChar& c2)
-{
-    return QString::localeAwareCompare(c1, c2) < 0;
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
@@ -1836,6 +1825,10 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
                         lettersAtoZ.push_back(QLatin1Char(c));
                     }
                 }
+
+                auto localeAwareLessThan = [this](const QChar& c1, const QChar& c2) -> bool {
+                    return m_collator.compare(c1, c2) < 0;
+                };
 
                 std::vector<QChar>::iterator it = std::lower_bound(lettersAtoZ.begin(), lettersAtoZ.end(), newFirstChar, localeAwareLessThan);
                 if (it != lettersAtoZ.end()) {
