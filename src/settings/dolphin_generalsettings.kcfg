@@ -82,7 +82,7 @@
         </entry>
         <entry name="ShowSpaceInfo" type="Bool">
             <label>Show the space information in the statusbar</label>
-            <default>false</default>
+            <default>true</default>
         </entry>
         <entry name="LockPanels" type="Bool">
             <label>Lock the layout of the panels</label>
