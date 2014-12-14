@@ -35,7 +35,6 @@
 #include <KToolInvocation>
 #include <kauthorized.h>
 #include <QMenu>
-#include <KInputDialog>
 #include <kdeversion.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
@@ -57,7 +56,7 @@
 #include <QClipboard>
 #include <QDir>
 #include <QKeyEvent>
-
+#include <QInputDialog>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 
@@ -507,7 +506,7 @@ void DolphinPart::slotUnselectItemsMatchingPattern()
 void DolphinPart::openSelectionDialog(const QString& title, const QString& text, bool selectItems)
 {
     bool okClicked;
-    QString pattern = KInputDialog::getText(title, text, "*", &okClicked, m_view);
+    const QString pattern = QInputDialog::getText(m_view, title, text, QLineEdit::Normal, "*", &okClicked);
 
     if (okClicked && !pattern.isEmpty()) {
         QRegExp patternRegExp(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
