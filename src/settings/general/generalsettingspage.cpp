@@ -28,8 +28,8 @@
 
 #include <KDialog>
 #include <KLocalizedString>
-#include <KTabWidget>
 
+#include <QTabWidget>
 #include <QVBoxLayout>
 
 GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
@@ -40,7 +40,7 @@ GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    KTabWidget* tabWidget = new KTabWidget(this);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(url, tabWidget);

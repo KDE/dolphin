@@ -24,10 +24,10 @@
 #include "viewsettingstab.h"
 
 #include <QVBoxLayout>
+#include <QTabWidget>
 
 #include <KDialog>
 #include <KLocalizedString>
-#include <KTabWidget>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
@@ -37,7 +37,7 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    KTabWidget* tabWidget = new KTabWidget(this);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);

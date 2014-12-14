@@ -19,7 +19,6 @@
 
 #include "kcmdolphingeneral.h"
 
-#include <KTabWidget>
 #include <KDialog>
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -31,6 +30,7 @@
 
 #include <QDir>
 #include <QVBoxLayout>
+#include <QTabWidget>
 
 K_PLUGIN_FACTORY(KCMDolphinGeneralConfigFactory, registerPlugin<DolphinGeneralConfigModule>("dolphingeneral");)
 K_EXPORT_PLUGIN(KCMDolphinGeneralConfigFactory("kcmdolphingeneral"))
@@ -50,7 +50,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    KTabWidget* tabWidget = new KTabWidget(this);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(QDir::homePath(), tabWidget);

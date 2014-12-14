@@ -19,7 +19,6 @@
 
 #include "kcmdolphinviewmodes.h"
 
-#include <KTabWidget>
 #include <KDialog>
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -32,6 +31,7 @@
 #include <QDBusMessage>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QTabWidget>
 
 K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>("dolphinviewmodes");)
 K_EXPORT_PLUGIN(KCMDolphinViewModesConfigFactory("kcmdolphinviewmodes"))
@@ -51,7 +51,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    KTabWidget* tabWidget = new KTabWidget(this);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
