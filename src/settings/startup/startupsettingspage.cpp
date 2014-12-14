@@ -148,7 +148,7 @@ void StartupSettingsPage::applySettings()
     settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
 
-    settings->writeConfig();
+    settings->save();
 }
 
 void StartupSettingsPage::restoreDefaults()

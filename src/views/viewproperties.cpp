@@ -365,7 +365,7 @@ void ViewProperties::save()
     QDir dir;
     dir.mkpath(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
-    m_node->writeConfig();
+    m_node->save();
     m_changedProps = false;
 }
 

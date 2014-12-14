@@ -195,7 +195,7 @@ void ViewSettingsTab::applySettings()
     settings.setItalicFont(font.italic());
     settings.setFontWeight(font.weight());
 
-    settings.writeConfig();
+    settings.save();
 }
 
 void ViewSettingsTab::restoreDefaultSettings()

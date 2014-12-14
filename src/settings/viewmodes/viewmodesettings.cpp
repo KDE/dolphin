@@ -132,7 +132,7 @@ void ViewModeSettings::readConfig()
     }
 }
 
-void ViewModeSettings::writeConfig()
+void ViewModeSettings::save()
 {
     switch (m_mode) {
     case ViewModeSettings::IconsMode:   IconsModeSettings::self()->save(); break;

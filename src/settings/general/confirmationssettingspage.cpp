@@ -98,7 +98,7 @@ void ConfirmationsSettingsPage::applySettings()
 
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
-    settings->writeConfig();
+    settings->save();
 }
 
 void ConfirmationsSettingsPage::restoreDefaults()

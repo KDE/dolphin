@@ -352,7 +352,7 @@ void ViewPropertiesDialog::applyViewProperties()
         // all existing viewproperties invalid, as they have a smaller time stamp.
         GeneralSettings* settings = GeneralSettings::self();
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
-        settings->writeConfig();
+        settings->save();
     }
 
     m_dolphinView->setMode(m_viewProps->viewMode());

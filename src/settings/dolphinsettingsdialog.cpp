@@ -135,7 +135,7 @@ void DolphinSettingsDialog::applySettings()
         // Reset the modified startup settings hint. The changed startup settings
         // have been applied already due to emitting settingsChanged().
         settings->setModifiedStartupSettings(false);
-        settings->writeConfig();
+        settings->save();
     }
     buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(false);
 }

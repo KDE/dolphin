@@ -94,7 +94,7 @@ void NavigationSettingsPage::applySettings()
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
 
-    settings->writeConfig();
+    settings->save();
 }
 
 void NavigationSettingsPage::restoreDefaults()

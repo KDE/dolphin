@@ -61,7 +61,7 @@ public:
     int fontWeight() const;
 
     void readConfig();
-    void writeConfig();
+    void save();
 
 private:
     ViewMode m_mode;

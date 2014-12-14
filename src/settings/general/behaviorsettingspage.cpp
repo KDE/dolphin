@@ -98,7 +98,7 @@ void BehaviorSettingsPage::applySettings()
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
-    settings->writeConfig();
+    settings->save();
 
     if (useGlobalViewProps) {
         // Remember the global view properties by applying the current view properties.

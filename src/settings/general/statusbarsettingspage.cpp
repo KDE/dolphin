@@ -56,7 +56,7 @@ void StatusBarSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
-    settings->writeConfig();
+    settings->save();
 }
 
 void StatusBarSettingsPage::restoreDefaults()
