@@ -29,13 +29,14 @@
 #include <KLocalizedString>
 #include <QLineEdit>
 #include <KMessageBox>
-#include <KVBox>
 
 #include <QVBoxLayout>
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 #include "views/dolphinview.h"
 
@@ -51,20 +52,29 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     const int spacing = KDialog::spacingHint();
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
+    QWidget* vBox = new QWidget(this);
+    QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
+    vBoxLayout->setMargin(0);
+    vBoxLayout->setSpacing(spacing);
+    vBoxLayout->setAlignment(Qt::AlignTop);
 
     // create 'Home URL' editor
     QGroupBox* homeBox = new QGroupBox(i18nc("@title:group", "Home Folder"), vBox);
+    vBoxLayout->addWidget(homeBox);
 
-    KHBox* homeUrlBox = new KHBox(homeBox);
-    homeUrlBox->setSpacing(spacing);
+    QWidget* homeUrlBox = new QWidget(homeBox);
+    QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(homeUrlBox);
+    homeUrlBoxLayout->setMargin(0);
+    homeUrlBoxLayout->setSpacing(spacing);
 
-    new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
+    QLabel* homeUrlLabel = new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
+    homeUrlBoxLayout->addWidget(homeUrlLabel);
     m_homeUrl = new QLineEdit(homeUrlBox);
+    homeUrlBoxLayout->addWidget(m_homeUrl);
     m_homeUrl->setClearButtonEnabled(true);
 
     QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme("folder-open"), QString(), homeUrlBox);
+    homeUrlBoxLayout->addWidget(selectHomeUrlButton);
 
 #ifndef QT_NO_ACCESSIBILITY
     selectHomeUrlButton->setAccessibleName(i18nc("@action:button", "Select Home Location"));
@@ -73,13 +83,17 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(selectHomeUrlButton, &QPushButton::clicked,
             this, &StartupSettingsPage::selectHomeUrl);
 
-    KHBox* buttonBox = new KHBox(homeBox);
-    buttonBox->setSpacing(spacing);
+    QWidget* buttonBox = new QWidget(homeBox);
+    QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
+    buttonBoxLayout->setMargin(0);
+    buttonBoxLayout->setSpacing(spacing);
 
     QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"), buttonBox);
+    buttonBoxLayout->addWidget(useCurrentButton);
     connect(useCurrentButton, &QPushButton::clicked,
             this, &StartupSettingsPage::useCurrentLocation);
     QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"), buttonBox);
+    buttonBoxLayout->addWidget(useDefaultButton);
     connect(useDefaultButton, &QPushButton::clicked,
             this, &StartupSettingsPage::useDefaultLocation);
 
@@ -89,9 +103,13 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 
     // create 'Split view', 'Show full path', 'Editable location' and 'Filter bar' checkboxes
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
+    vBoxLayout->addWidget(m_splitView);
     m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
+    vBoxLayout->addWidget(m_editableUrl);
     m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"), vBox);
+    vBoxLayout->addWidget(m_showFullPath);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
+    vBoxLayout->addWidget(m_filterBar);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout

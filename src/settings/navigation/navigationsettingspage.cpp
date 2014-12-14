@@ -24,7 +24,6 @@
 #include <KDialog>
 #include <KGlobalSettings>
 #include <KLocalizedString>
-#include <KVBox>
 
 #include <QCheckBox>
 #include <QGroupBox>
@@ -39,11 +38,15 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     const int spacing = KDialog::spacingHint();
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
+    QWidget* vBox = new QWidget(this);
+    QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
+    vBoxLayout->setMargin(0);
+    vBoxLayout->setSpacing(spacing);
+    vBoxLayout->setAlignment(Qt::AlignTop);
 
     // create 'Mouse' group
     QGroupBox* mouseBox = new QGroupBox(i18nc("@title:group", "Mouse"), vBox);
+    vBoxLayout->addWidget(mouseBox);
     mouseBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_singleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
                                            "Single-click to open files and folders"), mouseBox);
@@ -55,8 +58,10 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     mouseBoxLayout->addWidget(m_doubleClick);
 
     m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);
+    vBoxLayout->addWidget(m_openArchivesAsFolder);
 
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
+    vBoxLayout->addWidget(m_autoExpandFolders);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
