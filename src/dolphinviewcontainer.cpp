@@ -479,7 +479,7 @@ void DolphinViewContainer::slotDirectoryLoadingCanceled()
 
 void DolphinViewContainer::slotUrlIsFileError(const QUrl& url)
 {
-    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    const KFileItem item(url);
 
     // Find out if the file can be opened in the view (for example, this is the
     // case if the file is an archive). The mime type must be known for that.

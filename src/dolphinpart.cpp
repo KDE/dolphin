@@ -404,7 +404,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
         popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
         item = m_view->rootItem();
         if (item.isNull())
-            item = KFileItem( S_IFDIR, (mode_t)-1, url() );
+            item = KFileItem(url());
         else
             item.setUrl(url()); // ensure we use the view url, not the canonical path (#213799)
     }

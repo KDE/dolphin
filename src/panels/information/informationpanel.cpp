@@ -228,7 +228,7 @@ void InformationPanel::slotFileRenamed(const QString& source, const QString& des
 {
     if (m_shownUrl == QUrl::fromLocalFile(source)) {
         m_shownUrl = QUrl::fromLocalFile(dest);
-        m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+        m_fileItem = KFileItem(m_shownUrl);
 
         if ((m_selection.count() == 1) && (m_selection[0].url() == QUrl::fromLocalFile(source))) {
             m_selection[0] = m_fileItem;
@@ -247,7 +247,7 @@ void InformationPanel::slotFilesAdded(const QString& directory)
     if (m_shownUrl == QUrl::fromLocalFile(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
         // the signal filesAdded("trash:/") will be emitted.
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, QUrl::fromLocalFile(directory));
+        KFileItem item(QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }
@@ -277,7 +277,7 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
 void InformationPanel::slotEnteredDirectory(const QString& directory)
 {
     if (m_shownUrl == QUrl::fromLocalFile(directory)) {
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, QUrl::fromLocalFile(directory));
+        KFileItem item(QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }

@@ -468,7 +468,7 @@ KFileItemListProperties& DolphinContextMenu::selectedItemsProperties() const
 KFileItem DolphinContextMenu::baseFileItem()
 {
     if (!m_baseFileItem) {
-        m_baseFileItem = new KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_baseUrl);
+        m_baseFileItem = new KFileItem(m_baseUrl);
     }
     return *m_baseFileItem;
 }

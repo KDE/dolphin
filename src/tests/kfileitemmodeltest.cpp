@@ -1448,7 +1448,7 @@ void KFileItemModelTest::testInconsistentModel()
     // in the model yet). Otherwise, KFileItemModel::slotItemsAdded() will see that
     // it receives items that are in the model already and ignore them.
     QUrl url(m_model->directory().url() + "/a2");
-    KFileItem newItem(KFileItem::Unknown, KFileItem::Unknown, url);
+    KFileItem newItem(url);
 
     KFileItemList items;
     items << newItem << m_model->fileItem(2) << m_model->fileItem(3);

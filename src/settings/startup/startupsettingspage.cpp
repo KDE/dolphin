@@ -118,7 +118,7 @@ void StartupSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
 
     const QUrl url(QUrl::fromLocalFile(m_homeUrl->text()));
-    KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, url);
+    KFileItem fileItem(url);
     if ((url.isValid() && fileItem.isDir()) || (url.scheme() == QLatin1String("timeline"))) {
         settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
     } else {
