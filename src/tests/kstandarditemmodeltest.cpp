@@ -18,10 +18,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest.h>
-
 #include "kitemviews/kstandarditem.h"
 #include "kitemviews/kstandarditemmodel.h"
+
+#include <QTest>
 
 class KStandardItemModelTest : public QObject
 {

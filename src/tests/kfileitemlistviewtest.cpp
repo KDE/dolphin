@@ -17,18 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest.h>
-#include <QSignalSpy>
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
 #include <QGraphicsView>
-
-namespace {
-    const int DefaultTimeout = 2000;
-};
+#include <QTest>
+#include <QSignalSpy>
 
 class KFileItemListViewTest : public QObject
 {
@@ -91,27 +87,24 @@ void KFileItemListViewTest::cleanup()
  */
 void KFileItemListViewTest::testGroupedItemChanges()
 {
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+
     m_model->setGroupedSorting(true);
 
     m_testDir->createFiles({"1", "3", "5"});
-
     m_model->loadDirectory(m_testDir->url());
-    QSignalSpy psy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QVERIFY(psy.wait(DefaultTimeout));
+    QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 3);
 
     m_testDir->createFiles({"2", "4"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QSignalSpy psyItemsInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QVERIFY(psyItemsInserted.wait(DefaultTimeout));
+    QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 5);
 
-    m_testDir->removeFile("1");
-    m_testDir->removeFile("3");
-    m_testDir->removeFile("5");
+    m_testDir->removeFiles({"1", "3", "5"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QSignalSpy psyItemsRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
-    QVERIFY(psyItemsRemoved.wait(DefaultTimeout));
+    QVERIFY(itemsRemovedSpy.wait());
     QCOMPARE(m_model->count(), 2);
 }
 

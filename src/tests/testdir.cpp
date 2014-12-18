@@ -28,7 +28,7 @@
 #endif
 
 TestDir::TestDir(const QString& directoryPrefix) :
-    KTempDir(directoryPrefix)
+    QTemporaryDir(directoryPrefix)
 {
 }
 
@@ -38,7 +38,7 @@ TestDir::~TestDir()
 
 QUrl TestDir::url() const
 {
-    return QUrl::fromLocalFile(name());
+    return QUrl::fromLocalFile(path());
 }
 
 /** The following function is taken from kdelibs/kio/tests/kiotesthelper.h, copyright (C) 2006 by David Faure */
@@ -85,7 +85,7 @@ void TestDir::createDir(const QString& path, const QDateTime& time)
 {
     QString absolutePath = path;
     makePathAbsoluteAndCreateParents(absolutePath);
-    QDir(name()).mkdir(absolutePath);
+    QDir(TestDir::path()).mkdir(absolutePath);
 
     if (time.isValid()) {
         setTimeStamp(absolutePath, time);
@@ -94,12 +94,19 @@ void TestDir::createDir(const QString& path, const QDateTime& time)
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
+void TestDir::removeFiles(const QStringList& files)
+{
+    foreach (const QString& path, files) {
+        removeFile(path);
+    }
+}
+
 void TestDir::removeFile(const QString& path)
 {
     QString absolutePath = path;
     QFileInfo fileInfo(absolutePath);
     if (!fileInfo.isAbsolute()) {
-        absolutePath = name() + path;
+        absolutePath = TestDir::path() + QLatin1Char('/') + path;
     }
     QFile::remove(absolutePath);
 }
@@ -108,7 +115,7 @@ void TestDir::makePathAbsoluteAndCreateParents(QString& path)
 {
     QFileInfo fileInfo(path);
     if (!fileInfo.isAbsolute()) {
-        path = name() + path;
+        path = TestDir::path() + QLatin1Char('/') + path;
         fileInfo.setFile(path);
     }
 

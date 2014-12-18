@@ -18,10 +18,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest.h>
-#include <QSignalSpy>
 #include "kitemviews/kitemmodelbase.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+
+#include <QTest>
+#include <QSignalSpy>
 
 class DummyModel : public KItemModelBase
 {

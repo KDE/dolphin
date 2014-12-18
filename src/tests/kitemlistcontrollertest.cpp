@@ -17,10 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest.h>
-#include <qtestmouse.h>
-#include <qtestkeyboard.h>
-
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
@@ -32,12 +28,9 @@
 #include <KConfigGroup>
 #include <KGlobalSettings>
 
+#include <QTest>
 #include <QGraphicsSceneMouseEvent>
 #include <QSignalSpy>
-
-namespace {
-    const int DefaultTimeout = 2000;
-};
 
 Q_DECLARE_METATYPE(KFileItemListView::ItemLayout);
 Q_DECLARE_METATYPE(Qt::Orientation);
@@ -104,7 +97,7 @@ void KItemListControllerTest::initTestCase()
     m_testDir->createFiles(files);
     m_model->loadDirectory(m_testDir->url());
     QSignalSpy spyDirectoryLoadingCompleted(m_model, SIGNAL(directoryLoadingCompleted()));
-    QVERIFY(spyDirectoryLoadingCompleted.wait(DefaultTimeout));
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
 
     m_container->show();
     QTest::qWaitForWindowShown(m_container);
@@ -567,7 +560,7 @@ void KItemListControllerTest::testMouseClickActivation()
 
     if (!KGlobalSettings::singleClick()) {
         // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
     }
 
     m_view->event(&mousePressEvent);
@@ -588,7 +581,7 @@ void KItemListControllerTest::testMouseClickActivation()
 
     if (KGlobalSettings::singleClick()) {
         // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
     }
 
     m_view->event(&mousePressEvent);
@@ -623,7 +616,7 @@ void KItemListControllerTest::testMouseClickActivation()
 
     if (!KGlobalSettings::singleClick()) {
         // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
     }
 
     m_view->event(&mousePressEvent);
@@ -652,7 +645,7 @@ void KItemListControllerTest::testMouseClickActivation()
 
     if (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick) {
         // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!", SkipSingle);
+        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
     }
 }
 

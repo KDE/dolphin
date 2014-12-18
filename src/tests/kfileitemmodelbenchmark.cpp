@@ -18,14 +18,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest.h>
+#include <QTest>
 #include <QSignalSpy>
+
+#include <algorithm>
+#include <random>
+
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
 #include "testdir.h"
-
-#include <KRandomSequence>
 
 void myMessageOutput(QtMsgType type, const char* msg)
 {
@@ -44,10 +46,6 @@ void myMessageOutput(QtMsgType type, const char* msg)
        break;
     }
 }
-
-namespace {
-    const int DefaultTimeout = 5000;
-};
 
 Q_DECLARE_METATYPE(KFileItemList)
 Q_DECLARE_METATYPE(KItemRangeList)
@@ -294,8 +292,9 @@ void KFileItemModelBenchmark::insertManyChildItems()
     }
 
     // Bring the items into random order.
-    KRandomSequence randomSequence(0);
-    randomSequence.randomize(newItems);
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(newItems.begin(), newItems.end(), g);
 
     // Measure how long it takes to insert and then remove all files.
     QBENCHMARK {

@@ -52,7 +52,7 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kitemlistview.cpp
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
-#    ../kitemviews/kitemlistviewaccessible.cpp # TODO: enable once accessibility is ported to Qt5
+    ../kitemviews/kitemlistviewaccessible.cpp
     ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
@@ -71,7 +71,7 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kfileitemlistview.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemlistview.cpp
-#    ../kitemviews/kitemlistviewaccessible.cpp # TODO: enable once accessibility is ported to Qt5
+    ../kitemviews/kitemlistviewaccessible.cpp
     ../kitemviews/kitemlistcontainer.cpp
     ../kitemviews/kitemlistwidget.cpp
     ../kitemviews/kitemset.cpp
