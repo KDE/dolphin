@@ -87,8 +87,10 @@ void KFileItemListViewTest::cleanup()
  */
 void KFileItemListViewTest::testGroupedItemChanges()
 {
-    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
-    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QVERIFY(itemsInsertedSpy.isValid());
+    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QVERIFY(itemsRemovedSpy.isValid());
 
     m_model->setGroupedSorting(true);
 
