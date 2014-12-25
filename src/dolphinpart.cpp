@@ -21,7 +21,6 @@
 #include "dolphinremoveaction.h"
 
 #include <KFileItemListProperties>
-#include <konq_operations.h>
 
 #include <KAboutData>
 #include <KActionCollection>

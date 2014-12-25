@@ -25,7 +25,6 @@
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"
 #include "views/zoomlevelinfo.h"
-#include <konq_operations.h>
 
 #include <QPointer>
 #include <QMenu>
