@@ -20,25 +20,20 @@
 
 #include "draganddrophelper.h"
 
+#include <QUrl>
+#include <QDBusMessage>
+#include <QDBusConnection>
+#include <QDropEvent>
+#include <QMimeData>
+
 #include <KFileItem>
 #include <KLocalizedString>
-#include <konq_operations.h>
-#include <QUrl>
-#include <QApplication>
-#include <QtDBus>
-#include <QDropEvent>
 #include <KUrlMimeData>
+#include <KIO/DropJob>
+#include <KJobWidgets>
 
-KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const QUrl& destUrl, QDropEvent* event, QString& error)
+KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
 {
-    error.clear();
-
-    if (!destItem.isNull() && !destItem.isWritable()) {
-        error = xi18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>",
-                       destUrl.toDisplayString(QUrl::PreferLocalFile));
-        return 0;
-    }
-
     const QMimeData* mimeData = event->mimeData();
     if (mimeData->hasFormat("application/x-kde-ark-dndextract-service") &&
         mimeData->hasFormat("application/x-kde-ark-dndextract-path")) {
@@ -49,19 +44,11 @@ KonqOperations* DragAndDropHelper::dropUrls(const KFileItem& destItem, const QUr
                                                               "org.kde.ark.DndExtract", "extractSelectedFilesTo");
         message.setArguments({destUrl.toDisplayString(QUrl::PreferLocalFile)});
         QDBusConnection::sessionBus().call(message);
-    } else if (!destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile())) {
-        // Drop into a directory or a desktop-file
-        const QList<QUrl> urls = KUrlMimeData::urlsFromMimeData(mimeData);
-        foreach (const QUrl& url, urls) {
-            if (url == destUrl) {
-                error = i18nc("@info:status", "A folder cannot be dropped into itself");
-                return 0;
-            }
-        }
-
-        return KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow(), QList<QAction*>());
     } else {
-        return KonqOperations::doDrop(KFileItem(), destUrl, event, QApplication::activeWindow(), QList<QAction*>());
+        // Drop into a directory or a desktop-file
+        KIO::DropJob *job = KIO::drop(event, destUrl);
+        KJobWidgets::setWindow(job, window);
+        return job;
     }
 
     return 0;

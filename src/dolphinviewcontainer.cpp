@@ -28,10 +28,8 @@
 #include <KFileItemActions>
 #include <KFilePlacesModel>
 #include <KLocalizedString>
-#include <KIO/NetAccess>
 #include <KIO/PreviewJob>
 #include <KMessageWidget>
-#include <konq_operations.h>
 #include <KShell>
 #include <QUrl>
 #include <KUrlComboBox>
@@ -45,7 +43,6 @@
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "views/draganddrophelper.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
@@ -60,9 +57,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_statusBar(0),
     m_statusBarTimer(0),
     m_statusBarTimestamp(),
-    m_autoGrabFocus(true),
-    m_dropDestination(),
-    m_dropEvent(0)
+    m_autoGrabFocus(true)
 #ifdef KActivities_FOUND
     , m_activityResourceInstance(0)
 #endif
@@ -74,8 +69,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_topLayout->setMargin(0);
 
     m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
-    connect(m_urlNavigator, &KUrlNavigator::urlsDropped,
-            this, &DolphinViewContainer::dropUrls);
     connect(m_urlNavigator, &KUrlNavigator::activated,
             this, &DolphinViewContainer::activate);
     connect(m_urlNavigator->editor(), &KUrlComboBox::completionModeChanged,
@@ -147,6 +140,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotHistoryChanged);
     connect(m_urlNavigator, &KUrlNavigator::returnPressed,
             this, &DolphinViewContainer::slotReturnPressed);
+    connect(m_urlNavigator, &KUrlNavigator::urlsDropped,
+            m_view, &DolphinView::dropUrls);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -610,41 +605,6 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     } else {
         showMessage(i18nc("@info:status", "Invalid protocol"), Error);
     }
-}
-
-void DolphinViewContainer::dropUrls(const QUrl& destination, QDropEvent* event)
-{
-    m_dropDestination = destination;
-
-    const QMimeData* mimeData = event->mimeData();
-    QMimeData* mimeDataCopy = new QMimeData;
-    foreach (const QString& format, mimeData->formats()) {
-        mimeDataCopy->setData(format, mimeData->data(format));
-    }
-
-    m_dropEvent.reset(new QDropEvent(event->pos(),
-                                     event->possibleActions(),
-                                     mimeDataCopy,
-                                     event->mouseButtons(),
-                                     event->keyboardModifiers()));
-
-    QTimer::singleShot(0, this, SLOT(dropUrlsDelayed()));
-}
-
-void DolphinViewContainer::dropUrlsDelayed()
-{
-    if (m_dropEvent.isNull()) {
-        return;
-    }
-
-    QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), m_dropDestination, m_dropEvent.data(), error);
-    if (!error.isEmpty()) {
-        showMessage(error, Error);
-    }
-
-    delete m_dropEvent->mimeData();
-    m_dropEvent.reset();
 }
 
 void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)

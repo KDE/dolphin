@@ -30,6 +30,7 @@
 #include <KDirNotify>
 #include <QIcon>
 #include <KIO/Job>
+#include <KIO/DropJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
@@ -375,11 +376,7 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent, error);
-    if (!error.isEmpty()) {
-        emit errorMessage(error);
-    }
+    slotUrlsDropped(destUrl, &dropEvent, this);
 }
 
 void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
@@ -390,12 +387,7 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
     if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
         if (success) {
             QUrl destUrl = m_model->placesItem(index)->url();
-
-            QString error;
-            DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent, error);
-            if (!error.isEmpty()) {
-                emit errorMessage(error);
-            }
+            slotUrlsDropped(destUrl, m_itemDropEvent, this);
         }
 
         delete m_itemDropEventMimeData;
@@ -414,13 +406,10 @@ void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent*
 
 void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    Q_UNUSED(parent);
-    QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), dest, event, error);
-    if (!error.isEmpty()) {
-        emit errorMessage(error);
+    KIO::DropJob *job = DragAndDropHelper::dropUrls(dest, event, parent);
+    if (job) {
+        connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
     }
-
 }
 
 void PlacesPanel::slotTrashUpdated(KJob* job)

@@ -258,24 +258,6 @@ private slots:
     void slotUrlNavigatorLocationChanged(const QUrl& url);
 
     /**
-     * Is connected with the URL navigator and drops the URLs
-     * above the destination \a destination.
-     *
-     * Creates a copy of \a event and invokes \a dropUrlsDelayed with a
-     * queued connection.
-     */
-    void dropUrls(const QUrl& destination, QDropEvent* event);
-
-    /**
-     * Is invoked with a queued connection by \a dropUrls to prevent that the
-     * drop actions are executed in the URL navigator menu's nested event loop,
-     * which might cause a crash. Simply using a queued connection from the URL
-     * navigator to \a dropUrls would not work because the \a event pointer
-     * would be dangling then.
-     */
-    void dropUrlsDelayed();
-
-    /**
      * Is invoked when a redirection is done and changes the
      * URL of the URL navigator to \a newUrl without triggering
      * a reloading of the directory.
@@ -340,9 +322,6 @@ private:
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
-
-    QUrl m_dropDestination;
-    QScopedPointer<QDropEvent> m_dropEvent;
 
 #ifdef KF5Activities_FOUND
 private:

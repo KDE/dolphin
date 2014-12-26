@@ -25,10 +25,10 @@
 
 #include <QString>
 
-class KFileItem;
 class QUrl;
 class QDropEvent;
-class KonqOperations;
+class QWidget;
+namespace KIO { class DropJob; }
 
 class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper
 {
@@ -39,22 +39,15 @@ public:
      * offered to the user. The drag destination must represent a directory or
      * a desktop-file, otherwise the dropping gets ignored.
      *
-     * @param destItem  Item of the destination. Can be 0 (KFileItem::isNull()) if
-     *                  no file-item is available for the destination. In this case
-     *                  destUrl is used as fallback. For performance reasons it is
-     *                  recommended to pass a file-item if available.
      * @param destUrl   URL of the item destination. Is used only if destItem::isNull()
      *                  is true.
      * @param event     Drop event.
-     * @param error     Error message intended to be shown for users if dropping is not
-     *                  possible. If an empty string is returned, the dropping has been
-     *                  successful.
-     * @return          KonqOperations pointer
+     * @param window    Associated widget.
+     * @return          KIO::DropJob pointer
      */
-    static KonqOperations* dropUrls(const KFileItem& destItem,
-                                    const QUrl& destUrl,
-                                    QDropEvent* event,
-                                    QString& error);
+    static KIO::DropJob* dropUrls(const QUrl& destUrl,
+                                  QDropEvent* event,
+                                  QWidget *window);
 };
 
 #endif

@@ -51,13 +51,13 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
+#include <KIO/DropJob>
 #include <KIO/PasteJob>
 #include <KIO/Paste>
 #include <KJob>
 #include <QMenu>
 #include <KMessageBox>
 #include <KJobWidgets>
-#include <konq_operations.h>
 #include <QUrl>
 
 #include "dolphinnewfilemenuobserver.h"
@@ -1039,22 +1039,22 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->mimeData(),
                          event->buttons(),
                          event->modifiers());
+    dropUrls(destUrl, &dropEvent);
 
-    QString error;
-    KonqOperations* job = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
-    if (!error.isEmpty()) {
-        emit infoMessage(error);
-    }
+    setActive(true);
+}
+
+void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent)
+{
+    KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, this);
 
     if (job && destUrl == url()) {
         // Mark the dropped urls as selected.
         m_clearSelectionBeforeSelectingNewItems = true;
         m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(job, &KonqOperations::itemCreated, this, &DolphinView::slotItemCreated);
-        //connect(job, &KIO::InteractiveDropJob::result, this, &DolphinView::slotPasteJobResult);
+        connect(job, &KIO::DropJob::itemCreated, this, &DolphinView::slotItemCreated);
+        connect(job, &KIO::DropJob::result, this, &DolphinView::slotPasteJobResult);
     }
-
-    setActive(true);
 }
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
@@ -1096,8 +1096,11 @@ void DolphinView::slotItemCreated(const QUrl& url)
     m_selectedUrls << url;
 }
 
-void DolphinView::slotPasteJobResult(KJob *)
+void DolphinView::slotPasteJobResult(KJob *job)
 {
+    if (job->error()) {
+        emit errorMessage(job->errorString());
+    }
     if (!m_selectedUrls.isEmpty()) {
         m_selectedUrls << KDirModel::simplifiedUrlList(m_selectedUrls);
     }

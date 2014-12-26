@@ -36,6 +36,7 @@
 #include <KJobWidgets>
 #include <KJobUiDelegate>
 #include <KIO/CopyJob>
+#include <KIO/DropJob>
 #include <KIO/FileUndoManager>
 
 #include <QApplication>
@@ -239,10 +240,9 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
                              event->buttons(),
                              event->modifiers());
 
-        QString error;
-        DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent, error);
-        if (!error.isEmpty()) {
-            emit errorMessage(error);
+        KIO::DropJob *job = DragAndDropHelper::dropUrls(destItem.url(), &dropEvent, this);
+        if (job) {
+            connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
         }
     }
 }

@@ -362,6 +362,11 @@ public slots:
      */
     void pasteIntoFolder();
 
+    /**
+     * Handles a drop of @p dropEvent onto @p destUrl
+     */
+    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent);
+
     void stopLoading();
 
     /** Activates the view if the item list container gets focus. */

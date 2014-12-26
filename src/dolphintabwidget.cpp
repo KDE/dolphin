@@ -23,7 +23,6 @@
 #include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
-#include "views/draganddrophelper.h"
 
 #include <QApplication>
 #include <KConfigGroup>
@@ -286,13 +285,8 @@ void DolphinTabWidget::openNewActivatedTab(int index)
 void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
 {
     if (index >= 0) {
-        const DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
-
-        QString error;
-        DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event, error);
-        if (!error.isEmpty()) {
-            currentTabPage()->activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
-        }
+        DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
+        view->dropUrls(view->url(), event);
     }
 }
 
