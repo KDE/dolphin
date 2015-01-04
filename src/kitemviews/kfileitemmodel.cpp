@@ -1173,7 +1173,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 
         while (sourceIndexNewItems >= 0) {
             ItemData* newItem = newItems.at(sourceIndexNewItems);
-            if (sourceIndexExistingItems >= 0 && lessThan(newItem, m_itemData.at(sourceIndexExistingItems))) {
+            if (sourceIndexExistingItems >= 0 && lessThan(newItem, m_itemData.at(sourceIndexExistingItems), m_collator)) {
                 // Move an existing item to its new position. If any new items
                 // are behind it, push the item range to itemRanges.
                 if (rangeCount > 0) {
@@ -1389,14 +1389,14 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& i
             // (b)  the successor of the last item is "lessThan" the last item, or
             // (c)  the internal order of the items in the range is incorrect.
             if (first > 0
-                && lessThan(m_itemData.at(first), m_itemData.at(first - 1))) {
+                && lessThan(m_itemData.at(first), m_itemData.at(first - 1), m_collator)) {
                 needsResorting = true;
             } else if (last < count() - 1
-                && lessThan(m_itemData.at(last + 1), m_itemData.at(last))) {
+                && lessThan(m_itemData.at(last + 1), m_itemData.at(last), m_collator)) {
                 needsResorting = true;
             } else {
                 for (int index = first; index < last; ++index) {
-                    if (lessThan(m_itemData.at(index + 1), m_itemData.at(index))) {
+                    if (lessThan(m_itemData.at(index + 1), m_itemData.at(index), m_collator)) {
                         needsResorting = true;
                         break;
                     }
@@ -1583,7 +1583,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     return data;
 }
 
-bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
+bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QCollator& collator) const
 {
     int result = 0;
 
@@ -1628,7 +1628,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         }
     }
 
-    result = sortRoleCompare(a, b);
+    result = sortRoleCompare(a, b, collator);
 
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
@@ -1639,24 +1639,36 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 class KFileItemModelLessThan
 {
 public:
-    KFileItemModelLessThan(const KFileItemModel* model) :
-        m_model(model)
+    KFileItemModelLessThan(const KFileItemModel* model, const QCollator& collator) :
+        m_model(model),
+        m_collator(collator)
     {
+    }
+
+    KFileItemModelLessThan(const KFileItemModelLessThan& other) :
+        m_model(other.m_model),
+        m_collator()
+    {
+        m_collator.setCaseSensitivity(other.m_collator.caseSensitivity());
+        m_collator.setIgnorePunctuation(other.m_collator.ignorePunctuation());
+        m_collator.setLocale(other.m_collator.locale());
+        m_collator.setNumericMode(other.m_collator.numericMode());
     }
 
     bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b) const
     {
-        return m_model->lessThan(a, b);
+        return m_model->lessThan(a, b, m_collator);
     }
 
 private:
     const KFileItemModel* m_model;
+    QCollator m_collator;
 };
 
 void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
                           QList<KFileItemModel::ItemData*>::iterator end) const
 {
-    KFileItemModelLessThan lessThan(this);
+    KFileItemModelLessThan lessThan(this, m_collator);
 
     if (m_sortRole == NameRole) {
         // Sorting by name can be expensive, in particular if natural sorting is
@@ -1671,7 +1683,7 @@ void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
     }
 }
 
-int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
+int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const
 {
     const KFileItem& itemA = a->item;
     const KFileItem& itemB = b->item;
@@ -1734,8 +1746,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     case ImageSizeRole: {
         // Alway use a natural comparing to interpret the numbers of a string like
         // "1600 x 1200" for having a correct sorting.
-        result = m_collator.compare(a->values.value("imageSize").toString(),
-                                    b->values.value("imageSize").toString());
+        result = collator.compare(a->values.value("imageSize").toString(),
+                                  b->values.value("imageSize").toString());
         break;
     }
 
@@ -1754,13 +1766,13 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     }
 
     // Fallback #1: Compare the text of the items
-    result = stringCompare(itemA.text(), itemB.text());
+    result = stringCompare(itemA.text(), itemB.text(), collator);
     if (result != 0) {
         return result;
     }
 
     // Fallback #2: KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
-    result = stringCompare(itemA.name(), itemB.name());
+    result = stringCompare(itemA.name(), itemB.name(), collator);
     if (result != 0) {
         return result;
     }
@@ -1771,14 +1783,14 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     return QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
 }
 
-int KFileItemModel::stringCompare(const QString& a, const QString& b) const
+int KFileItemModel::stringCompare(const QString& a, const QString& b, const QCollator& collator) const
 {
     if (m_naturalSorting) {
-        return m_collator.compare(a, b);
+        return collator.compare(a, b);
     }
 
-    const int result = QString::compare(a, b, m_collator.caseSensitivity());
-    if (result != 0 || m_collator.caseSensitivity() == Qt::CaseSensitive) {
+    const int result = QString::compare(a, b, collator.caseSensitivity());
+    if (result != 0 || collator.caseSensitivity() == Qt::CaseSensitive) {
         // Only return the result, if the strings are not equal. If they are equal by a case insensitive
         // comparison, still a deterministic sort order is required. A case sensitive
         // comparison is done as fallback.
@@ -2212,7 +2224,7 @@ bool KFileItemModel::isConsistent() const
         }
 
         // Check if the items are sorted correctly.
-        if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i))) {
+        if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i), m_collator)) {
             qWarning() << "The order of items" << i - 1 << "and" << i << "is wrong:"
                 << fileItem(i - 1) << fileItem(i);
             return false;

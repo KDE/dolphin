@@ -362,7 +362,7 @@ private:
      * @return True if the item-data \a a should be ordered before the item-data
      *         \b. The item-data may have different parent-items.
      */
-    bool lessThan(const ItemData* a, const ItemData* b) const;
+    bool lessThan(const ItemData* a, const ItemData* b, const QCollator& collator) const;
 
     /**
      * Sorts the items between \a begin and \a end using the comparison
@@ -375,9 +375,9 @@ private:
      * the passed item-data using m_sortRole as criteria. Both items must
      * have the same parent item, otherwise the comparison will be wrong.
      */
-    int sortRoleCompare(const ItemData* a, const ItemData* b) const;
+    int sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const;
 
-    int stringCompare(const QString& a, const QString& b) const;
+    int stringCompare(const QString& a, const QString& b, const QCollator& collator) const;
 
     bool useMaximumUpdateInterval() const;
 
