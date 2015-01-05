@@ -1048,12 +1048,15 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent)
 {
     KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, this);
 
-    if (job && destUrl == url()) {
-        // Mark the dropped urls as selected.
-        m_clearSelectionBeforeSelectingNewItems = true;
-        m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(job, &KIO::DropJob::itemCreated, this, &DolphinView::slotItemCreated);
+    if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotPasteJobResult);
+
+        if (destUrl == url()) {
+            // Mark the dropped urls as selected.
+            m_clearSelectionBeforeSelectingNewItems = true;
+            m_markFirstNewlySelectedItemAsCurrent = true;
+            connect(job, &KIO::DropJob::itemCreated, this, &DolphinView::slotItemCreated);
+        }
     }
 }
 
