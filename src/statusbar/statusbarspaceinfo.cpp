@@ -21,6 +21,9 @@
 #include "statusbarspaceinfo.h"
 
 #include "spaceinfoobserver.h"
+#include "spaceinfotoolsmenu.h"
+
+#include <QMouseEvent>
 
 #include <KLocalizedString>
 #include <KIO/Job>
@@ -63,6 +66,14 @@ void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
 {
     m_observer.reset();
     KCapacityBar::hideEvent(event);
+}
+
+void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton) {
+        SpaceInfoToolsMenu spaceInfoToolsMenu(this, m_url);
+        spaceInfoToolsMenu.exec(QCursor::pos());
+    }
 }
 
 void StatusBarSpaceInfo::slotValuesChanged()

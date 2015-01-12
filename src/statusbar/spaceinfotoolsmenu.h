@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   and Patrice Tremblay                                                  *
+ *   Copyright (C) 2014 by Gregor Mi <codestruct@posteo.org>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,46 +16,26 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef STATUSBARSPACEINFO_H
-#define STATUSBARSPACEINFO_H
 
-#include <QUrl>
+#ifndef SPACEINFOTOOLSMENU_H
+#define SPACEINFOTOOLSMENU_H
 
+#include <QObject>
+#include <QMenu>
 
-#include <kcapacitybar.h>
-
-class QHideEvent;
-class QShowEvent;
-class QMouseEvent;
-
-class SpaceInfoObserver;
+class QWidget;
+class QUrl;
 
 /**
- * @short Shows the available space for the volume represented
- *        by the given URL as part of the status bar.
+ * A menu with tools that help to find out more about free disk space for the given url.
  */
-class StatusBarSpaceInfo : public KCapacityBar
+class SpaceInfoToolsMenu : public QMenu
 {
     Q_OBJECT
 
 public:
-    explicit StatusBarSpaceInfo(QWidget* parent = 0);
-    virtual ~StatusBarSpaceInfo();
-
-    void setUrl(const QUrl& url);
-    QUrl url() const;
-
-protected:
-    void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-    void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
-
-private slots:
-    void slotValuesChanged();
-
-private:
-    QScopedPointer<SpaceInfoObserver> m_observer;
-    QUrl m_url;
+    explicit SpaceInfoToolsMenu(QWidget* parent, QUrl url);
+    virtual ~SpaceInfoToolsMenu();
 };
 
 #endif

@@ -198,6 +198,7 @@ set(dolphin_SRCS
     statusbar/dolphinstatusbar.cpp
     statusbar/mountpointobserver.cpp
     statusbar/mountpointobservercache.cpp
+    statusbar/spaceinfotoolsmenu.cpp
     statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
