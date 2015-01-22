@@ -337,4 +337,7 @@ install( FILES settings/services/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_
 install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
 install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
 
-add_subdirectory(tests)
+if(BUILD_TESTING)
+    find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
+    add_subdirectory(tests)
+endif()
