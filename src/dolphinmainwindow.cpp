@@ -263,11 +263,6 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     emit selectionChanged(selection);
 }
 
-void DolphinMainWindow::slotRequestItemInfo(const KFileItem& item)
-{
-    emit requestItemInfo(item);
-}
-
 void DolphinMainWindow::updateHistory()
 {
     const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
@@ -1423,7 +1418,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(view, &DolphinView::selectionChanged,
             this, &DolphinMainWindow::slotSelectionChanged);
     connect(view, &DolphinView::requestItemInfo,
-            this, &DolphinMainWindow::slotRequestItemInfo);
+            this, &DolphinMainWindow::requestItemInfo);
     connect(view, &DolphinView::tabRequested,
             this, &DolphinMainWindow::openNewTab);
     connect(view, &DolphinView::requestContextMenu,

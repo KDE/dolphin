@@ -312,9 +312,6 @@ private slots:
      */
     void slotSelectionChanged(const KFileItemList& selection);
 
-    /** Emits the signal requestItemInfo(). */
-    void slotRequestItemInfo(const KFileItem&);
-
     /**
      * Updates the state of the 'Back' and 'Forward' menu
      * actions corresponding to the current history.
