@@ -19,28 +19,29 @@
 
 #include "configurepreviewplugindialog.h"
 
-#include <KLibrary>
+#include <KPluginLoader>
 #include <KLocalizedString>
-#include <KIO/NetAccess>
-#include <kio/thumbcreator.h>
+#include <KJobWidgets>
+#include <KIO/JobUiDelegate>
+#include <KIO/DeleteJob>
+#include <KIO/ThumbCreator>
 
-#include <QApplication>
-#include <QDir>
-#include <QVBoxLayout>
 #include <QUrl>
+#include <QLibrary>
+#include <QVBoxLayout>
+#include <QStandardPaths>
 
 ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& pluginName,
                                                            const QString& desktopEntryName,
                                                            QWidget* parent) :
-    KDialog(parent),
-    m_configurationWidget(0),
-    m_previewPlugin(0)
+    KDialog(parent)
 {
-    KLibrary library(desktopEntryName);
-    if (library.load()) {
-        newCreator create = (newCreator)library.resolveFunction("new_creator");
+    QSharedPointer<ThumbCreator> previewPlugin;
+    const QString pluginPath = KPluginLoader::findPlugin(desktopEntryName);
+    if (!pluginPath.isEmpty()) {
+        newCreator create = (newCreator)QLibrary::resolve(pluginPath, "new_creator");
         if (create) {
-            m_previewPlugin = dynamic_cast<ThumbCreatorV2*>(create());
+            previewPlugin.reset(dynamic_cast<ThumbCreator*>(create()));
         }
     }
 
@@ -49,31 +50,27 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
-    QWidget* mainWidget = new QWidget(this);
-    mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
-    if (m_previewPlugin) {
-        m_configurationWidget = m_previewPlugin->createConfigurationWidget();
-        layout->addWidget(m_configurationWidget);
+    if (previewPlugin) {
+        auto mainWidget = new QWidget(this);
+        mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+        setMainWidget(mainWidget);
+
+        auto configurationWidget = previewPlugin->createConfigurationWidget();
+        configurationWidget->setParent(mainWidget);
+
+        auto layout = new QVBoxLayout(mainWidget);
+        layout->addWidget(configurationWidget);
+        layout->addStretch();
+
+        connect(this, &ConfigurePreviewPluginDialog::okClicked, this, [=] {
+            // TODO: It would be great having a mechanism to tell PreviewJob that only previews
+            // for a specific MIME-type should be regenerated. As this is not available yet we
+            // delete the whole thumbnails directory.
+            previewPlugin->writeConfiguration(configurationWidget);
+
+            // http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html#DIRECTORY
+            const QString thumbnailsPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/thumbnails/");
+            KIO::del(QUrl::fromLocalFile(thumbnailsPath), KIO::HideProgressInfo);
+        });
     }
-    layout->addStretch(1);
-
-    setMainWidget(mainWidget);
-
-    connect(this, &ConfigurePreviewPluginDialog::okClicked, this, &ConfigurePreviewPluginDialog::slotOk);
-}
-
-ConfigurePreviewPluginDialog::~ConfigurePreviewPluginDialog()
-{
-}
-
-void ConfigurePreviewPluginDialog::slotOk()
-{
-    m_previewPlugin->writeConfiguration(m_configurationWidget);
-    // TODO: It would be great having a mechanism to tell PreviewJob that only previews
-    // for a specific MIME-type should be regenerated. As this is not available yet we
-    // delete the whole thumbnails directory.
-    QApplication::changeOverrideCursor(Qt::BusyCursor);
-    KIO::NetAccess::del(QUrl::fromLocalFile(QDir::homePath() + "/.thumbnails/"), this);
-    QApplication::restoreOverrideCursor();
 }
