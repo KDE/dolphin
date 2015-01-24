@@ -182,19 +182,6 @@ void PreviewsSettingsPage::loadSettings()
                                                      << QLatin1String("imagethumbnail")
                                                      << QLatin1String("jpegthumbnail"));
 
-    // If the user is upgrading from KDE <= 4.6, we must check if he had the 'jpegrotatedthumbnail' plugin enabled.
-    // This plugin does not exist any more in KDE >= 4.7, so we have to replace it with the 'jpegthumbnail' plugin.
-    //
-    // Note that the upgrade to the correct plugin is done already in KFilePreviewGenerator. However, if Konqueror is
-    // opened in web browsing mode and the Settings dialog is opened, we might end up here before KFilePreviewGenerator's
-    // constructor is ever called -> the plugin replacement should be done here as well.
-    if (m_enabledPreviewPlugins.contains(QLatin1String("jpegrotatedthumbnail"))) {
-        m_enabledPreviewPlugins.removeAll(QLatin1String("jpegrotatedthumbnail"));
-        m_enabledPreviewPlugins.append(QLatin1String("jpegthumbnail"));
-        globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
-        globalConfig.sync();
-    }
-
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);
     const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);
