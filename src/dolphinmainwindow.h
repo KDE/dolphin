@@ -396,12 +396,6 @@ private slots:
     void slotControlButtonDeleted();
 
     /**
-     * Is called if a panel emits an error-message and shows
-     * the error-message in the active view-container.
-     */
-    void slotPanelErrorMessage(const QString& error);
-
-    /**
      * Is called if the user clicked an item in the Places Panel.
      * Reloads the view if \a url is the current URL already, and changes the
      * current URL otherwise.
