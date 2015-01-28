@@ -43,10 +43,7 @@ void KFileItemModelFilter::setPattern(const QString& filter)
     m_pattern = filter;
     m_lowerCasePattern = filter.toLower();
 
-    m_useRegExp = filter.contains('*') ||
-                  filter.contains('?') ||
-                  filter.contains('[');
-    if (m_useRegExp) {
+    if (filter.contains('*') || filter.contains('?') || filter.contains('[')) {
         if (!m_regExp) {
             m_regExp = new QRegExp();
             m_regExp->setCaseSensitivity(Qt::CaseInsensitive);
@@ -54,6 +51,9 @@ void KFileItemModelFilter::setPattern(const QString& filter)
             m_regExp->setPatternSyntax(QRegExp::WildcardUnix);
         }
         m_regExp->setPattern(filter);
+        m_useRegExp = m_regExp->isValid();
+    } else {
+        m_useRegExp = false;
     }
 }
 

@@ -166,6 +166,12 @@ void PhononWidget::stateChanged(Phonon::State newstate)
         m_stopButton->show();
         m_playButton->hide();
         break;
+    case Phonon::StoppedState:
+        if (m_videoPlayer) {
+            m_videoPlayer->hide();
+        }
+        emit hasVideoChanged(false);
+        // fall through
     default:
         m_stopButton->hide();
         m_playButton->show();
@@ -208,16 +214,7 @@ void PhononWidget::stop()
 {
     if (m_media) {
         m_media->stop();
-
-        m_stopButton->hide();
-        m_playButton->show();
     }
-
-    if (m_videoPlayer) {
-        m_videoPlayer->hide();
-    }
-
-    emit hasVideoChanged(false);
 }
 
 void PhononWidget::slotHasVideoChanged(bool hasVideo)

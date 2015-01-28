@@ -74,7 +74,7 @@
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2013-06-28</date>
-<releaseinfo>2.3 (&kde; 4.11)</releaseinfo>
+<releaseinfo>4.11 (&kde; 4.11)</releaseinfo>
 
 <abstract>
 <para>
@@ -747,9 +747,9 @@ in the &dolphin; view.
 <para>
 This panel contains a terminal. The terminal will open at the folder currently
 shown in the &dolphin; view. Changing the folder in the active &dolphin;
-view will update the working folder of the terminal. The terminal only
-works with local media. Note: Changing folder in the terminal will not
-affect the &dolphin; view.
+view will update the working folder of the terminal. Changing the directory in
+the terminal will update the working folder in the &dolphin; view.  The
+terminal only works with local media.
 </para>
 
 </sect2>
