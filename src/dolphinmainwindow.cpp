@@ -758,7 +758,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
                                         const QUrl& url,
                                         const QList<QAction*>& customActions)
 {
-    QWeakPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
+    QScopedPointer<DolphinContextMenu> contextMenu(new DolphinContextMenu(this, pos, item, url));
     contextMenu.data()->setCustomActions(customActions);
     const DolphinContextMenu::Command command = contextMenu.data()->open();
 
@@ -781,8 +781,6 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     default:
         break;
     }
-
-    delete contextMenu.data();
 }
 
 void DolphinMainWindow::updateControlMenu()
