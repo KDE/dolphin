@@ -1087,6 +1087,9 @@ void DolphinMainWindow::setupActions()
     undoCloseTab->setEnabled(false);
     connect(undoCloseTab, SIGNAL(triggered()), recentTabsMenu, SLOT(undoCloseTab()));
 
+    auto undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
+    undoAction->setEnabled(false); // undo should be disabled by default
+
     KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     KStandardAction::up(this, SLOT(goUp()), actionCollection());
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
