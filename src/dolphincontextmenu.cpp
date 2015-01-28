@@ -523,17 +523,13 @@ void DolphinContextMenu::addVersionControlPluginActions()
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
     if (!versionControlActions.isEmpty()) {
-        foreach (QAction* action, versionControlActions) {
-            addAction(action);
-        }
+        addActions(versionControlActions);
         addSeparator();
     }
 }
 
 void DolphinContextMenu::addCustomActions()
 {
-    foreach (QAction* action, m_customActions) {
-        addAction(action);
-    }
+    addActions(m_customActions);
 }
 
