@@ -21,7 +21,6 @@
 
 #include <KDialog>
 #include <KFileItem>
-#include <KGlobalSettings>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KJobWidgets>
@@ -56,6 +55,7 @@
 #include <QTextLine>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QFontDatabase>
 
 #include "dolphin_informationpanelsettings.h"
 #include "filemetadataconfigurationdialog.h"
@@ -122,7 +122,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     connect(m_metaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
             this, &InformationPanelContent::urlActivated);
 #endif
-    m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
+    m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
@@ -276,7 +276,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
         break;
 
     case QEvent::FontChange:
-        m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
+        m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
         break;
 
     default:
