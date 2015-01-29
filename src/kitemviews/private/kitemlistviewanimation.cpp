@@ -22,21 +22,16 @@
 #include <kitemviews/kitemlistview.h>
 
 #include <QDebug>
-#include <KGlobalSettings>
 
 #include <QGraphicsWidget>
 #include <QPropertyAnimation>
 
 KItemListViewAnimation::KItemListViewAnimation(QObject* parent) :
     QObject(parent),
-    m_animationDuration(200),
     m_scrollOrientation(Qt::Vertical),
     m_scrollOffset(0),
     m_animation()
 {
-    if (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) {
-        m_animationDuration = 1;
-    }
 }
 
 KItemListViewAnimation::~KItemListViewAnimation()
@@ -123,6 +118,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
     stop(widget, type);
 
     QPropertyAnimation* propertyAnim = 0;
+    const int animationDuration = widget->style()->styleHint(QStyle::SH_Widget_Animate) ? 200 : 1;
 
     switch (type) {
     case MovingAnimation: {
@@ -132,7 +128,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
         }
 
         propertyAnim = new QPropertyAnimation(widget, "pos");
-        propertyAnim->setDuration(m_animationDuration);
+        propertyAnim->setDuration(animationDuration);
         propertyAnim->setEndValue(newPos);
         break;
     }
@@ -140,7 +136,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
     case CreateAnimation: {
         propertyAnim = new QPropertyAnimation(widget, "opacity");
         propertyAnim->setEasingCurve(QEasingCurve::InQuart);
-        propertyAnim->setDuration(m_animationDuration);
+        propertyAnim->setDuration(animationDuration);
         propertyAnim->setStartValue(0.0);
         propertyAnim->setEndValue(1.0);
         break;
@@ -149,7 +145,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
     case DeleteAnimation: {
         propertyAnim = new QPropertyAnimation(widget, "opacity");
         propertyAnim->setEasingCurve(QEasingCurve::OutQuart);
-        propertyAnim->setDuration(m_animationDuration);
+        propertyAnim->setDuration(animationDuration);
         propertyAnim->setStartValue(1.0);
         propertyAnim->setEndValue(0.0);
         break;
@@ -162,7 +158,7 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
         }
 
         propertyAnim = new QPropertyAnimation(widget, "size");
-        propertyAnim->setDuration(m_animationDuration);
+        propertyAnim->setDuration(animationDuration);
         propertyAnim->setEndValue(newSize);
         break;
     }
