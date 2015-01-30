@@ -6,7 +6,7 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <include>QDir</include>
     <include>QUrl</include>
-    <include>kglobalsettings.h</include>
+    <include>KCompletion</include>
     <kcfgfile name="dolphinrc"/>
     <signal name="naturalSortingChanged" />
     <group name="General">
@@ -16,7 +16,7 @@
         </entry>
         <entry name="UrlCompletionMode" type="Enum">
             <label>Text completion mode of the URL Navigator</label>
-            <default code="true">KGlobalSettings::completionMode()</default>
+            <default>KCompletion::CompletionPopup</default>
         </entry>
         <entry name="ShowFullPath" type="Bool">
             <label>Should the full path be shown inside the location bar</label>
