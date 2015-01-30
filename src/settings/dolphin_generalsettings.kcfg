@@ -8,6 +8,7 @@
     <include>QUrl</include>
     <include>kglobalsettings.h</include>
     <kcfgfile name="dolphinrc"/>
+    <signal name="naturalSortingChanged" />
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
@@ -91,6 +92,11 @@
         <entry name="EnlargeSmallPreviews" type="Bool">
             <label>Enlarge Small Previews</label>
             <default>true</default>
+        </entry>
+        <entry name="NaturalSorting" type="Bool">
+            <label>Natural sorting of items</label>
+            <default>true</default>
+            <emit signal="naturalSortingChanged" />
         </entry>
     </group>
 </kcfg>

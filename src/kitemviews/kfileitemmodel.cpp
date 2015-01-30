@@ -21,7 +21,8 @@
 
 #include "kfileitemmodel.h"
 
-#include <KGlobalSettings>
+#include "dolphin_generalsettings.h"
+
 #include <KLocalizedString>
 #include <KStringHandler>
 #include <KDebug>
@@ -41,7 +42,7 @@
 KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(0),
-    m_naturalSorting(KGlobalSettings::naturalSorting()),
+    m_naturalSorting(GeneralSettings::naturalSorting()),
     m_sortDirsFirst(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
@@ -106,7 +107,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_resortAllItemsTimer->setSingleShot(true);
     connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
-    connect(KGlobalSettings::self(), &KGlobalSettings::naturalSortingChanged,
+    connect(GeneralSettings::self(), &GeneralSettings::naturalSortingChanged,
             this, &KFileItemModel::slotNaturalSortingChanged);
 }
 
@@ -1105,7 +1106,7 @@ void KFileItemModel::slotClear()
 
 void KFileItemModel::slotNaturalSortingChanged()
 {
-    m_naturalSorting = KGlobalSettings::naturalSorting();
+    m_naturalSorting = GeneralSettings::naturalSorting();
     resortAllItems();
 }
 

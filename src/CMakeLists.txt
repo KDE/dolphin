@@ -81,7 +81,7 @@ if(HAVE_BALOO)
     )
 endif()
 
-kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS
+kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS GENERATE_MOC
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -204,7 +204,7 @@ set(dolphin_SRCS
     views/zoomlevelinfo.cpp
 )
 
-kconfig_add_kcfg_files(dolphin_SRCS
+kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc

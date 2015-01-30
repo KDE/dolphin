@@ -97,6 +97,7 @@ void BehaviorSettingsPage::applySettings()
 
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->setNaturalSorting(m_naturalSorting->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
     settings->save();
 
@@ -107,13 +108,6 @@ void BehaviorSettingsPage::applySettings()
         // to find the destination folder for storing the view properties.
         ViewProperties globalProps(m_url);
         globalProps.setDirProperties(props);
-    }
-
-    const bool naturalSorting = m_naturalSorting->isChecked();
-    if (KGlobalSettings::naturalSorting() != naturalSorting) {
-        KConfigGroup group(KSharedConfig::openConfig(), "KDE");
-        group.writeEntry("NaturalSorting", naturalSorting, KConfig::Persistent | KConfig::Global);
-        KGlobalSettings::emitChange(KGlobalSettings::NaturalSortingChanged);
     }
 }
 
@@ -133,7 +127,7 @@ void BehaviorSettingsPage::loadSettings()
 
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
-    m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
+    m_naturalSorting->setChecked(GeneralSettings::naturalSorting());
     m_renameInline->setChecked(GeneralSettings::renameInline());
 }
 

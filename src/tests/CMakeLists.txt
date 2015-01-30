@@ -58,6 +58,10 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kstandarditemlistwidget.cpp
 )
 
+kconfig_add_kcfg_files(kitemlistcontrollertest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
 add_executable(kitemlistcontrollertest ${kitemlistcontrollertest_SRCS})
 add_test(kitemlistcontrollertest kitemlistcontrollertest)
 ecm_mark_as_test(kitemlistcontrollertest)
@@ -79,6 +83,10 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kstandarditemlistwidget.cpp
 )
 
+kconfig_add_kcfg_files(kfileitemlistviewtest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
 add_executable(kfileitemlistviewtest ${kfileitemlistviewtest_SRCS})
 add_test(kfileitemlistviewtest kfileitemlistviewtest)
 ecm_mark_as_test(kfileitemlistviewtest)
@@ -93,6 +101,10 @@ set(kfileitemmodeltest_SRCS
     ../kitemviews/kitemset.cpp
 )
 
+kconfig_add_kcfg_files(kfileitemmodeltest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
 add_executable(kfileitemmodeltest ${kfileitemmodeltest_SRCS})
 add_test(kfileitemmodeltest kfileitemmodeltest)
 ecm_mark_as_test(kfileitemmodeltest)
@@ -104,6 +116,10 @@ set(kfileitemmodelbenchmark_SRCS
     testdir.cpp
     ../kitemviews/kfileitemmodel.cpp
     ../kitemviews/kitemmodelbase.cpp
+)
+
+kconfig_add_kcfg_files(kfileitemmodelbenchmark_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
 )
 
 add_executable(kfileitemmodelbenchmark ${kfileitemmodelbenchmark_SRCS})
@@ -157,7 +173,7 @@ set(viewpropertiestest_SRCS
     testdir.cpp
     ../views/viewproperties.cpp
 )
-kconfig_add_kcfg_files(viewpropertiestest_SRCS
+kconfig_add_kcfg_files(viewpropertiestest_SRCS GENERATE_MOC
   ../settings/dolphin_generalsettings.kcfgc
   ../settings/dolphin_directoryviewpropertysettings.kcfgc
 )
