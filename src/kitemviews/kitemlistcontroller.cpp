@@ -23,7 +23,6 @@
 
 #include "kitemlistcontroller.h"
 
-#include <KGlobalSettings>
 #include <QDebug>
 
 #include "kitemlistview.h"
@@ -773,7 +772,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
                 emitItemActivated = false;
-            } else if (!(KGlobalSettings::singleClick() || m_singleClickActivationEnforced)) {
+            } else if (!(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)) {
                 emitItemActivated = false;
             }
             if (emitItemActivated) {
@@ -803,7 +802,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
         }
     }
 
-    bool emitItemActivated = !(KGlobalSettings::singleClick() || m_singleClickActivationEnforced) &&
+    bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) &&
                              (event->button() & Qt::LeftButton) &&
                              index >= 0 && index < m_model->count();
     if (emitItemActivated) {

@@ -22,7 +22,6 @@
 #include <settings/settingspagebase.h>
 
 class QCheckBox;
-class QRadioButton;
 
 /**
  * @brief Page for the 'Navigation' settings of the Dolphin settings dialog.
@@ -45,8 +44,6 @@ private:
     void loadSettings();
 
 private:
-    QRadioButton* m_singleClick;
-    QRadioButton* m_doubleClick;
     QCheckBox* m_openArchivesAsFolder;
     QCheckBox* m_autoExpandFolders;
 };

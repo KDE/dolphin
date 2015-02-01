@@ -22,12 +22,9 @@
 #include "dolphin_generalsettings.h"
 
 #include <KDialog>
-#include <KGlobalSettings>
 #include <KLocalizedString>
 
 #include <QCheckBox>
-#include <QGroupBox>
-#include <QRadioButton>
 #include <QVBoxLayout>
 
 NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
@@ -44,19 +41,6 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     vBoxLayout->setSpacing(spacing);
     vBoxLayout->setAlignment(Qt::AlignTop);
 
-    // create 'Mouse' group
-    QGroupBox* mouseBox = new QGroupBox(i18nc("@title:group", "Mouse"), vBox);
-    vBoxLayout->addWidget(mouseBox);
-    mouseBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    m_singleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
-                                           "Single-click to open files and folders"), mouseBox);
-    m_doubleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
-                                           "Double-click to open files and folders"), mouseBox);
-
-    QVBoxLayout* mouseBoxLayout = new QVBoxLayout(mouseBox);
-    mouseBoxLayout->addWidget(m_singleClick);
-    mouseBoxLayout->addWidget(m_doubleClick);
-
     m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);
     vBoxLayout->addWidget(m_openArchivesAsFolder);
 
@@ -72,8 +56,6 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_singleClick, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
-    connect(m_doubleClick, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
     connect(m_openArchivesAsFolder, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
     connect(m_autoExpandFolders, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
 }
@@ -84,12 +66,6 @@ NavigationSettingsPage::~NavigationSettingsPage()
 
 void NavigationSettingsPage::applySettings()
 {
-    KConfig config("kcminputrc");
-    KConfigGroup group = config.group("KDE");
-    group.writeEntry("SingleClick", m_singleClick->isChecked(), KConfig::Persistent|KConfig::Global);
-    config.sync();
-    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-
     GeneralSettings* settings = GeneralSettings::self();
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
@@ -103,18 +79,10 @@ void NavigationSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
-
-    // The mouse settings stored in KGlobalSettings must be reset to
-    // the default values (= single click) manually.
-    m_singleClick->setChecked(true);
-    m_doubleClick->setChecked(false);
 }
 
 void NavigationSettingsPage::loadSettings()
 {
-    const bool singleClick = KGlobalSettings::singleClick();
-    m_singleClick->setChecked(singleClick);
-    m_doubleClick->setChecked(!singleClick);
     m_openArchivesAsFolder->setChecked(GeneralSettings::browseThroughArchives());
     m_autoExpandFolders->setChecked(GeneralSettings::autoExpandFolders());
 }

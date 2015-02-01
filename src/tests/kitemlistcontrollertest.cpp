@@ -25,12 +25,51 @@
 #include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
-#include <KConfigGroup>
-#include <KGlobalSettings>
-
 #include <QTest>
 #include <QGraphicsSceneMouseEvent>
 #include <QSignalSpy>
+#include <QProxyStyle>
+
+/**
+ * \class KItemListControllerTestStyle is a proxy style for testing the
+ * KItemListController with different style hint options, e.g. single/double
+ * click activation.
+ */
+class KItemListControllerTestStyle : public QProxyStyle
+{
+public:
+    KItemListControllerTestStyle(QStyle* style) :
+        QProxyStyle(style),
+        m_activateItemOnSingleClick((bool)style->styleHint(SH_ItemView_ActivateItemOnSingleClick))
+    {
+    }
+
+    void setActivateItemOnSingleClick(bool activateItemOnSingleClick)
+    {
+        m_activateItemOnSingleClick = activateItemOnSingleClick;
+    }
+
+    bool activateItemOnSingleClick() const
+    {
+        return m_activateItemOnSingleClick;
+    }
+
+    int styleHint(StyleHint hint,
+                  const QStyleOption* option = nullptr,
+                  const QWidget* widget = nullptr,
+                  QStyleHintReturn* returnData = nullptr) const Q_DECL_OVERRIDE
+    {
+        switch (hint) {
+        case QStyle::SH_ItemView_ActivateItemOnSingleClick:
+            return (int)activateItemOnSingleClick();
+        default:
+            return QProxyStyle::styleHint(hint, option, widget, returnData);
+        }
+    }
+
+private:
+    bool m_activateItemOnSingleClick;
+};
 
 Q_DECLARE_METATYPE(KFileItemListView::ItemLayout);
 Q_DECLARE_METATYPE(Qt::Orientation);
@@ -66,6 +105,7 @@ private:
     KFileItemModel* m_model;
     TestDir* m_testDir;
     KItemListContainer* m_container;
+    KItemListControllerTestStyle* m_testStyle;
 };
 
 /**
@@ -85,6 +125,8 @@ void KItemListControllerTest::initTestCase()
     m_controller = m_container->controller();
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
     m_selectionManager = m_controller->selectionManager();
+    m_testStyle = new KItemListControllerTestStyle(m_view->style());
+    m_view->setStyle(m_testStyle);
 
     QStringList files;
     files
@@ -529,10 +571,7 @@ void KItemListControllerTest::testMouseClickActivation()
     const QPointF pos = m_view->itemContextRect(0).center();
 
     // Save the "single click" setting.
-    const bool restoreKGlobalSettingsSingleClick = KGlobalSettings::singleClick();
-
-    KConfig config("kcminputrc");
-    KConfigGroup group = config.group("KDE");
+    const bool restoreSettingsSingleClick = m_testStyle->activateItemOnSingleClick();
 
     QGraphicsSceneMouseEvent mousePressEvent(QEvent::GraphicsSceneMousePress);
     mousePressEvent.setPos(pos);
@@ -547,43 +586,14 @@ void KItemListControllerTest::testMouseClickActivation()
     QSignalSpy spyItemActivated(m_controller, SIGNAL(itemActivated(int)));
 
     // Default setting: single click activation.
-    group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
-    config.sync();
-    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-
-    int iterations = 0;
-    const int maxIterations = 20;
-    while (!KGlobalSettings::singleClick() && iterations < maxIterations) {
-        QTest::qWait(50);
-        ++iterations;
-    }
-
-    if (!KGlobalSettings::singleClick()) {
-        // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
-    }
-
+    m_testStyle->setActivateItemOnSingleClick(true);
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
     spyItemActivated.clear();
 
     // Set the global setting to "double click activation".
-    group.writeEntry("SingleClick", false, KConfig::Persistent|KConfig::Global);
-    config.sync();
-    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-
-    iterations = 0;
-    while (KGlobalSettings::singleClick() && iterations < maxIterations) {
-        QTest::qWait(50);
-        ++iterations;
-    }
-
-    if (KGlobalSettings::singleClick()) {
-        // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
-    }
-
+    m_testStyle->setActivateItemOnSingleClick(false);
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 0);
@@ -604,21 +614,7 @@ void KItemListControllerTest::testMouseClickActivation()
     spyItemActivated.clear();
 
     // Set the global setting back to "single click activation".
-    group.writeEntry("SingleClick", true, KConfig::Persistent|KConfig::Global);
-    config.sync();
-    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-
-    iterations = 0;
-    while (!KGlobalSettings::singleClick() && iterations < maxIterations) {
-        QTest::qWait(50);
-        ++iterations;
-    }
-
-    if (!KGlobalSettings::singleClick()) {
-        // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
-    }
-
+    m_testStyle->setActivateItemOnSingleClick(true);
     m_view->event(&mousePressEvent);
     m_view->event(&mouseReleaseEvent);
     QCOMPARE(spyItemActivated.count(), 1);
@@ -633,20 +629,7 @@ void KItemListControllerTest::testMouseClickActivation()
 
     // Restore previous settings.
     m_controller->setSingleClickActivationEnforced(true);
-    group.writeEntry("SingleClick", restoreKGlobalSettingsSingleClick, KConfig::Persistent|KConfig::Global);
-    config.sync();
-    KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
-
-    iterations = 0;
-    while (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick && iterations < maxIterations) {
-        QTest::qWait(50);
-        ++iterations;
-    }
-
-    if (KGlobalSettings::singleClick() != restoreKGlobalSettingsSingleClick) {
-        // TODO: Try to find a way to make sure that changing the global setting works.
-        QSKIP("Failed to change the KGlobalSettings::singleClick() setting!");
-    }
+    m_testStyle->setActivateItemOnSingleClick(restoreSettingsSingleClick);
 }
 
 void KItemListControllerTest::adjustGeometryForColumnCount(int count)

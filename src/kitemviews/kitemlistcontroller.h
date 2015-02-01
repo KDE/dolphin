@@ -129,7 +129,7 @@ public:
     /**
      * If set to true, the signals itemActivated() and itemsActivated() are emitted
      * after a single-click of the left mouse button. If set to false (the default),
-     * the setting from KGlobalSettings::singleClick() is used.
+     * the setting from style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) is used.
      */
     void setSingleClickActivationEnforced(bool singleClick);
     bool singleClickActivationEnforced() const;
