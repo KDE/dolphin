@@ -19,7 +19,6 @@
 
 #include "kcmdolphingeneral.h"
 
-#include <KDialog>
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -48,7 +47,6 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

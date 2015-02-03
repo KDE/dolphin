@@ -19,7 +19,6 @@
 
 #include "kcmdolphinnavigation.h"
 
-#include <KDialog>
 #include <KPluginFactory>
 #include <KPluginLoader>
 
@@ -43,7 +42,6 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     m_navigation = new NavigationSettingsPage(this);
     connect(m_navigation, &NavigationSettingsPage::changed, this, static_cast<void(DolphinNavigationConfigModule::*)()>(&DolphinNavigationConfigModule::changed));

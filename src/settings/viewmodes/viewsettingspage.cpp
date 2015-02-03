@@ -26,7 +26,6 @@
 #include <QVBoxLayout>
 #include <QTabWidget>
 
-#include <KDialog>
 #include <KLocalizedString>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
@@ -35,7 +34,6 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

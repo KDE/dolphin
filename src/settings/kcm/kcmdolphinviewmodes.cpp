@@ -19,7 +19,6 @@
 
 #include "kcmdolphinviewmodes.h"
 
-#include <KDialog>
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -49,7 +48,6 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

@@ -21,7 +21,6 @@
 
 #include <dolphin_generalsettings.h>
 
-#include <KDialog>
 #include <KLocalizedString>
 
 #include <QCheckBox>
@@ -58,15 +57,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                        "Closing Dolphin windows with multiple tabs"), this);
 
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(confirmLabelKde);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmMoveToTrash);
     topLayout->addWidget(m_confirmDelete);
     topLayout->addWidget(m_confirmScriptExecution);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(confirmLabelDolphin);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmClosingMultipleTabs);
     topLayout->addStretch();
 

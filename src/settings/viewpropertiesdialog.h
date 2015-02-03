@@ -23,7 +23,7 @@
 
 #include "libdolphin_export.h"
 
-#include <KDialog>
+#include <QDialog>
 
 class QCheckBox;
 class KComboBox;
@@ -39,7 +39,7 @@ class DolphinView;
  * and previews should be shown. The properties can be assigned to the current folder,
  * or recursively to all sub folders.
  */
-class LIBDOLPHINPRIVATE_EXPORT ViewPropertiesDialog : public KDialog
+class LIBDOLPHINPRIVATE_EXPORT ViewPropertiesDialog : public QDialog
 {
     Q_OBJECT
 
@@ -47,8 +47,10 @@ public:
     explicit ViewPropertiesDialog(DolphinView* dolphinView);
     virtual ~ViewPropertiesDialog();
 
+public slots:
+    void accept() Q_DECL_OVERRIDE;
+
 private slots:
-    void slotOk();
     void slotApply();
     void slotViewModeChanged(int index);
     void slotSortingChanged(int index);
@@ -59,6 +61,9 @@ private slots:
     void slotShowHiddenFilesChanged();
     void markAsDirty(bool isDirty);
     void configureAdditionalInfo();
+
+signals:
+    void isDirtyChanged(bool isDirty);
 
 private:
     void applyViewProperties();

@@ -24,7 +24,6 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KDialog>
 #include <KFileDialog>
 #include <KLocalizedString>
 #include <QLineEdit>
@@ -49,13 +48,10 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     m_showFullPath(0),
     m_filterBar(0)
 {
-    const int spacing = KDialog::spacingHint();
-
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);
     QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
     vBoxLayout->setMargin(0);
-    vBoxLayout->setSpacing(spacing);
     vBoxLayout->setAlignment(Qt::AlignTop);
 
     // create 'Home URL' editor
@@ -65,7 +61,6 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     QWidget* homeUrlBox = new QWidget(homeBox);
     QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(homeUrlBox);
     homeUrlBoxLayout->setMargin(0);
-    homeUrlBoxLayout->setSpacing(spacing);
 
     QLabel* homeUrlLabel = new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
     homeUrlBoxLayout->addWidget(homeUrlLabel);
@@ -86,7 +81,6 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     QWidget* buttonBox = new QWidget(homeBox);
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
     buttonBoxLayout->setMargin(0);
-    buttonBoxLayout->setSpacing(spacing);
 
     QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"), buttonBox);
     buttonBoxLayout->addWidget(useCurrentButton);

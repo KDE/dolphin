@@ -19,7 +19,6 @@
 
 #include "informationpanelcontent.h"
 
-#include <KDialog>
 #include <KFileItem>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
@@ -56,6 +55,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QFontDatabase>
+#include <QStyle>
 
 #include "dolphin_informationpanelsettings.h"
 #include "filemetadataconfigurationdialog.h"
@@ -86,7 +86,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
             this, &InformationPanelContent::markOutdatedPreview);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
-    layout->setSpacing(KDialog::spacingHint());
 
     // preview
     const int minPreviewWidth = KIconLoader::SizeEnormous + KIconLoader::SizeMedium;
@@ -423,7 +422,7 @@ void InformationPanelContent::adjustWidgetSizes(int width)
     // so that the width of the information panel gets increased.
     // To prevent this, the maximum width is adjusted to
     // the current width of the panel.
-    const int maxWidth = width - KDialog::spacingHint() * 4;
+    const int maxWidth = width - style()->layoutSpacing(QSizePolicy::DefaultType, QSizePolicy::DefaultType, Qt::Horizontal) * 4;
     m_nameLabel->setMaximumWidth(maxWidth);
 
     // The metadata widget also contains a text widget which may return

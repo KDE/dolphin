@@ -26,7 +26,6 @@
 #include <settings/settingspagebase.h>
 #include "statusbarsettingspage.h"
 
-#include <KDialog>
 #include <KLocalizedString>
 
 #include <QTabWidget>
@@ -38,7 +37,6 @@ GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

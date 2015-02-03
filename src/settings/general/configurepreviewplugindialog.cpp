@@ -30,11 +30,13 @@
 #include <QLibrary>
 #include <QVBoxLayout>
 #include <QStandardPaths>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& pluginName,
                                                            const QString& desktopEntryName,
                                                            QWidget* parent) :
-    KDialog(parent)
+    QDialog(parent)
 {
     QSharedPointer<ThumbCreator> previewPlugin;
     const QString pluginPath = KPluginLoader::findPlugin(desktopEntryName);
@@ -45,24 +47,21 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
         }
     }
 
-    setCaption(i18nc("@title:window", "Configure Preview for %1", pluginName));
+    setWindowTitle(i18nc("@title:window", "Configure Preview for %1", pluginName));
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     setMinimumWidth(400);
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
+
+    auto layout = new QVBoxLayout(this);
+    setLayout(layout);
 
     if (previewPlugin) {
-        auto mainWidget = new QWidget(this);
-        mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-        setMainWidget(mainWidget);
-
         auto configurationWidget = previewPlugin->createConfigurationWidget();
-        configurationWidget->setParent(mainWidget);
-
-        auto layout = new QVBoxLayout(mainWidget);
+        configurationWidget->setParent(this);
         layout->addWidget(configurationWidget);
+
         layout->addStretch();
 
-        connect(this, &ConfigurePreviewPluginDialog::okClicked, this, [=] {
+        connect(this, &ConfigurePreviewPluginDialog::accepted, this, [=] {
             // TODO: It would be great having a mechanism to tell PreviewJob that only previews
             // for a specific MIME-type should be regenerated. As this is not available yet we
             // delete the whole thumbnails directory.
@@ -73,4 +72,13 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
             KIO::del(QUrl::fromLocalFile(thumbnailsPath), KIO::HideProgressInfo);
         });
     }
+
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &ConfigurePreviewPluginDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &ConfigurePreviewPluginDialog::reject);
+    layout->addWidget(buttonBox);
+
+    auto okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setDefault(true);
 }

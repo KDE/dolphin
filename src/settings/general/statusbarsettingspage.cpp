@@ -21,7 +21,6 @@
 
 #include <dolphin_generalsettings.h>
 
-#include <KDialog>
 #include <KLocalizedString>
 
 #include <QCheckBox>
@@ -36,7 +35,6 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_showZoomSlider);
     topLayout->addWidget(m_showSpaceInfo);
     topLayout->addStretch();

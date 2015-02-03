@@ -20,12 +20,12 @@
 #ifndef CONFIGUREPREVIEWPLUGINDIALOG_H
 #define CONFIGUREPREVIEWPLUGINDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 /**
  * @brief Dialog for configuring preview-plugins.
  */
-class ConfigurePreviewPluginDialog : public KDialog
+class ConfigurePreviewPluginDialog : public QDialog
 {
     Q_OBJECT
 

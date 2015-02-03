@@ -34,6 +34,8 @@
 #include <KMessageBox>
 #include <QUrl>
 #include <KComboBox>
+#include <KConfigGroup>
+#include <KWindowConfig>
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -42,11 +44,13 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
 
 #include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
-    KDialog(dolphinView),
+    QDialog(dolphinView),
     m_isDirty(false),
     m_dolphinView(dolphinView),
     m_viewProps(0),
@@ -66,23 +70,25 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     Q_ASSERT(dolphinView);
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
-    setCaption(i18nc("@title:window", "View Properties"));
-    setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
+    setWindowTitle(i18nc("@title:window", "View Properties"));
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     const QUrl& url = dolphinView->url();
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 
-    QWidget* main = new QWidget();
-    QVBoxLayout* topLayout = new QVBoxLayout();
+    auto layout = new QVBoxLayout(this);
+    setLayout(layout);
+
+    auto propsGrid = new QWidget(this);
+    layout->addWidget(propsGrid);
 
     // create 'Properties' group containing view mode, sorting, sort order and show hidden files
-    QWidget* propsBox = main;
+    QWidget* propsBox = this;
     if (!useGlobalViewProps) {
-        propsBox = new QGroupBox(i18nc("@title:group", "Properties"), main);
+        propsBox = new QGroupBox(i18nc("@title:group", "Properties"), this);
+        layout->addWidget(propsBox);
     }
-
-    QWidget* propsGrid = new QWidget();
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
     m_viewMode = new KComboBox(propsGrid);
@@ -130,8 +136,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_showHiddenFiles);
     propsBoxLayout->addWidget(m_additionalInfo);
 
-    topLayout->addWidget(propsBox);
-
     connect(m_viewMode, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotViewModeChanged);
     connect(m_sorting, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
@@ -149,14 +153,12 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_showHiddenFiles, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotShowHiddenFilesChanged);
 
-    connect(this, &ViewPropertiesDialog::okClicked, this, &ViewPropertiesDialog::slotOk);
-    connect(this, &ViewPropertiesDialog::applyClicked, this, &ViewPropertiesDialog::slotApply);
-
     // Only show the following settings if the view properties are remembered
     // for each directory:
     if (!useGlobalViewProps) {
         // create 'Apply View Properties To' group
-        QGroupBox* applyBox = new QGroupBox(i18nc("@title:group", "Apply View Properties To"), main);
+        QGroupBox* applyBox = new QGroupBox(i18nc("@title:group", "Apply View Properties To"), this);
+        layout->addWidget(applyBox);
 
         m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To",
                                                         "Current folder"), applyBox);
@@ -176,10 +178,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         applyBoxLayout->addWidget(m_applyToSubFolders);
         applyBoxLayout->addWidget(m_applyToAllFolders);
 
-        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use these view properties as default"), main);
-
-        topLayout->addWidget(applyBox);
-        topLayout->addWidget(m_useAsDefault);
+        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use these view properties as default"), this);
+        layout->addWidget(m_useAsDefault);
 
         connect(m_applyToCurrentFolder, &QRadioButton::clicked,
                 this, &ViewPropertiesDialog::markAsDirty);
@@ -191,12 +191,25 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
                 this, &ViewPropertiesDialog::markAsDirty);
     }
 
-    main->setLayout(topLayout);
-    setMainWidget(main);
+    layout->addStretch();
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                                    "ViewPropertiesDialog");
-    restoreDialogSize(dialogConfig);
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Apply, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &ViewPropertiesDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &ViewPropertiesDialog::reject);
+    layout->addWidget(buttonBox);
+
+    auto okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setDefault(true);
+
+    auto applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    connect(applyButton, &QPushButton::clicked, this, &ViewPropertiesDialog::slotApply);
+    connect(this, &ViewPropertiesDialog::isDirtyChanged, applyButton, [applyButton](bool isDirty) {
+        applyButton->setEnabled(isDirty);
+    });
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "ViewPropertiesDialog");
+    KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 
     loadSettings();
 }
@@ -207,15 +220,14 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     delete m_viewProps;
     m_viewProps = 0;
 
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "ViewPropertiesDialog");
-    saveDialogSize(dialogConfig, KConfigBase::Persistent);
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "ViewPropertiesDialog");
+    KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
-void ViewPropertiesDialog::slotOk()
+void ViewPropertiesDialog::accept()
 {
     applyViewProperties();
-    accept();
+    QDialog::accept();
 }
 
 void ViewPropertiesDialog::slotApply()
@@ -275,8 +287,10 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 
 void ViewPropertiesDialog::markAsDirty(bool isDirty)
 {
-    m_isDirty = isDirty;
-    enableButtonApply(isDirty);
+    if (m_isDirty != isDirty) {
+        m_isDirty = isDirty;
+        emit isDirtyChanged(isDirty);
+    }
 }
 
 void ViewPropertiesDialog::configureAdditionalInfo()

@@ -19,7 +19,6 @@
 
 #include "kcmdolphinservices.h"
 
-#include <KDialog>
 #include <KPluginFactory>
 #include <KPluginLoader>
 
@@ -43,7 +42,6 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     m_services = new ServicesSettingsPage(this);
     connect(m_services, &ServicesSettingsPage::changed, this, static_cast<void(DolphinServicesConfigModule::*)()>(&DolphinServicesConfigModule::changed));

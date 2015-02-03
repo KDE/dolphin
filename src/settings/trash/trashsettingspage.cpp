@@ -20,21 +20,16 @@
 #include "trashsettingspage.h"
 
 #include <KCModuleProxy>
-#include <KDialog>
-#include <QVBoxLayout>
 
 #include <QVBoxLayout>
 
 TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
         SettingsPageBase(parent)
 {
-    const int spacing = KDialog::spacingHint();
-
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);
     QVBoxLayout *vBoxVBoxLayout = new QVBoxLayout(vBox);
     vBoxVBoxLayout->setMargin(0);
-    vBoxVBoxLayout->setSpacing(spacing);
 
     m_proxy = new KCModuleProxy("kcmtrash");
     topLayout->addWidget(m_proxy);

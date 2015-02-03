@@ -51,7 +51,6 @@
 #include <KConfig>
 #include <kdeversion.h>
 #include <kdualaction.h>
-#include <KDialog>
 #include <KJobWidgets>
 #include <QLineEdit>
 #include <KToolBar>
@@ -78,6 +77,7 @@
 #include <QPushButton>
 #include <QCloseEvent>
 #include <QShowEvent>
+#include <QDialog>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
@@ -361,9 +361,9 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     if (m_tabWidget->count() > 1 && GeneralSettings::confirmClosingMultipleTabs() && closedByUser) {
         // Ask the user if he really wants to quit and close all tabs.
         // Open a confirmation dialog with 3 buttons:
-        // KDialog::Yes    -> Quit
-        // KDialog::No     -> Close only the current tab
-        // KDialog::Cancel -> do nothing
+        // QDialogButtonBox::Yes    -> Quit
+        // QDialogButtonBox::No     -> Close only the current tab
+        // QDialogButtonBox::Cancel -> do nothing
         QDialog *dialog = new QDialog(this, Qt::Dialog);
         dialog->setWindowTitle(i18nc("@title:window", "Confirmation"));
         dialog->setModal(true);
@@ -969,7 +969,7 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
 
     caption.append(fileName);
 
-    setCaption(caption);
+    setWindowTitle(caption);
 }
 
 void DolphinMainWindow::setupActions()

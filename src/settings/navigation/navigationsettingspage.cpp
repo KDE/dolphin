@@ -21,7 +21,6 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KDialog>
 #include <KLocalizedString>
 
 #include <QCheckBox>
@@ -32,13 +31,10 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     m_openArchivesAsFolder(0),
     m_autoExpandFolders(0)
 {
-    const int spacing = KDialog::spacingHint();
-
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);
     QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
     vBoxLayout->setMargin(0);
-    vBoxLayout->setSpacing(spacing);
     vBoxLayout->setAlignment(Qt::AlignTop);
 
     m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);

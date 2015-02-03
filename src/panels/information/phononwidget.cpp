@@ -30,8 +30,7 @@
 #include <QHBoxLayout>
 #include <QShowEvent>
 #include <QToolButton>
-
-#include <KDialog>
+#include <QDialog>
 #include <QIcon>
 #include <KIconLoader>
 #include <QUrl>
@@ -109,7 +108,7 @@ void PhononWidget::showEvent(QShowEvent *event)
     if (!m_topLayout) {
         m_topLayout = new QVBoxLayout(this);
         m_topLayout->setMargin(0);
-        m_topLayout->setSpacing(KDialog::spacingHint());
+
         QHBoxLayout *controlsLayout = new QHBoxLayout(this);
         controlsLayout->setMargin(0);
         controlsLayout->setSpacing(0);

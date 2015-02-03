@@ -23,7 +23,6 @@
 #include "configurepreviewplugindialog.h"
 
 #include <KConfigGroup>
-#include <KDialog>
 #include <KGlobal>
 #include <KLocalizedString>
 #include <KNumInput>
@@ -88,7 +87,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 0, Qt::AlignRight);
     fileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
 
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(showPreviewsLabel);
     topLayout->addWidget(m_listView);
     topLayout->addLayout(fileSizeBoxLayout);
