@@ -286,8 +286,9 @@ void DolphinContextMenu::openItemContextMenu()
 
     // insert 'Copy To' and 'Move To' sub menus
     if (GeneralSettings::showCopyMoveMenu()) {
-        m_copyToMenu.setItems(m_selectedItems);
+        m_copyToMenu.setUrls(m_selectedItems.urlList());
         m_copyToMenu.setReadOnly(!selectedItemsProps.supportsWriting());
+        m_copyToMenu.setAutoErrorHandlingEnabled(true);
         m_copyToMenu.addActionsTo(this);
     }
 

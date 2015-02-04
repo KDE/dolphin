@@ -22,7 +22,7 @@
 
 #include <KFileItem>
 #include <QUrl>
-#include <konq_copytomenu.h>
+#include <KFileCopyToMenu>
 #include <QMenu>
 
 
@@ -169,7 +169,7 @@ private:
     mutable KFileItemListProperties* m_selectedItemsProperties;
 
     int m_context;
-    KonqCopyToMenu m_copyToMenu;
+    KFileCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
 
     Command m_command;
