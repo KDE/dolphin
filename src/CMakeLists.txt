@@ -233,6 +233,7 @@ target_link_libraries(kdeinit_dolphin
     KF5::Parts
     KF5::KCMUtils
     KF5::Solid
+    KF5::KIOFileWidgets
     Phonon::phonon4qt5
     KF5::KDELibs4Support
     KF5::I18n
