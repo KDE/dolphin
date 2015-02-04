@@ -237,6 +237,7 @@ target_link_libraries(kdeinit_dolphin
     KF5::KDELibs4Support
     KF5::I18n
     KF5::CoreAddons
+    KF5::DBusAddons
 )
 
 if (KF5Activities_FOUND)

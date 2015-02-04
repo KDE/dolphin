@@ -22,6 +22,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphin_generalsettings.h"
 
+#include <KDBusService>
 #include <KAboutData>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
@@ -74,6 +75,8 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
                         "tuxedup@users.sourceforge.net");
 
     KAboutData::setApplicationData(aboutData);
+
+    KDBusService dolphinDBusService;
 
     QCommandLineParser parser;
     parser.addVersionOption();
