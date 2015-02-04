@@ -51,6 +51,7 @@ set_package_properties(KF5FileMetaData PROPERTIES
                       )
 
 if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
+    message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
 endif()
 
