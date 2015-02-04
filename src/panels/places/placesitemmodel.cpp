@@ -35,7 +35,7 @@
 #include <KComponentData>
 #include <QStandardPaths>
 #include <KUser>
-#include <KGlobal>
+#include <KAboutData>
 #include "placesitem.h"
 #include <QAction>
 #include <QDate>
@@ -833,8 +833,8 @@ bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
     const bool deviceAvailable = availableDevices.contains(udi);
 
     const bool allowedHere = (appName.isEmpty()
-                              || appName == KGlobal::mainComponent().componentName()
-                              || appName == KGlobal::mainComponent().componentName() + AppNamePrefix)
+                              || appName == KAboutData::applicationData().componentName()
+                              || appName == KAboutData::applicationData().componentName() + AppNamePrefix)
                              && (m_fileIndexingEnabled || (url.scheme() != QLatin1String("timeline") &&
                                                            url.scheme() != QLatin1String("search")));
 
@@ -853,7 +853,7 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
         // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
         // for "Recently Saved" and "Search For" should be a setting available only
         // in the Places Panel (see description of AppNamePrefix for more details).
-        const QString appName = KGlobal::mainComponent().componentName() + AppNamePrefix;
+        const QString appName = KAboutData::applicationData().componentName() + AppNamePrefix;
         bookmark.setMetaDataItem("OnlyInApp", appName);
     }
 

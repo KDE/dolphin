@@ -23,10 +23,9 @@
 
 #include "placesitemeditdialog.h"
 
-#include <k4aboutdata.h>
+#include <KAboutData>
 #include <KDebug>
 #include <KFile>
-#include <KGlobal>
 #include <KIconButton>
 #include <KLocalizedString>
 #include <QMimeDatabase>
@@ -161,13 +160,7 @@ void PlacesItemEditDialog::initialize()
     }
 
     if (m_allowGlobal) {
-        QString appName;
-        if (KGlobal::mainComponent().aboutData()) {
-            appName = KGlobal::mainComponent().aboutData()->programName();
-        }
-        if (appName.isEmpty()) {
-            appName = KGlobal::mainComponent().componentName();
-        }
+        const QString appName = KAboutData::applicationData().displayName();
         m_appLocal = new QCheckBox( i18n("&Only show when using this application (%1)",  appName ), mainWidget );
         m_appLocal->setChecked(false);
         vBox->addWidget(m_appLocal);
