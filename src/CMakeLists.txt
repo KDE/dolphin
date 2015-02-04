@@ -147,7 +147,6 @@ install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINAT
 ##########################################
 
 set(dolphin_SRCS
-    dolphinapplication.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
@@ -236,6 +235,8 @@ target_link_libraries(kdeinit_dolphin
     KF5::Solid
     Phonon::phonon4qt5
     KF5::KDELibs4Support
+    KF5::I18n
+    KF5::CoreAddons
 )
 
 if (KF5Activities_FOUND)

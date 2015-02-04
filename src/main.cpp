@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz <peter.penz19@gmail.com>             *
  *   Copyright (C) 2006 by Stefan Monov <logixoul@gmail.com>               *
+ *   Copyright (C) 2015 by Mathieu Tarral <mathieu.tarral@gmail.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,80 +19,131 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinapplication.h"
-
 #include "dolphinmainwindow.h"
+#include "dolphin_generalsettings.h"
 
-#include <k4aboutdata.h>
-#include <KCmdLineArgs>
+#include <KAboutData>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#include <QApplication>
 #include <KLocalizedString>
-#include <kmainwindow.h>
-#include <kdeversion.h>
 #include <KDebug>
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
-    K4AboutData about("dolphin", 0,
-                     ki18nc("@title", "Dolphin"),
-                     "4.60",
-                     ki18nc("@title", "File Manager"),
-                     K4AboutData::License_GPL,
-                     ki18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
-    about.setHomepage("http://dolphin.kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Emmanuel Pescosta"),
-                    ki18nc("@info:credit", "Maintainer (since 2014) and developer"),
-                    "emmanuelpescosta099@gmail.com");
-    about.addAuthor(ki18nc("@info:credit", "Frank Reininghaus"),
-                    ki18nc("@info:credit", "Maintainer (2012-2014) and developer"),
-                    "frank78ac@googlemail.com");
-    about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
-                    ki18nc("@info:credit", "Maintainer and developer (2006-2012)"),
-                    "peter.penz19@gmail.com");
-    about.addAuthor(ki18nc("@info:credit", "Sebastian Trüg"),
-                    ki18nc("@info:credit", "Developer"),
-                    "trueg@kde.org"),
-    about.addAuthor(ki18nc("@info:credit", "David Faure"),
-                    ki18nc("@info:credit", "Developer"),
-                    "faure@kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Aaron J. Seigo"),
-                    ki18nc("@info:credit", "Developer"),
-                    "aseigo@kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Rafael Fernández López"),
-                    ki18nc("@info:credit", "Developer"),
-                    "ereslibre@kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Kevin Ottens"),
-                    ki18nc("@info:credit", "Developer"),
-                    "ervin@kde.org");
-    about.addAuthor(ki18nc("@info:credit", "Holger Freyther"),
-                    ki18nc("@info:credit", "Developer"),
-                    "freyther@gmx.net");
-    about.addAuthor(ki18nc("@info:credit", "Max Blazejak"),
-                    ki18nc("@info:credit", "Developer"),
-                    "m43ksrocks@gmail.com");
-    about.addAuthor(ki18nc("@info:credit", "Michael Austin"),
-                    ki18nc("@info:credit", "Documentation"),
-                    "tuxedup@users.sourceforge.net");
-    // the .desktop file is not taken into account when launching manually, so
-    // set the icon precautionally:
-    about.setProgramIconName("system-file-manager");
+    QApplication app(argc, argv);
+    app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
 
-    KCmdLineArgs::init(argc, argv, &about);
+    KAboutData aboutData("dolphin", i18n("Dolphin"), "4.60",
+                         i18nc("@title", "File Manager"),
+                         KAboutLicense::GPL,
+                         i18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
+    aboutData.setHomepage("http://dolphin.kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "Emmanuel Pescosta"),
+                        i18nc("@info:credit", "Maintainer (since 2014) and developer"),
+                        "emmanuelpescosta099@gmail.com");
+    aboutData.addAuthor(i18nc("@info:credit", "Frank Reininghaus"),
+                        i18nc("@info:credit", "Maintainer (2012-2014) and developer"),
+                        "frank78ac@googlemail.com");
+    aboutData.addAuthor(i18nc("@info:credit", "Peter Penz"),
+                        i18nc("@info:credit", "Maintainer and developer (2006-2012)"),
+                        "peter.penz19@gmail.com");
+    aboutData.addAuthor(i18nc("@info:credit", "Sebastian Trüg"),
+                        i18nc("@info:credit", "Developer"),
+                        "trueg@kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "David Faure"),
+                        i18nc("@info:credit", "Developer"),
+                        "faure@kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "Aaron J. Seigo"),
+                        i18nc("@info:credit", "Developer"),
+                        "aseigo@kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "Rafael Fernández López"),
+                        i18nc("@info:credit", "Developer"),
+                        "ereslibre@kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "Kevin Ottens"),
+                        i18nc("@info:credit", "Developer"),
+                        "ervin@kde.org");
+    aboutData.addAuthor(i18nc("@info:credit", "Holger Freyther"),
+                        i18nc("@info:credit", "Developer"),
+                        "freyther@gmx.net");
+    aboutData.addAuthor(i18nc("@info:credit", "Max Blazejak"),
+                        i18nc("@info:credit", "Developer"),
+                        "m43ksrocks@gmail.com");
+    aboutData.addAuthor(i18nc("@info:credit", "Michael Austin"),
+                        i18nc("@info:credit", "Documentation"),
+                        "tuxedup@users.sourceforge.net");
 
-    KCmdLineOptions options;
+    KAboutData::setApplicationData(aboutData);
 
-    options.add("select", ki18nc("@info:shell", "The files and directories passed as arguments "
-                                                "will be selected."));
-    options.add("split", ki18nc("@info:shell", "Dolphin will get started with a split view."));
-    options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
+    QCommandLineParser parser;
+    parser.addVersionOption();
+    parser.addHelpOption();
+    aboutData.setupCommandLine(&parser);
 
-    {
-        DolphinApplication app;
-        if (app.isSessionRestored()) {
-            app.restoreSession();
+    // command line options
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("select"), i18nc("@info:shell", "The files and directories passed as arguments "
+                                                                                        "will be selected.")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
+    parser.addPositionalArgument(QLatin1String("+[Url]"), i18nc("@info:shell", "Document to open"));
+
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
+
+
+    DolphinMainWindow* m_mainWindow = new DolphinMainWindow();
+    m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+
+    QList<QUrl> urls;
+    const QStringList args = parser.positionalArguments();
+    foreach (const QString& str,  args) {
+        const QUrl url(str);
+        if (url.isValid()) {
+            urls.append(url);
         }
-        app.exec(); // krazy:exclude=crashy
     }
 
-    return 0;
+    bool resetSplitSettings = false;
+    if (parser.isSet("split") && !GeneralSettings::splitView()) {
+        // Dolphin should be opened with a split view although this is not
+        // set in the GeneralSettings. Temporary adjust the setting until
+        // all passed URLs have been opened.
+        GeneralSettings::setSplitView(true);
+        resetSplitSettings = true;
+
+        // We need 2 URLs to open Dolphin in split view mode
+        if (urls.isEmpty()) { // No URL given - Open home URL in all two views
+            urls.append(GeneralSettings::homeUrl());
+            urls.append(GeneralSettings::homeUrl());
+        } else if (urls.length() == 1) { // Only 1 URL given - Open given URL in all two views
+            urls.append(urls.at(0));
+        }
+    }
+
+    if (!urls.isEmpty()) {
+        if (parser.isSet("select")) {
+            m_mainWindow->openFiles(urls);
+        } else {
+            m_mainWindow->openDirectories(urls);
+        }
+    } else {
+        const QUrl homeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
+        m_mainWindow->openNewActivatedTab(homeUrl);
+    }
+
+    if (resetSplitSettings) {
+        GeneralSettings::setSplitView(false);
+    }
+
+    m_mainWindow->show();
+
+    if (app.isSessionRestored()) {
+        const QString className = KXmlGuiWindow::classNameOfToplevel(1);
+        if (className == QLatin1String("DolphinMainWindow")) {
+            m_mainWindow->restore(1);
+        } else {
+            kWarning() << "Unknown class " << className << " in session saved data!";
+        }
+    }
+
+    return app.exec(); // krazy:exclude=crash;
 }

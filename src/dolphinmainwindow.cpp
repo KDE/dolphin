@@ -21,7 +21,6 @@
 
 #include "dolphinmainwindow.h"
 
-#include "dolphinapplication.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
@@ -69,6 +68,7 @@
 #include <KToolInvocation>
 #include <KUrlComboBox>
 
+#include <QApplication>
 #include <QMenuBar>
 #include <QClipboard>
 #include <QToolButton>
@@ -353,8 +353,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     // Find out if Dolphin is closed directly by the user or
     // by the session manager because the session is closed
     bool closedByUser = true;
-    DolphinApplication *application = qobject_cast<DolphinApplication*>(qApp);
-    if (application && application->sessionSaving()) {
+    if (qApp->isSessionRestored()) {
         closedByUser = false;
     }
 

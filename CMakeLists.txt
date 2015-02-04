@@ -19,7 +19,7 @@ ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
-find_package(KF5 REQUIRED COMPONENTS DocTools Init KCMUtils KDELibs4Support NewStuff)
+find_package(KF5 REQUIRED COMPONENTS DocTools Init KCMUtils KDELibs4Support NewStuff CoreAddons I18n)
 find_package(KF5 COMPONENTS Activities)
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)

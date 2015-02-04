@@ -36,7 +36,6 @@
 typedef KIO::FileUndoManager::CommandType CommandType;
 
 class DolphinViewActionHandler;
-class DolphinApplication;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
@@ -58,7 +57,6 @@ class DolphinMainWindow: public KXmlGuiWindow
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")
     Q_PROPERTY(int id READ getId SCRIPTABLE true)
-    friend class DolphinApplication;
 
 public:
     DolphinMainWindow();
@@ -120,6 +118,11 @@ public slots:
 
     /** Stores all settings and quits Dolphin. */
     void quit();
+
+    /**
+     * Opens a new tab showing the URL \a url and activates the tab.
+     */
+    void openNewActivatedTab(const QUrl& url);
 
 signals:
     /**
@@ -334,11 +337,6 @@ private slots:
      * Opens a new tab in the background showing the URL \a url.
      */
     void openNewTab(const QUrl& url);
-
-    /**
-     * Opens a new tab showing the URL \a url and activates the tab.
-     */
-    void openNewActivatedTab(const QUrl& url);
 
     /**
      * Opens the selected folder in a new tab.
