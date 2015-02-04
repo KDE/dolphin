@@ -30,6 +30,7 @@
 #include "viewmodes/viewsettingspage.h"
 #include "trash/trashsettingspage.h"
 
+#include <KWindowConfig>
 #include <KLocalizedString>
 #include <QIcon>
 
@@ -98,23 +99,21 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     generalSettingsFrame->setIcon(QIcon::fromTheme("system-run"));
     connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
-#pragma message("TODO: port")
-    //restoreDialogSize(dialogConfig);
-
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
     m_pages.append(servicesSettingsPage);
     m_pages.append(trashSettingsPage);
     m_pages.append(generalSettingsPage);
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
+    KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
-#pragma message("TODO: port")
-    //saveDialogSize(dialogConfig);
+    KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
 void DolphinSettingsDialog::enableApply()
