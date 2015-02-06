@@ -25,9 +25,7 @@
 
 #include <QUrl>
 #include <KDebug>
-#include <KGlobal>
 
-#include <KComponentData>
 #include <QCryptographicHash>
 #include <QDate>
 #include <QFile>

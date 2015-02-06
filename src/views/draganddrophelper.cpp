@@ -26,9 +26,6 @@
 #include <QDropEvent>
 #include <QMimeData>
 
-#include <KFileItem>
-#include <KLocalizedString>
-#include <KUrlMimeData>
 #include <KIO/DropJob>
 #include <KJobWidgets>
 

@@ -23,7 +23,6 @@
 
 #include "libdolphin_export.h"
 
-#include <QString>
 
 class QUrl;
 class QDropEvent;
