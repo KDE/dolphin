@@ -24,8 +24,6 @@
 #include <KIO/CopyJob>
 #include <KIO/FileUndoManager>
 #include <kstringhandler_deprecated.h> //TODO port to QCollator
-#include <knuminput.h>
-#include <kmimetype.h>
 #include <KJobUiDelegate>
 
 #include <QHBoxLayout>
@@ -35,6 +33,7 @@
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QLineEdit>
+#include <QSpinBox>
 #include <KGuiItem>
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :

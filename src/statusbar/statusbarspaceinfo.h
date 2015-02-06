@@ -23,7 +23,7 @@
 #include <QUrl>
 
 
-#include <kcapacitybar.h>
+#include <KCapacityBar>
 
 class QHideEvent;
 class QShowEvent;

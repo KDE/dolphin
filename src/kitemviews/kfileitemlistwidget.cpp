@@ -21,7 +21,6 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
-#include <kmimetype.h>
 #include <KLocale>
 #include <KIO/MetaData>
 #include <QDateTime>

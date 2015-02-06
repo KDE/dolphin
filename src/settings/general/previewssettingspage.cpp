@@ -25,7 +25,6 @@
 #include <KConfigGroup>
 #include <KGlobal>
 #include <KLocalizedString>
-#include <KNumInput>
 #include <KServiceTypeTrader>
 #include <KService>
 
@@ -41,6 +40,7 @@
 #include <QScrollBar>
 #include <QShowEvent>
 #include <QSlider>
+#include <QSpinBox>
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 

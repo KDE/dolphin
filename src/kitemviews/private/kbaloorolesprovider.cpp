@@ -35,7 +35,7 @@ struct KBalooRolesProviderSingleton
 {
     KBalooRolesProvider instance;
 };
-K_GLOBAL_STATIC(KBalooRolesProviderSingleton, s_balooRolesProvider)
+Q_GLOBAL_STATIC(KBalooRolesProviderSingleton, s_balooRolesProvider)
 
 
 KBalooRolesProvider& KBalooRolesProvider::instance()

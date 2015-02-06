@@ -19,8 +19,6 @@
 
 #include "placesitemlistwidget.h"
 
-#include "kdebug.h"
-
 PlacesItemListWidget::PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
     KStandardItemListWidget(informant, parent)
 {

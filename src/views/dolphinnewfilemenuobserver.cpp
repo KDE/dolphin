@@ -19,7 +19,6 @@
 
 #include "dolphinnewfilemenuobserver.h"
 
-#include <KGlobal>
 #include "dolphinnewfilemenu.h"
 
 class DolphinNewFileMenuObserverSingleton
@@ -27,7 +26,7 @@ class DolphinNewFileMenuObserverSingleton
 public:
     DolphinNewFileMenuObserver instance;
 };
-K_GLOBAL_STATIC(DolphinNewFileMenuObserverSingleton, s_DolphinNewFileMenuObserver)
+Q_GLOBAL_STATIC(DolphinNewFileMenuObserverSingleton, s_DolphinNewFileMenuObserver)
 
 DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
 {

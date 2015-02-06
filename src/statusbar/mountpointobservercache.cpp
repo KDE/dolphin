@@ -21,7 +21,6 @@
 
 #include "mountpointobserver.h"
 
-#include <KGlobal>
 #include <KMountPoint>
 
 #include <QTimer>
@@ -31,7 +30,7 @@ class MountPointObserverCacheSingleton
 public:
     MountPointObserverCache instance;
 };
-K_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
+Q_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
 
 
 MountPointObserverCache::MountPointObserverCache() :

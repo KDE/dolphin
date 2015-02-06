@@ -35,9 +35,6 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
 {
     Q_UNUSED(args);
 
-    //KF5 port: remove this line and define TRANSLATION_DOMAIN in CMakeLists.txt instead
-//KLocale::global()->insertCatalog("dolphin");
-
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
