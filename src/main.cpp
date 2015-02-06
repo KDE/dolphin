@@ -29,10 +29,16 @@
 #include <QApplication>
 #include <KLocalizedString>
 #include <KDebug>
+#include <kdelibs4configmigrator.h>
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    Kdelibs4ConfigMigrator migrate(QStringLiteral("dolphin"));
+    migrate.setConfigFiles(QStringList() << QStringLiteral("dolphinrc"));
+    migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
+    migrate.migrate();
+
     app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
 
     KAboutData aboutData("dolphin", i18n("Dolphin"), "4.60",
