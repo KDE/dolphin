@@ -19,7 +19,6 @@
 
 #include "kstandarditemlistview.h"
 
-#include <QDebug>
 #include <KIconLoader>
 #include "kstandarditemlistwidget.h"
 #include "kstandarditemlistgroupheader.h"

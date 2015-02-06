@@ -23,7 +23,6 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <QDebug>
 #include <KFileItem>
 #include <KIconLoader>
 #include <KJobWidgets>

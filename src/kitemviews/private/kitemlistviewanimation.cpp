@@ -21,7 +21,6 @@
 
 #include <kitemviews/kitemlistview.h>
 
-#include <QDebug>
 
 #include <QGraphicsWidget>
 #include <QPropertyAnimation>

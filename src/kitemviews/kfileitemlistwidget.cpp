@@ -22,7 +22,6 @@
 #include "kitemlistview.h"
 
 #include <kmimetype.h>
-#include <QDebug>
 #include <KLocale>
 #include <KIO/MetaData>
 #include <QDateTime>

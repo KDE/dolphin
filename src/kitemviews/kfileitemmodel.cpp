@@ -24,7 +24,6 @@
 #include "dolphin_generalsettings.h"
 
 #include <KLocalizedString>
-#include <KStringHandler>
 #include <KDebug>
 
 #include "private/kfileitemmodelsortalgorithm.h"

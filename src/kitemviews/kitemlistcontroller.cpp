@@ -23,7 +23,6 @@
 
 #include "kitemlistcontroller.h"
 
-#include <QDebug>
 
 #include "kitemlistview.h"
 #include "kitemlistselectionmanager.h"

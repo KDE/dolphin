@@ -27,7 +27,6 @@
 
 #include "private/kitemlistselectiontoggle.h"
 
-#include <QDebug>
 
 #include <QApplication>
 #include <QPainter>

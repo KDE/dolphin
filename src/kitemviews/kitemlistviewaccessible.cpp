@@ -31,7 +31,6 @@
 #include <qgraphicsscene.h>
 #include <qgraphicsview.h>
 
-#include <QDebug>
 #include <QHash>
 
 KItemListView* KItemListViewAccessible::view() const

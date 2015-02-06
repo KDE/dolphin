@@ -39,7 +39,6 @@
 #include <QPixmap>
 #include <QSize>
 
-#include <QDebug>
 
 #include <config-X11.h> // for HAVE_XRENDER
 #if defined(Q_WS_X11) && defined(HAVE_XRENDER)

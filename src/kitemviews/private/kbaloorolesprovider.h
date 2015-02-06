@@ -25,8 +25,7 @@
 
 #include <QHash>
 #include <QSet>
-#include <QUrl>
-
+#include <QVariant>
 namespace Baloo {
     class File;
 }
