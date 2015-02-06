@@ -25,8 +25,8 @@
 #include "libdolphin_export.h"
 
 #include <QtCore/qpointer.h>
-#include <QtGui/qaccessible.h>
-#include <QtGui/qaccessibleobject.h>
+#include <qaccessible.h>
+#include <qaccessibleobject.h>
 #include <QtWidgets/qaccessiblewidget.h>
 
 class KItemListView;

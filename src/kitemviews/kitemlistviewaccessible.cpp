@@ -27,7 +27,7 @@
 #include "kitemlistview.h"
 #include "private/kitemlistviewlayouter.h"
 
-#include <QtGui/qaccessible.h>
+#include <qaccessible.h>
 #include <qgraphicsscene.h>
 #include <qgraphicsview.h>
 
