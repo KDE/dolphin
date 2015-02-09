@@ -105,9 +105,11 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     QList<QUrl> urls;
     const QStringList args = parser.positionalArguments();
     foreach (const QString& str,  args) {
-        const QUrl url(str);
+        const QUrl url = QUrl::fromUserInput(str);
         if (url.isValid()) {
             urls.append(url);
+        } else {
+            qWarning() << "Invalid URL: " << str;
         }
     }
 
