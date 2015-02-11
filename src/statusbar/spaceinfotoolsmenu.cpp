@@ -34,7 +34,7 @@ SpaceInfoToolsMenu::SpaceInfoToolsMenu(QWidget* parent, QUrl url)
 
     // find service
     //
-    const auto filelightService = KService::serviceByDesktopName("filelight");
+    const auto filelightService = KService::serviceByDesktopName("org.kde.filelight");
     if (filelightService && filelightService->isApplication()) {
         const auto filelightIcon = QIcon::fromTheme(filelightService->icon());
 
