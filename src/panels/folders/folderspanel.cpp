@@ -305,7 +305,7 @@ void FoldersPanel::loadTree(const QUrl& url)
     QUrl baseUrl;
     if (url.isLocalFile()) {
         // Use the root directory as base for local URLs (#150941)
-        baseUrl = QDir::rootPath();
+        baseUrl = QUrl::fromLocalFile(QDir::rootPath());
     } else {
         // Clear the path for non-local URLs and use it as base
         baseUrl = url;
