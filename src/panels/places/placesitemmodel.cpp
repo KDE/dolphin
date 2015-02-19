@@ -80,7 +80,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_systemBookmarksIndexes(),
     m_bookmarkedItems(),
     m_hiddenItemToRemove(-1),
-    m_saveBookmarksTimer(0),
     m_updateBookmarksTimer(0),
     m_storageSetupInProgress()
 {
@@ -96,11 +95,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     loadBookmarks();
 
     const int syncBookmarksTimeout = 100;
-
-    m_saveBookmarksTimer = new QTimer(this);
-    m_saveBookmarksTimer->setInterval(syncBookmarksTimeout);
-    m_saveBookmarksTimer->setSingleShot(true);
-    connect(m_saveBookmarksTimer, &QTimer::timeout, this, &PlacesItemModel::saveBookmarks);
 
     m_updateBookmarksTimer = new QTimer(this);
     m_updateBookmarksTimer->setInterval(syncBookmarksTimeout);
@@ -501,8 +495,6 @@ void PlacesItemModel::onItemInserted(int index)
         m_bookmarkedItems.insert(bookmarkIndex, 0);
     }
 
-    triggerBookmarksSaving();
-
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Inserted item" << index;
     showModelState();
@@ -520,8 +512,6 @@ void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
     const int boomarkIndex = bookmarkIndex(index);
     Q_ASSERT(!m_bookmarkedItems[boomarkIndex]);
     m_bookmarkedItems.removeAt(boomarkIndex);
-
-    triggerBookmarksSaving();
 
 #ifdef PLACESITEMMODEL_DEBUG
     kDebug() << "Removed item" << index;
@@ -552,8 +542,6 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
             QTimer::singleShot(0, this, SLOT(hideItem()));
         }
     }
-
-    triggerBookmarksSaving();
 }
 
 void PlacesItemModel::slotDeviceAdded(const QString& udi)
@@ -1035,17 +1023,9 @@ void PlacesItemModel::hideItem(int index)
             // bookmark should still be remembered, so readd it again:
             m_bookmarkManager->root().addBookmark(hiddenBookmark);
             m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
-            triggerBookmarksSaving();
         }
 
         m_bookmarkedItems.insert(newIndex, hiddenItem);
-    }
-}
-
-void PlacesItemModel::triggerBookmarksSaving()
-{
-    if (m_saveBookmarksTimer) {
-        m_saveBookmarksTimer->start();
     }
 }
 

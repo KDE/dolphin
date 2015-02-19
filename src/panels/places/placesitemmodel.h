@@ -122,6 +122,14 @@ public:
     static QUrl convertedUrl(const QUrl& url);
 
     virtual void clear() Q_DECL_OVERRIDE;
+
+    /**
+     * Saves the bookmarks and indicates to other applications that the
+     * state of the bookmarks has been changed. Is only called by the
+     * timeout of m_saveBookmarksTimer to prevent unnecessary savings.
+     */
+    void saveBookmarks();
+
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
@@ -145,12 +153,6 @@ private slots:
      */
     void updateBookmarks();
 
-    /**
-     * Saves the bookmarks and indicates to other applications that the
-     * state of the bookmarks has been changed. Is only called by the
-     * timeout of m_saveBookmarksTimer to prevent unnecessary savings.
-     */
-    void saveBookmarks();
 private:
     struct SystemBookmarkData;
 
@@ -196,12 +198,6 @@ private:
      * removes it from the model so that it gets invisible.
      */
     void hideItem(int index);
-
-    /**
-     * Triggers a delayed saving of bookmarks by starting
-     * m_saveBookmarksTimer.
-     */
-    void triggerBookmarksSaving();
 
     QString internalMimeType() const;
 
@@ -285,7 +281,6 @@ private:
     // removing an item is not allowed.
     int m_hiddenItemToRemove;
 
-    QTimer* m_saveBookmarksTimer;
     QTimer* m_updateBookmarksTimer;
 
     QHash<QObject*, int> m_storageSetupInProgress;
