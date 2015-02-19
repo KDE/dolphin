@@ -280,8 +280,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
                 editEntry(index);
             } else if (action == removeAction) {
                 m_model->removeItem(index);
+                m_model->saveBookmarks();
             } else if (action == hideAction) {
                 item->setHidden(hideAction->isChecked());
+                m_model->saveBookmarks();
             } else if (action == openInNewTabAction) {
                 // TriggerItem does set up the storage first and then it will
                 // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
@@ -405,6 +407,7 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
 void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
     m_model->dropMimeDataBefore(index, event->mimeData());
+    m_model->saveBookmarks();
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
@@ -477,6 +480,7 @@ void PlacesPanel::addEntry()
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* item = m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
         m_model->appendItemToGroup(item);
+        m_model->saveBookmarks();
     }
 
     delete dialog;
@@ -498,6 +502,7 @@ void PlacesPanel::editEntry(int index)
             oldItem->setText(dialog->text());
             oldItem->setUrl(dialog->url());
             oldItem->setIcon(dialog->icon());
+            m_model->saveBookmarks();
         }
     }
 
