@@ -33,7 +33,7 @@ KDE_EXPORT int kdemain(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
-                     "14.11.97",
+                     "14.12.3",
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
