@@ -21,7 +21,7 @@
 #define INFORMATIONPANEL_H
 
 #include <panels/panel.h>
-#include <KFileItemList>
+#include <KFileItem>
 class InformationPanelContent;
 namespace KIO
 {

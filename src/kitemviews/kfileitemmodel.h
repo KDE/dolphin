@@ -21,7 +21,7 @@
 #define KFILEITEMMODEL_H
 
 #include "libdolphin_export.h"
-#include <KFileItemList>
+#include <KFileItem>
 #include <QUrl>
 #include <kitemviews/kitemmodelbase.h>
 #include <kitemviews/private/kfileitemmodelfilter.h>

@@ -24,7 +24,7 @@
 
 #include <QVariant>
 
-#include <KFileItemList>
+#include <KFileItem>
 
 
 DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart* part)
