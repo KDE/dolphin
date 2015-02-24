@@ -129,6 +129,7 @@ install(TARGETS dolphinprivate ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
 set(dolphinpart_SRCS
    dolphinpart.cpp
    dolphinpart_ext.cpp
+   dolphindebug.cpp
 )
 
 add_library(dolphinpart MODULE ${dolphinpart_SRCS})
@@ -202,6 +203,7 @@ set(dolphin_SRCS
     statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
+    dolphindebug.cpp
 )
 
 kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC

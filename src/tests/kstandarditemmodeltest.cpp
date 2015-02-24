@@ -18,6 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include "dolphindebug.h"
+
 #include "kitemviews/kstandarditem.h"
 #include "kitemviews/kstandarditemmodel.h"
 

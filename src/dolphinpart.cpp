@@ -138,7 +138,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
         connect(lister, &KDirLister::newItems, notifyExt, &DolphinPartListingNotificationExtension::slotNewItems);
         connect(lister, &KDirLister::itemsDeleted, notifyExt, &DolphinPartListingNotificationExtension::slotItemsDeleted);
     } else {
-        // qCWarning(DolphinDebug) << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
+        qCWarning(DolphinDebug) << "NULL KDirLister object! KParts::ListingNotificationExtension will NOT be supported";
     }
 
     createActions();
@@ -340,7 +340,7 @@ void DolphinPart::slotMessage(const QString& msg)
 
 void DolphinPart::slotErrorMessage(const QString& msg)
 {
-    // qCDebug(DolphinDebug) << msg;
+    qCDebug(DolphinDebug) << msg;
     emit canceled(msg);
     //KMessageBox::error(m_view, msg);
 }
@@ -471,7 +471,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
 
 void DolphinPart::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUrl)
 {
-    // qCDebug(DolphinDebug) << oldUrl << newUrl << "currentUrl=" << url();
+    qCDebug(DolphinDebug) << oldUrl << newUrl << "currentUrl=" << url();
     if (oldUrl.matches(url(), QUrl::StripTrailingSlash /* #207572 */)) {
         KParts::ReadOnlyPart::setUrl(newUrl);
         const QString prettyUrl = newUrl.toDisplayString(QUrl::PreferLocalFile);
