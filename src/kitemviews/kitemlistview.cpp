@@ -22,7 +22,7 @@
 
 #include "kitemlistview.h"
 
-#include <QDebug>
+#include "dolphindebug.h"
 #include "kitemlistcontainer.h"
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
@@ -543,7 +543,7 @@ void KItemListView::endTransaction()
     --m_activeTransactions;
     if (m_activeTransactions < 0) {
         m_activeTransactions = 0;
-        qWarning() << "Mismatch between beginTransaction()/endTransaction()";
+        qCWarning(DolphinDebug) << "Mismatch between beginTransaction()/endTransaction()";
     }
 
     if (m_activeTransactions == 0) {
@@ -1006,7 +1006,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         const int index = range.index + previouslyInsertedCount;
         const int count = range.count;
         if (index < 0 || count <= 0) {
-            qWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
+            qCWarning(DolphinDebug) << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
         previouslyInsertedCount += count;
@@ -1114,7 +1114,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         const int index = range.index;
         const int count = range.count;
         if (index < 0 || count <= 0) {
-            qWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
+            qCWarning(DolphinDebug) << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
 

@@ -24,7 +24,7 @@
 #include <kversioncontrolplugin2.h>
 #include <QColor>
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant* informant,
                                                      QGraphicsItem* parent) :

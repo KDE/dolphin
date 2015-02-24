@@ -24,7 +24,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <QUrl>
-#include <KDebug>
+#include "dolphindebug.h"
 
 #include <QCryptographicHash>
 #include <QDate>
@@ -359,7 +359,7 @@ void ViewProperties::update()
 
 void ViewProperties::save()
 {
-    kDebug() << "Saving view-properties to" << m_filePath;
+    qCDebug(DolphinDebug) << "Saving view-properties to" << m_filePath;
     QDir dir;
     dir.mkpath(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
@@ -388,7 +388,7 @@ QString ViewProperties::viewModePrefix() const
     case DolphinView::IconsView:   prefix = "Icons_"; break;
     case DolphinView::CompactView: prefix = "Compact_"; break;
     case DolphinView::DetailsView: prefix = "Details_"; break;
-    default: kWarning() << "Unknown view-mode of the view properties";
+    default: qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";
     }
 
     return prefix;

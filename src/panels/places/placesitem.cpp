@@ -23,7 +23,7 @@
 #include "placesitem.h"
 
 #include <KBookmarkManager>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KDirLister>
 #include <KLocalizedString>
 #include "placesitemsignalhandler.h"

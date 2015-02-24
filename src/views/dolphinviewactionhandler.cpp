@@ -39,7 +39,7 @@
 #include <KPropertiesDialog>
 #include <QIcon>
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 #ifdef HAVE_BALOO
     #include <Baloo/IndexerConfig>

@@ -24,7 +24,7 @@
 #include "placesitemeditdialog.h"
 
 #include <KAboutData>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KFile>
 #include <KIconButton>
 #include <KLocalizedString>

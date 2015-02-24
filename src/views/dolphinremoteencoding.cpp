@@ -26,7 +26,7 @@
 #include "dolphinremoteencoding.h"
 #include "dolphinviewactionhandler.h"
 
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KActionMenu>
 #include <KActionCollection>
 #include <QIcon>
@@ -141,10 +141,10 @@ void DolphinRemoteEncoding::updateMenu()
             }
         }
 
-        kDebug() << "URL=" << m_currentURL << " charset=" << charset;
+        qCDebug(DolphinDebug) << "URL=" << m_currentURL << " charset=" << charset;
 
         if (!isFound) {
-            kWarning() << "could not find entry for charset=" << charset ;
+            qCWarning(DolphinDebug) << "could not find entry for charset=" << charset ;
         } else {
             m_menu->menu()->actions().at(id)->setChecked(true);
         }
@@ -211,7 +211,7 @@ void DolphinRemoteEncoding::slotDefault()
         }
 
         for (QStringList::const_iterator it = domains.constBegin(); it != domains.constEnd();++it) {
-            kDebug() << "Domain to remove: " << *it;
+            qCDebug(DolphinDebug) << "Domain to remove: " << *it;
             if (config.hasGroup(*it)) {
                 config.deleteGroup(*it);
             } else if (config.group("").hasKey(*it)) {

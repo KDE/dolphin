@@ -23,7 +23,7 @@
 
 #include <KLocalizedString>
 #include <KService>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KServiceTypeTrader>
 #include <kitemviews/kfileitemmodel.h>
 #include <kversioncontrolplugin2.h>
@@ -94,7 +94,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
     bool hasNullItems = false;
     foreach (const KFileItem& item, items) {
         if (item.isNull()) {
-            kWarning() << "Requesting version-control-actions for empty items";
+            qCWarning(DolphinDebug) << "Requesting version-control-actions for empty items";
             hasNullItems = true;
             break;
         }

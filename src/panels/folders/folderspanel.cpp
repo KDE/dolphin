@@ -49,7 +49,7 @@
 
 #include <views/draganddrophelper.h>
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),

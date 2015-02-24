@@ -98,13 +98,13 @@ bool KStandardItemModelTest::isModelConsistent() const
     for (int i = 0; i < m_model->count(); ++i) {
         const KStandardItem* item = m_model->item(i);
         if (!item) {
-            qWarning() << "Item" << i << "is null";
+            qCWarning(DolphinDebug) << "Item" << i << "is null";
             return false;
         }
 
         const int itemIndex = m_model->index(item);
         if (itemIndex != i) {
-            qWarning() << "Item" << i << "has a wrong index:" << itemIndex;
+            qCWarning(DolphinDebug) << "Item" << i << "has a wrong index:" << itemIndex;
             return false;
         }
     }

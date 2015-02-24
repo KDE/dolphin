@@ -72,6 +72,7 @@ set(dolphinprivate_LIB_SRCS
     views/zoomlevelinfo.cpp
     dolphinremoveaction.cpp
     dolphinnewfilemenu.cpp
+    dolphindebug.cpp
 )
 
 if(HAVE_BALOO)

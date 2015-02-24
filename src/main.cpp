@@ -28,7 +28,7 @@
 #include <QCommandLineOption>
 #include <QApplication>
 #include <KLocalizedString>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <kdelibs4configmigrator.h>
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
@@ -109,7 +109,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         if (url.isValid()) {
             urls.append(url);
         } else {
-            qWarning() << "Invalid URL: " << str;
+            qCWarning(DolphinDebug) << "Invalid URL: " << str;
         }
     }
 
@@ -152,7 +152,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         if (className == QLatin1String("DolphinMainWindow")) {
             m_mainWindow->restore(1);
         } else {
-            kWarning() << "Unknown class " << className << " in session saved data!";
+            qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
         }
     }
 

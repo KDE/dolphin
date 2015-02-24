@@ -28,7 +28,7 @@
 #include <KBookmark>
 #include <KBookmarkGroup>
 #include <KBookmarkManager>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <QIcon>
 #include <KProtocolInfo>
 #include <KLocalizedString>
@@ -191,7 +191,7 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     }
 
 #ifdef PLACESITEMMODEL_DEBUG
-        kDebug() << "Changed visibility of hidden items";
+        qCDebug(DolphinDebug) << "Changed visibility of hidden items";
         showModelState();
 #endif
 }
@@ -496,7 +496,7 @@ void PlacesItemModel::onItemInserted(int index)
     }
 
 #ifdef PLACESITEMMODEL_DEBUG
-    kDebug() << "Inserted item" << index;
+    qCDebug(DolphinDebug) << "Inserted item" << index;
     showModelState();
 #endif
 }
@@ -514,7 +514,7 @@ void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
     m_bookmarkedItems.removeAt(boomarkIndex);
 
 #ifdef PLACESITEMMODEL_DEBUG
-    kDebug() << "Removed item" << index;
+    qCDebug(DolphinDebug) << "Removed item" << index;
     showModelState();
 #endif
 }
@@ -807,7 +807,7 @@ void PlacesItemModel::loadBookmarks()
     }
 
 #ifdef PLACESITEMMODEL_DEBUG
-    kDebug() << "Loaded bookmarks";
+    qCDebug(DolphinDebug) << "Loaded bookmarks";
     showModelState();
 #endif
 }
@@ -1176,25 +1176,25 @@ QUrl PlacesItemModel::searchUrlForType(const QString& type)
 #ifdef PLACESITEMMODEL_DEBUG
 void PlacesItemModel::showModelState()
 {
-    kDebug() << "=================================";
-    kDebug() << "Model:";
-    kDebug() << "hidden-index model-index   text";
+    qCDebug(DolphinDebug) << "=================================";
+    qCDebug(DolphinDebug) << "Model:";
+    qCDebug(DolphinDebug) << "hidden-index model-index   text";
     int modelIndex = 0;
     for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
         if (m_bookmarkedItems[i]) {
-            kDebug() <<  i << "(Hidden)    " << "             " << m_bookmarkedItems[i]->dataValue("text").toString();
+            qCDebug(DolphinDebug) <<  i << "(Hidden)    " << "             " << m_bookmarkedItems[i]->dataValue("text").toString();
         } else {
             if (item(modelIndex)) {
-                kDebug() <<  i << "          " << modelIndex << "           " << item(modelIndex)->dataValue("text").toString();
+                qCDebug(DolphinDebug) <<  i << "          " << modelIndex << "           " << item(modelIndex)->dataValue("text").toString();
             } else {
-                kDebug() <<  i << "          " << modelIndex << "           " << "(not available yet)";
+                qCDebug(DolphinDebug) <<  i << "          " << modelIndex << "           " << "(not available yet)";
             }
             ++modelIndex;
         }
     }
 
-    kDebug();
-    kDebug() << "Bookmarks:";
+    qCDebug(DolphinDebug);
+    qCDebug(DolphinDebug) << "Bookmarks:";
 
     int bookmarkIndex = 0;
     KBookmarkGroup root = m_bookmarkManager->root();
@@ -1203,9 +1203,9 @@ void PlacesItemModel::showModelState()
         const QString udi = bookmark.metaDataItem("UDI");
         const QString text = udi.isEmpty() ? bookmark.text() : udi;
         if (bookmark.metaDataItem("IsHidden") == QLatin1String("true")) {
-            kDebug() << bookmarkIndex << "(Hidden)" << text;
+            qCDebug(DolphinDebug) << bookmarkIndex << "(Hidden)" << text;
         } else {
-            kDebug() << bookmarkIndex << "        " << text;
+            qCDebug(DolphinDebug) << bookmarkIndex << "        " << text;
         }
 
         bookmark = root.next(bookmark);

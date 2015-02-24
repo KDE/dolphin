@@ -19,7 +19,7 @@
 
 #include "serviceitemdelegate.h"
 
-#include <KDebug>
+#include "dolphindebug.h"
 #include <QPushButton>
 #include <QIcon>
 

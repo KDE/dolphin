@@ -26,7 +26,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KFileItem>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KDirNotify>
 #include <QIcon>
 #include <KIO/Job>

@@ -24,7 +24,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KLocalizedString>
-#include <KDebug>
+#include "dolphindebug.h"
 
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
@@ -339,7 +339,7 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         }
 
 #ifdef KFILEITEMMODEL_DEBUG
-        kDebug() << "[TIME] Calculating groups for" << count() << "items:" << timer.elapsed();
+        qCDebug(DolphinDebug) << "[TIME] Calculating groups for" << count() << "items:" << timer.elapsed();
 #endif
     }
 
@@ -408,9 +408,9 @@ int KFileItemModel::index(const QUrl& url) const
         if (m_items.count() != m_itemData.count() && printDebugInfo) {
             printDebugInfo = false;
 
-            kWarning() << "The model is in an inconsistent state.";
-            kWarning() << "m_items.count()    ==" << m_items.count();
-            kWarning() << "m_itemData.count() ==" << m_itemData.count();
+            qCWarning(DolphinDebug) << "The model is in an inconsistent state.";
+            qCWarning(DolphinDebug) << "m_items.count()    ==" << m_items.count();
+            qCWarning(DolphinDebug) << "m_itemData.count() ==" << m_itemData.count();
 
             // Check if there are multiple items with the same URL.
             QMultiHash<QUrl, int> indexesForUrl;
@@ -420,12 +420,12 @@ int KFileItemModel::index(const QUrl& url) const
 
             foreach (const QUrl& url, indexesForUrl.uniqueKeys()) {
                 if (indexesForUrl.count(url) > 1) {
-                    kWarning() << "Multiple items found with the URL" << url;
+                    qCWarning(DolphinDebug) << "Multiple items found with the URL" << url;
                     foreach (int index, indexesForUrl.values(url)) {
                         const ItemData* data = m_itemData.at(index);
-                        kWarning() << "index" << index << ":" << data->item;
+                        qCWarning(DolphinDebug) << "index" << index << ":" << data->item;
                         if (data->parent) {
-                            kWarning() << "parent" << data->parent->item;
+                            qCWarning(DolphinDebug) << "parent" << data->parent->item;
                         }
                     }
                 }
@@ -795,8 +795,8 @@ void KFileItemModel::resortAllItems()
 #ifdef KFILEITEMMODEL_DEBUG
     QElapsedTimer timer;
     timer.start();
-    kDebug() << "===========================================================";
-    kDebug() << "Resorting" << itemCount << "items";
+    qCDebug(DolphinDebug) << "===========================================================";
+    qCDebug(DolphinDebug) << "Resorting" << itemCount << "items";
 #endif
 
     // Remember the order of the current URLs so
@@ -858,7 +858,7 @@ void KFileItemModel::resortAllItems()
     }
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
 #endif
 }
 
@@ -1013,7 +1013,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 {
     Q_ASSERT(!items.isEmpty());
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "Refreshing" << items.count() << "items";
+    qCDebug(DolphinDebug) << "Refreshing" << items.count() << "items";
 #endif
 
     // Get the indexes of all items that have been refreshed
@@ -1079,7 +1079,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 void KFileItemModel::slotClear()
 {
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "Clearing all items";
+    qCDebug(DolphinDebug) << "Clearing all items";
 #endif
 
     qDeleteAll(m_filteredItems.values());
@@ -1126,8 +1126,8 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 #ifdef KFILEITEMMODEL_DEBUG
     QElapsedTimer timer;
     timer.start();
-    kDebug() << "===========================================================";
-    kDebug() << "Inserting" << newItems.count() << "items";
+    qCDebug(DolphinDebug) << "===========================================================";
+    qCDebug(DolphinDebug) << "Inserting" << newItems.count() << "items";
 #endif
 
     m_groups.clear();
@@ -1144,7 +1144,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     sort(newItems.begin(), newItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Sorting:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Sorting:" << timer.elapsed();
 #endif
 
     KItemRangeList itemRanges;
@@ -1208,7 +1208,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     emit itemsInserted(itemRanges);
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
 #endif
 }
 
@@ -2213,19 +2213,19 @@ bool KFileItemModel::isConsistent() const
         // Check if m_items and m_itemData are consistent.
         const KFileItem item = fileItem(i);
         if (item.isNull()) {
-            qWarning() << "Item" << i << "is null";
+            qCWarning(DolphinDebug) << "Item" << i << "is null";
             return false;
         }
 
         const int itemIndex = index(item);
         if (itemIndex != i) {
-            qWarning() << "Item" << i << "has a wrong index:" << itemIndex;
+            qCWarning(DolphinDebug) << "Item" << i << "has a wrong index:" << itemIndex;
             return false;
         }
 
         // Check if the items are sorted correctly.
         if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i), m_collator)) {
-            qWarning() << "The order of items" << i - 1 << "and" << i << "is wrong:"
+            qCWarning(DolphinDebug) << "The order of items" << i - 1 << "and" << i << "is wrong:"
                 << fileItem(i - 1) << fileItem(i);
             return false;
         }
@@ -2235,13 +2235,13 @@ bool KFileItemModel::isConsistent() const
         const ItemData* parent = data->parent;
         if (parent) {
             if (expandedParentsCount(data) != expandedParentsCount(parent) + 1) {
-                qWarning() << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
+                qCWarning(DolphinDebug) << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
                 return false;
             }
 
             const int parentIndex = index(parent->item);
             if (parentIndex >= i) {
-                qWarning() << "Index" << parentIndex << "of parent" << parent->item << "is not smaller than index" << i << "of child" << data->item;
+                qCWarning(DolphinDebug) << "Index" << parentIndex << "of parent" << parent->item << "is not smaller than index" << i << "of child" << data->item;
                 return false;
             }
         }
