@@ -25,7 +25,7 @@
 #include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <kratingpainter.h>
+#include <KRatingPainter>
 #include <KStringHandler>
 
 #include "private/kfileitemclipboard.h"

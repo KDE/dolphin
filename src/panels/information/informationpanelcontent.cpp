@@ -28,7 +28,7 @@
 #include <QIcon>
 #include <KLocalizedString>
 #include <QMenu>
-#include <kseparator.h>
+#include <KSeparator>
 #include <KStringHandler>
 #include <QTextDocument>
 

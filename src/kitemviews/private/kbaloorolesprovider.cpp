@@ -21,7 +21,6 @@
 #include "kbaloorolesprovider.h"
 
 #include <QDebug>
-#include <KGlobal>
 #include <KLocalizedString>
 
 #include <Baloo/File>

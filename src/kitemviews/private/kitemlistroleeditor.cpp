@@ -19,7 +19,7 @@
 
 #include "kitemlistroleeditor.h"
 
-#include <kio/global.h>
+#include <KIO/Global>
 #include <QKeyEvent>
 
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :

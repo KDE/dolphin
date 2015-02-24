@@ -30,7 +30,7 @@
 #include <KBookmarkManager>
 #include <KDebug>
 #include <QIcon>
-#include <kprotocolinfo.h>
+#include <KProtocolInfo>
 #include <KLocalizedString>
 #include <KComponentData>
 #include <QStandardPaths>

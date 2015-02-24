@@ -23,7 +23,6 @@
 #include "configurepreviewplugindialog.h"
 
 #include <KConfigGroup>
-#include <KGlobal>
 #include <KLocalizedString>
 #include <KServiceTypeTrader>
 #include <KService>

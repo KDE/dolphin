@@ -29,7 +29,7 @@
 #include <KJobWidgets>
 #include <KSharedConfig>
 #include <KConfigGroup>
-#include <kurlmimedata.h>
+#include <KUrlMimeData>
 #include <KFileItemListProperties>
 #include <KLocalizedString>
 #include <KIO/PasteJob>
