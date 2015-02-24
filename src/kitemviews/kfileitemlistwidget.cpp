@@ -21,11 +21,12 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/MetaData>
 #include <QDateTime>
 #include <KFormat>
 #include <QMimeDatabase>
+#include <QLocale>
 
 KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
     KStandardItemListWidgetInformant()
@@ -81,7 +82,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
         }
     } else if (role == "date") {
         const QDateTime dateTime = roleValue.toDateTime();
-        text = KLocale::global()->formatDateTime(dateTime);
+        text = QLocale().toString(dateTime, QLocale::ShortFormat);
     } else {
         text = KStandardItemListWidgetInformant::roleText(role, values);
     }
