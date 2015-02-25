@@ -20,7 +20,7 @@
 #ifndef DOLPHINREMOVEACTION_H
 #define DOLPHINREMOVEACTION_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QAction>
 #include <QPointer>
@@ -34,7 +34,7 @@
  * This class expects the presence of both the "move_to_trash" and "delete"
  * actions in @ref collection.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinRemoveAction : public QAction
+class DOLPHIN_EXPORT DolphinRemoveAction : public QAction
 {
   Q_OBJECT
 public:

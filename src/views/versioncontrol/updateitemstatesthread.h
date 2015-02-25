@@ -20,20 +20,18 @@
 #ifndef UPDATEITEMSTATESTHREAD_H
 #define UPDATEITEMSTATESTHREAD_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <views/versioncontrol/versioncontrolobserver.h>
 
 #include <QMutex>
 #include <QThread>
-
-class KVersionControlPlugin;
 
 /**
  * The performance of updating the version state of items depends
  * on the used plugin. To prevent that Dolphin gets blocked by a
  * slow plugin, the updating is delegated to a thread.
  */
-class LIBDOLPHINPRIVATE_EXPORT UpdateItemStatesThread : public QThread
+class DOLPHIN_EXPORT UpdateItemStatesThread : public QThread
 {
     Q_OBJECT
 

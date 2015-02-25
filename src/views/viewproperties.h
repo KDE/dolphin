@@ -23,7 +23,7 @@
 
 #include <views/dolphinview.h>
 #include <QUrl>
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 class ViewPropertySettings;
 /**
@@ -47,7 +47,7 @@ class ViewPropertySettings;
  * (see GeneralSettings::globalViewMode()), the values from the global .directory file
  * are used for initialization.
  */
-class LIBDOLPHINPRIVATE_EXPORT ViewProperties
+class DOLPHIN_EXPORT ViewProperties
 {
 public:
     explicit ViewProperties(const QUrl& url);

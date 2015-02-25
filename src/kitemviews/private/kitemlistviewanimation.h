@@ -20,7 +20,7 @@
 #ifndef KITEMLISTVIEWANIMATION_H
 #define KITEMLISTVIEWANIMATION_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QHash>
 #include <QObject>
@@ -36,7 +36,7 @@ class QPropertyAnimation;
  * Supports item animations for moving, creating, deleting and resizing
  * an item. Several applications can be applied to one item in parallel.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListViewAnimation : public QObject
+class DOLPHIN_EXPORT KItemListViewAnimation : public QObject
 {
     Q_OBJECT
 

@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMLISTVIEW_H
 #define KSTANDARDITEMLISTVIEW_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemlistview.h>
 
@@ -40,7 +40,7 @@
  * KItemListContainer* container = new KItemListContainer(controller, parentWidget);
  * </code>
  */
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemListView : public KItemListView
+class DOLPHIN_EXPORT KStandardItemListView : public KItemListView
 {
     Q_OBJECT
 

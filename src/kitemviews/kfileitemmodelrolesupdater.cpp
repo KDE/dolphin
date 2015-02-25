@@ -23,6 +23,7 @@
 
 #include <KConfig>
 #include <KConfigGroup>
+#include <KSharedConfig>
 #include <KFileItem>
 #include <KIconLoader>
 #include <KJobWidgets>

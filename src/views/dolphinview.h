@@ -23,7 +23,7 @@
 
 #include <config-baloo.h>
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kparts/part.h>
 #include <KFileItem>
@@ -57,7 +57,7 @@ class QRegExp;
  * - show previews
  * - enable grouping
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
+class DOLPHIN_EXPORT DolphinView : public QWidget
 {
     Q_OBJECT
 

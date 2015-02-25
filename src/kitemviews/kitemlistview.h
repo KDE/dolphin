@@ -23,7 +23,7 @@
 #ifndef KITEMLISTVIEW_H
 #define KITEMLISTVIEW_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kstandarditemlistgroupheader.h>
 #include <kitemviews/kitemliststyleoption.h>
@@ -59,7 +59,7 @@ class QTimer;
  * @see KItemListWidget
  * @see KItemModelBase
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListView : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -769,7 +769,7 @@ private:
  * KItemListWidgetCreatorBase and KItemListGroupHeaderCreatorBase.
  * @internal
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListCreatorBase
+class DOLPHIN_EXPORT KItemListCreatorBase
 {
 public:
     virtual ~KItemListCreatorBase();
@@ -793,7 +793,7 @@ private:
  * expensive instantiations and deletions of KItemListWidgets by recycling existing widget
  * instances.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetCreatorBase : public KItemListCreatorBase
+class DOLPHIN_EXPORT KItemListWidgetCreatorBase : public KItemListCreatorBase
 {
 public:
     virtual ~KItemListWidgetCreatorBase();
@@ -875,7 +875,7 @@ qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role
  * The intention of the group-header creator is to prevent repetitive and expensive instantiations and
  * deletions of KItemListGroupHeaders by recycling existing header instances.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeaderCreatorBase : public KItemListCreatorBase
+class DOLPHIN_EXPORT KItemListGroupHeaderCreatorBase : public KItemListCreatorBase
 {
 public:
     virtual ~KItemListGroupHeaderCreatorBase();

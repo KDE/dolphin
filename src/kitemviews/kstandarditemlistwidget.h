@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMLISTWIDGET_H
 #define KSTANDARDITEMLISTWIDGET_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemlistwidget.h>
 
@@ -32,7 +32,7 @@ class KItemListRoleEditor;
 class KItemListStyleOption;
 class KItemListView;
 
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetInformant
+class DOLPHIN_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetInformant
 {
 public:
     KStandardItemListWidgetInformant();
@@ -83,7 +83,7 @@ protected:
 /**
  * @brief Itemlist widget implementation for KStandardItemView and KStandardItemModel.
  */
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemListWidget : public KItemListWidget
+class DOLPHIN_EXPORT KStandardItemListWidget : public KItemListWidget
 {
     Q_OBJECT
 

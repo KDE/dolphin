@@ -26,7 +26,6 @@
 #include "dolphindebug.h"
 #include <KServiceTypeTrader>
 #include <kitemviews/kfileitemmodel.h>
-#include <kversioncontrolplugin2.h>
 
 #include "updateitemstatesthread.h"
 
@@ -89,8 +88,6 @@ KFileItemModel* VersionControlObserver::model() const
 
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
 {
-    QList<QAction*> actions;
-
     bool hasNullItems = false;
     foreach (const KFileItem& item, items) {
         if (item.isNull()) {
@@ -101,30 +98,10 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
     }
 
     if (!m_model || hasNullItems) {
-        return actions;
+        return {};
     }
 
-    KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-    if (pluginV2) {
-        // Use version 2 of the KVersionControlPlugin which allows providing actions
-        // also for non-versioned directories.
-        actions = pluginV2->actions(items);
-    } else if (isVersioned()) {
-        // Support deprecated interfaces from KVersionControlPlugin version 1.
-        // Context menu actions where only available for versioned directories.
-        QString directory;
-        if (items.count() == 1) {
-            const KFileItem rootItem = m_model->rootItem();
-            if (!rootItem.isNull() && items.first().url() == rootItem.url()) {
-                directory = rootItem.url().path();
-            }
-        }
-
-        actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
-                                      : m_plugin->contextMenuActions(directory);
-    }
-
-    return actions;
+    return m_plugin->actions(items);
 }
 
 void VersionControlObserver::delayedDirectoryVerification()
@@ -156,14 +133,8 @@ void VersionControlObserver::verifyDirectory()
 
     m_plugin = searchPlugin(rootItem.url());
     if (m_plugin) {
-        KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-        if (pluginV2) {
-            connect(pluginV2, &KVersionControlPlugin2::itemVersionsChanged,
-                    this, &VersionControlObserver::silentDirectoryVerification);
-        } else {
-            connect(m_plugin, &KVersionControlPlugin::versionStatesChanged,
-                    this, &VersionControlObserver::silentDirectoryVerification);
-        }
+        connect(m_plugin, &KVersionControlPlugin::itemVersionsChanged,
+                this, &VersionControlObserver::silentDirectoryVerification);
         connect(m_plugin, &KVersionControlPlugin::infoMessage,
                 this, &VersionControlObserver::infoMessage);
         connect(m_plugin, &KVersionControlPlugin::errorMessage,
@@ -205,7 +176,7 @@ void VersionControlObserver::slotThreadFinished()
 
         foreach (const ItemState& item, items) {
             const KFileItem& fileItem = item.first;
-            const KVersionControlPlugin2::ItemVersion version = item.second;
+            const KVersionControlPlugin::ItemVersion version = item.second;
             QHash<QByteArray, QVariant> values;
             values.insert("version", QVariant(version));
             m_model->setData(m_model->index(fileItem), values);
@@ -268,7 +239,7 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
         if (expansionLevel == currentExpansionLevel) {
             ItemState itemState;
             itemState.first = m_model->fileItem(index);
-            itemState.second = KVersionControlPlugin2::UnversionedVersion;
+            itemState.second = KVersionControlPlugin::UnversionedVersion;
 
             items.append(itemState);
         } else if (expansionLevel > currentExpansionLevel) {

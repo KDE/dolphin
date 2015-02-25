@@ -23,7 +23,7 @@
 
 #include <KNewFileMenu>
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 class KJob;
 
@@ -35,7 +35,7 @@ class KJob;
  * All errors are shown in the status bar of Dolphin
  * instead as modal error dialog with an OK button.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinNewFileMenu : public KNewFileMenu
+class DOLPHIN_EXPORT DolphinNewFileMenu : public KNewFileMenu
 {
     Q_OBJECT
 

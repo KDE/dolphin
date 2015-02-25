@@ -20,7 +20,7 @@
 #ifndef KITEMLISTHEADERWIDGET_H
 #define KITEMLISTHEADERWIDGET_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <QGraphicsWidget>
 #include <QHash>
 #include <QList>
@@ -33,7 +33,7 @@ class KItemModelBase;
  * The widget is an internal API, the user of KItemListView may only access the
  * class KItemListHeader.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListHeaderWidget : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListHeaderWidget : public QGraphicsWidget
 {
     Q_OBJECT
 

@@ -20,7 +20,7 @@
 #ifndef KITEMLISTVIEWLAYOUTER_H
 #define KITEMLISTVIEWLAYOUTER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QObject>
 #include <QRectF>
@@ -45,7 +45,7 @@ class KItemListSizeHintResolver;
  * changing properties of the layouter is not expensive, only the
  * first read of a property can get expensive.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListViewLayouter : public QObject
+class DOLPHIN_EXPORT KItemListViewLayouter : public QObject
 {
     Q_OBJECT
 

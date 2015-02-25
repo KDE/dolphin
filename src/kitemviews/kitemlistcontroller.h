@@ -23,7 +23,7 @@
 #ifndef KITEMLISTCONTROLLER_H
 #define KITEMLISTCONTROLLER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include "kitemset.h"
 
@@ -56,7 +56,7 @@ class QTransform;
  * @see KItemModelBase
  * @see KItemListSelectionManager
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListController : public QObject
+class DOLPHIN_EXPORT KItemListController : public QObject
 {
     Q_OBJECT
     Q_ENUMS(SelectionBehavior)

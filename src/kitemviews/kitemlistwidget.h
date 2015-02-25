@@ -23,7 +23,7 @@
 #ifndef KITEMLISTWIDGET_H
 #define KITEMLISTWIDGET_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 
@@ -43,7 +43,7 @@ class QPropertyAnimation;
  * size for the invisible items must be accessible. KItemListWidgetInformant
  * provides this information.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetInformant
+class DOLPHIN_EXPORT KItemListWidgetInformant
 {
 public:
     KItemListWidgetInformant();
@@ -63,7 +63,7 @@ public:
  * All properties are set by KItemListView, for each property there is a corresponding
  * virtual protected method that allows to react on property changes.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidget : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListWidget : public QGraphicsWidget
 {
     Q_OBJECT
 

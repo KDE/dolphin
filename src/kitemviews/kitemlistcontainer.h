@@ -23,7 +23,7 @@
 #ifndef KITEMLISTCONTAINER_H
 #define KITEMLISTCONTAINER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QAbstractScrollArea>
 
@@ -39,7 +39,7 @@ class KItemModelBase;
  *
  * @see KItemListController
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListContainer : public QAbstractScrollArea
+class DOLPHIN_EXPORT KItemListContainer : public QAbstractScrollArea
 {
     Q_OBJECT
 

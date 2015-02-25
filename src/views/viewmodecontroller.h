@@ -22,7 +22,7 @@
 
 #include <QUrl>
 #include <QObject>
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <views/dolphinview.h>
 
 /**
@@ -33,7 +33,7 @@
  * connect to signals of the ViewModeController to react on changes. The view
  * implementations get only read-access to the ViewModeController.
  */
-class LIBDOLPHINPRIVATE_EXPORT ViewModeController : public QObject
+class DOLPHIN_EXPORT ViewModeController : public QObject
 {
     Q_OBJECT
 

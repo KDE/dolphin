@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMMODEL_H
 #define KSTANDARDITEMMODEL_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <kitemviews/kitemmodelbase.h>
 #include <QHash>
 #include <QList>
@@ -35,7 +35,7 @@ class KStandardItem;
  *
  * @see KStandardItem
  */
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemModel : public KItemModelBase
+class DOLPHIN_EXPORT KStandardItemModel : public KItemModelBase
 {
     Q_OBJECT
 

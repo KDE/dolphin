@@ -20,7 +20,7 @@
 #ifndef RENAMEDIALOG_H
 #define RENAMEDIALOG_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QDialog>
 #include <KFileItem>
@@ -33,7 +33,7 @@ class QPushButton;
 /**
  * @brief Dialog for renaming a variable number of files.
  */
-class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public QDialog
+class DOLPHIN_EXPORT RenameDialog : public QDialog
 {
     Q_OBJECT
 

@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSELECTIONTOGGLE_H
 #define KITEMLISTSELECTIONTOGGLE_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QGraphicsWidget>
 #include <QPixmap>
@@ -29,7 +29,7 @@
 /**
  * @brief Allows to toggle between the selected and unselected state of an item.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListSelectionToggle : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListSelectionToggle : public QGraphicsWidget
 {
     Q_OBJECT
 

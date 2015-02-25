@@ -20,7 +20,7 @@
 #ifndef KITEMLISTGROUPHEADER_H
 #define KITEMLISTGROUPHEADER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 
@@ -37,7 +37,7 @@ class KItemListView;
  * the method paint() and draw the role within the given roleBounds() with
  * the color roleColor().
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeader : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListGroupHeader : public QGraphicsWidget
 {
     Q_OBJECT
 

@@ -20,11 +20,11 @@
 #ifndef KFILEITEMLISTWIDGET_H
 #define KFILEITEMLISTWIDGET_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kstandarditemlistwidget.h>
 
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
+class DOLPHIN_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
 {
 public:
     KFileItemListWidgetInformant();
@@ -37,7 +37,7 @@ protected:
     virtual QFont customizedFontForLinks(const QFont& baseFont) const Q_DECL_OVERRIDE;
 };
 
-class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KStandardItemListWidget
+class DOLPHIN_EXPORT KFileItemListWidget : public KStandardItemListWidget
 {
     Q_OBJECT
 

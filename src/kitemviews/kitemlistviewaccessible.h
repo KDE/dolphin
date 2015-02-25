@@ -22,7 +22,7 @@
 
 #ifndef QT_NO_ACCESSIBILITY
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QtCore/qpointer.h>
 #include <qaccessible.h>
@@ -32,7 +32,7 @@
 class KItemListView;
 class KItemListContainer;
 
-class LIBDOLPHINPRIVATE_EXPORT KItemListViewAccessible: public QAccessibleObject, public QAccessibleTableInterface
+class DOLPHIN_EXPORT KItemListViewAccessible: public QAccessibleObject, public QAccessibleTableInterface
 {
 public:
     explicit KItemListViewAccessible(KItemListView* view);
@@ -89,7 +89,7 @@ private:
     mutable QVector<QAccessibleInterface*> m_cells;
 };
 
-class LIBDOLPHINPRIVATE_EXPORT KItemListAccessibleCell: public QAccessibleInterface, public QAccessibleTableCellInterface
+class DOLPHIN_EXPORT KItemListAccessibleCell: public QAccessibleInterface, public QAccessibleTableCellInterface
 {
 public:
     KItemListAccessibleCell(KItemListView* view, int m_index);
@@ -128,7 +128,7 @@ private:
     int m_index;
 };
 
-class LIBDOLPHINPRIVATE_EXPORT KItemListContainerAccessible : public QAccessibleWidget
+class DOLPHIN_EXPORT KItemListContainerAccessible : public QAccessibleWidget
 {
 public:
     explicit KItemListContainerAccessible(KItemListContainer* container);

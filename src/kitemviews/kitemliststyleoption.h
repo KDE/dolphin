@@ -20,14 +20,14 @@
 #ifndef KITEMLISTSTYLEOPTION_H
 #define KITEMLISTSTYLEOPTION_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QFont>
 #include <QFontMetrics>
 #include <QPalette>
 #include <QRect>
 
-class LIBDOLPHINPRIVATE_EXPORT KItemListStyleOption
+class DOLPHIN_EXPORT KItemListStyleOption
 {
 public:
     KItemListStyleOption();

@@ -25,7 +25,7 @@
 #include <KFileItem>
 #include <kitemviews/kitemmodelbase.h>
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QObject>
 #include <QSet>
@@ -87,7 +87,7 @@ namespace KIO {
  * 3.   Finally, the entire process is repeated for any items that might have
  *      changed in the mean time.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModelRolesUpdater : public QObject
+class DOLPHIN_EXPORT KFileItemModelRolesUpdater : public QObject
 {
     Q_OBJECT
 

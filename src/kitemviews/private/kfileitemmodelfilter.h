@@ -21,7 +21,7 @@
 #ifndef KFILEITEMMODELFILTER_H
 #define KFILEITEMMODELFILTER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <QStringList>
 
 class KFileItem;
@@ -35,7 +35,7 @@ class QRegExp;
  * property of the KFileItem, but this might get extended in
  * future.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModelFilter
+class DOLPHIN_EXPORT KFileItemModelFilter
 {
 
 public:

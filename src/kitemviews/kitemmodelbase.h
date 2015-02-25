@@ -23,7 +23,7 @@
 #ifndef KITEMMODELBASE_H
 #define KITEMMODELBASE_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemrange.h>
 #include <kitemviews/kitemset.h>
@@ -49,7 +49,7 @@ class QMimeData;
  * Also optionally it is possible to provide a tree of items by implementing the methods
  * setExpanded(), isExpanded(), isExpandable() and expandedParentsCount().
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemModelBase : public QObject
+class DOLPHIN_EXPORT KItemModelBase : public QObject
 {
     Q_OBJECT
 

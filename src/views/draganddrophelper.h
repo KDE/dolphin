@@ -21,7 +21,7 @@
 #ifndef DRAGANDDROPHELPER_H
 #define DRAGANDDROPHELPER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 
 class QUrl;
@@ -29,7 +29,7 @@ class QDropEvent;
 class QWidget;
 namespace KIO { class DropJob; }
 
-class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper
+class DOLPHIN_EXPORT DragAndDropHelper
 {
 public:
     /**

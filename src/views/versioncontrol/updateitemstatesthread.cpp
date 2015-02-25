@@ -19,9 +19,7 @@
 
 #include "updateitemstatesthread.h"
 
-#include <kversioncontrolplugin2.h>
 #include <QVector>
-
 #include <QMutexLocker>
 
 UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
@@ -53,20 +51,10 @@ void UpdateItemStatesThread::run()
         if (m_plugin->beginRetrieval(it.key())) {
             QVector<VersionControlObserver::ItemState>& items = it.value();
             const int count = items.count();
-
-            KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-            if (pluginV2) {
-                for (int i = 0; i < count; ++i) {
-                    const KFileItem& item = items.at(i).first;
-                    const KVersionControlPlugin2::ItemVersion version = pluginV2->itemVersion(item);
-                    items[i].second = version;
-                }
-            } else {
-                for (int i = 0; i < count; ++i) {
-                    const KFileItem& item = items.at(i).first;
-                    const KVersionControlPlugin::VersionState state = m_plugin->versionState(item);
-                    items[i].second = static_cast<KVersionControlPlugin2::ItemVersion>(state);
-                }
+            for (int i = 0; i < count; ++i) {
+                const KFileItem& item = items.at(i).first;
+                const KVersionControlPlugin::ItemVersion version = m_plugin->itemVersion(item);
+                items[i].second = version;
             }
         }
 

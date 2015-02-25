@@ -12,6 +12,42 @@ endif()
 
 configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h)
 
+##########################################
+
+set(dolphinvcs_LIB_SRCS
+    views/versioncontrol/kversioncontrolplugin.cpp
+)
+
+add_library(dolphinvcs ${dolphinvcs_LIB_SRCS})
+
+generate_export_header(dolphinvcs BASE_NAME dolphin)
+
+target_link_libraries(
+    dolphinvcs PUBLIC
+    Qt5::Widgets
+    KF5::KIOCore
+)
+
+set_target_properties(dolphinvcs PROPERTIES
+    VERSION ${DOLPHINVCS_VERSION_STRING}
+    SOVERSION ${DOLPHINVCS_SOVERSION}
+    EXPORT_NAME DolphinVcs
+)
+
+ecm_generate_headers(dolphinvcs_LIB_HEADERS
+    HEADER_NAMES
+    KVersionControlPlugin
+
+    RELATIVE "views/versioncontrol"
+    REQUIRED_HEADERS dolphinvcs_LIB_HEADERS
+)
+
+install(TARGETS dolphinvcs EXPORT DolphinVcsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
+install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/Dolphin" COMPONENT Devel)
+
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
@@ -93,13 +129,10 @@ kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS GENERATE_MOC
 
 add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
 
-generate_export_header(dolphinprivate BASE_NAME libdolphinprivate
-  EXPORT_FILE_NAME libdolphin_export.h)
-
 target_link_libraries(
     dolphinprivate PUBLIC
+    dolphinvcs
     KF5::KDELibs4Support
-    KF5::Konq
     KF5::NewStuff
 )
 
@@ -122,7 +155,7 @@ set_target_properties(dolphinprivate PROPERTIES
     SOVERSION ${DOLPHINPRIVATE_SOVERSION}
 )
 
-install(TARGETS dolphinprivate ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
@@ -136,7 +169,6 @@ add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 
 target_link_libraries(dolphinpart
     dolphinprivate
-    KF5::Konq
     KF5::KDELibs4Support
 )
 
@@ -144,7 +176,6 @@ install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
 
 install(FILES dolphinpart.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR})
-install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 
 ##########################################
 
@@ -230,7 +261,6 @@ kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
 
 target_link_libraries(kdeinit_dolphin
-    KF5::Konq
     dolphinprivate
     KF5::NewStuff
     KF5::Parts
@@ -251,8 +281,8 @@ if (KF5Activities_FOUND)
     )
 endif()
 
-install(TARGETS kdeinit_dolphin ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
-install(TARGETS dolphin ${KF5_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kdeinit_dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 

@@ -20,14 +20,14 @@
 #ifndef KSTANDARDITEMLISTGROUPHEADER_H
 #define KSTANDARDITEMLISTGROUPHEADER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemlistgroupheader.h>
 
 #include <QPixmap>
 #include <QStaticText>
 
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
+class DOLPHIN_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
 {
     Q_OBJECT
 

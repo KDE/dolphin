@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSMOOTHSCROLLER_H
 #define KITEMLISTSMOOTHSCROLLER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <QAbstractAnimation>
 #include <QObject>
@@ -33,7 +33,7 @@ class QWheelEvent;
  * @brief Helper class for KItemListContainer to have a smooth
  *        scrolling when adjusting the scrollbars.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListSmoothScroller : public QObject
+class DOLPHIN_EXPORT KItemListSmoothScroller : public QObject
 {
     Q_OBJECT
 

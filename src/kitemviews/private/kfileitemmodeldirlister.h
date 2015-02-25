@@ -20,7 +20,7 @@
 #ifndef KFILEITEMMODELDIRLISTER_H
 #define KFILEITEMMODELDIRLISTER_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 #include <KDirLister>
 #include <QUrl>
 
@@ -29,7 +29,7 @@
  *        error occurred instead of showing an error dialog.
  *        KDirLister::autoErrorHandlingEnabled() is set to false.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModelDirLister : public KDirLister
+class DOLPHIN_EXPORT KFileItemModelDirLister : public KDirLister
 {
     Q_OBJECT
 
