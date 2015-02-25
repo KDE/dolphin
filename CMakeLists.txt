@@ -2,11 +2,15 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(Dolphin)
 
-# ECM setup
-find_package(ECM 1.6.0 CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(DOLPHIN_VERSION "14.12.95")
 
-set(DOLPHIN_VERSION "4.97.0")
+set(QT_MIN_VERSION "5.4.0")
+set(KF5_MIN_VERSION "5.7.0")
+set(ECM_MIN_VERSION "1.6.0")
+
+# ECM setup
+find_package(ECM ${ECM_MIN_VERSION} CONFIG REQUIRED)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
@@ -27,8 +31,32 @@ ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
-find_package(KF5 REQUIRED COMPONENTS DocTools Init KCMUtils KDELibs4Support NewStuff CoreAddons I18n DBusAddons)
-find_package(KF5 COMPONENTS Activities)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+    Core
+    Widgets
+    Gui
+    DBus
+    Test
+)
+
+find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+    DocTools
+    Init
+    KCMUtils
+    KDELibs4Support
+    NewStuff
+    CoreAddons
+    I18n
+    DBusAddons
+    Bookmarks
+    Config
+    KIO
+    Parts
+    Solid
+)
+find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS
+    Activities
+)
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)
 

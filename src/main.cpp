@@ -41,7 +41,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
 
-    KAboutData aboutData("dolphin", i18n("Dolphin"), "4.60",
+    KAboutData aboutData("dolphin", i18n("Dolphin"), "14.12.95",
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
                          i18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));

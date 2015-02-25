@@ -3,7 +3,7 @@ configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
-add_definitions(-DTRANSLATION_DOMAIN=\"dolphin\")
+add_definitions(-DTRANSLATION_DOMAIN=\"dolphin\" -DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
 remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY -DQT_NO_URL_CAST_FROM_STRING)
 
 if(X11_Xrender_FOUND)
