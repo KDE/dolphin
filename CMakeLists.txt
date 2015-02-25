@@ -10,6 +10,7 @@ set(DOLPHIN_VERSION "4.97.0")
 
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
+include(ECMPackageConfigHelpers)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(KDEInstallDirs)
@@ -60,7 +61,7 @@ add_subdirectory(src)
 add_subdirectory(docs)
 
 # CMake files
-set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/Dolphin")
+set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DolphinVcs")
 
 ecm_configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/DolphinVcsConfig.cmake.in"
