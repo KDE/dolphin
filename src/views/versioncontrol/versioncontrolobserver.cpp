@@ -97,7 +97,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
         }
     }
 
-    if (!m_model || hasNullItems) {
+    if (!m_model || hasNullItems || !isVersioned()) {
         return {};
     }
 
