@@ -109,7 +109,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
 
 PlacesItemModel::~PlacesItemModel()
 {
-    saveBookmarks();
     qDeleteAll(m_bookmarkedItems);
     m_bookmarkedItems.clear();
 }
