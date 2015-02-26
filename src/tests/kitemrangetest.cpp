@@ -69,6 +69,6 @@ void KItemRangeTest::testFromSortedContainer()
     QCOMPARE(expected, result);
 }
 
-QTEST_MAIN(KItemRangeTest)
+QTEST_GUILESS_MAIN(KItemRangeTest)
 
 #include "kitemrangetest.moc"

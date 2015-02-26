@@ -92,6 +92,6 @@ void ViewPropertiesTest::testAutoSave()
     QVERIFY(QFile::exists(dotDirectoryFile));
 }
 
-QTEST_MAIN(ViewPropertiesTest)
+QTEST_GUILESS_MAIN(ViewPropertiesTest)
 
 #include "viewpropertiestest.moc"

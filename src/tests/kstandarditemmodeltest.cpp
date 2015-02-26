@@ -114,6 +114,6 @@ bool KStandardItemModelTest::isModelConsistent() const
     return true;
 }
 
-QTEST_MAIN(KStandardItemModelTest)
+QTEST_GUILESS_MAIN(KStandardItemModelTest)
 
 #include "kstandarditemmodeltest.moc"

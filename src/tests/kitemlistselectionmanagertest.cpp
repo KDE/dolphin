@@ -572,6 +572,6 @@ void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,
     }
 }
 
-QTEST_MAIN(KItemListSelectionManagerTest)
+QTEST_GUILESS_MAIN(KItemListSelectionManagerTest)
 
 #include "kitemlistselectionmanagertest.moc"

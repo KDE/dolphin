@@ -606,6 +606,6 @@ void KItemSetTest::testSymmetricDifference()
 }
 
 
-QTEST_MAIN(KItemSetTest)
+QTEST_GUILESS_MAIN(KItemSetTest)
 
 #include "kitemsettest.moc"

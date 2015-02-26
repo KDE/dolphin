@@ -152,6 +152,6 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a_b" << false);
 }
 
-QTEST_MAIN(KItemListKeyboardSearchManagerTest)
+QTEST_GUILESS_MAIN(KItemListKeyboardSearchManagerTest)
 
 #include "kitemlistkeyboardsearchmanagertest.moc"
