@@ -38,9 +38,8 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
+#include <config-baloo.h>
 #ifdef HAVE_BALOO
-    #include <Baloo/NaturalFileQueryParser>
-    #include <Baloo/QueryBuilder>
     #include <Baloo/Query>
     #include <Baloo/Term>
     #include <Baloo/IndexerConfig>
@@ -251,9 +250,8 @@ void DolphinSearchBox::slotConfigurationChanged()
     }
 }
 
-void DolphinSearchBox::slotSearchTextChanged()
+void DolphinSearchBox::slotSearchTextChanged(const QString& text)
 {
-    const QString text = m_searchInput->text();
 
     if (text.isEmpty()) {
         m_startSearchTimer->stop();
@@ -266,14 +264,7 @@ void DolphinSearchBox::slotSearchTextChanged()
 void DolphinSearchBox::slotReturnPressed()
 {
     emitSearchRequest();
-    emit returnPressed(m_searchInput->text());
-}
-
-void DolphinSearchBox::updateSearchInputParsing()
-{
-#ifdef HAVE_BALOO
-    m_searchInput->setParsingEnabled(m_contentButton->isChecked());
-#endif
+    emit returnPressed();
 }
 
 void DolphinSearchBox::slotFacetsButtonToggled()
@@ -314,7 +305,6 @@ void DolphinSearchBox::loadSettings()
     }
 
     m_facetsWidget->setVisible(SearchSettings::showFacetsWidget());
-    updateSearchInputParsing();
 }
 
 void DolphinSearchBox::saveSettings()
@@ -338,14 +328,6 @@ void DolphinSearchBox::init()
     m_searchLabel = new QLabel(this);
 
     // Create search box
-#ifdef HAVE_BALOO
-    m_queryParser.reset(new Baloo::NaturalFileQueryParser);
-    m_searchInput = new Baloo::QueryBuilder(m_queryParser.data(), this);
-    connect(m_searchInput, &Baloo::QueryBuilder::editingFinished,
-            this, &DolphinSearchBox::slotReturnPressed);
-    connect(m_searchInput, &Baloo::QueryBuilder::textChanged,
-            this, &DolphinSearchBox::slotSearchTextChanged);
-#else
     m_searchInput = new QLineEdit(this);
     m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonEnabled(true);
@@ -354,7 +336,6 @@ void DolphinSearchBox::init()
             this, &DolphinSearchBox::slotReturnPressed);
     connect(m_searchInput, &QLineEdit::textChanged,
             this, &DolphinSearchBox::slotSearchTextChanged);
-#endif
     setFocusProxy(m_searchInput);
 
     // Apply layout for the search input
@@ -376,8 +357,6 @@ void DolphinSearchBox::init()
     QButtonGroup* searchWhatGroup = new QButtonGroup(this);
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
-    connect(searchWhatGroup, static_cast<void (QButtonGroup::*)(int)>(&QButtonGroup::buttonClicked),
-            this, &DolphinSearchBox::updateSearchInputParsing);
 
     m_separator = new KSeparator(Qt::Vertical, this);
 
@@ -454,30 +433,27 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
     const QString text = m_searchInput->text();
 
     Baloo::Query query;
-
-    if (m_contentButton->isChecked()) {
-        query = m_queryParser->parse(text, Baloo::NaturalQueryParser::DetectFilenamePattern);
-    } else {
-        query.setTerm(Baloo::Term(QLatin1String("filename"), text));
-    }
-
-    // Configure the query so that it returns files and takes the rating into account
     query.addType("File");
     query.addType(m_facetsWidget->facetType());
 
     Baloo::Term term(Baloo::Term::And);
+
     Baloo::Term ratingTerm = m_facetsWidget->ratingTerm();
-
     if (ratingTerm.isValid()) {
-        term.addSubTerm(query.term());
         term.addSubTerm(ratingTerm);
+    }
 
-        query.setTerm(term);
+    if (m_contentButton->isChecked()) {
+        query.setSearchString(text);
+    } else if (!text.isEmpty()) {
+        term.addSubTerm(Baloo::Term(QLatin1String("filename"), text));
     }
 
     if (m_fromHereButton->isChecked()) {
         query.setIncludeFolder(m_searchPath.toLocalFile());
     }
+
+    query.setTerm(term);
 
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));
@@ -503,9 +479,7 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
         setSearchPath(QDir::homePath());
     }
 
-    if (!query.searchString().isEmpty()) {
-        setText(query.searchString());
-    }
+    setText(query.searchString());
 
     QStringList types = query.types();
     types.removeOne("File"); // We are only interested in facet widget types
@@ -525,6 +499,8 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 
     m_startSearchTimer->stop();
     blockSignals(false);
+#else
+    Q_UNUSED(url);
 #endif
 }
 

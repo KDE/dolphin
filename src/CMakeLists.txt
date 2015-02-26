@@ -141,7 +141,6 @@ if(HAVE_BALOO)
         dolphinprivate PUBLIC
         KF5::FileMetaData
         KF5::Baloo
-        KF5::BalooNaturalQueryParser
         KF5::BalooWidgets
     )
 endif()

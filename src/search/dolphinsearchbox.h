@@ -23,8 +23,6 @@
 #include <QUrl>
 #include <QWidget>
 
-#include <config-baloo.h>
-
 class DolphinFacetsWidget;
 class QLineEdit;
 class KSeparator;
@@ -32,11 +30,6 @@ class QToolButton;
 class QScrollArea;
 class QLabel;
 class QVBoxLayout;
-
-namespace Baloo {
-    class QueryBuilder;
-    class NaturalQueryParser;
-}
 
 /**
  * @brief Input box for searching files with or without Baloo.
@@ -122,7 +115,7 @@ signals:
      */
     void searchTextChanged(const QString& text);
 
-    void returnPressed(const QString& text);
+    void returnPressed();
 
     /**
      * Emitted as soon as the search box should get closed.
@@ -140,11 +133,10 @@ private slots:
     void emitSearchRequest();
     void emitCloseRequest();
     void slotConfigurationChanged();
-    void slotSearchTextChanged();
+    void slotSearchTextChanged(const QString& text);
     void slotReturnPressed();
     void slotFacetsButtonToggled();
     void slotFacetChanged();
-    void updateSearchInputParsing();
 
 private:
     void initButton(QToolButton* button);
@@ -164,6 +156,7 @@ private:
     void fromBalooSearchUrl(const QUrl& url);
 
     void updateFacetsToggleButton();
+
 private:
     bool m_startedSearching;
     bool m_active;
@@ -171,12 +164,7 @@ private:
     QVBoxLayout* m_topLayout;
 
     QLabel* m_searchLabel;
-#ifdef HAVE_BALOO
-    Baloo::QueryBuilder* m_searchInput;
-    QScopedPointer<Baloo::NaturalQueryParser> m_queryParser;
-#else
     QLineEdit* m_searchInput;
-#endif
     QScrollArea* m_optionsScrollArea;
     QToolButton* m_fileNameButton;
     QToolButton* m_contentButton;
