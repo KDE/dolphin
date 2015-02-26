@@ -156,7 +156,7 @@ void DolphinSearchBox::fromSearchUrl(const QUrl& url)
         fromBalooSearchUrl(url);
     } else if (url.scheme() == "filenamesearch") {
         setText(url.queryItemValue("search"));
-        setSearchPath(url.queryItemValue("url"));
+        setSearchPath(QUrl::fromUserInput(url.queryItemValue("url"), QString(), QUrl::AssumeLocalFile));
         m_contentButton->setChecked(url.queryItemValue("checkContent") == "yes");
     } else {
         setText(QString());
@@ -474,7 +474,7 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 
     const QString customDir = query.includeFolder();
     if (!customDir.isEmpty()) {
-        setSearchPath(customDir);
+        setSearchPath(QUrl::fromLocalFile(customDir));
     } else {
         setSearchPath(QDir::homePath());
     }
