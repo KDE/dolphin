@@ -208,7 +208,7 @@ void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     const KFileItem fileItem = m_model->fileItem(index);
 
-    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
+    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
     contextMenu.data()->open();
     if (contextMenu.data()) {
         delete contextMenu.data();
@@ -219,7 +219,7 @@ void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
     Q_UNUSED(pos);
 
-    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
+    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
     contextMenu.data()->open();
     if (contextMenu.data()) {
         delete contextMenu.data();

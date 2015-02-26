@@ -30,7 +30,6 @@
 #include <config-baloo.h>
 
 #include <KLocalizedString>
-#include <KIO/NetAccess>
 #include <KMessageBox>
 #include <QUrl>
 #include <KComboBox>

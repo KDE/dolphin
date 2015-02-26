@@ -24,7 +24,6 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KFileDialog>
 #include <KLocalizedString>
 #include <QLineEdit>
 #include <KMessageBox>
@@ -36,6 +35,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QFileDialog>
 
 #include "views/dolphinview.h"
 
@@ -165,7 +165,7 @@ void StartupSettingsPage::slotSettingsChanged()
 void StartupSettingsPage::selectHomeUrl()
 {
     const QString homeUrl = m_homeUrl->text();
-    QUrl url = KFileDialog::getExistingDirectoryUrl(QUrl::fromLocalFile(homeUrl), this);
+    QUrl url = QFileDialog::getExistingDirectoryUrl(this, QString(), QUrl::fromLocalFile(homeUrl));
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
         slotSettingsChanged();

@@ -37,6 +37,7 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QUrlQuery>
 
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
@@ -130,9 +131,11 @@ QUrl DolphinSearchBox::urlForSearching() const
         url = balooUrlForSearching();
     } else {
         url.setScheme("filenamesearch");
-        url.addQueryItem("search", m_searchInput->text());
+
+        QUrlQuery query;
+        query.addQueryItem("search", m_searchInput->text());
         if (m_contentButton->isChecked()) {
-            url.addQueryItem("checkContent", "yes");
+            query.addQueryItem("checkContent", "yes");
         }
 
         QString encodedUrl;
@@ -144,7 +147,9 @@ QUrl DolphinSearchBox::urlForSearching() const
         } else {
             encodedUrl = m_searchPath.url();
         }
-        url.addQueryItem("url", encodedUrl);
+        query.addQueryItem("url", encodedUrl);
+
+        url.setQuery(query);
     }
 
     return url;
@@ -155,9 +160,10 @@ void DolphinSearchBox::fromSearchUrl(const QUrl& url)
     if (url.scheme() == "baloosearch") {
         fromBalooSearchUrl(url);
     } else if (url.scheme() == "filenamesearch") {
-        setText(url.queryItemValue("search"));
-        setSearchPath(QUrl::fromUserInput(url.queryItemValue("url"), QString(), QUrl::AssumeLocalFile));
-        m_contentButton->setChecked(url.queryItemValue("checkContent") == "yes");
+        const QUrlQuery query(url);
+        setText(query.queryItemValue("search"));
+        setSearchPath(QUrl::fromUserInput(query.queryItemValue("url"), QString(), QUrl::AssumeLocalFile));
+        m_contentButton->setChecked(query.queryItemValue("checkContent") == "yes");
     } else {
         setText(QString());
         setSearchPath(url);

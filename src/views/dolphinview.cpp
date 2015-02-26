@@ -49,7 +49,6 @@
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
-#include <KIO/NetAccess>
 #include <KIO/PreviewJob>
 #include <KIO/DropJob>
 #include <KIO/PasteJob>

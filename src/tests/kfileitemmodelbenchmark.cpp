@@ -29,18 +29,20 @@
 
 #include "testdir.h"
 
-void myMessageOutput(QtMsgType type, const char* msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    Q_UNUSED(context);
+
     switch (type) {
     case QtDebugMsg:
         break;
     case QtWarningMsg:
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s\n", msg);
+        fprintf(stderr, "Critical: %s\n", msg.toLocal8Bit().data());
         break;
     case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s\n", msg);
+        fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
     default:
        break;
@@ -317,7 +319,7 @@ void KFileItemModelBenchmark::insertManyChildItems()
 KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList& fileNames, const QString& prefix)
 {
     // Suppress 'file does not exist anymore' messages from KFileItemPrivate::init().
-    qInstallMsgHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     KFileItemList result;
     foreach (const QString& name, fileNames) {

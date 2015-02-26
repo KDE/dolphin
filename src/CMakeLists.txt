@@ -3,8 +3,18 @@ configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
 configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
-add_definitions(-DTRANSLATION_DOMAIN=\"dolphin\" -DQT_USE_FAST_CONCATENATION -DQT_USE_FAST_OPERATOR_PLUS)
-remove_definitions(-DQT_NO_CAST_FROM_BYTEARRAY -DQT_NO_URL_CAST_FROM_STRING)
+add_definitions(
+    -DTRANSLATION_DOMAIN=\"dolphin\"
+    -DQT_USE_FAST_CONCATENATION
+    -DQT_USE_FAST_OPERATOR_PLUS
+)
+remove_definitions(
+    -DQT_NO_CAST_FROM_BYTEARRAY
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+    -DQT_NO_CAST_FROM_ASCII
+    -DQT_NO_CAST_TO_ASCII
+)
 
 if(X11_Xrender_FOUND)
     set(HAVE_XRENDER TRUE)
@@ -132,7 +142,16 @@ add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
 target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
-    KF5::KDELibs4Support
+    Qt5::Gui
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::KIOWidgets
+    KF5::KIOFileWidgets
+    KF5::Completion
+    KF5::TextEditor
+    KF5::WindowSystem
+    KF5::ConfigCore
     KF5::NewStuff
 )
 
@@ -142,6 +161,11 @@ if(HAVE_BALOO)
         KF5::FileMetaData
         KF5::Baloo
         KF5::BalooWidgets
+    )
+else()
+    target_link_libraries(
+        dolphinprivate PUBLIC
+        KF5::KDELibs4Support # for KFileMetaDataWidget
     )
 endif()
 
@@ -168,7 +192,6 @@ add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 
 target_link_libraries(dolphinpart
     dolphinprivate
-    KF5::KDELibs4Support
 )
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
@@ -261,16 +284,14 @@ target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
 
 target_link_libraries(kdeinit_dolphin
     dolphinprivate
-    KF5::NewStuff
     KF5::Parts
     KF5::KCMUtils
     KF5::Solid
-    KF5::KIOFileWidgets
-    Phonon::phonon4qt5
-    KF5::KDELibs4Support
-    KF5::I18n
     KF5::CoreAddons
     KF5::DBusAddons
+    KF5::Bookmarks
+    KF5::Notifications
+    Phonon::phonon4qt5
 )
 
 if (KF5Activities_FOUND)
@@ -338,10 +359,10 @@ add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
 add_library(kcm_dolphinservices MODULE ${kcm_dolphinservices_PART_SRCS})
 add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
 
-target_link_libraries(kcm_dolphinviewmodes KF5::KDELibs4Support dolphinprivate)
-target_link_libraries(kcm_dolphinnavigation KF5::KDELibs4Support dolphinprivate)
-target_link_libraries(kcm_dolphinservices KF5::KDELibs4Support dolphinprivate)
-target_link_libraries(kcm_dolphingeneral KF5::KDELibs4Support dolphinprivate)
+target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
+target_link_libraries(kcm_dolphinnavigation dolphinprivate)
+target_link_libraries(kcm_dolphinservices dolphinprivate)
+target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )

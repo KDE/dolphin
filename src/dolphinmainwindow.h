@@ -31,7 +31,7 @@
 #include <QUrl>
 
 #include <QList>
-#include <QWeakPointer>
+#include <QPointer>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
@@ -493,7 +493,7 @@ private:
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
-    QWeakPointer<DolphinSettingsDialog> m_settingsDialog;
+    QPointer<DolphinSettingsDialog> m_settingsDialog;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QToolButton* m_controlButton;

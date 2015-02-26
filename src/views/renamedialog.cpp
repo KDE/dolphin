@@ -23,7 +23,6 @@
 #include <KJobWidgets>
 #include <KIO/CopyJob>
 #include <KIO/FileUndoManager>
-#include <kstringhandler_deprecated.h> //TODO port to QCollator
 #include <KJobUiDelegate>
 
 #include <QHBoxLayout>

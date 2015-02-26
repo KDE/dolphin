@@ -42,6 +42,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QMimeData>
+#include <QPointer>
 
 TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :
@@ -148,7 +149,7 @@ void TreeViewContextMenu::open()
         }
     }
 
-    QWeakPointer<QMenu> popupPtr = popup;
+    QPointer<QMenu> popupPtr = popup;
     popup->exec(QCursor::pos());
     if (popupPtr.data()) {
         popupPtr.data()->deleteLater();

@@ -29,18 +29,20 @@
 #include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
-void myMessageOutput(QtMsgType type, const char* msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    Q_UNUSED(context);
+
     switch (type) {
     case QtDebugMsg:
         break;
     case QtWarningMsg:
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s\n", msg);
+        fprintf(stderr, "Critical: %s\n", msg.toLocal8Bit().data());
         break;
     case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s\n", msg);
+        fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
     default:
        break;
@@ -107,7 +109,7 @@ void KFileItemModelTest::init()
 {
     // The item-model tests result in a huge number of debugging
     // output from kdelibs. Only show critical and fatal messages.
-    qInstallMsgHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     qRegisterMetaType<KItemRange>("KItemRange");
     qRegisterMetaType<KItemRangeList>("KItemRangeList");

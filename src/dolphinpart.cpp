@@ -30,7 +30,6 @@
 #include <KMessageBox>
 #include <KPluginFactory>
 #include <KRun>
-#include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
 #include <QMenu>
@@ -38,6 +37,7 @@
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <KMimeTypeEditor>
+#include <KJobWidgets>
 
 #include "dolphinpart_ext.h"
 #include "dolphinnewfilemenu.h"
@@ -541,7 +541,10 @@ void DolphinPart::slotOpenTerminal()
 
     // If the given directory is not local, it can still be the URL of an
     // ioslave using UDS_LOCAL_PATH which to be converted first.
-    u = KIO::NetAccess::mostLocalUrl(u, widget());
+    KIO::StatJob* statJob = KIO::mostLocalUrl(u);
+    KJobWidgets::setWindow(statJob, widget());
+    statJob->exec();
+    u = statJob->mostLocalUrl();
 
     //If the URL is local after the above conversion, set the directory.
     if (u.isLocalFile()) {

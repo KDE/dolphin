@@ -142,7 +142,7 @@ void KItemListControllerTest::initTestCase()
     QVERIFY(spyDirectoryLoadingCompleted.wait());
 
     m_container->show();
-    QTest::qWaitForWindowShown(m_container);
+    QTest::qWaitForWindowExposed(m_container);
 }
 
 void KItemListControllerTest::cleanupTestCase()
@@ -460,7 +460,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                         selectionBehaviorNames[selectionBehavior] + ", " +
                         groupingEnabledNames[groupingEnabled];
 
-                    const QByteArray testNameAscii = testName.toAscii();
+                    const QByteArray testNameAscii = testName.toLatin1();
 
                     QTest::newRow(testNameAscii.data())
                         << layout

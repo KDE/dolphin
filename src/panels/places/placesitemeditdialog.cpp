@@ -30,7 +30,6 @@
 #include <KLocalizedString>
 #include <QMimeDatabase>
 #include <KUrlRequester>
-#include <KComponentData>
 #include <QCheckBox>
 #include <QEvent>
 #include <QFormLayout>

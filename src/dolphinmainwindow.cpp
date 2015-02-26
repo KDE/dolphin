@@ -53,7 +53,6 @@
 #include <KJobWidgets>
 #include <QLineEdit>
 #include <KToolBar>
-#include <KIO/NetAccess>
 #include <KIO/JobUiDelegate>
 #include <KLocalizedString>
 #include <KProtocolManager>
@@ -687,7 +686,10 @@ void DolphinMainWindow::openTerminal()
 
     // If the given directory is not local, it can still be the URL of an
     // ioslave using UDS_LOCAL_PATH which to be converted first.
-    QUrl url = KIO::NetAccess::mostLocalUrl(m_activeViewContainer->url(), this);
+    KIO::StatJob* statJob = KIO::mostLocalUrl(m_activeViewContainer->url());
+    KJobWidgets::setWindow(statJob, this);
+    statJob->exec();
+    QUrl url = statJob->mostLocalUrl();
 
     //If the URL is local after the above conversion, set the directory.
     if (url.isLocalFile()) {

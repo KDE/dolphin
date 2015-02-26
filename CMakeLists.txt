@@ -43,7 +43,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     DocTools
     Init
     KCMUtils
-    KDELibs4Support
     NewStuff
     CoreAddons
     I18n
@@ -53,6 +52,11 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     KIO
     Parts
     Solid
+    IconThemes
+    Completion
+    TextEditor
+    WindowSystem
+    Notifications
 )
 find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS
     Activities
@@ -83,6 +87,10 @@ set_package_properties(KF5FileMetaData PROPERTIES
 if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
     message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
+else()
+    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+        KDELibs4Support # for KFileMetaDataWidget
+    )
 endif()
 
 add_subdirectory(src)

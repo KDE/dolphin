@@ -26,13 +26,11 @@
 #include "dolphin_generalsettings.h"
 
 #include <KBookmark>
-#include <KBookmarkGroup>
 #include <KBookmarkManager>
 #include "dolphindebug.h"
 #include <QIcon>
 #include <KProtocolInfo>
 #include <KLocalizedString>
-#include <KComponentData>
 #include <QStandardPaths>
 #include <KUser>
 #include <KAboutData>
