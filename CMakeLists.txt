@@ -123,7 +123,5 @@ install(FILES
     COMPONENT Devel
 )
 
-# TODO Remove the if/endif lines if Dolphin is split.
-if ("${CMAKE_SOURCE_DIR}" STREQUAL "${Dolphin_SOURCE_DIR}")
-  feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
-endif()
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
+
