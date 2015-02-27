@@ -33,7 +33,6 @@
 #include <KToolInvocation>
 #include <kauthorized.h>
 #include <QMenu>
-#include <kdeversion.h>
 #include <KSharedConfig>
 #include <KConfigGroup>
 #include <KMimeTypeEditor>

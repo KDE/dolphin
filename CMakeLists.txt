@@ -33,10 +33,10 @@ ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
 
 find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
+    Concurrent
     Widgets
     Gui
     DBus
-    Test
 )
 
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS

@@ -48,7 +48,6 @@
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KConfig>
-#include <kdeversion.h>
 #include <kdualaction.h>
 #include <KJobWidgets>
 #include <QLineEdit>
