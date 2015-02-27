@@ -19,13 +19,11 @@
 
 #include "kitemlistsmoothscroller.h"
 
-#include <KGlobalSettings>
 #include <QEvent>
 #include <QPropertyAnimation>
 #include <QScrollBar>
 #include <QWheelEvent>
-
-#include <KDebug>
+#include <QStyle>
 
 KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
                                                  QObject* parent) :
@@ -36,10 +34,10 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_animation(0)
 {
     m_animation = new QPropertyAnimation(this);
-    const int duration = (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) ? 1 : 100;
+    const int duration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animate, nullptr, m_scrollBar) ? 100 : 1;
     m_animation->setDuration(duration);
-    connect(m_animation, SIGNAL(stateChanged(QAbstractAnimation::State,QAbstractAnimation::State)),
-            this, SLOT(slotAnimationStateChanged(QAbstractAnimation::State,QAbstractAnimation::State)));
+    connect(m_animation, &QPropertyAnimation::stateChanged,
+            this, &KItemListSmoothScroller::slotAnimationStateChanged);
 
     m_scrollBar->installEventFilter(this);
 }
@@ -209,4 +207,3 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
     event->accept();
 }
 
-#include "kitemlistsmoothscroller.moc"

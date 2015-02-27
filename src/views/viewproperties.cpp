@@ -23,15 +23,14 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <KComponentData>
-#include <KLocale>
-#include <KStandardDirs>
-#include <KUrl>
+#include <QUrl>
+#include "dolphindebug.h"
 
 #include <QCryptographicHash>
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
+#include <QStandardPaths>
 
 namespace {
     const int AdditionalInfoViewPropertiesVersion = 1;
@@ -41,13 +40,13 @@ namespace {
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
     // ViewProperties::visibleRoles() for more information.
-    const char* CustomizedDetailsString = "CustomizedDetails";
+    const char CustomizedDetailsString[] = "CustomizedDetails";
 
     // Filename that is used for storing the properties
-    const char* ViewPropertiesFileName = ".directory";
+    const char ViewPropertiesFileName[] = ".directory";
 }
 
-ViewProperties::ViewProperties(const KUrl& url) :
+ViewProperties::ViewProperties(const QUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
     m_node(0)
@@ -61,10 +60,10 @@ ViewProperties::ViewProperties(const KUrl& url) :
     // we store the properties information in a local file.
     if (useGlobalViewProps) {
         m_filePath = destinationDir("global");
-    } else if (url.protocol().contains("search")) {
+    } else if (url.scheme().contains("search")) {
         m_filePath = destinationDir("search/") + directoryHashForUrl(url);
         useDetailsViewWithPath = true;
-    } else if (url.protocol() == QLatin1String("trash")) {
+    } else if (url.scheme() == QLatin1String("trash")) {
         m_filePath = destinationDir("trash");
         useDetailsViewWithPath = true;
     } else if (url.isLocalFile()) {
@@ -97,13 +96,13 @@ ViewProperties::ViewProperties(const KUrl& url) :
     if (useDefaultProps) {
         if (useDetailsViewWithPath) {
             setViewMode(DolphinView::DetailsView);
-            setVisibleRoles(QList<QByteArray>() << "path");
+            setVisibleRoles({"path"});
         } else {
             // The global view-properties act as default for directories without
             // any view-property configuration. Constructing a ViewProperties 
-            // instance for an empty KUrl ensures that the global view-properties
+            // instance for an empty QUrl ensures that the global view-properties
             // are loaded.
-            KUrl emptyUrl;
+            QUrl emptyUrl;
             ViewProperties defaultProps(emptyUrl);
             setDirProperties(defaultProps);
 
@@ -285,8 +284,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     // by "CustomizedDetails"), also a details-view with no additional information
     // is accepted.
 
-    QList<QByteArray> roles;
-    roles.append("text");
+    QList<QByteArray> roles{"text"};
 
     // Iterate through all stored keys and append all roles that match to
     // the current view mode.
@@ -361,10 +359,11 @@ void ViewProperties::update()
 
 void ViewProperties::save()
 {
-    kDebug() << "Saving view-properties to" << m_filePath;
-    KStandardDirs::makeDir(m_filePath);
+    qCDebug(DolphinDebug) << "Saving view-properties to" << m_filePath;
+    QDir dir;
+    dir.mkpath(m_filePath);
     m_node->setVersion(CurrentViewPropertiesVersion);
-    m_node->writeConfig();
+    m_node->save();
     m_changedProps = false;
 }
 
@@ -376,9 +375,9 @@ bool ViewProperties::exist() const
 
 QString ViewProperties::destinationDir(const QString& subDir) const
 {
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/view_properties/").append(subDir);
-    return KStandardDirs::locateLocal("data", basePath);
+    QString path = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    path.append("/view_properties/").append(subDir);
+    return path;
 }
 
 QString ViewProperties::viewModePrefix() const
@@ -389,7 +388,7 @@ QString ViewProperties::viewModePrefix() const
     case DolphinView::IconsView:   prefix = "Icons_"; break;
     case DolphinView::CompactView: prefix = "Compact_"; break;
     case DolphinView::DetailsView: prefix = "Details_"; break;
-    default: kWarning() << "Unknown view-mode of the view properties";
+    default: qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";
     }
 
     return prefix;
@@ -461,18 +460,10 @@ bool ViewProperties::isPartOfHome(const QString& filePath)
     return filePath.startsWith(homePath);
 }
 
-QString ViewProperties::directoryHashForUrl(const KUrl& url)
+QString ViewProperties::directoryHashForUrl(const QUrl& url)
 {
-    const QByteArray hashValue = QCryptographicHash::hash(url.prettyUrl().toLatin1(),
-                                                     QCryptographicHash::Sha1);
+    const QByteArray hashValue = QCryptographicHash::hash(url.toEncoded(), QCryptographicHash::Sha1);
     QString hashString = hashValue.toBase64();
     hashString.replace('/', '-');
     return hashString;
-}
-
-KUrl ViewProperties::mirroredDirectory()
-{
-    QString basePath = KGlobal::mainComponent().componentName();
-    basePath.append("/view_properties/");
-    return KUrl(KStandardDirs::locateLocal("data", basePath));
 }

@@ -19,11 +19,9 @@
 
 #include "kitemlistselectiontoggle.h"
 
-#include <KIconEffect>
 #include <KIconLoader>
 #include <QPainter>
 
-#include <KDebug>
 
 KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
     QGraphicsWidget(parent, 0),
@@ -115,4 +113,3 @@ int KItemListSelectionToggle::iconSize() const
     return iconSize;
 }
 
-#include "kitemlistselectiontoggle.moc"

@@ -22,16 +22,12 @@
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
-#include <KLocale>
-#include <KStringHandler>
 #include "private/kpixmapmodifier.h"
 
-#include <KDebug>
-#include <KIcon>
-#include <KTextEdit>
+#include <QIcon>
+#include <KIconLoader>
 
 #include <QPainter>
-#include <QTextLine>
 #include <QTimer>
 
 // #define KFILEITEMLISTVIEW_DEBUG
@@ -62,14 +58,14 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateVisibleIndexRangeTimer = new QTimer(this);
     m_updateVisibleIndexRangeTimer->setSingleShot(true);
     m_updateVisibleIndexRangeTimer->setInterval(ShortInterval);
-    connect(m_updateVisibleIndexRangeTimer, SIGNAL(timeout()), this, SLOT(updateVisibleIndexRange()));
+    connect(m_updateVisibleIndexRangeTimer, &QTimer::timeout, this, &KFileItemListView::updateVisibleIndexRange);
 
     m_updateIconSizeTimer = new QTimer(this);
     m_updateIconSizeTimer->setSingleShot(true);
     m_updateIconSizeTimer->setInterval(LongInterval);
-    connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
+    connect(m_updateIconSizeTimer, &QTimer::timeout, this, &KFileItemListView::updateIconSize);
 
-    setVisibleRoles(QList<QByteArray>() << "text");
+    setVisibleRoles({"text"});
 }
 
 KFileItemListView::~KFileItemListView()
@@ -169,7 +165,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
     foreach (int index, indexes) {
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
-            KIcon icon(model()->data(index).value("iconName").toString());
+            QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
             pixmap = icon.pixmap(size, size);
         } else {
             KPixmapModifier::scale(pixmap, QSize(size, size));
@@ -208,7 +204,7 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
 
         const KFileItem fileItem = fileItemModel->fileItem(item->index());
         data.insert("iconName", fileItem.iconName());
-        item->setData(data, QSet<QByteArray>() << "iconName");
+        item->setData(data, {"iconName"});
     }
 }
 
@@ -421,4 +417,3 @@ QSize KFileItemListView::availableIconSize() const
     return QSize(iconSize, iconSize);
 }
 
-#include "kfileitemlistview.moc"

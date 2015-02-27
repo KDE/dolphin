@@ -21,16 +21,15 @@
 
 #include "dolphin_versioncontrolsettings.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KService>
+#include "dolphindebug.h"
 #include <KServiceTypeTrader>
 #include <kitemviews/kfileitemmodel.h>
-#include <kversioncontrolplugin2.h>
 
 #include "updateitemstatesthread.h"
 
 #include <QFile>
-#include <QMutexLocker>
 #include <QTimer>
 
 VersionControlObserver::VersionControlObserver(QObject* parent) :
@@ -51,8 +50,8 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
     m_dirVerificationTimer = new QTimer(this);
     m_dirVerificationTimer->setSingleShot(true);
     m_dirVerificationTimer->setInterval(500);
-    connect(m_dirVerificationTimer, SIGNAL(timeout()),
-            this, SLOT(verifyDirectory()));
+    connect(m_dirVerificationTimer, &QTimer::timeout,
+            this, &VersionControlObserver::verifyDirectory);
 }
 
 VersionControlObserver::~VersionControlObserver()
@@ -66,19 +65,19 @@ VersionControlObserver::~VersionControlObserver()
 void VersionControlObserver::setModel(KFileItemModel* model)
 {
     if (m_model) {
-        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                   this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                   this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_model, &KFileItemModel::itemsInserted,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
+        disconnect(m_model, &KFileItemModel::itemsChanged,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
     }
 
     m_model = model;
 
     if (model) {
-        connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                this, SLOT(delayedDirectoryVerification()));
-        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                this, SLOT(delayedDirectoryVerification()));
+        connect(m_model, &KFileItemModel::itemsInserted,
+                this, &VersionControlObserver::delayedDirectoryVerification);
+        connect(m_model, &KFileItemModel::itemsChanged,
+                this, &VersionControlObserver::delayedDirectoryVerification);
     }
 }
 
@@ -89,42 +88,20 @@ KFileItemModel* VersionControlObserver::model() const
 
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
 {
-    QList<QAction*> actions;
-
     bool hasNullItems = false;
     foreach (const KFileItem& item, items) {
         if (item.isNull()) {
-            kWarning() << "Requesting version-control-actions for empty items";
+            qCWarning(DolphinDebug) << "Requesting version-control-actions for empty items";
             hasNullItems = true;
             break;
         }
     }
 
-    if (!m_model || hasNullItems) {
-        return actions;
+    if (!m_model || hasNullItems || !isVersioned()) {
+        return {};
     }
 
-    KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-    if (pluginV2) {
-        // Use version 2 of the KVersionControlPlugin which allows providing actions
-        // also for non-versioned directories.
-        actions = pluginV2->actions(items);
-    } else if (isVersioned()) {
-        // Support deprecated interfaces from KVersionControlPlugin version 1.
-        // Context menu actions where only available for versioned directories.
-        QString directory;
-        if (items.count() == 1) {
-            const KFileItem rootItem = m_model->rootItem();
-            if (!rootItem.isNull() && items.first().url() == rootItem.url()) {
-                directory = rootItem.url().path(KUrl::AddTrailingSlash);
-            }
-        }
-
-        actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
-                                      : m_plugin->contextMenuActions(directory);
-    }
-
-    return actions;
+    return m_plugin->actions(items);
 }
 
 void VersionControlObserver::delayedDirectoryVerification()
@@ -156,20 +133,14 @@ void VersionControlObserver::verifyDirectory()
 
     m_plugin = searchPlugin(rootItem.url());
     if (m_plugin) {
-        KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
-        if (pluginV2) {
-            connect(pluginV2, SIGNAL(itemVersionsChanged()),
-                    this, SLOT(silentDirectoryVerification()));
-        } else {
-            connect(m_plugin, SIGNAL(versionStatesChanged()),
-                    this, SLOT(silentDirectoryVerification()));
-        }
-        connect(m_plugin, SIGNAL(infoMessage(QString)),
-                this, SIGNAL(infoMessage(QString)));
-        connect(m_plugin, SIGNAL(errorMessage(QString)),
-                this, SIGNAL(errorMessage(QString)));
-        connect(m_plugin, SIGNAL(operationCompletedMessage(QString)),
-                this, SIGNAL(operationCompletedMessage(QString)));
+        connect(m_plugin, &KVersionControlPlugin::itemVersionsChanged,
+                this, &VersionControlObserver::silentDirectoryVerification);
+        connect(m_plugin, &KVersionControlPlugin::infoMessage,
+                this, &VersionControlObserver::infoMessage);
+        connect(m_plugin, &KVersionControlPlugin::errorMessage,
+                this, &VersionControlObserver::errorMessage);
+        connect(m_plugin, &KVersionControlPlugin::operationCompletedMessage,
+                this, &VersionControlObserver::operationCompletedMessage);
 
         if (!m_versionedDirectory) {
             m_versionedDirectory = true;
@@ -204,9 +175,11 @@ void VersionControlObserver::slotThreadFinished()
         const QVector<ItemState>& items = it.value();
 
         foreach (const ItemState& item, items) {
+            const KFileItem& fileItem = item.first;
+            const KVersionControlPlugin::ItemVersion version = item.second;
             QHash<QByteArray, QVariant> values;
-            values.insert("version", QVariant(item.version));
-            m_model->setData(m_model->index(item.item), values);
+            values.insert("version", QVariant(version));
+            m_model->setData(m_model->index(fileItem), values);
         }
     }
 
@@ -241,10 +214,10 @@ void VersionControlObserver::updateItemStates()
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                this, SLOT(slotThreadFinished()));
-        connect(m_updateItemStatesThread, SIGNAL(finished()),
-                m_updateItemStatesThread, SLOT(deleteLater()));
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
+                this, &VersionControlObserver::slotThreadFinished);
+        connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,
+                m_updateItemStatesThread, &UpdateItemStatesThread::deleteLater);
 
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
@@ -265,8 +238,8 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
 
         if (expansionLevel == currentExpansionLevel) {
             ItemState itemState;
-            itemState.item = m_model->fileItem(index);
-            itemState.version = KVersionControlPlugin2::UnversionedVersion;
+            itemState.first = m_model->fileItem(index);
+            itemState.second = KVersionControlPlugin::UnversionedVersion;
 
             items.append(itemState);
         } else if (expansionLevel > currentExpansionLevel) {
@@ -278,14 +251,14 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
     }
 
     if (items.count() > 0) {
-        const KUrl& url = items.first().item.url();
-        itemStates.insert(url.directory(KUrl::AppendTrailingSlash), items);
+        const QUrl& url = items.first().first.url();
+        itemStates.insert(url.adjusted(QUrl::RemoveFilename).path(), items);
     }
 
     return index - firstIndex; // number of processed items
 }
 
-KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& directory) const
+KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory) const
 {
     static bool pluginsAvailable = true;
     static QList<KVersionControlPlugin*> plugins;
@@ -324,7 +297,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     foreach (KVersionControlPlugin* plugin, plugins) {
-        const QString fileName = directory.path(KUrl::AddTrailingSlash) + plugin->fileName();
+        const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
             // The score of this plugin is 0 (best), so we can just return this plugin,
             // instead of going through the plugin scoring procedure, we can't find a better one ;)
@@ -338,11 +311,11 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         // m_versionedDirectory. Drawback: Until e. g. Git is recognized, the root directory
         // must be shown at least once.
         if (m_versionedDirectory) {
-            KUrl dirUrl(directory);
-            KUrl upUrl = dirUrl.upUrl();
+            QUrl dirUrl(directory);
+            QUrl upUrl = KIO::upUrl(dirUrl);
             int upUrlCounter = 1;
             while ((upUrlCounter < bestScore) && (upUrl != dirUrl)) {
-                const QString fileName = dirUrl.path(KUrl::AddTrailingSlash) + plugin->fileName();
+                const QString fileName = dirUrl.path() + '/' + plugin->fileName();
                 if (QFile::exists(fileName)) {
                     if (upUrlCounter < bestScore) {
                         bestPlugin = plugin;
@@ -351,7 +324,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
                     break;
                 }
                 dirUrl = upUrl;
-                upUrl = dirUrl.upUrl();
+                upUrl = KIO::upUrl(dirUrl);
                 ++upUrlCounter;
             }
         }
@@ -365,4 +338,3 @@ bool VersionControlObserver::isVersioned() const
     return m_versionedDirectory && m_plugin;
 }
 
-#include "versioncontrolobserver.moc"

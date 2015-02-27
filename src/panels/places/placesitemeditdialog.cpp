@@ -24,21 +24,22 @@
 #include "placesitemeditdialog.h"
 
 #include <KAboutData>
-#include <KComponentData>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KFile>
 #include <KIconButton>
-#include <KLineEdit>
-#include <KLocale>
-#include <KMimeType>
+#include <KLocalizedString>
+#include <QMimeDatabase>
 #include <KUrlRequester>
 #include <QCheckBox>
 #include <QEvent>
 #include <QFormLayout>
 #include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QLineEdit>
 
 PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
-    KDialog(parent),
+    QDialog(parent),
     m_icon(),
     m_text(),
     m_url(),
@@ -48,9 +49,6 @@ PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     m_iconButton(0),
     m_appLocal(0)
 {
-    setButtons( Ok | Cancel );
-    setModal(true);
-    setDefaultButton(Ok);
 }
 
 void PlacesItemEditDialog::setIcon(const QString& icon)
@@ -72,18 +70,18 @@ QString PlacesItemEditDialog::text() const
 {
     QString text = m_textEdit->text();
     if (text.isEmpty()) {
-        const KUrl url = m_urlEdit->url();
-        text = url.fileName().isEmpty() ? url.prettyUrl() : url.fileName();
+        const QUrl url = m_urlEdit->url();
+        text = url.fileName().isEmpty() ? url.toDisplayString(QUrl::PreferLocalFile) : url.fileName();
     }
     return text;
 }
 
-void PlacesItemEditDialog::setUrl(const KUrl& url)
+void PlacesItemEditDialog::setUrl(const QUrl& url)
 {
     m_url = url;
 }
 
-KUrl PlacesItemEditDialog::url() const
+QUrl PlacesItemEditDialog::url() const
 {
     return m_urlEdit->url();
 }
@@ -108,7 +106,7 @@ bool PlacesItemEditDialog::event(QEvent* event)
 
 void PlacesItemEditDialog::slotUrlChanged(const QString& text)
 {
-    enableButtonOk(!text.isEmpty());
+    m_okButton->setEnabled(!text.isEmpty());
 }
 
 PlacesItemEditDialog::~PlacesItemEditDialog()
@@ -117,42 +115,51 @@ PlacesItemEditDialog::~PlacesItemEditDialog()
 
 void PlacesItemEditDialog::initialize()
 {
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+    m_okButton = buttonBox->button(QDialogButtonBox::Ok);
+    m_okButton->setDefault(true);
+    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    setModal(true);
+    m_okButton->setDefault(true);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
     QWidget* mainWidget = new QWidget(this);
+    mainLayout->addWidget(mainWidget);
+    mainLayout->addWidget(buttonBox);
+
     QVBoxLayout* vBox = new QVBoxLayout(mainWidget);
 
     QFormLayout* formLayout = new QFormLayout();
     vBox->addLayout( formLayout );
 
-    m_textEdit = new KLineEdit(mainWidget);
+    m_textEdit = new QLineEdit(mainWidget);
     formLayout->addRow(i18nc("@label", "Label:"), m_textEdit);
     m_textEdit->setText(m_text);
-    m_textEdit->setClickMessage(i18n("Enter descriptive label here"));
+    m_textEdit->setPlaceholderText(i18n("Enter descriptive label here"));
 
-    m_urlEdit = new KUrlRequester(m_url.prettyUrl(), mainWidget);
+    m_urlEdit = new KUrlRequester(m_url, mainWidget);
     m_urlEdit->setMode(KFile::Directory);
     formLayout->addRow(i18nc("@label", "Location:"), m_urlEdit);
     // Provide room for at least 40 chars (average char width is half of height)
     m_urlEdit->setMinimumWidth(m_urlEdit->fontMetrics().height() * (40 / 2));
-    connect(m_urlEdit->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(slotUrlChanged(QString)));
+    connect(m_urlEdit, &KUrlRequester::textChanged, this, &PlacesItemEditDialog::slotUrlChanged);
 
     m_iconButton = new KIconButton(mainWidget);
     formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);
     m_iconButton->setIconSize(IconSize(KIconLoader::Desktop));
     m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
     if (m_icon.isEmpty()) {
-        m_iconButton->setIcon(KMimeType::iconNameForUrl(m_url));
+        QMimeDatabase db;
+        m_iconButton->setIcon(db.mimeTypeForUrl(m_url).iconName());
     } else {
         m_iconButton->setIcon(m_icon);
     }
 
     if (m_allowGlobal) {
-        QString appName;
-        if (KGlobal::mainComponent().aboutData()) {
-            appName = KGlobal::mainComponent().aboutData()->programName();
-        }
-        if (appName.isEmpty()) {
-            appName = KGlobal::mainComponent().componentName();
-        }
+        const QString appName = KAboutData::applicationData().displayName();
         m_appLocal = new QCheckBox( i18n("&Only show when using this application (%1)",  appName ), mainWidget );
         m_appLocal->setChecked(false);
         vBox->addWidget(m_appLocal);
@@ -164,7 +171,5 @@ void PlacesItemEditDialog::initialize()
         m_textEdit->setFocus();
     }
 
-    setMainWidget(mainWidget);
 }
 
-#include "placesitemeditdialog.moc"

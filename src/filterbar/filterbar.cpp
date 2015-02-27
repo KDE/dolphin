@@ -20,15 +20,14 @@
  ***************************************************************************/
 #include "filterbar.h"
 
-#include <QBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
 #include <QToolButton>
+#include <QHBoxLayout>
 
-#include <KIcon>
-#include <KLocale>
-#include <KLineEdit>
-#include <KIconLoader>
+#include <QIcon>
+#include <KLocalizedString>
+#include <QLineEdit>
 
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
@@ -36,27 +35,27 @@ FilterBar::FilterBar(QWidget* parent) :
     // Create close button
     QToolButton *closeButton = new QToolButton(this);
     closeButton->setAutoRaise(true);
-    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setIcon(QIcon::fromTheme("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
-    connect(closeButton, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
+    connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
 
     // Create button to lock text when changing folders
     m_lockButton = new QToolButton(this);
     m_lockButton->setAutoRaise(true);
     m_lockButton->setCheckable(true);
-    m_lockButton->setIcon(KIcon("object-unlocked"));
+    m_lockButton->setIcon(QIcon::fromTheme("object-unlocked"));
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
-    connect(m_lockButton, SIGNAL(toggled(bool)), this, SLOT(slotToggleLockButton(bool)));
+    connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
     // Create label
     QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
 
     // Create filter editor
-    m_filterInput = new KLineEdit(this);
+    m_filterInput = new QLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
-    m_filterInput->setClearButtonShown(true);
-    connect(m_filterInput, SIGNAL(textChanged(QString)),
-            this, SIGNAL(filterChanged(QString)));
+    m_filterInput->setClearButtonEnabled(true);
+    connect(m_filterInput, &QLineEdit::textChanged,
+            this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 
     // Apply layout
@@ -103,9 +102,9 @@ void FilterBar::slotUrlChanged()
 void FilterBar::slotToggleLockButton(bool checked)
 {
     if (checked) {
-        m_lockButton->setIcon(KIcon("object-locked"));
+        m_lockButton->setIcon(QIcon::fromTheme("object-locked"));
     } else {
-        m_lockButton->setIcon(KIcon("object-unlocked"));
+        m_lockButton->setIcon(QIcon::fromTheme("object-unlocked"));
         clear();
     }
 }
@@ -140,4 +139,3 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
     }
 }
 
-#include "filterbar.moc"

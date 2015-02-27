@@ -29,7 +29,7 @@ class PlacesItem;
  *        and performing a corresponding action.
  *
  * PlacesItem is derived from KStandardItem, which is no QObject-class
- * on purpose. To be able to internally listening to signals and performing a
+ * on purpose. To be able to internally listen to signals and performing a
  * corresponding action, PlacesItemSignalHandler is used.
  *
  * E.g. if the PlacesItem wants to react on accessibility-changes of a storage-access,

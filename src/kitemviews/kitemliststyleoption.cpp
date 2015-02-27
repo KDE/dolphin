@@ -19,7 +19,6 @@
 
 #include "kitemliststyleoption.h"
 
-#include <KIconLoader>
 
 KItemListStyleOption::KItemListStyleOption() :
     rect(),

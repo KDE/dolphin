@@ -24,11 +24,9 @@
 #include "viewsettingstab.h"
 
 #include <QVBoxLayout>
+#include <QTabWidget>
 
-#include <KDialog>
-#include <KLocale>
-#include <KIconLoader>
-#include <KTabWidget>
+#include <KLocalizedString>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
@@ -36,24 +34,23 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
-    KTabWidget* tabWidget = new KTabWidget(this);
+    QTabWidget* tabWidget = new QTabWidget(this);
 
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
-    tabWidget->addTab(iconsTab, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
-    connect(iconsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    tabWidget->addTab(iconsTab, QIcon::fromTheme("view-list-icons"), i18nc("@title:tab", "Icons"));
+    connect(iconsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     // Initialize 'Compact' tab
     ViewSettingsTab* compactTab = new ViewSettingsTab(ViewSettingsTab::CompactMode, tabWidget);
-    tabWidget->addTab(compactTab, KIcon("view-list-details"), i18nc("@title:tab", "Compact"));
-    connect(compactTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    tabWidget->addTab(compactTab, QIcon::fromTheme("view-list-details"), i18nc("@title:tab", "Compact"));
+    connect(compactTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     // Initialize 'Details' tab
     ViewSettingsTab* detailsTab = new ViewSettingsTab(ViewSettingsTab::DetailsMode, tabWidget);
-    tabWidget->addTab(detailsTab, KIcon("view-list-tree"), i18nc("@title:tab", "Details"));
-    connect(detailsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    tabWidget->addTab(detailsTab, QIcon::fromTheme("view-list-tree"), i18nc("@title:tab", "Details"));
+    connect(detailsTab, &ViewSettingsTab::changed, this, &ViewSettingsPage::changed);
 
     m_tabs.append(iconsTab);
     m_tabs.append(compactTab);
@@ -80,4 +77,3 @@ void ViewSettingsPage::restoreDefaults()
     }
 }
 
-#include "viewsettingspage.moc"

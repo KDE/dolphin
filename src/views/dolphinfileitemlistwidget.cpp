@@ -19,12 +19,11 @@
 
 #include "dolphinfileitemlistwidget.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KIconLoader>
-#include <kversioncontrolplugin2.h>
 #include <QColor>
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 DolphinFileItemListWidget::DolphinFileItemListWidget(KItemListWidgetInformant* informant,
                                                      QGraphicsItem* parent) :
@@ -43,7 +42,7 @@ void DolphinFileItemListWidget::refreshCache()
     if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding
         // to its version state.
-        const KVersionControlPlugin2::ItemVersion version = static_cast<KVersionControlPlugin2::ItemVersion>(values.value("version").toInt());
+        const KVersionControlPlugin::ItemVersion version = static_cast<KVersionControlPlugin::ItemVersion>(values.value("version").toInt());
         const QColor textColor = styleOption().palette.text().color();
         QColor tintColor = textColor;
 
@@ -51,16 +50,16 @@ void DolphinFileItemListWidget::refreshCache()
         // as tint colors and are mixed with the current set text color. The tint colors
         // have been optimized for the base colors of the corresponding Oxygen emblems.
         switch (version) {
-        case KVersionControlPlugin2::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
-        case KVersionControlPlugin2::LocallyModifiedUnstagedVersion: tintColor = Qt::green; break;
-        case KVersionControlPlugin2::LocallyModifiedVersion:         tintColor = Qt::green; break;
-        case KVersionControlPlugin2::AddedVersion:                   tintColor = Qt::green; break;
-        case KVersionControlPlugin2::RemovedVersion:                 tintColor = Qt::darkRed; break;
-        case KVersionControlPlugin2::ConflictingVersion:             tintColor = Qt::red; break;
-        case KVersionControlPlugin2::IgnoredVersion:                 tintColor = Qt::white; break;
-        case KVersionControlPlugin2::MissingVersion:                 tintColor = Qt::red; break;
-        case KVersionControlPlugin2::NormalVersion:
-        case KVersionControlPlugin2::UnversionedVersion:
+        case KVersionControlPlugin::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
+        case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::green; break;
+        case KVersionControlPlugin::LocallyModifiedVersion:         tintColor = Qt::green; break;
+        case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::green; break;
+        case KVersionControlPlugin::RemovedVersion:                 tintColor = Qt::darkRed; break;
+        case KVersionControlPlugin::ConflictingVersion:             tintColor = Qt::red; break;
+        case KVersionControlPlugin::IgnoredVersion:                 tintColor = Qt::white; break;
+        case KVersionControlPlugin::MissingVersion:                 tintColor = Qt::red; break;
+        case KVersionControlPlugin::NormalVersion:
+        case KVersionControlPlugin::UnversionedVersion:
         default:
             break;
         }
@@ -78,7 +77,7 @@ void DolphinFileItemListWidget::refreshCache()
     setTextColor(color);
 }
 
-QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemVersion version, int size)
+QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVersion version, int size)
 {
     int overlayHeight = KIconLoader::SizeSmall;
     if (size >= KIconLoader::SizeEnormous) {
@@ -115,15 +114,14 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemV
         iconName = "vcs-conflicting";
         break;
     case KVersionControlPlugin::UnversionedVersion:
-    case KVersionControlPlugin2::IgnoredVersion:
-    case KVersionControlPlugin2::MissingVersion:
+    case KVersionControlPlugin::IgnoredVersion:
+    case KVersionControlPlugin::MissingVersion:
         break;
     default:
         Q_ASSERT(false);
         break;
     }
 
-    return KIcon(iconName).pixmap(QSize(overlayHeight, overlayHeight));
+    return QIcon::fromTheme(iconName).pixmap(QSize(overlayHeight, overlayHeight));
 }
 
-#include "dolphinfileitemlistwidget.moc"

@@ -21,12 +21,11 @@
 #define INFORMATIONPANELCONTENT_H
 
 #include "config-baloo.h"
-#include <KConfig>
 #include <KFileItem>
-#include <KUrl>
-#include <KVBox>
+#include <QUrl>
 
 #include <QPointer>
+#include <QWidget>
 
 class KFileItemList;
 class PhononWidget;
@@ -82,11 +81,11 @@ public:
     void configureSettings(const QList<QAction*>& customContextMenuActions);
 
 signals:
-    void urlActivated( const KUrl& url );
+    void urlActivated( const QUrl& url );
 
 protected:
     /** @see QObject::eventFilter() */
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -122,7 +121,7 @@ private:
      * @return True, if the URL represents exactly a place.
      * @param url The url to check.
      */
-    bool applyPlace(const KUrl& url);
+    bool applyPlace(const QUrl& url);
 
     /**
      * Sets the text for the label \a m_nameLabel and assures that the

@@ -26,13 +26,13 @@
 #include <KConfigGroup>
 #include <KDesktopFile>
 #include <kdesktopfileactions.h>
-#include <KIcon>
-#include <KLocale>
+#include <QIcon>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <knewstuff3/knewstuffbutton.h>
+#include <KNS3/Button>
 #include <KService>
 #include <KServiceTypeTrader>
-#include <KStandardDirs>
+#include <QStandardPaths>
 
 #include <settings/serviceitemdelegate.h>
 #include <settings/servicemodel.h>
@@ -49,9 +49,9 @@
 namespace
 {
     const bool ShowDeleteDefault = false;
-    const char* VersionControlServicePrefix = "_version_control_";
-    const char* DeleteService = "_delete";
-    const char* CopyToMoveToService ="_copy_to_move_to";
+    const char VersionControlServicePrefix[] = "_version_control_";
+    const char DeleteService[] = "_delete";
+    const char CopyToMoveToService[] ="_copy_to_move_to";
 }
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
@@ -78,12 +78,12 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
-    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
+    connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
     KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                     "servicemenu.knsrc",
                                                     this);
-    connect(downloadButton, SIGNAL(dialogFinished(KNS3::Entry::List)), this, SLOT(loadServices()));
+    connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_listView);
@@ -125,7 +125,7 @@ void ServicesSettingsPage::applySettings()
             configGroup.sync();
         } else if (service == QLatin1String(CopyToMoveToService)) {
             GeneralSettings::setShowCopyMoveMenu(checked);
-            GeneralSettings::self()->writeConfig();
+            GeneralSettings::self()->save();
         } else {
             showGroup.writeEntry(service, checked);
         }
@@ -135,7 +135,7 @@ void ServicesSettingsPage::applySettings()
 
     if (m_enabledVcsPlugins != enabledPlugins) {
         VersionControlSettings::setEnabledPlugins(enabledPlugins);
-        VersionControlSettings::self()->writeConfig();
+        VersionControlSettings::self()->save();
 
         KMessageBox::information(window(),
                                  i18nc("@info", "Dolphin must be restarted to apply the "
@@ -194,8 +194,8 @@ void ServicesSettingsPage::loadServices()
 
     // Load generic services
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
-    foreach (const KSharedPtr<KService>& service, entries) {
-        const QString file = KStandardDirs::locate("services", service->entryPath());
+    foreach (const KService::Ptr& service, entries) {
+        const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
         const QList<KServiceAction> serviceActions =
                                     KDesktopFileActions::userDefinedServices(file, true);
 
@@ -220,7 +220,7 @@ void ServicesSettingsPage::loadServices()
 
     // Load service plugins that implement the KFileItemActionPlugin interface
     const KService::List pluginServices = KServiceTypeTrader::self()->query("KFileItemAction/Plugin");
-    foreach (const KSharedPtr<KService>& service, pluginServices) {
+    foreach (const KService::Ptr& service, pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
             const bool checked = showGroup.readEntry(desktopEntryName, true);
@@ -273,4 +273,3 @@ void ServicesSettingsPage::addRow(const QString& icon,
     m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
 
-#include "servicessettingspage.moc"

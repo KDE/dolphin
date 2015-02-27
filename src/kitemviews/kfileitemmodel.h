@@ -20,12 +20,13 @@
 #ifndef KFILEITEMMODEL_H
 #define KFILEITEMMODEL_H
 
-#include <libdolphin_export.h>
-#include <KFileItemList>
-#include <KUrl>
+#include "dolphin_export.h"
+#include <KFileItem>
+#include <QUrl>
 #include <kitemviews/kitemmodelbase.h>
 #include <kitemviews/private/kfileitemmodelfilter.h>
 
+#include <QCollator>
 #include <QHash>
 #include <QSet>
 
@@ -42,7 +43,7 @@ class QTimer;
  * Recursive expansion of sub-directories is supported by
  * KFileItemModel::setExpanded().
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModel : public KItemModelBase
+class DOLPHIN_EXPORT KFileItemModel : public KItemModelBase
 {
     Q_OBJECT
 
@@ -56,13 +57,13 @@ public:
      * indicate the current state of the loading process. The items
      * of the directory are added after the loading has been completed.
      */
-    void loadDirectory(const KUrl& url);
+    void loadDirectory(const QUrl& url);
 
     /**
      * Throws away all currently loaded items and refreshes the directory
      * by reloading all items again.
      */
-    void refreshDirectory(const KUrl& url);
+    void refreshDirectory(const QUrl& url);
 
     /**
      * @return Parent directory of the items that are shown. In case
@@ -70,7 +71,7 @@ public:
      *         the root-parent of all items.
      * @see rootItem()
      */
-    KUrl directory() const;
+    QUrl directory() const;
 
     /**
      * Cancels the loading of a directory which has been started by either
@@ -78,9 +79,9 @@ public:
      */
     void cancelDirectoryLoading();
 
-    virtual int count() const;
-    virtual QHash<QByteArray, QVariant> data(int index) const;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
+    virtual int count() const Q_DECL_OVERRIDE;
+    virtual QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
+    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values) Q_DECL_OVERRIDE;
 
     /**
      * Sets a separate sorting with directories first (true) or a mixed
@@ -99,20 +100,15 @@ public:
     void setShowDirectoriesOnly(bool enabled);
     bool showDirectoriesOnly() const;
 
-    /** @reimp */
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual bool supportsDropping(int index) const;
+    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual QString roleDescription(const QByteArray& role) const;
+    virtual QString roleDescription(const QByteArray& role) const Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual QList<QPair<int, QVariant> > groups() const;
+    virtual QList<QPair<int, QVariant> > groups() const Q_DECL_OVERRIDE;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -126,7 +122,7 @@ public:
      *         URL is found KFileItem::isNull() will be true for the returned
      *         file-item. The runtime complexity of this call is O(1).
      */
-    KFileItem fileItem(const KUrl& url) const;
+    KFileItem fileItem(const QUrl& url) const;
 
     /**
      * @return The index for the file-item \a item. -1 is returned if no file-item
@@ -139,7 +135,7 @@ public:
      * @return The index for the URL \a url. -1 is returned if no file-item
      *         is found. The amortized runtime complexity of this call is O(1).
      */
-    int index(const KUrl& url) const;
+    int index(const QUrl &url) const;
 
     /**
      * @return Root item of all items representing the item
@@ -158,24 +154,24 @@ public:
     void setRoles(const QSet<QByteArray>& roles);
     QSet<QByteArray> roles() const;
 
-    virtual bool setExpanded(int index, bool expanded);
-    virtual bool isExpanded(int index) const;
-    virtual bool isExpandable(int index) const;
-    virtual int expandedParentsCount(int index) const;
+    virtual bool setExpanded(int index, bool expanded) Q_DECL_OVERRIDE;
+    virtual bool isExpanded(int index) const Q_DECL_OVERRIDE;
+    virtual bool isExpandable(int index) const Q_DECL_OVERRIDE;
+    virtual int expandedParentsCount(int index) const Q_DECL_OVERRIDE;
 
-    QSet<KUrl> expandedDirectories() const;
+    QSet<QUrl> expandedDirectories() const;
 
     /**
      * Marks the URLs in \a urls as sub-directories which were expanded previously.
      * After calling loadDirectory() or refreshDirectory() the marked sub-directories
      * will be expanded step-by-step.
      */
-    void restoreExpandedDirectories(const QSet<KUrl>& urls);
+    void restoreExpandedDirectories(const QSet<QUrl>& urls);
 
     /**
      * Expands all parent-directories of the item \a url.
      */
-    void expandParentDirectories(const KUrl& url);
+    void expandParentDirectories(const QUrl& url);
 
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
@@ -251,18 +247,18 @@ signals:
      * Is emitted if a redirection from the current URL \a oldUrl
      * to the new URL \a newUrl has been done.
      */
-    void directoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void directoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Is emitted when the URL passed by KFileItemModel::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
 protected:
-    virtual void onGroupedSortingChanged(bool current);
-    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+    virtual void onGroupedSortingChanged(bool current) Q_DECL_OVERRIDE;
+    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous) Q_DECL_OVERRIDE;
+    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -273,7 +269,7 @@ private slots:
 
     void slotCompleted();
     void slotCanceled();
-    void slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items);
+    void slotItemsAdded(const QUrl& directoryUrl, const KFileItemList& items);
     void slotItemsDeleted(const KFileItemList& items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
     void slotClear();
@@ -317,7 +313,7 @@ private:
      * Note that the ItemData instances are created dynamically and
      * must be deleted by the caller.
      */
-    QList<ItemData*> createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const;
+    QList<ItemData*> createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const;
 
     /**
      * Prepares the items for sorting. Normally, the hash 'values' in ItemData is filled
@@ -366,7 +362,7 @@ private:
      * @return True if the item-data \a a should be ordered before the item-data
      *         \b. The item-data may have different parent-items.
      */
-    bool lessThan(const ItemData* a, const ItemData* b) const;
+    bool lessThan(const ItemData* a, const ItemData* b, const QCollator& collator) const;
 
     /**
      * Sorts the items between \a begin and \a end using the comparison
@@ -379,9 +375,9 @@ private:
      * the passed item-data using m_sortRole as criteria. Both items must
      * have the same parent item, otherwise the comparison will be wrong.
      */
-    int sortRoleCompare(const ItemData* a, const ItemData* b) const;
+    int sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const;
 
-    int stringCompare(const QString& a, const QString& b) const;
+    int stringCompare(const QString& a, const QString& b, const QCollator& collator) const;
 
     bool useMaximumUpdateInterval() const;
 
@@ -460,21 +456,21 @@ private:
 private:
     KFileItemModelDirLister* m_dirLister;
 
+    QCollator m_collator;
     bool m_naturalSorting;
     bool m_sortDirsFirst;
 
     RoleType m_sortRole;
     int m_sortingProgressPercent; // Value of directorySortingProgress() signal
     QSet<QByteArray> m_roles;
-    Qt::CaseSensitivity m_caseSensitivity;
 
     QList<ItemData*> m_itemData;
 
-    // m_items is a cache for the method index(const KUrl&). If it contains N
+    // m_items is a cache for the method index(const QUrl&). If it contains N
     // entries, it is guaranteed that these correspond to the first N items in
     // the model, i.e., that (for every i between 0 and N - 1)
     // m_items.value(fileItem(i).url()) == i
-    mutable QHash<KUrl, int> m_items;
+    mutable QHash<QUrl, int> m_items;
 
     KFileItemModelFilter m_filter;
     QHash<KFileItem, ItemData*> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
@@ -489,11 +485,11 @@ private:
     mutable QList<QPair<int, QVariant> > m_groups;
 
     // Stores the URLs (key: target url, value: url) of the expanded directories.
-    QHash<KUrl, KUrl> m_expandedDirs;
+    QHash<QUrl, QUrl> m_expandedDirs;
 
     // URLs that must be expanded. The expanding is initially triggered in setExpanded()
     // and done step after step in slotCompleted().
-    QSet<KUrl> m_urlsToExpand;
+    QSet<QUrl> m_urlsToExpand;
 
     friend class KFileItemModelLessThan;       // Accesses lessThan() method
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method

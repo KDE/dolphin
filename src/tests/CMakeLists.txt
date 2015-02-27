@@ -1,23 +1,32 @@
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
-include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_BUILD_DIR}/.. ${KDE4_INCLUDES} )
+
+find_package(Qt5Test CONFIG REQUIRED)
+include(ECMMarkAsTest)
 
 # needed on windows to correctly use the files from dolphinprivate
-add_definitions(-DLIBDOLPHINPRIVATE_EXPORT=)
+add_definitions(-DDOLPHIN_EXPORT=)
 
 # KItemSetTest
 set(kitemsettest_SRCS
     kitemsettest.cpp
     ../kitemviews/kitemset.cpp
 )
-kde4_add_unit_test(kitemsettest TEST ${kitemsettest_SRCS})
-target_link_libraries(kitemsettest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(kitemsettest ${kitemsettest_SRCS})
+add_test(kitemsettest kitemsettest)
+ecm_mark_as_test(kitemsettest)
+target_link_libraries(kitemsettest dolphinprivate Qt5::Test)
 
 # KItemRangeTest
 set(kitemrangetest_SRCS
     kitemrangetest.cpp
 )
-kde4_add_unit_test(kitemrangetest TEST ${kitemrangetest_SRCS})
-target_link_libraries(kitemrangetest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(kitemrangetest ${kitemrangetest_SRCS})
+add_test(kitemrangetest kitemrangetest)
+ecm_mark_as_test(kitemrangetest)
+target_link_libraries(kitemrangetest dolphinprivate Qt5::Test)
+
 
 # KItemListSelectionManagerTest
 set(kitemlistselectionmanagertest_SRCS
@@ -26,8 +35,11 @@ set(kitemlistselectionmanagertest_SRCS
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemset.cpp
 )
-kde4_add_unit_test(kitemlistselectionmanagertest TEST ${kitemlistselectionmanagertest_SRCS})
-target_link_libraries(kitemlistselectionmanagertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(kitemlistselectionmanagertest ${kitemlistselectionmanagertest_SRCS})
+add_test(kitemlistselectionmanagertest kitemlistselectionmanagertest)
+ecm_mark_as_test(kitemlistselectionmanagertest)
+target_link_libraries(kitemlistselectionmanagertest dolphinprivate Qt5::Test)
 
 # KItemListControllerTest
 set(kitemlistcontrollertest_SRCS
@@ -44,9 +56,17 @@ set(kitemlistcontrollertest_SRCS
     ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_unit_test(kitemlistcontrollertest TEST ${kitemlistcontrollertest_SRCS})
-target_link_libraries(kitemlistcontrollertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+kconfig_add_kcfg_files(kitemlistcontrollertest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
+add_executable(kitemlistcontrollertest ${kitemlistcontrollertest_SRCS})
+add_test(kitemlistcontrollertest kitemlistcontrollertest)
+ecm_mark_as_test(kitemlistcontrollertest)
+target_link_libraries(kitemlistcontrollertest dolphinprivate Qt5::Test)
 
 # KFileItemListViewTest
 set(kfileitemlistviewtest_SRCS
@@ -62,9 +82,17 @@ set(kfileitemlistviewtest_SRCS
     ../kitemviews/kitemset.cpp
     ../kitemviews/kstandarditemlistview.cpp
     ../kitemviews/kstandarditemlistwidget.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_unit_test(kfileitemlistviewtest TEST ${kfileitemlistviewtest_SRCS})
-target_link_libraries(kfileitemlistviewtest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+kconfig_add_kcfg_files(kfileitemlistviewtest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
+add_executable(kfileitemlistviewtest ${kfileitemlistviewtest_SRCS})
+add_test(kfileitemlistviewtest kfileitemlistviewtest)
+ecm_mark_as_test(kfileitemlistviewtest)
+target_link_libraries(kfileitemlistviewtest dolphinprivate Qt5::Test)
 
 # KFileItemModelTest
 set(kfileitemmodeltest_SRCS
@@ -73,9 +101,17 @@ set(kfileitemmodeltest_SRCS
     ../kitemviews/kfileitemmodel.cpp
     ../kitemviews/kitemmodelbase.cpp
     ../kitemviews/kitemset.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_unit_test(kfileitemmodeltest TEST ${kfileitemmodeltest_SRCS})
-target_link_libraries(kfileitemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+kconfig_add_kcfg_files(kfileitemmodeltest_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
+add_executable(kfileitemmodeltest ${kfileitemmodeltest_SRCS})
+add_test(kfileitemmodeltest kfileitemmodeltest)
+ecm_mark_as_test(kfileitemmodeltest)
+target_link_libraries(kfileitemmodeltest dolphinprivate Qt5::Test)
 
 # KFileItemModelBenchmark
 set(kfileitemmodelbenchmark_SRCS
@@ -83,31 +119,44 @@ set(kfileitemmodelbenchmark_SRCS
     testdir.cpp
     ../kitemviews/kfileitemmodel.cpp
     ../kitemviews/kitemmodelbase.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_executable(kfileitemmodelbenchmark TEST ${kfileitemmodelbenchmark_SRCS})
-target_link_libraries(kfileitemmodelbenchmark dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+kconfig_add_kcfg_files(kfileitemmodelbenchmark_SRCS GENERATE_MOC
+    ../settings/dolphin_generalsettings.kcfgc
+)
+
+add_executable(kfileitemmodelbenchmark ${kfileitemmodelbenchmark_SRCS})
+ecm_mark_as_test(kfileitemmodelbenchmark)
+target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt5::Test)
 
 # KItemListKeyboardSearchManagerTest
 set(kitemlistkeyboardsearchmanagertest_SRCS
     kitemlistkeyboardsearchmanagertest.cpp
     ../kitemviews/private/kitemlistkeyboardsearchmanager.cpp
 )
-kde4_add_unit_test(kitemlistkeyboardsearchmanagertest TEST ${kitemlistkeyboardsearchmanagertest_SRCS})
-target_link_libraries(kitemlistkeyboardsearchmanagertest ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(kitemlistkeyboardsearchmanagertest ${kitemlistkeyboardsearchmanagertest_SRCS})
+add_test(kitemlistkeyboardsearchmanagertest kitemlistkeyboardsearchmanagertest)
+ecm_mark_as_test(kitemlistkeyboardsearchmanagertest)
+target_link_libraries(kitemlistkeyboardsearchmanagertest dolphinprivate Qt5::Test)
 
 # DolphinSearchBox
-if (Baloo_FOUND)
+if (KF5Baloo_FOUND)
   set(dolphinsearchboxtest_SRCS
       dolphinsearchboxtest.cpp
       ../search/dolphinfacetswidget.cpp
       ../search/dolphinsearchbox.cpp
   )
-  kde4_add_kcfg_files(dolphinsearchboxtest_SRCS
+  kconfig_add_kcfg_files(dolphinsearchboxtest_SRCS
       ../search/dolphin_searchsettings.kcfgc
   )
-  kde4_add_unit_test(dolphinsearchboxtest TEST ${dolphinsearchboxtest_SRCS})
-  target_link_libraries(dolphinsearchboxtest ${KDE4_KIO_LIBS} ${BALOO_LIBRARIES} ${QT_QTTEST_LIBRARY})
-endif (Baloo_FOUND)
+
+  add_executable(dolphinsearchboxtest ${dolphinsearchboxtest_SRCS})
+  add_test(dolphinsearchboxtest dolphinsearchboxtest)
+  ecm_mark_as_test(dolphinsearchboxtest)
+  target_link_libraries(dolphinsearchboxtest dolphinprivate Qt5::Test)
+endif()
 
 # KStandardItemModelTest
 set(kstandarditemmodeltest_SRCS
@@ -115,19 +164,27 @@ set(kstandarditemmodeltest_SRCS
     ../kitemviews/kstandarditem.cpp
     ../kitemviews/kstandarditemmodel.cpp
     ../kitemviews/kitemmodelbase.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_unit_test(kstandarditemmodeltest TEST ${kstandarditemmodeltest_SRCS})
-target_link_libraries(kstandarditemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(kstandarditemmodeltest ${kstandarditemmodeltest_SRCS})
+add_test(kstandarditemmodeltest kstandarditemmodeltest)
+ecm_mark_as_test(kstandarditemmodeltest)
+target_link_libraries(kstandarditemmodeltest dolphinprivate Qt5::Test)
 
 # ViewPropertiesTest
 set(viewpropertiestest_SRCS
     viewpropertiestest.cpp
     testdir.cpp
     ../views/viewproperties.cpp
+    ../dolphindebug.cpp
 )
-kde4_add_kcfg_files(viewpropertiestest_SRCS
+kconfig_add_kcfg_files(viewpropertiestest_SRCS GENERATE_MOC
   ../settings/dolphin_generalsettings.kcfgc
   ../settings/dolphin_directoryviewpropertysettings.kcfgc
 )
-kde4_add_unit_test(viewpropertiestest TEST ${viewpropertiestest_SRCS})
-target_link_libraries(viewpropertiestest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
+add_executable(viewpropertiestest ${viewpropertiestest_SRCS})
+add_test(viewpropertiestest viewpropertiestest)
+ecm_mark_as_test(viewpropertiestest)
+target_link_libraries(viewpropertiestest dolphinprivate Qt5::Test)

@@ -22,10 +22,12 @@
 #include "informationpanelcontent.h"
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets>
 #include <KDirNotify>
 #include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>
+#include <QTimer>
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -184,10 +186,10 @@ void InformationPanel::showItemInfo()
             // an item for the currently shown directory.
             m_folderStatJob = KIO::stat(url(), KIO::HideProgressInfo);
             if (m_folderStatJob->ui()) {
-                m_folderStatJob->ui()->setWindow(this);
+                KJobWidgets::setWindow(m_folderStatJob, this);
             }
-            connect(m_folderStatJob, SIGNAL(result(KJob*)),
-                    this, SLOT(slotFolderStatFinished(KJob*)));
+            connect(m_folderStatJob, &KIO::Job::result,
+                    this, &InformationPanel::slotFolderStatFinished);
         } else {
             m_content->showItem(item);
         }
@@ -211,7 +213,7 @@ void InformationPanel::slotInfoTimeout()
 void InformationPanel::reset()
 {
     if (m_invalidUrlCandidate == m_shownUrl) {
-        m_invalidUrlCandidate = KUrl();
+        m_invalidUrlCandidate = QUrl();
 
         // The current URL is still invalid. Reset
         // the content to show the directory URL.
@@ -224,11 +226,11 @@ void InformationPanel::reset()
 
 void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
-    if (m_shownUrl == KUrl(source)) {
-        m_shownUrl = KUrl(dest);
-        m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+    if (m_shownUrl == QUrl::fromLocalFile(source)) {
+        m_shownUrl = QUrl::fromLocalFile(dest);
+        m_fileItem = KFileItem(m_shownUrl);
 
-        if ((m_selection.count() == 1) && (m_selection[0].url() == KUrl(source))) {
+        if ((m_selection.count() == 1) && (m_selection[0].url() == QUrl::fromLocalFile(source))) {
             m_selection[0] = m_fileItem;
             // Implementation note: Updating the selection is only required if exactly one
             // item is selected, as the name of the item is shown. If this should change
@@ -242,10 +244,10 @@ void InformationPanel::slotFileRenamed(const QString& source, const QString& des
 
 void InformationPanel::slotFilesAdded(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
         // the signal filesAdded("trash:/") will be emitted.
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+        KFileItem item(QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }
@@ -253,7 +255,7 @@ void InformationPanel::slotFilesAdded(const QString& directory)
 void InformationPanel::slotFilesChanged(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
-        if (m_shownUrl == KUrl(fileName)) {
+        if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             showItemInfo();
             break;
         }
@@ -263,7 +265,7 @@ void InformationPanel::slotFilesChanged(const QStringList& files)
 void InformationPanel::slotFilesRemoved(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
-        if (m_shownUrl == KUrl(fileName)) {
+        if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
             markUrlAsInvalid();
@@ -274,15 +276,15 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
 
 void InformationPanel::slotEnteredDirectory(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
+        KFileItem item(QUrl::fromLocalFile(directory));
         requestDelayedItemInfo(item);
     }
 }
 
 void InformationPanel::slotLeftDirectory(const QString& directory)
 {
-    if (m_shownUrl == KUrl(directory)) {
+    if (m_shownUrl == QUrl::fromLocalFile(directory)) {
         // The signal 'leftDirectory' is also emitted when a media
         // has been unmounted. In this case no directory change will be
         // done in Dolphin, but the Information Panel must be updated to
@@ -306,9 +308,9 @@ void InformationPanel::cancelRequest()
     m_urlCandidate.clear();
 }
 
-bool InformationPanel::isEqualToShownUrl(const KUrl& url) const
+bool InformationPanel::isEqualToShownUrl(const QUrl& url) const
 {
-    return m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash);
+    return m_shownUrl.matches(url, QUrl::StripTrailingSlash);
 }
 
 void InformationPanel::markUrlAsInvalid()
@@ -322,35 +324,35 @@ void InformationPanel::init()
     m_infoTimer = new QTimer(this);
     m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
-    connect(m_infoTimer, SIGNAL(timeout()),
-            this, SLOT(slotInfoTimeout()));
+    connect(m_infoTimer, &QTimer::timeout,
+            this, &InformationPanel::slotInfoTimeout);
 
     m_urlChangedTimer = new QTimer(this);
     m_urlChangedTimer->setInterval(200);
     m_urlChangedTimer->setSingleShot(true);
-    connect(m_urlChangedTimer, SIGNAL(timeout()),
-            this, SLOT(showItemInfo()));
+    connect(m_urlChangedTimer, &QTimer::timeout,
+            this, &InformationPanel::showItemInfo);
 
     m_resetUrlTimer = new QTimer(this);
     m_resetUrlTimer->setInterval(1000);
     m_resetUrlTimer->setSingleShot(true);
-    connect(m_resetUrlTimer, SIGNAL(timeout()),
-            this, SLOT(reset()));
+    connect(m_resetUrlTimer, &QTimer::timeout,
+            this, &InformationPanel::reset);
 
     Q_ASSERT(m_urlChangedTimer->interval() < m_infoTimer->interval());
     Q_ASSERT(m_urlChangedTimer->interval() < m_resetUrlTimer->interval());
 
     org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
                                                                QDBusConnection::sessionBus(), this);
-    connect(dirNotify, SIGNAL(FileRenamed(QString,QString)), SLOT(slotFileRenamed(QString,QString)));
-    connect(dirNotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
-    connect(dirNotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
-    connect(dirNotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));
-    connect(dirNotify, SIGNAL(enteredDirectory(QString)), SLOT(slotEnteredDirectory(QString)));
-    connect(dirNotify, SIGNAL(leftDirectory(QString)), SLOT(slotLeftDirectory(QString)));
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FileRenamed, this, &InformationPanel::slotFileRenamed);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesAdded, this, &InformationPanel::slotFilesAdded);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesChanged, this, &InformationPanel::slotFilesChanged);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::FilesRemoved, this, &InformationPanel::slotFilesRemoved);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::enteredDirectory, this, &InformationPanel::slotEnteredDirectory);
+    connect(dirNotify, &OrgKdeKDirNotifyInterface::leftDirectory, this, &InformationPanel::slotLeftDirectory);
 
     m_content = new InformationPanelContent(this);
-    connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
+    connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -359,4 +361,3 @@ void InformationPanel::init()
     m_initialized = true;
 }
 
-#include "informationpanel.moc"

@@ -20,7 +20,7 @@
 #ifndef KSTANDARDITEMMODEL_H
 #define KSTANDARDITEMMODEL_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 #include <kitemviews/kitemmodelbase.h>
 #include <QHash>
 #include <QList>
@@ -35,7 +35,7 @@ class KStandardItem;
  *
  * @see KStandardItem
  */
-class LIBDOLPHINPRIVATE_EXPORT KStandardItemModel : public KItemModelBase
+class DOLPHIN_EXPORT KStandardItemModel : public KItemModelBase
 {
     Q_OBJECT
 
@@ -69,14 +69,14 @@ public:
      */
     void appendItem(KStandardItem* item);
 
-    virtual int count() const;
-    virtual QHash<QByteArray, QVariant> data(int index) const;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const;
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
-    virtual bool supportsDropping(int index) const;
-    virtual QString roleDescription(const QByteArray& role) const;
-    virtual QList<QPair<int, QVariant> > groups() const;
+    virtual int count() const Q_DECL_OVERRIDE;
+    virtual QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
+    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values) Q_DECL_OVERRIDE;
+    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const Q_DECL_OVERRIDE;
+    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
+    virtual QString roleDescription(const QByteArray& role) const Q_DECL_OVERRIDE;
+    virtual QList<QPair<int, QVariant> > groups() const Q_DECL_OVERRIDE;
 
     virtual void clear();
 protected:

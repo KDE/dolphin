@@ -20,12 +20,11 @@
 #ifndef DOLPHINSEARCHBOX_H
 #define DOLPHINSEARCHBOX_H
 
-#include <KUrl>
-#include <QList>
+#include <QUrl>
 #include <QWidget>
 
 class DolphinFacetsWidget;
-class KLineEdit;
+class QLineEdit;
 class KSeparator;
 class QToolButton;
 class QScrollArea;
@@ -65,17 +64,17 @@ public:
      * Sets the current path that is used as root for
      * searching files, if "From Here" has been selected.
      */
-    void setSearchPath(const KUrl& url);
-    KUrl searchPath() const;
+    void setSearchPath(const QUrl& url);
+    QUrl searchPath() const;
 
     /** @return URL that will start the searching of files. */
-    KUrl urlForSearching() const;
+    QUrl urlForSearching() const;
 
     /**
      * Extracts information from the given search \a url to
      * initialize the search box properly.
      */
-    void fromSearchUrl(const KUrl& url);
+    void fromSearchUrl(const QUrl& url);
 
     /**
      * Selects the whole text of the search box.
@@ -99,10 +98,10 @@ public:
     bool isActive() const;
 
 protected:
-    virtual bool event(QEvent* event);
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 signals:
     /**
@@ -116,7 +115,7 @@ signals:
      */
     void searchTextChanged(const QString& text);
 
-    void returnPressed(const QString& text);
+    void returnPressed();
 
     /**
      * Emitted as soon as the search box should get closed.
@@ -135,7 +134,7 @@ private slots:
     void emitCloseRequest();
     void slotConfigurationChanged();
     void slotSearchTextChanged(const QString& text);
-    void slotReturnPressed(const QString& text);
+    void slotReturnPressed();
     void slotFacetsButtonToggled();
     void slotFacetChanged();
 
@@ -148,15 +147,16 @@ private:
     /**
      * @return URL that represents the Baloo query for starting the search.
      */
-    KUrl balooUrlForSearching() const;
+    QUrl balooUrlForSearching() const;
 
     /**
      * Extracts information from the given Baloo search \a url to
      * initialize the search box properly.
      */
-    void fromBalooSearchUrl(const KUrl& url);
+    void fromBalooSearchUrl(const QUrl& url);
 
     void updateFacetsToggleButton();
+
 private:
     bool m_startedSearching;
     bool m_active;
@@ -164,7 +164,7 @@ private:
     QVBoxLayout* m_topLayout;
 
     QLabel* m_searchLabel;
-    KLineEdit* m_searchInput;
+    QLineEdit* m_searchInput;
     QScrollArea* m_optionsScrollArea;
     QToolButton* m_fileNameButton;
     QToolButton* m_contentButton;
@@ -174,7 +174,7 @@ private:
     QToolButton* m_facetsToggleButton;
     DolphinFacetsWidget* m_facetsWidget;
 
-    KUrl m_searchPath;
+    QUrl m_searchPath;
 
     QTimer* m_startSearchTimer;
 };

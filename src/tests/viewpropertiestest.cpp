@@ -17,13 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
 #include "dolphin_generalsettings.h"
 #include "views/viewproperties.h"
 #include "testdir.h"
 
-#include <QDebug>
+#include <QTest>
 #include <QDir>
 
 class ViewPropertiesTest : public QObject
@@ -69,33 +67,31 @@ void ViewPropertiesTest::cleanup()
  */
 void ViewPropertiesTest::testReadOnlyBehavior()
 {
-    QString dotDirectoryFile = m_testDir->url().toLocalFile() + ".directory";
+    QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
 
-    ViewProperties* props = new ViewProperties(m_testDir->url());
+    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
     QVERIFY(props->isAutoSaveEnabled());
     const QByteArray sortRole = props->sortRole();
     Q_UNUSED(sortRole);
-    delete props;
-    props = 0;
+    props.reset();
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
 }
 
 void ViewPropertiesTest::testAutoSave()
 {
-    QString dotDirectoryFile = m_testDir->url().toLocalFile() + ".directory";
+    QString dotDirectoryFile = m_testDir->url().toLocalFile() + "/.directory";
     QVERIFY(!QFile::exists(dotDirectoryFile));
 
-    ViewProperties* props = new ViewProperties(m_testDir->url());
+    QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
     QVERIFY(props->isAutoSaveEnabled());
     props->setSortRole("someNewSortRole");
-    delete props;
-    props = 0;
+    props.reset();
 
     QVERIFY(QFile::exists(dotDirectoryFile));
 }
 
-QTEST_KDEMAIN(ViewPropertiesTest, NoGUI)
+QTEST_GUILESS_MAIN(ViewPropertiesTest)
 
 #include "viewpropertiestest.moc"

@@ -21,8 +21,7 @@
 
 #include <dolphin_generalsettings.h>
 
-#include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QLabel>
@@ -31,6 +30,7 @@
 namespace {
     const bool ConfirmTrash = false;
     const bool ConfirmDelete = true;
+    const bool ConfirmScriptExecution = true;
 }
 
 ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
@@ -48,6 +48,8 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
                                                "Moving files or folders to trash"), this);
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                           "Deleting files or folders"), this);
+    m_confirmScriptExecution = new QCheckBox(i18nc("@option:check Ask for confirmation when",
+                                                   "Executing scripts or desktop files"), this);
 
     QLabel* confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation when:"), this);
     confirmLabelDolphin->setWordWrap(true);
@@ -55,22 +57,20 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                        "Closing Dolphin windows with multiple tabs"), this);
 
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(confirmLabelKde);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmMoveToTrash);
     topLayout->addWidget(m_confirmDelete);
-    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addWidget(m_confirmScriptExecution);
     topLayout->addWidget(confirmLabelDolphin);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_confirmClosingMultipleTabs);
     topLayout->addStretch();
 
     loadSettings();
 
-    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmScriptExecution, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 }
 
 ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
@@ -85,9 +85,15 @@ void ConfirmationsSettingsPage::applySettings()
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     confirmationGroup.sync();
 
+    if (m_confirmScriptExecution->isChecked()) {
+        KConfigGroup scriptExecutionGroup(kioConfig, "Executable scripts");
+        scriptExecutionGroup.writeEntry("behaviourOnLaunch", "alwaysAsk");
+        scriptExecutionGroup.sync();
+    }
+
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
-    settings->writeConfig();
+    settings->save();
 }
 
 void ConfirmationsSettingsPage::restoreDefaults()
@@ -99,6 +105,7 @@ void ConfirmationsSettingsPage::restoreDefaults()
 
     m_confirmMoveToTrash->setChecked(ConfirmTrash);
     m_confirmDelete->setChecked(ConfirmDelete);
+    m_confirmScriptExecution->setChecked(ConfirmScriptExecution);
 }
 
 void ConfirmationsSettingsPage::loadSettings()
@@ -108,7 +115,10 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", ConfirmTrash));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", ConfirmDelete));
 
+    const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig("kiorc"), "Executable scripts");
+    const QString value = scriptExecutionGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
+    m_confirmScriptExecution->setChecked(value == "alwaysAsk");
+
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
 }
 
-#include "confirmationssettingspage.moc"

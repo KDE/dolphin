@@ -21,7 +21,7 @@
 #define INFORMATIONPANEL_H
 
 #include <panels/panel.h>
-
+#include <KFileItem>
 class InformationPanelContent;
 namespace KIO
 {
@@ -40,7 +40,7 @@ public:
     virtual ~InformationPanel();
 
 signals:
-    void urlActivated(const KUrl& url);
+    void urlActivated(const QUrl& url);
 
 public slots:
     /**
@@ -59,16 +59,16 @@ public slots:
 
 protected:
     /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
 
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QWidget::resizeEvent() */
-    virtual void resizeEvent(QResizeEvent* event);
+    virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -116,7 +116,7 @@ private:
     /**
      * Returns true, if \a url is equal to the shown URL m_shownUrl.
      */
-    bool isEqualToShownUrl(const KUrl& url) const;
+    bool isEqualToShownUrl(const QUrl& url) const;
 
     /**
      * Marks the URL as invalid and will reset the Information Panel
@@ -136,17 +136,17 @@ private:
     QTimer* m_resetUrlTimer;
 
     // URL that is currently shown in the Information Panel.
-    KUrl m_shownUrl;
+    QUrl m_shownUrl;
 
     // URL candidate that will replace m_shownURL after a delay.
     // Used to remember URLs when hovering items.
-    KUrl m_urlCandidate;
+    QUrl m_urlCandidate;
 
     // URL candidate that is marked as invalid (e. g. because the directory
     // has been deleted or the shown item has been renamed). The Information
     // Panel will be reset asynchronously to prevent unnecessary resets when
     // a directory has been changed.
-    KUrl m_invalidUrlCandidate;
+    QUrl m_invalidUrlCandidate;
 
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;

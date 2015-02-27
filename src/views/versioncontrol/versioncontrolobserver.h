@@ -20,12 +20,14 @@
 #ifndef VERSIONCONTROLOBSERVER_H
 #define VERSIONCONTROLOBSERVER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
+
+#include "kversioncontrolplugin.h"
 
 #include <KFileItem>
-#include <kversioncontrolplugin2.h>
+
+#include <QUrl>
 #include <QList>
-#include <QMutex>
 #include <QObject>
 #include <QString>
 
@@ -43,7 +45,7 @@ class UpdateItemStatesThread;
  *
  * @see VersionControlPlugin
  */
-class LIBDOLPHINPRIVATE_EXPORT VersionControlObserver : public QObject
+class DOLPHIN_EXPORT VersionControlObserver : public QObject
 {
     Q_OBJECT
 
@@ -100,11 +102,7 @@ private slots:
     void slotThreadFinished();
 
 private:
-    struct ItemState
-    {
-        KFileItem item;
-        KVersionControlPlugin2::ItemVersion version;
-    };
+    typedef QPair<KFileItem, KVersionControlPlugin::ItemVersion> ItemState;
 
     void updateItemStates();
 
@@ -128,7 +126,7 @@ private:
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */
-    KVersionControlPlugin* searchPlugin(const KUrl& directory) const;
+    KVersionControlPlugin* searchPlugin(const QUrl& directory) const;
 
     /**
      * Returns true, if the directory contains a version control information.

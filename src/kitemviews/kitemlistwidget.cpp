@@ -27,9 +27,7 @@
 
 #include "private/kitemlistselectiontoggle.h"
 
-#include <KDebug>
 
-#include <KGlobalSettings>
 #include <QApplication>
 #include <QPainter>
 #include <QPropertyAnimation>
@@ -250,9 +248,9 @@ void KItemListWidget::setHovered(bool hovered)
 
     if (!m_hoverAnimation) {
         m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
-        const int duration = (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) ? 1 : 200;
+        const int duration = style()->styleHint(QStyle::SH_Widget_Animate) ? 200 : 1;
         m_hoverAnimation->setDuration(duration);
-        connect(m_hoverAnimation, SIGNAL(finished()), this, SLOT(slotHoverAnimationFinished()));
+        connect(m_hoverAnimation, &QPropertyAnimation::finished, this, &KItemListWidget::slotHoverAnimationFinished);
     }
     m_hoverAnimation->stop();
 
@@ -526,4 +524,3 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
-#include "kitemlistwidget.moc"

@@ -19,14 +19,13 @@
 
 #include "dolphinfontrequester.h"
 
-#include <KFontDialog>
-#include <KGlobalSettings>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KComboBox>
 
-#include <QEvent>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QFontDatabase>
+#include <QFontDialog>
 
 DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     QWidget(parent),
@@ -41,12 +40,12 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     m_modeCombo = new KComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
-    connect(m_modeCombo, SIGNAL(activated(int)),
-            this, SLOT(changeMode(int)));
+    connect(m_modeCombo, static_cast<void(KComboBox::*)(int)>(&KComboBox::activated),
+            this, &DolphinFontRequester::changeMode);
 
     m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose..."), this);
-    connect(m_chooseFontButton, SIGNAL(clicked()),
-            this, SLOT(openFontDialog()));
+    connect(m_chooseFontButton, &QPushButton::clicked,
+            this, &DolphinFontRequester::openFontDialog);
 
     changeMode(m_modeCombo->currentIndex());
 
@@ -72,7 +71,7 @@ DolphinFontRequester::Mode DolphinFontRequester::mode() const
 
 QFont DolphinFontRequester::currentFont() const
 {
-    return (m_mode == CustomFont) ? m_customFont : KGlobalSettings::generalFont();
+    return (m_mode == CustomFont) ? m_customFont : QFontDatabase::systemFont(QFontDatabase::GeneralFont);
 }
 
 void DolphinFontRequester::setCustomFont(const QFont& font)
@@ -87,11 +86,9 @@ QFont DolphinFontRequester::customFont() const
 
 void DolphinFontRequester::openFontDialog()
 {
-    QFont font = m_customFont;
-    const int result = KFontDialog::getFont(font,
-                                            KFontChooser::NoDisplayFlags,
-                                            this);
-    if (result == KFontDialog::Accepted) {
+    bool ok = false;
+    const QFont font = QFontDialog::getFont(&ok, this);
+    if (ok) {
         m_customFont = font;
         m_modeCombo->setFont(m_customFont);
         emit changed();
@@ -104,4 +101,3 @@ void DolphinFontRequester::changeMode(int index)
     emit changed();
 }
 
-#include "dolphinfontrequester.moc"

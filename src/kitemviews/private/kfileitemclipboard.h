@@ -20,27 +20,27 @@
 #ifndef KFILEITEMCLIPBOARD_H
 #define KFILEITEMCLIPBOARD_H
 
-#include <KUrl>
+#include <QUrl>
 #include <QList>
 #include <QSet>
 #include <QObject>
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 /**
  * @brief Wrapper for QClipboard to provide fast access for checking
  *        whether a KFileItem has been clipped.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemClipboard : public QObject
+class DOLPHIN_EXPORT KFileItemClipboard : public QObject
 {
     Q_OBJECT
 
 public:
     static KFileItemClipboard* instance();
 
-    bool isCut(const KUrl& url) const;
+    bool isCut(const QUrl& url) const;
 
-    QList<KUrl> cutItems() const;
+    QList<QUrl> cutItems() const;
 
 signals:
     void cutItemsChanged();
@@ -54,7 +54,7 @@ private slots:
 private:
     KFileItemClipboard();
 
-    QSet<KUrl> m_cutItems;
+    QSet<QUrl> m_cutItems;
 
     friend class KFileItemClipboardSingleton;
 };

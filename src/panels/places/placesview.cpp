@@ -35,7 +35,7 @@ void PlacesView::setIconSize(int size)
     if (size != iconSize()) {
         PlacesPanelSettings* settings = PlacesPanelSettings::self();
         settings->setIconSize(size);
-        settings->writeConfig();
+        settings->save();
 
         KItemListStyleOption option = styleOption();
         option.iconSize = size;
@@ -49,4 +49,3 @@ int PlacesView::iconSize() const
     return option.iconSize;
 }
 
-#include "placesview.moc"

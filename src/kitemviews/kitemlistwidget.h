@@ -23,7 +23,7 @@
 #ifndef KITEMLISTWIDGET_H
 #define KITEMLISTWIDGET_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 
@@ -43,7 +43,7 @@ class QPropertyAnimation;
  * size for the invisible items must be accessible. KItemListWidgetInformant
  * provides this information.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetInformant
+class DOLPHIN_EXPORT KItemListWidgetInformant
 {
 public:
     KItemListWidgetInformant();
@@ -63,7 +63,7 @@ public:
  * All properties are set by KItemListView, for each property there is a corresponding
  * virtual protected method that allows to react on property changes.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidget : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListWidget : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -82,7 +82,7 @@ public:
      * to show the data of the custom model provided by KItemListWidget::data().
      * @reimp
      */
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
 
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
@@ -203,7 +203,7 @@ protected:
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
 
     /**
      * @return The current opacity of the hover-animation. When implementing a custom painting-code for a hover-state

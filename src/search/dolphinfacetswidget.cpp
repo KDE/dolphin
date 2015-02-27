@@ -19,7 +19,7 @@
 
 #include "dolphinfacetswidget.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDate>
@@ -295,9 +295,8 @@ QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
                                                      QButtonGroup* group)
 {
     QRadioButton* button = new QRadioButton(text);
-    connect(button, SIGNAL(clicked()), this, SIGNAL(facetChanged()));
+    connect(button, &QRadioButton::clicked, this, &DolphinFacetsWidget::facetChanged);
     group->addButton(button);
     return button;
 }
 
-#include "dolphinfacetswidget.moc"

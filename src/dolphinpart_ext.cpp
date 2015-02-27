@@ -24,7 +24,7 @@
 
 #include <QVariant>
 
-#include <KFileItemList>
+#include <KFileItem>
 
 
 DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart* part)
@@ -61,7 +61,7 @@ void DolphinPartBrowserExtension::paste()
     m_part->view()->paste();
 }
 
-void DolphinPartBrowserExtension::pasteTo(const KUrl&)
+void DolphinPartBrowserExtension::pasteTo(const QUrl&)
 {
     m_part->view()->pasteIntoFolder();
 }
@@ -190,4 +190,3 @@ void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemLi
     emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
 
-#include "dolphinpart_ext.moc"

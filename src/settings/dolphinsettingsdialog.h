@@ -23,7 +23,7 @@
 
 #include <kpagedialog.h>
 
-class KUrl;
+class QUrl;
 class SettingsPageBase;
 
 /**
@@ -36,21 +36,15 @@ class DolphinSettingsDialog : public KPageDialog
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent = 0);
+    explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = 0);
     virtual ~DolphinSettingsDialog();
 
 signals:
     void settingsChanged();
 
-protected slots:
-    /** @see KDialog::slotButtonClicked() */
-    virtual void slotButtonClicked(int button);
-
 private slots:
     /** Enables the Apply button. */
     void enableApply();
-
-private:
     void applySettings();
     void restoreDefaults();
 

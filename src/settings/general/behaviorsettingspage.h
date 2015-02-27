@@ -21,9 +21,8 @@
 #define BEHAVIORSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
-#include <KUrl>
+#include <QUrl>
 
-class KComboBox;
 class QCheckBox;
 class QLabel;
 class QRadioButton;
@@ -36,20 +35,20 @@ class BehaviorSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    BehaviorSettingsPage(const KUrl& url, QWidget* parent);
+    BehaviorSettingsPage(const QUrl &url, QWidget* parent);
     virtual ~BehaviorSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual void applySettings() Q_DECL_OVERRIDE;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+    virtual void restoreDefaults() Q_DECL_OVERRIDE;
 
 private:
     void loadSettings();
 
 private:
-    KUrl m_url;
+    QUrl m_url;
 
     QRadioButton* m_localViewProps;
     QRadioButton* m_globalViewProps;

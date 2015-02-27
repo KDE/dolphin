@@ -22,7 +22,7 @@
 #include <kitemviews/kitemmodelbase.h>
 #include "kitemlistsizehintresolver.h"
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 // #define KITEMLISTVIEWLAYOUTER_DEBUG
 
@@ -516,7 +516,7 @@ void KItemListViewLayouter::doLayout()
         }
 
 #ifdef KITEMLISTVIEWLAYOUTER_DEBUG
-        kDebug() << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
+        qCDebug(DolphinDebug) << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
 #endif
         m_dirty = false;
     }
@@ -621,4 +621,3 @@ qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
     return 100;
 }
 
-#include "kitemlistviewlayouter.moc"

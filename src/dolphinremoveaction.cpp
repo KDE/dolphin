@@ -29,7 +29,7 @@ DolphinRemoveAction::DolphinRemoveAction(QObject* parent, KActionCollection* col
     m_collection(collection)
 {
     update();
-    connect(this, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
+    connect(this, &DolphinRemoveAction::triggered, this, &DolphinRemoveAction::slotRemoveActionTriggered);
 }
 
 void DolphinRemoveAction::slotRemoveActionTriggered()
@@ -55,7 +55,7 @@ void DolphinRemoveAction::update()
 
     if (m_action) {
         setIcon(m_action->icon());
-        setShortcuts(m_action->shortcuts());
+        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         setEnabled(m_action->isEnabled());
     }
 }

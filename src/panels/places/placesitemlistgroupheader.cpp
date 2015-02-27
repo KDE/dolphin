@@ -42,4 +42,3 @@ QPalette::ColorRole PlacesItemListGroupHeader::normalTextColorRole() const
     return QPalette::WindowText;
 }
 
-#include "placesitemlistgroupheader.moc"

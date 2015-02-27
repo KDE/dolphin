@@ -25,17 +25,22 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KDebug>
+#include <KFileItem>
+#include "dolphindebug.h"
 #include <KDirNotify>
-#include <KIcon>
+#include <QIcon>
 #include <KIO/Job>
+#include <KIO/DropJob>
+#include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
-#include <KLocale>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KIconLoader>
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kstandarditem.h>
-#include <KMenu>
+#include <QMenu>
 #include <KMessageBox>
 #include <KNotification>
 #include "placesitem.h"
@@ -48,6 +53,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QVBoxLayout>
 #include <QShowEvent>
+#include <QMimeData>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
@@ -67,7 +73,7 @@ PlacesPanel::~PlacesPanel()
 
 bool PlacesPanel::urlChanged()
 {
-    if (!url().isValid() || url().protocol().contains("search")) {
+    if (!url().isValid() || url().scheme().contains("search")) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -101,8 +107,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
         // used at all and stays invisible.
         m_model = new PlacesItemModel(this);
         m_model->setGroupedSorting(true);
-        connect(m_model, SIGNAL(errorMessage(QString)),
-                this, SIGNAL(errorMessage(QString)));
+        connect(m_model, &PlacesItemModel::errorMessage,
+                this, &PlacesPanel::errorMessage);
 
         m_view = new PlacesView();
         m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
@@ -112,14 +118,14 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setSingleClickActivationEnforced(true);
 
-	readSettings();
+        readSettings();
 
-        connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-        connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-        connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-        connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
-        connect(m_controller, SIGNAL(aboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotAboveItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+        connect(m_controller, &KItemListController::itemActivated, this, &PlacesPanel::slotItemActivated);
+        connect(m_controller, &KItemListController::itemMiddleClicked, this, &PlacesPanel::slotItemMiddleClicked);
+        connect(m_controller, &KItemListController::itemContextMenuRequested, this, &PlacesPanel::slotItemContextMenuRequested);
+        connect(m_controller, &KItemListController::viewContextMenuRequested, this, &PlacesPanel::slotViewContextMenuRequested);
+        connect(m_controller, &KItemListController::itemDropEvent, this, &PlacesPanel::slotItemDropEvent);
+        connect(m_controller, &KItemListController::aboveItemDropEvent, this, &PlacesPanel::slotAboveItemDropEvent);
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);
@@ -151,7 +157,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         return;
     }
 
-    KMenu menu(this);
+    QMenu menu(this);
 
     QAction* emptyTrashAction = 0;
     QAction* addAction = 0;
@@ -180,26 +186,26 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             mainSeparator = menu.addSeparator();
         }
     } else {
-        if (item->url() == KUrl("trash:/")) {
-            emptyTrashAction = menu.addAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
+        if (item->url() == QUrl("trash:/")) {
+            emptyTrashAction = menu.addAction(QIcon::fromTheme("trash-empty"), i18nc("@action:inmenu", "Empty Trash"));
             emptyTrashAction->setEnabled(item->icon() == "user-trash-full");
             menu.addSeparator();
         }
-        addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+        addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
         mainSeparator = menu.addSeparator();
-        editAction = menu.addAction(KIcon("document-properties"), i18nc("@item:inmenu", "Edit '%1'...", label));
+        editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit '%1'...", label));
     }
 
     if (!addAction) {
-        addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+        addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
     }
 
     QAction* openInNewTabAction = menu.addAction(i18nc("@item:inmenu", "Open '%1' in New Tab", label));
-    openInNewTabAction->setIcon(KIcon("tab-new"));
+    openInNewTabAction->setIcon(QIcon::fromTheme("tab-new"));
 
     QAction* removeAction = 0;
     if (!isDevice && !item->isSystemItem()) {
-        removeAction = menu.addAction(KIcon("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
+        removeAction = menu.addAction(QIcon::fromTheme("edit-delete"), i18nc("@item:inmenu", "Remove '%1'", label));
     }
 
     QAction* hideAction = menu.addAction(i18nc("@item:inmenu", "Hide '%1'", label));
@@ -217,7 +223,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     menu.addSeparator();
-    KMenu* iconSizeSubMenu = new KMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
+    QMenu* iconSizeSubMenu = new QMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
 
     struct IconSizeInfo
     {
@@ -301,9 +307,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
 void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
-    KMenu menu(this);
+    QMenu menu(this);
 
-    QAction* addAction = menu.addAction(KIcon("document-new"), i18nc("@item:inmenu", "Add Entry..."));
+    QAction* addAction = menu.addAction(QIcon::fromTheme("document-new"), i18nc("@item:inmenu", "Add Entry..."));
 
     QAction* showAllAction = 0;
     if (m_model->hiddenCount() > 0) {
@@ -342,8 +348,8 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     }
 
     if (m_model->storageSetupNeeded(index)) {
-        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
-                this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+        connect(m_model, &PlacesItemModel::storageSetupDone,
+                this, &PlacesPanel::slotItemDropEventStorageSetupDone);
 
         m_itemDropEventIndex = index;
 
@@ -365,34 +371,25 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         return;
     }
 
-    KUrl destUrl = destItem->url();
+    QUrl destUrl = destItem->url();
     QDropEvent dropEvent(event->pos().toPoint(),
                          event->possibleActions(),
                          event->mimeData(),
                          event->buttons(),
                          event->modifiers());
 
-    QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), destUrl, &dropEvent, error);
-    if (!error.isEmpty()) {
-        emit errorMessage(error);
-    }
+    slotUrlsDropped(destUrl, &dropEvent, this);
 }
 
 void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
 {
-    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
-               this, SLOT(slotItemDropEventStorageSetupDone(int,bool)));
+    disconnect(m_model, &PlacesItemModel::storageSetupDone,
+               this, &PlacesPanel::slotItemDropEventStorageSetupDone);
 
     if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
         if (success) {
-            KUrl destUrl = m_model->placesItem(index)->url();
-
-            QString error;
-            DragAndDropHelper::dropUrls(KFileItem(), destUrl, m_itemDropEvent, error);
-            if (!error.isEmpty()) {
-                emit errorMessage(error);
-            }
+            QUrl destUrl = m_model->placesItem(index)->url();
+            slotUrlsDropped(destUrl, m_itemDropEvent, this);
         }
 
         delete m_itemDropEventMimeData;
@@ -410,15 +407,12 @@ void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent*
     m_model->saveBookmarks();
 }
 
-void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
+void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    Q_UNUSED(parent);
-    QString error;
-    DragAndDropHelper::dropUrls(KFileItem(), dest, event, error);
-    if (!error.isEmpty()) {
-        emit errorMessage(error);
+    KIO::DropJob *job = DragAndDropHelper::dropUrls(dest, event, parent);
+    if (job) {
+        connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
     }
-
 }
 
 void PlacesPanel::slotTrashUpdated(KJob* job)
@@ -426,13 +420,14 @@ void PlacesPanel::slotTrashUpdated(KJob* job)
     if (job->error()) {
         emit errorMessage(job->errorString());
     }
-    org::kde::KDirNotify::emitFilesAdded("trash:/");
+    // as long as KIO doesn't do this, do it ourselves
+    KNotification::event("Trash: emptied", QString(), QPixmap(), 0, KNotification::DefaultEvent);
 }
 
 void PlacesPanel::slotStorageSetupDone(int index, bool success)
 {
-    disconnect(m_model, SIGNAL(storageSetupDone(int,bool)),
-               this, SLOT(slotStorageSetupDone(int,bool)));
+    disconnect(m_model, &PlacesItemModel::storageSetupDone,
+               this, &PlacesPanel::slotStorageSetupDone);
 
     if (m_triggerStorageSetupButton == Qt::NoButton) {
         return;
@@ -444,37 +439,28 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
         m_triggerStorageSetupButton = Qt::NoButton;
     } else {
         setUrl(m_storageSetupFailedUrl);
-        m_storageSetupFailedUrl = KUrl();
+        m_storageSetupFailedUrl = QUrl();
     }
 }
 
 void PlacesPanel::emptyTrash()
 {
-    const QString text = i18nc("@info", "Do you really want to empty the Trash? All items will be deleted.");
-    const bool del = KMessageBox::warningContinueCancel(window(),
-                                                        text,
-                                                        QString(),
-                                                        KGuiItem(i18nc("@action:button", "Empty Trash"),
-                                                                 KIcon("user-trash"))
-                                                       ) == KMessageBox::Continue;
-    if (del) {
-        QByteArray packedArgs;
-        QDataStream stream(&packedArgs, QIODevice::WriteOnly);
-        stream << int(1);
-        KIO::Job *job = KIO::special(KUrl("trash:/"), packedArgs);
-        KNotification::event("Trash: emptied", QString() , QPixmap() , 0, KNotification::DefaultEvent);
-        job->ui()->setWindow(parentWidget());
-        connect(job, SIGNAL(result(KJob*)), SLOT(slotTrashUpdated(KJob*)));
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(window());
+    if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
+        KIO::Job* job = KIO::emptyTrash();
+        KJobWidgets::setWindow(job, window());
+        connect(job, &KIO::Job::result, this, &PlacesPanel::slotTrashUpdated);
     }
 }
 
 void PlacesPanel::addEntry()
 {
     const int index = m_controller->selectionManager()->currentItem();
-    const KUrl url = m_model->data(index).value("url").value<KUrl>();
+    const QUrl url = m_model->data(index).value("url").value<QUrl>();
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setCaption(i18nc("@title:window", "Add Places Entry"));
+    dialog->setWindowTitle(i18nc("@title:window", "Add Places Entry"));
     dialog->setAllowGlobal(true);
     dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
@@ -491,10 +477,10 @@ void PlacesPanel::editEntry(int index)
     QHash<QByteArray, QVariant> data = m_model->data(index);
 
     QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setCaption(i18nc("@title:window", "Edit Places Entry"));
+    dialog->setWindowTitle(i18nc("@title:window", "Edit Places Entry"));
     dialog->setIcon(data.value("iconName").toString());
     dialog->setText(data.value("text").toString());
-    dialog->setUrl(data.value("url").value<KUrl>());
+    dialog->setUrl(data.value("url").value<QUrl>());
     dialog->setAllowGlobal(true);
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* oldItem = m_model->placesItem(index);
@@ -529,14 +515,14 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         m_triggerStorageSetupButton = button;
         m_storageSetupFailedUrl = url();
 
-        connect(m_model, SIGNAL(storageSetupDone(int,bool)),
-                this, SLOT(slotStorageSetupDone(int,bool)));
+        connect(m_model, &PlacesItemModel::storageSetupDone,
+                this, &PlacesPanel::slotStorageSetupDone);
 
         m_model->requestStorageSetup(index);
     } else {
         m_triggerStorageSetupButton = Qt::NoButton;
 
-        const KUrl url = m_model->data(index).value("url").value<KUrl>();
+        const QUrl url = m_model->data(index).value("url").value<QUrl>();
         if (!url.isEmpty()) {
             if (button == Qt::MiddleButton) {
                 emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));
@@ -546,6 +532,3 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         }
     }
 }
-
-
-#include "placespanel.moc"

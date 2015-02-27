@@ -1,0 +1,2134 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY dolphin "<application>Dolphin</application>">
+  <!ENTITY kappname "&dolphin;">
+  <!ENTITY package "kde-baseapps">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % English "INCLUDE"><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title>The &dolphin; Handbook</title>
+
+<authorgroup>
+<author>
+<firstname>Peter</firstname>
+<othername></othername>
+<surname>Penz</surname>
+<affiliation>
+<address><email>peter.penz@gmx.at</email></address>
+</affiliation>
+</author>
+<author>
+<firstname>Orville</firstname>
+<surname>Bennett</surname>
+<affiliation>
+<address>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author>
+<firstname>Michael</firstname>
+<surname>Austin</surname>
+<affiliation>
+<address><email>tuxedup@users.sourceforge.net</email></address>
+</affiliation>
+</author>
+<author>
+<firstname>David</firstname>
+<surname>Edmundson</surname>
+<affiliation>
+<address><email>kde@davidedmundson.co.uk</email></address>
+</affiliation>
+</author>
+<author>
+<firstname>Alan</firstname>
+<surname>Blanchflower</surname>
+</author>
+<author>
+<firstname>Frank</firstname>
+<surname>Reininghaus</surname>
+<affiliation>
+<address><email>frank78ac@googlemail.com</email></address>
+</affiliation>
+</author>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+</authorgroup>
+
+<copyright>
+<year>2006</year>
+<holder>Peter Penz</holder>
+</copyright>
+<copyright>
+<year>2006</year>
+<holder>&Orville.Bennett;</holder>
+<holder>Michael Austin</holder>
+</copyright>
+<copyright>
+<year>2009</year>
+<holder>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice>&FDLNotice;</legalnotice>
+
+<date>2013-06-28</date>
+<releaseinfo>4.11 (&kde; 4.11)</releaseinfo>
+
+<abstract>
+<para>
+&dolphin; is the default file manager for &kde;, designed with usability as a primary focus.
+</para>
+</abstract>
+
+<keywordset>
+<keyword>KDE</keyword>
+<keyword>Dolphin</keyword>
+<keyword>Filemanager</keyword>
+<keyword>file</keyword>
+<keyword>management</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title>Introduction</title>
+
+<para>
+&dolphin; is &kde;'s default file manager. It aims to improve usability at the
+user interface level. &dolphin; focuses only on being a file manager whereas
+&konqueror;, which was &kde;'s default file manager in &kde; 3 and can still be
+used for file management, is a universal viewer for many file types.
+</para>
+
+<para>
+This design approach allows the developers to concentrate on optimizing the user
+interface for the specific task of file management.
+</para>
+
+<para>
+Please report any problems or feature requests to the &dolphin; author via the
+bug report dialog. This is accessible either from the <guibutton>Control</guibutton> 
+button at the right of the toolbar in the default mode without
+menubar; or from <menuchoice><guimenu>Help</guimenu><guimenuitem>Report Bug...</guimenuitem></menuchoice>
+menu of the application, if the menubar is shown.
+</para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title>Using &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title>&dolphin; User Interface</title>
+
+<para>
+The screenshot below shows &dolphin;'s default user interface:
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of &dolphin;'s default user interface</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>&dolphin;'s default user interface.</phrase>
+</textobject>
+<caption><para>&dolphin;'s default user interface.</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>
+The elements of the default user interface are:
+
+<itemizedlist>
+
+<listitem><para>
+The toolbar, which can be used for quick access to frequently used actions. The
+toolbar can be customized by clicking it with the &RMB; and choosing
+<menuchoice><guimenuitem>Configure Toolbars...</guimenuitem></menuchoice>
+from the context menu, with <guimenuitem>Configure Toolbars...</guimenuitem>
+from the <guibutton>Control</guibutton> button at the 
+right of the toolbar or via <menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure Toolbars...</guimenuitem></menuchoice>
+from the main menu.
+</para>
+<screenshot>
+<screeninfo>Screenshot of &dolphin;'s toolbar</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The default toolbar.</phrase>
+</textobject>
+<caption>
+<para>
+Toolbar items where the icon is sufficient for knowing the command do not have text
+alongside the icons. This can be changed by a &RMB; click and selecting the item text 
+below <guilabel>Show Text</guilabel>. The <guibutton>Control</guibutton> 
+button at the right side of the toolbar is only displayed if the menubar is hidden.
+</para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem><para>
+The location bar, which always displays the path to the current folder. It can
+be switched between two different modes, see the
+<link linkend="location-bar">section on the location bar</link> for details.
+</para></listitem>
+
+<listitem><para>
+The <link linkend="dolphin-view">view</link>, which shows all files
+and folders in the current folder.
+</para></listitem>
+
+<listitem><para>
+The <link linkend="places-panel"><guilabel>Places</guilabel> panel</link>, which
+provides quick access to bookmarked locations and disks or other media.
+</para>
+<para>If desktop search and file indexing are enabled in the <guilabel>Desktop Search</guilabel> 
+module in the &systemsettings; the panel provides <guilabel>Recently Saved</guilabel> 
+items and allows you to search for <guilabel>Documents</guilabel>, <guilabel>Images</guilabel>,
+<guilabel>Audio Files</guilabel> and <guilabel>Video</guilabel>.
+</para></listitem>
+
+<listitem><para>
+The status bar. It displays the name, size and type of the file which is
+currently hovered over with the mouse, or the number and size of the files which are
+selected. At the right, there is a zoom slider that allows you to adjust the size
+of the icons in the view.
+</para></listitem>
+
+<listitem><para>
+The menubar (hidden by default), which provides access to all commands and configuration options.
+See the <link linkend="commands-menubar">Command Reference</link> for a list of
+all menu commands. The menubar can be toggled with 
+<guimenuitem>Show Menubar</guimenuitem> (<keycombo action="simul">&Ctrl;<keycap>M</keycap></keycombo>) 
+from the <guimenu>Settings</guimenu> menu or the <guibutton>Control</guibutton> button.
+</para>
+<para>If the menubar is hidden, all its actions are available from the 
+<guibutton>Control</guibutton> button.
+</para></listitem>
+
+<listitem><para>
+The additional <guilabel>Information</guilabel>, <guilabel>Folders</guilabel> 
+and <guilabel>Terminal</guilabel> panels are hidden
+by default, for more information see <link linkend="panels"><guilabel>Panels</guilabel>.</link>
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title>The &dolphin; View</title>
+
+<sect2 id="dolphin-view-using">
+<title>Using the View</title>
+
+<para>
+The view displays all files and folders in the current folder. These items
+can be accessed or manipulated in different ways:
+</para>
+<itemizedlist>
+
+<listitem><para>
+A file or folder can be opened by clicking it with the &LMB; (or
+double-clicking, if <guilabel>Double-click to open files and folders</guilabel>
+is enabled in the <link linkend="preferences-dialog-navigation"><quote>Navigation</quote>
+section of the settings</link>).
+</para></listitem>
+
+<listitem><para>
+Clicking any item or the white area around the items with the &RMB; opens a
+context menu which provides access to many frequently used actions for the item
+or the current folder, respectively.
+</para></listitem>
+
+<listitem><para>
+If the &LMB; is pressed on an item, but not immediately released, the item can
+be dragged and dropped in another folder in the current view or in another
+&dolphin; view (in another &dolphin; window or in the same window if the
+view is split, see below) to move or copy it or to create a symbolic link.
+Items can even be dropped in another application to open them in that application.
+</para></listitem>
+
+</itemizedlist>
+<para>
+&dolphin; remembers the history of visited folders. To navigate backward or
+forward in the history, the corresponding buttons in the toolbar can be used:
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of &dolphin;'s toolbar</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The Back and Forward buttons in the toolbar.</phrase>
+</textobject>
+<caption>
+<para>
+The <guibutton>Back</guibutton> and <guibutton>Forward</guibutton> buttons in
+the toolbar can be used to navigate in the history.
+</para>
+</caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title>&dolphin; View Appearance</title>
+
+<para>
+The toolbar contains buttons to control the appearance of the view:
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of &dolphin;'s toolbar</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The buttons in the toolbar which control the appearance of the view.</phrase>
+</textobject>
+<caption><para>
+The buttons in the toolbar which control the appearance of the view.
+</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>
+All the settings discussed below and other options concerning, &eg; the
+sorting of the files in the current folder, can also be modified in the
+<guimenu>View</guimenu> menu and in the
+<link linkend="view-properties-dialog">View Properties dialog</link>. By
+default, these settings are remembered for each folder separately. This
+behavior can be changed in the
+<link linkend="preferences-dialog-general"><quote>General</quote></link> section of the settings.
+</para>
+
+<sect3 id="dolphin-view-modes">
+<title>View Modes</title>
+
+<para>
+The first three buttons in the above screenshot switch between &dolphin;'s
+view modes.
+<!-- begin copy to konqueror filemanager.docbook -->
+<itemizedlist>
+
+<listitem><para>
+In the <guibutton>Icons</guibutton> view, which is the default, files will be
+represented by an icon that visualizes the file type, and a folder icon will be
+shown for subfolders. The names of folders and files, and the items enabled in
+<menuchoice><guimenu>View</guimenu><guisubmenu>Additional Information</guisubmenu></menuchoice>,
+are displayed below the icons.
+</para></listitem>
+
+<listitem><para>
+The <guilabel>Compact</guilabel> view shows the folder contents as icons with 
+the name beside it and the items enabled in
+<menuchoice><guimenu>View</guimenu><guisubmenu>Additional Information</guisubmenu></menuchoice> 
+below the name. The items are grouped in columns similar to the <guilabel>Short View</guilabel> 
+in the &kde; file dialog.
+</para></listitem>
+
+<listitem><para>
+In the <guibutton>Details</guibutton> view, the folder contents are displayed
+as a detailed list which contains the name, size and last modification time of
+each item. Additional columns can be added by clicking a column header with the
+&RMB;.
+</para>
+<para>In the context menu of the header line you can choose between custom or automatic 
+column width. Automatic width adjusts the width of all columns once to display the longest 
+item in the column completely, except for the <guilabel>Name</guilabel> column where 
+the extension is replaced by <quote>...</quote> 
+</para>
+<para>The order of columns can be changed by drag and drop of column headers, except for
+the <guilabel>Name</guilabel> header, which is always the first column in this view.
+</para>
+<para>
+The details view allows you to view the current directory
+in a tree-like fashion if <link linkend="preferences-dialog-viewmodes-details">
+<guilabel>Expandable folders</guilabel></link> are enabled: 
+Each subfolder of the current folder can be
+<quote>expanded</quote> or <quote>collapsed</quote> by clicking on the <guiicon>&gt;</guiicon>
+or <guiicon>v</guiicon> icon next to it.</para></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo>Grouped View</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Grouped View</phrase>
+</textobject>
+<caption><para>All view modes support grouping by the sort type selected 
+in <menuchoice><guimenu>View</guimenu><guisubmenu>Sort by</guisubmenu></menuchoice></para></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title>Information in the View</title>
+<para>
+In all view modes &kappname; shows at least an icon and a name for each item. 
+Using <guisubmenu>Additional Information</guisubmenu> in the <guimenu>View</guimenu> 
+menu or the context menu of the header in <guilabel>Details</guilabel> mode, you can select
+more information for each item to be shown:
+</para>
+
+<para>
+<guimenuitem>Size</guimenuitem>, <guimenuitem>Date</guimenuitem>,
+<guimenuitem>Type</guimenuitem>, <guimenuitem>Rating</guimenuitem>,
+<guimenuitem>Tags</guimenuitem> or <guimenuitem>Comment</guimenuitem>.
+</para>
+
+<para>Depending on the file type, additionally, sorting criteria can be selected:
+<simplelist>
+  <member><guimenuitem>Document</guimenuitem>: Number of words and lines</member>
+  <member><guimenuitem>Image</guimenuitem>: Size and orientation</member>
+  <member><guimenuitem>Audio</guimenuitem>: Artist, album, duration and track</member>
+</simplelist>
+</para>
+
+<para>The <guisubmenu>Other</guisubmenu> submenu allows you to select
+<guimenuitem>Path</guimenuitem>, <guimenuitem>Link Destination</guimenuitem>, 
+<guimenuitem>Copied From</guimenuitem>,
+<guimenuitem>Permissions</guimenuitem>, <guimenuitem>Owner</guimenuitem> or 
+<guimenuitem>User Group</guimenuitem>.
+</para>
+
+</sect3>
+
+<sect3 id="preview">
+<title>Preview</title>
+
+<para>
+If <guibutton>Preview</guibutton> is enabled, the icons are based on the actual
+file or folder contents; &eg; for images a scaled down preview of the image is
+shown.
+</para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title>Split</title>
+
+<para>
+If <guibutton>Split</guibutton> is clicked, two views are shown which can
+display the contents of different folders. This can be convenient for moving or
+copying files.
+</para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title>Selecting Items in the View</title>
+
+<para>
+There are several ways to select items in the view. Once a group of items
+is selected, all actions, such as
+<menuchoice><guimenuitem>Cut</guimenuitem></menuchoice>,
+<menuchoice><guimenuitem>Copy</guimenuitem></menuchoice>,
+<menuchoice><guimenuitem>Move to Trash</guimenuitem></menuchoice>,
+and drag and drop operations, affect all selected items.
+</para>
+
+<sect3 id="selection-mouse">
+<title>Selecting Items Using the Mouse</title>
+
+<itemizedlist>
+
+<listitem><para>
+You can press the &LMB; somewhere in the view and draw a rectangle around
+a group of items before releasing the button. This will select all items in the
+rectangle and clear the previous selection. If the &Shift; key is pressed during
+the selection process, the previous selection is kept.
+</para></listitem>
+
+<listitem><para>
+If the &Ctrl; key is pressed while an item is clicked with the &LMB;, the
+selection state of this item is toggled. If the &Ctrl; key is pressed while a
+rectangle is drawn around a group of items as described above, the selection
+state of all items in the rectangle will be toggled.
+</para></listitem>
+
+<listitem><para>
+If the &Shift; key is pressed while an item is clicked with the &LMB;, all items
+between the previous current item and the clicked item will be selected.
+</para></listitem>
+
+<listitem><para>
+If <guilabel>Show selection marker</guilabel> is enabled in the
+<link linkend="preferences-dialog-general-behavior"><quote>Behavior</quote>
+tab of the <guilabel>General</guilabel> section of the settings</link>, a small
+<guiicon>+</guiicon> or <guiicon>-</guiicon> button appears in the top
+left corner of the item which is currently hovered over with the mouse. Clicking
+this sign selects or deselects the item, respectively.
+</para></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title>Selecting Items Using the Keyboard</title>
+
+<itemizedlist>
+
+<listitem><para>
+If an arrow key, <keycap>Page Up</keycap>, <keycap>Page Down</keycap>,
+<keycap>Home</keycap>, or <keycap>End</keycap> is pressed, the new current item
+is selected, and the previous selection is cleared.
+</para></listitem>
+
+<listitem><para>
+If the &Ctrl; key is held while one of the above keys is pressed, the selection
+remains unchanged.
+</para></listitem>
+
+<listitem><para>
+If the &Shift; key is held while one of the above keys is pressed, all items
+between the previous current item and the new current item will be selected.
+</para></listitem>
+
+<listitem><para>
+If <keycombo action="simul">&Ctrl;<keysym>Space</keysym></keycombo> is pressed,
+the selection state of the current item is toggled.
+</para></listitem>
+
+<listitem><para>
+<keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo> selects all items
+in the view.
+</para></listitem>
+
+<listitem><para>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>A</keycap></keycombo> toggles the
+selection state of all items in the view.
+</para></listitem>
+
+<listitem><para>
+Select a file or folder by typing the first few letters of its name and the 
+first matching item is selected. 
+To clear the selection and cancel the keyboard search press &Esc; or wait longer than
+the timeout of 1 second.
+</para></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title>Location Bar</title>
+
+<para>
+The location bar, which can be found above &dolphin;'s view, displays
+the path to the current folder. The location bar has two modes.
+</para>
+
+<sect2 id="location-bar-bread-crumb">
+<title>Bread Crumb Mode</title>
+
+<para>
+In the <quote>bread crumb</quote> mode, which is the default, each folder name in
+the path to the current folder is a button which can be clicked to quickly open
+that folder. Moreover, clicking the <quote>&gt;</quote> sign to the right of a
+folder opens a menu which allows you to quickly open a subfolder of that folder.
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of the location bar in bread crumb mode</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Location bar in bread crumb mode.</phrase>
+</textobject>
+<caption><para>Location bar in bread crumb mode.</para></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title>Editable Mode</title>
+
+<para>
+When in bread crumb mode, clicking in the gray area to the right of the path
+with the &LMB; switches the location bar to <quote>editable</quote> mode,
+in which the path can be edited using the keyboard. To switch back to bread
+crumb mode, click the check mark at the right of the location bar with the &LMB;.
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of the location bar in editable mode</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Location bar in editable mode.</phrase>
+</textobject>
+<caption><para>Location bar in editable mode.</para></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title>Using Kioslaves</title>
+
+<para>If the location bar is empty in editable mode, a drop down box appears in 
+front of the bar listing all available kioslaves on your system. Kioslaves are 
+programs built into &kde; which add support for many different protocols to 
+&dolphin; and other &kde; applications.</para> 
+
+<para>For example with the <quote>fish</quote> kioslave &dolphin; can be 
+used to manage files and folders on a remote host that is accessible 
+via <acronym>SSH</acronym>. To do this you would type <userinput>fish://username@remotehost</userinput> 
+into the location bar. Similar remote file management can be done on 
+remote hosts accessible via the &FTP;, NFS, SFTP, SMB (CIFS) or webdav protocols.</para>
+
+<para>It is also possible to use the kioslaves drop down list to access 
+&systemsettings;, fonts, trash, other programs and devices attached to your computer. 
+See the drop down list for the full list of capabilities available from kioslaves on your system.
+</para>
+<screenshot>
+<screeninfo>Screenshot of the list of kioslaves</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Location bar showing list of available kioslaves.</phrase>
+</textobject>
+<caption><para>List of available kioslaves.</para></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title>Places and Context</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para>
+If the <guilabel>Places</guilabel> panel is hidden; in both modes an additional icon 
+in front of the path is displayed. This icon can be clicked with the &LMB; to open a 
+menu which offers quick access to <quote>places</quote> and storage media. See the 
+<link linkend="places-panel">section about the Places Panel</link> for details.
+</para>
+
+<screenshot>
+<screeninfo>Location bar with Places icon</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Location bar with Places icon</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para>The context menu of the location bar offers actions to switch between the modes and
+to copy and paste the path using the clipboard. Check the last option in this context menu to
+display either the full path starting with the root folder of the file system or to display 
+the path starting with the current places entry.
+</para>
+
+<screenshot>
+<screeninfo>Location bar context menu</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Location bar  context menu</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title>Panels</title>
+
+<para>
+&dolphin; allows a number of panels to be placed next to the view. These can
+be enabled in <menuchoice><guimenu>View</guimenu><guisubmenu>Panels</guisubmenu></menuchoice>.
+By unlocking the panels and clicking and dragging a panel title, the panel can be moved 
+to a different position, even outside the window.
+</para>
+
+<sect2 id="places-panel">
+<title>Places</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, with Baloo Recently Saved and Search For -->
+<para>
+The <guilabel>Places</guilabel> panel is located at the left of the window by
+default. The <guilabel>Places</guilabel> panel shows any locations you have
+bookmarked. It also shows any disk or media attached to the computer, recently accessed items
+and allows you to search for certain type of files. The order of these entries can be changed by drag and drop.
+</para>
+
+<para>
+The easiest way to add a folder to the <guilabel>Places</guilabel> panel is to
+drag it and drop it in the panel. Moreover, you can click inside the panel with
+the &RMB; and choose <menuchoice><guimenuitem>Add Entry...</guimenuitem></menuchoice>
+from the context menu. The first procedure creates a system wide bookmark, the second
+procedure can be used to add the current path of the location bar or any desired folder or device.
+A dialog opens where label, location and icon can be edited and the usage of this entry 
+can be restricted to &dolphin;. 
+</para>
+
+<para>A &RMB; click opens the context menu to edit, add, hide or remove entries
+and change the icon size to one of the predefined values or lock/unlock the panels.
+</para>
+<para>The context menu has an action to open the entry in a new tab. 
+Devices can be unmounted using the context menu.
+</para>
+</sect2>
+
+<sect2 id="information-panel">
+<title>Information</title>
+
+<para>
+The <guilabel>Information</guilabel> panel shows extended information about the
+selected items(s) or about the current folder or the file which is currently hovered
+over with the mouse, including size, type, and date of last modification. It also
+features a large preview of the selected item and allows you to assign a rating,
+tags, and comments to it.
+</para>
+
+</sect2>
+
+<sect2 id="folders-panel">
+<title>Folders</title>
+
+<para>
+The <guilabel>Folders</guilabel> panel shows a tree view structure of the file
+system. It only shows folders. Clicking a folder with the &LMB; opens this folder
+in the &dolphin; view.
+
+</para>
+
+</sect2>
+
+<sect2 id="terminal-panel">
+<title>Terminal</title>
+
+<para>
+This panel contains a terminal. The terminal will open at the folder currently
+shown in the &dolphin; view. Changing the folder in the active &dolphin;
+view will update the working folder of the terminal. Changing the directory in
+the terminal will update the working folder in the &dolphin; view.  The
+terminal only works with local media.
+</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title>Quick Tips</title>
+
+<para>
+The following are a number of tips to save time when using &dolphin;.
+</para>
+
+<sect2 id="quick-bookmarking">
+<title>Quick Bookmarking</title>
+
+<para>
+To quickly create a bookmark in the <guilabel>Places</guilabel> panel for the
+current folder, &RMB; click in the work space and click
+<menuchoice><guimenuitem>Add to Places</guimenuitem></menuchoice> in the context menu.
+</para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title>Finding Files and Searching in Files</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<para>
+&dolphin; is capable of searching for files and for content in files. If <keycombo action="simul">
+&Ctrl;<keycap>F</keycap></keycombo> is pressed or <menuchoice> <guimenu>Edit</guimenu> 
+<guimenuitem>Find...</guimenuitem> </menuchoice> is used, the <guilabel>Find</guilabel> 
+bar will open already set up to search for files within the current folder and any sub-folders.
+Start to type into the find input box and the search starts immediately.
+<screenshot>
+<screeninfo>Search files and for content in files</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Search files and for content in files</phrase>
+</textobject>
+<caption><para>&dolphin; searching files and for content in files.</para></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para>The search is case insensitive, and does not require surrounding wildcards 
+(<userinput>*foo*</userinput> and <userinput>foo</userinput> are equivalent), 
+but you can use wildcards inside the search term. <userinput>*</userinput> will match 
+zero or more characters, <userinput>?</userinput> only one single character.</para>
+<para>This feature can be used with running Baloo services; without these services
+a KIOSlave is launched to provide the search results.</para>
+<para>The option from <guilabel>Everywhere</guilabel> with activated Baloo 
+services searches in all indexed folders, without Baloo this option  
+starts the search from the user's <replaceable>Home</replaceable> folder.</para>
+
+<screenshot>
+<screeninfo>Search with More Options</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Search with More Options</phrase>
+</textobject>
+<caption><para>&dolphin; searching with More Options.</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>
+Use the <guilabel>More Options</guilabel> button to extend the <guilabel>Find</guilabel> 
+bar. This provides a very comfortable way for 
+the user to shrink the number of search results.</para>
+<para>To start a search select one or more file types (<guilabel>Documents</guilabel>, 
+<guilabel>Audio</guilabel>, <guilabel>Video</guilabel>, <guilabel>Images</guilabel>),
+  a time period and rating<!--FIXME readd when again implemented: and tag, if you have defined any.--></para>
+
+<para>Alternatively you can use these options in the <guilabel>Places</guilabel> panel 
+together with the <guilabel>Filter</guilabel> bar to find files using Baloo or limit 
+the search to files matching the filter expression.</para>
+
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title>Mounting Storage Media</title>
+
+<para>
+A quick way to mount Storage Media is to click on the device in the
+<guilabel>Places</guilabel> panel. This will mount and open the device in &dolphin;.
+</para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title>Undo Actions</title>
+
+<para>
+&dolphin; is capable of undoing changes you have made to files. For example if
+you moved a file to the Trash, &dolphin; can undo this and move it back to its
+original location. To undo an action, press <keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+or select <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Undo: (action name)</guimenuitem> </menuchoice>
+in the menu, &eg; <guimenuitem>Undo: Rename</guimenuitem>.
+</para>
+
+</sect2>
+
+<sect2 id="batch-rename">
+<title>Renaming A Batch Of Files</title>
+<para>
+&dolphin; is capable of renaming a number of files at the same time. Each file
+will have the file name specified, including a number, &eg;, Image1.jpg,
+Image2.jpg, Image3.jpg. This can be useful, &eg;, for pictures taken with a digital camera.
+</para>
+
+<para>
+If you wish to rename a batch of files, first select the files to be renamed.
+This can be done by pressing the &LMB; and drawing a rectangle around the files
+to be renamed before releasing it, or by holding &Ctrl; and clicking each file
+to be renamed (see <link linkend="selection">Selecting Items in the View</link>
+for more details on item selection). Then open the batch-rename dialog by pressing
+<keycap>F2</keycap> or via the File menu:
+<menuchoice> <guimenu>File</guimenu> <guimenuitem>Rename...</guimenuitem> </menuchoice>
+</para>
+
+<para>
+Then enter the name you wish to give the files. The # character must be present
+within the name. The files will then be renamed, where the <userinput>#</userinput> 
+character is replaced by a different consecutive number for each file.
+</para>
+
+<para>If all file extensions in your selection are different, the name of all files 
+can be changed without using a <userinput>#</userinput> placeholder while preserving 
+the file extensions. This is &eg; useful to rename a video file and all associated 
+subtitle files, which have the same filename, but different extensions.
+</para>
+</sect2>
+
+<sect2 id="compare-files">
+<title>Comparing A Selection Of Files or Folders</title>
+
+<para>
+If the &kompare; application is installed, you can use it to see the differences
+between two files or folders.
+</para>
+
+<para>
+First select the two files or folders to be compared. Then launch the &kompare; application
+via the Tools menu: <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Compare Files</guimenuitem> </menuchoice>.
+&kompare; will then open showing the differences between the files or folders.
+</para>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title>Filtering Files</title>
+
+<para>
+&dolphin; is capable of filtering files, &ie; showing only those items in the
+view whose name contains a given text. For example, if you wish to show
+only the <acronym>MP3</acronym> files within a folder, you could filter for <quote>.mp3</quote>.
+This would then filter out all files whose name does not contain <quote>.mp3</quote>.
+</para>
+
+<para>
+To filter files, first enable the filter bar, either by pressing <keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+or via the menu: <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Show Filter Bar</guimenuitem> </menuchoice>.
+You can then enter the text to be filtered for in the filter bar. The filter bar can
+be disabled either by pressing &Esc;, or with a &LMB; click on the 
+<guiicon>Hide Filter Bar</guiicon> icon.
+</para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title>Configuring &dolphin;</title>
+
+<para>
+&dolphin; distinguishes two different kinds of settings:
+
+<itemizedlist>
+
+<listitem><para>
+Settings which affect the general behavior of &dolphin;. These can be configured
+using the <link linkend="preferences-dialog">Preferences Dialog</link>.
+</para></listitem>
+
+<listitem><para>
+Settings which determine how the contents of a folder are displayed in &dolphin;.
+These settings are called <link linkend="view-properties">View Properties</link>
+and can be controlled with toolbar buttons, via the <guimenu>View</guimenu> menu,
+and with the <link linkend="view-properties-dialog">View Properties Dialog</link>.
+In the default configuration, the view properties are remembered for each folder,
+but &dolphin; can also be configured to use common view properties for all folders
+in the <link linkend="preferences-dialog-general-behavior"><quote>General</quote>
+section of the settings</link>.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title>The &dolphin; Preferences Dialog</title>
+<para>
+The Preferences Dialog is opened via <menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Configure &dolphin;...</guimenuitem></menuchoice> in the menu in
+&dolphin;'s main window. The settings are divided into several groups which can
+be accessed by clicking the corresponding icon on the left of the dialog.
+</para>
+
+<para>All settings except for the <guilabel>Startup</guilabel> page and the <guilabel>Status Bar</guilabel>
+tab on the <guilabel>General</guilabel> page are shared with &konqueror; in filemanager mode.
+</para>
+
+<sect2 id="preferences-dialog-startup">
+<title>Startup</title>
+
+<para>
+This group contains settings which control the appearance of &dolphin; on startup.
+
+<screenshot>
+<screeninfo>Screenshot of the Startup settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Startup Settings.</phrase>
+</textobject>
+<caption><para>Startup Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem><para>
+The <guilabel>Home Folder</guilabel> is the folder which is opened on startup. The
+location of the folder can be entered directly or chosen in a dialog which can
+be opened by clicking the button showing a <quote>folder</quote> icon. Moreover,
+the current location or the default location (which is the user's home folder)
+can be used as the Home Folder by clicking the corresponding button.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Split View Mode</guilabel> controls if the
+<link linkend="dolphin-view">&dolphin; view</link> is split on startup
+or not.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Editable location bar</guilabel> controls if the location bar is in
+editable mode on startup. The bread crumb mode of the location bar is used
+otherwise. See the <link linkend="location-bar">section about the location bar</link>
+for details about the two modes.
+</para></listitem>
+
+<listitem><para>
+If <guilabel>Show full path inside location bar</guilabel> is enabled, the full
+path of the current location is shown in the bread crumb mode of the location bar.
+Otherwise, a shortened version of the path is shown if it begins with the path of
+one of the places in the <guilabel>Places</guilabel> panel.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Show filter bar</guilabel> controls if the filter bar is shown on
+startup or not. See the <link linkend="filter-files">section on the filter bar</link>
+for details.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title>View Modes</title>
+
+<para>
+This group contains settings which control the behavior of &dolphin;'s view
+modes. The three view modes (Icons, Compact, and Details) are accessible via the
+tab bar at the top.
+
+<screenshot>
+<screeninfo>Screenshot of the Icons View settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>View Modes Settings.</phrase>
+</textobject>
+<caption><para>View Modes Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title>Common settings for all view modes</title>
+
+<para>
+All three view modes have some common settings:
+</para>
+<itemizedlist>
+
+<listitem><para>
+Sliders which control the size of the icons. The <guilabel>Default</guilabel> or
+<guilabel>Preview</guilabel> sizes are used if previews are disabled or enabled,
+respectively. Note that the icon size can be changed easily with the zoom slider
+in the status bar if the corresponding option is enabled in the
+<link linkend="preferences-dialog-general-statusbar"><quote>General</quote>
+section of the settings</link>.
+</para></listitem>
+
+<listitem><para>
+A setting for the font used in the view mode: either the system font or a
+custom font can be chosen.
+</para></listitem>
+
+</itemizedlist>
+<para>
+The other settings in the <guilabel>Text</guilabel> section which apply to only 
+one of the view modes are discussed below.
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title>Icons</title>
+<para>
+<itemizedlist>
+<listitem><para>
+<guilabel>Width</guilabel> controls the minimum width that is reserved for
+the text of a file item.
+</para></listitem>
+<listitem><para>
+  <guilabel>Maximum lines</guilabel> means maximum number of text lines below the icon.
+</para></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title>Compact</title>
+<para>
+<itemizedlist>
+<listitem><para>
+<guilabel>Maximum width</guilabel> controls the maximum width that is reserved for
+the text of a file item.
+</para></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title>Details</title>
+<para>
+<itemizedlist>
+<listitem><para>
+<guilabel>Expandable folders</guilabel> determines whether any folders that have subfolders
+are displayed in a tree view, where the sub items can be expanded by &LMB; clicking the
+<guiicon>&gt;</guiicon> icon and collapsed by clicking the <guiicon>v</guiicon> icon.
+</para></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title>Navigation</title>
+
+<para>
+This group contains settings which control how navigation in the folder
+structure and in archives works.
+
+<screenshot>
+<screeninfo>Screenshot of the Navigation settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Navigation Settings.</phrase>
+</textobject>
+<caption><para>Navigation Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem><para>
+&dolphin; can be configured to open items with a single mouse click
+(<guilabel>Single-click to open files and folders</guilabel>) or a double mouse
+click (<guilabel>Double-click to open files and folders</guilabel>). In the
+latter case, a single mouse click will select the file or folder.
+</para>
+<note>
+<para>This is a system wide setting and can be changed in the &systemsettings; in the
+<menuchoice><guimenu>Input Devices</guimenu> <guimenuitem>Mouse</guimenuitem></menuchoice> 
+module as well.</para>
+</note>
+</listitem>
+
+<listitem><para>
+Archives will be opened inside &dolphin;, and not in an external application, if
+<guilabel>Open Archives as folder</guilabel> is enabled.
+</para></listitem>
+
+<listitem><para>
+If <guilabel>Open folders during drag operations</guilabel> is enabled, dragging
+an item with the mouse and hovering over a folder with it for a short time will open
+that folder. This allows you to move or copy items quickly to folders which are
+several levels deeper in the folder hierarchy.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-services">
+<title>Services</title>
+
+<para>
+This group offers a selection of services that can be shown in the
+<guisubmenu>Actions</guisubmenu> submenu of &dolphin;'s context menu which
+appears when clicking a file or folder with the &RMB;.
+</para>
+
+<screenshot>
+<screeninfo>Screenshot of the Services settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-services.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Services Settings.</phrase>
+</textobject>
+<caption><para>Services Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>
+Using the <guibutton>Download New Services</guibutton> you can fetch additional 
+services for the context menu.
+</para>
+<para>
+If you have installed &dolphin;'s plugins for <guilabel>Bazaar</guilabel>, 
+<guilabel>Mercurial</guilabel>, <guilabel>Git</guilabel> or 
+<guilabel>Subversion</guilabel> from the kdesdk module these services are shown in the list.
+If these plugins are enabled and you enter a folder which is under version control, 
+the version state (locally changed, up to date &etc;) is indicated by icons 
+and you have additional entries in the 
+context menu like commit, update, add, remove &etc;
+</para>
+<para>
+In the service list you can also choose if the <guimenuitem>Delete</guimenuitem>,
+<guimenuitem>Copy To</guimenuitem>, and <guimenuitem>Move To</guimenuitem>
+commands are shown in the context menu.
+</para>
+<para>
+&dolphin; has to be restarted to activate the changes for some of these settings.
+<!--FIXME wrong for Copy To + Move To + Delete, what about the other items?-->
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title>Trash</title>
+
+<para>
+This group contains settings which control the behavior of the trash.
+
+<screenshot>
+<screeninfo>Screenshot of the Trash settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>Trash Settings.</phrase>
+</textobject>
+<caption><para>Trash Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem><para>
+Files which are older than a configurable number of days can be deleted automatically.
+</para></listitem>
+
+<listitem><para>
+The size of the trash can be limited to a configurable percentage of the disk
+size. If this limit is reached, a warning can be issued, or the oldest or
+largest files can be deleted automatically.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-general">
+<title>General</title>
+
+<para>
+This group contains settings which control the general behavior of &dolphin;.
+The group is divided further into four subgroups which can be accessed using the
+tab bar at the top.
+
+<screenshot>
+<screeninfo>Screenshot of the General settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>General Settings.</phrase>
+</textobject>
+<caption><para>General Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title>Behavior Tab</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem><para>
+In the <guilabel>View</guilabel> section, you can configure whether the
+<link linkend="view-properties"> view properties</link> are stored for each
+folder or if common view properties are to be used for all folders.
+</para></listitem>
+<listitem><para>
+When hovering over a file or folder with the mouse, a small window with relevant
+information is shown if <guilabel>Show tooltips</guilabel> is enabled.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Show selection marker</guilabel> shows a small <guibutton>+</guibutton>
+or <guibutton>-</guibutton> button above an item's icon if the item is hovered over
+with the mouse. These can be used to select or deselect the item.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Natural sorting of items</guilabel> controls how items are sorted in
+the view. If this option is enabled, the sort order of three example files
+will be
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File2,</para></listitem>
+<listitem><para>File10.</para></listitem>
+</orderedlist>
+If this option is disabled, the normal alphabetical sorting will be used, which
+leads to the sort order
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File10,</para></listitem>
+<listitem><para>File2.</para></listitem>
+</orderedlist>
+</para></listitem>
+
+<listitem><para>
+Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is currently selected. 
+If this option is disabled or several items are selected, a dialog will be displayed for renaming.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title>Previews Tab</title>
+
+<para>
+In this tab, you can configure for which file types previews are shown.
+Moreover, the maximum size of remote files for which previews are generated can be chosen.
+</para>
+<para>
+If previews are enabled for folders, previews of some files in the folder will
+be shown inside a folder's icon.
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title>Confirmations Tab</title>
+<para>
+In the ask for confirmation section, you can enable warning dialogs that
+are shown before potentially harmful actions .
+</para>
+<warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
+<guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
+<application>Gwenview</application> and all &kde; applications using the default &kde; file dialog, 
+whereas <guilabel>Closing Dolphin windows 
+  with multiple tabs</guilabel> is a &dolphin; <!--and &konqueror;--> specific setting.</para></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title>Status Bar Tab</title>
+
+<para>
+In this tab, some additional items can be enabled for the status bar, provided
+the status bar is wide enough:
+
+<itemizedlist>
+
+<listitem><para>
+A <guilabel>zoom slider</guilabel> which can be used to change the icon size quickly.
+</para></listitem>
+
+<listitem><para>
+A bar that shows how much space is free on the current drive.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+<note><para>
+Since &dolphin; 4.9 the <guimenuitem>Delete</guimenuitem>,
+<guimenuitem>Copy To</guimenuitem>, and <guimenuitem>Move To</guimenuitem>
+commands of the context menu have to be enabled on the Services page.
+</para></note>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title>Folder View Properties</title>
+
+<para>
+The following settings control how the contents of a folder are displayed in the
+&kappname; view, and are stored on a per-folder basis by default:
+</para>
+<itemizedlist>
+
+<listitem><para>
+The view mode (Icons, Compact, Details)
+</para></listitem>
+
+<listitem><para>
+The sorting of items, which is determined by the sort order (ascending,
+descending) and the attribute (such as name, size,...) that the items are
+sorted by
+</para></listitem>
+
+<listitem><para>
+Sorting of folders and files &ndash; are folders shown first or not?
+</para></listitem>
+
+<listitem><para>
+Previews &ndash; are they shown instead of icons (based on the settings made in
+<link linkend="preferences-dialog-general-previews"><guilabel>Previews</guilabel>
+tab of &kappname;'s General settings</link>) or not?
+</para></listitem>
+
+<listitem><para>
+Are items shown in groups in the views?
+</para></listitem>
+
+<listitem><para>
+Are hidden files shown?
+</para></listitem>
+
+<listitem><para>
+What additional information (besides the name) is shown in the Icons or Details view?
+</para></listitem>
+
+</itemizedlist>
+<para>
+The view properties can be configured in the
+<menuchoice><guimenu>View</guimenu></menuchoice> menu, some (such as the view
+mode) can also be changed using toolbar buttons.
+</para>
+
+<sect2 id="view-properties-dialog">
+<title>The View Properties Dialog</title>
+
+<para>
+
+<screenshot>
+<screeninfo>Screenshot of the View Properties dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>The View Properties dialog.</phrase>
+</textobject>
+<caption><para>The View Properties Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+The <guilabel>View Properties</guilabel> dialog can be used to quickly modify
+several view properties at once. This is done for the current folder, for the
+current folder including all subfolders, or even for all folders, depending on
+the choice made in the <guilabel>Apply View Properties To</guilabel> section.
+</para>
+
+<para>
+If <guilabel>Use these view properties as default</guilabel> is enabled, the chosen view
+properties will also be used for all folders which do not have customized view
+properties yet.
+</para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title>Command Reference</title>
+<para>By default the menubar is not shown. All actions described here either can 
+be accessed with toolbar buttons or with items in the menu of the 
+<guibutton>Control</guibutton> toolbar button.</para>
+
+<sect1 id="commands-menubar">
+<title>The Menubar in &dolphin;'s Main Window</title>
+
+<sect2>
+<title>The File Menu</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guisubmenu>Create New</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Creates a new object (such as a folder or a text file) in the current
+folder.</action></para>
+<para>You will find an explanation of all available objects in &konqueror;'s handbook in the chapter
+<ulink url="help:/konqueror/making.html">Create New</ulink>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>New Window</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens a new &dolphin; window.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>New Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens a new tab.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>W</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Close Tab</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Closes the current tab.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>F2</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Rename</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Renames one currently selected item inline.
+Opens the <link linkend="batch-rename">batch rename dialog</link> if several 
+items are selected.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>Del</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Move to Trash</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Moves the currently selected item(s) to the
+trash.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Shift;<keycap>Del</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Delete</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Permanently deletes the currently selected item(s). The items are not moved
+to the trash and cannot be restored.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>Return</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Properties</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Shows the properties dialog for the currently selected
+item(s).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Q</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Exits &dolphin;.</action></para></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title>The Edit Menu</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>Z</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Undo</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Undoes the last action performed by &dolphin;.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>X</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Cut</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Cuts the currently selected item(s).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Copy</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Copies the currently selected item(s).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Paste Clipboard Contents...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Pastes the currently copied/cut items to the current
+folder. If the clipboard does not contain files or folders, the clipboard
+contents (such as text or image data) will be pasted into a new file.
+The name of this file has to be entered in a dialog.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Find...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens the find bar. Enter a search term into the edit box and select to search for filename
+or in contents of files starting from the current folder or everywhere.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>A</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Select All</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Selects all files and folders in the current
+folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>A</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Invert Selection</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>
+Selects all unselected items and deselects all selected items in the current folder.
+</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The View Menu</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>+</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom In</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Increases the size of icons in the view.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>-</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom Out</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Decreases the size of icons in the view.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>View Mode</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Changes the view mode to <guimenuitem>Icons</guimenuitem>
+(<keycombo action="simul">&Ctrl;<keycap>1</keycap></keycombo>), <guimenuitem>Compact</guimenuitem>
+(<keycombo action="simul">&Ctrl;<keycap>2</keycap></keycombo>) or <guimenuitem>Details</guimenuitem>
+(<keycombo action="simul">&Ctrl;<keycap>3</keycap></keycombo>).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Sort By</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Changes whether items are sorted</action> by <guimenuitem>Name</guimenuitem>
+or other criteria described in <link linkend="dolphin-view-information">Information in the View</link>.</para>
+<para><guimenuitem>Descending</guimenuitem> reverses the sort order.
+<guimenuitem>Folders First</guimenuitem> sorts folders before files.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Additional Information</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Displays additional information</action> 
+described in <link linkend="dolphin-view-information">Information in the View</link>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Preview</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays a symbolic preview of the file contents </action> in the different
+view modes.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Show in Groups</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Displays</action> the content of the
+current folder grouped by the option selected in <guimenuitem>Sort By</guimenuitem>.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>.</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Show Hidden Files</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Shows all the hidden files and sub-folders within the current
+folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>F3</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Split</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Enables and disables the split view mode.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul"><keycap>F5</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Reload</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Reloads the current folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Stop</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Stops loading/reading the contents of the current
+folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guisubmenu>Panels</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Enables and disables</action> the different <link linkend="panels">panels</link>:
+<guimenuitem>Places</guimenuitem> (<keycap>F9</keycap>), <guimenuitem>Information</guimenuitem>
+(<keycap>F11</keycap>), <guimenuitem>Folders</guimenuitem> (<keycap>F7</keycap>), 
+<guimenuitem>Terminal</guimenuitem> (<keycap>F4</keycap>).
+With <guimenuitem>Lock Panels</guimenuitem> the panel header with caption and two buttons is  
+hidden to save space and the panels are immutable, with <guimenuitem>Unlock Panels</guimenuitem>
+the header is visible and the panel can be moved to the right or left  or even
+outside the main window.
+<!-- FIXME Places header always visible ?-->
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycap>F6</keycap>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Location Bar</guisubmenu>
+<guimenuitem>Editable Location</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Changes the location bar between the two modes; the
+<link linkend="location-bar-bread-crumb">bread crumb mode</link> and the
+<link linkend="location-bar-editable">editable mode</link>.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>L</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guisubmenu>Location Bar</guisubmenu>
+<guimenuitem>Replace Location</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Switches the location bar to <link linkend="location-bar-editable">editable mode</link>,
+if necessary, and selects the location such that it can be replaced quickly.
+</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu>
+<guimenuitem>Adjust View Properties...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens the <link linkend="view-properties-dialog">View Properties
+Dialog</link>.</action></para></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title>The Go Menu</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>Up</keycap></keycombo>
+</shortcut>
+<guimenu>Go</guimenu>
+<guimenuitem>Up</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Changes to the folder above the current folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>Left</keycap></keycombo>
+</shortcut>
+<guimenu>Go</guimenu>
+<guimenuitem>Back</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Changes to the previously viewed folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>Right</keycap></keycombo>
+</shortcut>
+<guimenu>Go</guimenu>
+<guimenuitem>Forward</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Undoes</action> a <quote>Go Back</quote> action.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Alt;<keycap>Home</keycap></keycombo>
+</shortcut>
+<guimenu>Go</guimenu>
+<guimenuitem>Home</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Changes to the users home folder, &eg;
+/home/Peter/.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Go</guimenu>
+<guisubmenu>Recently Closed Tabs</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Shows a list of recently closed tabs which can
+be reopened.</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Tools Menu</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Show Filter Bar</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Enables and disables the <link linkend="filter-files">filter bar</link>.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Shift;<keycap>F4</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Open Terminal</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens &konsole; within the current folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guimenuitem>Compare Files</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Compare the currently selected files or folders with
+&kompare;. This action is only enabled if two files or folders are selected.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tools</guimenu>
+<guisubmenu>Select Remote Charset</guisubmenu>
+</menuchoice></term>
+<listitem><para><action>Allows you to choose the charset used by a remote
+connection manually.</action></para></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title>The Settings and Help Menu</title> 
+<para>
+&dolphin; has the common &kde; <guimenu>Settings</guimenu> and <guimenu>Help</guimenu>
+menu items, for more information read the sections about the <ulink url="help:/fundamentals/ui.html#menus-settings"
+>Settings Menu</ulink> and <ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink>
+of the &kde; Fundamentals.
+</para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title>Miscellaneous Questions</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para>Has &dolphin; replaced &konqueror;?</para>
+</question>
+<answer>
+<para>
+&dolphin; is not intended to be a competitor to &konqueror;: &konqueror; acts as
+a universal viewer being able to show &HTML; pages, text documents, folders and a
+lot more, whereas &dolphin; focuses on being only a file manager. This approach
+allows the optimization of the user interface for the task of file management.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How can I get involved with the development of &dolphin;?</para>
+</question>
+<answer>
+<para>
+The easiest way to get involved with &dolphin; is to subscribe to the developer 
+mailing list <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel">kfm-devel</ulink>
+and drop an email to the developer mailing list. Email what you can do, how much time
+you can devote &etc;, the developers will let you know what you can do in the
+project. If you wish to contribute to the documentation please email the
+<ulink url="mailto:kde-doc-english@kde.org">&kde; Documentation Team</ulink> list.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How can I submit bug reports?</para>
+</question>
+<answer>
+<para>
+The official channel for submitting bug reports is via the &kde; bug tracking
+system. The &kde; bug tracker can be found at
+<ulink url="http://bugs.kde.org">http://bugs.kde.org</ulink>.
+</para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para>How can I submit feature requests?</para>
+</question>
+<answer>
+<para>
+The official channel for submitting feature requests is via the &kde; bug
+tracking system. The &kde; bug tracker can be found at
+<ulink url="http://bugs.kde.org">http://bugs.kde.org</ulink>.
+</para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title>Credits and License</title>
+
+<para>
+&dolphin;
+</para>
+<para>
+Program copyright 2006&ndash;2013 Peter Penz <email>peter.penz@gmx.at</email> and 
+Frank Reininghaus <email>frank78ac@googlemail.com</email></para>
+<para>
+Contributors:
+<itemizedlist>
+<listitem><para>Cvetoslav Ludmiloff <email>ludmiloff@gmail.com</email></para></listitem>
+<listitem><para>Stefan Monov <email>logixoul@gmail.com</email></para></listitem>
+<listitem><para>Michael Austin <email>tuxedup@users.sourceforge.net</email></para></listitem>
+<listitem><para>&Orville.Bennett; &Orville.Bennett.mail;</para></listitem>
+</itemizedlist>
+</para>
+
+<para>
+Documentation copyright 2005 Peter Penz <email>peter.penz@gmx.at</email>
+</para>
+<para>
+Documentation copyright 2006 &Orville.Bennett; &Orville.Bennett.mail;
+</para>
+<para>
+Documentation copyright 2006 Michael Austin <email>tuxedup@users.sourceforge.net</email>
+</para>
+<para>
+Documentation copyright 2009 Frank Reininghaus <email>frank78ac@googlemail.com</email>
+</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;               <!-- FDL: do not remove -->
+&underGPL;        	 <!-- GPL License -->
+
+</chapter>
+
+<appendix id="installation">
+<title>How to get &dolphin;</title>
+<para>&dolphin; is part of the &package; package which is an essential part of
+&kde;.</para>
+
+<para>For instructions on acquiring &kde; please see <ulink
+url="http://www.kde.org">http://www.kde.org</ulink> or read the chapter 
+<ulink url="help:/fundamentals/install.html">Installing &kde;</ulink> 
+in the &kde; Fundamentals.</para>
+
+<para>For further information about &dolphin; you might want to visit
+<ulink url="http://dolphin.kde.org">http://dolphin.kde.org</ulink> or
+<ulink url="http://userbase.kde.org/Dolphin">http://userbase.kde.org/Dolphin</ulink>.</para>
+
+</appendix>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

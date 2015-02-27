@@ -20,12 +20,12 @@
 #ifndef KPIXMAPMODIFIER_H
 #define KPIXMAPMODIFIER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 class QPixmap;
 class QSize;
 
-class LIBDOLPHINPRIVATE_EXPORT KPixmapModifier
+class DOLPHIN_EXPORT KPixmapModifier
 {
 public:
     static void scale(QPixmap& pixmap, const QSize& scaledSize);

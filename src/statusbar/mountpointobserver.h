@@ -20,9 +20,10 @@
 #ifndef MOUNTPOINTOBSERVER_H
 #define MOUNTPOINTOBSERVER_H
 
-#include <KDiskFreeSpaceInfo>
+#include <KIO/Job>
 
 #include <QObject>
+#include <QUrl>
 
 /**
  * A MountPointObserver can be used to determine the free space on a mount
@@ -52,15 +53,10 @@ class MountPointObserver : public QObject
 {
     Q_OBJECT
 
-    explicit MountPointObserver(const QString& mountPoint, QObject* parent = 0);
+    explicit MountPointObserver(const QUrl& url, QObject* parent = 0);
     virtual ~MountPointObserver() {}
 
 public:
-    /**
-     * Obtains information about the available space on the observed mount point.
-     */
-    KDiskFreeSpaceInfo spaceInfo() const { return m_spaceInfo; }
-
     /**
      * Call this function to indicate that the caller intends to continue using this object. An
      * internal reference count is increased then. When the observer is not needed any more,
@@ -80,28 +76,30 @@ public:
     }
 
     /**
-     * Returns a MountPointObserver for the given \a path. If the caller intends to continue using
+     * Returns a MountPointObserver for the given \a url. If the caller intends to continue using
      * the returned object, it must call its ref() method.
      */
-    static MountPointObserver* observerForPath(const QString& path);
+    static MountPointObserver* observerForUrl(const QUrl& url);
 
 signals:
     /**
-     * This signal is emitted if the information that spaceInfo() will return has changed.
+     * This signal is emitted when the size has been retrieved.
      */
-    void spaceInfoChanged();
+    void spaceInfoChanged(quint64 size, quint64 available);
 
 public slots:
     /**
-     * If this slot is invoked, MountPointObserver checks if the available space on the observed
-     * mount point has changed, and emits spaceInfoChanged() if that is the case.
+     * If this slot is invoked, MountPointObserver starts a new driveSize job
+     * to get the drive's size.
      */
     void update();
 
+private slots:
+    void freeSpaceResult(KIO::Job* job, KIO::filesize_t size, KIO::filesize_t available);
+
 private:
-    const QString m_mountPoint;
+    const QUrl m_url;
     int m_referenceCount;
-    KDiskFreeSpaceInfo m_spaceInfo;
 
     friend class MountPointObserverCache;
 };

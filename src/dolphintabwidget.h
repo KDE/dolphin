@@ -21,7 +21,7 @@
 #define DOLPHIN_TAB_WIDGET_H
 
 #include <QTabWidget>
-#include <KUrl>
+#include <QUrl>
 
 class DolphinViewContainer;
 class DolphinTabPage;
@@ -70,13 +70,13 @@ signals:
     /**
      * Is emitted when a tab has been closed.
      */
-    void rememberClosedTab(const KUrl& url, const QByteArray& state);
+    void rememberClosedTab(const QUrl& url, const QByteArray& state);
 
     /**
      * Is emitted when the url of the current tab has been changed. This signal
      * is also emitted when the active view has been changed.
      */
-    void currentUrlChanged(const KUrl& url);
+    void currentUrlChanged(const QUrl& url);
 
 public slots:
     /**
@@ -89,26 +89,26 @@ public slots:
      * Opens a new tab showing the  URL \a primaryUrl and the optional URL
      * \a secondaryUrl and activates the tab.
      */
-    void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+    void openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl());
 
     /**
      * Opens a new tab in the background showing the URL \a primaryUrl and the
      * optional URL \a secondaryUrl.
      */
-    void openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl());
 
     /**
      * Opens each directory in \p dirs in a separate tab. If the "split view"
      * option is enabled, 2 directories are collected within one tab.
      */
-    void openDirectories(const QList<KUrl>& dirs);
+    void openDirectories(const QList<QUrl>& dirs);
 
     /**
      * Opens the directory which contains the files \p files
      * and selects all files (implements the --select option
      * of Dolphin).
      */
-    void openFiles(const QList<KUrl>& files);
+    void openFiles(const QList<QUrl> &files);
 
     /**
      * Closes the currently active tab.
@@ -168,19 +168,19 @@ private slots:
      * The active view url of a tab has been changed so update the text and the
      * icon of the corresponding tab.
      */
-    void tabUrlChanged(const KUrl& url);
+    void tabUrlChanged(const QUrl& url);
 
     void currentTabChanged(int index);
 
 protected:
-    virtual void tabInserted(int index);
-    virtual void tabRemoved(int index);
+    virtual void tabInserted(int index) Q_DECL_OVERRIDE;
+    virtual void tabRemoved(int index) Q_DECL_OVERRIDE;
 
 private:
     /**
      * Returns the name of the tab for the URL \a url.
      */
-    QString tabName(const KUrl& url) const;
+    QString tabName(const QUrl& url) const;
 
 private:
     /** Caches the (negated) places panel visibility */

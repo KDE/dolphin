@@ -22,7 +22,7 @@
 
 #include <settings/settingspagebase.h>
 
-class KIntSpinBox;
+class QSpinBox;
 class QListView;
 class QModelIndex;
 
@@ -42,13 +42,13 @@ public:
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    virtual void applySettings();
+    virtual void applySettings() Q_DECL_OVERRIDE;
 
     /** Restores the settings to default values. */
-    virtual void restoreDefaults();
+    virtual void restoreDefaults() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void configureService(const QModelIndex& index);
@@ -61,7 +61,7 @@ private:
     bool m_initialized;
     QListView *m_listView;
     QStringList m_enabledPreviewPlugins;
-    KIntSpinBox* m_remoteFileSizeBox;
+    QSpinBox* m_remoteFileSizeBox;
 };
 
 #endif

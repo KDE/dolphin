@@ -24,17 +24,20 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QTimer>
-#include <QBoxLayout>
+#include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
-#include <KLocale>
-#include <KIO/JobClasses>
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KIO/Job>
 
 #include <views/viewproperties.h>
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
-                                             const KUrl& dir,
+                                             const QUrl& dir,
                                              const ViewProperties& viewProps) :
-    KDialog(parent),
+    QDialog(parent),
     m_dir(dir),
     m_viewProps(0),
     m_label(0),
@@ -45,9 +48,8 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
-
-    setCaption(i18nc("@title:window", "Applying View Properties"));
-    setButtons(KDialog::Cancel);
+    setWindowTitle(i18nc("@title:window", "Applying View Properties"));
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setDirProperties(viewProps);
@@ -56,37 +58,39 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     // that the view properties are saved twice:
     m_viewProps->setAutoSaveEnabled(false);
 
-    QWidget* main = new QWidget();
-    QVBoxLayout* topLayout = new QVBoxLayout();
+    auto layout = new QVBoxLayout(this);
+    setLayout(layout);
 
-    m_label = new QLabel(i18nc("@info:progress", "Counting folders: %1", 0), main);
-    m_progressBar = new QProgressBar(main);
+    m_label = new QLabel(i18nc("@info:progress", "Counting folders: %1", 0), this);
+    layout->addWidget(m_label);
+
+    m_progressBar = new QProgressBar(this);
     m_progressBar->setMinimum(0);
     m_progressBar->setMaximum(0);
     m_progressBar->setValue(0);
+    layout->addWidget(m_progressBar);
 
-    topLayout->addWidget(m_label);
-    topLayout->addWidget(m_progressBar);
+    layout->addStretch();
 
-    main->setLayout(topLayout);
-    setMainWidget(main);
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &ViewPropsProgressInfo::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &ViewPropsProgressInfo::reject);
+    layout->addWidget(buttonBox);
 
     // Use the directory size job to count the number of directories first. This
     // allows to give a progress indication for the user when applying the view
     // properties later.
     m_dirSizeJob = KIO::directorySize(dir);
-    connect(m_dirSizeJob, SIGNAL(result(KJob*)),
-            this, SLOT(applyViewProperties()));
+    connect(m_dirSizeJob, &KIO::DirectorySizeJob::result,
+            this, &ViewPropsProgressInfo::applyViewProperties);
 
     // The directory size job cannot emit any progress signal, as it is not aware
     // about the total number of directories. Therefor a timer is triggered, which
     // periodically updates the current directory count.
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(updateProgress()));
+    connect(m_timer, &QTimer::timeout,
+            this, &ViewPropsProgressInfo::updateProgress);
     m_timer->start(300);
-
-    connect(this, SIGNAL(cancelClicked()), this, SLOT(cancelApplying()));
 }
 
 ViewPropsProgressInfo::~ViewPropsProgressInfo()
@@ -99,7 +103,22 @@ void ViewPropsProgressInfo::closeEvent(QCloseEvent* event)
 {
     m_timer->stop();
     m_applyViewPropsJob = 0;
-    KDialog::closeEvent(event);
+    QDialog::closeEvent(event);
+}
+
+void ViewPropsProgressInfo::reject()
+{
+    if (m_dirSizeJob) {
+        m_dirSizeJob->kill();
+        m_dirSizeJob = 0;
+    }
+
+    if (m_applyViewPropsJob) {
+        m_applyViewPropsJob->kill();
+        m_applyViewPropsJob = 0;
+    }
+
+    QDialog::reject();
 }
 
 void ViewPropsProgressInfo::updateProgress()
@@ -128,21 +147,7 @@ void ViewPropsProgressInfo::applyViewProperties()
     m_dirSizeJob = 0;
 
     m_applyViewPropsJob = new ApplyViewPropsJob(m_dir, *m_viewProps);
-    connect(m_applyViewPropsJob, SIGNAL(result(KJob*)),
-            this, SLOT(close()));
+    connect(m_applyViewPropsJob, &ApplyViewPropsJob::result,
+            this, &ViewPropsProgressInfo::close);
 }
 
-void ViewPropsProgressInfo::cancelApplying()
-{
-    if (m_dirSizeJob) {
-        m_dirSizeJob->kill();
-        m_dirSizeJob = 0;
-    }
-
-    if (m_applyViewPropsJob) {
-        m_applyViewPropsJob->kill();
-        m_applyViewPropsJob = 0;
-    }
-}
-
-#include "viewpropsprogressinfo.moc"

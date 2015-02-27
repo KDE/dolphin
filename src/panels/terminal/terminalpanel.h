@@ -24,7 +24,7 @@
 
 #include <QQueue>
 
-class TerminalInterfaceV2;
+class TerminalInterface;
 class QVBoxLayout;
 class QWidget;
 
@@ -35,7 +35,7 @@ namespace KIO {
 namespace KParts {
     class ReadOnlyPart;
 }
-
+class KJob;
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
  *        active view.
@@ -58,21 +58,19 @@ signals:
     /**
      * Is emitted if the an URL change is requested.
      */
-    void changeUrl(const KUrl& url);
+    void changeUrl(const QUrl& url);
 
 protected:
-    /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
 
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotMostLocalUrlResult(KJob* job);
     void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
 
 private:
-    void changeDir(const KUrl& url);
+    void changeDir(const QUrl& url);
     void sendCdToTerminal(const QString& path);
 
 private:
@@ -80,7 +78,7 @@ private:
     KIO::StatJob* m_mostLocalUrlJob;
 
     QVBoxLayout* m_layout;
-    TerminalInterfaceV2* m_terminal;
+    TerminalInterface* m_terminal;
     QWidget* m_terminalWidget;
     KParts::ReadOnlyPart* m_konsolePart;
     QString m_konsolePartCurrentDirectory;

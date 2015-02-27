@@ -25,7 +25,7 @@
 #include <KFileItem>
 #include <kitemviews/kitemmodelbase.h>
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <QObject>
 #include <QSet>
@@ -34,9 +34,12 @@
 
 class KDirectoryContentsCounter;
 class KFileItemModel;
-class KJob;
 class QPixmap;
 class QTimer;
+
+namespace KIO {
+    class PreviewJob;
+}
 
 #ifdef HAVE_BALOO
     namespace Baloo
@@ -84,7 +87,7 @@ class QTimer;
  * 3.   Finally, the entire process is repeated for any items that might have
  *      changed in the mean time.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModelRolesUpdater : public QObject
+class DOLPHIN_EXPORT KFileItemModelRolesUpdater : public QObject
 {
     Q_OBJECT
 
@@ -201,7 +204,6 @@ private slots:
     void resolveRecentlyChangedItems();
 
     void applyChangedBalooRoles(const QString& file);
-    void applyChangedBalooRolesJobFinished(KJob* job);
 
     void slotDirectoryContentsCountReceived(const QString& path, int count);
 
@@ -316,7 +318,7 @@ private:
     // A new preview job will be started from them once the first one finishes.
     KFileItemList m_pendingPreviewItems;
 
-    KJob* m_previewJob;
+    KIO::PreviewJob* m_previewJob;
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent

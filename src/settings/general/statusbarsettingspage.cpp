@@ -21,8 +21,7 @@
 
 #include <dolphin_generalsettings.h>
 
-#include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QVBoxLayout>
@@ -36,15 +35,14 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_showZoomSlider);
     topLayout->addWidget(m_showSpaceInfo);
     topLayout->addStretch();
 
     loadSettings();
 
-    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showZoomSlider, &QCheckBox::toggled, this, &StatusBarSettingsPage::changed);
+    connect(m_showSpaceInfo, &QCheckBox::toggled, this, &StatusBarSettingsPage::changed);
 }
 
 StatusBarSettingsPage::~StatusBarSettingsPage()
@@ -56,7 +54,7 @@ void StatusBarSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
-    settings->writeConfig();
+    settings->save();
 }
 
 void StatusBarSettingsPage::restoreDefaults()
@@ -73,4 +71,3 @@ void StatusBarSettingsPage::loadSettings()
     m_showSpaceInfo->setChecked(GeneralSettings::showSpaceInfo());
 }
 
-#include "statusbarsettingspage.moc"

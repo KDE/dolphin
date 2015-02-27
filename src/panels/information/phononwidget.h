@@ -21,8 +21,7 @@
 #ifndef PHONONWIDGET_H
 #define PHONONWIDGET_H
 
-#include <KUrl>
-
+#include <QUrl>
 #include <QSize>
 #include <QWidget>
 
@@ -46,8 +45,8 @@ class PhononWidget : public QWidget
     public:
         PhononWidget(QWidget *parent = 0);
 
-        void setUrl(const KUrl &url);
-        KUrl url() const;
+        void setUrl(const QUrl &url);
+        QUrl url() const;
 
         void setVideoSize(const QSize& size);
         QSize videoSize() const;
@@ -64,8 +63,8 @@ class PhononWidget : public QWidget
         void hasVideoChanged(bool hasVideo);
 
     protected:
-        virtual void showEvent(QShowEvent *event);
-        virtual void hideEvent(QHideEvent *event);
+        virtual void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
+        virtual void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
 
     private slots:
         void stateChanged(Phonon::State);
@@ -77,7 +76,7 @@ class PhononWidget : public QWidget
         void applyVideoSize();
 
     private:
-        KUrl m_url;
+        QUrl m_url;
         QSize m_videoSize;
 
         QToolButton *m_playButton;

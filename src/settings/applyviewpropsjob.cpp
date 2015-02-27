@@ -23,7 +23,7 @@
 #include "applyviewpropsjob.h"
 #include <views/viewproperties.h>
 
-ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
+ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
                                      const ViewProperties& viewProps) :
     KIO::Job(),
     m_viewProps(0),
@@ -38,8 +38,8 @@ ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
     KIO::ListJob* listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);
-    connect(listJob, SIGNAL(entries(KIO::Job*,KIO::UDSEntryList)),
-            SLOT(slotEntries(KIO::Job*,KIO::UDSEntryList)));
+    connect(listJob, &KIO::ListJob::entries,
+            this, &ApplyViewPropsJob::slotEntries);
     addSubjob(listJob);
 }
 
@@ -56,8 +56,9 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
         if (name != QLatin1String(".") && name != QLatin1String("..") && entry.isDir()) {
             ++m_progress;
 
-            KUrl url(m_dir);
-            url.addPath(name);
+            QUrl url(m_dir);
+            url = url.adjusted(QUrl::StripTrailingSlash);
+            url.setPath(url.path() + '/' + name);
 
             Q_ASSERT(m_viewProps);
 
@@ -76,4 +77,3 @@ void ApplyViewPropsJob::slotResult(KJob* job)
     emitResult();
 }
 
-#include "applyviewpropsjob.moc"

@@ -24,30 +24,28 @@
 
 #include <config-baloo.h>
 
-#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <KIcon>
+#include <QIcon>
+#include <QUrl>
 
 #include <QList>
-#include <QWeakPointer>
+#include <QPointer>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
 class DolphinViewActionHandler;
-class DolphinApplication;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class DolphinTabWidget;
-class KAction;
 class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class KUrl;
 class QToolButton;
+class QIcon;
 
 /**
  * @short Main window for Dolphin.
@@ -59,7 +57,6 @@ class DolphinMainWindow: public KXmlGuiWindow
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")
     Q_PROPERTY(int id READ getId SCRIPTABLE true)
-    friend class DolphinApplication;
 
 public:
     DolphinMainWindow();
@@ -77,14 +74,14 @@ public:
      * Opens each directory in \p dirs in a separate tab. If the "split view"
      * option is enabled, 2 directories are collected within one tab.
      */
-    void openDirectories(const QList<KUrl>& dirs);
+    void openDirectories(const QList<QUrl> &dirs);
 
     /**
      * Opens the directory which contains the files \p files
      * and selects all files (implements the --select option
      * of Dolphin).
      */
-    void openFiles(const QList<KUrl>& files);
+    void openFiles(const QList<QUrl>& files);
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared
@@ -110,17 +107,22 @@ public slots:
      * Inform all affected dolphin components (panels, views) of an URL
      * change.
      */
-    void changeUrl(const KUrl& url);
+    void changeUrl(const QUrl& url);
 
     /**
      * The current directory of the Terminal Panel has changed, probably because
      * the user entered a 'cd' command. This slot calls changeUrl(url) and makes
      * sure that the panel keeps the keyboard focus.
      */
-    void slotTerminalDirectoryChanged(const KUrl& url);
+    void slotTerminalDirectoryChanged(const QUrl& url);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
+
+    /**
+     * Opens a new tab showing the URL \a url and activates the tab.
+     */
+    void openNewActivatedTab(const QUrl& url);
 
 signals:
     /**
@@ -133,7 +135,7 @@ signals:
      * Is sent if the url of the currently active view has
      * been changed.
      */
-    void urlChanged(const KUrl& url);
+    void urlChanged(const QUrl& url);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
@@ -148,16 +150,16 @@ signals:
 
 protected:
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QMainWindow::closeEvent() */
-    virtual void closeEvent(QCloseEvent* event);
+    virtual void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
 
     /** @see KMainWindow::saveProperties() */
-    virtual void saveProperties(KConfigGroup& group);
+    virtual void saveProperties(KConfigGroup& group) Q_DECL_OVERRIDE;
 
     /** @see KMainWindow::readProperties() */
-    virtual void readProperties(const KConfigGroup& group);
+    virtual void readProperties(const KConfigGroup& group) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -313,9 +315,6 @@ private slots:
      */
     void slotSelectionChanged(const KFileItemList& selection);
 
-    /** Emits the signal requestItemInfo(). */
-    void slotRequestItemInfo(const KFileItem&);
-
     /**
      * Updates the state of the 'Back' and 'Forward' menu
      * actions corresponding to the current history.
@@ -335,16 +334,9 @@ private slots:
     void openNewActivatedTab();
 
     /**
-     * Opens a new tab in the background showing the URL \a primaryUrl and the
-     * optional URL \a secondaryUrl.
+     * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
-
-    /**
-     * Opens a new tab showing the  URL \a primaryUrl and the optional URL
-     * \a secondaryUrl and activates the tab.
-     */
-    void openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl = KUrl());
+    void openNewTab(const QUrl& url);
 
     /**
      * Opens the selected folder in a new tab.
@@ -366,7 +358,7 @@ private slots:
      * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
-    void handleUrl(const KUrl& url);
+    void handleUrl(const QUrl& url);
 
     /**
      * handleUrl() can trigger a stat job to see if the url can actually
@@ -391,7 +383,7 @@ private slots:
      */
     void openContextMenu(const QPoint& pos,
                          const KFileItem& item,
-                         const KUrl& url,
+                         const QUrl& url,
                          const QList<QAction*>& customActions);
 
     void updateControlMenu();
@@ -399,17 +391,11 @@ private slots:
     void slotControlButtonDeleted();
 
     /**
-     * Is called if a panel emits an error-message and shows
-     * the error-message in the active view-container.
-     */
-    void slotPanelErrorMessage(const QString& error);
-
-    /**
      * Is called if the user clicked an item in the Places Panel.
      * Reloads the view if \a url is the current URL already, and changes the
      * current URL otherwise.
      */
-    void slotPlaceActivated(const KUrl& url);
+    void slotPlaceActivated(const QUrl& url);
 
     /**
      * Is called if the another view has been activated by changing the current
@@ -433,7 +419,12 @@ private slots:
      * Sets the window caption to url.fileName() if this is non-empty,
      * "/" if the URL is "file:///", and url.protocol() otherwise.
      */
-    void setUrlAsCaption(const KUrl& url);
+    void setUrlAsCaption(const QUrl& url);
+
+    /**
+     * Is called when the view has finished loading the directory.
+     */
+    void slotDirectoryLoadingCompleted();
 
 private:
     void setupActions();
@@ -450,7 +441,7 @@ private:
      * case if it has not added already to the toolbar.
      * @return True if the action has been added to the menu.
      */
-    bool addActionToMenu(QAction* action, KMenu* menu);
+    bool addActionToMenu(QAction* action, QMenu* menu);
 
     /**
      * Connects the signals from the created DolphinView with
@@ -476,7 +467,7 @@ private:
      * as the action for toggling the dock visibility is done by Qt which
      * is no KAction instance.
      */
-    void createPanelAction(const KIcon& icon,
+    void createPanelAction(const QIcon &icon,
                            const QKeySequence& shortcut,
                            QAction* dockAction,
                            const QString& actionName);
@@ -492,7 +483,7 @@ private:
     public:
         UndoUiInterface();
         virtual ~UndoUiInterface();
-        virtual void jobError(KIO::Job* job);
+        virtual void jobError(KIO::Job* job) Q_DECL_OVERRIDE;
     };
 
     KNewFileMenu* m_newFileMenu;
@@ -502,7 +493,7 @@ private:
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
-    QWeakPointer<DolphinSettingsDialog> m_settingsDialog;
+    QPointer<DolphinSettingsDialog> m_settingsDialog;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QToolButton* m_controlButton;

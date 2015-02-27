@@ -23,10 +23,7 @@
 #include "configurepreviewplugindialog.h"
 
 #include <KConfigGroup>
-#include <KDialog>
-#include <KGlobal>
-#include <KLocale>
-#include <KNumInput>
+#include <KLocalizedString>
 #include <KServiceTypeTrader>
 #include <KService>
 
@@ -42,6 +39,7 @@
 #include <QScrollBar>
 #include <QShowEvent>
 #include <QSlider>
+#include <QSpinBox>
 #include <QSortFilterProxyModel>
 #include <QVBoxLayout>
 
@@ -65,8 +63,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView = new QListView(this);
 
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
-    connect(delegate, SIGNAL(requestServiceConfiguration(QModelIndex)),
-            this, SLOT(configureService(QModelIndex)));
+    connect(delegate, &ServiceItemDelegate::requestServiceConfiguration,
+            this, &PreviewsSettingsPage::configureService);
 
     ServiceModel* serviceModel = new ServiceModel(this);
     QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
@@ -79,7 +77,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
 
-    m_remoteFileSizeBox = new KIntSpinBox(this);
+    m_remoteFileSizeBox = new QSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
@@ -88,15 +86,14 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 0, Qt::AlignRight);
     fileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
 
-    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(showPreviewsLabel);
     topLayout->addWidget(m_listView);
     topLayout->addLayout(fileSizeBoxLayout);
 
     loadSettings();
 
-    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
-    connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
+    connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
+    connect(m_remoteFileSizeBox, static_cast<void(QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
 }
 
 PreviewsSettingsPage::~PreviewsSettingsPage()
@@ -119,7 +116,7 @@ void PreviewsSettingsPage::applySettings()
         }
     }
 
-    KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), QLatin1String("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
@@ -159,7 +156,7 @@ void PreviewsSettingsPage::loadPreviewPlugins()
     QAbstractItemModel* model = m_listView->model();
 
     const KService::List plugins = KServiceTypeTrader::self()->query(QLatin1String("ThumbCreator"));
-    foreach (const KSharedPtr<KService>& service, plugins) {
+    foreach (const KService::Ptr& service, plugins) {
         const bool configurable = service->property("Configurable", QVariant::Bool).toBool();
         const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
 
@@ -176,24 +173,11 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
 void PreviewsSettingsPage::loadSettings()
 {
-    KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")
                                                      << QLatin1String("jpegthumbnail"));
-
-    // If the user is upgrading from KDE <= 4.6, we must check if he had the 'jpegrotatedthumbnail' plugin enabled.
-    // This plugin does not exist any more in KDE >= 4.7, so we have to replace it with the 'jpegthumbnail' plugin.
-    //
-    // Note that the upgrade to the correct plugin is done already in KFilePreviewGenerator. However, if Konqueror is
-    // opened in web browsing mode and the Settings dialog is opened, we might end up here before KFilePreviewGenerator's
-    // constructor is ever called -> the plugin replacement should be done here as well.
-    if (m_enabledPreviewPlugins.contains(QLatin1String("jpegrotatedthumbnail"))) {
-        m_enabledPreviewPlugins.removeAll(QLatin1String("jpegrotatedthumbnail"));
-        m_enabledPreviewPlugins.append(QLatin1String("jpegthumbnail"));
-        globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
-        globalConfig.sync();
-    }
 
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);
@@ -201,4 +185,3 @@ void PreviewsSettingsPage::loadSettings()
     m_remoteFileSizeBox->setValue(maxRemoteMByteSize);
 }
 
-#include "previewssettingspage.moc"

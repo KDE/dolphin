@@ -81,8 +81,7 @@ KItemListHeader::KItemListHeader(KItemListView* listView) :
     m_headerWidget = m_view->m_headerWidget;
     Q_ASSERT(m_headerWidget);
 
-    connect(m_headerWidget, SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
-            this, SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)));
+    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
+            this, &KItemListHeader::columnWidthChanged);
 }
 
-#include "kitemlistheader.moc"

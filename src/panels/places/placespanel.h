@@ -21,16 +21,16 @@
 #ifndef PLACESPANEL_H
 #define PLACESPANEL_H
 
-#include <KUrl>
+#include <QUrl>
+#include <QMimeData>
 #include <panels/panel.h>
 
 class KItemListController;
-class PlacesItemEditDialog;
 class PlacesItem;
 class PlacesItemModel;
 class PlacesView;
 class QGraphicsSceneDragDropEvent;
-
+class KJob;
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */
@@ -43,13 +43,13 @@ public:
     virtual ~PlacesPanel();
 
 signals:
-    void placeActivated(const KUrl& url);
-    void placeMiddleClicked(const KUrl& url);
+    void placeActivated(const QUrl& url);
+    void placeMiddleClicked(const QUrl& url);
     void errorMessage(const QString& error);
 
 protected:
-    virtual bool urlChanged();
-    virtual void showEvent(QShowEvent* event);
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 public slots:
     virtual void readSettings();
@@ -62,7 +62,7 @@ private slots:
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotItemDropEventStorageSetupDone(int index, bool success);
     void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
-    void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
+    void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
     void slotTrashUpdated(KJob* job);
     void slotStorageSetupDone(int index, bool success);
 
@@ -84,7 +84,7 @@ private:
     PlacesItemModel* m_model;
     PlacesView* m_view;
 
-    KUrl m_storageSetupFailedUrl;
+    QUrl m_storageSetupFailedUrl;
     Qt::MouseButton m_triggerStorageSetupButton;
 
     int m_itemDropEventIndex;

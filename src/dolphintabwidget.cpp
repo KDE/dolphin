@@ -23,11 +23,10 @@
 #include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
-#include "views/draganddrophelper.h"
 
 #include <QApplication>
 #include <KConfigGroup>
-#include <KIcon>
+#include <kio/global.h>
 #include <KRun>
 
 DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
@@ -130,13 +129,13 @@ void DolphinTabWidget::openNewActivatedTab()
     }
 }
 
-void DolphinTabWidget::openNewActivatedTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     openNewTab(primaryUrl, secondaryUrl);
     setCurrentIndex(count() - 1);
 }
 
-void DolphinTabWidget::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryUrl)
+void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     QWidget* focusWidget = QApplication::focusWidget();
 
@@ -144,9 +143,9 @@ void DolphinTabWidget::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryU
     tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     connect(tabPage, SIGNAL(activeViewChanged(DolphinViewContainer*)),
             this, SIGNAL(activeViewChanged(DolphinViewContainer*)));
-    connect(tabPage, SIGNAL(activeViewUrlChanged(KUrl)),
-            this, SLOT(tabUrlChanged(KUrl)));
-    addTab(tabPage, KIcon(KMimeType::iconNameForUrl(primaryUrl)), tabName(primaryUrl));
+    connect(tabPage, SIGNAL(activeViewUrlChanged(QUrl)),
+            this, SLOT(tabUrlChanged(QUrl)));
+    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(primaryUrl));
 
     if (focusWidget) {
         // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened
@@ -155,17 +154,17 @@ void DolphinTabWidget::openNewTab(const KUrl& primaryUrl, const KUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<KUrl>& dirs)
+void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs)
 {
     const bool hasSplitView = GeneralSettings::splitView();
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
-    QList<KUrl>::const_iterator it = dirs.constBegin();
+    QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
-        const KUrl& primaryUrl = *(it++);
+        const QUrl& primaryUrl = *(it++);
         if (hasSplitView && (it != dirs.constEnd())) {
-            const KUrl& secondaryUrl = *(it++);
+            const QUrl& secondaryUrl = *(it++);
             openNewTab(primaryUrl, secondaryUrl);
         } else {
             openNewTab(primaryUrl);
@@ -173,7 +172,7 @@ void DolphinTabWidget::openDirectories(const QList<KUrl>& dirs)
     }
 }
 
-void DolphinTabWidget::openFiles(const QList<KUrl>& files)
+void DolphinTabWidget::openFiles(const QList<QUrl>& files)
 {
     if (files.isEmpty()) {
         return;
@@ -182,9 +181,9 @@ void DolphinTabWidget::openFiles(const QList<KUrl>& files)
     // Get all distinct directories from 'files' and open a tab
     // for each directory. If the "split view" option is enabled, two
     // directories are shown inside one tab (see openDirectories()).
-    QList<KUrl> dirs;
-    foreach (const KUrl& url, files) {
-        const KUrl dir(url.directory());
+    QList<QUrl> dirs;
+    foreach (const QUrl& url, files) {
+        const QUrl dir(url.adjusted(QUrl::RemoveFilename));
         if (!dirs.contains(dir)) {
             dirs.append(dir);
         }
@@ -286,22 +285,17 @@ void DolphinTabWidget::openNewActivatedTab(int index)
 void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
 {
     if (index >= 0) {
-        const DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
-
-        QString error;
-        DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event, error);
-        if (!error.isEmpty()) {
-            currentTabPage()->activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
-        }
+        DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
+        view->dropUrls(view->url(), event);
     }
 }
 
-void DolphinTabWidget::tabUrlChanged(const KUrl& url)
+void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 {
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(url));
-        tabBar()->setTabIcon(index, KIcon(KMimeType::iconNameForUrl(url)));
+        tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
 
         // Emit the currentUrlChanged signal if the url of the current tab has been changed.
         if (index == currentIndex()) {
@@ -342,15 +336,15 @@ void DolphinTabWidget::tabRemoved(int index)
     emit tabCountChanged(count());
 }
 
-QString DolphinTabWidget::tabName(const KUrl& url) const
+QString DolphinTabWidget::tabName(const QUrl& url) const
 {
     QString name;
-    if (url.equals(KUrl("file:///"))) {
+    if (url == QUrl("file:///")) {
         name = '/';
     } else {
-        name = url.fileName();
+        name = url.adjusted(QUrl::StripTrailingSlash).fileName();
         if (name.isEmpty()) {
-            name = url.protocol();
+            name = url.scheme();
         } else {
             // Make sure that a '&' inside the directory name is displayed correctly
             // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()

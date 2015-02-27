@@ -20,13 +20,13 @@
 #ifndef FOLDERSPANEL_H
 #define FOLDERSPANEL_H
 
-#include <KUrl>
+#include <QUrl>
 #include <panels/panel.h>
 
 class KFileItemModel;
 class KItemListController;
 class QGraphicsSceneDragDropEvent;
-
+class KFileItem;
 /**
  * @brief Shows a tree view of the directories starting from
  *        the currently selected place.
@@ -51,19 +51,19 @@ public:
     void rename(const KFileItem& item);
 
 signals:
-    void folderActivated(const KUrl& url);
-    void folderMiddleClicked(const KUrl& url);
+    void folderActivated(const QUrl& url);
+    void folderMiddleClicked(const QUrl& url);
     void errorMessage(const QString& error);
 
 protected:
     /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
+    virtual bool urlChanged() Q_DECL_OVERRIDE;
 
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
     /** @see QWidget::keyPressEvent() */
-    virtual void keyPressEvent(QKeyEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotItemActivated(int index);
@@ -87,7 +87,7 @@ private:
      * directories until \a url.
      * @param url  URL of the leaf directory that should get expanded.
      */
-    void loadTree(const KUrl& url);
+    void loadTree(const QUrl& url);
 
     /**
      * Sets the item with the index \a index as current item, selects

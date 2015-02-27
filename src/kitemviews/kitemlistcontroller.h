@@ -23,14 +23,13 @@
 #ifndef KITEMLISTCONTROLLER_H
 #define KITEMLISTCONTROLLER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include "kitemset.h"
 
 #include <QObject>
-#include <QPixmap>
 #include <QPointF>
-
+class QTimer;
 class KItemModelBase;
 class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
@@ -44,7 +43,6 @@ class QGraphicsSceneWheelEvent;
 class QHideEvent;
 class QInputMethodEvent;
 class QKeyEvent;
-class QMimeData;
 class QShowEvent;
 class QTransform;
 
@@ -58,7 +56,7 @@ class QTransform;
  * @see KItemModelBase
  * @see KItemListSelectionManager
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListController : public QObject
+class DOLPHIN_EXPORT KItemListController : public QObject
 {
     Q_OBJECT
     Q_ENUMS(SelectionBehavior)
@@ -131,7 +129,7 @@ public:
     /**
      * If set to true, the signals itemActivated() and itemsActivated() are emitted
      * after a single-click of the left mouse button. If set to false (the default),
-     * the setting from KGlobalSettings::singleClick() is used.
+     * the setting from style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) is used.
      */
     void setSingleClickActivationEnforced(bool singleClick);
     bool singleClickActivationEnforced() const;

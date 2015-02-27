@@ -22,7 +22,9 @@
 
 #include <QObject>
 
-class KUrl;
+#include <KIO/Job>
+
+class QUrl;
 class MountPointObserver;
 
 class SpaceInfoObserver : public QObject
@@ -30,22 +32,28 @@ class SpaceInfoObserver : public QObject
     Q_OBJECT
 
 public:
-    explicit SpaceInfoObserver(const KUrl& url, QObject* parent = 0);
+    explicit SpaceInfoObserver(const QUrl& url, QObject* parent = 0);
     virtual ~SpaceInfoObserver();
 
     quint64 size() const;
     quint64 available() const;
 
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
 signals:
     /**
-     * This signal is emitted if the information that size() and/or available() will  return has changed.
+     * This signal is emitted when the size or available space changes.
      */
     void valuesChanged();
 
+private slots:
+    void spaceInfoChanged(quint64 size, quint64 available);
+
 private:
     MountPointObserver* m_mountPointObserver;
+
+    quint64 m_dataSize;
+    quint64 m_dataAvailable;
 };
 
 #endif

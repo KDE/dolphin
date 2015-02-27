@@ -20,14 +20,14 @@
 #ifndef KITEMLISTRUBBERBAND_H
 #define KITEMLISTRUBBERBAND_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 #include <QObject>
 #include <QPointF>
 
 /**
  * @brief Manages the rubberband when selecting items.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListRubberBand : public QObject
+class DOLPHIN_EXPORT KItemListRubberBand : public QObject
 {
     Q_OBJECT
 

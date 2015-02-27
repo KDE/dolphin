@@ -22,19 +22,16 @@
 #include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <KLocale>
-#include <kratingpainter.h>
+#include <KRatingPainter>
 #include <KStringHandler>
-#include <KDebug>
 
 #include "private/kfileitemclipboard.h"
 #include "private/kitemlistroleeditor.h"
 #include "private/kpixmapmodifier.h"
 
-#include <QFontMetricsF>
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>
@@ -120,6 +117,8 @@ QString KStandardItemListWidgetInformant::itemText(int index, const KItemListVie
 
 bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
 {
+    Q_UNUSED(index);
+    Q_UNUSED(view);
     return false;
 }
 
@@ -682,7 +681,7 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
     // The URL might have changed (i.e., if the sort order of the items has
     // been changed). Therefore, the "is cut" state must be updated.
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     m_isCut = clipboard->isCut(itemUrl);
 
     // The icon-state might depend from other roles and hence is
@@ -758,10 +757,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         if (m_roleEditor) {
             emit roleEditingCanceled(index(), current, data().value(current));
 
-            disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-            disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-                       this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+                       this, &KStandardItemListWidget::slotRoleEditingCanceled);
+            disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+                       this, &KStandardItemListWidget::slotRoleEditingFinished);
 
             if (m_oldRoleEditor) {
                 m_oldRoleEditor->deleteLater();
@@ -796,10 +795,10 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
         m_roleEditor->setTextCursor(cursor);
     }
 
-    connect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-    connect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+    connect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+            this, &KStandardItemListWidget::slotRoleEditingCanceled);
+    connect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+            this, &KStandardItemListWidget::slotRoleEditingFinished);
 
     // Adjust the geometry of the editor
     QRectF rect = roleEditingRect(current);
@@ -833,24 +832,24 @@ void KStandardItemListWidget::showEvent(QShowEvent* event)
     // Listen to changes of the clipboard to mark the item as cut/uncut
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
 
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     m_isCut = clipboard->isCut(itemUrl);
 
-    connect(clipboard, SIGNAL(cutItemsChanged()),
-            this, SLOT(slotCutItemsChanged()));
+    connect(clipboard, &KFileItemClipboard::cutItemsChanged,
+            this, &KStandardItemListWidget::slotCutItemsChanged);
 }
 
 void KStandardItemListWidget::hideEvent(QHideEvent* event)
 {
-    disconnect(KFileItemClipboard::instance(), SIGNAL(cutItemsChanged()),
-               this, SLOT(slotCutItemsChanged()));
+    disconnect(KFileItemClipboard::instance(), &KFileItemClipboard::cutItemsChanged,
+               this, &KStandardItemListWidget::slotCutItemsChanged);
 
     KItemListWidget::hideEvent(event);
 }
 
 void KStandardItemListWidget::slotCutItemsChanged()
 {
-    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const QUrl itemUrl = data().value("url").value<QUrl>();
     const bool isCut = KFileItemClipboard::instance()->isCut(itemUrl);
     if (m_isCut != isCut) {
         m_isCut = isCut;
@@ -1415,10 +1414,10 @@ QRectF KStandardItemListWidget::roleEditingRect(const QByteArray& role) const
 
 void KStandardItemListWidget::closeRoleEditor()
 {
-    disconnect(m_roleEditor, SIGNAL(roleEditingCanceled(QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingCanceled(QByteArray,QVariant)));
-    disconnect(m_roleEditor, SIGNAL(roleEditingFinished(QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(QByteArray,QVariant)));
+    disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
+               this, &KStandardItemListWidget::slotRoleEditingCanceled);
+    disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingFinished,
+               this, &KStandardItemListWidget::slotRoleEditingFinished);
 
     if (m_roleEditor->hasFocus()) {
         // If the editing was not ended by a FocusOut event, we have
@@ -1440,7 +1439,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
-        const KIcon icon(name);
+        const QIcon icon = QIcon::fromTheme(name);
 
         int requestedSize;
         if (size <= KIconLoader::SizeSmall) {
@@ -1497,4 +1496,3 @@ qreal KStandardItemListWidget::columnPadding(const KItemListStyleOption& option)
     return option.padding * 6;
 }
 
-#include "kstandarditemlistwidget.moc"

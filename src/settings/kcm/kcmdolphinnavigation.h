@@ -35,8 +35,8 @@ public:
     DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args);
     virtual ~DolphinNavigationConfigModule();
 
-    virtual void save();
-    virtual void defaults();
+    virtual void save() Q_DECL_OVERRIDE;
+    virtual void defaults() Q_DECL_OVERRIDE;
 
 private:
     NavigationSettingsPage* m_navigation;

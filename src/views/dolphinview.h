@@ -23,29 +23,23 @@
 
 #include <config-baloo.h>
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
 #include <kparts/part.h>
 #include <KFileItem>
-#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <KIO/Job>
-
-#include <QBoxLayout>
-#include <QKeyEvent>
-#include <QLinkedList>
+#include <QUrl>
+#include <QMimeData>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
-
+class QVBoxLayout;
 class DolphinItemListView;
-class KAction;
-class KActionCollection;
 class KFileItemModel;
 class KItemListContainer;
 class KItemModelBase;
 class KItemSet;
-class KUrl;
 class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
@@ -63,7 +57,7 @@ class QRegExp;
  * - show previews
  * - enable grouping
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
+class DOLPHIN_EXPORT DolphinView : public QWidget
 {
     Q_OBJECT
 
@@ -97,7 +91,7 @@ public:
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    DolphinView(const KUrl& url, QWidget* parent);
+    DolphinView(const QUrl& url, QWidget* parent);
 
     virtual ~DolphinView();
 
@@ -105,7 +99,7 @@ public:
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * If \a active is true, the view will marked as active. The active
@@ -178,13 +172,13 @@ public:
      * gets selected if no loading of a directory has been triggered
      * by DolphinView::setUrl() or DolphinView::reload().
      */
-    void markUrlsAsSelected(const QList<KUrl>& urls);
+    void markUrlsAsSelected(const QList<QUrl> &urls);
 
     /**
      * Marks the item indicated by \p url to be scrolled to and as the
      * current item after directory DolphinView::url() has been loaded.
      */
-    void markUrlAsCurrent(const KUrl& url);
+    void markUrlAsCurrent(const QUrl& url);
 
     /**
      * All items that match to the pattern \a pattern will get selected
@@ -309,14 +303,14 @@ public:
      * @return a valid and adjusted url if the item can be opened as folder,
      * otherwise return an empty url.
      */
-    static KUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
+    static QUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
 
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).
      */
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
     /**
      * Selects all items.
@@ -368,10 +362,15 @@ public slots:
      */
     void pasteIntoFolder();
 
+    /**
+     * Handles a drop of @p dropEvent onto @p destUrl
+     */
+    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent);
+
     void stopLoading();
 
     /** Activates the view if the item list container gets focus. */
-    virtual bool eventFilter(QObject* watched, QEvent* event);
+    virtual bool eventFilter(QObject* watched, QEvent* event) Q_DECL_OVERRIDE;
 
 signals:
     /**
@@ -384,10 +383,10 @@ signals:
      * After the URL has been changed the signal urlChanged() will
      * be emitted.
      */
-    void urlAboutToBeChanged(const KUrl& url);
+    void urlAboutToBeChanged(const QUrl& url);
 
     /** Is emitted if the URL of the view has been changed to \a url. */
-    void urlChanged(const KUrl& url);
+    void urlChanged(const QUrl& url);
 
     /**
      * Is emitted when clicking on an item with the left mouse button.
@@ -408,7 +407,7 @@ signals:
     /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
-    void tabRequested(const KUrl& url);
+    void tabRequested(const QUrl& url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
@@ -463,7 +462,7 @@ signals:
      */
     void requestContextMenu(const QPoint& pos,
                             const KFileItem& item,
-                            const KUrl& url,
+                            const QUrl& url,
                             const QList<QAction*>& customActions);
 
     /**
@@ -520,13 +519,13 @@ signals:
      * Emitted when the file-item-model emits redirection.
      * Testcase: fish://localhost
      */
-    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void redirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Is emitted when the URL set by DolphinView::setUrl() represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
     /**
      * Is emitted when the write state of the folder has been changed. The application
@@ -549,11 +548,10 @@ signals:
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
-    virtual void wheelEvent(QWheelEvent* event);
+    virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
-    /** @reimp */
-    virtual void hideEvent(QHideEvent* event);
-    virtual bool event(QEvent* event);
+    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**
@@ -578,7 +576,11 @@ private slots:
     /*
      * Is called when new items get pasted or dropped.
      */
-    void slotAboutToCreate(const KUrl::List& urls);
+    void slotItemCreated(const QUrl &url);
+    /*
+     * Is called after all pasted or dropped items have been copied to destination.
+     */
+    void slotPasteJobResult(KJob *job);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
@@ -619,7 +621,16 @@ private slots:
      */
     void slotDeleteFileFinished(KJob* job);
 
-    void slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl);
+    /**
+     * Indicates in the status bar that the trash operation
+     * of the job \a job has been finished.
+     */
+    void slotTrashFileFinished(KJob* job);
+
+    /**
+     * Invoked when the rename job is done, for error handling.
+     */
+    void slotRenamingResult(KJob* job);
 
     /**
      * Invoked when the file item model has started the loading
@@ -665,13 +676,13 @@ private slots:
      * model indicates that the item is available, the item will
      * get selected and it is assured that the item stays visible.
      */
-    void observeCreatedItem(const KUrl& url);
+    void observeCreatedItem(const QUrl &url);
 
     /**
      * Called when a redirection happens.
      * Testcase: fish://localhost
      */
-    void slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Applies the state that has been restored by restoreViewState()
@@ -692,7 +703,7 @@ private slots:
     void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
 private:
-    void loadDirectory(const KUrl& url, bool reload = false);
+    void loadDirectory(const QUrl& url, bool reload = false);
 
     /**
      * Applies the view properties which are defined by the current URL
@@ -717,14 +728,14 @@ private:
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
      */
-    void pasteToUrl(const KUrl& url);
+    void pasteToUrl(const QUrl& url);
 
     /**
      * Returns a list of URLs for all selected items. The list is
      * simplified, so that when the URLs are part of different tree
      * levels, only the parent is returned.
      */
-    KUrl::List simplifiedSelectedUrls() const;
+    QList<QUrl> simplifiedSelectedUrls() const;
 
     /**
      * Returns the MIME data for all selected items.
@@ -743,7 +754,7 @@ private:
      *         DolphinView::viewPropertiesContext(), otherwise the context
      *         is returned.
      */
-    KUrl viewPropertiesUrl() const;
+    QUrl viewPropertiesUrl() const;
 
 private:
     bool m_active;
@@ -753,7 +764,7 @@ private:
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
                      // tooltip may be shown when hovering an item.
 
-    KUrl m_url;
+    QUrl m_url;
     QString m_viewPropertiesContext;
     Mode m_mode;
     QList<QByteArray> m_visibleRoles;
@@ -768,11 +779,11 @@ private:
 
     QTimer* m_selectionChangedTimer;
 
-    KUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
+    QUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
     bool m_scrollToCurrentItem; // Used for marking we need to scroll to current item or not
     QPoint m_restoredContentsPosition;
 
-    QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
+    QList<QUrl> m_selectedUrls; // Used for making the view to remember selections after F5
     bool m_clearSelectionBeforeSelectingNewItems;
     bool m_markFirstNewlySelectedItemAsCurrent;
 

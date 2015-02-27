@@ -17,18 +17,14 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
 #include <QGraphicsView>
-
-namespace {
-    const int DefaultTimeout = 2000;
-};
+#include <QTest>
+#include <QSignalSpy>
 
 class KFileItemListViewTest : public QObject
 {
@@ -60,7 +56,7 @@ void KFileItemListViewTest::init()
 
     m_graphicsView = new QGraphicsView();
     m_graphicsView->show();
-    QTest::qWaitForWindowShown(m_graphicsView);
+    QTest::qWaitForWindowExposed(m_graphicsView);
 }
 
 void KFileItemListViewTest::cleanup()
@@ -91,27 +87,29 @@ void KFileItemListViewTest::cleanup()
  */
 void KFileItemListViewTest::testGroupedItemChanges()
 {
+    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QVERIFY(itemsInsertedSpy.isValid());
+    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QVERIFY(itemsRemovedSpy.isValid());
+
     m_model->setGroupedSorting(true);
 
-    m_testDir->createFiles(QStringList() << "1" << "3" << "5");
-
+    m_testDir->createFiles({"1", "3", "5"});
     m_model->loadDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 3);
 
-    m_testDir->createFiles(QStringList() << "2" << "4");
+    m_testDir->createFiles({"2", "4"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 5);
 
-    m_testDir->removeFile("1");
-    m_testDir->removeFile("3");
-    m_testDir->removeFile("5");
+    m_testDir->removeFiles({"1", "3", "5"});
     m_model->m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+    QVERIFY(itemsRemovedSpy.wait());
     QCOMPARE(m_model->count(), 2);
 }
 
-QTEST_KDEMAIN(KFileItemListViewTest, GUI)
+QTEST_MAIN(KFileItemListViewTest)
 
 #include "kfileitemlistviewtest.moc"

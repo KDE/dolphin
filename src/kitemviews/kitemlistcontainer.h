@@ -23,16 +23,14 @@
 #ifndef KITEMLISTCONTAINER_H
 #define KITEMLISTCONTAINER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
-#include <QAbstractAnimation>
 #include <QAbstractScrollArea>
 
 class KItemListController;
 class KItemListSmoothScroller;
 class KItemListView;
 class KItemModelBase;
-class QPropertyAnimation;
 
 /**
  * @brief Provides a QWidget based scrolling view for a KItemListController.
@@ -41,7 +39,7 @@ class QPropertyAnimation;
  *
  * @see KItemListController
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListContainer : public QAbstractScrollArea
+class DOLPHIN_EXPORT KItemListContainer : public QAbstractScrollArea
 {
     Q_OBJECT
 
@@ -60,11 +58,11 @@ public:
     bool enabledFrame() const;
 
 protected:
-    virtual void keyPressEvent(QKeyEvent* event);
-    virtual void showEvent(QShowEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
-    virtual void scrollContentsBy(int dx, int dy);
-    virtual void wheelEvent(QWheelEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    virtual void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
+    virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);

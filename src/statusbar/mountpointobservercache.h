@@ -37,9 +37,9 @@ public:
     static MountPointObserverCache* instance();
 
     /**
-     * Returns a MountPointObserver for the given \a path. A new observer is created if necessary.
+     * Returns a MountPointObserver for the given \a url. A new observer is created if necessary.
      */
-    MountPointObserver* observerForPath(const QString& path);
+    MountPointObserver* observerForUrl(const QUrl& url);
 
 private slots:
     /**
@@ -48,8 +48,8 @@ private slots:
     void slotObserverDestroyed(QObject* observer);
 
 private:
-    QHash<QString, MountPointObserver*> m_observerForMountPoint;
-    QHash<QObject*, QString> m_mountPointForObserver;
+    QHash<QUrl, MountPointObserver*> m_observerForMountPoint;
+    QHash<QObject*, QUrl> m_mountPointForObserver;
     QTimer* m_updateTimer;
 
     friend class MountPointObserverCacheSingleton;

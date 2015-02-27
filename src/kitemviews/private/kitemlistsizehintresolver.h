@@ -20,7 +20,7 @@
 #ifndef KITEMLISTSIZEHINTRESOLVER_H
 #define KITEMLISTSIZEHINTRESOLVER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemmodelbase.h>
 #include <QSizeF>
@@ -31,7 +31,7 @@ class KItemListView;
 /**
  * @brief Calculates and caches the sizehints of items in KItemListView.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListSizeHintResolver
+class DOLPHIN_EXPORT KItemListSizeHintResolver
 {
 public:
     KItemListSizeHintResolver(const KItemListView* itemListView);

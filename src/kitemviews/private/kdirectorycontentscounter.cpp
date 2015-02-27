@@ -35,8 +35,8 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     m_dirWatcher(0),
     m_watchedDirs()
 {
-    connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
-            this,    SLOT(slotItemsRemoved()));
+    connect(m_model, &KFileItemModel::itemsRemoved,
+            this,    &KDirectoryContentsCounter::slotItemsRemoved);
 
     if (!m_workerThread) {
         m_workerThread = new QThread();
@@ -47,13 +47,13 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     m_worker->moveToThread(m_workerThread);
     ++m_workersCount;
 
-    connect(this,     SIGNAL(requestDirectoryContentsCount(QString,KDirectoryContentsCounterWorker::Options)),
-            m_worker, SLOT(countDirectoryContents(QString,KDirectoryContentsCounterWorker::Options)));
-    connect(m_worker, SIGNAL(result(QString,int)),
-            this,     SLOT(slotResult(QString,int)));
+    connect(this,     &KDirectoryContentsCounter::requestDirectoryContentsCount,
+            m_worker, &KDirectoryContentsCounterWorker::countDirectoryContents);
+    connect(m_worker, &KDirectoryContentsCounterWorker::result,
+            this,     &KDirectoryContentsCounter::slotResult);
 
     m_dirWatcher = new KDirWatch(this);
-    connect(m_dirWatcher, SIGNAL(dirty(QString)), this, SLOT(slotDirWatchDirty(QString)));
+    connect(m_dirWatcher, &KDirWatch::dirty, this, &KDirectoryContentsCounter::slotDirWatchDirty);
 }
 
 KDirectoryContentsCounter::~KDirectoryContentsCounter()
@@ -122,7 +122,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count)
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
 {
-    const int index = m_model->index(KUrl(path));
+    const int index = m_model->index(QUrl::fromLocalFile(path));
     if (index >= 0) {
         if (!m_model->fileItem(index).isDir()) {
             // If INotify is used, KDirWatch issues the dirty() signal
@@ -151,7 +151,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
             QMutableSetIterator<QString> it(m_watchedDirs);
             while (it.hasNext()) {
                 const QString& path = it.next();
-                if (m_model->index(KUrl(path)) < 0) {
+                if (m_model->index(QUrl::fromLocalFile(path)) < 0) {
                     m_dirWatcher->removeDir(path);
                     it.remove();
                 }

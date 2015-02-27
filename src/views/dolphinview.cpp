@@ -24,24 +24,21 @@
 
 #include <QAbstractItemView>
 #include <QApplication>
-#include <QBoxLayout>
 #include <QClipboard>
 #include <QDropEvent>
 #include <QGraphicsSceneDragDropEvent>
-#include <QKeyEvent>
-#include <QItemSelection>
 #include <QTimer>
 #include <QScrollBar>
-
+#include <QPointer>
+#include <QMenu>
+#include <QVBoxLayout>
 #include <KDesktopFile>
 #include <KProtocolManager>
-#include <KActionCollection>
 #include <KColorScheme>
 #include <KDirModel>
-#include <KIconEffect>
 #include <KFileItem>
 #include <KFileItemListProperties>
-#include <KLocale>
+#include <KLocalizedString>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kitemlistcontainer.h>
@@ -49,18 +46,18 @@
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
+#include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
-#include <KIO/NetAccess>
 #include <KIO/PreviewJob>
+#include <KIO/DropJob>
+#include <KIO/PasteJob>
+#include <KIO/Paste>
 #include <KJob>
-#include <KMenu>
+#include <QMenu>
 #include <KMessageBox>
-#include <konq_fileitemcapabilities.h>
-#include <konq_operations.h>
-#include <konqmimedata.h>
-#include <KToggleAction>
-#include <KUrl>
+#include <KJobWidgets>
+#include <QUrl>
 
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
@@ -75,14 +72,15 @@
 #include "zoomlevelinfo.h"
 
 #ifdef HAVE_BALOO
-    #include <baloo/indexerconfig.h>
+    #include <Baloo/IndexerConfig>
 #endif
+#include <KFormat>
 
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
 };
 
-DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
+DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_active(true),
     m_tabsForFiles(false),
@@ -114,19 +112,19 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
-    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(itemCreated(KUrl)),
-            this, SLOT(observeCreatedItem(KUrl)));
+    connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::itemCreated,
+            this, &DolphinView::observeCreatedItem);
 
     m_selectionChangedTimer = new QTimer(this);
     m_selectionChangedTimer->setSingleShot(true);
     m_selectionChangedTimer->setInterval(300);
-    connect(m_selectionChangedTimer, SIGNAL(timeout()),
-            this, SLOT(emitSelectionChangedSignal()));
+    connect(m_selectionChangedTimer, &QTimer::timeout,
+            this, &DolphinView::emitSelectionChangedSignal);
 
     m_model = new KFileItemModel(this);
     m_view = new DolphinItemListView();
     m_view->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
-    m_view->setVisibleRoles(QList<QByteArray>() << "text");
+    m_view->setVisibleRoles({"text"});
     applyModeToView();
 
     KItemListController* controller = new KItemListController(m_model, m_view, this);
@@ -140,60 +138,60 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container = new KItemListContainer(controller, this);
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
-    connect(m_container->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
-    connect(m_container->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
+    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
+    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-    connect(controller, SIGNAL(itemsActivated(KItemSet)), this, SLOT(slotItemsActivated(KItemSet)));
-    connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-    connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-    connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(mouseButtonPressed(int,Qt::MouseButtons)), this, SLOT(slotMouseButtonPressed(int,Qt::MouseButtons)));
-    connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
-    connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
-    connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
-    connect(controller, SIGNAL(escapePressed()), this, SLOT(stopLoading()));
-    connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
+    connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
+    connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
+    connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked);
+    connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested);
+    connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested);
+    connect(controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
+    connect(controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
+    connect(controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
+    connect(controller, &KItemListController::itemUnhovered, this, &DolphinView::slotItemUnhovered);
+    connect(controller, &KItemListController::itemDropEvent, this, &DolphinView::slotItemDropEvent);
+    connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
+    connect(controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 
-    connect(m_model, SIGNAL(directoryLoadingStarted()),       this, SLOT(slotDirectoryLoadingStarted()));
-    connect(m_model, SIGNAL(directoryLoadingCompleted()),     this, SLOT(slotDirectoryLoadingCompleted()));
-    connect(m_model, SIGNAL(directoryLoadingCanceled()),      this, SIGNAL(directoryLoadingCanceled()));
-    connect(m_model, SIGNAL(directoryLoadingProgress(int)),   this, SIGNAL(directoryLoadingProgress(int)));
-    connect(m_model, SIGNAL(directorySortingProgress(int)),   this, SIGNAL(directorySortingProgress(int)));
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this, SLOT(slotItemsChanged()));
-    connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),    this, SIGNAL(itemCountChanged()));
-    connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),   this, SIGNAL(itemCountChanged()));
-    connect(m_model, SIGNAL(infoMessage(QString)),            this, SIGNAL(infoMessage(QString)));
-    connect(m_model, SIGNAL(errorMessage(QString)),           this, SIGNAL(errorMessage(QString)));
-    connect(m_model, SIGNAL(directoryRedirection(KUrl,KUrl)), this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
-    connect(m_model, SIGNAL(urlIsFileError(KUrl)),            this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
+    connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
+    connect(m_model, &KFileItemModel::directoryLoadingCanceled,      this, &DolphinView::directoryLoadingCanceled);
+    connect(m_model, &KFileItemModel::directoryLoadingProgress,   this, &DolphinView::directoryLoadingProgress);
+    connect(m_model, &KFileItemModel::directorySortingProgress,   this, &DolphinView::directorySortingProgress);
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this, &DolphinView::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsRemoved,    this, &DolphinView::itemCountChanged);
+    connect(m_model, &KFileItemModel::itemsInserted,   this, &DolphinView::itemCountChanged);
+    connect(m_model, &KFileItemModel::infoMessage,            this, &DolphinView::infoMessage);
+    connect(m_model, &KFileItemModel::errorMessage,           this, &DolphinView::errorMessage);
+    connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
+    connect(m_model, &KFileItemModel::urlIsFileError,            this, &DolphinView::urlIsFileError);
 
     m_view->installEventFilter(this);
-    connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
-            this, SLOT(slotSortOrderChangedByHeader(Qt::SortOrder,Qt::SortOrder)));
-    connect(m_view, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-            this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
-    connect(m_view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
-            this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
-    connect(m_view, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
-            this, SLOT(slotRoleEditingCanceled()));
-    connect(m_view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
-            this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
+    connect(m_view, &DolphinItemListView::sortOrderChanged,
+            this, &DolphinView::slotSortOrderChangedByHeader);
+    connect(m_view, &DolphinItemListView::sortRoleChanged,
+            this, &DolphinView::slotSortRoleChangedByHeader);
+    connect(m_view, &DolphinItemListView::visibleRolesChanged,
+            this, &DolphinView::slotVisibleRolesChangedByHeader);
+    connect(m_view, &DolphinItemListView::roleEditingCanceled,
+            this, &DolphinView::slotRoleEditingCanceled);
+    connect(m_view->header(), &KItemListHeader::columnWidthChanged,
+            this, &DolphinView::slotHeaderColumnWidthChanged);
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
-    connect(selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)),
-            this, SLOT(slotSelectionChanged(KItemSet,KItemSet)));
+    connect(selectionManager, &KItemListSelectionManager::selectionChanged,
+            this, &DolphinView::slotSelectionChanged);
 
     m_toolTipManager = new ToolTipManager(this);
 
     m_versionControlObserver = new VersionControlObserver(this);
     m_versionControlObserver->setModel(m_model);
-    connect(m_versionControlObserver, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
-    connect(m_versionControlObserver, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(QString)), this, SIGNAL(operationCompletedMessage(QString)));
+    connect(m_versionControlObserver, &VersionControlObserver::infoMessage, this, &DolphinView::infoMessage);
+    connect(m_versionControlObserver, &VersionControlObserver::errorMessage, this, &DolphinView::errorMessage);
+    connect(m_versionControlObserver, &VersionControlObserver::operationCompletedMessage, this, &DolphinView::operationCompletedMessage);
 
     applyViewProperties();
     m_topLayout->addWidget(m_container);
@@ -205,7 +203,7 @@ DolphinView::~DolphinView()
 {
 }
 
-KUrl DolphinView::url() const
+QUrl DolphinView::url() const
 {
     return m_url;
 }
@@ -364,12 +362,12 @@ int DolphinView::selectedItemsCount() const
     return selectionManager->selectedItems().count();
 }
 
-void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
+void DolphinView::markUrlsAsSelected(const QList<QUrl>& urls)
 {
     m_selectedUrls = urls;
 }
 
-void DolphinView::markUrlAsCurrent(const KUrl& url)
+void DolphinView::markUrlAsCurrent(const QUrl &url)
 {
     m_currentItemUrl = url;
     m_scrollToCurrentItem = true;
@@ -485,7 +483,7 @@ void DolphinView::readSettings()
 {
     const int oldZoomLevel = m_view->zoomLevel();
 
-    GeneralSettings::self()->readConfig();
+    GeneralSettings::self()->load();
     m_view->readSettings();
     applyViewProperties();
 
@@ -500,7 +498,7 @@ void DolphinView::readSettings()
 
 void DolphinView::writeSettings()
 {
-    GeneralSettings::self()->writeConfig();
+    GeneralSettings::self()->save();
     m_view->writeSettings();
 }
 
@@ -563,11 +561,11 @@ QString DolphinView::statusBarText() const
     if (fileCount > 0 && folderCount > 0) {
         summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
                         foldersText, filesText,
-                        KGlobal::locale()->formatByteSize(totalFileSize));
+                        KFormat().formatByteSize(totalFileSize));
     } else if (fileCount > 0) {
         summary = i18nc("@info:status files (size)", "%1 (%2)",
                         filesText,
-                        KGlobal::locale()->formatByteSize(totalFileSize));
+                        KFormat().formatByteSize(totalFileSize));
     } else if (folderCount > 0) {
         summary = foldersText;
     } else {
@@ -593,7 +591,7 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
     return actions;
 }
 
-void DolphinView::setUrl(const KUrl& url)
+void DolphinView::setUrl(const QUrl& url)
 {
     if (url == m_url) {
         return;
@@ -606,8 +604,8 @@ void DolphinView::setUrl(const KUrl& url)
 
     hideToolTip();
 
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 
     // It is important to clear the items from the model before
     // applying the view properties, otherwise expensive operations
@@ -651,8 +649,8 @@ void DolphinView::renameSelectedItems()
 
         hideToolTip();
 
-        connect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+        connect(m_view, &DolphinItemListView::roleEditingFinished,
+                this, &DolphinView::slotRoleEditingFinished);
     } else {
         RenameDialog* dialog = new RenameDialog(this, items);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -669,32 +667,36 @@ void DolphinView::renameSelectedItems()
 
 void DolphinView::trashSelectedItems()
 {
-    const KUrl::List list = simplifiedSelectedUrls();
-    KonqOperations::del(this, KonqOperations::TRASH, list);
+    const QList<QUrl> list = simplifiedSelectedUrls();
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(window());
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
+        KIO::Job* job = KIO::trash(list);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl("trash:/"), job);
+        KJobWidgets::setWindow(job, this);
+        connect(job, &KIO::Job::result,
+                this, &DolphinView::slotTrashFileFinished);
+    }
 }
 
 void DolphinView::deleteSelectedItems()
 {
-    const KUrl::List list = simplifiedSelectedUrls();
-    const bool del = KonqOperations::askDeleteConfirmation(list,
-                     KonqOperations::DEL,
-                     KonqOperations::DEFAULT_CONFIRMATION,
-                     this);
+    const QList<QUrl> list = simplifiedSelectedUrls();
 
-    if (del) {
+    KIO::JobUiDelegate uiDelegate;
+    uiDelegate.setWindow(window());
+    if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::del(list);
-        if (job->ui()) {
-            job->ui()->setWindow(this);
-        }
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotDeleteFileFinished(KJob*)));
+        KJobWidgets::setWindow(job, this);
+        connect(job, &KIO::Job::result,
+                this, &DolphinView::slotDeleteFileFinished);
     }
 }
 
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = selectionMimeData();
-    KonqMimeData::addIsCutSelection(mimeData, true);
+    KIO::setClipboardDataCut(mimeData, true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
@@ -817,7 +819,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
 
     foreach (int index, indexes) {
         KFileItem item = m_model->fileItem(index);
-        const KUrl& url = openItemAsFolderUrl(item);
+        const QUrl& url = openItemAsFolderUrl(item);
 
         if (!url.isEmpty()) { // Open folders in new tabs
             emit tabRequested(url);
@@ -836,7 +838,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
 void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem& item = m_model->fileItem(index);
-    const KUrl& url = openItemAsFolderUrl(item);
+    const QUrl& url = openItemAsFolderUrl(item);
     if (!url.isEmpty()) {
         emit tabRequested(url);
     } else if (isTabsForFilesEnabled()) {
@@ -865,7 +867,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 {
     ViewProperties props(viewPropertiesUrl());
 
-    QPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
+    QPointer<QMenu> menu = new QMenu(QApplication::activeWindow());
 
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
@@ -1019,7 +1021,7 @@ void DolphinView::slotItemUnhovered(int index)
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
-    KUrl destUrl;
+    QUrl destUrl;
     KFileItem destItem = m_model->fileItem(index);
     if (destItem.isNull() || (!destItem.isDir() && !destItem.isDesktopFile())) {
         // Use the URL of the view as drop target if the item is no directory
@@ -1036,35 +1038,40 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->mimeData(),
                          event->buttons(),
                          event->modifiers());
-
-    QString error;
-    KonqOperations* op = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent, error);
-    if (!error.isEmpty()) {
-        emit infoMessage(error);
-    }
-
-    if (op && destUrl == url()) {
-        // Mark the dropped urls as selected.
-        m_clearSelectionBeforeSelectingNewItems = true;
-        m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
-    }
+    dropUrls(destUrl, &dropEvent);
 
     setActive(true);
+}
+
+void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent)
+{
+    KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, this);
+
+    if (job) {
+        connect(job, &KIO::DropJob::result, this, &DolphinView::slotPasteJobResult);
+
+        if (destUrl == url()) {
+            // Mark the dropped urls as selected.
+            m_clearSelectionBeforeSelectingNewItems = true;
+            m_markFirstNewlySelectedItemAsCurrent = true;
+            connect(job, &KIO::DropJob::itemCreated, this, &DolphinView::slotItemCreated);
+        }
+    }
 }
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
     if (previous != 0) {
-        disconnect(previous, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
+        Q_ASSERT(qobject_cast<KFileItemModel*>(previous));
+        KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(previous);
+        disconnect(fileItemModel, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
         m_versionControlObserver->setModel(0);
     }
 
     if (current) {
         Q_ASSERT(qobject_cast<KFileItemModel*>(current));
-        connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
-
         KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
+        connect(fileItemModel, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
         m_versionControlObserver->setModel(fileItemModel);
     }
 }
@@ -1075,22 +1082,29 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
 
     hideToolTip();
 
-    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
-    if (buttons & Qt::XButton1) {
+    if (buttons & Qt::BackButton) {
         emit goBackRequested();
-    } else if (buttons & Qt::XButton2) {
+    } else if (buttons & Qt::ForwardButton) {
         emit goForwardRequested();
     }
 }
 
-void DolphinView::slotAboutToCreate(const KUrl::List& urls)
+void DolphinView::slotItemCreated(const QUrl& url)
 {
-    if (!urls.isEmpty()) {
-        if (m_markFirstNewlySelectedItemAsCurrent) {
-            markUrlAsCurrent(urls.first());
-            m_markFirstNewlySelectedItemAsCurrent = false;
-        }
-        m_selectedUrls << KDirModel::simplifiedUrlList(urls);
+    if (m_markFirstNewlySelectedItemAsCurrent) {
+        markUrlAsCurrent(url);
+        m_markFirstNewlySelectedItemAsCurrent = false;
+    }
+    m_selectedUrls << url;
+}
+
+void DolphinView::slotPasteJobResult(KJob *job)
+{
+    if (job->error()) {
+        emit errorMessage(job->errorString());
+    }
+    if (!m_selectedUrls.isEmpty()) {
+        m_selectedUrls << KDirModel::simplifiedUrlList(m_selectedUrls);
     }
 }
 
@@ -1147,7 +1161,10 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
 
 QPair<bool, QString> DolphinView::pasteInfo() const
 {
-    return KonqOperations::pasteInfo(url());
+    const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+    QPair<bool, QString> info;
+    info.second = KIO::pasteActionText(mimeData, &info.first, rootItem());
+    return info;
 }
 
 void DolphinView::setTabsForFilesEnabled(bool tabsForFiles)
@@ -1182,7 +1199,7 @@ void DolphinView::restoreState(QDataStream& stream)
     stream >> m_restoredContentsPosition;
 
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
-    QSet<KUrl> urls;
+    QSet<QUrl> urls;
     stream >> urls;
     m_model->restoreExpandedDirectories(urls);
 }
@@ -1196,10 +1213,10 @@ void DolphinView::saveState(QDataStream& stream)
     if (currentIndex != -1) {
         KFileItem item = m_model->fileItem(currentIndex);
         Q_ASSERT(!item.isNull()); // If the current index is valid a item must exist
-        KUrl currentItemUrl = item.url();
+        QUrl currentItemUrl = item.url();
         stream << currentItemUrl;
     } else {
-        stream << KUrl();
+        stream << QUrl();
     }
 
     // Save view position
@@ -1226,13 +1243,13 @@ QString DolphinView::viewPropertiesContext() const
     return m_viewPropertiesContext;
 }
 
-KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives)
+QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives)
 {
     if (item.isNull()) {
-        return KUrl();
+        return QUrl();
     }
 
-    KUrl url = item.targetUrl();
+    QUrl url = item.targetUrl();
 
     if (item.isDir()) {
         return url;
@@ -1249,7 +1266,7 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
             // open OpenDocument files as zip folders...
             const QString& protocol = KProtocolManager::protocolForArchiveMimetype(mimetype);
             if (!protocol.isEmpty()) {
-                url.setProtocol(protocol);
+                url.setScheme(protocol);
                 return url;
             }
         }
@@ -1266,21 +1283,21 @@ KUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
         }
     }
 
-    return KUrl();
+    return QUrl();
 }
 
-void DolphinView::observeCreatedItem(const KUrl& url)
+void DolphinView::observeCreatedItem(const QUrl& url)
 {
     if (m_active) {
         clearSelection();
         markUrlAsCurrent(url);
-        markUrlsAsSelected(QList<KUrl>() << url);
+        markUrlsAsSelected({url});
     }
 }
 
-void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinView::slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl)
 {
-    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
+    if (oldUrl.matches(url(), QUrl::StripTrailingSlash)) {
         emit redirection(oldUrl, newUrl);
         m_url = newUrl; // #186947
     }
@@ -1288,7 +1305,7 @@ void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUr
 
 void DolphinView::updateViewState()
 {
-    if (m_currentItemUrl != KUrl()) {
+    if (m_currentItemUrl != QUrl()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
         const int currentIndex = m_model->index(m_currentItemUrl);
         if (currentIndex != -1) {
@@ -1303,7 +1320,7 @@ void DolphinView::updateViewState()
             selectionManager->setCurrentItem(0);
         }
 
-        m_currentItemUrl = KUrl();
+        m_currentItemUrl = QUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
@@ -1325,7 +1342,7 @@ void DolphinView::updateViewState()
 
         KItemSet selectedItems = selectionManager->selectedItems();
 
-        QList<KUrl>::iterator it = m_selectedUrls.begin();
+        QList<QUrl>::iterator it = m_selectedUrls.begin();
         while (it != m_selectedUrls.end()) {
             const int index = m_model->index(*it);
             if (index >= 0) {
@@ -1363,6 +1380,15 @@ void DolphinView::calculateItemCount(int& fileCount,
     }
 }
 
+void DolphinView::slotTrashFileFinished(KJob* job)
+{
+    if (job->error() == 0) {
+        emit operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
+    } else if (job->error() != KIO::ERR_USER_CANCELED) {
+        emit errorMessage(job->errorString());
+    }
+}
+
 void DolphinView::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
@@ -1372,13 +1398,19 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
-void DolphinView::slotRenamingFailed(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinView::slotRenamingResult(KJob* job)
 {
-    const int index = m_model->index(newUrl);
-    if (index >= 0) {
-        QHash<QByteArray, QVariant> data;
-        data.insert("text", oldUrl.fileName());
-        m_model->setData(index, data);
+    if (job->error()) {
+        KIO::CopyJob *copyJob = qobject_cast<KIO::CopyJob *>(job);
+        Q_ASSERT(copyJob);
+        const QUrl newUrl = copyJob->destUrl();
+        const int index = m_model->index(newUrl);
+        if (index >= 0) {
+            QHash<QByteArray, QVariant> data;
+            const QUrl oldUrl = copyJob->srcUrls().first();
+            data.insert("text", oldUrl.fileName());
+            m_model->setData(index, data);
+        }
     }
 }
 
@@ -1450,14 +1482,14 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
 
 void DolphinView::slotRoleEditingCanceled()
 {
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 }
 
 void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
-    disconnect(m_view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-               this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+    disconnect(m_view, &DolphinItemListView::roleEditingFinished,
+               this, &DolphinView::slotRoleEditingFinished);
 
     if (index < 0 || index >= m_model->count()) {
         return;
@@ -1467,14 +1499,16 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
         const KFileItem oldItem = m_model->fileItem(index);
         const QString newName = value.toString();
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
-            const KUrl oldUrl = oldItem.url();
+            const QUrl oldUrl = oldItem.url();
 
-            const KUrl newUrl(url().path(KUrl::AddTrailingSlash) + newName);
+            QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+            newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
+
             const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
             if (!newNameExistsAlready) {
                 // Only change the data in the model if no item with the new name
                 // is in the model yet. If there is an item with the new name
-                // already, calling KonqOperations::rename() will open a dialog
+                // already, calling KIO::CopyJob will open a dialog
                 // asking for a new name, and KFileItemModel will update the
                 // data when the dir lister signals that the file name has changed.
                 QHash<QByteArray, QVariant> data;
@@ -1482,20 +1516,24 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                 m_model->setData(index, data);
             }
 
-            KonqOperations* op = KonqOperations::renameV2(this, oldUrl, newName);
-            if (op && !newNameExistsAlready) {
-                // Only connect the renamingFailed signal if there is no item with the new name
+            KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
+            KJobWidgets::setWindow(job, this);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
+            job->ui()->setAutoErrorHandlingEnabled(true);
+
+            if (!newNameExistsAlready) {
+                // Only connect the result signal if there is no item with the new name
                 // in the model yet, see bug 328262.
-                connect(op, SIGNAL(renamingFailed(KUrl,KUrl)), SLOT(slotRenamingFailed(KUrl,KUrl)));
+                connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);
             }
         }
     }
 }
 
-void DolphinView::loadDirectory(const KUrl& url, bool reload)
+void DolphinView::loadDirectory(const QUrl& url, bool reload)
 {
     if (!url.isValid()) {
-        const QString location(url.pathOrUrl());
+        const QString location(url.toDisplayString(QUrl::PreferLocalFile));
         if (location.isEmpty()) {
             emit errorMessage(i18nc("@info:status", "The location is empty."));
         } else {
@@ -1621,19 +1659,19 @@ void DolphinView::applyModeToView()
     }
 }
 
-void DolphinView::pasteToUrl(const KUrl& url)
+void DolphinView::pasteToUrl(const QUrl& url)
 {
-    KonqOperations* op = KonqOperations::doPasteV2(this, url);
-    if (op) {
-        m_clearSelectionBeforeSelectingNewItems = true;
-        m_markFirstNewlySelectedItemAsCurrent = true;
-        connect(op, SIGNAL(aboutToCreate(KUrl::List)), this, SLOT(slotAboutToCreate(KUrl::List)));
-    }
+    KIO::PasteJob *job = KIO::paste(QApplication::clipboard()->mimeData(), url);
+    KJobWidgets::setWindow(job, this);
+    m_clearSelectionBeforeSelectingNewItems = true;
+    m_markFirstNewlySelectedItemAsCurrent = true;
+    connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
+    connect(job, &KIO::PasteJob::result, this, &DolphinView::slotPasteJobResult);
 }
 
-KUrl::List DolphinView::simplifiedSelectedUrls() const
+QList<QUrl> DolphinView::simplifiedSelectedUrls() const
 {
-    KUrl::List urls;
+    QList<QUrl> urls;
 
     const KFileItemList items = selectedItems();
     foreach (const KFileItem& item, items) {
@@ -1665,7 +1703,8 @@ void DolphinView::updateWritableState()
     if (item.isNull()) {
         // Try to find out if the URL is writable even if the "root item" is
         // null, see https://bugs.kde.org/show_bug.cgi?id=330001
-        item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url(), true);
+        item = KFileItem(url());
+        item.setDelayedMimeTypes(true);
     }
 
     KFileItemListProperties capabilities(KFileItemList() << item);
@@ -1676,16 +1715,14 @@ void DolphinView::updateWritableState()
     }
 }
 
-KUrl DolphinView::viewPropertiesUrl() const
+QUrl DolphinView::viewPropertiesUrl() const
 {
     if (m_viewPropertiesContext.isEmpty()) {
         return m_url;
     }
 
-    KUrl url;
-    url.setProtocol(m_url.protocol());
+    QUrl url;
+    url.setScheme(m_url.scheme());
     url.setPath(m_viewPropertiesContext);
     return url;
 }
-
-#include "dolphinview.moc"

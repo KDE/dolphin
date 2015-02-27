@@ -23,10 +23,9 @@
 #include "placesitem.h"
 
 #include <KBookmarkManager>
-#include <KDebug>
+#include "dolphindebug.h"
 #include <KDirLister>
-#include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 #include "placesitemsignalhandler.h"
 #include <QDateTime>
 #include <Solid/Block>
@@ -52,16 +51,16 @@ PlacesItem::~PlacesItem()
     delete m_trashDirLister;
 }
 
-void PlacesItem::setUrl(const KUrl& url)
+void PlacesItem::setUrl(const QUrl &url)
 {
     // The default check in KStandardItem::setDataValue()
     // for equal values does not work with a custom value
-    // like KUrl. Hence do a manual check to prevent that
+    // like QUrl. Hence do a manual check to prevent that
     // setting an equal URL results in an itemsChanged()
     // signal.
-    if (dataValue("url").value<KUrl>() != url) {
+    if (dataValue("url").value<QUrl>() != url) {
         delete m_trashDirLister;
-        if (url.protocol() == QLatin1String("trash")) {
+        if (url.scheme() == QLatin1String("trash")) {
             // The trash icon must always be updated dependent on whether
             // the trash is empty or not. We use a KDirLister that automatically
             // watches for changes if the number of items has been changed.
@@ -69,8 +68,8 @@ void PlacesItem::setUrl(const KUrl& url)
             m_trashDirLister = new KDirLister();
             m_trashDirLister->setAutoErrorHandlingEnabled(false, 0);
             m_trashDirLister->setDelayedMimeTypes(true);
-            QObject::connect(m_trashDirLister, SIGNAL(completed()),
-                             m_signalHandler, SLOT(onTrashDirListerCompleted()));
+            QObject::connect(m_trashDirLister.data(), static_cast<void(KDirLister::*)()>(&KDirLister::completed),
+                             m_signalHandler.data(), &PlacesItemSignalHandler::onTrashDirListerCompleted);
             m_trashDirLister->openUrl(url);
         }
 
@@ -78,9 +77,9 @@ void PlacesItem::setUrl(const KUrl& url)
     }
 }
 
-KUrl PlacesItem::url() const
+QUrl PlacesItem::url() const
 {
-    return dataValue("url").value<KUrl>();
+    return dataValue("url").value<QUrl>();
 }
 
 void PlacesItem::setUdi(const QString& udi)
@@ -135,7 +134,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const QString udi = bookmark.metaDataItem("UDI");
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
-        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().data()));
+        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
         setUrl(bookmark.url());
     } else {
         initializeDevice(udi);
@@ -171,7 +170,7 @@ KBookmark PlacesItem::bookmark() const
 PlacesItem::GroupType PlacesItem::groupType() const
 {
     if (udi().isEmpty()) {
-        const QString protocol = url().protocol();
+        const QString protocol = url().scheme();
         if (protocol == QLatin1String("timeline")) {
             return RecentlySavedType;
         }
@@ -197,7 +196,7 @@ bool PlacesItem::storageSetupNeeded() const
 
 KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
                                      const QString& text,
-                                     const KUrl& url,
+                                     const QUrl& url,
                                      const QString& iconName)
 {
     KBookmarkGroup root = manager->root();
@@ -270,31 +269,31 @@ void PlacesItem::initializeDevice(const QString& udi)
     setUdi(udi);
 
     if (m_access) {
-        setUrl(m_access->filePath());
-        QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
-                         m_signalHandler, SLOT(onAccessibilityChanged()));
+        setUrl(QUrl::fromLocalFile(m_access->filePath()));
+        QObject::connect(m_access.data(), SIGNAL(accessibilityChanged(bool,QString)),
+                         m_signalHandler.data(), SLOT(onAccessibilityChanged()));
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         Solid::Block *block = m_device.as<Solid::Block>();
         if (block) {
             const QString device = block->device();
-            setUrl(QString("audiocd:/?device=%1").arg(device));
+            setUrl(QStringLiteral("audiocd:/?device=%1").arg(device));
         } else {
-            setUrl(QString("audiocd:/"));
+            setUrl(QStringLiteral("audiocd:/"));
         }
     } else if (m_mtp) {
-        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
+        setUrl(QStringLiteral("mtp:udi=%1").arg(m_device.udi()));
     }
 }
 
 void PlacesItem::onAccessibilityChanged()
 {
     setIconOverlays(m_device.emblems());
-    setUrl(m_access->filePath());
+    setUrl(QUrl::fromLocalFile(m_access->filePath()));
 }
 
 void PlacesItem::onTrashDirListerCompleted()
 {
-    Q_ASSERT(url().protocol() == QLatin1String("trash"));
+    Q_ASSERT(url().scheme() == QLatin1String("trash"));
 
     const bool isTrashEmpty = m_trashDirLister->items().isEmpty();
     setIcon(isTrashEmpty ? "user-trash" : "user-trash-full");

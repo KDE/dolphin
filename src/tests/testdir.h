@@ -20,23 +20,22 @@
 #ifndef TESTDIR_H
 #define TESTDIR_H
 
-#include <KTempDir>
-#include <KUrl>
-
+#include <QUrl>
+#include <QTemporaryDir>
 #include <QDateTime>
 
 /**
- * TestDir provides a temporary directory. In addition to KTempDir, it has
+ * TestDir provides a temporary directory. In addition to QTemporaryDir, it has
  * methods that create files and subdirectories inside the directory.
  */
-class TestDir : public KTempDir
+class TestDir : public QTemporaryDir
 {
 
 public:
     TestDir(const QString& directoryPrefix = QString());
     virtual ~TestDir();
 
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * The following functions create either a file, a list of files, or a directory.
@@ -50,6 +49,7 @@ public:
     void createDir(const QString& path, const QDateTime& time = QDateTime());
 
     void removeFile(const QString& path);
+    void removeFiles(const QStringList& files);
 
 private:
     void makePathAbsoluteAndCreateParents(QString& path);

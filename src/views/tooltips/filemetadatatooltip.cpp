@@ -23,25 +23,23 @@
 
 #include <KColorScheme>
 #include <KSeparator>
-#include <KWindowSystem>
+// For the blurred tooltip background
+#include <KWindowEffects>
 #include <KStringHandler>
+#include <QTextDocument>
 
 #include <QLabel>
 #include <QStyleOptionFrame>
 #include <QStylePainter>
 #include <QVBoxLayout>
-#include <QTextDocument>
 #include <QTextLayout>
 #include <QTextLine>
 
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
-#include <baloo/filemetadatawidget.h>
+#include <Baloo/FileMetaDataWidget>
 #endif
-
-// For the blurred tooltip background
-#include <plasma/windoweffects.h>
 
 FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     QWidget(parent),
@@ -72,13 +70,15 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     // Create widget for the meta data
 #ifndef HAVE_BALOO
     m_fileMetaDataWidget = new KFileMetaDataWidget(this);
+    connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
+            this, &FileMetaDataToolTip::metaDataRequestFinished);
 #else
     m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
+    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished,
+            this, &FileMetaDataToolTip::metaDataRequestFinished);
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
-    connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished(KFileItemList)),
-            this, SIGNAL(metaDataRequestFinished(KFileItemList)));
 
     QVBoxLayout* textLayout = new QVBoxLayout();
     textLayout->addWidget(m_name);
@@ -174,8 +174,8 @@ void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
 
 void FileMetaDataToolTip::showEvent(QShowEvent *)
 {
-    Plasma::WindowEffects::overrideShadow(winId(), true);
-    Plasma::WindowEffects::enableBlurBehind(winId(), true, mask());
+#pragma message("TODO: port Plasma::WindowEffects::overrideShadow")
+    //Plasma::WindowEffects::overrideShadow(winId(), true);
+    KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 
-#include "filemetadatatooltip.moc"

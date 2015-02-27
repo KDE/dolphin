@@ -21,9 +21,8 @@
 #define DOLPHIN_RECENT_TABS_MENU_H
 
 #include <KActionMenu>
-#include <KUrl>
+#include <QUrl>
 
-class DolphinTabPage;
 class QAction;
 
 class DolphinRecentTabsMenu : public KActionMenu
@@ -34,7 +33,7 @@ public:
     explicit DolphinRecentTabsMenu(QObject* parent);
 
 public slots:
-    void rememberClosedTab(const KUrl& url, const QByteArray& state);
+    void rememberClosedTab(const QUrl& url, const QByteArray& state);
     void undoCloseTab();
 
 signals:

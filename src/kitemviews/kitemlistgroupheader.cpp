@@ -27,7 +27,6 @@
 #include <QGraphicsSceneResizeEvent>
 #include <QPainter>
 #include <QStyleOptionGraphicsItem>
-#include <KDebug>
 
 KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
     QGraphicsWidget(parent, 0),
@@ -233,4 +232,3 @@ QColor KItemListGroupHeader::baseColor() const
     return styleOption().palette.color(group, normalBaseColorRole());
 }
 
-#include "kitemlistgroupheader.moc"

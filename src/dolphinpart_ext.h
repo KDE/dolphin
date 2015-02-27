@@ -23,6 +23,7 @@
 #include <kparts/browserextension.h>
 #include <kparts/fileinfoextension.h>
 #include <kparts/listingextension.h>
+#include <QUrl>
 
 class DolphinPart;
 
@@ -31,14 +32,14 @@ class DolphinPartBrowserExtension : public KParts::BrowserExtension
     Q_OBJECT
 public:
     DolphinPartBrowserExtension( DolphinPart* part );
-    virtual void restoreState(QDataStream &stream);
-    virtual void saveState(QDataStream &stream);
+    virtual void restoreState(QDataStream &stream) Q_DECL_OVERRIDE;
+    virtual void saveState(QDataStream &stream) Q_DECL_OVERRIDE;
 
 public Q_SLOTS:
     void cut();
     void copy();
     void paste();
-    void pasteTo(const KUrl&);
+    void pasteTo(const QUrl &);
     void reparseConfiguration();
 
 private:
@@ -52,10 +53,10 @@ class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
 public:
     DolphinPartFileInfoExtension(DolphinPart* part);
 
-    virtual QueryModes supportedQueryModes() const;
-    virtual bool hasSelection() const;
+    virtual QueryModes supportedQueryModes() const Q_DECL_OVERRIDE;
+    virtual bool hasSelection() const Q_DECL_OVERRIDE;
 
-    virtual KFileItemList queryFor(QueryMode mode) const;
+    virtual KFileItemList queryFor(QueryMode mode) const Q_DECL_OVERRIDE;
 
 private:
     DolphinPart* m_part;
@@ -67,10 +68,10 @@ class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
 
 public:
     DolphinPartListingFilterExtension(DolphinPart* part);
-    virtual FilterModes supportedFilterModes() const;
-    virtual bool supportsMultipleFilters(FilterMode mode) const;
-    virtual QVariant filter(FilterMode mode) const;
-    virtual void setFilter(FilterMode mode, const QVariant& filter);
+    virtual FilterModes supportedFilterModes() const Q_DECL_OVERRIDE;
+    virtual bool supportsMultipleFilters(FilterMode mode) const Q_DECL_OVERRIDE;
+    virtual QVariant filter(FilterMode mode) const Q_DECL_OVERRIDE;
+    virtual void setFilter(FilterMode mode, const QVariant& filter) Q_DECL_OVERRIDE;
 
 private:
     DolphinPart* m_part;
@@ -82,7 +83,7 @@ class DolphinPartListingNotificationExtension : public KParts::ListingNotificati
 
 public:
     DolphinPartListingNotificationExtension(DolphinPart* part);
-    virtual NotificationEventTypes supportedNotificationEventTypes() const;
+    virtual NotificationEventTypes supportedNotificationEventTypes() const Q_DECL_OVERRIDE;
 
 public Q_SLOTS:
     void slotNewItems(const KFileItemList&);

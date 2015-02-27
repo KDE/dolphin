@@ -21,8 +21,7 @@
 #define DOLPHINVIEWCONTAINER_H
 
 #include <KFileItem>
-#include <KFileItemDelegate>
-#include <KGlobalSettings>
+#include <KCompletion>
 #include <KIO/Job>
 
 #include <KUrlNavigator>
@@ -31,9 +30,9 @@
 #include <QWidget>
 
 #include <views/dolphinview.h>
-#include <config-apps.h>
+#include <config-dolphin.h>
 
-#ifdef KActivities_FOUND
+#ifdef KF5Activities_FOUND
 namespace KActivities {
     class ResourceInstance;
 }
@@ -41,7 +40,7 @@ namespace KActivities {
 
 class FilterBar;
 class KMessageWidget;
-class KUrl;
+class QUrl;
 class KUrlNavigator;
 class DolphinSearchBox;
 class DolphinStatusBar;
@@ -70,14 +69,14 @@ public:
         Error
     };
 
-    DolphinViewContainer(const KUrl& url, QWidget* parent);
+    DolphinViewContainer(const QUrl& url, QWidget* parent);
     virtual ~DolphinViewContainer();
 
     /**
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * If \a active is true, the view container will marked as active. The active
@@ -138,7 +137,7 @@ public slots:
      * are emitted.
      * @see DolphinViewContainer::urlNavigator()
      */
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
 
     /**
      * Popups the filter bar above the status bar if \a visible is true.
@@ -205,7 +204,7 @@ private slots:
      * Is called if the URL set by DolphinView::setUrl() represents
      * a file and not a directory. Takes care to activate the file.
      */
-    void slotUrlIsFileError(const KUrl& url);
+    void slotUrlIsFileError(const QUrl& url);
 
     /**
      * Handles clicking on an item. If the item is a directory, the
@@ -244,44 +243,26 @@ private slots:
      * Is invoked if the signal urlAboutToBeChanged() from the DolphinView
      * is emitted. Tries to save the view-state.
      */
-    void slotViewUrlAboutToBeChanged(const KUrl& url);
+    void slotViewUrlAboutToBeChanged(const QUrl& url);
 
     /**
      * Is invoked if the signal urlAboutToBeChanged() from the URL navigator
      * is emitted. Tries to save the view-state.
      */
-    void slotUrlNavigatorLocationAboutToBeChanged(const KUrl& url);
+    void slotUrlNavigatorLocationAboutToBeChanged(const QUrl& url);
 
     /**
      * Restores the current view to show \a url and assures
      * that the root URL of the view is respected.
      */
-    void slotUrlNavigatorLocationChanged(const KUrl& url);
-
-    /**
-     * Is connected with the URL navigator and drops the URLs
-     * above the destination \a destination.
-     *
-     * Creates a copy of \a event and invokes \a dropUrlsDelayed with a
-     * queued connection.
-     */
-    void dropUrls(const KUrl& destination, QDropEvent* event);
-
-    /**
-     * Is invoked with a queued connection by \a dropUrls to prevent that the
-     * drop actions are executed in the URL navigator menu's nested event loop,
-     * which might cause a crash. Simply using a queued connection from the URL
-     * navigator to \a dropUrls would not work because the \a event pointer
-     * would be dangling then.
-     */
-    void dropUrlsDelayed();
+    void slotUrlNavigatorLocationChanged(const QUrl& url);
 
     /**
      * Is invoked when a redirection is done and changes the
      * URL of the URL navigator to \a newUrl without triggering
      * a reloading of the directory.
      */
-    void redirect(const KUrl& oldUrl, const KUrl& newUrl);
+    void redirect(const QUrl& oldUrl, const QUrl& newUrl);
 
     /** Requests the focus for the view \a m_view. */
     void requestFocus();
@@ -290,7 +271,7 @@ private slots:
      * Saves the currently used URL completion mode of
      * the URL navigator.
      */
-    void saveUrlCompletionMode(KGlobalSettings::Completion completion);
+    void saveUrlCompletionMode(KCompletion::CompletionMode completion);
 
     void slotHistoryChanged();
 
@@ -319,7 +300,7 @@ private:
     /**
      * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).
      */
-    bool isSearchUrl(const KUrl& url) const;
+    bool isSearchUrl(const QUrl& url) const;
 
     /**
      * Saves the state of the current view: contents position,
@@ -342,10 +323,7 @@ private:
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
 
-    KUrl m_dropDestination;
-    QScopedPointer<QDropEvent> m_dropEvent;
-
-#ifdef KActivities_FOUND
+#ifdef KF5Activities_FOUND
 private:
     KActivities::ResourceInstance * m_activityResourceInstance;
 #endif

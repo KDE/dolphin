@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 #include "kfileitemmodeldirlister.h"
-#include <KLocale>
-#include <KIO/JobClasses>
+#include <KLocalizedString>
+#include <KIO/Job>
 
 KFileItemModelDirLister::KFileItemModelDirLister(QObject* parent) :
     KDirLister(parent)
@@ -45,4 +45,3 @@ void KFileItemModelDirLister::handleError(KIO::Job* job)
     }
 }
 
-#include "kfileitemmodeldirlister.moc"

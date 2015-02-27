@@ -19,8 +19,7 @@
 
 #include "kitemlistroleeditor.h"
 
-#include <KDebug>
-#include <kio/global.h>
+#include <KIO/Global>
 #include <QKeyEvent>
 
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
@@ -38,7 +37,7 @@ KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
         parent->installEventFilter(this);
     }
 
-    connect(this, SIGNAL(textChanged()), this, SLOT(autoAdjustSize()));
+    connect(this, &KItemListRoleEditor::textChanged, this, &KItemListRoleEditor::autoAdjustSize);
 }
 
 KItemListRoleEditor::~KItemListRoleEditor()
@@ -148,4 +147,3 @@ void KItemListRoleEditor::emitRoleEditingFinished()
     }
 }
 
-#include "kitemlistroleeditor.moc"

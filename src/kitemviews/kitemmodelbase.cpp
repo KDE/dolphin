@@ -159,4 +159,3 @@ void KItemModelBase::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pre
     Q_UNUSED(previous);
 }
 
-#include "kitemmodelbase.moc"

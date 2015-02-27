@@ -5,9 +5,10 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <include>QDir</include>
-    <include>KUrl</include>
-    <include>kglobalsettings.h</include>
+    <include>QUrl</include>
+    <include>KCompletion</include>
     <kcfgfile name="dolphinrc"/>
+    <signal name="naturalSortingChanged" />
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
@@ -15,7 +16,7 @@
         </entry>
         <entry name="UrlCompletionMode" type="Enum">
             <label>Text completion mode of the URL Navigator</label>
-            <default code="true">KGlobalSettings::completionMode()</default>
+            <default>KCompletion::CompletionPopup</default>
         </entry>
         <entry name="ShowFullPath" type="Bool">
             <label>Should the full path be shown inside the location bar</label>
@@ -31,7 +32,7 @@
         </entry>
         <entry name="HomeUrl" type="String">
             <label>Home URL</label>
-            <default code="true">KUrl(QDir::homePath()).prettyUrl()</default>
+            <default code="true">QUrl::fromLocalFile(QDir::homePath()).toDisplayString(QUrl::PreferLocalFile)</default>
         </entry>
         <entry name="SplitView" type="Bool">
             <label>Split the view into two panes</label>
@@ -82,7 +83,7 @@
         </entry>
         <entry name="ShowSpaceInfo" type="Bool">
             <label>Show the space information in the statusbar</label>
-            <default>false</default>
+            <default>true</default>
         </entry>
         <entry name="LockPanels" type="Bool">
             <label>Lock the layout of the panels</label>
@@ -91,6 +92,11 @@
         <entry name="EnlargeSmallPreviews" type="Bool">
             <label>Enlarge Small Previews</label>
             <default>true</default>
+        </entry>
+        <entry name="NaturalSorting" type="Bool">
+            <label>Natural sorting of items</label>
+            <default>true</default>
+            <emit signal="naturalSortingChanged" />
         </entry>
     </group>
 </kcfg>

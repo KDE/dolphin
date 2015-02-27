@@ -21,11 +21,9 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KIconLoader>
-#include <KIcon>
-#include <KLocale>
-#include <KMenu>
-#include <KVBox>
+#include <QIcon>
+#include <KLocalizedString>
+#include <QMenu>
 
 #include "statusbarspaceinfo.h"
 
@@ -33,10 +31,12 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
-#include <QTextDocument>
 #include <QToolButton>
 #include <QTime>
 #include <QTimer>
+#include <QSlider>
+#include <QTextDocument>
+#include <QHelpEvent>
 
 #include <views/dolphinview.h>
 #include <views/zoomlevelinfo.h>
@@ -72,21 +72,21 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_zoomSlider->setPageStep(1);
     m_zoomSlider->setRange(ZoomLevelInfo::minimumLevel(), ZoomLevelInfo::maximumLevel());
 
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SIGNAL(zoomLevelChanged(int)));
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(updateZoomSliderToolTip(int)));
-    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
+    connect(m_zoomSlider, &QSlider::valueChanged, this, &DolphinStatusBar::zoomLevelChanged);
+    connect(m_zoomSlider, &QSlider::valueChanged, this, &DolphinStatusBar::updateZoomSliderToolTip);
+    connect(m_zoomSlider, &QSlider::sliderMoved, this, &DolphinStatusBar::showZoomSliderToolTip);
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);
 
     // Initialize progress information
     m_stopButton = new QToolButton(this);
-    m_stopButton->setIcon(KIcon("process-stop"));
+    m_stopButton->setIcon(QIcon::fromTheme("process-stop"));
     m_stopButton->setAccessibleName(i18n("Stop"));
     m_stopButton->setAutoRaise(true);
     m_stopButton->setToolTip(i18nc("@tooltip", "Stop loading"));
     m_stopButton->hide();
-    connect(m_stopButton, SIGNAL(clicked()), this, SIGNAL(stopPressed()));
+    connect(m_stopButton, &QToolButton::clicked, this, &DolphinStatusBar::stopPressed);
 
     m_progressTextLabel = new QLabel(this);
     m_progressTextLabel->hide();
@@ -97,12 +97,12 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_showProgressBarTimer = new QTimer(this);
     m_showProgressBarTimer->setInterval(500);
     m_showProgressBarTimer->setSingleShot(true);
-    connect(m_showProgressBarTimer, SIGNAL(timeout()), this, SLOT(updateProgressInfo()));
+    connect(m_showProgressBarTimer, &QTimer::timeout, this, &DolphinStatusBar::updateProgressInfo);
 
     m_resetToDefaultTextTimer = new QTimer(this);
     m_resetToDefaultTextTimer->setInterval(ResetToDefaultTimeout);
     m_resetToDefaultTextTimer->setSingleShot(true);
-    connect(m_resetToDefaultTextTimer, SIGNAL(timeout()), this, SLOT(slotResetToDefaultText()));
+    connect(m_resetToDefaultTextTimer, &QTimer::timeout, this, &DolphinStatusBar::slotResetToDefaultText);
 
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_label->font()).height();
@@ -228,12 +228,12 @@ QString DolphinStatusBar::defaultText() const
     return m_defaultText;
 }
 
-void DolphinStatusBar::setUrl(const KUrl& url)
+void DolphinStatusBar::setUrl(const QUrl& url)
 {
     m_spaceInfo->setUrl(url);
 }
 
-KUrl DolphinStatusBar::url() const
+QUrl DolphinStatusBar::url() const
 {
     return m_spaceInfo->url();
 }
@@ -259,7 +259,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
 {
     Q_UNUSED(event);
 
-    KMenu menu(this);
+    QMenu menu(this);
 
     QAction* showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
     showZoomSliderAction->setCheckable(true);
@@ -357,4 +357,3 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomSlider->setVisible(showZoomSlider);
 }
 
-#include "dolphinstatusbar.moc"

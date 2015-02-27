@@ -22,7 +22,7 @@
 
 #include "kstandarditemlistgroupheader.h"
 
-#include <kratingpainter.h>
+#include <KRatingPainter>
 #include <QPainter>
 
 KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget* parent) :
@@ -122,4 +122,3 @@ void KStandardItemListGroupHeader::updateCache()
     }
 }
 
-#include "kstandarditemlistgroupheader.moc"

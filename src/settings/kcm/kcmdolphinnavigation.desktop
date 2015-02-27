@@ -142,7 +142,7 @@ Comment[zh_TW]=此服務允許設定 Dolphin 的導覽。
 Icon=input-mouse
 Type=Service
 X-KDE-ServiceTypes=KCModule
-Exec=kcmshell4 kcmdolphinnavigation
+Exec=kcmshell5 kcmdolphinnavigation
 
 X-KDE-Library=kcm_dolphinnavigation
 X-KDE-PluginKeyword=dolphinnavigation

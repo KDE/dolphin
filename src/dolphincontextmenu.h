@@ -21,16 +21,12 @@
 #define DOLPHINCONTEXTMENU_H
 
 #include <KFileItem>
-#include <KService>
-#include <KUrl>
-#include <konq_copytomenu.h>
-#include <KMenu>
+#include <QUrl>
+#include <KFileCopyToMenu>
+#include <QMenu>
 
-#include <QObject>
 
-#include <QVector>
 
-#include <QScopedPointer>
 
 class QAction;
 class DolphinMainWindow;
@@ -50,7 +46,7 @@ class DolphinRemoveAction;
  * - 'Actions':   Contains all actions which can be applied to the
  *                given item.
  */
-class DolphinContextMenu : public KMenu
+class DolphinContextMenu : public QMenu
 {
     Q_OBJECT
 
@@ -58,6 +54,7 @@ public:
     enum Command
     {
         None,
+        OpenParentFolder,
         OpenParentFolderInNewWindow,
         OpenParentFolderInNewTab
     };
@@ -75,7 +72,7 @@ public:
     DolphinContextMenu(DolphinMainWindow* parent,
                        const QPoint& pos,
                        const KFileItem& fileInfo,
-                       const KUrl& baseUrl);
+                       const QUrl& baseUrl);
 
     virtual ~DolphinContextMenu();
 
@@ -92,8 +89,8 @@ public:
     Command open();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *ev);
-    virtual void keyReleaseEvent(QKeyEvent *ev);
+    virtual void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+    virtual void keyReleaseEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
 
 private:
     void openTrashContextMenu();
@@ -109,7 +106,7 @@ private:
      */
     void addShowMenuBarAction();
 
-    bool placeExists(const KUrl& url) const;
+    bool placeExists(const QUrl& url) const;
 
     QAction* createPasteAction();
 
@@ -165,14 +162,14 @@ private:
 
     KFileItem m_fileInfo;
 
-    KUrl m_baseUrl;
+    QUrl m_baseUrl;
     KFileItem* m_baseFileItem;  /// File item for m_baseUrl
 
     KFileItemList m_selectedItems;
     mutable KFileItemListProperties* m_selectedItemsProperties;
 
     int m_context;
-    KonqCopyToMenu m_copyToMenu;
+    KFileCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
 
     Command m_command;

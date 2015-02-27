@@ -20,7 +20,7 @@
 #ifndef KITEMLISTGROUPHEADER_H
 #define KITEMLISTGROUPHEADER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <kitemviews/kitemliststyleoption.h>
 
@@ -37,7 +37,7 @@ class KItemListView;
  * the method paint() and draw the role within the given roleBounds() with
  * the color roleColor().
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeader : public QGraphicsWidget
+class DOLPHIN_EXPORT KItemListGroupHeader : public QGraphicsWidget
 {
     Q_OBJECT
 
@@ -65,7 +65,7 @@ public:
     void setItemIndex(int index);
     int itemIndex() const;
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
 
 protected:
     virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) = 0;
@@ -101,8 +101,7 @@ protected:
      */
     virtual void itemIndexChanged(int current, int previous);
 
-    /** @reimp */
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
 
     virtual QPalette::ColorRole normalTextColorRole() const;
     virtual QPalette::ColorRole normalBaseColorRole() const;

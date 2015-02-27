@@ -20,20 +20,17 @@
 #ifndef DOLPHINPART_H
 #define DOLPHINPART_H
 
-#include <kparts/part.h>
+#include <KParts/ReadOnlyPart>
+#include <QUrl>
 
-#include <QItemSelectionModel>
 
 class DolphinNewFileMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
-class KAction;
 class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
-class DolphinSortFilterProxyModel;
 class DolphinRemoteEncoding;
-class DolphinModel;
 class KDirLister;
 class DolphinView;
 class KAboutData;
@@ -53,7 +50,7 @@ class DolphinPart : public KParts::ReadOnlyPart
     Q_PROPERTY( QString nameFilter READ nameFilter WRITE setNameFilter )
 
     // Used by konqueror to implement the --select command-line option
-    Q_PROPERTY( KUrl::List filesToSelect READ filesToSelect WRITE setFilesToSelect )
+    Q_PROPERTY( QList<QUrl> filesToSelect READ filesToSelect WRITE setFilesToSelect )
 
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
@@ -65,7 +62,7 @@ public:
      * Standard KParts::ReadOnlyPart openUrl method.
      * Called by Konqueror to view a directory in DolphinPart.
      */
-    virtual bool openUrl(const KUrl& url);
+    virtual bool openUrl(const QUrl& url) Q_DECL_OVERRIDE;
 
     /// see the supportsUndo property
     bool supportsUndo() const { return true; }
@@ -134,7 +131,7 @@ private Q_SLOTS:
     /**
      * Creates a new window showing the content of \a url.
      */
-    void createNewWindow(const KUrl& url);
+    void createNewWindow(const QUrl &url);
     /**
      * Opens the context menu on the current mouse position.
      * @pos           Position in screen coordinates.
@@ -146,7 +143,7 @@ private Q_SLOTS:
      */
     void slotOpenContextMenu(const QPoint& pos,
                              const KFileItem& item,
-                             const KUrl& url,
+                             const QUrl& url,
                              const QList<QAction*>& customActions);
 
     /**
@@ -155,7 +152,7 @@ private Q_SLOTS:
      * Testcase 1: fish://localhost
      * Testcase 2: showing a directory that is being renamed by another window (#180156)
      */
-    void slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits
@@ -223,10 +220,10 @@ private Q_SLOTS:
     /**
      * Called by konqueror --select
      */
-    void setFilesToSelect(const KUrl::List& files);
-    KUrl::List filesToSelect() const { return KUrl::List(); } // silence moc
+    void setFilesToSelect(const QList<QUrl> &files);
+    QList<QUrl> filesToSelect() const { return QList<QUrl>(); } // silence moc
 
-    virtual bool eventFilter(QObject*, QEvent*);
+    virtual bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
 
 private:
     void createActions();
@@ -243,8 +240,8 @@ private:
     DolphinRemoteEncoding* m_remoteEncoding;
     DolphinPartBrowserExtension* m_extension;
     DolphinNewFileMenu* m_newFileMenu;
-    KAction* m_findFileAction;
-    KAction* m_openTerminalAction;
+    QAction* m_findFileAction;
+    QAction* m_openTerminalAction;
     QString m_nameFilter;
     DolphinRemoveAction* m_removeAction;
     Q_DISABLE_COPY(DolphinPart)

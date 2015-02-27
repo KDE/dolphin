@@ -23,8 +23,6 @@
 
 #include "kitemlistcontroller.h"
 
-#include <KGlobalSettings>
-#include <KDebug>
 
 #include "kitemlistview.h"
 #include "kitemlistselectionmanager.h"
@@ -61,15 +59,15 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_keyboardAnchorIndex(-1),
     m_keyboardAnchorPos(0)
 {
-    connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
-            this, SLOT(slotChangeCurrentItem(QString,bool)));
-    connect(m_selectionManager, SIGNAL(currentChanged(int,int)),
-            m_keyboardManager, SLOT(slotCurrentChanged(int,int)));
+    connect(m_keyboardManager, &KItemListKeyboardSearchManager::changeCurrentItem,
+            this, &KItemListController::slotChangeCurrentItem);
+    connect(m_selectionManager, &KItemListSelectionManager::currentChanged,
+            m_keyboardManager, &KItemListKeyboardSearchManager::slotCurrentChanged);
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(-1);
-    connect(m_autoActivationTimer, SIGNAL(timeout()), this, SLOT(slotAutoActivationTimeout()));
+    connect(m_autoActivationTimer, &QTimer::timeout, this, &KItemListController::slotAutoActivationTimeout);
 
     setModel(model);
     setView(view);
@@ -127,7 +125,7 @@ void KItemListController::setView(KItemListView* view)
 
     KItemListView* oldView = m_view;
     if (oldView) {
-        disconnect(oldView, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        disconnect(oldView, &KItemListView::scrollOffsetChanged, this, &KItemListController::slotViewScrollOffsetChanged);
         oldView->deleteLater();
     }
 
@@ -137,7 +135,7 @@ void KItemListController::setView(KItemListView* view)
         m_view->setParent(this);
         m_view->setController(this);
         m_view->setModel(m_model);
-        connect(m_view, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
+        connect(m_view, &KItemListView::scrollOffsetChanged, this, &KItemListController::slotViewScrollOffsetChanged);
         updateExtendedSelectionRegion();
     }
 
@@ -538,8 +536,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
     emit mouseButtonPressed(m_pressedIndex, event->buttons());
 
-    // TODO: Qt5: Replace Qt::XButton1 by Qt::BackButton and Qt::XButton2 by Qt::ForwardButton
-    if (event->buttons() & (Qt::XButton1 | Qt::XButton2)) {
+    if (event->buttons() & (Qt::BackButton | Qt::ForwardButton)) {
         // Do not select items when clicking the back/forward buttons, see
         // https://bugs.kde.org/show_bug.cgi?id=327412.
         return true;
@@ -655,7 +652,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         rubberBand->setStartPosition(startPos);
         rubberBand->setEndPosition(startPos);
         rubberBand->setActive(true);
-        connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        connect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
         m_view->setAutoScroll(true);
     }
 
@@ -743,7 +740,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
-        disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        disconnect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
         rubberBand->setActive(false);
         m_oldSelection.clear();
         m_view->setAutoScroll(false);
@@ -774,7 +771,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
                 emitItemActivated = false;
-            } else if (!(KGlobalSettings::singleClick() || m_singleClickActivationEnforced)) {
+            } else if (!(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)) {
                 emitItemActivated = false;
             }
             if (emitItemActivated) {
@@ -804,7 +801,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
         }
     }
 
-    bool emitItemActivated = !(KGlobalSettings::singleClick() || m_singleClickActivationEnforced) &&
+    bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) &&
                              (event->button() & Qt::LeftButton) &&
                              index >= 0 && index < m_model->count();
     if (emitItemActivated) {
@@ -920,7 +917,8 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
         emit itemDropEvent(m_view->itemAt(pos), event);
     }
 
-    QAccessible::updateAccessibility(view(), 0, QAccessible::DragDropEnd);
+    QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropEnd);
+    QAccessible::updateAccessibility(&accessibilityEvent);
 
     return true;
 }
@@ -1174,7 +1172,9 @@ void KItemListController::startDragging()
     drag->setHotSpot(hotSpot);
 
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
-    QAccessible::updateAccessibility(view(), 0, QAccessible::DragDropStart);
+
+    QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropStart);
+    QAccessible::updateAccessibility(&accessibilityEvent);
 }
 
 KItemListWidget* KItemListController::hoveredWidget() const
@@ -1310,4 +1310,3 @@ void KItemListController::updateExtendedSelectionRegion()
     }
 }
 
-#include "kitemlistcontroller.moc"

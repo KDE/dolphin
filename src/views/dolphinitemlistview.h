@@ -23,7 +23,7 @@
 #include <kitemviews/kfileitemlistview.h>
 #include <settings/viewmodes/viewmodesettings.h>
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 class KFileItemListView;
 
@@ -34,7 +34,7 @@ class KFileItemListView;
  * the view-properties into the corresponding KItemListView
  * properties.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinItemListView : public KFileItemListView
+class DOLPHIN_EXPORT DolphinItemListView : public KFileItemListView
 {
     Q_OBJECT
 
@@ -49,14 +49,14 @@ public:
     void writeSettings();
 
 protected:
-    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const;
-    virtual bool itemLayoutSupportsItemExpanding(ItemLayout layout) const;
-    virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous);
-    virtual void onPreviewsShownChanged(bool shown);
+    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const Q_DECL_OVERRIDE;
+    virtual bool itemLayoutSupportsItemExpanding(ItemLayout layout) const Q_DECL_OVERRIDE;
+    virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous) Q_DECL_OVERRIDE;
+    virtual void onPreviewsShownChanged(bool shown) Q_DECL_OVERRIDE;
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current,
-                                       const QList<QByteArray>& previous);
+                                       const QList<QByteArray>& previous) Q_DECL_OVERRIDE;
 
-    virtual void updateFont();
+    virtual void updateFont() Q_DECL_OVERRIDE;
 
 private:
     void updateGridSize();

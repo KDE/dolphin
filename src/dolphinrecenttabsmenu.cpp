@@ -21,17 +21,17 @@
 
 #include <KLocalizedString>
 #include <KAcceleratorManager>
-#include <KMimeType>
-#include <KMenu>
+#include <kio/global.h>
+#include <QMenu>
 
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
-    KActionMenu(KIcon("edit-undo"), i18n("Recently Closed Tabs"), parent)
+    KActionMenu(QIcon::fromTheme("edit-undo"), i18n("Recently Closed Tabs"), parent)
 {
     setDelayed(false);
     setEnabled(false);
 
     m_clearListAction = new QAction(i18n("Empty Recently Closed Tabs"), this);
-    m_clearListAction->setIcon(KIcon("edit-clear-list"));
+    m_clearListAction->setIcon(QIcon::fromTheme("edit-clear-list"));
     addAction(m_clearListAction);
 
     addSeparator();
@@ -40,13 +40,13 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
             this, SLOT(handleAction(QAction*)));
 }
 
-void DolphinRecentTabsMenu::rememberClosedTab(const KUrl& url, const QByteArray& state)
+void DolphinRecentTabsMenu::rememberClosedTab(const QUrl& url, const QByteArray& state)
 {
     QAction* action = new QAction(menu());
     action->setText(url.path());
     action->setData(state);
-    const QString iconName = KMimeType::iconNameForUrl(url);
-    action->setIcon(KIcon(iconName));
+    const QString iconName = KIO::iconNameForUrl(url);
+    action->setIcon(QIcon::fromTheme(iconName));
 
     // Add the closed tab menu entry after the separator and
     // "Empty Recently Closed Tabs" entry

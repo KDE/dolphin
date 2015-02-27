@@ -36,8 +36,8 @@ public:
     DolphinGeneralConfigModule(QWidget* parent, const QVariantList& args);
     virtual ~DolphinGeneralConfigModule();
 
-    virtual void save();
-    virtual void defaults();
+    virtual void save() Q_DECL_OVERRIDE;
+    virtual void defaults() Q_DECL_OVERRIDE;
 
 private:
     QList<SettingsPageBase*> m_pages;

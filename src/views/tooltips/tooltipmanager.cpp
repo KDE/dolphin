@@ -20,15 +20,14 @@
 #include "tooltipmanager.h"
 
 #include "filemetadatatooltip.h"
-#include <KIcon>
+#include <QIcon>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KJobWidgets>
 
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QLayout>
-#include <QScrollArea>
-#include <QScrollBar>
 #include <QStyle>
 #include <QTimer>
 
@@ -51,12 +50,12 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_showToolTipTimer = new QTimer(this);
     m_showToolTipTimer->setSingleShot(true);
     m_showToolTipTimer->setInterval(500);
-    connect(m_showToolTipTimer, SIGNAL(timeout()), this, SLOT(showToolTip()));
+    connect(m_showToolTipTimer, &QTimer::timeout, this, static_cast<void(ToolTipManager::*)()>(&ToolTipManager::showToolTip));
 
     m_contentRetrievalTimer = new QTimer(this);
     m_contentRetrievalTimer->setSingleShot(true);
     m_contentRetrievalTimer->setInterval(200);
-    connect(m_contentRetrievalTimer, SIGNAL(timeout()), this, SLOT(startContentRetrieval()));
+    connect(m_contentRetrievalTimer, &QTimer::timeout, this, &ToolTipManager::startContentRetrieval);
 
     Q_ASSERT(m_contentRetrievalTimer->interval() < m_showToolTipTimer->interval());
 }
@@ -81,8 +80,8 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect)
     // meta data retrieval, when passing rapidly over a lot of items.
     Q_ASSERT(!m_fileMetaDataToolTip);
     m_fileMetaDataToolTip = new FileMetaDataToolTip();
-    connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished(KFileItemList)),
-            this, SLOT(slotMetaDataRequestFinished()));
+    connect(m_fileMetaDataToolTip, &FileMetaDataToolTip::metaDataRequestFinished,
+            this, &ToolTipManager::slotMetaDataRequestFinished);
 
     m_contentRetrievalTimer->start();
     m_showToolTipTimer->start();
@@ -132,13 +131,13 @@ void ToolTipManager::startContentRetrieval()
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
     job->setIgnoreMaximumSize(m_item.isLocalFile());
     if (job->ui()) {
-        job->ui()->setWindow(qApp->activeWindow());
+        KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
-            this, SLOT(setPreviewPix(KFileItem,QPixmap)));
-    connect(job, SIGNAL(failed(KFileItem)),
-            this, SLOT(previewFailed()));
+    connect(job, &KIO::PreviewJob::gotPreview,
+            this, &ToolTipManager::setPreviewPix);
+    connect(job, &KIO::PreviewJob::failed,
+            this, &ToolTipManager::previewFailed);
 }
 
 
@@ -166,7 +165,7 @@ void ToolTipManager::previewFailed()
         return;
     }
 
-    const QPixmap pixmap = KIcon(m_item.iconName()).pixmap(128, 128);
+    const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
     m_fileMetaDataToolTip->setPreview(pixmap);
     if (!m_showToolTipTimer->isActive()) {
         showToolTip();
@@ -266,4 +265,3 @@ void ToolTipManager::showToolTip()
     m_toolTipRequested = false;
 }
 
-#include "tooltipmanager.moc"

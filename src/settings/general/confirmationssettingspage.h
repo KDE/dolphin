@@ -35,10 +35,10 @@ public:
     virtual ~ConfirmationsSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual void applySettings() Q_DECL_OVERRIDE;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+    virtual void restoreDefaults() Q_DECL_OVERRIDE;
 
 private:
     void loadSettings();
@@ -47,6 +47,7 @@ private:
     QCheckBox* m_confirmMoveToTrash;
     QCheckBox* m_confirmDelete;
     QCheckBox* m_confirmClosingMultipleTabs;
+    QCheckBox* m_confirmScriptExecution;
 };
 
 #endif

@@ -20,12 +20,12 @@
 
 #include "kbaloorolesprovider.h"
 
-#include <KDebug>
-#include <KGlobal>
-#include <KLocale>
+#include <QDebug>
+#include <KLocalizedString>
 
-#include <baloo/file.h>
-#include <kfilemetadata/propertyinfo.h>
+#include <Baloo/File>
+#include <KFileMetaData/PropertyInfo>
+#include <KFileMetaData/UserMetaData>
 
 #include <QTime>
 #include <QMap>
@@ -34,7 +34,7 @@ struct KBalooRolesProviderSingleton
 {
     KBalooRolesProvider instance;
 };
-K_GLOBAL_STATIC(KBalooRolesProviderSingleton, s_balooRolesProvider)
+Q_GLOBAL_STATIC(KBalooRolesProviderSingleton, s_balooRolesProvider)
 
 
 KBalooRolesProvider& KBalooRolesProvider::instance()
@@ -99,14 +99,15 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         }
     }
 
+    KFileMetaData::UserMetaData md(file.path());
     if (roles.contains("tags")) {
-        values.insert("tags", tagsFromValues(file.tags()));
+        values.insert("tags", tagsFromValues(md.tags()));
     }
     if (roles.contains("rating")) {
-        values.insert("rating", QString::number(file.rating()));
+        values.insert("rating", QString::number(md.rating()));
     }
     if (roles.contains("comment")) {
-        values.insert("comment", file.userComment());
+        values.insert("comment", md.userComment());
     }
 
     return values;

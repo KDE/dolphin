@@ -22,20 +22,16 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KComboBox>
-#include <KDialog>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QGroupBox>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
 
 #include <views/viewproperties.h>
 
-BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
+BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
     m_localViewProps(0),
@@ -79,12 +75,12 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_localViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_globalViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_localViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_globalViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_showToolTips, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_showSelectionToggle, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_naturalSorting, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_renameInline, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()
@@ -101,8 +97,9 @@ void BehaviorSettingsPage::applySettings()
 
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->setNaturalSorting(m_naturalSorting->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
-    settings->writeConfig();
+    settings->save();
 
     if (useGlobalViewProps) {
         // Remember the global view properties by applying the current view properties.
@@ -111,13 +108,6 @@ void BehaviorSettingsPage::applySettings()
         // to find the destination folder for storing the view properties.
         ViewProperties globalProps(m_url);
         globalProps.setDirProperties(props);
-    }
-
-    const bool naturalSorting = m_naturalSorting->isChecked();
-    if (KGlobalSettings::naturalSorting() != naturalSorting) {
-        KConfigGroup group(KGlobal::config(), "KDE");
-        group.writeEntry("NaturalSorting", naturalSorting, KConfig::Persistent | KConfig::Global);
-        KGlobalSettings::emitChange(KGlobalSettings::NaturalSortingChanged);
     }
 }
 
@@ -137,8 +127,7 @@ void BehaviorSettingsPage::loadSettings()
 
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
-    m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
+    m_naturalSorting->setChecked(GeneralSettings::naturalSorting());
     m_renameInline->setChecked(GeneralSettings::renameInline());
 }
 
-#include "behaviorsettingspage.moc"

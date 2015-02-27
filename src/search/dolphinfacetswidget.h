@@ -24,11 +24,10 @@
 
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
-    #include <baloo/term.h>
+    #include <Baloo/Term>
 #endif
 
 class QButtonGroup;
-class QCheckBox;
 class QDate;
 class QRadioButton;
 

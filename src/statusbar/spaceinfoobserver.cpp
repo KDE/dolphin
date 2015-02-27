@@ -21,17 +21,18 @@
 
 #include "mountpointobserver.h"
 
-#include <KUrl>
+#include <QUrl>
 
-SpaceInfoObserver::SpaceInfoObserver(const KUrl& url, QObject* parent) :
+SpaceInfoObserver::SpaceInfoObserver(const QUrl& url, QObject* parent) :
     QObject(parent),
-    m_mountPointObserver(0)
+    m_mountPointObserver(0),
+    m_dataSize(0),
+    m_dataAvailable(0)
 {
-    if (url.isLocalFile()) {
-        m_mountPointObserver = MountPointObserver::observerForPath(url.toLocalFile());
-        m_mountPointObserver->ref();
-        connect(m_mountPointObserver, SIGNAL(spaceInfoChanged()), this, SIGNAL(valuesChanged()));
-    }
+    m_mountPointObserver = MountPointObserver::observerForUrl(url);
+    m_mountPointObserver->ref();
+    connect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
+    m_mountPointObserver->update();
 }
 
 SpaceInfoObserver::~SpaceInfoObserver()
@@ -44,46 +45,41 @@ SpaceInfoObserver::~SpaceInfoObserver()
 
 quint64 SpaceInfoObserver::size() const
 {
-    if (m_mountPointObserver && m_mountPointObserver->spaceInfo().isValid()) {
-        return m_mountPointObserver->spaceInfo().size();
-    } else {
-        return 0;
-    }
+    return m_dataSize;
 }
 
 quint64 SpaceInfoObserver::available() const
 {
-    if (m_mountPointObserver && m_mountPointObserver->spaceInfo().isValid()) {
-        return m_mountPointObserver->spaceInfo().available();
-    } else {
-        return 0;
+    return m_dataAvailable;
+}
+
+void SpaceInfoObserver::setUrl(const QUrl& url)
+{
+    MountPointObserver* newObserver = MountPointObserver::observerForUrl(url);
+    if (newObserver != m_mountPointObserver) {
+        if (m_mountPointObserver) {
+            disconnect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
+            m_mountPointObserver->deref();
+            m_mountPointObserver = 0;
+        }
+
+        m_mountPointObserver = newObserver;
+        m_mountPointObserver->ref();
+        connect(m_mountPointObserver, &MountPointObserver::spaceInfoChanged, this, &SpaceInfoObserver::spaceInfoChanged);
+
+        // If newObserver is cached it won't call update until the next timer update, 
+        // so update the observer now.
+        m_mountPointObserver->update();
     }
 }
 
-void SpaceInfoObserver::setUrl(const KUrl& url)
+void SpaceInfoObserver::spaceInfoChanged(quint64 size, quint64 available)
 {
-    if (url.isLocalFile()) {
-        MountPointObserver* newObserver = MountPointObserver::observerForPath(url.toLocalFile());
-        if (newObserver != m_mountPointObserver) {
-            if (m_mountPointObserver) {
-                disconnect(m_mountPointObserver, SIGNAL(spaceInfoChanged()), this, SIGNAL(valuesChanged()));
-                m_mountPointObserver->deref();
-                m_mountPointObserver = 0;
-            }
+    // Make sure that the size has actually changed
+    if (m_dataSize != size || m_dataAvailable != available) {
+        m_dataSize = size;
+        m_dataAvailable = available;
 
-            m_mountPointObserver = newObserver;
-            m_mountPointObserver->ref();
-            connect(m_mountPointObserver, SIGNAL(spaceInfoChanged()), this, SIGNAL(valuesChanged()));
-
-            emit valuesChanged();
-        }
-    } else {
-        if (m_mountPointObserver) {
-            disconnect(m_mountPointObserver, SIGNAL(spaceInfoChanged()), this, SIGNAL(valuesChanged()));
-            m_mountPointObserver->deref();
-            m_mountPointObserver = 0;
-
-            emit valuesChanged();
-        }
+        emit valuesChanged();
     }
 }

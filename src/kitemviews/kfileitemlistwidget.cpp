@@ -21,12 +21,12 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
-#include <kmimetype.h>
-#include <KDebug>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/MetaData>
 #include <QDateTime>
+#include <KFormat>
+#include <QMimeDatabase>
+#include <QLocale>
 
 KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
     KStandardItemListWidgetInformant()
@@ -78,11 +78,11 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
             }
         } else {
             const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-            text = KGlobal::locale()->formatByteSize(size);
+            text = KFormat().formatByteSize(size);
         }
     } else if (role == "date") {
         const QDateTime dateTime = roleValue.toDateTime();
-        text = KGlobal::locale()->formatDateTime(dateTime);
+        text = QLocale().toString(dateTime, QLocale::ShortFormat);
     } else {
         text = KStandardItemListWidgetInformant::roleText(role, values);
     }
@@ -142,7 +142,8 @@ int KFileItemListWidget::selectionLength(const QString& text) const
         return selectionLength;
     }
 
-    const QString extension = KMimeType::extractKnownExtension(text);
+    QMimeDatabase db;
+    const QString extension = db.suffixForFileName(text);
     if (extension.isEmpty()) {
         // For an unknown extension just exclude the extension after
         // the last point. This does not work for multiple extensions like
@@ -161,4 +162,3 @@ int KFileItemListWidget::selectionLength(const QString& text) const
     return selectionLength;
 }
 
-#include "kfileitemlistwidget.moc"

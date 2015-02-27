@@ -21,12 +21,11 @@
 #ifndef KBALOO_ROLESPROVIDER_H
 #define KBALOO_ROLESPROVIDER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <QHash>
 #include <QSet>
-#include <QUrl>
-
+#include <QVariant>
 namespace Baloo {
     class File;
 }
@@ -37,7 +36,7 @@ namespace Baloo {
  * Is a helper class for KFileItemModelRolesUpdater to retrieve roles that
  * are only accessible with Baloo.
  */
-class LIBDOLPHINPRIVATE_EXPORT KBalooRolesProvider
+class DOLPHIN_EXPORT KBalooRolesProvider
 {
 public:
     static KBalooRolesProvider& instance();

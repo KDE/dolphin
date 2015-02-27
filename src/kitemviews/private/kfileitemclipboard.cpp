@@ -19,17 +19,17 @@
 
 #include "kfileitemclipboard.h"
 
-#include <KGlobal>
 #include <QApplication>
 #include <QClipboard>
 #include <QMimeData>
+#include <KUrlMimeData>
 
 class KFileItemClipboardSingleton
 {
 public:
     KFileItemClipboard instance;
 };
-K_GLOBAL_STATIC(KFileItemClipboardSingleton, s_KFileItemClipboard)
+Q_GLOBAL_STATIC(KFileItemClipboardSingleton, s_KFileItemClipboard)
 
 
 
@@ -38,12 +38,12 @@ KFileItemClipboard* KFileItemClipboard::instance()
     return &s_KFileItemClipboard->instance;
 }
 
-bool KFileItemClipboard::isCut(const KUrl& url) const
+bool KFileItemClipboard::isCut(const QUrl& url) const
 {
     return m_cutItems.contains(url);
 }
 
-QList<KUrl> KFileItemClipboard::cutItems() const
+QList<QUrl> KFileItemClipboard::cutItems() const
 {
     return m_cutItems.toList();
 }
@@ -66,7 +66,7 @@ void KFileItemClipboard::updateCutItems()
     const QByteArray data = mimeData->data("application/x-kde-cutselection");
     const bool isCutSelection = (!data.isEmpty() && data.at(0) == QLatin1Char('1'));
     if (isCutSelection) {
-        m_cutItems = KUrl::List::fromMimeData(mimeData).toSet();
+        m_cutItems = KUrlMimeData::urlsFromMimeData(mimeData).toSet();
     } else {
         m_cutItems.clear();
     }
@@ -79,8 +79,6 @@ KFileItemClipboard::KFileItemClipboard() :
 {
     updateCutItems();
 
-    connect(QApplication::clipboard(), SIGNAL(dataChanged()),
-            this, SLOT(updateCutItems()));
+    connect(QApplication::clipboard(), &QClipboard::dataChanged,
+            this, &KFileItemClipboard::updateCutItems);
 }
-
-#include "kfileitemclipboard.moc"

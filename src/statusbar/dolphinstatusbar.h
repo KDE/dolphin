@@ -23,7 +23,7 @@
 #include <QTime>
 #include <QWidget>
 
-class KUrl;
+class QUrl;
 class StatusBarSpaceInfo;
 class QLabel;
 class QProgressBar;
@@ -79,7 +79,7 @@ public:
     void setDefaultText(const QString& text);
     QString defaultText() const;
 
-    KUrl url() const;
+    QUrl url() const;
     int zoomLevel() const;
 
     /**
@@ -89,7 +89,7 @@ public:
 
 public slots:
     void setText(const QString& text);
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl& url);
     void setZoomLevel(int zoomLevel);
 
 signals:
@@ -101,8 +101,8 @@ signals:
     void zoomLevelChanged(int zoomLevel);
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void showZoomSliderToolTip(int zoomLevel);

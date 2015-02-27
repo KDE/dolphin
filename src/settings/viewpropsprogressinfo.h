@@ -20,9 +20,9 @@
 #ifndef VIEWPROPSPROGRESSINFO_H
 #define VIEWPROPSPROGRESSINFO_H
 
-#include <KDialog>
+#include <QDialog>
 #include <kio/directorysizejob.h>
-#include <KUrl>
+#include <QUrl>
 
 class ApplyViewPropsJob;
 class QLabel;
@@ -37,7 +37,7 @@ class ViewProperties;
  * It is possible to cancel the applying. In this case the already applied
  * view properties won't get reverted.
  */
-class ViewPropsProgressInfo : public KDialog
+class ViewPropsProgressInfo : public QDialog
 {
     Q_OBJECT
 
@@ -50,21 +50,23 @@ public:
      *                  sub directories.
      */
     ViewPropsProgressInfo(QWidget* parent,
-                          const KUrl& dir,
+                          const QUrl& dir,
                           const ViewProperties& viewProps);
 
     virtual ~ViewPropsProgressInfo();
 
 protected:
-    virtual void closeEvent(QCloseEvent* event);
+    virtual void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
+
+public slots:
+    void reject() Q_DECL_OVERRIDE;
 
 private slots:
     void updateProgress();
     void applyViewProperties();
-    void cancelApplying();
 
 private:
-    KUrl m_dir;
+    QUrl m_dir;
     ViewProperties* m_viewProps;
 
     QLabel* m_label;

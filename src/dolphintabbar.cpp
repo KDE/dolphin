@@ -22,9 +22,10 @@
 #include <QTimer>
 #include <QDragEnterEvent>
 #include <KLocalizedString>
-#include <KMenu>
-#include <KIcon>
-#include <KUrl>
+#include <QMenu>
+#include <QIcon>
+#include <QUrl>
+#include <QMimeData>
 
 DolphinTabBar::DolphinTabBar(QWidget* parent) :
     QTabBar(parent),
@@ -47,7 +48,7 @@ void DolphinTabBar::dragEnterEvent(QDragEnterEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (KUrl::List::canDecode(mimeData)) {
+    if (mimeData->hasUrls()) {
         event->acceptProposedAction();
         updateAutoActivationTimer(index);
     }
@@ -67,7 +68,7 @@ void DolphinTabBar::dragMoveEvent(QDragMoveEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (KUrl::List::canDecode(mimeData)) {
+    if (mimeData->hasUrls()) {
         updateAutoActivationTimer(index);
     }
 
@@ -82,7 +83,7 @@ void DolphinTabBar::dropEvent(QDropEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (index >= 0 && KUrl::List::canDecode(mimeData)) {
+    if (index >= 0 && mimeData->hasUrls()) {
         emit tabDropEvent(index, event);
     }
 
@@ -122,12 +123,12 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent* event)
 
     if (index >= 0) {
         // Tab context menu
-        KMenu menu(this);
+        QMenu menu(this);
 
-        QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
-        QAction* detachTabAction = menu.addAction(KIcon("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
-        QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
-        QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+        QAction* newTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@action:inmenu", "New Tab"));
+        QAction* detachTabAction = menu.addAction(QIcon::fromTheme("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
+        QAction* closeOtherTabsAction = menu.addAction(QIcon::fromTheme("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
+        QAction* closeTabAction = menu.addAction(QIcon::fromTheme("tab-close"), i18nc("@action:inmenu", "Close Tab"));
 
         QAction* selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {

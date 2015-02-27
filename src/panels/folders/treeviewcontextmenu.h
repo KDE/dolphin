@@ -23,6 +23,7 @@
 #include <QObject>
 #include <KFileItem>
 
+class QMimeData;
 class FoldersPanel;
 
 /**

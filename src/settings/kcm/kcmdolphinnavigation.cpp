@@ -19,9 +19,6 @@
 
 #include "kcmdolphinnavigation.h"
 
-#include <KTabWidget>
-#include <KDialog>
-#include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
 
@@ -33,21 +30,18 @@ K_PLUGIN_FACTORY(KCMDolphinNavigationConfigFactory, registerPlugin<DolphinNaviga
 K_EXPORT_PLUGIN(KCMDolphinNavigationConfigFactory("kcmdolphinnavigation"))
 
 DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinNavigationConfigFactory::componentData(), parent),
+    KCModule(parent),
     m_navigation(0)
 {
     Q_UNUSED(args);
-
-    KGlobal::locale()->insertCatalog("dolphin");
 
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
-    topLayout->setSpacing(KDialog::spacingHint());
 
     m_navigation = new NavigationSettingsPage(this);
-    connect(m_navigation, SIGNAL(changed()), this, SLOT(changed()));
+    connect(m_navigation, &NavigationSettingsPage::changed, this, static_cast<void(DolphinNavigationConfigModule::*)()>(&DolphinNavigationConfigModule::changed));
     topLayout->addWidget(m_navigation, 0, 0);
 }
 

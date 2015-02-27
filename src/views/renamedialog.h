@@ -20,20 +20,20 @@
 #ifndef RENAMEDIALOG_H
 #define RENAMEDIALOG_H
 
-#include "libdolphin_export.h"
+#include "dolphin_export.h"
 
-#include <KDialog>
+#include <QDialog>
 #include <KFileItem>
-
-class KLineEdit;
-class KIntSpinBox;
-
 #include <QString>
+
+class QLineEdit;
+class QSpinBox;
+class QPushButton;
 
 /**
  * @brief Dialog for renaming a variable number of files.
  */
-class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
+class DOLPHIN_EXPORT RenameDialog : public QDialog
 {
     Q_OBJECT
 
@@ -41,14 +41,13 @@ public:
     explicit RenameDialog(QWidget* parent, const KFileItemList& items);
     virtual ~RenameDialog();
 
-protected slots:
-    virtual void slotButtonClicked(int button);
-
 private slots:
+    void slotAccepted();
     void slotTextChanged(const QString& newName);
 
 private:
     void renameItems();
+    void renameItem(const KFileItem &item, const QString& newName);
 
     /**
      * @return Returns the string \p name, where the characters represented by
@@ -62,10 +61,11 @@ private:
 private:
     bool m_renameOneItem;
     QString m_newName;
-    KLineEdit* m_lineEdit;
+    QLineEdit* m_lineEdit;
     KFileItemList m_items;
     bool m_allExtensionsDifferent;
-    KIntSpinBox* m_spinBox;
+    QSpinBox* m_spinBox;
+    QPushButton* m_okButton;
 };
 
 #endif

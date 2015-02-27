@@ -1,39 +1,62 @@
-macro_optional_find_package(Baloo)
-set_package_properties(Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
-                       URL "http://www.kde.org"
-                       TYPE OPTIONAL
-                       PURPOSE "For adding desktop-wide search and tagging support to dolphin"
-                      )
 
-macro_optional_find_package(BalooWidgets)
-set_package_properties(BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
-                       URL "http://www.kde.org"
-                       TYPE OPTIONAL
-                      )
+configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
-macro_optional_find_package(KFileMetaData)
-set_package_properties(KFileMetaData PROPERTIES
-                       URL "https://projects.kde.org/kfilemetadata"
-                       TYPE OPTIONAL
-                       PURPOSE "For accessing file metadata labels"
-                      )
+configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
-if (Baloo_FOUND AND BalooWidgets_FOUND AND KFileMetaData_FOUND)
-    set(HAVE_BALOO TRUE)
+add_definitions(
+    -DTRANSLATION_DOMAIN=\"dolphin\"
+    -DQT_USE_FAST_CONCATENATION
+    -DQT_USE_FAST_OPERATOR_PLUS
+)
+remove_definitions(
+    -DQT_NO_CAST_FROM_BYTEARRAY
+    -DQT_NO_URL_CAST_FROM_STRING
+    -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+    -DQT_NO_CAST_FROM_ASCII
+    -DQT_NO_CAST_TO_ASCII
+)
+
+if(X11_Xrender_FOUND)
+    set(HAVE_XRENDER TRUE)
 endif()
 
-configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h )
+configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h)
 
-macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
-configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
+##########################################
 
-include_directories( ${KACTIVITIES_INCLUDE_DIRS} ${CMAKE_CURRENT_BINARY_DIR} )
+set(dolphinvcs_LIB_SRCS
+    views/versioncontrol/kversioncontrolplugin.cpp
+)
 
-if(HAVE_BALOO)
-  include_directories(${BALOO_INCLUDE_DIR} ${BALOO_WIDGETS_INCLUDE_DIR} ${KFILEMETADATA_INCLUDE_DIR})
-endif()
+add_library(dolphinvcs ${dolphinvcs_LIB_SRCS})
 
-add_subdirectory(tests)
+generate_export_header(dolphinvcs BASE_NAME dolphin)
+
+target_link_libraries(
+    dolphinvcs PUBLIC
+    Qt5::Widgets
+    KF5::KIOCore
+)
+
+set_target_properties(dolphinvcs PROPERTIES
+    VERSION ${DOLPHINVCS_VERSION_STRING}
+    SOVERSION ${DOLPHINVCS_SOVERSION}
+    EXPORT_NAME DolphinVcs
+)
+
+ecm_generate_headers(dolphinvcs_LIB_HEADERS
+    HEADER_NAMES
+    KVersionControlPlugin
+
+    RELATIVE "views/versioncontrol"
+    REQUIRED_HEADERS dolphinvcs_LIB_HEADERS
+)
+
+install(TARGETS dolphinvcs EXPORT DolphinVcsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+
+install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
+install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/Dolphin" COMPONENT Devel)
 
 ########### next target ###############
 
@@ -95,6 +118,7 @@ set(dolphinprivate_LIB_SRCS
     views/zoomlevelinfo.cpp
     dolphinremoveaction.cpp
     dolphinnewfilemenu.cpp
+    dolphindebug.cpp
 )
 
 if(HAVE_BALOO)
@@ -104,7 +128,7 @@ if(HAVE_BALOO)
     )
 endif()
 
-kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
+kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS GENERATE_MOC
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -113,21 +137,35 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_versioncontrolsettings.kcfgc
 )
 
-kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
+add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(
-    dolphinprivate
-    ${KDE4_KFILE_LIBS}
-    konq
-    ${KDE4_KNEWSTUFF3_LIBS}
+    dolphinprivate PUBLIC
+    dolphinvcs
+    Qt5::Gui
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::KIOWidgets
+    KF5::KIOFileWidgets
+    KF5::Completion
+    KF5::TextEditor
+    KF5::WindowSystem
+    KF5::ConfigCore
+    KF5::NewStuff
 )
 
 if(HAVE_BALOO)
     target_link_libraries(
-        dolphinprivate
-        ${BALOO_LIBRARIES}
-        ${BALOO_WIDGETS_LIBRARY}
-        ${KFILEMETADATA_LIBRARY}
+        dolphinprivate PUBLIC
+        KF5::FileMetaData
+        KF5::Baloo
+        KF5::BalooWidgets
+    )
+else()
+    target_link_libraries(
+        dolphinprivate PUBLIC
+        KF5::KDELibs4Support # for KFileMetaDataWidget
     )
 endif()
 
@@ -135,38 +173,35 @@ if(X11_Xrender_FOUND)
     target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
 endif(X11_Xrender_FOUND)
 
-target_link_libraries(dolphinprivate ${KDE4_PLASMA_LIBS})
+set_target_properties(dolphinprivate PROPERTIES
+    VERSION ${DOLPHINPRIVATE_VERSION_STRING}
+    SOVERSION ${DOLPHINPRIVATE_SOVERSION}
+)
 
-set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
-install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
 set(dolphinpart_SRCS
    dolphinpart.cpp
+   dolphinpart_ext.cpp
+   dolphindebug.cpp
 )
 
-# Add dolphinpart_ext.cpp conditionally, only with KDE > 4.9.1.
-if (${KDE_VERSION} VERSION_GREATER "4.9.1")
-set(dolphinpart_SRCS
-    ${dolphinpart_SRCS}
-    dolphinpart_ext.cpp)
-endif (${KDE_VERSION} VERSION_GREATER "4.9.1")
+add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 
-kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
-
-target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KFILE_LIBS})
+target_link_libraries(dolphinpart
+    dolphinprivate
+)
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
 
-install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
-install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
+install(FILES dolphinpart.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphinpart)
+install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR})
 
 ##########################################
 
 set(dolphin_SRCS
-    dolphinapplication.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
@@ -217,12 +252,14 @@ set(dolphin_SRCS
     statusbar/dolphinstatusbar.cpp
     statusbar/mountpointobserver.cpp
     statusbar/mountpointobservercache.cpp
+    statusbar/spaceinfotoolsmenu.cpp
     statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
+    dolphindebug.cpp
 )
 
-kde4_add_kcfg_files(dolphin_SRCS
+kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
@@ -236,40 +273,36 @@ kde4_add_kcfg_files(dolphin_SRCS
 
 if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
-endif(NOT WIN32)
+endif()
 
-kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
+# TODO Does anything replace kde4_add_app_icon ?
+#kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
 
-kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})
+kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
+
+target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
 
 target_link_libraries(kdeinit_dolphin
-    ${KDE4_KDEPRINT_LIBS}
-    ${KDE4_KFILE_LIBS}
-    ${KDE4_KPARTS_LIBS}
-    ${KDE4_KCMUTILS_LIBRARY}
-    konq
     dolphinprivate
-    knewstuff3
-    ${KDE4_SOLID_LIBS}
-    ${KDE4_PHONON_LIBS}
+    KF5::Parts
+    KF5::KCMUtils
+    KF5::Solid
+    KF5::CoreAddons
+    KF5::DBusAddons
+    KF5::Bookmarks
+    KF5::Notifications
+    Phonon::phonon4qt5
 )
 
-if(HAVE_BALOO)
-    target_link_libraries(kdeinit_dolphin
-        ${BALOO_LIBRARIES}
-        ${BALOO_WIDGETS_LIBRARY}
+if (KF5Activities_FOUND)
+    target_link_libraries(
+        kdeinit_dolphin
+        KF5::Activities
     )
 endif()
 
-if (KActivities_FOUND)
-    target_link_libraries(
-        kdeinit_dolphin
-        ${KACTIVITIES_LIBRARY}
-    )
-endif (KActivities_FOUND)
-
-install(TARGETS kdeinit_dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
-install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kdeinit_dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
@@ -302,7 +335,7 @@ set(kcm_dolphingeneral_PART_SRCS
     settings/serviceitemdelegate.cpp
     settings/servicemodel.cpp)
 
-kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
+kconfig_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -311,42 +344,34 @@ kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_versioncontrolsettings.kcfgc
 )
 
-kde4_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
+kconfig_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
-kde4_add_kcfg_files(kcm_dolphinservices_PART_SRCS
+kconfig_add_kcfg_files(kcm_dolphinservices_PART_SRCS
     settings/dolphin_generalsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc)
 
-kde4_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
+kconfig_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
-kde4_add_plugin(kcm_dolphinviewmodes ${kcm_dolphinviewmodes_PART_SRCS})
-kde4_add_plugin(kcm_dolphinnavigation ${kcm_dolphinnavigation_PART_SRCS})
-kde4_add_plugin(kcm_dolphinservices ${kcm_dolphinservices_PART_SRCS})
-kde4_add_plugin(kcm_dolphingeneral ${kcm_dolphingeneral_PART_SRCS})
+add_library(kcm_dolphinviewmodes MODULE ${kcm_dolphinviewmodes_PART_SRCS})
+add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
+add_library(kcm_dolphinservices MODULE ${kcm_dolphinservices_PART_SRCS})
+add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
 
-target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
-target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
-target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
-target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
+target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
+target_link_libraries(kcm_dolphinnavigation dolphinprivate)
+target_link_libraries(kcm_dolphinservices dolphinprivate)
+target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinservices DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 
-#########################################
-
-set(kio_search_PART_SRCS
-    search/filenamesearchprotocol.cpp)
-kde4_add_plugin(kio_filenamesearch ${kio_search_PART_SRCS})
-target_link_libraries(kio_filenamesearch ${KDE4_KIO_LIBS})
-install(TARGETS kio_filenamesearch DESTINATION ${PLUGIN_INSTALL_DIR})
-
 ########### install files ###############
 
-install( PROGRAMS dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
@@ -354,9 +379,8 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KCFG_INSTALL_DIR} )
-install( FILES dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES dolphinui.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphin )
 install( FILES dolphin.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
-install( FILES search/filenamesearch.protocol DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
 ${SERVICES_INSTALL_DIR} )
 install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
@@ -366,3 +390,7 @@ install( FILES settings/services/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_
 install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
 install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
 
+if(BUILD_TESTING)
+    find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
+    add_subdirectory(tests)
+endif()

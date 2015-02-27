@@ -22,118 +22,104 @@
 
 #ifndef QT_NO_ACCESSIBILITY
 
+#include "dolphin_export.h"
+
 #include <QtCore/qpointer.h>
-#include <QtGui/qaccessible.h>
-#include <QtGui/qaccessible2.h>
-#include <QtGui/qaccessiblewidget.h>
-#include <QtGui/qaccessibleobject.h>
+#include <qaccessible.h>
+#include <qaccessibleobject.h>
+#include <QtWidgets/qaccessiblewidget.h>
 
 class KItemListView;
 class KItemListContainer;
 
-class KItemListViewAccessible: public QAccessibleTable2Interface, public QAccessibleObjectEx
+class DOLPHIN_EXPORT KItemListViewAccessible: public QAccessibleObject, public QAccessibleTableInterface
 {
-    Q_ACCESSIBLE_OBJECT
-
 public:
     explicit KItemListViewAccessible(KItemListView* view);
+    ~KItemListViewAccessible();
 
-    Role role(int child) const;
-    State state(int child) const;
-    QString text(Text t, int child) const;
-    QRect rect(int child) const;
+    void* interface_cast(QAccessible::InterfaceType type) Q_DECL_OVERRIDE;
 
-    int childAt(int x, int y) const;
-    int childCount() const;
-    int indexOfChild(const QAccessibleInterface*) const;
+    QAccessible::Role role() const Q_DECL_OVERRIDE;
+    QAccessible::State state() const Q_DECL_OVERRIDE;
+    QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
+    QRect rect() const Q_DECL_OVERRIDE;
 
-    int navigate(RelationFlag relation, int index, QAccessibleInterface** interface) const;
-    Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
+    int childCount() const Q_DECL_OVERRIDE;
+    int indexOfChild(const QAccessibleInterface*) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
 
-#ifndef QT_NO_ACTION
-    int userActionCount(int child) const;
-    QString actionText(int action, Text t, int child) const;
-    bool doAction(int action, int child, const QVariantList& params);
-#endif
-    QVariant invokeMethodEx(Method, int, const QVariantList&);
-
-    // Table2 interface
-    virtual QAccessibleTable2CellInterface* cellAt(int row, int column) const;
-    virtual QAccessibleInterface* caption() const;
-    virtual QAccessibleInterface* summary() const;
-    virtual QString columnDescription(int column) const;
-    virtual QString rowDescription(int row) const;
-    virtual int columnCount() const;
-    virtual int rowCount() const;
-    virtual QAccessible2::TableModelChange modelChange() const;
-    virtual void rowsInserted(const QModelIndex&, int, int) {}
-    virtual void rowsRemoved(const QModelIndex&, int, int) {}
-    virtual void columnsInserted(const QModelIndex&, int, int) {}
-    virtual void columnsRemoved(const QModelIndex&, int, int) {}
-    virtual void rowsMoved(const QModelIndex&, int, int, const QModelIndex&, int) {}
-    virtual void columnsMoved(const QModelIndex&, int, int, const QModelIndex&, int) {}
+    // Table interface
+    virtual QAccessibleInterface* cellAt(int row, int column) const Q_DECL_OVERRIDE;
+    virtual QAccessibleInterface* caption() const Q_DECL_OVERRIDE;
+    virtual QAccessibleInterface* summary() const Q_DECL_OVERRIDE;
+    virtual QString columnDescription(int column) const Q_DECL_OVERRIDE;
+    virtual QString rowDescription(int row) const Q_DECL_OVERRIDE;
+    virtual int columnCount() const Q_DECL_OVERRIDE;
+    virtual int rowCount() const Q_DECL_OVERRIDE;
 
     // Selection
-    virtual int selectedCellCount() const;
-    virtual int selectedColumnCount() const;
-    virtual int selectedRowCount() const;
-    virtual QList<QAccessibleTable2CellInterface*> selectedCells() const;
-    virtual QList<int> selectedColumns() const;
-    virtual QList<int> selectedRows() const;
-    virtual bool isColumnSelected(int column) const;
-    virtual bool isRowSelected(int row) const;
-    virtual bool selectRow(int row);
-    virtual bool selectColumn(int column);
-    virtual bool unselectRow(int row);
-    virtual bool unselectColumn(int column);
+    virtual int selectedCellCount() const Q_DECL_OVERRIDE;
+    virtual int selectedColumnCount() const Q_DECL_OVERRIDE;
+    virtual int selectedRowCount() const Q_DECL_OVERRIDE;
+    virtual QList<QAccessibleInterface*> selectedCells() const Q_DECL_OVERRIDE;
+    virtual QList<int> selectedColumns() const Q_DECL_OVERRIDE;
+    virtual QList<int> selectedRows() const Q_DECL_OVERRIDE;
+    virtual bool isColumnSelected(int column) const Q_DECL_OVERRIDE;
+    virtual bool isRowSelected(int row) const Q_DECL_OVERRIDE;
+    virtual bool selectRow(int row) Q_DECL_OVERRIDE;
+    virtual bool selectColumn(int column) Q_DECL_OVERRIDE;
+    virtual bool unselectRow(int row) Q_DECL_OVERRIDE;
+    virtual bool unselectColumn(int column) Q_DECL_OVERRIDE;
+    virtual void modelChange(QAccessibleTableModelChangeEvent*) Q_DECL_OVERRIDE;
 
     KItemListView* view() const;
 
 protected:
     virtual void modelReset();
     /**
-     * Create an QAccessibleTable2CellInterface representing the table
+     * Create an QAccessibleTableCellInterface representing the table
      * cell at the @index. Index is 0-based.
      */
-    inline QAccessibleTable2CellInterface* cell(int index) const;
-    inline QAccessible::Role cellRole() const;
+    inline QAccessibleInterface* cell(int index) const;
+
+private:
+    mutable QVector<QAccessibleInterface*> m_cells;
 };
 
-class KItemListAccessibleCell: public QAccessibleTable2CellInterface
+class DOLPHIN_EXPORT KItemListAccessibleCell: public QAccessibleInterface, public QAccessibleTableCellInterface
 {
 public:
     KItemListAccessibleCell(KItemListView* view, int m_index);
 
-    QObject* object() const;
-    Role role(int) const;
-    State state(int) const;
-    QRect rect(int) const;
-    bool isValid() const;
-    int childAt(int, int) const;
-    int childCount() const;
-    int indexOfChild(const QAccessibleInterface*) const;
-    QString text(Text t, int child) const;
-    void setText(Text t, int child, const QString& text);
-    int navigate(RelationFlag relation, int m_index, QAccessibleInterface** interface) const;
-    Relation relationTo(int child, const QAccessibleInterface* other, int otherChild) const;
+    void* interface_cast(QAccessible::InterfaceType type) Q_DECL_OVERRIDE;
+    QObject* object() const Q_DECL_OVERRIDE;
+    bool isValid() const Q_DECL_OVERRIDE;
+    QAccessible::Role role() const Q_DECL_OVERRIDE;
+    QAccessible::State state() const Q_DECL_OVERRIDE;
+    QRect rect() const Q_DECL_OVERRIDE;
+    QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
+    void setText(QAccessible::Text t, const QString& text) Q_DECL_OVERRIDE;
+
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
+    int childCount() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
+    int indexOfChild(const QAccessibleInterface*) const Q_DECL_OVERRIDE;
+
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
     bool isExpandable() const;
 
-#ifndef QT_NO_ACTION
-    int userActionCount(int child) const;
-    QString actionText(int action, Text t, int child) const;
-    bool doAction(int action, int child, const QVariantList& params);
-#endif
-
     // Cell Interface
-    virtual int columnExtent() const;
-    virtual QList<QAccessibleInterface*> columnHeaderCells() const;
-    virtual int columnIndex() const;
-    virtual int rowExtent() const;
-    virtual QList<QAccessibleInterface*> rowHeaderCells() const;
-    virtual int rowIndex() const;
-    virtual bool isSelected() const;
-    virtual void rowColumnExtents(int* row, int* column, int* rowExtents, int* columnExtents, bool* selected) const;
-    virtual QAccessibleTable2Interface* table() const;
+    virtual int columnExtent() const Q_DECL_OVERRIDE;
+    virtual QList<QAccessibleInterface*> columnHeaderCells() const Q_DECL_OVERRIDE;
+    virtual int columnIndex() const Q_DECL_OVERRIDE;
+    virtual int rowExtent() const Q_DECL_OVERRIDE;
+    virtual QList<QAccessibleInterface*> rowHeaderCells() const Q_DECL_OVERRIDE;
+    virtual int rowIndex() const Q_DECL_OVERRIDE;
+    virtual bool isSelected() const Q_DECL_OVERRIDE;
+    virtual QAccessibleInterface* table() const Q_DECL_OVERRIDE;
 
     inline int index() const;
 
@@ -142,17 +128,15 @@ private:
     int m_index;
 };
 
-class KItemListContainerAccessible : public QAccessibleWidgetEx
+class DOLPHIN_EXPORT KItemListContainerAccessible : public QAccessibleWidget
 {
-    Q_ACCESSIBLE_OBJECT
-
 public:
     explicit KItemListContainerAccessible(KItemListContainer* container);
     virtual ~KItemListContainerAccessible();
 
-    int childCount() const;
-    int indexOfChild(const QAccessibleInterface* child) const;
-    int navigate(RelationFlag relation, int entry, QAccessibleInterface** target) const;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
+    int childCount() const Q_DECL_OVERRIDE;
+    int indexOfChild(const QAccessibleInterface* child) const Q_DECL_OVERRIDE;
 
 private:
     const KItemListContainer* container() const;

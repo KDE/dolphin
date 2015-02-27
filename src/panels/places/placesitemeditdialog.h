@@ -24,15 +24,16 @@
 #ifndef PLACESITEMEDITDIALOG_H
 #define PLACESITEMEDITDIALOG_H
 
-#include <KDialog>
-#include <KUrl>
+#include <QDialog>
+#include <QUrl>
 
 class KIconButton;
-class KLineEdit;
 class KUrlRequester;
+class QLineEdit;
 class QCheckBox;
+class QPushButton;
 
-class PlacesItemEditDialog: public KDialog
+class PlacesItemEditDialog: public QDialog
 {
     Q_OBJECT
 
@@ -46,14 +47,14 @@ public:
     void setText(const QString& text);
     QString text() const;
 
-    void setUrl(const KUrl& url);
-    KUrl url() const;
+    void setUrl(const QUrl& url);
+    QUrl url() const;
 
     void setAllowGlobal(bool allow);
     bool allowGlobal() const;
 
 protected:
-    virtual bool event(QEvent* event);
+    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotUrlChanged(const QString& text);
@@ -64,13 +65,14 @@ private:
 private:
     QString m_icon;
     QString m_text;
-    KUrl m_url;
+    QUrl m_url;
     bool m_allowGlobal;
 
     KUrlRequester* m_urlEdit;
-    KLineEdit* m_textEdit;
+    QLineEdit* m_textEdit;
     KIconButton* m_iconButton;
     QCheckBox* m_appLocal;
+    QPushButton *m_okButton;
 };
 
 #endif

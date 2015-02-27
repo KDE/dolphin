@@ -35,8 +35,8 @@ public:
     DolphinServicesConfigModule(QWidget* parent, const QVariantList& args);
     virtual ~DolphinServicesConfigModule();
 
-    virtual void save();
-    virtual void defaults();
+    virtual void save() Q_DECL_OVERRIDE;
+    virtual void defaults() Q_DECL_OVERRIDE;
 
 private:
     ServicesSettingsPage* m_services;

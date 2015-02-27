@@ -21,15 +21,14 @@
 
 #include "kfileitemmodel.h"
 
-#include <KGlobalSettings>
-#include <KLocale>
-#include <KStringHandler>
-#include <KDebug>
+#include "dolphin_generalsettings.h"
+
+#include <KLocalizedString>
+#include "dolphindebug.h"
 
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
 
-#include <QApplication>
 #include <QMimeData>
 #include <QTimer>
 #include <QWidget>
@@ -42,12 +41,11 @@
 KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(0),
-    m_naturalSorting(KGlobalSettings::naturalSorting()),
+    m_naturalSorting(GeneralSettings::naturalSorting()),
     m_sortDirsFirst(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
-    m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
     m_items(),
     m_filter(),
@@ -60,6 +58,9 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_expandedDirs(),
     m_urlsToExpand()
 {
+    m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+    m_collator.setNumericMode(true);
+
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setDelayedMimeTypes(true);
 
@@ -68,17 +69,17 @@ KFileItemModel::KFileItemModel(QObject* parent) :
         m_dirLister->setMainWindow(parentWidget->window());
     }
 
-    connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
-    connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
-    connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
-    connect(m_dirLister, SIGNAL(itemsAdded(KUrl,KFileItemList)), this, SLOT(slotItemsAdded(KUrl,KFileItemList)));
-    connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
-    connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
-    connect(m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
-    connect(m_dirLister, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(directoryRedirection(KUrl,KUrl)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)), this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_dirLister, &KFileItemModelDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::canceled), this, &KFileItemModel::slotCanceled);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&)>(&KFileItemModelDirLister::completed), this, &KFileItemModel::slotCompleted);
+    connect(m_dirLister, &KFileItemModelDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
+    connect(m_dirLister, &KFileItemModelDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
+    connect(m_dirLister, &KFileItemModelDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::clear), this, &KFileItemModel::slotClear);
+    connect(m_dirLister, &KFileItemModelDirLister::infoMessage, this, &KFileItemModel::infoMessage);
+    connect(m_dirLister, &KFileItemModelDirLister::errorMessage, this, &KFileItemModel::errorMessage);
+    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&, const QUrl&)>(&KFileItemModelDirLister::redirection), this, &KFileItemModel::directoryRedirection);
+    connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
 
     // Apply default roles that should be determined
     resetRoles();
@@ -94,7 +95,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_maximumUpdateIntervalTimer = new QTimer(this);
     m_maximumUpdateIntervalTimer->setInterval(2000);
     m_maximumUpdateIntervalTimer->setSingleShot(true);
-    connect(m_maximumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
+    connect(m_maximumUpdateIntervalTimer, &QTimer::timeout, this, &KFileItemModel::dispatchPendingItemsToInsert);
 
     // When changing the value of an item which represents the sort-role a resorting must be
     // triggered. Especially in combination with KFileItemModelRolesUpdater this might be done
@@ -103,9 +104,10 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_resortAllItemsTimer = new QTimer(this);
     m_resortAllItemsTimer->setInterval(500);
     m_resortAllItemsTimer->setSingleShot(true);
-    connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
+    connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
-    connect(KGlobalSettings::self(), SIGNAL(naturalSortingChanged()), this, SLOT(slotNaturalSortingChanged()));
+    connect(GeneralSettings::self(), &GeneralSettings::naturalSortingChanged,
+            this, &KFileItemModel::slotNaturalSortingChanged);
 }
 
 KFileItemModel::~KFileItemModel()
@@ -115,15 +117,15 @@ KFileItemModel::~KFileItemModel()
     qDeleteAll(m_pendingItemsToInsert);
 }
 
-void KFileItemModel::loadDirectory(const KUrl& url)
+void KFileItemModel::loadDirectory(const QUrl &url)
 {
     m_dirLister->openUrl(url);
 }
 
-void KFileItemModel::refreshDirectory(const KUrl& url)
+void KFileItemModel::refreshDirectory(const QUrl &url)
 {
     // Refresh all expanded directories first (Bug 295300)
-    QHashIterator<KUrl, KUrl> expandedDirs(m_expandedDirs);
+    QHashIterator<QUrl, QUrl> expandedDirs(m_expandedDirs);
     while (expandedDirs.hasNext()) {
         expandedDirs.next();
         m_dirLister->openUrl(expandedDirs.value(), KDirLister::Reload);
@@ -132,7 +134,7 @@ void KFileItemModel::refreshDirectory(const KUrl& url)
     m_dirLister->openUrl(url, KDirLister::Reload);
 }
 
-KUrl KFileItemModel::directory() const
+QUrl KFileItemModel::directory() const
 {
     return m_dirLister->url();
 }
@@ -188,8 +190,9 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
 
     m_itemData[index]->values = currentValues;
     if (changedRoles.contains("text")) {
-        KUrl url = m_itemData[index]->item.url();
-        url.setFileName(currentValues["text"].toString());
+        QUrl url = m_itemData[index]->item.url();
+        url = url.adjusted(QUrl::RemoveFilename);
+        url.setPath(url.path() + currentValues["text"].toString());
         m_itemData[index]->item.setUrl(url);
     }
 
@@ -242,8 +245,8 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     // The following code has been taken from KDirModel::mimeData()
     // (kdelibs/kio/kio/kdirmodel.cpp)
     // Copyright (C) 2006 David Faure <faure@kde.org>
-    KUrl::List urls;
-    KUrl::List mostLocalUrls;
+    QList<QUrl> urls;
+    QList<QUrl> mostLocalUrls;
     bool canUseMostLocalUrls = true;
     const ItemData* lastAddedItem = 0;
 
@@ -275,9 +278,9 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
 
     const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
     if (different) {
-        urls.populateMimeData(mostLocalUrls, data);
+        data->setUrls(mostLocalUrls);
     } else {
-        urls.populateMimeData(data);
+        data->setUrls(urls);
     }
 
     return data;
@@ -336,7 +339,7 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         }
 
 #ifdef KFILEITEMMODEL_DEBUG
-        kDebug() << "[TIME] Calculating groups for" << count() << "items:" << timer.elapsed();
+        qCDebug(DolphinDebug) << "[TIME] Calculating groups for" << count() << "items:" << timer.elapsed();
 #endif
     }
 
@@ -352,7 +355,7 @@ KFileItem KFileItemModel::fileItem(int index) const
     return KFileItem();
 }
 
-KFileItem KFileItemModel::fileItem(const KUrl& url) const
+KFileItem KFileItemModel::fileItem(const QUrl &url) const
 {
     const int indexForUrl = index(url);
     if (indexForUrl >= 0) {
@@ -366,10 +369,9 @@ int KFileItemModel::index(const KFileItem& item) const
     return index(item.url());
 }
 
-int KFileItemModel::index(const KUrl& url) const
+int KFileItemModel::index(const QUrl& url) const
 {
-    KUrl urlToFind = url;
-    urlToFind.adjustPath(KUrl::RemoveTrailingSlash);
+    const QUrl urlToFind = url.adjusted(QUrl::StripTrailingSlash);
 
     const int itemCount = m_itemData.count();
     int itemsInHash = m_items.count();
@@ -387,7 +389,7 @@ int KFileItemModel::index(const KUrl& url) const
         const int blockSize = 1000;
         const int currentBlockEnd = qMin(itemsInHash + blockSize, itemCount);
         for (int i = itemsInHash; i < currentBlockEnd; ++i) {
-            const KUrl nextUrl = m_itemData.at(i)->item.url();
+            const QUrl nextUrl = m_itemData.at(i)->item.url();
             m_items.insert(nextUrl, i);
         }
 
@@ -406,24 +408,24 @@ int KFileItemModel::index(const KUrl& url) const
         if (m_items.count() != m_itemData.count() && printDebugInfo) {
             printDebugInfo = false;
 
-            kWarning() << "The model is in an inconsistent state.";
-            kWarning() << "m_items.count()    ==" << m_items.count();
-            kWarning() << "m_itemData.count() ==" << m_itemData.count();
+            qCWarning(DolphinDebug) << "The model is in an inconsistent state.";
+            qCWarning(DolphinDebug) << "m_items.count()    ==" << m_items.count();
+            qCWarning(DolphinDebug) << "m_itemData.count() ==" << m_itemData.count();
 
             // Check if there are multiple items with the same URL.
-            QMultiHash<KUrl, int> indexesForUrl;
+            QMultiHash<QUrl, int> indexesForUrl;
             for (int i = 0; i < m_itemData.count(); ++i) {
                 indexesForUrl.insert(m_itemData.at(i)->item.url(), i);
             }
 
-            foreach (const KUrl& url, indexesForUrl.uniqueKeys()) {
+            foreach (const QUrl& url, indexesForUrl.uniqueKeys()) {
                 if (indexesForUrl.count(url) > 1) {
-                    kWarning() << "Multiple items found with the URL" << url;
+                    qCWarning(DolphinDebug) << "Multiple items found with the URL" << url;
                     foreach (int index, indexesForUrl.values(url)) {
                         const ItemData* data = m_itemData.at(index);
-                        kWarning() << "index" << index << ":" << data->item;
+                        qCWarning(DolphinDebug) << "index" << index << ":" << data->item;
                         if (data->parent) {
-                            kWarning() << "parent" << data->parent->item;
+                            qCWarning(DolphinDebug) << "parent" << data->parent->item;
                         }
                     }
                 }
@@ -510,15 +512,15 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
     }
 
     const KFileItem item = m_itemData.at(index)->item;
-    const KUrl url = item.url();
-    const KUrl targetUrl = item.targetUrl();
+    const QUrl url = item.url();
+    const QUrl targetUrl = item.targetUrl();
     if (expanded) {
         m_expandedDirs.insert(targetUrl, url);
         m_dirLister->openUrl(url, KDirLister::Keep);
 
-        const KUrl::List previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<KUrl::List>();
-        foreach (const KUrl& url, previouslyExpandedChildren) {
-            m_urlsToExpand.insert(url);
+        const QVariantList previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<QVariantList>();
+        foreach (const QVariant& var, previouslyExpandedChildren) {
+            m_urlsToExpand.insert(var.toUrl());
         }
     } else {
         // Note that there might be (indirect) children of the folder which is to be collapsed in
@@ -540,14 +542,14 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         const int itemCount = m_itemData.count();
         const int firstChildIndex = index + 1;
 
-        KUrl::List expandedChildren;
+        QVariantList expandedChildren;
 
         int childIndex = firstChildIndex;
         while (childIndex < itemCount && expandedParentsCount(childIndex) > parentLevel) {
             ItemData* itemData = m_itemData.at(childIndex);
             if (itemData->values.value("isExpanded").toBool()) {
-                const KUrl targetUrl = itemData->item.targetUrl();
-                const KUrl url = itemData->item.url();
+                const QUrl targetUrl = itemData->item.targetUrl();
+                const QUrl url = itemData->item.url();
                 m_expandedDirs.remove(targetUrl);
                 m_dirLister->stop(url);     // TODO: try to unit-test this, see https://bugs.kde.org/show_bug.cgi?id=332102#c11
                 expandedChildren.append(targetUrl);
@@ -591,17 +593,17 @@ int KFileItemModel::expandedParentsCount(int index) const
     return 0;
 }
 
-QSet<KUrl> KFileItemModel::expandedDirectories() const
+QSet<QUrl> KFileItemModel::expandedDirectories() const
 {
     return m_expandedDirs.values().toSet();
 }
 
-void KFileItemModel::restoreExpandedDirectories(const QSet<KUrl>& urls)
+void KFileItemModel::restoreExpandedDirectories(const QSet<QUrl> &urls)
 {
     m_urlsToExpand = urls;
 }
 
-void KFileItemModel::expandParentDirectories(const KUrl& url)
+void KFileItemModel::expandParentDirectories(const QUrl &url)
 {
     const int pos = m_dirLister->url().path().length();
 
@@ -609,17 +611,17 @@ void KFileItemModel::expandParentDirectories(const KUrl& url)
     // expanded is added to m_urlsToExpand. KDirLister
     // does not care whether the parent-URL has already been
     // expanded.
-    KUrl urlToExpand = m_dirLister->url();
+    QUrl urlToExpand = m_dirLister->url();
     const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
     for (int i = 0; i < subDirs.count() - 1; ++i) {
-        urlToExpand.addPath(subDirs.at(i));
+        urlToExpand.setPath(urlToExpand.path() + '/' + subDirs.at(i));
         m_urlsToExpand.insert(urlToExpand);
     }
 
     // KDirLister::open() must called at least once to trigger an initial
     // loading. The pending URLs that must be restored are handled
     // in slotCompleted().
-    QSetIterator<KUrl> it2(m_urlsToExpand);
+    QSetIterator<QUrl> it2(m_urlsToExpand);
     while (it2.hasNext()) {
         const int idx = index(it2.next());
         if (idx >= 0 && !isExpanded(idx)) {
@@ -793,14 +795,14 @@ void KFileItemModel::resortAllItems()
 #ifdef KFILEITEMMODEL_DEBUG
     QElapsedTimer timer;
     timer.start();
-    kDebug() << "===========================================================";
-    kDebug() << "Resorting" << itemCount << "items";
+    qCDebug(DolphinDebug) << "===========================================================";
+    qCDebug(DolphinDebug) << "Resorting" << itemCount << "items";
 #endif
 
     // Remember the order of the current URLs so
     // that it can be determined which indexes have
     // been moved because of the resorting.
-    QList<KUrl> oldUrls;
+    QList<QUrl> oldUrls;
     oldUrls.reserve(itemCount);
     foreach (const ItemData* itemData, m_itemData) {
         oldUrls.append(itemData->item.url());
@@ -856,7 +858,7 @@ void KFileItemModel::resortAllItems()
     }
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
 #endif
 }
 
@@ -869,7 +871,7 @@ void KFileItemModel::slotCompleted()
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        foreach (const KUrl& url, m_urlsToExpand) {
+        foreach (const QUrl& url, m_urlsToExpand) {
             const int indexForUrl = index(url);
             if (indexForUrl >= 0) {
                 m_urlsToExpand.remove(url);
@@ -897,16 +899,15 @@ void KFileItemModel::slotCanceled()
     emit directoryLoadingCanceled();
 }
 
-void KFileItemModel::slotItemsAdded(const KUrl& directoryUrl, const KFileItemList& items)
+void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
 
-    KUrl parentUrl;
+    QUrl parentUrl;
     if (m_expandedDirs.contains(directoryUrl)) {
         parentUrl = m_expandedDirs.value(directoryUrl);
     } else {
-        parentUrl = directoryUrl;
-        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+        parentUrl = directoryUrl.adjusted(QUrl::StripTrailingSlash);
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
@@ -1012,7 +1013,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 {
     Q_ASSERT(!items.isEmpty());
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "Refreshing" << items.count() << "items";
+    qCDebug(DolphinDebug) << "Refreshing" << items.count() << "items";
 #endif
 
     // Get the indexes of all items that have been refreshed
@@ -1078,7 +1079,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 void KFileItemModel::slotClear()
 {
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "Clearing all items";
+    qCDebug(DolphinDebug) << "Clearing all items";
 #endif
 
     qDeleteAll(m_filteredItems.values());
@@ -1104,7 +1105,7 @@ void KFileItemModel::slotClear()
 
 void KFileItemModel::slotNaturalSortingChanged()
 {
-    m_naturalSorting = KGlobalSettings::naturalSorting();
+    m_naturalSorting = GeneralSettings::naturalSorting();
     resortAllItems();
 }
 
@@ -1125,8 +1126,8 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 #ifdef KFILEITEMMODEL_DEBUG
     QElapsedTimer timer;
     timer.start();
-    kDebug() << "===========================================================";
-    kDebug() << "Inserting" << newItems.count() << "items";
+    qCDebug(DolphinDebug) << "===========================================================";
+    qCDebug(DolphinDebug) << "Inserting" << newItems.count() << "items";
 #endif
 
     m_groups.clear();
@@ -1143,7 +1144,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     sort(newItems.begin(), newItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Sorting:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Sorting:" << timer.elapsed();
 #endif
 
     KItemRangeList itemRanges;
@@ -1172,7 +1173,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
 
         while (sourceIndexNewItems >= 0) {
             ItemData* newItem = newItems.at(sourceIndexNewItems);
-            if (sourceIndexExistingItems >= 0 && lessThan(newItem, m_itemData.at(sourceIndexExistingItems))) {
+            if (sourceIndexExistingItems >= 0 && lessThan(newItem, m_itemData.at(sourceIndexExistingItems), m_collator)) {
                 // Move an existing item to its new position. If any new items
                 // are behind it, push the item range to itemRanges.
                 if (rangeCount > 0) {
@@ -1201,13 +1202,13 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     }
 
     // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
-    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
     emit itemsInserted(itemRanges);
 
 #ifdef KFILEITEMMODEL_DEBUG
-    kDebug() << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
+    qCDebug(DolphinDebug) << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
 #endif
 }
 
@@ -1254,13 +1255,13 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
     m_itemData.erase(m_itemData.end() - removedItemsCount, m_itemData.end());
 
     // The indexes in m_items are not correct anymore. Therefore, we clear m_items.
-    // It will be re-populated with the updated indices if index(const KUrl&) is called.
+    // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
     emit itemsRemoved(itemRanges);
 }
 
-QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KUrl& parentUrl, const KFileItemList& items) const
+QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const
 {
     if (m_sortRole == TypeRole) {
         // Try to resolve the MIME-types synchronously to prevent a reordering of
@@ -1388,14 +1389,14 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& i
             // (b)  the successor of the last item is "lessThan" the last item, or
             // (c)  the internal order of the items in the range is incorrect.
             if (first > 0
-                && lessThan(m_itemData.at(first), m_itemData.at(first - 1))) {
+                && lessThan(m_itemData.at(first), m_itemData.at(first - 1), m_collator)) {
                 needsResorting = true;
             } else if (last < count() - 1
-                && lessThan(m_itemData.at(last + 1), m_itemData.at(last))) {
+                && lessThan(m_itemData.at(last + 1), m_itemData.at(last), m_collator)) {
                 needsResorting = true;
             } else {
                 for (int index = first; index < last; ++index) {
-                    if (lessThan(m_itemData.at(index + 1), m_itemData.at(index))) {
+                    if (lessThan(m_itemData.at(index + 1), m_itemData.at(index), m_collator)) {
                         needsResorting = true;
                         break;
                     }
@@ -1510,8 +1511,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         // Don't use KFileItem::timeString() as this is too expensive when
         // having several thousands of items. Instead the formatting of the
         // date-time will be done on-demand by the view when the date will be shown.
-        const KDateTime dateTime = item.time(KFileItem::ModificationTime);
-        data.insert(sharedValue("date"), dateTime.dateTime());
+        const QDateTime dateTime = item.time(KFileItem::ModificationTime);
+        data.insert(sharedValue("date"), dateTime);
     }
 
     if (m_requestRole[PermissionsRole]) {
@@ -1536,7 +1537,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
 
     if (m_requestRole[PathRole]) {
         QString path;
-        if (item.url().protocol() == QLatin1String("trash")) {
+        if (item.url().scheme() == QLatin1String("trash")) {
             path = item.entry().stringValue(KIO::UDSEntry::UDS_EXTRA);
         } else {
             // For performance reasons cache the home-path in a static QString
@@ -1582,7 +1583,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     return data;
 }
 
-bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
+bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QCollator& collator) const
 {
     int result = 0;
 
@@ -1627,7 +1628,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         }
     }
 
-    result = sortRoleCompare(a, b);
+    result = sortRoleCompare(a, b, collator);
 
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
@@ -1638,24 +1639,36 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 class KFileItemModelLessThan
 {
 public:
-    KFileItemModelLessThan(const KFileItemModel* model) :
-        m_model(model)
+    KFileItemModelLessThan(const KFileItemModel* model, const QCollator& collator) :
+        m_model(model),
+        m_collator(collator)
     {
+    }
+
+    KFileItemModelLessThan(const KFileItemModelLessThan& other) :
+        m_model(other.m_model),
+        m_collator()
+    {
+        m_collator.setCaseSensitivity(other.m_collator.caseSensitivity());
+        m_collator.setIgnorePunctuation(other.m_collator.ignorePunctuation());
+        m_collator.setLocale(other.m_collator.locale());
+        m_collator.setNumericMode(other.m_collator.numericMode());
     }
 
     bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b) const
     {
-        return m_model->lessThan(a, b);
+        return m_model->lessThan(a, b, m_collator);
     }
 
 private:
     const KFileItemModel* m_model;
+    QCollator m_collator;
 };
 
 void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
                           QList<KFileItemModel::ItemData*>::iterator end) const
 {
-    KFileItemModelLessThan lessThan(this);
+    KFileItemModelLessThan lessThan(this, m_collator);
 
     if (m_sortRole == NameRole) {
         // Sorting by name can be expensive, in particular if natural sorting is
@@ -1670,7 +1683,7 @@ void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
     }
 }
 
-int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
+int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const
 {
     const KFileItem& itemA = a->item;
     const KFileItem& itemB = b->item;
@@ -1715,8 +1728,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     }
 
     case DateRole: {
-        const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
-        const KDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
+        const QDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
+        const QDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
@@ -1733,9 +1746,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     case ImageSizeRole: {
         // Alway use a natural comparing to interpret the numbers of a string like
         // "1600 x 1200" for having a correct sorting.
-        result = KStringHandler::naturalCompare(a->values.value("imageSize").toString(),
-                                                b->values.value("imageSize").toString(),
-                                                Qt::CaseSensitive);
+        result = collator.compare(a->values.value("imageSize").toString(),
+                                  b->values.value("imageSize").toString());
         break;
     }
 
@@ -1754,14 +1766,13 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     }
 
     // Fallback #1: Compare the text of the items
-    result = stringCompare(itemA.text(), itemB.text());
+    result = stringCompare(itemA.text(), itemB.text(), collator);
     if (result != 0) {
         return result;
     }
 
     // Fallback #2: KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
-    result = stringCompare(itemA.name(m_caseSensitivity == Qt::CaseInsensitive),
-                           itemB.name(m_caseSensitivity == Qt::CaseInsensitive));
+    result = stringCompare(itemA.name(), itemB.name(), collator);
     if (result != 0) {
         return result;
     }
@@ -1772,36 +1783,26 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     return QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
 }
 
-int KFileItemModel::stringCompare(const QString& a, const QString& b) const
+int KFileItemModel::stringCompare(const QString& a, const QString& b, const QCollator& collator) const
 {
-    // Taken from KDirSortFilterProxyModel (kdelibs/kfile/kdirsortfilterproxymodel.*)
-    // Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>
-    // Copyright (C) 2006 by Dominic Battre <dominic@battre.de>
-    // Copyright (C) 2006 by Martin Pool <mbp@canonical.com>
-
-    if (m_caseSensitivity == Qt::CaseInsensitive) {
-        const int result = m_naturalSorting ? KStringHandler::naturalCompare(a, b, Qt::CaseInsensitive)
-                                            : QString::compare(a, b, Qt::CaseInsensitive);
-        if (result != 0) {
-            // Only return the result, if the strings are not equal. If they are equal by a case insensitive
-            // comparison, still a deterministic sort order is required. A case sensitive
-            // comparison is done as fallback.
-            return result;
-        }
+    if (m_naturalSorting) {
+        return collator.compare(a, b);
     }
 
-    return m_naturalSorting ? KStringHandler::naturalCompare(a, b, Qt::CaseSensitive)
-                            : QString::compare(a, b, Qt::CaseSensitive);
+    const int result = QString::compare(a, b, collator.caseSensitivity());
+    if (result != 0 || collator.caseSensitivity() == Qt::CaseSensitive) {
+        // Only return the result, if the strings are not equal. If they are equal by a case insensitive
+        // comparison, still a deterministic sort order is required. A case sensitive
+        // comparison is done as fallback.
+        return result;
+    }
+
+    return QString::compare(a, b, Qt::CaseSensitive);
 }
 
 bool KFileItemModel::useMaximumUpdateInterval() const
 {
     return !m_dirLister->url().isLocalFile();
-}
-
-static bool localeAwareLessThan(const QChar& c1, const QChar& c2)
-{
-    return QString::localeAwareCompare(c1, c2) < 0;
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
@@ -1836,6 +1837,10 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
                         lettersAtoZ.push_back(QLatin1Char(c));
                     }
                 }
+
+                auto localeAwareLessThan = [this](const QChar& c1, const QChar& c2) -> bool {
+                    return m_collator.compare(c1, c2) < 0;
+                };
 
                 std::vector<QChar>::iterator it = std::lower_bound(lettersAtoZ.begin(), lettersAtoZ.end(), newFirstChar, localeAwareLessThan);
                 if (it != lettersAtoZ.end()) {
@@ -1908,7 +1913,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
 
-    const QDate currentDate = KDateTime::currentLocalDateTime().date();
+    const QDate currentDate = QDate::currentDate();
 
     QDate previousModifiedDate;
     QString groupValue;
@@ -1917,7 +1922,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
             continue;
         }
 
-        const KDateTime modifiedTime = m_itemData.at(i)->item.time(KFileItem::ModificationTime);
+        const QDateTime modifiedTime = m_itemData.at(i)->item.time(KFileItem::ModificationTime);
         const QDate modifiedDate = modifiedTime.date();
         if (modifiedDate == previousModifiedDate) {
             // The current item is in the same group as the previous item
@@ -1934,7 +1939,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
                 switch (daysDistance) {
                 case 0:  newGroupValue = i18nc("@title:group Date", "Today"); break;
                 case 1:  newGroupValue = i18nc("@title:group Date", "Yesterday"); break;
-                default: newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: %A", "%A"));
+                default: newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: dddd", "dddd"));
                 }
                 break;
             case 1:
@@ -1957,20 +1962,20 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
             const QDate lastMonthDate = currentDate.addMonths(-1);
             if  (lastMonthDate.year() == modifiedDate.year() && lastMonthDate.month() == modifiedDate.month()) {
                 if (daysDistance == 1) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Yesterday' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: %A, %B is full month name in current locale, and %Y is full year number", "%A (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: dddd, MMMM is full month name in current locale, and yyyy is full year number", "dddd (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 2) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "One Week Ago (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'One Week Ago' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 3) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Two Weeks Ago (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Two Weeks Ago' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 4) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Three Weeks Ago (%B, %Y)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Three Weeks Ago' (MMMM, yyyy)"));
                 } else {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Earlier on %B, %Y"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Earlier on' MMMM, yyyy"));
                 }
             } else {
-                newGroupValue = modifiedTime.toString(i18nc("@title:group The month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+                newGroupValue = modifiedTime.toString(i18nc("@title:group The month and year: MMMM is full month name in current locale, and yyyy is full year number", "MMMM, yyyy"));
             }
         }
 
@@ -2004,7 +2009,7 @@ QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
         }
         permissionsString = newPermissionsString;
 
-        const QFileInfo info(itemData->item.url().pathOrUrl());
+        const QFileInfo info(itemData->item.url().toLocalFile());
 
         // Set user string
         QString user;
@@ -2199,7 +2204,7 @@ QByteArray KFileItemModel::sharedValue(const QByteArray& value)
 bool KFileItemModel::isConsistent() const
 {
     // m_items may contain less items than m_itemData because m_items
-    // is populated lazily, see KFileItemModel::index(const KUrl& url).
+    // is populated lazily, see KFileItemModel::index(const QUrl& url).
     if (m_items.count() > m_itemData.count()) {
         return false;
     }
@@ -2208,19 +2213,19 @@ bool KFileItemModel::isConsistent() const
         // Check if m_items and m_itemData are consistent.
         const KFileItem item = fileItem(i);
         if (item.isNull()) {
-            qWarning() << "Item" << i << "is null";
+            qCWarning(DolphinDebug) << "Item" << i << "is null";
             return false;
         }
 
         const int itemIndex = index(item);
         if (itemIndex != i) {
-            qWarning() << "Item" << i << "has a wrong index:" << itemIndex;
+            qCWarning(DolphinDebug) << "Item" << i << "has a wrong index:" << itemIndex;
             return false;
         }
 
         // Check if the items are sorted correctly.
-        if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i))) {
-            qWarning() << "The order of items" << i - 1 << "and" << i << "is wrong:"
+        if (i > 0 && !lessThan(m_itemData.at(i - 1), m_itemData.at(i), m_collator)) {
+            qCWarning(DolphinDebug) << "The order of items" << i - 1 << "and" << i << "is wrong:"
                 << fileItem(i - 1) << fileItem(i);
             return false;
         }
@@ -2230,13 +2235,13 @@ bool KFileItemModel::isConsistent() const
         const ItemData* parent = data->parent;
         if (parent) {
             if (expandedParentsCount(data) != expandedParentsCount(parent) + 1) {
-                qWarning() << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
+                qCWarning(DolphinDebug) << "expandedParentsCount is inconsistent for parent" << parent->item << "and child" << data->item;
                 return false;
             }
 
             const int parentIndex = index(parent->item);
             if (parentIndex >= i) {
-                qWarning() << "Index" << parentIndex << "of parent" << parent->item << "is not smaller than index" << i << "of child" << data->item;
+                qCWarning(DolphinDebug) << "Index" << parentIndex << "of parent" << parent->item << "is not smaller than index" << i << "of child" << data->item;
                 return false;
             }
         }
@@ -2245,4 +2250,3 @@ bool KFileItemModel::isConsistent() const
     return true;
 }
 
-#include "kfileitemmodel.moc"

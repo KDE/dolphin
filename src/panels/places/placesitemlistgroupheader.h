@@ -31,7 +31,7 @@ public:
     virtual ~PlacesItemListGroupHeader();
 
 protected:
-    virtual void paintSeparator(QPainter* painter, const QColor& color);
+    virtual void paintSeparator(QPainter* painter, const QColor& color) Q_DECL_OVERRIDE;
 
     virtual QPalette::ColorRole normalTextColorRole() const;
 };

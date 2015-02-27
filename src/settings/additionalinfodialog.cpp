@@ -21,33 +21,39 @@
 
 #include <config-baloo.h>
 
-#include <KLocale>
+#include <KSharedConfig>
+#include <KLocalizedString>
 #include "kitemviews/kfileitemmodel.h"
+#include <KConfigGroup>
+#include <KWindowConfig>
+
 #include <QCheckBox>
 #include <QLabel>
 #include <QVBoxLayout>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #ifdef HAVE_BALOO
-    #include <baloo/indexerconfig.h>
+    #include <Baloo/IndexerConfig>
 #endif
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
                                            const QList<QByteArray>& visibleRoles) :
-    KDialog(parent),
+    QDialog(parent),
     m_visibleRoles(visibleRoles),
     m_listWidget(0)
 {
-    setCaption(i18nc("@title:window", "Additional Information"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
+    setWindowTitle(i18nc("@title:window", "Additional Information"));
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
-    QWidget* mainWidget = new QWidget(this);
-    mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    auto layout = new QVBoxLayout(this);
+    setLayout(layout);
 
     // Add header
-    QLabel* header = new QLabel(mainWidget);
+    auto header = new QLabel(this);
     header->setText(i18nc("@label", "Select which additional information should be shown:"));
     header->setWordWrap(true);
+    layout->addWidget(header);
 
     // Add checkboxes
     bool indexingEnabled = false;
@@ -56,7 +62,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     indexingEnabled = config.fileIndexingEnabled();
 #endif
 
-    m_listWidget = new QListWidget(mainWidget);
+    m_listWidget = new QListWidget(this);
     m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
@@ -71,23 +77,25 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
         }
     }
-
-    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
-    layout->addWidget(header);
     layout->addWidget(m_listWidget);
 
-    setMainWidget(mainWidget);
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &AdditionalInfoDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &AdditionalInfoDialog::reject);
+    layout->addWidget(buttonBox);
+
+    auto okButton = buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setDefault(true);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
-    restoreDialogSize(dialogConfig);
-
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 AdditionalInfoDialog::~AdditionalInfoDialog()
 {
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
-    saveDialogSize(dialogConfig, KConfigBase::Persistent);
+    KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
 QList<QByteArray> AdditionalInfoDialog::visibleRoles() const
@@ -95,7 +103,7 @@ QList<QByteArray> AdditionalInfoDialog::visibleRoles() const
     return m_visibleRoles;
 }
 
-void AdditionalInfoDialog::slotOk()
+void AdditionalInfoDialog::accept()
 {
     m_visibleRoles.clear();
 
@@ -108,6 +116,6 @@ void AdditionalInfoDialog::slotOk()
         }
         ++index;
     }
-}
 
-#include "additionalinfodialog.moc"
+    QDialog::accept();
+}

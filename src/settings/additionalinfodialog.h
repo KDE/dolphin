@@ -20,16 +20,15 @@
 #ifndef ADDITIONALINFODIALOG_H
 #define ADDITIONALINFODIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 #include <QList>
 #include <QListWidget>
 
-class QCheckBox;
 
 /**
  * @brief Dialog for changing the additional information shown in the view.
  */
-class AdditionalInfoDialog : public KDialog
+class AdditionalInfoDialog : public QDialog
 {
     Q_OBJECT
 
@@ -38,8 +37,8 @@ public:
     virtual ~AdditionalInfoDialog();
     QList<QByteArray> visibleRoles() const;
 
-private slots:
-    void slotOk();
+public slots:
+    void accept() Q_DECL_OVERRIDE;
 
 private:
     QList<QByteArray> m_visibleRoles;

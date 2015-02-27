@@ -37,16 +37,16 @@ public:
     virtual ~ServiceItemDelegate();
 
     virtual QSize sizeHint(const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const;
+                           const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     virtual void paint(QPainter* painter, const QStyleOptionViewItem& option,
-                       const QModelIndex& index) const;
+                       const QModelIndex& index) const Q_DECL_OVERRIDE;
 
-    virtual QList<QWidget*> createItemWidgets() const;
+    virtual QList<QWidget*> createItemWidgets(const QModelIndex&) const Q_DECL_OVERRIDE;
 
     virtual void updateItemWidgets(const QList<QWidget*> widgets,
                                    const QStyleOptionViewItem& option,
-                                   const QPersistentModelIndex& index) const;
+                                   const QPersistentModelIndex& index) const Q_DECL_OVERRIDE;
 
 signals:
     void requestServiceConfiguration(const QModelIndex& index);

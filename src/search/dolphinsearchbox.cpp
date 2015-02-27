@@ -22,15 +22,14 @@
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
 
-#include <KIcon>
-#include <KLineEdit>
-#include <KLocale>
+#include <QIcon>
+#include <QLineEdit>
+#include <KLocalizedString>
 #include <KSeparator>
 
 #include <QButtonGroup>
 #include <QDir>
 #include <QEvent>
-#include <QFormLayout>
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
@@ -38,13 +37,15 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
+#include <QUrlQuery>
 
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
-    #include <baloo/query.h>
-    #include <baloo/term.h>
-    #include <baloo/indexerconfig.h>
+    #include <Baloo/Query>
+    #include <Baloo/Term>
+    #include <Baloo/IndexerConfig>
 #endif
+#include <QFontDatabase>
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
@@ -81,7 +82,7 @@ QString DolphinSearchBox::text() const
     return m_searchInput->text();
 }
 
-void DolphinSearchBox::setSearchPath(const KUrl& url)
+void DolphinSearchBox::setSearchPath(const QUrl& url)
 {
     m_searchPath = url;
 
@@ -93,7 +94,7 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
         if (url.isLocalFile()) {
             location = QLatin1String("/");
         } else {
-            location = url.protocol() + QLatin1String(" - ") + url.host();
+            location = url.scheme() + QLatin1String(" - ") + url.host();
         }
     }
 
@@ -113,14 +114,14 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_facetsWidget->setEnabled(hasFacetsSupport);
 }
 
-KUrl DolphinSearchBox::searchPath() const
+QUrl DolphinSearchBox::searchPath() const
 {
     return m_searchPath;
 }
 
-KUrl DolphinSearchBox::urlForSearching() const
+QUrl DolphinSearchBox::urlForSearching() const
 {
-    KUrl url;
+    QUrl url;
     bool useBalooSearch = false;
 #ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
@@ -129,10 +130,12 @@ KUrl DolphinSearchBox::urlForSearching() const
     if (useBalooSearch) {
         url = balooUrlForSearching();
     } else {
-        url.setProtocol("filenamesearch");
-        url.addQueryItem("search", m_searchInput->text());
+        url.setScheme("filenamesearch");
+
+        QUrlQuery query;
+        query.addQueryItem("search", m_searchInput->text());
         if (m_contentButton->isChecked()) {
-            url.addQueryItem("checkContent", "yes");
+            query.addQueryItem("checkContent", "yes");
         }
 
         QString encodedUrl;
@@ -144,21 +147,23 @@ KUrl DolphinSearchBox::urlForSearching() const
         } else {
             encodedUrl = m_searchPath.url();
         }
-        url.addQueryItem("url", encodedUrl);
+        query.addQueryItem("url", encodedUrl);
+
+        url.setQuery(query);
     }
 
     return url;
 }
 
-void DolphinSearchBox::fromSearchUrl(const KUrl& url)
+void DolphinSearchBox::fromSearchUrl(const QUrl& url)
 {
-    if (url.protocol() == "baloosearch") {
+    if (url.scheme() == "baloosearch") {
         fromBalooSearchUrl(url);
-    } else if (url.protocol() == "filenamesearch") {
-        const QMap<QString, QString>& queryItems = url.queryItems();
-        setText(queryItems.value("search"));
-        setSearchPath(queryItems.value("url"));
-        m_contentButton->setChecked(queryItems.value("checkContent") == "yes");
+    } else if (url.scheme() == "filenamesearch") {
+        const QUrlQuery query(url);
+        setText(query.queryItemValue("search"));
+        setSearchPath(QUrl::fromUserInput(query.queryItemValue("url"), QString(), QUrl::AssumeLocalFile));
+        m_contentButton->setChecked(query.queryItemValue("checkContent") == "yes");
     } else {
         setText(QString());
         setSearchPath(url);
@@ -253,6 +258,7 @@ void DolphinSearchBox::slotConfigurationChanged()
 
 void DolphinSearchBox::slotSearchTextChanged(const QString& text)
 {
+
     if (text.isEmpty()) {
         m_startSearchTimer->stop();
     } else {
@@ -261,10 +267,10 @@ void DolphinSearchBox::slotSearchTextChanged(const QString& text)
     emit searchTextChanged(text);
 }
 
-void DolphinSearchBox::slotReturnPressed(const QString& text)
+void DolphinSearchBox::slotReturnPressed()
 {
     emitSearchRequest();
-    emit returnPressed(text);
+    emit returnPressed();
 }
 
 void DolphinSearchBox::slotFacetsButtonToggled()
@@ -287,7 +293,7 @@ void DolphinSearchBox::initButton(QToolButton* button)
     button->setAutoExclusive(true);
     button->setAutoRaise(true);
     button->setCheckable(true);
-    connect(button, SIGNAL(clicked(bool)), this, SLOT(slotConfigurationChanged()));
+    connect(button, &QToolButton::clicked, this, &DolphinSearchBox::slotConfigurationChanged);
 }
 
 void DolphinSearchBox::loadSettings()
@@ -312,7 +318,7 @@ void DolphinSearchBox::saveSettings()
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? "FromHere" : "Everywhere");
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? "FileName" : "Content");
     SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
-    SearchSettings::self()->writeConfig();
+    SearchSettings::self()->save();
 }
 
 void DolphinSearchBox::init()
@@ -320,23 +326,23 @@ void DolphinSearchBox::init()
     // Create close button
     QToolButton* closeButton = new QToolButton(this);
     closeButton->setAutoRaise(true);
-    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setIcon(QIcon::fromTheme("dialog-close"));
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
-    connect(closeButton, SIGNAL(clicked()), this, SLOT(emitCloseRequest()));
+    connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
 
     // Create search label
     m_searchLabel = new QLabel(this);
 
     // Create search box
-    m_searchInput = new KLineEdit(this);
+    m_searchInput = new QLineEdit(this);
     m_searchInput->installEventFilter(this);
-    m_searchInput->setClearButtonShown(true);
-    m_searchInput->setFont(KGlobalSettings::generalFont());
+    m_searchInput->setClearButtonEnabled(true);
+    m_searchInput->setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
+    connect(m_searchInput, &QLineEdit::returnPressed,
+            this, &DolphinSearchBox::slotReturnPressed);
+    connect(m_searchInput, &QLineEdit::textChanged,
+            this, &DolphinSearchBox::slotSearchTextChanged);
     setFocusProxy(m_searchInput);
-    connect(m_searchInput, SIGNAL(returnPressed(QString)),
-            this, SLOT(slotReturnPressed(QString)));
-    connect(m_searchInput, SIGNAL(textChanged(QString)),
-            this, SLOT(slotSearchTextChanged(QString)));
 
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
@@ -377,12 +383,12 @@ void DolphinSearchBox::init()
     m_facetsToggleButton = new QToolButton(this);
     m_facetsToggleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     initButton(m_facetsToggleButton);
-    connect(m_facetsToggleButton, SIGNAL(clicked()), this, SLOT(slotFacetsButtonToggled()));
+    connect(m_facetsToggleButton, &QToolButton::clicked, this, &DolphinSearchBox::slotFacetsButtonToggled);
 
     m_facetsWidget = new DolphinFacetsWidget(this);
     m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    connect(m_facetsWidget, SIGNAL(facetChanged()), this, SLOT(slotFacetChanged()));
+    connect(m_facetsWidget, &DolphinFacetsWidget::facetChanged, this, &DolphinSearchBox::slotFacetChanged);
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
@@ -422,12 +428,12 @@ void DolphinSearchBox::init()
     m_startSearchTimer = new QTimer(this);
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
-    connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchRequest()));
+    connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
 
     updateFacetsToggleButton();
 }
 
-KUrl DolphinSearchBox::balooUrlForSearching() const
+QUrl DolphinSearchBox::balooUrlForSearching() const
 {
 #ifdef HAVE_BALOO
     const QString text = m_searchInput->text();
@@ -450,7 +456,7 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
     }
 
     if (m_fromHereButton->isChecked()) {
-        query.addCustomOption("includeFolder", m_searchPath.toLocalFile());
+        query.setIncludeFolder(m_searchPath.toLocalFile());
     }
 
     query.setTerm(term);
@@ -458,11 +464,11 @@ KUrl DolphinSearchBox::balooUrlForSearching() const
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));
 #else
-    return KUrl();
+    return QUrl();
 #endif
 }
 
-void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
+void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 {
 #ifdef HAVE_BALOO
     const Baloo::Query query = Baloo::Query::fromSearchUrl(url);
@@ -472,16 +478,14 @@ void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
     // while we adjust the search text and the facet widget.
     blockSignals(true);
 
-    const QVariantHash customOptions = query.customOptions();
-    if (customOptions.contains("includeFolder")) {
-        setSearchPath(customOptions.value("includeFolder").toString());
+    const QString customDir = query.includeFolder();
+    if (!customDir.isEmpty()) {
+        setSearchPath(QUrl::fromLocalFile(customDir));
     } else {
         setSearchPath(QDir::homePath());
     }
 
-    if (!query.searchString().isEmpty()) {
-        setText(query.searchString());
-    }
+    setText(query.searchString());
 
     QStringList types = query.types();
     types.removeOne("File"); // We are only interested in facet widget types
@@ -501,6 +505,8 @@ void DolphinSearchBox::fromBalooSearchUrl(const KUrl& url)
 
     m_startSearchTimer->stop();
     blockSignals(false);
+#else
+    Q_UNUSED(url);
 #endif
 }
 
@@ -508,8 +514,7 @@ void DolphinSearchBox::updateFacetsToggleButton()
 {
     const bool facetsIsVisible = SearchSettings::showFacetsWidget();
     m_facetsToggleButton->setChecked(facetsIsVisible ? true : false);
-    m_facetsToggleButton->setIcon(KIcon(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
+    m_facetsToggleButton->setIcon(QIcon::fromTheme(facetsIsVisible ? "arrow-up-double" : "arrow-down-double"));
     m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
 }
 
-#include "dolphinsearchbox.moc"

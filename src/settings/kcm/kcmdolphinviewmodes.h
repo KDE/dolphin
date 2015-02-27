@@ -35,8 +35,8 @@ public:
     DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args);
     virtual ~DolphinViewModesConfigModule();
 
-    virtual void save();
-    virtual void defaults();
+    virtual void save() Q_DECL_OVERRIDE;
+    virtual void defaults() Q_DECL_OVERRIDE;
 
 private:
     void reparseConfiguration();

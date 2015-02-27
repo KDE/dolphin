@@ -19,7 +19,6 @@
 
 #include "kstandarditemlistview.h"
 
-#include <KDebug>
 #include <KIconLoader>
 #include "kstandarditemlistwidget.h"
 #include "kstandarditemlistgroupheader.h"
@@ -30,7 +29,7 @@ KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
 {
     setAcceptDrops(true);
     setScrollOrientation(Qt::Vertical);
-    setVisibleRoles(QList<QByteArray>() << "text");
+    setVisibleRoles({"text"});
 }
 
 KStandardItemListView::~KStandardItemListView()
@@ -179,4 +178,3 @@ void KStandardItemListView::updateLayoutOfVisibleItems()
     }
 }
 
-#include "kstandarditemlistview.moc"

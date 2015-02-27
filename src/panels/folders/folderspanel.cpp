@@ -33,7 +33,11 @@
 #include <kitemviews/kfileitemmodel.h>
 
 #include <KFileItem>
-#include <konq_operations.h>
+#include <KJobWidgets>
+#include <KJobUiDelegate>
+#include <KIO/CopyJob>
+#include <KIO/DropJob>
+#include <KIO/FileUndoManager>
 
 #include <QApplication>
 #include <QBoxLayout>
@@ -45,7 +49,7 @@
 
 #include <views/draganddrophelper.h>
 
-#include <KDebug>
+#include "dolphindebug.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
@@ -58,7 +62,7 @@ FoldersPanel::FoldersPanel(QWidget* parent) :
 
 FoldersPanel::~FoldersPanel()
 {
-    FoldersPanelSettings::self()->writeConfig();
+    FoldersPanelSettings::self()->save();
 
     if (m_controller) {
         KItemListView* view = m_controller->view();
@@ -105,7 +109,7 @@ void FoldersPanel::rename(const KFileItem& item)
 
 bool FoldersPanel::urlChanged()
 {
-    if (!url().isValid() || url().protocol().contains("search")) {
+    if (!url().isValid() || url().scheme().contains("search")) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -137,15 +141,15 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // opening the folders panel.
         view->setOpacity(0);
 
-        connect(view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
-                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+        connect(view, &KFileItemListView::roleEditingFinished,
+                this, &FoldersPanel::slotRoleEditingFinished);
 
         m_model = new KFileItemModel(this);
         m_model->setShowDirectoriesOnly(true);
         m_model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
-        connect(m_model, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
+        connect(m_model, &KFileItemModel::directoryLoadingCompleted, this, &FoldersPanel::slotLoadingCompleted, Qt::QueuedConnection);
 
         m_controller = new KItemListController(m_model, view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
@@ -154,11 +158,11 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_controller->setAutoActivationDelay(750);
         m_controller->setSingleClickActivationEnforced(true);
 
-        connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
-        connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-        connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
-        connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
-        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+        connect(m_controller, &KItemListController::itemActivated, this, &FoldersPanel::slotItemActivated);
+        connect(m_controller, &KItemListController::itemMiddleClicked, this, &FoldersPanel::slotItemMiddleClicked);
+        connect(m_controller, &KItemListController::itemContextMenuRequested, this, &FoldersPanel::slotItemContextMenuRequested);
+        connect(m_controller, &KItemListController::viewContextMenuRequested, this, &FoldersPanel::slotViewContextMenuRequested);
+        connect(m_controller, &KItemListController::itemDropEvent, this, &FoldersPanel::slotItemDropEvent);
 
         KItemListContainer* container = new KItemListContainer(m_controller, this);
         container->setEnabledFrame(false);
@@ -204,7 +208,7 @@ void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     const KFileItem fileItem = m_model->fileItem(index);
 
-    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
+    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
     contextMenu.data()->open();
     if (contextMenu.data()) {
         delete contextMenu.data();
@@ -215,7 +219,7 @@ void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
     Q_UNUSED(pos);
 
-    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
+    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
     contextMenu.data()->open();
     if (contextMenu.data()) {
         delete contextMenu.data();
@@ -236,10 +240,9 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
                              event->buttons(),
                              event->modifiers());
 
-        QString error;
-        DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent, error);
-        if (!error.isEmpty()) {
-            emit errorMessage(error);
+        KIO::DropJob *job = DragAndDropHelper::dropUrls(destItem.url(), &dropEvent, this);
+        if (job) {
+            connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
         }
     }
 }
@@ -250,7 +253,14 @@ void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, co
         const KFileItem item = m_model->fileItem(index);
         const QString newName = value.toString();
         if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
-            KonqOperations::rename(this, item.url(), newName);
+            const QUrl oldUrl = item.url();
+            QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+            newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
+
+            KIO::Job* job = KIO::moveAs(oldUrl, newUrl);
+            KJobWidgets::setWindow(job, this);
+            KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
+            job->ui()->setAutoErrorHandlingEnabled(true);
         }
     }
 }
@@ -286,16 +296,16 @@ void FoldersPanel::startFadeInAnimation()
     anim->setDuration(200);
 }
 
-void FoldersPanel::loadTree(const KUrl& url)
+void FoldersPanel::loadTree(const QUrl& url)
 {
     Q_ASSERT(m_controller);
 
     m_updateCurrentItem = false;
 
-    KUrl baseUrl;
+    QUrl baseUrl;
     if (url.isLocalFile()) {
         // Use the root directory as base for local URLs (#150941)
-        baseUrl = QDir::rootPath();
+        baseUrl = QUrl::fromLocalFile(QDir::rootPath());
     } else {
         // Clear the path for non-local URLs and use it as base
         baseUrl = url;
@@ -328,4 +338,3 @@ void FoldersPanel::updateCurrentItem(int index)
     m_controller->view()->scrollToItem(index);
 }
 
-#include "folderspanel.moc"

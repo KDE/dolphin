@@ -35,8 +35,8 @@ public:
     virtual ~PlacesItemListWidget();
 
 protected:
-    virtual bool isHidden() const;
-    virtual QPalette::ColorRole normalTextColorRole() const;
+    virtual bool isHidden() const Q_DECL_OVERRIDE;
+    virtual QPalette::ColorRole normalTextColorRole() const Q_DECL_OVERRIDE;
 };
 
 #endif

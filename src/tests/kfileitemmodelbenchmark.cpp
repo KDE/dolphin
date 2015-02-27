@@ -18,36 +18,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <qtest_kde.h>
+#include <QTest>
+#include <QSignalSpy>
+
+#include <algorithm>
+#include <random>
 
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
 
 #include "testdir.h"
 
-#include <KRandomSequence>
-
-void myMessageOutput(QtMsgType type, const char* msg)
+void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    Q_UNUSED(context);
+
     switch (type) {
     case QtDebugMsg:
         break;
     case QtWarningMsg:
         break;
     case QtCriticalMsg:
-        fprintf(stderr, "Critical: %s\n", msg);
+        fprintf(stderr, "Critical: %s\n", msg.toLocal8Bit().data());
         break;
     case QtFatalMsg:
-        fprintf(stderr, "Fatal: %s\n", msg);
+        fprintf(stderr, "Fatal: %s\n", msg.toLocal8Bit().data());
         abort();
     default:
        break;
     }
 }
-
-namespace {
-    const int DefaultTimeout = 5000;
-};
 
 Q_DECLARE_METATYPE(KFileItemList)
 Q_DECLARE_METATYPE(KItemRangeList)
@@ -167,7 +167,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
     // Avoid overhead caused by natural sorting
     // and determining the isDir/isLink roles.
     model.m_naturalSorting = false;
-    model.setRoles(QSet<QByteArray>() << "text");
+    model.setRoles({"text"});
 
     QSignalSpy spyItemsInserted(&model, SIGNAL(itemsInserted(KItemRangeList)));
     QSignalSpy spyItemsRemoved(&model, SIGNAL(itemsRemoved(KItemRangeList)));
@@ -294,8 +294,9 @@ void KFileItemModelBenchmark::insertManyChildItems()
     }
 
     // Bring the items into random order.
-    KRandomSequence randomSequence(0);
-    randomSequence.randomize(newItems);
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(newItems.begin(), newItems.end(), g);
 
     // Measure how long it takes to insert and then remove all files.
     QBENCHMARK {
@@ -318,17 +319,16 @@ void KFileItemModelBenchmark::insertManyChildItems()
 KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList& fileNames, const QString& prefix)
 {
     // Suppress 'file does not exist anymore' messages from KFileItemPrivate::init().
-    qInstallMsgHandler(myMessageOutput);
+    qInstallMessageHandler(myMessageOutput);
 
     KFileItemList result;
     foreach (const QString& name, fileNames) {
-        const KUrl url(prefix + name);
-        const KFileItem item(url, QString(), KFileItem::Unknown);
+        const KFileItem item(QUrl::fromLocalFile(prefix + name), QString(), KFileItem::Unknown);
         result << item;
     }
     return result;
 }
 
-QTEST_KDEMAIN(KFileItemModelBenchmark, NoGUI)
+QTEST_MAIN(KFileItemModelBenchmark)
 
 #include "kfileitemmodelbenchmark.moc"

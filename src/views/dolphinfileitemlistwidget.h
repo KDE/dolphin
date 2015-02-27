@@ -20,10 +20,10 @@
 #ifndef DOLPHINFILEITEMLISTWIDGET_H
 #define DOLPHINFILEITEMLISTWIDGET_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 
 #include <kitemviews/kfileitemlistwidget.h>
-#include <kversioncontrolplugin2.h>
+#include "versioncontrol/kversioncontrolplugin.h"
 
 /**
  * @brief Extends KFileItemListWidget to handle the "version" role.
@@ -31,7 +31,7 @@
  * The "version" role is set if version-control-plugins have been enabled.
  * @see KVersionControlPlugin
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinFileItemListWidget : public KFileItemListWidget
+class DOLPHIN_EXPORT DolphinFileItemListWidget : public KFileItemListWidget
 {
     Q_OBJECT
 
@@ -40,10 +40,10 @@ public:
     virtual ~DolphinFileItemListWidget();
 
 protected:
-    virtual void refreshCache();
+    virtual void refreshCache() Q_DECL_OVERRIDE;
 
 private:
-    static QPixmap overlayForState(KVersionControlPlugin2::ItemVersion version, int size);
+    static QPixmap overlayForState(KVersionControlPlugin::ItemVersion version, int size);
 
 };
 

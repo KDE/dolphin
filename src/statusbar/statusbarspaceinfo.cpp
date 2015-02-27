@@ -21,11 +21,13 @@
 #include "statusbarspaceinfo.h"
 
 #include "spaceinfoobserver.h"
+#include "spaceinfotoolsmenu.h"
 
-#include <KLocale>
+#include <QMouseEvent>
+
+#include <KLocalizedString>
 #include <KIO/Job>
 
-#include <QKeyEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
@@ -37,7 +39,7 @@ StatusBarSpaceInfo::~StatusBarSpaceInfo()
 {
 }
 
-void StatusBarSpaceInfo::setUrl(const KUrl& url)
+void StatusBarSpaceInfo::setUrl(const QUrl& url)
 {
     if (m_url != url) {
         m_url = url;
@@ -47,7 +49,7 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
     }
 }
 
-KUrl StatusBarSpaceInfo::url() const
+QUrl StatusBarSpaceInfo::url() const
 {
     return m_url;
 }
@@ -57,13 +59,21 @@ void StatusBarSpaceInfo::showEvent(QShowEvent* event)
     KCapacityBar::showEvent(event);
     m_observer.reset(new SpaceInfoObserver(m_url, this));
     slotValuesChanged();
-    connect(m_observer.data(), SIGNAL(valuesChanged()), this, SLOT(slotValuesChanged()));
+    connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
 }
 
 void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
 {
     m_observer.reset();
     KCapacityBar::hideEvent(event);
+}
+
+void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
+{
+    if (event->button() == Qt::LeftButton) {
+        SpaceInfoToolsMenu spaceInfoToolsMenu(this, m_url);
+        spaceInfoToolsMenu.exec(QCursor::pos());
+    }
 }
 
 void StatusBarSpaceInfo::slotValuesChanged()
@@ -87,4 +97,3 @@ void StatusBarSpaceInfo::slotValuesChanged()
     }
 }
 
-#include "statusbarspaceinfo.moc"

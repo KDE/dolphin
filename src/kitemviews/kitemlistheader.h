@@ -20,7 +20,7 @@
 #ifndef KITEMLISTHEADER_H
 #define KITEMLISTHEADER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 #include <QHash>
 #include <QObject>
 
@@ -33,7 +33,7 @@ class KItemListView;
  * Each column of the header represents a visible role
  * accessible by KItemListView::visibleRoles().
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListHeader : public QObject
+class DOLPHIN_EXPORT KItemListHeader : public QObject
 {
     Q_OBJECT
 

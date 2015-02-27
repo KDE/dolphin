@@ -25,7 +25,7 @@
 #include "dolphin_iconsmodesettings.h"
 
 #include <KComboBox>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QGroupBox>
@@ -61,16 +61,16 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_defaultSizeSlider->setRange(minRange, maxRange);
-    connect(m_defaultSizeSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(slotDefaultSliderMoved(int)));
+    connect(m_defaultSizeSlider, &QSlider::valueChanged,
+            this, &ViewSettingsTab::slotDefaultSliderMoved);
 
     QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
     m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_previewSizeSlider->setRange(minRange, maxRange);
-    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(slotPreviewSliderMoved(int)));
+    connect(m_previewSizeSlider, &QSlider::valueChanged,
+            this, &ViewSettingsTab::slotPreviewSliderMoved);
 
     QGridLayout* layout = new QGridLayout(iconSizeGroup);
     layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
@@ -138,20 +138,20 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_defaultSizeSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(m_defaultSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::changed);
+    connect(m_previewSizeSlider, &QSlider::valueChanged, this, &ViewSettingsTab::changed);
+    connect(m_fontRequester, &DolphinFontRequester::changed, this, &ViewSettingsTab::changed);
 
     switch (m_mode) {
     case IconsMode:
-        connect(m_widthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
-        connect(m_maxLinesBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        connect(m_widthBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_maxLinesBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case CompactMode:
-        connect(m_widthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        connect(m_widthBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
-        connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+        connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         break;
     default:
         break;
@@ -195,7 +195,7 @@ void ViewSettingsTab::applySettings()
     settings.setItalicFont(font.italic());
     settings.setFontWeight(font.weight());
 
-    settings.writeConfig();
+    settings.save();
 }
 
 void ViewSettingsTab::restoreDefaultSettings()
@@ -289,4 +289,4 @@ void ViewSettingsTab::showToolTip(QSlider* slider, int value)
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
     QApplication::sendEvent(slider, &toolTipEvent);
 }
-#include "viewsettingstab.moc"
+

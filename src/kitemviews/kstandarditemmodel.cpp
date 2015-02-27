@@ -19,9 +19,9 @@
 
 #include "kstandarditemmodel.h"
 
-#include <KDebug>
 #include "kstandarditem.h"
-
+#include <QSet>
+#include <QByteArray>
 KStandardItemModel::KStandardItemModel(QObject* parent) :
     KItemModelBase(parent),
     m_items(),
@@ -237,5 +237,3 @@ void KStandardItemModel::onItemRemoved(int index, KStandardItem* removedItem)
     Q_UNUSED(removedItem);
 }
 
-
-#include "kstandarditemmodel.moc"

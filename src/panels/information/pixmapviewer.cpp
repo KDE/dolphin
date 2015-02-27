@@ -21,10 +21,8 @@
 
 #include <KIconLoader>
 
-#include <QLayout>
 #include <QPainter>
 #include <QPixmap>
-#include <QKeyEvent>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
@@ -39,8 +37,8 @@ PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     m_animation.setCurveShape(QTimeLine::LinearCurve);
 
     if (m_transition != NoTransition) {
-        connect(&m_animation, SIGNAL(valueChanged(qreal)), this, SLOT(update()));
-        connect(&m_animation, SIGNAL(finished()), this, SLOT(checkPendingPixmaps()));
+        connect(&m_animation, &QTimeLine::valueChanged, this, static_cast<void(PixmapViewer::*)()>(&PixmapViewer::update));
+        connect(&m_animation, &QTimeLine::finished, this, &PixmapViewer::checkPendingPixmaps);
     }
 }
 
@@ -129,4 +127,3 @@ void PixmapViewer::checkPendingPixmaps()
     }
 }
 
-#include "pixmapviewer.moc"

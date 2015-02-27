@@ -24,15 +24,16 @@
 #include <KPluginLoader>
 #include <KPluginFactory>
 #include <KService>
-#include <kde_terminal_interface_v2.h>
-#include <KParts/Part>
+#include <kde_terminal_interface.h>
+#include <KParts/ReadOnlyPart>
 #include <KShell>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
+#include <KJobWidgets>
 
-#include <QBoxLayout>
 #include <QDir>
 #include <QShowEvent>
+#include <QVBoxLayout>
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),
@@ -70,7 +71,7 @@ void TerminalPanel::dockVisibilityChanged()
                    this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
 
         // Make sure this terminal does not prevent unmounting any removable drives
-        changeDir(KUrl::fromPath("/"));
+        changeDir(QUrl::fromLocalFile("/"));
 
         // Because we have disconnected from the part's currentDirectoryChanged()
         // signal, we have to update m_konsolePartCurrentDirectory manually. If this
@@ -110,10 +111,10 @@ void TerminalPanel::showEvent(QShowEvent* event)
         }
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
         if (m_konsolePart) {
-            connect(m_konsolePart, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
+            connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
             m_terminalWidget = m_konsolePart->widget();
             m_layout->addWidget(m_terminalWidget);
-            m_terminal = qobject_cast<TerminalInterfaceV2 *>(m_konsolePart);
+            m_terminal = qobject_cast<TerminalInterface*>(m_konsolePart);
         }
     }
     if (m_terminal) {
@@ -127,7 +128,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
     Panel::showEvent(event);
 }
 
-void TerminalPanel::changeDir(const KUrl& url)
+void TerminalPanel::changeDir(const QUrl& url)
 {
     delete m_mostLocalUrlJob;
     m_mostLocalUrlJob = 0;
@@ -137,9 +138,9 @@ void TerminalPanel::changeDir(const KUrl& url)
     } else {
         m_mostLocalUrlJob = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
         if (m_mostLocalUrlJob->ui()) {
-            m_mostLocalUrlJob->ui()->setWindow(this);
+            KJobWidgets::setWindow(m_mostLocalUrlJob, this);
         }
-        connect(m_mostLocalUrlJob, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
+        connect(m_mostLocalUrlJob, &KIO::StatJob::result, this, &TerminalPanel::slotMostLocalUrlResult);
     }
 }
 
@@ -178,7 +179,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
 void TerminalPanel::slotMostLocalUrlResult(KJob* job)
 {
     KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
-    const KUrl url = statJob->mostLocalUrl();
+    const QUrl url = statJob->mostLocalUrl();
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
     }
@@ -198,7 +199,6 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
         }
     }
 
-    emit changeUrl(dir);
+    const QUrl url(QUrl::fromLocalFile(dir));
+    emit changeUrl(url);
 }
-
-#include "terminalpanel.moc"

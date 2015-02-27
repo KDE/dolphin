@@ -20,15 +20,16 @@
 #ifndef KFILEITEMMODELDIRLISTER_H
 #define KFILEITEMMODELDIRLISTER_H
 
-#include <libdolphin_export.h>
+#include "dolphin_export.h"
 #include <KDirLister>
+#include <QUrl>
 
 /**
  * @brief Extends the class KDirLister by emitting a signal when an
  *        error occurred instead of showing an error dialog.
  *        KDirLister::autoErrorHandlingEnabled() is set to false.
  */
-class LIBDOLPHINPRIVATE_EXPORT KFileItemModelDirLister : public KDirLister
+class DOLPHIN_EXPORT KFileItemModelDirLister : public KDirLister
 {
     Q_OBJECT
 
@@ -44,7 +45,7 @@ signals:
      * Is emitted when the URL of the directory lister represents a file.
      * In this case no signal errorMessage() will be emitted.
      */
-    void urlIsFileError(const KUrl& url);
+    void urlIsFileError(const QUrl& url);
 
 protected:
     virtual void handleError(KIO::Job* job);

@@ -21,7 +21,6 @@
 
 #include "mountpointobserver.h"
 
-#include <KGlobal>
 #include <KMountPoint>
 
 #include <QTimer>
@@ -31,7 +30,7 @@ class MountPointObserverCacheSingleton
 public:
     MountPointObserverCache instance;
 };
-K_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
+Q_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
 
 
 MountPointObserverCache::MountPointObserverCache() :
@@ -51,33 +50,38 @@ MountPointObserverCache* MountPointObserverCache::instance()
     return &s_MountPointObserverCache->instance;
 }
 
-MountPointObserver* MountPointObserverCache::observerForPath(const QString& path)
+MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
 {
-    // Try to share the observer with other paths that have the same mount point.
-    QString mountPointPath;
-    KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(path);
-    if (mountPoint) {
-        mountPointPath = mountPoint->mountPoint();
+    QUrl cachedObserverUrl;
+    // If the url is a local path we can extract the root dir by checking the mount points.
+    if (url.isLocalFile()) {
+        // Try to share the observer with other paths that have the same mount point.
+        KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(url.toLocalFile());
+        if (mountPoint) {
+            cachedObserverUrl = QUrl::fromLocalFile(mountPoint->mountPoint());
+        } else {
+            // Even if determining the mount point failed, the observer might still
+            // be able to retrieve information about the url.
+            cachedObserverUrl = url.toLocalFile();
+        }
     } else {
-        // Even if determining the mount point failed, KDiskFreeSpaceInfo might still
-        // be able to retrieve information about the path.
-        mountPointPath = path;
+        cachedObserverUrl = url.url();
     }
 
-    MountPointObserver* observer = m_observerForMountPoint.value(mountPointPath);
+    MountPointObserver* observer = m_observerForMountPoint.value(cachedObserverUrl);
     if (!observer) {
-        observer = new MountPointObserver(mountPointPath, this);
-        m_observerForMountPoint.insert(mountPointPath, observer);
-        m_mountPointForObserver.insert(observer, mountPointPath);
+        observer = new MountPointObserver(cachedObserverUrl, this);
+        m_observerForMountPoint.insert(cachedObserverUrl, observer);
+        m_mountPointForObserver.insert(observer, cachedObserverUrl);
         Q_ASSERT(m_observerForMountPoint.count() == m_mountPointForObserver.count());
 
-        connect(observer, SIGNAL(destroyed(QObject*)), this, SLOT(slotObserverDestroyed(QObject*)));
+        connect(observer, &MountPointObserver::destroyed, this, &MountPointObserverCache::slotObserverDestroyed);
 
         if (!m_updateTimer->isActive()) {
             m_updateTimer->start(10000);
         }
 
-        connect(m_updateTimer, SIGNAL(timeout()), observer, SLOT(update()));
+        connect(m_updateTimer, &QTimer::timeout, observer, &MountPointObserver::update);
     }
 
     return observer;
@@ -86,9 +90,9 @@ MountPointObserver* MountPointObserverCache::observerForPath(const QString& path
 void MountPointObserverCache::slotObserverDestroyed(QObject* observer)
 {
     Q_ASSERT(m_mountPointForObserver.contains(observer));
-    const QString& path = m_mountPointForObserver.value(observer);
-    Q_ASSERT(m_observerForMountPoint.contains(path));
-    m_observerForMountPoint.remove(path);
+    const QUrl& url = m_mountPointForObserver.value(observer);
+    Q_ASSERT(m_observerForMountPoint.contains(url));
+    m_observerForMountPoint.remove(url);
     m_mountPointForObserver.remove(observer);
 
     Q_ASSERT(m_observerForMountPoint.count() == m_mountPointForObserver.count());

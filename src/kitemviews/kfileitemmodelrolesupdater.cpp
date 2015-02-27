@@ -23,9 +23,10 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KDebug>
+#include <KSharedConfig>
 #include <KFileItem>
-#include <KGlobal>
+#include <KIconLoader>
+#include <KJobWidgets>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 
@@ -42,9 +43,8 @@
 
 #ifdef HAVE_BALOO
     #include "private/kbaloorolesprovider.h"
-    #include <baloo/file.h>
-    #include <baloo/filefetchjob.h>
-    #include <baloo/filemonitor.h>
+    #include <Baloo/File>
+    #include <Baloo/FileMonitor>
 #endif
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
@@ -95,29 +95,29 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 {
     Q_ASSERT(model);
 
-    const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                          << "directorythumbnail"
                                                          << "imagethumbnail"
                                                          << "jpegthumbnail");
 
-    connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-            this,    SLOT(slotItemsInserted(KItemRangeList)));
-    connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
-            this,    SLOT(slotItemsRemoved(KItemRangeList)));
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
-    connect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
-            this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
-    connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
-            this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+    connect(m_model, &KFileItemModel::itemsInserted,
+            this,    &KFileItemModelRolesUpdater::slotItemsInserted);
+    connect(m_model, &KFileItemModel::itemsRemoved,
+            this,    &KFileItemModelRolesUpdater::slotItemsRemoved);
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+    connect(m_model, &KFileItemModel::itemsMoved,
+            this,    &KFileItemModelRolesUpdater::slotItemsMoved);
+    connect(m_model, &KFileItemModel::sortRoleChanged,
+            this,    &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
     // resolving of the roles. Postpone the resolving until no update has been done for 1 second.
     m_recentlyChangedItemsTimer = new QTimer(this);
     m_recentlyChangedItemsTimer->setInterval(1000);
     m_recentlyChangedItemsTimer->setSingleShot(true);
-    connect(m_recentlyChangedItemsTimer, SIGNAL(timeout()), this, SLOT(resolveRecentlyChangedItems()));
+    connect(m_recentlyChangedItemsTimer, &QTimer::timeout, this, &KFileItemModelRolesUpdater::resolveRecentlyChangedItems);
 
     m_resolvableRoles.insert("size");
     m_resolvableRoles.insert("type");
@@ -127,8 +127,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 #endif
 
     m_directoryContentsCounter = new KDirectoryContentsCounter(m_model, this);
-    connect(m_directoryContentsCounter, SIGNAL(result(QString,int)),
-            this,                       SLOT(slotDirectoryContentsCountReceived(QString,int)));
+    connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
+            this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -280,8 +280,8 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
         if (hasBalooRole && !m_balooFileMonitor) {
             m_balooFileMonitor = new Baloo::FileMonitor(this);
-            connect(m_balooFileMonitor, SIGNAL(fileMetaDataChanged(QString)),
-                    this, SLOT(applyChangedBalooRoles(QString)));
+            connect(m_balooFileMonitor, &Baloo::FileMonitor::fileMetaDataChanged,
+                    this, &KFileItemModelRolesUpdater::applyChangedBalooRoles);
         } else if (!hasBalooRole && m_balooFileMonitor) {
             delete m_balooFileMonitor;
             m_balooFileMonitor = 0;
@@ -543,11 +543,11 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
     data.insert("iconPixmap", scaledPixmap);
 
-    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    disconnect(m_model, &KFileItemModel::itemsChanged,
+               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 
     m_finishedItems.insert(item);
 }
@@ -565,11 +565,11 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
         QHash<QByteArray, QVariant> data;
         data.insert("iconPixmap", QPixmap());
 
-        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                   this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+        disconnect(m_model, &KFileItemModel::itemsChanged,
+                   this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
-        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+        connect(m_model, &KFileItemModel::itemsChanged,
+                this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 
         applyResolvedRoles(index, ResolveAll);
         m_finishedItems.insert(item);
@@ -625,11 +625,11 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
         m_state = Idle;
 
         // Prevent that we try to update the items twice.
-        disconnect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
-                   this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        disconnect(m_model, &KFileItemModel::itemsMoved,
+                   this,    &KFileItemModelRolesUpdater::slotItemsMoved);
         applySortProgressToModel();
-        connect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
-                this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        connect(m_model, &KFileItemModel::itemsMoved,
+                this,    &KFileItemModelRolesUpdater::slotItemsMoved);
         startUpdating();
     }
 }
@@ -665,15 +665,15 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
                 QHash<QByteArray, QVariant> data;
                 data.insert("iconPixmap", QPixmap());
 
-                disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                           this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+                disconnect(m_model, &KFileItemModel::itemsChanged,
+                           this,    &KFileItemModelRolesUpdater::slotItemsChanged);
                 for (int index = 0; index <= m_model->count(); ++index) {
                     if (m_model->data(index).contains("iconPixmap")) {
                         m_model->setData(index, data);
                     }
                 }
-                connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                        this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+                connect(m_model, &KFileItemModel::itemsChanged,
+                        this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 
             }
             m_clearPreviews = false;
@@ -703,21 +703,8 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
         return;
     }
 
-    Baloo::FileFetchJob* job = new Baloo::FileFetchJob(item.localPath());
-    connect(job, SIGNAL(finished(KJob*)), this, SLOT(applyChangedBalooRolesJobFinished(KJob*)));
-    job->setProperty("item", QVariant::fromValue(item));
-    job->start();
-#else
-#ifndef Q_CC_MSVC
-    Q_UNUSED(itemUrl);
-#endif
-#endif
-}
-
-void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
-{
-#ifdef HAVE_BALOO
-    const KFileItem item = kjob->property("item").value<KFileItem>();
+    Baloo::File file(item.localPath());
+    file.load();
 
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
     QHash<QByteArray, QVariant> data;
@@ -729,19 +716,22 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesJobFinished(KJob* kjob)
         data.insert(role, QVariant());
     }
 
-    Baloo::FileFetchJob* job = static_cast<Baloo::FileFetchJob*>(kjob);
-    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(job->file(), m_roles));
+    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(file, m_roles));
     while (it.hasNext()) {
         it.next();
         data.insert(it.key(), it.value());
     }
 
-    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    disconnect(m_model, &KFileItemModel::itemsChanged,
+               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
     const int index = m_model->index(item);
     m_model->setData(index, data);
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
+#else
+#ifndef Q_CC_MSVC
+    Q_UNUSED(itemUrl);
+#endif
 #endif
 }
 
@@ -751,7 +741,7 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if (getSizeRole || getIsExpandableRole) {
-        const int index = m_model->index(KUrl(path));
+        const int index = m_model->index(QUrl::fromLocalFile(path));
         if (index >= 0) {
             QHash<QByteArray, QVariant> data;
 
@@ -762,11 +752,11 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
                 data.insert("isExpandable", count > 0);
             }
 
-            disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                       this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+            disconnect(m_model, &KFileItemModel::itemsChanged,
+                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
             m_model->setData(index, data);
-            connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                    this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+            connect(m_model, &KFileItemModel::itemsChanged,
+                    this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         }
     }
 }
@@ -897,15 +887,15 @@ void KFileItemModelRolesUpdater::startPreviewJob()
 
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile());
     if (job->ui()) {
-        job->ui()->setWindow(qApp->activeWindow());
+        KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 
-    connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),
-            this, SLOT(slotGotPreview(KFileItem,QPixmap)));
-    connect(job,  SIGNAL(failed(KFileItem)),
-            this, SLOT(slotPreviewFailed(KFileItem)));
-    connect(job,  SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished()));
+    connect(job,  &KIO::PreviewJob::gotPreview,
+            this, &KFileItemModelRolesUpdater::slotGotPreview);
+    connect(job,  &KIO::PreviewJob::failed,
+            this, &KFileItemModelRolesUpdater::slotPreviewFailed);
+    connect(job,  &KIO::PreviewJob::finished,
+            this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
 
     m_previewJob = job;
 }
@@ -998,11 +988,11 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data = rolesData(item);
     }
 
-    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    disconnect(m_model, &KFileItemModel::itemsChanged,
+               this,    &KFileItemModelRolesUpdater::slotItemsChanged);
     m_model->setData(index, data);
-    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    connect(m_model, &KFileItemModel::itemsChanged,
+            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 }
 
 void KFileItemModelRolesUpdater::applySortProgressToModel()
@@ -1042,11 +1032,11 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
             data.insert("iconPixmap", QPixmap());
         }
 
-        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                   this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+        disconnect(m_model, &KFileItemModel::itemsChanged,
+                   this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         m_model->setData(index, data);
-        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
-                this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+        connect(m_model, &KFileItemModel::itemsChanged,
+                this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         return true;
     }
 
@@ -1099,12 +1089,12 @@ void KFileItemModelRolesUpdater::updateAllPreviews()
 void KFileItemModelRolesUpdater::killPreviewJob()
 {
     if (m_previewJob) {
-        disconnect(m_previewJob,  SIGNAL(gotPreview(KFileItem,QPixmap)),
-                   this, SLOT(slotGotPreview(KFileItem,QPixmap)));
-        disconnect(m_previewJob,  SIGNAL(failed(KFileItem)),
-                   this, SLOT(slotPreviewFailed(KFileItem)));
-        disconnect(m_previewJob,  SIGNAL(finished(KJob*)),
-                   this, SLOT(slotPreviewJobFinished()));
+        disconnect(m_previewJob,  &KIO::PreviewJob::gotPreview,
+                   this, &KFileItemModelRolesUpdater::slotGotPreview);
+        disconnect(m_previewJob,  &KIO::PreviewJob::failed,
+                   this, &KFileItemModelRolesUpdater::slotPreviewFailed);
+        disconnect(m_previewJob,  &KIO::PreviewJob::finished,
+                   this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
         m_previewJob->kill();
         m_previewJob = 0;
         m_pendingPreviewItems.clear();
@@ -1168,4 +1158,3 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
     return result;
 }
 
-#include "kfileitemmodelrolesupdater.moc"

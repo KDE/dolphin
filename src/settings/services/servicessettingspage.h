@@ -21,11 +21,8 @@
 
 #include <settings/settingspagebase.h>
 
-#include <QMap>
 #include <QString>
 
-class QCheckBox;
-class QGroupBox;
 class QListView;
 class QSortFilterProxyModel;
 class ServiceModel;
@@ -42,13 +39,13 @@ public:
     virtual ~ServicesSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual void applySettings() Q_DECL_OVERRIDE;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+    virtual void restoreDefaults() Q_DECL_OVERRIDE;
 
 protected:
-    virtual void showEvent(QShowEvent* event);
+    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**

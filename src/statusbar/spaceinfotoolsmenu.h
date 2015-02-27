@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2011 by Peter Penz <peter.penz19@gmail.com>        *
- *   Copyright (C) 2006 by Holger 'zecke' Freyther <freyther@kde.org>      *
+ *   Copyright (C) 2014 by Gregor Mi <codestruct@posteo.org>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,30 +14,28 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#ifndef DOLPHIN_APPLICATION_H
-#define DOLPHIN_APPLICATION_H
+#ifndef SPACEINFOTOOLSMENU_H
+#define SPACEINFOTOOLSMENU_H
 
-#include <KApplication>
+#include <QObject>
+#include <QMenu>
 
-class DolphinMainWindow;
+class QWidget;
+class QUrl;
 
-class DolphinApplication : public KApplication
+/**
+ * A menu with tools that help to find out more about free disk space for the given url.
+ */
+class SpaceInfoToolsMenu : public QMenu
 {
     Q_OBJECT
 
 public:
-    DolphinApplication();
-    virtual ~DolphinApplication();
-
-    static DolphinApplication* app();
-
-    void restoreSession();
-
-private:
-    DolphinMainWindow* m_mainWindow;
+    explicit SpaceInfoToolsMenu(QWidget* parent, QUrl url);
+    virtual ~SpaceInfoToolsMenu();
 };
 
 #endif

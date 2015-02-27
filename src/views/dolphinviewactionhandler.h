@@ -22,9 +22,7 @@
 #ifndef DOLPHINVIEWACTIONHANDLER_H
 #define DOLPHINVIEWACTIONHANDLER_H
 
-#include "libdolphin_export.h"
-#include <KActionMenu>
-#include <KSelectAction>
+#include "dolphin_export.h"
 #include "views/dolphinview.h"
 #include <QObject>
 
@@ -48,7 +46,7 @@ class KActionCollection;
  * @see DolphinMainWindow
  * @see DolphinPart
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinViewActionHandler : public QObject
+class DOLPHIN_EXPORT DolphinViewActionHandler : public QObject
 {
     Q_OBJECT
 
@@ -112,7 +110,7 @@ private Q_SLOTS:
      * Moves the selected items of the active view to the trash.
      * This methods adds "shift means del" handling.
      */
-    void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
+    void slotTrashActivated();
 
     /**
      * Deletes the selected items of the active view.

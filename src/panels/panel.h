@@ -22,8 +22,7 @@
 #define PANEL_H
 
 #include <QWidget>
-#include <KUrl>
-#include <KFileItem>
+#include <QUrl>
 
 /**
  * @brief Base widget for all panels that can be docked on the window borders.
@@ -40,7 +39,7 @@ public:
     virtual ~Panel();
 
     /** Returns the current set URL of the active Dolphin view. */
-    KUrl url() const;
+    QUrl url() const;
 
     /**
      * Sets custom context menu actions that are added to the panel specific
@@ -50,15 +49,14 @@ public:
     void setCustomContextMenuActions(const QList<QAction*>& actions);
     QList<QAction*> customContextMenuActions() const;
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const Q_DECL_OVERRIDE;
 
 public slots:
     /**
      * This is invoked every time the folder being displayed in the
      * active Dolphin view changes.
      */
-    void setUrl(const KUrl& url);
+    void setUrl(const QUrl &url);
 
     /**
      * Refreshes the view to get synchronized with the settings.
@@ -76,7 +74,7 @@ protected:
     virtual bool urlChanged() = 0;
 
 private:
-    KUrl m_url;
+    QUrl m_url;
     QList<QAction*> m_customContextMenuActions;
 };
 
