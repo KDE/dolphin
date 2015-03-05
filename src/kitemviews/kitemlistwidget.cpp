@@ -369,6 +369,8 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option
                                           QWidget* widget)
 {
     QPixmap pixmap(size().toSize());
+    QPixmap pixmap(size().toSize() * widget->devicePixelRatio());
+    pixmap.setDevicePixelRatio(widget->devicePixelRatio());
     pixmap.fill(Qt::transparent);
 
     QPainter painter(&pixmap);
