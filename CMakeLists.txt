@@ -94,7 +94,7 @@ else()
 endif()
 
 add_subdirectory(src)
-add_subdirectory(docs)
+add_subdirectory(doc)
 
 # CMake files
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DolphinVcs")
