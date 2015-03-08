@@ -2,6 +2,7 @@
 Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
+Comment[ca]=Connector de control de versions per a les vistes de fitxers
 Comment[fi]=Versionhallintaliitännäinen tiedostonäkymille
 Comment[fr]=Module externe pour le contrôle de version applicable aux vues de fichiers
 Comment[id]=Plugin Kontrol Versi untuk Tampilan Berkas
@@ -9,6 +10,8 @@ Comment[nl]=Plugin voor versiecontrole op bestandoverzichten
 Comment[pl]=Wtyczka systemu zarządzania wersjami dla widoku plików
 Comment[pt]='Plugin' de Controlo de Versões para as Áreas de Ficheiros
 Comment[pt_BR]=Extensão de controle de versões para as visualizações de arquivos
+Comment[sk]=Modul pre správu verzií v súborovom zobrazení
 Comment[sv]=Insticksprogram för versionskontroll i filvyer
+Comment[uk]=Додаток керування версіями для панелей перегляду файлів
 Comment[x-test]=xxVersion Control Plugin for File Viewsxx
 Comment[zh_CN]=文件视图的版本控制插件

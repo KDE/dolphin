@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Dolphin View
+Name[ca]=Vista del Dolphin
 Name[fi]=Dolphin-näkymä
 Name[fr]=Vue de Dolphin
 Name[id]=Tampilan Dolphin
@@ -8,7 +9,9 @@ Name[nl]=Dolphin-weergave
 Name[pl]=Widok Dolphina
 Name[pt]=Área do Dolphin
 Name[pt_BR]=Visualização do Dolphin
+Name[sk]=Dolphin pohľad
 Name[sv]=Vy i Dolphin
+Name[uk]=Перегляд Dolphin
 Name[x-test]=xxDolphin Viewxx
 Name[zh_CN]=Dolphin 视图
 MimeType=inode/directory;
@@ -26,6 +29,7 @@ Actions=icons;details;compact;
 
 [Desktop Action icons]
 Name=Icons
+Name[ca]=Icones
 Name[fi]=Kuvakkeet
 Name[fr]=Icônes
 Name[id]=Ikon
@@ -33,7 +37,9 @@ Name[nl]=Pictogrammen
 Name[pl]=Ikony
 Name[pt]=Ícones
 Name[pt_BR]=Ícones
+Name[sk]=Ikony
 Name[sv]=Ikoner
+Name[uk]=Піктограми
 Name[x-test]=xxIconsxx
 Name[zh_CN]=图标视图
 Icon=view-list-icons
@@ -42,6 +48,7 @@ Exec=dolphin
 
 [Desktop Action compact]
 Name=Compact
+Name[ca]=Compacta
 Name[fi]=Tiivis
 Name[fr]=Concis
 Name[id]=Sederhana
@@ -49,7 +56,9 @@ Name[nl]=Compact
 Name[pl]=Kompaktowy
 Name[pt]=Compacta
 Name[pt_BR]=Compacto
+Name[sk]=Kompaktný
 Name[sv]=Kompakt
+Name[uk]=Компактний
 Name[x-test]=xxCompactxx
 Name[zh_CN]=简洁视图
 Icon=view-list-details
@@ -58,6 +67,7 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[ca]=Detalls
 Name[fi]=Yksityiskohdat
 Name[fr]=Détails
 Name[id]=Detail
@@ -65,7 +75,9 @@ Name[nl]=Details
 Name[pl]=Szczegóły
 Name[pt]=Detalhes
 Name[pt_BR]=Detalhes
+Name[sk]=Podrobnosti
 Name[sv]=Detaljinformation
+Name[uk]=Подробиці
 Name[x-test]=xxDetailsxx
 Name[zh_CN]=细节视图
 Icon=view-list-tree
