@@ -194,10 +194,10 @@ target_link_libraries(dolphinpart
     dolphinprivate
 )
 
-install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
+install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
-install(FILES dolphinpart.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphinpart)
-install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install(FILES dolphinpart.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/dolphinpart)
+install(FILES dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
 ##########################################
 
@@ -364,31 +364,31 @@ target_link_libraries(kcm_dolphinnavigation dolphinprivate)
 target_link_libraries(kcm_dolphinservices dolphinprivate)
 target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
-install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
-install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
-install(TARGETS kcm_dolphinservices DESTINATION ${PLUGIN_INSTALL_DIR} )
-install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+install(TARGETS kcm_dolphinservices DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 
 ########### install files ###############
 
-install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${KDE_INSTALL_APPDIR} )
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
                settings/dolphin_iconsmodesettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
-         DESTINATION ${KCFG_INSTALL_DIR} )
-install( FILES dolphinui.rc DESTINATION ${CMAKE_INSTALL_KXMLGUI5DIR}/dolphin )
-install( FILES dolphin.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/appdata )
+         DESTINATION ${KDE_INSTALL_KCFGDIR} )
+install( FILES dolphinui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/dolphin )
+install( FILES dolphin.appdata.xml DESTINATION ${KDE_INSTALL_DATAROOTDIR}/appdata )
 install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
-${SERVICES_INSTALL_DIR} )
-install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES settings/services/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_DIR} )
-install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
-install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
+${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES settings/services/servicemenu.knsrc DESTINATION ${KDE_INSTALL_CONFDIR} )
+install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${KDE_INSTALL_BINDIR} )
+install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${KDE_INSTALL_BINDIR} )
 
 if(BUILD_TESTING)
     find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
