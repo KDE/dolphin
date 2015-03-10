@@ -2,6 +2,7 @@
 Type=Service
 Name=Dolphin View
 Name[ca]=Vista del Dolphin
+Name[de]=Dolphin-Ansicht
 Name[fi]=Dolphin-näkymä
 Name[fr]=Vue de Dolphin
 Name[id]=Tampilan Dolphin
@@ -35,6 +36,7 @@ Actions=icons;details;compact;
 [Desktop Action icons]
 Name=Icons
 Name[ca]=Icones
+Name[de]=Symbole
 Name[fi]=Kuvakkeet
 Name[fr]=Icônes
 Name[id]=Ikon
@@ -59,6 +61,7 @@ Exec=dolphin
 [Desktop Action compact]
 Name=Compact
 Name[ca]=Compacta
+Name[de]=Kompakt
 Name[fi]=Tiivis
 Name[fr]=Concis
 Name[id]=Sederhana
@@ -83,6 +86,7 @@ Exec=dolphin
 [Desktop Action details]
 Name=Details
 Name[ca]=Detalls
+Name[de]=Details
 Name[fi]=Yksityiskohdat
 Name[fr]=Détails
 Name[id]=Detail
