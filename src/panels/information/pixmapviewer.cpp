@@ -23,6 +23,7 @@
 
 #include <QPainter>
 #include <QPixmap>
+#include <QStyle>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
@@ -94,9 +95,6 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
         const int scaledWidth  = static_cast<int>((m_oldPixmap.width()  * (1.0 - value)) + (m_pixmap.width()  * value));
         const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
 
-        const int x = (width()  - scaledWidth ) / 2;
-        const int y = (height() - scaledHeight) / 2;
-
         const bool useOldPixmap = (m_transition == SizeTransition) &&
                                   (m_oldPixmap.width() > m_pixmap.width());
         const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
@@ -105,12 +103,11 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
                                                             scaledHeight,
                                                             Qt::IgnoreAspectRatio,
                                                             Qt::FastTransformation);
-            painter.drawPixmap(x, y, scaledPixmap);
+
+            style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
 	}
     } else {
-        const int x = (width()  - m_pixmap.width() ) / 2;
-        const int y = (height() - m_pixmap.height()) / 2;
-        painter.drawPixmap(x, y, m_pixmap);
+        style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
     }
 }
 
