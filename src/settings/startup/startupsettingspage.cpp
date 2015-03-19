@@ -34,7 +34,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 #include <QFileDialog>
 
 #include "views/dolphinview.h"

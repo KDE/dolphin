@@ -642,7 +642,7 @@ private:
 
     /**
      * Shows a drop-indicator between items dependent on the given
-     * cursor position. The cursor position is relative the the upper left
+     * cursor position. The cursor position is relative to the upper left
      * edge of the view.
      * @return Index of the item where the dropping is done. An index of -1
      *         indicates that the item has been dropped after the last item.

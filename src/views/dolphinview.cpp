@@ -54,7 +54,6 @@
 #include <KIO/PasteJob>
 #include <KIO/Paste>
 #include <KJob>
-#include <QMenu>
 #include <KMessageBox>
 #include <KJobWidgets>
 #include <QUrl>

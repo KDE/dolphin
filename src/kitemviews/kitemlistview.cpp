@@ -1121,7 +1121,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
 
-        // Remeber which items have to be moved because they are behind the removed range.
+        // Remember which items have to be moved because they are behind the removed range.
         QVector<int> itemsToMove;
 
         // Remove all KItemListWidget instances that got deleted
@@ -2437,7 +2437,7 @@ int KItemListView::showDropIndicator(const QPointF& pos)
         if (mappedPos.y() >= 0 && mappedPos.y() <= rect.height()) {
             if (m_model->supportsDropping(widget->index())) {
                 // Keep 30% of the rectangle as the gap instead of always having a fixed gap
-                const int gap = qMax(4.0, 0.3 * rect.height());
+                const int gap = qMax(qreal(4.0), qreal(0.3) * rect.height());
                 if (mappedPos.y() >= gap && mappedPos.y() <= rect.height() - gap) {
                     return -1;
                 }

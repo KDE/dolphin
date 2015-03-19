@@ -41,7 +41,7 @@ namespace {
 
     // If the icon size changes, a longer delay is used. This prevents that
     // the expensive re-generation of all previews is triggered repeatedly when
-    // chaning the zoom level.
+    // changing the zoom level.
     const int LongInterval = 300;
 }
 
