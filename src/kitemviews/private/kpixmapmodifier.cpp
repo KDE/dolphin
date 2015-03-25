@@ -347,6 +347,7 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
         }};
 
         QPixmap scaledPixmap(scaledPixmapSize);
+        scaledPixmap.setDevicePixelRatio(pixmap.devicePixelRatio());
         scaledPixmap.fill(Qt::transparent);
 
         Display* dpy = QX11Info::display();
@@ -364,7 +365,9 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
         pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 #else
+    qreal dpr = pixmap.devicePixelRatio();
     pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    pixmap.setDevicePixelRatio(dpr);
 #endif
 }
 
