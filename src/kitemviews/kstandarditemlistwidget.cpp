@@ -40,6 +40,8 @@
 #include <QTextLayout>
 #include <QTextLine>
 #include <QPixmapCache>
+#include <QDebug>
+#include <QGuiApplication>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
 
@@ -342,6 +344,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
              */
             // Paint pixmap1 so that pixmap1 = m_pixmap * (1.0 - hoverOpacity())
             QPixmap pixmap1(m_pixmap.size());
+            pixmap1.setDevicePixelRatio(m_pixmap.devicePixelRatio());
             pixmap1.fill(Qt::transparent);
             {
                 QPainter p(&pixmap1);
@@ -351,6 +354,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
 
             // Paint pixmap2 so that pixmap2 = m_hoverPixmap * hoverOpacity()
             QPixmap pixmap2(pixmap1.size());
+            pixmap2.setDevicePixelRatio(pixmap1.devicePixelRatio());
             pixmap2.fill(Qt::transparent);
             {
                 QPainter p(&pixmap2);
@@ -952,10 +956,12 @@ void KStandardItemListWidget::updatePixmapCache()
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
             m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight);
-        } else if (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight) {
+//             qDebug() << "attempt 2 - setting pixmap to one of size " << m_pixmap.size() << m_pixmap.devicePixelRatio();
+
+        } else if (m_pixmap.width() / qApp->devicePixelRatio() != maxIconWidth || m_pixmap.height() / qApp->devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
             // is scaled to the maximum available size.
-            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight));
+            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * qApp->devicePixelRatio());
         }
 
         if (m_isCut) {
@@ -1351,9 +1357,9 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
 
 void KStandardItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 {
-    if (m_scaledPixmapSize != pixmap.size()) {
+    if (m_scaledPixmapSize * qApp->devicePixelRatio() != pixmap.size()) {
         QPixmap scaledPixmap = pixmap;
-        KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize);
+        KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize * qApp->devicePixelRatio());
         painter->drawPixmap(m_pixmapPos, scaledPixmap);
 
 #ifdef KSTANDARDITEMLISTWIDGET_DEBUG
@@ -1435,6 +1441,7 @@ void KStandardItemListWidget::closeRoleEditor()
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size)
 {
+    size *= qApp->devicePixelRatio();
     const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(":") % ":" % QString::number(size);
     QPixmap pixmap;
 
@@ -1460,7 +1467,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
             requestedSize = size;
         }
 
-        pixmap = icon.pixmap(requestedSize, requestedSize);
+        pixmap = icon.pixmap(requestedSize / qApp->devicePixelRatio(), requestedSize / qApp->devicePixelRatio());
         if (requestedSize != size) {
             KPixmapModifier::scale(pixmap, QSize(size, size));
         }
@@ -1481,6 +1488,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
 
         QPixmapCache::insert(key, pixmap);
     }
+    pixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 
     return pixmap;
 }

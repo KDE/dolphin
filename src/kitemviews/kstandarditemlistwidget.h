@@ -242,7 +242,7 @@ private:
     Layout m_layout;
     QPointF m_pixmapPos;
     QPixmap m_pixmap;
-    QSize m_scaledPixmapSize;
+    QSize m_scaledPixmapSize; //Size of the pixmap in device independent pixels
 
     QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
     QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
