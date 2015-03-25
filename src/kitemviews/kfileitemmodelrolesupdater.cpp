@@ -493,7 +493,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     const QString mimeTypeGroup = mimeType.left(slashIndex);
     if (mimeTypeGroup == QLatin1String("image")) {
         if (m_enlargeSmallPreviews) {
-            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
         } else {
             // Assure that small previews don't get enlarged. Instead they
             // should be shown centered within the frame.
@@ -502,7 +502,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                                            scaledPixmap.height() < contentSize.height();
             if (enlargingRequired) {
                 QSize frameSize = scaledPixmap.size();
-                frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
+                frameSize.scale(m_iconSize * qApp->devicePixelRatio(), Qt::KeepAspectRatio);
 
                 QPixmap largeFrame(frameSize);
                 largeFrame.fill(Qt::transparent);
@@ -510,19 +510,20 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                 KPixmapModifier::applyFrame(largeFrame, frameSize);
 
                 QPainter painter(&largeFrame);
-                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width()) / 2,
-                                   (largeFrame.height() - scaledPixmap.height()) / 2,
+                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
+                                   (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
                                    scaledPixmap);
                 scaledPixmap = largeFrame;
             } else {
                 // The image must be shrinked as it is too large to fit into
                 // the available icon size
-                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
             }
         }
     } else {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize);
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
     }
+    scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 
     QHash<QByteArray, QVariant> data = rolesData(item);
 
