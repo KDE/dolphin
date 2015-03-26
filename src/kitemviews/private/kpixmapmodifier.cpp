@@ -374,14 +374,16 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
 void KPixmapModifier::applyFrame(QPixmap& icon, const QSize& scaledSize)
 {
     static TileSet tileSet;
+    qreal dpr = icon.devicePixelRatio();
 
     // Resize the icon to the maximum size minus the space required for the frame
-    const QSize size(scaledSize.width() - TileSet::LeftMargin - TileSet::RightMargin,
-                     scaledSize.height() - TileSet::TopMargin - TileSet::BottomMargin);
+    const QSize size(scaledSize.width() - (TileSet::LeftMargin + TileSet::RightMargin) * dpr,
+                     scaledSize.height() - (TileSet::TopMargin + TileSet::BottomMargin) * dpr);
     scale(icon, size);
 
-    QPixmap framedIcon(icon.size().width() + TileSet::LeftMargin + TileSet::RightMargin,
-                       icon.size().height() + TileSet::TopMargin + TileSet::BottomMargin);
+    QPixmap framedIcon(icon.size().width() + (TileSet::LeftMargin + TileSet::RightMargin) * dpr,
+                       icon.size().height() + (TileSet::TopMargin + TileSet::BottomMargin * dpr) );
+    framedIcon.setDevicePixelRatio(dpr);
     framedIcon.fill(Qt::transparent);
 
     QPainter painter;

@@ -493,7 +493,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     const QString mimeTypeGroup = mimeType.left(slashIndex);
     if (mimeTypeGroup == QLatin1String("image")) {
         if (m_enlargeSmallPreviews) {
-            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
+            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * scaledPixmap.devicePixelRatio());
         } else {
             // Assure that small previews don't get enlarged. Instead they
             // should be shown centered within the frame.
@@ -502,7 +502,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                                            scaledPixmap.height() < contentSize.height();
             if (enlargingRequired) {
                 QSize frameSize = scaledPixmap.size();
-                frameSize.scale(m_iconSize * qApp->devicePixelRatio(), Qt::KeepAspectRatio);
+                frameSize.scale(m_iconSize * scaledPixmap.devicePixelRatio(), Qt::KeepAspectRatio);
 
                 QPixmap largeFrame(frameSize);
                 largeFrame.fill(Qt::transparent);
@@ -517,13 +517,12 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
             } else {
                 // The image must be shrinked as it is too large to fit into
                 // the available icon size
-                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
+                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize * scaledPixmap.devicePixelRatio());
             }
         }
     } else {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * scaledPixmap.devicePixelRatio());
     }
-    scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
 
     QHash<QByteArray, QVariant> data = rolesData(item);
 
