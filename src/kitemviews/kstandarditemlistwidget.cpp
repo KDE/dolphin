@@ -40,7 +40,6 @@
 #include <QTextLayout>
 #include <QTextLine>
 #include <QPixmapCache>
-#include <QDebug>
 #include <QGuiApplication>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
@@ -956,9 +955,8 @@ void KStandardItemListWidget::updatePixmapCache()
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
             m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight);
-//             qDebug() << "attempt 2 - setting pixmap to one of size " << m_pixmap.size() << m_pixmap.devicePixelRatio();
 
-        } else if (m_pixmap.width() / qApp->devicePixelRatio() != maxIconWidth || m_pixmap.height() / qApp->devicePixelRatio() != maxIconHeight) {
+        } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
             // is scaled to the maximum available size.
             KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * qApp->devicePixelRatio());
@@ -1357,9 +1355,10 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
 
 void KStandardItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 {
-    if (m_scaledPixmapSize * qApp->devicePixelRatio() != pixmap.size()) {
+    if (m_scaledPixmapSize != pixmap.size() / pixmap.devicePixelRatio()) {
         QPixmap scaledPixmap = pixmap;
         KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize * qApp->devicePixelRatio());
+        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
         painter->drawPixmap(m_pixmapPos, scaledPixmap);
 
 #ifdef KSTANDARDITEMLISTWIDGET_DEBUG

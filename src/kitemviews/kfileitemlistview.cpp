@@ -156,9 +156,9 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
         yCount = xCount;
     }
 
-    qreal dpr = scene()->views()[0]->devicePixelRatio();
+    const qreal dpr = scene()->views()[0]->devicePixelRatio();
     // Draw the selected items into the grid cells.
-    QPixmap dragPixmap(QSize(xCount * size + xCount, yCount * size + yCount)*dpr);
+    QPixmap dragPixmap(QSize(xCount * size + xCount, yCount * size + yCount) * dpr);
     dragPixmap.setDevicePixelRatio(dpr);
     dragPixmap.fill(Qt::transparent);
 
