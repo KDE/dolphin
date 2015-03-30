@@ -501,7 +501,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
             const bool enlargingRequired = scaledPixmap.width()  < contentSize.width() &&
                                            scaledPixmap.height() < contentSize.height();
             if (enlargingRequired) {
-                QSize frameSize = scaledPixmap.size();
+                QSize frameSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
                 frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
 
                 QPixmap largeFrame(frameSize);
@@ -510,8 +510,8 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                 KPixmapModifier::applyFrame(largeFrame, frameSize);
 
                 QPainter painter(&largeFrame);
-                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width()) / 2,
-                                   (largeFrame.height() - scaledPixmap.height()) / 2,
+                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
+                                   (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
                                    scaledPixmap);
                 scaledPixmap = largeFrame;
             } else {

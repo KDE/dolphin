@@ -38,6 +38,7 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QSize>
+#include <QGuiApplication>
 
 
 #include <config-X11.h> // for HAVE_XRENDER
@@ -347,6 +348,7 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
         }};
 
         QPixmap scaledPixmap(scaledPixmapSize);
+        scaledPixmap.setDevicePixelRatio(pixmap.devicePixelRatio());
         scaledPixmap.fill(Qt::transparent);
 
         Display* dpy = QX11Info::display();
@@ -364,27 +366,32 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
         pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 #else
+    qreal dpr = pixmap.devicePixelRatio();
     pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    pixmap.setDevicePixelRatio(dpr);
 #endif
 }
 
 void KPixmapModifier::applyFrame(QPixmap& icon, const QSize& scaledSize)
 {
     static TileSet tileSet;
+    qreal dpr = qApp->devicePixelRatio();
 
     // Resize the icon to the maximum size minus the space required for the frame
     const QSize size(scaledSize.width() - TileSet::LeftMargin - TileSet::RightMargin,
                      scaledSize.height() - TileSet::TopMargin - TileSet::BottomMargin);
-    scale(icon, size);
+    scale(icon, size * dpr);
+    icon.setDevicePixelRatio(dpr);
 
-    QPixmap framedIcon(icon.size().width() + TileSet::LeftMargin + TileSet::RightMargin,
-                       icon.size().height() + TileSet::TopMargin + TileSet::BottomMargin);
+    QPixmap framedIcon(icon.size().width() + (TileSet::LeftMargin + TileSet::RightMargin) * dpr,
+                       icon.size().height() + (TileSet::TopMargin + TileSet::BottomMargin) * dpr);
+    framedIcon.setDevicePixelRatio(dpr);
     framedIcon.fill(Qt::transparent);
 
     QPainter painter;
     painter.begin(&framedIcon);
     painter.setCompositionMode(QPainter::CompositionMode_Source);
-    tileSet.paint(&painter, framedIcon.rect());
+    tileSet.paint(&painter, QRect(QPoint(0,0), framedIcon.size() / dpr));
     painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
     painter.drawPixmap(TileSet::LeftMargin, TileSet::TopMargin, icon);
 

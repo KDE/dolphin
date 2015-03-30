@@ -29,6 +29,8 @@
 
 #include <QPainter>
 #include <QTimer>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 // #define KFILEITEMLISTVIEW_DEBUG
 
@@ -154,8 +156,10 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
         yCount = xCount;
     }
 
+    const qreal dpr = scene()->views()[0]->devicePixelRatio();
     // Draw the selected items into the grid cells.
-    QPixmap dragPixmap(xCount * size + xCount, yCount * size + yCount);
+    QPixmap dragPixmap(QSize(xCount * size + xCount, yCount * size + yCount) * dpr);
+    dragPixmap.setDevicePixelRatio(dpr);
     dragPixmap.fill(Qt::transparent);
 
     QPainter painter(&dragPixmap);
@@ -168,7 +172,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
             QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
             pixmap = icon.pixmap(size, size);
         } else {
-            KPixmapModifier::scale(pixmap, QSize(size, size));
+            KPixmapModifier::scale(pixmap, QSize(size, size) * dpr);
         }
 
         painter.drawPixmap(x, y, pixmap);
