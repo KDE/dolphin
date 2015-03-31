@@ -40,14 +40,6 @@
 #include <QSize>
 #include <QGuiApplication>
 
-
-#include <config-X11.h> // for HAVE_XRENDER
-#if defined(Q_WS_X11) && defined(HAVE_XRENDER)
-#  include <QX11Info>
-#  include <X11/Xlib.h>
-#  include <X11/extensions/Xrender.h>
-#endif
-
 static const quint32 stackBlur8Mul[255] =
 {
     512,512,456,512,328,456,335,512,405,328,271,456,388,335,292,512,
@@ -331,45 +323,9 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
         pixmap = QPixmap();
         return;
     }
-
-#if defined(Q_WS_X11) && defined(HAVE_XRENDER)
-    // Assume that the texture size limit is 2048x2048
-    if ((pixmap.width() <= 2048) && (pixmap.height() <= 2048) && pixmap.x11PictureHandle()) {
-        const QPixmap unscaledPixmap = pixmap.copy(); // Make a deep copy for XRender
-        QSize scaledPixmapSize = pixmap.size();
-        scaledPixmapSize.scale(scaledSize, Qt::KeepAspectRatio);
-
-        const qreal factor = scaledPixmapSize.width() / qreal(unscaledPixmap.width());
-
-        XTransform xform = {{
-            { XDoubleToFixed(1 / factor), 0, 0 },
-            { 0, XDoubleToFixed(1 / factor), 0 },
-            { 0, 0, XDoubleToFixed(1) }
-        }};
-
-        QPixmap scaledPixmap(scaledPixmapSize);
-        scaledPixmap.setDevicePixelRatio(pixmap.devicePixelRatio());
-        scaledPixmap.fill(Qt::transparent);
-
-        Display* dpy = QX11Info::display();
-
-        XRenderPictureAttributes attr;
-        attr.repeat = RepeatPad;
-        XRenderChangePicture(dpy, unscaledPixmap.x11PictureHandle(), CPRepeat, &attr);
-
-        XRenderSetPictureFilter(dpy, unscaledPixmap.x11PictureHandle(), FilterBilinear, 0, 0);
-        XRenderSetPictureTransform(dpy, unscaledPixmap.x11PictureHandle(), &xform);
-        XRenderComposite(dpy, PictOpOver, unscaledPixmap.x11PictureHandle(), None, scaledPixmap.x11PictureHandle(),
-                         0, 0, 0, 0, 0, 0, scaledPixmap.width(), scaledPixmap.height());
-        pixmap = scaledPixmap;
-    } else {
-        pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-    }
-#else
     qreal dpr = pixmap.devicePixelRatio();
     pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     pixmap.setDevicePixelRatio(dpr);
-#endif
 }
 
 void KPixmapModifier::applyFrame(QPixmap& icon, const QSize& scaledSize)

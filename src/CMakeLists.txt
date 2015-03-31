@@ -16,12 +16,6 @@ remove_definitions(
     -DQT_NO_CAST_TO_ASCII
 )
 
-if(X11_Xrender_FOUND)
-    set(HAVE_XRENDER TRUE)
-endif()
-
-configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h)
-
 ##########################################
 
 set(dolphinvcs_LIB_SRCS
@@ -168,10 +162,6 @@ else()
         KF5::KDELibs4Support # for KFileMetaDataWidget
     )
 endif()
-
-if(X11_Xrender_FOUND)
-    target_link_libraries(dolphinprivate ${X11_Xrender_LIB})
-endif(X11_Xrender_FOUND)
 
 set_target_properties(dolphinprivate PROPERTIES
     VERSION ${DOLPHINPRIVATE_VERSION_STRING}
