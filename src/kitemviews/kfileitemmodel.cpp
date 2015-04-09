@@ -1933,13 +1933,17 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
         const int daysDistance = modifiedDate.daysTo(currentDate);
 
         QString newGroupValue;
-        if (currentDate.year() == modifiedDate.year() && currentDate.month() == modifiedDate.month()) {
+        if (currentDate.year() == modifiedDate.year() &&
+            currentDate.month() == modifiedDate.month()) {
+
             switch (daysDistance / 7) {
             case 0:
                 switch (daysDistance) {
                 case 0:  newGroupValue = i18nc("@title:group Date", "Today"); break;
                 case 1:  newGroupValue = i18nc("@title:group Date", "Yesterday"); break;
-                default: newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: dddd", "dddd"));
+                default:
+                    newGroupValue = modifiedTime.toString(
+                        i18nc("@title:group The week day name: dddd", "dddd"));
                 }
                 break;
             case 1:
@@ -1960,22 +1964,39 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
             }
         } else {
             const QDate lastMonthDate = currentDate.addMonths(-1);
-            if  (lastMonthDate.year() == modifiedDate.year() && lastMonthDate.month() == modifiedDate.month()) {
+            if  (lastMonthDate.year() == modifiedDate.year() &&
+                 lastMonthDate.month() == modifiedDate.month()) {
+
                 if (daysDistance == 1) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Yesterday' (MMMM, yyyy)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
+                        "MMMM is full month name in current locale, and yyyy is "
+                        "full year number", "'Yesterday' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: dddd, MMMM is full month name in current locale, and yyyy is full year number", "dddd (MMMM, yyyy)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group "
+                        "The week day name: dddd, MMMM is full month name "
+                        "in current locale, and yyyy is full year number",
+                        "dddd (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 2) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'One Week Ago' (MMMM, yyyy)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
+                        "MMMM is full month name in current locale, and yyyy is "
+                        "full year number", "'One Week Ago' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 3) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Two Weeks Ago' (MMMM, yyyy)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
+                        "MMMM is full month name in current locale, and yyyy is "
+                        "full year number", "'Two Weeks Ago' (MMMM, yyyy)"));
                 } else if (daysDistance <= 7 * 4) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Three Weeks Ago' (MMMM, yyyy)"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
+                        "MMMM is full month name in current locale, and yyyy is "
+                        "full year number", "'Three Weeks Ago' (MMMM, yyyy)"));
                 } else {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: MMMM is full month name in current locale, and yyyy is full year number", "'Earlier on' MMMM, yyyy"));
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
+                        "MMMM is full month name in current locale, and yyyy is "
+                        "full year number", "'Earlier on' MMMM, yyyy"));
                 }
             } else {
-                newGroupValue = modifiedTime.toString(i18nc("@title:group The month and year: MMMM is full month name in current locale, and yyyy is full year number", "MMMM, yyyy"));
+                newGroupValue = modifiedTime.toString(i18nc("@title:group "
+                    "The month and year: MMMM is full month name in current locale, "
+                    "and yyyy is full year number", "MMMM, yyyy"));
             }
         }
 
