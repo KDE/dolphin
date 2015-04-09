@@ -1943,7 +1943,9 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
                 case 1:  newGroupValue = i18nc("@title:group Date", "Yesterday"); break;
                 default:
                     newGroupValue = modifiedTime.toString(
-                        i18nc("@title:group The week day name: dddd", "dddd"));
+                        i18nc("@title:group Date: The week day name: dddd", "dddd"));
+                    newGroupValue = i18nc("Can be used to script translation of \"dddd\""
+                        "with context @title:group Date", "%1", newGroupValue);
                 }
                 break;
             case 1:
@@ -1971,32 +1973,53 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "MMMM is full month name in current locale, and yyyy is "
                         "full year number", "'Yesterday' (MMMM, yyyy)"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
+                        "%1", newGroupValue);
                 } else if (daysDistance <= 7) {
-                    newGroupValue = modifiedTime.toString(i18nc("@title:group "
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "The week day name: dddd, MMMM is full month name "
                         "in current locale, and yyyy is full year number",
                         "dddd (MMMM, yyyy)"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"dddd (MMMM, yyyy)\" with context @title:group Date",
+                        "%1", newGroupValue);
                 } else if (daysDistance <= 7 * 2) {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "MMMM is full month name in current locale, and yyyy is "
                         "full year number", "'One Week Ago' (MMMM, yyyy)"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
+                        "%1", newGroupValue);
                 } else if (daysDistance <= 7 * 3) {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "MMMM is full month name in current locale, and yyyy is "
                         "full year number", "'Two Weeks Ago' (MMMM, yyyy)"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                        "%1", newGroupValue);
                 } else if (daysDistance <= 7 * 4) {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "MMMM is full month name in current locale, and yyyy is "
                         "full year number", "'Three Weeks Ago' (MMMM, yyyy)"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                        "%1", newGroupValue);
                 } else {
                     newGroupValue = modifiedTime.toString(i18nc("@title:group Date: "
                         "MMMM is full month name in current locale, and yyyy is "
                         "full year number", "'Earlier on' MMMM, yyyy"));
+                    newGroupValue = i18nc("Can be used to script translation of "
+                        "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
+                        "%1", newGroupValue);
                 }
             } else {
                 newGroupValue = modifiedTime.toString(i18nc("@title:group "
                     "The month and year: MMMM is full month name in current locale, "
                     "and yyyy is full year number", "MMMM, yyyy"));
+                newGroupValue = i18nc("Can be used to script translation of "
+                    "\"MMMM, yyyy\" with context @title:group Date",
+                    "%1", newGroupValue);
             }
         }
 
