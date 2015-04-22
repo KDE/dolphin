@@ -21,6 +21,8 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphin_generalsettings.h"
+#include "dbusinterface.h"
+#include "global.h"
 
 #include <KDBusService>
 #include <KAboutData>
@@ -84,6 +86,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     KAboutData::setApplicationData(aboutData);
 
     KDBusService dolphinDBusService;
+    DBusInterface interface;
 
     QCommandLineParser parser;
     parser.addVersionOption();
@@ -94,25 +97,21 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("select"), i18nc("@info:shell", "The files and directories passed as arguments "
                                                                                         "will be selected.")));
     parser.addOption(QCommandLineOption(QStringList() << QLatin1String("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
+    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface)")));
     parser.addPositionalArgument(QLatin1String("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    if (parser.isSet("daemon")) {
+        return app.exec();
+    }
 
     DolphinMainWindow* m_mainWindow = new DolphinMainWindow();
     m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-    QList<QUrl> urls;
     const QStringList args = parser.positionalArguments();
-    foreach (const QString& str,  args) {
-        const QUrl url = QUrl::fromUserInput(str, QString(), QUrl::AssumeLocalFile);
-        if (url.isValid()) {
-            urls.append(url);
-        } else {
-            qCWarning(DolphinDebug) << "Invalid URL: " << str;
-        }
-    }
+    QList<QUrl> urls = Dolphin::validateUris(args);
 
     bool resetSplitSettings = false;
     if (parser.isSet("split") && !GeneralSettings::splitView()) {

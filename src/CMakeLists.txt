@@ -247,6 +247,8 @@ set(dolphin_SRCS
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
     dolphindebug.cpp
+    dbusinterface.cpp
+    global.cpp
 )
 
 kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC
@@ -290,6 +292,15 @@ if (KF5Activities_FOUND)
         KF5::Activities
     )
 endif()
+
+include(DbusInterfaceMacros)
+
+generate_and_install_dbus_interface(
+    kdeinit_dolphin
+    dbusinterface.h
+    org.freedesktop.FileManager1.xml
+    OPTIONS -a
+)
 
 install(TARGETS kdeinit_dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

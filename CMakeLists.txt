@@ -10,7 +10,7 @@ set(ECM_MIN_VERSION "1.6.0")
 
 # ECM setup
 find_package(ECM ${ECM_MIN_VERSION} CONFIG REQUIRED)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
@@ -122,6 +122,11 @@ install(FILES
     DESTINATION "${KDE_INSTALL_INCLUDEDIR}/Dolphin"
     COMPONENT Devel
 )
+
+configure_file(org.kde.dolphin.FileManager1.service.in
+               ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
+        DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
