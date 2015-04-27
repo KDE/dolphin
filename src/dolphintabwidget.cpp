@@ -22,7 +22,6 @@
 #include "dolphintabbar.h"
 #include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
-#include "dolphin_generalsettings.h"
 
 #include <QApplication>
 #include <KConfigGroup>
@@ -154,16 +153,14 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs)
+void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
 {
-    const bool hasSplitView = GeneralSettings::splitView();
+    Q_ASSERT(dirs.size() > 0);
 
-    // Open each directory inside a new tab. If the "split view" option has been enabled,
-    // always show two directories within one tab.
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
-        if (hasSplitView && (it != dirs.constEnd())) {
+        if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
             openNewTab(primaryUrl, secondaryUrl);
         } else {
@@ -172,11 +169,9 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs)
     }
 }
 
-void DolphinTabWidget::openFiles(const QList<QUrl>& files)
+void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
 {
-    if (files.isEmpty()) {
-        return;
-    }
+    Q_ASSERT(files.size() > 0);
 
     // Get all distinct directories from 'files' and open a tab
     // for each directory. If the "split view" option is enabled, two
@@ -190,7 +185,7 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files)
     }
 
     const int oldTabCount = count();
-    openDirectories(dirs);
+    openDirectories(dirs, splitView);
     const int tabCount = count();
 
     // Select the files. Although the files can be split between several

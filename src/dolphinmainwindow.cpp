@@ -169,14 +169,14 @@ DolphinMainWindow::~DolphinMainWindow()
 {
 }
 
-void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs)
+void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs, bool splitView)
 {
-    m_tabWidget->openDirectories(dirs);
+    m_tabWidget->openDirectories(dirs, splitView);
 }
 
-void DolphinMainWindow::openFiles(const QList<QUrl>& files)
+void DolphinMainWindow::openFiles(const QList<QUrl>& files, bool splitView)
 {
-    m_tabWidget->openFiles(files);
+    m_tabWidget->openFiles(files, splitView);
 }
 
 void DolphinMainWindow::showCommand(CommandType command)
@@ -298,11 +298,6 @@ void DolphinMainWindow::openNewActivatedTab()
 void DolphinMainWindow::openNewTab(const QUrl& url)
 {
     m_tabWidget->openNewTab(url);
-}
-
-void DolphinMainWindow::openNewActivatedTab(const QUrl& url)
-{
-    m_tabWidget->openNewActivatedTab(url);
 }
 
 void DolphinMainWindow::openInNewTab()

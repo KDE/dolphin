@@ -113,36 +113,22 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     const QStringList args = parser.positionalArguments();
     QList<QUrl> urls = Dolphin::validateUris(args);
 
-    bool resetSplitSettings = false;
-    if (parser.isSet("split") && !GeneralSettings::splitView()) {
-        // Dolphin should be opened with a split view although this is not
-        // set in the GeneralSettings. Temporary adjust the setting until
-        // all passed URLs have been opened.
-        GeneralSettings::setSplitView(true);
-        resetSplitSettings = true;
-
-        // We need 2 URLs to open Dolphin in split view mode
-        if (urls.isEmpty()) { // No URL given - Open home URL in all two views
-            urls.append(GeneralSettings::homeUrl());
-            urls.append(GeneralSettings::homeUrl());
-        } else if (urls.length() == 1) { // Only 1 URL given - Open given URL in all two views
-            urls.append(urls.at(0));
-        }
-    }
-
-    if (!urls.isEmpty()) {
-        if (parser.isSet("select")) {
-            m_mainWindow->openFiles(urls);
-        } else {
-            m_mainWindow->openDirectories(urls);
-        }
-    } else {
+    if (urls.isEmpty()) {
+        // We need at least one URL to open Dolphin
         const QUrl homeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
-        m_mainWindow->openNewActivatedTab(homeUrl);
+        urls.append(homeUrl);
     }
 
-    if (resetSplitSettings) {
-        GeneralSettings::setSplitView(false);
+    const bool splitView = parser.isSet("split") || GeneralSettings::splitView();
+    if (splitView && urls.size() < 2) {
+        // Split view does only make sense if we have at least 2 URLs
+        urls.append(urls.last());
+    }
+
+    if (parser.isSet("select")) {
+        m_mainWindow->openFiles(urls, splitView);
+    } else {
+        m_mainWindow->openDirectories(urls, splitView);
     }
 
     m_mainWindow->show();

@@ -71,17 +71,18 @@ public:
     DolphinViewContainer* activeViewContainer() const;
 
     /**
-     * Opens each directory in \p dirs in a separate tab. If the "split view"
-     * option is enabled, 2 directories are collected within one tab.
+     * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
+     * 2 directories are collected within one tab.
+     * \pre \a dirs must contain at least one url.
      */
-    void openDirectories(const QList<QUrl> &dirs);
+    void openDirectories(const QList<QUrl> &dirs, bool splitView);
 
     /**
-     * Opens the directory which contains the files \p files
-     * and selects all files (implements the --select option
-     * of Dolphin).
+     * Opens the directories which contain the files \p files and selects all files.
+     * If \a splitView is set, 2 directories are collected within one tab.
+     * \pre \a files must contain at least one url.
      */
-    void openFiles(const QList<QUrl>& files);
+    void openFiles(const QList<QUrl>& files, bool splitView);
 
     /**
      * Returns the 'Create New...' sub menu which also can be shared
@@ -118,11 +119,6 @@ public slots:
 
     /** Stores all settings and quits Dolphin. */
     void quit();
-
-    /**
-     * Opens a new tab showing the URL \a url and activates the tab.
-     */
-    void openNewActivatedTab(const QUrl& url);
 
 signals:
     /**
