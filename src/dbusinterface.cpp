@@ -58,7 +58,7 @@ void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString
 {
     Q_UNUSED(startUpId);
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
-    foreach (const QUrl& url, urls) {
-        KPropertiesDialog::showDialog(url);
+    if (!urls.isEmpty()) {
+        KPropertiesDialog::showDialog(urls);
     }
 }
