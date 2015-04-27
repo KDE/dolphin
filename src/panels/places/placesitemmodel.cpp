@@ -85,8 +85,8 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     Baloo::IndexerConfig config;
     m_fileIndexingEnabled = config.fileIndexingEnabled();
 #endif
-    const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kfileplaces/bookmarks.xml");
-    m_bookmarkManager = KBookmarkManager::managerForFile(file, "kfilePlaces");
+    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/user-places.xbel";
+    m_bookmarkManager = KBookmarkManager::managerForExternalFile(file);
 
     createSystemBookmarks();
     initializeAvailableDevices();
