@@ -23,6 +23,7 @@
 #include "dolphin_generalsettings.h"
 #include "dbusinterface.h"
 #include "global.h"
+#include "dolphindebug.h"
 
 #include <KDBusService>
 #include <KAboutData>
@@ -30,19 +31,18 @@
 #include <QCommandLineOption>
 #include <QApplication>
 #include <KLocalizedString>
-#include "dolphindebug.h"
-#include <kdelibs4configmigrator.h>
+#include <Kdelibs4ConfigMigrator>
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
+
     Kdelibs4ConfigMigrator migrate(QStringLiteral("dolphin"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("dolphinrc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
     migrate.migrate();
-
-    app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
 
     KAboutData aboutData("dolphin", i18n("Dolphin"), "14.12.95",
                          i18nc("@title", "File Manager"),
@@ -107,9 +107,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         return app.exec();
     }
 
-    DolphinMainWindow* m_mainWindow = new DolphinMainWindow();
-    m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
-
     const QStringList args = parser.positionalArguments();
     QList<QUrl> urls = Dolphin::validateUris(args);
 
@@ -125,18 +122,21 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         urls.append(urls.last());
     }
 
+    DolphinMainWindow* mainWindow = new DolphinMainWindow();
+    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
+
     if (parser.isSet("select")) {
-        m_mainWindow->openFiles(urls, splitView);
+        mainWindow->openFiles(urls, splitView);
     } else {
-        m_mainWindow->openDirectories(urls, splitView);
+        mainWindow->openDirectories(urls, splitView);
     }
 
-    m_mainWindow->show();
+    mainWindow->show();
 
     if (app.isSessionRestored()) {
         const QString className = KXmlGuiWindow::classNameOfToplevel(1);
         if (className == QLatin1String("DolphinMainWindow")) {
-            m_mainWindow->restore(1);
+            mainWindow->restore(1);
         } else {
            qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
         }
