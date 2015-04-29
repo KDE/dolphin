@@ -439,7 +439,6 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
     const QString text = m_searchInput->text();
 
     Baloo::Query query;
-    query.addType("File");
     query.addType(m_facetsWidget->facetType());
 
     Baloo::Term term(Baloo::Term::And);
@@ -488,7 +487,6 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
     setText(query.searchString());
 
     QStringList types = query.types();
-    types.removeOne("File"); // We are only interested in facet widget types
     if (!types.isEmpty()) {
         m_facetsWidget->setFacetType(types.first());
     }
