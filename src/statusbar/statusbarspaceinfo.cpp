@@ -21,11 +21,11 @@
 #include "statusbarspaceinfo.h"
 
 #include "spaceinfoobserver.h"
-#include "spaceinfotoolsmenu.h"
 
 #include <QMouseEvent>
 
 #include <KLocalizedString>
+#include <KNS3/KMoreToolsMenuFactory>
 #include <KIO/Job>
 
 
@@ -71,8 +71,16 @@ void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
 void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
 {
     if (event->button() == Qt::LeftButton) {
-        SpaceInfoToolsMenu spaceInfoToolsMenu(this, m_url);
-        spaceInfoToolsMenu.exec(QCursor::pos());
+        // Creates a menu with tools that help to find out more about free
+        // disk space for the given url.
+
+        // Note that this object must live long enough in case the user opens
+        // the "Configure..." dialog
+        KMoreToolsMenuFactory menuFactory("dolphin/statusbar-diskspace-menu");
+        auto menu = menuFactory.createMenuFromGroupingNames(
+            { "disk-usage", "more:", "disk-partitions" }, m_url);
+
+        menu->exec(QCursor::pos());
     }
 }
 
