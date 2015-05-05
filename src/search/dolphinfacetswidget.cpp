@@ -112,11 +112,9 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 {
 }
 
-#ifdef HAVE_BALOO
-Baloo::Term DolphinFacetsWidget::ratingTerm() const
+QString DolphinFacetsWidget::ratingTerm() const
 {
-    Baloo::Term ratingTerm;
-    Baloo::Term modifiedTerm;
+    QStringList terms;
 
     if (!m_anyRating->isChecked()) {
         int stars = 1; // represents m_oneOrMore
@@ -131,7 +129,7 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
         }
 
         const int rating = stars * 2;
-        ratingTerm = Baloo::Term("rating", rating, Baloo::Term::GreaterEqual);
+        terms << QString::fromLatin1("rating>=%1").arg(rating);
     }
 
     if (!m_anytime->isChecked()) {
@@ -146,22 +144,10 @@ Baloo::Term DolphinFacetsWidget::ratingTerm() const
             date = date.addDays(1 - date.dayOfYear());
         }
 
-        modifiedTerm = Baloo::Term("modified", date, Baloo::Term::GreaterEqual);
+        terms << QString::fromLatin1("modified>=%1").arg(date.toString(Qt::ISODate));
     }
 
-    if (ratingTerm.isValid() && modifiedTerm.isValid()) {
-        Baloo::Term term(Baloo::Term::And);
-        term.addSubTerm(ratingTerm);
-        term.addSubTerm(modifiedTerm);
-
-        return term;
-    } else if (modifiedTerm.isValid()) {
-        return modifiedTerm;
-    } else if (ratingTerm.isValid()) {
-        return ratingTerm;
-    }
-
-    return Baloo::Term();
+    return terms.join(QStringLiteral(" AND "));
 }
 
 QString DolphinFacetsWidget::facetType() const
@@ -179,54 +165,44 @@ QString DolphinFacetsWidget::facetType() const
     return QString();
 }
 
-bool DolphinFacetsWidget::isRatingTerm(const Baloo::Term& term) const
+bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
 {
-    const QList<Baloo::Term> subTerms = term.subTerms();
-    if (subTerms.isEmpty()) {
-        // If term has no sub terms, then the term itself is either a "rating" term
-        // or a "modified" term.
-        return term.property() == QLatin1String("modified") ||
-               term.property() == QLatin1String("rating");
+    const QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
 
-    } else if (subTerms.size() == 2) {
-        // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
+    // If term has sub terms, then sone of the sub terms are always "rating" and "modified" terms.
+    bool containsRating = false;
+    bool containsModified = false;
 
-        QStringList properties;
-        foreach (const Baloo::Term& subTerm, subTerms) {
-            properties << subTerm.property();
+    foreach (const QString& subTerm, subTerms) {
+        if (subTerm.startsWith("rating>=")) {
+            containsRating = true;
+        } else if (subTerm.startsWith("modified>=")) {
+            containsModified = true;
         }
-
-        return properties.contains(QLatin1String("modified")) &&
-               properties.contains(QLatin1String("rating"));
     }
 
-    return false;
+    return containsModified || containsRating;
 }
 
-void DolphinFacetsWidget::setRatingTerm(const Baloo::Term& term)
+void DolphinFacetsWidget::setRatingTerm(const QString& term)
 {
     // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
     // If term has no sub terms, then the term itself is either a "rating" term or a "modified"
     // term. To avoid code duplication we add term to subTerms list, if the list is empty.
-    QList<Baloo::Term> subTerms = term.subTerms();
-    if (subTerms.isEmpty()) {
-        subTerms << term;
-    }
+    QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
 
-    foreach (const Baloo::Term& subTerm, subTerms) {
-        const QString property = subTerm.property();
-
-        if (property == QLatin1String("modified")) {
-            const QDate date = subTerm.value().toDate();
+    foreach (const QString& subTerm, subTerms) {
+        if (subTerm.startsWith("modified>=")) {
+            const QString value = subTerm.mid(10);
+            const QDate date = QDate::fromString(value, Qt::ISODate);
             setTimespan(date);
-        } else if (property == QLatin1String("rating")) {
-            const int stars = subTerm.value().toInt() / 2;
+        } else if (subTerm.startsWith("rating>=")) {
+            const QString value = subTerm.mid(8);
+            const int stars = value.toInt() / 2;
             setRating(stars);
         }
     }
 }
-
-#endif
 
 void DolphinFacetsWidget::setFacetType(const QString& type)
 {

@@ -441,24 +441,23 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
     Baloo::Query query;
     query.addType(m_facetsWidget->facetType());
 
-    Baloo::Term term(Baloo::Term::And);
-
-    Baloo::Term ratingTerm = m_facetsWidget->ratingTerm();
-    if (ratingTerm.isValid()) {
-        term.addSubTerm(ratingTerm);
+    QStringList queryStrings;
+    QString ratingQuery = m_facetsWidget->ratingTerm();
+    if (!ratingQuery.isEmpty()) {
+        queryStrings << ratingQuery;
     }
 
     if (m_contentButton->isChecked()) {
-        query.setSearchString(text);
+        queryStrings << text;
     } else if (!text.isEmpty()) {
-        term.addSubTerm(Baloo::Term(QLatin1String("filename"), text));
+        queryStrings << QString::fromLatin1("filename:\"%1\"").arg(text);
     }
 
     if (m_fromHereButton->isChecked()) {
         query.setIncludeFolder(m_searchPath.toLocalFile());
     }
 
-    query.setTerm(term);
+    query.setSearchString(queryStrings.join(" "));
 
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));
@@ -471,7 +470,6 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 {
 #ifdef HAVE_BALOO
     const Baloo::Query query = Baloo::Query::fromSearchUrl(url);
-    const Baloo::Term term = query.term();
 
     // Block all signals to avoid unnecessary "searchRequest" signals
     // while we adjust the search text and the facet widget.
@@ -491,11 +489,11 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
         m_facetsWidget->setFacetType(types.first());
     }
 
-    foreach (const Baloo::Term& subTerm, term.subTerms()) {
-        const QString property = subTerm.property();
-
-        if (property == QLatin1String("filename")) {
-            setText(subTerm.value().toString());
+    const QStringList subTerms = query.searchString().split(' ', QString::SkipEmptyParts);
+    foreach (const QString& subTerm, subTerms) {
+        if (subTerm.startsWith("filename:")) {
+            const QString value = subTerm.mid(9);
+            setText(value);
         } else if (m_facetsWidget->isRatingTerm(subTerm)) {
             m_facetsWidget->setRatingTerm(subTerm);
         }
