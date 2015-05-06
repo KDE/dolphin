@@ -186,11 +186,21 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
     const QScrollBar* scrollBar = smoothScroller->scrollBar();
     if (!event->pixelDelta().isNull()) {
         const int numPixels =  event->pixelDelta().y();
-        smoothScroller->scrollTo(scrollBar->value() - numPixels);
+        if (event->modifiers().testFlag(Qt::ShiftModifier)) {
+            const int scrollingDirection = numPixels > 0 ? 1 : -1;
+            smoothScroller->scrollTo(scrollBar->value() - scrollBar->pageStep() * scrollingDirection);
+        } else {
+            smoothScroller->scrollTo(scrollBar->value() - numPixels);
+        }
     } else {
         const int numDegrees = event->angleDelta().y() / 8;
         const int numSteps = numDegrees / 15;
-        smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
+        if (event->modifiers().testFlag(Qt::ShiftModifier)) {
+            const int scrollingDirection = numSteps > 0 ? 1 : -1;
+            smoothScroller->scrollTo(scrollBar->value() - scrollBar->pageStep() * scrollingDirection);
+        } else {
+            smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
+        }
     }
 
     event->accept();
