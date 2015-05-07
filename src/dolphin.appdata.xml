@@ -85,7 +85,7 @@
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
-    <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant en facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
+    <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="da">Dolphin er letvægtsfilhåndtering. Den er blevet designet med henblik på brugervenlighed og simpelhed, mens fleksibilitet og tilpasning stadig er muligt. Det betyder at du klare din filhåndtering nøjagtig på den måde du vil gøre det.</p>
     <p xml:lang="el">Το Dolphin είναι ένας ελαφρύς διαχειριστής αρχείων. Έχει σχεδιαστεί με φιλοσοφία την απλότητα για ευκολία στη χρήση, ενώ επιτρέπει ευελιξία και προσαρμογές. Αυτό σημαίνει ότι μπορείτε να διαχειριστείτε τα αρχεία σας με τον τρόπο που εσείς θέλετε.</p>
     <p xml:lang="en-GB">Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
@@ -158,7 +158,7 @@
     <ul>
       <li>Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="bs">Navigacijska (ili mrvična) traka za URL, dopušta vam da se brzo krećete kroz hijerarhiju datoteka i direktorija.</li>
-      <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) per els URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
+      <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) pels URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
       <li xml:lang="da">Navigationsbjælke (eller brødkrumme-bjælke) til URL'er, lader dig navigere hurtigt igennem hierarkiet af filer og mapper.</li>
       <li xml:lang="el">Η γραμμή πλοήγησης (ή ιχνηλάτησης) για URL, σας επιτρέπει να πλοηγηθείτε γρήγορα μέσα από την ιεραρχία αρχείων και φακέλων.</li>
       <li xml:lang="en-GB">Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
@@ -334,7 +334,7 @@
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
       <li xml:lang="ar">حواريات المعلومات تُعرَض بطريقة غير مُزعجة.</li>
       <li xml:lang="bs">Informativni dijalozi su prikazani na nenametljiv način.</li>
-      <li xml:lang="ca">El diàlegs informatius es mostren de manera no molesta.</li>
+      <li xml:lang="ca">Els diàlegs informatius es mostren d'una manera no molesta.</li>
       <li xml:lang="da">Informationsdialoger vises på en ikke-forstyrrende måde.</li>
       <li xml:lang="de">Informationen werden unaufdringlich angezeigt.</li>
       <li xml:lang="el">Ενημερωτικοί διάλογοι εμφανίζονται με μη παρεμβατικό τρόπο.</li>
