@@ -81,8 +81,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems_data()
     QTest::addColumn<KItemRangeList>("expectedItemsRemoved");
 
     QList<int> sizes;
-    sizes << 1000 << 4000 << 16000 << 64000 << 256000;
-    //sizes << 50000 << 100000 << 150000 << 200000 << 250000;
+    sizes << 100000;
 
     foreach (int n, sizes) {
         QStringList allStrings;
