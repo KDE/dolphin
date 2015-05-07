@@ -37,7 +37,7 @@
 template <typename RandomAccessIterator, typename LessThan>
 static void mergeSort(RandomAccessIterator begin,
                       RandomAccessIterator end,
-                      LessThan lessThan)
+                      const LessThan& lessThan)
 {
     // The implementation is based on qStableSortHelper() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -99,7 +99,7 @@ template <typename RandomAccessIterator, typename LessThan>
 static void merge(RandomAccessIterator begin,
                   RandomAccessIterator pivot,
                   RandomAccessIterator end,
-                  LessThan lessThan)
+                  const LessThan& lessThan)
 {
     // The implementation is based on qMerge() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -124,12 +124,14 @@ static void merge(RandomAccessIterator begin,
     if (len1 > len2) {
         const int len1Half = len1 / 2;
         firstCut = begin + len1Half;
-        secondCut = std::lower_bound(pivot, end, *firstCut, lessThan);
+        secondCut = std::lower_bound<RandomAccessIterator,
+            decltype(*firstCut), const LessThan&>(pivot, end, *firstCut, lessThan);
         len2Half = secondCut - pivot;
     } else {
         len2Half = len2 / 2;
         secondCut = pivot + len2Half;
-        firstCut = std::upper_bound(begin, pivot, *secondCut, lessThan);
+        firstCut = std::upper_bound<RandomAccessIterator,
+            decltype(*secondCut), const LessThan&>(begin, pivot, *secondCut, lessThan);
     }
 
     std::rotate(firstCut, pivot, secondCut);
