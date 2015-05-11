@@ -42,7 +42,6 @@
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
     #include <Baloo/Query>
-    #include <Baloo/Term>
     #include <Baloo/IndexerConfig>
 #endif
 #include <QFontDatabase>
