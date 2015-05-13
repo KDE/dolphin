@@ -30,6 +30,7 @@ Name[sv]=Vy i Dolphin
 Name[uk]=Перегляд Dolphin
 Name[x-test]=xxDolphin Viewxx
 Name[zh_CN]=Dolphin 视图
+Name[zh_TW]=Dolphin 檢視
 MimeType=inode/directory;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=dolphinpart
@@ -74,6 +75,7 @@ Name[sv]=Ikoner
 Name[uk]=Піктограми
 Name[x-test]=xxIconsxx
 Name[zh_CN]=图标视图
+Name[zh_TW]=圖示
 Icon=view-list-icons
 # Dummy
 Exec=dolphin
@@ -106,6 +108,7 @@ Name[sv]=Kompakt
 Name[uk]=Компактний
 Name[x-test]=xxCompactxx
 Name[zh_CN]=简洁视图
+Name[zh_TW]=簡潔模式
 Icon=view-list-details
 # Dummy
 Exec=dolphin
@@ -140,6 +143,7 @@ Name[sv]=Detaljinformation
 Name[uk]=Подробиці
 Name[x-test]=xxDetailsxx
 Name[zh_CN]=细节视图
+Name[zh_TW]=詳細模式
 Icon=view-list-tree
 # Dummy
 Exec=dolphin
