@@ -278,7 +278,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
             }
         }
 
-        if (hasBalooRole && !m_balooFileMonitor) {
+        if (hasBalooRole && m_balooConfig.fileIndexingEnabled() && !m_balooFileMonitor) {
             m_balooFileMonitor = new Baloo::FileMonitor(this);
             connect(m_balooFileMonitor, &Baloo::FileMonitor::fileMetaDataChanged,
                     this, &KFileItemModelRolesUpdater::applyChangedBalooRoles);

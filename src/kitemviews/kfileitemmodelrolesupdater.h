@@ -46,6 +46,7 @@ namespace KIO {
     {
         class FileMonitor;
     }
+    #include <Baloo/IndexerConfig>
 #endif
 
 /**
@@ -335,6 +336,7 @@ private:
 
 #ifdef HAVE_BALOO
     Baloo::FileMonitor* m_balooFileMonitor;
+    Baloo::IndexerConfig m_balooConfig;
 #endif
 };
 
