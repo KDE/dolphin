@@ -166,7 +166,7 @@
       <li xml:lang="et">Liikumisriba IRL-idele, mis lubab kiiresti liigelda failide ja kataloogide hierarhias.</li>
       <li xml:lang="fi">Osoiterivi, jonka avulla siirtyminen tiedostojen ja kansioiden hierarkiassa on nopeaa.</li>
       <li xml:lang="fr">Barre de navigation (ou fil d'Ariane) permettant de naviguer rapidement dans la hiérarchie de fichiers et de dossiers.</li>
-      <li xml:lang="gl">Barra de navegación para enderezos, que lle permite navegar rapidamente pola xerarquía de ficheiros e cartafoles.</li>
+      <li xml:lang="gl">Barra de navegación para enderezos URL, que lle permite navegar rapidamente pola xerarquía de ficheiros e cartafoles.</li>
       <li xml:lang="hu">Navigációs (vagy webmorzsa) sáv az URL-ekhez, amely lehetővé teszi a fájlok és mappák hierarchiáján keresztüli gyors navigációt.</li>
       <li xml:lang="ia">Barra de navigation (o "breadcrumb") pro URLs, que il permitte te navigar rapidemente a transverso del hierarchia de files e dossieres.</li>
       <li xml:lang="it">La barra di navigazione per gli URL, che ti consente di navigare rapidamente attraverso la struttura di file e cartelle.</li>
@@ -235,7 +235,7 @@
       <li xml:lang="et">Vaate poolitamise võimalus, mis muudab väga lihtsaks failide ühest kohast teise kopeerimise või liigutamise.</li>
       <li xml:lang="fi">Näkymän puolitus, joka helpottaa tiedostojen kopiointia ja siirtämistä paikasta toiseen.</li>
       <li xml:lang="fr">Affichage divisé, permettant de facilement copier ou déplacer des fichiers dans les différents emplacements.</li>
-      <li xml:lang="gl">Vista dividida, que lle permite copiar ou mover ficheiros facilmente entre dúas rutas.</li>
+      <li xml:lang="gl">Vista dividida, que lle permite copiar ou mover ficheiros facilmente entre dous lugares.</li>
       <li xml:lang="hu">Osztott nézet, amely lehetővé teszi a fájlok könnyű másolását és áthelyezését a helyek között.</li>
       <li xml:lang="ia">Scinde vista,  il permitte te copiar o mover facilemente files inter locationes.</li>
       <li xml:lang="it">La vista divisa, che ti consente di copiare o spostare i file tra le diverse posizioni in maniera semplice.</li>
@@ -261,7 +261,7 @@
       <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كلوحات قابلة للرصف، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
       <li xml:lang="bs">Dodatne informacije i kratice su dostupne kao usidreni paneli, dopuštajući vam da se krećete slobodno i prikažete šta želite.</li>
-      <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons acoblables, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
+      <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="da">Yderligere information og genveje er tilgængelige som dokbare paneler, som lader dig flytte dem frit omkring og vise nøjagtigt det du vil have.</li>
       <li xml:lang="el">Πρόσθετες πληροφορίες και συντομεύσεις είναι διαθέσιμα ως προσαρτήσιμοι πίνακες, που σας επιτρέπουν να τα μετακινείτε ελεύθερα και να παρουσιάζετε ακριβώς αυτό που θέλετε.</li>
       <li xml:lang="en-GB">Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
@@ -269,7 +269,7 @@
       <li xml:lang="et">Lisateave ja otseteed dokitavate paneelidena, mida saab vabalt vajalikku kohta tõsta ja panna näitama just vajalikku teavet.</li>
       <li xml:lang="fi">Lisätiedoille ja oikoteille on paneelit, joita voi siirtää sekä näyttää ja piilottaa vapaasti.</li>
       <li xml:lang="fr">Des informations supplémentaires et des raccourcis sont disponible comme panneaux ancrable librement déplaçable et affichant exactement ce que vous voulez.</li>
-      <li xml:lang="gl">Información adicional e atallos dispoñíbeis como paneis opcionais que pode colocar en calquera parte e mostrar como prefira.</li>
+      <li xml:lang="gl">Información adicional e atallos dispoñíbeis como paneis acoplábeis que pode colocar en calquera parte e mostrar como prefira.</li>
       <li xml:lang="hu">További információk és gyorsbillentyűk érhetők el dokkolható panelekként, lehetővé téve azok szabad mozgatását, illetve pontosan úgy megjelenítve, ahogy szeretné.</li>
       <li xml:lang="ia">Information additional e vias breve es disponibile como pannellos de basin (dock-panels), il permitte mover los liberemente e monstrar los exactemente como tu vole.</li>
       <li xml:lang="it">Informazioni aggiuntive e scorciatoie sono disponibili come pannelli agganciabili, che possono essere spostati liberamente e visualizzare esattamente ciò che desideri.</li>
@@ -378,7 +378,7 @@
       <li xml:lang="et">Tagasivõtmise ja uuestitegemise toetus.</li>
       <li xml:lang="fi">Tuki muutosten kumoamiselle ja tekemiselle uudelleen</li>
       <li xml:lang="fr">Prise en charge d'annulation et recommencement</li>
-      <li xml:lang="gl">Permite desfacer e refacer cambios.</li>
+      <li xml:lang="gl">Permite desfacer e refacer.</li>
       <li xml:lang="hu">Visszavonás/ismétlés támogatás</li>
       <li xml:lang="ia">Supporto de annulla/reface</li>
       <li xml:lang="it">Supporto di annulla/rifai</li>
