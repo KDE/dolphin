@@ -87,6 +87,7 @@
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="da">Dolphin er letvægtsfilhåndtering. Den er blevet designet med henblik på brugervenlighed og simpelhed, mens fleksibilitet og tilpasning stadig er muligt. Det betyder at du klare din filhåndtering nøjagtig på den måde du vil gøre det.</p>
+    <p xml:lang="de">Dolphin ist ein schlankes Programm zur Dateiverwaltung. Es wurde mit dem Ziel entwickelt, einfach in der Anwendung, dabei aber auch flexibel und anpassungsfähig zu sein. Sie können daher Ihre Dateiverwaltungsaufgaben genau nach Ihren Bedürfnissen ausführen.</p>
     <p xml:lang="el">Το Dolphin είναι ένας ελαφρύς διαχειριστής αρχείων. Έχει σχεδιαστεί με φιλοσοφία την απλότητα για ευκολία στη χρήση, ενώ επιτρέπει ευελιξία και προσαρμογές. Αυτό σημαίνει ότι μπορείτε να διαχειριστείτε τα αρχεία σας με τον τρόπο που εσείς θέλετε.</p>
     <p xml:lang="en-GB">Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="es">Dolphin es un administrador de archivos ligero. Se ha diseñado teniendo en cuenta la facilidad de uso y la simplicidad, así como la flexibilidad y la personalización. Esto significa que el usuario puede administrar los archivos exactamente de la manera que prefiera.</p>
@@ -160,6 +161,7 @@
       <li xml:lang="bs">Navigacijska (ili mrvična) traka za URL, dopušta vam da se brzo krećete kroz hijerarhiju datoteka i direktorija.</li>
       <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) pels URL, permetent una navegació ràpida per la jerarquia de fitxers i carpetes.</li>
       <li xml:lang="da">Navigationsbjælke (eller brødkrumme-bjælke) til URL'er, lader dig navigere hurtigt igennem hierarkiet af filer og mapper.</li>
+      <li xml:lang="de">Navigationsleiste für Adressen (auch editierbar), mit der Sie schnell durch die Hierarchie der Dateien und Ordner navigieren können.</li>
       <li xml:lang="el">Η γραμμή πλοήγησης (ή ιχνηλάτησης) για URL, σας επιτρέπει να πλοηγηθείτε γρήγορα μέσα από την ιεραρχία αρχείων και φακέλων.</li>
       <li xml:lang="en-GB">Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
       <li xml:lang="es">barra de navegación (o de ruta completa) para URL que permite navegar rápidamente a través de la jerarquía de archivos y carpetas.</li>
@@ -194,6 +196,7 @@
       <li xml:lang="bs">Dopušta vište vrsta stilova pogleda i svojstava i dopšta vam da konfigurišete pogled baš kako želite.</li>
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
       <li xml:lang="da">Understøtter flere forskellige slags visninger og egenskaber og lader dig konfigurere visningen nøjagtig som du vil have den.</li>
+      <li xml:lang="de">Unterstützt mehrere unterschiedliche Arten von Ansichtsstilen  und Eigenschaften und erlaubt es Ihnen, die Ansichten genau nach Ihren Bedürfnissen einzustellen.</li>
       <li xml:lang="el">Υποστηρίζει πολλά διαφορετικά είδη στιλ και ιδιότητες επισκόπησης και σας επιτρέπει να διαμορφώσετε την επισκόπηση ακριβώς όπως τη θέλετε.</li>
       <li xml:lang="en-GB">Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
       <li xml:lang="es">Admite varios tipos diferentes de estilos de vista y propiedades y permite configurar la vista exactamente como prefiera el usuario.</li>
@@ -263,6 +266,7 @@
       <li xml:lang="bs">Dodatne informacije i kratice su dostupne kao usidreni paneli, dopuštajući vam da se krećete slobodno i prikažete šta želite.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="da">Yderligere information og genveje er tilgængelige som dokbare paneler, som lader dig flytte dem frit omkring og vise nøjagtigt det du vil have.</li>
+      <li xml:lang="de">Zusätzliche Informationen und Kurzbefehle sind als andockbare Seitenleisten vorhanden, diese Leisten können Sie beliebig verschieben und in ihnen die gewünschten Informationen anzeigen lassen.</li>
       <li xml:lang="el">Πρόσθετες πληροφορίες και συντομεύσεις είναι διαθέσιμα ως προσαρτήσιμοι πίνακες, που σας επιτρέπουν να τα μετακινείτε ελεύθερα και να παρουσιάζετε ακριβώς αυτό που θέλετε.</li>
       <li xml:lang="en-GB">Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="es">Hay disponible información adicional y accesos rápidos en forma de paneles separables para que se puedan mover libremente a la vez que muestran exactamente lo que prefiera el usuario.</li>
