@@ -30,6 +30,7 @@
   <name xml:lang="pt">Dolphin</name>
   <name xml:lang="pt-BR">Dolphin</name>
   <name xml:lang="ro">Dolphin</name>
+  <name xml:lang="ru">Dolphin</name>
   <name xml:lang="sk">Dolphin</name>
   <name xml:lang="sl">Dolphin</name>
   <name xml:lang="sr">Делфин</name>
@@ -69,6 +70,7 @@
   <summary xml:lang="pt">Gestor de Ficheiros</summary>
   <summary xml:lang="pt-BR">Gerenciador de arquivos</summary>
   <summary xml:lang="ro">Gestionar de fișiere</summary>
+  <summary xml:lang="ru">Диспетчер файлов</summary>
   <summary xml:lang="sk">Správca súborov</summary>
   <summary xml:lang="sl">Upravljalnik datotek</summary>
   <summary xml:lang="sr">Менаџер фајлова</summary>
@@ -105,6 +107,7 @@
     <p xml:lang="pl">Dolphin jest lekkim programem do zarządzania plikami. Został on opracowany mając na uwadze łatwość i prostotę obsługi, zapewniając jednocześnie elastyczność i możliwość dostosowania. Oznacza to, że można urządzić zarządzanie plikami w dokładnie taki sposób w jaki jest to pożądane.</p>
     <p xml:lang="pt">O Dolphin é um gestor de ficheiros leve. Foi desenhado com a facilidade de uso e simplicidade em mente, permitindo à mesma a flexibilidade e personalização. Isto significa que poderá fazer a sua gestão de ficheiros exactamente da forma que deseja.</p>
     <p xml:lang="pt-BR">Dolphin é um gerenciador de arquivos leve e fácil de usar. Foi projetado para ser simples e ao mesmo tempo manter a flexibilidade e personalização. Isso significa que você poderá gerenciar seus arquivos da forma que desejar.</p>
+    <p xml:lang="ru">Dolphin — это упрощённый диспетчер файлов. Он создавался как лёгкий в использовании, но в то же время является гибким и расширяемым.</p>
     <p xml:lang="sk">Dolphin je odľahčený správca súborov. Bol navrhnutý na jednoduché použitie a jednoduchosť, ale s možnosťami flexibility a prispôsobenia. To znamená, že môžete vykonávať správu súborov presne tak, ako chcete.</p>
     <p xml:lang="sl">Dolphin je enostaven upravljalnik datotek. Bil je zasnovan kot enostaven in preprost, vseeno pa ostaja prilagodljiv. To pomeni, da lahko upravljanje datotek izvajate točno tako kot želite.</p>
     <p xml:lang="sr">Делфин је лагани менаџер фајлова. Пројектован је да буде лак за употребу и једноставан, а да ипак омогућава флексибилност и прилагођавање. То значи да ће моћи да баратате фајловима тачно онако како бисте желели.</p>
@@ -144,6 +147,7 @@
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
     <p xml:lang="ro">Caracteristici:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sr">Могућности:</p>
