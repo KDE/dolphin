@@ -101,8 +101,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
 
     connect(m_bookmarkManager, &KBookmarkManager::changed,
             m_updateBookmarksTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
-    connect(m_bookmarkManager, &KBookmarkManager::bookmarksChanged,
-            m_updateBookmarksTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
 }
 
 PlacesItemModel::~PlacesItemModel()
