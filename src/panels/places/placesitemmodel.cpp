@@ -917,16 +917,16 @@ void PlacesItemModel::createSystemBookmarks()
                                                     "view-calendar-month",
                                                     I18N_NOOP2("KFile System Bookmarks", "Last Month")));
         m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/documents"),
-                                                    "folder-txt",
+                                                    "folder-text",
                                                     I18N_NOOP2("KFile System Bookmarks", "Documents")));
         m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/images"),
-                                                    "folder-image",
+                                                    "folder-images",
                                                     I18N_NOOP2("KFile System Bookmarks", "Images")));
         m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/audio"),
                                                     "folder-sound",
                                                     I18N_NOOP2("KFile System Bookmarks", "Audio Files")));
         m_systemBookmarks.append(SystemBookmarkData(QUrl("search:/videos"),
-                                                    "folder-video",
+                                                    "folder-videos",
                                                     I18N_NOOP2("KFile System Bookmarks", "Videos")));
     }
 
