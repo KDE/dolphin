@@ -4,7 +4,7 @@ macro (generate_and_install_dbus_interface main_project_target header_file outpu
         ${output_xml_file}
     )
     add_custom_target(
-        ${output_xml_file}
+        ${output_xml_file}_target
         SOURCES ${CMAKE_CURRENT_BINARY_DIR}/${output_xml_file}
 	)
     install(
@@ -13,6 +13,6 @@ macro (generate_and_install_dbus_interface main_project_target header_file outpu
     )
     add_dependencies(
         ${main_project_target}
-        ${output_xml_file}
+        ${output_xml_file}_target
     )
 endmacro ()
