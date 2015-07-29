@@ -19,6 +19,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include "dolphin_version.h"
 #include "dolphinmainwindow.h"
 #include "dolphin_generalsettings.h"
 #include "dbusinterface.h"
@@ -44,7 +45,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
     migrate.migrate();
 
-    KAboutData aboutData("dolphin", i18n("Dolphin"), "14.12.95",
+    KAboutData aboutData("dolphin", i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
                          i18nc("@info:credit", "(C) 2006-2014 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));

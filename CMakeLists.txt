@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 2.8.12)
 
 project(Dolphin)
 
-set(DOLPHIN_VERSION "14.12.95")
+# KDE Application Version, managed by release script
+set (KDE_APPLICATIONS_VERSION_MAJOR "15")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
+set (KDE_APPLICATIONS_VERSION_MICRO "80")
+set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
 
 set(QT_MIN_VERSION "5.4.0")
 set(KF5_MIN_VERSION "5.7.0")
@@ -21,13 +25,17 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
-ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINVCS
+ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHIN
+                  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
+)
+
+ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHINVCS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/DolphinVcsConfigVersion.cmake"
                   SOVERSION 5
 )
 
-ecm_setup_version(${DOLPHIN_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
+ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
