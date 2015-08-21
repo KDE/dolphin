@@ -168,7 +168,7 @@ set_target_properties(dolphinprivate PROPERTIES
     SOVERSION ${DOLPHINPRIVATE_SOVERSION}
 )
 
-install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
 
 ##########################################
 
