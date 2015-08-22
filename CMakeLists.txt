@@ -25,6 +25,10 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings)
 
+ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHIN
+                  VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
+)
+
 ecm_setup_version("5.0.0" VARIABLE_PREFIX DOLPHINVCS
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_version.h"
                   PACKAGE_VERSION_FILE "${CMAKE_CURRENT_BINARY_DIR}/DolphinVcsConfigVersion.cmake"
