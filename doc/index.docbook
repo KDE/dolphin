@@ -2,7 +2,6 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
   <!ENTITY dolphin "<application>Dolphin</application>">
   <!ENTITY kappname "&dolphin;">
-  <!ENTITY package "kde-baseapps">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -73,8 +72,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2013-06-28</date>
-<releaseinfo>4.11 (&kde; 4.11)</releaseinfo>
+<date>2015-08-02</date>
+<releaseinfo>Applications 15.08</releaseinfo>
 
 <abstract>
 <para>
@@ -2070,8 +2069,9 @@ tracking system. The &kde; bug tracker can be found at
 &dolphin;
 </para>
 <para>
-Program copyright 2006&ndash;2013 Peter Penz <email>peter.penz@gmx.at</email> and 
-Frank Reininghaus <email>frank78ac@googlemail.com</email></para>
+Program copyright 2006&ndash;2014 Peter Penz <email>peter.penz@gmx.at</email>, 
+Frank Reininghaus <email>frank78ac@googlemail.com</email> and Emmanuel Pescosta 
+<email>emmanuelpescosta099@gmail.com</email> </para>
 <para>
 Contributors:
 <itemizedlist>
@@ -2104,8 +2104,8 @@ Documentation copyright 2009 Frank Reininghaus <email>frank78ac@googlemail.com</
 
 <appendix id="installation">
 <title>How to get &dolphin;</title>
-<para>&dolphin; is part of the &package; package which is an essential part of
-&kde;.</para>
+
+&install.intro.documentation;
 
 <para>For instructions on acquiring &kde; please see <ulink
 url="http://www.kde.org">http://www.kde.org</ulink> or read the chapter 
@@ -2113,7 +2113,6 @@ url="http://www.kde.org">http://www.kde.org</ulink> or read the chapter
 in the &kde; Fundamentals.</para>
 
 <para>For further information about &dolphin; you might want to visit
-<ulink url="http://dolphin.kde.org">http://dolphin.kde.org</ulink> or
 <ulink url="http://userbase.kde.org/Dolphin">http://userbase.kde.org/Dolphin</ulink>.</para>
 
 </appendix>
