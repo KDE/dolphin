@@ -143,10 +143,11 @@ target_link_libraries(
     KF5::KIOWidgets
     KF5::KIOFileWidgets
     KF5::Completion
-    KF5::TextEditor
+    KF5::TextWidgets
     KF5::WindowSystem
     KF5::ConfigCore
     KF5::NewStuff
+    KF5::Parts
 )
 
 if(HAVE_BALOO)
