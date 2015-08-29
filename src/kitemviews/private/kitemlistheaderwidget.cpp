@@ -232,6 +232,13 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
         break;
     }
 
+    case ResizeRoleOperation: {
+        const QByteArray pressedRole = m_columns[m_pressedRoleIndex];
+        const qreal currentWidth = m_columnWidths.value(pressedRole);
+        emit columnWidthChangeFinished(pressedRole, currentWidth);
+        break;
+    }
+
     case MoveRoleOperation:
         m_movingRole.pixmap = QPixmap();
         m_movingRole.x = 0;
@@ -337,6 +344,7 @@ void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* even
         qreal currentWidth = columnWidth(role);
 
         emit columnWidthChanged(role, currentWidth, previousWidth);
+        emit columnWidthChangeFinished(role, currentWidth);
     }
 }
 

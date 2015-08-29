@@ -177,8 +177,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
             this, &DolphinView::slotVisibleRolesChangedByHeader);
     connect(m_view, &DolphinItemListView::roleEditingCanceled,
             this, &DolphinView::slotRoleEditingCanceled);
-    connect(m_view->header(), &KItemListHeader::columnWidthChanged,
-            this, &DolphinView::slotHeaderColumnWidthChanged);
+    connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished,
+            this, &DolphinView::slotHeaderColumnWidthChangeFinished);
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
@@ -971,10 +971,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     delete menu;
 }
 
-void DolphinView::slotHeaderColumnWidthChanged(const QByteArray& role, qreal current, qreal previous)
+void DolphinView::slotHeaderColumnWidthChangeFinished(const QByteArray& role, qreal current)
 {
-    Q_UNUSED(previous);
-
     const QList<QByteArray> visibleRoles = m_view->visibleRoles();
 
     ViewProperties props(viewPropertiesUrl());

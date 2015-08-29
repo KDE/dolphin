@@ -76,6 +76,13 @@ signals:
                             qreal previousWidth);
 
     /**
+     * Is emitted if the user has released the mouse button after adjusting the
+     * width of a visible role.
+     */
+    void columnWidthChangeFinished(const QByteArray& role,
+                                   qreal currentWidth);
+
+    /**
      * Is emitted if the position of the column has been changed.
      */
     void columnMoved(const QByteArray& role, int currentIndex, int previousIndex);
