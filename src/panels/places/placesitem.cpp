@@ -144,7 +144,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     if (icon().isEmpty()) {
         switch (type) {
         case RecentlySavedType: setIcon("chronometer"); break;
-        case SearchForType:     setIcon("nepomuk"); break;
+        case SearchForType:     setIcon("system-search"); break;
         case PlacesType:
         default:                setIcon("folder");
         }
