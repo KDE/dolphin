@@ -23,9 +23,9 @@
 #include <dolphin_export.h>
 
 #include <QObject>
-#include <KFileItem>
 #include <QAction>
-
+class KFileItemList;
+class KFileItem;
 /**
  * @brief Base class for version control plugins.
  *

@@ -71,10 +71,10 @@ private:
     bool m_activateItemOnSingleClick;
 };
 
-Q_DECLARE_METATYPE(KFileItemListView::ItemLayout);
-Q_DECLARE_METATYPE(Qt::Orientation);
-Q_DECLARE_METATYPE(KItemListController::SelectionBehavior);
-Q_DECLARE_METATYPE(KItemSet);
+Q_DECLARE_METATYPE(KFileItemListView::ItemLayout)
+Q_DECLARE_METATYPE(Qt::Orientation)
+Q_DECLARE_METATYPE(KItemListController::SelectionBehavior)
+Q_DECLARE_METATYPE(KItemSet)
 
 class KItemListControllerTest : public QObject
 {
@@ -209,7 +209,7 @@ struct ViewState {
 
 // We have to define a typedef for the pair in order to make the test compile.
 typedef QPair<KeyPress, ViewState> keyPressViewStatePair;
-Q_DECLARE_METATYPE(QList<keyPressViewStatePair>);
+Q_DECLARE_METATYPE(QList<keyPressViewStatePair>)
 
 /**
  * This function provides the data for the actual test function

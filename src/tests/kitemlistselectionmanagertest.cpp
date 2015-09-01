@@ -322,12 +322,12 @@ namespace {
     };
 }
 
-Q_DECLARE_METATYPE(KItemSet);
-Q_DECLARE_METATYPE(ChangeType);
-Q_DECLARE_METATYPE(KItemRange);
-Q_DECLARE_METATYPE(KItemRangeList);
-Q_DECLARE_METATYPE(KItemListSelectionManager::SelectionMode);
-Q_DECLARE_METATYPE(QList<int>);
+Q_DECLARE_METATYPE(KItemSet)
+Q_DECLARE_METATYPE(ChangeType)
+Q_DECLARE_METATYPE(KItemRange)
+Q_DECLARE_METATYPE(KItemRangeList)
+Q_DECLARE_METATYPE(KItemListSelectionManager::SelectionMode)
+Q_DECLARE_METATYPE(QList<int>)
 
 /**
  * The following function provides a generic way to test the selection functionality.
