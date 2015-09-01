@@ -29,7 +29,6 @@ generate_export_header(dolphinvcs BASE_NAME dolphin)
 target_link_libraries(
     dolphinvcs PUBLIC
     Qt5::Widgets
-    KF5::KIOCore
 )
 
 set_target_properties(dolphinvcs PROPERTIES
