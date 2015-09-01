@@ -1335,7 +1335,7 @@ void DolphinMainWindow::createControlButton()
     Q_ASSERT(!m_controlButton);
 
     m_controlButton = new QToolButton(this);
-    m_controlButton->setIcon(QIcon::fromTheme("applications-system"));
+    m_controlButton->setIcon(QIcon::fromTheme("application-menu"));
     m_controlButton->setText(i18nc("@action", "Control"));
     m_controlButton->setPopupMode(QToolButton::InstantPopup);
     m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
