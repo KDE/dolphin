@@ -83,5 +83,7 @@ KItemListHeader::KItemListHeader(KItemListView* listView) :
 
     connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
             this, &KItemListHeader::columnWidthChanged);
+    connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished,
+            this, &KItemListHeader::columnWidthChangeFinished);
 }
 
