@@ -108,7 +108,6 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
 
     m_lineEdit->setText(m_newName);
     m_lineEdit->setSelection(0, selectionLength);
-    m_lineEdit->setFocus();
 
     topLayout->addWidget(editLabel);
     topLayout->addWidget(m_lineEdit);
@@ -195,6 +194,13 @@ void RenameDialog::slotTextChanged(const QString& newName)
         }
     }
     m_okButton->setEnabled(enable);
+}
+
+void RenameDialog::showEvent(QShowEvent* event)
+{
+    m_lineEdit->setFocus();
+
+    QDialog::showEvent(event);
 }
 
 void RenameDialog::renameItems()

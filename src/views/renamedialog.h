@@ -45,6 +45,9 @@ private slots:
     void slotAccepted();
     void slotTextChanged(const QString& newName);
 
+protected:
+    void showEvent(QShowEvent* event) override;
+
 private:
     void renameItems();
     void renameItem(const KFileItem &item, const QString& newName);
