@@ -29,6 +29,8 @@
 #include <KJobWidgets>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KPluginLoader>
+#include <KOverlayIconPlugin>
 
 #include "private/kpixmapmodifier.h"
 #include "private/kdirectorycontentscounter.h"
@@ -46,6 +48,7 @@
     #include <Baloo/File>
     #include <Baloo/FileMonitor>
 #endif
+
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
 
@@ -129,6 +132,18 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_directoryContentsCounter = new KDirectoryContentsCounter(m_model, this);
     connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
             this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
+
+    auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, this);
+    foreach (QObject *it, plugins) {
+        auto plugin = qobject_cast<KOverlayIconPlugin*>(it);
+        if (plugin) {
+            m_overlayIconsPlugin.append(plugin);
+            connect(plugin, &KOverlayIconPlugin::overlaysChanged, this, &KFileItemModelRolesUpdater::slotOverlaysChanged);
+        } else {
+            // not our/valid plugin, so delete the created object
+            it->deleteLater();
+        }
+    }
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -1065,7 +1080,11 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
         data.insert("type", item.mimeComment());
     }
 
-    data.insert("iconOverlays", item.overlays());
+    QStringList overlays = item.overlays();
+    foreach(KOverlayIconPlugin *it, m_overlayIconsPlugin) {
+        overlays.append(it->getOverlays(item.url()));
+    }
+    data.insert("iconOverlays", overlays);
 
 #ifdef HAVE_BALOO
     if (m_balooFileMonitor) {
@@ -1074,6 +1093,22 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 #endif
     return data;
+}
+
+void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl& url, const QStringList &)
+{
+    const KFileItem item = m_model->fileItem(url);
+    if (item.isNull()) {
+        return;
+    }
+    const int index = m_model->index(item);
+    QHash<QByteArray, QVariant> data =  m_model->data(index);
+    QStringList overlays = item.overlays();
+    foreach (KOverlayIconPlugin *it, m_overlayIconsPlugin) {
+        overlays.append(it->getOverlays(url));
+    }
+    data.insert("iconOverlays", overlays);
+    m_model->setData(index, data);
 }
 
 void KFileItemModelRolesUpdater::updateAllPreviews()
