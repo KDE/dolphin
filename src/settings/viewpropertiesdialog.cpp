@@ -127,7 +127,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsGridLayout->addWidget(sortingLabel, 1, 0, Qt::AlignRight);
     propsGridLayout->addWidget(sortingBox, 1, 1);
 
-    QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
+    QVBoxLayout* propsBoxLayout = propsBox == this ? layout : new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(propsGrid);
     propsBoxLayout->addWidget(m_sortFoldersFirst);
     propsBoxLayout->addWidget(m_previewsShown);
