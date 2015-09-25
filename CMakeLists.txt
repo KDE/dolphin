@@ -66,7 +66,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     Notifications
 )
-find_package(KF5 ${KF5_MIN_VERSION} COMPONENTS
+find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
 )
 
