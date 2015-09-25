@@ -43,11 +43,6 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
     vBoxLayout->addWidget(m_autoExpandFolders);
 
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-
     topLayout->addWidget(vBox);
 
     loadSettings();
