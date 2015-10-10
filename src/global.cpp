@@ -20,6 +20,8 @@
 #include "global.h"
 #include "dolphindebug.h"
 
+#include "dolphin_generalsettings.h"
+
 QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
 {
     QList<QUrl> urls;
@@ -32,4 +34,9 @@ QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
         }
     }
     return urls;
+}
+
+QUrl Dolphin::homeUrl()
+{
+    return QUrl::fromUserInput(GeneralSettings::homeUrl(), QString(), QUrl::AssumeLocalFile);
 }

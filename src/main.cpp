@@ -113,8 +113,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     if (urls.isEmpty()) {
         // We need at least one URL to open Dolphin
-        const QUrl homeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
-        urls.append(homeUrl);
+        urls.append(Dolphin::homeUrl());
     }
 
     const bool splitView = parser.isSet("split") || GeneralSettings::splitView();

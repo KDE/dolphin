@@ -25,6 +25,11 @@
 
 namespace Dolphin {
     QList<QUrl> validateUris(const QStringList& uriList);
+
+    /**
+     * Returns the home url which is defined in General Settings
+     */
+    QUrl homeUrl();
 }
 
 #endif //GLOBAL_H

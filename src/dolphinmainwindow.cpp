@@ -21,6 +21,7 @@
 
 #include "dolphinmainwindow.h"
 
+#include "global.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
@@ -639,7 +640,7 @@ void DolphinMainWindow::goHome(Qt::MouseButtons buttons)
 {
     // The default case (left button pressed) is handled in goHome().
     if (buttons == Qt::MiddleButton) {
-        openNewTab(GeneralSettings::self()->homeUrl());
+        openNewTab(Dolphin::homeUrl());
     }
 }
 

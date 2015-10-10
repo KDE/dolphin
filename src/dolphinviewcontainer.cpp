@@ -39,6 +39,7 @@
 #ifdef KActivities_FOUND
 #endif
 
+#include "global.h"
 #include "dolphin_generalsettings.h"
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
@@ -77,7 +78,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     const GeneralSettings* settings = GeneralSettings::self();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
-    m_urlNavigator->setHomeUrl(QUrl::fromLocalFile(settings->homeUrl()));
+    m_urlNavigator->setHomeUrl(Dolphin::homeUrl());
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
 
@@ -304,7 +305,7 @@ void DolphinViewContainer::readSettings()
         // settings of the URL navigator and the filterbar.
         m_urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
         m_urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
-        m_urlNavigator->setHomeUrl(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
+        m_urlNavigator->setHomeUrl(Dolphin::homeUrl());
         setFilterBarVisible(GeneralSettings::filterBar());
     }
 
@@ -340,7 +341,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
         // started with a search-URL, the home URL is used as fallback.
         QUrl url = m_searchBox->searchPath();
         if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
-            url = QUrl::fromLocalFile(GeneralSettings::self()->homeUrl());
+            url = Dolphin::homeUrl();
         }
         m_urlNavigator->setLocationUrl(url);
     }
