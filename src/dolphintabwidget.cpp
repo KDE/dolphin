@@ -25,6 +25,7 @@
 
 #include <QApplication>
 #include <KConfigGroup>
+#include <KShell>
 #include <kio/global.h>
 #include <KRun>
 
@@ -255,16 +256,16 @@ void DolphinTabWidget::detachTab(int index)
 {
     Q_ASSERT(index >= 0);
 
-    const QString separator(QLatin1Char(' '));
-    QString command = QLatin1String("dolphin");
+    QStringList args;
 
     const DolphinTabPage* tabPage = tabPageAt(index);
-    command += separator + tabPage->primaryViewContainer()->url().url();
+    args << tabPage->primaryViewContainer()->url().url();
     if (tabPage->splitViewEnabled()) {
-        command += separator + tabPage->secondaryViewContainer()->url().url();
-        command += separator + QLatin1String("-split");
+        args << tabPage->secondaryViewContainer()->url().url();
+        args << QStringLiteral("--split");
     }
 
+    const QString command = QStringLiteral("dolphin %1").arg(KShell::joinArgs(args));
     KRun::runCommand(command, this);
 
     closeTab(index);
