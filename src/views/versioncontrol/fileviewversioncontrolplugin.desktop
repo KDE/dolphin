@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
 Comment[ca]=Connector de control de versions per a les vistes de fitxers
+Comment[ca@valencia]=Connector de control de versions per a les vistes de fitxers
 Comment[cs]=Modul pro správu verzí pro pohledy na soubory
 Comment[de]=Versionskontroll-Modul für Dateiansichten
 Comment[en_GB]=Version Control Plugin for File Views
