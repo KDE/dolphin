@@ -19,6 +19,7 @@
 
 #include "startupsettingspage.h"
 
+#include "global.h"
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
 
@@ -128,7 +129,7 @@ void StartupSettingsPage::applySettings()
 {
     GeneralSettings* settings = GeneralSettings::self();
 
-    const QUrl url(QUrl::fromLocalFile(m_homeUrl->text()));
+    const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
     KFileItem fileItem(url);
     if ((url.isValid() && fileItem.isDir()) || (url.scheme() == QLatin1String("timeline"))) {
         settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
@@ -163,8 +164,8 @@ void StartupSettingsPage::slotSettingsChanged()
 
 void StartupSettingsPage::selectHomeUrl()
 {
-    const QString homeUrl = m_homeUrl->text();
-    QUrl url = QFileDialog::getExistingDirectoryUrl(this, QString(), QUrl::fromLocalFile(homeUrl));
+    const QUrl homeUrl(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
+    QUrl url = QFileDialog::getExistingDirectoryUrl(this, QString(), homeUrl);
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
         slotSettingsChanged();
@@ -183,7 +184,7 @@ void StartupSettingsPage::useDefaultLocation()
 
 void StartupSettingsPage::loadSettings()
 {
-    const QUrl url(QUrl::fromLocalFile(GeneralSettings::homeUrl()));
+    const QUrl url(Dolphin::homeUrl());
     m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
     m_splitView->setChecked(GeneralSettings::splitView());
     m_editableUrl->setChecked(GeneralSettings::editableUrl());
