@@ -136,6 +136,7 @@ target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
     Qt5::Gui
+    KF5::Crash
     KF5::I18n
     KF5::IconThemes
     KF5::KIOCore

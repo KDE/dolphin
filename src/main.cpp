@@ -28,6 +28,7 @@
 
 #include <KDBusService>
 #include <KAboutData>
+#include <KCrash>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
 #include <QApplication>
@@ -39,6 +40,8 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
+
+    KCrash::initialize();
 
     Kdelibs4ConfigMigrator migrate(QStringLiteral("dolphin"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("dolphinrc"));
