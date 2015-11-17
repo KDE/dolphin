@@ -54,6 +54,7 @@ Actions=icons;details;compact;
 
 [Desktop Action icons]
 Name=Icons
+Name[ast]=Iconos
 Name[ca]=Icones
 Name[ca@valencia]=Icones
 Name[cs]=Ikony
