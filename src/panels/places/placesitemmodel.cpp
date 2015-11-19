@@ -1161,7 +1161,6 @@ QUrl PlacesItemModel::createSearchUrl(const QUrl& url)
 QUrl PlacesItemModel::searchUrlForType(const QString& type)
 {
     Baloo::Query query;
-    query.addType("File");
     query.addType(type);
 
     return query.toSearchUrl();
