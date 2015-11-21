@@ -47,6 +47,7 @@ X-KDE-PluginKeyword=dolphinservices
 X-KDE-ParentApp=kcontrol
 X-DocPath=dolphin/index.html#preferences-dialog-services
 Name=Services
+Name[ast]=Servicios
 Name[ca]=Serveis
 Name[ca@valencia]=Serveis
 Name[cs]=Služby
