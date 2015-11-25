@@ -478,7 +478,7 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
     if (!customDir.isEmpty()) {
         setSearchPath(QUrl::fromLocalFile(customDir));
     } else {
-        setSearchPath(QDir::homePath());
+        setSearchPath(QUrl::fromLocalFile(QDir::homePath()));
     }
 
     setText(query.searchString());
