@@ -45,7 +45,6 @@
 
 // default settings
 namespace {
-    const bool UseThumbnails = true;
     const int MaxRemotePreviewSize = 0; // 0 MB
 }
 
