@@ -717,7 +717,13 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
         // the corresponding file has been deleted in the meantime.
         return;
     }
+    applyChangedBalooRolesForItem(item);
+#endif
+}
 
+void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &item)
+{
+#ifdef HAVE_BALOO
     Baloo::File file(item.localPath());
     file.load();
 
@@ -1089,7 +1095,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 #ifdef HAVE_BALOO
     if (m_balooFileMonitor) {
         m_balooFileMonitor->addFile(item.localPath());
-        applyChangedBalooRoles(item.localPath());
+        applyChangedBalooRolesForItem(item);
     }
 #endif
     return data;
