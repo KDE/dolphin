@@ -48,6 +48,8 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
     migrate.migrate();
 
+    KLocalizedString::setApplicationDomain("dolphin");
+
     KAboutData aboutData("dolphin", i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
