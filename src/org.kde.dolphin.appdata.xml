@@ -26,6 +26,7 @@
   <name xml:lang="nb">Dolphin</name>
   <name xml:lang="nds">Dolphin</name>
   <name xml:lang="nl">Dolphin</name>
+  <name xml:lang="nn">Dolphin</name>
   <name xml:lang="pa">ਡਾਲਫਿਨ</name>
   <name xml:lang="pl">Dolphin</name>
   <name xml:lang="pt">Dolphin</name>
@@ -67,6 +68,7 @@
   <summary xml:lang="nb">Filbehandler</summary>
   <summary xml:lang="nds">Dateipleger</summary>
   <summary xml:lang="nl">Bestandsbeheerder</summary>
+  <summary xml:lang="nn">Filhandsamar</summary>
   <summary xml:lang="pa">ਫਾਇਲ ਮੈਨੇਜਰ</summary>
   <summary xml:lang="pl">Zarządzanie plikami</summary>
   <summary xml:lang="pt">Gestor de Ficheiros</summary>
@@ -146,6 +148,7 @@
     <p xml:lang="nb">Egenskaper:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
+    <p xml:lang="nn">Funksjonar:</p>
     <p xml:lang="pa">ਲੱਛਣ:</p>
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
