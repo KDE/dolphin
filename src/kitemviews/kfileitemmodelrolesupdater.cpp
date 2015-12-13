@@ -751,7 +751,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
             this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 #else
 #ifndef Q_CC_MSVC
-    Q_UNUSED(itemUrl);
+    Q_UNUSED(item);
 #endif
 #endif
 }
