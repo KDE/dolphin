@@ -109,6 +109,7 @@
     <p xml:lang="nb">Dolphin er en lettvekts filbehandler. Den er laget for å være enkel og lett å bruke, samtidig som den er fleksibel og kan tilpasses. Det betyr at du kan utføre dine filbehandlingsoppgaver akkurat slik du vil gjøre det.</p>
     <p xml:lang="nds">Dolphin is en slank Dateipleger. Dat wöör buut mit de Idee vun't eenfache Bedenen vör Ogen, bides dat liekers flexibel un topassbor wesen schull. Du kannst Dien Dateien also jüst so plegen, as Du dat wullt.</p>
     <p xml:lang="nl">Dolphin is een lichtgewicht bestandsbeheerder. Het is ontworpen met gebruiksgemak en eenvoud in gedachte en staat toch flexibiliteit en aan te passen toe. Dit betekent dat u uw bestandsbeheer kunt doen precies op de manier zoals u dat wilt.</p>
+    <p xml:lang="nn">Dolphin er ein lettvekts filhandsamar. Han er laga for å vera enkel å bruka, samtidig som han er fleksibel og kan tilpassast, slik at kan gjera filhandsamingsoppgåvene nett slik du ønskjer.</p>
     <p xml:lang="pl">Dolphin jest lekkim programem do zarządzania plikami. Został on opracowany mając na uwadze łatwość i prostotę obsługi, zapewniając jednocześnie elastyczność i możliwość dostosowania. Oznacza to, że można urządzić zarządzanie plikami w dokładnie taki sposób w jaki jest to pożądane.</p>
     <p xml:lang="pt">O Dolphin é um gestor de ficheiros leve. Foi desenhado com a facilidade de uso e simplicidade em mente, permitindo à mesma a flexibilidade e personalização. Isto significa que poderá fazer a sua gestão de ficheiros exactamente da forma que deseja.</p>
     <p xml:lang="pt-BR">Dolphin é um gerenciador de arquivos leve e fácil de usar. Foi projetado para ser simples e ao mesmo tempo manter a flexibilidade e personalização. Isso significa que você poderá gerenciar seus arquivos da forma que desejar.</p>
@@ -188,6 +189,7 @@
       <li xml:lang="nb">Navigasjonslinje (brødsmulelinje) for URL-er slik at du raskt kan navigere gjennom hierarkiet av filer og mapper.</li>
       <li xml:lang="nds">Steed- (oder Krömelspoor-)Balken för URLs, mit de Du Di fix dör de Hierarchie ut Dateien un Ornern bewegen kannst</li>
       <li xml:lang="nl">Navigatie- (of broodkruimel)balk voor URL's, waarmee u snel kunt navigeren door de hiërarchie van bestanden en mappen.</li>
+      <li xml:lang="nn">Navigasjonslinje (brødsmulelinje), slik at du raskt kan navigera gjennom hierarkiet av filer og mapper.</li>
       <li xml:lang="pl">Pasek nawigacji (lub okruchy chleba) dla adresów URL, umożliwiające szybkie przechodzenie w hierarchii plików i katalogów.</li>
       <li xml:lang="pt">Barra de navegação dos URL's, que lhe permite navegar rapidamente pela hierarquia de ficheiros e pastas.</li>
       <li xml:lang="pt-BR">Barra de navegação de URLs, permitindo-lhe navegar rapidamente pela hierarquia de arquivos e pastas.</li>
@@ -224,6 +226,7 @@
       <li xml:lang="nb">Støtter flere forskjellige visningsstiler og kan sette opp visningen akkurat slik du vil ha den.</li>
       <li xml:lang="nds">Ünnerstütt en Reeg verscheden Ansichtstilen un -egenschappen un lett Di de Ansicht jüst so topassen, as Du dat bruukst.</li>
       <li xml:lang="nl">Ondersteunt een aantal verschillende soorten stijlen van weergave en eigenschappen en biedt u de mogelijkheid de weergave in te stellen precies zoals u dat wilt.</li>
+      <li xml:lang="nn">Støttar fleire ulike visingsstilar, og du kan setja opp visinga nett slik du vil ha ho.</li>
       <li xml:lang="pl">Obsługa wielu różnych rodzajów stylów widoków i właściwości oraz możliwość ustawienia widoku dopasowanego do potrzeb.</li>
       <li xml:lang="pt">Suposta diferentes tipos de vistas e propriedades e permite-lhe configurar cada vista exactamente como a deseja.</li>
       <li xml:lang="pt-BR">Suporte a diferentes tipos de visualização, permitindo-lhe configurar cada modo de exibição da forma que desejar.</li>
@@ -260,6 +263,7 @@
       <li xml:lang="nb">Delt visning, så du lett kan kopiere eller flytte filer mellom steder.</li>
       <li xml:lang="nds">Deelt Ansicht, mit De Du Dateien eenfach twischen Steden koperen oder bewegen kannst.</li>
       <li xml:lang="nl">Gesplitst beeld, waarmee u gemakkelijk bestanden kunt kopiëren of verplaatsen tussen locaties.</li>
+      <li xml:lang="nn">Delt vising, så du lett kan kopiera eller flytta filer mellom mapper.</li>
       <li xml:lang="pl">Widok podzielony, umożliwiający łatwe kopiowane lub przenoszenie plików pomiędzy położeniami.</li>
       <li xml:lang="pt">Uma vista dividida, que lhe permite facilmente copiar ou mover os ficheiros entre locais.</li>
       <li xml:lang="pt-BR">Um modo de exibição dividido, permitindo-lhe copiar ou mover arquivos facilmente entre locais.</li>
@@ -296,6 +300,7 @@
       <li xml:lang="nb">Mer informasjon og snarveier er tilgjengelige som dokkbare ruter, som du kan flytte fritt rundt og bruke til å vise akkurat hva du vil.</li>
       <li xml:lang="nds">Bito-Infos un Leestekens laat sik as Paneels andocken, Du kannst ehr verschuven un se jüst dat wiesen laten, wat Du weten wullt.</li>
       <li xml:lang="nl">Extra informatie en sneltoetsen zijn beschikbaar als vast te zetten panelen, die u vrij kunt verplaatsen en precies kunt tonen wat u wilt.</li>
+      <li xml:lang="nn">Tilleggsinformasjon og snarvegar er tilgjengelege som dokkbare ruter, som du kan flytta fritt rundt og bruka til å visa det du ønskjer.</li>
       <li xml:lang="pl">Dodatkowe szczegóły i skróty dostępne jako dokowalne panele, umożliwiające ich dowolne przenoszenie i wyświetlanie dopasowane do potrzeb.</li>
       <li xml:lang="pt">Estão disponíveis informações e atalhos adicionais como painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
       <li xml:lang="pt-BR">As informações e atalhos adicionais estão disponíveis na forma de painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
@@ -334,6 +339,7 @@
       <li xml:lang="nb">Støtte for flere faner</li>
       <li xml:lang="nds">Ünnerstütten för Paneels</li>
       <li xml:lang="nl">Ondersteuning voor meerdere tabbladen</li>
+      <li xml:lang="nn">Støtte for fleire faner</li>
       <li xml:lang="pa">ਬਹੁ ਟੈਬ ਸਹਿਯੋਗ</li>
       <li xml:lang="pl">Obsługa wielu kart</li>
       <li xml:lang="pt">Suporte para várias páginas</li>
@@ -372,6 +378,7 @@
       <li xml:lang="nb">Informasjonsdialoger vises på en lite påtrengende måte.</li>
       <li xml:lang="nds">Informatschoondialogen kaamt Di nich in'n Weg.</li>
       <li xml:lang="nl">Informatiedialogen worden op een prettige manier getoond.</li>
+      <li xml:lang="nn">Informasjonsdialogar vert viste på ein lite påtrengjande måte.</li>
       <li xml:lang="pl">Pokazywanie informacyjnych okien dialogowych w nienatrętny sposób.</li>
       <li xml:lang="pt">As janelas informativas são apresentadas de forma não-intrusiva.</li>
       <li xml:lang="pt-BR">As janelas informativas são apresentadas de forma não-intrusiva.</li>
@@ -408,6 +415,7 @@
       <li xml:lang="nb">Støtte for angring/omgjøring</li>
       <li xml:lang="nds">Ünnerstütten för Torüchnehmen un Wedderherstellen</li>
       <li xml:lang="nl">Ondersteuning ongedaan maken/opnieuw</li>
+      <li xml:lang="nn">Støtte for angring/omgjering</li>
       <li xml:lang="pa">ਵਾਪਿਸ ਕਰੋ/ਪਰਤਾਉਣ ਸਹਿਯੋਗ</li>
       <li xml:lang="pl">Obsługa cofnij/ponów</li>
       <li xml:lang="pt">Suporte para desfazer/refazer</li>
@@ -446,6 +454,7 @@
       <li xml:lang="nb">Gjennomsiktig nettverkstilgang via KIO-systemet.</li>
       <li xml:lang="nds">Direkt Nettwarktogriep över dat KDE-In-/Utgaav-(KIO-)Moduulsysteem</li>
       <li xml:lang="nl">Transparante toegang tot het netwerk via het KIO systeem.</li>
+      <li xml:lang="nn">Direkte nettverkstilgang via KIO-systemet.</li>
       <li xml:lang="pl">Przezroczysty dostęp do sieci przez system KIO.</li>
       <li xml:lang="pt">Acesso transparente à rede através do sistema KIO.</li>
       <li xml:lang="pt-BR">Acesso transparente à rede através do sistema KIO.</li>
