@@ -209,7 +209,8 @@ void DolphinViewActionHandler::createActions()
     connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>("show_hidden_files");
-    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
+    showHiddenFiles->setText(i18nc("@action:inmenu View", "Hidden Files"));
+    showHiddenFiles->setToolTip(i18nc("@info", "Visibility of hidden files and folders"));
     m_actionCollection->setDefaultShortcuts(showHiddenFiles, {Qt::ALT + Qt::Key_Period, Qt::Key_F8});
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 
@@ -377,8 +378,8 @@ void DolphinViewActionHandler::updateViewActions()
     slotSortRoleChanged(m_currentView->sortRole());
     slotZoomLevelChanged(m_currentView->zoomLevel(), -1);
 
-    QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
-    showHiddenFilesAction->setChecked(m_currentView->hiddenFilesShown());
+    // Updates the "show_hidden_files" action state and icon
+    slotHiddenFilesShownChanged(m_currentView->hiddenFilesShown());
 }
 
 void DolphinViewActionHandler::zoomIn()
@@ -479,6 +480,8 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 {
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
     showHiddenFilesAction->setChecked(shown);
+
+    showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? "visibility" : "hint"));
 }
 
 void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
