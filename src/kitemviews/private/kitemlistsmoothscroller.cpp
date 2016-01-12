@@ -19,6 +19,7 @@
 
 #include "kitemlistsmoothscroller.h"
 
+#include <QApplication>
 #include <QEvent>
 #include <QPropertyAnimation>
 #include <QScrollBar>
@@ -200,8 +201,8 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
         numPixels = event->pixelDelta().y();
     } else {
         const int numDegrees = event->angleDelta().y() / 8;
-        const int numSteps = numDegrees / 15;
-        numPixels = numSteps * m_scrollBar->pageStep() / 4;
+        const int numSteps = qApp->wheelScrollLines() * numDegrees / 15;
+        numPixels = numSteps * m_scrollBar->pageStep() / 12;
     }
     int value = m_scrollBar->value();
     if (event->modifiers().testFlag(Qt::ShiftModifier)) {

@@ -194,12 +194,12 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
         }
     } else {
         const int numDegrees = event->angleDelta().y() / 8;
-        const int numSteps = numDegrees / 15;
+        const int numSteps = qApp->wheelScrollLines() * numDegrees / 15;
         if (event->modifiers().testFlag(Qt::ShiftModifier)) {
             const int scrollingDirection = numSteps > 0 ? 1 : -1;
             smoothScroller->scrollTo(scrollBar->value() - scrollBar->pageStep() * scrollingDirection);
         } else {
-            smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
+            smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 12);
         }
     }
 
