@@ -789,8 +789,8 @@ void DolphinMainWindow::updateControlMenu()
     QMenu* menu = qobject_cast<QMenu*>(sender());
     Q_ASSERT(menu);
 
-    // All actions get cleared by QMenu::clear(). The sub-menus are deleted
-    // by connecting to the aboutToHide() signal from the parent-menu.
+    // All actions get cleared by QMenu::clear(). This includes the sub-menus
+    // because 'menu' is their parent.
     menu->clear();
 
     KActionCollection* ac = actionCollection();
@@ -840,7 +840,6 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add "Go" menu
     QMenu* goMenu = new QMenu(i18nc("@action:inmenu", "Go"), menu);
-    connect(menu, &QMenu::aboutToHide, goMenu, &QMenu::deleteLater);
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
@@ -850,7 +849,6 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add "Tool" menu
     QMenu* toolsMenu = new QMenu(i18nc("@action:inmenu", "Tools"), menu);
-    connect(menu, &QMenu::aboutToHide, toolsMenu, &QMenu::deleteLater);
     toolsMenu->addAction(ac->action("show_filter_bar"));
     toolsMenu->addAction(ac->action("compare_files"));
     toolsMenu->addAction(ac->action("open_terminal"));
@@ -864,7 +862,6 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add "Help" menu
     QMenu* helpMenu = new QMenu(i18nc("@action:inmenu", "Help"), menu);
-    connect(menu, &QMenu::aboutToHide, helpMenu, &QMenu::deleteLater);
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
     helpMenu->addSeparator();
