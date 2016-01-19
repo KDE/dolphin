@@ -23,7 +23,7 @@ include(GenerateExportHeader)
 include(FeatureSummary)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
-include(KDEFrameworkCompilerSettings)
+include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
 
 ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHIN
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
