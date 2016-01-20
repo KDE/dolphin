@@ -1,5 +1,6 @@
 [Desktop Entry]
 Name=Dolphin
+Name[ar]=دولفين
 Name[ast]=Dolphin
 Name[ca]=Dolphin
 Name[ca@valencia]=Dolphin
@@ -45,6 +46,7 @@ Type=Application
 X-DocPath=dolphin/index.html
 Categories=Qt;KDE;System;FileTools;FileManager;
 GenericName=File Manager
+GenericName[ar]=مدير ملفّات
 GenericName[ast]=Xestor de ficheros
 GenericName[ca]=Gestor de fitxers
 GenericName[ca@valencia]=Gestor de fitxers

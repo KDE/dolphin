@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Dolphin View
+Name[ar]=منظور دولفين
 Name[ast]=Vista de Dolphin
 Name[ca]=Vista del Dolphin
 Name[ca@valencia]=Vista del Dolphin
@@ -55,6 +56,7 @@ Actions=icons;details;compact;
 
 [Desktop Action icons]
 Name=Icons
+Name[ar]=الأيقونات
 Name[ast]=Iconos
 Name[ca]=Icones
 Name[ca@valencia]=Icones
@@ -101,6 +103,7 @@ Exec=dolphin
 
 [Desktop Action compact]
 Name=Compact
+Name[ar]=متراصّ
 Name[ca]=Compacta
 Name[ca@valencia]=Compacta
 Name[cs]=Kompaktní
@@ -143,6 +146,7 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[ar]=التّفاصيل
 Name[ast]=Detalles
 Name[ca]=Detalls
 Name[ca@valencia]=Detalls
