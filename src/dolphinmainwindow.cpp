@@ -347,7 +347,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     // Find out if Dolphin is closed directly by the user or
     // by the session manager because the session is closed
     bool closedByUser = true;
-    if (qApp->isSessionRestored()) {
+    if (qApp->isSavingSession()) {
         closedByUser = false;
     }
 
