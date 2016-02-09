@@ -285,7 +285,7 @@ private:
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
         WordCountRole, LineCountRole, ArtistRole, AlbumRole, DurationRole, TrackRole,
-        CopiedFromRole,
+        OriginUrlRole,
         // Non-visible roles:
         IsDirRole, IsLinkRole, IsExpandedRole, IsExpandableRole, ExpandedParentsCountRole,
         // Mandatory last entry:

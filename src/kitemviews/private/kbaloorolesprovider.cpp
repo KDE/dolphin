@@ -109,6 +109,9 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
     if (roles.contains("comment")) {
         values.insert("comment", md.userComment());
     }
+    if (roles.contains("originUrl")) {
+        values.insert("originUrl", md.originUrl());
+    }
 
     return values;
 }
@@ -143,8 +146,8 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "artist",     "artist" },
         { "album",    "album" },
         { "duration",      "duration" },
-        { "trackNumber",   "track" }
-        // { "http://www.semanticdesktop.org/ontologies/2010/04/30/ndo#copiedFrom",    "copiedFrom" }
+        { "trackNumber",   "track" },
+        { "originUrl", "originUrl" }
     };
 
     for (unsigned int i = 0; i < sizeof(propertyInfoList) / sizeof(PropertyInfo); ++i) {
