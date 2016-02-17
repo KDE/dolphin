@@ -66,7 +66,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
     Notifications
     Crash
-    FileMetaData
 )
 find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
@@ -87,7 +86,7 @@ set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        TYPE OPTIONAL
                       )
 
-find_package(KF5FileMetaData 4.97)
+find_package(KF5FileMetaData 5.19.0)
 set_package_properties(KF5FileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
