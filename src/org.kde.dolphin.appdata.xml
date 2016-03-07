@@ -236,6 +236,7 @@
       <li xml:lang="pl">Obsługa wielu różnych rodzajów stylów widoków i właściwości oraz możliwość ustawienia widoku dopasowanego do potrzeb.</li>
       <li xml:lang="pt">Suposta diferentes tipos de vistas e propriedades e permite-lhe configurar cada vista exactamente como a deseja.</li>
       <li xml:lang="pt-BR">Suporte a diferentes tipos de visualização, permitindo-lhe configurar cada modo de exibição da forma que desejar.</li>
+      <li xml:lang="ru">Несколько различных визуальных представлений папок, каждое из которых можно настроить по своему вкусу;</li>
       <li xml:lang="sk">Podporuje niekoľko rôznych typov štýlov zobrazenia a vlastností a umožňuje vám nastaviť pohľad presne tak, ako chcete.</li>
       <li xml:lang="sl">Podpira številne vrste slogov in lastnosti pogledov ter omogoča, da pogled nastavite točno tako kot vam ustreza.</li>
       <li xml:lang="sr">Неколико начина приказа, са својствима које можете подесити по жељи.</li>
@@ -274,6 +275,7 @@
       <li xml:lang="pl">Widok podzielony, umożliwiający łatwe kopiowane lub przenoszenie plików pomiędzy położeniami.</li>
       <li xml:lang="pt">Uma vista dividida, que lhe permite facilmente copiar ou mover os ficheiros entre locais.</li>
       <li xml:lang="pt-BR">Um modo de exibição dividido, permitindo-lhe copiar ou mover arquivos facilmente entre locais.</li>
+      <li xml:lang="ru">Двухпанельный режим, в котором удобно копировать и перемещать файлы между разными папками;</li>
       <li xml:lang="sk">Rozdelený pohľad, umožňuje vám jednoducho kopírovať alebo presúvať súbory medzi umiestneniami.</li>
       <li xml:lang="sl">Razdeljeni pogled vam omogoča enostavno kopiranje ali premikanje datotek med mesti.</li>
       <li xml:lang="sr">Подељени приказ, за лако копирање и премештање фајлова између локација.</li>
@@ -432,6 +434,7 @@
       <li xml:lang="pt">Suporte para desfazer/refazer</li>
       <li xml:lang="pt-BR">Suporte para desfazer/refazer</li>
       <li xml:lang="ro">Suport pentru desfacere/refacere</li>
+      <li xml:lang="ru">Отмена и возврат действий.</li>
       <li xml:lang="sk">Podpora Späť/Znova</li>
       <li xml:lang="sl">Podpora razveljavitvam/uveljavitvam</li>
       <li xml:lang="sr">Опозивање и понављање.</li>
@@ -471,6 +474,7 @@
       <li xml:lang="pt">Acesso transparente à rede através do sistema KIO.</li>
       <li xml:lang="pt-BR">Acesso transparente à rede através do sistema KIO.</li>
       <li xml:lang="ro">Acces transparent la rețea prin sistemul KIO.</li>
+      <li xml:lang="ru">Прозрачный доступ к сетевым файловым системам при помощи KIO;</li>
       <li xml:lang="sk">Transparentný prístup na sieť cez KIO systém.</li>
       <li xml:lang="sl">Enostaven dostop do omrežja preko sistema KIO.</li>
       <li xml:lang="sr">Прозиран мрежни приступ кроз систем К‑У/И.</li>
