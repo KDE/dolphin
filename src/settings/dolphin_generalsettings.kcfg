@@ -8,7 +8,7 @@
     <include>QUrl</include>
     <include>KCompletion</include>
     <kcfgfile name="dolphinrc"/>
-    <signal name="naturalSortingChanged" />
+    <signal name="sortingChoiceChanged" />
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
@@ -93,10 +93,15 @@
             <label>Enlarge Small Previews</label>
             <default>true</default>
         </entry>
-        <entry name="NaturalSorting" type="Bool">
-            <label>Natural sorting of items</label>
-            <default>true</default>
-            <emit signal="naturalSortingChanged" />
+        <entry name="SortingChoice" type="Enum">
+            <choices>
+                <choice name="NaturalSorting" />
+                <choice name="CaseInsensitiveSorting" />
+                <choice name="CaseSensitiveSorting" />
+            </choices>
+            <label>Choose Natural, Case Sensitive, or Case Insensitive order of sorting the items</label>
+            <default>0</default>
+            <emit signal="sortingChoiceChanged" />
         </entry>
     </group>
 </kcfg>

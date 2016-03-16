@@ -41,7 +41,6 @@
 KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(0),
-    m_naturalSorting(GeneralSettings::naturalSorting()),
     m_sortDirsFirst(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
@@ -58,8 +57,9 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_expandedDirs(),
     m_urlsToExpand()
 {
-    m_collator.setCaseSensitivity(Qt::CaseInsensitive);
     m_collator.setNumericMode(true);
+
+    loadSortingSettings();
 
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setDelayedMimeTypes(true);
@@ -106,8 +106,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_resortAllItemsTimer->setSingleShot(true);
     connect(m_resortAllItemsTimer, &QTimer::timeout, this, &KFileItemModel::resortAllItems);
 
-    connect(GeneralSettings::self(), &GeneralSettings::naturalSortingChanged,
-            this, &KFileItemModel::slotNaturalSortingChanged);
+    connect(GeneralSettings::self(), &GeneralSettings::sortingChoiceChanged, this, &KFileItemModel::slotSortingChoiceChanged);
 }
 
 KFileItemModel::~KFileItemModel()
@@ -783,6 +782,27 @@ void KFileItemModel::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pre
     resortAllItems();
 }
 
+void KFileItemModel::loadSortingSettings()
+{
+    using Choice = GeneralSettings::EnumSortingChoice;
+    switch (GeneralSettings::sortingChoice()) {
+    case Choice::NaturalSorting:
+        m_naturalSorting = true;
+        m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+        break;
+    case Choice::CaseSensitiveSorting:
+        m_naturalSorting = false;
+        m_collator.setCaseSensitivity(Qt::CaseSensitive);
+        break;
+    case Choice::CaseInsensitiveSorting:
+        m_naturalSorting = false;
+        m_collator.setCaseSensitivity(Qt::CaseInsensitive);
+        break;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
 void KFileItemModel::resortAllItems()
 {
     m_resortAllItemsTimer->stop();
@@ -1103,9 +1123,9 @@ void KFileItemModel::slotClear()
     m_expandedDirs.clear();
 }
 
-void KFileItemModel::slotNaturalSortingChanged()
+void KFileItemModel::slotSortingChoiceChanged()
 {
-    m_naturalSorting = GeneralSettings::naturalSorting();
+    loadSortingSettings();
     resortAllItems();
 }
 

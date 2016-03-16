@@ -22,6 +22,7 @@
 
 #include <settings/settingspagebase.h>
 #include <QUrl>
+#include "dolphin_generalsettings.h"
 
 class QCheckBox;
 class QLabel;
@@ -46,6 +47,8 @@ public:
 
 private:
     void loadSettings();
+    void setSortingChoiceValue(GeneralSettings* settings);
+    void loadSortingChoiceSettings();
 
 private:
     QUrl m_url;
@@ -56,7 +59,11 @@ private:
     QCheckBox* m_showToolTips;
     QLabel* m_configureToolTips;
     QCheckBox* m_showSelectionToggle;
-    QCheckBox* m_naturalSorting;
+
+    QRadioButton* m_naturalSorting;
+    QRadioButton* m_caseSensitiveSorting;
+    QRadioButton* m_caseInsensitiveSorting;
+
     QCheckBox* m_renameInline;
 };
 

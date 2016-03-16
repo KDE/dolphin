@@ -39,6 +39,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     m_showToolTips(0),
     m_showSelectionToggle(0),
     m_naturalSorting(0),
+    m_caseSensitiveSorting(0),
+    m_caseInsensitiveSorting(0),
     m_renameInline(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -54,22 +56,32 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     viewPropsLayout->addWidget(m_localViewProps);
     viewPropsLayout->addWidget(m_globalViewProps);
 
+    // Sorting properties
+    QGroupBox* sortingPropsBox = new QGroupBox(i18nc("@title:group", "Sorting Mode"), this);
+    sortingPropsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+
+    m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural sorting"), sortingPropsBox);
+    m_caseInsensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical sorting, case insensitive"), sortingPropsBox);
+    m_caseSensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical sorting, case sensitive"), sortingPropsBox);
+
+    QVBoxLayout* sortingPropsLayout = new QVBoxLayout(sortingPropsBox);
+    sortingPropsLayout->addWidget(m_naturalSorting);
+    sortingPropsLayout->addWidget(m_caseInsensitiveSorting);
+    sortingPropsLayout->addWidget(m_caseSensitiveSorting);
+
     // 'Show tooltips'
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
 
     // 'Show selection marker'
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
 
-    // 'Natural sorting of items'
-    m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
-
     // 'Inline renaming of items'
     m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"), this);
 
     topLayout->addWidget(viewPropsBox);
+    topLayout->addWidget(sortingPropsBox);
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
-    topLayout->addWidget(m_naturalSorting);
     topLayout->addWidget(m_renameInline);
     topLayout->addStretch();
 
@@ -79,7 +91,9 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_globalViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_showToolTips, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_showSelectionToggle, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
-    connect(m_naturalSorting, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_naturalSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_caseInsensitiveSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_renameInline, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 }
 
@@ -94,10 +108,9 @@ void BehaviorSettingsPage::applySettings()
 
     const bool useGlobalViewProps = m_globalViewProps->isChecked();
     settings->setGlobalViewProps(useGlobalViewProps);
-
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
-    settings->setNaturalSorting(m_naturalSorting->isChecked());
+    setSortingChoiceValue(settings);
     settings->setRenameInline(m_renameInline->isChecked());
     settings->save();
 
@@ -127,7 +140,37 @@ void BehaviorSettingsPage::loadSettings()
 
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
-    m_naturalSorting->setChecked(GeneralSettings::naturalSorting());
     m_renameInline->setChecked(GeneralSettings::renameInline());
+
+    loadSortingChoiceSettings();
 }
 
+void BehaviorSettingsPage::setSortingChoiceValue(GeneralSettings *settings)
+{
+    using Choice = GeneralSettings::EnumSortingChoice;
+    if (m_naturalSorting->isChecked()) {
+        settings->setSortingChoice(Choice::NaturalSorting);
+    } else if (m_caseInsensitiveSorting->isChecked()) {
+        settings->setSortingChoice(Choice::CaseInsensitiveSorting);
+    } else if (m_caseSensitiveSorting->isChecked()) {
+        settings->setSortingChoice(Choice::CaseSensitiveSorting);
+    }
+}
+
+void BehaviorSettingsPage::loadSortingChoiceSettings()
+{
+    using Choice = GeneralSettings::EnumSortingChoice;
+    switch (GeneralSettings::sortingChoice()) {
+    case Choice::NaturalSorting:
+        m_naturalSorting->setChecked(true);
+        break;
+    case Choice::CaseInsensitiveSorting:
+        m_caseInsensitiveSorting->setChecked(true);
+        break;
+    case Choice::CaseSensitiveSorting:
+        m_caseSensitiveSorting->setChecked(true);
+        break;
+    default:
+        Q_UNREACHABLE();
+    }
+}
