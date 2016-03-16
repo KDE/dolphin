@@ -59,12 +59,12 @@ ViewProperties::ViewProperties(const QUrl& url) :
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
     if (useGlobalViewProps) {
-        m_filePath = destinationDir("global");
-    } else if (url.scheme().contains("search")) {
-        m_filePath = destinationDir("search/") + directoryHashForUrl(url);
+        m_filePath = destinationDir(QStringLiteral("global"));
+    } else if (url.scheme().contains(QStringLiteral("search"))) {
+        m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
         useDetailsViewWithPath = true;
     } else if (url.scheme() == QLatin1String("trash")) {
-        m_filePath = destinationDir("trash");
+        m_filePath = destinationDir(QStringLiteral("trash"));
         useDetailsViewWithPath = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
@@ -79,10 +79,10 @@ ViewProperties::ViewProperties(const QUrl& url) :
 			// m_filePath probably begins with C:/ - the colon is not a valid character for paths though
 			m_filePath =  QDir::separator() + m_filePath.remove(QLatin1Char(':'));
 #endif
-            m_filePath = destinationDir("local") + m_filePath;
+            m_filePath = destinationDir(QStringLiteral("local")) + m_filePath;
         }
     } else {
-        m_filePath = destinationDir("remote") + m_filePath;
+        m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
     }
 
     const QString file = m_filePath + QDir::separator() + ViewPropertiesFileName;
@@ -249,6 +249,7 @@ void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
     }
 
     // Add the updated values for the current view-mode
+    newVisibleRoles.reserve(roles.count());
     foreach (const QByteArray& role, roles) {
         newVisibleRoles.append(prefix + role);
     }
@@ -385,9 +386,9 @@ QString ViewProperties::viewModePrefix() const
     QString prefix;
 
     switch (m_node->viewMode()) {
-    case DolphinView::IconsView:   prefix = "Icons_"; break;
-    case DolphinView::CompactView: prefix = "Compact_"; break;
-    case DolphinView::DetailsView: prefix = "Details_"; break;
+    case DolphinView::IconsView:   prefix = QStringLiteral("Icons_"); break;
+    case DolphinView::CompactView: prefix = QStringLiteral("Compact_"); break;
+    case DolphinView::DetailsView: prefix = QStringLiteral("Details_"); break;
     default: qCWarning(DolphinDebug) << "Unknown view-mode of the view properties";
     }
 
@@ -411,7 +412,7 @@ void ViewProperties::convertAdditionalInfo()
             if (index >= 0 && index + 1 < visibleRole.length()) {
                 ++index;
                 if (visibleRole[index] == QLatin1Char('L')) {
-                    visibleRole.replace("LinkDestination", "destination");
+                    visibleRole.replace(QLatin1String("LinkDestination"), QLatin1String("destination"));
                 } else {
                     visibleRole[index] = visibleRole[index].toLower();
                 }
@@ -438,7 +439,7 @@ void ViewProperties::convertNameRoleToTextRole()
 
     QString sortRole = m_node->sortRole();
     if (sortRole == QLatin1String("name")) {
-        sortRole = QLatin1String("text");
+        sortRole = QStringLiteral("text");
     }
 
     m_node->setVisibleRoles(visibleRoles);

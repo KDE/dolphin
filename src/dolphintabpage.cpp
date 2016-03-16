@@ -40,10 +40,10 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
 
     // Create a new primary view
     m_primaryViewContainer = createViewContainer(primaryUrl);
-    connect(m_primaryViewContainer->view(), SIGNAL(urlChanged(QUrl)),
-            this, SIGNAL(activeViewUrlChanged(QUrl)));
-    connect(m_primaryViewContainer->view(), SIGNAL(redirection(QUrl,QUrl)),
-            this, SLOT(slotViewUrlRedirection(QUrl,QUrl)));
+    connect(m_primaryViewContainer->view(), &DolphinView::urlChanged,
+            this, &DolphinTabPage::activeViewUrlChanged);
+    connect(m_primaryViewContainer->view(), &DolphinView::redirection,
+            this, &DolphinTabPage::slotViewUrlRedirection);
 
     m_splitter->addWidget(m_primaryViewContainer);
     m_primaryViewContainer->show();
@@ -302,14 +302,14 @@ void DolphinTabPage::slotViewActivated()
     const DolphinView* newActiveView = activeViewContainer()->view();
 
     if (newActiveView != oldActiveView) {
-        disconnect(oldActiveView, SIGNAL(urlChanged(QUrl)),
-                   this, SIGNAL(activeViewUrlChanged(QUrl)));
-        disconnect(oldActiveView, SIGNAL(redirection(QUrl,QUrl)),
-                   this, SLOT(slotViewUrlRedirection(QUrl,QUrl)));
-        connect(newActiveView, SIGNAL(urlChanged(QUrl)),
-                this, SIGNAL(activeViewUrlChanged(QUrl)));
-        connect(newActiveView, SIGNAL(redirection(QUrl,QUrl)),
-                this, SLOT(slotViewUrlRedirection(QUrl,QUrl)));
+        disconnect(oldActiveView, &DolphinView::urlChanged,
+                   this, &DolphinTabPage::activeViewUrlChanged);
+        disconnect(oldActiveView, &DolphinView::redirection,
+                   this, &DolphinTabPage::slotViewUrlRedirection);
+        connect(newActiveView, &DolphinView::urlChanged,
+                this, &DolphinTabPage::activeViewUrlChanged);
+        connect(newActiveView, &DolphinView::redirection,
+                this, &DolphinTabPage::slotViewUrlRedirection);
     }
 
     emit activeViewUrlChanged(activeViewContainer()->url());
@@ -329,8 +329,8 @@ DolphinViewContainer* DolphinTabPage::createViewContainer(const QUrl& url) const
     container->setActive(false);
 
     const DolphinView* view = container->view();
-    connect(view, SIGNAL(activated()),
-            this, SLOT(slotViewActivated()));
+    connect(view, &DolphinView::activated,
+            this, &DolphinTabPage::slotViewActivated);
 
     return container;
 }

@@ -60,42 +60,42 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(url, this);
     KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
                                                     i18nc("@title:group", "Startup"));
-    startupSettingsFrame->setIcon(QIcon::fromTheme("go-home"));
+    startupSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("go-home")));
     connect(startupSettingsPage, &StartupSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // View Modes
     ViewSettingsPage* viewSettingsPage = new ViewSettingsPage(this);
     KPageWidgetItem* viewSettingsFrame = addPage(viewSettingsPage,
                                                  i18nc("@title:group", "View Modes"));
-    viewSettingsFrame->setIcon(QIcon::fromTheme("view-choose"));
+    viewSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("view-choose")));
     connect(viewSettingsPage, &ViewSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Navigation
     NavigationSettingsPage* navigationSettingsPage = new NavigationSettingsPage(this);
     KPageWidgetItem* navigationSettingsFrame = addPage(navigationSettingsPage,
                                                        i18nc("@title:group", "Navigation"));
-    navigationSettingsFrame->setIcon(QIcon::fromTheme("edit-select"));
+    navigationSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("edit-select")));
     connect(navigationSettingsPage, &NavigationSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Services
     ServicesSettingsPage* servicesSettingsPage = new ServicesSettingsPage(this);
     KPageWidgetItem* servicesSettingsFrame = addPage(servicesSettingsPage,
                                                        i18nc("@title:group", "Services"));
-    servicesSettingsFrame->setIcon(QIcon::fromTheme("flag"));
+    servicesSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("flag")));
     connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
     TrashSettingsPage* trashSettingsPage = new TrashSettingsPage(this);
     KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
                                                    i18nc("@title:group", "Trash"));
-    trashSettingsFrame->setIcon(QIcon::fromTheme("trash-empty"));
+    trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
     connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // General
     GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
     KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
                                                     i18nc("@title:group General settings", "General"));
-    generalSettingsFrame->setIcon(QIcon::fromTheme("view-preview"));
+    generalSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
     connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     m_pages.append(startupSettingsPage);
@@ -105,13 +105,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     m_pages.append(trashSettingsPage);
     m_pages.append(generalSettingsPage);
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 

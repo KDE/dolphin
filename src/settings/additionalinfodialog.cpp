@@ -88,13 +88,13 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     okButton->setDefault(true);
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "AdditionalInfoDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 AdditionalInfoDialog::~AdditionalInfoDialog()
 {
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "AdditionalInfoDialog");
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 

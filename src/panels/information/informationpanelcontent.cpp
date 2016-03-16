@@ -169,14 +169,14 @@ void InformationPanelContent::showItem(const KFileItem& item)
     }
 
     const QUrl itemUrl = item.url();
-    const bool isSearchUrl = itemUrl.scheme().contains("search") && item.localPath().isEmpty();
+    const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && item.localPath().isEmpty();
     if (!applyPlace(itemUrl)) {
         setNameLabelText(item.text());
         if (isSearchUrl) {
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
             KIconLoader iconLoader;
-            QPixmap icon = iconLoader.loadIcon("nepomuk",
+            QPixmap icon = iconLoader.loadIcon(QStringLiteral("nepomuk"),
                                                KIconLoader::NoGroup,
                                                KIconLoader::SizeEnormous);
             m_preview->setPixmap(icon);
@@ -213,7 +213,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
 
     if (InformationPanelSettings::previewsShown()) {
         const QString mimeType = item.mimetype();
-        const bool usePhonon = mimeType.startsWith("audio/") || mimeType.startsWith("video/");
+        const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || mimeType.startsWith(QLatin1String("video/"));
         if (usePhonon) {
             m_phononWidget->show();
             m_phononWidget->setUrl(item.targetUrl());
@@ -240,7 +240,7 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     }
 
     KIconLoader iconLoader;
-    QPixmap icon = iconLoader.loadIcon("dialog-information",
+    QPixmap icon = iconLoader.loadIcon(QStringLiteral("dialog-information"),
                                        KIconLoader::NoGroup,
                                        KIconLoader::SizeEnormous);
     m_preview->setPixmap(icon);
@@ -290,12 +290,12 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     QMenu popup(this);
 
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
-    previewAction->setIcon(QIcon::fromTheme("view-preview"));
+    previewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::previewsShown());
 
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
-    configureAction->setIcon(QIcon::fromTheme("configure"));
+    configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
     popup.addSeparator();
     foreach (QAction* action, customContextMenuActions) {
@@ -403,7 +403,7 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
         line.setLineWidth(m_nameLabel->width());
-        wrappedText += processedText.mid(line.textStart(), line.textLength());
+        wrappedText += processedText.midRef(line.textStart(), line.textLength());
 
         line = textLayout.createLine();
         if (line.isValid()) {

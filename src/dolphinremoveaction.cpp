@@ -46,10 +46,10 @@ void DolphinRemoveAction::update()
     // This is only done until the original action has been shown at least once. To
     // bypass this issue, the text and &-shortcut is applied manually.
     if (qApp->keyboardModifiers() & Qt::ShiftModifier) {
-        m_action = m_collection ? m_collection->action("delete") : 0;
+        m_action = m_collection ? m_collection->action(QStringLiteral("delete")) : 0;
         setText(i18nc("@action:inmenu", "&Delete"));
     } else {
-        m_action = m_collection ? m_collection->action("move_to_trash") : 0;
+        m_action = m_collection ? m_collection->action(QStringLiteral("move_to_trash")) : 0;
         setText(i18nc("@action:inmenu", "&Move to Trash"));
     }
 

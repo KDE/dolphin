@@ -110,7 +110,7 @@ void ServiceItemDelegate::updateItemWidgets(const QList<QWidget*> widgets,
     // Update the configuration button
     if (configurable) {
         configureButton->setEnabled(checkBox->isChecked());
-        configureButton->setIcon(QIcon::fromTheme("configure"));
+        configureButton->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
         configureButton->resize(configureButton->sizeHint());
         configureButton->move(option.rect.right() - configureButton->width(),
                               (itemHeight - configureButton->height()) / 2);

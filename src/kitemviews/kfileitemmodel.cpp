@@ -112,7 +112,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
 KFileItemModel::~KFileItemModel()
 {
     qDeleteAll(m_itemData);
-    qDeleteAll(m_filteredItems.values());
+    qDeleteAll(m_filteredItems);
     qDeleteAll(m_pendingItemsToInsert);
 }
 
@@ -249,7 +249,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     bool canUseMostLocalUrls = true;
     const ItemData* lastAddedItem = 0;
 
-    foreach (int index, indexes) {
+    for (int index : indexes) {
         const ItemData* itemData = m_itemData.at(index);
         const ItemData* parent = itemData->parent;
 
@@ -1102,7 +1102,7 @@ void KFileItemModel::slotClear()
     qCDebug(DolphinDebug) << "Clearing all items";
 #endif
 
-    qDeleteAll(m_filteredItems.values());
+    qDeleteAll(m_filteredItems);
     m_filteredItems.clear();
     m_groups.clear();
 
@@ -1550,7 +1550,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     if (m_requestRole[DestinationRole]) {
         QString destination = item.linkDest();
         if (destination.isEmpty()) {
-            destination = QLatin1String("-");
+            destination = QStringLiteral("-");
         }
         data.insert(sharedValue("destination"), destination);
     }
@@ -1673,6 +1673,16 @@ public:
         m_collator.setIgnorePunctuation(other.m_collator.ignorePunctuation());
         m_collator.setLocale(other.m_collator.locale());
         m_collator.setNumericMode(other.m_collator.numericMode());
+    }
+
+    ~KFileItemModelLessThan() = default;
+    //We do not delete m_model as the pointer was passed from outside ant it will be deleted elsewhere.
+
+    KFileItemModelLessThan& operator=(const KFileItemModelLessThan& other)
+    {
+        m_model = other.m_model;
+        m_collator = other.m_collator;
+        return *this;
     }
 
     bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b) const
@@ -1852,13 +1862,14 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
             if (newFirstChar.isLetter()) {
                 // Try to find a matching group in the range 'A' to 'Z'.
                 static std::vector<QChar> lettersAtoZ;
+                lettersAtoZ.reserve('Z' - 'A' + 1);
                 if (lettersAtoZ.empty()) {
                     for (char c = 'A'; c <= 'Z'; ++c) {
                         lettersAtoZ.push_back(QLatin1Char(c));
                     }
                 }
 
-                auto localeAwareLessThan = [this](const QChar& c1, const QChar& c2) -> bool {
+                auto localeAwareLessThan = [this](QChar c1, QChar c2) -> bool {
                     return m_collator.compare(c1, c2) < 0;
                 };
 

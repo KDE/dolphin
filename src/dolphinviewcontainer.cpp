@@ -576,16 +576,16 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.
-            QTimer::singleShot(0, this, SLOT(requestFocus()));
+            QTimer::singleShot(0, this, &DolphinViewContainer::requestFocus);
         }
     } else if (KProtocolManager::isSourceProtocol(url)) {
-        QString app = "konqueror";
+        QString app = QStringLiteral("konqueror");
         if (url.scheme().startsWith(QLatin1String("http"))) {
             showMessage(i18nc("@info:status", // krazy:exclude=qmethods
                               "Dolphin does not support web pages, the web browser has been launched"),
                         Information);
 
-            const KConfigGroup config(KSharedConfig::openConfig("kdeglobals"), "General");
+            const KConfigGroup config(KSharedConfig::openConfig(QStringLiteral("kdeglobals")), "General");
             const QString browser = config.readEntry("BrowserApplication");
             if (!browser.isEmpty()) {
                 app = browser;
@@ -654,7 +654,7 @@ void DolphinViewContainer::startSearching()
 {
     const QUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
-        m_view->setViewPropertiesContext("search");
+        m_view->setViewPropertiesContext(QStringLiteral("search"));
         m_urlNavigator->setLocationUrl(url);
     }
 }
@@ -682,7 +682,7 @@ void DolphinViewContainer::showErrorMessage(const QString& msg)
 
 bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
 {
-    return url.scheme().contains("search");
+    return url.scheme().contains(QStringLiteral("search"));
 }
 
 void DolphinViewContainer::saveViewState()

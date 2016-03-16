@@ -100,9 +100,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
-                                                         << "directorythumbnail"
-                                                         << "imagethumbnail"
-                                                         << "jpegthumbnail");
+                                                         << QStringLiteral("directorythumbnail")
+                                                         << QStringLiteral("imagethumbnail")
+                                                         << QStringLiteral("jpegthumbnail"));
 
     connect(m_model, &KFileItemModel::itemsInserted,
             this,    &KFileItemModelRolesUpdater::slotItemsInserted);
@@ -635,7 +635,7 @@ void KFileItemModelRolesUpdater::resolveNextSortRole()
 
     if (!m_pendingSortRoleItems.isEmpty()) {
         applySortProgressToModel();
-        QTimer::singleShot(0, this, SLOT(resolveNextSortRole()));
+        QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextSortRole);
     } else {
         m_state = Idle;
 
@@ -670,7 +670,7 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
     }
 
     if (!m_pendingIndexes.isEmpty()) {
-        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
+        QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextPendingRoles);
     } else {
         m_state = Idle;
 
@@ -829,7 +829,7 @@ void KFileItemModelRolesUpdater::startUpdating()
         m_pendingIndexes = indexes;
         // Trigger the asynchronous resolving of all roles.
         m_state = ResolvingAllRoles;
-        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
+        QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextPendingRoles);
     }
 }
 
@@ -864,7 +864,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_state = PreviewJobRunning;
 
     if (m_pendingPreviewItems.isEmpty()) {
-        QTimer::singleShot(0, this, SLOT(slotPreviewJobFinished()));
+        QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::slotPreviewJobFinished);
         return;
     }
 
@@ -941,7 +941,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
             // asynchronous determination of the sort role.
             killPreviewJob();
             m_state = ResolvingSortRole;
-            QTimer::singleShot(0, this, SLOT(resolveNextSortRole()));
+            QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextSortRole);
         }
 
         return;
@@ -985,7 +985,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
         if (!resolvingInProgress) {
             // Trigger the asynchronous resolving of the changed roles.
             m_state = ResolvingAllRoles;
-            QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
+            QTimer::singleShot(0, this, &KFileItemModelRolesUpdater::resolveNextPendingRoles);
         }
     }
 }

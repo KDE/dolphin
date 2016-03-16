@@ -142,7 +142,7 @@ public:
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
-    virtual bool contains(const QPointF& point) const;
+    virtual bool contains(const QPointF& point) const override;
 
     /**
      * @return Rectangle for the area that shows the icon.

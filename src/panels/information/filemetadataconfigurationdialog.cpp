@@ -46,8 +46,8 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotAccepted()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &FileMetaDataConfigurationDialog::slotAccepted);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &FileMetaDataConfigurationDialog::reject);
     buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);
 
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
@@ -68,16 +68,16 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
     topLayout->addWidget(m_configWidget);
     mainLayout->addWidget(mainWidget);
     mainLayout->addWidget(buttonBox);
-    
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")),
                                     "FileMetaDataConfigurationDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 FileMetaDataConfigurationDialog::~FileMetaDataConfigurationDialog()
 {
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")),
                               "FileMetaDataConfigurationDialog");
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }

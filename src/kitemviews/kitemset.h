@@ -45,6 +45,8 @@ class KItemSet
 public:
     KItemSet();
     KItemSet(const KItemSet& other);
+    ~KItemSet();
+    KItemSet& operator=(const KItemSet& other);
 
     /**
      * Returns the number of items in the set.
@@ -79,6 +81,8 @@ public:
             m_offset = other.m_offset;
             return *this;
         }
+
+        ~iterator() = default;
 
         int operator*() const
         {
@@ -169,6 +173,8 @@ public:
             m_offset = other.m_offset;
             return *this;
         }
+
+        ~const_iterator() = default;
 
         int operator*() const
         {
@@ -295,6 +301,14 @@ inline KItemSet::KItemSet() :
 inline KItemSet::KItemSet(const KItemSet& other) :
     m_itemRanges(other.m_itemRanges)
 {
+}
+
+inline KItemSet::~KItemSet() = default;
+
+inline KItemSet& KItemSet::operator=(const KItemSet& other)
+{
+    m_itemRanges=other.m_itemRanges;
+    return *this;
 }
 
 inline int KItemSet::count() const

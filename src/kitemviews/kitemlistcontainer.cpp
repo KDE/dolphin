@@ -43,6 +43,8 @@
  */
 class KItemListContainerViewport : public QGraphicsView
 {
+    Q_OBJECT
+
 public:
     KItemListContainerViewport(QGraphicsScene* scene, QWidget* parent);
 protected:
@@ -425,3 +427,4 @@ void KItemListContainer::updateScrollOffsetScrollBarPolicy()
     }
 }
 
+#include "kitemlistcontainer.moc"

@@ -259,7 +259,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
 
-        foreach (int index, previous) {
+        for (int index: previous) {
             int inc = 0;
             foreach (const KItemRange& itemRange, itemRanges) {
                 if (index < itemRange.index) {
@@ -308,7 +308,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
 
-        foreach (int oldIndex, previous) {
+        for (int oldIndex : previous) {
             const int index = indexAfterRangesRemoving(oldIndex, itemRanges, DiscardRemovedIndex);
             if (index >= 0)  {
                 m_selectedItems.insert(index);
@@ -354,7 +354,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
         const KItemSet previous = m_selectedItems;
         m_selectedItems.clear();
 
-        foreach (int index, previous) {
+        for (int index : previous) {
             if (index >= itemRange.index && index < itemRange.index + itemRange.count) {
                 m_selectedItems.insert(movedToIndexes.at(index - itemRange.index));
             }

@@ -39,8 +39,8 @@ DolphinTabBar::DolphinTabBar(QWidget* parent) :
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(800);
-    connect(m_autoActivationTimer, SIGNAL(timeout()),
-            this, SLOT(slotAutoActivationTimeout()));
+    connect(m_autoActivationTimer, &QTimer::timeout,
+            this, &DolphinTabBar::slotAutoActivationTimeout);
 }
 
 void DolphinTabBar::dragEnterEvent(QDragEnterEvent* event)
@@ -125,10 +125,10 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent* event)
         // Tab context menu
         QMenu menu(this);
 
-        QAction* newTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@action:inmenu", "New Tab"));
-        QAction* detachTabAction = menu.addAction(QIcon::fromTheme("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
-        QAction* closeOtherTabsAction = menu.addAction(QIcon::fromTheme("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
-        QAction* closeTabAction = menu.addAction(QIcon::fromTheme("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+        QAction* newTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@action:inmenu", "New Tab"));
+        QAction* detachTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-detach")), i18nc("@action:inmenu", "Detach Tab"));
+        QAction* closeOtherTabsAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close-other")), i18nc("@action:inmenu", "Close Other Tabs"));
+        QAction* closeTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-close")), i18nc("@action:inmenu", "Close Tab"));
 
         QAction* selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {

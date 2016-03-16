@@ -24,6 +24,7 @@
 #include "dolphinviewcontainer.h"
 
 #include <QApplication>
+#include <QDropEvent>
 #include <KConfigGroup>
 #include <KShell>
 #include <kio/global.h>
@@ -33,18 +34,18 @@ DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     QTabWidget(parent),
     m_placesSelectorVisible(true)
 {
-    connect(this, SIGNAL(tabCloseRequested(int)),
-            this, SLOT(closeTab(int)));
-    connect(this, SIGNAL(currentChanged(int)),
-            this, SLOT(currentTabChanged(int)));
+    connect(this, &DolphinTabWidget::tabCloseRequested,
+            this, static_cast<void (DolphinTabWidget::*)(int)>(&DolphinTabWidget::closeTab));
+    connect(this, &DolphinTabWidget::currentChanged,
+            this, &DolphinTabWidget::currentTabChanged);
 
     DolphinTabBar* tabBar = new DolphinTabBar(this);
-    connect(tabBar, SIGNAL(openNewActivatedTab(int)),
-            this, SLOT(openNewActivatedTab(int)));
-    connect(tabBar, SIGNAL(tabDropEvent(int,QDropEvent*)),
-            this, SLOT(tabDropEvent(int,QDropEvent*)));
-    connect(tabBar, SIGNAL(tabDetachRequested(int)),
-            this, SLOT(detachTab(int)));
+    connect(tabBar, &DolphinTabBar::openNewActivatedTab,
+            this,  static_cast<void (DolphinTabWidget::*)(int)>(&DolphinTabWidget::openNewActivatedTab));
+    connect(tabBar, &DolphinTabBar::tabDropEvent,
+            this, &DolphinTabWidget::tabDropEvent);
+    connect(tabBar, &DolphinTabBar::tabDetachRequested,
+            this, &DolphinTabWidget::detachTab);
     tabBar->hide();
 
     setTabBar(tabBar);
@@ -141,10 +142,10 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
 
     DolphinTabPage* tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
     tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
-    connect(tabPage, SIGNAL(activeViewChanged(DolphinViewContainer*)),
-            this, SIGNAL(activeViewChanged(DolphinViewContainer*)));
-    connect(tabPage, SIGNAL(activeViewUrlChanged(QUrl)),
-            this, SLOT(tabUrlChanged(QUrl)));
+    connect(tabPage, &DolphinTabPage::activeViewChanged,
+            this, &DolphinTabWidget::activeViewChanged);
+    connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
+            this, &DolphinTabWidget::tabUrlChanged);
     addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(primaryUrl));
 
     if (focusWidget) {
@@ -335,7 +336,7 @@ void DolphinTabWidget::tabRemoved(int index)
 QString DolphinTabWidget::tabName(const QUrl& url) const
 {
     QString name;
-    if (url == QUrl("file:///")) {
+    if (url == QUrl(QStringLiteral("file:///"))) {
         name = '/';
     } else {
         name = url.adjusted(QUrl::StripTrailingSlash).fileName();
@@ -344,7 +345,7 @@ QString DolphinTabWidget::tabName(const QUrl& url) const
         } else {
             // Make sure that a '&' inside the directory name is displayed correctly
             // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
-            name.replace('&', "&&");
+            name.replace('&', QLatin1String("&&"));
         }
     }
     return name;

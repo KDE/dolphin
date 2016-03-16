@@ -134,7 +134,7 @@ void FileMetaDataToolTip::setName(const QString& name)
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
         line.setLineWidth(m_name->maximumWidth());
-        wrappedText += processedName.mid(line.textStart(), line.textLength());
+        wrappedText += processedName.midRef(line.textStart(), line.textLength());
 
         line = textLayout.createLine();
         if (line.isValid()) {

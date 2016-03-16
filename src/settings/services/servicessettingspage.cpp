@@ -81,7 +81,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
     KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
-                                                    "servicemenu.knsrc",
+                                                    QStringLiteral("servicemenu.knsrc"),
                                                     this);
     connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
 
@@ -103,7 +103,7 @@ void ServicesSettingsPage::applySettings()
         return;
     }
 
-    KConfig config("kservicemenurc", KConfig::NoGlobals);
+    KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
 
     QStringList enabledPlugins;
@@ -119,7 +119,7 @@ void ServicesSettingsPage::applySettings()
                 enabledPlugins.append(model->data(index, Qt::DisplayRole).toString());
             }
         } else if (service == QLatin1String(DeleteService)) {
-            KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+            KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
             KConfigGroup configGroup(globalConfig, "KDE");
             configGroup.writeEntry("ShowDeleteCommand", checked);
             configGroup.sync();
@@ -141,7 +141,7 @@ void ServicesSettingsPage::applySettings()
                                  i18nc("@info", "Dolphin must be restarted to apply the "
                                                 "updated version control systems settings."),
                                  QString(), // default title
-                                 QLatin1String("ShowVcsRestartInformation"));
+                                 QStringLiteral("ShowVcsRestartInformation"));
     }
 }
 
@@ -167,15 +167,15 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
         loadVersionControlSystems();
 
         // Add "Show 'Delete' command" as service
-        KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
+        KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
         KConfigGroup configGroup(globalConfig, "KDE");
-        addRow("edit-delete",
+        addRow(QStringLiteral("edit-delete"),
                i18nc("@option:check", "Delete"),
                DeleteService,
                configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
 
         // Add "Show 'Copy To' and 'Move To' commands" as service
-        addRow("edit-copy",
+        addRow(QStringLiteral("edit-copy"),
                i18nc("@option:check", "'Copy To' and 'Move To' commands"),
                CopyToMoveToService,
                GeneralSettings::showCopyMoveMenu());
@@ -189,11 +189,11 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
 
 void ServicesSettingsPage::loadServices()
 {
-    const KConfig config("kservicemenurc", KConfig::NoGlobals);
+    const KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
     // Load generic services
-    const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
+    const KService::List entries = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
     foreach (const KService::Ptr& service, entries) {
         const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
         const QList<KServiceAction> serviceActions =
@@ -219,7 +219,7 @@ void ServicesSettingsPage::loadServices()
     }
 
     // Load service plugins that implement the KFileItemActionPlugin interface
-    const KService::List pluginServices = KServiceTypeTrader::self()->query("KFileItemAction/Plugin");
+    const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("KFileItemAction/Plugin"));
     foreach (const KService::Ptr& service, pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
@@ -236,10 +236,10 @@ void ServicesSettingsPage::loadVersionControlSystems()
     const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
     // Create a checkbox for each available version control plugin
-    const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
+    const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
     for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
         const QString pluginName = (*it)->name();
-        addRow("code-class",
+        addRow(QStringLiteral("code-class"),
                pluginName,
                VersionControlServicePrefix + pluginName,
                enabledPlugins.contains(pluginName));

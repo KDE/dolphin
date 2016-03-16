@@ -29,8 +29,8 @@
 DBusInterface::DBusInterface() :
     QObject()
 {
-    QDBusConnection::sessionBus().registerService("org.freedesktop.FileManager1");
-    QDBusConnection::sessionBus().registerObject("/org/freedesktop/FileManager1", this,
+    QDBusConnection::sessionBus().registerService(QStringLiteral("org.freedesktop.FileManager1"));
+    QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/freedesktop/FileManager1"), this,
             QDBusConnection::ExportScriptableContents | QDBusConnection::ExportAdaptors);
 }
 
@@ -41,7 +41,7 @@ void DBusInterface::ShowFolders(const QStringList& uriList, const QString& start
     if (urls.isEmpty()) {
         return;
     }
-    KRun::run("dolphin %u", urls, nullptr);
+    KRun::run(QStringLiteral("dolphin %u"), urls, nullptr);
 }
 
 void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUpId)
@@ -51,7 +51,7 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
     if (urls.isEmpty()) {
         return;
     }
-    KRun::run("dolphin --select %u", urls, nullptr);
+    KRun::run(QStringLiteral("dolphin --select %u"), urls, nullptr);
 }
 
 void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString& startUpId)

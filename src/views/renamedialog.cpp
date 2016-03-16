@@ -60,11 +60,11 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     m_okButton = buttonBox->button(QDialogButtonBox::Ok);
     m_okButton->setDefault(true);
     m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(slotAccepted()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &RenameDialog::slotAccepted);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &RenameDialog::reject);
     m_okButton->setDefault(true);
 
-    KGuiItem::assign(m_okButton, KGuiItem(i18nc("@action:button", "&Rename"), "dialog-ok-apply"));
+    KGuiItem::assign(m_okButton, KGuiItem(i18nc("@action:button", "&Rename"), QStringLiteral("dialog-ok-apply")));
 
     QWidget* page = new QWidget(this);
     mainLayout->addWidget(page);

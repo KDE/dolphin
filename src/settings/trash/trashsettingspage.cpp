@@ -31,7 +31,7 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
     QVBoxLayout *vBoxVBoxLayout = new QVBoxLayout(vBox);
     vBoxVBoxLayout->setMargin(0);
 
-    m_proxy = new KCModuleProxy("kcmtrash");
+    m_proxy = new KCModuleProxy(QStringLiteral("kcmtrash"));
     topLayout->addWidget(m_proxy);
 
     // Add a dummy widget with no restriction regarding

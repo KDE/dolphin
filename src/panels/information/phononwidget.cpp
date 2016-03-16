@@ -38,6 +38,8 @@
 
 class EmbeddedVideoPlayer : public Phonon::VideoWidget
 {
+    Q_OBJECT
+
     public:
         EmbeddedVideoPlayer(QWidget *parent = 0) :
             Phonon::VideoWidget(parent)
@@ -128,13 +130,13 @@ void PhononWidget::showEvent(QShowEvent *event)
 
         m_playButton->setToolTip(i18n("play"));
         m_playButton->setIconSize(buttonSize);
-        m_playButton->setIcon(QIcon::fromTheme("media-playback-start"));
+        m_playButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
         m_playButton->setAutoRaise(true);
         connect(m_playButton, &QToolButton::clicked, this, &PhononWidget::play);
 
         m_stopButton->setToolTip(i18n("stop"));
         m_stopButton->setIconSize(buttonSize);
-        m_stopButton->setIcon(QIcon::fromTheme("media-playback-stop"));
+        m_stopButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-stop")));
         m_stopButton->setAutoRaise(true);
         m_stopButton->hide();
         connect(m_stopButton, &QToolButton::clicked, this, &PhononWidget::stop);
@@ -231,3 +233,5 @@ void PhononWidget::applyVideoSize()
         m_videoPlayer->setSizeHint(m_videoSize);
     }
 }
+
+#include "phononwidget.moc"

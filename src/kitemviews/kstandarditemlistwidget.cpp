@@ -684,7 +684,7 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
     // The URL might have changed (i.e., if the sort order of the items has
     // been changed). Therefore, the "is cut" state must be updated.
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
-    const QUrl itemUrl = data().value("url").value<QUrl>();
+    const QUrl itemUrl = data().value("url").toUrl();
     m_isCut = clipboard->isCut(itemUrl);
 
     // The icon-state might depend from other roles and hence is
@@ -835,7 +835,7 @@ void KStandardItemListWidget::showEvent(QShowEvent* event)
     // Listen to changes of the clipboard to mark the item as cut/uncut
     KFileItemClipboard* clipboard = KFileItemClipboard::instance();
 
-    const QUrl itemUrl = data().value("url").value<QUrl>();
+    const QUrl itemUrl = data().value("url").toUrl();
     m_isCut = clipboard->isCut(itemUrl);
 
     connect(clipboard, &KFileItemClipboard::cutItemsChanged,
@@ -852,7 +852,7 @@ void KStandardItemListWidget::hideEvent(QHideEvent* event)
 
 void KStandardItemListWidget::slotCutItemsChanged()
 {
-    const QUrl itemUrl = data().value("url").value<QUrl>();
+    const QUrl itemUrl = data().value("url").toUrl();
     const bool isCut = KFileItemClipboard::instance()->isCut(itemUrl);
     if (m_isCut != isCut) {
         m_isCut = isCut;
@@ -951,7 +951,7 @@ void KStandardItemListWidget::updatePixmapCache()
             if (iconName.isEmpty()) {
                 // The icon-name has not been not resolved by KFileItemModelRolesUpdater,
                 // use a generic icon as fallback
-                iconName = QLatin1String("unknown");
+                iconName = QStringLiteral("unknown");
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
             m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight);
@@ -1390,7 +1390,7 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
             if (m_isExpandable) {
                 option.state |= QStyle::State_Children;
             }
-            if (data()["isExpanded"].toBool()) {
+            if (data().value("isExpanded").toBool()) {
                 option.state |= QStyle::State_Open;
             }
             isItemSibling = false;
@@ -1441,7 +1441,7 @@ void KStandardItemListWidget::closeRoleEditor()
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size)
 {
     size *= qApp->devicePixelRatio();
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(":") % ":" % QString::number(size);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {

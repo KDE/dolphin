@@ -274,7 +274,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
         // all fileview version control plugins and remember them in 'plugins'.
         const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
-        const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
+        const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
             if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();

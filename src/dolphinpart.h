@@ -98,7 +98,7 @@ protected:
     /**
      * We reimplement openUrl so no need to implement openFile.
      */
-    virtual bool openFile() { return true; }
+    virtual bool openFile() override { return true; }
 
 Q_SIGNALS:
     /**

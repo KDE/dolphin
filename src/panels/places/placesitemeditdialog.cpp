@@ -119,8 +119,8 @@ void PlacesItemEditDialog::initialize()
     m_okButton = buttonBox->button(QDialogButtonBox::Ok);
     m_okButton->setDefault(true);
     m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &PlacesItemEditDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &PlacesItemEditDialog::reject);
     setModal(true);
     m_okButton->setDefault(true);
 

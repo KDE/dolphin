@@ -104,7 +104,7 @@ public:
     void setSupportsItemExpanding(bool supportsItemExpanding);
     bool supportsItemExpanding() const;
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
     virtual QRectF iconRect() const Q_DECL_OVERRIDE;
     virtual QRectF textRect() const Q_DECL_OVERRIDE;

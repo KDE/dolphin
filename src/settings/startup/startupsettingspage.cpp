@@ -68,7 +68,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     homeUrlBoxLayout->addWidget(m_homeUrl);
     m_homeUrl->setClearButtonEnabled(true);
 
-    QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme("folder-open"), QString(), homeUrlBox);
+    QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString(), homeUrlBox);
     homeUrlBoxLayout->addWidget(selectHomeUrlButton);
 
 #ifndef QT_NO_ACCESSIBILITY

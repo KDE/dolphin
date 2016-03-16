@@ -32,13 +32,13 @@
 KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
 {
     const QMimeData* mimeData = event->mimeData();
-    if (mimeData->hasFormat("application/x-kde-ark-dndextract-service") &&
-        mimeData->hasFormat("application/x-kde-ark-dndextract-path")) {
-        const QString remoteDBusClient = mimeData->data("application/x-kde-ark-dndextract-service");
-        const QString remoteDBusPath = mimeData->data("application/x-kde-ark-dndextract-path");
+    if (mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-service")) &&
+        mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-path"))) {
+        const QString remoteDBusClient = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-service"));
+        const QString remoteDBusPath = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-path"));
 
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
-                                                              "org.kde.ark.DndExtract", "extractSelectedFilesTo");
+                                                              QStringLiteral("org.kde.ark.DndExtract"), QStringLiteral("extractSelectedFilesTo"));
         message.setArguments({destUrl.toDisplayString(QUrl::PreferLocalFile)});
         QDBusConnection::sessionBus().call(message);
     } else {

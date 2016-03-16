@@ -25,19 +25,19 @@
 #include <QMenu>
 
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
-    KActionMenu(QIcon::fromTheme("edit-undo"), i18n("Recently Closed Tabs"), parent)
+    KActionMenu(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Recently Closed Tabs"), parent)
 {
     setDelayed(false);
     setEnabled(false);
 
     m_clearListAction = new QAction(i18n("Empty Recently Closed Tabs"), this);
-    m_clearListAction->setIcon(QIcon::fromTheme("edit-clear-list"));
+    m_clearListAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-list")));
     addAction(m_clearListAction);
 
     addSeparator();
 
-    connect(menu(), SIGNAL(triggered(QAction*)),
-            this, SLOT(handleAction(QAction*)));
+    connect(menu(), &QMenu::triggered,
+            this, &DolphinRecentTabsMenu::handleAction);
 }
 
 void DolphinRecentTabsMenu::rememberClosedTab(const QUrl& url, const QByteArray& state)
@@ -83,7 +83,7 @@ void DolphinRecentTabsMenu::handleAction(QAction* action)
         }
         emit closedTabsCountChanged(0);
     } else {
-        const QByteArray state = action->data().value<QByteArray>();
+        const QByteArray state = action->data().toByteArray();
         removeAction(action);
         delete action;
         action = 0;

@@ -109,7 +109,7 @@ void FoldersPanel::rename(const KFileItem& item)
 
 bool FoldersPanel::urlChanged()
 {
-    if (!url().isValid() || url().scheme().contains("search")) {
+    if (!url().isValid() || url().scheme().contains(QStringLiteral("search"))) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -274,7 +274,7 @@ void FoldersPanel::slotLoadingCompleted()
         // animations.
         // TODO: Check whether it makes sense to allow accessing the
         // view-internal delay for usecases like this.
-        QTimer::singleShot(250, this, SLOT(startFadeInAnimation()));
+        QTimer::singleShot(250, this, &FoldersPanel::startFadeInAnimation);
     }
 
     if (!m_updateCurrentItem) {

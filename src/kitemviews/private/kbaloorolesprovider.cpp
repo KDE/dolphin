@@ -158,7 +158,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
 
 QString KBalooRolesProvider::tagsFromValues(const QStringList& values) const
 {
-    return values.join(", ");
+    return values.join(QStringLiteral(", "));
 }
 
 QString KBalooRolesProvider::orientationFromValue(int value) const
@@ -183,6 +183,6 @@ QString KBalooRolesProvider::durationFromValue(int value) const
 {
     QTime duration;
     duration = duration.addSecs(value);
-    return duration.toString("hh:mm:ss");
+    return duration.toString(QStringLiteral("hh:mm:ss"));
 }
 

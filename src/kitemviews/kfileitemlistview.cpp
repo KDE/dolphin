@@ -166,7 +166,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
     int x = 0;
     int y = 0;
 
-    foreach (int index, indexes) {
+    for (int index : indexes) {
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
             QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());

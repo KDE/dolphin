@@ -39,7 +39,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    app.setWindowIcon(QIcon::fromTheme("system-file-manager"));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager")));
 
     KCrash::initialize();
 
@@ -50,44 +50,44 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     KLocalizedString::setApplicationDomain("dolphin");
 
-    KAboutData aboutData("dolphin", i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
+    KAboutData aboutData(QStringLiteral("dolphin"), i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
                          i18nc("@info:credit", "(C) 2006-2016 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
-    aboutData.setHomepage("http://dolphin.kde.org");
+    aboutData.setHomepage(QStringLiteral("http://dolphin.kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Emmanuel Pescosta"),
                         i18nc("@info:credit", "Maintainer (since 2014) and developer"),
-                        "emmanuelpescosta099@gmail.com");
+                        QStringLiteral("emmanuelpescosta099@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Frank Reininghaus"),
                         i18nc("@info:credit", "Maintainer (2012-2014) and developer"),
-                        "frank78ac@googlemail.com");
+                        QStringLiteral("frank78ac@googlemail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Peter Penz"),
                         i18nc("@info:credit", "Maintainer and developer (2006-2012)"),
-                        "peter.penz19@gmail.com");
+                        QStringLiteral("peter.penz19@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Sebastian Trüg"),
                         i18nc("@info:credit", "Developer"),
-                        "trueg@kde.org");
+                        QStringLiteral("trueg@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "David Faure"),
                         i18nc("@info:credit", "Developer"),
-                        "faure@kde.org");
+                        QStringLiteral("faure@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Aaron J. Seigo"),
                         i18nc("@info:credit", "Developer"),
-                        "aseigo@kde.org");
+                        QStringLiteral("aseigo@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Rafael Fernández López"),
                         i18nc("@info:credit", "Developer"),
-                        "ereslibre@kde.org");
+                        QStringLiteral("ereslibre@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Kevin Ottens"),
                         i18nc("@info:credit", "Developer"),
-                        "ervin@kde.org");
+                        QStringLiteral("ervin@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Holger Freyther"),
                         i18nc("@info:credit", "Developer"),
-                        "freyther@gmx.net");
+                        QStringLiteral("freyther@gmx.net"));
     aboutData.addAuthor(i18nc("@info:credit", "Max Blazejak"),
                         i18nc("@info:credit", "Developer"),
-                        "m43ksrocks@gmail.com");
+                        QStringLiteral("m43ksrocks@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Michael Austin"),
                         i18nc("@info:credit", "Documentation"),
-                        "tuxedup@users.sourceforge.net");
+                        QStringLiteral("tuxedup@users.sourceforge.net"));
 
     KAboutData::setApplicationData(aboutData);
 
@@ -100,16 +100,16 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     aboutData.setupCommandLine(&parser);
 
     // command line options
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("select"), i18nc("@info:shell", "The files and directories passed as arguments "
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("select"), i18nc("@info:shell", "The files and directories passed as arguments "
                                                                                         "will be selected.")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
-    parser.addOption(QCommandLineOption(QStringList() << QLatin1String("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface)")));
-    parser.addPositionalArgument(QLatin1String("+[Url]"), i18nc("@info:shell", "Document to open"));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface)")));
+    parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
-    if (parser.isSet("daemon")) {
+    if (parser.isSet(QStringLiteral("daemon"))) {
         return app.exec();
     }
 
@@ -121,7 +121,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         urls.append(Dolphin::homeUrl());
     }
 
-    const bool splitView = parser.isSet("split") || GeneralSettings::splitView();
+    const bool splitView = parser.isSet(QStringLiteral("split")) || GeneralSettings::splitView();
     if (splitView && urls.size() < 2) {
         // Split view does only make sense if we have at least 2 URLs
         urls.append(urls.last());
@@ -130,7 +130,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     DolphinMainWindow* mainWindow = new DolphinMainWindow();
     mainWindow->setAttribute(Qt::WA_DeleteOnClose);
 
-    if (parser.isSet("select")) {
+    if (parser.isSet(QStringLiteral("select"))) {
         mainWindow->openFiles(urls, splitView);
     } else {
         mainWindow->openDirectories(urls, splitView);

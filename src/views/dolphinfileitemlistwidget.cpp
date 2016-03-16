@@ -93,25 +93,25 @@ QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::ItemVe
     QString iconName;
     switch (version) {
     case KVersionControlPlugin::NormalVersion:
-        iconName = "vcs-normal";
+        iconName = QStringLiteral("vcs-normal");
         break;
     case KVersionControlPlugin::UpdateRequiredVersion:
-        iconName = "vcs-update-required";
+        iconName = QStringLiteral("vcs-update-required");
         break;
     case KVersionControlPlugin::LocallyModifiedVersion:
-        iconName = "vcs-locally-modified";
+        iconName = QStringLiteral("vcs-locally-modified");
         break;
     case KVersionControlPlugin::LocallyModifiedUnstagedVersion:
-        iconName = "vcs-locally-modified-unstaged";
+        iconName = QStringLiteral("vcs-locally-modified-unstaged");
         break;
     case KVersionControlPlugin::AddedVersion:
-        iconName = "vcs-added";
+        iconName = QStringLiteral("vcs-added");
         break;
     case KVersionControlPlugin::RemovedVersion:
-        iconName = "vcs-removed";
+        iconName = QStringLiteral("vcs-removed");
         break;
     case KVersionControlPlugin::ConflictingVersion:
-        iconName = "vcs-conflicting";
+        iconName = QStringLiteral("vcs-conflicting");
         break;
     case KVersionControlPlugin::UnversionedVersion:
     case KVersionControlPlugin::IgnoredVersion:

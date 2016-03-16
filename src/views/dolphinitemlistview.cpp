@@ -95,9 +95,9 @@ void DolphinItemListView::readSettings()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     const QStringList plugins = globalConfig.readEntry("Plugins", QStringList()
-                                                       << "directorythumbnail"
-                                                       << "imagethumbnail"
-                                                       << "jpegthumbnail");
+                                                       << QStringLiteral("directorythumbnail")
+                                                       << QStringLiteral("imagethumbnail")
+                                                       << QStringLiteral("jpegthumbnail"));
     setEnabledPlugins(plugins);
 
     endTransaction();

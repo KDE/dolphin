@@ -78,7 +78,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     m_remoteFileSizeBox = new QSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
-    m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
+    m_remoteFileSizeBox->setSuffix(QStringLiteral(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
 
     QHBoxLayout* fileSizeBoxLayout = new QHBoxLayout(this);
@@ -115,7 +115,7 @@ void PreviewsSettingsPage::applySettings()
         }
     }
 
-    KConfigGroup globalConfig(KSharedConfig::openConfig(), QLatin1String("PreviewSettings"));
+    KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
@@ -154,9 +154,9 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 {
     QAbstractItemModel* model = m_listView->model();
 
-    const KService::List plugins = KServiceTypeTrader::self()->query(QLatin1String("ThumbCreator"));
+    const KService::List plugins = KServiceTypeTrader::self()->query(QStringLiteral("ThumbCreator"));
     foreach (const KService::Ptr& service, plugins) {
-        const bool configurable = service->property("Configurable", QVariant::Bool).toBool();
+        const bool configurable = service->property(QStringLiteral("Configurable"), QVariant::Bool).toBool();
         const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
 
         model->insertRow(0);
@@ -174,9 +174,9 @@ void PreviewsSettingsPage::loadSettings()
 {
     KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
-                                                     << QLatin1String("directorythumbnail")
-                                                     << QLatin1String("imagethumbnail")
-                                                     << QLatin1String("jpegthumbnail"));
+                                                     << QStringLiteral("directorythumbnail")
+                                                     << QStringLiteral("imagethumbnail")
+                                                     << QStringLiteral("jpegthumbnail"));
 
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);

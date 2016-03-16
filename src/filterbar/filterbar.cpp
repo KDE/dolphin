@@ -35,7 +35,7 @@ FilterBar::FilterBar(QWidget* parent) :
     // Create close button
     QToolButton *closeButton = new QToolButton(this);
     closeButton->setAutoRaise(true);
-    closeButton->setIcon(QIcon::fromTheme("dialog-close"));
+    closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
     closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
     connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
 
@@ -43,7 +43,7 @@ FilterBar::FilterBar(QWidget* parent) :
     m_lockButton = new QToolButton(this);
     m_lockButton->setAutoRaise(true);
     m_lockButton->setCheckable(true);
-    m_lockButton->setIcon(QIcon::fromTheme("object-unlocked"));
+    m_lockButton->setIcon(QIcon::fromTheme(QStringLiteral("object-unlocked")));
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
     connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
@@ -102,9 +102,9 @@ void FilterBar::slotUrlChanged()
 void FilterBar::slotToggleLockButton(bool checked)
 {
     if (checked) {
-        m_lockButton->setIcon(QIcon::fromTheme("object-locked"));
+        m_lockButton->setIcon(QIcon::fromTheme(QStringLiteral("object-locked")));
     } else {
-        m_lockButton->setIcon(QIcon::fromTheme("object-unlocked"));
+        m_lockButton->setIcon(QIcon::fromTheme(QStringLiteral("object-unlocked")));
         clear();
     }
 }

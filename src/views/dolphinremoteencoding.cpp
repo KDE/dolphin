@@ -39,7 +39,7 @@
 #include <KIO/Scheduler>
 #include <KConfigGroup>
 
-#define DATA_KEY        QLatin1String("Charset")
+#define DATA_KEY        QStringLiteral("Charset")
 
 DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionHandler* actionHandler)
    :QObject(parent),
@@ -47,8 +47,8 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionH
     m_loaded(false),
     m_idDefault(0)
 {
-    m_menu = new KActionMenu(QIcon::fromTheme("character-set"), i18n("Select Remote Charset"), this);
-    m_actionHandler->actionCollection()->addAction("change_remote_encoding", m_menu);
+    m_menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("character-set")), i18n("Select Remote Charset"), this);
+    m_actionHandler->actionCollection()->addAction(QStringLiteral("change_remote_encoding"), m_menu);
     connect(m_menu->menu(), &QMenu::aboutToShow,
           this, &DolphinRemoteEncoding::slotAboutToShow);
 
@@ -206,7 +206,7 @@ void DolphinRemoteEncoding::slotDefault()
                 break;
             }
 
-            domains << partList.join(".");
+            domains << partList.join(QLatin1Char('.'));
             partList.erase(partList.begin());
         }
 

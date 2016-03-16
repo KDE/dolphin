@@ -349,7 +349,9 @@ KFileItemList DolphinView::selectedItems() const
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
 
     KFileItemList selectedItems;
-    foreach (int index, selectionManager->selectedItems()) {
+    const auto items = selectionManager->selectedItems();
+    selectedItems.reserve(items.count());
+    for (int index : items) {
         selectedItems.append(m_model->fileItem(index));
     }
     return selectedItems;
@@ -671,7 +673,7 @@ void DolphinView::trashSelectedItems()
     uiDelegate.setWindow(window());
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::trash(list);
-        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl("trash:/"), job);
+        KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
         KJobWidgets::setWindow(job, this);
         connect(job, &KIO::Job::result,
                 this, &DolphinView::slotTrashFileFinished);
@@ -816,7 +818,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
     KFileItemList items;
     items.reserve(indexes.count());
 
-    foreach (int index, indexes) {
+    for (int index : indexes) {
         KFileItem item = m_model->fileItem(index);
         const QUrl& url = openItemAsFolderUrl(item);
 
@@ -939,6 +941,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             // Apply the current column-widths as custom column-widths and turn
             // off the automatic resizing of the columns
             QList<int> columnWidths;
+            columnWidths.reserve(view->visibleRoles().count());
             foreach (const QByteArray& role, view->visibleRoles()) {
                 columnWidths.append(header->columnWidth(role));
             }
@@ -960,6 +963,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
             QList<int> columnWidths;
             if (!header->automaticColumnResizing()) {
+                columnWidths.reserve(view->visibleRoles().count());
                 foreach (const QByteArray& role, view->visibleRoles()) {
                     columnWidths.append(header->columnWidth(role));
                 }
@@ -1404,7 +1408,7 @@ void DolphinView::slotRenamingResult(KJob* job)
         const int index = m_model->index(newUrl);
         if (index >= 0) {
             QHash<QByteArray, QVariant> data;
-            const QUrl oldUrl = copyJob->srcUrls().first();
+            const QUrl oldUrl = copyJob->srcUrls().at(0);
             data.insert("text", oldUrl.fileName());
             m_model->setData(index, data);
         }
@@ -1427,7 +1431,7 @@ void DolphinView::slotDirectoryLoadingCompleted()
 {
     // Update the view-state. This has to be done asynchronously
     // because the view might not be in its final state yet.
-    QTimer::singleShot(0, this, SLOT(updateViewState()));
+    QTimer::singleShot(0, this, &DolphinView::updateViewState);
 
     emit directoryLoadingCompleted();
 
@@ -1671,6 +1675,7 @@ QList<QUrl> DolphinView::simplifiedSelectedUrls() const
     QList<QUrl> urls;
 
     const KFileItemList items = selectedItems();
+    urls.reserve(items.count());
     foreach (const KFileItem& item, items) {
         urls.append(item.url());
     }

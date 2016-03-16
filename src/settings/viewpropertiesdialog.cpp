@@ -91,9 +91,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
     m_viewMode = new KComboBox(propsGrid);
-    m_viewMode->addItem(QIcon::fromTheme("view-list-icons"), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
-    m_viewMode->addItem(QIcon::fromTheme("view-list-details"), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
-    m_viewMode->addItem(QIcon::fromTheme("view-list-tree"), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
+    m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
+    m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
+    m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
 
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
     QWidget* sortingBox = new QWidget(propsGrid);
@@ -207,7 +207,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         applyButton->setEnabled(isDirty);
     });
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "ViewPropertiesDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "ViewPropertiesDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 
     loadSettings();
@@ -219,7 +219,7 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     delete m_viewProps;
     m_viewProps = 0;
 
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "ViewPropertiesDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "ViewPropertiesDialog");
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 

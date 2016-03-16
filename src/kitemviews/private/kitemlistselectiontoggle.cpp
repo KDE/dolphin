@@ -89,7 +89,7 @@ void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KItemListSelectionToggle::updatePixmap()
 {
-    const QString icon = m_checked ? "list-remove" : "list-add";
+    const QString icon = m_checked ? QStringLiteral("list-remove") : QStringLiteral("list-add");
     const KIconLoader::States state = m_hovered ? KIconLoader::ActiveState : KIconLoader::DisabledState;
     m_pixmap = KIconLoader::global()->loadIcon(icon, KIconLoader::Desktop, iconSize(), state);
 }

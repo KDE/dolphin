@@ -129,7 +129,7 @@ QString DolphinFacetsWidget::ratingTerm() const
         }
 
         const int rating = stars * 2;
-        terms << QString::fromLatin1("rating>=%1").arg(rating);
+        terms << QStringLiteral("rating>=%1").arg(rating);
     }
 
     if (!m_anytime->isChecked()) {
@@ -144,7 +144,7 @@ QString DolphinFacetsWidget::ratingTerm() const
             date = date.addDays(1 - date.dayOfYear());
         }
 
-        terms << QString::fromLatin1("modified>=%1").arg(date.toString(Qt::ISODate));
+        terms << QStringLiteral("modified>=%1").arg(date.toString(Qt::ISODate));
     }
 
     return terms.join(QStringLiteral(" AND "));
@@ -153,13 +153,13 @@ QString DolphinFacetsWidget::ratingTerm() const
 QString DolphinFacetsWidget::facetType() const
 {
     if (m_documents->isChecked()) {
-        return QLatin1String("Document");
+        return QStringLiteral("Document");
     } else if (m_images->isChecked()) {
-        return QLatin1String("Image");
+        return QStringLiteral("Image");
     } else if (m_audio->isChecked()) {
-        return QLatin1String("Audio");
+        return QStringLiteral("Audio");
     } else if (m_videos->isChecked()) {
-        return QLatin1String("Video");
+        return QStringLiteral("Video");
     }
 
     return QString();
@@ -174,9 +174,9 @@ bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
     bool containsModified = false;
 
     foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith("rating>=")) {
+        if (subTerm.startsWith(QLatin1String("rating>="))) {
             containsRating = true;
-        } else if (subTerm.startsWith("modified>=")) {
+        } else if (subTerm.startsWith(QLatin1String("modified>="))) {
             containsModified = true;
         }
     }
@@ -192,11 +192,11 @@ void DolphinFacetsWidget::setRatingTerm(const QString& term)
     QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
 
     foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith("modified>=")) {
+        if (subTerm.startsWith(QLatin1String("modified>="))) {
             const QString value = subTerm.mid(10);
             const QDate date = QDate::fromString(value, Qt::ISODate);
             setTimespan(date);
-        } else if (subTerm.startsWith("rating>=")) {
+        } else if (subTerm.startsWith(QLatin1String("rating>="))) {
             const QString value = subTerm.mid(8);
             const int stars = value.toInt() / 2;
             setRating(stars);

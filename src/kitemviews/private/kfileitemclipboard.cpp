@@ -63,7 +63,7 @@ void KFileItemClipboard::updateCutItems()
         return;
     }
 
-    const QByteArray data = mimeData->data("application/x-kde-cutselection");
+    const QByteArray data = mimeData->data(QStringLiteral("application/x-kde-cutselection"));
     const bool isCutSelection = (!data.isEmpty() && data.at(0) == QLatin1Char('1'));
     if (isCutSelection) {
         m_cutItems = KUrlMimeData::urlsFromMimeData(mimeData).toSet();

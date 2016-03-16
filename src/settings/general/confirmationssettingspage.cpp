@@ -79,7 +79,7 @@ ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
 
 void ConfirmationsSettingsPage::applySettings()
 {
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::NoGlobals);
+    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::NoGlobals);
     KConfigGroup confirmationGroup(kioConfig, "Confirmations");
     confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
@@ -110,14 +110,14 @@ void ConfirmationsSettingsPage::restoreDefaults()
 
 void ConfirmationsSettingsPage::loadSettings()
 {
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::IncludeGlobals);
+    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::IncludeGlobals);
     const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", ConfirmTrash));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", ConfirmDelete));
 
-    const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig("kiorc"), "Executable scripts");
+    const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
     const QString value = scriptExecutionGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
-    m_confirmScriptExecution->setChecked(value == "alwaysAsk");
+    m_confirmScriptExecution->setChecked(value == QLatin1String("alwaysAsk"));
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
 }
