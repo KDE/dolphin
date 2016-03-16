@@ -73,8 +73,10 @@ QAccessibleInterface* KItemListViewAccessible::cell(int index) const
         return 0;
     }
 
-    if (m_cells.size() < index - 1)
+    if (m_cells.size() <= index) {
         m_cells.resize(childCount());
+    }
+    Q_ASSERT(index < m_cells.size());
 
     QAccessibleInterface* child = m_cells.at(index);
     if (!child) {
