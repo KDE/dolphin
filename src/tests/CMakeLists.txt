@@ -9,7 +9,6 @@ add_definitions(-DDOLPHIN_EXPORT=)
 # KItemSetTest
 set(kitemsettest_SRCS
     kitemsettest.cpp
-    ../kitemviews/kitemset.cpp
 )
 
 add_executable(kitemsettest ${kitemsettest_SRCS})
@@ -31,9 +30,6 @@ target_link_libraries(kitemrangetest dolphinprivate Qt5::Test)
 # KItemListSelectionManagerTest
 set(kitemlistselectionmanagertest_SRCS
     kitemlistselectionmanagertest.cpp
-    ../kitemviews/kitemlistselectionmanager.cpp
-    ../kitemviews/kitemmodelbase.cpp
-    ../kitemviews/kitemset.cpp
 )
 
 add_executable(kitemlistselectionmanagertest ${kitemlistselectionmanagertest_SRCS})
@@ -45,17 +41,6 @@ target_link_libraries(kitemlistselectionmanagertest dolphinprivate Qt5::Test)
 set(kitemlistcontrollertest_SRCS
     kitemlistcontrollertest.cpp
     testdir.cpp
-    ../kitemviews/kfileitemmodel.cpp
-    ../kitemviews/kfileitemlistview.cpp
-    ../kitemviews/kfileitemlistwidget.cpp
-    ../kitemviews/kitemmodelbase.cpp
-    ../kitemviews/kitemlistview.cpp
-    ../kitemviews/kitemlistcontainer.cpp
-    ../kitemviews/kitemlistwidget.cpp
-    ../kitemviews/kitemlistviewaccessible.cpp
-    ../kitemviews/kitemset.cpp
-    ../kitemviews/kstandarditemlistview.cpp
-    ../kitemviews/kstandarditemlistwidget.cpp
     ../dolphindebug.cpp
 )
 
@@ -72,16 +57,6 @@ target_link_libraries(kitemlistcontrollertest dolphinprivate Qt5::Test)
 set(kfileitemlistviewtest_SRCS
     kfileitemlistviewtest.cpp
     testdir.cpp
-    ../kitemviews/kfileitemmodel.cpp
-    ../kitemviews/kfileitemlistview.cpp
-    ../kitemviews/kitemmodelbase.cpp
-    ../kitemviews/kitemlistview.cpp
-    ../kitemviews/kitemlistviewaccessible.cpp
-    ../kitemviews/kitemlistcontainer.cpp
-    ../kitemviews/kitemlistwidget.cpp
-    ../kitemviews/kitemset.cpp
-    ../kitemviews/kstandarditemlistview.cpp
-    ../kitemviews/kstandarditemlistwidget.cpp
     ../dolphindebug.cpp
 )
 
@@ -98,9 +73,6 @@ target_link_libraries(kfileitemlistviewtest dolphinprivate Qt5::Test)
 set(kfileitemmodeltest_SRCS
     kfileitemmodeltest.cpp
     testdir.cpp
-    ../kitemviews/kfileitemmodel.cpp
-    ../kitemviews/kitemmodelbase.cpp
-    ../kitemviews/kitemset.cpp
     ../dolphindebug.cpp
 )
 
@@ -117,8 +89,6 @@ target_link_libraries(kfileitemmodeltest dolphinprivate Qt5::Test)
 set(kfileitemmodelbenchmark_SRCS
     kfileitemmodelbenchmark.cpp
     testdir.cpp
-    ../kitemviews/kfileitemmodel.cpp
-    ../kitemviews/kitemmodelbase.cpp
     ../dolphindebug.cpp
 )
 
@@ -133,7 +103,6 @@ target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt5::Test)
 # KItemListKeyboardSearchManagerTest
 set(kitemlistkeyboardsearchmanagertest_SRCS
     kitemlistkeyboardsearchmanagertest.cpp
-    ../kitemviews/private/kitemlistkeyboardsearchmanager.cpp
 )
 
 add_executable(kitemlistkeyboardsearchmanagertest ${kitemlistkeyboardsearchmanagertest_SRCS})
@@ -161,9 +130,6 @@ endif()
 # KStandardItemModelTest
 set(kstandarditemmodeltest_SRCS
     kstandarditemmodeltest.cpp
-    ../kitemviews/kstandarditem.cpp
-    ../kitemviews/kstandarditemmodel.cpp
-    ../kitemviews/kitemmodelbase.cpp
     ../dolphindebug.cpp
 )
 
@@ -176,7 +142,6 @@ target_link_libraries(kstandarditemmodeltest dolphinprivate Qt5::Test)
 set(viewpropertiestest_SRCS
     viewpropertiestest.cpp
     testdir.cpp
-    ../views/viewproperties.cpp
     ../dolphindebug.cpp
 )
 kconfig_add_kcfg_files(viewpropertiestest_SRCS GENERATE_MOC

@@ -23,8 +23,7 @@ set(dolphinvcs_LIB_SRCS
 )
 
 add_library(dolphinvcs ${dolphinvcs_LIB_SRCS})
-
-generate_export_header(dolphinvcs BASE_NAME dolphin)
+generate_export_header(dolphinvcs BASE_NAME dolphinvcs)
 
 target_link_libraries(
     dolphinvcs PUBLIC
@@ -48,7 +47,7 @@ ecm_generate_headers(dolphinvcs_LIB_HEADERS
 install(TARGETS dolphinvcs EXPORT DolphinVcsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/Dolphin" COMPONENT Devel)
 
 ########### next target ###############
@@ -131,6 +130,7 @@ kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS GENERATE_MOC
 )
 
 add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
+generate_export_header(dolphinprivate BASE_NAME dolphin)
 
 target_link_libraries(
     dolphinprivate PUBLIC
@@ -170,6 +170,7 @@ set_target_properties(dolphinprivate PROPERTIES
 )
 
 install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMELINK_SKIP)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 ##########################################
 

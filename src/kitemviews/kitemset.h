@@ -20,6 +20,8 @@
 #ifndef KITEMSET_H
 #define KITEMSET_H
 
+#include "dolphin_export.h"
+
 #include <kitemviews/kitemrange.h>
 
 /**
@@ -40,7 +42,7 @@
  * The complexity of most operations depends on the number of ranges.
  */
 
-class KItemSet
+class DOLPHIN_EXPORT KItemSet
 {
 public:
     KItemSet();

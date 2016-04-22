@@ -20,7 +20,7 @@
 #ifndef KVERSIONCONTROLPLUGIN_H
 #define KVERSIONCONTROLPLUGIN_H
 
-#include <dolphin_export.h>
+#include <dolphinvcs_export.h>
 
 #include <QObject>
 #include <QAction>
@@ -81,7 +81,7 @@ class KFileItem;
  *
  * @since 4.8
  */
-class DOLPHIN_EXPORT KVersionControlPlugin : public QObject
+class DOLPHINVCS_EXPORT KVersionControlPlugin : public QObject
 {
     Q_OBJECT
 
