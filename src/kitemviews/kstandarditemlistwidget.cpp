@@ -1440,12 +1440,13 @@ void KStandardItemListWidget::closeRoleEditor()
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size)
 {
+    static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
     size *= qApp->devicePixelRatio();
     const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
-        const QIcon icon = QIcon::fromTheme(name);
+        const QIcon icon = QIcon::fromTheme(name, fallbackIcon);
 
         int requestedSize;
         if (size <= KIconLoader::SizeSmall) {
