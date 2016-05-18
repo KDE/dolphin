@@ -31,7 +31,7 @@
 #include <KPluginFactory>
 #include <KRun>
 #include <KToolInvocation>
-#include <kauthorized.h>
+#include <KAuthorized>
 #include <QMenu>
 #include <KSharedConfig>
 #include <KConfigGroup>

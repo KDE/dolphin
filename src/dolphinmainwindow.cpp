@@ -48,6 +48,7 @@
 
 #include <KActionCollection>
 #include <KActionMenu>
+#include <KAuthorized>
 #include <KConfig>
 #include <kdualaction.h>
 #include <KJobWidgets>
@@ -1098,11 +1099,13 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
-    QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
-    openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
-    openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
-    actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
-    connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+    if (KAuthorized::authorizeKAction(QStringLiteral("shell_access"))) {
+        QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
+        openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
+        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
+        connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+    }
 
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(0, 0, actionCollection());
@@ -1205,33 +1208,36 @@ void DolphinMainWindow::setupDockWidgets()
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
-    DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
-    terminalDock->setLocked(lock);
-    terminalDock->setObjectName(QStringLiteral("terminalDock"));
-    terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-    TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
-    terminalPanel->setCustomContextMenuActions({lockLayoutAction});
-    terminalDock->setWidget(terminalPanel);
+    if (KAuthorized::authorizeKAction(QStringLiteral("shell_access"))) {
+        DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
+        terminalDock->setLocked(lock);
+        terminalDock->setObjectName(QStringLiteral("terminalDock"));
+        terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+        TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
+        terminalPanel->setCustomContextMenuActions({lockLayoutAction});
+        terminalDock->setWidget(terminalPanel);
 
-    connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
-    connect(terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
-    connect(terminalDock, &DolphinDockWidget::visibilityChanged,
-            terminalPanel, &TerminalPanel::dockVisibilityChanged);
+        connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
+        connect(terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
+        connect(terminalDock, &DolphinDockWidget::visibilityChanged,
+                terminalPanel, &TerminalPanel::dockVisibilityChanged);
 
-    QAction* terminalAction = terminalDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
+        QAction* terminalAction = terminalDock->toggleViewAction();
+        createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
 
-    addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
-    connect(this, &DolphinMainWindow::urlChanged,
-            terminalPanel, &TerminalPanel::setUrl);
+        addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
+        connect(this, &DolphinMainWindow::urlChanged,
+                terminalPanel, &TerminalPanel::setUrl);
+
+        if (GeneralSettings::version() < 200) {
+            terminalDock->hide();
+        }
+    }
 #endif
 
     if (GeneralSettings::version() < 200) {
         infoDock->hide();
         foldersDock->hide();
-#ifndef Q_OS_WIN
-        terminalDock->hide();
-#endif
     }
 
     // Setup "Places"
