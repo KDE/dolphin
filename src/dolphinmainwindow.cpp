@@ -1099,7 +1099,7 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
-    if (KAuthorized::authorizeKAction(QStringLiteral("shell_access"))) {
+    if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
@@ -1208,7 +1208,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
-    if (KAuthorized::authorizeKAction(QStringLiteral("shell_access"))) {
+    if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
         terminalDock->setLocked(lock);
         terminalDock->setObjectName(QStringLiteral("terminalDock"));
