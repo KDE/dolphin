@@ -1,7 +1,5 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY dolphin "<application>Dolphin</application>">
-  <!ENTITY kappname "&dolphin;">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE"><!-- change language only here -->
 ]>
@@ -72,12 +70,12 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2015-08-02</date>
-<releaseinfo>Applications 15.08</releaseinfo>
+<date>2016-06-01</date>
+<releaseinfo>Applications 16.04</releaseinfo>
 
 <abstract>
 <para>
-&dolphin; is the default file manager for &kde;, designed with usability as a primary focus.
+&dolphin; is the default file manager by &kde;, designed with usability as a primary focus.
 </para>
 </abstract>
 
@@ -95,7 +93,7 @@
 <title>Introduction</title>
 
 <para>
-&dolphin; is &kde;'s default file manager. It aims to improve usability at the
+&dolphin; is &plasma;'s default file manager. It aims to improve usability at the
 user interface level. &dolphin; focuses only on being a file manager whereas
 &konqueror;, which was &kde;'s default file manager in &kde; 3 and can still be
 used for file management, is a universal viewer for many file types.
@@ -357,12 +355,12 @@ the extension is replaced by <quote>...</quote>
 the <guilabel>Name</guilabel> header, which is always the first column in this view.
 </para>
 <para>
-The details view allows you to view the current directory
+The details view allows you to view the current folder
 in a tree-like fashion if <link linkend="preferences-dialog-viewmodes-details">
-<guilabel>Expandable folders</guilabel></link> are enabled: 
+<guilabel>Expandable folders</guilabel></link> are enabled:
 Each subfolder of the current folder can be
-<quote>expanded</quote> or <quote>collapsed</quote> by clicking on the <guiicon>&gt;</guiicon>
-or <guiicon>v</guiicon> icon next to it.</para></listitem>
+<quote>expanded</quote> or <quote>collapsed</quote> by clicking on the <guiicon>+</guiicon>
+or <guiicon>-</guiicon> icon next to it.</para></listitem>
 </itemizedlist>
 </para>
 
@@ -1146,16 +1144,9 @@ structure and in archives works.
 <itemizedlist>
 
 <listitem><para>
-&dolphin; can be configured to open items with a single mouse click
-(<guilabel>Single-click to open files and folders</guilabel>) or a double mouse
-click (<guilabel>Double-click to open files and folders</guilabel>). In the
-latter case, a single mouse click will select the file or folder.
-</para>
-<note>
-<para>This is a system wide setting and can be changed in the &systemsettings; in the
-<menuchoice><guimenu>Input Devices</guimenu> <guimenuitem>Mouse</guimenuitem></menuchoice> 
-module as well.</para>
-</note>
+The option to open items with a single or double mouse click is a system wide setting and can be
+changed in the &systemsettings; in the <menuchoice><guimenu>Input Devices</guimenu>
+<guimenuitem>Mouse</guimenuitem></menuchoice> module.</para>
 </listitem>
 
 <listitem><para>
@@ -1295,6 +1286,25 @@ In the <guilabel>View</guilabel> section, you can configure whether the
 <link linkend="view-properties"> view properties</link> are stored for each
 folder or if common view properties are to be used for all folders.
 </para></listitem>
+
+<listitem><para>
+<guilabel>Sorting Mode</guilabel> controls how items are sorted in
+the view. If <guilabel>Natural sorting</guilabel> is enabled, the sort order of three example files
+will be
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File2,</para></listitem>
+<listitem><para>File10.</para></listitem>
+</orderedlist>
+If this option is disabled, the normal alphabetical sorting case sensitive or case insensitive
+will be used, which leads to the sort order
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File10,</para></listitem>
+<listitem><para>File2.</para></listitem>
+</orderedlist>
+</para></listitem>
+
 <listitem><para>
 When hovering over a file or folder with the mouse, a small window with relevant
 information is shown if <guilabel>Show tooltips</guilabel> is enabled.
@@ -1307,25 +1317,7 @@ with the mouse. These can be used to select or deselect the item.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Natural sorting of items</guilabel> controls how items are sorted in
-the view. If this option is enabled, the sort order of three example files
-will be
-<orderedlist>
-<listitem><para>File1,</para></listitem>
-<listitem><para>File2,</para></listitem>
-<listitem><para>File10.</para></listitem>
-</orderedlist>
-If this option is disabled, the normal alphabetical sorting will be used, which
-leads to the sort order
-<orderedlist>
-<listitem><para>File1,</para></listitem>
-<listitem><para>File10,</para></listitem>
-<listitem><para>File2.</para></listitem>
-</orderedlist>
-</para></listitem>
-
-<listitem><para>
-Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is currently selected. 
+Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is currently selected.
 If this option is disabled or several items are selected, a dialog will be displayed for renaming.
 </para></listitem>
 
@@ -1381,11 +1373,6 @@ A bar that shows how much space is free on the current drive.
 </itemizedlist>
 
 </para>
-<note><para>
-Since &dolphin; 4.9 the <guimenuitem>Delete</guimenuitem>,
-<guimenuitem>Copy To</guimenuitem>, and <guimenuitem>Move To</guimenuitem>
-commands of the context menu have to be enabled on the Services page.
-</para></note>
 
 </sect3>
 
@@ -1534,6 +1521,17 @@ folder.</action></para>
 <guimenuitem>Close Tab</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Closes the current tab.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>T</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Undo close tab</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Reopens the last closed tab.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -2101,21 +2099,6 @@ Documentation copyright 2009 Frank Reininghaus <email>frank78ac@googlemail.com</
 &underGPL;        	 <!-- GPL License -->
 
 </chapter>
-
-<appendix id="installation">
-<title>How to get &dolphin;</title>
-
-&install.intro.documentation;
-
-<para>For instructions on acquiring &kde; please see <ulink
-url="http://www.kde.org">http://www.kde.org</ulink> or read the chapter 
-<ulink url="help:/fundamentals/install.html">Installing &kde;</ulink> 
-in the &kde; Fundamentals.</para>
-
-<para>For further information about &dolphin; you might want to visit
-<ulink url="http://userbase.kde.org/Dolphin">http://userbase.kde.org/Dolphin</ulink>.</para>
-
-</appendix>
 
 &documentation.index;
 </book>
