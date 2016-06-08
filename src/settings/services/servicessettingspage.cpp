@@ -30,6 +30,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNS3/Button>
+#include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
 #include <QStandardPaths>
@@ -225,6 +226,19 @@ void ServicesSettingsPage::loadServices()
         if (!isInServicesList(desktopEntryName)) {
             const bool checked = showGroup.readEntry(desktopEntryName, true);
             addRow(service->icon(), service->name(), desktopEntryName, checked);
+        }
+    }
+
+    // Load JSON-based plugins that implement the KFileItemActionPlugin interface
+    const auto jsonPlugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
+        return metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"));
+    });
+
+    foreach (const auto& jsonMetadata, jsonPlugins) {
+        const QString desktopEntryName = jsonMetadata.pluginId();
+        if (!isInServicesList(desktopEntryName)) {
+            const bool checked = showGroup.readEntry(desktopEntryName, true);
+            addRow(jsonMetadata.iconName(), jsonMetadata.name(), desktopEntryName, checked);
         }
     }
 
