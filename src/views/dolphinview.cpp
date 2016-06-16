@@ -1031,7 +1031,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         destUrl = url();
     } else {
         // The item represents a directory or desktop-file
-        destUrl = destItem.url();
+        destUrl = destItem.mostLocalUrl();
     }
 
     QDropEvent dropEvent(event->pos().toPoint(),
