@@ -519,7 +519,7 @@ void DolphinContextMenu::addFileItemPluginActions()
         }
     }
 
-    const auto jsonPlugins = KPluginLoader::findPlugins(QString(), [](const KPluginMetaData& metaData) {
+    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [](const KPluginMetaData& metaData) {
         return metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"));
     });
 
