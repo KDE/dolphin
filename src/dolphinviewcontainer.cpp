@@ -95,7 +95,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
     m_view = new DolphinView(url, this);
     connect(m_view, &DolphinView::urlChanged,
-            m_urlNavigator, &KUrlNavigator::setUrl);
+            m_urlNavigator, &KUrlNavigator::setLocationUrl);
     connect(m_view, &DolphinView::urlChanged,
             m_messageWidget, &KMessageWidget::hide);
     connect(m_view, &DolphinView::directoryLoadingCompleted,

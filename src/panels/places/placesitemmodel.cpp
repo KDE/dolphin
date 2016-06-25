@@ -1099,17 +1099,17 @@ QUrl PlacesItemModel::createTimelineUrl(const QUrl& url)
         const int year = date.year();
         const int month = date.month();
         const int day = date.day();
-        timelineUrl = "timeline:/" + timelineDateString(year, month) +
-              '/' + timelineDateString(year, month, day);
+        timelineUrl = QUrl("timeline:/" + timelineDateString(year, month) +
+              '/' + timelineDateString(year, month, day));
     } else if (path.endsWith(QLatin1String("thismonth"))) {
         const QDate date = QDate::currentDate();
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+        timelineUrl = QUrl("timeline:/" + timelineDateString(date.year(), date.month()));
     } else if (path.endsWith(QLatin1String("lastmonth"))) {
         const QDate date = QDate::currentDate().addMonths(-1);
-        timelineUrl = "timeline:/" + timelineDateString(date.year(), date.month());
+        timelineUrl = QUrl("timeline:/" + timelineDateString(date.year(), date.month()));
     } else {
         Q_ASSERT(path.endsWith(QLatin1String("today")));
-        timelineUrl= url;
+        timelineUrl = url;
     }
 
     return timelineUrl;

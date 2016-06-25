@@ -1278,7 +1278,7 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
             if (desktopFile.hasLinkType()) {
                 const QString linkUrl = desktopFile.readUrl();
                 if (!linkUrl.startsWith(QLatin1String("http"))) {
-                    return linkUrl;
+                    return QUrl::fromUserInput(linkUrl);
                 }
             }
         }

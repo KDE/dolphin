@@ -276,12 +276,12 @@ void PlacesItem::initializeDevice(const QString& udi)
         Solid::Block *block = m_device.as<Solid::Block>();
         if (block) {
             const QString device = block->device();
-            setUrl(QStringLiteral("audiocd:/?device=%1").arg(device));
+            setUrl(QUrl(QStringLiteral("audiocd:/?device=%1").arg(device)));
         } else {
-            setUrl(QStringLiteral("audiocd:/"));
+            setUrl(QUrl(QStringLiteral("audiocd:/")));
         }
     } else if (m_mtp) {
-        setUrl(QStringLiteral("mtp:udi=%1").arg(m_device.udi()));
+        setUrl(QUrl(QStringLiteral("mtp:udi=%1").arg(m_device.udi())));
     }
 }
 

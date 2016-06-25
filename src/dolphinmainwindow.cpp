@@ -83,7 +83,7 @@ namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running.
     const int CurrentDolphinVersion = 200;
-};
+}
 
 DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(0),

@@ -374,9 +374,9 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
             m_balooFileMonitor->clear();
         } else {
             QStringList newFileList;
-            foreach (const QString& itemUrl, m_balooFileMonitor->files()) {
-                if (m_model->index(itemUrl) >= 0) {
-                    newFileList.append(itemUrl);
+            foreach (const QString& file, m_balooFileMonitor->files()) {
+                if (m_model->index(QUrl::fromLocalFile(file)) >= 0) {
+                    newFileList.append(file);
                 }
             }
             m_balooFileMonitor->setFiles(newFileList);
@@ -707,10 +707,10 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
     updateChangedItems();
 }
 
-void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& itemUrl)
+void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
 {
 #ifdef HAVE_BALOO
-    const KFileItem item = m_model->fileItem(itemUrl);
+    const KFileItem item = m_model->fileItem(QUrl::fromLocalFile(file));
 
     if (item.isNull()) {
         // itemUrl is not in the model anymore, probably because
