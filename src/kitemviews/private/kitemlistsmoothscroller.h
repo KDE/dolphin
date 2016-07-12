@@ -77,19 +77,17 @@ public:
     // stable.
     bool requestScrollBarUpdate(int newMaximum);
 
+    /**
+     * Forwards wheel events to the scrollbar, ensuring smooth and proper scrolling
+     */
+    void handleWheelEvent(QWheelEvent* event);
+
 protected:
     virtual bool eventFilter(QObject* obj, QEvent* event);
 
 private slots:
     void slotAnimationStateChanged(QAbstractAnimation::State newState,
                                    QAbstractAnimation::State oldState);
-
-private:
-    /**
-     * Results into a smooth-scrolling of the target dependent on the direction
-     * of the wheel event.
-     */
-    void handleWheelEvent(QWheelEvent* event);
 
 private:
     bool m_scrollBarPressed;
