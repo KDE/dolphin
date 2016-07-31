@@ -724,6 +724,15 @@ void DolphinView::stopLoading()
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
+    case QEvent::KeyPress:
+        if (GeneralSettings::useTabForSwitchingSplitView()) {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
+                toggleActiveViewRequested();
+                return true;
+            }
+        }
+        break;
     case QEvent::FocusIn:
         if (watched == m_container) {
             setActive(true);

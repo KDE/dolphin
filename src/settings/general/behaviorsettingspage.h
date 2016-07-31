@@ -65,6 +65,7 @@ private:
     QRadioButton* m_caseInsensitiveSorting;
 
     QCheckBox* m_renameInline;
+    QCheckBox* m_useTabForSplitViewSwitch;
 };
 
 #endif

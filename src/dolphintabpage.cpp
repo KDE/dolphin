@@ -323,6 +323,18 @@ void DolphinTabPage::slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newU
     emit activeViewUrlChanged(newUrl);
 }
 
+void DolphinTabPage::switchActiveView()
+{
+    if (!m_splitViewEnabled) {
+        return;
+    }
+    if (m_primaryViewActive) {
+       m_secondaryViewContainer->setActive(true);
+    } else {
+       m_primaryViewContainer->setActive(true);
+    }
+}
+
 DolphinViewContainer* DolphinTabPage::createViewContainer(const QUrl& url) const
 {
     DolphinViewContainer* container = new DolphinViewContainer(url, m_splitter);
@@ -331,6 +343,9 @@ DolphinViewContainer* DolphinTabPage::createViewContainer(const QUrl& url) const
     const DolphinView* view = container->view();
     connect(view, &DolphinView::activated,
             this, &DolphinTabPage::slotViewActivated);
+
+    connect(view, &DolphinView::toggleActiveViewRequested,
+            this, &DolphinTabPage::switchActiveView);
 
     return container;
 }
