@@ -48,7 +48,7 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_fileMetaDataWidget(0)
 {
     setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint);
+    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
 
     // Create widget for file preview
     m_preview = new QLabel(this);
@@ -174,8 +174,6 @@ void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
 
 void FileMetaDataToolTip::showEvent(QShowEvent *)
 {
-#pragma message("TODO: port Plasma::WindowEffects::overrideShadow")
-    //Plasma::WindowEffects::overrideShadow(winId(), true);
     KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 

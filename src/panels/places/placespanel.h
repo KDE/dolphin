@@ -52,7 +52,7 @@ protected:
     virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
 
 public slots:
-    virtual void readSettings();
+    virtual void readSettings() Q_DECL_OVERRIDE;
 
 private slots:
     void slotItemActivated(int index);

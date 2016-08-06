@@ -75,10 +75,6 @@
 #endif
 #include <KFormat>
 
-namespace {
-    const int MaxModeEnum = DolphinView::CompactView;
-}
-
 DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_active(true),

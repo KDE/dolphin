@@ -33,7 +33,7 @@ public:
 protected:
     virtual void paintSeparator(QPainter* painter, const QColor& color) Q_DECL_OVERRIDE;
 
-    virtual QPalette::ColorRole normalTextColorRole() const;
+    virtual QPalette::ColorRole normalTextColorRole() const Q_DECL_OVERRIDE;
 };
 #endif
 
