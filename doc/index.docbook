@@ -774,6 +774,7 @@ current folder, &RMB; click in the work space and click
 <sect2 id="finding-searching-in-file">
 <title>Finding Files and Searching in Files</title>
 <!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
 <para>
 &dolphin; is capable of searching for files and for content in files. If <keycombo action="simul">
 &Ctrl;<keycap>F</keycap></keycombo> is pressed or <menuchoice> <guimenu>Edit</guimenu> 
@@ -1582,7 +1583,7 @@ to the trash and cannot be restored.</action></para></listitem>
 <listitem><para><action>Shows the properties dialog for the currently selected
 item(s).</action></para></listitem>
 </varlistentry>
-
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -1776,7 +1777,7 @@ current folder grouped by the option selected in <guimenuitem>Sort By</guimenuit
 <keycombo action="simul">&Alt;<keycap>.</keycap></keycombo>
 </shortcut>
 <guimenu>View</guimenu>
-<guimenuitem>Show Hidden Files</guimenuitem>
+<guimenuitem>Hidden Files</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Shows all the hidden files and sub-folders within the current
 folder.</action></para></listitem>
