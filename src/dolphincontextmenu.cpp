@@ -48,6 +48,7 @@
 #include <QKeyEvent>
 #include <QMenuBar>
 #include <QMenu>
+#include <QMimeDatabase>
 
 #include <panels/places/placesitem.h>
 #include <panels/places/placesitemmodel.h>
@@ -519,8 +520,19 @@ void DolphinContextMenu::addFileItemPluginActions()
         }
     }
 
-    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"));
+    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [=](const KPluginMetaData& metaData) {
+        if (!metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"))) {
+            return false;
+        }
+
+        auto mimeType = QMimeDatabase().mimeTypeForName(commonMimeType);
+        foreach (const auto& supportedMimeType, metaData.mimeTypes()) {
+            if (mimeType.inherits(supportedMimeType)) {
+                return true;
+            }
+        }
+
+        return false;
     });
 
     foreach (const auto& jsonMetadata, jsonPlugins) {
