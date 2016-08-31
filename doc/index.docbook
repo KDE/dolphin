@@ -384,7 +384,7 @@ in <menuchoice><guimenu>View</guimenu><guisubmenu>Sort by</guisubmenu></menuchoi
 <sect3 id="dolphin-view-information">
 <title>Information in the View</title>
 <para>
-In all view modes &kappname; shows at least an icon and a name for each item. 
+In all view modes &dolphin; shows at least an icon and a name for each item. 
 Using <guisubmenu>Additional Information</guisubmenu> in the <guimenu>View</guimenu> 
 menu or the context menu of the header in <guilabel>Details</guilabel> mode, you can select
 more information for each item to be shown:
@@ -1386,7 +1386,7 @@ A bar that shows how much space is free on the current drive.
 
 <para>
 The following settings control how the contents of a folder are displayed in the
-&kappname; view, and are stored on a per-folder basis by default:
+&dolphin; view, and are stored on a per-folder basis by default:
 </para>
 <itemizedlist>
 
@@ -1407,7 +1407,7 @@ Sorting of folders and files &ndash; are folders shown first or not?
 <listitem><para>
 Previews &ndash; are they shown instead of icons (based on the settings made in
 <link linkend="preferences-dialog-general-previews"><guilabel>Previews</guilabel>
-tab of &kappname;'s General settings</link>) or not?
+tab of &dolphin;'s General settings</link>) or not?
 </para></listitem>
 
 <listitem><para>
@@ -1643,7 +1643,10 @@ item(s).</action></para></listitem>
 <keycombo action="simul">&Ctrl;<keycap>V</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
-<guimenuitem>Paste Clipboard Contents...</guimenuitem>
+<guimenuitem>Paste Clipboard Contents...</guimenuitem></menuchoice> or
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste one File</guimenuitem></menuchoice> or
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste one Folder</guimenuitem></menuchoice> or
+<menuchoice><guimenu>Edit</guimenu><guimenuitem>Paste x Items</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Pastes the currently copied/cut items to the current
 folder. If the clipboard does not contain files or folders, the clipboard
