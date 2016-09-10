@@ -498,10 +498,6 @@ void DolphinContextMenu::addFileItemPluginActions()
     }
 
     const KService::List pluginServices = KMimeTypeTrader::self()->query(commonMimeType, QStringLiteral("KFileItemAction/Plugin"), QStringLiteral("exist Library"));
-    if (pluginServices.isEmpty()) {
-        return;
-    }
-
     const KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
