@@ -547,6 +547,7 @@ void DolphinContextMenu::addFileItemPluginActions()
         if (abstractPlugin) {
             abstractPlugin->setParent(this);
             addActions(abstractPlugin->actions(props, m_mainWindow));
+            addedPlugins << jsonMetadata.pluginId();
         }
     }
 }
