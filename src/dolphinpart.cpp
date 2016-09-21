@@ -397,7 +397,6 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
     KFileItem item(_item);
 
     if (item.isNull()) { // viewport context menu
-        popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
         item = m_view->rootItem();
         if (item.isNull())
             item = KFileItem(url());
