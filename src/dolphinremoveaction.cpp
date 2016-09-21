@@ -45,7 +45,7 @@ void DolphinRemoveAction::update()
     // Using setText(action->text()) does not apply the &-shortcut.
     // This is only done until the original action has been shown at least once. To
     // bypass this issue, the text and &-shortcut is applied manually.
-    if (qApp->keyboardModifiers() & Qt::ShiftModifier) {
+    if (qApp->queryKeyboardModifiers() & Qt::ShiftModifier) {
         m_action = m_collection ? m_collection->action(QStringLiteral("delete")) : 0;
         setText(i18nc("@action:inmenu", "&Delete"));
     } else {
