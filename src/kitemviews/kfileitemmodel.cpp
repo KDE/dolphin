@@ -24,6 +24,8 @@
 #include "dolphin_generalsettings.h"
 
 #include <KLocalizedString>
+#include <KUrlMimeData>
+
 #include "dolphindebug.h"
 
 #include "private/kfileitemmodelsortalgorithm.h"
@@ -265,7 +267,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
         lastAddedItem = itemData;
         const KFileItem& item = itemData->item;
         if (!item.isNull()) {
-            urls << item.targetUrl();
+            urls << item.url();
 
             bool isLocal;
             mostLocalUrls << item.mostLocalUrl(isLocal);
@@ -275,13 +277,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
         }
     }
 
-    const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
-    if (different) {
-        data->setUrls(mostLocalUrls);
-    } else {
-        data->setUrls(urls);
-    }
-
+    KUrlMimeData::setUrls(urls, mostLocalUrls, data);
     return data;
 }
 
@@ -2324,4 +2320,3 @@ bool KFileItemModel::isConsistent() const
 
     return true;
 }
-
