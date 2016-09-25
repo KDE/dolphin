@@ -31,7 +31,7 @@
 #include <KPluginFactory>
 #include <KRun>
 #include <KToolInvocation>
-#include <kauthorized.h>
+#include <KAuthorized>
 #include <QMenu>
 #include <KSharedConfig>
 #include <KConfigGroup>
@@ -222,7 +222,7 @@ void DolphinPart::createActions()
     m_findFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
     connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 
-    if (KAuthorized::authorizeKAction(QStringLiteral("shell_access"))) {
+    if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         m_openTerminalAction = actionCollection()->addAction(QStringLiteral("open_terminal"));
         m_openTerminalAction->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));

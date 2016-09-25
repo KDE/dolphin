@@ -546,6 +546,11 @@ signals:
      */
     void goForwardRequested();
 
+    /**
+     * Is emitted when the user wants to move the focus to another view.
+     */
+    void toggleActiveViewRequested();
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;

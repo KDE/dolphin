@@ -314,14 +314,12 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
         m_preview->setVisible(isChecked);
         InformationPanelSettings::setPreviewsShown(isChecked);
     } else if (action == configureAction) {
-        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
+        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
         dialog->setDescription(i18nc("@label::textbox",
                                      "Select which data should be shown in the information panel:"));
         dialog->setItems(m_metaDataWidget->items());
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
         connect(dialog, &FileMetaDataConfigurationDialog::destroyed, this, &InformationPanelContent::refreshMetaData);
     }
 }

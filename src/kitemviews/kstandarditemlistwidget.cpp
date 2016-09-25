@@ -850,6 +850,15 @@ void KStandardItemListWidget::hideEvent(QHideEvent* event)
     KItemListWidget::hideEvent(event);
 }
 
+bool KStandardItemListWidget::event(QEvent *event)
+{
+    if (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::WindowActivate) {
+        m_dirtyContent = true;
+    }
+
+    return KItemListWidget::event(event);
+}
+
 void KStandardItemListWidget::slotCutItemsChanged()
 {
     const QUrl itemUrl = data().value("url").toUrl();
@@ -954,7 +963,7 @@ void KStandardItemListWidget::updatePixmapCache()
                 iconName = QStringLiteral("unknown");
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
-            m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight);
+            m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight, isSelected() && isActiveWindow() ? QIcon::Selected : QIcon::Normal);
 
         } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
@@ -1438,11 +1447,11 @@ void KStandardItemListWidget::closeRoleEditor()
     m_roleEditor = 0;
 }
 
-QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size)
+QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size, QIcon::Mode mode)
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
     size *= qApp->devicePixelRatio();
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size) % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
@@ -1467,7 +1476,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
             requestedSize = size;
         }
 
-        pixmap = icon.pixmap(requestedSize / qApp->devicePixelRatio(), requestedSize / qApp->devicePixelRatio());
+        pixmap = icon.pixmap(requestedSize / qApp->devicePixelRatio(), requestedSize / qApp->devicePixelRatio(), mode);
         if (requestedSize != size) {
             KPixmapModifier::scale(pixmap, QSize(size, size));
         }

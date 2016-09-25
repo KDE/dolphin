@@ -62,6 +62,7 @@
   <summary xml:lang="fi">Tiedostonhallinta</summary>
   <summary xml:lang="fr">Gestionnaire de fichier</summary>
   <summary xml:lang="gl">Xestor de ficheiros</summary>
+  <summary xml:lang="he">מנהל קבצים</summary>
   <summary xml:lang="hu">Fájlkezelő</summary>
   <summary xml:lang="ia">Gerente de File</summary>
   <summary xml:lang="it">Gestore file</summary>
@@ -105,6 +106,7 @@
     <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="fr">Dolphin est un gestionnaire de fichier léger. Il a été conçu en gardant à l'esprit la simplicité et l'aisance à l'usage, tout en permettant flexibilité et personnalisation. Cela signifie que vous pouvez gérer vos fichiers de la manière exacte que vous voulez.</p>
     <p xml:lang="gl">Dolphin é un xestor de ficheiros lixeiro. Deseñouse pensando na facilidade de uso e maila simplicidade, pero permitindo flexibilidade e personalización. Noutras palabras, permítelle xestionar os seus ficheiros do xeito que máis lle agrade.</p>
+    <p xml:lang="he">‏Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
     <p xml:lang="hu">A Dolphin egy pehelysúlyú fájlkezelő. Az egyszerű használatot és az egyszerűséget szem előtt tartva tervezték, miközben továbbra is lehetővé teszi a rugalmasságot és a testre szabhatóságot. Ez azt jelenti, hogy pontosan oly módon végezheti a fájlkezelést, ahogy csak akarja.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
     <p xml:lang="it">Dolphin è un gestore file leggero. È stato progettato per essere facile da utilizzare e pensando alla semplicità, garantendo al contempo flessibilità e personalizzazione. Ciò significa che puoi gestire i tuoi file come meglio desideri.</p>
@@ -145,6 +147,7 @@
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="he">תכונות:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="it">Funzionalità:</p>
@@ -330,8 +333,8 @@
       <li xml:lang="ar">دعم تعدّد الألسنة</li>
       <li xml:lang="ast">Sofitu de múltiples llingüetes</li>
       <li xml:lang="bs">Podrška za više kartica</li>
-      <li xml:lang="ca">Implementació de pestanyes múltiples</li>
-      <li xml:lang="ca-valencia">Implementació de pestanyes múltiples</li>
+      <li xml:lang="ca">Admet pestanyes múltiples</li>
+      <li xml:lang="ca-valencia">Admet pestanyes múltiples</li>
       <li xml:lang="cs">Podpora vícero karet</li>
       <li xml:lang="da">Understøttelse af flere faneblade</li>
       <li xml:lang="de">Unterstützung für Unterfenster</li>
@@ -342,6 +345,7 @@
       <li xml:lang="fi">Useiden välilehtien tuki</li>
       <li xml:lang="fr">Prise en charge des onglets multiples</li>
       <li xml:lang="gl">Permite abrir varias lapelas.</li>
+      <li xml:lang="he">תמיכה בכרטיסיות</li>
       <li xml:lang="hu">Több lap támogatása</li>
       <li xml:lang="ia">Supporto de scheda multiple</li>
       <li xml:lang="it">Supporto di schede multiple</li>
@@ -410,8 +414,8 @@
       <li xml:lang="ar">دعم التراجع والإعادة</li>
       <li xml:lang="ast">Sofitu de desfechura/refechura</li>
       <li xml:lang="bs">Podrška za poništavanje/ponavljanje akcija</li>
-      <li xml:lang="ca">Implementació de desfer/refer</li>
-      <li xml:lang="ca-valencia">Implementació de desfer/refer</li>
+      <li xml:lang="ca">Admet desfer/refer</li>
+      <li xml:lang="ca-valencia">Admet desfer/refer</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
       <li xml:lang="de">Unterstützung für Rückgängig/Wiederherstellen</li>
       <li xml:lang="el">Υποστήριξη αναίρεσης/επανάληψης</li>
@@ -421,6 +425,7 @@
       <li xml:lang="fi">Tuki muutosten kumoamiselle ja tekemiselle uudelleen</li>
       <li xml:lang="fr">Prise en charge d'annulation et recommencement</li>
       <li xml:lang="gl">Permite desfacer e refacer.</li>
+      <li xml:lang="he">תמיכה בביטול וביצוע חוזר</li>
       <li xml:lang="hu">Visszavonás/ismétlés támogatás</li>
       <li xml:lang="ia">Supporto de annulla/reface</li>
       <li xml:lang="it">Supporto di annulla/rifai</li>

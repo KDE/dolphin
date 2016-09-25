@@ -149,6 +149,8 @@ private slots:
      */
     void slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
+    void switchActiveView();
+
 private:
     /**
      * Creates a new view container and does the default initialization.

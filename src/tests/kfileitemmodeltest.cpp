@@ -1674,7 +1674,7 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
     const KFileItem fileItemC1 = m_model->fileItem(2);
     KFileItem fileItemC2 = fileItemC1;
     QUrl urlC2 = fileItemC2.url();
-    urlC2.adjusted(QUrl::RemoveFilename);
+    urlC2 = urlC2.adjusted(QUrl::RemoveFilename);
     urlC2.setPath(urlC2.path() + "c2.txt");
     fileItemC2.setUrl(urlC2);
 

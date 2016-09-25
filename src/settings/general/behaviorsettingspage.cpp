@@ -41,7 +41,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     m_naturalSorting(0),
     m_caseSensitiveSorting(0),
     m_caseInsensitiveSorting(0),
-    m_renameInline(0)
+    m_renameInline(0),
+    m_useTabForSplitViewSwitch(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -78,11 +79,15 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     // 'Inline renaming of items'
     m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"), this);
 
+    // 'Use tab for switching between right and left split'
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Use tab for switching between right and left split view"), this);
+
     topLayout->addWidget(viewPropsBox);
     topLayout->addWidget(sortingPropsBox);
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
     topLayout->addWidget(m_renameInline);
+    topLayout->addWidget(m_useTabForSplitViewSwitch);
     topLayout->addStretch();
 
     loadSettings();
@@ -95,6 +100,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_caseInsensitiveSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_renameInline, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_useTabForSplitViewSwitch, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()
@@ -112,6 +118,7 @@ void BehaviorSettingsPage::applySettings()
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     setSortingChoiceValue(settings);
     settings->setRenameInline(m_renameInline->isChecked());
+    settings->setUseTabForSwitchingSplitView(m_useTabForSplitViewSwitch->isChecked());
     settings->save();
 
     if (useGlobalViewProps) {
@@ -141,6 +148,7 @@ void BehaviorSettingsPage::loadSettings()
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_renameInline->setChecked(GeneralSettings::renameInline());
+    m_useTabForSplitViewSwitch->setChecked(GeneralSettings::useTabForSwitchingSplitView());
 
     loadSortingChoiceSettings();
 }

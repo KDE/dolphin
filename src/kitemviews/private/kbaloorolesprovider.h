@@ -82,7 +82,7 @@ private:
     QSet<QByteArray> m_roles;
     QHash<QString, QByteArray> m_roleForProperty;
 
-    friend class KBalooRolesProviderSingleton;
+    friend struct KBalooRolesProviderSingleton;
 };
 
 #endif

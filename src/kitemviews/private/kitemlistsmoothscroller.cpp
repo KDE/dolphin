@@ -172,8 +172,7 @@ bool KItemListSmoothScroller::eventFilter(QObject* obj, QEvent* event)
         break;
 
     case QEvent::Wheel:
-        handleWheelEvent(static_cast<QWheelEvent*>(event));
-        return true; // eat event so that QScrollBar does not scroll one step more by itself
+        return false; // we're the ones sending them
 
     default:
         break;
@@ -196,25 +195,11 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
     const bool previous = m_smoothScrolling;
 
     m_smoothScrolling = true;
-    int numPixels;
-    if (!event->pixelDelta().isNull()) {
-        numPixels = event->pixelDelta().y();
-    } else {
-        const int numDegrees = event->angleDelta().y() / 8;
-        const int numSteps = qApp->wheelScrollLines() * numDegrees / 15;
-        numPixels = numSteps * m_scrollBar->pageStep() / 12;
-    }
-    int value = m_scrollBar->value();
-    if (event->modifiers().testFlag(Qt::ShiftModifier)) {
-        const int scrollingDirection = numPixels > 0 ? 1 : -1;
-        value -= m_scrollBar->pageStep() * scrollingDirection;
-    } else {
-        value -= numPixels;
-    }
-    m_scrollBar->setValue(value);
+
+    QWheelEvent copy = *event;
+    QApplication::sendEvent(m_scrollBar, &copy);
+    event->setAccepted(copy.isAccepted());
 
     m_smoothScrolling = previous;
-
-    event->accept();
 }
 

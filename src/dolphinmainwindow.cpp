@@ -48,7 +48,9 @@
 
 #include <KActionCollection>
 #include <KActionMenu>
+#include <KAuthorized>
 #include <KConfig>
+#include <kconfigwidgets_version.h>
 #include <kdualaction.h>
 #include <KJobWidgets>
 #include <QLineEdit>
@@ -82,7 +84,7 @@ namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running.
     const int CurrentDolphinVersion = 200;
-};
+}
 
 DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(0),
@@ -867,6 +869,10 @@ void DolphinMainWindow::updateControlMenu()
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ReportBug)));
     helpMenu->addSeparator();
+#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 26, 0)
+    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Donate)));
+    helpMenu->addSeparator();
+#endif
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
@@ -1098,11 +1104,13 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
-    QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
-    openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
-    openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
-    actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
-    connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+    if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
+        QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
+        openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
+        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
+        connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+    }
 
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(0, 0, actionCollection());
@@ -1205,33 +1213,36 @@ void DolphinMainWindow::setupDockWidgets()
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
-    DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
-    terminalDock->setLocked(lock);
-    terminalDock->setObjectName(QStringLiteral("terminalDock"));
-    terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-    TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
-    terminalPanel->setCustomContextMenuActions({lockLayoutAction});
-    terminalDock->setWidget(terminalPanel);
+    if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
+        DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
+        terminalDock->setLocked(lock);
+        terminalDock->setObjectName(QStringLiteral("terminalDock"));
+        terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+        TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
+        terminalPanel->setCustomContextMenuActions({lockLayoutAction});
+        terminalDock->setWidget(terminalPanel);
 
-    connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
-    connect(terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
-    connect(terminalDock, &DolphinDockWidget::visibilityChanged,
-            terminalPanel, &TerminalPanel::dockVisibilityChanged);
+        connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
+        connect(terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
+        connect(terminalDock, &DolphinDockWidget::visibilityChanged,
+                terminalPanel, &TerminalPanel::dockVisibilityChanged);
 
-    QAction* terminalAction = terminalDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
+        QAction* terminalAction = terminalDock->toggleViewAction();
+        createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
 
-    addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
-    connect(this, &DolphinMainWindow::urlChanged,
-            terminalPanel, &TerminalPanel::setUrl);
+        addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
+        connect(this, &DolphinMainWindow::urlChanged,
+                terminalPanel, &TerminalPanel::setUrl);
+
+        if (GeneralSettings::version() < 200) {
+            terminalDock->hide();
+        }
+    }
 #endif
 
     if (GeneralSettings::version() < 200) {
         infoDock->hide();
         foldersDock->hide();
-#ifndef Q_OS_WIN
-        terminalDock->hide();
-#endif
     }
 
     // Setup "Places"

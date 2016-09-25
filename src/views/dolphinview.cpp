@@ -75,10 +75,6 @@
 #endif
 #include <KFormat>
 
-namespace {
-    const int MaxModeEnum = DolphinView::CompactView;
-}
-
 DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_active(true),
@@ -728,6 +724,15 @@ void DolphinView::stopLoading()
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
+    case QEvent::KeyPress:
+        if (GeneralSettings::useTabForSwitchingSplitView()) {
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
+                toggleActiveViewRequested();
+                return true;
+            }
+        }
+        break;
     case QEvent::FocusIn:
         if (watched == m_container) {
             setActive(true);
@@ -1031,7 +1036,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
         destUrl = url();
     } else {
         // The item represents a directory or desktop-file
-        destUrl = destItem.url();
+        destUrl = destItem.mostLocalUrl();
     }
 
     QDropEvent dropEvent(event->pos().toPoint(),
@@ -1278,7 +1283,7 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
             if (desktopFile.hasLinkType()) {
                 const QString linkUrl = desktopFile.readUrl();
                 if (!linkUrl.startsWith(QLatin1String("http"))) {
-                    return linkUrl;
+                    return QUrl::fromUserInput(linkUrl);
                 }
             }
         }

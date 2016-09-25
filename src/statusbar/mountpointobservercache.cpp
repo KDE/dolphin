@@ -62,10 +62,10 @@ MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
         } else {
             // Even if determining the mount point failed, the observer might still
             // be able to retrieve information about the url.
-            cachedObserverUrl = url.toLocalFile();
+            cachedObserverUrl = url;
         }
     } else {
-        cachedObserverUrl = url.url();
+        cachedObserverUrl = url;
     }
 
     MountPointObserver* observer = m_observerForMountPoint.value(cachedObserverUrl);

@@ -43,7 +43,7 @@
             <default>false</default>
         </entry>
         <entry name="GlobalViewProps" type="Bool">
-            <label>Should the view properties be used for all directories</label>
+            <label>Should the view properties be used for all folders</label>
             <default>false</default>
         </entry>
         <entry name="BrowseThroughArchives" type="Bool">
@@ -61,6 +61,10 @@
         <entry name="ShowSelectionToggle" type="Bool">
             <label>Show selection toggle</label>
             <default>true</default>
+        </entry>
+        <entry name="UseTabForSwitchingSplitView" type="Bool">
+            <label>Use tab for switching between right and left split</label>
+            <default>false</default>
         </entry>
         <entry name="ShowToolTips" type="Bool">
             <label>Show tooltips</label>
