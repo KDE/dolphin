@@ -524,6 +524,12 @@ void DolphinMainWindow::toggleSplitView()
     updateViewActions();
 }
 
+void DolphinMainWindow::toggleSplitStash()
+{
+    DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+    tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), true);
+}
+
 void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
@@ -1040,6 +1046,13 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcut(split, Qt::Key_F3);
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
+    QAction* stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
+    actionCollection()->setDefaultShortcut(stashSplit, Qt::Key_F2);
+    stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
+    stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
+    stashSplit->setCheckable(true);
+    connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
+
     QAction* reload = actionCollection()->addAction(QStringLiteral("reload"));
     reload->setText(i18nc("@action:inmenu View", "Reload"));
     actionCollection()->setDefaultShortcut(reload, Qt::Key_F5);
@@ -1521,4 +1534,3 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
         KIO::FileUndoManager::UiInterface::jobError(job);
     }
 }
-

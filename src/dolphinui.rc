@@ -27,6 +27,7 @@
             <Action name="show_hidden_files" />
             <Separator/>
             <Action name="split_view" />
+            <Action name="split_stash" />
             <Action name="reload" />
             <Action name="stop" />
             <Separator/>
@@ -97,6 +98,7 @@
         <Action name="edit_find"/>
         <Action name="show_preview" />
         <Action name="split_view" />
+        <Action name="split_stash" />
     </ToolBar>
     <ActionProperties scheme="Default">
         <Action priority="0" name="go_back"/>

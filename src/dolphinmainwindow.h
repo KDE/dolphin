@@ -224,6 +224,8 @@ private slots:
      */
     void toggleSplitView();
 
+    void toggleSplitStash();
+
     /** Reloads the currently active view. */
     void reloadView();
 
@@ -514,4 +516,3 @@ inline int DolphinMainWindow::getId() const
 }
 
 #endif // DOLPHIN_MAINWINDOW_H
-

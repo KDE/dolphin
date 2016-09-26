@@ -71,13 +71,17 @@ bool DolphinTabPage::splitViewEnabled() const
     return m_splitViewEnabled;
 }
 
-void DolphinTabPage::setSplitViewEnabled(bool enabled)
+void DolphinTabPage::setSplitViewEnabled(bool enabled, bool stash /*= false*/)
 {
     if (m_splitViewEnabled != enabled) {
         m_splitViewEnabled = enabled;
-
+        QUrl url;
         if (enabled) {
-            const QUrl& url = m_primaryViewContainer->url();
+            if (stash) {
+                url = QUrl("stash:/");
+            } else {
+                url = m_primaryViewContainer->url();
+            }
             m_secondaryViewContainer = createViewContainer(url);
 
             const bool placesSelectorVisible = m_primaryViewContainer->urlNavigator()->isPlacesSelectorVisible();
