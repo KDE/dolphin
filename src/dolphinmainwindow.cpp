@@ -1469,6 +1469,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action(QStringLiteral("split_view"));
+    QAction* stashSplit = actionCollection()->action(QStringLiteral("stash_split"));
     const DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (tabPage->primaryViewActive()) {
