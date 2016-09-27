@@ -1047,7 +1047,7 @@ void DolphinMainWindow::setupActions()
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
     QAction* stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
-    actionCollection()->setDefaultShortcut(stashSplit, Qt::Key_F2);
+    actionCollection()->setDefaultShortcut(stashSplit, Qt::CTRL | Qt::Key_S);
     stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
     stashSplit->setIcon(QIcon::fromTheme(QStringLiteral("folder-visiting")));
