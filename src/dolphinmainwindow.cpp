@@ -1469,7 +1469,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action(QStringLiteral("split_view"));
-    QAction* stashSplit = actionCollection()->action(QStringLiteral("stash_split"));
+    QAction* stashSplit = actionCollection()->action(QStringLiteral("split_stash"));
     const DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (tabPage->primaryViewActive()) {
@@ -1485,6 +1485,7 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setToolTip(i18nc("@info", "Split view"));
         splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
+        stashSplit->setChecked(false);
     }
 }
 
