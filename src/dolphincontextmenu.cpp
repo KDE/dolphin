@@ -34,6 +34,7 @@
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>
+#include <kio_version.h>
 #include <KJobWidgets>
 #include <KMimeTypeTrader>
 #include <KNewFileMenu>
@@ -283,7 +284,7 @@ void DolphinContextMenu::openItemContextMenu()
     fileItemActions.setItemListProperties(selectedItemsProps);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions();
+    addFileItemPluginActions(fileItemActions);
 
     addVersionControlPluginActions();
 
@@ -355,7 +356,7 @@ void DolphinContextMenu::openViewportContextMenu()
     fileItemActions.setItemListProperties(baseUrlProperties);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions();
+    addFileItemPluginActions(fileItemActions);
 
     addVersionControlPluginActions();
 
@@ -483,8 +484,12 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
     fileItemActions.addServiceActionsTo(this);
 }
 
-void DolphinContextMenu::addFileItemPluginActions()
+void DolphinContextMenu::addFileItemPluginActions(KFileItemActions& fileItemActions)
 {
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 27, 0)
+    fileItemActions.addPluginActionsTo(this);
+#else
+    Q_UNUSED(fileItemActions);
     KFileItemListProperties props;
     if (m_selectedItems.isEmpty()) {
         props.setItems(KFileItemList() << baseFileItem());
@@ -550,6 +555,7 @@ void DolphinContextMenu::addFileItemPluginActions()
             addedPlugins << jsonMetadata.pluginId();
         }
     }
+#endif
 }
 
 void DolphinContextMenu::addVersionControlPluginActions()

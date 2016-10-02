@@ -126,7 +126,7 @@ private:
     /**
      * Adds actions that are provided by a KFileItemActionPlugin.
      */
-    void addFileItemPluginActions();
+    void addFileItemPluginActions(KFileItemActions& fileItemActions);
 
     /**
      * Adds actions that are provided by a KVersionControlPlugin.
