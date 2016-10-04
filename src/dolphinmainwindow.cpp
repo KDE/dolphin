@@ -526,7 +526,7 @@ void DolphinMainWindow::toggleSplitView()
 void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
-    m_activeViewContainer->view()->reload();
+    m_activeViewContainer->reload();
 }
 
 void DolphinMainWindow::stopLoading()
