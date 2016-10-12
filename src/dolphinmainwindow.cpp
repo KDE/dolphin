@@ -1130,14 +1130,14 @@ void DolphinMainWindow::setupActions()
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateNextTab);
-    actionCollection()->setDefaultShortcuts(activateNextTab, QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
+    actionCollection()->setDefaultShortcuts(activateNextTab, nextTabKeys);
 
     QAction* activatePrevTab = actionCollection()->addAction(QStringLiteral("activate_prev_tab"));
     activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
-    actionCollection()->setDefaultShortcuts(activatePrevTab, QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
+    actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
 
     // for context menu
     QAction* openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
