@@ -50,7 +50,7 @@ public:
      *
      * If \a enabled is true, it creates a secondary view with the url of the primary view.
      */
-    void setSplitViewEnabled(bool enabled, bool stash = false);
+    void setSplitViewEnabled(bool enabled, QUrl secondaryUrl = QUrl());
 
     /**
      * @return The primary view containter.
