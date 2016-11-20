@@ -25,12 +25,19 @@ KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemLi
     m_itemListView(itemListView),
     m_logicalHeightHintCache(),
     m_logicalWidthHint(0.0),
+    m_logicalHeightHint(0.0),
     m_needsResolving(false)
 {
 }
 
 KItemListSizeHintResolver::~KItemListSizeHintResolver()
 {
+}
+
+QSizeF KItemListSizeHintResolver::maxSizeHint()
+{
+    updateCache();
+    return QSizeF(m_logicalWidthHint, m_logicalHeightHint);
 }
 
 QSizeF KItemListSizeHintResolver::sizeHint(int index)
@@ -149,6 +156,12 @@ void KItemListSizeHintResolver::updateCache()
 {
     if (m_needsResolving) {
         m_itemListView->calculateItemSizeHints(m_logicalHeightHintCache, m_logicalWidthHint);
+        // Set logical height as the max cached height (if the cache is not empty).
+        if (m_logicalHeightHintCache.isEmpty()) {
+            m_logicalHeightHint = 0.0;
+        } else {
+            m_logicalHeightHint = *std::max_element(m_logicalHeightHintCache.begin(), m_logicalHeightHintCache.end());
+        }
         m_needsResolving = false;
     }
 }

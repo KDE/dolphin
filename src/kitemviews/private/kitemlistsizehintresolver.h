@@ -36,6 +36,7 @@ class DOLPHIN_EXPORT KItemListSizeHintResolver
 public:
     KItemListSizeHintResolver(const KItemListView* itemListView);
     virtual ~KItemListSizeHintResolver();
+    QSizeF maxSizeHint();
     QSizeF sizeHint(int index);
 
     void itemsInserted(const KItemRangeList& itemRanges);
@@ -50,6 +51,7 @@ private:
     const KItemListView* m_itemListView;
     mutable QVector<qreal> m_logicalHeightHintCache;
     mutable qreal m_logicalWidthHint;
+    mutable qreal m_logicalHeightHint;
     bool m_needsResolving;
 };
 
