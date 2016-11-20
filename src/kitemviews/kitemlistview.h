@@ -154,9 +154,14 @@ public:
 
     /**
      * @return The basic size of all items. The size of an item may be larger than
-     *         the basic size (see KItemListView::itemSizeHint() and KItemListView::itemRect()).
+     *         the basic size (see KItemListView::itemRect()).
      */
     QSizeF itemSize() const;
+
+    /**
+     * @return The size hint of all items. It is provided by the KItemListSizeHintResolver.
+     */
+    QSizeF itemSizeHint() const;
 
     const KItemListStyleOption& styleOption() const;
 

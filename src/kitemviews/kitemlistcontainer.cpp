@@ -265,7 +265,7 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
         scrollOffsetScrollBar = verticalScrollBar();
-        singleStep = view->itemSize().height();
+        singleStep = view->itemSizeHint().height();
         // We cannot use view->size().height() because this height might
         // include the header widget, which is not part of the scrolled area.
         pageStep = view->verticalPageStep();
