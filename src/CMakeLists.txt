@@ -1,3 +1,4 @@
+include(ECMAddAppIcon)
 
 configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
@@ -268,8 +269,9 @@ if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
 endif()
 
-# TODO Does anything replace kde4_add_app_icon ?
-#kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
+# Sets the icon on Windows and OSX
+file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
+ecm_add_app_icon(dolphin_SRCS ICONS ${ICONS_SRCS})
 
 kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 
