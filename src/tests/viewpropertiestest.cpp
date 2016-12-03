@@ -44,6 +44,7 @@ void ViewPropertiesTest::init()
 {
     m_globalViewProps = GeneralSettings::self()->globalViewProps();
     GeneralSettings::self()->setGlobalViewProps(false);
+    GeneralSettings::self()->save();
 
     // It is mandatory to create the test-directory inside the home-directory
     // of the user: ViewProperties does not write inside directories
@@ -58,6 +59,7 @@ void ViewPropertiesTest::cleanup()
     m_testDir = 0;
 
     GeneralSettings::self()->setGlobalViewProps(m_globalViewProps);
+    GeneralSettings::self()->save();
 }
 
 /**
