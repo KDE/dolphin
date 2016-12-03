@@ -154,9 +154,9 @@ void KFileItemModelTest::testDefaultSortRole()
     QVERIFY(itemsInsertedSpy.wait());
 
     QCOMPARE(m_model->count(), 3);
-    QCOMPARE(m_model->data(0)["text"].toString(), QString("a.txt"));
-    QCOMPARE(m_model->data(1)["text"].toString(), QString("b.txt"));
-    QCOMPARE(m_model->data(2)["text"].toString(), QString("c.txt"));
+    QCOMPARE(m_model->data(0).value("text").toString(), QString("a.txt"));
+    QCOMPARE(m_model->data(1).value("text").toString(), QString("b.txt"));
+    QCOMPARE(m_model->data(2).value("text").toString(), QString("c.txt"));
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()
