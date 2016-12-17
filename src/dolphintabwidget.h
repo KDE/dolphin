@@ -186,6 +186,8 @@ private:
 private:
     /** Caches the (negated) places panel visibility */
     bool m_placesSelectorVisible;
+
+    int m_previousTab;
 };
 
 #endif
