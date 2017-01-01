@@ -100,6 +100,7 @@ public:
 protected:
     virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
     virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
     virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
     virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
