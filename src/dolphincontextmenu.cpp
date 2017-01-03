@@ -307,7 +307,7 @@ void DolphinContextMenu::openItemContextMenu()
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
                 const QString text = selectedUrl.fileName();
-                PlacesItem* item = model.createPlacesItem(text, selectedUrl);
+                PlacesItem* item = model.createPlacesItem(text, selectedUrl, KIO::iconNameForUrl(selectedUrl));
                 model.appendItemToGroup(item);
                 model.saveBookmarks();
             }
@@ -373,7 +373,8 @@ void DolphinContextMenu::openViewportContextMenu()
         if (container->url().isValid()) {
             PlacesItemModel model;
             PlacesItem* item = model.createPlacesItem(container->placesText(),
-                                                      container->url());
+                                                      container->url(),
+                                                      KIO::iconNameForUrl(container->url()));
             model.appendItemToGroup(item);
             model.saveBookmarks();
         }
