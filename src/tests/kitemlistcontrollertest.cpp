@@ -37,6 +37,7 @@
  */
 class KItemListControllerTestStyle : public QProxyStyle
 {
+    Q_OBJECT
 public:
     KItemListControllerTestStyle(QStyle* style) :
         QProxyStyle(style),

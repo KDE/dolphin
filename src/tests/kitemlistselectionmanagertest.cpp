@@ -26,6 +26,7 @@
 
 class DummyModel : public KItemModelBase
 {
+    Q_OBJECT
 public:
     DummyModel();
     void setCount(int count);
