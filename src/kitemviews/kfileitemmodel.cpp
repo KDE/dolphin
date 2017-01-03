@@ -416,12 +416,15 @@ int KFileItemModel::index(const QUrl& url) const
             foreach (const QUrl& url, indexesForUrl.uniqueKeys()) {
                 if (indexesForUrl.count(url) > 1) {
                     qCWarning(DolphinDebug) << "Multiple items found with the URL" << url;
-                    foreach (int index, indexesForUrl.values(url)) {
-                        const ItemData* data = m_itemData.at(index);
-                        qCWarning(DolphinDebug) << "index" << index << ":" << data->item;
+
+                    auto it = indexesForUrl.find(url);
+                    while (it != indexesForUrl.end() && it.key() == url) {
+                        const ItemData* data = m_itemData.at(it.value());
+                        qCWarning(DolphinDebug) << "index" << it.value() << ":" << data->item;
                         if (data->parent) {
                             qCWarning(DolphinDebug) << "parent" << data->parent->item;
                         }
+                        ++it;
                     }
                 }
             }
@@ -590,7 +593,12 @@ int KFileItemModel::expandedParentsCount(int index) const
 
 QSet<QUrl> KFileItemModel::expandedDirectories() const
 {
-    return m_expandedDirs.values().toSet();
+    QSet<QUrl> result;
+    const auto dirs = m_expandedDirs;
+    for (const auto &dir : dirs) {
+        result.insert(dir);
+    }
+    return result;
 }
 
 void KFileItemModel::restoreExpandedDirectories(const QSet<QUrl> &urls)
