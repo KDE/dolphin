@@ -211,19 +211,7 @@ void DolphinView::setActive(bool active)
 
     m_active = active;
 
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    if (!active) {
-        color.setAlpha(150);
-    }
-
-    QWidget* viewport = m_container->viewport();
-    if (viewport) {
-        QPalette palette;
-        palette.setColor(viewport->backgroundRole(), color);
-        viewport->setPalette(palette);
-    }
-
-    update();
+    updatePalette();
 
     if (active) {
         m_container->setFocus();
@@ -721,9 +709,30 @@ void DolphinView::stopLoading()
     m_model->cancelDirectoryLoading();
 }
 
+void DolphinView::updatePalette()
+{
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    if (!m_active) {
+        color.setAlpha(150);
+    }
+
+    QWidget* viewport = m_container->viewport();
+    if (viewport) {
+        QPalette palette;
+        palette.setColor(viewport->backgroundRole(), color);
+        viewport->setPalette(palette);
+    }
+
+    update();
+}
+
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
+    case QEvent::PaletteChange:
+        updatePalette();
+        break;
+
     case QEvent::KeyPress:
         if (GeneralSettings::useTabForSwitchingSplitView()) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
