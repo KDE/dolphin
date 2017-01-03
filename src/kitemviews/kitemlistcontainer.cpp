@@ -48,7 +48,7 @@ class KItemListContainerViewport : public QGraphicsView
 public:
     KItemListContainerViewport(QGraphicsScene* scene, QWidget* parent);
 protected:
-    virtual void wheelEvent(QWheelEvent* event);
+    void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 };
 
 KItemListContainerViewport::KItemListContainerViewport(QGraphicsScene* scene, QWidget* parent) :

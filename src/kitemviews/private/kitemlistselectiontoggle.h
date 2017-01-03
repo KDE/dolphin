@@ -42,10 +42,10 @@ public:
 
     void setHovered(bool hovered);
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
 
 protected:
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
 
 private:
     void updatePixmap();

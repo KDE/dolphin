@@ -48,7 +48,7 @@ signals:
     void urlIsFileError(const QUrl& url);
 
 protected:
-    virtual void handleError(KIO::Job* job);
+    void handleError(KIO::Job* job) Q_DECL_OVERRIDE;
 };
 
 #endif

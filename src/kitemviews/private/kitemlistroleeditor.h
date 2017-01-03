@@ -44,15 +44,15 @@ public:
     void setRole(const QByteArray& role);
     QByteArray role() const;
 
-    virtual bool eventFilter(QObject* watched, QEvent* event);
+    bool eventFilter(QObject* watched, QEvent* event) Q_DECL_OVERRIDE;
 
 signals:
     void roleEditingFinished(const QByteArray& role, const QVariant& value);
     void roleEditingCanceled(const QByteArray& role, const QVariant& value);
 
 protected:
-    virtual bool event(QEvent* event);
-    virtual void keyPressEvent(QKeyEvent* event);
+    bool event(QEvent* event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     /**
