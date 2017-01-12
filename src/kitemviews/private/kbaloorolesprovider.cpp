@@ -138,6 +138,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "rating", "rating" },
         { "tag",        "tags" },
         { "comment",   "comment" },
+        { "title",         "title" },
         { "wordCount",     "wordCount" },
         { "lineCount",     "lineCount" },
         { "width",         "imageSize" },
