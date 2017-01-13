@@ -48,6 +48,7 @@
   <name xml:lang="zh-TW">Dolphin</name>
   <summary>File Manager</summary>
   <summary xml:lang="ar">مدير ملفات</summary>
+  <summary xml:lang="ast">Xestor de ficheros</summary>
   <summary xml:lang="bs">Upravitelj datoteka</summary>
   <summary xml:lang="ca">Gestor de fitxers</summary>
   <summary xml:lang="ca-valencia">Gestor de fitxers</summary>
@@ -92,6 +93,7 @@
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
+    <p xml:lang="ast">Dolphin ye un xestor de ficheros llixeru. Diseñóse cola facilidá y cenciellez d'usu en mente, el mesmu tiempu qu'entá permite la flixibilidá y personalización. Quier dicir que pues facer la to xestión de ficheros exautamente como quieras facelo.</p>
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="ca-valencia">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que siga simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
@@ -131,6 +133,7 @@
     <p xml:lang="zh-TW">Dolphin 是一套輕量級的檔案管理員。它設計的理念是易用與簡單，但仍然保持足夠的彈性。這表示您可以用您想要使用的方式來管理您的檔案。</p>
     <p>Features:</p>
     <p xml:lang="ar">المزايا:</p>
+    <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
