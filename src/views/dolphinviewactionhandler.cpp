@@ -482,6 +482,12 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
     QAction* showHiddenFilesAction = m_actionCollection->action(QStringLiteral("show_hidden_files"));
     showHiddenFilesAction->setChecked(shown);
 
+    // #374508: don't overwrite custom icons.
+    const QString iconName = showHiddenFilesAction->icon().name();
+    if (!iconName.isEmpty() && iconName != QLatin1String("visibility") && iconName != QLatin1String("hint")) {
+        return;
+    }
+
     showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? QStringLiteral("visibility") : QStringLiteral("hint")));
 }
 
