@@ -62,6 +62,7 @@ private:
     QCheckBox* m_editableUrl;
     QCheckBox* m_showFullPath;
     QCheckBox* m_filterBar;
+    QCheckBox* m_showFullPathInTitlebar;
 };
 
 #endif

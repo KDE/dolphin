@@ -961,12 +961,16 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
         }
     }
 
-    QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
-    if (fileName.isEmpty()) {
-        fileName = '/';
+    if (GeneralSettings::showFullPathInTitlebar()) {
+        const QString path = url.adjusted(QUrl::StripTrailingSlash).path();
+        caption.append(path);
+    } else {
+        QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
+        if (fileName.isEmpty()) {
+            fileName = '/';
+        }
+        caption.append(fileName);
     }
-
-    caption.append(fileName);
 
     setWindowTitle(caption);
 }
@@ -1404,6 +1408,7 @@ void DolphinMainWindow::refreshViews()
         const bool splitView = GeneralSettings::splitView();
         m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView);
         updateSplitAction();
+        setUrlAsCaption(activeViewContainer()->url());
     }
 
     emit settingsChanged();
