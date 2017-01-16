@@ -361,6 +361,9 @@ QString DolphinViewContainer::placesText() const
         if (text.isEmpty()) {
             text = url().host();
         }
+        if (text.isEmpty()) {
+            text = url().scheme();
+        }
     }
 
     return text;
