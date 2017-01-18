@@ -195,7 +195,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
             m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
             m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
-            if (m_previewJob->ui()) {
+            if (m_previewJob->uiDelegate()) {
                 KJobWidgets::setWindow(m_previewJob, this);
             }
 

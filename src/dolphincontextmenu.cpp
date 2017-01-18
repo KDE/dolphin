@@ -160,7 +160,7 @@ void DolphinContextMenu::openTrashContextMenu()
         if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
             KIO::Job* job = KIO::emptyTrash();
             KJobWidgets::setWindow(job, m_mainWindow);
-            job->ui()->setAutoErrorHandlingEnabled(true);
+            job->uiDelegate()->setAutoErrorHandlingEnabled(true);
         }
     }
 }

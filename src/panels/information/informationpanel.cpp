@@ -185,7 +185,7 @@ void InformationPanel::showItemInfo()
             // No item is hovered and no selection has been done: provide
             // an item for the currently shown directory.
             m_folderStatJob = KIO::stat(url(), KIO::HideProgressInfo);
-            if (m_folderStatJob->ui()) {
+            if (m_folderStatJob->uiDelegate()) {
                 KJobWidgets::setWindow(m_folderStatJob, this);
             }
             connect(m_folderStatJob, &KIO::Job::result,

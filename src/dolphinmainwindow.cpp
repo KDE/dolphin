@@ -723,7 +723,7 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
     } else if (KProtocolManager::supportsListing(url)) {
         // stat the URL to see if it is a dir or not
         m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
-        if (m_lastHandleUrlStatJob->ui()) {
+        if (m_lastHandleUrlStatJob->uiDelegate()) {
             KJobWidgets::setWindow(m_lastHandleUrlStatJob, this);
         }
         connect(m_lastHandleUrlStatJob, &KIO::Job::result,

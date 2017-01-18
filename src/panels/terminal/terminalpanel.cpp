@@ -137,7 +137,7 @@ void TerminalPanel::changeDir(const QUrl& url)
         sendCdToTerminal(url.toLocalFile());
     } else {
         m_mostLocalUrlJob = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
-        if (m_mostLocalUrlJob->ui()) {
+        if (m_mostLocalUrlJob->uiDelegate()) {
             KJobWidgets::setWindow(m_mostLocalUrlJob, this);
         }
         connect(m_mostLocalUrlJob, &KIO::StatJob::result, this, &TerminalPanel::slotMostLocalUrlResult);
