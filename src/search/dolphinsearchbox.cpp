@@ -26,6 +26,7 @@
 #include <QLineEdit>
 #include <KLocalizedString>
 #include <KSeparator>
+#include <KNS3/KMoreToolsMenuFactory>
 
 #include <QButtonGroup>
 #include <QDir>
@@ -385,6 +386,20 @@ void DolphinSearchBox::init()
     searchLocationGroup->addButton(m_fromHereButton);
     searchLocationGroup->addButton(m_everywhereButton);
 
+    auto moreSearchToolsButton = new QToolButton(this);
+    moreSearchToolsButton->setAutoRaise(true);
+    moreSearchToolsButton->setPopupMode(QToolButton::InstantPopup);
+    moreSearchToolsButton->setIcon(QIcon::fromTheme("arrow-down-double"));
+    moreSearchToolsButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    moreSearchToolsButton->setText(i18n("More Search Tools"));
+    moreSearchToolsButton->setMenu(new QMenu(this));
+    connect(moreSearchToolsButton->menu(), &QMenu::aboutToShow, moreSearchToolsButton->menu(), [this, moreSearchToolsButton]()
+    {
+        m_menuFactory.reset(new KMoreToolsMenuFactory("dolphin/search-tools"));
+        moreSearchToolsButton->menu()->clear();
+        m_menuFactory->fillMenuFromGroupingNames(moreSearchToolsButton->menu(), { "files-find" }, this->m_searchPath);
+    } );
+
     // Create "Facets" widgets
     m_facetsToggleButton = new QToolButton(this);
     m_facetsToggleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
@@ -404,8 +419,10 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_separator);
     optionsLayout->addWidget(m_fromHereButton);
     optionsLayout->addWidget(m_everywhereButton);
-    optionsLayout->addStretch(1);
+    optionsLayout->addWidget(new KSeparator(Qt::Vertical, this));
     optionsLayout->addWidget(m_facetsToggleButton);
+    optionsLayout->addWidget(moreSearchToolsButton);
+    optionsLayout->addStretch(1);
 
     // Put the options into a QScrollArea. This prevents increasing the view width
     // in case that not enough width for the options is available.

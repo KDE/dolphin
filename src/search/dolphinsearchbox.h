@@ -30,6 +30,7 @@ class QToolButton;
 class QScrollArea;
 class QLabel;
 class QVBoxLayout;
+class KMoreToolsMenuFactory;
 
 /**
  * @brief Input box for searching files with or without Baloo.
@@ -176,6 +177,7 @@ private:
     DolphinFacetsWidget* m_facetsWidget;
 
     QUrl m_searchPath;
+    QScopedPointer<KMoreToolsMenuFactory> m_menuFactory;
 
     QTimer* m_startSearchTimer;
 };
