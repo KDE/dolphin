@@ -280,7 +280,7 @@ private slots:
 private:
     enum RoleType {
         // User visible roles:
-        NoRole, NameRole, SizeRole, DateRole, PermissionsRole, OwnerRole,
+        NoRole, NameRole, SizeRole, ModificationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
         GroupRole, TypeRole, DestinationRole, PathRole,
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
@@ -383,7 +383,7 @@ private:
 
     QList<QPair<int, QVariant> > nameRoleGroups() const;
     QList<QPair<int, QVariant> > sizeRoleGroups() const;
-    QList<QPair<int, QVariant> > dateRoleGroups() const;
+    QList<QPair<int, QVariant> > timeRoleGroups(KFileItem::FileTimes which) const;
     QList<QPair<int, QVariant> > permissionRoleGroups() const;
     QList<QPair<int, QVariant> > ratingRoleGroups() const;
     QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& typeForRole) const;

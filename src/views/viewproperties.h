@@ -154,6 +154,12 @@ private:
     void convertNameRoleToTextRole();
 
     /**
+     * Provides backward compatibility with .directory files created with
+     * Dolphin < 16.11.70: Converts the old name-role "date" to "modificationtime"
+     */
+
+    void convertDateRoleToModificationTimeRole();
+    /**
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
      */
     static bool isPartOfHome(const QString& filePath);

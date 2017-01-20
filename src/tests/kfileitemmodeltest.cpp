@@ -882,8 +882,8 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, descending
     m_model->setSortDirectoriesFirst(true);
-    m_model->setSortRole("date");
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    m_model->setSortRole("modificationtime");
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "b" << "d" << "a" << "e");
     QCOMPARE(itemsMovedSpy.count(), 1);
@@ -892,7 +892,7 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, ascending
     m_model->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "a" << "d" << "b");
     QCOMPARE(itemsMovedSpy.count(), 1);
@@ -901,7 +901,7 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, ascending, 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
     QCOMPARE(itemsInModel(), QStringList() << "e" << "a" << "c" << "c-1" << "c-2" << "c-3" << "d" << "b");
