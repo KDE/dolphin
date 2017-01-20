@@ -80,6 +80,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::clear), this, &KFileItemModel::slotClear);
     connect(m_dirLister, &KFileItemModelDirLister::infoMessage, this, &KFileItemModel::infoMessage);
     connect(m_dirLister, &KFileItemModelDirLister::errorMessage, this, &KFileItemModel::errorMessage);
+    connect(m_dirLister, &KFileItemModelDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
     connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&, const QUrl&)>(&KFileItemModelDirLister::redirection), this, &KFileItemModel::directoryRedirection);
     connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
 
