@@ -142,10 +142,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget* viewport = m_metaDataArea->viewport();
     viewport->installEventFilter(this);
 
-    QPalette palette = viewport->palette();
-    palette.setColor(viewport->backgroundRole(), QColor(Qt::transparent));
-    viewport->setPalette(palette);
-
     layout->addWidget(m_preview);
     layout->addWidget(m_phononWidget);
     layout->addWidget(m_nameLabel);
