@@ -528,7 +528,6 @@ void DolphinMainWindow::toggleSplitStash()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
     QAction* stashSplit = actionCollection()->action(QStringLiteral("split_stash"));
-    qDebug() << "StashSplitstate" << stashSplit->isChecked();
     //stashSplit->setEnabled(false);
     if (stashSplit->isChecked()) {
         tabPage->setSplitViewEnabled(false);
