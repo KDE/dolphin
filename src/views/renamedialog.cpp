@@ -159,7 +159,7 @@ void RenameDialog::renameItem(const KFileItem &item, const QString& newName)
         widget = this;
     }
 
-    KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
+    KIO::Job * job = KIO::moveAs(oldUrl, newUrl, KIO::HideProgressInfo);
     KJobWidgets::setWindow(job, widget);
     KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
     job->uiDelegate()->setAutoErrorHandlingEnabled(true);
