@@ -528,12 +528,8 @@ void DolphinMainWindow::toggleSplitStash()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
     QAction* stashSplit = actionCollection()->action(QStringLiteral("split_stash"));
-    if (stashSplit->isChecked()) {
-        tabPage->setSplitViewEnabled(false);
-        tabPage->setSplitViewEnabled(true, QUrl("stash:/"));
-    } else {
-        tabPage->setSplitViewEnabled(false);
-    }
+    tabPage->setSplitViewEnabled(false);
+    tabPage->setSplitViewEnabled(true, QUrl("stash:/"));
 }
 
 void DolphinMainWindow::reloadView()
@@ -1057,7 +1053,7 @@ void DolphinMainWindow::setupActions()
     stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
     stashSplit->setIcon(QIcon::fromTheme(QStringLiteral("folder-visiting")));
-    stashSplit->setCheckable(true);
+    stashSplit->setCheckable(false);
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
     QAction* reload = actionCollection()->addAction(QStringLiteral("reload"));
@@ -1491,7 +1487,6 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setToolTip(i18nc("@info", "Split view"));
         splitAction->setIcon(QIcon::fromTheme(QStringLiteral("view-right-new")));
-        stashSplit->setChecked(false);
     }
 }
 
