@@ -1021,7 +1021,7 @@ void DolphinView::slotItemHovered(int index)
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 
-        m_toolTipManager->showToolTip(item, itemRect);
+        m_toolTipManager->showToolTip(item, itemRect, nativeParentWidget()->windowHandle());
     }
 
     emit requestItemInfo(item);

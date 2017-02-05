@@ -37,8 +37,8 @@ namespace Baloo {
 #endif
 
 /**
- * @brief Tooltip, that shows the meta information and a preview of one
- *        or more files.
+ * @brief Widget that shows the meta information and a preview of one
+ *        or more files inside a KToolTipWidget.
  */
 class FileMetaDataToolTip : public QWidget
 {
@@ -68,10 +68,6 @@ signals:
      * set by FileMetaDataToolTip::setItems().
      */
     void metaDataRequestFinished(const KFileItemList& items);
-
-protected:
-    virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
 
 private:
     QLabel* m_preview;

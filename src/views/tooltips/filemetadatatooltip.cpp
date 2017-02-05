@@ -47,9 +47,6 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_name(0),
     m_fileMetaDataWidget(0)
 {
-    setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
-
     // Create widget for file preview
     m_preview = new QLabel(this);
     m_preview->setAlignment(Qt::AlignTop);
@@ -159,21 +156,5 @@ void FileMetaDataToolTip::setItems(const KFileItemList& items)
 KFileItemList FileMetaDataToolTip::items() const
 {
     return m_fileMetaDataWidget->items();
-}
-
-void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
-{
-    QStylePainter painter(this);
-    QStyleOptionFrame option;
-    option.init(this);
-    painter.drawPrimitive(QStyle::PE_PanelTipLabel, option);
-    painter.end();
-
-    QWidget::paintEvent(event);
-}
-
-void FileMetaDataToolTip::showEvent(QShowEvent *)
-{
-    KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 
