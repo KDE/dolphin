@@ -145,7 +145,6 @@ target_link_libraries(
     KF5::KIOFileWidgets
     KF5::Completion
     KF5::TextWidgets
-    KF5::WindowSystem
     KF5::ConfigCore
     KF5::NewStuff
     KF5::Parts
