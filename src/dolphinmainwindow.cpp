@@ -50,7 +50,6 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
-#include <kconfigwidgets_version.h>
 #include <kdualaction.h>
 #include <KJobWidgets>
 #include <QLineEdit>
@@ -869,10 +868,8 @@ void DolphinMainWindow::updateControlMenu()
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ReportBug)));
     helpMenu->addSeparator();
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 26, 0)
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Donate)));
     helpMenu->addSeparator();
-#endif
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
