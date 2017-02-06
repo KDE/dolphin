@@ -852,7 +852,8 @@ void KStandardItemListWidget::hideEvent(QHideEvent* event)
 
 bool KStandardItemListWidget::event(QEvent *event)
 {
-    if (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::WindowActivate) {
+    if (event->type() == QEvent::WindowDeactivate || event->type() == QEvent::WindowActivate
+            || event->type() == QEvent::PaletteChange) {
         m_dirtyContent = true;
     }
 
