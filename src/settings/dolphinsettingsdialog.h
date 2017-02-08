@@ -49,6 +49,8 @@ private slots:
     void restoreDefaults();
 
 private:
+    static SettingsPageBase *createTrashSettingsPage(QWidget *parent);
+
     QList<SettingsPageBase*> m_pages;
 };
 
