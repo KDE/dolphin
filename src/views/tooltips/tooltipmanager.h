@@ -25,7 +25,7 @@
 
 #include <KFileItem>
 
-class FileMetaDataToolTip;
+class DolphinFileMetaDataWidget;
 class KToolTipWidget;
 class QTimer;
 class QWindow;
@@ -77,7 +77,7 @@ private:
     /// Transient parent of the tooltip, mandatory on Wayland.
     QWindow* m_transientParent;
 
-    FileMetaDataToolTip* m_fileMetaDataToolTip;
+    DolphinFileMetaDataWidget* m_fileMetaDataWidget;
     QScopedPointer<KToolTipWidget> m_tooltipWidget;
 
     bool m_toolTipRequested;

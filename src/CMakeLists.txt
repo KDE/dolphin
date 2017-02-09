@@ -102,7 +102,7 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
     views/renamedialog.cpp
-    views/tooltips/filemetadatatooltip.cpp
+    views/tooltips/dolphinfilemetadatawidget.cpp
     views/tooltips/tooltipmanager.cpp
     views/versioncontrol/updateitemstatesthread.cpp
     views/versioncontrol/versioncontrolobserver.cpp

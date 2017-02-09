@@ -19,7 +19,7 @@
 
 #include "tooltipmanager.h"
 
-#include "filemetadatatooltip.h"
+#include "dolphinfilemetadatawidget.h"
 #include <QIcon>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
@@ -38,7 +38,7 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_showToolTipTimer(0),
     m_contentRetrievalTimer(0),
     m_transientParent(0),
-    m_fileMetaDataToolTip(0),
+    m_fileMetaDataWidget(0),
     m_tooltipWidget(new KToolTipWidget()),
     m_toolTipRequested(false),
     m_metaDataRequested(false),
@@ -82,9 +82,9 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, 
     // Only start the retrieving of the content, when the mouse has been over this
     // item for 200 milliseconds. This prevents a lot of useless preview jobs and
     // meta data retrieval, when passing rapidly over a lot of items.
-    delete m_fileMetaDataToolTip;
-    m_fileMetaDataToolTip = new FileMetaDataToolTip();
-    connect(m_fileMetaDataToolTip, &FileMetaDataToolTip::metaDataRequestFinished,
+    delete m_fileMetaDataWidget;
+    m_fileMetaDataWidget = new DolphinFileMetaDataWidget();
+    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::metaDataRequestFinished,
             this, &ToolTipManager::slotMetaDataRequestFinished);
 
     m_contentRetrievalTimer->start();
@@ -113,17 +113,17 @@ void ToolTipManager::startContentRetrieval()
         return;
     }
 
-    m_fileMetaDataToolTip->setName(m_item.text());
+    m_fileMetaDataWidget->setName(m_item.text());
 
     // Request the retrieval of meta-data. The slot
     // slotMetaDataRequestFinished() is invoked after the
     // meta-data have been received.
     m_metaDataRequested = true;
-    m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
-    m_fileMetaDataToolTip->adjustSize();
+    m_fileMetaDataWidget->setItems(KFileItemList() << m_item);
+    m_fileMetaDataWidget->adjustSize();
 
     // Request a preview of the item
-    m_fileMetaDataToolTip->setPreview(QPixmap());
+    m_fileMetaDataWidget->setPreview(QPixmap());
 
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
     job->setIgnoreMaximumSize(m_item.isLocalFile());
@@ -149,7 +149,7 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
     if (pixmap.isNull()) {
         previewFailed();
     } else {
-        m_fileMetaDataToolTip->setPreview(pixmap);
+        m_fileMetaDataWidget->setPreview(pixmap);
         if (!m_showToolTipTimer->isActive()) {
             showToolTip();
         }
@@ -163,7 +163,7 @@ void ToolTipManager::previewFailed()
     }
 
     const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
-    m_fileMetaDataToolTip->setPreview(pixmap);
+    m_fileMetaDataWidget->setPreview(pixmap);
     if (!m_showToolTipTimer->isActive()) {
         showToolTip();
     }
@@ -190,7 +190,7 @@ void ToolTipManager::showToolTip()
         m_appliedWaitCursor = false;
     }
 
-    if (m_fileMetaDataToolTip->preview().isNull() || m_metaDataRequested) {
+    if (m_fileMetaDataWidget->preview().isNull() || m_metaDataRequested) {
         Q_ASSERT(!m_appliedWaitCursor);
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         m_appliedWaitCursor = true;
@@ -198,8 +198,8 @@ void ToolTipManager::showToolTip()
     }
 
     // Adjust the size to get a proper sizeHint()
-    m_fileMetaDataToolTip->adjustSize();
-    m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataToolTip, m_transientParent);
+    m_fileMetaDataWidget->adjustSize();
+    m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataWidget, m_transientParent);
     m_toolTipRequested = false;
 }
 
