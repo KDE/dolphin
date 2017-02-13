@@ -105,7 +105,9 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
     m_pages.append(servicesSettingsPage);
-    m_pages.append(trashSettingsPage);
+    if (trashSettingsPage) {
+        m_pages.append(trashSettingsPage);
+    }
     m_pages.append(generalSettingsPage);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
