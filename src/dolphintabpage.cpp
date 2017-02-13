@@ -71,7 +71,7 @@ bool DolphinTabPage::splitViewEnabled() const
     return m_splitViewEnabled;
 }
 
-void DolphinTabPage::setSplitViewEnabled(bool enabled, QUrl secondaryUrl)
+void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
 {
     if (m_splitViewEnabled != enabled) {
         m_splitViewEnabled = enabled;
