@@ -40,6 +40,7 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent* event) Q_DECL_OVERRIDE;
     virtual void dropEvent(QDropEvent* event) Q_DECL_OVERRIDE;
     virtual void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+    virtual void mouseReleaseEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
     virtual void mouseDoubleClickEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
 
     /**
@@ -60,6 +61,7 @@ private:
 private:
     QTimer* m_autoActivationTimer;
     int m_autoActivationIndex;
+    int m_tabToBeClosedOnMiddleMouseButtonRelease;
 };
 
 #endif // DOLPHIN_TAB_BAR_H
