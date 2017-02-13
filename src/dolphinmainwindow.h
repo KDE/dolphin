@@ -224,6 +224,9 @@ private slots:
      */
     void toggleSplitView();
 
+    /** Dedicated action to open the stash:/ ioslave in split view. */
+    void toggleSplitStash();
+
     /** Reloads the currently active view. */
     void reloadView();
 

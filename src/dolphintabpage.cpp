@@ -71,13 +71,13 @@ bool DolphinTabPage::splitViewEnabled() const
     return m_splitViewEnabled;
 }
 
-void DolphinTabPage::setSplitViewEnabled(bool enabled)
+void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
 {
     if (m_splitViewEnabled != enabled) {
         m_splitViewEnabled = enabled;
 
         if (enabled) {
-            const QUrl& url = m_primaryViewContainer->url();
+            const QUrl& url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
             m_secondaryViewContainer = createViewContainer(url);
 
             const bool placesSelectorVisible = m_primaryViewContainer->urlNavigator()->isPlacesSelectorVisible();
