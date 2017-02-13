@@ -1538,3 +1538,4 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
         KIO::FileUndoManager::UiInterface::jobError(job);
     }
 }
+

@@ -517,3 +517,4 @@ inline int DolphinMainWindow::getId() const
 }
 
 #endif // DOLPHIN_MAINWINDOW_H
+
