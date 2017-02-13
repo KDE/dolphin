@@ -58,6 +58,7 @@
 #include <KIO/JobUiDelegate>
 #include <KLocalizedString>
 #include <KProtocolManager>
+#include <KProtocolInfo>
 #include <QMenu>
 #include <KMessageBox>
 #include <KFileItemListProperties>
@@ -527,7 +528,6 @@ void DolphinMainWindow::toggleSplitView()
 void DolphinMainWindow::toggleSplitStash()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
-    QAction* stashSplit = actionCollection()->action(QStringLiteral("split_stash"));
     tabPage->setSplitViewEnabled(false);
     tabPage->setSplitViewEnabled(true, QUrl("stash:/"));
 }
@@ -1054,6 +1054,7 @@ void DolphinMainWindow::setupActions()
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
     stashSplit->setIcon(QIcon::fromTheme(QStringLiteral("folder-visiting")));
     stashSplit->setCheckable(false);
+    stashSplit->setVisible(KProtocolInfo::isKnownProtocol("stash"));
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
     QAction* reload = actionCollection()->addAction(QStringLiteral("reload"));
@@ -1471,7 +1472,6 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action(QStringLiteral("split_view"));
-    QAction* stashSplit = actionCollection()->action(QStringLiteral("split_stash"));
     const DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
     if (tabPage->splitViewEnabled()) {
         if (tabPage->primaryViewActive()) {
