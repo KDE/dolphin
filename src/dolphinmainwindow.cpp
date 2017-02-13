@@ -528,6 +528,7 @@ void DolphinMainWindow::toggleSplitView()
 void DolphinMainWindow::toggleSplitStash()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+
     tabPage->setSplitViewEnabled(false);
     tabPage->setSplitViewEnabled(true, QUrl("stash:/"));
 }
