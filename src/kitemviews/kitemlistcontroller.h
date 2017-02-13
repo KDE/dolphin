@@ -59,7 +59,6 @@ class QTransform;
 class DOLPHIN_EXPORT KItemListController : public QObject
 {
     Q_OBJECT
-    Q_ENUMS(SelectionBehavior)
     Q_PROPERTY(KItemModelBase* model READ model WRITE setModel)
     Q_PROPERTY(KItemListView *view READ view WRITE setView)
     Q_PROPERTY(SelectionBehavior selectionBehavior READ selectionBehavior WRITE setSelectionBehavior)
@@ -72,6 +71,7 @@ public:
         SingleSelection,
         MultiSelection
     };
+    Q_ENUM(SelectionBehavior)
 
     enum AutoActivationBehavior {
         ActivationAndExpansion,

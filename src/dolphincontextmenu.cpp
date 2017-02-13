@@ -159,7 +159,7 @@ void DolphinContextMenu::openTrashContextMenu()
         if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
             KIO::Job* job = KIO::emptyTrash();
             KJobWidgets::setWindow(job, m_mainWindow);
-            job->ui()->setAutoErrorHandlingEnabled(true);
+            job->uiDelegate()->setAutoErrorHandlingEnabled(true);
         }
     }
 }
@@ -283,7 +283,7 @@ void DolphinContextMenu::openItemContextMenu()
     fileItemActions.setItemListProperties(selectedItemsProps);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions();
+    addFileItemPluginActions(fileItemActions);
 
     addVersionControlPluginActions();
 
@@ -306,7 +306,7 @@ void DolphinContextMenu::openItemContextMenu()
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
                 const QString text = selectedUrl.fileName();
-                PlacesItem* item = model.createPlacesItem(text, selectedUrl);
+                PlacesItem* item = model.createPlacesItem(text, selectedUrl, KIO::iconNameForUrl(selectedUrl));
                 model.appendItemToGroup(item);
                 model.saveBookmarks();
             }
@@ -355,7 +355,7 @@ void DolphinContextMenu::openViewportContextMenu()
     fileItemActions.setItemListProperties(baseUrlProperties);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions();
+    addFileItemPluginActions(fileItemActions);
 
     addVersionControlPluginActions();
 
@@ -372,7 +372,8 @@ void DolphinContextMenu::openViewportContextMenu()
         if (container->url().isValid()) {
             PlacesItemModel model;
             PlacesItem* item = model.createPlacesItem(container->placesText(),
-                                                      container->url());
+                                                      container->url(),
+                                                      KIO::iconNameForUrl(container->url()));
             model.appendItemToGroup(item);
             model.saveBookmarks();
         }
@@ -483,73 +484,9 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
     fileItemActions.addServiceActionsTo(this);
 }
 
-void DolphinContextMenu::addFileItemPluginActions()
+void DolphinContextMenu::addFileItemPluginActions(KFileItemActions& fileItemActions)
 {
-    KFileItemListProperties props;
-    if (m_selectedItems.isEmpty()) {
-        props.setItems(KFileItemList() << baseFileItem());
-    } else {
-        props = selectedItemsProperties();
-    }
-
-    QString commonMimeType = props.mimeType();
-    if (commonMimeType.isEmpty()) {
-        commonMimeType = QStringLiteral("application/octet-stream");
-    }
-
-    const KService::List pluginServices = KMimeTypeTrader::self()->query(commonMimeType, QStringLiteral("KFileItemAction/Plugin"), QStringLiteral("exist Library"));
-    const KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
-    const KConfigGroup showGroup = config.group("Show");
-
-    QSet<QString> addedPlugins;
-    foreach (const KService::Ptr& service, pluginServices) {
-        if (!showGroup.readEntry(service->desktopEntryName(), true)) {
-            // The plugin has been disabled
-            continue;
-        }
-
-        KAbstractFileItemActionPlugin* abstractPlugin = service->createInstance<KAbstractFileItemActionPlugin>();
-        if (abstractPlugin) {
-            abstractPlugin->setParent(this);
-            addActions(abstractPlugin->actions(props, m_mainWindow));
-            addedPlugins << service->desktopEntryName();
-        }
-    }
-
-    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [=](const KPluginMetaData& metaData) {
-        if (!metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"))) {
-            return false;
-        }
-
-        auto mimeType = QMimeDatabase().mimeTypeForName(commonMimeType);
-        foreach (const auto& supportedMimeType, metaData.mimeTypes()) {
-            if (mimeType.inherits(supportedMimeType)) {
-                return true;
-            }
-        }
-
-        return false;
-    });
-
-    foreach (const auto& jsonMetadata, jsonPlugins) {
-        // The plugin has been disabled
-        if (!showGroup.readEntry(jsonMetadata.pluginId(), true)) {
-            continue;
-        }
-
-        // The plugin also has a .desktop file and has already been added.
-        if (addedPlugins.contains(jsonMetadata.pluginId())) {
-            continue;
-        }
-
-        KPluginFactory *factory = KPluginLoader(jsonMetadata.fileName()).factory();
-        KAbstractFileItemActionPlugin* abstractPlugin = factory->create<KAbstractFileItemActionPlugin>();
-        if (abstractPlugin) {
-            abstractPlugin->setParent(this);
-            addActions(abstractPlugin->actions(props, m_mainWindow));
-            addedPlugins << jsonMetadata.pluginId();
-        }
-    }
+    fileItemActions.addPluginActionsTo(this);
 }
 
 void DolphinContextMenu::addVersionControlPluginActions()

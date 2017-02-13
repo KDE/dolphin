@@ -201,7 +201,7 @@ void TreeViewContextMenu::moveToTrash()
         KIO::Job* job = KIO::trash(list);
         KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Trash, list, QUrl(QStringLiteral("trash:/")), job);
         KJobWidgets::setWindow(job, m_parent);
-        job->ui()->setAutoErrorHandlingEnabled(true);
+        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
     }
 }
 
@@ -213,7 +213,7 @@ void TreeViewContextMenu::deleteItem()
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
         KIO::Job* job = KIO::del(list);
         KJobWidgets::setWindow(job, m_parent);
-        job->ui()->setAutoErrorHandlingEnabled(true);
+        job->uiDelegate()->setAutoErrorHandlingEnabled(true);
     }
 }
 

@@ -83,7 +83,7 @@ public:
     void handleWheelEvent(QWheelEvent* event);
 
 protected:
-    virtual bool eventFilter(QObject* obj, QEvent* event);
+    bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
 private slots:
     void slotAnimationStateChanged(QAbstractAnimation::State newState,

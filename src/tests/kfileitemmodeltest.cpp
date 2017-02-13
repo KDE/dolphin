@@ -154,9 +154,9 @@ void KFileItemModelTest::testDefaultSortRole()
     QVERIFY(itemsInsertedSpy.wait());
 
     QCOMPARE(m_model->count(), 3);
-    QCOMPARE(m_model->data(0)["text"].toString(), QString("a.txt"));
-    QCOMPARE(m_model->data(1)["text"].toString(), QString("b.txt"));
-    QCOMPARE(m_model->data(2)["text"].toString(), QString("c.txt"));
+    QCOMPARE(m_model->data(0).value("text").toString(), QString("a.txt"));
+    QCOMPARE(m_model->data(1).value("text").toString(), QString("b.txt"));
+    QCOMPARE(m_model->data(2).value("text").toString(), QString("c.txt"));
 }
 
 void KFileItemModelTest::testDefaultGroupedSorting()
@@ -882,8 +882,8 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, descending
     m_model->setSortDirectoriesFirst(true);
-    m_model->setSortRole("date");
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    m_model->setSortRole("modificationtime");
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "b" << "d" << "a" << "e");
     QCOMPARE(itemsMovedSpy.count(), 1);
@@ -892,7 +892,7 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, ascending
     m_model->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "a" << "d" << "b");
     QCOMPARE(itemsMovedSpy.count(), 1);
@@ -901,7 +901,7 @@ void KFileItemModelTest::testSorting()
 
     // Sort by Date, ascending, 'Sort Folders First' disabled
     m_model->setSortDirectoriesFirst(false);
-    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortRole(), QByteArray("modificationtime"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortDirectoriesFirst());
     QCOMPARE(itemsInModel(), QStringList() << "e" << "a" << "c" << "c-1" << "c-2" << "c-3" << "d" << "b");

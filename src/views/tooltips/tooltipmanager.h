@@ -25,8 +25,10 @@
 
 #include <KFileItem>
 
-class FileMetaDataToolTip;
+class DolphinFileMetaDataWidget;
+class KToolTipWidget;
 class QTimer;
+class QWindow;
 
 /**
  * @brief Manages the tooltips for an item view.
@@ -47,9 +49,9 @@ public:
      * Triggers the showing of the tooltip for the item \p item
      * where the item has the maximum boundaries of \p itemRect.
      * The tooltip manager takes care that the tooltip is shown
-     * slightly delayed.
+     * slightly delayed and with a proper \p transientParent.
      */
-    void showToolTip(const KFileItem& item, const QRectF& itemRect);
+    void showToolTip(const KFileItem& item, const QRectF& itemRect, QWindow *transientParent);
 
     /**
      * Hides the currently shown tooltip.
@@ -72,7 +74,11 @@ private:
     /// the tooltip content like preview and meta data gets started.
     QTimer* m_contentRetrievalTimer;
 
-    FileMetaDataToolTip* m_fileMetaDataToolTip;
+    /// Transient parent of the tooltip, mandatory on Wayland.
+    QWindow* m_transientParent;
+
+    DolphinFileMetaDataWidget* m_fileMetaDataWidget;
+    QScopedPointer<KToolTipWidget> m_tooltipWidget;
 
     bool m_toolTipRequested;
     bool m_metaDataRequested;

@@ -29,6 +29,7 @@
 #include "viewmodes/viewsettingspage.h"
 #include "trash/trashsettingspage.h"
 
+#include <KAuthorized>
 #include <KWindowConfig>
 #include <KLocalizedString>
 #include <QIcon>
@@ -85,11 +86,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
-    TrashSettingsPage* trashSettingsPage = new TrashSettingsPage(this);
-    KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
-                                                   i18nc("@title:group", "Trash"));
-    trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
-    connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    auto* trashSettingsPage = createTrashSettingsPage(this);
+    if (trashSettingsPage) {
+        KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
+                                                     i18nc("@title:group", "Trash"));
+        trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("trash-empty")));
+        connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    }
 
     // General
     GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
@@ -102,7 +105,9 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
     m_pages.append(servicesSettingsPage);
-    m_pages.append(trashSettingsPage);
+    if (trashSettingsPage) {
+        m_pages.append(trashSettingsPage);
+    }
     m_pages.append(generalSettingsPage);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
@@ -145,3 +150,11 @@ void DolphinSettingsDialog::restoreDefaults()
     }
 }
 
+SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent)
+{
+    if (!KAuthorized::authorizeControlModule(QStringLiteral("kcmtrash.desktop"))) {
+        return nullptr;
+    }
+
+    return new TrashSettingsPage(parent);
+}

@@ -179,8 +179,8 @@ QList<QByteArray> KItemListWidget::visibleRoles() const
 
 void KItemListWidget::setColumnWidth(const QByteArray& role, qreal width)
 {
-    if (m_columnWidths.value(role) != width) {
-        const qreal previousWidth = width;
+    const qreal previousWidth = m_columnWidths.value(role);
+    if (previousWidth != width) {
         m_columnWidths.insert(role, width);
         columnWidthChanged(role, width, previousWidth);
         update();

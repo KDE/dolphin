@@ -46,7 +46,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     m_splitView(0),
     m_editableUrl(0),
     m_showFullPath(0),
-    m_filterBar(0)
+    m_filterBar(0),
+    m_showFullPathInTitlebar(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);
@@ -104,6 +105,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     vBoxLayout->addWidget(m_showFullPath);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
     vBoxLayout->addWidget(m_filterBar);
+    m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"), vBox);
+    vBoxLayout->addWidget(m_showFullPathInTitlebar);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -119,6 +122,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 }
 
 StartupSettingsPage::~StartupSettingsPage()
@@ -141,6 +145,7 @@ void StartupSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
+    settings->setShowFullPathInTitlebar(m_showFullPathInTitlebar->isChecked());
 
     settings->save();
 }
@@ -190,4 +195,5 @@ void StartupSettingsPage::loadSettings()
     m_editableUrl->setChecked(GeneralSettings::editableUrl());
     m_showFullPath->setChecked(GeneralSettings::showFullPath());
     m_filterBar->setChecked(GeneralSettings::filterBar());
+    m_showFullPathInTitlebar->setChecked(GeneralSettings::showFullPathInTitlebar());
 }

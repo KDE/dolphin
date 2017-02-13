@@ -239,8 +239,8 @@ can be accessed or manipulated in different ways:
 <listitem><para>
 A file or folder can be opened by clicking it with the &LMB; (or
 double-clicking, if <guilabel>Double-click to open files and folders</guilabel>
-is enabled in the <link linkend="preferences-dialog-navigation"><quote>Navigation</quote>
-section of the settings</link>).
+is enabled in the &systemsettings; in the <menuchoice><guimenu>Input Devices</guimenu>
+<guimenuitem>Mouse</guimenuitem></menuchoice> module.
 </para></listitem>
 
 <listitem><para>
@@ -803,7 +803,10 @@ a KIOSlave is launched to provide the search results.</para>
 <para>The option from <guilabel>Everywhere</guilabel> with activated Baloo 
 services searches in all indexed folders, without Baloo this option  
 starts the search from the user's <replaceable>Home</replaceable> folder.</para>
-
+<!--FIXME 16.12
+https://git.reviewboard.kde.org/r/123883/
+Add prototype of a "More search tools..." button
+-->
 <screenshot>
 <screeninfo>Search with More Options</screeninfo>
 <mediaobject>

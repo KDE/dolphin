@@ -872,7 +872,7 @@ PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& da
                 props.setVisibleRoles({"text"});
             } else if (data.url.scheme() == QLatin1String("timeline")) {
                 props.setViewMode(DolphinView::DetailsView);
-                props.setVisibleRoles({"text", "date"});
+                props.setVisibleRoles({"text", "modificationtime"});
             }
         }
     }

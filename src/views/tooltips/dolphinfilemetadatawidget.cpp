@@ -19,12 +19,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "filemetadatatooltip.h"
+#include "dolphinfilemetadatawidget.h"
 
 #include <KColorScheme>
 #include <KSeparator>
-// For the blurred tooltip background
-#include <KWindowEffects>
 #include <KStringHandler>
 #include <QTextDocument>
 
@@ -41,15 +39,12 @@
 #include <Baloo/FileMetaDataWidget>
 #endif
 
-FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
+DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
     QWidget(parent),
     m_preview(0),
     m_name(0),
     m_fileMetaDataWidget(0)
 {
-    setAttribute(Qt::WA_TranslucentBackground);
-    setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
-
     // Create widget for file preview
     m_preview = new QLabel(this);
     m_preview->setAlignment(Qt::AlignTop);
@@ -71,11 +66,11 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
 #ifndef HAVE_BALOO
     m_fileMetaDataWidget = new KFileMetaDataWidget(this);
     connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
-            this, &FileMetaDataToolTip::metaDataRequestFinished);
+            this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
 #else
     m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
     connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished,
-            this, &FileMetaDataToolTip::metaDataRequestFinished);
+            this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
@@ -92,22 +87,22 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     // (see bug #241608)
     textLayout->addStretch();
 
-    QHBoxLayout* tipLayout = new QHBoxLayout(this);
-    tipLayout->addWidget(m_preview);
-    tipLayout->addSpacing(tipLayout->margin());
-    tipLayout->addLayout(textLayout);
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->addWidget(m_preview);
+    layout->addSpacing(layout->margin());
+    layout->addLayout(textLayout);
 }
 
-FileMetaDataToolTip::~FileMetaDataToolTip()
+DolphinFileMetaDataWidget::~DolphinFileMetaDataWidget()
 {
 }
 
-void FileMetaDataToolTip::setPreview(const QPixmap& pixmap)
+void DolphinFileMetaDataWidget::setPreview(const QPixmap& pixmap)
 {
     m_preview->setPixmap(pixmap);
 }
 
-QPixmap FileMetaDataToolTip::preview() const
+QPixmap DolphinFileMetaDataWidget::preview() const
 {
     if (m_preview->pixmap()) {
         return *m_preview->pixmap();
@@ -115,7 +110,7 @@ QPixmap FileMetaDataToolTip::preview() const
     return QPixmap();
 }
 
-void FileMetaDataToolTip::setName(const QString& name)
+void DolphinFileMetaDataWidget::setName(const QString& name)
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -146,34 +141,18 @@ void FileMetaDataToolTip::setName(const QString& name)
     m_name->setText(wrappedText);
 }
 
-QString FileMetaDataToolTip::name() const
+QString DolphinFileMetaDataWidget::name() const
 {
     return m_name->text();
 }
 
-void FileMetaDataToolTip::setItems(const KFileItemList& items)
+void DolphinFileMetaDataWidget::setItems(const KFileItemList& items)
 {
     m_fileMetaDataWidget->setItems(items);
 }
 
-KFileItemList FileMetaDataToolTip::items() const
+KFileItemList DolphinFileMetaDataWidget::items() const
 {
     return m_fileMetaDataWidget->items();
-}
-
-void FileMetaDataToolTip::paintEvent(QPaintEvent* event)
-{
-    QStylePainter painter(this);
-    QStyleOptionFrame option;
-    option.init(this);
-    painter.drawPrimitive(QStyle::PE_PanelTipLabel, option);
-    painter.end();
-
-    QWidget::paintEvent(event);
-}
-
-void FileMetaDataToolTip::showEvent(QShowEvent *)
-{
-    KWindowEffects::enableBlurBehind(winId(), true, mask());
 }
 

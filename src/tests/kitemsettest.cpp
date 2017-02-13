@@ -22,7 +22,7 @@
 #include <QTest>
 #include <QVector>
 
-Q_DECLARE_METATYPE(KItemRangeList);
+Q_DECLARE_METATYPE(KItemRangeList)
 
 /**
  * Converts a KItemRangeList to a KItemSet.
@@ -72,14 +72,14 @@ QVector<int> KItemRangeList2QVector(const KItemRangeList& itemRanges)
 static QSet<int> KItemSet2QSet(const KItemSet& itemSet)
 {
     QSet<int> result;
-    foreach (int i, itemSet) {
+    for (int i : itemSet) {
         result.insert(i);
     }
 
     // Check that the conversion was successful.
     Q_ASSERT(itemSet.count() == result.count());
 
-    foreach (int i, itemSet) {
+    for (int i : itemSet) {
         Q_ASSERT(result.contains(i));
     }
 
@@ -239,7 +239,7 @@ void KItemSetTest::testIterators()
     QCOMPARE(testQVector, itemsQVector);
 
     testQVector.clear();
-    foreach (int i, itemSet) {
+    for (int i : itemSet) {
         testQVector.append(i);
     }
     QCOMPARE(testQVector, itemsQVector);

@@ -29,7 +29,8 @@
 
 DolphinTabBar::DolphinTabBar(QWidget* parent) :
     QTabBar(parent),
-    m_autoActivationIndex(-1)
+    m_autoActivationIndex(-1),
+    m_tabToBeClosedOnMiddleMouseButtonRelease(-1)
 {
     setAcceptDrops(true);
     setSelectionBehaviorOnRemove(QTabBar::SelectPreviousTab);
@@ -95,12 +96,25 @@ void DolphinTabBar::mousePressEvent(QMouseEvent* event)
     const int index = tabAt(event->pos());
 
     if (index >= 0 && event->button() == Qt::MiddleButton) {
+        m_tabToBeClosedOnMiddleMouseButtonRelease = index;
+        return;
+    }
+
+    QTabBar::mousePressEvent(event);
+}
+
+void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
+{
+    const int index = tabAt(event->pos());
+
+    if (index >= 0 && index == m_tabToBeClosedOnMiddleMouseButtonRelease
+        && event->button() == Qt::MiddleButton) {
         // Mouse middle click on a tab closes this tab.
         emit tabCloseRequested(index);
         return;
     }
 
-    QTabBar::mousePressEvent(event);
+    QTabBar::mouseReleaseEvent(event);
 }
 
 void DolphinTabBar::mouseDoubleClickEvent(QMouseEvent* event)

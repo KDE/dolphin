@@ -35,7 +35,8 @@
 namespace {
     const int AdditionalInfoViewPropertiesVersion = 1;
     const int NameRolePropertiesVersion = 2;
-    const int CurrentViewPropertiesVersion = 3;
+    const int DateRolePropertiesVersion = 4;
+    const int CurrentViewPropertiesVersion = 4;
 
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
@@ -121,6 +122,11 @@ ViewProperties::ViewProperties(const QUrl& url) :
         if (m_node->version() < NameRolePropertiesVersion) {
             convertNameRoleToTextRole();
             Q_ASSERT(m_node->version() == NameRolePropertiesVersion);
+        }
+
+        if (m_node->version() < DateRolePropertiesVersion) {
+            convertDateRoleToModificationTimeRole();
+            Q_ASSERT(m_node->version() == DateRolePropertiesVersion);
         }
 
         m_node->setVersion(CurrentViewPropertiesVersion);
@@ -309,7 +315,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
                                   && !visibleRoles.contains(CustomizedDetailsString);
     if (useDefaultValues) {
         roles.append("size");
-        roles.append("date");
+        roles.append("modificationtime");
     }
 
     return roles;
@@ -445,6 +451,27 @@ void ViewProperties::convertNameRoleToTextRole()
     m_node->setVisibleRoles(visibleRoles);
     m_node->setSortRole(sortRole);
     m_node->setVersion(NameRolePropertiesVersion);
+    update();
+}
+
+void ViewProperties::convertDateRoleToModificationTimeRole()
+{
+    QStringList visibleRoles = m_node->visibleRoles();
+    for (int i = 0; i < visibleRoles.count(); ++i) {
+        if (visibleRoles[i].endsWith(QLatin1String("_date"))) {
+            const int leftLength = visibleRoles[i].length() - 5;
+            visibleRoles[i] = visibleRoles[i].left(leftLength) + "_modificationtime";
+        }
+    }
+
+    QString sortRole = m_node->sortRole();
+    if (sortRole == QLatin1String("date")) {
+        sortRole = QStringLiteral("modificationtime");
+    }
+
+    m_node->setVisibleRoles(visibleRoles);
+    m_node->setSortRole(sortRole);
+    m_node->setVersion(DateRolePropertiesVersion);
     update();
 }
 

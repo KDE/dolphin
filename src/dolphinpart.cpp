@@ -78,6 +78,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, &DolphinPart::slotErrorMessage);
 
     connect(m_view, &DolphinView::directoryLoadingCompleted, this, static_cast<void(DolphinPart::*)()>(&DolphinPart::completed));
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, &DolphinPart::updatePasteAction);
     connect(m_view, &DolphinView::directoryLoadingProgress, this, &DolphinPart::updateProgress);
     connect(m_view, &DolphinView::errorMessage, this, &DolphinPart::slotErrorMessage);
 
@@ -397,7 +398,6 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
     KFileItem item(_item);
 
     if (item.isNull()) { // viewport context menu
-        popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
         item = m_view->rootItem();
         if (item.isNull())
             item = KFileItem(url());

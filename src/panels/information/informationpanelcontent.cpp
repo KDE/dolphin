@@ -142,10 +142,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget* viewport = m_metaDataArea->viewport();
     viewport->installEventFilter(this);
 
-    QPalette palette = viewport->palette();
-    palette.setColor(viewport->backgroundRole(), QColor(Qt::transparent));
-    viewport->setPalette(palette);
-
     layout->addWidget(m_preview);
     layout->addWidget(m_phononWidget);
     layout->addWidget(m_nameLabel);
@@ -195,7 +191,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
             m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
             m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
-            if (m_previewJob->ui()) {
+            if (m_previewJob->uiDelegate()) {
                 KJobWidgets::setWindow(m_previewJob, this);
             }
 

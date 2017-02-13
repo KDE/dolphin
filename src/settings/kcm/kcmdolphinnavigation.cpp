@@ -27,7 +27,6 @@
 #include <QVBoxLayout>
 
 K_PLUGIN_FACTORY(KCMDolphinNavigationConfigFactory, registerPlugin<DolphinNavigationConfigModule>(QStringLiteral("dolphinnavigation"));)
-K_EXPORT_PLUGIN(KCMDolphinNavigationConfigFactory("kcmdolphinnavigation"))
 
 DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args) :
     KCModule(parent),

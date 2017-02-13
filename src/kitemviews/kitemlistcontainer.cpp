@@ -48,7 +48,7 @@ class KItemListContainerViewport : public QGraphicsView
 public:
     KItemListContainerViewport(QGraphicsScene* scene, QWidget* parent);
 protected:
-    virtual void wheelEvent(QWheelEvent* event);
+    void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
 };
 
 KItemListContainerViewport::KItemListContainerViewport(QGraphicsScene* scene, QWidget* parent) :
@@ -265,7 +265,7 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
         scrollOffsetScrollBar = verticalScrollBar();
-        singleStep = view->itemSize().height();
+        singleStep = view->itemSizeHint().height();
         // We cannot use view->size().height() because this height might
         // include the header widget, which is not part of the scrolled area.
         pageStep = view->verticalPageStep();

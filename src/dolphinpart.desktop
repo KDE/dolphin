@@ -2,7 +2,6 @@
 Type=Service
 Name=Dolphin View
 Name[ar]=منظور دولفين
-Name[ast]=Vista de Dolphin
 Name[ca]=Vista del Dolphin
 Name[ca@valencia]=Vista del Dolphin
 Name[cs]=Pohled Dolphin
@@ -107,7 +106,6 @@ Exec=dolphin
 [Desktop Action compact]
 Name=Compact
 Name[ar]=متراصّ
-Name[ast]=Compautu
 Name[ca]=Compacta
 Name[ca@valencia]=Compacta
 Name[cs]=Kompaktní
@@ -124,6 +122,7 @@ Name[hu]=Kompakt
 Name[ia]=Compacte
 Name[id]=Sederhana
 Name[it]=Compatta
+Name[ja]=コンパクト
 Name[ko]=축소됨
 Name[lt]=Kompaktiškas
 Name[nb]=Kompakt

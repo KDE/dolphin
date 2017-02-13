@@ -47,7 +47,8 @@ PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     m_urlEdit(0),
     m_textEdit(0),
     m_iconButton(0),
-    m_appLocal(0)
+    m_appLocal(0),
+    m_buttonBox(nullptr)
 {
 }
 
@@ -106,7 +107,7 @@ bool PlacesItemEditDialog::event(QEvent* event)
 
 void PlacesItemEditDialog::slotUrlChanged(const QString& text)
 {
-    m_okButton->setEnabled(!text.isEmpty());
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(!text.isEmpty());
 }
 
 PlacesItemEditDialog::~PlacesItemEditDialog()
@@ -115,20 +116,16 @@ PlacesItemEditDialog::~PlacesItemEditDialog()
 
 void PlacesItemEditDialog::initialize()
 {
-    QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-    m_okButton = buttonBox->button(QDialogButtonBox::Ok);
-    m_okButton->setDefault(true);
-    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-    connect(buttonBox, &QDialogButtonBox::accepted, this, &PlacesItemEditDialog::accept);
-    connect(buttonBox, &QDialogButtonBox::rejected, this, &PlacesItemEditDialog::reject);
+    m_buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel, this);
+    connect(m_buttonBox, &QDialogButtonBox::accepted, this, &PlacesItemEditDialog::accept);
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &PlacesItemEditDialog::reject);
     setModal(true);
-    m_okButton->setDefault(true);
 
     QVBoxLayout *mainLayout = new QVBoxLayout;
     setLayout(mainLayout);
     QWidget* mainWidget = new QWidget(this);
     mainLayout->addWidget(mainWidget);
-    mainLayout->addWidget(buttonBox);
+    mainLayout->addWidget(m_buttonBox);
 
     QVBoxLayout* vBox = new QVBoxLayout(mainWidget);
 

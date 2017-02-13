@@ -24,9 +24,10 @@
 
 QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
 {
+    const QString currentDir = QDir::currentPath();
     QList<QUrl> urls;
     foreach (const QString& str, uriList) {
-        const QUrl url = QUrl::fromUserInput(str, QString(), QUrl::AssumeLocalFile);
+        const QUrl url = QUrl::fromUserInput(str, currentDir, QUrl::AssumeLocalFile);
         if (url.isValid()) {
             urls.append(url);
         } else {

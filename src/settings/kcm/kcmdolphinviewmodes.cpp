@@ -33,7 +33,6 @@
 #include <QTabWidget>
 
 K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>(QStringLiteral("dolphinviewmodes"));)
-K_EXPORT_PLUGIN(KCMDolphinViewModesConfigFactory("kcmdolphinviewmodes"))
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
     KCModule(parent),

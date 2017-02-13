@@ -93,7 +93,7 @@
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
-    <p xml:lang="ast">Dolphin ye un xestor de ficheros llixeru. Diseñóse cola facilidá d'usu y cenciellez na miente entrín entá permite la flexibilidá y personalización. Esto quier dicir que pues facer la to xestión de ficheros exautamente como tu quies facela.</p>
+    <p xml:lang="ast">Dolphin ye un xestor de ficheros llixeru. Diseñóse cola facilidá y cenciellez d'usu en mente, el mesmu tiempu qu'entá permite la flixibilidá y personalización. Quier dicir que pues facer la to xestión de ficheros exautamente como quieras facelo.</p>
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="ca-valencia">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que siga simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
@@ -105,7 +105,7 @@
     <p xml:lang="et">Dolphin on vähest koormust tekitav failihaldur. Selle loomisel on peetud silmas kasutamise hõlpsust ja lihtsust, ometi pakub see suurt paindlikkust ja oma käe järgi kohandamise võimalusi. Sel moel saab faile hallata just, nagu ise soovid.</p>
     <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="fr">Dolphin est un gestionnaire de fichier léger. Il a été conçu en gardant à l'esprit la simplicité et l'aisance à l'usage, tout en permettant flexibilité et personnalisation. Cela signifie que vous pouvez gérer vos fichiers de la manière exacte que vous voulez.</p>
-    <p xml:lang="gl">Dolphin é un xestor de ficheiros lixeiro. Deseñouse pensando na facilidade de uso e maila simplicidade, pero permitindo flexibilidade e personalización. Noutras palabras, permítelle xestionar os seus ficheiros do xeito que máis lle agrade.</p>
+    <p xml:lang="gl">Dolphin é un xestor de ficheiros lixeiro. Deseñouse pensando na facilidade de uso e a simplicidade, pero permitindo flexibilidade e personalización. Noutras palabras, permítelle xestionar os seus ficheiros do xeito que máis lle agrade.</p>
     <p xml:lang="he">‏Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
     <p xml:lang="hu">A Dolphin egy pehelysúlyú fájlkezelő. Az egyszerű használatot és az egyszerűséget szem előtt tartva tervezték, miközben továbbra is lehetővé teszi a rugalmasságot és a testre szabhatóságot. Ez azt jelenti, hogy pontosan oly módon végezheti a fájlkezelést, ahogy csak akarja.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
@@ -133,7 +133,7 @@
     <p xml:lang="zh-TW">Dolphin 是一套輕量級的檔案管理員。它設計的理念是易用與簡單，但仍然保持足夠的彈性。這表示您可以用您想要使用的方式來管理您的檔案。</p>
     <p>Features:</p>
     <p xml:lang="ar">المزايا:</p>
-    <p xml:lang="ast">Carauterístiques</p>
+    <p xml:lang="ast">Carauterístiques:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
@@ -177,7 +177,6 @@
     <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Navigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.</li>
-      <li xml:lang="ast">Barra de navegación </li>
       <li xml:lang="bs">Navigacijska (ili mrvična) traka za URL, dopušta vam da se brzo krećete kroz hijerarhiju datoteka i direktorija.</li>
       <li xml:lang="ca">Barra de navegació (o fil d'Ariadna) pels URL, permetent una navegació ràpida per la jerarquia dels fitxers i carpetes.</li>
       <li xml:lang="ca-valencia">Barra de navegació (o fil d'Ariadna) pels URL, permetent una navegació ràpida per la jerarquia dels fitxers i carpetes.</li>
@@ -215,7 +214,6 @@
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Supports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.</li>
       <li xml:lang="ar">يدعم العديد من الأنواع المختلفة من الخصائص وأنماط العرض ويسمح لك بضبط العرض كما تريد تمامًا.</li>
-      <li xml:lang="ast">Sofitalla delles tribes de vista y propiedaes diferentes y permítete configurar la vista exautamente como tu quies.</li>
       <li xml:lang="bs">Dopušta vište vrsta stilova pogleda i svojstava i dopšta vam da konfigurišete pogled baš kako želite.</li>
       <li xml:lang="ca">Accepta diferents classes diverses d'estils de visualització i propietats i us permet configurar la visualització exactament com la vulgueu.</li>
       <li xml:lang="ca-valencia">Accepta diferents classes diverses d'estils de visualització i propietats i vos permet configurar la visualització exactament com la vulgueu.</li>
@@ -254,7 +252,6 @@
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="ar">العرض المقسوم، يسمح لك بنسخ ونقل الملفات بين مكانين بسهولة.</li>
-      <li xml:lang="ast">Vista dixebrada, permítete copiar y mover ficheros d'un mou cenciellu ente allugamientos.</li>
       <li xml:lang="bs">Razdvaja pogled, dopuštajući lako kopiranje ili pomijeranje datoteka između lokacija</li>
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
       <li xml:lang="ca-valencia">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
@@ -293,7 +290,6 @@
       <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
       <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كلوحات قابلة للرصف، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
-      <li xml:lang="ast">Tán disponibles atayos ya información adicional como paneles anclables, permitiéndote movelos pehí d'un mou llibre y amosar exautamente lo tu quies.</li>
       <li xml:lang="bs">Dodatne informacije i kratice su dostupne kao usidreni paneli, dopuštajući vam da se krećete slobodno i prikažete šta želite.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="ca-valencia">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
@@ -331,7 +327,6 @@
       <li xml:lang="zh-TW">分割檢視讓您可以輕鬆複製或移動檔案。</li>
       <li>Multiple tab support</li>
       <li xml:lang="ar">دعم تعدّد الألسنة</li>
-      <li xml:lang="ast">Sofitu de múltiples llingüetes</li>
       <li xml:lang="bs">Podrška za više kartica</li>
       <li xml:lang="ca">Admet pestanyes múltiples</li>
       <li xml:lang="ca-valencia">Admet pestanyes múltiples</li>
@@ -374,7 +369,6 @@
       <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
       <li xml:lang="ar">حواريات المعلومات تُعرَض بطريقة غير مُزعجة.</li>
-      <li xml:lang="ast">Los diálogos d'información amuésense d'un mou discretu.</li>
       <li xml:lang="bs">Informativni dijalozi su prikazani na nenametljiv način.</li>
       <li xml:lang="ca">Els diàlegs informatius es mostren d'una manera no molesta.</li>
       <li xml:lang="ca-valencia">Els diàlegs informatius es mostren d'una manera no molesta.</li>
@@ -412,7 +406,6 @@
       <li xml:lang="zh-TW">支援多分頁</li>
       <li>Undo/redo support</li>
       <li xml:lang="ar">دعم التراجع والإعادة</li>
-      <li xml:lang="ast">Sofitu de desfechura/refechura</li>
       <li xml:lang="bs">Podrška za poništavanje/ponavljanje akcija</li>
       <li xml:lang="ca">Admet desfer/refer</li>
       <li xml:lang="ca-valencia">Admet desfer/refer</li>
@@ -450,11 +443,10 @@
       <li xml:lang="tr">Geri alma/tekrarlama desteği</li>
       <li xml:lang="uk">Підтримка скасовування та повторення дій.</li>
       <li xml:lang="x-test">xxUndo/redo supportxx</li>
-      <li xml:lang="zh-CN">撤消/重做支持</li>
+      <li xml:lang="zh-CN">撤销/重做支持</li>
       <li xml:lang="zh-TW">以不唐突的方式顯示資訊對話框。</li>
       <li>Transparent network access through the KIO system.</li>
       <li xml:lang="ar">اتصال شبكيّ مباشر باستخدام نظام KIO.</li>
-      <li xml:lang="ast">Accesu tresparente a la rede pente'l sistema KIO.</li>
       <li xml:lang="bs">Transparentni mrežni pristup kroz KIO sistem.</li>
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="ca-valencia">Accés transparent a la xarxa a través del sistema KIO.</li>

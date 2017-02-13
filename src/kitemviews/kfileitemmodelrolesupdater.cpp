@@ -907,7 +907,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
 
     job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile());
-    if (job->ui()) {
+    if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
 

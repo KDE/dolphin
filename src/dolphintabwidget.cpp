@@ -32,7 +32,8 @@
 
 DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     QTabWidget(parent),
-    m_placesSelectorVisible(true)
+    m_placesSelectorVisible(true),
+    m_previousTab(-1)
 {
     connect(this, &DolphinTabWidget::tabCloseRequested,
             this, static_cast<void (DolphinTabWidget::*)(int)>(&DolphinTabWidget::closeTab));
@@ -304,9 +305,15 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 void DolphinTabWidget::currentTabChanged(int index)
 {
     DolphinViewContainer* viewContainer = tabPageAt(index)->activeViewContainer();
+    viewContainer->setActive(true);
     emit activeViewChanged(viewContainer);
     emit currentUrlChanged(viewContainer->url());
     viewContainer->view()->setFocus();
+
+    if (tabPageAt(m_previousTab)) {
+        tabPageAt(m_previousTab)->activeViewContainer()->setActive(false);
+    }
+    m_previousTab = index;
 }
 
 void DolphinTabWidget::tabInserted(int index)

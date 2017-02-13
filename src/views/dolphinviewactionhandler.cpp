@@ -37,6 +37,7 @@
 #include <KSelectAction>
 #include <KToggleAction>
 #include <KPropertiesDialog>
+#include <KProtocolManager>
 #include <QIcon>
 
 #include "dolphindebug.h"
@@ -481,12 +482,19 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
     QAction* showHiddenFilesAction = m_actionCollection->action(QStringLiteral("show_hidden_files"));
     showHiddenFilesAction->setChecked(shown);
 
+    // #374508: don't overwrite custom icons.
+    const QString iconName = showHiddenFilesAction->icon().name();
+    if (!iconName.isEmpty() && iconName != QLatin1String("visibility") && iconName != QLatin1String("hint")) {
+        return;
+    }
+
     showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? QStringLiteral("visibility") : QStringLiteral("hint")));
 }
 
 void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
 {
-    m_actionCollection->action(QStringLiteral("create_dir"))->setEnabled(isFolderWritable);
+    m_actionCollection->action(QStringLiteral("create_dir"))->setEnabled(isFolderWritable &&
+                                                                         KProtocolManager::supportsMakeDir(currentView()->url()));
 }
 
 KToggleAction* DolphinViewActionHandler::iconsModeAction()

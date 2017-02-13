@@ -26,11 +26,12 @@
 
 class DummyModel : public KItemModelBase
 {
+    Q_OBJECT
 public:
     DummyModel();
     void setCount(int count);
-    virtual int count() const;
-    virtual QHash<QByteArray, QVariant> data(int index) const;
+    int count() const Q_DECL_OVERRIDE;
+    QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
 
 private:
     int m_count;

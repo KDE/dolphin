@@ -129,6 +129,11 @@ public:
      */
     QString placesText() const;
 
+    /**
+     * Reload the view of this container. This will also hide messages in a messagewidget.
+     */
+    void reload();
+
 public slots:
     /**
      * Sets the current active URL, where all actions are applied. The

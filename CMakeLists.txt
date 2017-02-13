@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 2.8.12)
 project(Dolphin)
 
 # KDE Application Version, managed by release script
-set (KDE_APPLICATIONS_VERSION_MAJOR "16")
-set (KDE_APPLICATIONS_VERSION_MINOR "11")
+set (KDE_APPLICATIONS_VERSION_MAJOR "17")
+set (KDE_APPLICATIONS_VERSION_MINOR "03")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
 
-set(QT_MIN_VERSION "5.4.0")
-set(KF5_MIN_VERSION "5.21.0")
+set(QT_MIN_VERSION "5.5.0")
+set(KF5_MIN_VERSION "5.30.0")
 set(ECM_MIN_VERSION "1.6.0")
 
 # ECM setup
@@ -63,7 +63,6 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     IconThemes
     Completion
     TextWidgets
-    WindowSystem
     Notifications
     Crash
 )

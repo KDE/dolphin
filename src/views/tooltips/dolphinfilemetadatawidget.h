@@ -19,8 +19,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef FILEMETADATATOOLTIP_H
-#define FILEMETADATATOOLTIP_H
+#ifndef DOLPHINFILEMETADATAWIDGET_H
+#define DOLPHINFILEMETADATAWIDGET_H
 
 #include <QWidget>
 #include "config-baloo.h"
@@ -37,16 +37,16 @@ namespace Baloo {
 #endif
 
 /**
- * @brief Tooltip, that shows the meta information and a preview of one
- *        or more files.
+ * @brief Widget that shows the meta information and a preview of one
+ *        or more files inside a KToolTipWidget.
  */
-class FileMetaDataToolTip : public QWidget
+class DolphinFileMetaDataWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    FileMetaDataToolTip(QWidget* parent = 0);
-    virtual ~FileMetaDataToolTip();
+    DolphinFileMetaDataWidget(QWidget* parent = 0);
+    virtual ~DolphinFileMetaDataWidget();
 
     void setPreview(const QPixmap& pixmap);
     QPixmap preview() const;
@@ -65,13 +65,9 @@ public:
 signals:
     /**
      * Is emitted after the meta data has been received for the items
-     * set by FileMetaDataToolTip::setItems().
+     * set by DolphinFileMetaDataWidget::setItems().
      */
     void metaDataRequestFinished(const KFileItemList& items);
-
-protected:
-    virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
 
 private:
     QLabel* m_preview;

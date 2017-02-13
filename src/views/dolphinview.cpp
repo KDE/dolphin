@@ -29,6 +29,7 @@
 #include <QGraphicsSceneDragDropEvent>
 #include <QTimer>
 #include <QScrollBar>
+#include <QPixmapCache>
 #include <QPointer>
 #include <QMenu>
 #include <QVBoxLayout>
@@ -211,19 +212,7 @@ void DolphinView::setActive(bool active)
 
     m_active = active;
 
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    if (!active) {
-        color.setAlpha(150);
-    }
-
-    QWidget* viewport = m_container->viewport();
-    if (viewport) {
-        QPalette palette;
-        palette.setColor(viewport->backgroundRole(), color);
-        viewport->setPalette(palette);
-    }
-
-    update();
+    updatePalette();
 
     if (active) {
         m_container->setFocus();
@@ -721,9 +710,31 @@ void DolphinView::stopLoading()
     m_model->cancelDirectoryLoading();
 }
 
+void DolphinView::updatePalette()
+{
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    if (!m_active) {
+        color.setAlpha(150);
+    }
+
+    QWidget* viewport = m_container->viewport();
+    if (viewport) {
+        QPalette palette;
+        palette.setColor(viewport->backgroundRole(), color);
+        viewport->setPalette(palette);
+    }
+
+    update();
+}
+
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
+    case QEvent::PaletteChange:
+        updatePalette();
+        QPixmapCache::clear();
+        break;
+
     case QEvent::KeyPress:
         if (GeneralSettings::useTabForSwitchingSplitView()) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
@@ -1012,7 +1023,7 @@ void DolphinView::slotItemHovered(int index)
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 
-        m_toolTipManager->showToolTip(item, itemRect);
+        m_toolTipManager->showToolTip(item, itemRect, nativeParentWidget()->windowHandle());
     }
 
     emit requestItemInfo(item);
@@ -1525,7 +1536,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
             KIO::Job * job = KIO::moveAs(oldUrl, newUrl);
             KJobWidgets::setWindow(job, this);
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
-            job->ui()->setAutoErrorHandlingEnabled(true);
+            job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
             if (!newNameExistsAlready) {
                 // Only connect the result signal if there is no item with the new name

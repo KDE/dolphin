@@ -50,7 +50,6 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
-#include <kconfigwidgets_version.h>
 #include <kdualaction.h>
 #include <KJobWidgets>
 #include <QLineEdit>
@@ -527,7 +526,7 @@ void DolphinMainWindow::toggleSplitView()
 void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
-    m_activeViewContainer->view()->reload();
+    m_activeViewContainer->reload();
 }
 
 void DolphinMainWindow::stopLoading()
@@ -723,7 +722,7 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
     } else if (KProtocolManager::supportsListing(url)) {
         // stat the URL to see if it is a dir or not
         m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
-        if (m_lastHandleUrlStatJob->ui()) {
+        if (m_lastHandleUrlStatJob->uiDelegate()) {
             KJobWidgets::setWindow(m_lastHandleUrlStatJob, this);
         }
         connect(m_lastHandleUrlStatJob, &KIO::Job::result,
@@ -869,10 +868,8 @@ void DolphinMainWindow::updateControlMenu()
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ReportBug)));
     helpMenu->addSeparator();
-#if KCONFIGWIDGETS_VERSION >= QT_VERSION_CHECK(5, 26, 0)
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Donate)));
     helpMenu->addSeparator();
-#endif
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
     helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
@@ -961,12 +958,16 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
         }
     }
 
-    QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
-    if (fileName.isEmpty()) {
-        fileName = '/';
+    if (GeneralSettings::showFullPathInTitlebar()) {
+        const QString path = url.adjusted(QUrl::StripTrailingSlash).path();
+        caption.append(path);
+    } else {
+        QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
+        if (fileName.isEmpty()) {
+            fileName = '/';
+        }
+        caption.append(fileName);
     }
-
-    caption.append(fileName);
 
     setWindowTitle(caption);
 }
@@ -1130,14 +1131,14 @@ void DolphinMainWindow::setupActions()
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
     activateNextTab->setEnabled(false);
     connect(activateNextTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateNextTab);
-    actionCollection()->setDefaultShortcuts(activateNextTab, QApplication::isRightToLeft() ? prevTabKeys : nextTabKeys);
+    actionCollection()->setDefaultShortcuts(activateNextTab, nextTabKeys);
 
     QAction* activatePrevTab = actionCollection()->addAction(QStringLiteral("activate_prev_tab"));
     activatePrevTab->setIconText(i18nc("@action:inmenu", "Previous Tab"));
     activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
-    actionCollection()->setDefaultShortcuts(activatePrevTab, QApplication::isRightToLeft() ? nextTabKeys : prevTabKeys);
+    actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
 
     // for context menu
     QAction* openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
@@ -1404,6 +1405,7 @@ void DolphinMainWindow::refreshViews()
         const bool splitView = GeneralSettings::splitView();
         m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView);
         updateSplitAction();
+        setUrlAsCaption(activeViewContainer()->url());
     }
 
     emit settingsChanged();

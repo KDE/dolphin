@@ -39,7 +39,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager")));
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
 
     KCrash::initialize();
 

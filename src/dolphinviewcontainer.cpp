@@ -98,8 +98,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             m_urlNavigator, &KUrlNavigator::setLocationUrl);
     connect(m_view, &DolphinView::urlChanged,
             m_messageWidget, &KMessageWidget::hide);
-    connect(m_view, &DolphinView::directoryLoadingCompleted,
-            m_messageWidget, &KMessageWidget::hide);
     connect(m_view, &DolphinView::writeStateChanged,
             this, &DolphinViewContainer::writeStateChanged);
     connect(m_view, &DolphinView::requestItemInfo,
@@ -363,9 +361,18 @@ QString DolphinViewContainer::placesText() const
         if (text.isEmpty()) {
             text = url().host();
         }
+        if (text.isEmpty()) {
+            text = url().scheme();
+        }
     }
 
     return text;
+}
+
+void DolphinViewContainer::reload()
+{
+    view()->reload();
+    m_messageWidget->hide();
 }
 
 void DolphinViewContainer::setUrl(const QUrl& newUrl)

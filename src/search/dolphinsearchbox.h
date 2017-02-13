@@ -30,6 +30,7 @@ class QToolButton;
 class QScrollArea;
 class QLabel;
 class QVBoxLayout;
+class KMoreToolsMenuFactory;
 
 /**
  * @brief Input box for searching files with or without Baloo.
@@ -100,6 +101,7 @@ public:
 protected:
     virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
     virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
     virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
     virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
 
@@ -175,6 +177,7 @@ private:
     DolphinFacetsWidget* m_facetsWidget;
 
     QUrl m_searchPath;
+    QScopedPointer<KMoreToolsMenuFactory> m_menuFactory;
 
     QTimer* m_startSearchTimer;
 };

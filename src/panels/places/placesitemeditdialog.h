@@ -31,7 +31,7 @@ class KIconButton;
 class KUrlRequester;
 class QLineEdit;
 class QCheckBox;
-class QPushButton;
+class QDialogButtonBox;
 
 class PlacesItemEditDialog: public QDialog
 {
@@ -72,7 +72,7 @@ private:
     QLineEdit* m_textEdit;
     KIconButton* m_iconButton;
     QCheckBox* m_appLocal;
-    QPushButton *m_okButton;
+    QDialogButtonBox *m_buttonBox;
 };
 
 #endif

@@ -762,6 +762,8 @@ private:
     QUrl viewPropertiesUrl() const;
 
 private:
+    void updatePalette();
+
     bool m_active;
     bool m_tabsForFiles;
     bool m_assureVisibleCurrentIndex;

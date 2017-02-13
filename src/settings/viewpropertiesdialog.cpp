@@ -303,7 +303,7 @@ void ViewPropertiesDialog::configureAdditionalInfo()
         visibleRoles.clear();
         visibleRoles.append("text");
         visibleRoles.append("size");
-        visibleRoles.append("date");
+        visibleRoles.append("modificationtime");
         m_viewProps->setVisibleRoles(visibleRoles);
     }
 
