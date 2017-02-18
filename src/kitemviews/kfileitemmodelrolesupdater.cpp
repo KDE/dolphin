@@ -505,8 +505,12 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
     const QString mimeType = item.mimetype();
     const int slashIndex = mimeType.indexOf(QLatin1Char('/'));
-    const QString mimeTypeGroup = mimeType.left(slashIndex);
-    if (mimeTypeGroup == QLatin1String("image")) {
+    const bool isFontPreview = mimeType.right(slashIndex).contains(QLatin1String("font"));
+    const bool isFolderPreview = item.isDir();
+    const bool isWindowsExePreview = mimeType == QLatin1String("application/x-ms-dos-executable") ||
+                                     mimeType == QLatin1String("application/x-msdownload");
+
+    if (!isFolderPreview && !isFontPreview && !isWindowsExePreview) {
         if (m_enlargeSmallPreviews) {
             KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
         } else {
