@@ -454,10 +454,6 @@ void DolphinView::reload()
     QDataStream saveStream(&viewState, QIODevice::WriteOnly);
     saveState(saveStream);
 
-    const KFileItemList itemList = selectedItems();
-    m_selectedUrls.clear();
-    m_selectedUrls = itemList.urlList();
-
     setUrl(url());
     loadDirectory(url(), true);
 
