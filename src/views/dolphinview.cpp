@@ -1211,6 +1211,9 @@ void DolphinView::restoreState(QDataStream& stream)
     // Restore the current item that had the keyboard focus
     stream >> m_currentItemUrl;
 
+    // Restore the previously selected items
+    stream >> m_selectedUrls;
+
     // Restore the view position
     stream >> m_restoredContentsPosition;
 
@@ -1234,6 +1237,9 @@ void DolphinView::saveState(QDataStream& stream)
     } else {
         stream << QUrl();
     }
+
+    // Save the selected urls
+    stream << selectedItems().urlList();
 
     // Save view position
     const qreal x = m_container->horizontalScrollBar()->value();
