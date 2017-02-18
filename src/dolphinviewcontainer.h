@@ -245,12 +245,6 @@ private slots:
     void activate();
 
     /**
-     * Is invoked if the signal urlAboutToBeChanged() from the DolphinView
-     * is emitted. Tries to save the view-state.
-     */
-    void slotViewUrlAboutToBeChanged(const QUrl& url);
-
-    /**
      * Is invoked if the signal urlAboutToBeChanged() from the URL navigator
      * is emitted. Tries to save the view-state.
      */
@@ -277,8 +271,6 @@ private slots:
      * the URL navigator.
      */
     void saveUrlCompletionMode(KCompletion::CompletionMode completion);
-
-    void slotHistoryChanged();
 
     void slotReturnPressed();
 
@@ -312,6 +304,12 @@ private:
      * root URL, ...
      */
     void saveViewState();
+
+    /**
+     * Restores the state of the current view iff the URL navigator contains a
+     * non-empty location state.
+     */
+    void tryRestoreViewState();
 
 private:
     QVBoxLayout* m_topLayout;

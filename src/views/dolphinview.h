@@ -378,13 +378,6 @@ signals:
      */
     void activated();
 
-    /**
-     * Is emitted if the URL of the view will be changed to \a url.
-     * After the URL has been changed the signal urlChanged() will
-     * be emitted.
-     */
-    void urlAboutToBeChanged(const QUrl& url);
-
     /** Is emitted if the URL of the view has been changed to \a url. */
     void urlChanged(const QUrl& url);
 

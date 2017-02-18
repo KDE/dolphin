@@ -122,8 +122,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::updateDirectorySortingProgress);
     connect(m_view, &DolphinView::selectionChanged,
             this, &DolphinViewContainer::delayedStatusBarUpdate);
-    connect(m_view, &DolphinView::urlAboutToBeChanged,
-            this, &DolphinViewContainer::slotViewUrlAboutToBeChanged);
     connect(m_view, &DolphinView::errorMessage,
             this, &DolphinViewContainer::showErrorMessage);
     connect(m_view, &DolphinView::urlIsFileError,
@@ -135,8 +133,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
     connect(m_urlNavigator, &KUrlNavigator::urlChanged,
             this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
-    connect(m_urlNavigator, &KUrlNavigator::historyChanged,
-            this, &DolphinViewContainer::slotHistoryChanged);
     connect(m_urlNavigator, &KUrlNavigator::returnPressed,
             this, &DolphinViewContainer::slotReturnPressed);
     connect(m_urlNavigator, &KUrlNavigator::urlsDropped,
@@ -489,7 +485,7 @@ void DolphinViewContainer::slotUrlIsFileError(const QUrl& url)
     item.determineMimeType();
     const QUrl& folderUrl = DolphinView::openItemAsFolderUrl(item, true);
     if (!folderUrl.isEmpty()) {
-        m_view->setUrl(folderUrl);
+        setUrl(folderUrl);
     } else {
         slotItemActivated(item);
     }
@@ -504,7 +500,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
 
     const QUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
     if (!url.isEmpty()) {
-        m_view->setUrl(url);
+        setUrl(url);
         return;
     }
 
@@ -547,28 +543,9 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
-void DolphinViewContainer::slotViewUrlAboutToBeChanged(const QUrl& url)
+void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl&)
 {
-    // URL changes of the view can happen in two ways:
-    // 1. The URL navigator gets changed and will trigger the view to update its URL
-    // 2. The URL of the view gets changed and will trigger the URL navigator to update
-    //    its URL (e.g. by clicking on an item)
-    // In this scope the view-state may only get saved in case 2:
-    if (url != m_urlNavigator->locationUrl()) {
-        saveViewState();
-    }
-}
-
-void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl& url)
-{
-    // URL changes of the view can happen in two ways:
-    // 1. The URL navigator gets changed and will trigger the view to update its URL
-    // 2. The URL of the view gets changed and will trigger the URL navigator to update
-    //    its URL (e.g. by clicking on an item)
-    // In this scope the view-state may only get saved in case 1:
-    if (url != m_view->url()) {
-        saveViewState();
-    }
+    saveViewState();
 }
 
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
@@ -578,6 +555,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     if (KProtocolManager::supportsListing(url)) {
         setSearchModeEnabled(isSearchUrl(url));
         m_view->setUrl(url);
+        tryRestoreViewState();
 
         if (m_autoGrabFocus && isActive() && !isSearchUrl(url)) {
             // When an URL has been entered, the view should get the focus.
@@ -641,15 +619,6 @@ void DolphinViewContainer::saveUrlCompletionMode(KCompletion::CompletionMode com
     GeneralSettings::setUrlCompletionMode(completion);
 }
 
-void DolphinViewContainer::slotHistoryChanged()
-{
-    QByteArray locationState = m_urlNavigator->locationState();
-    if (!locationState.isEmpty()) {
-        QDataStream stream(&locationState, QIODevice::ReadOnly);
-        m_view->restoreState(stream);
-    }
-}
-
 void DolphinViewContainer::slotReturnPressed()
 {
     if (!GeneralSettings::editableUrl()) {
@@ -698,4 +667,13 @@ void DolphinViewContainer::saveViewState()
     QDataStream stream(&locationState, QIODevice::WriteOnly);
     m_view->saveState(stream);
     m_urlNavigator->saveLocationState(locationState);
+}
+
+void DolphinViewContainer::tryRestoreViewState()
+{
+    QByteArray locationState = m_urlNavigator->locationState();
+    if (!locationState.isEmpty()) {
+        QDataStream stream(&locationState, QIODevice::ReadOnly);
+        m_view->restoreState(stream);
+    }
 }

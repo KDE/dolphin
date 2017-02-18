@@ -585,7 +585,6 @@ void DolphinView::setUrl(const QUrl& url)
 
     clearSelection();
 
-    emit urlAboutToBeChanged(url);
     m_url = url;
 
     hideToolTip();
