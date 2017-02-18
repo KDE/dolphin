@@ -1371,6 +1371,7 @@ void DolphinView::updateViewState()
             }
         }
 
+        selectionManager->beginAnchoredSelection(selectionManager->currentItem());
         selectionManager->setSelectedItems(selectedItems);
     }
 }
