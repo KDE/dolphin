@@ -35,8 +35,21 @@
 #include <KLocalizedString>
 #include <Kdelibs4ConfigMigrator>
 
+#ifndef Q_OS_WIN
+#include <unistd.h>
+#endif
+#include <iostream>
+
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
+#ifndef Q_OS_WIN
+    // Check whether we are running as root
+    if (getuid() == 0) {
+        std::cout << "Executing Dolphin as root is not possible." << std::endl;
+        return EXIT_FAILURE;
+    }
+#endif
+
     QApplication app(argc, argv);
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
