@@ -801,6 +801,22 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
         }
     }
 
+    if (event->button() & Qt::RightButton) {
+        m_selectionManager->clearSelection();
+        if (index >= 0) {
+            m_selectionManager->setSelected(index);
+            emit itemContextMenuRequested(index, event->screenPos());
+        } else {
+            const QRectF headerBounds = m_view->headerBoundaries();
+            if (headerBounds.contains(event->pos())) {
+                emit headerContextMenuRequested(event->screenPos());
+            } else {
+                emit viewContextMenuRequested(event->screenPos());
+            }
+        }
+        return true;
+    }
+
     bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) &&
                              (event->button() & Qt::LeftButton) &&
                              index >= 0 && index < m_model->count();
