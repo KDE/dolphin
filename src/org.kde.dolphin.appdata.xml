@@ -416,6 +416,7 @@
       <li xml:lang="bs">Podrška za poništavanje/ponavljanje akcija</li>
       <li xml:lang="ca">Admet desfer/refer</li>
       <li xml:lang="ca-valencia">Admet desfer/refer</li>
+      <li xml:lang="cs">Podpora zpět/vpřed</li>
       <li xml:lang="da">Understøttelse af fortryd/gendan</li>
       <li xml:lang="de">Unterstützung für Rückgängig/Wiederherstellen</li>
       <li xml:lang="el">Υποστήριξη αναίρεσης/επανάληψης</li>
@@ -458,6 +459,7 @@
       <li xml:lang="bs">Transparentni mrežni pristup kroz KIO sistem.</li>
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="ca-valencia">Accés transparent a la xarxa a través del sistema KIO.</li>
+      <li xml:lang="cs">Transparentní přístup k síti pomocí systému KIO.</li>
       <li xml:lang="da">Transparent netværksadgang igennem KIO-systemet</li>
       <li xml:lang="de">Transparenter Netzwerkzugriff durch das KIO-System.</li>
       <li xml:lang="el">Διαφανής δικτυακή πρόσβαση με το σύστημα KIO.</li>
