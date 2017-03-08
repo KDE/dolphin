@@ -120,7 +120,7 @@ bool KFileItemListWidget::isRoleRightAligned(const QByteArray& role) const
 
 bool KFileItemListWidget::isHidden() const
 {
-    return data().value("text").toString().startsWith(QLatin1Char('.'));
+    return data().value("isHidden").toBool();
 }
 
 QFont KFileItemListWidget::customizedFont(const QFont& baseFont) const

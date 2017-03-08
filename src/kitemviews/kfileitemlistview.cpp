@@ -396,6 +396,7 @@ void KFileItemListView::applyRolesToModel()
     roles.insert("text");
     roles.insert("isDir");
     roles.insert("isLink");
+    roles.insert("isHidden");
     if (supportsItemExpanding()) {
         roles.insert("isExpanded");
         roles.insert("isExpandable");
