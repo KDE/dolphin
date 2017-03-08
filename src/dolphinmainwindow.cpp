@@ -290,7 +290,7 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
 
 void DolphinMainWindow::openNewMainWindow()
 {
-    KRun::run(QStringLiteral("dolphin %u"), QList<QUrl>(), this);
+    Dolphin::openNewWindow({}, this);
 }
 
 void DolphinMainWindow::openNewActivatedTab()
@@ -331,7 +331,7 @@ void DolphinMainWindow::openInNewWindow()
     }
 
     if (!newWindowUrl.isEmpty()) {
-        KRun::run(QStringLiteral("dolphin %u"), {newWindowUrl}, this);
+        Dolphin::openNewWindow({newWindowUrl}, this);
     }
 }
 
@@ -772,11 +772,9 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
         changeUrl(KIO::upUrl(item.url()));
         break;
 
-    case DolphinContextMenu::OpenParentFolderInNewWindow: {
-
-        KRun::run(QStringLiteral("dolphin %u"), {KIO::upUrl(item.url())}, this);
+    case DolphinContextMenu::OpenParentFolderInNewWindow:
+        Dolphin::openNewWindow({KIO::upUrl(item.url())}, this);
         break;
-    }
 
     case DolphinContextMenu::OpenParentFolderInNewTab:
         openNewTab(KIO::upUrl(item.url()));

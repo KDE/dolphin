@@ -30,6 +30,17 @@ namespace Dolphin {
      * Returns the home url which is defined in General Settings
      */
     QUrl homeUrl();
+
+    enum class OpenNewWindowFlag {
+        None = 0,
+        Select = 1<<1
+    };
+    Q_DECLARE_FLAGS(OpenNewWindowFlags, OpenNewWindowFlag)
+
+    /**
+     * Opens a new Dolphin window
+     */
+    void openNewWindow(const QList<QUrl> &urls = {}, QWidget *window = nullptr, const OpenNewWindowFlags &flags = OpenNewWindowFlag::None);
 }
 
 #endif //GLOBAL_H

@@ -41,7 +41,7 @@ void DBusInterface::ShowFolders(const QStringList& uriList, const QString& start
     if (urls.isEmpty()) {
         return;
     }
-    KRun::run(QStringLiteral("dolphin %U"), urls, nullptr);
+    Dolphin::openNewWindow(urls);
 }
 
 void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUpId)
@@ -51,7 +51,7 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
     if (urls.isEmpty()) {
         return;
     }
-    KRun::run(QStringLiteral("dolphin --select %U"), urls, nullptr);
+    Dolphin::openNewWindow(urls, nullptr, Dolphin::OpenNewWindowFlag::Select);
 }
 
 void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString& startUpId)
