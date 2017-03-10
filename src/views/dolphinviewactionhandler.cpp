@@ -120,14 +120,10 @@ void DolphinViewActionHandler::createActions()
     connect(moveToTrash, &QAction::triggered,
             this, &DolphinViewActionHandler::slotTrashActivated);
 
-    QAction* deleteAction = m_actionCollection->addAction(QStringLiteral("delete"));
-    deleteAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-delete")));
-    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
-    m_actionCollection->setDefaultShortcut(deleteAction, Qt::SHIFT | Qt::Key_Delete);
-    connect(deleteAction, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
+    KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
 
     // This action is useful for being enabled when "move_to_trash" should be
-    // disabled and "delete" is enabled (e.g. non-local files), so that Key_Del
+    // disabled and KStandardAction::DeleteFile is enabled (e.g. non-local files), so that Key_Del
     // can be used for deleting the file (#76016). It needs to be a separate action
     // so that the Edit menu isn't affected.
     QAction* deleteWithTrashShortcut = m_actionCollection->addAction(QStringLiteral("delete_shortcut"));

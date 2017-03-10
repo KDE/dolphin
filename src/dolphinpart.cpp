@@ -255,7 +255,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 
     QAction* renameAction  = actionCollection()->action(QStringLiteral("rename"));
     QAction* moveToTrashAction = actionCollection()->action(QStringLiteral("move_to_trash"));
-    QAction* deleteAction = actionCollection()->action(QStringLiteral("delete"));
+    QAction* deleteAction = actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     QAction* editMimeTypeAction = actionCollection()->action(QStringLiteral("editMimeType"));
     QAction* propertiesAction = actionCollection()->action(QStringLiteral("properties"));
     QAction* deleteWithTrashShortcut = actionCollection()->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
@@ -433,9 +433,9 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
                 delete m_removeAction;
                 m_removeAction = 0;
                 editActions.append(actionCollection()->action(QStringLiteral("move_to_trash")));
-                editActions.append(actionCollection()->action(QStringLiteral("delete")));
+                editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
             } else if (showDeleteAction && !showMoveToTrashAction) {
-                editActions.append(actionCollection()->action(QStringLiteral("delete")));
+                editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
             } else {
                 if (!m_removeAction)
                     m_removeAction = new DolphinRemoveAction(this, actionCollection());

@@ -172,7 +172,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
     QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
     addAction(restoreAction);
 
-    QAction* deleteAction = m_mainWindow->actionCollection()->action(QStringLiteral("delete"));
+    QAction* deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     addAction(deleteAction);
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
@@ -406,9 +406,9 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
             delete m_removeAction;
             m_removeAction = 0;
             addAction(m_mainWindow->actionCollection()->action(QStringLiteral("move_to_trash")));
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("delete")));
+            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
         } else if (showDeleteAction && !showMoveToTrashAction) {
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("delete")));
+            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
         } else {
             if (!m_removeAction) {
                 m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());

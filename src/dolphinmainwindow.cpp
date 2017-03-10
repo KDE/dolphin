@@ -1015,12 +1015,8 @@ void DolphinMainWindow::setupActions()
                           SLOT(undo()),
                           actionCollection());
 
-    // need to remove shift+del from cut action, else the shortcut for deletejob
-    // doesn't work
-    QAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
-    auto cutShortcuts = cut->shortcuts();
-    cutShortcuts.removeAll(QKeySequence(Qt::SHIFT | Qt::Key_Delete));
-    actionCollection()->setDefaultShortcuts(cut, cutShortcuts);
+
+    KStandardAction::cut(this, SLOT(cut()), actionCollection());
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     QAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
@@ -1316,7 +1312,7 @@ void DolphinMainWindow::updateEditActions()
         KActionCollection* col = actionCollection();
         QAction* renameAction      = col->action(QStringLiteral("rename"));
         QAction* moveToTrashAction = col->action(QStringLiteral("move_to_trash"));
-        QAction* deleteAction      = col->action(QStringLiteral("delete"));
+        QAction* deleteAction      = col->action(KStandardAction::name(KStandardAction::DeleteFile));
         QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
 
