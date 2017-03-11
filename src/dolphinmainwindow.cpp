@@ -552,9 +552,9 @@ void DolphinMainWindow::disableStopAction()
     actionCollection()->action(QStringLiteral("stop"))->setEnabled(false);
 }
 
-void DolphinMainWindow::showFilterBar(bool show)
+void DolphinMainWindow::showFilterBar()
 {
-    m_activeViewContainer->setFilterBarVisible(show);
+    m_activeViewContainer->setFilterBarVisible(true);
 }
 
 void DolphinMainWindow::toggleEditLocation()
@@ -1108,7 +1108,7 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>(QStringLiteral("show_filter_bar"));
+    QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     actionCollection()->setDefaultShortcut(showFilterBar, Qt::CTRL | Qt::Key_I);

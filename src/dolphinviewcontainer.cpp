@@ -389,7 +389,6 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
         m_filterBar->show();
         m_filterBar->setFocus();
         m_filterBar->selectAll();
-        emit showFilterBarChanged(true);
     } else {
         closeFilterBar();
     }
