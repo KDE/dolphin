@@ -249,7 +249,7 @@ QAction* PlacesItemModel::ejectAction(int index) const
 {
     const PlacesItem* item = placesItem(index);
     if (item && item->device().is<Solid::OpticalDisc>()) {
-        return new QAction(QIcon::fromTheme(QStringLiteral("media-eject")), i18nc("@item", "Eject '%1'", item->text()), 0);
+        return new QAction(QIcon::fromTheme(QStringLiteral("media-eject")), i18nc("@item", "Eject"), 0);
     }
 
     return 0;
@@ -283,14 +283,13 @@ QAction* PlacesItemModel::teardownAction(int index) const
 
     QString iconName;
     QString text;
-    const QString label = item->text();
     if (device.is<Solid::OpticalDisc>()) {
-        text = i18nc("@item", "Release '%1'", label);
+        text = i18nc("@item", "Release");
     } else if (removable || hotPluggable) {
-        text = i18nc("@item", "Safely Remove '%1'", label);
+        text = i18nc("@item", "Safely Remove");
         iconName = QStringLiteral("media-eject");
     } else {
-        text = i18nc("@item", "Unmount '%1'", label);
+        text = i18nc("@item", "Unmount");
         iconName = QStringLiteral("media-eject");
     }
 
