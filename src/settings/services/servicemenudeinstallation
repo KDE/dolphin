@@ -2,7 +2,7 @@
 require 'fileutils'
 archive = ARGV[0]
 if archive[(archive.length - 8)..(archive.length)] == ".desktop"
-    FileUtils.rm(`kde4-config --localprefix`.strip! + "share/kde4/services/ServiceMenus/" + File.basename(archive))
+    FileUtils.rm(`qtpaths --writable-path GenericDataLocation`.strip!  + "/kservices5/ServiceMenus/" + File.basename(archive))
     exit(0)
 end
 dir = archive + "-dir"

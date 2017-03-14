@@ -2,7 +2,7 @@
 require 'pathname'
 require 'fileutils'
 archive = ARGV[0]
-$servicedir = `kde4-config --localprefix`.strip! + "share/kde4/services/ServiceMenus/"
+$servicedir = `qtpaths --writable-path GenericDataLocation`.strip!  + "/kservices5/ServiceMenus/"
 FileUtils.mkdir_p($servicedir) if !File.exist?($servicedir)
 if archive[(archive.length - 8)..(archive.length - 1)] == ".desktop"
     puts "Single-File Service-Menu"
