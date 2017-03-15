@@ -32,7 +32,6 @@
 #include <KProtocolInfo>
 #include <KLocalizedString>
 #include <QStandardPaths>
-#include <KUser>
 #include <KAboutData>
 #include "placesitem.h"
 #include <QAction>
@@ -888,7 +887,7 @@ void PlacesItemModel::createSystemBookmarks()
     // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
     // done here is because otherwise switching the language would not result in retranslating the
     // bookmarks.
-    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile(KUser().homeDir()),
+    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile(QDir::homePath()),
                                                 QStringLiteral("user-home"),
                                                 I18N_NOOP2("KFile System Bookmarks", "Home")));
     m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("remote:/")),
