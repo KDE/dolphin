@@ -290,7 +290,7 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
 
 void DolphinMainWindow::openNewMainWindow()
 {
-    Dolphin::openNewWindow({}, this);
+    Dolphin::openNewWindow({m_activeViewContainer->url()}, this);
 }
 
 void DolphinMainWindow::openNewActivatedTab()
