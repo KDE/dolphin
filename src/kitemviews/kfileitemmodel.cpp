@@ -1659,6 +1659,18 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         }
     }
 
+    if (true) { // m_sortDotfilesLast
+        const QString textA = a->item.text();
+        const QString textB = b->item.text();
+        const bool dotfileA = textA.at(0) == QLatin1Char('.');
+        const bool dotfileB = textB.at(0) == QLatin1Char('.');
+        if (dotfileA && !dotfileB) {
+            return false;
+        } else if (!dotfileA && dotfileB) {
+            return true;
+        }
+    }
+
     if (m_sortDirsFirst || m_sortRole == SizeRole) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
