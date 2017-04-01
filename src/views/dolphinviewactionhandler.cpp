@@ -75,6 +75,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, &DolphinViewActionHandler::slotSortOrderChanged);
     connect(view, &DolphinView::sortFoldersFirstChanged,
             this, &DolphinViewActionHandler::slotSortFoldersFirstChanged);
+    connect(view, &DolphinView::sortDotFilesLastChanged,
+            this, &DolphinViewActionHandler::slotSortDotFilesLastChanged);
     connect(view, &DolphinView::visibleRolesChanged,
             this, &DolphinViewActionHandler::slotVisibleRolesChanged);
     connect(view, &DolphinView::groupedSortingChanged,
@@ -174,6 +176,10 @@ void DolphinViewActionHandler::createActions()
     KToggleAction* sortFoldersFirst = m_actionCollection->add<KToggleAction>(QStringLiteral("folders_first"));
     sortFoldersFirst->setText(i18nc("@action:inmenu Sort", "Folders First"));
     connect(sortFoldersFirst, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortFoldersFirst);
+
+    KToggleAction* sortDotFilesLast = m_actionCollection->add<KToggleAction>(QStringLiteral("dotfiles_last"));
+    sortDotFilesLast->setText(i18nc("@action:inmenu Sort", "Hidden Files Last"));
+    connect(sortDotFilesLast, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortDotFilesLast);
 
     // View -> Sort By
     QActionGroup* sortByActionGroup = createFileItemRolesActionGroup(QStringLiteral("sort_by_"));
@@ -370,6 +376,7 @@ void DolphinViewActionHandler::updateViewActions()
 
     slotSortOrderChanged(m_currentView->sortOrder());
     slotSortFoldersFirstChanged(m_currentView->sortFoldersFirst());
+    slotSortDotFilesLastChanged(m_currentView->sortDotFilesLast());
     slotVisibleRolesChanged(m_currentView->visibleRoles(), QList<QByteArray>());
     slotGroupedSortingChanged(m_currentView->groupedSorting());
     slotSortRoleChanged(m_currentView->sortRole());
@@ -407,6 +414,12 @@ void DolphinViewActionHandler::toggleSortFoldersFirst()
     m_currentView->setSortFoldersFirst(!sortFirst);
 }
 
+void DolphinViewActionHandler::toggleSortDotFilesLast()
+{
+    const bool dotFilesLast = m_currentView->sortDotFilesLast();
+    m_currentView->setSortDotFilesLast(!dotFilesLast);
+}
+
 void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
 {
     QAction* descending = m_actionCollection->action(QStringLiteral("descending"));
@@ -417,6 +430,11 @@ void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
 void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
 {
     m_actionCollection->action(QStringLiteral("folders_first"))->setChecked(foldersFirst);
+}
+
+void DolphinViewActionHandler::slotSortDotFilesLastChanged(bool dotFilesLast)
+{
+    m_actionCollection->action(QStringLiteral("dotfiles_last"))->setChecked(dotFilesLast);
 }
 
 void DolphinViewActionHandler::toggleVisibleRole(QAction* action)

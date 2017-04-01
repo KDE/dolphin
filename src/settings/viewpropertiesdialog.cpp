@@ -57,6 +57,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder(0),
     m_sorting(0),
     m_sortFoldersFirst(0),
+    m_sortDotFilesLast(0),
     m_previewsShown(0),
     m_showInGroups(0),
     m_showHiddenFiles(0),
@@ -109,6 +110,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     }
 
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
+    m_sortDotFilesLast = new QCheckBox(i18nc("@option:check", "Show hidden files last"));
     m_previewsShown = new QCheckBox(i18nc("@option:check", "Show preview"));
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"));
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"));
@@ -133,6 +135,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_previewsShown);
     propsBoxLayout->addWidget(m_showInGroups);
     propsBoxLayout->addWidget(m_showHiddenFiles);
+    propsBoxLayout->addWidget(m_sortDotFilesLast);
     propsBoxLayout->addWidget(m_additionalInfo);
 
     connect(m_viewMode, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
@@ -143,8 +146,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, &ViewPropertiesDialog::slotSortOrderChanged);
     connect(m_additionalInfo, &QPushButton::clicked,
             this, &ViewPropertiesDialog::configureAdditionalInfo);
-    connect(m_sortFoldersFirst, &QCheckBox::clicked,
-            this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
+    connect(m_sortDotFilesLast, &QCheckBox::clicked,
+            this, &ViewPropertiesDialog::slotSortDotFilesLastChanged);
     connect(m_previewsShown, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotShowPreviewChanged);
     connect(m_showInGroups, &QCheckBox::clicked,
@@ -270,6 +273,13 @@ void ViewPropertiesDialog::slotSortFoldersFirstChanged()
     markAsDirty(true);
 }
 
+void ViewPropertiesDialog::slotSortDotFilesLastChanged()
+{
+    const bool dotFilesLast = m_sortDotFilesLast->isChecked();
+    m_viewProps->setSortDotFilesLast(dotFilesLast);
+    markAsDirty(true);
+}
+
 void ViewPropertiesDialog::slotShowPreviewChanged()
 {
     const bool show = m_previewsShown->isChecked();
@@ -372,6 +382,7 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
+    m_dolphinView->setSortDotFilesLast(m_viewProps->sortDotFilesLast());
     m_dolphinView->setGroupedSorting(m_viewProps->groupedSorting());
     m_dolphinView->setVisibleRoles(m_viewProps->visibleRoles());
     m_dolphinView->setPreviewsShown(m_viewProps->previewsShown());
@@ -407,6 +418,7 @@ void ViewPropertiesDialog::loadSettings()
     m_sorting->setCurrentIndex(sortRoleIndex);
 
     m_sortFoldersFirst->setChecked(m_viewProps->sortFoldersFirst());
+    m_sortDotFilesLast->setChecked(m_viewProps->sortDotFilesLast());
 
     // Load show preview, show in groups and show hidden files settings
     m_previewsShown->setChecked(m_viewProps->previewsShown());

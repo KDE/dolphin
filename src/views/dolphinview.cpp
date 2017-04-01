@@ -430,6 +430,18 @@ bool DolphinView::sortFoldersFirst() const
     return m_model->sortDirectoriesFirst();
 }
 
+void DolphinView::setSortDotFilesLast(bool dotFilesLast)
+{
+    if (sortDotFilesLast() != dotFilesLast) {
+        updateSortDotFilesLast(dotFilesLast);
+    }
+}
+
+bool DolphinView::sortDotFilesLast() const
+{
+    return m_model->sortDotFilesLast();
+}
+
 void DolphinView::setVisibleRoles(const QList<QByteArray>& roles)
 {
     const QList<QByteArray> previousRoles = roles;
@@ -1171,6 +1183,16 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
     emit sortFoldersFirstChanged(foldersFirst);
 }
 
+void DolphinView::updateSortDotFilesLast(bool dotFilesLast)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortDotFilesLast(dotFilesLast);
+
+    m_model->setSortDotFilesLast(dotFilesLast);
+
+    emit sortDotFilesLastChanged(dotFilesLast);
+}
+
 QPair<bool, QString> DolphinView::pasteInfo() const
 {
     const QMimeData *mimeData = QApplication::clipboard()->mimeData();
@@ -1624,6 +1646,12 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
     if (sortFoldersFirst != m_model->sortDirectoriesFirst()) {
         m_model->setSortDirectoriesFirst(sortFoldersFirst);
         emit sortFoldersFirstChanged(sortFoldersFirst);
+    }
+
+    const bool sortDotFilesLast = props.sortDotFilesLast();
+    if (sortDotFilesLast != m_model->sortDotFilesLast()) {
+        m_model->setSortDotFilesLast(sortDotFilesLast);
+        emit sortDotFilesLastChanged(sortDotFilesLast);
     }
 
     const QList<QByteArray> visibleRoles = props.visibleRoles();

@@ -44,6 +44,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(0),
     m_sortDirsFirst(true),
+    m_sortDotFilesLast(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
@@ -215,6 +216,19 @@ void KFileItemModel::setSortDirectoriesFirst(bool dirsFirst)
 bool KFileItemModel::sortDirectoriesFirst() const
 {
     return m_sortDirsFirst;
+}
+
+void KFileItemModel::setSortDotFilesLast(bool dotFilesLast)
+{
+    if (dotFilesLast != m_sortDotFilesLast) {
+        m_sortDotFilesLast = dotFilesLast;
+        resortAllItems();
+    }
+}
+
+bool KFileItemModel::sortDotFilesLast() const
+{
+    return m_sortDotFilesLast;
 }
 
 void KFileItemModel::setShowHiddenFiles(bool show)
@@ -1659,7 +1673,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         }
     }
 
-    if (true) { // m_sortDotfilesLast
+    if (m_sortDotFilesLast) {
         const QString textA = a->item.text();
         const QString textB = b->item.text();
         const bool dotfileA = textA.at(0) == QLatin1Char('.');
