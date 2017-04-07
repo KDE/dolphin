@@ -197,12 +197,13 @@ public:
     int lastVisibleIndex() const;
 
     /**
-     * @return Calculates the required size for all items in the model.
-     *         It might be larger than KItemListView::itemSize().
-     *         In this case the layout grid will be stretched to assure an
-     *         unclipped item.
-     *         NOTE: the logical height (width) is actually the
-     *         width (height) if the scroll orientation is Qt::Vertical!
+     * Calculates the required size for all items in the model.
+     * It might be larger than KItemListView::itemSize().
+     * In this case the layout grid will be stretched to assure an
+     * unclipped item.
+     *
+     * @note the logical height (width) is actually the
+     * width (height) if the scroll orientation is Qt::Vertical!
      */
     void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint) const;
 

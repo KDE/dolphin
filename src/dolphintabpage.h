@@ -127,7 +127,7 @@ public:
      * @deprecated The first tab state version has no version number, we keep
      *             this method to restore old states (<= Dolphin 4.14.x).
      */
-    void restoreStateV1(const QByteArray& state);
+    Q_DECL_DEPRECATED void restoreStateV1(const QByteArray& state);
 
 signals:
     void activeViewChanged(DolphinViewContainer* viewContainer);

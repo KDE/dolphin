@@ -335,27 +335,26 @@ Q_DECLARE_METATYPE(QList<int>)
  *
  * The test is data-driven and takes the following arguments:
  *
- * \param initialSelection  The selection at the beginning.
- * \param anchor            This item will be the anchor item.
- * \param current           This item will be the current item.
- * \param expectedSelection Expected selection after anchor and current are set.
- * \param changeType        Type of the change that is done then:
- *                          - NoChange
- *                          - InsertItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsInserted()
- *                          - RemoveItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsRemoved()
- *                          - MoveItems   -> data.at(0) provides the KItemRange containing the original indices,
- *                                           data.at(1) provides the list containing the new indices
- *                                          \sa KItemListSelectionManager::itemsMoved(), KItemModelBase::itemsMoved()
- *                          - EndAnchoredSelection
- *                          - SetSelected -> data.at(0) provides the index where the selection process starts,
- *                                           data.at(1) provides the number of indices to be selected,
- *                                           data.at(2) provides the selection mode.
- *                                          \sa KItemListSelectionManager::setSelected()
- * \param data              A list of QVariants which will be cast to the arguments needed for the chosen ChangeType (see above).
- * \param finalSelection    The expected final selection.
+ * param initialSelection  The selection at the beginning.
+ * param anchor            This item will be the anchor item.
+ * param current           This item will be the current item.
+ * param expectedSelection Expected selection after anchor and current are set.
+ * param changeType        Type of the change that is done then:
+ *                        - NoChange
+ *                        - InsertItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsInserted()
+ *                        - RemoveItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsRemoved()
+ *                        - MoveItems   -> data.at(0) provides the KItemRange containing the original indices,
+ *                                         data.at(1) provides the list containing the new indices
+ *                                        \sa KItemListSelectionManager::itemsMoved(), KItemModelBase::itemsMoved()
+ *                        - EndAnchoredSelection
+ *                        - SetSelected -> data.at(0) provides the index where the selection process starts,
+ *                                         data.at(1) provides the number of indices to be selected,
+ *                                         data.at(2) provides the selection mode.
+ *                                        \sa KItemListSelectionManager::setSelected()
+ * param data              A list of QVariants which will be cast to the arguments needed for the chosen ChangeType (see above).
+ * param finalSelection    The expected final selection.
  *
  */
-
 void KItemListSelectionManagerTest::testChangeSelection_data()
 {
     QTest::addColumn<KItemSet>("initialSelection");
