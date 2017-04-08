@@ -159,7 +159,9 @@ KBalooRolesProvider::KBalooRolesProvider() :
 
 QString KBalooRolesProvider::tagsFromValues(const QStringList& values) const
 {
-    return values.join(QStringLiteral(", "));
+    QStringList alphabetic_order_tags = values;
+    alphabetic_order_tags.sort();
+    return alphabetic_order_tags.join(QStringLiteral(", "));
 }
 
 QString KBalooRolesProvider::orientationFromValue(int value) const
