@@ -172,6 +172,16 @@ public:
     // decision whether it accepts the drop?
     virtual bool supportsDropping(int index) const;
 
+    /**
+     * @return An internal mimetype to signal that an itemDropEvent() should be rejected by
+     *         the receiving model.
+     *
+     *         This mimeType can be used in createMimeData() to notify that the
+     *         drop-onto-items events should be ignored, while the drop-between-items
+     *         ones should be still accepted.
+     */
+    QString blacklistItemDropEventMimeType() const;
+
 signals:
     /**
      * Is emitted if one or more items have been inserted. Each item-range consists
