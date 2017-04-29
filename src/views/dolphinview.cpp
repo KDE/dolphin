@@ -182,6 +182,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
             this, &DolphinView::slotSelectionChanged);
 
     m_toolTipManager = new ToolTipManager(this);
+    connect(m_toolTipManager, &ToolTipManager::urlActivated, this, &DolphinView::urlActivated);
 
     m_versionControlObserver = new VersionControlObserver(this);
     m_versionControlObserver->setModel(m_model);

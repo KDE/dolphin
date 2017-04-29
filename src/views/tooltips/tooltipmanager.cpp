@@ -86,6 +86,8 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, 
     m_fileMetaDataWidget = new DolphinFileMetaDataWidget();
     connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::metaDataRequestFinished,
             this, &ToolTipManager::slotMetaDataRequestFinished);
+    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::urlActivated,
+            this, &ToolTipManager::urlActivated);
 
     m_contentRetrievalTimer->start();
     m_showToolTipTimer->start();

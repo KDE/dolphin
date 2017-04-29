@@ -544,6 +544,12 @@ signals:
      */
     void toggleActiveViewRequested();
 
+    /**
+     * Is emitted when the user clicks a tag or a link
+     * in the metadata widget of a tooltip.
+     */
+    void urlActivated(const QUrl& url);
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;

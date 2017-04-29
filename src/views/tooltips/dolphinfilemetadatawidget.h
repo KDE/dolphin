@@ -69,6 +69,12 @@ signals:
      */
     void metaDataRequestFinished(const KFileItemList& items);
 
+    /**
+     * Is emitted when the user clicks a tag or a link
+     * in the metadata widget.
+     */
+    void urlActivated(const QUrl& url);
+
 private:
     QLabel* m_preview;
     QLabel* m_name;

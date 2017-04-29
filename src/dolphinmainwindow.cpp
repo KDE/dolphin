@@ -1453,6 +1453,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goBack));
     connect(view, &DolphinView::goForwardRequested,
             this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goForward));
+    connect(view, &DolphinView::urlActivated,
+            this, &DolphinMainWindow::handleUrl);
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, &KUrlNavigator::urlChanged,
