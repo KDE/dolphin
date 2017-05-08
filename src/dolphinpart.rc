@@ -1,12 +1,12 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphinpart" version="11" translationDomain="dolphin">
+<kpartgui name="dolphinpart" version="12" translationDomain="dolphin">
  <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
    <Separator/>
    <Action name="rename"/>
    <Action name="move_to_trash" />
-   <Action name="delete"/>
+   <Action name="deletefile"/>
    <Action name="editMimeType"/>
    <Action name="properties"/>
    <Separator/>
@@ -53,14 +53,14 @@
 <State name="has_selection" >
   <enable>
    <Action name="move_to_trash" />
-   <Action name="delete" />
+   <Action name="deletefile" />
   </enable>
  </State>
  <State name="has_no_selection" >
   <disable>
    <Action name="rename" />
    <Action name="move_to_trash" />
-   <Action name="delete" />
+   <Action name="deletefile" />
   </disable>
 </State>
 </kpartgui>

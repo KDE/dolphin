@@ -58,6 +58,13 @@ public:
      */
     void hideToolTip();
 
+signals:
+    /**
+     * Is emitted when the user clicks a tag or a link
+     * in the metadata widget.
+     */
+    void urlActivated(const QUrl& url);
+
 private slots:
     void startContentRetrieval();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);

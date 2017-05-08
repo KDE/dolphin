@@ -67,10 +67,14 @@ DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
     m_fileMetaDataWidget = new KFileMetaDataWidget(this);
     connect(m_fileMetaDataWidget, &KFileMetaDataWidget::metaDataRequestFinished,
             this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
+    connect(m_fileMetaDataWidget, &KFileMetaDataWidget::urlActivated,
+            this, &DolphinFileMetaDataWidget::urlActivated);
 #else
     m_fileMetaDataWidget = new Baloo::FileMetaDataWidget(this);
     connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::metaDataRequestFinished,
             this, &DolphinFileMetaDataWidget::metaDataRequestFinished);
+    connect(m_fileMetaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
+            this, &DolphinFileMetaDataWidget::urlActivated);
 #endif
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
