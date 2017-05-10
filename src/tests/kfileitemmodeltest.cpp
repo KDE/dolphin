@@ -135,10 +135,11 @@ void KFileItemModelTest::cleanup()
 void KFileItemModelTest::testDefaultRoles()
 {
     const QSet<QByteArray> roles = m_model->roles();
-    QCOMPARE(roles.count(), 3);
+    QCOMPARE(roles.count(), 4);
     QVERIFY(roles.contains("text"));
     QVERIFY(roles.contains("isDir"));
     QVERIFY(roles.contains("isLink"));
+    QVERIFY(roles.contains("isHidden"));
 }
 
 void KFileItemModelTest::testDefaultSortRole()
