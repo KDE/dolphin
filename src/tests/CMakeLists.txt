@@ -3,9 +3,6 @@ set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 find_package(Qt5Test CONFIG REQUIRED)
 include(ECMMarkAsTest)
 
-# needed on windows to correctly use the files from dolphinprivate
-add_definitions(-DDOLPHIN_EXPORT=)
-
 # KItemSetTest
 set(kitemsettest_SRCS
     kitemsettest.cpp
