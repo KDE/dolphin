@@ -193,7 +193,7 @@ install(FILES dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
 ##########################################
 
-set(dolphin_SRCS
+set(dolphinstatic_SRCS
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
@@ -248,11 +248,10 @@ set(dolphin_SRCS
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
     dolphindebug.cpp
-    dbusinterface.cpp
     global.cpp
 )
 
-kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC
+kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
@@ -265,8 +264,31 @@ kconfig_add_kcfg_files(dolphin_SRCS GENERATE_MOC
 )
 
 if(NOT WIN32)
-   set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
+   set(dolphinstatic_SRCS ${dolphinstatic_SRCS} panels/terminal/terminalpanel.cpp)
 endif()
+
+add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
+
+target_include_directories(dolphinstatic PRIVATE ${PHONON_INCLUDES})
+target_link_libraries(dolphinstatic
+    dolphinprivate
+    KF5::KCMUtils
+    KF5::DBusAddons
+    KF5::Notifications
+    Phonon::phonon4qt5
+)
+
+if (KF5Activities_FOUND)
+    target_link_libraries(
+        dolphinstatic
+        KF5::Activities
+    )
+endif()
+
+set(dolphin_SRCS
+    dbusinterface.cpp
+    main.cpp
+)
 
 # Sets the icon on Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
@@ -274,26 +296,11 @@ ecm_add_app_icon(dolphin_SRCS ICONS ${ICONS_SRCS})
 
 kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 
-target_include_directories(kdeinit_dolphin PRIVATE ${PHONON_INCLUDES})
 
 target_link_libraries(kdeinit_dolphin
+    dolphinstatic
     dolphinprivate
-    KF5::Parts
-    KF5::KCMUtils
-    KF5::Solid
-    KF5::CoreAddons
-    KF5::DBusAddons
-    KF5::Bookmarks
-    KF5::Notifications
-    Phonon::phonon4qt5
 )
-
-if (KF5Activities_FOUND)
-    target_link_libraries(
-        kdeinit_dolphin
-        KF5::Activities
-    )
-endif()
 
 include(DbusInterfaceMacros)
 
