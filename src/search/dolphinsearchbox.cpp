@@ -230,8 +230,13 @@ bool DolphinSearchBox::eventFilter(QObject* obj, QEvent* event)
 {
     switch (event->type()) {
     case QEvent::FocusIn:
-        setActive(true);
-        setFocus();
+        // #379135: we get the FocusIn event when we close a tab but we don't want to emit
+        // the activated() signal before the removeTab() call in DolphinTabWidget::closeTab() returns.
+        // To avoid this issue, we delay the activation of the search box.
+        QTimer::singleShot(0, this, [this] {
+            setActive(true);
+            setFocus();
+        });
         break;
 
     default:

@@ -28,7 +28,8 @@
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget* parent) :
     QWidget(parent),
     m_primaryViewActive(true),
-    m_splitViewEnabled(false)
+    m_splitViewEnabled(false),
+    m_active(true)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -286,17 +287,31 @@ void DolphinTabPage::restoreStateV1(const QByteArray& state)
     m_splitter->restoreState(splitterState);
 }
 
+void DolphinTabPage::setActive(bool active)
+{
+    if (active) {
+        m_active = active;
+    } else {
+        // we should bypass changing active view in split mode
+        m_active = !m_splitViewEnabled;
+    }
+    // we want view to fire activated when goes from false to true
+    activeViewContainer()->setActive(active);
+}
+
 void DolphinTabPage::slotViewActivated()
 {
     const DolphinView* oldActiveView = activeViewContainer()->view();
 
     // Set the view, which was active before, to inactive
-    // and update the active view type.
-    if (m_splitViewEnabled) {
-        activeViewContainer()->setActive(false);
-        m_primaryViewActive = !m_primaryViewActive;
-    } else {
-        m_primaryViewActive = true;
+    // and update the active view type, if tab is active
+    if (m_active) {
+        if (m_splitViewEnabled) {
+            activeViewContainer()->setActive(false);
+            m_primaryViewActive = !m_primaryViewActive;
+        } else {
+            m_primaryViewActive = true;
+        }
     }
 
     const DolphinView* newActiveView = activeViewContainer()->view();
