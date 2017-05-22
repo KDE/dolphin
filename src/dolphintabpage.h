@@ -129,6 +129,12 @@ public:
      */
     Q_DECL_DEPRECATED void restoreStateV1(const QByteArray& state);
 
+    /**
+     * Set whether the tab page is active
+     *
+     */
+    void setActive(bool active);
+
 signals:
     void activeViewChanged(DolphinViewContainer* viewContainer);
     void activeViewUrlChanged(const QUrl& url);
@@ -165,6 +171,7 @@ private:
 
     bool m_primaryViewActive;
     bool m_splitViewEnabled;
+    bool m_active;
 };
 
 #endif // DOLPHIN_TAB_PAGE_H
