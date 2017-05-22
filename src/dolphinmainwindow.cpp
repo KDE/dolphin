@@ -124,6 +124,7 @@ DolphinMainWindow::DolphinMainWindow() :
     setAcceptDrops(true);
 
     m_tabWidget = new DolphinTabWidget(this);
+    m_tabWidget->setObjectName("tabWidget");
     connect(m_tabWidget, &DolphinTabWidget::activeViewChanged,
             this, &DolphinMainWindow::activeViewChanged);
     connect(m_tabWidget, &DolphinTabWidget::tabCountChanged,

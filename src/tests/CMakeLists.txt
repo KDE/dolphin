@@ -52,3 +52,8 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 ecm_add_test(viewpropertiestest.cpp testdir.cpp
 TEST_NAME viewpropertiestest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
+
+# DolphinMainWindowTest
+ecm_add_test(dolphinmainwindowtest.cpp
+TEST_NAME dolphinmainwindowtest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
