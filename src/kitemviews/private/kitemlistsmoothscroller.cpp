@@ -35,9 +35,8 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_animation(0)
 {
     m_animation = new QPropertyAnimation(this);
-    const int duration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animate, nullptr, m_scrollBar) ? 300 : 1;
+    const int duration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animate, nullptr, m_scrollBar) ? 100 : 1;
     m_animation->setDuration(duration);
-    m_animation->setEasingCurve(QEasingCurve::InOutQuart);
     connect(m_animation, &QPropertyAnimation::stateChanged,
             this, &KItemListSmoothScroller::slotAnimationStateChanged);
 
