@@ -124,11 +124,6 @@ private:
     void addServiceActions(KFileItemActions& fileItemActions);
 
     /**
-     * Adds actions that are provided by a KFileItemActionPlugin.
-     */
-    void addFileItemPluginActions(KFileItemActions& fileItemActions);
-
-    /**
      * Adds actions that are provided by a KVersionControlPlugin.
      */
     void addVersionControlPluginActions();

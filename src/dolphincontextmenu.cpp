@@ -283,7 +283,7 @@ void DolphinContextMenu::openItemContextMenu()
     fileItemActions.setItemListProperties(selectedItemsProps);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions(fileItemActions);
+    fileItemActions.addPluginActionsTo(this);
 
     addVersionControlPluginActions();
 
@@ -355,7 +355,7 @@ void DolphinContextMenu::openViewportContextMenu()
     fileItemActions.setItemListProperties(baseUrlProperties);
     addServiceActions(fileItemActions);
 
-    addFileItemPluginActions(fileItemActions);
+    fileItemActions.addPluginActionsTo(this);
 
     addVersionControlPluginActions();
 
@@ -482,11 +482,6 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
 
     // insert 'Actions' sub menu
     fileItemActions.addServiceActionsTo(this);
-}
-
-void DolphinContextMenu::addFileItemPluginActions(KFileItemActions& fileItemActions)
-{
-    fileItemActions.addPluginActionsTo(this);
 }
 
 void DolphinContextMenu::addVersionControlPluginActions()
