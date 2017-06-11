@@ -104,9 +104,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     KAboutData::setApplicationData(aboutData);
 
-    KDBusService dolphinDBusService;
-    DBusInterface interface;
-
     QCommandLineParser parser;
     parser.addVersionOption();
     parser.addHelpOption();
