@@ -307,15 +307,20 @@ void DolphinMainWindow::openNewTab(const QUrl& url)
 void DolphinMainWindow::openInNewTab()
 {
     const KFileItemList& list = m_activeViewContainer->view()->selectedItems();
-    if (list.isEmpty()) {
-        openNewTab(m_activeViewContainer->url());
-    } else {
-        foreach (const KFileItem& item, list) {
-            const QUrl& url = DolphinView::openItemAsFolderUrl(item);
-            if (!url.isEmpty()) {
-                openNewTab(url);
-            }
+    bool tabCreated = false;
+
+    foreach (const KFileItem& item, list) {
+        const QUrl& url = DolphinView::openItemAsFolderUrl(item);
+        if (!url.isEmpty()) {
+            openNewTab(url);
+            tabCreated = true;
         }
+    }
+
+    // if no new tab has been created from the selection
+    // open the current directory in a new tab
+    if (!tabCreated) {
+        openNewTab(m_activeViewContainer->url());
     }
 }
 

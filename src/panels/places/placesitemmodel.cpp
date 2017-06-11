@@ -376,6 +376,9 @@ QMimeData* PlacesItemModel::createMimeData(const KItemSet& indexes) const
     QMimeData* mimeData = new QMimeData();
     if (!urls.isEmpty()) {
         mimeData->setUrls(urls);
+    } else {
+        // #378954: prevent itemDropEvent() drops if there isn't a source url.
+        mimeData->setData(blacklistItemDropEventMimeType(), QByteArrayLiteral("true"));
     }
     mimeData->setData(internalMimeType(), itemData);
 

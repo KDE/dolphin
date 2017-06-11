@@ -142,6 +142,11 @@ bool KItemModelBase::supportsDropping(int index) const
     return false;
 }
 
+QString KItemModelBase::blacklistItemDropEventMimeType() const
+{
+    return QStringLiteral("application/x-dolphin-blacklist-drop");
+}
+
 void KItemModelBase::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current);

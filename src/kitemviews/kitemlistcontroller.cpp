@@ -928,7 +928,7 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
         // Something has been dropped between two items.
         m_view->hideDropIndicator();
         emit aboveItemDropEvent(dropAboveIndex, event);
-    } else {
+    } else if (!event->mimeData()->hasFormat(m_model->blacklistItemDropEventMimeType())) {
         // Something has been dropped on an item or on an empty part of the view.
         emit itemDropEvent(m_view->itemAt(pos), event);
     }
