@@ -334,6 +334,11 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
                 return item->item.time(KFileItem::ModificationTime);
             });
             break;
+        case CreationTimeRole:
+            m_groups = timeRoleGroups([](const ItemData *item) {
+                return item->item.time(KFileItem::CreationTime);
+            });
+            break;
         case AccessTimeRole:
             m_groups = timeRoleGroups([](const ItemData *item) {
                 return item->item.time(KFileItem::AccessTime);
@@ -1562,6 +1567,14 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("modificationtime"), dateTime);
     }
 
+    if (m_requestRole[CreationTimeRole]) {
+        // Don't use KFileItem::timeString() as this is too expensive when
+        // having several thousands of items. Instead the formatting of the
+        // date-time will be done on-demand by the view when the date will be shown.
+        const QDateTime dateTime = item.time(KFileItem::CreationTime);
+        data.insert(sharedValue("creationtime"), dateTime);
+    }
+
     if (m_requestRole[AccessTimeRole]) {
         // Don't use KFileItem::timeString() as this is too expensive when
         // having several thousands of items. Instead the formatting of the
@@ -1803,6 +1816,17 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
     case ModificationTimeRole: {
         const QDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
         const QDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
+        if (dateTimeA < dateTimeB) {
+            result = -1;
+        } else if (dateTimeA > dateTimeB) {
+            result = +1;
+        }
+        break;
+    }
+
+    case CreationTimeRole: {
+        const QDateTime dateTimeA = itemA.time(KFileItem::CreationTime);
+        const QDateTime dateTimeB = itemB.time(KFileItem::CreationTime);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
@@ -2271,6 +2295,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "text",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
         { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },
         { "modificationtime",        ModificationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Modified"),             0, 0,                                     false, false },
+        { "creationtime",        CreationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Created"),             0, 0,                                     false, false },
         { "accesstime",        AccessTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Accessed"),             0, 0,                                     false, false },
         { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0,                                     false, false },
         { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0,                                     true,  false },
