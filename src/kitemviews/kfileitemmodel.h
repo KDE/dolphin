@@ -282,7 +282,7 @@ private slots:
 private:
     enum RoleType {
         // User visible roles:
-        NoRole, NameRole, SizeRole, ModificationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
+        NoRole, NameRole, SizeRole, ModificationTimeRole, CreationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
         GroupRole, TypeRole, DestinationRole, PathRole, DeletionTimeRole,
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
