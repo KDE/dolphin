@@ -30,6 +30,8 @@
 #include <QHash>
 #include <QSet>
 
+#include <functional>
+
 class KFileItemModelDirLister;
 class QTimer;
 
@@ -281,7 +283,7 @@ private:
     enum RoleType {
         // User visible roles:
         NoRole, NameRole, SizeRole, ModificationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
-        GroupRole, TypeRole, DestinationRole, PathRole,
+        GroupRole, TypeRole, DestinationRole, PathRole, DeletionTimeRole,
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
         WordCountRole, TitleRole, LineCountRole, ArtistRole, AlbumRole, DurationRole, TrackRole,
@@ -383,7 +385,7 @@ private:
 
     QList<QPair<int, QVariant> > nameRoleGroups() const;
     QList<QPair<int, QVariant> > sizeRoleGroups() const;
-    QList<QPair<int, QVariant> > timeRoleGroups(KFileItem::FileTimes which) const;
+    QList<QPair<int, QVariant> > timeRoleGroups(std::function<QDateTime(const ItemData *)> fileTimeCb) const;
     QList<QPair<int, QVariant> > permissionRoleGroups() const;
     QList<QPair<int, QVariant> > ratingRoleGroups() const;
     QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& typeForRole) const;

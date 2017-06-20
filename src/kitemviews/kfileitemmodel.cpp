@@ -329,8 +329,21 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         switch (typeForRole(sortRole())) {
         case NameRole:        m_groups = nameRoleGroups(); break;
         case SizeRole:        m_groups = sizeRoleGroups(); break;
-        case ModificationTimeRole:        m_groups = timeRoleGroups(KFileItem::ModificationTime); break;
-        case AccessTimeRole:        m_groups = timeRoleGroups(KFileItem::AccessTime); break;
+        case ModificationTimeRole:
+            m_groups = timeRoleGroups([](const ItemData *item) {
+                return item->item.time(KFileItem::ModificationTime);
+            });
+            break;
+        case AccessTimeRole:
+            m_groups = timeRoleGroups([](const ItemData *item) {
+                return item->item.time(KFileItem::AccessTime);
+            });
+            break;
+        case DeletionTimeRole:
+            m_groups = timeRoleGroups([](const ItemData *item) {
+                return item->values.value("deletiontime").toDateTime();
+            });
+            break;
         case PermissionsRole: m_groups = permissionRoleGroups(); break;
         case RatingRole:      m_groups = ratingRoleGroups(); break;
         default:              m_groups = genericStringRoleGroups(sortRole()); break;
@@ -1321,6 +1334,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData*>& itemDataList)
     case GroupRole:
     case DestinationRole:
     case PathRole:
+    case DeletionTimeRole:
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
         foreach (ItemData* itemData, itemDataList) {
@@ -1599,6 +1613,14 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("path"), path);
     }
 
+    if (m_requestRole[DeletionTimeRole]) {
+        QDateTime deletionTime;
+        if (item.url().scheme() == QLatin1String("trash")) {
+            deletionTime = QDateTime::fromString(item.entry().stringValue(KIO::UDSEntry::UDS_EXTRA + 1), Qt::ISODate);
+        }
+        data.insert(sharedValue("deletiontime"), deletionTime);
+    }
+
     if (m_requestRole[IsExpandableRole] && isDir) {
         data.insert(sharedValue("isExpandable"), true);
     }
@@ -1789,6 +1811,17 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
     }
 
+    case DeletionTimeRole: {
+        const QDateTime dateTimeA = a->values.value("deletiontime").toDateTime();
+        const QDateTime dateTimeB = b->values.value("deletiontime").toDateTime();
+        if (dateTimeA < dateTimeB) {
+            result = -1;
+        } else if (dateTimeA > dateTimeB) {
+            result = +1;
+        }
+        break;
+    }
+
     case RatingRole: {
         result = a->values.value("rating").toInt() - b->values.value("rating").toInt();
         break;
@@ -1958,7 +1991,7 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
     return groups;
 }
 
-QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(KFileItem::FileTimes which) const
+QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(std::function<QDateTime(const ItemData *)> fileTimeCb) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
@@ -1974,7 +2007,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(KFileItem::FileTimes
             continue;
         }
 
-        const QDateTime fileTime = m_itemData.at(i)->item.time(which);
+        const QDateTime fileTime = fileTimeCb(m_itemData.at(i));
         const QDate fileDate = fileTime.date();
         if (fileDate == previousFileDate) {
             // The current item is in the same group as the previous item
@@ -2253,6 +2286,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+        { "deletiontime",DeletionTimeRole,I18N_NOOP2_NOSTRIP("@label", "Deletion Time"),    I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
         { "destination", DestinationRole, I18N_NOOP2_NOSTRIP("@label", "Link Destination"), I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
         { "originUrl",   OriginUrlRole,   I18N_NOOP2_NOSTRIP("@label", "Downloaded From"),  I18N_NOOP2_NOSTRIP("@label", "Other"),    true,  false },
         { "permissions", PermissionsRole, I18N_NOOP2_NOSTRIP("@label", "Permissions"),      I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
