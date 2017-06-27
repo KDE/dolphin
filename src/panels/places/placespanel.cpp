@@ -197,7 +197,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         menu.addSeparator();
     }
 
-    editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit..."));
+    if (!isDevice) {
+        editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit..."));
+    }
 
     QAction* removeAction = 0;
     if (!isDevice && !item->isSystemItem()) {
