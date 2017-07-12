@@ -1051,14 +1051,14 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->mimeData(),
                          event->buttons(),
                          event->modifiers());
-    dropUrls(destUrl, &dropEvent);
+    dropUrls(destUrl, &dropEvent, this);
 
     setActive(true);
 }
 
-void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent)
+void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget)
 {
-    KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, this);
+    KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, dropWidget);
 
     if (job) {
         connect(job, &KIO::DropJob::result, this, &DolphinView::slotPasteJobResult);

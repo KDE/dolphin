@@ -363,9 +363,9 @@ public slots:
     void pasteIntoFolder();
 
     /**
-     * Handles a drop of @p dropEvent onto @p destUrl
+     * Handles a drop of @p dropEvent onto widget @p dropWidget and destination @p destUrl
      */
-    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent);
+    void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget);
 
     void stopLoading();
 

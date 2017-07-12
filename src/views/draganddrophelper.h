@@ -41,7 +41,7 @@ public:
      * @param destUrl   URL of the item destination. Is used only if destItem::isNull()
      *                  is true.
      * @param event     Drop event.
-     * @param window    Associated widget.
+     * @param window    Widget where the drop happened, will be used as parent of the drop menu.
      * @return          KIO::DropJob pointer
      */
     static KIO::DropJob* dropUrls(const QUrl& destUrl,
