@@ -735,7 +735,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         if (GeneralSettings::useTabForSwitchingSplitView()) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
-                toggleActiveViewRequested();
+                emit toggleActiveViewRequested();
                 return true;
             }
         }

@@ -352,7 +352,7 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
         updateStatusBar();
     } else {
         const QString escapedText = Qt::convertFromPlainText(item.getStatusBarInfo());
-        ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
+        emit ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
     }
 }
 
@@ -575,7 +575,7 @@ void DolphinPart::updateStatusBar()
 
 void DolphinPart::updateProgress(int percent)
 {
-    m_extension->loadingProgress(percent);
+    emit m_extension->loadingProgress(percent);
 }
 
 void DolphinPart::createDirectory()
