@@ -254,7 +254,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
     const bool hasSelection = !selection.isEmpty();
 
     QAction* renameAction  = actionCollection()->action(QStringLiteral("rename"));
-    QAction* moveToTrashAction = actionCollection()->action(QStringLiteral("move_to_trash"));
+    QAction* moveToTrashAction = actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash));
     QAction* deleteAction = actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     QAction* editMimeTypeAction = actionCollection()->action(QStringLiteral("editMimeType"));
     QAction* propertiesAction = actionCollection()->action(QStringLiteral("properties"));
@@ -432,7 +432,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
             if (showDeleteAction && showMoveToTrashAction) {
                 delete m_removeAction;
                 m_removeAction = 0;
-                editActions.append(actionCollection()->action(QStringLiteral("move_to_trash")));
+                editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
                 editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
             } else if (showDeleteAction && !showMoveToTrashAction) {
                 editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));

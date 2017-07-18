@@ -113,16 +113,10 @@ void DolphinViewActionHandler::createActions()
     rename->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
     connect(rename, &QAction::triggered, this, &DolphinViewActionHandler::slotRename);
 
-    QAction* moveToTrash = m_actionCollection->addAction(QStringLiteral("move_to_trash"));
-    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
-    moveToTrash->setIcon(QIcon::fromTheme(QStringLiteral("user-trash")));
-    m_actionCollection->setDefaultShortcut(moveToTrash, QKeySequence::Delete);
-    connect(moveToTrash, &QAction::triggered,
-            this, &DolphinViewActionHandler::slotTrashActivated);
-
+    KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
     KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
 
-    // This action is useful for being enabled when "move_to_trash" should be
+    // This action is useful for being enabled when KStandardAction::MoveToTrash should be
     // disabled and KStandardAction::DeleteFile is enabled (e.g. non-local files), so that Key_Del
     // can be used for deleting the file (#76016). It needs to be a separate action
     // so that the Edit menu isn't affected.

@@ -31,7 +31,7 @@
  * A QAction that manages the delete based on the current state of
  * the Shift key or the parameter passed to update.
  *
- * This class expects the presence of both the "move_to_trash" and
+ * This class expects the presence of both the KStandardAction::MoveToTrash and
  * KStandardAction::DeleteFile actions in @ref collection.
  */
 class DOLPHIN_EXPORT DolphinRemoveAction : public QAction

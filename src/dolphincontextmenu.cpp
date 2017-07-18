@@ -405,7 +405,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
         if (showDeleteAction && showMoveToTrashAction) {
             delete m_removeAction;
             m_removeAction = 0;
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("move_to_trash")));
+            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
             addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
         } else if (showDeleteAction && !showMoveToTrashAction) {
             addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));

@@ -49,7 +49,7 @@ void DolphinRemoveAction::update()
         m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::DeleteFile)) : 0;
         setText(i18nc("@action:inmenu", "&Delete"));
     } else {
-        m_action = m_collection ? m_collection->action(QStringLiteral("move_to_trash")) : 0;
+        m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash)) : 0;
         setText(i18nc("@action:inmenu", "&Move to Trash"));
     }
 
