@@ -81,7 +81,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_remoteFileSizeBox->setSuffix(QStringLiteral(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
 
-    QHBoxLayout* fileSizeBoxLayout = new QHBoxLayout(this);
+    QHBoxLayout* fileSizeBoxLayout = new QHBoxLayout();
     fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 0, Qt::AlignRight);
     fileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
 
