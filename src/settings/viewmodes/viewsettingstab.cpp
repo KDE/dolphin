@@ -133,7 +133,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     topLayout->addWidget(iconSizeGroup);
     topLayout->addWidget(textGroup);
-    topLayout->addWidget(m_expandableFolders);
+    if (m_expandableFolders) {
+        topLayout->addWidget(m_expandableFolders);
+    }
     topLayout->addStretch(1);
 
     loadSettings();
