@@ -180,6 +180,8 @@ set(dolphinpart_SRCS
    dolphindebug.cpp
 )
 
+qt5_add_resources(dolphinpart_SRCS dolphinpart.qrc)
+
 add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 
 target_link_libraries(dolphinpart
@@ -188,7 +190,6 @@ target_link_libraries(dolphinpart
 
 install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR})
 
-install(FILES dolphinpart.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
 ##########################################
@@ -266,6 +267,8 @@ kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
 if(NOT WIN32)
    set(dolphinstatic_SRCS ${dolphinstatic_SRCS} panels/terminal/terminalpanel.cpp)
 endif()
+
+qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
 
 add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
 
@@ -389,7 +392,6 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
-install( FILES dolphinui.rc DESTINATION ${KDE_INSTALL_KXMLGUI5DIR}/dolphin )
 install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
 ${KDE_INSTALL_KSERVICES5DIR} )

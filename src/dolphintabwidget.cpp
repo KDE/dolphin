@@ -284,7 +284,7 @@ void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
 {
     if (index >= 0) {
         DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
-        view->dropUrls(view->url(), event);
+        view->dropUrls(view->url(), event, view);
     }
 }
 

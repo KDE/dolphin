@@ -1,0 +1,5 @@
+<RCC>
+<qresource prefix="/kxmlgui5/dolphin">
+<file>dolphinui.rc</file>
+</qresource>
+</RCC>

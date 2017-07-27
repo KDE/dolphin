@@ -29,6 +29,7 @@
 #include <KFilePlacesModel>
 #include <KLocalizedString>
 #include <KIO/PreviewJob>
+#include <kio_version.h>
 #include <KMessageWidget>
 #include <KShell>
 #include <QUrl>
@@ -135,8 +136,14 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
     connect(m_urlNavigator, &KUrlNavigator::returnPressed,
             this, &DolphinViewContainer::slotReturnPressed);
-    connect(m_urlNavigator, &KUrlNavigator::urlsDropped,
-            m_view, &DolphinView::dropUrls);
+    connect(m_urlNavigator, &KUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 37, 0)
+        m_view->dropUrls(destination, event, m_urlNavigator->dropWidget());
+#else
+        // TODO: remove as soon as we can hard-depend of KF5 >= 5.37
+        m_view->dropUrls(destination, event, m_view);
+#endif
+    });
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
