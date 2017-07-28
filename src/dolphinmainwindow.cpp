@@ -98,6 +98,8 @@ DolphinMainWindow::DolphinMainWindow() :
     m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0)
 {
+    Q_INIT_RESOURCE(dolphin);
+
     setObjectName(QStringLiteral("Dolphin#"));
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
