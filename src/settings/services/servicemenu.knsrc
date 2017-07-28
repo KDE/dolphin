@@ -1,5 +1,5 @@
 [KNewStuff2]
-ProvidersUrl=http://download.kde.org/ocs/providers.xml
+ProvidersUrl=https://download.kde.org/ocs/providers.xml
 Categories=Dolphin Service Menus
 ChecksumPolicy=ifpossible
 SignaturePolicy=ifpossible
