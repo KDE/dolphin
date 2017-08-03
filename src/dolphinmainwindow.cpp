@@ -51,6 +51,7 @@
 #include <KAuthorized>
 #include <KConfig>
 #include <kdualaction.h>
+#include <KHelpMenu>
 #include <KJobWidgets>
 #include <QLineEdit>
 #include <KToolBar>
@@ -876,19 +877,8 @@ void DolphinMainWindow::updateControlMenu()
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
 
     // Add "Help" menu
-    QMenu* helpMenu = new QMenu(i18nc("@action:inmenu", "Help"), menu);
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
-    helpMenu->addSeparator();
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ReportBug)));
-    helpMenu->addSeparator();
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Donate)));
-    helpMenu->addSeparator();
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
-    helpMenu->addSeparator();
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
-    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutKDE)));
-    menu->addMenu(helpMenu);
+    auto helpMenu = new KHelpMenu(menu);
+    menu->addMenu(helpMenu->menu());
 
     menu->addSeparator();
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
