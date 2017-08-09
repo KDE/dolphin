@@ -1308,7 +1308,7 @@ void DolphinMainWindow::updateEditActions()
         stateChanged(QStringLiteral("has_selection"));
 
         KActionCollection* col = actionCollection();
-        QAction* renameAction      = col->action(QStringLiteral("rename"));
+        QAction* renameAction      = col->action(KStandardAction::name(KStandardAction::RenameFile));
         QAction* moveToTrashAction = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
         QAction* deleteAction      = col->action(KStandardAction::name(KStandardAction::DeleteFile));
         QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));

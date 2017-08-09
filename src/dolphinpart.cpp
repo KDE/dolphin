@@ -253,7 +253,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 {
     const bool hasSelection = !selection.isEmpty();
 
-    QAction* renameAction  = actionCollection()->action(QStringLiteral("rename"));
+    QAction* renameAction  = actionCollection()->action(KStandardAction::name(KStandardAction::RenameFile));
     QAction* moveToTrashAction = actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash));
     QAction* deleteAction = actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
     QAction* editMimeTypeAction = actionCollection()->action(QStringLiteral("editMimeType"));
@@ -447,7 +447,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
         }
 
         if (supportsMoving) {
-            editActions.append(actionCollection()->action(QStringLiteral("rename")));
+            editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::RenameFile)));
         }
 
         // Normally KonqPopupMenu only shows the "Create new" submenu in the current view

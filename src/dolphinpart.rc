@@ -1,10 +1,10 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphinpart" version="13" translationDomain="dolphin">
+<kpartgui name="dolphinpart" version="14" translationDomain="dolphin">
  <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
    <Separator/>
-   <Action name="rename"/>
+   <Action name="renamefile"/>
    <Action name="movetotrash" />
    <Action name="deletefile"/>
    <Action name="editMimeType"/>
@@ -58,7 +58,7 @@
  </State>
  <State name="has_no_selection" >
   <disable>
-   <Action name="rename" />
+   <Action name="renamefile" />
    <Action name="movetotrash" />
    <Action name="deletefile" />
   </disable>

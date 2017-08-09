@@ -107,11 +107,7 @@ void DolphinViewActionHandler::createActions()
 
     // File menu
 
-    QAction* rename = m_actionCollection->addAction(QStringLiteral("rename"));
-    rename->setText(i18nc("@action:inmenu File", "Rename..."));
-    m_actionCollection->setDefaultShortcut(rename, Qt::Key_F2);
-    rename->setIcon(QIcon::fromTheme(QStringLiteral("edit-rename")));
-    connect(rename, &QAction::triggered, this, &DolphinViewActionHandler::slotRename);
+    KStandardAction::renameFile(this, &DolphinViewActionHandler::slotRename, m_actionCollection);
 
     KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
     KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);

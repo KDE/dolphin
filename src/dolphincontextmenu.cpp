@@ -392,8 +392,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     addSeparator();
 
     // Insert 'Rename'
-    QAction* renameAction = collection->action(QStringLiteral("rename"));
-    addAction(renameAction);
+    addAction(collection->action(KStandardAction::name(KStandardAction::RenameFile)));
 
     // Insert 'Move to Trash' and/or 'Delete'
     if (properties.supportsDeleting()) {
