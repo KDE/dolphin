@@ -42,18 +42,14 @@ void DolphinRemoveAction::slotRemoveActionTriggered()
 void DolphinRemoveAction::update()
 {
     Q_ASSERT(m_collection);
-    // Using setText(action->text()) does not apply the &-shortcut.
-    // This is only done until the original action has been shown at least once. To
-    // bypass this issue, the text and &-shortcut is applied manually.
     if (qApp->queryKeyboardModifiers() & Qt::ShiftModifier) {
         m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::DeleteFile)) : 0;
-        setText(i18nc("@action:inmenu", "&Delete"));
     } else {
         m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash)) : 0;
-        setText(i18nc("@action:inmenu", "&Move to Trash"));
     }
 
     if (m_action) {
+        setText(m_action->text());
         setIcon(m_action->icon());
         m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         setEnabled(m_action->isEnabled());
