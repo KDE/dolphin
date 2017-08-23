@@ -316,7 +316,7 @@ void PlacesItem::updateBookmarkForRole(const QByteArray& role)
         }
     } else if (role == "url") {
         m_bookmark.setUrl(url());
-    } else if (role == "udi)") {
+    } else if (role == "udi") {
         m_bookmark.setMetaDataItem(QStringLiteral("UDI"), udi());
     } else if (role == "isSystemItem") {
         m_bookmark.setMetaDataItem(QStringLiteral("isSystemItem"), isSystemItem() ? QStringLiteral("true") : QStringLiteral("false"));
