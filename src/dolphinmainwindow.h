@@ -267,28 +267,17 @@ private slots:
     /** Changes the location to the home URL. */
     void goHome();
 
-    /**
-     * Open the previous URL in the URL history in a new tab
-     * if the middle mouse button is clicked.
-     */
-    void goBack(Qt::MouseButtons buttons);
+    /** Open the previous URL in the URL history in a new tab. */
+    void goBackInNewTab();
 
-    /**
-     * Open the next URL in the URL history in a new tab
-     * if the middle mouse button is clicked.
-     */
-    void goForward(Qt::MouseButtons buttons);
+    /** Open the next URL in the URL history in a new tab. */
+    void goForwardInNewTab();
 
-    /**
-     * Open the URL one hierarchy above the current URL in a new tab
-     * if the middle mouse button is clicked.
-     */
-    void goUp(Qt::MouseButtons buttons);
+    /** Open the URL one hierarchy above the current URL in a new tab. */
+    void goUpInNewTab();
 
-    /**
-     * Open the home URL in a new tab
-     */
-    void goHome(Qt::MouseButtons buttons);
+    /** * Open the home URL in a new tab. */
+    void goHomeInNewTab();
 
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
@@ -424,6 +413,14 @@ private slots:
      * Is called when the view has finished loading the directory.
      */
     void slotDirectoryLoadingCompleted();
+
+    /**
+     * Is called when the user middle clicks a toolbar button.
+     *
+     * Here middle clicking Back/Forward/Up/Home will open the resulting
+     * folder in a new tab.
+     */
+    void slotToolBarActionMiddleClicked(QAction *action);
 
 private:
     void setupActions();

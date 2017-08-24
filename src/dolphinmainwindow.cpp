@@ -29,6 +29,7 @@
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
 #include "dolphintabpage.h"
+#include "middleclickactioneventfilter.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
@@ -170,6 +171,11 @@ DolphinMainWindow::DolphinMainWindow() :
     if (!showMenu) {
         createControlButton();
     }
+
+    // enable middle-click on back/forward/up to open in a new tab
+    auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
+    connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotToolBarActionMiddleClicked);
+    toolBar()->installEventFilter(middleClickEventFilter);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -501,6 +507,19 @@ void DolphinMainWindow::slotDirectoryLoadingCompleted()
     updatePasteAction();
 }
 
+void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
+{
+    if (action == actionCollection()->action(QStringLiteral("go_back"))) {
+        goBackInNewTab();
+    } else if (action == actionCollection()->action(QStringLiteral("go_forward"))) {
+        goForwardInNewTab();
+    } else if (action == actionCollection()->action(QStringLiteral("go_up"))) {
+        goUpInNewTab();
+    } else if (action == actionCollection()->action(QStringLiteral("go_home"))) {
+        goHomeInNewTab();
+    }
+}
+
 void DolphinMainWindow::selectAll()
 {
     clearStatusBar();
@@ -626,40 +645,29 @@ void DolphinMainWindow::goHome()
     m_activeViewContainer->urlNavigator()->goHome();
 }
 
-void DolphinMainWindow::goBack(Qt::MouseButtons buttons)
+void DolphinMainWindow::goBackInNewTab()
 {
-    // The default case (left button pressed) is handled in goBack().
-    if (buttons == Qt::MiddleButton) {
-        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
-        const int index = urlNavigator->historyIndex() + 1;
-        openNewTab(urlNavigator->locationUrl(index));
-    }
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+    const int index = urlNavigator->historyIndex() + 1;
+    openNewTab(urlNavigator->locationUrl(index));
 }
 
-void DolphinMainWindow::goForward(Qt::MouseButtons buttons)
+void DolphinMainWindow::goForwardInNewTab()
 {
-    // The default case (left button pressed) is handled in goForward().
-    if (buttons == Qt::MiddleButton) {
-        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
-        const int index = urlNavigator->historyIndex() - 1;
-        openNewTab(urlNavigator->locationUrl(index));
-    }
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+    const int index = urlNavigator->historyIndex() - 1;
+    openNewTab(urlNavigator->locationUrl(index));
 }
 
-void DolphinMainWindow::goUp(Qt::MouseButtons buttons)
+void DolphinMainWindow::goUpInNewTab()
 {
-    // The default case (left button pressed) is handled in goUp().
-    if (buttons == Qt::MiddleButton) {
-        openNewTab(KIO::upUrl(activeViewContainer()->url()));
-    }
+    const QUrl currentUrl = activeViewContainer()->urlNavigator()->locationUrl();
+    openNewTab(KIO::upUrl(currentUrl));
 }
 
-void DolphinMainWindow::goHome(Qt::MouseButtons buttons)
+void DolphinMainWindow::goHomeInNewTab()
 {
-    // The default case (left button pressed) is handled in goHome().
-    if (buttons == Qt::MiddleButton) {
-        openNewTab(Dolphin::homeUrl());
-    }
+    openNewTab(Dolphin::homeUrl());
 }
 
 void DolphinMainWindow::compareFiles()

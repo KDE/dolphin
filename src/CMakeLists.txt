@@ -110,6 +110,7 @@ set(dolphinprivate_LIB_SRCS
     views/viewproperties.cpp
     views/zoomlevelinfo.cpp
     dolphinremoveaction.cpp
+    middleclickactioneventfilter.cpp
     dolphinnewfilemenu.cpp
     dolphindebug.cpp
 )
