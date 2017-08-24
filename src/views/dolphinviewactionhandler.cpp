@@ -144,11 +144,11 @@ void DolphinViewActionHandler::createActions()
     connect(viewModeActions, static_cast<void(KSelectAction::*)(QAction*)>(&KSelectAction::triggered), this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 
     KStandardAction::zoomIn(this,
-                            SLOT(zoomIn()),
+                            &DolphinViewActionHandler::zoomIn,
                             m_actionCollection);
 
     KStandardAction::zoomOut(this,
-                             SLOT(zoomOut()),
+                             &DolphinViewActionHandler::zoomOut,
                              m_actionCollection);
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));

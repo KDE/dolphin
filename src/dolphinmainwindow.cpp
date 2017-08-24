@@ -1014,23 +1014,23 @@ void DolphinMainWindow::setupActions()
     closeTab->setEnabled(false);
     connect(closeTab, &QAction::triggered, m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab));
 
-    KStandardAction::quit(this, SLOT(quit()), actionCollection());
+    KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
 
     // setup 'Edit' menu
     KStandardAction::undo(this,
-                          SLOT(undo()),
+                          &DolphinMainWindow::undo,
                           actionCollection());
 
 
-    KStandardAction::cut(this, SLOT(cut()), actionCollection());
-    KStandardAction::copy(this, SLOT(copy()), actionCollection());
-    QAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
+    KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
+    KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
+    QAction* paste = KStandardAction::paste(this, &DolphinMainWindow::paste, actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
     // (e. g. to "Paste One Folder"). To prevent that the size of the toolbar changes
     // due to the long text, the text "Paste" is used:
     paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
 
-    KStandardAction::find(this, SLOT(find()), actionCollection());
+    KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
 
     QAction* selectAll = actionCollection()->addAction(QStringLiteral("select_all"));
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
@@ -1081,7 +1081,7 @@ void DolphinMainWindow::setupActions()
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
     // setup 'Go' menu
-    QAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    QAction* backAction = KStandardAction::back(this, &DolphinMainWindow::goBack, actionCollection());
     auto backShortcuts = backAction->shortcuts();
     backShortcuts.append(QKeySequence(Qt::Key_Backspace));
     actionCollection()->setDefaultShortcuts(backAction, backShortcuts);
@@ -1105,9 +1105,9 @@ void DolphinMainWindow::setupActions()
     auto undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     undoAction->setEnabled(false); // undo should be disabled by default
 
-    KStandardAction::forward(this, SLOT(goForward()), actionCollection());
-    KStandardAction::up(this, SLOT(goUp()), actionCollection());
-    KStandardAction::home(this, SLOT(goHome()), actionCollection());
+    KStandardAction::forward(this, &DolphinMainWindow::goForward, actionCollection());
+    KStandardAction::up(this, &DolphinMainWindow::goUp, actionCollection());
+    KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
 
     // setup 'Tools' menu
     QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
