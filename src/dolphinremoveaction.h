@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Dawit Alemayehu <adawit@kde.org                 *
+ *   Copyright (C) 2013 by Dawit Alemayehu <adawit@kde.org>                *
+ *   Copyright (C) 2017 by Elvis Angelaccio <elvis.angelaccio@kde.org>     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,11 +39,20 @@ class DOLPHIN_EXPORT DolphinRemoveAction : public QAction
 {
   Q_OBJECT
 public:
+
+    enum class ShiftState {
+        Unknown,
+        Pressed,
+        Released
+    };
+
     DolphinRemoveAction(QObject* parent, KActionCollection* collection);
+
     /**
-     * Updates this action key based on the state of the Shift key.
+     * Updates this action key based on @p shiftState.
+     * Default value is QueryShiftState, meaning it will query QGuiApplication::modifiers().
      */
-    void update();
+    void update(ShiftState shiftState = ShiftState::Unknown);
 
 private Q_SLOTS:
     void slotRemoveActionTriggered();

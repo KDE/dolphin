@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Dawit Alemayehu <adawit@kde.org                 *
+ *   Copyright (C) 2013 by Dawit Alemayehu <adawit@kde.org>                *
+ *   Copyright (C) 2017 by Elvis Angelaccio <elvis.angelaccio@kde.org>     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -39,13 +40,27 @@ void DolphinRemoveAction::slotRemoveActionTriggered()
     }
 }
 
-void DolphinRemoveAction::update()
+void DolphinRemoveAction::update(ShiftState shiftState)
 {
-    Q_ASSERT(m_collection);
-    if (qApp->queryKeyboardModifiers() & Qt::ShiftModifier) {
-        m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::DeleteFile)) : 0;
-    } else {
-        m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash)) : 0;
+    if (!m_collection) {
+        m_action = nullptr;
+        return;
+    }
+
+    if (shiftState == ShiftState::Unknown) {
+        shiftState = QGuiApplication::keyboardModifiers() & Qt::ShiftModifier ? ShiftState::Pressed : ShiftState::Released;
+    }
+
+    switch (shiftState) {
+    case ShiftState::Pressed:
+        m_action = m_collection->action(KStandardAction::name(KStandardAction::DeleteFile));
+        break;
+    case ShiftState::Released:
+        m_action = m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash));
+        break;
+    case ShiftState::Unknown:
+        Q_UNREACHABLE();
+        break;
     }
 
     if (m_action) {

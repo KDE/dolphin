@@ -597,6 +597,7 @@ void DolphinPart::setFilesToSelect(const QList<QUrl>& files)
 
 bool DolphinPart::eventFilter(QObject* obj, QEvent* event)
 {
+    using ShiftState = DolphinRemoveAction::ShiftState;
     const int type = event->type();
 
     if ((type == QEvent::KeyPress || type == QEvent::KeyRelease) && m_removeAction) {
@@ -604,7 +605,7 @@ bool DolphinPart::eventFilter(QObject* obj, QEvent* event)
         if (menu && menu->parent() == m_view) {
             QKeyEvent* ev = static_cast<QKeyEvent*>(event);
             if (ev->key() == Qt::Key_Shift) {
-                m_removeAction->update();
+                m_removeAction->update(type == QEvent::KeyPress ? ShiftState::Pressed : ShiftState::Released);
             }
         }
     }

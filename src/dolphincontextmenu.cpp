@@ -124,7 +124,7 @@ DolphinContextMenu::Command DolphinContextMenu::open()
 void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 {
     if (m_removeAction && ev->key() == Qt::Key_Shift) {
-        m_removeAction->update();
+        m_removeAction->update(DolphinRemoveAction::ShiftState::Pressed);
     }
     QMenu::keyPressEvent(ev);
 }
@@ -132,7 +132,7 @@ void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
 void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
 {
     if (m_removeAction && ev->key() == Qt::Key_Shift) {
-        m_removeAction->update();
+        m_removeAction->update(DolphinRemoveAction::ShiftState::Released);
     }
     QMenu::keyReleaseEvent(ev);
 }
