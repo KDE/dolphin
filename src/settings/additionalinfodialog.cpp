@@ -69,9 +69,9 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
         QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
         item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
-        const bool enable = (!info.requiresBaloo && !info.requiresIndexer) ||
+        const bool enable = ((!info.requiresBaloo && !info.requiresIndexer) ||
                             (info.requiresBaloo) ||
-                            (info.requiresIndexer && indexingEnabled);
+                            (info.requiresIndexer && indexingEnabled)) && info.role != "text";
 
         if (!enable) {
             item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
