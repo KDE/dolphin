@@ -2307,6 +2307,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+        { "genre",       GenreRole,       I18N_NOOP2_NOSTRIP("@label", "Genre"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "album",       AlbumRole,       I18N_NOOP2_NOSTRIP("@label", "Album"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },

@@ -146,6 +146,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "height",        "imageSize" },
         { "nexif.orientation", "orientation", },
         { "artist",     "artist" },
+        { "genre",	"genre"  },
         { "album",    "album" },
         { "duration",      "duration" },
         { "trackNumber",   "track" },
