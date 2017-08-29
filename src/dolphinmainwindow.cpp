@@ -62,6 +62,7 @@
 #include <KProtocolInfo>
 #include <QMenu>
 #include <KMessageBox>
+#include <KFilePlacesModel>
 #include <KFileItemListProperties>
 #include <KRun>
 #include <KShell>
@@ -962,26 +963,35 @@ void DolphinMainWindow::tabCountChanged(int count)
 
 void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
 {
-    QString caption;
+    static KFilePlacesModel s_placesModel;
+
+    QString schemePrefix;
     if (!url.isLocalFile()) {
-        caption.append(url.scheme() + " - ");
+        schemePrefix.append(url.scheme() + " - ");
         if (!url.host().isEmpty()) {
-            caption.append(url.host() + " - ");
+            schemePrefix.append(url.host() + " - ");
         }
     }
 
     if (GeneralSettings::showFullPathInTitlebar()) {
         const QString path = url.adjusted(QUrl::StripTrailingSlash).path();
-        caption.append(path);
-    } else {
-        QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
-        if (fileName.isEmpty()) {
-            fileName = '/';
-        }
-        caption.append(fileName);
+        setWindowTitle(schemePrefix + path);
+        return;
     }
 
-    setWindowTitle(caption);
+    const auto& matchedPlaces = s_placesModel.match(s_placesModel.index(0,0), KFilePlacesModel::UrlRole, url, 1, Qt::MatchExactly);
+
+    if (!matchedPlaces.isEmpty()) {
+        setWindowTitle(s_placesModel.text(matchedPlaces.first()));
+        return;
+    }
+
+    QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
+    if (fileName.isEmpty()) {
+        fileName = '/';
+    }
+
+    setWindowTitle(schemePrefix + fileName);
 }
 
 void DolphinMainWindow::setupActions()
