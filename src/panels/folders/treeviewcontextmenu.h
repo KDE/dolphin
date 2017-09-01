@@ -79,6 +79,12 @@ private slots:
     void setShowHiddenFiles(bool show);
 
     /**
+     * Sets the 'Limit folders panel to home' setting for the
+     * folders panel to \a enable.
+     */
+    void setLimitFoldersPanelToHome(bool enable);
+
+    /**
      * Sets the 'Automatic Scrolling' setting for the
      * folders panel to \a enable.
      */

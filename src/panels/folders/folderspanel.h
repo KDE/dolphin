@@ -43,7 +43,9 @@ public:
     virtual ~FoldersPanel();
 
     void setShowHiddenFiles(bool show);
+    void setLimitFoldersPanelToHome(bool enable);
     bool showHiddenFiles() const;
+    bool limitFoldersPanelToHome() const;
 
     void setAutoScrolling(bool enable);
     bool autoScrolling() const;
@@ -81,6 +83,7 @@ private slots:
      */
     void startFadeInAnimation();
 
+
 private:
     /**
      * Initializes the base URL of the tree and expands all
@@ -88,6 +91,8 @@ private:
      * @param url  URL of the leaf directory that should get expanded.
      */
     void loadTree(const QUrl& url);
+
+    void reloadTree();
 
     /**
      * Sets the item with the index \a index as current item, selects

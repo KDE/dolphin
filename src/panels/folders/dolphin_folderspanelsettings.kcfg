@@ -10,6 +10,10 @@
             <label>Hidden files shown</label>
             <default>false</default>
         </entry>
+        <entry name="LimitFoldersPanelToHome" type="Bool">
+            <label>Limit folders panel to home directory if inside home</label>
+            <default>true</default>
+        </entry>
         <entry name="AutoScrolling" type="Bool">
             <label>Automatic scrolling</label>
             <default>true</default>

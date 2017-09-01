@@ -43,6 +43,7 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QPointer>
+#include "global.h"
 
 TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :
@@ -123,6 +124,17 @@ void TreeViewContextMenu::open()
     showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
     popup->addAction(showHiddenFilesAction);
     connect(showHiddenFilesAction, &QAction::toggled, this, &TreeViewContextMenu::setShowHiddenFiles);
+
+    // insert 'Limit to Home Directory'
+    const QUrl url = m_fileItem.url();
+    const bool showLimitToHomeDirectory = url.isLocalFile() && (Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url));
+    if (showLimitToHomeDirectory) {
+        QAction* limitFoldersPanelToHomeAction = new QAction(i18nc("@action:inmenu", "Limit to Home Directory"), this);
+        limitFoldersPanelToHomeAction->setCheckable(true);
+        limitFoldersPanelToHomeAction->setChecked(m_parent->limitFoldersPanelToHome());
+        popup->addAction(limitFoldersPanelToHomeAction);
+        connect(limitFoldersPanelToHomeAction, &QAction::toggled, this, &TreeViewContextMenu::setLimitFoldersPanelToHome);
+    }
 
     // insert 'Automatic Scrolling'
     QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);
@@ -227,6 +239,11 @@ void TreeViewContextMenu::showProperties()
 void TreeViewContextMenu::setShowHiddenFiles(bool show)
 {
     m_parent->setShowHiddenFiles(show);
+}
+
+void TreeViewContextMenu::setLimitFoldersPanelToHome(bool enable)
+{
+    m_parent->setLimitFoldersPanelToHome(enable);
 }
 
 void TreeViewContextMenu::setAutoScrolling(bool enable)

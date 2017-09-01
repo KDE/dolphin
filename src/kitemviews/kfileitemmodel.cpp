@@ -636,7 +636,11 @@ void KFileItemModel::expandParentDirectories(const QUrl &url)
     // does not care whether the parent-URL has already been
     // expanded.
     QUrl urlToExpand = m_dirLister->url();
-    const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
+
+    // first subdir can be empty, if m_dirLister->url().path() does not end with '/'
+    // this happens if baseUrl is not root but a home directory, see FoldersPanel,
+    // so using QString::SkipEmptyParts
+    const QStringList subDirs = url.path().mid(pos).split(QDir::separator(), QString::SkipEmptyParts);
     for (int i = 0; i < subDirs.count() - 1; ++i) {
         urlToExpand.setPath(urlToExpand.path() + '/' + subDirs.at(i));
         m_urlsToExpand.insert(urlToExpand);

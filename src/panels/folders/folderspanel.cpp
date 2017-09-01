@@ -50,6 +50,7 @@
 #include <views/draganddrophelper.h>
 
 #include "dolphindebug.h"
+#include "global.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
@@ -80,6 +81,17 @@ void FoldersPanel::setShowHiddenFiles(bool show)
 bool FoldersPanel::showHiddenFiles() const
 {
     return FoldersPanelSettings::hiddenFilesShown();
+}
+
+void FoldersPanel::setLimitFoldersPanelToHome(bool enable)
+{
+    FoldersPanelSettings::setLimitFoldersPanelToHome(enable);
+    reloadTree();
+}
+
+bool FoldersPanel::limitFoldersPanelToHome() const
+{
+    return FoldersPanelSettings::limitFoldersPanelToHome();
 }
 
 void FoldersPanel::setAutoScrolling(bool enable)
@@ -121,6 +133,14 @@ bool FoldersPanel::urlChanged()
 
     return true;
 }
+
+void FoldersPanel::reloadTree()
+{
+    if (m_controller) {
+        loadTree(url());
+    }
+}
+
 
 void FoldersPanel::showEvent(QShowEvent* event)
 {
@@ -304,8 +324,13 @@ void FoldersPanel::loadTree(const QUrl& url)
 
     QUrl baseUrl;
     if (url.isLocalFile()) {
-        // Use the root directory as base for local URLs (#150941)
-        baseUrl = QUrl::fromLocalFile(QDir::rootPath());
+        const bool isInHomeFolder = Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url);
+        if (FoldersPanelSettings::limitFoldersPanelToHome() && isInHomeFolder) {
+            baseUrl = Dolphin::homeUrl();
+        } else {
+            // Use the root directory as base for local URLs (#150941)
+            baseUrl = QUrl::fromLocalFile(QDir::rootPath());
+        }
     } else {
         // Clear the path for non-local URLs and use it as base
         baseUrl = url;
@@ -320,9 +345,13 @@ void FoldersPanel::loadTree(const QUrl& url)
     const int index = m_model->index(url);
     if (index >= 0) {
         updateCurrentItem(index);
+    } else if (url == baseUrl) {
+        // clear the selection when visiting the base url
+        updateCurrentItem(-1);
     } else {
         m_updateCurrentItem = true;
         m_model->expandParentDirectories(url);
+
         // slotLoadingCompleted() will be invoked after the model has
         // expanded the url
     }
