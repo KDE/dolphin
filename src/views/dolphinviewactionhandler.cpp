@@ -120,7 +120,12 @@ void DolphinViewActionHandler::createActions()
     connect(moveToTrash, &QAction::triggered,
             this, &DolphinViewActionHandler::slotTrashActivated);
 
-    KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
+    auto deleteAction = KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
+    auto deleteShortcuts = deleteAction->shortcuts();
+    if (!deleteShortcuts.contains(Qt::SHIFT | Qt::Key_Delete)) {
+        deleteShortcuts.append(Qt::SHIFT | Qt::Key_Delete);
+        m_actionCollection->setDefaultShortcuts(deleteAction, deleteShortcuts);
+    }
 
     // This action is useful for being enabled when "move_to_trash" should be
     // disabled and KStandardAction::DeleteFile is enabled (e.g. non-local files), so that Key_Del

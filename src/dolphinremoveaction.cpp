@@ -48,14 +48,19 @@ void DolphinRemoveAction::update()
     if (qApp->queryKeyboardModifiers() & Qt::ShiftModifier) {
         m_action = m_collection ? m_collection->action(KStandardAction::name(KStandardAction::DeleteFile)) : 0;
         setText(i18nc("@action:inmenu", "&Delete"));
+        // Make sure we show Shift+Del in the context menu.
+        auto deleteShortcuts = m_action->shortcuts();
+        deleteShortcuts.removeAll(Qt::SHIFT | Qt::Key_Delete);
+        deleteShortcuts.prepend(Qt::SHIFT | Qt::Key_Delete);
+        m_collection->setDefaultShortcuts(this, deleteShortcuts);
     } else {
         m_action = m_collection ? m_collection->action(QStringLiteral("move_to_trash")) : 0;
         setText(i18nc("@action:inmenu", "&Move to Trash"));
+        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
     }
 
     if (m_action) {
         setIcon(m_action->icon());
-        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         setEnabled(m_action->isEnabled());
     }
 }
