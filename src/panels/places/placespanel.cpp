@@ -25,6 +25,7 @@
 
 #include "dolphin_generalsettings.h"
 
+#include "global.h"
 #include <KFileItem>
 #include "dolphindebug.h"
 #include <KDirNotify>
@@ -192,6 +193,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
     }
 
+    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme("window-new"), i18nc("@item:inmenu", "Open in New Window"));
     QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@item:inmenu", "Open in New Tab"));
     if (!isDevice && !isTrash) {
         menu.addSeparator();
@@ -232,6 +234,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             } else if (action == hideAction) {
                 item->setHidden(hideAction->isChecked());
                 m_model->saveBookmarks();
+            } else if (action == openInNewWindowAction) {
+                Dolphin::openNewWindow({PlacesItemModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
             } else if (action == openInNewTabAction) {
                 // TriggerItem does set up the storage first and then it will
                 // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
