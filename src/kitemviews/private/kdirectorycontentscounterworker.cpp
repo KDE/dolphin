@@ -21,7 +21,7 @@
 #include "kdirectorycontentscounterworker.h"
 
 // Required includes for subItemsCount():
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     #include <QDir>
 #else
     #include <dirent.h>
@@ -39,7 +39,7 @@ int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options 
     const bool countHiddenFiles = options & CountHiddenFiles;
     const bool countDirectoriesOnly = options & CountDirectoriesOnly;
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     QDir dir(path);
     QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System;
     if (countHiddenFiles) {
