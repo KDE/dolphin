@@ -39,7 +39,6 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_contentRetrievalTimer(0),
     m_transientParent(0),
     m_fileMetaDataWidget(0),
-    m_tooltipWidget(new KToolTipWidget()),
     m_toolTipRequested(false),
     m_metaDataRequested(false),
     m_appliedWaitCursor(false),
@@ -106,7 +105,9 @@ void ToolTipManager::hideToolTip()
     m_metaDataRequested = false;
     m_showToolTipTimer->stop();
     m_contentRetrievalTimer->stop();
-    m_tooltipWidget->hideLater();
+    if (m_tooltipWidget) {
+        m_tooltipWidget->hideLater();
+    }
 }
 
 void ToolTipManager::startContentRetrieval()
@@ -201,6 +202,9 @@ void ToolTipManager::showToolTip()
 
     // Adjust the size to get a proper sizeHint()
     m_fileMetaDataWidget->adjustSize();
+    if (!m_tooltipWidget) {
+        m_tooltipWidget.reset(new KToolTipWidget());
+    }
     m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataWidget, m_transientParent);
     m_toolTipRequested = false;
 }
