@@ -149,6 +149,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "genre",	"genre"  },
         { "album",    "album" },
         { "duration",      "duration" },
+        { "releaseYear",    "releaseYear" },
         { "trackNumber",   "track" },
         { "originUrl", "originUrl" }
     };
