@@ -576,6 +576,7 @@ private slots:
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
+    void slotRenameDialogRenamingFinished(const QList<QUrl>& urls);
 
     /*
      * Is called when new items get pasted or dropped.
@@ -759,6 +760,14 @@ private:
      *         is returned.
      */
     QUrl viewPropertiesUrl() const;
+
+    /**
+     * Clears the selection and updates current item and selection according to the parameters
+     *
+     * @param current URL to be set as current
+     * @param selected list of selected items
+     */
+    void forceUrlsSelection(const QUrl& current, const QList<QUrl>& selected);
 
 private:
     void updatePalette();

@@ -635,6 +635,9 @@ void DolphinView::renameSelectedItems()
                 this, &DolphinView::slotRoleEditingFinished);
     } else {
         RenameDialog* dialog = new RenameDialog(this, items);
+
+        connect(dialog, &RenameDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
+
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
         dialog->raise();
@@ -1308,9 +1311,7 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
 void DolphinView::observeCreatedItem(const QUrl& url)
 {
     if (m_active) {
-        clearSelection();
-        markUrlAsCurrent(url);
-        markUrlsAsSelected({url});
+        forceUrlsSelection(url, {url});
     }
 }
 
@@ -1541,6 +1542,8 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
             KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
             job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
+            forceUrlsSelection(newUrl, {newUrl});
+
             if (!newNameExistsAlready) {
                 // Only connect the result signal if there is no item with the new name
                 // in the model yet, see bug 328262.
@@ -1746,4 +1749,17 @@ QUrl DolphinView::viewPropertiesUrl() const
     url.setScheme(m_url.scheme());
     url.setPath(m_viewPropertiesContext);
     return url;
+}
+
+void DolphinView::slotRenameDialogRenamingFinished(const QList<QUrl>& urls)
+{
+    forceUrlsSelection(urls.first(), urls);
+}
+
+void DolphinView::forceUrlsSelection(const QUrl& current, const QList<QUrl>& selected)
+{
+    clearSelection();
+    m_clearSelectionBeforeSelectingNewItems = true;
+    markUrlAsCurrent(current);
+    markUrlsAsSelected(selected);
 }
