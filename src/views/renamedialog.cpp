@@ -162,6 +162,11 @@ void RenameDialog::renameItem(const KFileItem &item, const QString& newName)
     KIO::Job * job = KIO::moveAs(oldUrl, newUrl, KIO::HideProgressInfo);
     KJobWidgets::setWindow(job, widget);
     KIO::FileUndoManager::self()->recordJob(KIO::FileUndoManager::Rename, {oldUrl}, newUrl, job);
+
+    if (!job->error()) {
+        m_renamedItems << newUrl;
+    }
+
     job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 }
 
@@ -222,6 +227,10 @@ void RenameDialog::renameItems()
         if (oldUrl.fileName() != newName) {
             renameItem(item, newName);
         }
+    }
+
+    if (!m_items.empty()) {
+        emit renamingFinished(m_renamedItems);
     }
 }
 

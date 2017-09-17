@@ -52,11 +52,18 @@ void DolphinRemoveAction::update(ShiftState shiftState)
     }
 
     switch (shiftState) {
-    case ShiftState::Pressed:
+    case ShiftState::Pressed: {
         m_action = m_collection->action(KStandardAction::name(KStandardAction::DeleteFile));
+        // Make sure we show Shift+Del in the context menu.
+        auto deleteShortcuts = m_action->shortcuts();
+        deleteShortcuts.removeAll(Qt::SHIFT | Qt::Key_Delete);
+        deleteShortcuts.prepend(Qt::SHIFT | Qt::Key_Delete);
+        m_collection->setDefaultShortcuts(this, deleteShortcuts);
         break;
+    }
     case ShiftState::Released:
         m_action = m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash));
+        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         break;
     case ShiftState::Unknown:
         Q_UNREACHABLE();
@@ -66,7 +73,6 @@ void DolphinRemoveAction::update(ShiftState shiftState)
     if (m_action) {
         setText(m_action->text());
         setIcon(m_action->icon());
-        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
         setEnabled(m_action->isEnabled());
     }
 }

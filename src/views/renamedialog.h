@@ -41,6 +41,9 @@ public:
     explicit RenameDialog(QWidget* parent, const KFileItemList& items);
     virtual ~RenameDialog();
 
+signals:
+    void renamingFinished(const QList<QUrl>& urls);
+
 private slots:
     void slotAccepted();
     void slotTextChanged(const QString& newName);
@@ -63,6 +66,7 @@ private:
 
 private:
     bool m_renameOneItem;
+    QList<QUrl> m_renamedItems;
     QString m_newName;
     QLineEdit* m_lineEdit;
     KFileItemList m_items;
