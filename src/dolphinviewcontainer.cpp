@@ -24,6 +24,7 @@
 #include <QTimer>
 #include <QMimeData>
 #include <QVBoxLayout>
+#include <QLoggingCategory>
 
 #include <KFileItemActions>
 #include <KFilePlacesModel>
@@ -41,6 +42,7 @@
 #endif
 
 #include "global.h"
+#include "dolphindebug.h"
 #include "dolphin_generalsettings.h"
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
@@ -134,6 +136,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
     connect(m_urlNavigator, &KUrlNavigator::urlChanged,
             this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    connect(m_urlNavigator, &KUrlNavigator::urlSelectionRequested,
+            this, &DolphinViewContainer::slotUrlSelectionRequested);
     connect(m_urlNavigator, &KUrlNavigator::returnPressed,
             this, &DolphinViewContainer::slotReturnPressed);
     connect(m_urlNavigator, &KUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
@@ -598,6 +602,13 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     } else {
         showMessage(i18nc("@info:status", "Invalid protocol"), Error);
     }
+}
+
+void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
+{
+    qCDebug(DolphinDebug) << "slotUrlSelectionRequested: " << url;
+    m_view->markUrlsAsSelected({url});
+    m_view->markUrlAsCurrent(url); // makes the item scroll into view
 }
 
 void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)

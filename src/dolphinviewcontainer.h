@@ -257,6 +257,11 @@ private slots:
     void slotUrlNavigatorLocationChanged(const QUrl& url);
 
     /**
+     * @see KUrlNavigator::urlSelectionRequested
+     */
+    void slotUrlSelectionRequested(const QUrl& url);
+
+    /**
      * Is invoked when a redirection is done and changes the
      * URL of the URL navigator to \a newUrl without triggering
      * a reloading of the directory.
