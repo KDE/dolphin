@@ -2314,6 +2314,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "genre",       GenreRole,       I18N_NOOP2_NOSTRIP("@label", "Genre"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "album",       AlbumRole,       I18N_NOOP2_NOSTRIP("@label", "Album"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
+        { "bitrate",     BitrateRole,     I18N_NOOP2_NOSTRIP("@label", "Bitrate"),          I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "releaseYear", ReleaseYearRole, I18N_NOOP2_NOSTRIP("@label", "Release Year"),     I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },

@@ -79,6 +79,12 @@ private:
      */
     QString durationFromValue(int value) const;
 
+    /**
+     * @return Bitrate in the format N kB/s for the value given
+     *         in b/s.
+     */
+    QString bitrateFromValue(int value) const;
+
 private:
     QSet<QByteArray> m_roles;
     QHash<QString, QByteArray> m_roleForProperty;

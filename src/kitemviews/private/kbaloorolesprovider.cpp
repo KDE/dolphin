@@ -26,6 +26,7 @@
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>
 #include <KFileMetaData/UserMetaData>
+#include <KFormat>
 
 #include <QTime>
 #include <QMap>
@@ -95,6 +96,9 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         } else if (role == "duration") {
             const QString duration = durationFromValue(value.toInt());
             values.insert(role, duration);
+        } else if (role == "bitrate") {
+            const QString bitrate = bitrateFromValue(value.toInt());
+            values.insert(role, bitrate);
         } else {
             values.insert(role, value.toString());
         }
@@ -149,6 +153,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "genre",	"genre"  },
         { "album",    "album" },
         { "duration",      "duration" },
+        { "bitRate", "bitrate" },
         { "releaseYear",    "releaseYear" },
         { "trackNumber",   "track" },
         { "originUrl", "originUrl" }
@@ -192,5 +197,13 @@ QString KBalooRolesProvider::durationFromValue(int value) const
     QTime duration(0, 0, 0);
     duration = duration.addSecs(value);
     return duration.toString(QStringLiteral("hh:mm:ss"));
+}
+
+
+QString KBalooRolesProvider::bitrateFromValue(int value) const
+{
+    KFormat form;
+    QString bitrate = i18nc("@label bitrate (per second)", "%1/s", form.formatByteSize(value, 1, KFormat::MetricBinaryDialect));
+    return bitrate;
 }
 
