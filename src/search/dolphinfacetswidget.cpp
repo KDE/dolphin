@@ -33,6 +33,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_images(0),
     m_audio(0),
     m_videos(0),
+    m_folders(0),
     m_anytime(0),
     m_today(0),
     m_yesterday(0),
@@ -52,6 +53,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_images    = createRadioButton(i18nc("@option:check", "Images"), filetypeGroup);
     m_audio     = createRadioButton(i18nc("@option:check", "Audio Files"), filetypeGroup);
     m_videos    = createRadioButton(i18nc("@option:check", "Videos"), filetypeGroup);
+    m_folders   = createRadioButton(i18nc("@option:check", "Folders"), filetypeGroup);
 
     QVBoxLayout* typeLayout = new QVBoxLayout();
     typeLayout->setSpacing(0);
@@ -60,6 +62,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     typeLayout->addWidget(m_images);
     typeLayout->addWidget(m_audio);
     typeLayout->addWidget(m_videos);
+    typeLayout->addWidget(m_folders);
     typeLayout->addStretch();
 
     QButtonGroup* timespanGroup = new QButtonGroup(this);
@@ -160,6 +163,8 @@ QString DolphinFacetsWidget::facetType() const
         return QStringLiteral("Audio");
     } else if (m_videos->isChecked()) {
         return QStringLiteral("Video");
+    } else if (m_folders->isChecked()) {
+        return QStringLiteral("Folder");
     }
 
     return QString();
