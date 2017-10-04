@@ -75,11 +75,11 @@ private:
 
 private:
     QRadioButton* m_anyType;
+    QRadioButton* m_folders;
     QRadioButton* m_documents;
     QRadioButton* m_images;
     QRadioButton* m_audio;
     QRadioButton* m_videos;
-    QRadioButton* m_folders;
 
     QRadioButton* m_anytime;
     QRadioButton* m_today;
