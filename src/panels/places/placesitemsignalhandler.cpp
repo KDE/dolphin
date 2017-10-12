@@ -47,3 +47,15 @@ void PlacesItemSignalHandler::onTrashDirListerCompleted()
     }
 }
 
+void PlacesItemSignalHandler::onTearDownRequested(const QString& udi)
+{
+    Q_UNUSED(udi)
+    if (m_item) {
+        Solid::StorageAccess *tmp = m_item->device().as<Solid::StorageAccess>();
+        if (tmp) {
+            QString mountPath = tmp->filePath();
+            emit tearDownExternallyRequested(mountPath);
+        }
+    }
+}
+

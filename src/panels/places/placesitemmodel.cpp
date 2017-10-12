@@ -22,6 +22,7 @@
  ***************************************************************************/
 
 #include "placesitemmodel.h"
+#include "placesitemsignalhandler.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -77,6 +78,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_systemBookmarksIndexes(),
     m_bookmarkedItems(),
     m_hiddenItemToRemove(-1),
+    m_deviceToTearDown(0),
     m_updateBookmarksTimer(0),
     m_storageSetupInProgress()
 {
@@ -306,7 +308,7 @@ void PlacesItemModel::requestEject(int index)
         Solid::OpticalDrive* drive = item->device().parent().as<Solid::OpticalDrive>();
         if (drive) {
             connect(drive, &Solid::OpticalDrive::ejectDone,
-                    this, &PlacesItemModel::slotStorageTeardownDone);
+                    this, &PlacesItemModel::slotStorageTearDownDone);
             drive->eject();
         } else {
             const QString label = item->text();
@@ -316,15 +318,19 @@ void PlacesItemModel::requestEject(int index)
     }
 }
 
-void PlacesItemModel::requestTeardown(int index)
+void PlacesItemModel::requestTearDown(int index)
 {
     const PlacesItem* item = placesItem(index);
     if (item) {
-        Solid::StorageAccess* access = item->device().as<Solid::StorageAccess>();
-        if (access) {
-            connect(access, &Solid::StorageAccess::teardownDone,
-                    this, &PlacesItemModel::slotStorageTeardownDone);
-            access->teardown();
+        Solid::StorageAccess *tmp = item->device().as<Solid::StorageAccess>();
+        if (tmp) {
+            m_deviceToTearDown = tmp;
+            // disconnect the Solid::StorageAccess::teardownRequested
+            // to prevent emitting PlacesItemModel::storageTearDownExternallyRequested
+            // after we have emitted PlacesItemModel::storageTearDownRequested
+            disconnect(tmp, &Solid::StorageAccess::teardownRequested,
+                       item->signalHandler(), &PlacesItemSignalHandler::onTearDownRequested);
+            emit storageTearDownRequested(tmp->filePath());
         }
     }
 }
@@ -550,7 +556,11 @@ void PlacesItemModel::slotDeviceAdded(const QString& udi)
 
     m_availableDevices << udi;
     const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
-    appendItem(new PlacesItem(bookmark));
+
+    PlacesItem *item = new PlacesItem(bookmark);
+    appendItem(item);
+    connect(item->signalHandler(), &PlacesItemSignalHandler::tearDownExternallyRequested,
+            this, &PlacesItemModel::storageTearDownExternallyRequested);
 }
 
 void PlacesItemModel::slotDeviceRemoved(const QString& udi)
@@ -576,11 +586,13 @@ void PlacesItemModel::slotDeviceRemoved(const QString& udi)
     }
 }
 
-void PlacesItemModel::slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData)
+void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData)
 {
     if (error && errorData.isValid()) {
         emit errorMessage(errorData.toString());
     }
+    m_deviceToTearDown->disconnect();
+    m_deviceToTearDown = nullptr;
 }
 
 void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
@@ -786,7 +798,10 @@ void PlacesItemModel::loadBookmarks()
     devicesItems.reserve(devicesItems.count() + devices.count());
     foreach (const QString& udi, devices) {
         const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
-        devicesItems.append(new PlacesItem(bookmark));
+        PlacesItem *item = new PlacesItem(bookmark);
+        devicesItems.append(item);
+        connect(item->signalHandler(), &PlacesItemSignalHandler::tearDownExternallyRequested,
+                this, &PlacesItemModel::storageTearDownExternallyRequested);
     }
 
     QList<PlacesItem*> items;
@@ -938,6 +953,15 @@ void PlacesItemModel::createSystemBookmarks()
 void PlacesItemModel::clear() {
     m_bookmarkedItems.clear();
     KStandardItemModel::clear();
+}
+
+void PlacesItemModel::proceedWithTearDown()
+{
+    Q_ASSERT(m_deviceToTearDown);
+
+    connect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
+            this, &PlacesItemModel::slotStorageTearDownDone);
+    m_deviceToTearDown->teardown();
 }
 
 void PlacesItemModel::initializeAvailableDevices()

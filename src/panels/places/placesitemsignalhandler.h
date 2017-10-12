@@ -61,6 +61,11 @@ public slots:
      */
     void onTrashDirListerCompleted();
 
+    void onTearDownRequested(const QString& udi);
+
+signals:
+    void tearDownExternallyRequested(const QString& udi);
+
 private:
     PlacesItem* m_item;
 };

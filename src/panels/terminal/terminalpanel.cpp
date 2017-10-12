@@ -54,6 +54,19 @@ TerminalPanel::~TerminalPanel()
 {
 }
 
+void TerminalPanel::goHome()
+{
+    sendCdToTerminal(QDir::homePath(), HistoryPolicy::SkipHistory);
+}
+
+QString TerminalPanel::currentWorkingDirectory()
+{
+    if (m_terminal) {
+        return m_terminal->currentWorkingDirectory();
+    }
+    return QString();
+}
+
 void TerminalPanel::terminalExited()
 {
     m_terminal = 0;
@@ -144,7 +157,7 @@ void TerminalPanel::changeDir(const QUrl& url)
     }
 }
 
-void TerminalPanel::sendCdToTerminal(const QString& dir)
+void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHistory)
 {
     if (dir == m_konsolePartCurrentDirectory) {
         m_clearTerminal = false;
@@ -168,7 +181,8 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
     // the directory change, because this directory change is not caused by a "cd" command that the
     // user entered in the panel. Therefore, we have to remember 'dir'. Note that it could also be
     // a symbolic link -> remember the 'canonical' path.
-    m_sendCdToTerminalHistory.enqueue(QDir(dir).canonicalPath());
+    if (addToHistory == HistoryPolicy::AddToHistory)
+        m_sendCdToTerminalHistory.enqueue(QDir(dir).canonicalPath());
 
     if (m_clearTerminal) {
         m_terminal->sendInput(QStringLiteral(" clear\n"));

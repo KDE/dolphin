@@ -102,7 +102,7 @@ public:
     QAction* teardownAction(int index) const;
 
     void requestEject(int index);
-    void requestTeardown(int index);
+    void requestTearDown(int index);
 
     bool storageSetupNeeded(int index) const;
     void requestStorageSetup(int index);
@@ -123,6 +123,8 @@ public:
 
     virtual void clear() Q_DECL_OVERRIDE;
 
+    void proceedWithTearDown();
+
     /**
      * Saves the bookmarks and indicates to other applications that the
      * state of the bookmarks has been changed. Is only called by the
@@ -133,6 +135,8 @@ public:
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
+    void storageTearDownRequested(const QString& mountPath);
+    void storageTearDownExternallyRequested(const QString& mountPath);
 
 protected:
     virtual void onItemInserted(int index) Q_DECL_OVERRIDE;
@@ -142,7 +146,7 @@ protected:
 private slots:
     void slotDeviceAdded(const QString& udi);
     void slotDeviceRemoved(const QString& udi);
-    void slotStorageTeardownDone(Solid::ErrorType error, const QVariant& errorData);
+    void slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData);
     void slotStorageSetupDone(Solid::ErrorType error, const QVariant& errorData, const QString& udi);
     void hideItem();
 
@@ -280,6 +284,8 @@ private:
     // asynchronously as in the scope of onItemChanged()
     // removing an item is not allowed.
     int m_hiddenItemToRemove;
+
+    Solid::StorageAccess *m_deviceToTearDown;
 
     QTimer* m_updateBookmarksTimer;
 

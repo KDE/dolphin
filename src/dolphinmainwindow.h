@@ -46,6 +46,8 @@ class KJob;
 class KNewFileMenu;
 class QToolButton;
 class QIcon;
+class PlacesPanel;
+class TerminalPanel;
 
 /**
  * @short Main window for Dolphin.
@@ -89,6 +91,8 @@ public:
      * with other menus (e. g. a context menu).
      */
     KNewFileMenu* newFileMenu() const;
+
+    void setTabsToHomeIfMountPathOpen(const QString& mountPath);
 
 public slots:
     /**
@@ -410,6 +414,21 @@ private slots:
     void setUrlAsCaption(const QUrl& url);
 
     /**
+     * This slot is called when the user requested to unmount a removable media
+     * from the places menu
+     */
+    void slotStorageTearDownFromPlacesRequested(const QString& mountPath);
+
+    /**
+     * This slot is called when the user requested to unmount a removable media
+     * _not_ from the dolphin's places menu (from the notification area for e.g.)
+     * This slot is basically connected to each removable device's
+     * Solid::StorageAccess::teardownRequested(const QString & udi)
+     * signal through the places panel.
+     */
+    void slotStorageTearDownExternallyRequested(const QString& mountPath);
+
+    /**
      * Is called when the view has finished loading the directory.
      */
     void slotDirectoryLoadingCompleted();
@@ -496,6 +515,10 @@ private:
     QTimer* m_updateToolBarTimer;
 
     KIO::Job* m_lastHandleUrlStatJob;
+
+    TerminalPanel* m_terminalPanel;
+    PlacesPanel* m_placesPanel;
+    bool m_tearDownFromPlacesRequested;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

@@ -79,6 +79,8 @@ public:
     static KBookmark createDeviceBookmark(KBookmarkManager* manager,
                                           const QString& udi);
 
+    PlacesItemSignalHandler* signalHandler() const;
+
 protected:
     virtual void onDataValueChanged(const QByteArray& role,
                                     const QVariant& current,

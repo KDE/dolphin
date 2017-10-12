@@ -48,6 +48,13 @@ public:
     TerminalPanel(QWidget* parent = 0);
     virtual ~TerminalPanel();
 
+    /**
+     * @brief This function is used to set the terminal panels's cwd to
+     *        home when an unmounting request is receieved.
+     */
+    void goHome();
+    QString currentWorkingDirectory();
+
 public slots:
     void terminalExited();
     void dockVisibilityChanged();
@@ -70,8 +77,13 @@ private slots:
     void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
 
 private:
+    enum class HistoryPolicy {
+        AddToHistory,
+        SkipHistory
+    };
+
     void changeDir(const QUrl& url);
-    void sendCdToTerminal(const QString& path);
+    void sendCdToTerminal(const QString& path, HistoryPolicy addToHistory = HistoryPolicy::AddToHistory);
 
 private:
     bool m_clearTerminal;

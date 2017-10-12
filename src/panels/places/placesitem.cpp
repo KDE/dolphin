@@ -272,6 +272,8 @@ void PlacesItem::initializeDevice(const QString& udi)
         setUrl(QUrl::fromLocalFile(m_access->filePath()));
         QObject::connect(m_access.data(), &Solid::StorageAccess::accessibilityChanged,
                          m_signalHandler.data(), &PlacesItemSignalHandler::onAccessibilityChanged);
+        QObject::connect(m_access.data(), &Solid::StorageAccess::teardownRequested,
+                         m_signalHandler.data(), &PlacesItemSignalHandler::onTearDownRequested);
     } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
         Solid::Block *block = m_device.as<Solid::Block>();
         if (block) {
@@ -334,4 +336,9 @@ QString PlacesItem::generateNewId()
     static int count = 0;
     return QString::number(QDateTime::currentDateTimeUtc().toTime_t()) +
             '/' + QString::number(count++) + " (V2)";
+}
+
+PlacesItemSignalHandler *PlacesItem::signalHandler() const
+{
+    return m_signalHandler.data();
 }

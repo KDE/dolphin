@@ -99,7 +99,10 @@ DolphinMainWindow::DolphinMainWindow() :
     m_settingsDialog(),
     m_controlButton(0),
     m_updateToolBarTimer(0),
-    m_lastHandleUrlStatJob(0)
+    m_lastHandleUrlStatJob(0),
+    m_terminalPanel(0),
+    m_placesPanel(0),
+    m_tearDownFromPlacesRequested(false)
 {
     Q_INIT_RESOURCE(dolphin);
 
@@ -247,6 +250,11 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
 
 void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl& url)
 {
+    if (m_tearDownFromPlacesRequested && url == QUrl::fromLocalFile(QDir::homePath())) {
+        m_placesPanel->proceedWithTearDown();
+        m_tearDownFromPlacesRequested = false;
+    }
+
     m_activeViewContainer->setAutoGrabFocus(false);
     changeUrl(url);
     m_activeViewContainer->setAutoGrabFocus(true);
@@ -994,6 +1002,25 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
     setWindowTitle(schemePrefix + fileName);
 }
 
+void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
+{
+    if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+        m_tearDownFromPlacesRequested = true;
+        m_terminalPanel->goHome();
+        // m_placesPanel->proceedWithTearDown() will be called in slotTerminalDirectoryChanged
+    } else {
+        m_placesPanel->proceedWithTearDown();
+    }
+}
+
+void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mountPath)
+{
+    if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+        m_tearDownFromPlacesRequested = false;
+        m_terminalPanel->goHome();
+    }
+}
+
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
@@ -1246,21 +1273,21 @@ void DolphinMainWindow::setupDockWidgets()
         terminalDock->setLocked(lock);
         terminalDock->setObjectName(QStringLiteral("terminalDock"));
         terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
-        TerminalPanel* terminalPanel = new TerminalPanel(terminalDock);
-        terminalPanel->setCustomContextMenuActions({lockLayoutAction});
-        terminalDock->setWidget(terminalPanel);
+        m_terminalPanel = new TerminalPanel(terminalDock);
+        m_terminalPanel->setCustomContextMenuActions({lockLayoutAction});
+        terminalDock->setWidget(m_terminalPanel);
 
-        connect(terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
-        connect(terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
+        connect(m_terminalPanel, &TerminalPanel::hideTerminalPanel, terminalDock, &DolphinDockWidget::hide);
+        connect(m_terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
         connect(terminalDock, &DolphinDockWidget::visibilityChanged,
-                terminalPanel, &TerminalPanel::dockVisibilityChanged);
+                m_terminalPanel, &TerminalPanel::dockVisibilityChanged);
 
         QAction* terminalAction = terminalDock->toggleViewAction();
         createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
 
         addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
         connect(this, &DolphinMainWindow::urlChanged,
-                terminalPanel, &TerminalPanel::setUrl);
+                m_terminalPanel, &TerminalPanel::setUrl);
 
         if (GeneralSettings::version() < 200) {
             terminalDock->hide();
@@ -1279,28 +1306,31 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setObjectName(QStringLiteral("placesDock"));
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-    PlacesPanel* placesPanel = new PlacesPanel(placesDock);
-    placesPanel->setCustomContextMenuActions({lockLayoutAction});
-    placesDock->setWidget(placesPanel);
+    m_placesPanel = new PlacesPanel(placesDock);
+    m_placesPanel->setCustomContextMenuActions({lockLayoutAction});
+    placesDock->setWidget(m_placesPanel);
 
-    QAction* placesAction = placesDock->toggleViewAction();
+    QAction *placesAction = placesDock->toggleViewAction();
     createPanelAction(QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_F9, placesAction, QStringLiteral("show_places_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(placesPanel, &PlacesPanel::placeActivated,
+    connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
-    connect(placesPanel, &PlacesPanel::placeMiddleClicked,
+    connect(m_placesPanel, &PlacesPanel::placeMiddleClicked,
             this, &DolphinMainWindow::openNewTab);
-    connect(placesPanel, &PlacesPanel::errorMessage,
+    connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
-            placesPanel, &PlacesPanel::setUrl);
+            m_placesPanel, &PlacesPanel::setUrl);
     connect(placesDock, &DolphinDockWidget::visibilityChanged,
             m_tabWidget, &DolphinTabWidget::slotPlacesPanelVisibilityChanged);
     connect(this, &DolphinMainWindow::settingsChanged,
-	    placesPanel, &PlacesPanel::readSettings);
-
-    m_tabWidget->slotPlacesPanelVisibilityChanged(placesPanel->isVisible());
+        m_placesPanel, &PlacesPanel::readSettings);
+    connect(m_placesPanel, &PlacesPanel::storageTearDownRequested,
+            this, &DolphinMainWindow::slotStorageTearDownFromPlacesRequested);
+    connect(m_placesPanel, &PlacesPanel::storageTearDownExternallyRequested,
+            this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
+    m_tabWidget->slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
 
     // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);

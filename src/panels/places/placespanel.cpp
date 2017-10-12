@@ -72,6 +72,11 @@ PlacesPanel::~PlacesPanel()
 {
 }
 
+void PlacesPanel::proceedWithTearDown()
+{
+    m_model->proceedWithTearDown();
+}
+
 bool PlacesPanel::urlChanged()
 {
     if (!url().isValid() || url().scheme().contains(QStringLiteral("search"))) {
@@ -110,6 +115,10 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_model->setGroupedSorting(true);
         connect(m_model, &PlacesItemModel::errorMessage,
                 this, &PlacesPanel::errorMessage);
+        connect(m_model, &PlacesItemModel::storageTearDownRequested,
+                this, &PlacesPanel::storageTearDownRequested);
+        connect(m_model, &PlacesItemModel::storageTearDownExternallyRequested,
+                this, &PlacesPanel::storageTearDownExternallyRequested);
 
         m_view = new PlacesView();
         m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
@@ -241,7 +250,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
                 // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
                 triggerItem(index, Qt::MiddleButton);
             } else if (action == teardownAction) {
-                m_model->requestTeardown(index);
+                m_model->requestTearDown(index);
             } else if (action == ejectAction) {
                 m_model->requestEject(index);
             }
