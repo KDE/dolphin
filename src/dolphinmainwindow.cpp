@@ -100,7 +100,9 @@ DolphinMainWindow::DolphinMainWindow() :
     m_controlButton(0),
     m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0),
+#ifndef Q_OS_WIN
     m_terminalPanel(0),
+#endif
     m_placesPanel(0),
     m_tearDownFromPlacesRequested(false)
 {
@@ -1002,6 +1004,7 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
     setWindowTitle(schemePrefix + fileName);
 }
 
+#ifndef Q_OS_WIN
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
 {
     if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
@@ -1020,6 +1023,7 @@ void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mo
         m_terminalPanel->goHome();
     }
 }
+#endif
 
 void DolphinMainWindow::setupActions()
 {
