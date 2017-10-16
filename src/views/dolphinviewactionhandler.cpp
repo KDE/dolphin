@@ -109,7 +109,13 @@ void DolphinViewActionHandler::createActions()
 
     KStandardAction::renameFile(this, &DolphinViewActionHandler::slotRename, m_actionCollection);
 
-    KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
+    auto trashAction = KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
+    auto trashShortcuts = trashAction->shortcuts();
+    if (!trashShortcuts.contains(QKeySequence::Delete)) {
+        trashShortcuts.append(QKeySequence::Delete);
+        m_actionCollection->setDefaultShortcuts(trashAction, trashShortcuts);
+    }
+
     auto deleteAction = KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
     auto deleteShortcuts = deleteAction->shortcuts();
     if (!deleteShortcuts.contains(Qt::SHIFT | Qt::Key_Delete)) {

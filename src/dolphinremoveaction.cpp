@@ -61,10 +61,15 @@ void DolphinRemoveAction::update(ShiftState shiftState)
         m_collection->setDefaultShortcuts(this, deleteShortcuts);
         break;
     }
-    case ShiftState::Released:
+    case ShiftState::Released: {
         m_action = m_collection->action(KStandardAction::name(KStandardAction::MoveToTrash));
-        m_collection->setDefaultShortcuts(this, m_action->shortcuts());
+        // Make sure we show Del in the context menu.
+        auto trashShortcuts = m_action->shortcuts();
+        trashShortcuts.removeAll(QKeySequence::Delete);
+        trashShortcuts.prepend(QKeySequence::Delete);
+        m_collection->setDefaultShortcuts(this, trashShortcuts);
         break;
+    }
     case ShiftState::Unknown:
         Q_UNREACHABLE();
         break;
