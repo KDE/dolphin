@@ -139,6 +139,7 @@ private slots:
     void slotReturnPressed();
     void slotFacetsButtonToggled();
     void slotFacetChanged();
+    void slotSearchSaved();
 
 private:
     void initButton(QToolButton* button);
@@ -167,6 +168,7 @@ private:
 
     QLabel* m_searchLabel;
     QLineEdit* m_searchInput;
+    QAction* m_saveSearchAction;
     QScrollArea* m_optionsScrollArea;
     QToolButton* m_fileNameButton;
     QToolButton* m_contentButton;

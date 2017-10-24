@@ -369,11 +369,16 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* action = exec(m_pos);
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const DolphinViewContainer* container =  m_mainWindow->activeViewContainer();
-        if (container->url().isValid()) {
+        const QUrl url = container->url();
+        if (url.isValid()) {
             PlacesItemModel model;
-            PlacesItem* item = model.createPlacesItem(container->placesText(),
-                                                      container->url(),
-                                                      KIO::iconNameForUrl(container->url()));
+            QString icon;
+            if (container->isSearchModeEnabled()) {
+                icon = QStringLiteral("folder-saved-search-symbolic");
+            } else {
+                icon = KIO::iconNameForUrl(url);
+            }
+            PlacesItem* item = model.createPlacesItem(container->placesText(), url, icon);
             model.appendItemToGroup(item);
             model.saveBookmarks();
         }

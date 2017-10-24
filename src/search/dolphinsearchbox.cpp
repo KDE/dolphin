@@ -22,6 +22,8 @@
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
 
+#include <panels/places/placesitemmodel.h>
+
 #include <QIcon>
 #include <QLineEdit>
 #include <KLocalizedString>
@@ -54,6 +56,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_topLayout(0),
     m_searchLabel(0),
     m_searchInput(0),
+    m_saveSearchAction(0),
     m_optionsScrollArea(0),
     m_fileNameButton(0),
     m_contentButton(0),
@@ -250,6 +253,7 @@ void DolphinSearchBox::emitSearchRequest()
 {
     m_startSearchTimer->stop();
     m_startedSearching = true;
+    m_saveSearchAction->setEnabled(true);
     emit searchRequest();
 }
 
@@ -257,6 +261,7 @@ void DolphinSearchBox::emitCloseRequest()
 {
     m_startSearchTimer->stop();
     m_startedSearching = false;
+    m_saveSearchAction->setEnabled(false);
     emit closeRequest();
 }
 
@@ -297,6 +302,20 @@ void DolphinSearchBox::slotFacetChanged()
     m_startedSearching = true;
     m_startSearchTimer->stop();
     emit searchRequest();
+}
+
+void DolphinSearchBox::slotSearchSaved()
+{
+    const QUrl searchURL = urlForSearching();
+    if (searchURL.isValid()) {
+        PlacesItemModel model;
+        const QString label = i18n("Search for %1 in %2", text(), searchPath().fileName());
+        PlacesItem* item = model.createPlacesItem(label,
+                                                  searchURL,
+                                                  QStringLiteral("folder-saved-search-symbolic"));
+        model.appendItemToGroup(item);
+        model.saveBookmarks();
+    }
 }
 
 void DolphinSearchBox::initButton(QToolButton* button)
@@ -355,6 +374,14 @@ void DolphinSearchBox::init()
     connect(m_searchInput, &QLineEdit::textChanged,
             this, &DolphinSearchBox::slotSearchTextChanged);
     setFocusProxy(m_searchInput);
+
+    // Add "Save search" button inside search box
+    m_saveSearchAction = new QAction(this);
+    m_saveSearchAction->setIcon (QIcon::fromTheme(QStringLiteral("document-save-symbolic")));
+    m_saveSearchAction->setText(i18nc("action:button", "Save this search to quickly access it again in the future"));
+    m_saveSearchAction->setEnabled(false);
+    m_searchInput->addAction(m_saveSearchAction, QLineEdit::TrailingPosition);
+    connect(m_saveSearchAction, &QAction::triggered, this, &DolphinSearchBox::slotSearchSaved);
 
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
