@@ -577,6 +577,7 @@ private slots:
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
     void slotRenameDialogRenamingFinished(const QList<QUrl>& urls);
+    void slotSelectedItemTextPressed(int index);
 
     /*
      * Is called when new items get pasted or dropped.
@@ -707,6 +708,8 @@ private slots:
      */
     void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
+    void slotTwoClicksRenamingTimerTimeout();
+
 private:
     void loadDirectory(const QUrl& url, bool reload = false);
 
@@ -769,6 +772,8 @@ private:
      */
     void forceUrlsSelection(const QUrl& current, const QList<QUrl>& selected);
 
+    void abortTwoClicksRenaming();
+
 private:
     void updatePalette();
 
@@ -803,6 +808,9 @@ private:
     bool m_markFirstNewlySelectedItemAsCurrent;
 
     VersionControlObserver* m_versionControlObserver;
+
+    QTimer* m_twoClicksRenamingTimer;
+    QUrl m_twoClicksRenamingItemUrl;
 
     // For unit tests
     friend class TestBase;

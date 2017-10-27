@@ -453,6 +453,19 @@ bool KItemListView::isAboveExpansionToggle(int index, const QPointF& pos) const
     return false;
 }
 
+bool KItemListView::isAboveText(int index, const QPointF &pos) const
+{
+    const KItemListWidget* widget = m_visibleItems.value(index);
+    if (widget) {
+        const QRectF &textRect = widget->textRect();
+        if (!textRect.isEmpty()) {
+            const QPointF mappedPos = widget->mapFromItem(this, pos);
+            return textRect.contains(mappedPos);
+        }
+    }
+    return false;
+}
+
 int KItemListView::firstVisibleIndex() const
 {
     return m_layouter->firstVisibleIndex();

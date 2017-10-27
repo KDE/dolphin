@@ -183,6 +183,7 @@ public:
     int itemAt(const QPointF& pos) const;
     bool isAboveSelectionToggle(int index, const QPointF& pos) const;
     bool isAboveExpansionToggle(int index, const QPointF& pos) const;
+    bool isAboveText(int index, const QPointF& pos) const;
 
     /**
      * @return Index of the first item that is at least partly visible.

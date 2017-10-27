@@ -237,6 +237,8 @@ signals:
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
 
+    void selectedItemTextPressed(int index);
+
 private slots:
     void slotViewScrollOffsetChanged(qreal current, qreal previous);
 

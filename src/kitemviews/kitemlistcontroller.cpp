@@ -583,6 +583,10 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         // -> remember that the user pressed an item which had been selected already and
         //    clear the selection in mouseReleaseEvent(), unless the items are dragged.
         m_clearSelectionIfItemsAreNotDragged = true;
+
+        if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex, m_pressedMousePos)) {
+            emit selectedItemTextPressed(m_pressedIndex);
+        }
     }
 
     if (!shiftPressed) {
