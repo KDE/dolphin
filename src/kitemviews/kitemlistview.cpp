@@ -309,9 +309,7 @@ KItemModelBase* KItemListView::model() const
 
 void KItemListView::setWidgetCreator(KItemListWidgetCreatorBase* widgetCreator)
 {
-    if (m_widgetCreator) {
-        delete m_widgetCreator;
-    }
+    delete m_widgetCreator;
     m_widgetCreator = widgetCreator;
 }
 
@@ -325,9 +323,7 @@ KItemListWidgetCreatorBase* KItemListView::widgetCreator() const
 
 void KItemListView::setGroupHeaderCreator(KItemListGroupHeaderCreatorBase* groupHeaderCreator)
 {
-    if (m_groupHeaderCreator) {
-        delete m_groupHeaderCreator;
-    }
+    delete m_groupHeaderCreator;
     m_groupHeaderCreator = groupHeaderCreator;
 }
 
