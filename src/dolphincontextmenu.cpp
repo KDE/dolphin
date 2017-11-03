@@ -68,7 +68,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_baseUrl(baseUrl),
     m_baseFileItem(0),
     m_selectedItems(),
-    m_selectedItemsProperties(0),
+    m_selectedItemsProperties(nullptr),
     m_context(NoContext),
     m_copyToMenu(parent),
     m_customActions(),
@@ -84,7 +84,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 DolphinContextMenu::~DolphinContextMenu()
 {
     delete m_selectedItemsProperties;
-    m_selectedItemsProperties = 0;
+    m_selectedItemsProperties = nullptr;
 }
 
 void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
@@ -195,10 +195,10 @@ void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
 
-    QAction* openParentAction = 0;
-    QAction* openParentInNewWindowAction = 0;
-    QAction* openParentInNewTabAction = 0;
-    QAction* addToPlacesAction = 0;
+    QAction* openParentAction = nullptr;
+    QAction* openParentInNewWindowAction = nullptr;
+    QAction* openParentInNewTabAction = nullptr;
+    QAction* addToPlacesAction = nullptr;
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
 
     if (m_selectedItems.count() == 1) {

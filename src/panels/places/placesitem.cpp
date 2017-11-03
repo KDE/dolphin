@@ -37,8 +37,8 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
     m_volume(),
     m_disc(),
     m_mtp(),
-    m_signalHandler(0),
-    m_trashDirLister(0),
+    m_signalHandler(nullptr),
+    m_trashDirLister(nullptr),
     m_bookmark()
 {
     m_signalHandler = new PlacesItemSignalHandler(this);

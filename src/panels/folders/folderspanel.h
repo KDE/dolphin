@@ -39,7 +39,7 @@ class FoldersPanel : public Panel
     Q_OBJECT
 
 public:
-    FoldersPanel(QWidget* parent = 0);
+    explicit FoldersPanel(QWidget* parent = nullptr);
     virtual ~FoldersPanel();
 
     void setShowHiddenFiles(bool show);

@@ -32,16 +32,16 @@
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
-    m_infoTimer(0),
-    m_urlChangedTimer(0),
-    m_resetUrlTimer(0),
+    m_infoTimer(nullptr),
+    m_urlChangedTimer(nullptr),
+    m_resetUrlTimer(nullptr),
     m_shownUrl(),
     m_urlCandidate(),
     m_invalidUrlCandidate(),
     m_fileItem(),
     m_selection(),
-    m_folderStatJob(0),
-    m_content(0)
+    m_folderStatJob(nullptr),
+    m_content(nullptr)
 {
 }
 

@@ -41,7 +41,7 @@ class EmbeddedVideoPlayer : public Phonon::VideoWidget
     Q_OBJECT
 
     public:
-        EmbeddedVideoPlayer(QWidget *parent = 0) :
+        EmbeddedVideoPlayer(QWidget *parent = nullptr) :
             Phonon::VideoWidget(parent)
         {
         }
@@ -64,13 +64,13 @@ class EmbeddedVideoPlayer : public Phonon::VideoWidget
 PhononWidget::PhononWidget(QWidget *parent)
     : QWidget(parent),
     m_url(),
-    m_playButton(0),
-    m_stopButton(0),
-    m_topLayout(0),
-    m_media(0),
-    m_seekSlider(0),
-    m_audioOutput(0),
-    m_videoPlayer(0)
+    m_playButton(nullptr),
+    m_stopButton(nullptr),
+    m_topLayout(nullptr),
+    m_media(nullptr),
+    m_seekSlider(nullptr),
+    m_audioOutput(nullptr),
+    m_videoPlayer(nullptr)
 {
 }
 

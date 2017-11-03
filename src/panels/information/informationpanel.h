@@ -36,7 +36,7 @@ class InformationPanel : public Panel
     Q_OBJECT
 
 public:
-    explicit InformationPanel(QWidget* parent = 0);
+    explicit InformationPanel(QWidget* parent = nullptr);
     virtual ~InformationPanel();
 
 signals:

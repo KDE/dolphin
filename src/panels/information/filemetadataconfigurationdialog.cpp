@@ -35,8 +35,8 @@
 
 FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent) :
     QDialog(parent),
-    m_descriptionLabel(0),
-    m_configWidget(0)
+    m_descriptionLabel(nullptr),
+    m_configWidget(nullptr)
 
 {
     setWindowTitle(i18nc("@title:window", "Configure Shown Data"));

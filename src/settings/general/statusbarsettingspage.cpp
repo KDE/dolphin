@@ -28,8 +28,8 @@
 
 StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
-    m_showZoomSlider(0),
-    m_showSpaceInfo(0)
+    m_showZoomSlider(nullptr),
+    m_showSpaceInfo(nullptr)
 {
     m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), this);
     m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);

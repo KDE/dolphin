@@ -29,23 +29,23 @@
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),
-    m_folders(0),
-    m_documents(0),
-    m_images(0),
-    m_audio(0),
-    m_videos(0),
-    m_anytime(0),
-    m_today(0),
-    m_yesterday(0),
-    m_thisWeek(0),
-    m_thisMonth(0),
-    m_thisYear(0),
-    m_anyRating(0),
-    m_oneOrMore(0),
-    m_twoOrMore(0),
-    m_threeOrMore(0),
-    m_fourOrMore(0),
-    m_maxRating(0)
+    m_folders(nullptr),
+    m_documents(nullptr),
+    m_images(nullptr),
+    m_audio(nullptr),
+    m_videos(nullptr),
+    m_anytime(nullptr),
+    m_today(nullptr),
+    m_yesterday(nullptr),
+    m_thisWeek(nullptr),
+    m_thisMonth(nullptr),
+    m_thisYear(nullptr),
+    m_anyRating(nullptr),
+    m_oneOrMore(nullptr),
+    m_twoOrMore(nullptr),
+    m_threeOrMore(nullptr),
+    m_fourOrMore(nullptr),
+    m_maxRating(nullptr)
 {
     QButtonGroup* filetypeGroup = new QButtonGroup(this);
     m_anyType   = createRadioButton(i18nc("@option:check", "Any"), filetypeGroup);

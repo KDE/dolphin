@@ -39,7 +39,7 @@ class PlacesPanel : public Panel
     Q_OBJECT
 
 public:
-    PlacesPanel(QWidget* parent);
+    explicit PlacesPanel(QWidget* parent);
     virtual ~PlacesPanel();
     void proceedWithTearDown();
 

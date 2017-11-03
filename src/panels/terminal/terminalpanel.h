@@ -45,7 +45,7 @@ class TerminalPanel : public Panel
     Q_OBJECT
 
 public:
-    TerminalPanel(QWidget* parent = 0);
+    explicit TerminalPanel(QWidget* parent = nullptr);
     virtual ~TerminalPanel();
 
     /**

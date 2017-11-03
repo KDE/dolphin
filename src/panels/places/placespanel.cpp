@@ -58,13 +58,14 @@
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
-    m_controller(0),
-    m_model(0),
+    m_controller(nullptr),
+    m_model(nullptr),
+    m_view(nullptr),
     m_storageSetupFailedUrl(),
     m_triggerStorageSetupButton(),
     m_itemDropEventIndex(-1),
-    m_itemDropEventMimeData(0),
-    m_itemDropEvent(0)
+    m_itemDropEventMimeData(nullptr),
+    m_itemDropEvent(nullptr)
 {
 }
 

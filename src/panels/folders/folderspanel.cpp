@@ -55,8 +55,8 @@
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
     m_updateCurrentItem(false),
-    m_controller(0),
-    m_model(0)
+    m_controller(nullptr),
+    m_model(nullptr)
 {
     setLayoutDirection(Qt::LeftToRight);
 }
@@ -67,7 +67,7 @@ FoldersPanel::~FoldersPanel()
 
     if (m_controller) {
         KItemListView* view = m_controller->view();
-        m_controller->setView(0);
+        m_controller->setView(nullptr);
         delete view;
     }
 }

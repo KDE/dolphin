@@ -42,12 +42,12 @@
 StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
-    m_homeUrl(0),
-    m_splitView(0),
-    m_editableUrl(0),
-    m_showFullPath(0),
-    m_filterBar(0),
-    m_showFullPathInTitlebar(0)
+    m_homeUrl(nullptr),
+    m_splitView(nullptr),
+    m_editableUrl(nullptr),
+    m_showFullPath(nullptr),
+    m_filterBar(nullptr),
+    m_showFullPathInTitlebar(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);

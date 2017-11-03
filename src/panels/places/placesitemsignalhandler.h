@@ -47,7 +47,7 @@ class PlacesItemSignalHandler: public QObject
     Q_OBJECT
 
 public:
-    explicit PlacesItemSignalHandler(PlacesItem* item, QObject* parent = 0);
+    explicit PlacesItemSignalHandler(PlacesItem* item, QObject* parent = nullptr);
     virtual ~PlacesItemSignalHandler();
 
 public slots:
