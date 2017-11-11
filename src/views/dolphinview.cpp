@@ -1125,8 +1125,12 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
 void DolphinView::slotSelectedItemTextPressed(int index)
 {
     if (GeneralSettings::renameInline()) {
-        m_twoClicksRenamingItemUrl = m_model->fileItem(index).url();
-        m_twoClicksRenamingTimer->start(QApplication::doubleClickInterval());
+        const KFileItem item = m_model->fileItem(index);
+        const KFileItemListProperties capabilities(KFileItemList() << item);
+        if (capabilities.supportsMoving()) {
+            m_twoClicksRenamingItemUrl = item.url();
+            m_twoClicksRenamingTimer->start(QApplication::doubleClickInterval());
+        }
     }
 }
 
