@@ -28,6 +28,7 @@
 #include <kitemviews/kitemrange.h>
 #include <kitemviews/kitemset.h>
 
+#include <QUrl>
 #include <QHash>
 #include <QObject>
 #include <QVariant>
