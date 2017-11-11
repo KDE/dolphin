@@ -182,6 +182,20 @@ public:
      */
     QString blacklistItemDropEventMimeType() const;
 
+    /**
+     * @return URL of the item at the specified index
+     */
+    virtual QUrl url(int index) const;
+
+    /**
+     * @return True, if item at specified index is a directory
+     */
+    virtual bool isDir(int index) const;
+
+    /**
+     * @return Parent directory of the items that are shown
+     */
+    virtual QUrl directory() const;
 signals:
     /**
      * Is emitted if one or more items have been inserted. Each item-range consists

@@ -29,6 +29,14 @@
 #include <KIO/DropJob>
 #include <KJobWidgets>
 
+
+bool DragAndDropHelper::urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& destUrl)
+{
+    return std::find_if(urls.constBegin(), urls.constEnd(), [destUrl](const QUrl& url) {
+        return url.matches(destUrl, QUrl::StripTrailingSlash);
+    }) != urls.constEnd();
+}
+
 KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
 {
     const QMimeData* mimeData = event->mimeData();
@@ -42,6 +50,10 @@ KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event
         message.setArguments({destUrl.toDisplayString(QUrl::PreferLocalFile)});
         QDBusConnection::sessionBus().call(message);
     } else {
+        if (urlListMatchesUrl(event->mimeData()->urls(), destUrl)) {
+            return nullptr;
+        }
+
         // Drop into a directory or a desktop-file
         KIO::DropJob *job = KIO::drop(event, destUrl);
         KJobWidgets::setWindow(job, window);

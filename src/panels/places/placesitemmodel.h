@@ -132,6 +132,7 @@ public:
      */
     void saveBookmarks();
 
+    bool isDir(int index) const Q_DECL_OVERRIDE;
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);

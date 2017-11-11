@@ -73,7 +73,7 @@ public:
      *         the root-parent of all items.
      * @see rootItem()
      */
-    QUrl directory() const;
+    QUrl directory() const Q_DECL_OVERRIDE;
 
     /**
      * Cancels the loading of a directory which has been started by either

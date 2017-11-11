@@ -164,3 +164,17 @@ void KItemModelBase::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pre
     Q_UNUSED(previous);
 }
 
+QUrl KItemModelBase::url(int index) const
+{
+    return data(index).value("url").toUrl();
+}
+
+bool KItemModelBase::isDir(int index) const
+{
+    return data(index).value("isDir").toBool();
+}
+
+QUrl KItemModelBase::directory() const
+{
+    return QUrl();
+}

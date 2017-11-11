@@ -1159,6 +1159,12 @@ QString PlacesItemModel::timelineDateString(int year, int month, int day)
     return date;
 }
 
+bool PlacesItemModel::isDir(int index) const
+{
+    Q_UNUSED(index);
+    return true;
+}
+
 QUrl PlacesItemModel::createSearchUrl(const QUrl& url)
 {
     QUrl searchUrl;

@@ -39,6 +39,7 @@
 #include <QMimeData>
 #include <QTimer>
 #include <QAccessible>
+#include <views/draganddrophelper.h>
 
 KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),
@@ -842,6 +843,7 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
     Q_UNUSED(event);
     Q_UNUSED(transform);
 
+    m_autoActivationTimer->stop();
     m_view->setAutoScroll(false);
     m_view->hideDropIndicator();
 
@@ -859,8 +861,8 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
         return false;
     }
 
-    event->acceptProposedAction();
 
+    QUrl hoveredDir = m_model->directory();
     KItemListWidget* oldHoveredWidget = hoveredWidget();
 
     const QPointF pos = transform.map(event->pos());
@@ -883,6 +885,11 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
         }
 
         const int index = newHoveredWidget->index();
+
+        if (m_model->isDir(index)) {
+            hoveredDir = m_model->url(index);
+        }
+
         if (!droppingBetweenItems) {
             if (m_model->supportsDropping(index)) {
                 // Something has been dragged on an item.
@@ -907,6 +914,8 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
     } else {
         m_view->hideDropIndicator();
     }
+
+    event->setAccepted(!DragAndDropHelper::urlListMatchesUrl(event->mimeData()->urls(), hoveredDir));
 
     return false;
 }
