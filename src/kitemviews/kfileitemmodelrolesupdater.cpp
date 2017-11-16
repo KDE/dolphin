@@ -99,10 +99,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     Q_ASSERT(model);
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
-    m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList());
-    if (m_enabledPlugins.isEmpty()) {
-        m_enabledPlugins = KIO::PreviewJob::defaultPlugins();
-    }
+    m_enabledPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
 
     connect(m_model, &KFileItemModel::itemsInserted,
             this,    &KFileItemModelRolesUpdater::slotItemsInserted);

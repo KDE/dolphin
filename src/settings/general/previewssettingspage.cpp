@@ -174,10 +174,8 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 void PreviewsSettingsPage::loadSettings()
 {
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
-    m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList());
-    if (m_enabledPreviewPlugins.isEmpty()) {
-        m_enabledPreviewPlugins = KIO::PreviewJob::defaultPlugins();
-    }
+    m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
+
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);
     const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);

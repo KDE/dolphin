@@ -95,11 +95,7 @@ void DolphinItemListView::readSettings()
     updateGridSize();
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
-    QStringList enabledPlugins = globalConfig.readEntry("Plugins", QStringList());
-    if (enabledPlugins.isEmpty()) {
-        enabledPlugins = KIO::PreviewJob::defaultPlugins();
-    }
-    setEnabledPlugins(enabledPlugins);
+    setEnabledPlugins(globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins()));
 
     endTransaction();
 }
