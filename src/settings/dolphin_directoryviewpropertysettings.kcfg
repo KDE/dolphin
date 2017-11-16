@@ -30,7 +30,7 @@
         <entry name="PreviewsShown" type="Bool" >
             <label context="@label">Previews shown</label>
             <whatsthis context="@info:whatsthis">When this option is enabled, a preview of the file content is shown as an icon.</whatsthis>
-            <default>false</default>
+            <default>true</default>
         </entry>
 
         <entry name="GroupedSorting" type="Bool" >

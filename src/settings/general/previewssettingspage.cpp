@@ -26,6 +26,7 @@
 #include <KLocalizedString>
 #include <KServiceTypeTrader>
 #include <KService>
+#include <KIO/PreviewJob>
 
 #include <settings/serviceitemdelegate.h>
 #include <settings/servicemodel.h>
@@ -172,12 +173,11 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
 void PreviewsSettingsPage::loadSettings()
 {
-    KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
-    m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
-                                                     << QStringLiteral("directorythumbnail")
-                                                     << QStringLiteral("imagethumbnail")
-                                                     << QStringLiteral("jpegthumbnail"));
-
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
+    m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList());
+    if (m_enabledPreviewPlugins.isEmpty()) {
+        m_enabledPreviewPlugins = KIO::PreviewJob::defaultPlugins();
+    }
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);
     const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);
