@@ -20,8 +20,6 @@
 #ifndef PLACESITEMMODEL_H
 #define PLACESITEMMODEL_H
 
-#include <config-baloo.h>
-
 #include <kitemviews/kstandarditemmodel.h>
 
 #include <QUrl>
@@ -33,9 +31,9 @@
 
 class KBookmark;
 class KBookmarkManager;
+class KFilePlacesModel;
 class PlacesItem;
 class QAction;
-class QTimer;
 
 // #define PLACESITEMMODEL_DEBUG
 
@@ -54,14 +52,21 @@ public:
     ~PlacesItemModel() override;
 
     /**
-     * @return A new instance of a places item with the given
-     *         attributes.
+     * @brief Create a new place entry in the bookmark file
+     * and add it to the model
      */
-    PlacesItem* createPlacesItem(const QString& text,
-                                 const QUrl& url,
-                                 const QString& iconName = QString());
+    void createPlacesItem(const QString& text,
+                          const QUrl& url,
+                          const QString& iconName = QString(),
+                          int after = -1);
 
     PlacesItem* placesItem(int index) const;
+
+    /**
+     * @brief Mark an item as hiden
+     * @param index of the item to be hidden
+     */
+    void hideItem(int index);
 
     /**
      * If set to true, all items that are marked as hidden
@@ -88,15 +93,6 @@ public:
      * could be found.
      */
     int closestItem(const QUrl& url) const;
-
-    /**
-     * Appends the item \a item as last element of the group
-     * the item belongs to. If no item with the same group is
-     * present, the item gets appended as last element of the
-     * model. PlacesItemModel takes the ownership
-     * of the item.
-     */
-    void appendItemToGroup(PlacesItem* item);
 
     QAction* ejectAction(int index) const;
     QAction* teardownAction(int index) const;
@@ -126,11 +122,19 @@ public:
     void proceedWithTearDown();
 
     /**
-     * Saves the bookmarks and indicates to other applications that the
-     * state of the bookmarks has been changed. Is only called by the
-     * timeout of m_saveBookmarksTimer to prevent unnecessary savings.
+     * @brief Remove item from bookmark
+     *
+     * This function remove the index from bookmark file permanently
+     *
+     * @param index - the item to be removed
      */
-    void saveBookmarks();
+    void deleteItem(int index);
+
+    /**
+    * Force a sync on the bookmarks and indicates to other applications that the
+    * state of the bookmarks has been changed.
+    */
+    void refresh();
 
     bool isDir(int index) const override;
 signals:
@@ -145,22 +149,17 @@ protected:
     void onItemChanged(int index, const QSet<QByteArray>& changedRoles) override;
 
 private slots:
-    void slotDeviceAdded(const QString& udi);
-    void slotDeviceRemoved(const QString& udi);
     void slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData);
     void slotStorageSetupDone(Solid::ErrorType error, const QVariant& errorData, const QString& udi);
-    void hideItem();
 
-    /**
-     * Updates the bookmarks from the model corresponding to the changed
-     * bookmarks stored by the bookmark-manager. Is called whenever the bookmarks
-     * have been changed by another application.
-     */
-    void updateBookmarks();
+    // source model control
+    void onSourceModelRowsInserted(const QModelIndex &parent, int first, int last);
+    void onSourceModelRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
+    void onSourceModelRowsAboutToBeMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
+    void onSourceModelRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
+    void onSourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
 
 private:
-    struct SystemBookmarkData;
-
     /**
      * Loads the bookmarks from the bookmark-manager and creates items for
      * the model or moves hidden items to m_bookmarkedItems.
@@ -172,37 +171,7 @@ private:
      *         current application (e.g. bookmarks from other applications
      *         will be ignored).
      */
-    bool acceptBookmark(const KBookmark& bookmark,
-                        const QSet<QString>& availableDevices) const;
-
-    /**
-     * Creates a PlacesItem for a system-bookmark:
-     * - PlacesItem::isSystemItem() will return true
-     * - Default view-properties will be created for "Search For" items
-     * The item is not inserted to the model yet.
-     */
-    PlacesItem* createSystemPlacesItem(const SystemBookmarkData& data);
-
-    /**
-     * Creates system bookmarks that are shown per default and can
-     * only be hidden but not removed. The result will be stored
-     * in m_systemBookmarks.
-     */
-    void createSystemBookmarks();
-
-    void initializeAvailableDevices();
-
-    /**
-     * @param index Item index related to the model.
-     * @return      Corresponding index related to m_bookmarkedItems.
-     */
-    int bookmarkIndex(int index) const;
-
-    /**
-     * Marks the item with the index \a index as hidden and
-     * removes it from the model so that it gets invisible.
-     */
-    void hideItem(int index);
+    bool acceptBookmark(const KBookmark& bookmark) const;
 
     QString internalMimeType() const;
 
@@ -220,77 +189,41 @@ private:
     static bool equalBookmarkIdentifiers(const KBookmark& b1, const KBookmark& b2);
 
     /**
-     * @return URL using the timeline-protocol for searching (see convertedUrl()).
+     * Appends the item \a item as last element of the group
+     * the item belongs to. If no item with the same group is
+     * present, the item gets appended as last element of the
+     * model. PlacesItemModel takes the ownership
+     * of the item.
      */
-    static QUrl createTimelineUrl(const QUrl& url);
-
-    /**
-     * Helper method for createTimelineUrl().
-     * @return String that represents a date-path in the format that
-     *         the timeline-protocol expects.
-     */
-    static QString timelineDateString(int year, int month, int day = 0);
-
-    /**
-     * @return URL that can be listed by KIO and results in searching
-     *         for a given term. The URL \a url represents a places-internal
-     *         URL like e.g. "search:/documents" (see convertedUrl()).
-     */
-    static QUrl createSearchUrl(const QUrl& url);
-
-#ifdef HAVE_BALOO
-    /**
-     * Helper method for createSearchUrl()
-     * @return URL that can be listed by KIO and results in searching
-     *         for the given type
-     */
-    static QUrl searchUrlForType(const QString& type);
-#endif
+    void insertSortedItem(PlacesItem* item);
 
 #ifdef PLACESITEMMODEL_DEBUG
     void showModelState();
 #endif
 
+    PlacesItem *itemFromBookmark(const KBookmark &bookmark) const;
+
+    void addItemFromSourceModel(const QModelIndex &index);
+    void removeItemByIndex(const QModelIndex &mapToSource);
+
+    QString bookmarkId(const KBookmark &bookmark) const;
+    void initializeDefaultViewProperties() const;
+
+    int mapFromSource(const QModelIndex &index) const;
+    QModelIndex mapToSource(int row) const;
+
+    static void updateItem(PlacesItem *item, const QModelIndex &index);
+
 private:
-    bool m_fileIndexingEnabled;
     bool m_hiddenItemsShown;
-
-    QSet<QString> m_availableDevices;
-    Solid::Predicate m_predicate;
-    KBookmarkManager* m_bookmarkManager;
-
-    struct SystemBookmarkData
-    {
-        SystemBookmarkData(const QUrl& url,
-                           const QString& icon,
-                           const QString& text) :
-            url(url), icon(icon), text(text) {}
-        QUrl url;
-        QString icon;
-        QString text;
-    };
-
-    QList<SystemBookmarkData> m_systemBookmarks;
-    QHash<QUrl, int> m_systemBookmarksIndexes;
-
-    // Contains hidden and unhidden items that are stored as
-    // bookmark (the model itself only contains items that
-    // are shown in the view). If an entry is 0, then the
-    // places-item is part of the model. If an entry is not
-    // 0, the item is hidden and not part of the model.
-    QList<PlacesItem*> m_bookmarkedItems;
-
-    // Index of the hidden item that should be removed in
-    // removeHiddenItem(). The removing must be done
-    // asynchronously as in the scope of onItemChanged()
-    // removing an item is not allowed.
-    int m_hiddenItemToRemove;
 
     Solid::StorageAccess *m_deviceToTearDown;
 
-    QTimer* m_updateBookmarksTimer;
-
     QHash<QObject*, int> m_storageSetupInProgress;
+
+    QScopedPointer<KFilePlacesModel> m_sourceModel;
+
+    QVector<QPersistentModelIndex> m_indexMap;
 };
 
 #endif

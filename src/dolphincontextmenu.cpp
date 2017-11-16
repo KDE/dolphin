@@ -306,9 +306,7 @@ void DolphinContextMenu::openItemContextMenu()
             if (selectedUrl.isValid()) {
                 PlacesItemModel model;
                 const QString text = selectedUrl.fileName();
-                PlacesItem* item = model.createPlacesItem(text, selectedUrl, KIO::iconNameForUrl(selectedUrl));
-                model.appendItemToGroup(item);
-                model.saveBookmarks();
+                model.createPlacesItem(text, selectedUrl, KIO::iconNameForUrl(selectedUrl));
             }
         } else if (activatedAction == openParentAction) {
             m_command = OpenParentFolder;
@@ -378,9 +376,7 @@ void DolphinContextMenu::openViewportContextMenu()
             } else {
                 icon = KIO::iconNameForUrl(url);
             }
-            PlacesItem* item = model.createPlacesItem(container->placesText(), url, icon);
-            model.appendItemToGroup(item);
-            model.saveBookmarks();
+            model.createPlacesItem(container->placesText(), url, icon);
         }
     }
 }

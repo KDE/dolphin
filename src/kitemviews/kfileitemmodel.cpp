@@ -2373,7 +2373,7 @@ bool KFileItemModel::isConsistent() const
         return false;
     }
 
-    for (int i = 0; i < count(); ++i) {
+    for (int i = 0, iMax = count(); i < iMax; ++i) {
         // Check if m_items and m_itemData are consistent.
         const KFileItem item = fileItem(i);
         if (item.isNull()) {

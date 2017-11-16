@@ -40,6 +40,7 @@
 #include <QMimeData>
 #include <QTimer>
 #include <KUrlMimeData>
+#include <KFilePlacesModel>
 
 #include <Solid/Device>
 #include <Solid/DeviceNotifier>
@@ -51,17 +52,7 @@
 #include <views/dolphinview.h>
 #include <views/viewproperties.h>
 
-#ifdef HAVE_BALOO
-    #include <Baloo/Query>
-    #include <Baloo/IndexerConfig>
-#endif
-
 namespace {
-    // As long as KFilePlacesView from kdelibs is available in parallel, the
-    // system-bookmarks for "Recently Saved" and "Search For" should be
-    // shown only inside the Places Panel. This is necessary as the stored
-    // URLs needs to get translated to a Baloo-search-URL on-the-fly to
-    // be independent from changes in the Baloo-search-URL-syntax.
     // Hence a prefix to the application-name of the stored bookmarks is
     // added, which is only read by PlacesItemModel.
     const char AppNamePrefix[] = "-places-panel";
@@ -69,53 +60,31 @@ namespace {
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
-    m_fileIndexingEnabled(false),
     m_hiddenItemsShown(false),
-    m_availableDevices(),
-    m_predicate(),
-    m_bookmarkManager(nullptr),
-    m_systemBookmarks(),
-    m_systemBookmarksIndexes(),
-    m_bookmarkedItems(),
-    m_hiddenItemToRemove(-1),
     m_deviceToTearDown(nullptr),
-    m_updateBookmarksTimer(nullptr),
-    m_storageSetupInProgress()
+    m_storageSetupInProgress(),
+    m_sourceModel(new KFilePlacesModel(this))
 {
-#ifdef HAVE_BALOO
-    Baloo::IndexerConfig config;
-    m_fileIndexingEnabled = config.fileIndexingEnabled();
-#endif
-    const QString file = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/user-places.xbel";
-    m_bookmarkManager = KBookmarkManager::managerForExternalFile(file);
-
-    createSystemBookmarks();
-    initializeAvailableDevices();
     loadBookmarks();
+    initializeDefaultViewProperties();
 
-    const int syncBookmarksTimeout = 100;
-
-    m_updateBookmarksTimer = new QTimer(this);
-    m_updateBookmarksTimer->setInterval(syncBookmarksTimeout);
-    m_updateBookmarksTimer->setSingleShot(true);
-    connect(m_updateBookmarksTimer, &QTimer::timeout, this, &PlacesItemModel::updateBookmarks);
-
-    connect(m_bookmarkManager, &KBookmarkManager::changed,
-            m_updateBookmarksTimer, static_cast<void(QTimer::*)()>(&QTimer::start));
+    connect(m_sourceModel.data(), &KFilePlacesModel::rowsInserted, this, &PlacesItemModel::onSourceModelRowsInserted);
+    connect(m_sourceModel.data(), &KFilePlacesModel::rowsAboutToBeRemoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeRemoved);
+    connect(m_sourceModel.data(), &KFilePlacesModel::dataChanged, this, &PlacesItemModel::onSourceModelDataChanged);
+    connect(m_sourceModel.data(), &KFilePlacesModel::rowsAboutToBeMoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeMoved);
+    connect(m_sourceModel.data(), &KFilePlacesModel::rowsMoved, this, &PlacesItemModel::onSourceModelRowsMoved);
 }
 
 PlacesItemModel::~PlacesItemModel()
 {
-    qDeleteAll(m_bookmarkedItems);
-    m_bookmarkedItems.clear();
 }
 
-PlacesItem* PlacesItemModel::createPlacesItem(const QString& text,
-                                              const QUrl& url,
-                                              const QString& iconName)
+void PlacesItemModel::createPlacesItem(const QString& text,
+                                       const QUrl& url,
+                                       const QString& iconName,
+                                       int after)
 {
-    const KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager, text, url, iconName);
-    return new PlacesItem(bookmark);
+    m_sourceModel->addPlace(text, url, iconName, {}, mapToSource(after));
 }
 
 PlacesItem* PlacesItemModel::placesItem(int index) const
@@ -125,20 +94,7 @@ PlacesItem* PlacesItemModel::placesItem(int index) const
 
 int PlacesItemModel::hiddenCount() const
 {
-    int modelIndex = 0;
-    int hiddenItemCount = 0;
-    foreach (const PlacesItem* item, m_bookmarkedItems) {
-        if (item) {
-            ++hiddenItemCount;
-        } else {
-            if (placesItem(modelIndex)->isHidden()) {
-                ++hiddenItemCount;
-            }
-            ++modelIndex;
-        }
-    }
-
-    return hiddenItemCount;
+    return m_sourceModel->hiddenCount();
 }
 
 void PlacesItemModel::setHiddenItemsShown(bool show)
@@ -150,38 +106,18 @@ void PlacesItemModel::setHiddenItemsShown(bool show)
     m_hiddenItemsShown = show;
 
     if (show) {
-        // Move all items that are part of m_bookmarkedItems to the model.
-        QList<PlacesItem*> itemsToInsert;
-        QList<int> insertPos;
-        int modelIndex = 0;
-        for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
-            if (m_bookmarkedItems[i]) {
-                itemsToInsert.append(m_bookmarkedItems[i]);
-                m_bookmarkedItems[i] = 0;
-                insertPos.append(modelIndex);
+        for (int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
+            const QModelIndex index = m_sourceModel->index(r, 0);
+            if (!m_sourceModel->isHidden(index)) {
+                continue;
             }
-            ++modelIndex;
+            addItemFromSourceModel(index);
         }
-
-        // Inserting the items will automatically insert an item
-        // to m_bookmarkedItems in PlacesItemModel::onItemsInserted().
-        // The items are temporary saved in itemsToInsert, so
-        // m_bookmarkedItems can be shrinked now.
-        m_bookmarkedItems.erase(m_bookmarkedItems.begin(),
-                                m_bookmarkedItems.begin() + itemsToInsert.count());
-
-        for (int i = 0; i < itemsToInsert.count(); ++i) {
-            insertItem(insertPos[i], itemsToInsert[i]);
-        }
-
-        Q_ASSERT(m_bookmarkedItems.count() == count());
     } else {
-        // Move all items of the model, where the "isHidden" property is true, to
-        // m_bookmarkedItems.
-        Q_ASSERT(m_bookmarkedItems.count() == count());
-        for (int i = count() - 1; i >= 0; --i) {
-            if (placesItem(i)->isHidden()) {
-                hideItem(i);
+        for (int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
+            const QModelIndex index = m_sourceModel->index(r, 0);
+            if (m_sourceModel->isHidden(index)) {
+                removeItemByIndex(index);
             }
         }
     }
@@ -199,52 +135,73 @@ bool PlacesItemModel::hiddenItemsShown() const
 
 int PlacesItemModel::closestItem(const QUrl& url) const
 {
-    int foundIndex = -1;
-    int maxLength = 0;
-
-    for (int i = 0; i < count(); ++i) {
-        const QUrl itemUrl = placesItem(i)->url();
-        if (url == itemUrl) {
-            // We can't find a closer one, so stop here.
-            foundIndex = i;
-            break;
-        } else if (itemUrl.isParentOf(url)) {
-            const int length = itemUrl.path().length();
-            if (length > maxLength) {
-                foundIndex = i;
-                maxLength = length;
-            }
-        }
-    }
-
-    return foundIndex;
+    return mapFromSource(m_sourceModel->closestItem(url));
 }
 
-void PlacesItemModel::appendItemToGroup(PlacesItem* item)
+// look for the correct position for the item based on source model
+void PlacesItemModel::insertSortedItem(PlacesItem* item)
 {
     if (!item) {
         return;
     }
 
-    int i = 0;
-    while (i < count() && placesItem(i)->group() != item->group()) {
-        ++i;
-    }
+    const KBookmark iBookmark = item->bookmark();
+    const QString iBookmarkId = bookmarkId(iBookmark);
+    QModelIndex sourceIndex;
+    int pos = 0;
 
-    bool inserted = false;
-    while (!inserted && i < count()) {
-        if (placesItem(i)->group() != item->group()) {
-            insertItem(i, item);
-            inserted = true;
+    for(int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
+        sourceIndex = m_sourceModel->index(r, 0);
+
+        if (bookmarkId(m_sourceModel->bookmarkForIndex(sourceIndex)) == iBookmarkId) {
+            break;
         }
-        ++i;
+
+        if (!m_sourceModel->isHidden(sourceIndex)) {
+            pos++;
+        }
     }
 
-    if (!inserted) {
-        appendItem(item);
-    }
+    m_indexMap.insert(pos, sourceIndex);
+    insertItem(pos, item);
 }
 
+void PlacesItemModel::onItemInserted(int index)
+{
+    KStandardItemModel::onItemInserted(index);
+#ifdef PLACESITEMMODEL_DEBUG
+    qCDebug(DolphinDebug) << "Inserted item" << index;
+    showModelState();
+#endif
+}
+
+void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
+{
+    m_indexMap.removeAt(index);
+
+    KStandardItemModel::onItemRemoved(index, removedItem);
+#ifdef PLACESITEMMODEL_DEBUG
+    qCDebug(DolphinDebug) << "Removed item" << index;
+    showModelState();
+#endif
+}
+
+void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
+{
+    const QModelIndex sourceIndex = mapToSource(index);
+    const PlacesItem *changedItem = placesItem(mapFromSource(sourceIndex));
+
+    if (!changedItem || !sourceIndex.isValid()) {
+        qWarning() << "invalid item changed signal";
+        return;
+    }
+
+    if (changedRoles.contains("isHidden")) {
+        m_sourceModel->setPlaceHidden(sourceIndex, changedItem->isHidden());
+    }
+
+    KStandardItemModel::onItemChanged(index, changedRoles);
+}
 
 QAction* PlacesItemModel::ejectAction(int index) const
 {
@@ -404,25 +361,8 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
         QDataStream stream(&itemData, QIODevice::ReadOnly);
         int oldIndex;
         stream >> oldIndex;
-        if (oldIndex == index || oldIndex == index - 1) {
-            // No moving has been done
-            return;
-        }
 
-        PlacesItem* oldItem = placesItem(oldIndex);
-        if (!oldItem) {
-            return;
-        }
-
-        PlacesItem* newItem = new PlacesItem(oldItem->bookmark());
-        removeItem(oldIndex);
-
-        if (oldIndex < index) {
-            --index;
-        }
-
-        const int dropIndex = groupedDropIndex(index, newItem);
-        insertItem(dropIndex, newItem);
+        m_sourceModel->movePlace(oldIndex, index);
     } else if (mimeData->hasFormat(QStringLiteral("text/uri-list"))) {
         // One or more items must be added to the model
         const QList<QUrl> urls = KUrlMimeData::urlsFromMimeData(mimeData);
@@ -440,150 +380,96 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
                 continue;
             }
 
-            PlacesItem* newItem = createPlacesItem(text, url);
-            const int dropIndex = groupedDropIndex(index, newItem);
-            insertItem(dropIndex, newItem);
+            createPlacesItem(text, url, QString(), qMax(0, index - 1));
         }
     }
+    // will save bookmark alteration and fix sort if that is broken by the drag/drop operation
+    refresh();
 }
 
-QUrl PlacesItemModel::convertedUrl(const QUrl& url)
+void PlacesItemModel::addItemFromSourceModel(const QModelIndex &index)
 {
-    QUrl newUrl = url;
-    if (url.scheme() == QLatin1String("timeline")) {
-        newUrl = createTimelineUrl(url);
-    } else if (url.scheme() == QLatin1String("search")) {
-        newUrl = createSearchUrl(url);
-    }
-
-    return newUrl;
-}
-
-void PlacesItemModel::onItemInserted(int index)
-{
-    const PlacesItem* insertedItem = placesItem(index);
-    if (insertedItem) {
-        // Take care to apply the PlacesItemModel-order of the inserted item
-        // also to the bookmark-manager.
-        const KBookmark insertedBookmark = insertedItem->bookmark();
-
-        const PlacesItem* previousItem = placesItem(index - 1);
-        KBookmark previousBookmark;
-        if (previousItem) {
-            previousBookmark = previousItem->bookmark();
-        }
-
-        m_bookmarkManager->root().moveBookmark(insertedBookmark, previousBookmark);
-    }
-
-    if (index == count() - 1) {
-        // The item has been appended as last item to the list. In this
-        // case assure that it is also appended after the hidden items and
-        // not before (like done otherwise).
-        m_bookmarkedItems.append(0);
-    } else {
-
-        int modelIndex = -1;
-        int bookmarkIndex = 0;
-        while (bookmarkIndex < m_bookmarkedItems.count()) {
-            if (!m_bookmarkedItems[bookmarkIndex]) {
-                ++modelIndex;
-                if (modelIndex + 1 == index) {
-                    break;
-                }
-            }
-            ++bookmarkIndex;
-        }
-        m_bookmarkedItems.insert(bookmarkIndex, 0);
-    }
-
-#ifdef PLACESITEMMODEL_DEBUG
-    qCDebug(DolphinDebug) << "Inserted item" << index;
-    showModelState();
-#endif
-}
-
-void PlacesItemModel::onItemRemoved(int index, KStandardItem* removedItem)
-{
-    PlacesItem* placesItem = dynamic_cast<PlacesItem*>(removedItem);
-    if (placesItem) {
-        const KBookmark bookmark = placesItem->bookmark();
-        m_bookmarkManager->root().deleteBookmark(bookmark);
-    }
-
-    const int boomarkIndex = bookmarkIndex(index);
-    Q_ASSERT(!m_bookmarkedItems[boomarkIndex]);
-    m_bookmarkedItems.removeAt(boomarkIndex);
-
-#ifdef PLACESITEMMODEL_DEBUG
-    qCDebug(DolphinDebug) << "Removed item" << index;
-    showModelState();
-#endif
-}
-
-void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
-{
-    const PlacesItem* changedItem = placesItem(index);
-    if (changedItem) {
-        // Take care to apply the PlacesItemModel-order of the changed item
-        // also to the bookmark-manager.
-        const KBookmark insertedBookmark = changedItem->bookmark();
-
-        const PlacesItem* previousItem = placesItem(index - 1);
-        KBookmark previousBookmark;
-        if (previousItem) {
-            previousBookmark = previousItem->bookmark();
-        }
-
-        m_bookmarkManager->root().moveBookmark(insertedBookmark, previousBookmark);
-    }
-
-    if (changedRoles.contains("isHidden")) {
-        if (!m_hiddenItemsShown && changedItem->isHidden()) {
-            m_hiddenItemToRemove = index;
-            QTimer::singleShot(0, this, static_cast<void (PlacesItemModel::*)()>(&PlacesItemModel::hideItem));
-        }
-    }
-}
-
-void PlacesItemModel::slotDeviceAdded(const QString& udi)
-{
-    const Solid::Device device(udi);
-
-    if (!m_predicate.matches(device)) {
-        return;
-    }
-
-    m_availableDevices << udi;
-    const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
-
+    const KBookmark bookmark = m_sourceModel->bookmarkForIndex(index);
+    Q_ASSERT(!bookmark.isNull());
     PlacesItem *item = new PlacesItem(bookmark);
-    appendItem(item);
-    connect(item->signalHandler(), &PlacesItemSignalHandler::tearDownExternallyRequested,
-            this, &PlacesItemModel::storageTearDownExternallyRequested);
+    updateItem(item, index);
+    insertSortedItem(item);
+
+    if (m_sourceModel->isDevice(index)) {
+        connect(item->signalHandler(), &PlacesItemSignalHandler::tearDownExternallyRequested,
+                this, &PlacesItemModel::storageTearDownExternallyRequested);
+    }
 }
 
-void PlacesItemModel::slotDeviceRemoved(const QString& udi)
+void PlacesItemModel::removeItemByIndex(const QModelIndex &sourceIndex)
 {
-    if (!m_availableDevices.contains(udi)) {
-        return;
-    }
+    QString id = bookmarkId(m_sourceModel->bookmarkForIndex(sourceIndex));
 
-    for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
-        PlacesItem* item = m_bookmarkedItems[i];
-        if (item && item->udi() == udi) {
-            m_bookmarkedItems.removeAt(i);
-            delete item;
-            return;
-        }
-    }
-
-    for (int i = 0; i < count(); ++i) {
-        if (placesItem(i)->udi() == udi) {
+    for (int i = 0, iMax = count(); i < iMax; ++i) {
+        if (bookmarkId(placesItem(i)->bookmark()) == id) {
             removeItem(i);
             return;
         }
     }
+}
+
+QString PlacesItemModel::bookmarkId(const KBookmark &bookmark) const
+{
+    QString id = bookmark.metaDataItem(QStringLiteral("UDI"));
+    if (id.isEmpty()) {
+        id = bookmark.metaDataItem(QStringLiteral("ID"));
+    }
+    return id;
+}
+
+void PlacesItemModel::initializeDefaultViewProperties() const
+{
+    for(int i = 0, iMax = m_sourceModel->rowCount(); i < iMax; i++) {
+        const QModelIndex index = m_sourceModel->index(i, 0);
+        const PlacesItem *item = placesItem(mapFromSource(index));
+        if (!item) {
+            continue;
+        }
+
+        // Create default view-properties for all "Search For" and "Recently Saved" bookmarks
+        // in case the user has not already created custom view-properties for a corresponding
+        // query yet.
+        const bool createDefaultViewProperties = item->isSearchOrTimelineUrl() && !GeneralSettings::self()->globalViewProps();
+        if (createDefaultViewProperties) {
+            const QUrl itemUrl = item->url();
+            ViewProperties props(KFilePlacesModel::convertedUrl(itemUrl));
+            if (!props.exist()) {
+                const QString path = itemUrl.path();
+                if (path == QLatin1String("/documents")) {
+                    props.setViewMode(DolphinView::DetailsView);
+                    props.setPreviewsShown(false);
+                    props.setVisibleRoles({"text", "path"});
+                } else if (path == QLatin1String("/images")) {
+                    props.setViewMode(DolphinView::IconsView);
+                    props.setPreviewsShown(true);
+                    props.setVisibleRoles({"text", "imageSize"});
+                } else if (path == QLatin1String("/audio")) {
+                    props.setViewMode(DolphinView::DetailsView);
+                    props.setPreviewsShown(false);
+                    props.setVisibleRoles({"text", "artist", "album"});
+                } else if (path == QLatin1String("/videos")) {
+                    props.setViewMode(DolphinView::IconsView);
+                    props.setPreviewsShown(true);
+                    props.setVisibleRoles({"text"});
+                } else if (itemUrl.scheme() == QLatin1String("timeline")) {
+                    props.setViewMode(DolphinView::DetailsView);
+                    props.setVisibleRoles({"text", "modificationtime"});
+                }
+                props.save();
+            }
+        }
+    }
+}
+
+void PlacesItemModel::updateItem(PlacesItem *item, const QModelIndex &index)
+{
+    item->setGroup(index.data(KFilePlacesModel::GroupRole).toString());
+    item->setIcon(index.data(KFilePlacesModel::IconNameRole).toString());
 }
 
 void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData)
@@ -622,199 +508,96 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
     }
 }
 
-void PlacesItemModel::hideItem()
+void PlacesItemModel::onSourceModelRowsInserted(const QModelIndex &parent, int first, int last)
 {
-    hideItem(m_hiddenItemToRemove);
-    m_hiddenItemToRemove = -1;
+    for (int i = first; i <= last; i++) {
+        const QModelIndex index = m_sourceModel->index(i, 0, parent);
+        addItemFromSourceModel(index);
+    }
 }
 
-void PlacesItemModel::updateBookmarks()
+void PlacesItemModel::onSourceModelRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
 {
-    // Verify whether new bookmarks have been added or existing
-    // bookmarks have been changed.
-    KBookmarkGroup root = m_bookmarkManager->root();
-    KBookmark newBookmark = root.first();
-    while (!newBookmark.isNull()) {
-        if (acceptBookmark(newBookmark, m_availableDevices)) {
-            bool found = false;
-            int modelIndex = 0;
-            for (int i = 0; i < m_bookmarkedItems.count(); ++i) {
-                PlacesItem* item = m_bookmarkedItems[i];
-                if (!item) {
-                    item = placesItem(modelIndex);
-                    ++modelIndex;
-                }
-
-                const KBookmark oldBookmark = item->bookmark();
-                if (equalBookmarkIdentifiers(newBookmark, oldBookmark)) {
-                    // The bookmark has been found in the model or as
-                    // a hidden item. The content of the bookmark might
-                    // have been changed, so an update is done.
-                    found = true;
-                    if (newBookmark.metaDataItem(QStringLiteral("UDI")).isEmpty()) {
-                        item->setBookmark(newBookmark);
-                        item->setText(i18nc("KFile System Bookmarks", newBookmark.text().toUtf8().constData()));
-                    }
-                    break;
-                }
-            }
-
-            if (!found) {
-                const QString udi = newBookmark.metaDataItem(QStringLiteral("UDI"));
-
-                /*
-                 * See Bug 304878
-                 * Only add a new places item, if the item text is not empty
-                 * and if the device is available. Fixes the strange behaviour -
-                 * add a places item without text in the Places section - when you
-                 * remove a device (e.g. a usb stick) without unmounting.
-                 */
-                if (udi.isEmpty() || Solid::Device(udi).isValid()) {
-                    PlacesItem* item = new PlacesItem(newBookmark);
-                    if (item->isHidden() && !m_hiddenItemsShown) {
-                        m_bookmarkedItems.append(item);
-                    } else {
-                        appendItemToGroup(item);
-                    }
-                }
-            }
-        }
-
-        newBookmark = root.next(newBookmark);
-    }
-
-    // Remove items that are not part of the bookmark-manager anymore
-    int modelIndex = 0;
-    for (int i = m_bookmarkedItems.count() - 1; i >= 0; --i) {
-        PlacesItem* item = m_bookmarkedItems[i];
-        const bool itemIsPartOfModel = (item == nullptr);
-        if (itemIsPartOfModel) {
-            item = placesItem(modelIndex);
-        }
-
-        bool hasBeenRemoved = true;
-        const KBookmark oldBookmark = item->bookmark();
-        KBookmark newBookmark = root.first();
-        while (!newBookmark.isNull()) {
-            if (equalBookmarkIdentifiers(newBookmark, oldBookmark)) {
-                hasBeenRemoved = false;
-                break;
-            }
-            newBookmark = root.next(newBookmark);
-        }
-
-        if (hasBeenRemoved) {
-            if (m_bookmarkedItems[i]) {
-                delete m_bookmarkedItems[i];
-                m_bookmarkedItems.removeAt(i);
-            } else {
-                removeItem(modelIndex);
-                --modelIndex;
-            }
-        }
-
-        if (itemIsPartOfModel) {
-            ++modelIndex;
+    for(int r = first; r <= last; r++) {
+        const QModelIndex index = m_sourceModel->index(r, 0, parent);
+        int oldIndex = mapFromSource(index);
+        if (oldIndex != -1) {
+            removeItem(oldIndex);
         }
     }
 }
 
-void PlacesItemModel::saveBookmarks()
+void PlacesItemModel::onSourceModelRowsAboutToBeMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
 {
-    m_bookmarkManager->emitChanged(m_bookmarkManager->root());
+    Q_UNUSED(destination);
+    Q_UNUSED(row);
+
+    for(int r = start; r <= end; r++) {
+        const QModelIndex sourceIndex = m_sourceModel->index(r, 0, parent);
+        // remove moved item
+        removeItem(mapFromSource(sourceIndex));
+    }
+}
+
+void PlacesItemModel::onSourceModelRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
+{
+    Q_UNUSED(destination);
+    Q_UNUSED(parent);
+
+    const int blockSize = (end - start) + 1;
+
+    for (int r = start; r <= end; r++) {
+        // insert the moved item in the new position
+        const int targetRow = row + (start - r) - (r < row ? blockSize : 0);
+        const QModelIndex targetIndex = m_sourceModel->index(targetRow, 0, destination);
+
+        const KBookmark bookmark = m_sourceModel->bookmarkForIndex(targetIndex);
+        PlacesItem *item = new PlacesItem(bookmark);
+        updateItem(item, targetIndex);
+
+        insertSortedItem(item);
+    }
+}
+
+void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
+{
+    Q_UNUSED(roles);
+
+    for (int r = topLeft.row(); r <= bottomRight.row(); r++) {
+        const QModelIndex sourceIndex = m_sourceModel->index(r, 0);
+        const KBookmark bookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
+        PlacesItem *placeItem = itemFromBookmark(bookmark);
+
+        if (placeItem && (!m_hiddenItemsShown && m_sourceModel->isHidden(sourceIndex))) {
+            //hide item if it became invisible
+            removeItem(index(placeItem));
+            return;
+        }
+
+        if (!placeItem && (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex))) {
+            //show item if it became visible
+            addItemFromSourceModel(sourceIndex);
+            return;
+        }
+
+        if (placeItem && !m_sourceModel->isDevice(sourceIndex)) {
+            placeItem->setText(bookmark.text());
+            placeItem->setIcon(sourceIndex.data(KFilePlacesModel::IconNameRole).toString());
+            placeItem->setUrl(m_sourceModel->url(sourceIndex));
+            placeItem->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"),
+                                                  bookmark.metaDataItem(QStringLiteral("OnlyInApp")));
+        }
+    }
 }
 
 void PlacesItemModel::loadBookmarks()
 {
-    KBookmarkGroup root = m_bookmarkManager->root();
-    KBookmark bookmark = root.first();
-    QSet<QString> devices = m_availableDevices;
-
-    QSet<QUrl> missingSystemBookmarks;
-    foreach (const SystemBookmarkData& data, m_systemBookmarks) {
-        missingSystemBookmarks.insert(data.url);
-    }
-
-    // The bookmarks might have a mixed order of places, devices and search-groups due
-    // to the compatibility with the KFilePlacesPanel. In Dolphin's places panel the
-    // items should always be collected in one group so the items are collected first
-    // in separate lists before inserting them.
-    QList<PlacesItem*> placesItems;
-    QList<PlacesItem*> recentlySavedItems;
-    QList<PlacesItem*> searchForItems;
-    QList<PlacesItem*> devicesItems;
-
-    while (!bookmark.isNull()) {
-        if (acceptBookmark(bookmark, devices)) {
-            PlacesItem* item = new PlacesItem(bookmark);
-            if (item->groupType() == PlacesItem::DevicesType) {
-                devices.remove(item->udi());
-                devicesItems.append(item);
-            } else {
-                const QUrl url = bookmark.url();
-                if (missingSystemBookmarks.contains(url)) {
-                    missingSystemBookmarks.remove(url);
-
-                    // Try to retranslate the text of system bookmarks to have translated
-                    // items when changing the language. In case if the user has applied a custom
-                    // text, the retranslation will fail and the users custom text is still used.
-                    // It is important to use "KFile System Bookmarks" as context (see
-                    // createSystemBookmarks()).
-                    item->setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
-                    item->setSystemItem(true);
-                }
-
-                switch (item->groupType()) {
-                case PlacesItem::PlacesType:        placesItems.append(item); break;
-                case PlacesItem::RecentlySavedType: recentlySavedItems.append(item); break;
-                case PlacesItem::SearchForType:     searchForItems.append(item); break;
-                case PlacesItem::DevicesType:
-                default:                            Q_ASSERT(false); break;
-                }
-            }
-        }
-
-        bookmark = root.next(bookmark);
-    }
-
-    if (!missingSystemBookmarks.isEmpty()) {
-        // The current bookmarks don't contain all system-bookmarks. Add the missing
-        // bookmarks.
-        foreach (const SystemBookmarkData& data, m_systemBookmarks) {
-            if (missingSystemBookmarks.contains(data.url)) {
-                PlacesItem* item = createSystemPlacesItem(data);
-                switch (item->groupType()) {
-                case PlacesItem::PlacesType:        placesItems.append(item); break;
-                case PlacesItem::RecentlySavedType: recentlySavedItems.append(item); break;
-                case PlacesItem::SearchForType:     searchForItems.append(item); break;
-                case PlacesItem::DevicesType:
-                default:                            Q_ASSERT(false); break;
-                }
-            }
-        }
-    }
-
-    // Create items for devices that have not been stored as bookmark yet
-    devicesItems.reserve(devicesItems.count() + devices.count());
-    foreach (const QString& udi, devices) {
-        const KBookmark bookmark = PlacesItem::createDeviceBookmark(m_bookmarkManager, udi);
-        PlacesItem *item = new PlacesItem(bookmark);
-        devicesItems.append(item);
-        connect(item->signalHandler(), &PlacesItemSignalHandler::tearDownExternallyRequested,
-                this, &PlacesItemModel::storageTearDownExternallyRequested);
-    }
-
-    QList<PlacesItem*> items;
-    items.append(placesItems);
-    items.append(recentlySavedItems);
-    items.append(searchForItems);
-    items.append(devicesItems);
-
-    foreach (PlacesItem* item, items) {
-        if (!m_hiddenItemsShown && item->isHidden()) {
-            m_bookmarkedItems.append(item);
-        } else {
-            appendItem(item);
+    for(int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
+        const QModelIndex sourceIndex = m_sourceModel->index(r, 0);
+        KBookmark bookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
+        if (acceptBookmark(bookmark) &&
+                (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex))) {
+            addItemFromSourceModel(sourceIndex);
         }
     }
 
@@ -824,134 +607,19 @@ void PlacesItemModel::loadBookmarks()
 #endif
 }
 
-bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
-                                     const QSet<QString>& availableDevices) const
+bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark) const
 {
     const QString udi = bookmark.metaDataItem(QStringLiteral("UDI"));
     const QUrl url = bookmark.url();
     const QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
-    const bool deviceAvailable = availableDevices.contains(udi);
-
     const bool allowedHere = (appName.isEmpty()
                               || appName == KAboutData::applicationData().componentName()
-                              || appName == KAboutData::applicationData().componentName() + AppNamePrefix)
-                             && (m_fileIndexingEnabled || (url.scheme() != QLatin1String("timeline") &&
-                                                           url.scheme() != QLatin1String("search")));
+                              || appName == KAboutData::applicationData().componentName() + AppNamePrefix);
 
-    return (udi.isEmpty() && allowedHere) || deviceAvailable;
-}
-
-PlacesItem* PlacesItemModel::createSystemPlacesItem(const SystemBookmarkData& data)
-{
-    KBookmark bookmark = PlacesItem::createBookmark(m_bookmarkManager,
-                                                    data.text,
-                                                    data.url,
-                                                    data.icon);
-
-    const QString protocol = data.url.scheme();
-    if (protocol == QLatin1String("timeline") || protocol == QLatin1String("search")) {
-        // As long as the KFilePlacesView from kdelibs is available, the system-bookmarks
-        // for "Recently Saved" and "Search For" should be a setting available only
-        // in the Places Panel (see description of AppNamePrefix for more details).
-        const QString appName = KAboutData::applicationData().componentName() + AppNamePrefix;
-        bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), appName);
-    }
-
-    PlacesItem* item = new PlacesItem(bookmark);
-    item->setSystemItem(true);
-
-    // Create default view-properties for all "Search For" and "Recently Saved" bookmarks
-    // in case if the user has not already created custom view-properties for a corresponding
-    // query yet.
-    const bool createDefaultViewProperties = (item->groupType() == PlacesItem::SearchForType ||
-                                              item->groupType() == PlacesItem::RecentlySavedType) &&
-                                              !GeneralSettings::self()->globalViewProps();
-    if (createDefaultViewProperties) {
-        ViewProperties props(convertedUrl(data.url));
-        if (!props.exist()) {
-            const QString path = data.url.path();
-            if (path == QLatin1String("/documents")) {
-                props.setViewMode(DolphinView::DetailsView);
-                props.setPreviewsShown(false);
-                props.setVisibleRoles({"text", "path"});
-            } else if (path == QLatin1String("/images")) {
-                props.setViewMode(DolphinView::IconsView);
-                props.setPreviewsShown(true);
-                props.setVisibleRoles({"text", "imageSize"});
-            } else if (path == QLatin1String("/audio")) {
-                props.setViewMode(DolphinView::DetailsView);
-                props.setPreviewsShown(false);
-                props.setVisibleRoles({"text", "artist", "album"});
-            } else if (path == QLatin1String("/videos")) {
-                props.setViewMode(DolphinView::IconsView);
-                props.setPreviewsShown(true);
-                props.setVisibleRoles({"text"});
-            } else if (data.url.scheme() == QLatin1String("timeline")) {
-                props.setViewMode(DolphinView::DetailsView);
-                props.setVisibleRoles({"text", "modificationtime"});
-            }
-        }
-    }
-
-    return item;
-}
-
-void PlacesItemModel::createSystemBookmarks()
-{
-    Q_ASSERT(m_systemBookmarks.isEmpty());
-    Q_ASSERT(m_systemBookmarksIndexes.isEmpty());
-
-    // Note: The context of the I18N_NOOP2 must be "KFile System Bookmarks". The real
-    // i18nc call is done after reading the bookmark. The reason why the i18nc call is not
-    // done here is because otherwise switching the language would not result in retranslating the
-    // bookmarks.
-    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile(QDir::homePath()),
-                                                QStringLiteral("user-home"),
-                                                I18N_NOOP2("KFile System Bookmarks", "Home")));
-    m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("remote:/")),
-                                                QStringLiteral("network-workgroup"),
-                                                I18N_NOOP2("KFile System Bookmarks", "Network")));
-    m_systemBookmarks.append(SystemBookmarkData(QUrl::fromLocalFile(QStringLiteral("/")),
-                                                QStringLiteral("folder-red"),
-                                                I18N_NOOP2("KFile System Bookmarks", "Root")));
-    m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("trash:/")),
-                                                QStringLiteral("user-trash"),
-                                                I18N_NOOP2("KFile System Bookmarks", "Trash")));
-
-    if (m_fileIndexingEnabled) {
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("timeline:/today")),
-                                                    QStringLiteral("go-jump-today"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Today")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("timeline:/yesterday")),
-                                                    QStringLiteral("view-calendar-day"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Yesterday")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("timeline:/thismonth")),
-                                                    QStringLiteral("view-calendar-month"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "This Month")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("timeline:/lastmonth")),
-                                                    QStringLiteral("view-calendar-month"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Last Month")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("search:/documents")),
-                                                    QStringLiteral("folder-text"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Documents")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("search:/images")),
-                                                    QStringLiteral("folder-images"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Images")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("search:/audio")),
-                                                    QStringLiteral("folder-sound"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Audio Files")));
-        m_systemBookmarks.append(SystemBookmarkData(QUrl(QStringLiteral("search:/videos")),
-                                                    QStringLiteral("folder-videos"),
-                                                    I18N_NOOP2("KFile System Bookmarks", "Videos")));
-    }
-
-    for (int i = 0; i < m_systemBookmarks.count(); ++i) {
-        m_systemBookmarksIndexes.insert(m_systemBookmarks[i].url, i);
-    }
+    return (udi.isEmpty() && allowedHere);
 }
 
 void PlacesItemModel::clear() {
-    m_bookmarkedItems.clear();
     KStandardItemModel::clear();
 }
 
@@ -964,50 +632,16 @@ void PlacesItemModel::proceedWithTearDown()
     m_deviceToTearDown->teardown();
 }
 
-void PlacesItemModel::initializeAvailableDevices()
+void PlacesItemModel::deleteItem(int index)
 {
-    QString predicate(QStringLiteral("[[[[ StorageVolume.ignored == false AND [ StorageVolume.usage == 'FileSystem' OR StorageVolume.usage == 'Encrypted' ]]"
-        " OR "
-        "[ IS StorageAccess AND StorageDrive.driveType == 'Floppy' ]]"
-        " OR "
-        "OpticalDisc.availableContent & 'Audio' ]"
-        " OR "
-        "StorageAccess.ignored == false ]"));
-
-
-    if (KProtocolInfo::isKnownProtocol(QStringLiteral("mtp"))) {
-        predicate.prepend("[");
-        predicate.append(" OR PortableMediaPlayer.supportedProtocols == 'mtp']");
-    }
-
-    m_predicate = Solid::Predicate::fromString(predicate);
-    Q_ASSERT(m_predicate.isValid());
-
-    Solid::DeviceNotifier* notifier = Solid::DeviceNotifier::instance();
-    connect(notifier, &Solid::DeviceNotifier::deviceAdded,   this, &PlacesItemModel::slotDeviceAdded);
-    connect(notifier, &Solid::DeviceNotifier::deviceRemoved, this, &PlacesItemModel::slotDeviceRemoved);
-
-    const QList<Solid::Device>& deviceList = Solid::Device::listFromQuery(m_predicate);
-    foreach (const Solid::Device& device, deviceList) {
-        m_availableDevices << device.udi();
-    }
+    QModelIndex sourceIndex = mapToSource(index);
+    Q_ASSERT(sourceIndex.isValid());
+    m_sourceModel->removePlace(sourceIndex);
 }
 
-int PlacesItemModel::bookmarkIndex(int index) const
+void PlacesItemModel::refresh()
 {
-    int bookmarkIndex = 0;
-    int modelIndex = 0;
-    while (bookmarkIndex < m_bookmarkedItems.count()) {
-        if (!m_bookmarkedItems[bookmarkIndex]) {
-            if (modelIndex == index) {
-                break;
-            }
-            ++modelIndex;
-        }
-        ++bookmarkIndex;
-    }
-
-    return bookmarkIndex >= m_bookmarkedItems.count() ? -1 : bookmarkIndex;
+    m_sourceModel->refresh();
 }
 
 void PlacesItemModel::hideItem(int index)
@@ -1018,36 +652,6 @@ void PlacesItemModel::hideItem(int index)
     }
 
     shownItem->setHidden(true);
-    if (m_hiddenItemsShown) {
-        // Removing items from the model is not allowed if all hidden
-        // items should be shown.
-        return;
-    }
-
-    const int newIndex = bookmarkIndex(index);
-    if (newIndex >= 0) {
-        const KBookmark hiddenBookmark = shownItem->bookmark();
-        PlacesItem* hiddenItem = new PlacesItem(hiddenBookmark);
-
-        const PlacesItem* previousItem = placesItem(index - 1);
-        KBookmark previousBookmark;
-        if (previousItem) {
-            previousBookmark = previousItem->bookmark();
-        }
-
-        const bool updateBookmark = (m_bookmarkManager->root().indexOf(hiddenBookmark) >= 0);
-        removeItem(index);
-
-        if (updateBookmark) {
-            // removeItem() also removed the bookmark from m_bookmarkManager in
-            // PlacesItemModel::onItemRemoved(). However for hidden items the
-            // bookmark should still be remembered, so readd it again:
-            m_bookmarkManager->root().addBookmark(hiddenBookmark);
-            m_bookmarkManager->root().moveBookmark(hiddenBookmark, previousBookmark);
-        }
-
-        m_bookmarkedItems.insert(newIndex, hiddenItem);
-    }
 }
 
 QString PlacesItemModel::internalMimeType() const
@@ -1061,7 +665,7 @@ int PlacesItemModel::groupedDropIndex(int index, const PlacesItem* item) const
     Q_ASSERT(item);
 
     int dropIndex = index;
-    const PlacesItem::GroupType type = item->groupType();
+    const QString group = item->group();
 
     const int itemCount = count();
     if (index < 0) {
@@ -1071,7 +675,7 @@ int PlacesItemModel::groupedDropIndex(int index, const PlacesItem* item) const
     // Search nearest previous item with the same group
     int previousIndex = -1;
     for (int i = dropIndex - 1; i >= 0; --i) {
-        if (placesItem(i)->groupType() == type) {
+        if (placesItem(i)->group() == group) {
             previousIndex = i;
             break;
         }
@@ -1080,7 +684,7 @@ int PlacesItemModel::groupedDropIndex(int index, const PlacesItem* item) const
     // Search nearest next item with the same group
     int nextIndex = -1;
     for (int i = dropIndex; i < count(); ++i) {
-        if (placesItem(i)->groupType() == type) {
+        if (placesItem(i)->group() == group) {
             nextIndex = i;
             break;
         }
@@ -1111,52 +715,13 @@ bool PlacesItemModel::equalBookmarkIdentifiers(const KBookmark& b1, const KBookm
     }
 }
 
-QUrl PlacesItemModel::createTimelineUrl(const QUrl& url)
+int PlacesItemModel::mapFromSource(const QModelIndex &index) const
 {
-    // TODO: Clarify with the Baloo-team whether it makes sense
-    // provide default-timeline-URLs like 'yesterday', 'this month'
-    // and 'last month'.
-    QUrl timelineUrl;
-
-    const QString path = url.toDisplayString(QUrl::PreferLocalFile);
-    if (path.endsWith(QLatin1String("yesterday"))) {
-        const QDate date = QDate::currentDate().addDays(-1);
-        const int year = date.year();
-        const int month = date.month();
-        const int day = date.day();
-        timelineUrl = QUrl("timeline:/" + timelineDateString(year, month) +
-              '/' + timelineDateString(year, month, day));
-    } else if (path.endsWith(QLatin1String("thismonth"))) {
-        const QDate date = QDate::currentDate();
-        timelineUrl = QUrl("timeline:/" + timelineDateString(date.year(), date.month()));
-    } else if (path.endsWith(QLatin1String("lastmonth"))) {
-        const QDate date = QDate::currentDate().addMonths(-1);
-        timelineUrl = QUrl("timeline:/" + timelineDateString(date.year(), date.month()));
-    } else {
-        Q_ASSERT(path.endsWith(QLatin1String("today")));
-        timelineUrl = url;
+    if (!index.isValid()) {
+        return -1;
     }
 
-    return timelineUrl;
-}
-
-QString PlacesItemModel::timelineDateString(int year, int month, int day)
-{
-    QString date = QString::number(year) + '-';
-    if (month < 10) {
-        date += '0';
-    }
-    date += QString::number(month);
-
-    if (day >= 1) {
-        date += '-';
-        if (day < 10) {
-            date += '0';
-        }
-        date += QString::number(day);
-    }
-
-    return date;
+    return m_indexMap.indexOf(index);
 }
 
 bool PlacesItemModel::isDir(int index) const
@@ -1165,39 +730,23 @@ bool PlacesItemModel::isDir(int index) const
     return true;
 }
 
-QUrl PlacesItemModel::createSearchUrl(const QUrl& url)
+QModelIndex PlacesItemModel::mapToSource(int row) const
 {
-    QUrl searchUrl;
+    return m_indexMap.value(row);
+}
 
-#ifdef HAVE_BALOO
-    const QString path = url.toDisplayString(QUrl::PreferLocalFile);
-    if (path.endsWith(QLatin1String("documents"))) {
-        searchUrl = searchUrlForType(QStringLiteral("Document"));
-    } else if (path.endsWith(QLatin1String("images"))) {
-        searchUrl = searchUrlForType(QStringLiteral("Image"));
-    } else if (path.endsWith(QLatin1String("audio"))) {
-        searchUrl = searchUrlForType(QStringLiteral("Audio"));
-    } else if (path.endsWith(QLatin1String("videos"))) {
-        searchUrl = searchUrlForType(QStringLiteral("Video"));
-    } else {
-        Q_ASSERT(false);
+PlacesItem *PlacesItemModel::itemFromBookmark(const KBookmark &bookmark) const
+{
+    const QString id = bookmarkId(bookmark);
+    for (int i = 0, iMax = count(); i < iMax; i++) {
+        PlacesItem *item = placesItem(i);
+        const KBookmark itemBookmark = item->bookmark();
+        if (bookmarkId(itemBookmark) == id) {
+            return item;
+        }
     }
-#else
-    Q_UNUSED(url);
-#endif
-
-    return searchUrl;
+    return nullptr;
 }
-
-#ifdef HAVE_BALOO
-QUrl PlacesItemModel::searchUrlForType(const QString& type)
-{
-    Baloo::Query query;
-    query.addType(type);
-
-    return query.toSearchUrl();
-}
-#endif
 
 #ifdef PLACESITEMMODEL_DEBUG
 void PlacesItemModel::showModelState()

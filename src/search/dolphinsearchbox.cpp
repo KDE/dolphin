@@ -310,11 +310,9 @@ void DolphinSearchBox::slotSearchSaved()
     if (searchURL.isValid()) {
         PlacesItemModel model;
         const QString label = i18n("Search for %1 in %2", text(), searchPath().fileName());
-        PlacesItem* item = model.createPlacesItem(label,
-                                                  searchURL,
-                                                  QStringLiteral("folder-saved-search-symbolic"));
-        model.appendItemToGroup(item);
-        model.saveBookmarks();
+        model.createPlacesItem(label,
+                               searchURL,
+                               QStringLiteral("folder-saved-search-symbolic"));
     }
 }
 

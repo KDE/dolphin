@@ -130,33 +130,14 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     delete m_disc;
     delete m_mtp;
 
-
     const QString udi = bookmark.metaDataItem(QStringLiteral("UDI"));
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
         setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
         setUrl(bookmark.url());
+        setSystemItem(bookmark.metaDataItem(QStringLiteral("isSystemItem")) == QLatin1String("true"));
     } else {
         initializeDevice(udi);
-    }
-
-    const GroupType type = groupType();
-    if (icon().isEmpty()) {
-        switch (type) {
-        case RecentlySavedType: setIcon(QStringLiteral("chronometer")); break;
-        case SearchForType:     setIcon(QStringLiteral("system-search")); break;
-        case PlacesType:
-        default:                setIcon(QStringLiteral("folder"));
-        }
-
-    }
-
-    switch (type) {
-    case PlacesType:        setGroup(i18nc("@item", "Places")); break;
-    case RecentlySavedType: setGroup(i18nc("@item", "Recently Saved")); break;
-    case SearchForType:     setGroup(i18nc("@item", "Search For")); break;
-    case DevicesType:       setGroup(i18nc("@item", "Devices")); break;
-    default:                Q_ASSERT(false); break;
     }
 
     setHidden(bookmark.metaDataItem(QStringLiteral("IsHidden")) == QLatin1String("true"));
@@ -167,62 +148,15 @@ KBookmark PlacesItem::bookmark() const
     return m_bookmark;
 }
 
-PlacesItem::GroupType PlacesItem::groupType() const
-{
-    if (udi().isEmpty()) {
-        const QString protocol = url().scheme();
-        if (protocol == QLatin1String("timeline")) {
-            return RecentlySavedType;
-        }
-
-        if (protocol.contains(QLatin1String("search"))) {
-            return SearchForType;
-        }
-
-        if (protocol == QLatin1String("bluetooth") || protocol == QLatin1String("obexftp") || protocol == QLatin1String("kdeconnect")) {
-            return DevicesType;
-        }
-
-        return PlacesType;
-    }
-
-    return DevicesType;
-}
-
 bool PlacesItem::storageSetupNeeded() const
 {
     return m_access ? !m_access->isAccessible() : false;
 }
 
-KBookmark PlacesItem::createBookmark(KBookmarkManager* manager,
-                                     const QString& text,
-                                     const QUrl& url,
-                                     const QString& iconName)
+bool PlacesItem::isSearchOrTimelineUrl() const
 {
-    KBookmarkGroup root = manager->root();
-    if (root.isNull()) {
-        return KBookmark();
-    }
-
-    KBookmark bookmark = root.addBookmark(text, url, iconName);
-    bookmark.setFullText(text);
-    bookmark.setMetaDataItem(QStringLiteral("ID"), generateNewId());
-
-    return bookmark;
-}
-
-KBookmark PlacesItem::createDeviceBookmark(KBookmarkManager* manager,
-                                           const QString& udi)
-{
-    KBookmarkGroup root = manager->root();
-    if (root.isNull()) {
-        return KBookmark();
-    }
-
-    KBookmark bookmark = root.createNewSeparator();
-    bookmark.setMetaDataItem(QStringLiteral("UDI"), udi);
-    bookmark.setMetaDataItem(QStringLiteral("isSystemItem"), QStringLiteral("true"));
-    return bookmark;
+    const QString urlScheme = url().scheme();
+    return (urlScheme.contains("search") || urlScheme.contains("timeline"));
 }
 
 void PlacesItem::onDataValueChanged(const QByteArray& role,

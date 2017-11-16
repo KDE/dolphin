@@ -40,14 +40,6 @@ class PlacesItem : public KStandardItem
 {
 
 public:
-    enum GroupType
-    {
-        PlacesType,
-        SearchForType,
-        RecentlySavedType,
-        DevicesType
-    };
-
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = nullptr);
     ~PlacesItem() override;
 
@@ -68,16 +60,9 @@ public:
     void setBookmark(const KBookmark& bookmark);
     KBookmark bookmark() const;
 
-    GroupType groupType() const;
-
     bool storageSetupNeeded() const;
 
-    static KBookmark createBookmark(KBookmarkManager* manager,
-                                    const QString& text,
-                                    const QUrl& url,
-                                    const QString& iconName);
-    static KBookmark createDeviceBookmark(KBookmarkManager* manager,
-                                          const QString& udi);
+    bool isSearchOrTimelineUrl() const;
 
     PlacesItemSignalHandler* signalHandler() const;
 

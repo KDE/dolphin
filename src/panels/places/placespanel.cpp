@@ -34,6 +34,7 @@
 #include <KIO/DropJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
+#include <KFilePlacesModel>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KIconLoader>
@@ -239,13 +240,11 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             if (action == editAction) {
                 editEntry(index);
             } else if (action == removeAction) {
-                m_model->removeItem(index);
-                m_model->saveBookmarks();
+                m_model->deleteItem(index);
             } else if (action == hideAction) {
                 item->setHidden(hideAction->isChecked());
-                m_model->saveBookmarks();
             } else if (action == openInNewWindowAction) {
-                Dolphin::openNewWindow({PlacesItemModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
+                Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
             } else if (action == openInNewTabAction) {
                 // TriggerItem does set up the storage first and then it will
                 // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
@@ -334,8 +333,8 @@ void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     }
 
     const PlacesItem* destItem = m_model->placesItem(index);
-    const PlacesItem::GroupType group = destItem->groupType();
-    if (group == PlacesItem::SearchForType || group == PlacesItem::RecentlySavedType) {
+
+    if (destItem->isSearchOrTimelineUrl()) {
         return;
     }
 
@@ -396,7 +395,6 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
 void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
     m_model->dropMimeDataBefore(index, event->mimeData());
-    m_model->saveBookmarks();
 }
 
 void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
@@ -456,9 +454,7 @@ void PlacesPanel::addEntry()
     dialog->setAllowGlobal(true);
     dialog->setUrl(url);
     if (dialog->exec() == QDialog::Accepted) {
-        PlacesItem* item = m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
-        m_model->appendItemToGroup(item);
-        m_model->saveBookmarks();
+        m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
     }
 
     delete dialog;
@@ -480,7 +476,7 @@ void PlacesPanel::editEntry(int index)
             oldItem->setText(dialog->text());
             oldItem->setUrl(dialog->url());
             oldItem->setIcon(dialog->icon());
-            m_model->saveBookmarks();
+            m_model->refresh();
         }
     }
 
@@ -517,9 +513,9 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         const QUrl url = m_model->data(index).value("url").toUrl();
         if (!url.isEmpty()) {
             if (button == Qt::MiddleButton) {
-                emit placeMiddleClicked(PlacesItemModel::convertedUrl(url));
+                emit placeMiddleClicked(KFilePlacesModel::convertedUrl(url));
             } else {
-                emit placeActivated(PlacesItemModel::convertedUrl(url));
+                emit placeActivated(KFilePlacesModel::convertedUrl(url));
             }
         }
     }
