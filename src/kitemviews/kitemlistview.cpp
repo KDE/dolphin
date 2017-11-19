@@ -27,7 +27,7 @@
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
 #include "kitemlistselectionmanager.h"
-#include "kitemlistwidget.h"
+#include "kstandarditemlistwidget.h"
 
 #include "private/kitemlistheaderwidget.h"
 #include "private/kitemlistrubberband.h"
@@ -642,7 +642,7 @@ QPixmap KItemListView::createDragPixmap(const KItemSet& indexes) const
 
 void KItemListView::editRole(int index, const QByteArray& role)
 {
-    KItemListWidget* widget = m_visibleItems.value(index);
+    KStandardItemListWidget* widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
     if (!widget || m_editingRole) {
         return;
     }
@@ -654,6 +654,9 @@ void KItemListView::editRole(int index, const QByteArray& role)
             this, &KItemListView::slotRoleEditingCanceled);
     connect(widget, &KItemListWidget::roleEditingFinished,
             this, &KItemListView::slotRoleEditingFinished);
+
+    connect(this, &KItemListView::scrollOffsetChanged,
+            widget, &KStandardItemListWidget::finishRoleEditing);
 }
 
 void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -2639,13 +2642,14 @@ bool KItemListView::hasSiblingSuccessor(int index) const
 
 void KItemListView::disconnectRoleEditingSignals(int index)
 {
-    KItemListWidget* widget = m_visibleItems.value(index);
+    KStandardItemListWidget* widget = qobject_cast<KStandardItemListWidget *>(m_visibleItems.value(index));
     if (!widget) {
         return;
     }
 
     disconnect(widget, &KItemListWidget::roleEditingCanceled, this, nullptr);
     disconnect(widget, &KItemListWidget::roleEditingFinished, this, nullptr);
+    disconnect(this, &KItemListView::scrollOffsetChanged, widget, nullptr);
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
