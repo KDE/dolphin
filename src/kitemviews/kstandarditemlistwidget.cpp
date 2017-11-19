@@ -860,6 +860,13 @@ bool KStandardItemListWidget::event(QEvent *event)
     return KItemListWidget::event(event);
 }
 
+void KStandardItemListWidget::finishRoleEditing()
+{
+    if (!editedRole().isEmpty() && m_roleEditor) {
+        slotRoleEditingFinished(editedRole(), KIO::encodeFileName(m_roleEditor->toPlainText()));
+    }
+}
+
 void KStandardItemListWidget::slotCutItemsChanged()
 {
     const QUrl itemUrl = data().value("url").toUrl();

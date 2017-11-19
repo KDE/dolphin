@@ -185,6 +185,9 @@ protected:
     virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
     bool event(QEvent *event) Q_DECL_OVERRIDE;
 
+public slots:
+    void finishRoleEditing();
+
 private slots:
     void slotCutItemsChanged();
     void slotRoleEditingCanceled(const QByteArray& role, const QVariant& value);
