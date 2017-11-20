@@ -35,20 +35,20 @@ class PreviewsSettingsPage : public SettingsPageBase
 
 public:
     PreviewsSettingsPage(QWidget* parent);
-    virtual ~PreviewsSettingsPage();
+    ~PreviewsSettingsPage() override;
 
     /**
      * Applies the general settings for the view modes
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    virtual void applySettings() Q_DECL_OVERRIDE;
+    void applySettings() override;
 
     /** Restores the settings to default values. */
-    virtual void restoreDefaults() Q_DECL_OVERRIDE;
+    void restoreDefaults() override;
 
 protected:
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
 
 private slots:
     void configureService(const QModelIndex& index);

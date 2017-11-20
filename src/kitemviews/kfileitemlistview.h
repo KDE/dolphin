@@ -42,7 +42,7 @@ class DOLPHIN_EXPORT KFileItemListView : public KStandardItemListView
 
 public:
     KFileItemListView(QGraphicsWidget* parent = 0);
-    virtual ~KFileItemListView();
+    ~KFileItemListView() override;
 
     void setPreviewsShown(bool show);
     bool previewsShown() const;
@@ -72,27 +72,27 @@ public:
      */
     QStringList enabledPlugins() const;
 
-    virtual QPixmap createDragPixmap(const KItemSet& indexes) const Q_DECL_OVERRIDE;
+    QPixmap createDragPixmap(const KItemSet& indexes) const override;
 
 protected:
-    virtual KItemListWidgetCreatorBase* defaultWidgetCreator() const Q_DECL_OVERRIDE;
-    virtual void initializeItemListWidget(KItemListWidget* item) Q_DECL_OVERRIDE;
+    KItemListWidgetCreatorBase* defaultWidgetCreator() const override;
+    void initializeItemListWidget(KItemListWidget* item) override;
     virtual void onPreviewsShownChanged(bool shown);
-    virtual void onItemLayoutChanged(ItemLayout current, ItemLayout previous) Q_DECL_OVERRIDE;
-    virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous) Q_DECL_OVERRIDE;
-    virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous) Q_DECL_OVERRIDE;
-    virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous) Q_DECL_OVERRIDE;
-    virtual void onScrollOffsetChanged(qreal current, qreal previous) Q_DECL_OVERRIDE;
-    virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) Q_DECL_OVERRIDE;
-    virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) Q_DECL_OVERRIDE;
-    virtual void onSupportsItemExpandingChanged(bool supportsExpanding) Q_DECL_OVERRIDE;
-    virtual void onTransactionBegin() Q_DECL_OVERRIDE;
-    virtual void onTransactionEnd() Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
+    void onItemLayoutChanged(ItemLayout current, ItemLayout previous) override;
+    void onModelChanged(KItemModelBase* current, KItemModelBase* previous) override;
+    void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous) override;
+    void onItemSizeChanged(const QSizeF& current, const QSizeF& previous) override;
+    void onScrollOffsetChanged(qreal current, qreal previous) override;
+    void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
+    void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
+    void onSupportsItemExpandingChanged(bool supportsExpanding) override;
+    void onTransactionBegin() override;
+    void onTransactionEnd() override;
+    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
 
 protected slots:
-    virtual void slotItemsRemoved(const KItemRangeList& itemRanges) Q_DECL_OVERRIDE;
-    virtual void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous) Q_DECL_OVERRIDE;
+    void slotItemsRemoved(const KItemRangeList& itemRanges) override;
+    void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous) override;
 
 private slots:
     void triggerVisibleIndexRangeUpdate();

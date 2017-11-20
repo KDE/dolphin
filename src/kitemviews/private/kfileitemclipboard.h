@@ -46,7 +46,7 @@ signals:
     void cutItemsChanged();
 
 protected:
-    virtual ~KFileItemClipboard();
+    ~KFileItemClipboard() override;
 
 private slots:
     void updateCutItems();

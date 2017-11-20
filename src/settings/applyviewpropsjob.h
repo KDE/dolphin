@@ -60,11 +60,11 @@ public:
      *                  sub directories.
      */
     ApplyViewPropsJob(const QUrl& dir, const ViewProperties& viewProps);
-    virtual ~ApplyViewPropsJob();
+    ~ApplyViewPropsJob() override;
     int progress() const;
 
 private slots:
-    virtual void slotResult(KJob* job) Q_DECL_OVERRIDE;
+    void slotResult(KJob* job) override;
     void slotEntries(KIO::Job*, const KIO::UDSEntryList&);
 
 private:

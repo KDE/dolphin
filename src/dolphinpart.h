@@ -54,7 +54,7 @@ class DolphinPart : public KParts::ReadOnlyPart
 
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
-    ~DolphinPart();
+    ~DolphinPart() override;
 
     static KAboutData* createAboutData();
 
@@ -62,7 +62,7 @@ public:
      * Standard KParts::ReadOnlyPart openUrl method.
      * Called by Konqueror to view a directory in DolphinPart.
      */
-    virtual bool openUrl(const QUrl& url) Q_DECL_OVERRIDE;
+    bool openUrl(const QUrl& url) override;
 
     /// see the supportsUndo property
     bool supportsUndo() const { return true; }
@@ -98,7 +98,7 @@ protected:
     /**
      * We reimplement openUrl so no need to implement openFile.
      */
-    virtual bool openFile() override { return true; }
+    bool openFile() override { return true; }
 
 Q_SIGNALS:
     /**
@@ -223,7 +223,7 @@ private Q_SLOTS:
     void setFilesToSelect(const QList<QUrl> &files);
     QList<QUrl> filesToSelect() const { return QList<QUrl>(); } // silence moc
 
-    virtual bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject*, QEvent*) override;
 
 private:
     void createActions();

@@ -36,13 +36,13 @@ class DOLPHIN_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetIn
 {
 public:
     KStandardItemListWidgetInformant();
-    virtual ~KStandardItemListWidgetInformant();
+    ~KStandardItemListWidgetInformant() override;
 
-    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const Q_DECL_OVERRIDE;
+    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
 
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
+    qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
-                                           const KItemListView* view) const Q_DECL_OVERRIDE;
+                                           const KItemListView* view) const override;
 protected:
     /**
      * @return The value of the "text" role. The default implementation returns
@@ -96,7 +96,7 @@ public:
     };
 
     KStandardItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~KStandardItemListWidget();
+    ~KStandardItemListWidget() override;
 
     void setLayout(Layout layout);
     Layout layout() const;
@@ -104,15 +104,15 @@ public:
     void setSupportsItemExpanding(bool supportsItemExpanding);
     bool supportsItemExpanding() const;
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
-    virtual QRectF iconRect() const Q_DECL_OVERRIDE;
-    virtual QRectF textRect() const Q_DECL_OVERRIDE;
-    virtual QRectF textFocusRect() const Q_DECL_OVERRIDE;
-    virtual QRectF selectionRect() const Q_DECL_OVERRIDE;
-    virtual QRectF expansionToggleRect() const Q_DECL_OVERRIDE;
-    virtual QRectF selectionToggleRect() const Q_DECL_OVERRIDE;
-    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
+    QRectF iconRect() const override;
+    QRectF textRect() const override;
+    QRectF textFocusRect() const override;
+    QRectF selectionRect() const override;
+    QRectF expansionToggleRect() const override;
+    QRectF selectionToggleRect() const override;
+    QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
     static KItemListWidgetInformant* createInformant();
 
@@ -172,18 +172,18 @@ protected:
      */
     virtual int selectionLength(const QString& text) const;
 
-    virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>()) Q_DECL_OVERRIDE;
-    virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) Q_DECL_OVERRIDE;
-    virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous) Q_DECL_OVERRIDE;
-    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) Q_DECL_OVERRIDE;
-    virtual void hoveredChanged(bool hovered) Q_DECL_OVERRIDE;
-    virtual void selectedChanged(bool selected) Q_DECL_OVERRIDE;
-    virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous) Q_DECL_OVERRIDE;
-    virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous) Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
-    bool event(QEvent *event) Q_DECL_OVERRIDE;
+    void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>()) override;
+    void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
+    void columnWidthChanged(const QByteArray& role, qreal current, qreal previous) override;
+    void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
+    void hoveredChanged(bool hovered) override;
+    void selectedChanged(bool selected) override;
+    void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous) override;
+    void editedRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
+    bool event(QEvent *event) override;
 
 public slots:
     void finishRoleEditing();

@@ -41,15 +41,15 @@ class StatusBarSpaceInfo : public KCapacityBar
 
 public:
     explicit StatusBarSpaceInfo(QWidget* parent = 0);
-    virtual ~StatusBarSpaceInfo();
+    ~StatusBarSpaceInfo() override;
 
     void setUrl(const QUrl& url);
     QUrl url() const;
 
 protected:
-    void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-    void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
+    void mousePressEvent(QMouseEvent* event) override;
 
 private slots:
     void slotValuesChanged();

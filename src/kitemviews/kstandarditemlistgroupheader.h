@@ -33,16 +33,16 @@ class DOLPHIN_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
 
 public:
     KStandardItemListGroupHeader(QGraphicsWidget* parent = 0);
-    virtual ~KStandardItemListGroupHeader();
+    ~KStandardItemListGroupHeader() override;
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
 protected:
-    virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) Q_DECL_OVERRIDE;
-    virtual void paintSeparator(QPainter* painter, const QColor& color) Q_DECL_OVERRIDE;
-    virtual void roleChanged(const QByteArray &current, const QByteArray &previous) Q_DECL_OVERRIDE;
-    virtual void dataChanged(const QVariant& current, const QVariant& previous) Q_DECL_OVERRIDE;
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event) Q_DECL_OVERRIDE;
+    void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) override;
+    void paintSeparator(QPainter* painter, const QColor& color) override;
+    void roleChanged(const QByteArray &current, const QByteArray &previous) override;
+    void dataChanged(const QVariant& current, const QVariant& previous) override;
+    void resizeEvent(QGraphicsSceneResizeEvent* event) override;
 
 private:
     void updateCache();

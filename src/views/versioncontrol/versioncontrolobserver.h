@@ -51,7 +51,7 @@ class DOLPHIN_EXPORT VersionControlObserver : public QObject
 
 public:
     explicit VersionControlObserver(QObject* parent = 0);
-    virtual ~VersionControlObserver();
+    ~VersionControlObserver() override;
 
     void setModel(KFileItemModel* model);
     KFileItemModel* model() const;

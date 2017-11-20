@@ -40,7 +40,7 @@ public:
     ConfigurePreviewPluginDialog(const QString& pluginName,
                                  const QString& desktopEntryName,
                                  QWidget* parent);
-    virtual ~ConfigurePreviewPluginDialog() = default;
+    ~ConfigurePreviewPluginDialog() override = default;
 };
 
 #endif

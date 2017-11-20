@@ -47,7 +47,7 @@ class DolphinSearchBox : public QWidget {
 
 public:
     explicit DolphinSearchBox(QWidget* parent = 0);
-    virtual ~DolphinSearchBox();
+    ~DolphinSearchBox() override;
 
     /**
      * Sets the text that should be used as input for
@@ -99,11 +99,11 @@ public:
     bool isActive() const;
 
 protected:
-    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
-    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
+    bool event(QEvent* event) override;
+    void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 signals:
     /**

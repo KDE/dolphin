@@ -41,7 +41,7 @@ public:
     };
 
     DolphinFontRequester(QWidget* parent);
-    virtual ~DolphinFontRequester();
+    ~DolphinFontRequester() override;
 
     void setMode(Mode mode);
     Mode mode() const;

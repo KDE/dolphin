@@ -33,10 +33,10 @@ class DolphinViewModesConfigModule : public KCModule
 
 public:
     DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args);
-    virtual ~DolphinViewModesConfigModule();
+    ~DolphinViewModesConfigModule() override;
 
-    virtual void save() Q_DECL_OVERRIDE;
-    virtual void defaults() Q_DECL_OVERRIDE;
+    void save() override;
+    void defaults() override;
 
 private:
     void reparseConfiguration();

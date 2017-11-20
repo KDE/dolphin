@@ -39,7 +39,7 @@ class DOLPHIN_EXPORT ViewModeController : public QObject
 
 public:
     explicit ViewModeController(QObject* parent = 0);
-    virtual ~ViewModeController();
+    ~ViewModeController() override;
 
     /**
      * @return URL that is shown by the view mode implementation.

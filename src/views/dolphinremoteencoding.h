@@ -40,7 +40,7 @@ class DOLPHIN_EXPORT DolphinRemoteEncoding: public QObject
   Q_OBJECT
 public:
   DolphinRemoteEncoding(QObject* parent, DolphinViewActionHandler* actionHandler);
-  ~DolphinRemoteEncoding();
+  ~DolphinRemoteEncoding() override;
 
 public Q_SLOTS:
   void slotAboutToOpenUrl();

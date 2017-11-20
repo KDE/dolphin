@@ -46,7 +46,7 @@ class TerminalPanel : public Panel
 
 public:
     explicit TerminalPanel(QWidget* parent = nullptr);
-    virtual ~TerminalPanel();
+    ~TerminalPanel() override;
 
     /**
      * @brief This function is used to set the terminal panels's cwd to
@@ -68,9 +68,9 @@ signals:
     void changeUrl(const QUrl& url);
 
 protected:
-    virtual bool urlChanged() Q_DECL_OVERRIDE;
+    bool urlChanged() override;
 
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
 
 private slots:
     void slotMostLocalUrlResult(KJob* job);

@@ -53,13 +53,13 @@ public:
                           const QUrl& dir,
                           const ViewProperties& viewProps);
 
-    virtual ~ViewPropsProgressInfo();
+    ~ViewPropsProgressInfo() override;
 
 protected:
-    virtual void closeEvent(QCloseEvent* event) Q_DECL_OVERRIDE;
+    void closeEvent(QCloseEvent* event) override;
 
 public slots:
-    void reject() Q_DECL_OVERRIDE;
+    void reject() override;
 
 private slots:
     void updateProgress();

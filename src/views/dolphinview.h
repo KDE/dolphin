@@ -93,7 +93,7 @@ public:
      */
     DolphinView(const QUrl& url, QWidget* parent);
 
-    virtual ~DolphinView();
+    ~DolphinView() override;
 
     /**
      * Returns the current active URL, where all actions are applied.
@@ -370,7 +370,7 @@ public slots:
     void stopLoading();
 
     /** Activates the view if the item list container gets focus. */
-    virtual bool eventFilter(QObject* watched, QEvent* event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
     /**
@@ -552,10 +552,10 @@ signals:
 
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
-    virtual void wheelEvent(QWheelEvent* event) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent* event) override;
 
-    virtual void hideEvent(QHideEvent* event) Q_DECL_OVERRIDE;
-    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent* event) override;
+    bool event(QEvent* event) override;
 
 private slots:
     /**

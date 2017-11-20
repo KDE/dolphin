@@ -33,7 +33,7 @@ class DOLPHIN_EXPORT KItemListRubberBand : public QObject
 
 public:
     explicit KItemListRubberBand(QObject* parent = 0);
-    virtual ~KItemListRubberBand();
+    ~KItemListRubberBand() override;
 
     void setStartPosition(const QPointF& pos);
     QPointF startPosition() const;

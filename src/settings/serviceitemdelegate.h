@@ -34,19 +34,19 @@ class ServiceItemDelegate : public KWidgetItemDelegate
 
 public:
     explicit ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent = 0);
-    virtual ~ServiceItemDelegate();
+    ~ServiceItemDelegate() override;
 
-    virtual QSize sizeHint(const QStyleOptionViewItem &option,
-                           const QModelIndex &index) const Q_DECL_OVERRIDE;
+    QSize sizeHint(const QStyleOptionViewItem &option,
+                           const QModelIndex &index) const override;
 
-    virtual void paint(QPainter* painter, const QStyleOptionViewItem& option,
-                       const QModelIndex& index) const Q_DECL_OVERRIDE;
+    void paint(QPainter* painter, const QStyleOptionViewItem& option,
+                       const QModelIndex& index) const override;
 
-    virtual QList<QWidget*> createItemWidgets(const QModelIndex&) const Q_DECL_OVERRIDE;
+    QList<QWidget*> createItemWidgets(const QModelIndex&) const override;
 
-    virtual void updateItemWidgets(const QList<QWidget*> widgets,
+    void updateItemWidgets(const QList<QWidget*> widgets,
                                    const QStyleOptionViewItem& option,
-                                   const QPersistentModelIndex& index) const Q_DECL_OVERRIDE;
+                                   const QPersistentModelIndex& index) const override;
 
 signals:
     void requestServiceConfiguration(const QModelIndex& index);

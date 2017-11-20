@@ -44,7 +44,7 @@ public:
     };
 
     explicit ViewSettingsTab(Mode mode, QWidget* parent = 0);
-    virtual ~ViewSettingsTab();
+    ~ViewSettingsTab() override;
 
     void applySettings();
     void restoreDefaultSettings();

@@ -40,7 +40,7 @@ class DOLPHIN_EXPORT KItemListSmoothScroller : public QObject
 public:
     explicit KItemListSmoothScroller(QScrollBar* scrollBar,
                                      QObject* parent = 0);
-    virtual ~KItemListSmoothScroller();
+    ~KItemListSmoothScroller() override;
 
     void setScrollBar(QScrollBar* scrollBar);
     QScrollBar* scrollBar() const;
@@ -83,7 +83,7 @@ public:
     void handleWheelEvent(QWheelEvent* event);
 
 protected:
-    bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private slots:
     void slotAnimationStateChanged(QAbstractAnimation::State newState,

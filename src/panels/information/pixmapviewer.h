@@ -62,7 +62,7 @@ public:
     explicit PixmapViewer(QWidget* parent,
                           Transition transition = DefaultTransition);
 
-    virtual ~PixmapViewer();
+    ~PixmapViewer() override;
     void setPixmap(const QPixmap& pixmap);
     QPixmap pixmap() const;
 
@@ -71,10 +71,10 @@ public:
      * of the parent widget. Per default no size hint is given.
      */
     void setSizeHint(const QSize& size);
-    virtual QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
 
 protected:
-    virtual void paintEvent(QPaintEvent* event) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent* event) override;
 
 private Q_SLOTS:
     void checkPendingPixmaps();

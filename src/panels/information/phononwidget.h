@@ -63,8 +63,8 @@ class PhononWidget : public QWidget
         void hasVideoChanged(bool hasVideo);
 
     protected:
-        virtual void showEvent(QShowEvent *event) Q_DECL_OVERRIDE;
-        virtual void hideEvent(QHideEvent *event) Q_DECL_OVERRIDE;
+        void showEvent(QShowEvent *event) override;
+        void hideEvent(QHideEvent *event) override;
 
     private slots:
         void stateChanged(Phonon::State);

@@ -74,7 +74,7 @@ public:
                        const KFileItem& fileInfo,
                        const QUrl& baseUrl);
 
-    virtual ~DolphinContextMenu();
+    ~DolphinContextMenu() override;
 
     void setCustomActions(const QList<QAction*>& actions);
 
@@ -89,8 +89,8 @@ public:
     Command open();
 
 protected:
-    virtual void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *ev) override;
+    void keyReleaseEvent(QKeyEvent *ev) override;
 
 private:
     void openTrashContextMenu();

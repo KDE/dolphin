@@ -34,10 +34,10 @@ class DolphinGeneralConfigModule : public KCModule
 
 public:
     DolphinGeneralConfigModule(QWidget* parent, const QVariantList& args);
-    virtual ~DolphinGeneralConfigModule();
+    ~DolphinGeneralConfigModule() override;
 
-    virtual void save() Q_DECL_OVERRIDE;
-    virtual void defaults() Q_DECL_OVERRIDE;
+    void save() override;
+    void defaults() override;
 
 private:
     QList<SettingsPageBase*> m_pages;

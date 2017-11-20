@@ -32,13 +32,13 @@ class NavigationSettingsPage : public SettingsPageBase
 
 public:
     NavigationSettingsPage(QWidget* parent);
-    virtual ~NavigationSettingsPage();
+    ~NavigationSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings() Q_DECL_OVERRIDE;
+    void applySettings() override;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults() Q_DECL_OVERRIDE;
+    void restoreDefaults() override;
 
 private:
     void loadSettings();

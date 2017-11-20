@@ -32,11 +32,11 @@ class PlacesItemListWidget : public KStandardItemListWidget
 
 public:
     PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~PlacesItemListWidget();
+    ~PlacesItemListWidget() override;
 
 protected:
-    virtual bool isHidden() const Q_DECL_OVERRIDE;
-    virtual QPalette::ColorRole normalTextColorRole() const Q_DECL_OVERRIDE;
+    bool isHidden() const override;
+    QPalette::ColorRole normalTextColorRole() const override;
 };
 
 #endif

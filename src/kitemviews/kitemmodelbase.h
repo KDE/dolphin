@@ -57,7 +57,7 @@ class DOLPHIN_EXPORT KItemModelBase : public QObject
 public:
     KItemModelBase(QObject* parent = 0);
     explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = 0);
-    virtual ~KItemModelBase();
+    ~KItemModelBase() override;
 
     /** @return The number of items. */
     virtual int count() const = 0;

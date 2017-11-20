@@ -31,10 +31,10 @@ class FoldersItemListWidget : public KFileItemListWidget
 
 public:
     FoldersItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~FoldersItemListWidget();
+    ~FoldersItemListWidget() override;
 
 protected:
-    virtual QPalette::ColorRole normalTextColorRole() const Q_DECL_OVERRIDE;
+    QPalette::ColorRole normalTextColorRole() const override;
 };
 
 #endif

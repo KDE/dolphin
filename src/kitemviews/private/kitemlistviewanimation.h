@@ -49,7 +49,7 @@ public:
     };
 
     KItemListViewAnimation(QObject* parent = 0);
-    virtual ~KItemListViewAnimation();
+    ~KItemListViewAnimation() override;
 
     void setScrollOrientation(Qt::Orientation orientation);
     Qt::Orientation scrollOrientation() const;

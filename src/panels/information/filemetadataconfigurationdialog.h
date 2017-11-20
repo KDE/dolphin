@@ -44,7 +44,7 @@ class FileMetaDataConfigurationDialog : public QDialog
 
 public:
     explicit FileMetaDataConfigurationDialog(QWidget* parent = 0);
-    virtual ~FileMetaDataConfigurationDialog();
+    ~FileMetaDataConfigurationDialog() override;
 
     /**
      * Sets the items, for which the visibility of the meta data should

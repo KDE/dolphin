@@ -36,16 +36,16 @@ class ServicesSettingsPage : public SettingsPageBase
 
 public:
     ServicesSettingsPage(QWidget* parent);
-    virtual ~ServicesSettingsPage();
+    ~ServicesSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings() Q_DECL_OVERRIDE;
+    void applySettings() override;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults() Q_DECL_OVERRIDE;
+    void restoreDefaults() override;
 
 protected:
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
 
 private slots:
     /**

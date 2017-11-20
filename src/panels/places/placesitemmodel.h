@@ -51,7 +51,7 @@ class PlacesItemModel: public KStandardItemModel
 
 public:
     explicit PlacesItemModel(QObject* parent = 0);
-    virtual ~PlacesItemModel();
+    ~PlacesItemModel() override;
 
     /**
      * @return A new instance of a places item with the given
@@ -107,9 +107,9 @@ public:
     bool storageSetupNeeded(int index) const;
     void requestStorageSetup(int index);
 
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
+    QMimeData* createMimeData(const KItemSet& indexes) const override;
 
-    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
+    bool supportsDropping(int index) const override;
 
     void dropMimeDataBefore(int index, const QMimeData* mimeData);
 
@@ -121,7 +121,7 @@ public:
      */
     static QUrl convertedUrl(const QUrl& url);
 
-    virtual void clear() Q_DECL_OVERRIDE;
+    void clear() override;
 
     void proceedWithTearDown();
 
@@ -132,7 +132,7 @@ public:
      */
     void saveBookmarks();
 
-    bool isDir(int index) const Q_DECL_OVERRIDE;
+    bool isDir(int index) const override;
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
@@ -140,9 +140,9 @@ signals:
     void storageTearDownExternallyRequested(const QString& mountPath);
 
 protected:
-    virtual void onItemInserted(int index) Q_DECL_OVERRIDE;
-    virtual void onItemRemoved(int index, KStandardItem* removedItem) Q_DECL_OVERRIDE;
-    virtual void onItemChanged(int index, const QSet<QByteArray>& changedRoles) Q_DECL_OVERRIDE;
+    void onItemInserted(int index) override;
+    void onItemRemoved(int index, KStandardItem* removedItem) override;
+    void onItemChanged(int index, const QSet<QByteArray>& changedRoles) override;
 
 private slots:
     void slotDeviceAdded(const QString& udi);

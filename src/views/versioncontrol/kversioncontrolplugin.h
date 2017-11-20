@@ -145,7 +145,7 @@ public:
     };
 
     KVersionControlPlugin(QObject* parent = 0);
-    virtual ~KVersionControlPlugin();
+    ~KVersionControlPlugin() override;
 
     /**
      * Returns the name of the file which stores

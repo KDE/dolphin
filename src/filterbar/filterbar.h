@@ -38,7 +38,7 @@ class FilterBar : public QWidget
 
 public:
     explicit FilterBar(QWidget* parent = 0);
-    virtual ~FilterBar();
+    ~FilterBar() override;
 
     /** Called by view container to hide this **/
     void closeFilterBar();
@@ -74,8 +74,8 @@ signals:
     void focusViewRequest();
 
 protected:
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
-    virtual void keyReleaseEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
 
 private:
     QLineEdit* m_filterInput;

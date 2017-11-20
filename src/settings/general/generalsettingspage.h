@@ -41,13 +41,13 @@ class GeneralSettingsPage : public SettingsPageBase
 
 public:
     GeneralSettingsPage(const QUrl& url, QWidget* parent);
-    virtual ~GeneralSettingsPage();
+    ~GeneralSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings() Q_DECL_OVERRIDE;
+    void applySettings() override;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults() Q_DECL_OVERRIDE;
+    void restoreDefaults() override;
 
 private:
     QList<SettingsPageBase*> m_pages;

@@ -52,7 +52,7 @@ public:
     };
 
     KItemListSelectionManager(QObject* parent = 0);
-    virtual ~KItemListSelectionManager();
+    ~KItemListSelectionManager() override;
 
     void setCurrentItem(int current);
     int currentItem() const;

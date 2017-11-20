@@ -58,7 +58,7 @@ public:
     int styleHint(StyleHint hint,
                   const QStyleOption* option = nullptr,
                   const QWidget* widget = nullptr,
-                  QStyleHintReturn* returnData = nullptr) const Q_DECL_OVERRIDE
+                  QStyleHintReturn* returnData = nullptr) const override
     {
         switch (hint) {
         case QStyle::SH_ItemView_ActivateItemOnSingleClick:

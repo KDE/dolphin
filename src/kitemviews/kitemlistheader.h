@@ -38,7 +38,7 @@ class DOLPHIN_EXPORT KItemListHeader : public QObject
     Q_OBJECT
 
 public:
-    virtual ~KItemListHeader();
+    ~KItemListHeader() override;
 
     /**
      * If set to true, KItemListView will automatically adjust the

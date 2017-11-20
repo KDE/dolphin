@@ -41,14 +41,14 @@ class DOLPHIN_EXPORT DolphinNewFileMenu : public KNewFileMenu
 
 public:
     DolphinNewFileMenu(KActionCollection* collection, QObject* parent);
-    virtual ~DolphinNewFileMenu();
+    ~DolphinNewFileMenu() override;
 
 signals:
     void errorMessage(const QString& error);
 
 protected slots:
     /** @see KNewFileMenu::slotResult() */
-    virtual void slotResult(KJob* job) Q_DECL_OVERRIDE;
+    void slotResult(KJob* job) override;
 };
 
 #endif

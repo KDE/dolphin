@@ -68,7 +68,7 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
 
 public:
     KItemListView(QGraphicsWidget* parent = 0);
-    virtual ~KItemListView();
+    ~KItemListView() override;
 
     /**
      * Offset of the scrollbar that represents the scroll-orientation
@@ -165,7 +165,7 @@ public:
 
     const KItemListStyleOption& styleOption() const;
 
-    virtual void setGeometry(const QRectF& rect) Q_DECL_OVERRIDE;
+    void setGeometry(const QRectF& rect) override;
 
     /**
      * @return The page step which should be used by the vertical scroll bar.
@@ -285,7 +285,7 @@ public:
      */
     void editRole(int index, const QByteArray& role);
 
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
@@ -325,7 +325,7 @@ signals:
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 protected:
-    virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void setItemSize(const QSizeF& size);
     void setStyleOption(const KItemListStyleOption& option);
 
@@ -382,13 +382,13 @@ protected:
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();
 
-    virtual bool event(QEvent* event) Q_DECL_OVERRIDE;
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
-    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
-    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
-    virtual void dropEvent(QGraphicsSceneDragDropEvent* event) Q_DECL_OVERRIDE;
+    bool event(QEvent* event) override;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent* event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent* event) override;
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent* event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent* event) override;
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
@@ -803,7 +803,7 @@ private:
 class DOLPHIN_EXPORT KItemListWidgetCreatorBase : public KItemListCreatorBase
 {
 public:
-    virtual ~KItemListWidgetCreatorBase();
+    ~KItemListWidgetCreatorBase() override;
 
     virtual KItemListWidget* create(KItemListView* view) = 0;
 
@@ -824,15 +824,15 @@ class KItemListWidgetCreator : public KItemListWidgetCreatorBase
 {
 public:
     KItemListWidgetCreator();
-    virtual ~KItemListWidgetCreator();
+    ~KItemListWidgetCreator() override;
 
-    virtual KItemListWidget* create(KItemListView* view) Q_DECL_OVERRIDE;
+    KItemListWidget* create(KItemListView* view) override;
 
-    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const Q_DECL_OVERRIDE;
+    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
 
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
+    qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
-                                           const KItemListView* view) const Q_DECL_OVERRIDE;
+                                           const KItemListView* view) const override;
 private:
     KItemListWidgetInformant* m_informant;
 };
@@ -885,7 +885,7 @@ qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role
 class DOLPHIN_EXPORT KItemListGroupHeaderCreatorBase : public KItemListCreatorBase
 {
 public:
-    virtual ~KItemListGroupHeaderCreatorBase();
+    ~KItemListGroupHeaderCreatorBase() override;
     virtual KItemListGroupHeader* create(KItemListView* view) = 0;
     virtual void recycle(KItemListGroupHeader* header);
 };
@@ -894,8 +894,8 @@ template <class T>
 class KItemListGroupHeaderCreator : public KItemListGroupHeaderCreatorBase
 {
 public:
-    virtual ~KItemListGroupHeaderCreator();
-    virtual KItemListGroupHeader* create(KItemListView* view) Q_DECL_OVERRIDE;
+    ~KItemListGroupHeaderCreator() override;
+    KItemListGroupHeader* create(KItemListView* view) override;
 };
 
 template <class T>

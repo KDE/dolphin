@@ -95,7 +95,7 @@ class DOLPHIN_EXPORT KFileItemModelRolesUpdater : public QObject
 
 public:
     explicit KFileItemModelRolesUpdater(KFileItemModel* model, QObject* parent = 0);
-    virtual ~KFileItemModelRolesUpdater();
+    ~KFileItemModelRolesUpdater() override;
 
     void setIconSize(const QSize& size);
     QSize iconSize() const;

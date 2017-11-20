@@ -33,10 +33,10 @@ class DolphinServicesConfigModule : public KCModule
 
 public:
     DolphinServicesConfigModule(QWidget* parent, const QVariantList& args);
-    virtual ~DolphinServicesConfigModule();
+    ~DolphinServicesConfigModule() override;
 
-    virtual void save() Q_DECL_OVERRIDE;
-    virtual void defaults() Q_DECL_OVERRIDE;
+    void save() override;
+    void defaults() override;
 
 private:
     ServicesSettingsPage* m_services;

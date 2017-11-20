@@ -37,13 +37,13 @@ class StartupSettingsPage : public SettingsPageBase
 
 public:
     StartupSettingsPage(const QUrl& url, QWidget* parent);
-    virtual ~StartupSettingsPage();
+    ~StartupSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings() Q_DECL_OVERRIDE;
+    void applySettings() override;
 
     /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults() Q_DECL_OVERRIDE;
+    void restoreDefaults() override;
 
 private slots:
     void slotSettingsChanged();

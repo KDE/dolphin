@@ -52,7 +52,7 @@ class EmbeddedVideoPlayer : public Phonon::VideoWidget
             updateGeometry();
         }
 
-        QSize sizeHint() const Q_DECL_OVERRIDE
+        QSize sizeHint() const override
         {
             return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoWidget::sizeHint();
         }

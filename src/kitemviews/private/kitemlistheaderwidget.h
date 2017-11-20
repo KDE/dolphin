@@ -39,7 +39,7 @@ class DOLPHIN_EXPORT KItemListHeaderWidget : public QGraphicsWidget
 
 public:
     KItemListHeaderWidget(QGraphicsWidget* parent = 0);
-    virtual ~KItemListHeaderWidget();
+    ~KItemListHeaderWidget() override;
 
     void setModel(KItemModelBase* model);
     KItemModelBase* model() const;
@@ -64,7 +64,7 @@ public:
 
     qreal minimumColumnWidth() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) Q_DECL_OVERRIDE;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
 
 signals:
     /**
@@ -104,13 +104,13 @@ signals:
     void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) Q_DECL_OVERRIDE;
-    void hoverEnterEvent(QGraphicsSceneHoverEvent* event) Q_DECL_OVERRIDE;
-    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) Q_DECL_OVERRIDE;
-    void hoverMoveEvent(QGraphicsSceneHoverEvent* event) Q_DECL_OVERRIDE;
+    void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseMoveEvent(QGraphicsSceneMouseEvent* event) override;
+    void mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event) override;
+    void hoverEnterEvent(QGraphicsSceneHoverEvent* event) override;
+    void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
+    void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
 
 private slots:
     void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);

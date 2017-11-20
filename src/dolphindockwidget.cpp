@@ -36,15 +36,15 @@ class DolphinDockTitleBar : public QWidget
 
 public:
     explicit DolphinDockTitleBar(QWidget* parent = nullptr) : QWidget(parent) {}
-    virtual ~DolphinDockTitleBar() {}
+    ~DolphinDockTitleBar() override {}
 
-    QSize minimumSizeHint() const Q_DECL_OVERRIDE
+    QSize minimumSizeHint() const override
     {
         const int border = style()->pixelMetric(QStyle::PM_DockWidgetTitleBarButtonMargin);
         return QSize(border, border);
     }
 
-    QSize sizeHint() const Q_DECL_OVERRIDE
+    QSize sizeHint() const override
     {
         return minimumSizeHint();
     }

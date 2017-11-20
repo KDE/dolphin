@@ -36,7 +36,7 @@ class Panel : public QWidget
 
 public:
     explicit Panel(QWidget* parent = 0);
-    virtual ~Panel();
+    ~Panel() override;
 
     /** Returns the current set URL of the active Dolphin view. */
     QUrl url() const;
@@ -49,7 +49,7 @@ public:
     void setCustomContextMenuActions(const QList<QAction*>& actions);
     QList<QAction*> customContextMenuActions() const;
 
-    virtual QSize sizeHint() const Q_DECL_OVERRIDE;
+    QSize sizeHint() const override;
 
 public slots:
     /**

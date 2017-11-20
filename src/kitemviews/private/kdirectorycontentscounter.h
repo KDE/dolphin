@@ -36,7 +36,7 @@ class KDirectoryContentsCounter : public QObject
 
 public:
     explicit KDirectoryContentsCounter(KFileItemModel* model, QObject* parent = 0);
-    ~KDirectoryContentsCounter();
+    ~KDirectoryContentsCounter() override;
 
     /**
      * Requests the number of items inside the directory \a path. The actual

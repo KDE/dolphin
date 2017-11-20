@@ -34,11 +34,11 @@ class AdditionalInfoDialog : public QDialog
 
 public:
     AdditionalInfoDialog(QWidget* parent, const QList<QByteArray>& visibleRoles);
-    virtual ~AdditionalInfoDialog();
+    ~AdditionalInfoDialog() override;
     QList<QByteArray> visibleRoles() const;
 
 public slots:
-    void accept() Q_DECL_OVERRIDE;
+    void accept() override;
 
 private:
     QList<QByteArray> m_visibleRoles;

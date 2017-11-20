@@ -174,8 +174,8 @@ private slots:
     void currentTabChanged(int index);
 
 protected:
-    virtual void tabInserted(int index) Q_DECL_OVERRIDE;
-    virtual void tabRemoved(int index) Q_DECL_OVERRIDE;
+    void tabInserted(int index) override;
+    void tabRemoved(int index) override;
 
 private:
     /**

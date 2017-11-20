@@ -28,13 +28,13 @@ class DOLPHIN_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidg
 {
 public:
     KFileItemListWidgetInformant();
-    virtual ~KFileItemListWidgetInformant();
+    ~KFileItemListWidgetInformant() override;
 
 protected:
-    virtual QString itemText(int index, const KItemListView* view) const Q_DECL_OVERRIDE;
-    virtual bool itemIsLink(int index, const KItemListView* view) const Q_DECL_OVERRIDE;
-    virtual QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const Q_DECL_OVERRIDE;
-    virtual QFont customizedFontForLinks(const QFont& baseFont) const Q_DECL_OVERRIDE;
+    QString itemText(int index, const KItemListView* view) const override;
+    bool itemIsLink(int index, const KItemListView* view) const override;
+    QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values) const override;
+    QFont customizedFontForLinks(const QFont& baseFont) const override;
 };
 
 class DOLPHIN_EXPORT KFileItemListWidget : public KStandardItemListWidget
@@ -43,19 +43,19 @@ class DOLPHIN_EXPORT KFileItemListWidget : public KStandardItemListWidget
 
 public:
     KFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
-    virtual ~KFileItemListWidget();
+    ~KFileItemListWidget() override;
 
     static KItemListWidgetInformant* createInformant();
 
 protected:
-    virtual bool isRoleRightAligned(const QByteArray& role) const Q_DECL_OVERRIDE;
-    virtual bool isHidden() const Q_DECL_OVERRIDE;
-    virtual QFont customizedFont(const QFont& baseFont) const Q_DECL_OVERRIDE;
+    bool isRoleRightAligned(const QByteArray& role) const override;
+    bool isHidden() const override;
+    QFont customizedFont(const QFont& baseFont) const override;
 
     /**
      * @return Selection length without MIME-type extension
      */
-    virtual int selectionLength(const QString& text) const Q_DECL_OVERRIDE;
+    int selectionLength(const QString& text) const override;
 };
 
 #endif

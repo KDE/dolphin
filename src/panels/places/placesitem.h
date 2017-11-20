@@ -49,7 +49,7 @@ public:
     };
 
     explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
-    virtual ~PlacesItem();
+    ~PlacesItem() override;
 
     void setUrl(const QUrl& url);
     QUrl url() const;
@@ -82,12 +82,12 @@ public:
     PlacesItemSignalHandler* signalHandler() const;
 
 protected:
-    virtual void onDataValueChanged(const QByteArray& role,
+    void onDataValueChanged(const QByteArray& role,
                                     const QVariant& current,
-                                    const QVariant& previous) Q_DECL_OVERRIDE;
+                                    const QVariant& previous) override;
 
-    virtual void onDataChanged(const QHash<QByteArray, QVariant>& current,
-                               const QHash<QByteArray, QVariant>& previous) Q_DECL_OVERRIDE;
+    void onDataChanged(const QHash<QByteArray, QVariant>& current,
+                               const QHash<QByteArray, QVariant>& previous) override;
 
 private:
     PlacesItem(const PlacesItem& item);

@@ -39,20 +39,20 @@ class DOLPHIN_EXPORT KItemListRoleEditor : public KTextEdit
 
 public:
     explicit KItemListRoleEditor(QWidget* parent);
-    virtual ~KItemListRoleEditor();
+    ~KItemListRoleEditor() override;
 
     void setRole(const QByteArray& role);
     QByteArray role() const;
 
-    bool eventFilter(QObject* watched, QEvent* event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject* watched, QEvent* event) override;
 
 signals:
     void roleEditingFinished(const QByteArray& role, const QVariant& value);
     void roleEditingCanceled(const QByteArray& role, const QVariant& value);
 
 protected:
-    bool event(QEvent* event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent* event) Q_DECL_OVERRIDE;
+    bool event(QEvent* event) override;
+    void keyPressEvent(QKeyEvent* event) override;
 
 private slots:
     /**

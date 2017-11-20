@@ -43,7 +43,7 @@ class DolphinStatusBar : public QWidget
 
 public:
     DolphinStatusBar(QWidget* parent);
-    virtual ~DolphinStatusBar();
+    ~DolphinStatusBar() override;
 
     QString text() const;
 
@@ -101,8 +101,8 @@ signals:
     void zoomLevelChanged(int zoomLevel);
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
-    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent* event) override;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private slots:
     void showZoomSliderToolTip(int zoomLevel);

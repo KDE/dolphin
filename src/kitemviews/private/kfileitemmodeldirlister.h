@@ -35,7 +35,7 @@ class DOLPHIN_EXPORT KFileItemModelDirLister : public KDirLister
 
 public:
     KFileItemModelDirLister(QObject* parent = 0);
-    virtual ~KFileItemModelDirLister();
+    ~KFileItemModelDirLister() override;
 
 signals:
     /** Is emitted whenever an error has occurred. */
@@ -48,7 +48,7 @@ signals:
     void urlIsFileError(const QUrl& url);
 
 protected:
-    void handleError(KIO::Job* job) Q_DECL_OVERRIDE;
+    void handleError(KIO::Job* job) override;
 };
 
 #endif

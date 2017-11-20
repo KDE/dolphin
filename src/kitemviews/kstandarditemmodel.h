@@ -41,7 +41,7 @@ class DOLPHIN_EXPORT KStandardItemModel : public KItemModelBase
 
 public:
     explicit KStandardItemModel(QObject* parent = 0);
-    virtual ~KStandardItemModel();
+    ~KStandardItemModel() override;
 
     /**
      * Inserts the item \a item at the index \a index. If the index
@@ -69,14 +69,14 @@ public:
      */
     void appendItem(KStandardItem* item);
 
-    virtual int count() const Q_DECL_OVERRIDE;
-    virtual QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values) Q_DECL_OVERRIDE;
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const Q_DECL_OVERRIDE;
-    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
-    virtual QString roleDescription(const QByteArray& role) const Q_DECL_OVERRIDE;
-    virtual QList<QPair<int, QVariant> > groups() const Q_DECL_OVERRIDE;
+    int count() const override;
+    QHash<QByteArray, QVariant> data(int index) const override;
+    bool setData(int index, const QHash<QByteArray, QVariant>& values) override;
+    QMimeData* createMimeData(const KItemSet& indexes) const override;
+    int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const override;
+    bool supportsDropping(int index) const override;
+    QString roleDescription(const QByteArray& role) const override;
+    QList<QPair<int, QVariant> > groups() const override;
 
     virtual void clear();
 protected:

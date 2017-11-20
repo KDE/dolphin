@@ -32,7 +32,7 @@ class DolphinDockWidget : public QDockWidget
 public:
     explicit DolphinDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
     explicit DolphinDockWidget(QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    virtual ~DolphinDockWidget();
+    ~DolphinDockWidget() override;
 
     /**
      * @param lock If \a lock is true, the title bar of the dock-widget will get hidden so

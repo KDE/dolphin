@@ -37,7 +37,7 @@ class InformationPanel : public Panel
 
 public:
     explicit InformationPanel(QWidget* parent = nullptr);
-    virtual ~InformationPanel();
+    ~InformationPanel() override;
 
 signals:
     void urlActivated(const QUrl& url);
@@ -59,16 +59,16 @@ public slots:
 
 protected:
     /** @see Panel::urlChanged() */
-    virtual bool urlChanged() Q_DECL_OVERRIDE;
+    bool urlChanged() override;
 
     /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent* event) override;
 
     /** @see QWidget::resizeEvent() */
-    virtual void resizeEvent(QResizeEvent* event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent* event) override;
 
     /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent* event) override;
 
 private slots:
     /**

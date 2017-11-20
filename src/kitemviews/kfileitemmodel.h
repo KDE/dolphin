@@ -51,7 +51,7 @@ class DOLPHIN_EXPORT KFileItemModel : public KItemModelBase
 
 public:
     explicit KFileItemModel(QObject* parent = 0);
-    virtual ~KFileItemModel();
+    ~KFileItemModel() override;
 
     /**
      * Loads the directory specified by \a url. The signals
@@ -73,7 +73,7 @@ public:
      *         the root-parent of all items.
      * @see rootItem()
      */
-    QUrl directory() const Q_DECL_OVERRIDE;
+    QUrl directory() const override;
 
     /**
      * Cancels the loading of a directory which has been started by either
@@ -81,9 +81,9 @@ public:
      */
     void cancelDirectoryLoading();
 
-    virtual int count() const Q_DECL_OVERRIDE;
-    virtual QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values) Q_DECL_OVERRIDE;
+    int count() const override;
+    QHash<QByteArray, QVariant> data(int index) const override;
+    bool setData(int index, const QHash<QByteArray, QVariant>& values) override;
 
     /**
      * Sets a separate sorting with directories first (true) or a mixed
@@ -102,15 +102,15 @@ public:
     void setShowDirectoriesOnly(bool enabled);
     bool showDirectoriesOnly() const;
 
-    virtual QMimeData* createMimeData(const KItemSet& indexes) const Q_DECL_OVERRIDE;
+    QMimeData* createMimeData(const KItemSet& indexes) const override;
 
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const Q_DECL_OVERRIDE;
+    int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const override;
 
-    virtual bool supportsDropping(int index) const Q_DECL_OVERRIDE;
+    bool supportsDropping(int index) const override;
 
-    virtual QString roleDescription(const QByteArray& role) const Q_DECL_OVERRIDE;
+    QString roleDescription(const QByteArray& role) const override;
 
-    virtual QList<QPair<int, QVariant> > groups() const Q_DECL_OVERRIDE;
+    QList<QPair<int, QVariant> > groups() const override;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -156,10 +156,10 @@ public:
     void setRoles(const QSet<QByteArray>& roles);
     QSet<QByteArray> roles() const;
 
-    virtual bool setExpanded(int index, bool expanded) Q_DECL_OVERRIDE;
-    virtual bool isExpanded(int index) const Q_DECL_OVERRIDE;
-    virtual bool isExpandable(int index) const Q_DECL_OVERRIDE;
-    virtual int expandedParentsCount(int index) const Q_DECL_OVERRIDE;
+    bool setExpanded(int index, bool expanded) override;
+    bool isExpanded(int index) const override;
+    bool isExpandable(int index) const override;
+    int expandedParentsCount(int index) const override;
 
     QSet<QUrl> expandedDirectories() const;
 
@@ -258,9 +258,9 @@ signals:
     void urlIsFileError(const QUrl& url);
 
 protected:
-    virtual void onGroupedSortingChanged(bool current) Q_DECL_OVERRIDE;
-    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous) Q_DECL_OVERRIDE;
-    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) Q_DECL_OVERRIDE;
+    void onGroupedSortingChanged(bool current) override;
+    void onSortRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) override;
 
 private slots:
     /**

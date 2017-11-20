@@ -40,7 +40,7 @@ class PlacesPanel : public Panel
 
 public:
     explicit PlacesPanel(QWidget* parent);
-    virtual ~PlacesPanel();
+    ~PlacesPanel() override;
     void proceedWithTearDown();
 
 signals:
@@ -51,11 +51,11 @@ signals:
     void storageTearDownExternallyRequested(const QString& mountPath);
 
 protected:
-    virtual bool urlChanged() Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent* event) Q_DECL_OVERRIDE;
+    bool urlChanged() override;
+    void showEvent(QShowEvent* event) override;
 
 public slots:
-    virtual void readSettings() Q_DECL_OVERRIDE;
+    void readSettings() override;
 
 private slots:
     void slotItemActivated(int index);

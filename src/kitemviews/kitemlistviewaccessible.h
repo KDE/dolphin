@@ -36,44 +36,44 @@ class DOLPHIN_EXPORT KItemListViewAccessible: public QAccessibleObject, public Q
 {
 public:
     explicit KItemListViewAccessible(KItemListView* view);
-    ~KItemListViewAccessible();
+    ~KItemListViewAccessible() override;
 
-    void* interface_cast(QAccessible::InterfaceType type) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType type) override;
 
-    QAccessible::Role role() const Q_DECL_OVERRIDE;
-    QAccessible::State state() const Q_DECL_OVERRIDE;
-    QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
-    QRect rect() const Q_DECL_OVERRIDE;
+    QAccessible::Role role() const override;
+    QAccessible::State state() const override;
+    QString text(QAccessible::Text t) const override;
+    QRect rect() const override;
 
-    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
-    int childCount() const Q_DECL_OVERRIDE;
-    int indexOfChild(const QAccessibleInterface*) const Q_DECL_OVERRIDE;
-    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
-    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const override;
+    int childCount() const override;
+    int indexOfChild(const QAccessibleInterface*) const override;
+    QAccessibleInterface* childAt(int x, int y) const override;
+    QAccessibleInterface* parent() const override;
 
     // Table interface
-    virtual QAccessibleInterface* cellAt(int row, int column) const Q_DECL_OVERRIDE;
-    virtual QAccessibleInterface* caption() const Q_DECL_OVERRIDE;
-    virtual QAccessibleInterface* summary() const Q_DECL_OVERRIDE;
-    virtual QString columnDescription(int column) const Q_DECL_OVERRIDE;
-    virtual QString rowDescription(int row) const Q_DECL_OVERRIDE;
-    virtual int columnCount() const Q_DECL_OVERRIDE;
-    virtual int rowCount() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* cellAt(int row, int column) const override;
+    QAccessibleInterface* caption() const override;
+    QAccessibleInterface* summary() const override;
+    QString columnDescription(int column) const override;
+    QString rowDescription(int row) const override;
+    int columnCount() const override;
+    int rowCount() const override;
 
     // Selection
-    virtual int selectedCellCount() const Q_DECL_OVERRIDE;
-    virtual int selectedColumnCount() const Q_DECL_OVERRIDE;
-    virtual int selectedRowCount() const Q_DECL_OVERRIDE;
-    virtual QList<QAccessibleInterface*> selectedCells() const Q_DECL_OVERRIDE;
-    virtual QList<int> selectedColumns() const Q_DECL_OVERRIDE;
-    virtual QList<int> selectedRows() const Q_DECL_OVERRIDE;
-    virtual bool isColumnSelected(int column) const Q_DECL_OVERRIDE;
-    virtual bool isRowSelected(int row) const Q_DECL_OVERRIDE;
-    virtual bool selectRow(int row) Q_DECL_OVERRIDE;
-    virtual bool selectColumn(int column) Q_DECL_OVERRIDE;
-    virtual bool unselectRow(int row) Q_DECL_OVERRIDE;
-    virtual bool unselectColumn(int column) Q_DECL_OVERRIDE;
-    virtual void modelChange(QAccessibleTableModelChangeEvent*) Q_DECL_OVERRIDE;
+    int selectedCellCount() const override;
+    int selectedColumnCount() const override;
+    int selectedRowCount() const override;
+    QList<QAccessibleInterface*> selectedCells() const override;
+    QList<int> selectedColumns() const override;
+    QList<int> selectedRows() const override;
+    bool isColumnSelected(int column) const override;
+    bool isRowSelected(int row) const override;
+    bool selectRow(int row) override;
+    bool selectColumn(int column) override;
+    bool unselectRow(int row) override;
+    bool unselectColumn(int column) override;
+    void modelChange(QAccessibleTableModelChangeEvent*) override;
 
     KItemListView* view() const;
 
@@ -94,32 +94,32 @@ class DOLPHIN_EXPORT KItemListAccessibleCell: public QAccessibleInterface, publi
 public:
     KItemListAccessibleCell(KItemListView* view, int m_index);
 
-    void* interface_cast(QAccessible::InterfaceType type) Q_DECL_OVERRIDE;
-    QObject* object() const Q_DECL_OVERRIDE;
-    bool isValid() const Q_DECL_OVERRIDE;
-    QAccessible::Role role() const Q_DECL_OVERRIDE;
-    QAccessible::State state() const Q_DECL_OVERRIDE;
-    QRect rect() const Q_DECL_OVERRIDE;
-    QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
-    void setText(QAccessible::Text t, const QString& text) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType type) override;
+    QObject* object() const override;
+    bool isValid() const override;
+    QAccessible::Role role() const override;
+    QAccessible::State state() const override;
+    QRect rect() const override;
+    QString text(QAccessible::Text t) const override;
+    void setText(QAccessible::Text t, const QString& text) override;
 
-    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
-    int childCount() const Q_DECL_OVERRIDE;
-    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
-    int indexOfChild(const QAccessibleInterface*) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const override;
+    int childCount() const override;
+    QAccessibleInterface* childAt(int x, int y) const override;
+    int indexOfChild(const QAccessibleInterface*) const override;
 
-    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const override;
     bool isExpandable() const;
 
     // Cell Interface
-    virtual int columnExtent() const Q_DECL_OVERRIDE;
-    virtual QList<QAccessibleInterface*> columnHeaderCells() const Q_DECL_OVERRIDE;
-    virtual int columnIndex() const Q_DECL_OVERRIDE;
-    virtual int rowExtent() const Q_DECL_OVERRIDE;
-    virtual QList<QAccessibleInterface*> rowHeaderCells() const Q_DECL_OVERRIDE;
-    virtual int rowIndex() const Q_DECL_OVERRIDE;
-    virtual bool isSelected() const Q_DECL_OVERRIDE;
-    virtual QAccessibleInterface* table() const Q_DECL_OVERRIDE;
+    int columnExtent() const override;
+    QList<QAccessibleInterface*> columnHeaderCells() const override;
+    int columnIndex() const override;
+    int rowExtent() const override;
+    QList<QAccessibleInterface*> rowHeaderCells() const override;
+    int rowIndex() const override;
+    bool isSelected() const override;
+    QAccessibleInterface* table() const override;
 
     inline int index() const;
 
@@ -132,11 +132,11 @@ class DOLPHIN_EXPORT KItemListContainerAccessible : public QAccessibleWidget
 {
 public:
     explicit KItemListContainerAccessible(KItemListContainer* container);
-    virtual ~KItemListContainerAccessible();
+    ~KItemListContainerAccessible() override;
 
-    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
-    int childCount() const Q_DECL_OVERRIDE;
-    int indexOfChild(const QAccessibleInterface* child) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const override;
+    int childCount() const override;
+    int indexOfChild(const QAccessibleInterface* child) const override;
 
 private:
     const KItemListContainer* container() const;

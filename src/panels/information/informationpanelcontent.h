@@ -58,7 +58,7 @@ class InformationPanelContent : public QWidget
 
 public:
     explicit InformationPanelContent(QWidget* parent = 0);
-    virtual ~InformationPanelContent();
+    ~InformationPanelContent() override;
 
     /**
      * Shows the meta information for the item \p item.
@@ -85,7 +85,7 @@ signals:
 
 protected:
     /** @see QObject::eventFilter() */
-    virtual bool eventFilter(QObject* obj, QEvent* event) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private slots:
     /**

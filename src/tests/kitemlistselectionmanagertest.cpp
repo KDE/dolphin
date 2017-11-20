@@ -30,8 +30,8 @@ class DummyModel : public KItemModelBase
 public:
     DummyModel();
     void setCount(int count);
-    int count() const Q_DECL_OVERRIDE;
-    QHash<QByteArray, QVariant> data(int index) const Q_DECL_OVERRIDE;
+    int count() const override;
+    QHash<QByteArray, QVariant> data(int index) const override;
 
 private:
     int m_count;

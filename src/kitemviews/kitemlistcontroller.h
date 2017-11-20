@@ -89,7 +89,7 @@ public:
      * @param parent Optional parent object.
      */
     KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent = 0);
-    virtual ~KItemListController();
+    ~KItemListController() override;
 
     void setModel(KItemModelBase* model);
     KItemModelBase* model() const;
