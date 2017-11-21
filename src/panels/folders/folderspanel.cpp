@@ -91,7 +91,7 @@ void FoldersPanel::setLimitFoldersPanelToHome(bool enable)
 
 bool FoldersPanel::limitFoldersPanelToHome() const
 {
-    return limitFoldersPanelToHome();
+    return FoldersPanelSettings::limitFoldersPanelToHome();
 }
 
 void FoldersPanel::setAutoScrolling(bool enable)
@@ -325,7 +325,7 @@ void FoldersPanel::loadTree(const QUrl& url)
     QUrl baseUrl;
     if (url.isLocalFile()) {
         const bool isInHomeFolder = Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url);
-        if (limitFoldersPanelToHome() && isInHomeFolder) {
+        if (FoldersPanelSettings::limitFoldersPanelToHome() && isInHomeFolder) {
             baseUrl = Dolphin::homeUrl();
         } else {
             // Use the root directory as base for local URLs (#150941)
