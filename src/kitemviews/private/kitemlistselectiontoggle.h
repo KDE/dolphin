@@ -42,7 +42,7 @@ public:
 
     void setHovered(bool hovered);
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 protected:
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;

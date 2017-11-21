@@ -33,7 +33,7 @@ class ServiceItemDelegate : public KWidgetItemDelegate
     Q_OBJECT
 
 public:
-    explicit ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent = 0);
+    explicit ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent = nullptr);
     ~ServiceItemDelegate() override;
 
     QSize sizeHint(const QStyleOptionViewItem &option,

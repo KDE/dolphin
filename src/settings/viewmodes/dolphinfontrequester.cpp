@@ -29,8 +29,8 @@
 
 DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     QWidget(parent),
-    m_modeCombo(0),
-    m_chooseFontButton(0),
+    m_modeCombo(nullptr),
+    m_chooseFontButton(nullptr),
     m_mode(SystemFont),
     m_customFont()
 {

@@ -52,7 +52,7 @@ public:
         DetailsLayout
     };
 
-    KStandardItemListView(QGraphicsWidget* parent = 0);
+    KStandardItemListView(QGraphicsWidget* parent = nullptr);
     ~KStandardItemListView() override;
 
     void setItemLayout(ItemLayout layout);

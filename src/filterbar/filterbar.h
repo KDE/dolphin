@@ -37,7 +37,7 @@ class FilterBar : public QWidget
     Q_OBJECT
 
 public:
-    explicit FilterBar(QWidget* parent = 0);
+    explicit FilterBar(QWidget* parent = nullptr);
     ~FilterBar() override;
 
     /** Called by view container to hide this **/

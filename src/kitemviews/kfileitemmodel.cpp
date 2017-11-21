@@ -42,7 +42,7 @@
 
 KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
-    m_dirLister(0),
+    m_dirLister(nullptr),
     m_sortDirsFirst(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
@@ -52,8 +52,8 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_filter(),
     m_filteredItems(),
     m_requestRole(),
-    m_maximumUpdateIntervalTimer(0),
-    m_resortAllItemsTimer(0),
+    m_maximumUpdateIntervalTimer(nullptr),
+    m_resortAllItemsTimer(nullptr),
     m_pendingItemsToInsert(),
     m_groups(),
     m_expandedDirs(),
@@ -251,7 +251,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     QList<QUrl> urls;
     QList<QUrl> mostLocalUrls;
     bool canUseMostLocalUrls = true;
-    const ItemData* lastAddedItem = 0;
+    const ItemData* lastAddedItem = nullptr;
 
     for (int index : indexes) {
         const ItemData* itemData = m_itemData.at(index);
@@ -2295,16 +2295,16 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
     //  | role         | roleType       | role translation                                | group translation           | requires Baloo   | requires indexer
-        { 0,             NoRole,          0, 0,                                             0, 0,                                     false, false },
-        { "text",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
-        { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },
-        { "modificationtime",        ModificationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Modified"),             0, 0,                                     false, false },
-        { "creationtime",        CreationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Created"),             0, 0,                                     false, false },
-        { "accesstime",        AccessTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Accessed"),             0, 0,                                     false, false },
-        { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0,                                     false, false },
-        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0,                                     true,  false },
-        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             0, 0,                                     true,  false },
-        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          0, 0,                                     true,  false },
+        { nullptr,             NoRole,          nullptr, nullptr,                                             nullptr, nullptr,                                     false, false },
+        { "text",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             nullptr, nullptr,                                     false, false },
+        { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             nullptr, nullptr,                                     false, false },
+        { "modificationtime",        ModificationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Modified"),             nullptr, nullptr,                                     false, false },
+        { "creationtime",        CreationTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Created"),             nullptr, nullptr,                                     false, false },
+        { "accesstime",        AccessTimeRole,        I18N_NOOP2_NOSTRIP("@label", "Accessed"),             nullptr, nullptr,                                     false, false },
+        { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             nullptr, nullptr,                                     false, false },
+        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           nullptr, nullptr,                                     true,  false },
+        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             nullptr, nullptr,                                     true,  false },
+        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          nullptr, nullptr,                                     true,  false },
         { "title",       TitleRole,       I18N_NOOP2_NOSTRIP("@label", "Title"),            I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },

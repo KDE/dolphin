@@ -30,9 +30,9 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
     QObject(parent),
     m_model(model),
     m_queue(),
-    m_worker(0),
+    m_worker(nullptr),
     m_workerIsBusy(false),
-    m_dirWatcher(0),
+    m_dirWatcher(nullptr),
     m_watchedDirs()
 {
     connect(m_model, &KFileItemModel::itemsRemoved,
@@ -70,7 +70,7 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
         m_workerThread->quit();
         m_workerThread->wait();
         delete m_workerThread;
-        m_workerThread = 0;
+        m_workerThread = nullptr;
 
         // The worker thread has finished running now, so it's safe to delete
         // m_worker. deleteLater() would not work at all because the event loop
@@ -180,5 +180,5 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 }
 
-QThread* KDirectoryContentsCounter::m_workerThread = 0;
+QThread* KDirectoryContentsCounter::m_workerThread = nullptr;
 int KDirectoryContentsCounter::m_workersCount = 0;

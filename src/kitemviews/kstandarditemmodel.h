@@ -40,7 +40,7 @@ class DOLPHIN_EXPORT KStandardItemModel : public KItemModelBase
     Q_OBJECT
 
 public:
-    explicit KStandardItemModel(QObject* parent = 0);
+    explicit KStandardItemModel(QObject* parent = nullptr);
     ~KStandardItemModel() override;
 
     /**

@@ -26,7 +26,7 @@
 ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
                                      const ViewProperties& viewProps) :
     KIO::Job(),
-    m_viewProps(0),
+    m_viewProps(nullptr),
     m_progress(0),
     m_dir(dir)
 {
@@ -46,7 +46,7 @@ ApplyViewPropsJob::ApplyViewPropsJob(const QUrl& dir,
 ApplyViewPropsJob::~ApplyViewPropsJob()
 {
     delete m_viewProps;  // the properties are written by the destructor
-    m_viewProps = 0;
+    m_viewProps = nullptr;
 }
 
 void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)

@@ -40,12 +40,12 @@
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),
     m_mode(mode),
-    m_defaultSizeSlider(0),
-    m_previewSizeSlider(0),
-    m_fontRequester(0),
-    m_widthBox(0),
-    m_maxLinesBox(0),
-    m_expandableFolders(0)
+    m_defaultSizeSlider(nullptr),
+    m_previewSizeSlider(nullptr),
+    m_fontRequester(nullptr),
+    m_widthBox(nullptr),
+    m_maxLinesBox(nullptr),
+    m_expandableFolders(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -202,7 +202,7 @@ void ViewSettingsTab::applySettings()
 
 void ViewSettingsTab::restoreDefaultSettings()
 {
-    KConfigSkeleton* settings = 0;
+    KConfigSkeleton* settings = nullptr;
     switch (m_mode) {
     case IconsMode:   settings = IconsModeSettings::self(); break;
     case CompactMode: settings = CompactModeSettings::self(); break;

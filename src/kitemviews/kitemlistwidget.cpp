@@ -42,7 +42,7 @@ KItemListWidgetInformant::~KItemListWidgetInformant()
 }
 
 KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    QGraphicsWidget(parent, 0),
+    QGraphicsWidget(parent, nullptr),
     m_informant(informant),
     m_index(-1),
     m_selected(false),
@@ -56,9 +56,9 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsI
     m_styleOption(),
     m_siblingsInfo(),
     m_hoverOpacity(0),
-    m_hoverCache(0),
-    m_hoverAnimation(0),
-    m_selectionToggle(0),
+    m_hoverCache(nullptr),
+    m_hoverAnimation(nullptr),
+    m_selectionToggle(nullptr),
     m_editedRole()
 {
 }
@@ -72,7 +72,7 @@ void KItemListWidget::setIndex(int index)
 {
     if (m_index != index) {
         delete m_selectionToggle;
-        m_selectionToggle = 0;
+        m_selectionToggle = nullptr;
 
         if (m_hoverAnimation) {
             m_hoverAnimation->stop();
@@ -474,7 +474,7 @@ void KItemListWidget::slotHoverAnimationFinished()
 {
     if (!m_hovered && m_selectionToggle) {
         m_selectionToggle->deleteLater();
-        m_selectionToggle = 0;
+        m_selectionToggle = nullptr;
     }
 }
 
@@ -502,7 +502,7 @@ void KItemListWidget::setHoverOpacity(qreal opacity)
 
     if (m_hoverOpacity <= 0.0) {
         delete m_hoverCache;
-        m_hoverCache = 0;
+        m_hoverCache = nullptr;
     }
 
     update();
@@ -511,7 +511,7 @@ void KItemListWidget::setHoverOpacity(qreal opacity)
 void KItemListWidget::clearHoverCache()
 {
     delete m_hoverCache;
-    m_hoverCache = 0;
+    m_hoverCache = nullptr;
 }
 
 void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)

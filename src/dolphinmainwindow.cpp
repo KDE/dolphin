@@ -90,20 +90,20 @@ namespace {
 }
 
 DolphinMainWindow::DolphinMainWindow() :
-    KXmlGuiWindow(0),
-    m_newFileMenu(0),
-    m_tabWidget(0),
-    m_activeViewContainer(0),
-    m_actionHandler(0),
-    m_remoteEncoding(0),
+    KXmlGuiWindow(nullptr),
+    m_newFileMenu(nullptr),
+    m_tabWidget(nullptr),
+    m_activeViewContainer(nullptr),
+    m_actionHandler(nullptr),
+    m_remoteEncoding(nullptr),
     m_settingsDialog(),
-    m_controlButton(0),
-    m_updateToolBarTimer(0),
-    m_lastHandleUrlStatJob(0),
+    m_controlButton(nullptr),
+    m_updateToolBarTimer(nullptr),
+    m_lastHandleUrlStatJob(nullptr),
 #ifndef Q_OS_WIN
-    m_terminalPanel(0),
+    m_terminalPanel(nullptr),
 #endif
-    m_placesPanel(0),
+    m_placesPanel(nullptr),
     m_tearDownFromPlacesRequested(false)
 {
     Q_INIT_RESOURCE(dolphin);
@@ -751,7 +751,7 @@ void DolphinMainWindow::editSettings()
 void DolphinMainWindow::handleUrl(const QUrl& url)
 {
     delete m_lastHandleUrlStatJob;
-    m_lastHandleUrlStatJob = 0;
+    m_lastHandleUrlStatJob = nullptr;
 
     if (url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir()) {
         activeViewContainer()->setUrl(url);
@@ -771,7 +771,7 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
 
 void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
 {
-    m_lastHandleUrlStatJob = 0;
+    m_lastHandleUrlStatJob = nullptr;
     const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
     const QUrl url = static_cast<KIO::StatJob*>(job)->url();
     if (entry.isDir()) {
@@ -912,7 +912,7 @@ void DolphinMainWindow::updateToolBar()
 
 void DolphinMainWindow::slotControlButtonDeleted()
 {
-    m_controlButton = 0;
+    m_controlButton = nullptr;
     m_updateToolBarTimer->start();
 }
 
@@ -1174,7 +1174,7 @@ void DolphinMainWindow::setupActions()
     }
 
     // setup 'Settings' menu
-    KToggleAction* showMenuBar = KStandardAction::showMenubar(0, 0, actionCollection());
+    KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
@@ -1436,10 +1436,10 @@ void DolphinMainWindow::createControlButton()
 void DolphinMainWindow::deleteControlButton()
 {
     delete m_controlButton;
-    m_controlButton = 0;
+    m_controlButton = nullptr;
 
     delete m_updateToolBarTimer;
-    m_updateToolBarTimer = 0;
+    m_updateToolBarTimer = nullptr;
 }
 
 bool DolphinMainWindow::addActionToMenu(QAction* action, QMenu* menu)

@@ -73,13 +73,13 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_hiddenItemsShown(false),
     m_availableDevices(),
     m_predicate(),
-    m_bookmarkManager(0),
+    m_bookmarkManager(nullptr),
     m_systemBookmarks(),
     m_systemBookmarksIndexes(),
     m_bookmarkedItems(),
     m_hiddenItemToRemove(-1),
-    m_deviceToTearDown(0),
-    m_updateBookmarksTimer(0),
+    m_deviceToTearDown(nullptr),
+    m_updateBookmarksTimer(nullptr),
     m_storageSetupInProgress()
 {
 #ifdef HAVE_BALOO
@@ -250,24 +250,24 @@ QAction* PlacesItemModel::ejectAction(int index) const
 {
     const PlacesItem* item = placesItem(index);
     if (item && item->device().is<Solid::OpticalDisc>()) {
-        return new QAction(QIcon::fromTheme(QStringLiteral("media-eject")), i18nc("@item", "Eject"), 0);
+        return new QAction(QIcon::fromTheme(QStringLiteral("media-eject")), i18nc("@item", "Eject"), nullptr);
     }
 
-    return 0;
+    return nullptr;
 }
 
 QAction* PlacesItemModel::teardownAction(int index) const
 {
     const PlacesItem* item = placesItem(index);
     if (!item) {
-        return 0;
+        return nullptr;
     }
 
     Solid::Device device = item->device();
     const bool providesTearDown = device.is<Solid::StorageAccess>() &&
                                   device.as<Solid::StorageAccess>()->isAccessible();
     if (!providesTearDown) {
-        return 0;
+        return nullptr;
     }
 
     Solid::StorageDrive* drive = device.as<Solid::StorageDrive>();
@@ -295,10 +295,10 @@ QAction* PlacesItemModel::teardownAction(int index) const
     }
 
     if (iconName.isEmpty()) {
-        return new QAction(text, 0);
+        return new QAction(text, nullptr);
     }
 
-    return new QAction(QIcon::fromTheme(iconName), text, 0);
+    return new QAction(QIcon::fromTheme(iconName), text, nullptr);
 }
 
 void PlacesItemModel::requestEject(int index)
@@ -687,7 +687,7 @@ void PlacesItemModel::updateBookmarks()
     int modelIndex = 0;
     for (int i = m_bookmarkedItems.count() - 1; i >= 0; --i) {
         PlacesItem* item = m_bookmarkedItems[i];
-        const bool itemIsPartOfModel = (item == 0);
+        const bool itemIsPartOfModel = (item == nullptr);
         if (itemIsPartOfModel) {
             item = placesItem(modelIndex);
         }

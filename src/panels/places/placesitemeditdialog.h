@@ -38,7 +38,7 @@ class PlacesItemEditDialog: public QDialog
     Q_OBJECT
 
 public:
-    explicit PlacesItemEditDialog(QWidget* parent = 0);
+    explicit PlacesItemEditDialog(QWidget* parent = nullptr);
     ~PlacesItemEditDialog() override;
 
     void setIcon(const QString& icon);

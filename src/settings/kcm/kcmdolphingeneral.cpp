@@ -65,7 +65,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     m_pages.append(previewsPage);
     m_pages.append(confirmationsPage);
 
-    topLayout->addWidget(tabWidget, 0, 0);
+    topLayout->addWidget(tabWidget, 0, nullptr);
 }
 
 DolphinGeneralConfigModule::~DolphinGeneralConfigModule()

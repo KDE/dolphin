@@ -32,7 +32,7 @@ class SpaceInfoObserver : public QObject
     Q_OBJECT
 
 public:
-    explicit SpaceInfoObserver(const QUrl& url, QObject* parent = 0);
+    explicit SpaceInfoObserver(const QUrl& url, QObject* parent = nullptr);
     ~SpaceInfoObserver() override;
 
     quint64 size() const;

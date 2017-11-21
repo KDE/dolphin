@@ -35,9 +35,9 @@ namespace {
 
 ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
-    m_confirmMoveToTrash(0),
-    m_confirmDelete(0),
-    m_confirmClosingMultipleTabs(0)
+    m_confirmMoveToTrash(nullptr),
+    m_confirmDelete(nullptr),
+    m_confirmClosingMultipleTabs(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 

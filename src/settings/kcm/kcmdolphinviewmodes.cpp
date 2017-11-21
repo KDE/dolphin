@@ -66,7 +66,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
     m_tabs.append(compactTab);
     m_tabs.append(detailsTab);
 
-    topLayout->addWidget(tabWidget, 0, 0);
+    topLayout->addWidget(tabWidget, 0, nullptr);
 }
 
 DolphinViewModesConfigModule::~DolphinViewModesConfigModule()

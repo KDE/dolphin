@@ -82,7 +82,7 @@ public:
      * to show the data of the custom model provided by KItemListWidget::data().
      * @reimp
      */
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
@@ -186,7 +186,7 @@ public:
      * @return Pixmap that is used when dragging an item. Per default the current state of the
      *         widget is returned as pixmap.
      */
-    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 
 signals:
     void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);

@@ -24,7 +24,7 @@
 
 
 KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
-    QGraphicsWidget(parent, 0),
+    QGraphicsWidget(parent, nullptr),
     m_checked(false),
     m_hovered(false)
 {

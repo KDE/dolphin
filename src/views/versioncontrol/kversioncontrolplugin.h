@@ -144,7 +144,7 @@ public:
         MissingVersion
     };
 
-    KVersionControlPlugin(QObject* parent = 0);
+    KVersionControlPlugin(QObject* parent = nullptr);
     ~KVersionControlPlugin() override;
 
     /**

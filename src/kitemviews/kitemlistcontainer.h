@@ -50,7 +50,7 @@ public:
      *                   (the parent will be set to the KItemListContainer).
      * @param parent     Optional parent widget.
      */
-    explicit KItemListContainer(KItemListController* controller, QWidget* parent = 0);
+    explicit KItemListContainer(KItemListController* controller, QWidget* parent = nullptr);
     ~KItemListContainer() override;
     KItemListController* controller() const;
 

@@ -35,7 +35,7 @@ class Panel : public QWidget
     Q_OBJECT
 
 public:
-    explicit Panel(QWidget* parent = 0);
+    explicit Panel(QWidget* parent = nullptr);
     ~Panel() override;
 
     /** Returns the current set URL of the active Dolphin view. */

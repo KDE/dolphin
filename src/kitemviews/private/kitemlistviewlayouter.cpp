@@ -35,7 +35,7 @@ KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver* sizeHint
     m_itemSize(128, 128),
     m_itemMargin(),
     m_headerHeight(0),
-    m_model(0),
+    m_model(nullptr),
     m_sizeHintResolver(sizeHintResolver),
     m_scrollOffset(0),
     m_maximumScrollOffset(0),

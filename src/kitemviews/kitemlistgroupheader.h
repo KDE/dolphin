@@ -42,7 +42,7 @@ class DOLPHIN_EXPORT KItemListGroupHeader : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListGroupHeader(QGraphicsWidget* parent = 0);
+    KItemListGroupHeader(QGraphicsWidget* parent = nullptr);
     ~KItemListGroupHeader() override;
 
     void setRole(const QByteArray& role);
@@ -65,7 +65,7 @@ public:
     void setItemIndex(int index);
     int itemIndex() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 protected:
     virtual void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) = 0;

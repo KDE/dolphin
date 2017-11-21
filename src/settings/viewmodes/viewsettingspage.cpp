@@ -56,7 +56,7 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     m_tabs.append(compactTab);
     m_tabs.append(detailsTab);
 
-    topLayout->addWidget(tabWidget, 0, 0);
+    topLayout->addWidget(tabWidget, 0, nullptr);
 }
 
 ViewSettingsPage::~ViewSettingsPage()

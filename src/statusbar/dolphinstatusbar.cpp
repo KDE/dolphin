@@ -49,14 +49,14 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     QWidget(parent),
     m_text(),
     m_defaultText(),
-    m_label(0),
-    m_spaceInfo(0),
-    m_zoomSlider(0),
-    m_progressBar(0),
-    m_stopButton(0),
+    m_label(nullptr),
+    m_spaceInfo(nullptr),
+    m_zoomSlider(nullptr),
+    m_progressBar(nullptr),
+    m_stopButton(nullptr),
     m_progress(100),
-    m_showProgressBarTimer(0),
-    m_resetToDefaultTextTimer(0),
+    m_showProgressBarTimer(nullptr),
+    m_resetToDefaultTextTimer(nullptr),
     m_textTimestamp()
 {
     // Initialize text label

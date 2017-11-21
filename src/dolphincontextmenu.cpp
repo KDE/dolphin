@@ -66,14 +66,14 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
-    m_baseFileItem(0),
+    m_baseFileItem(nullptr),
     m_selectedItems(),
     m_selectedItemsProperties(nullptr),
     m_context(NoContext),
     m_copyToMenu(parent),
     m_customActions(),
     m_command(None),
-    m_removeAction(0)
+    m_removeAction(nullptr)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
@@ -337,7 +337,7 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("new_tab")));
 
     // Insert 'Add to Places' entry if exactly one item is selected
-    QAction* addToPlacesAction = 0;
+    QAction* addToPlacesAction = nullptr;
     if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
         addToPlacesAction = addAction(QIcon::fromTheme(QStringLiteral("bookmark-new")),
                                              i18nc("@action:inmenu Add current folder to places", "Add to Places"));
@@ -408,7 +408,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
 
         if (showDeleteAction && showMoveToTrashAction) {
             delete m_removeAction;
-            m_removeAction = 0;
+            m_removeAction = nullptr;
             addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
             addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
         } else if (showDeleteAction && !showMoveToTrashAction) {
@@ -445,7 +445,7 @@ bool DolphinContextMenu::placeExists(const QUrl& url) const
 
 QAction* DolphinContextMenu::createPasteAction()
 {
-    QAction* action = 0;
+    QAction* action = nullptr;
     const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
     if (isDir && (m_selectedItems.count() == 1)) {
         const QMimeData *mimeData = QApplication::clipboard()->mimeData();

@@ -30,7 +30,7 @@
 KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
     m_automaticColumnResizing(true),
-    m_model(0),
+    m_model(nullptr),
     m_offset(0),
     m_columns(),
     m_columnWidths(),

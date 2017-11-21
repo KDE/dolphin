@@ -32,7 +32,7 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_scrollBarPressed(false),
     m_smoothScrolling(true),
     m_scrollBar(scrollBar),
-    m_animation(0)
+    m_animation(nullptr)
 {
     m_animation = new QPropertyAnimation(this);
     const int duration = m_scrollBar->style()->styleHint(QStyle::SH_Widget_Animate, nullptr, m_scrollBar) ? 100 : 1;

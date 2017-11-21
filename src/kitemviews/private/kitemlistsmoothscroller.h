@@ -39,7 +39,7 @@ class DOLPHIN_EXPORT KItemListSmoothScroller : public QObject
 
 public:
     explicit KItemListSmoothScroller(QScrollBar* scrollBar,
-                                     QObject* parent = 0);
+                                     QObject* parent = nullptr);
     ~KItemListSmoothScroller() override;
 
     void setScrollBar(QScrollBar* scrollBar);

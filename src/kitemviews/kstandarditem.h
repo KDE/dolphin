@@ -40,9 +40,9 @@ class DOLPHIN_EXPORT KStandardItem
 {
 
 public:
-    explicit KStandardItem(KStandardItem* parent = 0);
-    explicit KStandardItem(const QString& text, KStandardItem* parent = 0);
-    KStandardItem(const QString& icon, const QString& text, KStandardItem* parent = 0);
+    explicit KStandardItem(KStandardItem* parent = nullptr);
+    explicit KStandardItem(const QString& text, KStandardItem* parent = nullptr);
+    KStandardItem(const QString& icon, const QString& text, KStandardItem* parent = nullptr);
     KStandardItem(const KStandardItem& item);
     virtual ~KStandardItem();
 

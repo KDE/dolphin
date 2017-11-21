@@ -104,7 +104,7 @@ public:
     void setSupportsItemExpanding(bool supportsItemExpanding);
     bool supportsItemExpanding() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
     QRectF iconRect() const override;
     QRectF textRect() const override;
@@ -112,7 +112,7 @@ public:
     QRectF selectionRect() const override;
     QRectF expansionToggleRect() const override;
     QRectF selectionToggleRect() const override;
-    QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
     static KItemListWidgetInformant* createInformant();
 

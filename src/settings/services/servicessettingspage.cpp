@@ -58,9 +58,9 @@ namespace
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
-    m_serviceModel(0),
-    m_sortModel(0),
-    m_listView(0),
+    m_serviceModel(nullptr),
+    m_sortModel(nullptr),
+    m_listView(nullptr),
     m_enabledVcsPlugins()
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);

@@ -60,6 +60,6 @@ KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event
         return job;
     }
 
-    return 0;
+    return nullptr;
 }
 

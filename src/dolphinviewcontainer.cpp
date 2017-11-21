@@ -52,14 +52,14 @@
 
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
-    m_topLayout(0),
-    m_urlNavigator(0),
-    m_searchBox(0),
-    m_messageWidget(0),
-    m_view(0),
-    m_filterBar(0),
-    m_statusBar(0),
-    m_statusBarTimer(0),
+    m_topLayout(nullptr),
+    m_urlNavigator(nullptr),
+    m_searchBox(nullptr),
+    m_messageWidget(nullptr),
+    m_view(nullptr),
+    m_filterBar(nullptr),
+    m_statusBar(nullptr),
+    m_statusBarTimer(nullptr),
     m_statusBarTimestamp(),
     m_autoGrabFocus(true)
 #ifdef KActivities_FOUND

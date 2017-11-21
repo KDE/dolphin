@@ -87,19 +87,19 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_viewPropertiesContext(),
     m_mode(DolphinView::IconsView),
     m_visibleRoles(),
-    m_topLayout(0),
-    m_model(0),
-    m_view(0),
-    m_container(0),
-    m_toolTipManager(0),
-    m_selectionChangedTimer(0),
+    m_topLayout(nullptr),
+    m_model(nullptr),
+    m_view(nullptr),
+    m_container(nullptr),
+    m_toolTipManager(nullptr),
+    m_selectionChangedTimer(nullptr),
     m_currentItemUrl(),
     m_scrollToCurrentItem(false),
     m_restoredContentsPosition(),
     m_selectedUrls(),
     m_clearSelectionBeforeSelectingNewItems(false),
     m_markFirstNewlySelectedItemAsCurrent(false),
-    m_versionControlObserver(0),
+    m_versionControlObserver(nullptr),
     m_twoClicksRenamingTimer(nullptr)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -912,7 +912,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 #endif
 
     QString groupName;
-    QMenu* groupMenu = 0;
+    QMenu* groupMenu = nullptr;
 
     // Add all roles to the menu that can be shown or hidden by the user
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
@@ -923,7 +923,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         }
 
         const QString text = m_model->roleDescription(info.role);
-        QAction* action = 0;
+        QAction* action = nullptr;
         if (info.group.isEmpty()) {
             action = menu->addAction(text);
         } else {
@@ -1094,11 +1094,11 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    if (previous != 0) {
+    if (previous != nullptr) {
         Q_ASSERT(qobject_cast<KFileItemModel*>(previous));
         KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(previous);
         disconnect(fileItemModel, &KFileItemModel::directoryLoadingCompleted, this, &DolphinView::slotDirectoryLoadingCompleted);
-        m_versionControlObserver->setModel(0);
+        m_versionControlObserver->setModel(nullptr);
     }
 
     if (current) {

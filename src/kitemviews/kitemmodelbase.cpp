@@ -126,7 +126,7 @@ int KItemModelBase::expandedParentsCount(int index) const
 QMimeData* KItemModelBase::createMimeData(const KItemSet& indexes) const
 {
     Q_UNUSED(indexes);
-    return 0;
+    return nullptr;
 }
 
 int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromIndex) const

@@ -31,7 +31,7 @@ KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     m_anchorItem(-1),
     m_selectedItems(),
     m_isAnchoredSelectionActive(false),
-    m_model(0)
+    m_model(nullptr)
 {
 }
 

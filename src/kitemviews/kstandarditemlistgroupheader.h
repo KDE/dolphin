@@ -32,10 +32,10 @@ class DOLPHIN_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
     Q_OBJECT
 
 public:
-    KStandardItemListGroupHeader(QGraphicsWidget* parent = 0);
+    KStandardItemListGroupHeader(QGraphicsWidget* parent = nullptr);
     ~KStandardItemListGroupHeader() override;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 protected:
     void paintRole(QPainter* painter, const QRectF& roleBounds, const QColor& color) override;

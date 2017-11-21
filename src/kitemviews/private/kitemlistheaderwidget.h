@@ -38,7 +38,7 @@ class DOLPHIN_EXPORT KItemListHeaderWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListHeaderWidget(QGraphicsWidget* parent = 0);
+    KItemListHeaderWidget(QGraphicsWidget* parent = nullptr);
     ~KItemListHeaderWidget() override;
 
     void setModel(KItemModelBase* model);
@@ -64,7 +64,7 @@ public:
 
     qreal minimumColumnWidth() const;
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 signals:
     /**
@@ -121,7 +121,7 @@ private:
                    const QByteArray& role,
                    const QRectF& rect,
                    int orderIndex,
-                   QWidget* widget = 0) const;
+                   QWidget* widget = nullptr) const;
 
     void updatePressedRoleIndex(const QPointF& pos);
     void updateHoveredRoleIndex(const QPointF& pos);

@@ -43,7 +43,7 @@ class PhononWidget : public QWidget
 {
     Q_OBJECT
     public:
-        PhononWidget(QWidget *parent = 0);
+        PhononWidget(QWidget *parent = nullptr);
 
         void setUrl(const QUrl &url);
         QUrl url() const;

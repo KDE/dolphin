@@ -170,10 +170,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     QMenu menu(this);
 
-    QAction* emptyTrashAction = 0;
-    QAction* editAction = 0;
-    QAction* teardownAction = 0;
-    QAction* ejectAction = 0;
+    QAction* emptyTrashAction = nullptr;
+    QAction* editAction = nullptr;
+    QAction* teardownAction = nullptr;
+    QAction* ejectAction = nullptr;
 
     const QString label = item->text();
 
@@ -213,7 +213,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit..."));
     }
 
-    QAction* removeAction = 0;
+    QAction* removeAction = nullptr;
     if (!isDevice && !item->isSystemItem()) {
         removeAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@item:inmenu", "Remove"));
     }
@@ -267,7 +267,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 
     QAction* addAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("@item:inmenu", "Add Entry..."));
 
-    QAction* showAllAction = 0;
+    QAction* showAllAction = nullptr;
     if (m_model->hiddenCount() > 0) {
         showAllAction = menu.addAction(i18nc("@item:inmenu", "Show All Entries"));
         showAllAction->setCheckable(true);
@@ -388,8 +388,8 @@ void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
         delete m_itemDropEvent;
 
         m_itemDropEventIndex = -1;
-        m_itemDropEventMimeData = 0;
-        m_itemDropEvent = 0;
+        m_itemDropEventMimeData = nullptr;
+        m_itemDropEvent = nullptr;
     }
 }
 
@@ -413,7 +413,7 @@ void PlacesPanel::slotTrashUpdated(KJob* job)
         emit errorMessage(job->errorString());
     }
     // as long as KIO doesn't do this, do it ourselves
-    KNotification::event(QStringLiteral("Trash: emptied"), QString(), QPixmap(), 0, KNotification::DefaultEvent);
+    KNotification::event(QStringLiteral("Trash: emptied"), QString(), QPixmap(), nullptr, KNotification::DefaultEvent);
 }
 
 void PlacesPanel::slotStorageSetupDone(int index, bool success)

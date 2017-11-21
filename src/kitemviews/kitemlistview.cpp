@@ -67,7 +67,7 @@ QAccessibleInterface* accessibleInterfaceFactory(const QString& key, QObject* ob
         return new KItemListViewAccessible(view);
     }
 
-    return 0;
+    return nullptr;
 }
 #endif
 
@@ -80,30 +80,30 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_activeTransactions(0),
     m_endTransactionAnimationHint(Animation),
     m_itemSize(),
-    m_controller(0),
-    m_model(0),
+    m_controller(nullptr),
+    m_model(nullptr),
     m_visibleRoles(),
-    m_widgetCreator(0),
-    m_groupHeaderCreator(0),
+    m_widgetCreator(nullptr),
+    m_groupHeaderCreator(nullptr),
     m_styleOption(),
     m_visibleItems(),
     m_visibleGroups(),
     m_visibleCells(),
-    m_sizeHintResolver(0),
-    m_layouter(0),
-    m_animation(0),
-    m_layoutTimer(0),
+    m_sizeHintResolver(nullptr),
+    m_layouter(nullptr),
+    m_animation(nullptr),
+    m_layoutTimer(nullptr),
     m_oldScrollOffset(0),
     m_oldMaximumScrollOffset(0),
     m_oldItemOffset(0),
     m_oldMaximumItemOffset(0),
     m_skipAutoScrollForRubberBand(false),
-    m_rubberBand(0),
+    m_rubberBand(nullptr),
     m_mousePos(),
     m_autoScrollIncrement(0),
-    m_autoScrollTimer(0),
-    m_header(0),
-    m_headerWidget(0),
+    m_autoScrollTimer(nullptr),
+    m_header(nullptr),
+    m_headerWidget(nullptr),
     m_dropIndicator()
 {
     setAcceptHoverEvents(true);
@@ -141,13 +141,13 @@ KItemListView::~KItemListView()
     // widgetCreator(). So it is mandatory to delete the group headers
     // first.
     delete m_groupHeaderCreator;
-    m_groupHeaderCreator = 0;
+    m_groupHeaderCreator = nullptr;
 
     delete m_widgetCreator;
-    m_widgetCreator = 0;
+    m_widgetCreator = nullptr;
 
     delete m_sizeHintResolver;
-    m_sizeHintResolver = 0;
+    m_sizeHintResolver = nullptr;
 }
 
 void KItemListView::setScrollOffset(qreal offset)
@@ -270,13 +270,13 @@ void KItemListView::setAutoScroll(bool enabled)
         m_autoScrollTimer->start(InitialAutoScrollDelay);
     } else if (!enabled && m_autoScrollTimer) {
         delete m_autoScrollTimer;
-        m_autoScrollTimer = 0;
+        m_autoScrollTimer = nullptr;
     }
 }
 
 bool KItemListView::autoScroll() const
 {
-    return m_autoScrollTimer != 0;
+    return m_autoScrollTimer != nullptr;
 }
 
 void KItemListView::setEnabledSelectionToggles(bool enabled)
@@ -629,7 +629,7 @@ QPixmap KItemListView::createDragPixmap(const KItemSet& indexes) const
         KItemListWidget* item = m_visibleItems.value(indexes.first());
         QGraphicsView* graphicsView = scene()->views()[0];
         if (item && graphicsView) {
-            pixmap = item->createDragPixmap(0, graphicsView);
+            pixmap = item->createDragPixmap(nullptr, graphicsView);
         }
     } else {
         // TODO: Not implemented yet. Probably extend the interface
@@ -834,12 +834,12 @@ Qt::Orientation KItemListView::scrollOrientation() const
 
 KItemListWidgetCreatorBase* KItemListView::defaultWidgetCreator() const
 {
-    return 0;
+    return nullptr;
 }
 
 KItemListGroupHeaderCreatorBase* KItemListView::defaultGroupHeaderCreator() const
 {
-    return 0;
+    return nullptr;
 }
 
 void KItemListView::initializeItemListWidget(KItemListWidget* item)
@@ -2090,7 +2090,7 @@ void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
 {
     KItemListGroupHeader* header = m_visibleGroups.value(widget);
     if (header) {
-        header->setParentItem(0);
+        header->setParentItem(nullptr);
         groupHeaderCreator()->recycle(header);
         m_visibleGroups.remove(widget);
         disconnect(widget, &KItemListWidget::geometryChanged, this, &KItemListView::slotGeometryOfGroupHeaderParentChanged);
@@ -2551,7 +2551,7 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
             const int parents = m_model->expandedParentsCount(lastIndex + 1);
             for (int i = lastIndex; i >= firstIndex; --i) {
                 if (m_model->expandedParentsCount(i) != parents) {
-                    widget = 0;
+                    widget = nullptr;
                     break;
                 }
             }
@@ -2714,7 +2714,7 @@ void KItemListCreatorBase::pushRecycleableWidget(QGraphicsWidget* widget)
 QGraphicsWidget* KItemListCreatorBase::popRecycleableWidget()
 {
     if (m_recycleableWidgets.isEmpty()) {
-        return 0;
+        return nullptr;
     }
 
     QGraphicsWidget* widget = m_recycleableWidgets.takeLast();
@@ -2728,7 +2728,7 @@ KItemListWidgetCreatorBase::~KItemListWidgetCreatorBase()
 
 void KItemListWidgetCreatorBase::recycle(KItemListWidget* widget)
 {
-    widget->setParentItem(0);
+    widget->setParentItem(nullptr);
     widget->setOpacity(1.0);
     pushRecycleableWidget(widget);
 }

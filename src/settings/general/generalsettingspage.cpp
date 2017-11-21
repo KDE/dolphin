@@ -65,7 +65,7 @@ GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
     m_pages.append(confirmationsPage);
     m_pages.append(statusBarPage);
 
-    topLayout->addWidget(tabWidget, 0, 0);
+    topLayout->addWidget(tabWidget, 0, nullptr);
 }
 
 GeneralSettingsPage::~GeneralSettingsPage()

@@ -41,7 +41,7 @@ class DOLPHIN_EXPORT KFileItemListView : public KStandardItemListView
     Q_OBJECT
 
 public:
-    KFileItemListView(QGraphicsWidget* parent = 0);
+    KFileItemListView(QGraphicsWidget* parent = nullptr);
     ~KFileItemListView() override;
 
     void setPreviewsShown(bool show);

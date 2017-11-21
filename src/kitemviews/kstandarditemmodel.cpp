@@ -89,7 +89,7 @@ void KStandardItemModel::changeItem(int index, KStandardItem* item)
 
     m_indexesForItems.remove(oldItem);
     delete oldItem;
-    oldItem = 0;
+    oldItem = nullptr;
 
     m_items[index] = item;
     m_indexesForItems.insert(item, index);
@@ -114,7 +114,7 @@ void KStandardItemModel::removeItem(int index)
         onItemRemoved(index, item);
 
         delete item;
-        item = 0;
+        item = nullptr;
 
         emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
 
@@ -134,7 +134,7 @@ void KStandardItemModel::clear()
 KStandardItem* KStandardItemModel::item(int index) const
 {
     if (index < 0 || index >= m_items.count()) {
-        return 0;
+        return nullptr;
     }
     return m_items[index];
 }
@@ -178,7 +178,7 @@ bool KStandardItemModel::setData(int index, const QHash<QByteArray, QVariant>& v
 QMimeData* KStandardItemModel::createMimeData(const KItemSet& indexes) const
 {
     Q_UNUSED(indexes);
-    return 0;
+    return nullptr;
 }
 
 int KStandardItemModel::indexForKeyboardSearch(const QString& text, int startFromIndex) const

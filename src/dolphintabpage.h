@@ -33,7 +33,7 @@ class DolphinTabPage : public QWidget
     Q_OBJECT
 
 public:
-    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl(), QWidget* parent = 0);
+    explicit DolphinTabPage(const QUrl& primaryUrl, const QUrl& secondaryUrl = QUrl(), QWidget* parent = nullptr);
 
     /**
      * @return True if primary view is the active view in this tab.

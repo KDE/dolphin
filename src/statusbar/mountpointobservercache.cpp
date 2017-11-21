@@ -36,7 +36,7 @@ Q_GLOBAL_STATIC(MountPointObserverCacheSingleton, s_MountPointObserverCache)
 MountPointObserverCache::MountPointObserverCache() :
     m_observerForMountPoint(),
     m_mountPointForObserver(),
-    m_updateTimer(0)
+    m_updateTimer(nullptr)
 {
     m_updateTimer = new QTimer(this);
 }

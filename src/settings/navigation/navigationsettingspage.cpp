@@ -28,8 +28,8 @@
 
 NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
-    m_openArchivesAsFolder(0),
-    m_autoExpandFolders(0)
+    m_openArchivesAsFolder(nullptr),
+    m_autoExpandFolders(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);

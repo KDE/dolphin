@@ -149,10 +149,10 @@ void KItemListControllerTest::initTestCase()
 void KItemListControllerTest::cleanupTestCase()
 {
     delete m_container;
-    m_container = 0;
+    m_container = nullptr;
 
     delete m_testDir;
-    m_testDir = 0;
+    m_testDir = nullptr;
 }
 
 /** Before each test, the current item, selection, and item size are reset to the defaults. */

@@ -52,7 +52,7 @@ void KFileItemListViewTest::init()
     m_model->m_dirLister->setAutoUpdate(false);
 
     m_listView = new KFileItemListView();
-    m_listView->onModelChanged(m_model, 0);
+    m_listView->onModelChanged(m_model, nullptr);
 
     m_graphicsView = new QGraphicsView();
     m_graphicsView->show();
@@ -62,16 +62,16 @@ void KFileItemListViewTest::init()
 void KFileItemListViewTest::cleanup()
 {
     delete m_graphicsView;
-    m_graphicsView = 0;
+    m_graphicsView = nullptr;
 
     delete m_listView;
-    m_listView = 0;
+    m_listView = nullptr;
 
     delete m_model;
-    m_model = 0;
+    m_model = nullptr;
 
     delete m_testDir;
-    m_testDir = 0;
+    m_testDir = nullptr;
 }
 
 /**

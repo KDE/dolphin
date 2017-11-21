@@ -52,9 +52,9 @@ namespace {
 PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
-    m_listView(0),
+    m_listView(nullptr),
     m_enabledPreviewPlugins(),
-    m_remoteFileSizeBox(0)
+    m_remoteFileSizeBox(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 

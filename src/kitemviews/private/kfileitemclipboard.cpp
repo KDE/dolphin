@@ -74,7 +74,7 @@ void KFileItemClipboard::updateCutItems()
 }
 
 KFileItemClipboard::KFileItemClipboard() :
-    QObject(0),
+    QObject(nullptr),
     m_cutItems()
 {
     updateCutItems();

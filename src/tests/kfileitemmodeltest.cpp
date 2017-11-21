@@ -126,10 +126,10 @@ void KFileItemModelTest::init()
 void KFileItemModelTest::cleanup()
 {
     delete m_model;
-    m_model = 0;
+    m_model = nullptr;
 
     delete m_testDir;
-    m_testDir = 0;
+    m_testDir = nullptr;
 }
 
 void KFileItemModelTest::testDefaultRoles()

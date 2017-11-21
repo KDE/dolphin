@@ -41,7 +41,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
                                            const QList<QByteArray>& visibleRoles) :
     QDialog(parent),
     m_visibleRoles(visibleRoles),
-    m_listWidget(0)
+    m_listWidget(nullptr)
 {
     setWindowTitle(i18nc("@title:window", "Additional Information"));
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);

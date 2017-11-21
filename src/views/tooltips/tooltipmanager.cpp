@@ -35,10 +35,10 @@
 
 ToolTipManager::ToolTipManager(QWidget* parent) :
     QObject(parent),
-    m_showToolTipTimer(0),
-    m_contentRetrievalTimer(0),
-    m_transientParent(0),
-    m_fileMetaDataWidget(0),
+    m_showToolTipTimer(nullptr),
+    m_contentRetrievalTimer(nullptr),
+    m_transientParent(nullptr),
+    m_fileMetaDataWidget(nullptr),
     m_toolTipRequested(false),
     m_metaDataRequested(false),
     m_appliedWaitCursor(false),

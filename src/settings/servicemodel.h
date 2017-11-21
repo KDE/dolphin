@@ -44,7 +44,7 @@ public:
         ConfigurableRole
     };
 
-    explicit ServiceModel(QObject* parent = 0);
+    explicit ServiceModel(QObject* parent = nullptr);
     ~ServiceModel() override;
 
     bool insertRows(int row, int count, const QModelIndex & parent = QModelIndex()) override;

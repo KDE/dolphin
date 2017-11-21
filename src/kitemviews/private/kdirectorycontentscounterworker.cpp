@@ -59,7 +59,7 @@ int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options 
     DIR* dir = ::opendir(QFile::encodeName(path));
     if (dir) {  // krazy:exclude=syscalls
         count = 0;
-        struct dirent *dirEntry = 0;
+        struct dirent *dirEntry = nullptr;
         while ((dirEntry = ::readdir(dir))) {
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {

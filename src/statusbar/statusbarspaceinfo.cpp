@@ -31,7 +31,7 @@
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
-    m_observer(0)
+    m_observer(nullptr)
 {
     setCursor(Qt::PointingHandCursor);
 }

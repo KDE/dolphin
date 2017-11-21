@@ -99,10 +99,10 @@ void KItemListSelectionManagerTest::init()
 void KItemListSelectionManagerTest::cleanup()
 {
     delete m_selectionManager;
-    m_selectionManager = 0;
+    m_selectionManager = nullptr;
 
     delete m_model;
-    m_model = 0;
+    m_model = nullptr;
 }
 
 void KItemListSelectionManagerTest::testConstructor()

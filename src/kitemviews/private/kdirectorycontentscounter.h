@@ -35,7 +35,7 @@ class KDirectoryContentsCounter : public QObject
     Q_OBJECT
 
 public:
-    explicit KDirectoryContentsCounter(KFileItemModel* model, QObject* parent = 0);
+    explicit KDirectoryContentsCounter(KFileItemModel* model, QObject* parent = nullptr);
     ~KDirectoryContentsCounter() override;
 
     /**

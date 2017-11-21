@@ -38,7 +38,7 @@ class DOLPHIN_EXPORT ViewModeController : public QObject
     Q_OBJECT
 
 public:
-    explicit ViewModeController(QObject* parent = 0);
+    explicit ViewModeController(QObject* parent = nullptr);
     ~ViewModeController() override;
 
     /**

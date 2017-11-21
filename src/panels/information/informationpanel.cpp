@@ -198,7 +198,7 @@ void InformationPanel::showItemInfo()
 
 void InformationPanel::slotFolderStatFinished(KJob* job)
 {
-    m_folderStatJob = 0;
+    m_folderStatJob = nullptr;
     const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
     m_content->showItem(KFileItem(entry, m_shownUrl));
 }
@@ -296,7 +296,7 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
 void InformationPanel::cancelRequest()
 {
     delete m_folderStatJob;
-    m_folderStatJob = 0;
+    m_folderStatJob = nullptr;
 
     m_infoTimer->stop();
     m_resetUrlTimer->stop();

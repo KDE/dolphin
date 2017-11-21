@@ -55,8 +55,8 @@ class DOLPHIN_EXPORT KItemModelBase : public QObject
     Q_OBJECT
 
 public:
-    KItemModelBase(QObject* parent = 0);
-    explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = 0);
+    KItemModelBase(QObject* parent = nullptr);
+    explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = nullptr);
     ~KItemModelBase() override;
 
     /** @return The number of items. */

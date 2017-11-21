@@ -26,7 +26,7 @@
 
 KFileItemModelFilter::KFileItemModelFilter() :
     m_useRegExp(false),
-    m_regExp(0),
+    m_regExp(nullptr),
     m_lowerCasePattern(),
     m_pattern()
 {
@@ -35,7 +35,7 @@ KFileItemModelFilter::KFileItemModelFilter() :
 KFileItemModelFilter::~KFileItemModelFilter()
 {
     delete m_regExp;
-    m_regExp = 0;
+    m_regExp = nullptr;
 }
 
 void KFileItemModelFilter::setPattern(const QString& filter)

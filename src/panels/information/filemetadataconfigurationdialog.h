@@ -43,7 +43,7 @@ class FileMetaDataConfigurationDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit FileMetaDataConfigurationDialog(QWidget* parent = 0);
+    explicit FileMetaDataConfigurationDialog(QWidget* parent = nullptr);
     ~FileMetaDataConfigurationDialog() override;
 
     /**

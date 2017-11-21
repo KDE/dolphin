@@ -50,7 +50,7 @@ class DOLPHIN_EXPORT KFileItemModel : public KItemModelBase
     Q_OBJECT
 
 public:
-    explicit KFileItemModel(QObject* parent = 0);
+    explicit KFileItemModel(QObject* parent = nullptr);
     ~KFileItemModel() override;
 
     /**

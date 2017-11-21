@@ -43,7 +43,7 @@ public:
         DetailsMode
     };
 
-    explicit ViewSettingsTab(Mode mode, QWidget* parent = 0);
+    explicit ViewSettingsTab(Mode mode, QWidget* parent = nullptr);
     ~ViewSettingsTab() override;
 
     void applySettings();

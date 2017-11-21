@@ -46,7 +46,7 @@ class DolphinSearchBox : public QWidget {
     Q_OBJECT
 
 public:
-    explicit DolphinSearchBox(QWidget* parent = 0);
+    explicit DolphinSearchBox(QWidget* parent = nullptr);
     ~DolphinSearchBox() override;
 
     /**

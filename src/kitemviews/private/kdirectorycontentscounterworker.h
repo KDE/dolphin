@@ -37,7 +37,7 @@ public:
     };
     Q_DECLARE_FLAGS(Options, Option)
 
-    explicit KDirectoryContentsCounterWorker(QObject* parent = 0);
+    explicit KDirectoryContentsCounterWorker(QObject* parent = nullptr);
 
     /**
      * Counts the items inside the directory \a path using the options

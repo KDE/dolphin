@@ -54,7 +54,7 @@ void DolphinNewFileMenuObserver::detach(const DolphinNewFileMenu* menu)
 }
 
 DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :
-    QObject(0)
+    QObject(nullptr)
 {
 }
 

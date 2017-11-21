@@ -60,8 +60,8 @@ K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
-      ,m_openTerminalAction(0)
-      ,m_removeAction(0)
+      ,m_openTerminalAction(nullptr)
+      ,m_removeAction(nullptr)
 {
     Q_UNUSED(args)
     setComponentData(*createAboutData(), false);
@@ -316,7 +316,7 @@ bool DolphinPart::openUrl(const QUrl &url)
     QString prettyUrl = visibleUrl.toDisplayString(QUrl::PreferLocalFile);
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
-    emit started(0); // get the wheel to spin
+    emit started(nullptr); // get the wheel to spin
     m_view->setNameFilter(m_nameFilter);
     m_view->setUrl(url);
     updatePasteAction();
@@ -431,7 +431,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
 
             if (showDeleteAction && showMoveToTrashAction) {
                 delete m_removeAction;
-                m_removeAction = 0;
+                m_removeAction = nullptr;
                 editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
                 editActions.append(actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
             } else if (showDeleteAction && !showMoveToTrashAction) {

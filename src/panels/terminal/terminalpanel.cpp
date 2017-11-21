@@ -38,11 +38,11 @@
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),
     m_clearTerminal(true),
-    m_mostLocalUrlJob(0),
-    m_layout(0),
-    m_terminal(0),
-    m_terminalWidget(0),
-    m_konsolePart(0),
+    m_mostLocalUrlJob(nullptr),
+    m_layout(nullptr),
+    m_terminal(nullptr),
+    m_terminalWidget(nullptr),
+    m_konsolePart(nullptr),
     m_konsolePartCurrentDirectory(),
     m_sendCdToTerminalHistory()
 {
@@ -69,7 +69,7 @@ QString TerminalPanel::currentWorkingDirectory()
 
 void TerminalPanel::terminalExited()
 {
-    m_terminal = 0;
+    m_terminal = nullptr;
     emit hideTerminalPanel();
 }
 
@@ -117,12 +117,12 @@ void TerminalPanel::showEvent(QShowEvent* event)
 
     if (!m_terminal) {
         m_clearTerminal = true;
-        KPluginFactory* factory = 0;
+        KPluginFactory* factory = nullptr;
         KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("konsolepart"));
         if (service) {
             factory = KPluginLoader(service->library()).factory();
         }
-        m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
+        m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : nullptr;
         if (m_konsolePart) {
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
             m_terminalWidget = m_konsolePart->widget();
@@ -144,7 +144,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
 void TerminalPanel::changeDir(const QUrl& url)
 {
     delete m_mostLocalUrlJob;
-    m_mostLocalUrlJob = 0;
+    m_mostLocalUrlJob = nullptr;
 
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
@@ -198,7 +198,7 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
         sendCdToTerminal(url.toLocalFile());
     }
 
-    m_mostLocalUrlJob = 0;
+    m_mostLocalUrlJob = nullptr;
 }
 
 void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)

@@ -40,7 +40,7 @@ class StatusBarSpaceInfo : public KCapacityBar
     Q_OBJECT
 
 public:
-    explicit StatusBarSpaceInfo(QWidget* parent = 0);
+    explicit StatusBarSpaceInfo(QWidget* parent = nullptr);
     ~StatusBarSpaceInfo() override;
 
     void setUrl(const QUrl& url);

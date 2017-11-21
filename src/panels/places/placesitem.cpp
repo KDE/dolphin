@@ -66,7 +66,7 @@ void PlacesItem::setUrl(const QUrl &url)
             // watches for changes if the number of items has been changed.
             // The update of the icon is handled in onTrashDirListerCompleted().
             m_trashDirLister = new KDirLister();
-            m_trashDirLister->setAutoErrorHandlingEnabled(false, 0);
+            m_trashDirLister->setAutoErrorHandlingEnabled(false, nullptr);
             m_trashDirLister->setDelayedMimeTypes(true);
             QObject::connect(m_trashDirLister.data(), static_cast<void(KDirLister::*)()>(&KDirLister::completed),
                              m_signalHandler.data(), &PlacesItemSignalHandler::onTrashDirListerCompleted);

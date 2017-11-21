@@ -24,7 +24,7 @@
 KFileItemModelDirLister::KFileItemModelDirLister(QObject* parent) :
     KDirLister(parent)
 {
-    setAutoErrorHandlingEnabled(false, 0);
+    setAutoErrorHandlingEnabled(false, nullptr);
 }
 
 KFileItemModelDirLister::~KFileItemModelDirLister()

@@ -65,14 +65,14 @@
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget(parent),
     m_item(),
-    m_previewJob(0),
-    m_outdatedPreviewTimer(0),
-    m_preview(0),
-    m_phononWidget(0),
-    m_nameLabel(0),
-    m_metaDataWidget(0),
-    m_metaDataArea(0),
-    m_placesItemModel(0)
+    m_previewJob(nullptr),
+    m_outdatedPreviewTimer(nullptr),
+    m_preview(nullptr),
+    m_phononWidget(nullptr),
+    m_nameLabel(nullptr),
+    m_metaDataWidget(nullptr),
+    m_metaDataArea(nullptr),
+    m_placesItemModel(nullptr)
 {
     parent->installEventFilter(this);
 

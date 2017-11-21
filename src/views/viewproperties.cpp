@@ -50,7 +50,7 @@ namespace {
 ViewProperties::ViewProperties(const QUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
-    m_node(0)
+    m_node(nullptr)
 {
     GeneralSettings* settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
@@ -140,7 +140,7 @@ ViewProperties::~ViewProperties()
     }
 
     delete m_node;
-    m_node = 0;
+    m_node = nullptr;
 }
 
 void ViewProperties::setViewMode(DolphinView::Mode mode)

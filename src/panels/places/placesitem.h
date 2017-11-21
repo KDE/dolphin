@@ -48,7 +48,7 @@ public:
         DevicesType
     };
 
-    explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = 0);
+    explicit PlacesItem(const KBookmark& bookmark, PlacesItem* parent = nullptr);
     ~PlacesItem() override;
 
     void setUrl(const QUrl& url);

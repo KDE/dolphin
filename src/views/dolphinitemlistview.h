@@ -39,7 +39,7 @@ class DOLPHIN_EXPORT DolphinItemListView : public KFileItemListView
     Q_OBJECT
 
 public:
-    explicit DolphinItemListView(QGraphicsWidget* parent = 0);
+    explicit DolphinItemListView(QGraphicsWidget* parent = nullptr);
     ~DolphinItemListView() override;
 
     void setZoomLevel(int level);

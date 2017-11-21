@@ -273,8 +273,8 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     m_additionalInfoTextColor(),
     m_overlay(),
     m_rating(),
-    m_roleEditor(0),
-    m_oldRoleEditor(0)
+    m_roleEditor(nullptr),
+    m_oldRoleEditor(nullptr)
 {
 }
 
@@ -770,7 +770,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
             }
             m_oldRoleEditor = m_roleEditor;
             m_roleEditor->hide();
-            m_roleEditor = 0;
+            m_roleEditor = nullptr;
         }
         return;
     }
@@ -1452,7 +1452,7 @@ void KStandardItemListWidget::closeRoleEditor()
     }
     m_oldRoleEditor = m_roleEditor;
     m_roleEditor->hide();
-    m_roleEditor = 0;
+    m_roleEditor = nullptr;
 }
 
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size, QIcon::Mode mode)

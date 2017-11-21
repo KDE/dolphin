@@ -44,10 +44,10 @@ PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     m_text(),
     m_url(),
     m_allowGlobal(false),
-    m_urlEdit(0),
-    m_textEdit(0),
-    m_iconButton(0),
-    m_appLocal(0),
+    m_urlEdit(nullptr),
+    m_textEdit(nullptr),
+    m_iconButton(nullptr),
+    m_appLocal(nullptr),
     m_buttonBox(nullptr)
 {
 }

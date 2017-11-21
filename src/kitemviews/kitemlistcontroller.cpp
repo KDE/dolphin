@@ -49,13 +49,13 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_selectionBehavior(NoSelection),
     m_autoActivationBehavior(ActivationAndExpansion),
     m_mouseDoubleClickAction(ActivateItemOnly),
-    m_model(0),
-    m_view(0),
+    m_model(nullptr),
+    m_view(nullptr),
     m_selectionManager(new KItemListSelectionManager(this)),
     m_keyboardManager(new KItemListKeyboardSearchManager(this)),
     m_pressedIndex(-1),
     m_pressedMousePos(),
-    m_autoActivationTimer(0),
+    m_autoActivationTimer(nullptr),
     m_oldSelection(),
     m_keyboardAnchorIndex(-1),
     m_keyboardAnchorPos(0)
@@ -76,10 +76,10 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
 
 KItemListController::~KItemListController()
 {
-    setView(0);
+    setView(nullptr);
     Q_ASSERT(!m_view);
 
-    setModel(0);
+    setModel(nullptr);
     Q_ASSERT(!m_model);
 }
 
@@ -1216,7 +1216,7 @@ KItemListWidget* KItemListController::hoveredWidget() const
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
@@ -1233,7 +1233,7 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 void KItemListController::updateKeyboardAnchor()

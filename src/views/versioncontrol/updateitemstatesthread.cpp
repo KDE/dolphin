@@ -25,7 +25,7 @@
 UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
                                                const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates) :
     QThread(),
-    m_globalPluginMutex(0),
+    m_globalPluginMutex(nullptr),
     m_plugin(plugin),
     m_itemStates(itemStates)
 {

@@ -53,20 +53,20 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_startedSearching(false),
     m_active(true),
-    m_topLayout(0),
-    m_searchLabel(0),
-    m_searchInput(0),
-    m_saveSearchAction(0),
-    m_optionsScrollArea(0),
-    m_fileNameButton(0),
-    m_contentButton(0),
-    m_separator(0),
-    m_fromHereButton(0),
-    m_everywhereButton(0),
-    m_facetsToggleButton(0),
-    m_facetsWidget(0),
+    m_topLayout(nullptr),
+    m_searchLabel(nullptr),
+    m_searchInput(nullptr),
+    m_saveSearchAction(nullptr),
+    m_optionsScrollArea(nullptr),
+    m_fileNameButton(nullptr),
+    m_contentButton(nullptr),
+    m_separator(nullptr),
+    m_fromHereButton(nullptr),
+    m_everywhereButton(nullptr),
+    m_facetsToggleButton(nullptr),
+    m_facetsWidget(nullptr),
     m_searchPath(),
-    m_startSearchTimer(0)
+    m_startSearchTimer(nullptr)
 {
 }
 

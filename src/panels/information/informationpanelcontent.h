@@ -57,7 +57,7 @@ class InformationPanelContent : public QWidget
     Q_OBJECT
 
 public:
-    explicit InformationPanelContent(QWidget* parent = 0);
+    explicit InformationPanelContent(QWidget* parent = nullptr);
     ~InformationPanelContent() override;
 
     /**

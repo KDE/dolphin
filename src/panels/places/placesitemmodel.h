@@ -50,7 +50,7 @@ class PlacesItemModel: public KStandardItemModel
     Q_OBJECT
 
 public:
-    explicit PlacesItemModel(QObject* parent = 0);
+    explicit PlacesItemModel(QObject* parent = nullptr);
     ~PlacesItemModel() override;
 
     /**

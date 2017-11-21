@@ -67,7 +67,7 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
     Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset)
 
 public:
-    KItemListView(QGraphicsWidget* parent = 0);
+    KItemListView(QGraphicsWidget* parent = nullptr);
     ~KItemListView() override;
 
     /**
@@ -285,7 +285,7 @@ public:
      */
     void editRole(int index, const QByteArray& role);
 
-    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) override;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
 signals:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);

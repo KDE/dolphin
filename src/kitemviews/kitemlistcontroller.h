@@ -88,7 +88,7 @@ public:
      * @param view   View of the controller. The ownership is passed to the controller.
      * @param parent Optional parent object.
      */
-    KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent = 0);
+    KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent = nullptr);
     ~KItemListController() override;
 
     void setModel(KItemModelBase* model);
