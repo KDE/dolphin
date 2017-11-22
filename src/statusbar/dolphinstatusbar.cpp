@@ -323,7 +323,7 @@ void DolphinStatusBar::updateLabelText()
 
     // Set status bar text and elide it if too long
     QFontMetrics fontMetrics(m_label->font());
-    const QString elidedText = fontMetrics.elidedText(text, Qt::ElideRight, m_label->width());
+    const QString elidedText = fontMetrics.elidedText(text, Qt::ElideMiddle, m_label->width());
     m_label->setText(elidedText);
 
     // If the text has been elided, set the original text as tooltip
