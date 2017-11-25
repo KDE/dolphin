@@ -23,6 +23,7 @@
 
 #include <QIcon>
 #include <KLocalizedString>
+#include <KSqueezedTextLabel>
 #include <QMenu>
 
 #include "statusbarspaceinfo.h"
@@ -60,10 +61,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_textTimestamp()
 {
     // Initialize text label
-    m_label = new QLabel(this);
+    m_label = new KSqueezedTextLabel(m_text, this);
     m_label->setWordWrap(true);
     m_label->setTextFormat(Qt::PlainText);
-    m_label->installEventFilter(this);
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
@@ -127,9 +127,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(2, 0, 2, 0);
     topLayout->setSpacing(4);
-    topLayout->addWidget(m_label);
-    topLayout->addWidget(m_zoomSlider);
-    topLayout->addWidget(m_spaceInfo);
+    topLayout->addWidget(m_label, 1);
+    topLayout->addWidget(m_zoomSlider, 1);
+    topLayout->addWidget(m_spaceInfo, 1);
     topLayout->addWidget(m_stopButton);
     topLayout->addWidget(m_progressTextLabel);
     topLayout->addWidget(m_progressBar);
@@ -282,14 +282,6 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
     }
 }
 
-bool DolphinStatusBar::eventFilter(QObject* obj, QEvent* event)
-{
-    if (obj == m_label && event->type() == QEvent::Resize) {
-        updateLabelText();
-    }
-    return QWidget::eventFilter(obj, event);
-}
-
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
 {
     updateZoomSliderToolTip(zoomLevel);
@@ -320,18 +312,7 @@ void DolphinStatusBar::updateProgressInfo()
 void DolphinStatusBar::updateLabelText()
 {
     const QString text = m_text.isEmpty() ? m_defaultText : m_text;
-
-    // Set status bar text and elide it if too long
-    QFontMetrics fontMetrics(m_label->font());
-    const QString elidedText = fontMetrics.elidedText(text, Qt::ElideMiddle, m_label->width());
-    m_label->setText(elidedText);
-
-    // If the text has been elided, set the original text as tooltip
-    if (text != elidedText) {
-        m_label->setToolTip(Qt::convertFromPlainText(text));
-    } else {
-        m_label->setToolTip(QString());
-    }
+    m_label->setText(text);
 }
 
 void DolphinStatusBar::slotResetToDefaultText()
