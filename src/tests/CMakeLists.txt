@@ -59,3 +59,9 @@ TEST_NAME dolphinmainwindowtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
+
+# PlacesItemModelTest
+ecm_add_test(placesitemmodeltest.cpp
+TEST_NAME placesitemmodeltest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
+

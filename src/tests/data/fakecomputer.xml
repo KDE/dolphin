@@ -1,0 +1,387 @@
+<!-- Please note that in this file we indent more than necessary so that the
+     device tree is visible -->
+
+<machine>
+    <!-- This is a computer -->
+    <device udi="/org/kde/solid/fakehw/computer">
+        <property key="name">Computer</property>
+        <property key="vendor">Solid</property>
+    </device>
+
+        <!-- Two CPUs -->
+        <device udi="/org/kde/solid/fakehw/acpi_CPU0">
+            <property key="name">Solid Processor #0</property>
+            <property key="interfaces">Processor</property>
+            <property key="vendor">Acme Corporation</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+            <property key="number">0</property>
+            <property key="maxSpeed">3200</property>
+            <property key="canChangeFrequency">true</property>
+            <property key="instructionSets">mmx,sse</property>
+        </device>
+        <device udi="/org/kde/solid/fakehw/acpi_CPU1">
+            <property key="name">Solid Processor #1</property>
+            <property key="interfaces">Processor</property>
+            <property key="vendor">Acme Corporation</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+            <property key="number">1</property>
+            <property key="maxSpeed">3200</property>
+            <property key="canChangeFrequency">true</property>
+        </device>
+
+        <!-- Platform Device for a floppy drive -->
+        <device udi="/org/kde/solid/fakehw/platform_floppy_0">
+            <property key="name">Platform Device (floppy)</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+        </device>
+            <!-- The actual floppy device -->
+            <device udi="/org/kde/solid/fakehw/platform_floppy_0_storage">
+                <property key="name">PC Floppy Drive</property>
+                <property key="interfaces">StorageDrive,Block</property>
+                <property key="parent">/org/kde/solid/fakehw/platform_floppy_0</property>
+
+                <property key="minor">0</property>
+                <property key="major">2</property>
+                <property key="device">/dev/fd0</property>
+
+                <property key="bus">platform</property>
+                <property key="driveType">floppy</property>
+                <property key="isRemovable">true</property>
+                <property key="isEjectRequired">false</property>
+                <property key="isHotpluggable">false</property>
+                <property key="isMediaCheckEnabled">false</property>
+            </device>
+                <!-- A (generally) virtual volume tracking the floppy drive state -->
+                <device udi="/org/kde/solid/fakehw/platform_floppy_0_storage_virt_volume">
+                    <property key="name">Floppy Disk</property>
+                    <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                    <property key="parent">/org/kde/solid/fakehw/platform_floppy_0_storage</property>
+
+                    <property key="minor">0</property>
+                    <property key="major">2</property>
+                    <property key="device">/dev/fd0</property>
+
+                    <property key="isIgnored">false</property>
+                    <property key="isMounted">true</property>
+                    <property key="mountPoint">/media/floppy0</property>
+                    <property key="usage">filesystem</property>
+                </device>
+
+
+
+        <!-- Primary IDE controller -->
+        <device udi="/org/kde/solid/fakehw/pci_001">
+            <property key="name">99021 IDE Controller #1</property>
+            <property key="vendor">Acme Corporation</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+        </device>
+
+            <!-- Master device... -->
+            <device udi="/org/kde/solid/fakehw/pci_001_ide_0_0">
+                <property key="name">IDE device (master)</property>
+                <property key="parent">/org/kde/solid/fakehw/pci_001</property>
+            </device>
+                <!-- ... is a 250GB disk... -->
+                <device udi="/org/kde/solid/fakehw/storage_serial_HD56890I">
+                    <property key="name">HD250GB</property>
+                    <property key="vendor">Acme Corporation</property>
+                    <property key="interfaces">StorageDrive,Block</property>
+                    <property key="parent">/org/kde/solid/fakehw/pci_001_ide_0_0</property>
+
+                    <property key="minor">0</property>
+                    <property key="major">3</property>
+                    <property key="device">/dev/hda</property>
+
+                    <property key="bus">scsi</property>
+                    <property key="driveType">disk</property>
+                    <property key="isRemovable">false</property>
+                    <property key="isEjectRequired">false</property>
+                    <property key="isHotpluggable">false</property>
+                    <property key="isMediaCheckEnabled">false</property>
+                    <property key="product">HD250GBSATA</property>
+                </device>
+                    <!-- ... with five partitions:
+                              - one physical partition (the root /, ext3, 20GB)
+                              - one extended containing three logical volumes:
+                                  - a swap volume (2GB)
+                                  - /home volume (xfs, 208GB)
+                                  - /foreign volume (ntfs, 20GB)
+                    -->
+                    <device udi="/org/kde/solid/fakehw/volume_uuid_feedface">
+                        <property key="name">/</property>
+                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_serial_HD56890I</property>
+
+                        <property key="minor">1</property>
+                        <property key="major">3</property>
+                        <property key="device">/dev/hda1</property>
+
+                        <property key="isIgnored">true</property>
+                        <property key="isMounted">true</property>
+                        <property key="mountPoint">/</property>
+                        <property key="usage">filesystem</property>
+                        <property key="fsType">ext3</property>
+                        <property key="label">Root</property>
+                        <property key="uuid">feedface</property>
+                        <property key="size">21474836480</property>
+                    </device>
+                    <device udi="/org/kde/solid/fakehw/volume_uuid_c0ffee">
+                        <property key="name">/home</property>
+                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_serial_HD56890I</property>
+
+                        <property key="minor">6</property>
+                        <property key="major">3</property>
+                        <property key="device">/dev/hda6</property>
+
+                        <property key="isIgnored">true</property>
+                        <property key="isMounted">true</property>
+                        <property key="mountPoint">/home</property>
+                        <property key="usage">filesystem</property>
+                        <property key="fsType">xfs</property>
+                        <property key="label">Home</property>
+                        <property key="uuid">c0ffee</property>
+                        <property key="size">223338299392</property>
+                    </device>
+                    <device udi="/org/kde/solid/fakehw/volume_uuid_f00ba7">
+                        <property key="name">/foreign</property>
+                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_serial_HD56890I</property>
+
+                        <property key="minor">7</property>
+                        <property key="major">3</property>
+                        <property key="device">/dev/hda7</property>
+
+                        <property key="isIgnored">false</property>
+                        <property key="isMounted">true</property>
+                        <property key="mountPoint">/foreign</property>
+                        <property key="usage">filesystem</property>
+                        <property key="fsType">ntfs</property>
+                        <property key="label">Foreign</property>
+                        <property key="uuid">f00ba7</property>
+                        <property key="size">21474836480</property>
+                    </device>
+                    <device udi="/org/kde/solid/fakehw/volume_part2_size_1024">
+                        <property key="name">StorageVolume</property>
+                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_serial_HD56890I</property>
+
+                        <property key="minor">2</property>
+                        <property key="major">3</property>
+                        <property key="device">/dev/hda2</property>
+
+                        <property key="isIgnored">true</property>
+                        <property key="isMounted">false</property>
+                        <property key="usage">other</property>
+                        <property key="size">1024</property>
+                    </device>
+                    <device udi="/org/kde/solid/fakehw/volume_part5_size_1048576">
+                        <property key="name">StorageVolume (swap)</property>
+                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_serial_HD56890I</property>
+
+                        <property key="minor">5</property>
+                        <property key="major">3</property>
+                        <property key="device">/dev/hda5</property>
+
+                        <property key="isIgnored">true</property>
+                        <property key="isMounted">false</property>
+                        <property key="usage">other</property>
+                        <property key="fsType">swap</property>
+                        <property key="size">2147483648</property>
+                    </device>
+
+
+        <!-- Secondary IDE controller -->
+        <device udi="/org/kde/solid/fakehw/pci_002">
+            <property key="name">99021 IDE Controller #2</property>
+            <property key="vendor">Acme Corporation</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+        </device>
+
+            <!-- Master device... -->
+            <device udi="/org/kde/solid/fakehw/pci_002_ide_1_0">
+                <property key="name">IDE device (master)</property>
+                <property key="parent">/org/kde/solid/fakehw/pci_002</property>
+            </device>
+                <!-- ... is a DVD writer... -->
+                <device udi="/org/kde/solid/fakehw/storage_model_solid_writer">
+                    <property key="name">Solid IDE DVD Writer</property>
+                    <property key="vendor">Acme Corporation</property>
+                    <property key="interfaces">Block,StorageDrive,OpticalDrive</property>
+                    <property key="parent">/org/kde/solid/fakehw/pci_002_ide_1_0</property>
+
+                    <property key="minor">0</property>
+                    <property key="major">22</property>
+                    <property key="device">/dev/hdc</property>
+
+                    <property key="bus">ide</property>
+                    <property key="driveType">cdrom</property>
+                    <property key="isRemovable">true</property>
+                    <property key="isEjectRequired">true</property>
+                    <property key="isHotpluggable">false</property>
+                    <property key="isMediaCheckEnabled">true</property>
+                    <property key="product">Solid DVD Writer</property>
+
+                    <property key="supportedMedia">cdr,cdrw,dvd,dvdr,dvdrw</property>
+                    <property key="readSpeed">4234</property>
+                    <property key="writeSpeed">4234</property>
+                    <property key="writeSpeeds">4234,2822,2117,1411,706</property>
+                </device>
+                    <!-- ... with a cd-r in it -->
+                    <device udi="/org/kde/solid/fakehw/volume_uuid_5011">
+                        <property key="name">FooDistro i386</property>
+                        <property key="interfaces">Block,StorageVolume,OpticalDisc,StorageAccess</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_model_solid_writer</property>
+
+                        <property key="discType">cd_rw</property>
+                        <property key="isAppendable">false</property>
+                        <property key="isRewritable">true</property>
+                        <property key="isBlank">false</property>
+                        <property key="availableContent">data</property>
+                        <property key="mountPoint">/media/cdrom</property>
+
+                        <property key="uuid">5011</property>
+                        <property key="size">731047936</property>
+                        <property key="label">FooDistro i386</property>
+                    </device>
+
+            <!-- Slave device... -->
+            <device udi="/org/kde/solid/fakehw/pci_002_ide_1_1">
+                <property key="name">IDE device (slave)</property>
+                <property key="parent">/org/kde/solid/fakehw/pci_002</property>
+            </device>
+                <!-- ... is a DVD reader... -->
+                <device udi="/org/kde/solid/fakehw/storage_model_solid_reader">
+                    <property key="name">Solid IDE DVD Reader</property>
+                    <property key="vendor">Acme Corporation</property>
+                    <property key="interfaces">Block,StorageDrive,OpticalDrive</property>
+                    <property key="parent">/org/kde/solid/fakehw/pci_002_ide_1_1</property>
+
+                    <property key="minor">0</property>
+                    <property key="major">22</property>
+                    <property key="device">/dev/hdc</property>
+
+                    <property key="bus">ide</property>
+                    <property key="driveType">cdrom</property>
+                    <property key="isRemovable">true</property>
+                    <property key="isEjectRequired">true</property>
+                    <property key="isHotpluggable">false</property>
+                    <property key="isMediaCheckEnabled">true</property>
+                    <property key="product">Solid DVD Reader</property>
+
+                    <property key="supportedMedia">cdr,cdrw,dvd,dvdr,dvdrw,dvdram,dvdplusr,dvdplusrw</property>
+                    <property key="readSpeed">4234</property>
+                </device>
+                    <!-- ... with a DVD Video in it -->
+                    <device udi="/org/kde/solid/fakehw/volume_label_SOLIDMAN_BEGINS">
+                        <property key="name">SolidMan Begins</property>
+                        <property key="interfaces">Block,StorageVolume,OpticalDisc</property>
+                        <property key="parent">/org/kde/solid/fakehw/storage_model_solid_reader</property>
+
+                        <property key="discType">dvd_rom</property>
+                        <property key="isAppendable">false</property>
+                        <property key="isRewritable">false</property>
+                        <property key="isBlank">false</property>
+                        <property key="availableContent">dvdvideo</property>
+
+                        <property key="uuid">5012</property>
+                        <property key="size">8033075200</property>
+                        <property key="label">SolidMan Begins</property>
+                    </device>
+
+
+
+        <!-- First USB Controller -->
+        <device udi="/org/kde/solid/fakehw/pci_8086_265c">
+            <property key="name">99021 USB2 EHCI Controller #1</property>
+            <property key="vendor">Acme Corporation</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+        </device>
+            <!-- Host Controller -->
+            <device udi="/org/kde/solid/fakehw/usb_device_0_0_1d_7">
+                <property key="name">EHCI Host Controller</property>
+                <property key="vendor">Kernel ehci_hcd</property>
+                <property key="parent">/org/kde/solid/fakehw/pci_8086_265c</property>
+            </device>
+                <!-- USB Device -->
+                <device udi="/org/kde/solid/fakehw/usb_device_4e8_5041">
+                    <property key="name">Acme XO-Y4</property>
+                    <property key="parent">/org/kde/solid/fakehw/usb_device_0_0_1d_7</property>
+                </device>
+                    <!-- Mass Storage Interface -->
+                    <device udi="/org/kde/solid/fakehw/usb_device_4e8_5041_if0">
+                        <property key="name">USB Mass Storage Inferface</property>
+                        <property key="parent">/org/kde/solid/fakehw/usb_device_4e8_5041</property>
+                    </device>
+                        <!-- SCSI Adapter -->
+                        <device udi="/org/kde/solid/fakehw/usb_device_4e8_5041_if0_scsi_host">
+                            <property key="name">SCSI Host Adapter</property>
+                            <property key="parent">/org/kde/solid/fakehw/usb_device_4e8_5041_if0</property>
+                        </device>
+                        <!-- SCSI Device -->
+                            <device udi="/org/kde/solid/fakehw/usb_device_4e8_5041_if0_scsi_host_scsi_device_lun0">
+                                <property key="name">SCSI Device</property>
+                                <property key="parent">/org/kde/solid/fakehw/usb_device_4e8_5041_if0_scsi_host</property>
+                            </device>
+                                <!-- We finally find the storage device, which is a portable media player... -->
+                                <device udi="/org/kde/solid/fakehw/storage_serial_XOY4_5206">
+                                    <property key="name">XO-Y4</property>
+                                    <property key="vendor">Acme Electronics</property>
+                                    <property key="interfaces">StorageDrive,Block,PortableMediaPlayer</property>
+                                    <property key="parent">/org/kde/solid/fakehw/usb_device_4e8_5041_if0_scsi_host_scsi_device_lun0</property>
+
+                                    <property key="minor">0</property>
+                                    <property key="major">8</property>
+                                    <property key="device">/dev/sda</property>
+
+                                    <property key="bus">usb</property>
+                                    <property key="driveType">disk</property>
+                                    <property key="isRemovable">true</property>
+                                    <property key="isEjectRequired">true</property>
+                                    <property key="isHotpluggable">true</property>
+                                    <property key="isMediaCheckEnabled">true</property>
+                                    <property key="product">XO-Y4</property>
+
+                                    <property key="accessMethod">MassStorage</property>
+                                    <property key="outputFormats">audio/x-mp3</property>
+                                    <property key="inputFormats">audio/x-wav,audio/x-mp3,audio/vorbis</property>
+                                    <property key="playlistFormats">audio/x-mpegurl</property>
+                                </device>
+                                    <!-- ... with a partition since it's a USB Mass Storage device -->
+                                    <device udi="/org/kde/solid/fakehw/volume_part1_size_993284096">
+                                        <property key="name">StorageVolume (vfat)</property>
+                                        <property key="interfaces">Block,StorageVolume,StorageAccess</property>
+                                        <property key="parent">/org/kde/solid/fakehw/storage_serial_XOY4_5206</property>
+
+                                        <property key="minor">1</property>
+                                        <property key="major">8</property>
+                                        <property key="device">/dev/sda1</property>
+
+                                        <property key="isIgnored">false</property>
+                                        <property key="isMounted">true</property>
+                                        <property key="mountPoint">/media/XO-Y4</property>
+                                        <property key="usage">filesystem</property>
+                                        <property key="fsType">vfat</property>
+                                        <property key="size">993284096</property>
+                                    </device>
+
+        <device udi="/org/kde/solid/fakehw/fstab">
+            <property key="name">Network Shares</property>
+            <property key="product">Network Shares</property>
+            <property key="vendor">KDE</property>
+            <property key="parent">/org/kde/solid/fakehw/computer</property>
+        </device>
+            <device udi="/org/kde/solid/fakehw/fstab/thehost/solidpath">
+                <property key="parent">/org/kde/solid/fstab</property>
+                <property key="interfaces">NetworkShare,StorageAccess</property>
+                <property key="vendor">/solidpath</property>
+                <property key="product">thehost</property>
+                <property key="type">nfs</property>
+                <property key="url">nfs://thehost/solid-path</property>
+                <property key="filePath">/media/nfs</property>
+                <property key="isIgnored">false</property>
+                <property key="isMounted">true</property>
+                <property key="mountPoint">/media/nfs</property>
+            </device>
+</machine>
