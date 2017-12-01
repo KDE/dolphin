@@ -17,7 +17,7 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
-include(ECMPackageConfigHelpers)
+include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 include(FeatureSummary)
 include(KDEInstallDirs)
@@ -108,7 +108,7 @@ add_subdirectory(doc)
 # CMake files
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DolphinVcs")
 
-ecm_configure_package_config_file(
+configure_package_config_file(
     "${CMAKE_CURRENT_SOURCE_DIR}/DolphinVcsConfig.cmake.in"
     "${CMAKE_CURRENT_BINARY_DIR}/DolphinVcsConfig.cmake"
     INSTALL_DESTINATION ${CMAKECONFIG_INSTALL_DIR}
