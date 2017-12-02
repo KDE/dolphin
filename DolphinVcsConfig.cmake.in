@@ -1,5 +1,7 @@
 @PACKAGE_INIT@
 
+include(CMakeFindDependencyMacro)
+
 find_dependency(Qt5Widgets)
 find_dependency(KF5KIO)
 

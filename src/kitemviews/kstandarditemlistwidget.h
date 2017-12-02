@@ -188,6 +188,9 @@ protected:
 public slots:
     void finishRoleEditing();
 
+public slots:
+    void finishRoleEditing();
+
 private slots:
     void slotCutItemsChanged();
     void slotRoleEditingCanceled(const QByteArray& role, const QVariant& value);
