@@ -1001,6 +1001,16 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
         fileName = '/';
     }
 
+    if (m_activeViewContainer->isSearchModeEnabled()) {
+        if(m_activeViewContainer->currentSearchText().isEmpty()){
+            setWindowTitle(i18n("Empty Search"));
+        } else {
+            const auto searchText = i18n("Search for %1", m_activeViewContainer->currentSearchText());
+            setWindowTitle(searchText);
+        }
+        return;
+    }
+
     setWindowTitle(schemePrefix + fileName);
 }
 

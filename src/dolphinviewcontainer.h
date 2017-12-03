@@ -93,6 +93,8 @@ public:
     void setAutoGrabFocus(bool grab);
     bool autoGrabFocus() const;
 
+    QString currentSearchText() const;
+
     const DolphinStatusBar* statusBar() const;
     DolphinStatusBar* statusBar();
 

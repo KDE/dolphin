@@ -245,6 +245,11 @@ bool DolphinViewContainer::autoGrabFocus() const
     return m_autoGrabFocus;
 }
 
+QString DolphinViewContainer::currentSearchText() const
+{
+     return m_searchBox->text();
+}
+
 const DolphinStatusBar* DolphinViewContainer::statusBar() const
 {
     return m_statusBar;
