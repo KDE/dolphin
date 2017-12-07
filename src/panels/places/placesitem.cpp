@@ -102,6 +102,16 @@ bool PlacesItem::isHidden() const
     return dataValue("isHidden").toBool();
 }
 
+bool PlacesItem::isGroupHidden() const
+{
+    return dataValue("isGroupHidden").toBool();
+}
+
+void PlacesItem::setGroupHidden(bool hidden)
+{
+    setDataValue("isGroupHidden", hidden);
+}
+
 void PlacesItem::setSystemItem(bool isSystemItem)
 {
     setDataValue("isSystemItem", isSystemItem);

@@ -179,6 +179,20 @@ KItemListController::MouseDoubleClickAction KItemListController::mouseDoubleClic
     return m_mouseDoubleClickAction;
 }
 
+int KItemListController::indexCloseToMousePressedPosition() const
+{
+    QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_view->m_visibleGroups);
+    while (it.hasNext()) {
+        it.next();
+        KItemListGroupHeader *groupHeader = it.value();
+        const QPointF mappedToGroup = groupHeader->mapFromItem(nullptr, m_pressedMousePos);
+        if (groupHeader->contains(mappedToGroup)) {
+            return it.key()->index();
+        }
+    }
+    return -1;
+}
+
 void KItemListController::setAutoActivationDelay(int delay)
 {
     m_autoActivationTimer->setInterval(delay);

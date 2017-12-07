@@ -108,6 +108,8 @@ public:
     void setMouseDoubleClickAction(MouseDoubleClickAction action);
     MouseDoubleClickAction mouseDoubleClickAction() const;
 
+    int indexCloseToMousePressedPosition() const;
+
     /**
      * Sets the delay in milliseconds when dragging an object above an item
      * until the item gets activated automatically. A value of -1 indicates

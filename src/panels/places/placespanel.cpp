@@ -223,6 +223,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     hideAction->setCheckable(true);
     hideAction->setChecked(item->isHidden());
 
+    buildGroupContextMenu(&menu, index);
+
     QAction* action = menu.exec(pos.toPoint());
     if (action) {
         if (action == emptyTrashAction) {
@@ -272,6 +274,8 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
         showAllAction->setCheckable(true);
         showAllAction->setChecked(m_model->hiddenItemsShown());
     }
+
+    buildGroupContextMenu(&menu, m_controller->indexCloseToMousePressedPosition());
 
     QMenu* iconSizeSubMenu = new QMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
 
@@ -324,6 +328,24 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     }
 
     selectClosestItem();
+}
+
+QAction *PlacesPanel::buildGroupContextMenu(QMenu *menu, int index)
+{
+    if (index == -1) {
+        return nullptr;
+    }
+
+    KFilePlacesModel::GroupType groupType = m_model->groupType(index);
+    QAction *hideGroupAction = menu->addAction(i18nc("@item:inmenu", "Hide Section '%1'", m_model->item(index)->group()));
+    hideGroupAction->setCheckable(true);
+    hideGroupAction->setChecked(m_model->isGroupHidden(groupType));
+
+    connect(hideGroupAction, &QAction::triggered, this, [this, groupType, hideGroupAction]{
+        m_model->setGroupHidden(groupType, hideGroupAction->isChecked());
+    });
+
+    return hideGroupAction;
 }
 
 void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)

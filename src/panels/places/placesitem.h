@@ -52,6 +52,9 @@ public:
     void setHidden(bool hidden);
     bool isHidden() const;
 
+    void setGroupHidden(bool hidden);
+    bool isGroupHidden() const;
+
     void setSystemItem(bool isSystemItem);
     bool isSystemItem() const;
 

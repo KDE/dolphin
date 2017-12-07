@@ -31,6 +31,7 @@ class PlacesItemModel;
 class PlacesView;
 class QGraphicsSceneDragDropEvent;
 class KJob;
+class QMenu;
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */
@@ -81,6 +82,8 @@ private:
     void selectClosestItem();
 
     void triggerItem(int index, Qt::MouseButton button);
+
+    QAction* buildGroupContextMenu(QMenu* menu, int index);
 
 private:
     KItemListController* m_controller;

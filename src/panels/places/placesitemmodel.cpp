@@ -73,6 +73,7 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     connect(m_sourceModel.data(), &KFilePlacesModel::dataChanged, this, &PlacesItemModel::onSourceModelDataChanged);
     connect(m_sourceModel.data(), &KFilePlacesModel::rowsAboutToBeMoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeMoved);
     connect(m_sourceModel.data(), &KFilePlacesModel::rowsMoved, this, &PlacesItemModel::onSourceModelRowsMoved);
+    connect(m_sourceModel.data(), &KFilePlacesModel::groupHiddenChanged, this, &PlacesItemModel::onSourceModelGroupHiddenChanged);
 }
 
 PlacesItemModel::~PlacesItemModel()
@@ -195,11 +196,13 @@ void PlacesItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRo
         qWarning() << "invalid item changed signal";
         return;
     }
-
     if (changedRoles.contains("isHidden")) {
-        m_sourceModel->setPlaceHidden(sourceIndex, changedItem->isHidden());
+        if (m_sourceModel->isHidden(sourceIndex) != changedItem->isHidden()) {
+            m_sourceModel->setPlaceHidden(sourceIndex, changedItem->isHidden());
+        } else {
+            m_sourceModel->refresh();
+        }
     }
-
     KStandardItemModel::onItemChanged(index, changedRoles);
 }
 
@@ -470,6 +473,7 @@ void PlacesItemModel::updateItem(PlacesItem *item, const QModelIndex &index)
 {
     item->setGroup(index.data(KFilePlacesModel::GroupRole).toString());
     item->setIcon(index.data(KFilePlacesModel::IconNameRole).toString());
+    item->setGroupHidden(index.data(KFilePlacesModel::GroupHiddenRole).toBool());
 }
 
 void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData)
@@ -586,6 +590,16 @@ void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const
             placeItem->setUrl(m_sourceModel->url(sourceIndex));
             placeItem->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"),
                                                   bookmark.metaDataItem(QStringLiteral("OnlyInApp")));
+        }
+    }
+}
+
+void PlacesItemModel::onSourceModelGroupHiddenChanged(KFilePlacesModel::GroupType group, bool hidden)
+{
+    for(const QModelIndex &sourceIndex : m_sourceModel->groupIndexes(group)) {
+        PlacesItem *item = placesItem(mapFromSource(sourceIndex));
+        if (item) {
+            item->setGroupHidden(hidden);
         }
     }
 }
@@ -728,6 +742,21 @@ bool PlacesItemModel::isDir(int index) const
 {
     Q_UNUSED(index);
     return true;
+}
+
+KFilePlacesModel::GroupType PlacesItemModel::groupType(int row) const
+{
+    return m_sourceModel->groupType(mapToSource(row));
+}
+
+bool PlacesItemModel::isGroupHidden(KFilePlacesModel::GroupType type) const
+{
+    return m_sourceModel->isGroupHidden(type);
+}
+
+void PlacesItemModel::setGroupHidden(KFilePlacesModel::GroupType type, bool hidden)
+{
+    return m_sourceModel->setGroupHidden(type, hidden);
 }
 
 QModelIndex PlacesItemModel::mapToSource(int row) const

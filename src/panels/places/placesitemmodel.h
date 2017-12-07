@@ -21,6 +21,7 @@
 #define PLACESITEMMODEL_H
 
 #include <kitemviews/kstandarditemmodel.h>
+#include <KFilePlacesModel>
 
 #include <QUrl>
 #include <QHash>
@@ -31,7 +32,6 @@
 
 class KBookmark;
 class KBookmarkManager;
-class KFilePlacesModel;
 class PlacesItem;
 class QAction;
 
@@ -137,6 +137,12 @@ public:
     void refresh();
 
     bool isDir(int index) const override;
+
+
+    KFilePlacesModel::GroupType groupType(int row) const;
+    bool isGroupHidden(KFilePlacesModel::GroupType type) const;
+    void setGroupHidden(KFilePlacesModel::GroupType type, bool hidden);
+
 signals:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
@@ -158,6 +164,7 @@ private slots:
     void onSourceModelRowsAboutToBeMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
     void onSourceModelRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
     void onSourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles);
+    void onSourceModelGroupHiddenChanged(KFilePlacesModel::GroupType group, bool hidden);
 
 private:
     /**

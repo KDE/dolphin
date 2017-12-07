@@ -30,7 +30,8 @@ PlacesItemListWidget::~PlacesItemListWidget()
 
 bool PlacesItemListWidget::isHidden() const
 {
-    return data().value("isHidden").toBool();
+    return data().value("isHidden").toBool() ||
+           data().value("isGroupHidden").toBool();
 }
 
 QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
