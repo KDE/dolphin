@@ -83,6 +83,7 @@ private slots:
     void testIcons();
     void testDragAndDrop();
     void testHideDevices();
+    void testDuplicatedEntries();
 
 private:
     PlacesItemModel* m_model;
@@ -780,6 +781,31 @@ void PlacesItemModelTest::testHideDevices()
     m_model = new PlacesItemModel();
     QTRY_COMPARE(m_model->count(), urls.count());
     CHECK_PLACES_URLS(urls);
+
+    // revert changes
+    m_model->setGroupHidden(KFilePlacesModel::RemovableDevicesType, false);
+    urls = initialUrls();
+    QTRY_COMPARE(m_model->count(), urls.count());
+    CHECK_PLACES_URLS(urls);
+}
+
+void PlacesItemModelTest::testDuplicatedEntries()
+{
+    QStringList urls = initialUrls();
+    // create a duplicated entry on bookmark
+    KBookmarkManager *bookmarkManager = KBookmarkManager::managerForFile(bookmarksFile(), QStringLiteral("kfilePlaces"));
+    KBookmarkGroup root = bookmarkManager->root();
+    KBookmark bookmark = root.addBookmark(QStringLiteral("Duplicated Search Videos"), QUrl("search:/videos"), {});
+
+    const QString id = QUuid::createUuid().toString();
+    bookmark.setMetaDataItem(QStringLiteral("ID"), id);
+    bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), KAboutData::applicationData().componentName());
+    bookmarkManager->emitChanged(bookmarkManager->root());
+
+    PlacesItemModel *newModel = new PlacesItemModel();
+    QTRY_COMPARE(placesUrls(newModel).count(QStringLiteral("search:/videos")), 1);
+    QTRY_COMPARE(urls, placesUrls(newModel));
+    delete newModel;
 }
 
 QTEST_MAIN(PlacesItemModelTest)

@@ -168,17 +168,16 @@ private slots:
 
 private:
     /**
+     * Remove bookmarks created by the previous version of dolphin that are
+     * not valid anymore
+     */
+    void cleanupBookmarks();
+
+    /**
      * Loads the bookmarks from the bookmark-manager and creates items for
      * the model or moves hidden items to m_bookmarkedItems.
      */
     void loadBookmarks();
-
-    /**
-     * @return True, if the bookmark can be accepted in the context of the
-     *         current application (e.g. bookmarks from other applications
-     *         will be ignored).
-     */
-    bool acceptBookmark(const KBookmark& bookmark) const;
 
     QString internalMimeType() const;
 

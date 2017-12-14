@@ -53,9 +53,19 @@
 #include <views/viewproperties.h>
 
 namespace {
-    // Hence a prefix to the application-name of the stored bookmarks is
+    // A suffix to the application-name of the stored bookmarks is
     // added, which is only read by PlacesItemModel.
-    const char AppNamePrefix[] = "-places-panel";
+    const QString AppNameSuffix = QStringLiteral("-places-panel");
+    static QList<QUrl> balooURLs = {
+        QUrl(QStringLiteral("timeline:/today")),
+        QUrl(QStringLiteral("timeline:/yesterday")),
+        QUrl(QStringLiteral("timeline:/thismonth")),
+        QUrl(QStringLiteral("timeline:/lastmonth")),
+        QUrl(QStringLiteral("search:/documents")),
+        QUrl(QStringLiteral("search:/images")),
+        QUrl(QStringLiteral("search:/audio")),
+        QUrl(QStringLiteral("search:/videos"))
+    };
 }
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
@@ -63,8 +73,9 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_hiddenItemsShown(false),
     m_deviceToTearDown(nullptr),
     m_storageSetupInProgress(),
-    m_sourceModel(new KFilePlacesModel(this))
+    m_sourceModel(new KFilePlacesModel(KAboutData::applicationData().componentName() + AppNameSuffix, this))
 {
+    cleanupBookmarks();
     loadBookmarks();
     initializeDefaultViewProperties();
 
@@ -153,12 +164,13 @@ void PlacesItemModel::insertSortedItem(PlacesItem* item)
 
     for(int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
         sourceIndex = m_sourceModel->index(r, 0);
+        const KBookmark sourceBookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
 
-        if (bookmarkId(m_sourceModel->bookmarkForIndex(sourceIndex)) == iBookmarkId) {
+        if (bookmarkId(sourceBookmark) == iBookmarkId) {
             break;
         }
 
-        if (!m_sourceModel->isHidden(sourceIndex)) {
+        if (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex)) {
             pos++;
         }
     }
@@ -559,11 +571,7 @@ void PlacesItemModel::onSourceModelRowsMoved(const QModelIndex &parent, int star
         const int targetRow = row + (start - r) - (r < row ? blockSize : 0);
         const QModelIndex targetIndex = m_sourceModel->index(targetRow, 0, destination);
 
-        const KBookmark bookmark = m_sourceModel->bookmarkForIndex(targetIndex);
-        PlacesItem *item = new PlacesItem(bookmark);
-        updateItem(item, targetIndex);
-
-        insertSortedItem(item);
+        addItemFromSourceModel(targetIndex);
     }
 }
 
@@ -608,13 +616,33 @@ void PlacesItemModel::onSourceModelGroupHiddenChanged(KFilePlacesModel::GroupTyp
     }
 }
 
+void PlacesItemModel::cleanupBookmarks()
+{
+    // KIO model now provides support for baloo urls, and because of that we
+    // need to remove old URLs that were visible only in Dolphin to avoid duplication
+    int row = 0;
+    do {
+        const QModelIndex sourceIndex = m_sourceModel->index(row, 0);
+        const KBookmark bookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
+        const QUrl url = bookmark.url();
+        const QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
+
+        if ((appName == KAboutData::applicationData().componentName() ||
+             appName == KAboutData::applicationData().componentName() + AppNameSuffix) && balooURLs.contains(url)) {
+            qCDebug(DolphinDebug) << "Removing old baloo url:" << url;
+            m_sourceModel->removePlace(sourceIndex);
+        } else {
+            row++;
+        }
+    } while (row < m_sourceModel->rowCount());
+}
+
 void PlacesItemModel::loadBookmarks()
 {
     for(int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
         const QModelIndex sourceIndex = m_sourceModel->index(r, 0);
         KBookmark bookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
-        if (acceptBookmark(bookmark) &&
-                (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex))) {
+        if (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex)) {
             addItemFromSourceModel(sourceIndex);
         }
     }
@@ -623,19 +651,6 @@ void PlacesItemModel::loadBookmarks()
     qCDebug(DolphinDebug) << "Loaded bookmarks";
     showModelState();
 #endif
-}
-
-bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark) const
-{
-    const QString udi = bookmark.metaDataItem(QStringLiteral("UDI"));
-    const QUrl url = bookmark.url();
-    const QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
-
-    const bool allowedHere = (appName.isEmpty()
-                              || appName == KAboutData::applicationData().componentName()
-                              || appName == KAboutData::applicationData().componentName() + AppNamePrefix);
-
-    return (udi.isEmpty() && allowedHere);
 }
 
 void PlacesItemModel::clear() {
