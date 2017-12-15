@@ -65,6 +65,17 @@ namespace {
     // Hence a prefix to the application-name of the stored bookmarks is
     // added, which is only read by PlacesItemModel.
     const char AppNamePrefix[] = "-places-panel";
+
+    static QList<QUrl> balooURLs = {
+        QUrl(QStringLiteral("timeline:/today")),
+        QUrl(QStringLiteral("timeline:/yesterday")),
+        QUrl(QStringLiteral("timeline:/thismonth")),
+        QUrl(QStringLiteral("timeline:/lastmonth")),
+        QUrl(QStringLiteral("search:/documents")),
+        QUrl(QStringLiteral("search:/images")),
+        QUrl(QStringLiteral("search:/audio")),
+        QUrl(QStringLiteral("search:/videos"))
+    };
 }
 
 PlacesItemModel::PlacesItemModel(QObject* parent) :
@@ -831,6 +842,12 @@ bool PlacesItemModel::acceptBookmark(const KBookmark& bookmark,
     const QUrl url = bookmark.url();
     const QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
     const bool deviceAvailable = availableDevices.contains(udi);
+
+    if (balooURLs.contains(url) && appName.isEmpty()) {
+        // Does not accept baloo URLS with empty appName, this came from new KIO model and will cause duplications
+        qCWarning(DolphinDebug) << "Ignore KIO url:" << url;
+        return false;
+    }
 
     const bool allowedHere = (appName.isEmpty()
                               || appName == KAboutData::applicationData().componentName()
