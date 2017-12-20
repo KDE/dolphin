@@ -392,6 +392,10 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
 
 void PlacesItemModel::addItemFromSourceModel(const QModelIndex &index)
 {
+    if (!m_hiddenItemsShown && m_sourceModel->isHidden(index)) {
+        return;
+    }
+
     const KBookmark bookmark = m_sourceModel->bookmarkForIndex(index);
     Q_ASSERT(!bookmark.isNull());
     PlacesItem *item = new PlacesItem(bookmark);

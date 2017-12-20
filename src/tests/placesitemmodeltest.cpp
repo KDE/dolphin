@@ -82,6 +82,7 @@ private slots:
     void testIcons_data();
     void testIcons();
     void testDragAndDrop();
+    void testHideDevices();
 
 private:
     PlacesItemModel* m_model;
@@ -755,6 +756,29 @@ void PlacesItemModelTest::testDragAndDrop()
     QCOMPARE(range.at(0).count, 1);
     QCOMPARE(range.at(0).index, 1);
 
+    CHECK_PLACES_URLS(urls);
+}
+
+void PlacesItemModelTest::testHideDevices()
+{
+    QSignalSpy itemsRemoved(m_model, &PlacesItemModel::itemsRemoved);
+    QStringList urls = initialUrls();
+
+    m_model->setGroupHidden(KFilePlacesModel::RemovableDevicesType, true);
+    QTRY_VERIFY(m_model->isGroupHidden(KFilePlacesModel::RemovableDevicesType));
+    QTRY_COMPARE(itemsRemoved.count(), 3);
+
+    // remove removable-devices
+    urls.removeOne(QStringLiteral("/media/floppy0"));
+    urls.removeOne(QStringLiteral("/media/XO-Y4"));
+    urls.removeOne(QStringLiteral("/media/cdrom"));
+
+    // check if the correct urls was removed
+    CHECK_PLACES_URLS(urls);
+
+    delete m_model;
+    m_model = new PlacesItemModel();
+    QTRY_COMPARE(m_model->count(), urls.count());
     CHECK_PLACES_URLS(urls);
 }
 
