@@ -629,20 +629,24 @@ void KFileItemModel::restoreExpandedDirectories(const QSet<QUrl> &urls)
 
 void KFileItemModel::expandParentDirectories(const QUrl &url)
 {
-    const int pos = m_dirLister->url().path().length();
 
     // Assure that each sub-path of the URL that should be
     // expanded is added to m_urlsToExpand. KDirLister
     // does not care whether the parent-URL has already been
     // expanded.
     QUrl urlToExpand = m_dirLister->url();
+    const int pos = urlToExpand.path().length();
 
     // first subdir can be empty, if m_dirLister->url().path() does not end with '/'
     // this happens if baseUrl is not root but a home directory, see FoldersPanel,
     // so using QString::SkipEmptyParts
     const QStringList subDirs = url.path().mid(pos).split(QDir::separator(), QString::SkipEmptyParts);
     for (int i = 0; i < subDirs.count() - 1; ++i) {
-        urlToExpand.setPath(urlToExpand.path() + '/' + subDirs.at(i));
+        QString path = urlToExpand.path();
+        if (!path.endsWith(QLatin1Char('/'))) {
+            path.append(QLatin1Char('/'));
+        }
+        urlToExpand.setPath(path + subDirs.at(i));
         m_urlsToExpand.insert(urlToExpand);
     }
 
