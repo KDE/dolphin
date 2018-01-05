@@ -1,9 +1,0 @@
-# the whole file must be valid python code 
-# for detail documentation, see http://www.reviewboard.org/docs/manual/dev/users/tools/post-review/
-
-REVIEWBOARD_URL = "https://git.reviewboard.kde.org"
-TARGET_GROUPS = "dolphin"
-REPOSITORY = "dolphin"
-
-GUESS_FIELDS = True
-OPEN_BROWSER = True
