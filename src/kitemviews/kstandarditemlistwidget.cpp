@@ -998,7 +998,7 @@ void KStandardItemListWidget::updatePixmapCache()
 
     if (!m_overlay.isNull()) {
         QPainter painter(&m_pixmap);
-        painter.drawPixmap(0, m_pixmap.height() - m_overlay.height(), m_overlay);
+        painter.drawPixmap(0, (m_pixmap.height() - m_overlay.height()) / m_pixmap.devicePixelRatio(), m_overlay);
     }
 
     int scaledIconSize = 0;
