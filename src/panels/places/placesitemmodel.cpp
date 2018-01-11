@@ -383,7 +383,7 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
                 continue;
             }
 
-            createPlacesItem(text, url, QString(), qMax(0, index - 1));
+            createPlacesItem(text, url, KIO::iconNameForUrl(url), qMax(0, index - 1));
         }
     }
     // will save bookmark alteration and fix sort if that is broken by the drag/drop operation
