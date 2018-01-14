@@ -89,8 +89,9 @@ private:
      * Initializes the base URL of the tree and expands all
      * directories until \a url.
      * @param url  URL of the leaf directory that should get expanded.
+     * @param allowJumpHome  indicate context menu got checked.
      */
-    void loadTree(const QUrl& url);
+    void loadTree(const QUrl& url, bool allowJumpHome = false);
 
     void reloadTree();
 
