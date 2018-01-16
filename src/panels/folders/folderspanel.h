@@ -86,12 +86,19 @@ private slots:
 
 private:
     /**
+     * Indicate if it is allowed to leave current location.
+     */
+    enum NavigationBehaviour {
+      StayWhereYouAre,  ///< Don't leave current location.
+      AllowJumpHome     ///< Go Home only when context menu option got checked.
+    };
+    /**
      * Initializes the base URL of the tree and expands all
      * directories until \a url.
      * @param url  URL of the leaf directory that should get expanded.
-     * @param allowJumpHome  indicate context menu got checked.
+     * @param navigationBehaviour Navigation behaviour \see NavigationBehaviour
      */
-    void loadTree(const QUrl& url, bool allowJumpHome = false);
+    void loadTree(const QUrl& url, NavigationBehaviour navigationBehaviour = StayWhereYouAre);
 
     void reloadTree();
 

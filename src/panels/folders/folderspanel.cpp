@@ -137,7 +137,7 @@ bool FoldersPanel::urlChanged()
 void FoldersPanel::reloadTree()
 {
     if (m_controller) {
-        loadTree(url(), true);
+        loadTree(url(), AllowJumpHome);
     }
 }
 
@@ -316,7 +316,7 @@ void FoldersPanel::startFadeInAnimation()
     anim->setDuration(200);
 }
 
-void FoldersPanel::loadTree(const QUrl& url, bool allowJumpHome)
+void FoldersPanel::loadTree(const QUrl& url, FoldersPanel::NavigationBehaviour navigationBehaviour)
 {
     Q_ASSERT(m_controller);
 
@@ -327,7 +327,7 @@ void FoldersPanel::loadTree(const QUrl& url, bool allowJumpHome)
     if (!url.isLocalFile()) {
         // Clear the path for non-local URLs and use it as base
         baseUrl = url;
-        baseUrl.setPath(QString('/'));
+        baseUrl.setPath(QStringLiteral("/"));
     } else if (Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url)) {
         if (FoldersPanelSettings::limitFoldersPanelToHome() ) {
             baseUrl = Dolphin::homeUrl();
@@ -335,7 +335,7 @@ void FoldersPanel::loadTree(const QUrl& url, bool allowJumpHome)
             // Use the root directory as base for local URLs (#150941)
             baseUrl = QUrl::fromLocalFile(QDir::rootPath());
         }
-    } else if (FoldersPanelSettings::limitFoldersPanelToHome() && allowJumpHome) {
+    } else if (FoldersPanelSettings::limitFoldersPanelToHome() && navigationBehaviour == AllowJumpHome) {
         baseUrl = Dolphin::homeUrl();
         jumpHome = true;
     } else {
@@ -349,7 +349,7 @@ void FoldersPanel::loadTree(const QUrl& url, bool allowJumpHome)
     }
 
     const int index = m_model->index(url);
-    if (jumpHome == true) {
+    if (jumpHome) {
       emit folderActivated(baseUrl);
     } else if (index >= 0) {
         updateCurrentItem(index);
