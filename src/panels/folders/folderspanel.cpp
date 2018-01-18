@@ -137,7 +137,7 @@ bool FoldersPanel::urlChanged()
 void FoldersPanel::reloadTree()
 {
     if (m_controller) {
-        loadTree(url());
+        loadTree(url(), AllowJumpHome);
     }
 }
 
@@ -316,34 +316,42 @@ void FoldersPanel::startFadeInAnimation()
     anim->setDuration(200);
 }
 
-void FoldersPanel::loadTree(const QUrl& url)
+void FoldersPanel::loadTree(const QUrl& url, FoldersPanel::NavigationBehaviour navigationBehaviour)
 {
     Q_ASSERT(m_controller);
 
     m_updateCurrentItem = false;
+    bool jumpHome = false;
 
     QUrl baseUrl;
-    if (url.isLocalFile()) {
-        const bool isInHomeFolder = Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url);
-        if (FoldersPanelSettings::limitFoldersPanelToHome() && isInHomeFolder) {
+    if (!url.isLocalFile()) {
+        // Clear the path for non-local URLs and use it as base
+        baseUrl = url;
+        baseUrl.setPath(QStringLiteral("/"));
+    } else if (Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url)) {
+        if (FoldersPanelSettings::limitFoldersPanelToHome() ) {
             baseUrl = Dolphin::homeUrl();
         } else {
             // Use the root directory as base for local URLs (#150941)
             baseUrl = QUrl::fromLocalFile(QDir::rootPath());
         }
+    } else if (FoldersPanelSettings::limitFoldersPanelToHome() && navigationBehaviour == AllowJumpHome) {
+        baseUrl = Dolphin::homeUrl();
+        jumpHome = true;
     } else {
-        // Clear the path for non-local URLs and use it as base
-        baseUrl = url;
-        baseUrl.setPath(QString('/'));
+        // Use the root directory as base for local URLs (#150941)
+        baseUrl = QUrl::fromLocalFile(QDir::rootPath());
     }
 
-    if (m_model->directory() != baseUrl) {
+    if (m_model->directory() != baseUrl && !jumpHome) {
         m_updateCurrentItem = true;
         m_model->refreshDirectory(baseUrl);
     }
 
     const int index = m_model->index(url);
-    if (index >= 0) {
+    if (jumpHome) {
+      emit folderActivated(baseUrl);
+    } else if (index >= 0) {
         updateCurrentItem(index);
     } else if (url == baseUrl) {
         // clear the selection when visiting the base url

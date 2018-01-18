@@ -127,14 +127,13 @@ void TreeViewContextMenu::open()
 
     // insert 'Limit to Home Directory'
     const QUrl url = m_fileItem.url();
-    const bool showLimitToHomeDirectory = url.isLocalFile() && (Dolphin::homeUrl().isParentOf(url) || (Dolphin::homeUrl() == url));
-    if (showLimitToHomeDirectory) {
-        QAction* limitFoldersPanelToHomeAction = new QAction(i18nc("@action:inmenu", "Limit to Home Directory"), this);
-        limitFoldersPanelToHomeAction->setCheckable(true);
-        limitFoldersPanelToHomeAction->setChecked(m_parent->limitFoldersPanelToHome());
-        popup->addAction(limitFoldersPanelToHomeAction);
-        connect(limitFoldersPanelToHomeAction, &QAction::toggled, this, &TreeViewContextMenu::setLimitFoldersPanelToHome);
-    }
+    const bool enableLimitToHomeDirectory = url.isLocalFile();
+    QAction* limitFoldersPanelToHomeAction = new QAction(i18nc("@action:inmenu", "Limit to Home Directory"), this);
+    limitFoldersPanelToHomeAction->setCheckable(true);
+    limitFoldersPanelToHomeAction->setEnabled(enableLimitToHomeDirectory);
+    limitFoldersPanelToHomeAction->setChecked(m_parent->limitFoldersPanelToHome());
+    popup->addAction(limitFoldersPanelToHomeAction);
+    connect(limitFoldersPanelToHomeAction, &QAction::toggled, this, &TreeViewContextMenu::setLimitFoldersPanelToHome);
 
     // insert 'Automatic Scrolling'
     QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);

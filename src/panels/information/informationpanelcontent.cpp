@@ -107,7 +107,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel->setFont(font);
     m_nameLabel->setTextFormat(Qt::PlainText);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
-    m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    m_nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
 
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
