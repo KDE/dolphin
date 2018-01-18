@@ -629,6 +629,13 @@ void DolphinMainWindow::togglePanelLockState()
     GeneralSettings::setLockPanels(newLockState);
 }
 
+void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
+{
+    if (m_terminalPanel->isHiddenInVisibleWindow()) {
+        m_activeViewContainer->view()->setFocus();
+    }
+}
+
 void DolphinMainWindow::goBack()
 {
     KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
@@ -1297,6 +1304,8 @@ void DolphinMainWindow::setupDockWidgets()
         connect(m_terminalPanel, &TerminalPanel::changeUrl, this, &DolphinMainWindow::slotTerminalDirectoryChanged);
         connect(terminalDock, &DolphinDockWidget::visibilityChanged,
                 m_terminalPanel, &TerminalPanel::dockVisibilityChanged);
+        connect(terminalDock, &DolphinDockWidget::visibilityChanged,
+                this, &DolphinMainWindow::slotTerminalPanelVisibilityChanged);
 
         QAction* terminalAction = terminalDock->toggleViewAction();
         createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));

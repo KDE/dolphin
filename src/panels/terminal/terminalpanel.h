@@ -54,6 +54,7 @@ public:
      */
     void goHome();
     QString currentWorkingDirectory();
+    bool isHiddenInVisibleWindow();
 
 public slots:
     void terminalExited();

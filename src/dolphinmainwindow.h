@@ -261,6 +261,12 @@ private slots:
      */
     void togglePanelLockState();
 
+    /**
+     * Is invoked if the Terminal panel got visible/invisible and takes care
+     * that the active view has the focus if the Terminal panel is invisible.
+     */
+    void slotTerminalPanelVisibilityChanged();
+
     /** Goes back one step of the URL history. */
     void goBack();
 
