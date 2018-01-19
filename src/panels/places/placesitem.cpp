@@ -129,11 +129,14 @@ Solid::Device PlacesItem::device() const
 
 void PlacesItem::setBookmark(const KBookmark& bookmark)
 {
-    if (bookmark == m_bookmark) {
+    const bool bookmarkDataChanged = !(bookmark == m_bookmark);
+
+    // bookmark object must be updated to keep in sync with source model
+    m_bookmark = bookmark;
+
+    if (!bookmarkDataChanged) {
         return;
     }
-
-    m_bookmark = bookmark;
 
     delete m_access;
     delete m_volume;

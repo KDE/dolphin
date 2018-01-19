@@ -84,6 +84,7 @@ private slots:
     void testDragAndDrop();
     void testHideDevices();
     void testDuplicatedEntries();
+    void renameAfterCreation();
 
 private:
     PlacesItemModel* m_model;
@@ -806,6 +807,42 @@ void PlacesItemModelTest::testDuplicatedEntries()
     QTRY_COMPARE(placesUrls(newModel).count(QStringLiteral("search:/videos")), 1);
     QTRY_COMPARE(urls, placesUrls(newModel));
     delete newModel;
+}
+
+void PlacesItemModelTest::renameAfterCreation()
+{
+    const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
+    QStringList urls = initialUrls();
+    PlacesItemModel *model = new PlacesItemModel();
+
+    CHECK_PLACES_URLS(urls);
+    QTRY_COMPARE(model->count(), m_model->count());
+
+    // create a new place
+    createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
+    urls.insert(3, tempUrl.toLocalFile());
+
+    // make sure that the new item will be removed later
+    removePlaceAfter(3);
+
+    CHECK_PLACES_URLS(urls);
+    QCOMPARE(model->count(), m_model->count());
+
+
+    // modify place text
+    QSignalSpy changedSpy(m_model, &PlacesItemModel::itemsChanged);
+
+    PlacesItem *item = m_model->placesItem(3);
+    item->setText(QStringLiteral("New Temporary Dir"));
+    item->setUrl(item->url());
+    item->setIcon(item->icon());
+    m_model->refresh();
+
+    QTRY_COMPARE(changedSpy.count(), 1);
+
+    // check if the place was modified in both models
+    QTRY_COMPARE(m_model->placesItem(3)->text(), QStringLiteral("New Temporary Dir"));
+    QTRY_COMPARE(model->placesItem(3)->text(), QStringLiteral("New Temporary Dir"));
 }
 
 QTEST_MAIN(PlacesItemModelTest)

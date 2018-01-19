@@ -410,7 +410,10 @@ void PlacesItemModel::addItemFromSourceModel(const QModelIndex &index)
 
     const KBookmark bookmark = m_sourceModel->bookmarkForIndex(index);
     Q_ASSERT(!bookmark.isNull());
-    PlacesItem *item = new PlacesItem(bookmark);
+    PlacesItem *item = itemFromBookmark(bookmark);
+    if (!item) {
+        item = new PlacesItem(bookmark);
+    }
     updateItem(item, index);
     insertSortedItem(item);
 
@@ -602,6 +605,8 @@ void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const
             placeItem->setUrl(m_sourceModel->url(sourceIndex));
             placeItem->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"),
                                                   bookmark.metaDataItem(QStringLiteral("OnlyInApp")));
+            // must update the bookmark object
+            placeItem->setBookmark(bookmark);
         }
     }
 }
@@ -641,7 +646,6 @@ void PlacesItemModel::loadBookmarks()
 {
     for(int r = 0, rMax = m_sourceModel->rowCount(); r < rMax; r++) {
         const QModelIndex sourceIndex = m_sourceModel->index(r, 0);
-        KBookmark bookmark = m_sourceModel->bookmarkForIndex(sourceIndex);
         if (m_hiddenItemsShown || !m_sourceModel->isHidden(sourceIndex)) {
             addItemFromSourceModel(sourceIndex);
         }
