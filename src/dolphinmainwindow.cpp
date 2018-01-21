@@ -1184,6 +1184,7 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
+#ifndef Q_OS_WIN
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
@@ -1191,6 +1192,7 @@ void DolphinMainWindow::setupActions()
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
     }
+#endif
 
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());

@@ -223,6 +223,7 @@ void DolphinPart::createActions()
     m_findFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
     connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 
+#ifndef Q_OS_WIN
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         m_openTerminalAction = actionCollection()->addAction(QStringLiteral("open_terminal"));
         m_openTerminalAction->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
@@ -230,6 +231,7 @@ void DolphinPart::createActions()
         connect(m_openTerminalAction, &QAction::triggered, this, &DolphinPart::slotOpenTerminal);
         actionCollection()->setDefaultShortcut(m_openTerminalAction, Qt::Key_F4);
     }
+#endif
 }
 
 void DolphinPart::createGoAction(const char* name, const char* iconName,
