@@ -1356,17 +1356,21 @@ void DolphinView::updateViewState()
 {
     if (m_currentItemUrl != QUrl()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-        const int currentIndex = m_model->index(m_currentItemUrl);
-        if (currentIndex != -1) {
-            selectionManager->setCurrentItem(currentIndex);
 
-            // scroll to current item and reset the state
-            if (m_scrollToCurrentItem) {
-                m_view->scrollToItem(currentIndex);
-                m_scrollToCurrentItem = false;
+        // if there is a selection already, leave it that way
+        if (!selectionManager->hasSelection()) {
+            const int currentIndex = m_model->index(m_currentItemUrl);
+            if (currentIndex != -1) {
+                selectionManager->setCurrentItem(currentIndex);
+
+                // scroll to current item and reset the state
+                if (m_scrollToCurrentItem) {
+                    m_view->scrollToItem(currentIndex);
+                    m_scrollToCurrentItem = false;
+                }
+            } else {
+                selectionManager->setCurrentItem(0);
             }
-        } else {
-            selectionManager->setCurrentItem(0);
         }
 
         m_currentItemUrl = QUrl();
@@ -1384,26 +1388,29 @@ void DolphinView::updateViewState()
     if (!m_selectedUrls.isEmpty()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
 
-        if (m_clearSelectionBeforeSelectingNewItems) {
-            selectionManager->clearSelection();
-            m_clearSelectionBeforeSelectingNewItems = false;
-        }
-
-        KItemSet selectedItems = selectionManager->selectedItems();
-
-        QList<QUrl>::iterator it = m_selectedUrls.begin();
-        while (it != m_selectedUrls.end()) {
-            const int index = m_model->index(*it);
-            if (index >= 0) {
-                selectedItems.insert(index);
-                it = m_selectedUrls.erase(it);
-            } else {
-                 ++it;
+        // if there is a selection already, leave it that way
+        if (!selectionManager->hasSelection()) {
+            if (m_clearSelectionBeforeSelectingNewItems) {
+                selectionManager->clearSelection();
+                m_clearSelectionBeforeSelectingNewItems = false;
             }
-        }
 
-        selectionManager->beginAnchoredSelection(selectionManager->currentItem());
-        selectionManager->setSelectedItems(selectedItems);
+            KItemSet selectedItems = selectionManager->selectedItems();
+
+            QList<QUrl>::iterator it = m_selectedUrls.begin();
+            while (it != m_selectedUrls.end()) {
+                const int index = m_model->index(*it);
+                if (index >= 0) {
+                    selectedItems.insert(index);
+                    it = m_selectedUrls.erase(it);
+                } else {
+                    ++it;
+                }
+            }
+
+            selectionManager->beginAnchoredSelection(selectionManager->currentItem());
+            selectionManager->setSelectedItems(selectedItems);
+        }
     }
 }
 
