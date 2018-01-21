@@ -224,6 +224,7 @@ set(dolphinstatic_SRCS
     panels/folders/foldersitemlistwidget.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
+    panels/terminal/terminalpanel.cpp
     search/dolphinfacetswidget.cpp
     search/dolphinsearchbox.cpp
     settings/general/behaviorsettingspage.cpp
@@ -265,10 +266,6 @@ kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
-
-if(NOT WIN32)
-   set(dolphinstatic_SRCS ${dolphinstatic_SRCS} panels/terminal/terminalpanel.cpp)
-endif()
 
 qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
 

@@ -47,9 +47,7 @@ class KNewFileMenu;
 class QToolButton;
 class QIcon;
 class PlacesPanel;
-#ifndef Q_OS_WIN
 class TerminalPanel;
-#endif
 
 /**
  * @short Main window for Dolphin.
@@ -517,9 +515,7 @@ private:
 
     KIO::Job* m_lastHandleUrlStatJob;
 
-#ifndef Q_OS_WIN
     TerminalPanel* m_terminalPanel;
-#endif
     PlacesPanel* m_placesPanel;
     bool m_tearDownFromPlacesRequested;
 };

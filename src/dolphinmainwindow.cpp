@@ -33,6 +33,7 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
+#include "panels/terminal/terminalpanel.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
@@ -40,10 +41,6 @@
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 #include "views/dolphinnewfilemenuobserver.h"
-
-#ifndef Q_OS_WIN
-#include "panels/terminal/terminalpanel.h"
-#endif
 
 #include "dolphin_generalsettings.h"
 
@@ -100,9 +97,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_controlButton(nullptr),
     m_updateToolBarTimer(nullptr),
     m_lastHandleUrlStatJob(nullptr),
-#ifndef Q_OS_WIN
     m_terminalPanel(nullptr),
-#endif
     m_placesPanel(nullptr),
     m_tearDownFromPlacesRequested(false)
 {
@@ -631,11 +626,9 @@ void DolphinMainWindow::togglePanelLockState()
 
 void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
 {
-#ifndef Q_OS_WIN
     if (m_terminalPanel->isHiddenInVisibleWindow()) {
         m_activeViewContainer->view()->setFocus();
     }
-#endif
 }
 
 void DolphinMainWindow::goBack()
@@ -1025,7 +1018,6 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
 
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
 {
-#ifndef Q_OS_WIN
     if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = true;
         m_terminalPanel->goHome();
@@ -1033,17 +1025,14 @@ void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mo
     } else {
         m_placesPanel->proceedWithTearDown();
     }
-#endif
 }
 
 void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mountPath)
 {
-#ifndef Q_OS_WIN
     if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = false;
         m_terminalPanel->goHome();
     }
-#endif
 }
 
 void DolphinMainWindow::setupActions()
@@ -1368,9 +1357,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));
     panelsMenu->addAction(ac->action(QStringLiteral("show_information_panel")));
     panelsMenu->addAction(ac->action(QStringLiteral("show_folders_panel")));
-#ifndef Q_OS_WIN
     panelsMenu->addAction(ac->action(QStringLiteral("show_terminal_panel")));
-#endif
     panelsMenu->addSeparator();
     panelsMenu->addAction(lockLayoutAction);
 }
