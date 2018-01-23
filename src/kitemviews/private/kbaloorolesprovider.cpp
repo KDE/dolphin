@@ -148,6 +148,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "lineCount",     "lineCount" },
         { "width",         "imageSize" },
         { "height",        "imageSize" },
+        { "imageDateTime",   "imageDateTime"},
         { "nexif.orientation", "orientation", },
         { "artist",     "artist" },
         { "genre",	"genre"  },

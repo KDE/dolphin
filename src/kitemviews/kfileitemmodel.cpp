@@ -2312,6 +2312,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "title",       TitleRole,       I18N_NOOP2_NOSTRIP("@label", "Title"),            I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
+        { "imageDateTime",   ImageDateTimeRole,   I18N_NOOP2_NOSTRIP("@label", "Date Photographed"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },

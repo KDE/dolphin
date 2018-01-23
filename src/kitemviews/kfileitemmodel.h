@@ -285,7 +285,7 @@ private:
         NoRole, NameRole, SizeRole, ModificationTimeRole, CreationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
         GroupRole, TypeRole, DestinationRole, PathRole, DeletionTimeRole,
         // User visible roles available with Baloo:
-        CommentRole, TagsRole, RatingRole, ImageSizeRole, OrientationRole,
+        CommentRole, TagsRole, RatingRole, ImageSizeRole, ImageDateTimeRole, OrientationRole,
         WordCountRole, TitleRole, LineCountRole, ArtistRole, GenreRole, AlbumRole, DurationRole, TrackRole, ReleaseYearRole,
         BitrateRole, OriginUrlRole,
         // Non-visible roles:
