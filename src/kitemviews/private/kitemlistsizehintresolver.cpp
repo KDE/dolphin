@@ -26,6 +26,7 @@ KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemLi
     m_logicalHeightHintCache(),
     m_logicalWidthHint(0.0),
     m_logicalHeightHint(0.0),
+    m_minHeightHint(0.0),
     m_needsResolving(false)
 {
 }
@@ -38,6 +39,12 @@ QSizeF KItemListSizeHintResolver::maxSizeHint()
 {
     updateCache();
     return QSizeF(m_logicalWidthHint, m_logicalHeightHint);
+}
+
+QSizeF KItemListSizeHintResolver::minSizeHint()
+{
+    updateCache();
+    return QSizeF(m_logicalWidthHint, m_minHeightHint);
 }
 
 QSizeF KItemListSizeHintResolver::sizeHint(int index)
@@ -161,6 +168,7 @@ void KItemListSizeHintResolver::updateCache()
             m_logicalHeightHint = 0.0;
         } else {
             m_logicalHeightHint = *std::max_element(m_logicalHeightHintCache.begin(), m_logicalHeightHintCache.end());
+            m_minHeightHint = *std::min_element(m_logicalHeightHintCache.begin(), m_logicalHeightHintCache.end());
         }
         m_needsResolving = false;
     }

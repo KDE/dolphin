@@ -35,7 +35,6 @@
 #include <QStyle>
 #include <QStyleOption>
 
-
 /**
  * Replaces the default viewport of KItemListContainer by a
  * non-scrollable viewport. The scrolling is done in an optimized

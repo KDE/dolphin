@@ -342,7 +342,7 @@ QSizeF KItemListView::itemSize() const
 
 QSizeF KItemListView::itemSizeHint() const
 {
-    return m_sizeHintResolver->maxSizeHint();
+    return m_sizeHintResolver->minSizeHint();
 }
 
 const KItemListStyleOption& KItemListView::styleOption() const
