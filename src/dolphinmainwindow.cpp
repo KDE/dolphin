@@ -1278,7 +1278,6 @@ void DolphinMainWindow::setupDockWidgets()
         DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
         terminalDock->setLocked(lock);
         terminalDock->setObjectName(QStringLiteral("terminalDock"));
-        terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
         m_terminalPanel = new TerminalPanel(terminalDock);
         m_terminalPanel->setCustomContextMenuActions({lockLayoutAction});
         terminalDock->setWidget(m_terminalPanel);
