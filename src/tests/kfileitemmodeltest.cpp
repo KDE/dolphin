@@ -144,7 +144,7 @@ void KFileItemModelTest::testDefaultRoles()
 
 void KFileItemModelTest::testDefaultSortRole()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QVERIFY(itemsInsertedSpy.isValid());
 
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
@@ -167,7 +167,7 @@ void KFileItemModelTest::testDefaultGroupedSorting()
 
 void KFileItemModelTest::testNewItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"a.txt", "b.txt", "c.txt"});
 
@@ -181,8 +181,8 @@ void KFileItemModelTest::testNewItems()
 
 void KFileItemModelTest::testRemoveItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     m_testDir->createFiles({"a.txt", "b.txt"});
     m_model->loadDirectory(m_testDir->url());
@@ -199,9 +199,9 @@ void KFileItemModelTest::testRemoveItems()
 
 void KFileItemModelTest::testDirLoadingCompleted()
 {
-    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(directoryLoadingCompleted()));
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     m_testDir->createFiles({"a.txt", "b.txt", "c.txt"});
 
@@ -242,9 +242,9 @@ void KFileItemModelTest::testDirLoadingCompleted()
 
 void KFileItemModelTest::testSetData()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QVERIFY(itemsInsertedSpy.isValid());
-    QSignalSpy itemsChangedSpy(m_model, SIGNAL(itemsChanged(KItemRangeList, QSet<QByteArray>)));
+    QSignalSpy itemsChangedSpy(m_model, &KFileItemModel::itemsChanged);
     QVERIFY(itemsChangedSpy.isValid());
 
     m_testDir->createFile("a.txt");
@@ -297,9 +297,9 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     QFETCH(int, ratingIndex1);
     QFETCH(int, ratingIndex2);
 
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QVERIFY(itemsInsertedSpy.isValid());
-    QSignalSpy itemsMovedSpy(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
 
     // Changing the value of a sort-role must result in
@@ -352,8 +352,8 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
 
 void KFileItemModelTest::testChangeSortRole()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsMovedSpy(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
 
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
@@ -392,8 +392,8 @@ void KFileItemModelTest::testChangeSortRole()
 
 void KFileItemModelTest::testResortAfterChangingName()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsMovedSpy(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
 
     // We sort by size in a directory where all files have the same size.
@@ -430,7 +430,7 @@ void KFileItemModelTest::testResortAfterChangingName()
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     // KFileItemModel prevents that inserting a punch of items sequentially
     // results in an itemsInserted()-signal for each item. Instead internally
@@ -472,7 +472,7 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
 
 void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"B", "E", "G"});
 
@@ -511,11 +511,11 @@ void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
 
 void KFileItemModelTest::testExpandItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QVERIFY(itemsInsertedSpy.isValid());
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
     QVERIFY(itemsRemovedSpy.isValid());
-    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(directoryLoadingCompleted()));
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
     QVERIFY(loadingCompletedSpy.isValid());
 
     // Test expanding subfolders in a folder with the items "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1".
@@ -648,8 +648,8 @@ void KFileItemModelTest::testExpandItems()
 
 void KFileItemModelTest::testExpandParentItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(directoryLoadingCompleted()));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
     QVERIFY(loadingCompletedSpy.isValid());
 
     // Create a tree structure of folders:
@@ -729,8 +729,8 @@ void KFileItemModelTest::testExpandParentItems()
  */
 void KFileItemModelTest::testMakeExpandedItemHidden()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -772,7 +772,7 @@ void KFileItemModelTest::testMakeExpandedItemHidden()
 
 void KFileItemModelTest::testRemoveFilteredExpandedItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> originalModelRoles = m_model->roles();
     QSet<QByteArray> modelRoles = originalModelRoles;
@@ -817,8 +817,8 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
 
 void KFileItemModelTest::testSorting()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsMovedSpy(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
 
     // Create some files with different sizes and modification times to check the different sorting options
@@ -952,7 +952,7 @@ void KFileItemModelTest::testSorting()
 
 void KFileItemModelTest::testIndexForKeyboardSearch()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"a", "aa", "Image.jpg", "Image.png", "Text", "Text1", "Text2", "Text11"});
 
@@ -1002,7 +1002,7 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
 
 void KFileItemModelTest::testNameFilter()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"A1", "A2", "Abc", "Bcd", "Cde"});
 
@@ -1059,8 +1059,8 @@ void KFileItemModelTest::testEmptyPath()
  */
 void KFileItemModelTest::testRefreshExpandedItem()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsChangedSpy(m_model, SIGNAL(itemsChanged(KItemRangeList, QSet<QByteArray>)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsChangedSpy(m_model, &KFileItemModel::itemsChanged);
     QVERIFY(itemsChangedSpy.isValid());
 
     QSet<QByteArray> modelRoles = m_model->roles();
@@ -1098,8 +1098,8 @@ void KFileItemModelTest::testRemoveHiddenItems()
     m_testDir->createDir("d");
     m_testDir->createFiles({".f", ".g", "h", "i"});
 
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     m_model->setShowHiddenFiles(true);
     m_model->loadDirectory(m_testDir->url());
@@ -1141,8 +1141,8 @@ void KFileItemModelTest::testRemoveHiddenItems()
  */
 void KFileItemModelTest::collapseParentOfHiddenItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1191,8 +1191,8 @@ void KFileItemModelTest::collapseParentOfHiddenItems()
  */
 void KFileItemModelTest::removeParentOfHiddenItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1244,8 +1244,8 @@ void KFileItemModelTest::removeParentOfHiddenItems()
  */
 void KFileItemModelTest::testGeneralParentChildRelationships()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1331,10 +1331,10 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
 
 void KFileItemModelTest::testNameRoleGroups()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy itemsMovedSpy(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
-    QSignalSpy groupsChangedSpy(m_model, SIGNAL(groupsChanged()));
+    QSignalSpy groupsChangedSpy(m_model, &KFileItemModel::groupsChanged);
     QVERIFY(groupsChangedSpy.isValid());
 
     m_testDir->createFiles({"b.txt", "c.txt", "d.txt", "e.txt"});
@@ -1399,7 +1399,7 @@ void KFileItemModelTest::testNameRoleGroups()
 
 void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1437,7 +1437,7 @@ void KFileItemModelTest::testNameRoleGroupsWithExpandedItems()
 
 void KFileItemModelTest::testInconsistentModel()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1493,7 +1493,7 @@ void KFileItemModelTest::testInconsistentModel()
 
 void KFileItemModelTest::testChangeRolesForFilteredItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "owner";
@@ -1590,7 +1590,7 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
 
 void KFileItemModelTest::testRefreshFilteredItems()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"a.txt", "b.txt", "c.jpg", "d.jpg"});
 
@@ -1619,7 +1619,7 @@ void KFileItemModelTest::testRefreshFilteredItems()
 
 void KFileItemModelTest::testCreateMimeData()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1646,7 +1646,7 @@ void KFileItemModelTest::testCreateMimeData()
 
 void KFileItemModelTest::testCollapseFolderWhileLoading()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     QSet<QByteArray> modelRoles = m_model->roles();
     modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
@@ -1724,7 +1724,7 @@ void KFileItemModelTest::testCollapseFolderWhileLoading()
 
 void KFileItemModelTest::testDeleteFileMoreThanOnce()
 {
-    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
 
     m_testDir->createFiles({"a.txt", "b.txt", "c.txt", "d.txt"});
 

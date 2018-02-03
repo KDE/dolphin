@@ -167,8 +167,8 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems()
     model.m_naturalSorting = false;
     model.setRoles({"text"});
 
-    QSignalSpy spyItemsInserted(&model, SIGNAL(itemsInserted(KItemRangeList)));
-    QSignalSpy spyItemsRemoved(&model, SIGNAL(itemsRemoved(KItemRangeList)));
+    QSignalSpy spyItemsInserted(&model, &KFileItemModel::itemsInserted);
+    QSignalSpy spyItemsRemoved(&model, &KFileItemModel::itemsRemoved);
 
     QBENCHMARK {
         model.slotClear();

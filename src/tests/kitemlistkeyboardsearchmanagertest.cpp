@@ -46,7 +46,7 @@ void KItemListKeyboardSearchManagerTest::init()
 
 void KItemListKeyboardSearchManagerTest::testBasicKeyboardSearch()
 {
-    QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString, bool)));
+    QSignalSpy spy(&m_keyboardSearchManager, &KItemListKeyboardSearchManager::changeCurrentItem);
     QVERIFY(spy.isValid());
 
     m_keyboardSearchManager.addKeys("f");
@@ -72,7 +72,7 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
     // to save time when running this test.
     m_keyboardSearchManager.setTimeout(100);
 
-    QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString, bool)));
+    QSignalSpy spy(&m_keyboardSearchManager, &KItemListKeyboardSearchManager::changeCurrentItem);
     QVERIFY(spy.isValid());
 
     m_keyboardSearchManager.addKeys("f");
@@ -104,7 +104,7 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
     // 1. the string contains the repeated key only once, and
     // 2. the bool searchFromNextItem is true.
 
-    QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString, bool)));
+    QSignalSpy spy(&m_keyboardSearchManager, &KItemListKeyboardSearchManager::changeCurrentItem);
     QVERIFY(spy.isValid());
 
     m_keyboardSearchManager.addKeys("p");
@@ -132,7 +132,7 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
     // string. Make sure that this does not reset the current search. See
     // https://bugs.kde.org/show_bug.cgi?id=321286
 
-    QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString, bool)));
+    QSignalSpy spy(&m_keyboardSearchManager, &KItemListKeyboardSearchManager::changeCurrentItem);
     QVERIFY(spy.isValid());
 
     // Simulate that the user enters "a_b".

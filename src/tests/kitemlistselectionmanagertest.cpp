@@ -115,7 +115,7 @@ void KItemListSelectionManagerTest::testConstructor()
 
 void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
 {
-    QSignalSpy spyCurrent(m_selectionManager, SIGNAL(currentChanged(int,int)));
+    QSignalSpy spyCurrent(m_selectionManager, &KItemListSelectionManager::currentChanged);
 
     // Set current item and check that the selection manager emits the currentChanged(int,int) signal correctly.
     m_selectionManager->setCurrentItem(4);
@@ -445,7 +445,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
     QFETCH(QList<QVariant>, data);
     QFETCH(KItemSet, finalSelection);
 
-    QSignalSpy spySelectionChanged(m_selectionManager, SIGNAL(selectionChanged(KItemSet,KItemSet)));
+    QSignalSpy spySelectionChanged(m_selectionManager, &KItemListSelectionManager::selectionChanged);
 
     // Initial selection should be empty
     QVERIFY(!m_selectionManager->hasSelection());
