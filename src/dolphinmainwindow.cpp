@@ -1198,7 +1198,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
-    KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
+    KStandardAction::preferences(this, &DolphinMainWindow::editSettings, actionCollection());
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
