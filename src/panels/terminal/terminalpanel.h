@@ -50,7 +50,7 @@ public:
 
     /**
      * @brief This function is used to set the terminal panels's cwd to
-     *        home when an unmounting request is receieved.
+     *        home when an unmounting request is received.
      */
     void goHome();
     QString currentWorkingDirectory();
