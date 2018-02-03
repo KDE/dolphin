@@ -34,7 +34,7 @@ class DOLPHIN_EXPORT KItemListSelectionToggle : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListSelectionToggle(QGraphicsItem* parent);
+    explicit KItemListSelectionToggle(QGraphicsItem* parent);
     ~KItemListSelectionToggle() override;
 
     void setChecked(bool checked);

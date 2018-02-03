@@ -87,7 +87,7 @@ signals:
                                    qreal currentWidth);
 
 private:
-    KItemListHeader(KItemListView* listView);
+    explicit KItemListHeader(KItemListView* listView);
 
 private:
     KItemListView* m_view;

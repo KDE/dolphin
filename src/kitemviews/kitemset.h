@@ -163,7 +163,7 @@ public:
         {
         }
 
-        const_iterator(const iterator& other) :
+        explicit const_iterator(const iterator& other) :
             m_rangeIt(other.m_rangeIt),
             m_offset(other.m_offset)
         {

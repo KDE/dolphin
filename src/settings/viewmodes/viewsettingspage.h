@@ -36,7 +36,7 @@ class ViewSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    ViewSettingsPage(QWidget* parent);
+    explicit ViewSettingsPage(QWidget* parent);
     ~ViewSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

@@ -34,7 +34,7 @@ class DOLPHIN_EXPORT KFileItemModelDirLister : public KDirLister
     Q_OBJECT
 
 public:
-    KFileItemModelDirLister(QObject* parent = nullptr);
+    explicit KFileItemModelDirLister(QObject* parent = nullptr);
     ~KFileItemModelDirLister() override;
 
 signals:

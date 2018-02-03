@@ -34,7 +34,7 @@ class KItemListView;
 class DOLPHIN_EXPORT KItemListSizeHintResolver
 {
 public:
-    KItemListSizeHintResolver(const KItemListView* itemListView);
+    explicit KItemListSizeHintResolver(const KItemListView* itemListView);
     virtual ~KItemListSizeHintResolver();
     QSizeF maxSizeHint();
     QSizeF minSizeHint();

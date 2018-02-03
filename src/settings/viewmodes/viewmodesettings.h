@@ -36,7 +36,7 @@ public:
         DetailsMode
     };
 
-    ViewModeSettings(ViewMode mode);
+    explicit ViewModeSettings(ViewMode mode);
     virtual ~ViewModeSettings();
 
     void setIconSize(int size) const;

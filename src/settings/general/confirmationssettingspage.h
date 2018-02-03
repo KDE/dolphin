@@ -31,7 +31,7 @@ class ConfirmationsSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    ConfirmationsSettingsPage(QWidget* parent);
+    explicit ConfirmationsSettingsPage(QWidget* parent);
     ~ConfirmationsSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

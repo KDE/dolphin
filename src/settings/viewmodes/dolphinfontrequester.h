@@ -40,7 +40,7 @@ public:
         CustomFont = 1
     };
 
-    DolphinFontRequester(QWidget* parent);
+    explicit DolphinFontRequester(QWidget* parent);
     ~DolphinFontRequester() override;
 
     void setMode(Mode mode);

@@ -34,7 +34,7 @@ class PreviewsSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    PreviewsSettingsPage(QWidget* parent);
+    explicit PreviewsSettingsPage(QWidget* parent);
     ~PreviewsSettingsPage() override;
 
     /**

@@ -42,7 +42,7 @@ class DOLPHIN_EXPORT KItemListGroupHeader : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListGroupHeader(QGraphicsWidget* parent = nullptr);
+    explicit KItemListGroupHeader(QGraphicsWidget* parent = nullptr);
     ~KItemListGroupHeader() override;
 
     void setRole(const QByteArray& role);

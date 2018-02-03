@@ -67,7 +67,7 @@ class DOLPHIN_EXPORT KItemListView : public QGraphicsWidget
     Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset)
 
 public:
-    KItemListView(QGraphicsWidget* parent = nullptr);
+    explicit KItemListView(QGraphicsWidget* parent = nullptr);
     ~KItemListView() override;
 
     /**

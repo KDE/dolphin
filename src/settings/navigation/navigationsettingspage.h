@@ -31,7 +31,7 @@ class NavigationSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    NavigationSettingsPage(QWidget* parent);
+    explicit NavigationSettingsPage(QWidget* parent);
     ~NavigationSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

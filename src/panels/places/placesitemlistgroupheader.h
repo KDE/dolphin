@@ -27,7 +27,7 @@ class PlacesItemListGroupHeader : public KStandardItemListGroupHeader
     Q_OBJECT
 
 public:
-    PlacesItemListGroupHeader(QGraphicsWidget* parent = nullptr);
+    explicit PlacesItemListGroupHeader(QGraphicsWidget* parent = nullptr);
     ~PlacesItemListGroupHeader() override;
 
 protected:

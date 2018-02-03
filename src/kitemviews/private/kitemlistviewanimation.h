@@ -48,7 +48,7 @@ public:
         ResizeAnimation
     };
 
-    KItemListViewAnimation(QObject* parent = nullptr);
+    explicit KItemListViewAnimation(QObject* parent = nullptr);
     ~KItemListViewAnimation() override;
 
     void setScrollOrientation(Qt::Orientation orientation);

@@ -35,7 +35,7 @@ class ServicesSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    ServicesSettingsPage(QWidget* parent);
+    explicit ServicesSettingsPage(QWidget* parent);
     ~ServicesSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

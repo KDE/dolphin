@@ -41,7 +41,7 @@ class DOLPHIN_EXPORT KItemListKeyboardSearchManager : public QObject
 
 public:
 
-    KItemListKeyboardSearchManager(QObject* parent = nullptr);
+    explicit KItemListKeyboardSearchManager(QObject* parent = nullptr);
     ~KItemListKeyboardSearchManager() override;
 
     /**

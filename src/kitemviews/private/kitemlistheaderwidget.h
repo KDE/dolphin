@@ -38,7 +38,7 @@ class DOLPHIN_EXPORT KItemListHeaderWidget : public QGraphicsWidget
     Q_OBJECT
 
 public:
-    KItemListHeaderWidget(QGraphicsWidget* parent = nullptr);
+    explicit KItemListHeaderWidget(QGraphicsWidget* parent = nullptr);
     ~KItemListHeaderWidget() override;
 
     void setModel(KItemModelBase* model);

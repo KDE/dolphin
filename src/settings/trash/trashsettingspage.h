@@ -30,7 +30,7 @@ class TrashSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    TrashSettingsPage(QWidget* parent);
+    explicit TrashSettingsPage(QWidget* parent);
     ~TrashSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

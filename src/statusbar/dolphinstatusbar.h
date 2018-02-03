@@ -43,7 +43,7 @@ class DolphinStatusBar : public QWidget
     Q_OBJECT
 
 public:
-    DolphinStatusBar(QWidget* parent);
+    explicit DolphinStatusBar(QWidget* parent);
     ~DolphinStatusBar() override;
 
     QString text() const;

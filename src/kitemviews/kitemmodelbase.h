@@ -55,7 +55,7 @@ class DOLPHIN_EXPORT KItemModelBase : public QObject
     Q_OBJECT
 
 public:
-    KItemModelBase(QObject* parent = nullptr);
+    explicit KItemModelBase(QObject* parent = nullptr);
     explicit KItemModelBase(const QByteArray& sortRole, QObject* parent = nullptr);
     ~KItemModelBase() override;
 

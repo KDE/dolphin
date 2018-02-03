@@ -31,7 +31,7 @@ class StatusBarSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    StatusBarSettingsPage(QWidget* parent);
+    explicit StatusBarSettingsPage(QWidget* parent);
     ~StatusBarSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */

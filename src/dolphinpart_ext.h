@@ -32,7 +32,7 @@ class DolphinPartBrowserExtension : public KParts::BrowserExtension
 {
     Q_OBJECT
 public:
-    DolphinPartBrowserExtension( DolphinPart* part );
+    explicit DolphinPartBrowserExtension( DolphinPart* part );
     void restoreState(QDataStream &stream) override;
     void saveState(QDataStream &stream) override;
 
@@ -52,7 +52,7 @@ class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
     Q_OBJECT
 
 public:
-    DolphinPartFileInfoExtension(DolphinPart* part);
+    explicit DolphinPartFileInfoExtension(DolphinPart* part);
 
     QueryModes supportedQueryModes() const override;
     bool hasSelection() const override;
@@ -68,7 +68,7 @@ class DolphinPartListingFilterExtension : public KParts::ListingFilterExtension
     Q_OBJECT
 
 public:
-    DolphinPartListingFilterExtension(DolphinPart* part);
+    explicit DolphinPartListingFilterExtension(DolphinPart* part);
     FilterModes supportedFilterModes() const override;
     bool supportsMultipleFilters(FilterMode mode) const override;
     QVariant filter(FilterMode mode) const override;
@@ -83,7 +83,7 @@ class DolphinPartListingNotificationExtension : public KParts::ListingNotificati
     Q_OBJECT
 
 public:
-    DolphinPartListingNotificationExtension(DolphinPart* part);
+    explicit DolphinPartListingNotificationExtension(DolphinPart* part);
     NotificationEventTypes supportedNotificationEventTypes() const override;
 
 public Q_SLOTS:

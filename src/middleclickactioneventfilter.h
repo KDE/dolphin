@@ -35,7 +35,7 @@ class DOLPHIN_EXPORT MiddleClickActionEventFilter : public QObject
     Q_OBJECT
 
 public:
-    MiddleClickActionEventFilter(QObject *parent);
+    explicit MiddleClickActionEventFilter(QObject *parent);
     ~MiddleClickActionEventFilter() override;
 
 signals:
