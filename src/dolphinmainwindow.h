@@ -60,7 +60,6 @@ class DolphinMainWindow: public KXmlGuiWindow
 {
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.MainWindow")
-    Q_PROPERTY(int id READ getId SCRIPTABLE true)
 
 public:
     DolphinMainWindow();
@@ -103,11 +102,6 @@ public slots:
      * no pasting is done at all.
      */
     void pasteIntoFolder();
-
-    /**
-     * Returns the main window ID used through DBus.
-     */
-    int getId() const;
 
     /**
      * Implementation of the MainWindowAdaptor/QDBusAbstractAdaptor interface.
@@ -512,7 +506,6 @@ private:
     KNewFileMenu* m_newFileMenu;
     DolphinTabWidget* m_tabWidget;
     DolphinViewContainer* m_activeViewContainer;
-    int m_id;
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
@@ -539,11 +532,6 @@ inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 inline KNewFileMenu* DolphinMainWindow::newFileMenu() const
 {
     return m_newFileMenu;
-}
-
-inline int DolphinMainWindow::getId() const
-{
-    return m_id;
 }
 
 #endif // DOLPHIN_MAINWINDOW_H
