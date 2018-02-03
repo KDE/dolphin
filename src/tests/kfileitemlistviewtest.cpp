@@ -56,7 +56,7 @@ void KFileItemListViewTest::init()
 
     m_graphicsView = new QGraphicsView();
     m_graphicsView->show();
-    QTest::qWaitForWindowExposed(m_graphicsView);
+    QVERIFY(QTest::qWaitForWindowExposed(m_graphicsView));
 }
 
 void KFileItemListViewTest::cleanup()

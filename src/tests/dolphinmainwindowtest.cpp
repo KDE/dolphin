@@ -47,7 +47,7 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
     m_mainWindow->show();
     // Without this call the searchbox doesn't get FocusIn events.
-    QTest::qWaitForWindowExposed(m_mainWindow.data());
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
     auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");

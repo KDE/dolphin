@@ -143,7 +143,7 @@ void KItemListControllerTest::initTestCase()
     QVERIFY(spyDirectoryLoadingCompleted.wait());
 
     m_container->show();
-    QTest::qWaitForWindowExposed(m_container);
+    QVERIFY(QTest::qWaitForWindowExposed(m_container));
 }
 
 void KItemListControllerTest::cleanupTestCase()
