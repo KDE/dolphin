@@ -54,6 +54,16 @@ public:
      * @return True if destUrl is contained in the urls parameter.
      */
     static bool urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& destUrl);
+
+    /**
+     * clear the internal cache.
+     */
+    static void clearUrlListMatchesUrlCache();
+private:
+    /**
+     * Stores the results of the expensive checks made in urlListMatchesUrl.
+     */
+    static QHash<QUrl, bool> m_urlListMatchesUrlCache;
 };
 
 #endif

@@ -849,6 +849,9 @@ bool KItemListController::dragEnterEvent(QGraphicsSceneDragDropEvent* event, con
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
+
+    DragAndDropHelper::clearUrlListMatchesUrlCache();
+
     return false;
 }
 

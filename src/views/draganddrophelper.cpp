@@ -29,12 +29,21 @@
 #include <KIO/DropJob>
 #include <KJobWidgets>
 
+QHash<QUrl, bool> DragAndDropHelper::m_urlListMatchesUrlCache;
 
 bool DragAndDropHelper::urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& destUrl)
 {
-    return std::find_if(urls.constBegin(), urls.constEnd(), [destUrl](const QUrl& url) {
-        return url.matches(destUrl, QUrl::StripTrailingSlash);
-    }) != urls.constEnd();
+    auto iteratorResult = m_urlListMatchesUrlCache.constFind(destUrl);
+    if (iteratorResult != m_urlListMatchesUrlCache.constEnd()) {
+        return *iteratorResult;
+    }
+
+    const bool destUrlMatches =
+        std::find_if(urls.constBegin(), urls.constEnd(), [destUrl](const QUrl& url) {
+            return url.matches(destUrl, QUrl::StripTrailingSlash);
+        }) != urls.constEnd();
+
+    return *m_urlListMatchesUrlCache.insert(destUrl, destUrlMatches);
 }
 
 KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
@@ -61,5 +70,10 @@ KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event
     }
 
     return nullptr;
+}
+
+void DragAndDropHelper::clearUrlListMatchesUrlCache()
+{
+    DragAndDropHelper::m_urlListMatchesUrlCache.clear();
 }
 
