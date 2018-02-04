@@ -24,8 +24,8 @@
 #ifdef Q_OS_WIN
     #include <QDir>
 #else
-    #include <dirent.h>
     #include <QFile>
+    #include <qplatformdefs.h>
 #endif
 
 KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent) :
@@ -52,15 +52,15 @@ int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options 
     }
     return dir.entryList(filters).count();
 #else
-    // Taken from kdelibs/kio/kio/kdirmodel.cpp
+    // Taken from kio/src/widgets/kdirmodel.cpp
     // Copyright (C) 2006 David Faure <faure@kde.org>
 
     int count = -1;
-    DIR* dir = ::opendir(QFile::encodeName(path));
-    if (dir) {  // krazy:exclude=syscalls
+    auto dir = QT_OPENDIR(QFile::encodeName(path));
+    if (dir) {
         count = 0;
-        struct dirent *dirEntry = nullptr;
-        while ((dirEntry = ::readdir(dir))) {
+        QT_DIRENT *dirEntry = nullptr;
+        while ((dirEntry = QT_READDIR(dir))) {
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
                     // Skip "." or hidden files
@@ -83,7 +83,7 @@ int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options 
                 ++count;
             }
         }
-        ::closedir(dir);
+        QT_CLOSEDIR(dir);
     }
     return count;
 #endif
