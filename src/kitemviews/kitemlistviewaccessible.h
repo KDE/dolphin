@@ -24,10 +24,10 @@
 
 #include "dolphin_export.h"
 
-#include <QtCore/qpointer.h>
-#include <qaccessible.h>
-#include <qaccessibleobject.h>
-#include <QtWidgets/qaccessiblewidget.h>
+#include <QAccessible>
+#include <QAccessibleObject>
+#include <QAccessibleWidget>
+#include <QPointer>
 
 class KItemListView;
 class KItemListContainer;

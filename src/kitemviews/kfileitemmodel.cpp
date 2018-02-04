@@ -31,6 +31,7 @@
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
 
+#include <QElapsedTimer>
 #include <QMimeData>
 #include <QTimer>
 #include <QWidget>

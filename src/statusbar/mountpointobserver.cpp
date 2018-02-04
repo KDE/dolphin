@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <KIO/FileSystemFreeSpaceJob>
-
 #include "mountpointobserver.h"
 #include "mountpointobservercache.h"
+
+#include <KIO/FileSystemFreeSpaceJob>
 
 MountPointObserver::MountPointObserver(const QUrl& url, QObject* parent) :
     QObject(parent),

@@ -137,6 +137,7 @@ generate_export_header(dolphinprivate BASE_NAME dolphin)
 target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
+    Qt5::Concurrent
     Qt5::Gui
     KF5::Crash
     KF5::I18n

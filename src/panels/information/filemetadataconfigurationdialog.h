@@ -22,7 +22,7 @@
 
 #include <QDialog>
 #include <KFileItem>
-#include "config-baloo.h"
+#include <config-baloo.h>
 
 #ifndef HAVE_BALOO
 class KFileMetaDataConfigurationWidget;
