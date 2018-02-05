@@ -1097,11 +1097,13 @@ void KStandardItemListWidget::updateTextsCache()
         if (ratingSize.width() > availableWidth) {
             ratingSize.rwidth() = availableWidth;
         }
-        m_rating = QPixmap(ratingSize.toSize());
+        const qreal dpr = qApp->devicePixelRatio();
+        m_rating = QPixmap(ratingSize.toSize() * dpr);
+        m_rating.setDevicePixelRatio(dpr);
         m_rating.fill(Qt::transparent);
 
         QPainter painter(&m_rating);
-        const QRect rect(0, 0, m_rating.width(), m_rating.height());
+        const QRect rect(QPoint(0, 0), ratingSize.toSize());
         const int rating = data().value("rating").toInt();
         KRatingPainter::paintRating(&painter, rect, Qt::AlignJustify | Qt::AlignVCenter, rating);
     } else if (!m_rating.isNull()) {
