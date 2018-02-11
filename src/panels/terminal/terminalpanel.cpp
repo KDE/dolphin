@@ -171,6 +171,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
         return;
     }
 
+#ifndef Q_OS_WIN
     if (!m_clearTerminal) {
         // The TerminalV2 interface does not provide a way to delete the
         // current line before sending a new input. This is mandatory,
@@ -181,6 +182,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
             kill(processId, SIGINT);
         }
     }
+#endif
 
     m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
 
