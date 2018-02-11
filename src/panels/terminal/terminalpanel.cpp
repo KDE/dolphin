@@ -175,7 +175,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
         // The TerminalV2 interface does not provide a way to delete the
         // current line before sending a new input. This is mandatory,
         // otherwise sending a 'cd x' to a existing 'rm -rf *' might
-        // result in data loss. As workaround SIGINT is send.
+        // result in data loss. As workaround SIGINT is sent.
         const int processId = m_terminal->terminalProcessId();
         if (processId > 0) {
             kill(processId, SIGINT);
