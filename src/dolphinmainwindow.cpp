@@ -1085,11 +1085,13 @@ void DolphinMainWindow::setupActions()
 
     QAction* selectAll = actionCollection()->addAction(QStringLiteral("select_all"));
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
+    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
     actionCollection()->setDefaultShortcut(selectAll, Qt::CTRL | Qt::Key_A);
     connect(selectAll, &QAction::triggered, this, &DolphinMainWindow::selectAll);
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
+    invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
     actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
 
