@@ -171,11 +171,9 @@ void InformationPanelContent::showItem(const KFileItem& item)
         if (isSearchUrl) {
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
-            KIconLoader iconLoader;
-            QPixmap icon = iconLoader.loadIcon(QStringLiteral("nepomuk"),
-                                               KIconLoader::NoGroup,
-                                               KIconLoader::SizeEnormous);
-            m_preview->setPixmap(icon);
+            m_preview->setPixmap(
+                QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+            );
         } else {
             // try to get a preview pixmap from the item...
 
@@ -235,11 +233,9 @@ void InformationPanelContent::showItems(const KFileItemList& items)
         m_previewJob->kill();
     }
 
-    KIconLoader iconLoader;
-    QPixmap icon = iconLoader.loadIcon(QStringLiteral("dialog-information"),
-                                       KIconLoader::NoGroup,
-                                       KIconLoader::SizeEnormous);
-    m_preview->setPixmap(icon);
+    m_preview->setPixmap(
+        QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+    );
     setNameLabelText(i18ncp("@label", "%1 item selected", "%1 items selected", items.count()));
 
     if (m_metaDataWidget) {
@@ -324,10 +320,9 @@ void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
     if (!applyPlace(item.targetUrl())) {
-        const QPixmap icon = KIconLoader::global()->loadIcon(item.iconName(), KIconLoader::Desktop,
-                                                             KIconLoader::SizeEnormous, KIconLoader::DefaultState,
-                                                             item.overlays());
-        m_preview->setPixmap(icon);
+        QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous);
+        KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
+        m_preview->setPixmap(pixmap);
     }
 }
 
