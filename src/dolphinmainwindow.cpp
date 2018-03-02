@@ -1166,7 +1166,7 @@ void DolphinMainWindow::setupActions()
     QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
-    actionCollection()->setDefaultShortcut(showFilterBar, Qt::CTRL | Qt::Key_I);
+    actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL + Qt::Key_I, Qt::Key_Slash});
     connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
 
     QAction* compareFiles = actionCollection()->addAction(QStringLiteral("compare_files"));
