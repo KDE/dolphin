@@ -45,6 +45,7 @@ private:
 
 private:
     QCheckBox* m_confirmMoveToTrash;
+    QCheckBox* m_confirmEmptyTrash;
     QCheckBox* m_confirmDelete;
     QCheckBox* m_confirmClosingMultipleTabs;
     QCheckBox* m_confirmScriptExecution;

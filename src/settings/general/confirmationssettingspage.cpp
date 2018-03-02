@@ -28,6 +28,7 @@
 #include <QVBoxLayout>
 
 namespace {
+    const bool ConfirmEmptyTrash = true;
     const bool ConfirmTrash = false;
     const bool ConfirmDelete = true;
     const bool ConfirmScriptExecution = true;
@@ -36,6 +37,7 @@ namespace {
 ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_confirmMoveToTrash(nullptr),
+    m_confirmEmptyTrash(nullptr),
     m_confirmDelete(nullptr),
     m_confirmClosingMultipleTabs(nullptr)
 {
@@ -46,6 +48,8 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
 
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                "Moving files or folders to trash"), this);
+    m_confirmEmptyTrash = new QCheckBox(i18nc("@option:check Ask for confirmation when",
+                                              "Emptying trash"), this);
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                           "Deleting files or folders"), this);
     m_confirmScriptExecution = new QCheckBox(i18nc("@option:check Ask for confirmation when",
@@ -59,6 +63,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
 
     topLayout->addWidget(confirmLabelKde);
     topLayout->addWidget(m_confirmMoveToTrash);
+    topLayout->addWidget(m_confirmEmptyTrash);
     topLayout->addWidget(m_confirmDelete);
     topLayout->addWidget(m_confirmScriptExecution);
     topLayout->addWidget(confirmLabelDolphin);
@@ -68,6 +73,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     loadSettings();
 
     connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    connect(m_confirmEmptyTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmScriptExecution, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
@@ -82,6 +88,7 @@ void ConfirmationsSettingsPage::applySettings()
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::NoGlobals);
     KConfigGroup confirmationGroup(kioConfig, "Confirmations");
     confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
+    confirmationGroup.writeEntry("ConfirmEmptyTrash", m_confirmEmptyTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     confirmationGroup.sync();
 
@@ -104,6 +111,7 @@ void ConfirmationsSettingsPage::restoreDefaults()
     settings->useDefaults(false);
 
     m_confirmMoveToTrash->setChecked(ConfirmTrash);
+    m_confirmEmptyTrash->setChecked(ConfirmEmptyTrash);
     m_confirmDelete->setChecked(ConfirmDelete);
     m_confirmScriptExecution->setChecked(ConfirmScriptExecution);
 }
@@ -113,6 +121,7 @@ void ConfirmationsSettingsPage::loadSettings()
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig(QStringLiteral("kiorc"), KConfig::IncludeGlobals);
     const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", ConfirmTrash));
+    m_confirmEmptyTrash->setChecked(confirmationGroup.readEntry("ConfirmEmptyTrash", ConfirmEmptyTrash));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", ConfirmDelete));
 
     const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
