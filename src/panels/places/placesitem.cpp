@@ -21,6 +21,7 @@
  ***************************************************************************/
 
 #include "placesitem.h"
+#include "trash/dolphintrash.h"
 
 #include "dolphindebug.h"
 #include "placesitemsignalhandler.h"
@@ -60,16 +61,9 @@ void PlacesItem::setUrl(const QUrl &url)
     if (dataValue("url").toUrl() != url) {
         delete m_trashDirLister;
         if (url.scheme() == QLatin1String("trash")) {
-            // The trash icon must always be updated dependent on whether
-            // the trash is empty or not. We use a KDirLister that automatically
-            // watches for changes if the number of items has been changed.
-            // The update of the icon is handled in onTrashDirListerCompleted().
-            m_trashDirLister = new KDirLister();
-            m_trashDirLister->setAutoErrorHandlingEnabled(false, nullptr);
-            m_trashDirLister->setDelayedMimeTypes(true);
-            QObject::connect(m_trashDirLister.data(), static_cast<void(KDirLister::*)()>(&KDirLister::completed),
-                             m_signalHandler.data(), &PlacesItemSignalHandler::onTrashDirListerCompleted);
-            m_trashDirLister->openUrl(url);
+            QObject::connect(&Trash::instance(), &Trash::emptinessChanged, [this](bool isTrashEmpty){
+                setIcon(isTrashEmpty ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full"));
+            });
         }
 
         setDataValue("url", url);
@@ -237,14 +231,6 @@ void PlacesItem::onAccessibilityChanged()
 {
     setIconOverlays(m_device.emblems());
     setUrl(QUrl::fromLocalFile(m_access->filePath()));
-}
-
-void PlacesItem::onTrashDirListerCompleted()
-{
-    Q_ASSERT(url().scheme() == QLatin1String("trash"));
-
-    const bool isTrashEmpty = m_trashDirLister->items().isEmpty();
-    setIcon(isTrashEmpty ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full"));
 }
 
 void PlacesItem::updateBookmarkForRole(const QByteArray& role)

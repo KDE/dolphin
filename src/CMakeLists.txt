@@ -205,6 +205,7 @@ set(dolphinstatic_SRCS
     dolphinrecenttabsmenu.cpp
     dolphintabpage.cpp
     dolphintabwidget.cpp
+    trash/dolphintrash.cpp
     filterbar/filterbar.cpp
     main.cpp
     panels/information/filemetadataconfigurationdialog.cpp

@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2018 by Roman Inflianskas <infroma@gmail.com>           *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,52 +18,37 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef PLACESITEMSIGNALHANDLER_H
-#define PLACESITEMSIGNALHANDLER_H
+#ifndef DOLPHINTRASH_H
+#define DOLPHINTRASH_H
 
-#include <QObject>
+#include <QWidget>
 
-class PlacesItem;
+#include <KIO/EmptyTrashJob>
+#include <KIOWidgets/KDirLister>
 
-/**
- * @brief Helper class for PlacesItem to be able to listen to signals
- *        and performing a corresponding action.
- *
- * PlacesItem is derived from KStandardItem, which is no QObject-class
- * on purpose. To be able to internally listen to signals and performing a
- * corresponding action, PlacesItemSignalHandler is used.
- *
- * E.g. if the PlacesItem wants to react on accessibility-changes of a storage-access,
- * the signal-handler can be used like this:
- * <code>
- *     QObject::connect(storageAccess, SIGNAL(accessibilityChanged(bool,QString)),
- *                      signalHandler, SLOT(onAccessibilityChanged()));
- * </code>
- *
- * The slot PlacesItemSignalHandler::onAccessibilityChanged() will call
- * the method PlacesItem::onAccessibilityChanged().
- */
-class PlacesItemSignalHandler: public QObject
+class Trash: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit PlacesItemSignalHandler(PlacesItem* item, QObject* parent = nullptr);
-    ~PlacesItemSignalHandler() override;
+    // delete copy and move constructors and assign operators
+    Trash(Trash const&) = delete;
+    Trash(Trash&&) = delete;
+    Trash& operator=(Trash const&) = delete;
+    Trash& operator=(Trash &&) = delete;
 
-public slots:
-    /**
-     * Calls PlacesItem::onAccessibilityChanged()
-     */
-    void onAccessibilityChanged();
-
-    void onTearDownRequested(const QString& udi);
+    static Trash& instance();
+    static KIO::Job* empty(QWidget *window);
+    static bool isEmpty();
 
 signals:
-    void tearDownExternallyRequested(const QString& udi);
+    void emptinessChanged(bool isEmpty);
 
 private:
-    PlacesItem* m_item;
+    KDirLister *m_trashDirLister;
+
+    Trash();
+    ~Trash();
 };
 
-#endif
+#endif // DOLPHINTRASH_H

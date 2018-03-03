@@ -25,6 +25,7 @@
 #include "global.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "trash/dolphintrash.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 

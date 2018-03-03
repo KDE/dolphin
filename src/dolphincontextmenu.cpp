@@ -27,6 +27,7 @@
 #include "dolphinviewcontainer.h"
 #include "panels/places/placesitem.h"
 #include "panels/places/placesitemmodel.h"
+#include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
@@ -139,8 +140,7 @@ void DolphinContextMenu::openTrashContextMenu()
     Q_ASSERT(m_context & TrashContext);
 
     QAction* emptyTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"), this);
-    KConfig trashConfig(QStringLiteral("trashrc"), KConfig::SimpleConfig);
-    emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
+    emptyTrashAction->setEnabled(!Trash::isEmpty());
     addAction(emptyTrashAction);
 
     addCustomActions();
@@ -151,13 +151,7 @@ void DolphinContextMenu::openTrashContextMenu()
     addShowMenuBarAction();
 
     if (exec(m_pos) == emptyTrashAction) {
-        KIO::JobUiDelegate uiDelegate;
-        uiDelegate.setWindow(m_mainWindow);
-        if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
-            KIO::Job* job = KIO::emptyTrash();
-            KJobWidgets::setWindow(job, m_mainWindow);
-            job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-        }
+        Trash::empty(m_mainWindow);
     }
 }
 

@@ -39,13 +39,6 @@ void PlacesItemSignalHandler::onAccessibilityChanged()
     }
 }
 
-void PlacesItemSignalHandler::onTrashDirListerCompleted()
-{
-    if (m_item) {
-        m_item->onTrashDirListerCompleted();
-    }
-}
-
 void PlacesItemSignalHandler::onTearDownRequested(const QString& udi)
 {
     Q_UNUSED(udi)

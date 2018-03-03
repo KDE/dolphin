@@ -25,16 +25,17 @@
 
 #include "dolphin_generalsettings.h"
 #include "global.h"
+#include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/kstandarditem.h"
 #include "placesitem.h"
 #include "placesitemeditdialog.h"
 #include "placesitemlistgroupheader.h"
 #include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
 #include "placesview.h"
-#include "kitemviews/kitemlistcontainer.h"
-#include "kitemviews/kitemlistcontroller.h"
-#include "kitemviews/kitemlistselectionmanager.h"
-#include "kitemviews/kstandarditem.h"
+#include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
 
 #include <KDirNotify>
@@ -226,7 +227,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* action = menu.exec(pos.toPoint());
     if (action) {
         if (action == emptyTrashAction) {
-            emptyTrash();
+            Trash::empty(this);
         } else {
             // The index might have changed if devices were added/removed while
             // the context menu was open.
@@ -425,15 +426,6 @@ void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* 
     }
 }
 
-void PlacesPanel::slotTrashUpdated(KJob* job)
-{
-    if (job->error()) {
-        emit errorMessage(job->errorString());
-    }
-    // as long as KIO doesn't do this, do it ourselves
-    KNotification::event(QStringLiteral("Trash: emptied"), QString(), QPixmap(), nullptr, KNotification::DefaultEvent);
-}
-
 void PlacesPanel::slotStorageSetupDone(int index, bool success)
 {
     disconnect(m_model, &PlacesItemModel::storageSetupDone,
@@ -450,17 +442,6 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
     } else {
         setUrl(m_storageSetupFailedUrl);
         m_storageSetupFailedUrl = QUrl();
-    }
-}
-
-void PlacesPanel::emptyTrash()
-{
-    KIO::JobUiDelegate uiDelegate;
-    uiDelegate.setWindow(window());
-    if (uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation)) {
-        KIO::Job* job = KIO::emptyTrash();
-        KJobWidgets::setWindow(job, window());
-        connect(job, &KIO::Job::result, this, &PlacesPanel::slotTrashUpdated);
     }
 }
 

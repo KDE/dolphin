@@ -68,11 +68,9 @@ private slots:
     void slotItemDropEventStorageSetupDone(int index, bool success);
     void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
-    void slotTrashUpdated(KJob* job);
     void slotStorageSetupDone(int index, bool success);
 
 private:
-    void emptyTrash();
     void addEntry();
     void editEntry(int index);
 

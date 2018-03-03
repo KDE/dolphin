@@ -92,12 +92,6 @@ private:
     void onAccessibilityChanged();
 
     /**
-     * Is invoked if the listing of the trash has been completed.
-     * Updates the state of the trash-icon to be empty or full.
-     */
-    void onTrashDirListerCompleted();
-
-    /**
      * Applies the data-value from the role to m_bookmark.
      */
     void updateBookmarkForRole(const QByteArray& role);
