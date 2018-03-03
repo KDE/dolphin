@@ -20,7 +20,6 @@
 #include "kitemlistsmoothscroller.h"
 
 #include <QApplication>
-#include <QEvent>
 #include <QPropertyAnimation>
 #include <QScrollBar>
 #include <QWheelEvent>

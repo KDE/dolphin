@@ -20,12 +20,10 @@
 
 #include "treeviewcontextmenu.h"
 
-#include <KFileItem>
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
 #include <QMenu>
-#include <QIcon>
 #include <KJobWidgets>
 #include <KSharedConfig>
 #include <KConfigGroup>

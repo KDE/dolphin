@@ -22,7 +22,6 @@
 #include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
 
-#include <QIcon>
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KRatingPainter>
@@ -35,10 +34,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>
-#include <QPainter>
 #include <QStyleOption>
-#include <QTextLayout>
-#include <QTextLine>
 #include <QPixmapCache>
 #include <QGuiApplication>
 

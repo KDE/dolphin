@@ -31,7 +31,6 @@
 #include <QStylePainter>
 #include <QVBoxLayout>
 #include <QTextLayout>
-#include <QTextLine>
 
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>

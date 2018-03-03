@@ -34,10 +34,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QPushButton>
-#include <QHBoxLayout>
 #include <QFileDialog>
-
-#include "views/dolphinview.h"
 
 StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),

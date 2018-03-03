@@ -24,7 +24,6 @@
 
 #include "kitemlistcontroller.h"
 #include "kitemlistview.h"
-#include "kitemmodelbase.h"
 
 #include "private/kitemlistsmoothscroller.h"
 
@@ -32,7 +31,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
-#include <QStyle>
 #include <QStyleOption>
 
 /**

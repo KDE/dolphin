@@ -27,11 +27,8 @@
 #include "kitemlistview.h"
 #include "private/kitemlistviewlayouter.h"
 
-#include <qaccessible.h>
 #include <qgraphicsscene.h>
 #include <qgraphicsview.h>
-
-#include <QHash>
 
 KItemListView* KItemListViewAccessible::view() const
 {

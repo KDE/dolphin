@@ -19,7 +19,6 @@
  ***************************************************************************/
 
 #include "panel.h"
-#include <QUrl>
 
 Panel::Panel(QWidget* parent) :
     QWidget(parent),

@@ -29,8 +29,6 @@
 #include "dolphindebug.h"
 #include <KActionMenu>
 #include <KActionCollection>
-#include <QIcon>
-#include <KLocalizedString>
 #include <KConfig>
 #include <KCharsets>
 #include <QMenu>
@@ -38,6 +36,7 @@
 #include <KProtocolManager>
 #include <KIO/Scheduler>
 #include <KConfigGroup>
+#include <KLocalizedString>
 
 #define DATA_KEY        QStringLiteral("Charset")
 

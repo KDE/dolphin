@@ -21,7 +21,6 @@
 #include "kfileitemmodelfilter.h"
 
 #include <KFileItem>
-#include <QRegExp>
 
 
 KFileItemModelFilter::KFileItemModelFilter() :

@@ -23,14 +23,9 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <QUrl>
 #include "dolphindebug.h"
 
 #include <QCryptographicHash>
-#include <QDate>
-#include <QFile>
-#include <QFileInfo>
-#include <QStandardPaths>
 
 namespace {
     const int AdditionalInfoViewPropertiesVersion = 1;

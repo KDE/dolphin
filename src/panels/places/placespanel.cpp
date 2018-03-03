@@ -27,7 +27,6 @@
 
 #include "global.h"
 #include <KFileItem>
-#include "dolphindebug.h"
 #include <KDirNotify>
 #include <QIcon>
 #include <KIO/Job>
@@ -54,8 +53,6 @@
 #include <views/draganddrophelper.h>
 #include <QGraphicsSceneDragDropEvent>
 #include <QVBoxLayout>
-#include <QShowEvent>
-#include <QMimeData>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),

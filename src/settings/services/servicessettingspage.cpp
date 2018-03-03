@@ -22,8 +22,6 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 
-#include <KConfig>
-#include <KConfigGroup>
 #include <KDesktopFile>
 #include <kdesktopfileactions.h>
 #include <QIcon>
@@ -33,19 +31,14 @@
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
-#include <QStandardPaths>
 
 #include <settings/serviceitemdelegate.h>
 #include <settings/servicemodel.h>
 
-#include <QCheckBox>
 #include <QGridLayout>
-#include <QGroupBox>
 #include <QLabel>
 #include <QListWidget>
-#include <QPushButton>
 #include <QSortFilterProxyModel>
-#include <QShowEvent>
 
 namespace
 {

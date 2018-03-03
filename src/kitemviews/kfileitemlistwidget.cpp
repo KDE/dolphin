@@ -22,11 +22,8 @@
 #include "kitemlistview.h"
 
 #include <KLocalizedString>
-#include <KIO/MetaData>
-#include <QDateTime>
 #include <KFormat>
 #include <QMimeDatabase>
-#include <QLocale>
 
 KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
     KStandardItemListWidgetInformant()

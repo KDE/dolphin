@@ -20,8 +20,6 @@
 
 #include "dolphinview.h"
 
-#include <config-baloo.h>
-
 #include <QAbstractItemView>
 #include <QApplication>
 #include <QClipboard>
@@ -37,7 +35,6 @@
 #include <KProtocolManager>
 #include <KColorScheme>
 #include <KDirModel>
-#include <KFileItem>
 #include <KFileItemListProperties>
 #include <KLocalizedString>
 #include <kitemviews/kfileitemmodel.h>
@@ -45,7 +42,6 @@
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistheader.h>
 #include <kitemviews/kitemlistselectionmanager.h>
-#include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
@@ -54,10 +50,8 @@
 #include <KIO/DropJob>
 #include <KIO/PasteJob>
 #include <KIO/Paste>
-#include <KJob>
 #include <KMessageBox>
 #include <KJobWidgets>
-#include <QUrl>
 
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
@@ -66,7 +60,6 @@
 #include "draganddrophelper.h"
 #include "renamedialog.h"
 #include "versioncontrol/versioncontrolobserver.h"
-#include "viewmodecontroller.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"

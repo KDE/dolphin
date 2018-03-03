@@ -21,8 +21,6 @@
 
 #include <kitemviews/kitemlistview.h>
 
-
-#include <QGraphicsWidget>
 #include <QPropertyAnimation>
 
 KItemListViewAnimation::KItemListViewAnimation(QObject* parent) :

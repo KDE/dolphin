@@ -29,7 +29,6 @@
 #include <KFormat>
 
 #include <QTime>
-#include <QMap>
 #include <QCollator>
 
 struct KBalooRolesProviderSingleton

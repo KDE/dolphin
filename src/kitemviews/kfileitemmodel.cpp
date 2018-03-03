@@ -36,9 +36,6 @@
 #include <QTimer>
 #include <QWidget>
 
-#include <algorithm>
-#include <vector>
-
 // #define KFILEITEMMODEL_DEBUG
 
 KFileItemModel::KFileItemModel(QObject* parent) :

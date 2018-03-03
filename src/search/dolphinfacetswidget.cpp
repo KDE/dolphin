@@ -25,7 +25,6 @@
 #include <QDate>
 #include <QRadioButton>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),

@@ -32,14 +32,11 @@
 
 #include <QButtonGroup>
 #include <QDir>
-#include <QEvent>
 #include <QHBoxLayout>
-#include <QKeyEvent>
 #include <QLabel>
 #include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>
-#include <QVBoxLayout>
 #include <QUrlQuery>
 
 #include <config-baloo.h>

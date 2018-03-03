@@ -21,19 +21,14 @@
 #include "phononwidget.h"
 
 #include <Phonon/AudioOutput>
-#include <Phonon/Global>
 #include <Phonon/MediaObject>
 #include <Phonon/SeekSlider>
 #include <Phonon/VideoWidget>
 
 #include <QVBoxLayout>
-#include <QHBoxLayout>
 #include <QShowEvent>
 #include <QToolButton>
-#include <QDialog>
-#include <QIcon>
 #include <KIconLoader>
-#include <QUrl>
 #include <KLocalizedString>
 
 class EmbeddedVideoPlayer : public Phonon::VideoWidget

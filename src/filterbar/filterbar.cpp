@@ -25,7 +25,6 @@
 #include <QToolButton>
 #include <QHBoxLayout>
 
-#include <QIcon>
 #include <KLocalizedString>
 #include <QLineEdit>
 

@@ -22,12 +22,10 @@
 
 #include "placesitem.h"
 
-#include <KBookmarkManager>
 #include "dolphindebug.h"
 #include <KDirLister>
 #include <KLocalizedString>
 #include "placesitemsignalhandler.h"
-#include <QDateTime>
 #include <Solid/Block>
 
 PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :

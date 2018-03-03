@@ -19,7 +19,6 @@
 
 #include "informationpanelcontent.h"
 
-#include <KFileItem>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KJobWidgets>
@@ -43,18 +42,12 @@
 
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
-#include <Phonon/SeekSlider>
 
-#include <QEvent>
 #include <QLabel>
-#include <QPixmap>
-#include <QResizeEvent>
 #include <QScrollArea>
 #include <QTextLayout>
-#include <QTextLine>
 #include <QTimer>
 #include <QVBoxLayout>
-#include <QFontDatabase>
 #include <QStyle>
 
 #include "dolphin_informationpanelsettings.h"

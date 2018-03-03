@@ -20,10 +20,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include <config-baloo.h>
-
 #include "settings/viewpropertiesdialog.h"
-#include "views/dolphinview.h"
 #include "views/zoomlevelinfo.h"
 
 #include <QPointer>
@@ -34,11 +31,8 @@
 #include <kitemviews/kfileitemmodel.h>
 #include <KLocalizedString>
 #include <KNewFileMenu>
-#include <KSelectAction>
-#include <KToggleAction>
 #include <KPropertiesDialog>
 #include <KProtocolManager>
-#include <QIcon>
 
 #include "dolphindebug.h"
 

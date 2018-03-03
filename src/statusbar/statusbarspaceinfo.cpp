@@ -26,7 +26,6 @@
 
 #include <KLocalizedString>
 #include <KNS3/KMoreToolsMenuFactory>
-#include <KIO/Job>
 #include <knewstuff_version.h>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :

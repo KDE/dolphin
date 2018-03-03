@@ -28,7 +28,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QMimeDatabase>
 #include <QDialogButtonBox>
 #include <QPushButton>

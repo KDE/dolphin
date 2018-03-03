@@ -24,7 +24,6 @@
 #include "kfileitemmodel.h"
 #include "private/kpixmapmodifier.h"
 
-#include <QIcon>
 #include <KIconLoader>
 
 #include <QPainter>

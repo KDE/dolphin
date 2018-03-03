@@ -19,9 +19,7 @@
 
 #include "dolphinfileitemlistwidget.h"
 
-#include <QIcon>
 #include <KIconLoader>
-#include <QColor>
 
 #include "dolphindebug.h"
 

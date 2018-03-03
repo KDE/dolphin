@@ -23,8 +23,6 @@
 
 #include "kitemlistselectionmanager.h"
 
-#include "kitemmodelbase.h"
-
 KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     QObject(parent),
     m_currentItem(-1),

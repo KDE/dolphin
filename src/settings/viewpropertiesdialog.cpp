@@ -27,13 +27,9 @@
 #include "dolphin_iconsmodesettings.h"
 #include "viewpropsprogressinfo.h"
 
-#include <config-baloo.h>
-
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <QUrl>
 #include <KComboBox>
-#include <KConfigGroup>
 #include <KWindowConfig>
 
 #include <QButtonGroup>
@@ -43,8 +39,6 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
-#include <QDialogButtonBox>
-#include <QVBoxLayout>
 
 #include <views/viewproperties.h>
 

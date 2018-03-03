@@ -24,7 +24,6 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KSharedConfig>
-#include <KFileItem>
 #include <KIconLoader>
 #include <KJobWidgets>
 #include <KIO/JobUiDelegate>
@@ -37,11 +36,8 @@
 
 #include <QApplication>
 #include <QPainter>
-#include <QPixmap>
 #include <QElapsedTimer>
 #include <QTimer>
-
-#include <algorithm>
 
 #ifdef HAVE_BALOO
     #include "private/kbaloorolesprovider.h"

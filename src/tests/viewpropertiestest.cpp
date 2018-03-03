@@ -22,7 +22,6 @@
 #include "testdir.h"
 
 #include <QTest>
-#include <QDir>
 
 class ViewPropertiesTest : public QObject
 {

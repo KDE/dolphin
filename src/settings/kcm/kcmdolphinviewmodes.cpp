@@ -28,7 +28,6 @@
 
 #include <QDBusConnection>
 #include <QDBusMessage>
-#include <QPushButton>
 #include <QVBoxLayout>
 #include <QTabWidget>
 

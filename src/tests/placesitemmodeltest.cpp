@@ -19,13 +19,9 @@
 
 #include <QTest>
 #include <QSignalSpy>
-#include <QDebug>
-#include <QList>
-#include <QByteArray>
 #include <QStandardPaths>
 #include <QAction>
 #include <QDBusInterface>
-#include <QUrlQuery>
 
 #include <KBookmarkManager>
 #include <KConfig>
@@ -36,7 +32,6 @@
 #include "panels/places/placesitemmodel.h"
 #include "panels/places/placesitem.h"
 #include "views/viewproperties.h"
-#include "kitemviews/kitemrange.h"
 
 Q_DECLARE_METATYPE(KItemRangeList)
 Q_DECLARE_METATYPE(KItemRange)

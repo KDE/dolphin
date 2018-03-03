@@ -30,7 +30,6 @@
 #include <KAboutData>
 #include <KCrash>
 #include <QCommandLineParser>
-#include <QCommandLineOption>
 #include <QApplication>
 #include <KLocalizedString>
 #include <Kdelibs4ConfigMigrator>

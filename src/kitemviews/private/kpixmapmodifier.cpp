@@ -36,8 +36,6 @@
 
 #include <QImage>
 #include <QPainter>
-#include <QPixmap>
-#include <QSize>
 #include <QGuiApplication>
 
 static const quint32 stackBlur8Mul[255] =

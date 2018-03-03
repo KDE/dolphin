@@ -20,8 +20,7 @@
 #include "kstandarditemmodel.h"
 
 #include "kstandarditem.h"
-#include <QSet>
-#include <QByteArray>
+
 KStandardItemModel::KStandardItemModel(QObject* parent) :
     KItemModelBase(parent),
     m_items(),

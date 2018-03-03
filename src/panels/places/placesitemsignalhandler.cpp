@@ -20,7 +20,6 @@
 #include "placesitemsignalhandler.h"
 
 #include "placesitem.h"
-#include <Solid/StorageAccess>
 
 PlacesItemSignalHandler::PlacesItemSignalHandler(PlacesItem* item,
                                                  QObject* parent) :

@@ -20,8 +20,6 @@
 
 #include "behaviorsettingspage.h"
 
-#include "dolphin_generalsettings.h"
-
 #include <KLocalizedString>
 
 #include <QCheckBox>

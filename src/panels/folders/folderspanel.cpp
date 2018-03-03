@@ -27,12 +27,10 @@
 #include <views/renamedialog.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kfileitemlistview.h>
-#include <kitemviews/kfileitemlistwidget.h>
 #include <kitemviews/kitemlistcontainer.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kfileitemmodel.h>
 
-#include <KFileItem>
 #include <KJobWidgets>
 #include <KJobUiDelegate>
 #include <KIO/CopyJob>
@@ -41,7 +39,6 @@
 
 #include <QApplication>
 #include <QBoxLayout>
-#include <QDropEvent>
 #include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
 #include <QPropertyAnimation>
@@ -49,7 +46,6 @@
 
 #include <views/draganddrophelper.h>
 
-#include "dolphindebug.h"
 #include "global.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :

@@ -27,7 +27,6 @@
 #include <KIO/ThumbCreator>
 
 #include <QUrl>
-#include <QLibrary>
 #include <QVBoxLayout>
 #include <QStandardPaths>
 #include <QDialogButtonBox>

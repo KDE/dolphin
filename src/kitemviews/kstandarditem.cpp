@@ -18,8 +18,6 @@
  ***************************************************************************/
 
 #include "kstandarditem.h"
-#include <QSet>
-#include <QByteArray>
 #include "kstandarditemmodel.h"
 
 KStandardItem::KStandardItem(KStandardItem* parent) :

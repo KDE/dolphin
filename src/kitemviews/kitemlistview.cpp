@@ -33,17 +33,12 @@
 #include "private/kitemlistrubberband.h"
 #include "private/kitemlistsizehintresolver.h"
 #include "private/kitemlistviewlayouter.h"
-#include "private/kitemlistviewanimation.h"
 
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
-#include <QPainter>
-#include <QStyle>
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 #include <QElapsedTimer>
-
-#include <algorithm>
 
 #include "kitemlistviewaccessible.h"
 

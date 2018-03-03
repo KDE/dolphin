@@ -30,10 +30,8 @@
 
 #include <QApplication>
 #include <QHBoxLayout>
-#include <QLabel>
 #include <QProgressBar>
 #include <QToolButton>
-#include <QTime>
 #include <QTimer>
 #include <QSlider>
 #include <QTextDocument>

@@ -21,13 +21,10 @@
 #include <QTest>
 #include <QSignalSpy>
 
-#include <algorithm>
 #include <random>
 
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/private/kfileitemmodelsortalgorithm.h"
-
-#include "testdir.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {

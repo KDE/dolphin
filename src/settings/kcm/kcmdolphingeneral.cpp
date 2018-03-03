@@ -27,7 +27,6 @@
 #include <settings/general/previewssettingspage.h>
 #include <settings/general/confirmationssettingspage.h>
 
-#include <QDir>
 #include <QVBoxLayout>
 #include <QTabWidget>
 

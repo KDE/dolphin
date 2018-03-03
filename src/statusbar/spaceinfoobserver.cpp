@@ -21,8 +21,6 @@
 
 #include "mountpointobserver.h"
 
-#include <QUrl>
-
 SpaceInfoObserver::SpaceInfoObserver(const QUrl& url, QObject* parent) :
     QObject(parent),
     m_mountPointObserver(nullptr),

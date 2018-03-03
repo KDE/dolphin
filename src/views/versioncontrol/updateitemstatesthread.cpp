@@ -19,8 +19,6 @@
 
 #include "updateitemstatesthread.h"
 
-#include <QVector>
-#include <QMutexLocker>
 
 UpdateItemStatesThread::UpdateItemStatesThread(KVersionControlPlugin* plugin,
                                                const QMap<QString, QVector<VersionControlObserver::ItemState> >& itemStates) :

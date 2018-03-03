@@ -20,10 +20,8 @@
 
 #include "draganddrophelper.h"
 
-#include <QUrl>
 #include <QDBusMessage>
 #include <QDBusConnection>
-#include <QDropEvent>
 #include <QMimeData>
 
 #include <KIO/DropJob>

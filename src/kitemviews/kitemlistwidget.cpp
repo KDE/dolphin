@@ -23,7 +23,6 @@
 #include "kitemlistwidget.h"
 
 #include "kitemlistview.h"
-#include "kitemmodelbase.h"
 
 #include "private/kitemlistselectiontoggle.h"
 

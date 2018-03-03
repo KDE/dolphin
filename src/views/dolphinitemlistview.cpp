@@ -25,10 +25,8 @@
 #include "dolphin_compactmodesettings.h"
 #include "dolphinfileitemlistwidget.h"
 
-#include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kitemlistcontroller.h>
-#include <kitemviews/kitemliststyleoption.h>
 
 #include <KIO/PreviewJob>
 

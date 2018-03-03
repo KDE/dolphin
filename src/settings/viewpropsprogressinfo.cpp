@@ -30,7 +30,6 @@
 
 #include <KConfigGroup>
 #include <KLocalizedString>
-#include <KIO/Job>
 
 #include <views/viewproperties.h>
 

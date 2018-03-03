@@ -23,7 +23,6 @@
 #include "behaviorsettingspage.h"
 #include "confirmationssettingspage.h"
 #include "previewssettingspage.h"
-#include <settings/settingspagebase.h>
 #include "statusbarsettingspage.h"
 
 #include <KLocalizedString>

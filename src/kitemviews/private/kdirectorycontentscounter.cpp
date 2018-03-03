@@ -20,7 +20,6 @@
 
 #include "kdirectorycontentscounter.h"
 
-#include "kdirectorycontentscounterworker.h"
 #include <kitemviews/kfileitemmodel.h>
 
 #include <KDirWatch>

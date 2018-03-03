@@ -32,7 +32,6 @@
 
 #include <QApplication>
 #include <QDrag>
-#include <QEvent>
 #include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
 #include <QGraphicsView>

@@ -20,7 +20,6 @@
 #include "kitemlistroleeditor.h"
 
 #include <KIO/Global>
-#include <QKeyEvent>
 
 KItemListRoleEditor::KItemListRoleEditor(QWidget *parent) :
     KTextEdit(parent),

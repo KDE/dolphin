@@ -30,7 +30,6 @@
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
-#include <QSlider>
 #include <QVBoxLayout>
 #include <QHelpEvent>
 #include <QApplication>

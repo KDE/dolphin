@@ -33,9 +33,7 @@
 #include <QCheckBox>
 #include <QEvent>
 #include <QFormLayout>
-#include <QVBoxLayout>
 #include <QDialogButtonBox>
-#include <QPushButton>
 #include <QLineEdit>
 
 PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :

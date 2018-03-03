@@ -22,7 +22,6 @@
 #include <KIconLoader>
 
 #include <QPainter>
-#include <QPixmap>
 #include <QStyle>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :

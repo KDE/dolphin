@@ -26,28 +26,18 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <KBookmark>
-#include <KBookmarkManager>
 #include "dolphindebug.h"
 #include <QIcon>
-#include <KProtocolInfo>
 #include <KLocalizedString>
-#include <QStandardPaths>
 #include <KAboutData>
 #include "placesitem.h"
 #include <QAction>
-#include <QDate>
 #include <QMimeData>
 #include <QTimer>
 #include <KUrlMimeData>
-#include <KFilePlacesModel>
 
-#include <Solid/Device>
 #include <Solid/DeviceNotifier>
-#include <Solid/OpticalDisc>
 #include <Solid/OpticalDrive>
-#include <Solid/StorageAccess>
-#include <Solid/StorageDrive>
 
 #include <views/dolphinview.h>
 #include <views/viewproperties.h>

@@ -32,10 +32,8 @@
 #include <KAuthorized>
 #include <KWindowConfig>
 #include <KLocalizedString>
-#include <QIcon>
 
 #include <QPushButton>
-#include <QDialogButtonBox>
 
 DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     KPageDialog(parent),

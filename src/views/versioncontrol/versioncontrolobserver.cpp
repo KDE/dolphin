@@ -29,7 +29,6 @@
 
 #include "updateitemstatesthread.h"
 
-#include <QFile>
 #include <QTimer>
 
 VersionControlObserver::VersionControlObserver(QObject* parent) :
