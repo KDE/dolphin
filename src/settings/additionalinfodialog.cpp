@@ -85,7 +85,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     layout->addWidget(buttonBox);
 
     auto okButton = buttonBox->button(QDialogButtonBox::Ok);
-    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setShortcut(Qt::CTRL + Qt::Key_Return);
     okButton->setDefault(true);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "AdditionalInfoDialog");

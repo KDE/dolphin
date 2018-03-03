@@ -174,7 +174,7 @@ void DolphinPart::createActions()
 
     QAction* selectItemsMatching = actionCollection()->addAction(QStringLiteral("select_items_matching"));
     selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
-    actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL | Qt::Key_S);
+    actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL + Qt::Key_S);
     connect(selectItemsMatching, &QAction::triggered, this, &DolphinPart::slotSelectItemsMatchingPattern);
 
     QAction* unselectItemsMatching = actionCollection()->addAction(QStringLiteral("unselect_items_matching"));
@@ -189,7 +189,7 @@ void DolphinPart::createActions()
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
-    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
+    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL + Qt::SHIFT + Qt::Key_A);
     connect(invertSelection, &QAction::triggered, m_view, &DolphinView::invertSelection);
 
     // View menu: all done by DolphinViewActionHandler
@@ -219,7 +219,7 @@ void DolphinPart::createActions()
     // Tools menu
     m_findFileAction = actionCollection()->addAction(QStringLiteral("find_file"));
     m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
-    actionCollection()->setDefaultShortcut(m_findFileAction, Qt::CTRL | Qt::Key_F);
+    actionCollection()->setDefaultShortcut(m_findFileAction, Qt::CTRL + Qt::Key_F);
     m_findFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
     connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 

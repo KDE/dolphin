@@ -499,7 +499,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>(QStringLiteral("icons"));
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setToolTip(i18nc("@info", "Icons view mode"));
-    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_1);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL + Qt::Key_1);
     iconsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
     return iconsView;
@@ -510,7 +510,7 @@ KToggleAction* DolphinViewActionHandler::compactModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>(QStringLiteral("compact"));
     iconsView->setText(i18nc("@action:inmenu View Mode", "Compact"));
     iconsView->setToolTip(i18nc("@info", "Compact view mode"));
-    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_2);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL + Qt::Key_2);
     iconsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-details"))); // TODO: discuss with Oxygen-team the wrong (?) name
     iconsView->setData(QVariant::fromValue(DolphinView::CompactView));
     return iconsView;
@@ -521,7 +521,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>(QStringLiteral("details"));
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
-    m_actionCollection->setDefaultShortcut(detailsView, Qt::CTRL | Qt::Key_3);
+    m_actionCollection->setDefaultShortcut(detailsView, Qt::CTRL + Qt::Key_3);
     detailsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-tree")));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;

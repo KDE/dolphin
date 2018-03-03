@@ -45,7 +45,7 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
     setLayout(mainLayout);
     QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
     okButton->setDefault(true);
-    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setShortcut(Qt::CTRL + Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &FileMetaDataConfigurationDialog::slotAccepted);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &FileMetaDataConfigurationDialog::reject);
     buttonBox->button(QDialogButtonBox::Ok)->setDefault(true);

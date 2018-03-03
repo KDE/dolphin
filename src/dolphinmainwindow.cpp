@@ -1049,19 +1049,19 @@ void DolphinMainWindow::setupActions()
     QAction* newWindow = actionCollection()->addAction(QStringLiteral("new_window"));
     newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
-    actionCollection()->setDefaultShortcut(newWindow, Qt::CTRL | Qt::Key_N);
+    actionCollection()->setDefaultShortcut(newWindow, Qt::CTRL + Qt::Key_N);
     connect(newWindow, &QAction::triggered, this, &DolphinMainWindow::openNewMainWindow);
 
     QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL | Qt::Key_T, Qt::CTRL | Qt::SHIFT | Qt::Key_N});
+    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, Qt::CTRL + Qt::SHIFT + Qt::Key_N});
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
 
     QAction* closeTab = actionCollection()->addAction(QStringLiteral("close_tab"));
     closeTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-close")));
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
-    actionCollection()->setDefaultShortcut(closeTab, Qt::CTRL | Qt::Key_W);
+    actionCollection()->setDefaultShortcut(closeTab, Qt::CTRL + Qt::Key_W);
     closeTab->setEnabled(false);
     connect(closeTab, &QAction::triggered, m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab));
 
@@ -1086,13 +1086,13 @@ void DolphinMainWindow::setupActions()
     QAction* selectAll = actionCollection()->addAction(QStringLiteral("select_all"));
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
     selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
-    actionCollection()->setDefaultShortcut(selectAll, Qt::CTRL | Qt::Key_A);
+    actionCollection()->setDefaultShortcut(selectAll, Qt::CTRL + Qt::Key_A);
     connect(selectAll, &QAction::triggered, this, &DolphinMainWindow::selectAll);
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
-    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
+    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL + Qt::SHIFT + Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
 
     // setup 'View' menu
@@ -1103,7 +1103,7 @@ void DolphinMainWindow::setupActions()
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
     QAction* stashSplit = actionCollection()->addAction(QStringLiteral("split_stash"));
-    actionCollection()->setDefaultShortcut(stashSplit, Qt::CTRL | Qt::Key_S);
+    actionCollection()->setDefaultShortcut(stashSplit, Qt::CTRL + Qt::Key_S);
     stashSplit->setText(i18nc("@action:intoolbar Stash", "Stash"));
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
     stashSplit->setIcon(QIcon::fromTheme(QStringLiteral("folder-stash")));
@@ -1130,7 +1130,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* replaceLocation = actionCollection()->addAction(QStringLiteral("replace_location"));
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
-    actionCollection()->setDefaultShortcut(replaceLocation, Qt::CTRL | Qt::Key_L);
+    actionCollection()->setDefaultShortcut(replaceLocation, Qt::CTRL + Qt::Key_L);
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
     // setup 'Go' menu
@@ -1150,7 +1150,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* undoCloseTab = actionCollection()->addAction(QStringLiteral("undo_close_tab"));
     undoCloseTab->setText(i18nc("@action:inmenu File", "Undo close tab"));
-    actionCollection()->setDefaultShortcut(undoCloseTab, Qt::CTRL | Qt::SHIFT | Qt::Key_T);
+    actionCollection()->setDefaultShortcut(undoCloseTab, Qt::CTRL + Qt::SHIFT + Qt::Key_T);
     undoCloseTab->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
     undoCloseTab->setEnabled(false);
     connect(undoCloseTab, &QAction::triggered, recentTabsMenu, &DolphinRecentTabsMenu::undoCloseTab);
@@ -1180,7 +1180,7 @@ void DolphinMainWindow::setupActions()
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
-        actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
+        actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
     }
 #endif
@@ -1193,10 +1193,10 @@ void DolphinMainWindow::setupActions()
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
-    nextTabKeys.append(QKeySequence(Qt::CTRL | Qt::Key_Tab));
+    nextTabKeys.append(QKeySequence(Qt::CTRL + Qt::Key_Tab));
 
     QList<QKeySequence> prevTabKeys = KStandardShortcut::tabPrev();
-    prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
+    prevTabKeys.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Tab));
 
     QAction* activateNextTab = actionCollection()->addAction(QStringLiteral("activate_next_tab"));
     activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));

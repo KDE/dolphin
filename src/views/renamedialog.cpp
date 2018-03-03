@@ -60,7 +60,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     setLayout(mainLayout);
     m_okButton = buttonBox->button(QDialogButtonBox::Ok);
     m_okButton->setDefault(true);
-    m_okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    m_okButton->setShortcut(Qt::CTRL + Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &RenameDialog::slotAccepted);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &RenameDialog::reject);
     m_okButton->setDefault(true);

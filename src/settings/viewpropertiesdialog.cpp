@@ -198,7 +198,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     layout->addWidget(buttonBox);
 
     auto okButton = buttonBox->button(QDialogButtonBox::Ok);
-    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    okButton->setShortcut(Qt::CTRL + Qt::Key_Return);
     okButton->setDefault(true);
 
     auto applyButton = buttonBox->button(QDialogButtonBox::Apply);
