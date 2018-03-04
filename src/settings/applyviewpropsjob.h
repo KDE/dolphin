@@ -24,6 +24,7 @@
 #define APPLYVIEWPROPSJOB_H
 
 #include <KIO/Job>
+
 #include <QUrl>
 
 class ViewProperties;

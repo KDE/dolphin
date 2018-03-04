@@ -21,8 +21,9 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
-#include <KLocalizedString>
 #include <KFormat>
+#include <KLocalizedString>
+
 #include <QMimeDatabase>
 
 KFileItemListWidgetInformant::KFileItemListWidgetInformant() :

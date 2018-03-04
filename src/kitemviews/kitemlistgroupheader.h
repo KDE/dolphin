@@ -21,8 +21,7 @@
 #define KITEMLISTGROUPHEADER_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemliststyleoption.h>
+#include "kitemviews/kitemliststyleoption.h"
 
 #include <QByteArray>
 #include <QGraphicsWidget>

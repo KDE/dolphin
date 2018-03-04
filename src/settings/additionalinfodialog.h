@@ -24,7 +24,6 @@
 #include <QList>
 #include <QListWidget>
 
-
 /**
  * @brief Dialog for changing the additional information shown in the view.
  */

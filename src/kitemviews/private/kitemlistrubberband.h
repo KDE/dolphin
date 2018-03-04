@@ -21,6 +21,7 @@
 #define KITEMLISTRUBBERBAND_H
 
 #include "dolphin_export.h"
+
 #include <QObject>
 #include <QPointF>
 

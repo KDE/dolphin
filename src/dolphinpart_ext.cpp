@@ -22,11 +22,6 @@
 #include "dolphinpart.h"
 #include "views/dolphinview.h"
 
-#include <QVariant>
-
-#include <KFileItem>
-
-
 DolphinPartBrowserExtension::DolphinPartBrowserExtension(DolphinPart* part)
     :KParts::BrowserExtension( part )
     ,m_part(part)

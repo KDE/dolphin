@@ -20,42 +20,39 @@
 
 #include "dolphincontextmenu.h"
 
+#include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
-#include "dolphinviewcontainer.h"
-#include "dolphin_generalsettings.h"
 #include "dolphinremoveaction.h"
+#include "dolphinviewcontainer.h"
+#include "panels/places/placesitem.h"
+#include "panels/places/placesitemmodel.h"
+#include "views/dolphinview.h"
+#include "views/viewmodecontroller.h"
 
-#include <KActionCollection>
 #include <KAbstractFileItemActionPlugin>
+#include <KActionCollection>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
-#include <KIO/RestoreJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>
+#include <KIO/RestoreJob>
 #include <KJobWidgets>
+#include <KLocalizedString>
 #include <KMimeTypeTrader>
 #include <KNewFileMenu>
 #include <KPluginMetaData>
 #include <KService>
-#include <KLocalizedString>
 #include <KStandardAction>
 #include <KToolBar>
 
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
-#include <QMenuBar>
 #include <QMenu>
+#include <QMenuBar>
 #include <QMimeDatabase>
-
-#include <panels/places/placesitem.h>
-#include <panels/places/placesitemmodel.h>
-
-
-#include "views/dolphinview.h"
-#include "views/viewmodecontroller.h"
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const QPoint& pos,

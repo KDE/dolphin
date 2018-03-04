@@ -20,7 +20,7 @@
 #ifndef PLACESITEMLISTWIDGET_H
 #define PLACESITEMLISTWIDGET_H
 
-#include <kitemviews/kstandarditemlistwidget.h>
+#include "kitemviews/kstandarditemlistwidget.h"
 
 /**
  * @brief Extends KStandardItemListWidget to interpret the hidden

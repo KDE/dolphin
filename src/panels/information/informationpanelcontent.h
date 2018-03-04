@@ -20,12 +20,11 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
+#include <KFileItem>
 #include <config-baloo.h>
 
-#include <KFileItem>
-
-#include <QUrl>
 #include <QPointer>
+#include <QUrl>
 #include <QWidget>
 
 class KFileItemList;

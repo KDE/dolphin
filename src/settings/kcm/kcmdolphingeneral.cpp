@@ -19,16 +19,16 @@
 
 #include "kcmdolphingeneral.h"
 
+#include "settings/general/behaviorsettingspage.h"
+#include "settings/general/previewssettingspage.h"
+#include "settings/general/confirmationssettingspage.h"
+
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
 
-#include <settings/general/behaviorsettingspage.h>
-#include <settings/general/previewssettingspage.h>
-#include <settings/general/confirmationssettingspage.h>
-
-#include <QVBoxLayout>
 #include <QTabWidget>
+#include <QVBoxLayout>
 
 K_PLUGIN_FACTORY(KCMDolphinGeneralConfigFactory, registerPlugin<DolphinGeneralConfigModule>(QStringLiteral("dolphingeneral"));)
 

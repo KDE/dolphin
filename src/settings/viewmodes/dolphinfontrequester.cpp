@@ -19,13 +19,13 @@
 
 #include "dolphinfontrequester.h"
 
-#include <KLocalizedString>
 #include <KComboBox>
+#include <KLocalizedString>
 
-#include <QHBoxLayout>
-#include <QPushButton>
 #include <QFontDatabase>
 #include <QFontDialog>
+#include <QHBoxLayout>
+#include <QPushButton>
 
 DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     QWidget(parent),

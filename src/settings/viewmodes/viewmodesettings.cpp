@@ -19,9 +19,9 @@
 
 #include "viewmodesettings.h"
 
-#include "dolphin_iconsmodesettings.h"
-#include "dolphin_detailsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
+#include "dolphin_iconsmodesettings.h"
 
 #define VIEWMODESETTINGS_SET_VALUE(mode, setValue, value) \
     switch (mode) { \

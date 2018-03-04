@@ -22,9 +22,9 @@
 #define DRAGANDDROPHELPER_H
 
 #include "dolphin_export.h"
+
 #include <QList>
 #include <QUrl>
-
 
 class QDropEvent;
 class QWidget;

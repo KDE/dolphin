@@ -21,9 +21,10 @@
 #ifndef VIEWPROPERTIES_H
 #define VIEWPROPERTIES_H
 
-#include <views/dolphinview.h>
-#include <QUrl>
 #include "dolphin_export.h"
+#include "views/dolphinview.h"
+
+#include <QUrl>
 
 class ViewPropertySettings;
 /**

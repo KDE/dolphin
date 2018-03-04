@@ -20,9 +20,10 @@
 #ifndef BEHAVIORSETTINGSPAGE_H
 #define BEHAVIORSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
-#include <QUrl>
 #include "dolphin_generalsettings.h"
+#include "settings/settingspagebase.h"
+
+#include <QUrl>
 
 class QCheckBox;
 class QLabel;

@@ -20,25 +20,23 @@
 
 #include "dolphinviewactionhandler.h"
 
+#include "dolphindebug.h"
+#include "kitemviews/kfileitemmodel.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
 
-#include <QPointer>
-#include <QMenu>
-
+#ifdef HAVE_BALOO
+#include <Baloo/IndexerConfig>
+#endif
 #include <KActionCollection>
 #include <KActionMenu>
-#include <kitemviews/kfileitemmodel.h>
 #include <KLocalizedString>
 #include <KNewFileMenu>
 #include <KPropertiesDialog>
 #include <KProtocolManager>
 
-#include "dolphindebug.h"
-
-#ifdef HAVE_BALOO
-    #include <Baloo/IndexerConfig>
-#endif
+#include <QMenu>
+#include <QPointer>
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
     QObject(parent),

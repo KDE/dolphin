@@ -19,13 +19,12 @@
 
 #include "dolphintabbar.h"
 
-#include <QTimer>
-#include <QDragEnterEvent>
 #include <KLocalizedString>
+
+#include <QDragEnterEvent>
 #include <QMenu>
-#include <QIcon>
-#include <QUrl>
 #include <QMimeData>
+#include <QTimer>
 
 DolphinTabBar::DolphinTabBar(QWidget* parent) :
     QTabBar(parent),

@@ -26,10 +26,10 @@
 
 #include <KFileItem>
 
-#include <QUrl>
 #include <QList>
 #include <QObject>
 #include <QString>
+#include <QUrl>
 
 class KFileItemList;
 class KFileItemModel;

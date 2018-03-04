@@ -34,9 +34,9 @@
 
 #include "kpixmapmodifier.h"
 
+#include <QGuiApplication>
 #include <QImage>
 #include <QPainter>
-#include <QGuiApplication>
 
 static const quint32 stackBlur8Mul[255] =
 {

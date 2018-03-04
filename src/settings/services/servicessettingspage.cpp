@@ -21,19 +21,17 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
+#include "settings/serviceitemdelegate.h"
+#include "settings/servicemodel.h"
 
 #include <KDesktopFile>
-#include <kdesktopfileactions.h>
-#include <QIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNS3/Button>
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
-
-#include <settings/serviceitemdelegate.h>
-#include <settings/servicemodel.h>
+#include <kdesktopfileactions.h>
 
 #include <QGridLayout>
 #include <QLabel>

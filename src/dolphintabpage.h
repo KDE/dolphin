@@ -20,9 +20,9 @@
 #ifndef DOLPHIN_TAB_PAGE_H
 #define DOLPHIN_TAB_PAGE_H
 
-#include <QWidget>
 #include <QPointer>
 #include <QUrl>
+#include <QWidget>
 
 class QSplitter;
 class DolphinViewContainer;

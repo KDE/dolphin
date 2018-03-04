@@ -21,8 +21,7 @@
 #define KSTANDARDITEMLISTVIEW_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemlistview.h>
+#include "kitemviews/kitemlistview.h"
 
 /**
  * @brief Provides layouts for icons-, compact- and details-view.

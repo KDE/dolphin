@@ -19,7 +19,7 @@
 #ifndef SERVICESSETTINGSPAGE_H
 #define SERVICESSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 #include <QString>
 

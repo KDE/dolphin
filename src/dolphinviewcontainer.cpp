@@ -18,37 +18,34 @@
  ***************************************************************************/
 
 #include "dolphinviewcontainer.h"
-#include <KProtocolManager>
 
-#include <QDropEvent>
-#include <QTimer>
-#include <QMimeData>
-#include <QVBoxLayout>
-#include <QLoggingCategory>
-
-#include <KFileItemActions>
-#include <KFilePlacesModel>
-#include <KLocalizedString>
-#include <KIO/PreviewJob>
-#include <kio_version.h>
-#include <KMessageWidget>
-#include <KShell>
-#include <QUrl>
-#include <KUrlComboBox>
-#include <KUrlNavigator>
-#include <KRun>
-
-#ifdef KActivities_FOUND
-#endif
-
-#include "global.h"
-#include "dolphindebug.h"
 #include "dolphin_generalsettings.h"
+#include "dolphindebug.h"
 #include "filterbar/filterbar.h"
+#include "global.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
+
+#include <KFileItemActions>
+#include <KFilePlacesModel>
+#include <KIO/PreviewJob>
+#include <KLocalizedString>
+#include <KMessageWidget>
+#include <KProtocolManager>
+#include <KRun>
+#include <KShell>
+#include <KUrlComboBox>
+#include <KUrlNavigator>
+#include <kio_version.h>
+
+#include <QDropEvent>
+#include <QLoggingCategory>
+#include <QMimeData>
+#include <QTimer>
+#include <QUrl>
+#include <QVBoxLayout>
 
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),

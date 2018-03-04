@@ -20,18 +20,18 @@
 
 #include "dolphinsettingsdialog.h"
 
-#include <dolphinmainwindow.h>
 #include "dolphin_generalsettings.h"
+#include "dolphinmainwindow.h"
 #include "general/generalsettingspage.h"
 #include "navigation/navigationsettingspage.h"
 #include "services/servicessettingspage.h"
 #include "startup/startupsettingspage.h"
-#include "viewmodes/viewsettingspage.h"
 #include "trash/trashsettingspage.h"
+#include "viewmodes/viewsettingspage.h"
 
 #include <KAuthorized>
-#include <KWindowConfig>
 #include <KLocalizedString>
+#include <KWindowConfig>
 
 #include <QPushButton>
 

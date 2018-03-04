@@ -21,8 +21,8 @@
 #define DOLPHINPART_H
 
 #include <KParts/ReadOnlyPart>
-#include <QUrl>
 
+#include <QUrl>
 
 class DolphinNewFileMenu;
 class DolphinViewActionHandler;

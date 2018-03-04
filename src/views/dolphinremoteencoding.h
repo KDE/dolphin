@@ -20,11 +20,11 @@
 #ifndef DOLPHINREMOTEENCODING_H
 #define DOLPHINREMOTEENCODING_H
 
-#include <QStringList>
-#include <QAction>
-#include <QUrl>
 #include "dolphin_export.h"
 
+#include <QAction>
+#include <QStringList>
+#include <QUrl>
 
 class KActionMenu;
 class DolphinViewActionHandler;

@@ -20,11 +20,12 @@
 #include "dolphinfacetswidget.h"
 
 #include <KLocalizedString>
+
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDate>
-#include <QRadioButton>
 #include <QHBoxLayout>
+#include <QRadioButton>
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),

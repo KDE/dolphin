@@ -22,8 +22,9 @@
 
 #include <dolphinvcs_export.h>
 
-#include <QObject>
 #include <QAction>
+#include <QObject>
+
 class KFileItemList;
 class KFileItem;
 /**

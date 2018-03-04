@@ -21,22 +21,21 @@
 
 #include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
+#include "private/kfileitemclipboard.h"
+#include "private/kitemlistroleeditor.h"
+#include "private/kpixmapmodifier.h"
 
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KRatingPainter>
 #include <KStringHandler>
 
-#include "private/kfileitemclipboard.h"
-#include "private/kitemlistroleeditor.h"
-#include "private/kpixmapmodifier.h"
-
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>
-#include <QStyleOption>
-#include <QPixmapCache>
 #include <QGuiApplication>
+#include <QPixmapCache>
+#include <QStyleOption>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
 

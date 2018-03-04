@@ -19,7 +19,8 @@
 #ifndef STARTUPSETTINGSPAGE_H
 #define STARTUPSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
+
 #include <QUrl>
 
 class QLineEdit;

@@ -18,8 +18,9 @@
  */
 
 #include "global.h"
-#include "dolphindebug.h"
+
 #include "dolphin_generalsettings.h"
+#include "dolphindebug.h"
 
 #include <KRun>
 

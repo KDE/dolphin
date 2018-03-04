@@ -24,9 +24,8 @@
 #define KITEMLISTSELECTIONMANAGER_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemmodelbase.h>
-#include <kitemviews/kitemset.h>
+#include "kitemviews/kitemmodelbase.h"
+#include "kitemviews/kitemset.h"
 
 #include <QObject>
 

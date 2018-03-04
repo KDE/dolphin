@@ -24,13 +24,12 @@
 #define KITEMMODELBASE_H
 
 #include "dolphin_export.h"
+#include "kitemviews/kitemrange.h"
+#include "kitemviews/kitemset.h"
 
-#include <kitemviews/kitemrange.h>
-#include <kitemviews/kitemset.h>
-
-#include <QUrl>
 #include <QHash>
 #include <QObject>
+#include <QUrl>
 #include <QVariant>
 
 class QMimeData;

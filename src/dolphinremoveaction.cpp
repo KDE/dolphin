@@ -22,9 +22,6 @@
 
 #include <QApplication>
 
-#include <KLocalizedString>
-
-
 DolphinRemoveAction::DolphinRemoveAction(QObject* parent, KActionCollection* collection) :
     QAction(parent),
     m_collection(collection)

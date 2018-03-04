@@ -20,6 +20,7 @@
 #include "kitemlistselectiontoggle.h"
 
 #include <KIconLoader>
+
 #include <QPainter>
 
 

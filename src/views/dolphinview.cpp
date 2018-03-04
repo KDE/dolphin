@@ -20,44 +20,17 @@
 
 #include "dolphinview.h"
 
-#include <QAbstractItemView>
-#include <QApplication>
-#include <QClipboard>
-#include <QDropEvent>
-#include <QGraphicsSceneDragDropEvent>
-#include <QTimer>
-#include <QScrollBar>
-#include <QPixmapCache>
-#include <QPointer>
-#include <QMenu>
-#include <QVBoxLayout>
-#include <KDesktopFile>
-#include <KProtocolManager>
-#include <KColorScheme>
-#include <KDirModel>
-#include <KFileItemListProperties>
-#include <KLocalizedString>
-#include <kitemviews/kfileitemmodel.h>
-#include <kitemviews/kfileitemlistview.h>
-#include <kitemviews/kitemlistcontainer.h>
-#include <kitemviews/kitemlistheader.h>
-#include <kitemviews/kitemlistselectionmanager.h>
-#include <kitemviews/kitemlistcontroller.h>
-#include <KIO/CopyJob>
-#include <KIO/DeleteJob>
-#include <KIO/JobUiDelegate>
-#include <KIO/PreviewJob>
-#include <KIO/DropJob>
-#include <KIO/PasteJob>
-#include <KIO/Paste>
-#include <KMessageBox>
-#include <KJobWidgets>
-
-#include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinitemlistview.h"
+#include "dolphinnewfilemenuobserver.h"
 #include "draganddrophelper.h"
+#include "kitemviews/kfileitemlistview.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistheader.h"
+#include "kitemviews/kitemlistselectionmanager.h"
 #include "renamedialog.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
@@ -65,9 +38,36 @@
 #include "zoomlevelinfo.h"
 
 #ifdef HAVE_BALOO
-    #include <Baloo/IndexerConfig>
+#include <Baloo/IndexerConfig>
 #endif
+#include <KColorScheme>
+#include <KDesktopFile>
+#include <KDirModel>
+#include <KFileItemListProperties>
 #include <KFormat>
+#include <KIO/CopyJob>
+#include <KIO/DeleteJob>
+#include <KIO/DropJob>
+#include <KIO/JobUiDelegate>
+#include <KIO/Paste>
+#include <KIO/PasteJob>
+#include <KIO/PreviewJob>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KProtocolManager>
+
+#include <QAbstractItemView>
+#include <QApplication>
+#include <QClipboard>
+#include <QDropEvent>
+#include <QGraphicsSceneDragDropEvent>
+#include <QMenu>
+#include <QPixmapCache>
+#include <QPointer>
+#include <QScrollBar>
+#include <QTimer>
+#include <QVBoxLayout>
 
 DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     QWidget(parent),

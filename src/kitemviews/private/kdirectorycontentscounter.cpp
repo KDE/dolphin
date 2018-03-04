@@ -19,10 +19,10 @@
  ***************************************************************************/
 
 #include "kdirectorycontentscounter.h"
-
-#include <kitemviews/kfileitemmodel.h>
+#include "kitemviews/kfileitemmodel.h"
 
 #include <KDirWatch>
+
 #include <QThread>
 
 KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObject* parent) :

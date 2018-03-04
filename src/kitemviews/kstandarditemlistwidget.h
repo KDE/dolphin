@@ -21,8 +21,7 @@
 #define KSTANDARDITEMLISTWIDGET_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemlistwidget.h>
+#include "kitemviews/kitemlistwidget.h"
 
 #include <QPixmap>
 #include <QPointF>

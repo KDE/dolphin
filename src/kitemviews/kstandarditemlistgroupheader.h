@@ -21,8 +21,7 @@
 #define KSTANDARDITEMLISTGROUPHEADER_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemlistgroupheader.h>
+#include "kitemviews/kitemlistgroupheader.h"
 
 #include <QPixmap>
 #include <QStaticText>

@@ -20,7 +20,7 @@
 #ifndef VIEWSETTINGSPAGE_H
 #define VIEWSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 class ViewSettingsTab;
 class QWidget;

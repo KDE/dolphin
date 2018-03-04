@@ -20,10 +20,11 @@
 #ifndef VIEWMODECONTROLLER_H
 #define VIEWMODECONTROLLER_H
 
-#include <QUrl>
-#include <QObject>
 #include "dolphin_export.h"
-#include <views/dolphinview.h>
+#include "views/dolphinview.h"
+
+#include <QObject>
+#include <QUrl>
 
 /**
  * @brief Allows the DolphinView to control the view implementations for the

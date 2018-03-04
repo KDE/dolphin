@@ -21,7 +21,7 @@
 #define UPDATEITEMSTATESTHREAD_H
 
 #include "dolphin_export.h"
-#include <views/versioncontrol/versioncontrolobserver.h>
+#include "views/versioncontrol/versioncontrolobserver.h"
 
 #include <QMutex>
 #include <QThread>

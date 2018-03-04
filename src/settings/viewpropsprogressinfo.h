@@ -20,8 +20,9 @@
 #ifndef VIEWPROPSPROGRESSINFO_H
 #define VIEWPROPSPROGRESSINFO_H
 
-#include <QDialog>
 #include <kio/directorysizejob.h>
+
+#include <QDialog>
 #include <QUrl>
 
 class ApplyViewPropsJob;

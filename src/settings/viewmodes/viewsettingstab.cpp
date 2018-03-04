@@ -19,22 +19,21 @@
 
 #include "viewsettingstab.h"
 
-#include "dolphinfontrequester.h"
 #include "dolphin_compactmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "dolphinfontrequester.h"
+#include "views/zoomlevelinfo.h"
 
 #include <KComboBox>
 #include <KLocalizedString>
 
+#include <QApplication>
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QHelpEvent>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QHelpEvent>
-#include <QApplication>
-
-#include <views/zoomlevelinfo.h>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),

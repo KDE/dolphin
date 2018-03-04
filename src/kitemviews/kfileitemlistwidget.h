@@ -21,8 +21,7 @@
 #define KFILEITEMLISTWIDGET_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kstandarditemlistwidget.h>
+#include "kitemviews/kstandarditemlistwidget.h"
 
 class DOLPHIN_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
 {

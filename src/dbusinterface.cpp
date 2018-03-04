@@ -20,11 +20,9 @@
 #include "dbusinterface.h"
 #include "global.h"
 
-#include <QDBusConnection>
-#include <QList>
-#include <QUrl>
 #include <KPropertiesDialog>
-#include <KRun>
+
+#include <QDBusConnection>
 
 DBusInterface::DBusInterface() :
     QObject()

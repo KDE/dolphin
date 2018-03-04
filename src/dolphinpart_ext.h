@@ -24,6 +24,7 @@
 #include <kparts/fileinfoextension.h>
 #include <kparts/listingfilterextension.h>
 #include <kparts/listingnotificationextension.h>
+
 #include <QUrl>
 
 class DolphinPart;

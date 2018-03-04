@@ -20,8 +20,9 @@
 #ifndef TREEVIEWCONTEXTMENU_H
 #define TREEVIEWCONTEXTMENU_H
 
-#include <QObject>
 #include <KFileItem>
+
+#include <QObject>
 
 class QMimeData;
 class FoldersPanel;

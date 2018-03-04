@@ -27,8 +27,8 @@
 #include "kitemlistview.h"
 #include "private/kitemlistviewlayouter.h"
 
-#include <qgraphicsscene.h>
-#include <qgraphicsview.h>
+#include <QGraphicsScene>
+#include <QGraphicsView>
 
 KItemListView* KItemListViewAccessible::view() const
 {

@@ -21,8 +21,8 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include <QWidget>
 #include <QUrl>
+#include <QWidget>
 
 /**
  * @brief Base widget for all panels that can be docked on the window borders.

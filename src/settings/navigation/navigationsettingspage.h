@@ -19,7 +19,7 @@
 #ifndef NAVIGATIONSETTINGSPAGE_H
 #define NAVIGATIONSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 class QCheckBox;
 

@@ -21,30 +21,28 @@
 
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
+#include "panels/places/placesitemmodel.h"
 
-#include <panels/places/placesitemmodel.h>
-
-#include <QIcon>
-#include <QLineEdit>
 #include <KLocalizedString>
-#include <KSeparator>
 #include <KNS3/KMoreToolsMenuFactory>
+#include <KSeparator>
+#include <config-baloo.h>
+#ifdef HAVE_BALOO
+#include <Baloo/Query>
+#include <Baloo/IndexerConfig>
+#endif
 
 #include <QButtonGroup>
 #include <QDir>
+#include <QFontDatabase>
 #include <QHBoxLayout>
+#include <QIcon>
 #include <QLabel>
+#include <QLineEdit>
 #include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>
 #include <QUrlQuery>
-
-#include <config-baloo.h>
-#ifdef HAVE_BALOO
-    #include <Baloo/Query>
-    #include <Baloo/IndexerConfig>
-#endif
-#include <QFontDatabase>
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),

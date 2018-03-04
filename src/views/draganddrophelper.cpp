@@ -20,12 +20,12 @@
 
 #include "draganddrophelper.h"
 
-#include <QDBusMessage>
-#include <QDBusConnection>
-#include <QMimeData>
-
 #include <KIO/DropJob>
 #include <KJobWidgets>
+
+#include <QDBusConnection>
+#include <QDBusMessage>
+#include <QMimeData>
 
 QHash<QUrl, bool> DragAndDropHelper::m_urlListMatchesUrlCache;
 

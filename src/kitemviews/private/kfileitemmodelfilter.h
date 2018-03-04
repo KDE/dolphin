@@ -22,6 +22,7 @@
 #define KFILEITEMMODELFILTER_H
 
 #include "dolphin_export.h"
+
 #include <QStringList>
 
 class KFileItem;

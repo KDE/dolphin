@@ -19,20 +19,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphin_version.h"
-#include "dolphinmainwindow.h"
-#include "dolphin_generalsettings.h"
 #include "dbusinterface.h"
-#include "global.h"
+#include "dolphin_generalsettings.h"
+#include "dolphin_version.h"
 #include "dolphindebug.h"
+#include "dolphinmainwindow.h"
+#include "global.h"
 
-#include <KDBusService>
 #include <KAboutData>
 #include <KCrash>
-#include <QCommandLineParser>
-#include <QApplication>
+#include <KDBusService>
 #include <KLocalizedString>
 #include <Kdelibs4ConfigMigrator>
+
+#include <QApplication>
+#include <QCommandLineParser>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>

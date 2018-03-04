@@ -41,44 +41,43 @@
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 #include "views/dolphinnewfilemenuobserver.h"
-
 #include "dolphin_generalsettings.h"
 
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
-#include <kdualaction.h>
-#include <KHelpMenu>
-#include <KJobWidgets>
-#include <QLineEdit>
-#include <KToolBar>
-#include <KIO/JobUiDelegate>
-#include <KLocalizedString>
-#include <KProtocolManager>
-#include <KProtocolInfo>
-#include <QMenu>
-#include <KMessageBox>
-#include <KFilePlacesModel>
 #include <KFileItemListProperties>
+#include <KFilePlacesModel>
+#include <KHelpMenu>
+#include <KIO/JobUiDelegate>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KProtocolInfo>
+#include <KProtocolManager>
 #include <KRun>
 #include <KShell>
 #include <KStandardAction>
 #include <KToggleAction>
-#include <KUrlNavigator>
+#include <KToolBar>
 #include <KToolInvocation>
 #include <KUrlComboBox>
+#include <KUrlNavigator>
 
 #include <QApplication>
-#include <QMenuBar>
 #include <QClipboard>
-#include <QToolButton>
-#include <QTimer>
-#include <QStandardPaths>
-#include <QPushButton>
 #include <QCloseEvent>
-#include <QShowEvent>
 #include <QDialog>
+#include <QLineEdit>
+#include <QMenu>
+#include <QMenuBar>
+#include <QPushButton>
+#include <QShowEvent>
+#include <QStandardPaths>
+#include <QTimer>
+#include <QToolButton>
+#include <kdualaction.h>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether

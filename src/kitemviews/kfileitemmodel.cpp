@@ -22,14 +22,12 @@
 #include "kfileitemmodel.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphindebug.h"
+#include "private/kfileitemmodeldirlister.h"
+#include "private/kfileitemmodelsortalgorithm.h"
 
 #include <KLocalizedString>
 #include <KUrlMimeData>
-
-#include "dolphindebug.h"
-
-#include "private/kfileitemmodelsortalgorithm.h"
-#include "private/kfileitemmodeldirlister.h"
 
 #include <QElapsedTimer>
 #include <QMimeData>

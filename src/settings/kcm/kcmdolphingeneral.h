@@ -21,6 +21,7 @@
 #define KCMDOLPHINGENERAL_H
 
 #include <kcmodule.h>
+
 #include <QList>
 
 class SettingsPageBase;

@@ -24,6 +24,7 @@
 
 #include "dolphin_export.h"
 #include "views/dolphinview.h"
+
 #include <QObject>
 
 class KToggleAction;

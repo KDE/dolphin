@@ -22,8 +22,8 @@
 #include <QApplication>
 #include <QPropertyAnimation>
 #include <QScrollBar>
-#include <QWheelEvent>
 #include <QStyle>
+#include <QWheelEvent>
 
 KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
                                                  QObject* parent) :

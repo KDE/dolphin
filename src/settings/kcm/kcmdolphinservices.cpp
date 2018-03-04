@@ -19,10 +19,10 @@
 
 #include "kcmdolphinservices.h"
 
+#include "settings/services/servicessettingspage.h"
+
 #include <KPluginFactory>
 #include <KPluginLoader>
-
-#include <settings/services/servicessettingspage.h>
 
 #include <QVBoxLayout>
 

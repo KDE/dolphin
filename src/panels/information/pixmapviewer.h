@@ -20,10 +20,10 @@
 #ifndef PIXMAPVIEWER_H
 #define PIXMAPVIEWER_H
 
-#include <QWidget>
 #include <QPixmap>
 #include <QQueue>
 #include <QTimeLine>
+#include <QWidget>
 
 class QPaintEvent;
 

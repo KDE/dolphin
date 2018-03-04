@@ -20,19 +20,16 @@
 
 #include "phononwidget.h"
 
+#include <KIconLoader>
+#include <KLocalizedString>
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>
 #include <Phonon/SeekSlider>
-#pragma GCC diagnostic push                          // Phonon doesn't use C++11 compiler by default, so override
-#pragma GCC diagnostic ignored "-Wsuggest-override"  // specifier is not available. Remove this pragmas after fixing it.
 #include <Phonon/VideoWidget>
-#pragma GCC diagnostic pop
 
-#include <QVBoxLayout>
 #include <QShowEvent>
 #include <QToolButton>
-#include <KIconLoader>
-#include <KLocalizedString>
+#include <QVBoxLayout>
 
 class EmbeddedVideoPlayer : public Phonon::VideoWidget
 {

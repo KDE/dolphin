@@ -20,10 +20,10 @@
 #ifndef TOOLTIPMANAGER_H
 #define TOOLTIPMANAGER_H
 
+#include <KFileItem>
+
 #include <QObject>
 #include <QRect>
-
-#include <KFileItem>
 
 class DolphinFileMetaDataWidget;
 class KToolTipWidget;

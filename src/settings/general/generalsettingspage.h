@@ -20,8 +20,9 @@
 #ifndef GENERALSETTINGSPAGE_H
 #define GENERALSETTINGSPAGE_H
 
+#include "settings/settingspagebase.h"
+
 #include <QWidget>
-#include <settings/settingspagebase.h>
 
 class QUrl;
 class SettingsPageBase;

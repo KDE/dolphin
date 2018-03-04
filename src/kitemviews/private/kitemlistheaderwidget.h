@@ -21,6 +21,7 @@
 #define KITEMLISTHEADERWIDGET_H
 
 #include "dolphin_export.h"
+
 #include <QGraphicsWidget>
 #include <QHash>
 #include <QList>

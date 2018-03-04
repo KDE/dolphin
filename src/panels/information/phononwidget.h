@@ -21,11 +21,11 @@
 #ifndef PHONONWIDGET_H
 #define PHONONWIDGET_H
 
-#include <QUrl>
-#include <QSize>
-#include <QWidget>
-
 #include <Phonon/Global>
+
+#include <QSize>
+#include <QUrl>
+#include <QWidget>
 
 namespace Phonon
 {

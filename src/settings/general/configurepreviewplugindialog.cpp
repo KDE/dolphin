@@ -19,18 +19,18 @@
 
 #include "configurepreviewplugindialog.h"
 
-#include <KPluginLoader>
-#include <KLocalizedString>
-#include <KJobWidgets>
-#include <KIO/JobUiDelegate>
 #include <KIO/DeleteJob>
+#include <KIO/JobUiDelegate>
 #include <KIO/ThumbCreator>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KPluginLoader>
 
-#include <QUrl>
-#include <QVBoxLayout>
-#include <QStandardPaths>
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QStandardPaths>
+#include <QUrl>
+#include <QVBoxLayout>
 
 ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& pluginName,
                                                            const QString& desktopEntryName,

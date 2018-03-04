@@ -20,8 +20,9 @@
 #ifndef FOLDERSPANEL_H
 #define FOLDERSPANEL_H
 
+#include "panels/panel.h"
+
 #include <QUrl>
-#include <panels/panel.h>
 
 class KFileItemModel;
 class KItemListController;

@@ -19,9 +19,10 @@
 
 #include "dolphinrecenttabsmenu.h"
 
-#include <KLocalizedString>
 #include <KAcceleratorManager>
+#include <KLocalizedString>
 #include <kio/global.h>
+
 #include <QMenu>
 
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :

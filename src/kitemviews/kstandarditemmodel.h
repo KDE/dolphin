@@ -21,7 +21,8 @@
 #define KSTANDARDITEMMODEL_H
 
 #include "dolphin_export.h"
-#include <kitemviews/kitemmodelbase.h>
+#include "kitemviews/kitemmodelbase.h"
+
 #include <QHash>
 #include <QList>
 

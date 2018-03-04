@@ -21,8 +21,7 @@
 #define KFILEITEMLISTVIEW_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kstandarditemlistview.h>
+#include "kitemviews/kstandarditemlistview.h"
 
 class KFileItemModelRolesUpdater;
 class QTimer;

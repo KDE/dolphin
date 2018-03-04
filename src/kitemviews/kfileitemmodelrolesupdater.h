@@ -20,12 +20,11 @@
 #ifndef KFILEITEMMODELROLESUPDATER_H
 #define KFILEITEMMODELROLESUPDATER_H
 
-#include <config-baloo.h>
+#include "dolphin_export.h"
+#include "kitemviews/kitemmodelbase.h"
 
 #include <KFileItem>
-#include <kitemviews/kitemmodelbase.h>
-
-#include "dolphin_export.h"
+#include <config-baloo.h>
 
 #include <QObject>
 #include <QSet>

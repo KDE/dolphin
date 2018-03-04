@@ -21,8 +21,8 @@
 #define KITEMLISTSIZEHINTRESOLVER_H
 
 #include "dolphin_export.h"
+#include "kitemviews/kitemmodelbase.h"
 
-#include <kitemviews/kitemmodelbase.h>
 #include <QSizeF>
 #include <QVector>
 

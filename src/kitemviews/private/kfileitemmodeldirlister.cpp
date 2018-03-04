@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "kfileitemmodeldirlister.h"
+
 #include <KLocalizedString>
 #include <KIO/Job>
 

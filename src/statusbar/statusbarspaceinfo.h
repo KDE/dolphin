@@ -20,10 +20,9 @@
 #ifndef STATUSBARSPACEINFO_H
 #define STATUSBARSPACEINFO_H
 
-#include <QUrl>
-
-
 #include <KCapacityBar>
+
+#include <QUrl>
 
 class QHideEvent;
 class QShowEvent;

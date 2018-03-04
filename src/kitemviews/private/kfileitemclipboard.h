@@ -20,12 +20,12 @@
 #ifndef KFILEITEMCLIPBOARD_H
 #define KFILEITEMCLIPBOARD_H
 
-#include <QUrl>
-#include <QList>
-#include <QSet>
-#include <QObject>
-
 #include "dolphin_export.h"
+
+#include <QList>
+#include <QObject>
+#include <QSet>
+#include <QUrl>
 
 /**
  * @brief Wrapper for QClipboard to provide fast access for checking

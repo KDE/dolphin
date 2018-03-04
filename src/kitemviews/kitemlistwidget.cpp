@@ -23,9 +23,7 @@
 #include "kitemlistwidget.h"
 
 #include "kitemlistview.h"
-
 #include "private/kitemlistselectiontoggle.h"
-
 
 #include <QApplication>
 #include <QPainter>

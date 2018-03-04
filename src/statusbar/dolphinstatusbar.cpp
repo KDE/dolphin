@@ -20,25 +20,23 @@
 #include "dolphinstatusbar.h"
 
 #include "dolphin_generalsettings.h"
+#include "statusbarspaceinfo.h"
+#include "views/dolphinview.h"
+#include "views/zoomlevelinfo.h"
 
-#include <QIcon>
 #include <KLocalizedString>
 #include <KSqueezedTextLabel>
-#include <QMenu>
-
-#include "statusbarspaceinfo.h"
 
 #include <QApplication>
 #include <QHBoxLayout>
+#include <QHelpEvent>
+#include <QIcon>
+#include <QMenu>
 #include <QProgressBar>
-#include <QToolButton>
-#include <QTimer>
 #include <QSlider>
 #include <QTextDocument>
-#include <QHelpEvent>
-
-#include <views/dolphinview.h>
-#include <views/zoomlevelinfo.h>
+#include <QTimer>
+#include <QToolButton>
 
 namespace {
     const int ResetToDefaultTimeout = 1000;

@@ -22,8 +22,9 @@
 #ifndef DOLPHINFILEMETADATAWIDGET_H
 #define DOLPHINFILEMETADATAWIDGET_H
 
-#include <QWidget>
 #include <config-baloo.h>
+
+#include <QWidget>
 
 class KFileItemList;
 class QLabel;

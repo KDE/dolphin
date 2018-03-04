@@ -20,13 +20,13 @@
 
 #include "viewsettingspage.h"
 
-#include <views/dolphinview.h>
+#include "views/dolphinview.h"
 #include "viewsettingstab.h"
 
-#include <QVBoxLayout>
-#include <QTabWidget>
-
 #include <KLocalizedString>
+
+#include <QTabWidget>
+#include <QVBoxLayout>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),

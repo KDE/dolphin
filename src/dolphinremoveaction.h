@@ -23,10 +23,10 @@
 
 #include "dolphin_export.h"
 
+#include <KActionCollection>
+
 #include <QAction>
 #include <QPointer>
-
-#include <KActionCollection>
 
 /**
  * A QAction that manages the delete based on the current state of

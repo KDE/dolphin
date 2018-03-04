@@ -19,20 +19,17 @@
 
 #include "dolphinitemlistview.h"
 
+#include "dolphin_compactmodesettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
-#include "dolphin_detailsmodesettings.h"
-#include "dolphin_compactmodesettings.h"
 #include "dolphinfileitemlistwidget.h"
-
-#include <kitemviews/kfileitemmodel.h>
-#include <kitemviews/kitemlistcontroller.h>
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "views/viewmodecontroller.h"
+#include "zoomlevelinfo.h"
 
 #include <KIO/PreviewJob>
-
-#include <views/viewmodecontroller.h>
-
-#include "zoomlevelinfo.h"
 
 
 DolphinItemListView::DolphinItemListView(QGraphicsWidget* parent) :

@@ -18,43 +18,42 @@
 */
 
 #include "dolphinpart.h"
-#include "dolphinremoveaction.h"
 
-#include <KFileItemListProperties>
+#include "dolphindebug.h"
+#include "dolphinnewfilemenu.h"
+#include "dolphinpart_ext.h"
+#include "dolphinremoveaction.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/private/kfileitemmodeldirlister.h"
+#include "views/dolphinnewfilemenuobserver.h"
+#include "views/dolphinremoteencoding.h"
+#include "views/dolphinview.h"
+#include "views/dolphinviewactionhandler.h"
 
 #include <KAboutData>
 #include <KActionCollection>
-#include "dolphindebug.h"
+#include <KAuthorized>
+#include <KConfigGroup>
+#include <KFileItemListProperties>
 #include <KIconLoader>
+#include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMimeTypeEditor>
 #include <KPluginFactory>
 #include <KRun>
-#include <KToolInvocation>
-#include <KAuthorized>
-#include <QMenu>
 #include <KSharedConfig>
-#include <KConfigGroup>
-#include <KMimeTypeEditor>
-#include <KJobWidgets>
+#include <KToolInvocation>
 
-#include "dolphinpart_ext.h"
-#include "dolphinnewfilemenu.h"
-#include "views/dolphinview.h"
-#include "views/dolphinviewactionhandler.h"
-#include "views/dolphinnewfilemenuobserver.h"
-#include "views/dolphinremoteencoding.h"
-#include "kitemviews/kfileitemmodel.h"
-#include "kitemviews/private/kfileitemmodeldirlister.h"
-
-#include <QStandardPaths>
 #include <QActionGroup>
-#include <QTextDocument>
 #include <QApplication>
 #include <QClipboard>
 #include <QDir>
-#include <QKeyEvent>
 #include <QInputDialog>
+#include <QKeyEvent>
+#include <QMenu>
+#include <QStandardPaths>
+#include <QTextDocument>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 

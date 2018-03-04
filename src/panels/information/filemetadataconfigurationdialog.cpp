@@ -24,14 +24,15 @@
 #else
 #include <Baloo/FileMetaDataConfigWidget>
 #endif
-#include <KSharedConfig>
-#include <KLocalizedString>
-#include <QLabel>
-#include <QVBoxLayout>
 #include <KConfigGroup>
+#include <KLocalizedString>
+#include <KSharedConfig>
 #include <KWindowConfig>
+
 #include <QDialogButtonBox>
+#include <QLabel>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent) :
     QDialog(parent),

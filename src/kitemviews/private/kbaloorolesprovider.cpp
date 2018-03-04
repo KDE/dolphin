@@ -20,16 +20,15 @@
 
 #include "kbaloorolesprovider.h"
 
-#include <QDebug>
-#include <KLocalizedString>
-
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>
 #include <KFileMetaData/UserMetaData>
 #include <KFormat>
+#include <KLocalizedString>
 
-#include <QTime>
 #include <QCollator>
+#include <QDebug>
+#include <QTime>
 
 struct KBalooRolesProviderSingleton
 {

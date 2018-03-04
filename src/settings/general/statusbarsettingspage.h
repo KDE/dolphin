@@ -19,7 +19,7 @@
 #ifndef STATUSBARSETTINGSPAGE_H
 #define STATUSBARSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 class QCheckBox;
 

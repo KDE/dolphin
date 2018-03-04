@@ -20,13 +20,11 @@
 #ifndef DOLPHINCONTEXTMENU_H
 #define DOLPHINCONTEXTMENU_H
 
-#include <KFileItem>
-#include <QUrl>
 #include <KFileCopyToMenu>
+#include <KFileItem>
+
 #include <QMenu>
-
-
-
+#include <QUrl>
 
 class QAction;
 class DolphinMainWindow;

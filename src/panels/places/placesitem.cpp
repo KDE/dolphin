@@ -23,9 +23,10 @@
 #include "placesitem.h"
 
 #include "dolphindebug.h"
+#include "placesitemsignalhandler.h"
+
 #include <KDirLister>
 #include <KLocalizedString>
-#include "placesitemsignalhandler.h"
 #include <Solid/Block>
 
 PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :

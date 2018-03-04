@@ -20,14 +20,13 @@
 #include "versioncontrolobserver.h"
 
 #include "dolphin_versioncontrolsettings.h"
+#include "dolphindebug.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "updateitemstatesthread.h"
 
 #include <KLocalizedString>
 #include <KService>
-#include "dolphindebug.h"
 #include <KServiceTypeTrader>
-#include <kitemviews/kfileitemmodel.h>
-
-#include "updateitemstatesthread.h"
 
 #include <QTimer>
 

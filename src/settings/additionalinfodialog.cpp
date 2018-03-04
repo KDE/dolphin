@@ -19,19 +19,19 @@
 
 #include "additionalinfodialog.h"
 
+#include "kitemviews/kfileitemmodel.h"
+
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KSharedConfig>
+#include <KWindowConfig>
 #include <config-baloo.h>
 
-#include <KSharedConfig>
-#include <KLocalizedString>
-#include "kitemviews/kfileitemmodel.h"
-#include <KConfigGroup>
-#include <KWindowConfig>
-
 #include <QCheckBox>
-#include <QLabel>
-#include <QVBoxLayout>
 #include <QDialogButtonBox>
+#include <QLabel>
 #include <QPushButton>
+#include <QVBoxLayout>
 
 #ifdef HAVE_BALOO
     #include <Baloo/IndexerConfig>

@@ -20,9 +20,9 @@
 #ifndef SPACEINFOOBSERVER_H
 #define SPACEINFOOBSERVER_H
 
-#include <QObject>
-
 #include <KIO/Job>
+
+#include <QObject>
 
 class QUrl;
 class MountPointObserver;

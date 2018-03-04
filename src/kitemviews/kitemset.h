@@ -21,8 +21,7 @@
 #define KITEMSET_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemrange.h>
+#include "kitemviews/kitemrange.h"
 
 /**
  * @brief Stores a set of integer numbers in a space-efficient way.

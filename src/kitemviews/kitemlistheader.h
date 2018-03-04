@@ -21,6 +21,7 @@
 #define KITEMLISTHEADER_H
 
 #include "dolphin_export.h"
+
 #include <QHash>
 #include <QObject>
 

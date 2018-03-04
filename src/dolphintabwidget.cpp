@@ -23,12 +23,13 @@
 #include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
 
-#include <QApplication>
-#include <QDropEvent>
 #include <KConfigGroup>
+#include <KRun>
 #include <KShell>
 #include <kio/global.h>
-#include <KRun>
+
+#include <QApplication>
+#include <QDropEvent>
 
 DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     QTabWidget(parent),

@@ -24,34 +24,35 @@
 #include "placespanel.h"
 
 #include "dolphin_generalsettings.h"
-
 #include "global.h"
-#include <KFileItem>
-#include <KDirNotify>
-#include <QIcon>
-#include <KIO/Job>
-#include <KIO/DropJob>
-#include <KIO/EmptyTrashJob>
-#include <KIO/JobUiDelegate>
-#include <KFilePlacesModel>
-#include <KJobWidgets>
-#include <KLocalizedString>
-#include <KIconLoader>
-#include <kitemviews/kitemlistcontainer.h>
-#include <kitemviews/kitemlistcontroller.h>
-#include <kitemviews/kitemlistselectionmanager.h>
-#include <kitemviews/kstandarditem.h>
-#include <QMenu>
-#include <KMessageBox>
-#include <KNotification>
 #include "placesitem.h"
 #include "placesitemeditdialog.h"
 #include "placesitemlistgroupheader.h"
 #include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
 #include "placesview.h"
-#include <views/draganddrophelper.h>
+#include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/kstandarditem.h"
+#include "views/draganddrophelper.h"
+
+#include <KDirNotify>
+#include <KFileItem>
+#include <KFilePlacesModel>
+#include <KIO/DropJob>
+#include <KIO/EmptyTrashJob>
+#include <KIO/Job>
+#include <KIO/JobUiDelegate>
+#include <KIconLoader>
+#include <KJobWidgets>
+#include <KLocalizedString>
+#include <KMessageBox>
+#include <KNotification>
+
 #include <QGraphicsSceneDragDropEvent>
+#include <QIcon>
+#include <QMenu>
 #include <QVBoxLayout>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :

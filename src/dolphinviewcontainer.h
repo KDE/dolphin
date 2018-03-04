@@ -20,17 +20,16 @@
 #ifndef DOLPHINVIEWCONTAINER_H
 #define DOLPHINVIEWCONTAINER_H
 
-#include <KFileItem>
-#include <KCompletion>
-#include <KIO/Job>
+#include "config-dolphin.h"
+#include "views/dolphinview.h"
 
+#include <KCompletion>
+#include <KFileItem>
+#include <KIO/Job>
 #include <KUrlNavigator>
 
 #include <QElapsedTimer>
 #include <QWidget>
-
-#include <views/dolphinview.h>
-#include <config-dolphin.h>
 
 #ifdef KF5Activities_FOUND
 namespace KActivities {

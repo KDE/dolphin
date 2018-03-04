@@ -18,8 +18,7 @@
  ***************************************************************************/
 
 #include "kitemlistheaderwidget.h"
-
-#include <kitemviews/kitemmodelbase.h>
+#include "kitemviews/kitemmodelbase.h"
 
 #include <QApplication>
 #include <QGraphicsSceneHoverEvent>

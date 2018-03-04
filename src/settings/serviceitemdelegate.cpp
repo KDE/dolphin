@@ -19,13 +19,12 @@
 
 #include "serviceitemdelegate.h"
 
-#include <QPushButton>
-
 #include "servicemodel.h"
 
 #include <QAbstractItemView>
 #include <QCheckBox>
 #include <QPainter>
+#include <QPushButton>
 
 ServiceItemDelegate::ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent) :
     KWidgetItemDelegate(itemView, parent)

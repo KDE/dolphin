@@ -27,6 +27,7 @@
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
 #include "kitemlistselectionmanager.h"
+#include "kitemlistviewaccessible.h"
 #include "kstandarditemlistwidget.h"
 
 #include "private/kitemlistheaderwidget.h"
@@ -34,13 +35,12 @@
 #include "private/kitemlistsizehintresolver.h"
 #include "private/kitemlistviewlayouter.h"
 
+#include <QElapsedTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QStyleOptionRubberBand>
 #include <QTimer>
-#include <QElapsedTimer>
 
-#include "kitemlistviewaccessible.h"
 
 namespace {
     // Time in ms until reaching the autoscroll margin triggers

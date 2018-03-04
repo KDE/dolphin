@@ -20,7 +20,7 @@
 #include "tooltipmanager.h"
 
 #include "dolphinfilemetadatawidget.h"
-#include <QIcon>
+
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KJobWidgets>
@@ -28,6 +28,7 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QIcon>
 #include <QLayout>
 #include <QStyle>
 #include <QTimer>

@@ -24,8 +24,7 @@
 #define KITEMLISTWIDGET_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kitemliststyleoption.h>
+#include "kitemviews/kitemliststyleoption.h"
 
 #include <QBitArray>
 #include <QGraphicsWidget>

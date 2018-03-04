@@ -20,15 +20,18 @@
 #ifndef PLACESITEM_H
 #define PLACESITEM_H
 
+#include "kitemviews/kstandarditem.h"
+
 #include <KBookmark>
-#include <kitemviews/kstandarditem.h>
-#include <QUrl>
-#include <QPointer>
 #include <Solid/Device>
 #include <Solid/OpticalDisc>
+#include <Solid/PortableMediaPlayer>
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
-#include <Solid/PortableMediaPlayer>
+
+#include <QPointer>
+#include <QUrl>
+
 
 class KDirLister;
 class PlacesItemSignalHandler;

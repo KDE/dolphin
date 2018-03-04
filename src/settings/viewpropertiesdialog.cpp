@@ -21,15 +21,15 @@
 #include "viewpropertiesdialog.h"
 
 #include "additionalinfodialog.h"
-#include "kitemviews/kfileitemmodel.h"
-#include "views/dolphinview.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "kitemviews/kfileitemmodel.h"
 #include "viewpropsprogressinfo.h"
+#include "views/dolphinview.h"
 
+#include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KComboBox>
 #include <KWindowConfig>
 
 #include <QButtonGroup>

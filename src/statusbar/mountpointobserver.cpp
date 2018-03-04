@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "mountpointobserver.h"
+
 #include "mountpointobservercache.h"
 
 #include <KIO/FileSystemFreeSpaceJob>

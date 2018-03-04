@@ -19,17 +19,15 @@
 
 #include "terminalpanel.h"
 
-#include <signal.h>
-
-#include <KPluginLoader>
-#include <KPluginFactory>
-#include <KService>
-#include <kde_terminal_interface.h>
-#include <KParts/ReadOnlyPart>
-#include <KShell>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
+#include <KParts/ReadOnlyPart>
+#include <KPluginFactory>
+#include <KPluginLoader>
+#include <KService>
+#include <KShell>
+#include <kde_terminal_interface.h>
 
 #include <QDir>
 #include <QShowEvent>

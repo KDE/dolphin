@@ -20,7 +20,7 @@
 #ifndef TERMINALPANEL_H
 #define TERMINALPANEL_H
 
-#include <panels/panel.h>
+#include "panels/panel.h"
 
 #include <QQueue>
 

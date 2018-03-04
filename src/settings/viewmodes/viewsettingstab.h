@@ -20,8 +20,9 @@
 #ifndef VIEWSETTINGSTAB_H
 #define VIEWSETTINGSTAB_H
 
+#include "settings/viewmodes/viewmodesettings.h"
+
 #include <QWidget>
-#include <settings/viewmodes/viewmodesettings.h>
 
 class DolphinFontRequester;
 class KComboBox;

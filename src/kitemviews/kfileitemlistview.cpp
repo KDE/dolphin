@@ -19,17 +19,17 @@
 
 #include "kfileitemlistview.h"
 
-#include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
+#include "kfileitemmodelrolesupdater.h"
 #include "private/kpixmapmodifier.h"
 
 #include <KIconLoader>
 
-#include <QPainter>
-#include <QTimer>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QPainter>
+#include <QTimer>
 
 // #define KFILEITEMLISTVIEW_DEBUG
 

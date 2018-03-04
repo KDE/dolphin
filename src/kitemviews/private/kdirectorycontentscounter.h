@@ -23,8 +23,8 @@
 
 #include "kdirectorycontentscounterworker.h"
 
-#include <QSet>
 #include <QQueue>
+#include <QSet>
 
 class KDirWatch;
 class KFileItemModel;

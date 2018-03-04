@@ -19,8 +19,8 @@
 
 #include "dolphintabpage.h"
 
-#include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
+#include "dolphinviewcontainer.h"
 
 #include <QSplitter>
 #include <QVBoxLayout>

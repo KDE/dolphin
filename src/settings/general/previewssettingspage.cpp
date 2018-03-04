@@ -21,20 +21,19 @@
 
 #include "dolphin_generalsettings.h"
 #include "configurepreviewplugindialog.h"
+#include "settings/serviceitemdelegate.h"
+#include "settings/servicemodel.h"
 
+#include <KIO/PreviewJob>
 #include <KLocalizedString>
 #include <KServiceTypeTrader>
-#include <KIO/PreviewJob>
-
-#include <settings/serviceitemdelegate.h>
-#include <settings/servicemodel.h>
 
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QListView>
 #include <QPainter>
-#include <QSpinBox>
 #include <QSortFilterProxyModel>
+#include <QSpinBox>
 
 // default settings
 namespace {

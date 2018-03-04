@@ -19,10 +19,10 @@
 
 #include "kcmdolphinnavigation.h"
 
+#include "settings/navigation/navigationsettingspage.h"
+
 #include <KPluginFactory>
 #include <KPluginLoader>
-
-#include <settings/navigation/navigationsettingspage.h>
 
 #include <QVBoxLayout>
 

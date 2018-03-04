@@ -25,9 +25,9 @@
 
 #include "dolphin_export.h"
 
+#include <QElapsedTimer>
 #include <QObject>
 #include <QString>
-#include <QElapsedTimer>
 
 /**
  * @brief Controls the keyboard searching ability for a KItemListController.

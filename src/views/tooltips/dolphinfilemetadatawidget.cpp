@@ -24,19 +24,18 @@
 #include <KColorScheme>
 #include <KSeparator>
 #include <KStringHandler>
-#include <QTextDocument>
-
-#include <QLabel>
-#include <QStyleOptionFrame>
-#include <QStylePainter>
-#include <QVBoxLayout>
-#include <QTextLayout>
-
 #ifndef HAVE_BALOO
 #include <KFileMetaDataWidget>
 #else
 #include <Baloo/FileMetaDataWidget>
 #endif
+
+#include <QLabel>
+#include <QStyleOptionFrame>
+#include <QStylePainter>
+#include <QTextDocument>
+#include <QTextLayout>
+#include <QVBoxLayout>
 
 DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
     QWidget(parent),

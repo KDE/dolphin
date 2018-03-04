@@ -20,14 +20,14 @@
 
 #include "behaviorsettingspage.h"
 
+#include "views/viewproperties.h"
+
 #include <KLocalizedString>
 
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QRadioButton>
 #include <QVBoxLayout>
-
-#include <views/viewproperties.h>
 
 BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),

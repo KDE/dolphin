@@ -21,15 +21,16 @@
 
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
-#include "treeviewcontextmenu.h"
 #include "foldersitemlistwidget.h"
-
-#include <views/renamedialog.h>
-#include <kitemviews/kitemlistselectionmanager.h>
-#include <kitemviews/kfileitemlistview.h>
-#include <kitemviews/kitemlistcontainer.h>
-#include <kitemviews/kitemlistcontroller.h>
-#include <kitemviews/kfileitemmodel.h>
+#include "global.h"
+#include "kitemviews/kfileitemlistview.h"
+#include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/kitemlistcontainer.h"
+#include "kitemviews/kitemlistcontroller.h"
+#include "kitemviews/kitemlistselectionmanager.h"
+#include "treeviewcontextmenu.h"
+#include "views/draganddrophelper.h"
+#include "views/renamedialog.h"
 
 #include <KJobWidgets>
 #include <KJobUiDelegate>
@@ -43,10 +44,6 @@
 #include <QGraphicsView>
 #include <QPropertyAnimation>
 #include <QTimer>
-
-#include <views/draganddrophelper.h>
-
-#include "global.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),

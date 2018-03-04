@@ -22,11 +22,11 @@
 
 #include "spaceinfoobserver.h"
 
-#include <QMouseEvent>
-
 #include <KLocalizedString>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <knewstuff_version.h>
+
+#include <QMouseEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),

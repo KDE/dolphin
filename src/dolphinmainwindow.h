@@ -23,15 +23,14 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include <config-baloo.h>
-
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <QIcon>
-#include <QUrl>
 
+#include <QIcon>
 #include <QList>
 #include <QPointer>
+#include <QUrl>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 

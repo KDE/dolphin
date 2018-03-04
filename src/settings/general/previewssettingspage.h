@@ -20,7 +20,7 @@
 #ifndef PREVIEWSSETTINGSPAGE_H
 #define PREVIEWSSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 class QSpinBox;
 class QListView;

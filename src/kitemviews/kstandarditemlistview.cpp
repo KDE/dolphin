@@ -19,8 +19,9 @@
 
 #include "kstandarditemlistview.h"
 
-#include <KIconLoader>
 #include "kstandarditemlistwidget.h"
+
+#include <KIconLoader>
 
 KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
     KItemListView(parent),

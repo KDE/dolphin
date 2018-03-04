@@ -20,30 +20,29 @@
 #include "kfileitemmodelrolesupdater.h"
 
 #include "kfileitemmodel.h"
+#include "private/kdirectorycontentscounter.h"
+#include "private/kpixmapmodifier.h"
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KSharedConfig>
-#include <KIconLoader>
-#include <KJobWidgets>
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
-#include <KPluginLoader>
+#include <KIconLoader>
+#include <KJobWidgets>
 #include <KOverlayIconPlugin>
+#include <KPluginLoader>
+#include <KSharedConfig>
 
-#include "private/kpixmapmodifier.h"
-#include "private/kdirectorycontentscounter.h"
+#ifdef HAVE_BALOO
+#include "private/kbaloorolesprovider.h"
+#include <Baloo/File>
+#include <Baloo/FileMonitor>
+#endif
 
 #include <QApplication>
 #include <QPainter>
 #include <QElapsedTimer>
 #include <QTimer>
-
-#ifdef HAVE_BALOO
-    #include "private/kbaloorolesprovider.h"
-    #include <Baloo/File>
-    #include <Baloo/FileMonitor>
-#endif
 
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG

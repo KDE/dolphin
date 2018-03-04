@@ -24,11 +24,11 @@
 #define KITEMLISTCONTROLLER_H
 
 #include "dolphin_export.h"
-
 #include "kitemset.h"
 
 #include <QObject>
 #include <QPointF>
+
 class QTimer;
 class KItemModelBase;
 class KItemListKeyboardSearchManager;

@@ -20,8 +20,10 @@
 #ifndef INFORMATIONPANEL_H
 #define INFORMATIONPANEL_H
 
-#include <panels/panel.h>
+#include "panels/panel.h"
+
 #include <KFileItem>
+
 class InformationPanelContent;
 namespace KIO
 {

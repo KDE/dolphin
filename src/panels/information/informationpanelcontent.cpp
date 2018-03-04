@@ -21,14 +21,15 @@
 
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
-#include <KJobWidgets>
 #include <KIconEffect>
 #include <KIconLoader>
-#include <QIcon>
+#include <KJobWidgets>
 #include <KLocalizedString>
-#include <QMenu>
 #include <KSeparator>
 #include <KStringHandler>
+
+#include <QIcon>
+#include <QMenu>
 #include <QTextDocument>
 
 #ifndef HAVE_BALOO

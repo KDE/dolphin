@@ -20,28 +20,28 @@
 
 #include "treeviewcontextmenu.h"
 
+#include "folderspanel.h"
+#include "global.h"
+
+#include <KConfigGroup>
+#include <KFileItemListProperties>
 #include <KIO/CopyJob>
 #include <KIO/DeleteJob>
-#include <KIO/JobUiDelegate>
-#include <QMenu>
-#include <KJobWidgets>
-#include <KSharedConfig>
-#include <KConfigGroup>
-#include <KUrlMimeData>
-#include <KFileItemListProperties>
-#include <KLocalizedString>
-#include <KIO/PasteJob>
-#include <KIO/Paste>
 #include <KIO/FileUndoManager>
+#include <KIO/JobUiDelegate>
+#include <KIO/Paste>
+#include <KIO/PasteJob>
+#include <KJobWidgets>
+#include <KLocalizedString>
 #include <KPropertiesDialog>
-
-#include "folderspanel.h"
+#include <KSharedConfig>
+#include <KUrlMimeData>
 
 #include <QApplication>
 #include <QClipboard>
+#include <QMenu>
 #include <QMimeData>
 #include <QPointer>
-#include "global.h"
 
 TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :

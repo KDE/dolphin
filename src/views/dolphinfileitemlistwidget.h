@@ -21,8 +21,7 @@
 #define DOLPHINFILEITEMLISTWIDGET_H
 
 #include "dolphin_export.h"
-
-#include <kitemviews/kfileitemlistwidget.h>
+#include "kitemviews/kfileitemlistwidget.h"
 #include "versioncontrol/kversioncontrolplugin.h"
 
 /**

@@ -20,7 +20,7 @@
 #ifndef FOLDERSITEMLISTWIDGET_H
 #define FOLDERSITEMLISTWIDGET_H
 
-#include <kitemviews/kfileitemlistwidget.h>
+#include "kitemviews/kfileitemlistwidget.h"
 
 /**
  * @brief Extends KFileItemListWidget to use the right text color.

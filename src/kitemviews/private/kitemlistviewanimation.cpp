@@ -18,8 +18,7 @@
  ***************************************************************************/
 
 #include "kitemlistviewanimation.h"
-
-#include <kitemviews/kitemlistview.h>
+#include "kitemviews/kitemlistview.h"
 
 #include <QPropertyAnimation>
 

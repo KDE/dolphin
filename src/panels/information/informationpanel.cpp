@@ -20,10 +20,12 @@
 #include "informationpanel.h"
 
 #include "informationpanelcontent.h"
+
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
 #include <KDirNotify>
+
 #include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>

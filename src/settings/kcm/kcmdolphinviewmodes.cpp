@@ -19,17 +19,17 @@
 
 #include "kcmdolphinviewmodes.h"
 
+#include "settings/viewmodes/viewsettingstab.h"
+
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
-#include <QIcon>
-
-#include <settings/viewmodes/viewsettingstab.h>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
-#include <QVBoxLayout>
+#include <QIcon>
 #include <QTabWidget>
+#include <QVBoxLayout>
 
 K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>(QStringLiteral("dolphinviewmodes"));)
 

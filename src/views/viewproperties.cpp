@@ -22,7 +22,6 @@
 
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
-
 #include "dolphindebug.h"
 
 #include <QCryptographicHash>

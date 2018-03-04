@@ -20,10 +20,9 @@
 #ifndef DOLPHINITEMLISTVIEW_H
 #define DOLPHINITEMLISTVIEW_H
 
-#include <kitemviews/kfileitemlistview.h>
-#include <settings/viewmodes/viewmodesettings.h>
-
 #include "dolphin_export.h"
+#include "kitemviews/kfileitemlistview.h"
+#include "settings/viewmodes/viewmodesettings.h"
 
 class KFileItemListView;
 

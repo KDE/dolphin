@@ -20,15 +20,16 @@
 #ifndef PLACESITEMMODEL_H
 #define PLACESITEMMODEL_H
 
-#include <kitemviews/kstandarditemmodel.h>
-#include <KFilePlacesModel>
+#include "kitemviews/kstandarditemmodel.h"
 
-#include <QUrl>
+#include <KFilePlacesModel>
+#include <Solid/Predicate>
+#include <Solid/StorageAccess>
+
 #include <QHash>
 #include <QList>
 #include <QSet>
-#include <Solid/Predicate>
-#include <Solid/StorageAccess>
+#include <QUrl>
 
 class KBookmark;
 class KBookmarkManager;

@@ -20,9 +20,9 @@
 #ifndef DOLPHINNEWFILEMENUOBSERVER_H
 #define DOLPHINNEWFILEMENUOBSERVER_H
 
-#include <QObject>
-
 #include "dolphin_export.h"
+
+#include <QObject>
 
 class DolphinNewFileMenu;
 

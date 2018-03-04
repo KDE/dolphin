@@ -20,7 +20,7 @@
 #ifndef PLACESITEMLISTGROUPHEADER_H
 #define PLACESITEMLISTGROUPHEADER_H
 
-#include <kitemviews/kstandarditemlistgroupheader.h>
+#include "kitemviews/kstandarditemlistgroupheader.h"
 
 class PlacesItemListGroupHeader : public KStandardItemListGroupHeader
 {

@@ -19,19 +19,19 @@
  ***************************************************************************/
 
 #include "viewpropsprogressinfo.h"
-#include "applyviewpropsjob.h"
 
-#include <QLabel>
-#include <QProgressBar>
-#include <QTimer>
-#include <QVBoxLayout>
-#include <QDialogButtonBox>
-#include <QPushButton>
+#include "applyviewpropsjob.h"
+#include "views/viewproperties.h"
 
 #include <KConfigGroup>
 #include <KLocalizedString>
 
-#include <views/viewproperties.h>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QTimer>
+#include <QVBoxLayout>
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
                                              const QUrl& dir,

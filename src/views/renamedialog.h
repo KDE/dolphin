@@ -22,8 +22,9 @@
 
 #include "dolphin_export.h"
 
-#include <QDialog>
 #include <KFileItem>
+
+#include <QDialog>
 #include <QString>
 
 class QLineEdit;

@@ -22,25 +22,24 @@
  ***************************************************************************/
 
 #include "placesitemmodel.h"
-#include "placesitemsignalhandler.h"
 
 #include "dolphin_generalsettings.h"
-
 #include "dolphindebug.h"
-#include <QIcon>
-#include <KLocalizedString>
-#include <KAboutData>
 #include "placesitem.h"
-#include <QAction>
-#include <QMimeData>
-#include <QTimer>
-#include <KUrlMimeData>
+#include "placesitemsignalhandler.h"
+#include "views/dolphinview.h"
+#include "views/viewproperties.h"
 
+#include <KAboutData>
+#include <KLocalizedString>
+#include <KUrlMimeData>
 #include <Solid/DeviceNotifier>
 #include <Solid/OpticalDrive>
 
-#include <views/dolphinview.h>
-#include <views/viewproperties.h>
+#include <QAction>
+#include <QIcon>
+#include <QMimeData>
+#include <QTimer>
 
 namespace {
     // A suffix to the application-name of the stored bookmarks is

@@ -19,22 +19,21 @@
 
 #include "startupsettingspage.h"
 
-#include "global.h"
+#include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
-
-#include "dolphin_generalsettings.h"
+#include "global.h"
 
 #include <KLocalizedString>
-#include <QLineEdit>
 #include <KMessageBox>
 
-#include <QVBoxLayout>
 #include <QCheckBox>
+#include <QFileDialog>
 #include <QGroupBox>
 #include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
-#include <QFileDialog>
+#include <QVBoxLayout>
 
 StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),

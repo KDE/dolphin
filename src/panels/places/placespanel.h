@@ -21,9 +21,10 @@
 #ifndef PLACESPANEL_H
 #define PLACESPANEL_H
 
-#include <QUrl>
+#include "panels/panel.h"
+
 #include <QMimeData>
-#include <panels/panel.h>
+#include <QUrl>
 
 class KItemListController;
 class PlacesItem;

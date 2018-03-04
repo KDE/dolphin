@@ -18,8 +18,7 @@
  ***************************************************************************/
 
 #include "kitemlistsizehintresolver.h"
-
-#include <kitemviews/kitemlistview.h>
+#include "kitemviews/kitemlistview.h"
 
 KItemListSizeHintResolver::KItemListSizeHintResolver(const KItemListView* itemListView) :
     m_itemListView(itemListView),

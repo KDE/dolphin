@@ -21,14 +21,15 @@
 #define KFILEITEMMODEL_H
 
 #include "dolphin_export.h"
+#include "kitemviews/kitemmodelbase.h"
+#include "kitemviews/private/kfileitemmodelfilter.h"
+
 #include <KFileItem>
-#include <QUrl>
-#include <kitemviews/kitemmodelbase.h>
-#include <kitemviews/private/kfileitemmodelfilter.h>
 
 #include <QCollator>
 #include <QHash>
 #include <QSet>
+#include <QUrl>
 
 #include <functional>
 

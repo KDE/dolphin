@@ -20,6 +20,7 @@
 #define TRASHSETTINGSPAGE_H
 
 #include "settings/settingspagebase.h"
+
 class KCModuleProxy;
 
 /**

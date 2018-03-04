@@ -19,21 +19,21 @@
 
 #include "renamedialog.h"
 
-#include <KLocalizedString>
-#include <KJobWidgets>
+#include <KGuiItem>
+#include <KIO/BatchRenameJob>
 #include <KIO/CopyJob>
 #include <KIO/FileUndoManager>
 #include <KJobUiDelegate>
-#include <KIO/BatchRenameJob>
+#include <KJobWidgets>
+#include <KLocalizedString>
 
+#include <QDialogButtonBox>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QMimeDatabase>
-#include <QDialogButtonBox>
-#include <QPushButton>
 #include <QLineEdit>
+#include <QMimeDatabase>
+#include <QPushButton>
 #include <QSpinBox>
-#include <KGuiItem>
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     QDialog(parent),

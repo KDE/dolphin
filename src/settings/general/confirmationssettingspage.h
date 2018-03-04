@@ -19,7 +19,7 @@
 #ifndef CONFIRMATIONSSETTINGSPAGE_H
 #define CONFIRMATIONSSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "settings/settingspagebase.h"
 
 class QCheckBox;
 

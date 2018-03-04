@@ -19,7 +19,7 @@
 
 #include "statusbarsettingspage.h"
 
-#include <dolphin_generalsettings.h>
+#include "dolphin_generalsettings.h"
 
 #include <KLocalizedString>
 

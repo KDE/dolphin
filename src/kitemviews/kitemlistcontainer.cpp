@@ -24,7 +24,6 @@
 
 #include "kitemlistcontroller.h"
 #include "kitemlistview.h"
-
 #include "private/kitemlistsmoothscroller.h"
 
 #include <QApplication>

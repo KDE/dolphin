@@ -23,18 +23,20 @@
 
 #include "placesitemeditdialog.h"
 
-#include <KAboutData>
 #include "dolphindebug.h"
+
+#include <KAboutData>
 #include <KFile>
 #include <KIconButton>
 #include <KLocalizedString>
-#include <QMimeDatabase>
 #include <KUrlRequester>
+
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QEvent>
 #include <QFormLayout>
-#include <QDialogButtonBox>
 #include <QLineEdit>
+#include <QMimeDatabase>
 
 PlacesItemEditDialog::PlacesItemEditDialog(QWidget* parent) :
     QDialog(parent),

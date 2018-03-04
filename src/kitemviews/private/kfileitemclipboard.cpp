@@ -19,10 +19,11 @@
 
 #include "kfileitemclipboard.h"
 
+#include <KUrlMimeData>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QMimeData>
-#include <KUrlMimeData>
 
 class KFileItemClipboardSingleton
 {

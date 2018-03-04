@@ -21,16 +21,16 @@
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
-#include <config-baloo.h>
-
 #include "dolphin_export.h"
 
-#include <kparts/part.h>
 #include <KFileItem>
-#include <kio/fileundomanager.h>
 #include <KIO/Job>
-#include <QUrl>
+#include <config-baloo.h>
+#include <kio/fileundomanager.h>
+#include <kparts/part.h>
+
 #include <QMimeData>
+#include <QUrl>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
