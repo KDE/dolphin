@@ -246,6 +246,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
     // Copyright (C) 2006 David Faure <faure@kde.org>
     QList<QUrl> urls;
     QList<QUrl> mostLocalUrls;
+    bool canUseMostLocalUrls = true;
     const ItemData* lastAddedItem = nullptr;
 
     for (int index : indexes) {
@@ -268,6 +269,9 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
 
             bool isLocal;
             mostLocalUrls << item.mostLocalUrl(isLocal);
+            if (!isLocal) {
+                canUseMostLocalUrls = false;
+            }
         }
     }
 

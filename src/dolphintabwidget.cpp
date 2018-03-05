@@ -92,10 +92,7 @@ void DolphinTabWidget::readProperties(const KConfigGroup& group)
         } else {
             // Tab state created with Dolphin <= 4.14.x
             const QByteArray state = group.readEntry("Tab " % QString::number(i), QByteArray());
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
             tabPageAt(i)->restoreStateV1(state);
-#pragma GCC diagnostic pop
         }
     }
 
