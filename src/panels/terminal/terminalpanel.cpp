@@ -19,9 +19,12 @@
 
 #include "terminalpanel.h"
 
+#include <KIO/DesktopExecParser>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
+#include <KLocalizedString>
+#include <KMessageWidget>
 #include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -29,8 +32,12 @@
 #include <KShell>
 #include <kde_terminal_interface.h>
 
+#include <QAction>
+#include <QDesktopServices>
 #include <QDir>
+#include <QLabel>
 #include <QShowEvent>
+#include <QTimer>
 #include <QVBoxLayout>
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
@@ -132,7 +139,29 @@ void TerminalPanel::showEvent(QShowEvent* event)
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
             m_terminalWidget = m_konsolePart->widget();
             m_layout->addWidget(m_terminalWidget);
+            if (m_konsolePartMissingMessage) {
+                m_layout->removeWidget(m_konsolePartMissingMessage);
+            }
             m_terminal = qobject_cast<TerminalInterface*>(m_konsolePart);
+        } else if (!m_konsolePartMissingMessage) {
+            const auto konsoleInstallUrl = QUrl("appstream://org.kde.konsole.desktop");
+            const auto konsoleNotInstalledText = i18n("Terminal cannot be shown because Konsole is not installed. "
+                                                      "Please install it and then reopen the panel.");
+            m_konsolePartMissingMessage = new KMessageWidget(konsoleNotInstalledText, this);
+            m_konsolePartMissingMessage->setCloseButtonVisible(false);
+            m_konsolePartMissingMessage->hide();
+            if (KIO::DesktopExecParser::hasSchemeHandler(konsoleInstallUrl)) {
+                auto installKonsoleAction = new QAction(i18n("Install Konsole"), this);
+                connect(installKonsoleAction, &QAction::triggered, [konsoleInstallUrl]() {
+                    QDesktopServices::openUrl(konsoleInstallUrl);
+                });
+                m_konsolePartMissingMessage->addAction(installKonsoleAction);
+            }
+            m_layout->addWidget(m_konsolePartMissingMessage);
+            m_layout->addStretch();
+            QTimer::singleShot(0, m_konsolePartMissingMessage, &KMessageWidget::animatedShow);
+        } else {
+            m_konsolePartMissingMessage->animatedShow();
         }
     }
     if (m_terminal) {

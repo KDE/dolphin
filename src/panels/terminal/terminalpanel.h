@@ -25,6 +25,7 @@
 #include <QQueue>
 
 class TerminalInterface;
+class KMessageWidget;
 class QVBoxLayout;
 class QWidget;
 
@@ -93,6 +94,7 @@ private:
     QVBoxLayout* m_layout;
     TerminalInterface* m_terminal;
     QWidget* m_terminalWidget;
+    KMessageWidget* m_konsolePartMissingMessage;
     KParts::ReadOnlyPart* m_konsolePart;
     QString m_konsolePartCurrentDirectory;
     QQueue<QString> m_sendCdToTerminalHistory;
