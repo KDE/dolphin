@@ -20,14 +20,13 @@
 #ifndef FILEMETADATACONFIGURATIONDIALOG_H
 #define FILEMETADATACONFIGURATIONDIALOG_H
 
+#include <QDialog>
+
 #include <KFileItem>
 #include <config-baloo.h>
 #ifndef HAVE_BALOO
 class KFileMetaDataConfigurationWidget;
 #else
-
-#include <QDialog>
-
 namespace Baloo {
     class FileMetaDataConfigWidget;
 }
