@@ -410,6 +410,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
             case QDialogButtonBox::No:
                 // Close only the current tab
                 m_tabWidget->closeTab();
+                Q_FALLTHROUGH();
             default:
                 event->ignore();
                 return;

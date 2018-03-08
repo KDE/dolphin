@@ -433,8 +433,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
                 }
             }
         }
-        // Fall through to the default case and add the Space to the current search string.
-
+        Q_FALLTHROUGH();  // fall through to the default case and add the Space to the current search string.
     default:
         m_keyboardManager->addKeys(event->text());
         // Make sure unconsumed events get propagated up the chain. #302329

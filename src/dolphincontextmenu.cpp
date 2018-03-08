@@ -428,6 +428,7 @@ void DolphinContextMenu::addShowMenuBarAction()
 
 bool DolphinContextMenu::placeExists(const QUrl& url) const
 {
+    Q_UNUSED(url)
     // Creating up a PlacesItemModel to find out if 'url' is one of the Places
     // can be expensive because the model asks Solid for the devices which are
     // available, which can take some time.

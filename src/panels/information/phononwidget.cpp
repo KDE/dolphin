@@ -167,7 +167,7 @@ void PhononWidget::stateChanged(Phonon::State newstate)
             m_videoPlayer->hide();
         }
         emit hasVideoChanged(false);
-        // fall through
+        Q_FALLTHROUGH();
     default:
         m_stopButton->hide();
         m_playButton->show();
