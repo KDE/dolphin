@@ -180,7 +180,7 @@ void DolphinPart::createActions()
     unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching..."));
     connect(unselectItemsMatching, &QAction::triggered, this, &DolphinPart::slotUnselectItemsMatchingPattern);
 
-    actionCollection()->addAction(KStandardAction::SelectAll, QStringLiteral("select_all"), m_view, SLOT(selectAll()));
+    KStandardAction::selectAll(m_view, &DolphinView::selectAll, actionCollection());
 
     QAction* unselectAll = actionCollection()->addAction(QStringLiteral("unselect_all"));
     unselectAll->setText(i18nc("@action:inmenu Edit", "Unselect All"));
@@ -216,11 +216,8 @@ void DolphinPart::createActions()
                    goActionGroup);
 
     // Tools menu
-    m_findFileAction = actionCollection()->addAction(QStringLiteral("find_file"));
+    m_findFileAction = KStandardAction::find(this, &DolphinPart::slotFindFile, actionCollection());
     m_findFileAction->setText(i18nc("@action:inmenu Tools", "Find File..."));
-    actionCollection()->setDefaultShortcut(m_findFileAction, Qt::CTRL + Qt::Key_F);
-    m_findFileAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-find")));
-    connect(m_findFileAction, &QAction::triggered, this, &DolphinPart::slotFindFile);
 
 #ifndef Q_OS_WIN
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {

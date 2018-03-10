@@ -122,7 +122,7 @@ void DolphinViewActionHandler::createActions()
     QAction* deleteWithTrashShortcut = m_actionCollection->addAction(QStringLiteral("delete_shortcut"));
     // The descriptive text is just for the shortcuts editor.
     deleteWithTrashShortcut->setText(i18nc("@action \"Move to Trash\" for non-local files, etc.", "Delete (using shortcut for Trash)"));
-    m_actionCollection->setDefaultShortcut(deleteWithTrashShortcut, QKeySequence::Delete);
+    m_actionCollection->setDefaultShortcuts(deleteWithTrashShortcut, KStandardShortcut::moveToTrash());
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
 

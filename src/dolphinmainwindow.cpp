@@ -288,13 +288,13 @@ void DolphinMainWindow::updateHistory()
     const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
     const int index = urlNavigator->historyIndex();
 
-    QAction* backAction = actionCollection()->action(QStringLiteral("go_back"));
+    QAction* backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
     if (backAction) {
         backAction->setToolTip(i18nc("@info", "Go back"));
         backAction->setEnabled(index < urlNavigator->historySize() - 1);
     }
 
-    QAction* forwardAction = actionCollection()->action(QStringLiteral("go_forward"));
+    QAction* forwardAction = actionCollection()->action(KStandardAction::name(KStandardAction::Forward));
     if (forwardAction) {
         forwardAction->setToolTip(i18nc("@info", "Go forward"));
         forwardAction->setEnabled(index > 0);
@@ -536,9 +536,9 @@ void DolphinMainWindow::slotDirectoryLoadingCompleted()
 
 void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
 {
-    if (action == actionCollection()->action(QStringLiteral("go_back"))) {
+    if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Back))) {
         goBackInNewTab();
-    } else if (action == actionCollection()->action(QStringLiteral("go_forward"))) {
+    } else if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Forward))) {
         goForwardInNewTab();
     } else if (action == actionCollection()->action(QStringLiteral("go_up"))) {
         goUpInNewTab();
@@ -858,7 +858,7 @@ void DolphinMainWindow::updateControlMenu()
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Find)), menu) |
-                 addActionToMenu(ac->action(QStringLiteral("select_all")), menu) |
+                 addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
                  addActionToMenu(ac->action(QStringLiteral("invert_selection")), menu);
 
     if (added) {
@@ -884,7 +884,7 @@ void DolphinMainWindow::updateControlMenu()
     }
 
     added = addActionToMenu(ac->action(QStringLiteral("split_view")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("reload")), menu) |
+            addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Redisplay)), menu) |
             addActionToMenu(ac->action(QStringLiteral("view_properties")), menu);
     if (added) {
         menu->addSeparator();
@@ -991,7 +991,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
 void DolphinMainWindow::tabCountChanged(int count)
 {
     const bool enableTabActions = (count > 1);
-    actionCollection()->action(QStringLiteral("close_tab"))->setEnabled(enableTabActions);
+    actionCollection()->action(KStandardAction::name(KStandardAction::Close))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_next_tab"))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_prev_tab"))->setEnabled(enableTabActions);
 }
@@ -1068,24 +1068,19 @@ void DolphinMainWindow::setupActions()
     connect(menu, &QMenu::aboutToShow,
             this, &DolphinMainWindow::updateNewMenu);
 
-    QAction* newWindow = actionCollection()->addAction(QStringLiteral("new_window"));
-    newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
+    QAction* newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
-    actionCollection()->setDefaultShortcut(newWindow, Qt::CTRL + Qt::Key_N);
-    connect(newWindow, &QAction::triggered, this, &DolphinMainWindow::openNewMainWindow);
 
     QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, Qt::CTRL + Qt::SHIFT + Qt::Key_N});
+    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, QKeySequence::AddTab});
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
 
-    QAction* closeTab = actionCollection()->addAction(QStringLiteral("close_tab"));
-    closeTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-close")));
+    QAction* closeTab = KStandardAction::close(
+            m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
-    actionCollection()->setDefaultShortcut(closeTab, Qt::CTRL + Qt::Key_W);
     closeTab->setEnabled(false);
-    connect(closeTab, &QAction::triggered, m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab));
 
     KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
 
@@ -1105,11 +1100,7 @@ void DolphinMainWindow::setupActions()
 
     KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
 
-    QAction* selectAll = actionCollection()->addAction(QStringLiteral("select_all"));
-    selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
-    selectAll->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-all")));
-    actionCollection()->setDefaultShortcut(selectAll, Qt::CTRL + Qt::Key_A);
-    connect(selectAll, &QAction::triggered, this, &DolphinMainWindow::selectAll);
+    KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
@@ -1133,11 +1124,7 @@ void DolphinMainWindow::setupActions()
     stashSplit->setVisible(KProtocolInfo::isKnownProtocol("stash"));
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
-    QAction* reload = actionCollection()->addAction(QStringLiteral("reload"));
-    reload->setText(i18nc("@action:inmenu View", "Reload"));
-    actionCollection()->setDefaultShortcut(reload, Qt::Key_F5);
-    reload->setIcon(QIcon::fromTheme(QStringLiteral("view-refresh")));
-    connect(reload, &QAction::triggered, this, &DolphinMainWindow::reloadView);
+    KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());
 
     QAction* stop = actionCollection()->addAction(QStringLiteral("stop"));
     stop->setText(i18nc("@action:inmenu View", "Stop"));
