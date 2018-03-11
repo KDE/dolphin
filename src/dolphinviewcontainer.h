@@ -29,6 +29,7 @@
 #include <KUrlNavigator>
 
 #include <QElapsedTimer>
+#include <QPushButton>
 #include <QWidget>
 
 #ifdef KF5Activities_FOUND
@@ -319,7 +320,9 @@ private:
 
 private:
     QVBoxLayout* m_topLayout;
+    QWidget* m_navigatorWidget;
     KUrlNavigator* m_urlNavigator;
+    QPushButton* m_emptyTrashButton;
     DolphinSearchBox* m_searchBox;
     KMessageWidget* m_messageWidget;
 

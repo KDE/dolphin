@@ -51,7 +51,9 @@
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_topLayout(nullptr),
+    m_navigatorWidget(nullptr),
     m_urlNavigator(nullptr),
+    m_emptyTrashButton(nullptr),
     m_searchBox(nullptr),
     m_messageWidget(nullptr),
     m_view(nullptr),
@@ -70,6 +72,11 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
+    m_navigatorWidget = new QWidget(this);
+    QHBoxLayout* navigatorLayout = new QHBoxLayout(m_navigatorWidget);
+    navigatorLayout->setSpacing(0);
+    navigatorLayout->setMargin(0);
+
     m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
     connect(m_urlNavigator, &KUrlNavigator::activated,
             this, &DolphinViewContainer::activate);
@@ -82,6 +89,13 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_urlNavigator->setHomeUrl(Dolphin::homeUrl());
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
+
+    m_emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")), "&Empty Trash", this);
+    m_emptyTrashButton->setFlat(true);
+    connect(m_emptyTrashButton, &QPushButton::clicked, this, [this]() { Trash::empty(this); });
+    connect(&Trash::instance(), &Trash::emptinessChanged, m_emptyTrashButton, &QPushButton::setDisabled);
+    m_emptyTrashButton->setDisabled(Trash::isEmpty());
+    m_emptyTrashButton->hide();
 
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
@@ -147,6 +161,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 #endif
     });
 
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, [this]() {
+        m_emptyTrashButton->setVisible(m_view->url().scheme() == QLatin1String("trash"));
+    });
+
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
@@ -185,7 +203,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_view, &DolphinView::urlChanged,
             m_filterBar, &FilterBar::slotUrlChanged);
 
-    m_topLayout->addWidget(m_urlNavigator);
+    navigatorLayout->addWidget(m_urlNavigator);
+    navigatorLayout->addWidget(m_emptyTrashButton);
+
+    m_topLayout->addWidget(m_navigatorWidget);
     m_topLayout->addWidget(m_searchBox);
     m_topLayout->addWidget(m_messageWidget);
     m_topLayout->addWidget(m_view);
@@ -337,7 +358,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     }
 
     m_searchBox->setVisible(enabled);
-    m_urlNavigator->setVisible(!enabled);
+    m_navigatorWidget->setVisible(!enabled);
 
     if (enabled) {
         const QUrl& locationUrl = m_urlNavigator->locationUrl();
