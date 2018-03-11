@@ -175,8 +175,6 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* teardownAction = nullptr;
     QAction* ejectAction = nullptr;
 
-    const QString label = item->text();
-
     const bool isDevice = !item->udi().isEmpty();
     const bool isTrash = (item->url().scheme() == QLatin1String("trash"));
     if (isDevice) {

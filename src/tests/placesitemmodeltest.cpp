@@ -541,7 +541,6 @@ void PlacesItemModelTest::testSystemItems()
 
 void PlacesItemModelTest::testEditBookmark()
 {
-    const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QScopedPointer<PlacesItemModel> other(new PlacesItemModel());
 
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
