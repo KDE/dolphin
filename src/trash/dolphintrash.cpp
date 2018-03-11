@@ -40,7 +40,7 @@ Trash::Trash()
         bool isTrashEmpty = m_trashDirLister->items().isEmpty();
         emit emptinessChanged(isTrashEmpty);
     };
-    connect(m_trashDirLister, static_cast<void(KDirLister::*)()>(&KDirLister::completed), trashDirContentChanged);
+    connect(m_trashDirLister, static_cast<void(KDirLister::*)()>(&KDirLister::completed), this, trashDirContentChanged);
     m_trashDirLister->openUrl(QStringLiteral("trash:/"));
 }
 
