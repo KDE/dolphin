@@ -117,7 +117,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 #endif
     m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-
+    m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
+ 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
     // at the bottom. This prevents that the meta data widget gets vertically stretched
     // in the case where the height of m_metaDataArea > m_metaDataWidget.
@@ -193,6 +194,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     }
 
     if (m_metaDataWidget) {
+        m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
         m_metaDataWidget->show();
         m_metaDataWidget->setItems(KFileItemList() << item);
     }
@@ -281,6 +283,10 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
+    QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
+    dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
+    dateformatAction->setCheckable(true);
+    dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
     popup.addSeparator();
     foreach (QAction* action, customContextMenuActions) {
         popup.addAction(action);
@@ -297,6 +303,11 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     if (action == previewAction) {
         m_preview->setVisible(isChecked);
         InformationPanelSettings::setPreviewsShown(isChecked);
+    } else if (action == dateformatAction) {
+        int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
+         
+        InformationPanelSettings::setDateFormat(dateFormat);
+        refreshMetaData();
     } else if (action == configureAction) {
         FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
         dialog->setDescription(i18nc("@label::textbox",

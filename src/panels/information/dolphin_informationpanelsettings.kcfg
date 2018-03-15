@@ -10,5 +10,13 @@
             <label>Previews shown</label>
             <default>true</default>
         </entry>
+        <entry name="dateFormat" type="Enum">
+            <label>Date display format</label>
+            <choices>
+                <choice name="LongFormat" />
+                <choice name="ShortFormat" />
+            </choices>
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>
