@@ -194,7 +194,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     if (m_selectedItems.count() == 1) {
         if (m_fileInfo.isLink()) {
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("show_original")));
+            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("show_target")));
             addSeparator();
         } else if (m_fileInfo.isDir()) {
             // setup 'Create New' menu

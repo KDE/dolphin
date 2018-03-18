@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="18">
+<kpartgui name="dolphin" version="19">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -12,7 +12,7 @@
             <Action name="movetotrash" />
             <Action name="deletefile" />
             <Separator/>
-            <Action name="show_original" />
+            <Action name="show_target" />
             <Separator/>
             <Action name="properties" />
         </Menu>

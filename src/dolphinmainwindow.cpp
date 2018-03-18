@@ -357,6 +357,22 @@ void DolphinMainWindow::openInNewWindow()
     }
 }
 
+void DolphinMainWindow::showTarget()
+{
+    const auto link = m_activeViewContainer->view()->selectedItems().at(0);
+    const auto linkLocationDir = QFileInfo(link.localPath()).absoluteDir();
+    auto linkDestination = link.linkDest();
+    if (QFileInfo(linkDestination).isRelative()) {
+        linkDestination = linkLocationDir.filePath(linkDestination);
+    }
+    if (QFileInfo::exists(linkDestination)) {
+        KIO::highlightInFileManager({QUrl::fromLocalFile(linkDestination).adjusted(QUrl::StripTrailingSlash)});
+    } else {
+        m_activeViewContainer->showMessage(xi18nc("@info", "Could not access <filename>%1</filename>.", linkDestination),
+                                           DolphinViewContainer::Warning);
+    }
+}
+
 void DolphinMainWindow::showEvent(QShowEvent* event)
 {
     KXmlGuiWindow::showEvent(event);
@@ -1215,23 +1231,11 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
 
     // for context menu
-    QAction* showOriginal = actionCollection()->addAction(QStringLiteral("show_original"));
-    showOriginal->setText(i18nc("@action:inmenu", "Show Original"));
-    showOriginal->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
-    showOriginal->setEnabled(false);
-    connect(showOriginal, &QAction::triggered, [this]() {
-        const auto link = m_activeViewContainer->view()->selectedItems().at(0);
-        const auto linkLocationDir = QFileInfo(link.localPath()).absoluteDir();
-        auto linkDestination = link.linkDest();
-        if (QFileInfo(linkDestination).isRelative())
-            linkDestination = linkLocationDir.filePath(linkDestination);
-        if (QFileInfo(linkDestination).exists()) {
-            KIO::highlightInFileManager({QUrl::fromLocalFile(linkDestination).adjusted(QUrl::StripTrailingSlash)});
-        } else {
-            m_activeViewContainer->showMessage(
-                    i18n("Could not access \"%1\".").arg(linkDestination), DolphinViewContainer::Warning);
-        }
-    });
+    QAction* showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
+    showTarget->setText(i18nc("@action:inmenu", "Show Target"));
+    showTarget->setIcon(QIcon::fromTheme(QStringLiteral("document-open-folder")));
+    showTarget->setEnabled(false);
+    connect(showTarget, &QAction::triggered, this, &DolphinMainWindow::showTarget);
 
     QAction* openInNewTab = actionCollection()->addAction(QStringLiteral("open_in_new_tab"));
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
@@ -1398,7 +1402,7 @@ void DolphinMainWindow::updateEditActions()
         QAction* deleteAction            = col->action(KStandardAction::name(KStandardAction::DeleteFile));
         QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
-        QAction* showOriginal            = col->action(QStringLiteral("show_original"));
+        QAction* showTarget              = col->action(QStringLiteral("show_target"));
 
         KFileItemListProperties capabilities(list);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
@@ -1408,7 +1412,7 @@ void DolphinMainWindow::updateEditActions()
         deleteAction->setEnabled(capabilities.supportsDeleting());
         deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         cutAction->setEnabled(capabilities.supportsMoving());
-        showOriginal->setEnabled(list.length() == 1 && list.at(0).isLink());
+        showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
     }
 }
 

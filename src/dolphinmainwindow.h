@@ -340,6 +340,11 @@ private slots:
     void openInNewWindow();
 
     /**
+     * Show the target of the selected symlink
+     */
+    void showTarget();
+
+    /**
      * Indicates in the statusbar that the execution of the command \a command
      * has been finished.
      */
