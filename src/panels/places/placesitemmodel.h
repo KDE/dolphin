@@ -228,7 +228,7 @@ private:
 
     QHash<QObject*, int> m_storageSetupInProgress;
 
-    QScopedPointer<KFilePlacesModel> m_sourceModel;
+    KFilePlacesModel *m_sourceModel;
 
     QVector<QPersistentModelIndex> m_indexMap;
 };

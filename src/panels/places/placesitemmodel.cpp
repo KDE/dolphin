@@ -25,6 +25,7 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "placesitem.h"
 #include "placesitemsignalhandler.h"
 #include "views/dolphinview.h"
@@ -42,9 +43,6 @@
 #include <QTimer>
 
 namespace {
-    // A suffix to the application-name of the stored bookmarks is
-    // added, which is only read by PlacesItemModel.
-    const QString AppNameSuffix = QStringLiteral("-places-panel");
     static QList<QUrl> balooURLs = {
         QUrl(QStringLiteral("timeline:/today")),
         QUrl(QStringLiteral("timeline:/yesterday")),
@@ -62,18 +60,18 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
     m_hiddenItemsShown(false),
     m_deviceToTearDown(nullptr),
     m_storageSetupInProgress(),
-    m_sourceModel(new KFilePlacesModel(KAboutData::applicationData().componentName() + AppNameSuffix, this))
+    m_sourceModel(DolphinPlacesModelSingleton::instance().placesModel())
 {
     cleanupBookmarks();
     loadBookmarks();
     initializeDefaultViewProperties();
 
-    connect(m_sourceModel.data(), &KFilePlacesModel::rowsInserted, this, &PlacesItemModel::onSourceModelRowsInserted);
-    connect(m_sourceModel.data(), &KFilePlacesModel::rowsAboutToBeRemoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeRemoved);
-    connect(m_sourceModel.data(), &KFilePlacesModel::dataChanged, this, &PlacesItemModel::onSourceModelDataChanged);
-    connect(m_sourceModel.data(), &KFilePlacesModel::rowsAboutToBeMoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeMoved);
-    connect(m_sourceModel.data(), &KFilePlacesModel::rowsMoved, this, &PlacesItemModel::onSourceModelRowsMoved);
-    connect(m_sourceModel.data(), &KFilePlacesModel::groupHiddenChanged, this, &PlacesItemModel::onSourceModelGroupHiddenChanged);
+    connect(m_sourceModel, &KFilePlacesModel::rowsInserted, this, &PlacesItemModel::onSourceModelRowsInserted);
+    connect(m_sourceModel, &KFilePlacesModel::rowsAboutToBeRemoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeRemoved);
+    connect(m_sourceModel, &KFilePlacesModel::dataChanged, this, &PlacesItemModel::onSourceModelDataChanged);
+    connect(m_sourceModel, &KFilePlacesModel::rowsAboutToBeMoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeMoved);
+    connect(m_sourceModel, &KFilePlacesModel::rowsMoved, this, &PlacesItemModel::onSourceModelRowsMoved);
+    connect(m_sourceModel, &KFilePlacesModel::groupHiddenChanged, this, &PlacesItemModel::onSourceModelGroupHiddenChanged);
 }
 
 PlacesItemModel::~PlacesItemModel()
@@ -622,7 +620,7 @@ void PlacesItemModel::cleanupBookmarks()
         const QString appName = bookmark.metaDataItem(QStringLiteral("OnlyInApp"));
 
         if ((appName == KAboutData::applicationData().componentName() ||
-             appName == KAboutData::applicationData().componentName() + AppNameSuffix) && balooURLs.contains(url)) {
+             appName == KAboutData::applicationData().componentName() + DolphinPlacesModelSingleton::applicationNameSuffix()) && balooURLs.contains(url)) {
             qCDebug(DolphinDebug) << "Removing old baloo url:" << url;
             m_sourceModel->removePlace(sourceIndex);
         } else {

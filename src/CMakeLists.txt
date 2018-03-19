@@ -202,6 +202,7 @@ set(dolphinstatic_SRCS
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
     dolphintabbar.cpp
+    dolphinplacesmodelsingleton.cpp
     dolphinrecenttabsmenu.cpp
     dolphintabpage.cpp
     dolphintabwidget.cpp

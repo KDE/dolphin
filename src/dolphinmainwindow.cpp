@@ -25,6 +25,7 @@
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphinrecenttabsmenu.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -993,8 +994,6 @@ void DolphinMainWindow::tabCountChanged(int count)
 
 void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
 {
-    static KFilePlacesModel s_placesModel;
-
     QString schemePrefix;
     if (!url.isLocalFile()) {
         schemePrefix.append(url.scheme() + " - ");
@@ -1009,10 +1008,11 @@ void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
         return;
     }
 
-    const auto& matchedPlaces = s_placesModel.match(s_placesModel.index(0,0), KFilePlacesModel::UrlRole, url, 1, Qt::MatchExactly);
+    KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, url, 1, Qt::MatchExactly);
 
     if (!matchedPlaces.isEmpty()) {
-        setWindowTitle(s_placesModel.text(matchedPlaces.first()));
+        setWindowTitle(placesModel->text(matchedPlaces.first()));
         return;
     }
 

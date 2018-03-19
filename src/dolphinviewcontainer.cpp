@@ -20,6 +20,7 @@
 #include "dolphinviewcontainer.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphindebug.h"
 #include "filterbar/filterbar.h"
 #include "global.h"
@@ -30,7 +31,6 @@
 #include "views/viewproperties.h"
 
 #include <KFileItemActions>
-#include <KFilePlacesModel>
 #include <KIO/PreviewJob>
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -77,7 +77,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     navigatorLayout->setSpacing(0);
     navigatorLayout->setMargin(0);
 
-    m_urlNavigator = new KUrlNavigator(new KFilePlacesModel(this), url, this);
+    m_urlNavigator = new KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, this);
     connect(m_urlNavigator, &KUrlNavigator::activated,
             this, &DolphinViewContainer::activate);
     connect(m_urlNavigator->editor(), &KUrlComboBox::completionModeChanged,
