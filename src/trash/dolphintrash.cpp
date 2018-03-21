@@ -42,7 +42,7 @@ Trash::Trash()
     };
     connect(m_trashDirLister, static_cast<void(KDirLister::*)()>(&KDirLister::completed), this, trashDirContentChanged);
     connect(m_trashDirLister, &KDirLister::itemsDeleted, this, trashDirContentChanged);
-    m_trashDirLister->openUrl(QStringLiteral("trash:/"));
+    m_trashDirLister->openUrl(QUrl(QStringLiteral("trash:/")));
 }
 
 Trash::~Trash()
