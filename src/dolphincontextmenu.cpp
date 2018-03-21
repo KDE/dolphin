@@ -474,7 +474,7 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
     fileItemActions.setParentWidget(m_mainWindow);
 
     // insert 'Open With...' action or sub menu
-    fileItemActions.addOpenWithActionsTo(this, QStringLiteral("DesktopEntryName != 'dolphin'"));
+    fileItemActions.addOpenWithActionsTo(this, QStringLiteral("DesktopEntryName != '%1'").arg(qApp->desktopFileName()));
 
     // insert 'Actions' sub menu
     fileItemActions.addServiceActionsTo(this);
