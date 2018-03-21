@@ -196,7 +196,8 @@ void DolphinContextMenu::openItemContextMenu()
         if (m_fileInfo.isLink()) {
             addAction(m_mainWindow->actionCollection()->action(QStringLiteral("show_target")));
             addSeparator();
-        } else if (m_fileInfo.isDir()) {
+        }
+        if (m_fileInfo.isDir()) {
             // setup 'Create New' menu
             DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
             const DolphinView* view = m_mainWindow->activeViewContainer()->view();
