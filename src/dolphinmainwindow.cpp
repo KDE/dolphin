@@ -821,10 +821,12 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     switch (command) {
     case DolphinContextMenu::OpenParentFolder:
         changeUrl(KIO::upUrl(item.url()));
+        m_activeViewContainer->view()->markUrlsAsSelected({item.url()});
+        m_activeViewContainer->view()->markUrlAsCurrent(item.url());
         break;
 
     case DolphinContextMenu::OpenParentFolderInNewWindow:
-        Dolphin::openNewWindow({KIO::upUrl(item.url())}, this);
+        Dolphin::openNewWindow({item.url()}, this, Dolphin::OpenNewWindowFlag::Select);
         break;
 
     case DolphinContextMenu::OpenParentFolderInNewTab:
