@@ -1015,15 +1015,21 @@ void KStandardItemListWidget::updatePixmapCache()
 
     if (iconOnTop) {
         // Center horizontally and align on bottom within the icon-area
-        m_pixmapPos.setX((widgetSize.width() - m_scaledPixmapSize.width()) / 2);
+        m_pixmapPos.setX((widgetSize.width() - m_scaledPixmapSize.width()) / 2.0);
         m_pixmapPos.setY(padding + scaledIconSize - m_scaledPixmapSize.height());
     } else {
         // Center horizontally and vertically within the icon-area
         const TextInfo* textInfo = m_textInfo.value("text");
-        m_pixmapPos.setX(textInfo->pos.x() - 2 * padding
-                         - (scaledIconSize + m_scaledPixmapSize.width()) / 2);
-        m_pixmapPos.setY(padding
-                         + (scaledIconSize - m_scaledPixmapSize.height()) / 2);
+        m_pixmapPos.setX(textInfo->pos.x() - 2.0 * padding
+                      - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
+
+        // Derive icon's vertical center from the center of the text frame, including
+        // any necessary adjustment if the font's midline is offset from the frame center
+        const qreal midlineShift = m_customizedFontMetrics.height() / 2.0
+                    - m_customizedFontMetrics.descent()
+                    - m_customizedFontMetrics.capHeight() / 2.0;
+        m_pixmapPos.setY(m_textRect.center().y() + midlineShift - m_scaledPixmapSize.height() / 2.0);
+
     }
 
     m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
