@@ -51,15 +51,15 @@ KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
 void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     switch (static_cast<const KStandardItemListView*>(view)->itemLayout()) {
-    case KStandardItemListWidget::IconsLayout:
+    case KStandardItemListView::IconsLayout:
         calculateIconsLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
-    case KStandardItemListWidget::CompactLayout:
+    case KStandardItemListView::CompactLayout:
         calculateCompactLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
-    case KStandardItemListWidget::DetailsLayout:
+    case KStandardItemListView::DetailsLayout:
         calculateDetailsLayoutItemSizeHints(logicalHeightHints, logicalWidthHint, view);
         break;
 
