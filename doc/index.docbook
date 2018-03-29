@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2016-06-01</date>
-<releaseinfo>Applications 16.04</releaseinfo>
+<date>2018-03-26</date>
+<releaseinfo>Applications 18.04</releaseinfo>
 
 <abstract>
 <para>
@@ -281,6 +281,9 @@ the toolbar can be used to navigate in the history.
 </mediaobject>
 </screenshot>
 
+<para>If you click with the &MMB; the item in the history is opened in a new tab
+thus keeping the current tab with its content.
+</para>
 </sect2>
 
 <sect2 id="dolphin-view-appearance">
@@ -359,8 +362,8 @@ The details view allows you to view the current folder
 in a tree-like fashion if <link linkend="preferences-dialog-viewmodes-details">
 <guilabel>Expandable folders</guilabel></link> are enabled:
 Each subfolder of the current folder can be
-<quote>expanded</quote> or <quote>collapsed</quote> by clicking on the <guiicon>+</guiicon>
-or <guiicon>-</guiicon> icon next to it.</para></listitem>
+<quote>expanded</quote> or <quote>collapsed</quote> by clicking on the <guiicon>></guiicon>
+or <guiicon>v</guiicon> icon next to it.</para></listitem>
 </itemizedlist>
 </para>
 
@@ -723,7 +726,7 @@ over with the mouse, including size, type, and date of last modification. It als
 features a large preview of the selected item and allows you to assign a rating,
 tags, and comments to it.
 </para>
-
+<!--FIXME panel context menu-->
 </sect2>
 
 <sect2 id="folders-panel">
@@ -733,9 +736,10 @@ tags, and comments to it.
 The <guilabel>Folders</guilabel> panel shows a tree view structure of the file
 system. It only shows folders. Clicking a folder with the &LMB; opens this folder
 in the &dolphin; view.
-
 </para>
-
+<para>Use <guilabel>Limit to Home Directory</guilabel> to hide all folders from
+the tree view except your <guilabel>Home</guilabel>.
+</para>
 </sect2>
 
 <sect2 id="terminal-panel">
@@ -803,10 +807,6 @@ a KIOSlave is launched to provide the search results.</para>
 <para>The option from <guilabel>Everywhere</guilabel> with activated Baloo 
 services searches in all indexed folders, without Baloo this option  
 starts the search from the user's <replaceable>Home</replaceable> folder.</para>
-<!--FIXME 16.12
-https://git.reviewboard.kde.org/r/123883/
-Add prototype of a "More search tools..." button
--->
 <screenshot>
 <screeninfo>Search with More Options</screeninfo>
 <mediaobject>
@@ -832,6 +832,14 @@ the user to shrink the number of search results.</para>
 together with the <guilabel>Filter</guilabel> bar to find files using Baloo or limit 
 the search to files matching the filter expression.</para>
 
+<para>Use the Save icon to save a search to the <guilabel>Search For</guilabel>
+section in the <guilabel>Places</guilabel> panel to quickly access it again in the future.
+</para>
+<!--FIXME 16.12
+https://git.reviewboard.kde.org/r/123883/
+Add prototype of a "More search tools..." button
+-->
+
 </sect2>
 
 <sect2 id="mounting-storage-media">
@@ -856,7 +864,7 @@ in the menu, &eg; <guimenuitem>Undo: Rename</guimenuitem>.
 </para>
 
 </sect2>
-
+<!-- FIXME https://phabricator.kde.org/D10698-->
 <sect2 id="batch-rename">
 <title>Renaming A Batch Of Files</title>
 <para>
@@ -864,7 +872,7 @@ in the menu, &eg; <guimenuitem>Undo: Rename</guimenuitem>.
 will have the file name specified, including a number, &eg;, Image1.jpg,
 Image2.jpg, Image3.jpg. This can be useful, &eg;, for pictures taken with a digital camera.
 </para>
-
+<!--double click-->
 <para>
 If you wish to rename a batch of files, first select the files to be renamed.
 This can be done by pressing the &LMB; and drawing a rectangle around the files
@@ -1024,6 +1032,10 @@ startup or not. See the <link linkend="filter-files">section on the filter bar</
 for details.
 </para></listitem>
 
+<listitem><para>
+<guilabel>Show full path in tile bar</guilabel> makes it easy to distinguish
+between files or folders with the same name in different folders.
+</para></listitem>
 </itemizedlist>
 
 </para>
@@ -1325,6 +1337,10 @@ Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is c
 If this option is disabled or several items are selected, a dialog will be displayed for renaming.
 </para></listitem>
 
+<listitem><para><guilabel>Use tab for switching between left and right split view</guilabel>
+allows to switch without using the mouse.
+</para></listitem>
+
 </itemizedlist>
 
 </para>
@@ -1353,8 +1369,8 @@ are shown before potentially harmful actions .
 <warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
 <guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
 <application>Gwenview</application> and all &kde; applications using the default &kde; file dialog, 
-whereas <guilabel>Closing Dolphin windows 
-  with multiple tabs</guilabel> is a &dolphin; <!--and &konqueror;--> specific setting.</para></warning>
+whereas <guilabel>Closing Dolphin windows
+with multiple tabs</guilabel> is a &dolphin; specific setting.</para></warning>
 </sect3>
 
 <sect3 id="preferences-dialog-general-statusbar">
@@ -1577,6 +1593,15 @@ to the trash and cannot be restored.</action></para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Show Target</guimenuitem>
+</menuchoice></term>
+<listitem><para>This actions highlights a link target in a new dolphin window.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <shortcut>
 <keycombo action="simul">&Alt;<keycap>Return</keycap></keycombo>
 </shortcut>
@@ -1786,7 +1811,8 @@ current folder grouped by the option selected in <guimenuitem>Sort By</guimenuit
 <guimenuitem>Hidden Files</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Shows all the hidden files and sub-folders within the current
-folder.</action></para></listitem>
+folder.</action>There is an alternate shortcut <keycombo action="simul">&Ctrl;<keycap>H</keycap></keycombo>
+for this action.</para></listitem>
 </varlistentry>
 
 <varlistentry>
@@ -1954,7 +1980,9 @@ be reopened.</action></para></listitem>
 <guimenu>Tools</guimenu>
 <guimenuitem>Show Filter Bar</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Enables and disables the <link linkend="filter-files">filter bar</link>.</action></para></listitem>
+<listitem><para><action>Enables and disables the <link linkend="filter-files">filter bar</link>.</action>
+You can also use the alternate shortcut <keycombo action="simul">&Shift;<keycap>/</keycap></keycombo>
+for this action.</para></listitem>
 </varlistentry>
 
 <varlistentry>
