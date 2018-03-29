@@ -752,6 +752,10 @@ void KItemListView::setItemSize(const QSizeF& size)
 
 void KItemListView::setStyleOption(const KItemListStyleOption& option)
 {
+    if (m_styleOption == option) {
+        return;
+    }
+
     const KItemListStyleOption previousOption = m_styleOption;
     m_styleOption = option;
 

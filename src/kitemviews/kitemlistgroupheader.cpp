@@ -78,6 +78,10 @@ QVariant KItemListGroupHeader::data() const
 
 void KItemListGroupHeader::setStyleOption(const KItemListStyleOption& option)
 {
+    if (m_styleOption == option) {
+        return;
+    }
+
     const KItemListStyleOption previous = m_styleOption;
     m_styleOption = option;
     m_dirtyCache = true;

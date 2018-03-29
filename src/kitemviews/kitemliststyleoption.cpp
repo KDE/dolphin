@@ -53,3 +53,23 @@ KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
 KItemListStyleOption::~KItemListStyleOption()
 {
 }
+
+bool KItemListStyleOption::operator==(const KItemListStyleOption& other) const
+{
+    return rect == other.rect
+            && font == other.font
+            && fontMetrics == other.fontMetrics
+            && palette == other.palette
+            && padding == other.padding
+            && horizontalMargin == other.horizontalMargin
+            && verticalMargin == other.verticalMargin
+            && iconSize == other.iconSize
+            && extendedSelectionRegion == other.extendedSelectionRegion
+            && maxTextLines == other.maxTextLines
+            && maxTextWidth == other.maxTextWidth;
+}
+
+bool KItemListStyleOption::operator!=(const KItemListStyleOption& other) const
+{
+    return !(*this == other);
+}

@@ -45,6 +45,11 @@ public:
     bool extendedSelectionRegion;
     int maxTextLines;
     int maxTextWidth;
+
+    bool operator==(const KItemListStyleOption& other) const;
+    bool operator!=(const KItemListStyleOption& other) const;
+
+
 };
 #endif
 

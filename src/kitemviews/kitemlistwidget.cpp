@@ -191,10 +191,13 @@ qreal KItemListWidget::columnWidth(const QByteArray& role) const
 
 void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
 {
+    if (m_styleOption == option) {
+        return;
+    }
+
     const KItemListStyleOption previous = m_styleOption;
     clearHoverCache();
     m_styleOption = option;
-
     styleOptionChanged(option, previous);
     update();
 }
