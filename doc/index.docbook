@@ -1033,7 +1033,7 @@ for details.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Show full path in tile bar</guilabel> makes it easy to distinguish
+<guilabel>Show full path in title bar</guilabel> makes it easy to distinguish
 between files or folders with the same name in different folders.
 </para></listitem>
 </itemizedlist>
@@ -1596,7 +1596,7 @@ to the trash and cannot be restored.</action></para></listitem>
 <guimenu>File</guimenu>
 <guimenuitem>Show Target</guimenuitem>
 </menuchoice></term>
-<listitem><para>This actions highlights a link target in a new dolphin window.
+<listitem><para>This action highlights a link target in a new &dolphin; window.
 </para></listitem>
 </varlistentry>
 
