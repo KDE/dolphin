@@ -228,7 +228,8 @@ void PlacesItemModelTest::init()
 
 void PlacesItemModelTest::cleanup()
 {
-    for (int i : m_tobeRemoved) {
+    const auto tobeRemoved = m_tobeRemoved;
+    for (const int i : tobeRemoved) {
         int before = m_model->count();
         m_model->deleteItem(i);
         QTRY_COMPARE(m_model->count(), before - 1);

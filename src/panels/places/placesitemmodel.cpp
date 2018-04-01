@@ -600,7 +600,8 @@ void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const
 
 void PlacesItemModel::onSourceModelGroupHiddenChanged(KFilePlacesModel::GroupType group, bool hidden)
 {
-    for(const QModelIndex &sourceIndex : m_sourceModel->groupIndexes(group)) {
+    const auto groupIndexes = m_sourceModel->groupIndexes(group);
+    for (const QModelIndex &sourceIndex : groupIndexes) {
         PlacesItem *item = placesItem(mapFromSource(sourceIndex));
         if (item) {
             item->setGroupHidden(hidden);
