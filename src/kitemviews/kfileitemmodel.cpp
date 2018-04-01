@@ -1846,16 +1846,10 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
     }
 
-    case RatingRole: {
-        result = a->values.value("rating").toInt() - b->values.value("rating").toInt();
-        break;
-    }
-
-    case ImageSizeRole: {
-        // Alway use a natural comparing to interpret the numbers of a string like
-        // "1600 x 1200" for having a correct sorting.
-        result = collator.compare(a->values.value("imageSize").toString(),
-                                  b->values.value("imageSize").toString());
+    case RatingRole:
+    case WidthRole:
+    case HeightRole: {
+        result = a->values.value(roleForType(m_sortRole)).toInt() - b->values.value(roleForType(m_sortRole)).toInt();
         break;
     }
 
@@ -2305,7 +2299,8 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
         { "imageDateTime",   ImageDateTimeRole,   I18N_NOOP2_NOSTRIP("@label", "Date Photographed"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
-        { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+        { "width",       WidthRole,       I18N_NOOP2_NOSTRIP("@label", "Width"),            I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+        { "height",      HeightRole,      I18N_NOOP2_NOSTRIP("@label", "Height"),           I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
         { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },
         { "genre",       GenreRole,       I18N_NOOP2_NOSTRIP("@label", "Genre"),            I18N_NOOP2_NOSTRIP("@label", "Audio"),    true,  true  },

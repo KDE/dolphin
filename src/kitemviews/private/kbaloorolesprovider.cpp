@@ -56,9 +56,6 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 {
     QHash<QByteArray, QVariant> values;
 
-    int width = -1;
-    int height = -1;
-
     QMapIterator<KFileMetaData::Property::Property, QVariant> it(file.properties());
     while (it.hasNext()) {
         it.next();
@@ -72,23 +69,7 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 
         const QVariant value = it.value();
 
-        if (role == "imageSize") {
-            // Merge the two properties for width and height
-            // as one string into the "imageSize" role
-            if (property == QLatin1String("width")) {
-                width = value.toInt();
-            }
-            else if (property == QLatin1String("height")) {
-                height = value.toInt();
-            }
-
-            if (width >= 0 && height >= 0) {
-                QString widthAndHeight = QString::number(width);
-                widthAndHeight += QLatin1String(" x ");
-                widthAndHeight += QString::number(height);
-                values.insert(role, widthAndHeight);
-            }
-        } else if (role == "orientation") {
+        if (role == "orientation") {
             const QString orientation = orientationFromValue(value.toInt());
             values.insert(role, orientation);
         } else if (role == "duration") {
@@ -135,8 +116,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
     };
 
     // Mapping from the URIs to the KFileItemModel roles. Note that this must not be
-    // a 1:1 mapping: One role may contain several URI-values (e.g. the URIs for height and
-    // width of an image are mapped to the role "imageSize")
+    // a 1:1 mapping: One role may contain several URI-values
     static const PropertyInfo propertyInfoList[] = {
         { "rating", "rating" },
         { "tag",        "tags" },
@@ -144,8 +124,8 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "title",         "title" },
         { "wordCount",     "wordCount" },
         { "lineCount",     "lineCount" },
-        { "width",         "imageSize" },
-        { "height",        "imageSize" },
+        { "width",         "width" },
+        { "height",        "height" },
         { "imageDateTime",   "imageDateTime"},
         { "nexif.orientation", "orientation", },
         { "artist",     "artist" },

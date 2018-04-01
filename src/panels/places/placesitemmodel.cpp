@@ -456,7 +456,7 @@ void PlacesItemModel::initializeDefaultViewProperties() const
                 } else if (path == QLatin1String("/images")) {
                     props.setViewMode(DolphinView::IconsView);
                     props.setPreviewsShown(true);
-                    props.setVisibleRoles({"text", "imageSize"});
+                    props.setVisibleRoles({"text", "height", "width"});
                 } else if (path == QLatin1String("/audio")) {
                     props.setViewMode(DolphinView::DetailsView);
                     props.setPreviewsShown(false);
