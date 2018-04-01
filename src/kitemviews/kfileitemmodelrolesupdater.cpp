@@ -497,7 +497,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
     const QString mimeType = item.mimetype();
     const int slashIndex = mimeType.indexOf(QLatin1Char('/'));
-    const bool isFontPreview = mimeType.right(slashIndex).contains(QLatin1String("font"));
+    const bool isFontPreview = mimeType.rightRef(slashIndex).contains(QLatin1String("font"));
     const bool isFolderPreview = item.isDir();
     const bool isWindowsExePreview = mimeType == QLatin1String("application/x-ms-dos-executable") ||
                                      mimeType == QLatin1String("application/x-msdownload");
