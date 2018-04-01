@@ -291,7 +291,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
         {KIconLoader::SizeLarge,        I18N_NOOP2_NOSTRIP("Huge icon size", "Huge (%1x%2)")}
     };
 
-    QMap<QAction*, int> iconSizeActionMap;
+    QHash<QAction*, int> iconSizeActionMap;
     QActionGroup* iconSizeGroup = new QActionGroup(iconSizeSubMenu);
 
     for (int i = 0; i < iconSizeCount; ++i) {
