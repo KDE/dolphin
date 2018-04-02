@@ -48,6 +48,7 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
+#include <KDesktopFile>
 #include <KFileItemListProperties>
 #include <KFilePlacesModel>
 #include <KHelpMenu>
@@ -402,7 +403,8 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         dialog->setWindowTitle(i18nc("@title:window", "Confirmation"));
         dialog->setModal(true);
         QDialogButtonBox* buttons = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::No | QDialogButtonBox::Cancel);
-        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KStandardGuiItem::quit());
+        KDesktopFile dolphinDesktopFile(QStringLiteral("%1.desktop").arg(QGuiApplication::desktopFileName()));
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KGuiItem(i18nc("@action:button 'Quit Dolphin' button", "&Quit %1", dolphinDesktopFile.readName()), QIcon::fromTheme(QStringLiteral("application-exit"))));
         KGuiItem::assign(buttons->button(QDialogButtonBox::No), KGuiItem(i18n("C&lose Current Tab"), QIcon::fromTheme(QStringLiteral("tab-close"))));
         KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
         buttons->button(QDialogButtonBox::Yes)->setDefault(true);
