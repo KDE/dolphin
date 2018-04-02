@@ -116,14 +116,6 @@ private slots:
 
 private:
     /**
-     * Checks whether the an URL is repesented by a place. If yes,
-     * then the place icon and name are shown instead of a preview.
-     * @return True, if the URL represents exactly a place.
-     * @param url The url to check.
-     */
-    bool applyPlace(const QUrl& url);
-
-    /**
      * Sets the text for the label \a m_nameLabel and assures that the
      * text is split in a way that it can be wrapped within the
      * label width (QLabel::setWordWrap() does not work if the

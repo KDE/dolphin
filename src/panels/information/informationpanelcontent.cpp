@@ -160,38 +160,36 @@ void InformationPanelContent::showItem(const KFileItem& item)
 
     const QUrl itemUrl = item.url();
     const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && item.localPath().isEmpty();
-    if (!applyPlace(itemUrl)) {
-        setNameLabelText(item.text());
-        if (isSearchUrl) {
-            // in the case of a search-URL the URL is not readable for humans
-            // (at least not useful to show in the Information Panel)
-            m_preview->setPixmap(
-                QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
-            );
-        } else {
-            // try to get a preview pixmap from the item...
+    setNameLabelText(item.text());
+    if (isSearchUrl) {
+        // in the case of a search-URL the URL is not readable for humans
+        // (at least not useful to show in the Information Panel)
+        m_preview->setPixmap(
+            QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+        );
+    } else {
+        // try to get a preview pixmap from the item...
 
-            // Mark the currently shown preview as outdated. This is done
-            // with a small delay to prevent a flickering when the next preview
-            // can be shown within a short timeframe. This timer is not started
-            // for directories, as directory previews might fail and return the
-            // same icon.
-            if (!item.isDir()) {
-                m_outdatedPreviewTimer->start();
-            }
-
-            m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
-            m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
-            m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
-            if (m_previewJob->uiDelegate()) {
-                KJobWidgets::setWindow(m_previewJob, this);
-            }
-
-            connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
-                    this, &InformationPanelContent::showPreview);
-            connect(m_previewJob.data(), &KIO::PreviewJob::failed,
-                    this, &InformationPanelContent::showIcon);
+        // Mark the currently shown preview as outdated. This is done
+        // with a small delay to prevent a flickering when the next preview
+        // can be shown within a short timeframe. This timer is not started
+        // for directories, as directory previews might fail and return the
+        // same icon.
+        if (!item.isDir()) {
+            m_outdatedPreviewTimer->start();
         }
+
+        m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
+        m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+        m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
+        if (m_previewJob->uiDelegate()) {
+            KJobWidgets::setWindow(m_previewJob, this);
+        }
+
+        connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
+                this, &InformationPanelContent::showPreview);
+        connect(m_previewJob.data(), &KIO::PreviewJob::failed,
+                this, &InformationPanelContent::showIcon);
     }
 
     if (m_metaDataWidget) {
@@ -313,11 +311,9 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
 void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
-    if (!applyPlace(item.targetUrl())) {
-        QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous);
-        KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
-        m_preview->setPixmap(pixmap);
-    }
+    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous);
+    KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
+    m_preview->setPixmap(pixmap);
 }
 
 void InformationPanelContent::showPreview(const KFileItem& item,
@@ -350,21 +346,6 @@ void InformationPanelContent::refreshMetaData()
     if (!m_item.isNull()) {
         showItem(m_item);
     }
-}
-
-bool InformationPanelContent::applyPlace(const QUrl& url)
-{
-    const int count = m_placesItemModel->count();
-    for (int i = 0; i < count; ++i) {
-        const PlacesItem* item = m_placesItemModel->placesItem(i);
-        if (item->url().matches(url, QUrl::StripTrailingSlash)) {
-            setNameLabelText(item->text());
-            m_preview->setPixmap(QIcon::fromTheme(item->icon()).pixmap(128, 128));
-            return true;
-        }
-    }
-
-    return false;
 }
 
 void InformationPanelContent::setNameLabelText(const QString& text)
