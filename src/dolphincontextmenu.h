@@ -116,10 +116,9 @@ private:
     KFileItem baseFileItem();
 
     /**
-     * Adds actions that have been installed as service-menu.
-     * (see http://techbase.kde.org/index.php?title=Development/Tutorials/Creating_Konqueror_Service_Menus)
+     * Adds "Open With" actions
      */
-    void addServiceActions(KFileItemActions& fileItemActions);
+    void addOpenWithActions(KFileItemActions& fileItemActions);
 
     /**
      * Adds actions that are provided by a KVersionControlPlugin.
