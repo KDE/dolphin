@@ -47,6 +47,7 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
     m_layout(nullptr),
     m_terminal(nullptr),
     m_terminalWidget(nullptr),
+    m_konsolePartMissingMessage(nullptr),
     m_konsolePart(nullptr),
     m_konsolePartCurrentDirectory(),
     m_sendCdToTerminalHistory()
