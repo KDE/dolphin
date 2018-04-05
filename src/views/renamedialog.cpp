@@ -155,22 +155,29 @@ void RenameDialog::slotAccepted()
         widget = this;
     }
 
+    const QList<QUrl> srcList = m_items.urlList();
+    const QString newName = m_lineEdit->text();
     KIO::FileUndoManager::CommandType cmdType;
+    KIO::Job *job = nullptr;
     if (m_renameOneItem) {
         Q_ASSERT(m_items.count() == 1);
         cmdType = KIO::FileUndoManager::Rename;
+        const QUrl oldUrl = m_items.constFirst().url();
+        QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
+        newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
+        m_renamedItems << newUrl;
+        job = KIO::moveAs(oldUrl, newUrl, KIO::HideProgressInfo);
     } else {
         cmdType = KIO::FileUndoManager::BatchRename;
+        job = KIO::batchRename(srcList, newName, m_spinBox->value(), QLatin1Char('#'));
+        connect(qobject_cast<KIO::BatchRenameJob*>(job), &KIO::BatchRenameJob::fileRenamed, this, &RenameDialog::slotFileRenamed);
     }
 
-    const QList<QUrl> srcList = m_items.urlList();
-    KIO::BatchRenameJob* job = KIO::batchRename(srcList, m_lineEdit->text(), m_spinBox->value(), QLatin1Char('#'));
     KJobWidgets::setWindow(job, widget);
     const QUrl parentUrl = srcList.first().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
     KIO::FileUndoManager::self()->recordJob(cmdType, srcList, parentUrl, job);
 
-    connect(job, &KIO::BatchRenameJob::fileRenamed, this, &RenameDialog::slotFileRenamed);
-    connect(job, &KIO::BatchRenameJob::result, this, &RenameDialog::slotResult);
+    connect(job, &KJob::result, this, &RenameDialog::slotResult);
 
     job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 
