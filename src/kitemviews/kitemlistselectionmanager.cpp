@@ -235,6 +235,9 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
         // emit it only once in this function -> change the current item manually and emit currentChanged
         m_currentItem += inc;
+        if (m_currentItem >= m_model->count()) {
+            m_currentItem = -1;
+        }
         emit currentChanged(m_currentItem, previousCurrent);
     }
 
