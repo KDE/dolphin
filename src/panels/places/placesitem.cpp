@@ -139,7 +139,7 @@ void PlacesItem::setBookmark(const KBookmark& bookmark)
     const QString udi = bookmark.metaDataItem(QStringLiteral("UDI"));
     if (udi.isEmpty()) {
         setIcon(bookmark.icon());
-        setText(i18nc("KFile System Bookmarks", bookmark.text().toUtf8().constData()));
+        setText(i18ndc("kio5", "KFile System Bookmarks", bookmark.text().toUtf8().constData()));
         setUrl(bookmark.url());
         setSystemItem(bookmark.metaDataItem(QStringLiteral("isSystemItem")) == QLatin1String("true"));
     } else {
@@ -245,7 +245,7 @@ void PlacesItem::updateBookmarkForRole(const QByteArray& role)
         //
         // NOTE: It is important to use "KFile System Bookmarks" as context
         // (see PlacesItemModel::createSystemBookmarks()).
-        if (text() != i18nc("KFile System Bookmarks", m_bookmark.text().toUtf8().data())) {
+        if (text() != i18ndc("kio5", "KFile System Bookmarks", m_bookmark.text().toUtf8().data())) {
             m_bookmark.setFullText(text());
         }
     } else if (role == "url") {
