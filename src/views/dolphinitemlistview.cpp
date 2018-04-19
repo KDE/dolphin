@@ -179,14 +179,6 @@ void DolphinItemListView::updateGridSize()
         const int minItemWidth = 48;
         itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
 
-        if (previewsShown()) {
-            // Optimize the width for previews with a 3:2 aspect ratio instead
-            // of a 1:1 ratio to avoid wasting too much vertical space when
-            // showing photos.
-            const int minWidth = iconSize * 3 / 2;
-            itemWidth = qMax(itemWidth, minWidth);
-        }
-
         if (itemWidth < iconSize + padding * 2) {
             itemWidth = iconSize + padding * 2;
         }
