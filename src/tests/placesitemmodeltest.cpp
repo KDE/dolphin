@@ -161,11 +161,15 @@ QStringList PlacesItemModelTest::initialUrls() const
 {
     static QStringList urls;
     if (urls.isEmpty()) {
-        urls << QDir::homePath() << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
+        urls << QDir::homePath()
+             << QDir::homePath() + QStringLiteral("/Desktop")
+             << QDir::homePath() + QStringLiteral("/Downloads")
+             << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
              << QStringLiteral("remote:/")
-             << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday") << QStringLiteral("timeline:/thismonth") << QStringLiteral("timeline:/lastmonth")
+             << QStringLiteral("/media/nfs")
+             << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
              << QStringLiteral("search:/documents") << QStringLiteral("search:/images") << QStringLiteral("search:/audio") << QStringLiteral("search:/videos")
-             << QStringLiteral("/media/nfs") << QStringLiteral("/foreign")
+             << QStringLiteral("/foreign")
              << QStringLiteral("/media/floppy0") << QStringLiteral("/media/XO-Y4") << QStringLiteral("/media/cdrom");
     }
     return urls;
@@ -279,21 +283,22 @@ void PlacesItemModelTest::testGroups()
 {
     const auto groups = m_model->groups();
 
+
     QCOMPARE(groups.size(), 6);
 
     QCOMPARE(groups.at(0).first, 0);
     QCOMPARE(groups.at(0).second.toString(), QStringLiteral("Places"));
 
-    QCOMPARE(groups.at(1).first, 3);
+    QCOMPARE(groups.at(1).first, 5);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    QCOMPARE(groups.at(2).first, 4);
+    QCOMPARE(groups.at(2).first, 7);
     QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recently Saved"));
 
-    QCOMPARE(groups.at(3).first, 8);
+    QCOMPARE(groups.at(3).first, 9);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, 12);
+    QCOMPARE(groups.at(4).first, 13);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
     QCOMPARE(groups.at(5).first, 14);
@@ -315,7 +320,7 @@ void PlacesItemModelTest::testPlaceItem_data()
     QTest::newRow("Baloo - Documents") << QUrl("search:/documents") << false << true << QStringLiteral("Search For") << false;
 
     // baloo - timeline
-    QTest::newRow("Baloo - Last Month") << QUrl("timeline:/lastmonth") << false << true << QStringLiteral("Recently Saved") << false;
+    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << false << true << QStringLiteral("Recently Saved") << false;
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << false << false << QStringLiteral("Removable Devices") << false;
@@ -349,7 +354,7 @@ void PlacesItemModelTest::testDeletePlace()
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(3, tempUrl.toLocalFile());
+    urls.insert(5, tempUrl.toLocalFile());
 
     // check if the new entry was created
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -357,7 +362,7 @@ void PlacesItemModelTest::testDeletePlace()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // delete item
-    m_model->deleteItem(3);
+    m_model->deleteItem(5);
 
     // make sure that the new item is removed
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
@@ -422,7 +427,7 @@ void PlacesItemModelTest::testDefaultViewProperties_data()
     QTest::newRow("Places - Audio") << QUrl("search:/audio") << DolphinView::DetailsView << false << QList<QByteArray>({"text", "artist", "album"});
 
     // baloo - timeline
-    QTest::newRow("Baloo - Last Month") << QUrl("timeline:/lastmonth") << DolphinView::DetailsView << true << QList<QByteArray>({"text", "modificationtime"});
+    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << DolphinView::DetailsView << true << QList<QByteArray>({"text", "modificationtime"});
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << DolphinView::IconsView << true << QList<QByteArray>({"text"});
@@ -516,28 +521,28 @@ void PlacesItemModelTest::testSystemItems()
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
 
     // make sure the new place get removed
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
     QList<QVariant> args = itemsInsertedSpy.takeFirst();
     KItemRangeList range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 3);
+    QCOMPARE(range.first().index, 5);
     QCOMPARE(range.first().count, 1);
-    QVERIFY(!m_model->placesItem(3)->isSystemItem());
+    QVERIFY(!m_model->placesItem(5)->isSystemItem());
     QCOMPARE(m_model->count(), 18);
 
     QTest::qWait(300);
     // check if the removal signal is correct
     QSignalSpy itemsRemovedSpy(m_model, &PlacesItemModel::itemsRemoved);
-    m_model->deleteItem(3);
+    m_model->deleteItem(5);
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
     args = itemsRemovedSpy.takeFirst();
     range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 3);
+    QCOMPARE(range.first().index, 5);
     QCOMPARE(range.first().count, 1);
     QTRY_COMPARE(m_model->count(), 17);
 
     //cancel removal (it was removed above)
-    cancelPlaceRemoval(3);
+    cancelPlaceRemoval(5);
 }
 
 void PlacesItemModelTest::testEditBookmark()
@@ -547,7 +552,7 @@ void PlacesItemModelTest::testEditBookmark()
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
     QSignalSpy itemsChangedSply(m_model, &PlacesItemModel::itemsChanged);
 
@@ -583,7 +588,7 @@ void PlacesItemModelTest::testEditAfterCreation()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
     // modify place text
     PlacesItem *item = m_model->placesItem(3);
@@ -613,7 +618,7 @@ void PlacesItemModelTest::testEditMetadata()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
     // modify place metadata
     PlacesItem *item = m_model->placesItem(3);
@@ -643,10 +648,10 @@ void PlacesItemModelTest::testRefresh()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
-    PlacesItem *item = m_model->placesItem(3);
-    PlacesItem *sameItem = model->placesItem(3);
+    PlacesItem *item = m_model->placesItem(5);
+    PlacesItem *sameItem = model->placesItem(5);
     QCOMPARE(item->text(), sameItem->text());
 
     // modify place text
@@ -674,7 +679,7 @@ void PlacesItemModelTest::testIcons_data()
     QTest::newRow("Baloo - Documents") << QUrl("search:/documents") << QStringLiteral("folder-text");
 
     // baloo - timeline
-    QTest::newRow("Baloo - Last Month") << QUrl("timeline:/lastmonth") << QStringLiteral("view-calendar-month");
+    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << QStringLiteral("go-jump-today");
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << QStringLiteral("blockdevice");
@@ -702,10 +707,10 @@ void PlacesItemModelTest::testDragAndDrop()
     QSignalSpy itemsRemovedSpy(m_model, &PlacesItemModel::itemsRemoved);
 
     CHECK_PLACES_URLS(initialUrls());
-    // Move the KDE_ROOT_PATH at the end of the places list will case it to be moved to the end of the places group
-    QMimeData *dropData = createMimeData(QList<int>() << 1);
+    // Move the home directory to the end of the places group
+    QMimeData *dropData = createMimeData(QList<int>() << 0);
     m_model->dropMimeDataBefore(m_model->count() - 1, dropData);
-    urls.move(1, 2);
+    urls.move(0, 4);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -716,24 +721,24 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 1);
+    QCOMPARE(range.at(0).index, 0);
 
     // insert intem in his group
     args = itemsInsertedSpy.takeFirst();
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 2);
+    QCOMPARE(range.at(0).index, 4);
 
     CHECK_PLACES_URLS(urls);
 
     itemsInsertedSpy.clear();
     itemsRemovedSpy.clear();
 
-    // Move the KDE_ROOT_PATH to his original position
-    dropData = createMimeData(QList<int>() << 2);
-    m_model->dropMimeDataBefore(1, dropData);
-    urls.move(2, 1);
+    // Move home directory item back to its original position
+    dropData = createMimeData(QList<int>() << 4);
+    m_model->dropMimeDataBefore(0, dropData);
+    urls.move(4, 0);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -744,14 +749,14 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 2);
+    QCOMPARE(range.at(0).index, 4);
 
     // insert intem in the requested position
     args = itemsInsertedSpy.takeFirst();
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 1);
+    QCOMPARE(range.at(0).index, 0);
 
     CHECK_PLACES_URLS(urls);
 }
@@ -815,10 +820,10 @@ void PlacesItemModelTest::renameAfterCreation()
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(3, tempUrl.toLocalFile());
+    urls.insert(5, tempUrl.toLocalFile());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(3);
+    removePlaceAfter(5);
 
     CHECK_PLACES_URLS(urls);
     QCOMPARE(model->count(), m_model->count());
