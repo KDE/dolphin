@@ -22,6 +22,9 @@
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
 
+#include <KActionCollection>
+
+#include <QSignalSpy>
 #include <QTest>
 
 class DolphinMainWindowTest : public QObject
@@ -31,6 +34,7 @@ class DolphinMainWindowTest : public QObject
 private slots:
     void init();
     void testClosingTabsWithSearchBoxVisible();
+    void testUpdateWindowTitleAfterClosingSplitView();
 
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
@@ -62,6 +66,46 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     // Triggers the crash in bug #379135.
     tabWidget->closeTab();
     QCOMPARE(tabWidget->count(), 1);
+}
+
+// Test case for bug #385111
+void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
+{
+    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    QVERIFY(tabWidget);
+    QVERIFY(tabWidget->currentTabPage()->primaryViewContainer());
+    QVERIFY(!tabWidget->currentTabPage()->secondaryViewContainer());
+
+    // Open split view.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+    QVERIFY(tabWidget->currentTabPage()->secondaryViewContainer());
+
+    // Make sure the right view is the active one.
+    auto leftViewContainer = tabWidget->currentTabPage()->primaryViewContainer();
+    auto rightViewContainer = tabWidget->currentTabPage()->secondaryViewContainer();
+    QVERIFY(!leftViewContainer->isActive());
+    QVERIFY(rightViewContainer->isActive());
+
+    // Activate left view.
+    leftViewContainer->setActive(true);
+    QVERIFY(leftViewContainer->isActive());
+    QVERIFY(!rightViewContainer->isActive());
+
+    // Close split view. The secondary view (which was on the right) will become the primary one and must be active.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(rightViewContainer->isActive());
+    QCOMPARE(rightViewContainer, tabWidget->currentTabPage()->activeViewContainer());
+
+    // Change URL and make sure we emit the currentUrlChanged signal (which triggers the window title update).
+    QSignalSpy currentUrlChangedSpy(tabWidget, &DolphinTabWidget::currentUrlChanged);
+    tabWidget->currentTabPage()->activeViewContainer()->setUrl(QUrl::fromLocalFile(QDir::rootPath()));
+    QCOMPARE(currentUrlChangedSpy.count(), 1);
 }
 
 QTEST_MAIN(DolphinMainWindowTest)
