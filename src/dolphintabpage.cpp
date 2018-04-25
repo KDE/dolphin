@@ -94,6 +94,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
                 // If the primary view is active, we have to swap the pointers
                 // because the secondary view will be the new primary view.
                 qSwap(m_primaryViewContainer, m_secondaryViewContainer);
+                m_primaryViewActive = false;
             }
             m_primaryViewContainer->setActive(true);
             view->close();
