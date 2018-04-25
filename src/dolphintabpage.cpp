@@ -312,6 +312,9 @@ void DolphinTabPage::slotViewActivated()
             m_primaryViewActive = !m_primaryViewActive;
         } else {
             m_primaryViewActive = true;
+            if (m_secondaryViewContainer) {
+                m_secondaryViewContainer->setActive(false);
+            }
         }
     }
 

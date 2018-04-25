@@ -34,6 +34,8 @@ class DolphinMainWindowTest : public QObject
 private slots:
     void init();
     void testClosingTabsWithSearchBoxVisible();
+    void testActiveViewAfterClosingSplitView_data();
+    void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
 
 private:
@@ -68,6 +70,58 @@ void DolphinMainWindowTest::testClosingTabsWithSearchBoxVisible()
     QCOMPARE(tabWidget->count(), 1);
 }
 
+void DolphinMainWindowTest::testActiveViewAfterClosingSplitView_data()
+{
+    QTest::addColumn<bool>("closeLeftView");
+
+    QTest::newRow("close left view") << true;
+    QTest::newRow("close right view") << false;
+}
+
+void DolphinMainWindowTest::testActiveViewAfterClosingSplitView()
+{
+    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    QVERIFY(tabWidget);
+    QVERIFY(tabWidget->currentTabPage()->primaryViewContainer());
+    QVERIFY(!tabWidget->currentTabPage()->secondaryViewContainer());
+
+    // Open split view.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+    QVERIFY(tabWidget->currentTabPage()->secondaryViewContainer());
+
+    // Make sure the right view is the active one.
+    auto leftViewContainer = tabWidget->currentTabPage()->primaryViewContainer();
+    auto rightViewContainer = tabWidget->currentTabPage()->secondaryViewContainer();
+    QVERIFY(!leftViewContainer->isActive());
+    QVERIFY(rightViewContainer->isActive());
+
+    QFETCH(bool, closeLeftView);
+    if (closeLeftView) {
+        // Activate left view.
+        leftViewContainer->setActive(true);
+        QVERIFY(leftViewContainer->isActive());
+        QVERIFY(!rightViewContainer->isActive());
+
+        // Close left view. The secondary view (which was on the right) will become the primary one and must be active.
+        m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+        QVERIFY(!leftViewContainer->isActive());
+        QVERIFY(rightViewContainer->isActive());
+        QCOMPARE(rightViewContainer, tabWidget->currentTabPage()->activeViewContainer());
+    } else {
+        // Close right view. The left view will become active.
+        m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+        QVERIFY(leftViewContainer->isActive());
+        QVERIFY(!rightViewContainer->isActive());
+        QCOMPARE(leftViewContainer, tabWidget->currentTabPage()->activeViewContainer());
+    }
+}
+
 // Test case for bug #385111
 void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 {
@@ -99,6 +153,7 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
 
     // Close split view. The secondary view (which was on the right) will become the primary one and must be active.
     m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(!leftViewContainer->isActive());
     QVERIFY(rightViewContainer->isActive());
     QCOMPARE(rightViewContainer, tabWidget->currentTabPage()->activeViewContainer());
 
