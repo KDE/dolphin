@@ -105,7 +105,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_tearDownFromPlacesRequested(false)
 {
     Q_INIT_RESOURCE(dolphin);
-
+    setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,

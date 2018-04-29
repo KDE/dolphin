@@ -54,10 +54,14 @@ TEST_NAME viewpropertiestest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
 # DolphinMainWindowTest
-ecm_add_test(dolphinmainwindowtest.cpp
+set(dolphinmainwindowtest_SRCS dolphinmainwindowtest.cpp)
+qt5_add_resources(dolphinmainwindowtest_SRCS ${CMAKE_SOURCE_DIR}/src/dolphin.qrc)
+
+ecm_add_test(${dolphinmainwindowtest_SRCS}
 TEST_NAME dolphinmainwindowtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
+# DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
 
 # PlacesItemModelTest
