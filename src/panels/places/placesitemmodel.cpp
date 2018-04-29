@@ -397,10 +397,7 @@ void PlacesItemModel::addItemFromSourceModel(const QModelIndex &index)
 
     const KBookmark bookmark = m_sourceModel->bookmarkForIndex(index);
     Q_ASSERT(!bookmark.isNull());
-    PlacesItem *item = itemFromBookmark(bookmark);
-    if (!item) {
-        item = new PlacesItem(bookmark);
-    }
+    PlacesItem *item = new PlacesItem(bookmark);
     updateItem(item, index);
     insertSortedItem(item);
 
