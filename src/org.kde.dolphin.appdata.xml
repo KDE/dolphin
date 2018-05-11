@@ -22,6 +22,7 @@
   <name xml:lang="gl">Dolphin</name>
   <name xml:lang="hu">Dolphin</name>
   <name xml:lang="ia">Dolphin</name>
+  <name xml:lang="id">Dolphin</name>
   <name xml:lang="it">Dolphin</name>
   <name xml:lang="ko">Dolphin</name>
   <name xml:lang="lt">Dolphin</name>
@@ -67,6 +68,7 @@
   <summary xml:lang="he">מנהל קבצים</summary>
   <summary xml:lang="hu">Fájlkezelő</summary>
   <summary xml:lang="ia">Gerente de File</summary>
+  <summary xml:lang="id">Pengelola File</summary>
   <summary xml:lang="it">Gestore file</summary>
   <summary xml:lang="ko">파일 관리자</summary>
   <summary xml:lang="lt">Failų tvarkytuvė</summary>
@@ -112,6 +114,7 @@
     <p xml:lang="he">‏Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
     <p xml:lang="hu">A Dolphin egy pehelysúlyú fájlkezelő. Az egyszerű használatot és az egyszerűséget szem előtt tartva tervezték, miközben továbbra is lehetővé teszi a rugalmasságot és a testre szabhatóságot. Ez azt jelenti, hogy pontosan oly módon végezheti a fájlkezelést, ahogy csak akarja.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
+    <p xml:lang="id">Dolphin adalah pengelola file yang ringan. Ini telah dirancang dengan kemudahan penggunaan dan kesederhanaan dalam hal, sementara masih memungkinkan fleksibilitas dan kustomisasi. Ini berarti kamu bisa melakukan pengelolaan file-mu persis seperti yang kamu inginkan.</p>
     <p xml:lang="it">Dolphin è un gestore file leggero. È stato progettato per essere facile da utilizzare e pensando alla semplicità, garantendo al contempo flessibilità e personalizzazione. Ciò significa che puoi gestire i tuoi file come meglio desideri.</p>
     <p xml:lang="ko">Dolphin은 가벼운 파일 관리자입니다. 사용 편의성과 간단함을 위주로 설계되었으며, 유연성과 사용자 정의 가능성을 배제하지 않았습니다. 원하는 대로 파일을 관리할 수 있습니다.</p>
     <p xml:lang="nb">Dolphin er en lettvekts filbehandler. Den er laget for å være enkel og lett å bruke, samtidig som den er fleksibel og kan tilpasses. Det betyr at du kan utføre dine filbehandlingsoppgaver akkurat slik du vil gjøre det.</p>
@@ -154,6 +157,7 @@
     <p xml:lang="he">תכונות:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
+    <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="lt">Galimybės</p>
@@ -196,6 +200,7 @@
       <li xml:lang="gl">Barra de navegación para enderezos URL, que lle permite navegar rapidamente pola xerarquía de ficheiros e cartafoles.</li>
       <li xml:lang="hu">Navigációs (vagy webmorzsa) sáv az URL-ekhez, amely lehetővé teszi a fájlok és mappák hierarchiáján keresztüli gyors navigációt.</li>
       <li xml:lang="ia">Barra de navigation (o "breadcrumb") pro URLs, que il permitte te navigar rapidemente a transverso del hierarchia de files e dossieres.</li>
+      <li xml:lang="id">Bilah navigasi (atau remah) untuk URL-URL, membolehkanmu secara cepat menavigasi melalui hirerarki file-file dan folder-folder.</li>
       <li xml:lang="it">La barra di navigazione per gli URL, che ti consente di navigare rapidamente attraverso la struttura di file e cartelle.</li>
       <li xml:lang="ko">파일과 폴더 구조를 빠르게 탐색할 수 있도록 URL 탐색 표시줄을 사용할 수 있습니다.</li>
       <li xml:lang="nb">Navigasjonslinje (brødsmulelinje) for URL-er slik at du raskt kan navigere gjennom hierarkiet av filer og mapper.</li>
@@ -235,6 +240,7 @@
       <li xml:lang="gl">É compatíbel con varios estilos e propiedades de vista distintos, e permítelle configurar a vista como mellor lle pareza.</li>
       <li xml:lang="hu">Számos különféle nézetstílus fajtát és tulajdonságot támogat, valamint lehetővé teszi a nézet beállítását pontosan olyanra, ahogy azt látni szeretné.</li>
       <li xml:lang="ia">Il supporta multe differente typos de stilos de vista e proprietates e il permitte te configurar le vista exactemente como tu vole.</li>
+      <li xml:lang="id">Mendukung beberapa jenis gaya tampilan dan properti yang berbeda dan membolehkanmu untuk mengonfigurasi tampilan persis seperti yang kamu inginkan.</li>
       <li xml:lang="it">Supporta diversi stili di visualizzazione e proprietà e ti consente di configurare la vista come desideri.</li>
       <li xml:lang="ko">여러 종류의 보기 형식을 지원하여 원하는 대로 항목을 볼 수 있습니다.</li>
       <li xml:lang="nb">Støtter flere forskjellige visningsstiler og kan sette opp visningen akkurat slik du vil ha den.</li>
@@ -274,6 +280,7 @@
       <li xml:lang="gl">Vista dividida, que lle permite copiar ou mover ficheiros facilmente entre dous lugares.</li>
       <li xml:lang="hu">Osztott nézet, amely lehetővé teszi a fájlok könnyű másolását és áthelyezését a helyek között.</li>
       <li xml:lang="ia">Scinde vista,  il permitte te copiar o mover facilemente files inter locationes.</li>
+      <li xml:lang="id">Tampilan pisah, membolehkanmu untuk menyalin atau memindah file antar lokasi dengan mudah.</li>
       <li xml:lang="it">La vista divisa, che ti consente di copiare o spostare i file tra le diverse posizioni in maniera semplice.</li>
       <li xml:lang="ko">화면을 나누어서 서로 다른 위치 간 파일을 쉽게 이동하거나 복사할 수 있도록 합니다.</li>
       <li xml:lang="nb">Delt visning, så du lett kan kopiere eller flytte filer mellom steder.</li>
@@ -313,6 +320,7 @@
       <li xml:lang="gl">Información adicional e atallos dispoñíbeis como paneis acoplábeis que pode colocar en calquera parte e mostrar como prefira.</li>
       <li xml:lang="hu">További információk és gyorsbillentyűk érhetők el dokkolható panelekként, lehetővé téve azok szabad mozgatását, illetve pontosan úgy megjelenítve, ahogy szeretné.</li>
       <li xml:lang="ia">Information additional e vias breve es disponibile como pannellos de basin (dock-panels), il permitte mover los liberemente e monstrar los exactemente como tu vole.</li>
+      <li xml:lang="id">Informasi tambahan dan pintasan tersedia sebagai panel yang bisa di-dock, membolehkanmu untuk memindahkannya secara bebas dan menampilkan apa yang kamu inginkan.</li>
       <li xml:lang="it">Informazioni aggiuntive e scorciatoie sono disponibili come pannelli agganciabili, che possono essere spostati liberamente e visualizzare esattamente ciò che desideri.</li>
       <li xml:lang="ko">추가 정보 표시 창과 바로 가기는 도킹 가능한 패널 형태로 사용할 수 있으며, 원하는 곳으로 이동하여 표시할 수 있습니다.</li>
       <li xml:lang="nb">Mer informasjon og snarveier er tilgjengelige som dokkbare ruter, som du kan flytte fritt rundt og bruke til å vise akkurat hva du vil.</li>
@@ -354,6 +362,7 @@
       <li xml:lang="he">תמיכה בכרטיסיות</li>
       <li xml:lang="hu">Több lap támogatása</li>
       <li xml:lang="ia">Supporto de scheda multiple</li>
+      <li xml:lang="id">Mendukung berlipat tab</li>
       <li xml:lang="it">Supporto di schede multiple</li>
       <li xml:lang="ko">다중 탭 지원</li>
       <li xml:lang="lt">Daugelio kortelių palaikymas</li>
@@ -396,6 +405,7 @@
       <li xml:lang="gl">Os diálogos de información móstranse dunha maneira non intrusiva.</li>
       <li xml:lang="hu">Az információs párbeszédablakok szerény módon vannak megjelenítve.</li>
       <li xml:lang="ia">Dialogos de information es monstrate de modo non importun.</li>
+      <li xml:lang="id">Dialog informasi ditampilkan dengan cara yang tidak mengganggu.</li>
       <li xml:lang="it">Le finestre informative sono visualizzate in modo molto discreto.</li>
       <li xml:lang="ko">정보 대화 상자를 방해되지 않는 형태로 표시합니다.</li>
       <li xml:lang="nb">Informasjonsdialoger vises på en lite påtrengende måte.</li>
@@ -437,6 +447,7 @@
       <li xml:lang="he">תמיכה בביטול וביצוע חוזר</li>
       <li xml:lang="hu">Visszavonás/ismétlés támogatás</li>
       <li xml:lang="ia">Supporto de annulla/reface</li>
+      <li xml:lang="id">Dukungan takjadi/jadilagi</li>
       <li xml:lang="it">Supporto di annulla/rifai</li>
       <li xml:lang="ko">실행 취소/다시 실행 지원</li>
       <li xml:lang="nb">Støtte for angring/omgjøring</li>
@@ -479,6 +490,7 @@
       <li xml:lang="gl">Ofrece acceso transparente á rede mediante o sistema KIO.</li>
       <li xml:lang="hu">Átlátszó hálózati hozzáférés a KIO rendszeren keresztül.</li>
       <li xml:lang="ia">Accesso de rete transparente a transverso del systema KIO.</li>
+      <li xml:lang="id">Akses jaringan transparan melalui sistem KIO.</li>
       <li xml:lang="it">Accesso trasparente alla rete tramite il sistema KIO.</li>
       <li xml:lang="ko">KIO 시스템을 통하여 네트워크 자원에 접근합니다.</li>
       <li xml:lang="nb">Gjennomsiktig nettverkstilgang via KIO-systemet.</li>
