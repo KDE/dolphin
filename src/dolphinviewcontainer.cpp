@@ -90,7 +90,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
 
-    m_emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")), "&Empty Trash", this);
+    m_emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")), i18nc("@action:button", "Empty Trash"), this);
     m_emptyTrashButton->setFlat(true);
     connect(m_emptyTrashButton, &QPushButton::clicked, this, [this]() { Trash::empty(this); });
     connect(&Trash::instance(), &Trash::emptinessChanged, m_emptyTrashButton, &QPushButton::setDisabled);
