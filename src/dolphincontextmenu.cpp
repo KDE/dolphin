@@ -231,6 +231,8 @@ void DolphinContextMenu::openItemContextMenu()
 
             addSeparator();
         } else if (m_baseUrl.scheme().contains(QStringLiteral("search")) || m_baseUrl.scheme().contains(QStringLiteral("timeline"))) {
+            addOpenWithActions(fileItemActions);
+
             openParentAction = new QAction(QIcon::fromTheme(QStringLiteral("document-open-folder")),
                                            i18nc("@action:inmenu",
                                                  "Open Path"),
