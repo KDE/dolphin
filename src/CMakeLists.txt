@@ -207,7 +207,6 @@ set(dolphinstatic_SRCS
     dolphintabwidget.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
-    main.cpp
     panels/information/filemetadataconfigurationdialog.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
