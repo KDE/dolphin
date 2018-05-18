@@ -299,7 +299,7 @@ ecm_add_app_icon(dolphin_SRCS ICONS ${ICONS_SRCS})
 kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 
 
-target_link_libraries(kdeinit_dolphin
+target_link_libraries(kdeinit_dolphin PRIVATE
     dolphinstatic
     dolphinprivate
 )
