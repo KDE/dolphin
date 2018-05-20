@@ -94,6 +94,7 @@ if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
     message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
 else()
+    message(WARNING "Baloo packages not found. They are needed for the metadata features of Dolphin.")
     find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
         KDELibs4Support # for KFileMetaDataWidget
     )
