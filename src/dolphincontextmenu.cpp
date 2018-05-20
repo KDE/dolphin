@@ -347,7 +347,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     // Insert 'New Window' and 'New Tab' entries. Don't use "open_in_new_window" and
     // "open_in_new_tab" here, as the current selection should get ignored.
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("new_window")));
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("file_new")));
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("new_tab")));
 
     // Insert 'Add to Places' entry if exactly one item is selected
