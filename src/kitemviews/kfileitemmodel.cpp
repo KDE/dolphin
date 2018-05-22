@@ -1848,7 +1848,11 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
 
     case RatingRole:
     case WidthRole:
-    case HeightRole: {
+    case HeightRole:
+    case WordCountRole:
+    case LineCountRole:
+    case TrackRole:
+    case ReleaseYearRole: {
         result = a->values.value(roleForType(m_sortRole)).toInt() - b->values.value(roleForType(m_sortRole)).toInt();
         break;
     }
