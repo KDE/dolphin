@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="20">
+<kpartgui name="dolphin" version="21">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -21,8 +21,8 @@
             <Action name="invert_selection" />
         </Menu>
         <Menu name="view">
-            <Action name="view_mode" />
             <Action name="sort" />
+            <Action name="view_mode" />
             <Action name="additional_info" />
             <Action name="show_preview" />
             <Action name="show_in_groups" />

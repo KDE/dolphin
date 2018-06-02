@@ -363,6 +363,12 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(pasteAction);
     addSeparator();
 
+    // Insert 'Sort By' and 'View Mode'
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
+
+    addSeparator();
+
     // Insert service actions
     fileItemActions.addServiceActionsTo(this);
     fileItemActions.addPluginActionsTo(this);

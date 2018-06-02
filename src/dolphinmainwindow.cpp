@@ -877,8 +877,8 @@ void DolphinMainWindow::updateControlMenu()
         menu->addSeparator();
     }
 
-    added = addActionToMenu(ac->action(QStringLiteral("view_mode")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("sort")), menu) |
+    added = addActionToMenu(ac->action(QStringLiteral("sort")), menu) |
+            addActionToMenu(ac->action(QStringLiteral("view_mode")), menu) |
             addActionToMenu(ac->action(QStringLiteral("additional_info")), menu) |
             addActionToMenu(ac->action(QStringLiteral("show_preview")), menu) |
             addActionToMenu(ac->action(QStringLiteral("show_in_groups")), menu) |
