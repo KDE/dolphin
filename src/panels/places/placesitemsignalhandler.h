@@ -58,6 +58,8 @@ public slots:
 
     void onTearDownRequested(const QString& udi);
 
+    void onTrashEmptinessChanged(bool isTrashEmpty);
+
 signals:
     void tearDownExternallyRequested(const QString& udi);
 
