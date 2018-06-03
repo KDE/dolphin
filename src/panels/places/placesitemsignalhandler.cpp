@@ -51,3 +51,10 @@ void PlacesItemSignalHandler::onTearDownRequested(const QString& udi)
     }
 }
 
+void PlacesItemSignalHandler::onTrashEmptinessChanged(bool isTrashEmpty)
+{
+    if (m_item) {
+        m_item->setIcon(isTrashEmpty ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full"));
+    }
+}
+

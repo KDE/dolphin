@@ -61,9 +61,7 @@ void PlacesItem::setUrl(const QUrl &url)
     if (dataValue("url").toUrl() != url) {
         delete m_trashDirLister;
         if (url.scheme() == QLatin1String("trash")) {
-            QObject::connect(&Trash::instance(), &Trash::emptinessChanged, [this](bool isTrashEmpty){
-                setIcon(isTrashEmpty ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full"));
-            });
+            QObject::connect(&Trash::instance(), &Trash::emptinessChanged, m_signalHandler.data(), &PlacesItemSignalHandler::onTrashEmptinessChanged);
         }
 
         setDataValue("url", url);
