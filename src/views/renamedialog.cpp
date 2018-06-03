@@ -62,6 +62,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     m_okButton->setShortcut(Qt::CTRL + Qt::Key_Return);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &RenameDialog::slotAccepted);
     connect(buttonBox, &QDialogButtonBox::rejected, this, &RenameDialog::reject);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QObject::deleteLater);
     m_okButton->setDefault(true);
 
     KGuiItem::assign(m_okButton, KGuiItem(i18nc("@action:button", "&Rename"), QStringLiteral("dialog-ok-apply")));
@@ -178,6 +179,7 @@ void RenameDialog::slotAccepted()
     KIO::FileUndoManager::self()->recordJob(cmdType, srcList, parentUrl, job);
 
     connect(job, &KJob::result, this, &RenameDialog::slotResult);
+    connect(job, &KJob::result, this, &QObject::deleteLater);
 
     job->uiDelegate()->setAutoErrorHandlingEnabled(true);
 

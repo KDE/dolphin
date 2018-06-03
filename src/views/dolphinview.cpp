@@ -634,10 +634,8 @@ void DolphinView::renameSelectedItems()
                 this, &DolphinView::slotRoleEditingFinished);
     } else {
         RenameDialog* dialog = new RenameDialog(this, items);
-
         connect(dialog, &RenameDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
 
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
         dialog->raise();
         dialog->activateWindow();

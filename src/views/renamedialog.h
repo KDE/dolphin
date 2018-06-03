@@ -33,6 +33,8 @@ class QPushButton;
 class KJob;
 /**
  * @brief Dialog for renaming a variable number of files.
+ *
+ * The dialog deletes itself when accepted or rejected.
  */
 class DOLPHIN_EXPORT RenameDialog : public QDialog
 {
