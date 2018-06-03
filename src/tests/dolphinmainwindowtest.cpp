@@ -25,6 +25,7 @@
 #include <KActionCollection>
 
 #include <QSignalSpy>
+#include <QStandardPaths>
 #include <QTest>
 
 class DolphinMainWindowTest : public QObject
@@ -32,6 +33,7 @@ class DolphinMainWindowTest : public QObject
     Q_OBJECT
 
 private slots:
+    void initTestCase();
     void init();
     void testClosingTabsWithSearchBoxVisible();
     void testActiveViewAfterClosingSplitView_data();
@@ -41,6 +43,11 @@ private slots:
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
 };
+
+void DolphinMainWindowTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void DolphinMainWindowTest::init()
 {
