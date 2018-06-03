@@ -161,12 +161,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_urlNavigator, &KUrlNavigator::returnPressed,
             this, &DolphinViewContainer::slotReturnPressed);
     connect(m_urlNavigator, &KUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 37, 0)
         m_view->dropUrls(destination, event, m_urlNavigator->dropWidget());
-#else
-        // TODO: remove as soon as we can hard-depend of KF5 >= 5.37
-        m_view->dropUrls(destination, event, m_view);
-#endif
     });
 
     connect(m_view, &DolphinView::directoryLoadingCompleted, this, [this]() {

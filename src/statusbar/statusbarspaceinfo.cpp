@@ -77,9 +77,7 @@ void StatusBarSpaceInfo::mousePressEvent(QMouseEvent* event)
         // Note that this object must live long enough in case the user opens
         // the "Configure..." dialog
         KMoreToolsMenuFactory menuFactory(QStringLiteral("dolphin/statusbar-diskspace-menu"));
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 37, 0)
         menuFactory.setParentWidget(this);
-#endif
         auto menu = menuFactory.createMenuFromGroupingNames(
             { "disk-usage", "more:", "disk-partitions" }, m_url);
 
