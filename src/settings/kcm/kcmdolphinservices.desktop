@@ -98,6 +98,7 @@ Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
 Comment[ar]=اضبط خدمات مدير الملفّات
+Comment[ast]=Configura los servicios del xestor de ficheros
 Comment[ca]=Configura els serveis del gestor de fitxers
 Comment[ca@valencia]=Configura els serveis del gestor de fitxers
 Comment[cs]=Nastavení služeb správce souborů
