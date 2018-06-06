@@ -97,6 +97,8 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         } else if (role == "bitrate") {
             const QString bitrate = bitrateFromValue(value.toInt());
             values.insert(role, bitrate);
+        } else if (pi.valueType() == QVariant::StringList) {
+            values.insert(role, value.toStringList().join(QStringLiteral(", ")));
         } else {
             values.insert(role, value.toString());
         }
