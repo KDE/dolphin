@@ -196,6 +196,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     okButton->setDefault(true);
 
     auto applyButton = buttonBox->button(QDialogButtonBox::Apply);
+    applyButton->setEnabled(false);
     connect(applyButton, &QPushButton::clicked, this, &ViewPropertiesDialog::slotApply);
     connect(this, &ViewPropertiesDialog::isDirtyChanged, applyButton, [applyButton](bool isDirty) {
         applyButton->setEnabled(isDirty);
