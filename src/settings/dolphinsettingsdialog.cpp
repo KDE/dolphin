@@ -55,6 +55,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     connect(box->button(QDialogButtonBox::Apply), &QAbstractButton::clicked, this, &DolphinSettingsDialog::applySettings);
     connect(box->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked, this, &DolphinSettingsDialog::restoreDefaults);
 
+    // General
+    GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
+    KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
+                                                    i18nc("@title:group General settings", "General"));
+    generalSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
+    connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+
     // Startup
     StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(url, this);
     KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
@@ -92,13 +99,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
         connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
     }
 
-    // General
-    GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
-    KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
-                                                    i18nc("@title:group General settings", "General"));
-    generalSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
-    connect(generalSettingsPage, &GeneralSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
-
+    m_pages.append(generalSettingsPage);
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
@@ -106,7 +107,6 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     if (trashSettingsPage) {
         m_pages.append(trashSettingsPage);
     }
-    m_pages.append(generalSettingsPage);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);

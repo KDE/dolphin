@@ -977,6 +977,137 @@ be accessed by clicking the corresponding icon on the left of the dialog.
 tab on the <guilabel>General</guilabel> page are shared with &konqueror; in filemanager mode.
 </para>
 
+<sect2 id="preferences-dialog-general">
+<title>General</title>
+
+<para>
+This group contains settings which control the general behavior of &dolphin;.
+The group is divided further into four subgroups which can be accessed using the
+tab bar at the top.
+
+<screenshot>
+<screeninfo>Screenshot of the General settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>General Settings.</phrase>
+</textobject>
+<caption><para>General Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title>Behavior Tab</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem><para>
+In the <guilabel>View</guilabel> section, you can configure whether the
+<link linkend="view-properties"> view properties</link> are stored for each
+folder or if common view properties are to be used for all folders.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Sorting Mode</guilabel> controls how items are sorted in
+the view. If <guilabel>Natural sorting</guilabel> is enabled, the sort order of three example files
+will be
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File2,</para></listitem>
+<listitem><para>File10.</para></listitem>
+</orderedlist>
+If this option is disabled, the normal alphabetical sorting case sensitive or case insensitive
+will be used, which leads to the sort order
+<orderedlist>
+<listitem><para>File1,</para></listitem>
+<listitem><para>File10,</para></listitem>
+<listitem><para>File2.</para></listitem>
+</orderedlist>
+</para></listitem>
+
+<listitem><para>
+When hovering over a file or folder with the mouse, a small window with relevant
+information is shown if <guilabel>Show tooltips</guilabel> is enabled.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Show selection marker</guilabel> shows a small <guibutton>+</guibutton>
+or <guibutton>-</guibutton> button above an item's icon if the item is hovered over
+with the mouse. These can be used to select or deselect the item.
+</para></listitem>
+
+<listitem><para>
+Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is currently selected.
+If this option is disabled or several items are selected, a dialog will be displayed for renaming.
+</para></listitem>
+
+<listitem><para><guilabel>Use tab for switching between left and right split view</guilabel>
+allows to switch without using the mouse.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title>Previews Tab</title>
+
+<para>
+In this tab, you can configure for which file types previews are shown.
+Moreover, the maximum size of remote files for which previews are generated can be chosen.
+</para>
+<para>
+If previews are enabled for folders, previews of some files in the folder will
+be shown inside a folder's icon.
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title>Confirmations Tab</title>
+<para>
+In the ask for confirmation section, you can enable warning dialogs that
+are shown before potentially harmful actions .
+</para>
+<warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
+<guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
+<application>Gwenview</application> and all &kde; applications using the default &kde; file dialog, 
+whereas <guilabel>Closing Dolphin windows
+with multiple tabs</guilabel> is a &dolphin; specific setting.</para></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title>Status Bar Tab</title>
+
+<para>
+In this tab, some additional items can be enabled for the status bar, provided
+the status bar is wide enough:
+
+<itemizedlist>
+
+<listitem><para>
+A <guilabel>zoom slider</guilabel> which can be used to change the icon size quickly.
+</para></listitem>
+
+<listitem><para>
+A bar that shows how much space is free on the current drive.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
 <sect2 id="preferences-dialog-startup">
 <title>Startup</title>
 
@@ -1264,137 +1395,6 @@ largest files can be deleted automatically.
 </itemizedlist>
 
 </para>
-
-</sect2>
-
-<sect2 id="preferences-dialog-general">
-<title>General</title>
-
-<para>
-This group contains settings which control the general behavior of &dolphin;.
-The group is divided further into four subgroups which can be accessed using the
-tab bar at the top.
-
-<screenshot>
-<screeninfo>Screenshot of the General settings in &dolphin;'s preferences dialog</screeninfo>
-<mediaobject>
-<imageobject>
-<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
-</imageobject>
-<textobject>
-<phrase>General Settings.</phrase>
-</textobject>
-<caption><para>General Settings in &dolphin;'s Preferences Dialog.</para></caption>
-</mediaobject>
-</screenshot>
-
-</para>
-
-<sect3 id="preferences-dialog-general-behavior">
-<title>Behavior Tab</title>
-
-<para>
-
-<itemizedlist>
-
-<listitem><para>
-In the <guilabel>View</guilabel> section, you can configure whether the
-<link linkend="view-properties"> view properties</link> are stored for each
-folder or if common view properties are to be used for all folders.
-</para></listitem>
-
-<listitem><para>
-<guilabel>Sorting Mode</guilabel> controls how items are sorted in
-the view. If <guilabel>Natural sorting</guilabel> is enabled, the sort order of three example files
-will be
-<orderedlist>
-<listitem><para>File1,</para></listitem>
-<listitem><para>File2,</para></listitem>
-<listitem><para>File10.</para></listitem>
-</orderedlist>
-If this option is disabled, the normal alphabetical sorting case sensitive or case insensitive
-will be used, which leads to the sort order
-<orderedlist>
-<listitem><para>File1,</para></listitem>
-<listitem><para>File10,</para></listitem>
-<listitem><para>File2.</para></listitem>
-</orderedlist>
-</para></listitem>
-
-<listitem><para>
-When hovering over a file or folder with the mouse, a small window with relevant
-information is shown if <guilabel>Show tooltips</guilabel> is enabled.
-</para></listitem>
-
-<listitem><para>
-<guilabel>Show selection marker</guilabel> shows a small <guibutton>+</guibutton>
-or <guibutton>-</guibutton> button above an item's icon if the item is hovered over
-with the mouse. These can be used to select or deselect the item.
-</para></listitem>
-
-<listitem><para>
-Enable <guilabel>Rename inline</guilabel> to use this mode if only one item is currently selected.
-If this option is disabled or several items are selected, a dialog will be displayed for renaming.
-</para></listitem>
-
-<listitem><para><guilabel>Use tab for switching between left and right split view</guilabel>
-allows to switch without using the mouse.
-</para></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect3>
-
-<sect3 id="preferences-dialog-general-previews">
-<title>Previews Tab</title>
-
-<para>
-In this tab, you can configure for which file types previews are shown.
-Moreover, the maximum size of remote files for which previews are generated can be chosen.
-</para>
-<para>
-If previews are enabled for folders, previews of some files in the folder will
-be shown inside a folder's icon.
-</para>
-</sect3>
-
-<sect3 id="preferences-dialog-general-confirmations">
-<title>Confirmations Tab</title>
-<para>
-In the ask for confirmation section, you can enable warning dialogs that
-are shown before potentially harmful actions .
-</para>
-<warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
-<guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
-<application>Gwenview</application> and all &kde; applications using the default &kde; file dialog, 
-whereas <guilabel>Closing Dolphin windows
-with multiple tabs</guilabel> is a &dolphin; specific setting.</para></warning>
-</sect3>
-
-<sect3 id="preferences-dialog-general-statusbar">
-<title>Status Bar Tab</title>
-
-<para>
-In this tab, some additional items can be enabled for the status bar, provided
-the status bar is wide enough:
-
-<itemizedlist>
-
-<listitem><para>
-A <guilabel>zoom slider</guilabel> which can be used to change the icon size quickly.
-</para></listitem>
-
-<listitem><para>
-A bar that shows how much space is free on the current drive.
-</para></listitem>
-
-</itemizedlist>
-
-</para>
-
-</sect3>
 
 </sect2>
 
