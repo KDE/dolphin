@@ -113,8 +113,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     DBusInterface interface;
 
     QCommandLineParser parser;
-    parser.addVersionOption();
-    parser.addHelpOption();
     aboutData.setupCommandLine(&parser);
 
     // command line options
