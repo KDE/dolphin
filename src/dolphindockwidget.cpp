@@ -58,14 +58,6 @@ DolphinDockWidget::DolphinDockWidget(const QString& title, QWidget* parent, Qt::
     setFeatures(DefaultDockWidgetFeatures);
 }
 
-DolphinDockWidget::DolphinDockWidget(QWidget* parent, Qt::WindowFlags flags) :
-    QDockWidget(parent, flags),
-    m_locked(false),
-    m_dockTitleBar(nullptr)
-{
-    setFeatures(DefaultDockWidgetFeatures);
-}
-
 DolphinDockWidget::~DolphinDockWidget()
 {
 }

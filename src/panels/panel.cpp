@@ -64,8 +64,7 @@ void Panel::setUrl(const QUrl& url)
 
     const QUrl oldUrl = m_url;
     m_url = url;
-    const bool accepted = urlChanged();
-    if (!accepted) {
+    if (!urlChanged()) {
         m_url = oldUrl;
     }
 }
