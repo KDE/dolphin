@@ -105,7 +105,6 @@ private:
     QPointer<Solid::OpticalDisc> m_disc;
     QPointer<Solid::PortableMediaPlayer> m_mtp;
     QPointer<PlacesItemSignalHandler> m_signalHandler;
-    QPointer<KDirLister> m_trashDirLister;
     KBookmark m_bookmark;
 
     friend class PlacesItemSignalHandler; // Calls onAccessibilityChanged()

@@ -38,7 +38,6 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
     m_disc(),
     m_mtp(),
     m_signalHandler(nullptr),
-    m_trashDirLister(nullptr),
     m_bookmark()
 {
     m_signalHandler = new PlacesItemSignalHandler(this);
@@ -48,7 +47,6 @@ PlacesItem::PlacesItem(const KBookmark& bookmark, PlacesItem* parent) :
 PlacesItem::~PlacesItem()
 {
     delete m_signalHandler;
-    delete m_trashDirLister;
 }
 
 void PlacesItem::setUrl(const QUrl &url)
@@ -59,7 +57,6 @@ void PlacesItem::setUrl(const QUrl &url)
     // setting an equal URL results in an itemsChanged()
     // signal.
     if (dataValue("url").toUrl() != url) {
-        delete m_trashDirLister;
         if (url.scheme() == QLatin1String("trash")) {
             QObject::connect(&Trash::instance(), &Trash::emptinessChanged, m_signalHandler.data(), &PlacesItemSignalHandler::onTrashEmptinessChanged);
         }
