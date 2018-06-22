@@ -97,7 +97,6 @@
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
-    <p xml:lang="ast">Dolphin ye un xestor de ficheros llixeru. Diseñóse cola facilidá y cenciellez d'usu en mente, el mesmu tiempu qu'entá permite la flixibilidá y personalización. Quier dicir que pues facer la to xestión de ficheros exautamente como quieras facelo.</p>
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="ca-valencia">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que siga simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
@@ -345,6 +344,7 @@
       <li xml:lang="zh-TW">分割檢視讓您可以輕鬆複製或移動檔案。</li>
       <li>Multiple tab support</li>
       <li xml:lang="ar">دعم تعدّد الألسنة</li>
+      <li xml:lang="ast">Sofitu pa munches llingüetes</li>
       <li xml:lang="bs">Podrška za više kartica</li>
       <li xml:lang="ca">Admet pestanyes múltiples</li>
       <li xml:lang="ca-valencia">Admet pestanyes múltiples</li>
@@ -474,6 +474,7 @@
       <li xml:lang="zh-TW">以不唐突的方式顯示資訊對話框。</li>
       <li>Transparent network access through the KIO system.</li>
       <li xml:lang="ar">اتصال شبكيّ مباشر باستخدام نظام KIO.</li>
+      <li xml:lang="ast">Accesu tresparente a la rede pente'l sistema KIO.</li>
       <li xml:lang="bs">Transparentni mrežni pristup kroz KIO sistem.</li>
       <li xml:lang="ca">Accés transparent a la xarxa a través del sistema KIO.</li>
       <li xml:lang="ca-valencia">Accés transparent a la xarxa a través del sistema KIO.</li>
