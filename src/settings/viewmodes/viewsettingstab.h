@@ -25,7 +25,7 @@
 #include <QWidget>
 
 class DolphinFontRequester;
-class KComboBox;
+class QComboBox;
 class QCheckBox;
 class QSlider;
 
@@ -69,8 +69,8 @@ private:
     QSlider* m_previewSizeSlider;
 
     DolphinFontRequester* m_fontRequester;
-    KComboBox* m_widthBox;
-    KComboBox* m_maxLinesBox;
+    QComboBox* m_widthBox;
+    QComboBox* m_maxLinesBox;
     QCheckBox* m_expandableFolders;
 };
 

@@ -27,7 +27,6 @@
 #include "views/dolphinview.h"
 
 #include <KCollapsibleGroupBox>
-#include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KWindowConfig>
@@ -38,6 +37,7 @@
 
 #include <QButtonGroup>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -89,7 +89,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     }
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
-    m_viewMode = new KComboBox(propsGrid);
+    m_viewMode = new QComboBox(propsGrid);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
@@ -97,11 +97,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
     QWidget* sortingBox = new QWidget(propsGrid);
 
-    m_sortOrder = new KComboBox(sortingBox);
+    m_sortOrder = new QComboBox(sortingBox);
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
-    m_sorting = new KComboBox(sortingBox);
+    m_sorting = new QComboBox(sortingBox);
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
@@ -178,11 +178,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_showHiddenFiles);
     propsBoxLayout->addWidget(additionalInfoBox);
 
-    connect(m_viewMode, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+    connect(m_viewMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotViewModeChanged);
-    connect(m_sorting, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+    connect(m_sorting, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotSortingChanged);
-    connect(m_sortOrder, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
+    connect(m_sortOrder, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotSortOrderChanged);
     connect(m_sortFoldersFirst, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);

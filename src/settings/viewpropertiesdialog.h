@@ -28,7 +28,7 @@
 class QCheckBox;
 class QListWidget;
 class QListWidgetItem;
-class KComboBox;
+class QComboBox;
 class QPushButton;
 class QRadioButton;
 class ViewProperties;
@@ -76,9 +76,9 @@ private:
     DolphinView* m_dolphinView;
     ViewProperties* m_viewProps;
 
-    KComboBox* m_viewMode;
-    KComboBox* m_sortOrder;
-    KComboBox* m_sorting;
+    QComboBox* m_viewMode;
+    QComboBox* m_sortOrder;
+    QComboBox* m_sorting;
     QCheckBox* m_sortFoldersFirst;
     QCheckBox* m_previewsShown;
     QCheckBox* m_showInGroups;

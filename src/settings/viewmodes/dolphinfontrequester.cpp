@@ -19,9 +19,9 @@
 
 #include "dolphinfontrequester.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
 
+#include <QComboBox>
 #include <QFontDatabase>
 #include <QFontDialog>
 #include <QHBoxLayout>
@@ -37,10 +37,10 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setMargin(0);
 
-    m_modeCombo = new KComboBox(this);
+    m_modeCombo = new QComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
-    connect(m_modeCombo, static_cast<void(KComboBox::*)(int)>(&KComboBox::activated),
+    connect(m_modeCombo, static_cast<void(QComboBox::*)(int)>(&QComboBox::activated),
             this, &DolphinFontRequester::changeMode);
 
     m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose..."), this);

@@ -25,11 +25,11 @@
 #include "dolphinfontrequester.h"
 #include "views/zoomlevelinfo.h"
 
-#include <KComboBox>
 #include <KLocalizedString>
 
 #include <QApplication>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGroupBox>
 #include <QHelpEvent>
 #include <QLabel>
@@ -89,14 +89,14 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     switch (m_mode) {
     case IconsMode: {
         QLabel* widthLabel = new QLabel(i18nc("@label:listbox", "Width:"), textGroup);
-        m_widthBox = new KComboBox(textGroup);
+        m_widthBox = new QComboBox(textGroup);
         m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
         m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
         m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
         m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
 
         QLabel* maxLinesLabel = new QLabel(i18nc("@label:listbox", "Maximum lines:"), textGroup);
-        m_maxLinesBox = new KComboBox(textGroup);
+        m_maxLinesBox = new QComboBox(textGroup);
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "Unlimited"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "1"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "2"));
@@ -112,7 +112,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     }
     case CompactMode: {
         QLabel* maxWidthLabel = new QLabel(i18nc("@label:listbox", "Maximum width:"), textGroup);
-        m_widthBox = new KComboBox(textGroup);
+        m_widthBox = new QComboBox(textGroup);
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Unlimited"));
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Small"));
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Medium"));
@@ -144,11 +144,11 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     switch (m_mode) {
     case IconsMode:
-        connect(m_widthBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
-        connect(m_maxLinesBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_maxLinesBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case CompactMode:
-        connect(m_widthBox, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
