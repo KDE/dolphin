@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2018 by Elvis Angelaccio <elvis.angelaccio@kde.org>     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,6 +26,8 @@
 #include <QDialog>
 
 class QCheckBox;
+class QListWidget;
+class QListWidgetItem;
 class KComboBox;
 class QPushButton;
 class QRadioButton;
@@ -59,8 +61,8 @@ private slots:
     void slotSortFoldersFirstChanged();
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
+    void slotItemChanged(QListWidgetItem *item);
     void markAsDirty(bool isDirty);
-    void configureAdditionalInfo();
 
 signals:
     void isDirtyChanged(bool isDirty);
@@ -81,11 +83,11 @@ private:
     QCheckBox* m_previewsShown;
     QCheckBox* m_showInGroups;
     QCheckBox* m_showHiddenFiles;
-    QPushButton* m_additionalInfo;
     QRadioButton* m_applyToCurrentFolder;
     QRadioButton* m_applyToSubFolders;
     QRadioButton* m_applyToAllFolders;
     QCheckBox* m_useAsDefault;
+    QListWidget* m_listWidget;
 };
 
 #endif

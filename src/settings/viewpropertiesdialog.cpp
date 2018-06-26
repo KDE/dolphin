@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2018 by Elvis Angelaccio <elvis.angelaccio@kde.org>     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,23 +20,28 @@
 
 #include "viewpropertiesdialog.h"
 
-#include "additionalinfodialog.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "viewpropsprogressinfo.h"
 #include "views/dolphinview.h"
 
+#include <KCollapsibleGroupBox>
 #include <KComboBox>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KWindowConfig>
+
+#ifdef HAVE_BALOO
+    #include <Baloo/IndexerConfig>
+#endif
 
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
+#include <QListWidget>
 #include <QPushButton>
 #include <QRadioButton>
 
@@ -54,7 +59,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_previewsShown(nullptr),
     m_showInGroups(nullptr),
     m_showHiddenFiles(nullptr),
-    m_additionalInfo(nullptr),
     m_applyToCurrentFolder(nullptr),
     m_applyToSubFolders(nullptr),
     m_applyToAllFolders(nullptr),
@@ -64,13 +68,14 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
     setWindowTitle(i18nc("@title:window", "View Properties"));
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     const QUrl& url = dolphinView->url();
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 
     auto layout = new QVBoxLayout(this);
+    // Otherwise the dialog won't resize when we collapse the KCollapsibleGroupBox.
+    layout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(layout);
 
     auto propsGrid = new QWidget(this);
@@ -107,7 +112,51 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"));
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"));
 
-    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"));
+    auto additionalInfoBox = new KCollapsibleGroupBox();
+    additionalInfoBox->setTitle(i18nc("@title:group", "Additional Information Shown"));
+    auto innerLayout = new QVBoxLayout();
+
+    {
+        QList<QByteArray> visibleRoles = m_viewProps->visibleRoles();
+        const bool useDefaultRoles = (m_viewProps->viewMode() == DolphinView::DetailsView) && visibleRoles.isEmpty();
+        if (useDefaultRoles) {
+            // Using the details view without any additional information (-> additional column)
+            // makes no sense and leads to a usability problem as no viewport area is available
+            // anymore. Hence as fallback provide at least a size and date column.
+            visibleRoles.clear();
+            visibleRoles.append("text");
+            visibleRoles.append("size");
+            visibleRoles.append("modificationtime");
+            m_viewProps->setVisibleRoles(visibleRoles);
+        }
+
+        // Add checkboxes
+        bool indexingEnabled = false;
+#ifdef HAVE_BALOO
+        Baloo::IndexerConfig config;
+        indexingEnabled = config.fileIndexingEnabled();
+#endif
+
+        m_listWidget = new QListWidget();
+        connect(m_listWidget, &QListWidget::itemChanged, this, &ViewPropertiesDialog::slotItemChanged);
+        m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
+        const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+        foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+            QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
+            item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
+
+            const bool enable = ((!info.requiresBaloo && !info.requiresIndexer) ||
+                                (info.requiresBaloo) ||
+                                (info.requiresIndexer && indexingEnabled)) && info.role != "text";
+
+            if (!enable) {
+                item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
+            }
+        }
+        innerLayout->addWidget(m_listWidget);
+    }
+
+    additionalInfoBox->setLayout(innerLayout);
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setMargin(0);
@@ -127,7 +176,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     propsBoxLayout->addWidget(m_previewsShown);
     propsBoxLayout->addWidget(m_showInGroups);
     propsBoxLayout->addWidget(m_showHiddenFiles);
-    propsBoxLayout->addWidget(m_additionalInfo);
+    propsBoxLayout->addWidget(additionalInfoBox);
 
     connect(m_viewMode, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotViewModeChanged);
@@ -135,8 +184,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, &ViewPropertiesDialog::slotSortingChanged);
     connect(m_sortOrder, static_cast<void(KComboBox::*)(int)>(&KComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotSortOrderChanged);
-    connect(m_additionalInfo, &QPushButton::clicked,
-            this, &ViewPropertiesDialog::configureAdditionalInfo);
     connect(m_sortFoldersFirst, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
     connect(m_previewsShown, &QCheckBox::clicked,
@@ -279,6 +326,12 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
     markAsDirty(true);
 }
 
+void ViewPropertiesDialog::slotItemChanged(QListWidgetItem *item)
+{
+    Q_UNUSED(item)
+    markAsDirty(true);
+}
+
 void ViewPropertiesDialog::markAsDirty(bool isDirty)
 {
     if (m_isDirty != isDirty) {
@@ -287,34 +340,27 @@ void ViewPropertiesDialog::markAsDirty(bool isDirty)
     }
 }
 
-void ViewPropertiesDialog::configureAdditionalInfo()
-{
-    QList<QByteArray> visibleRoles = m_viewProps->visibleRoles();
-    const bool useDefaultRoles = (m_viewProps->viewMode() == DolphinView::DetailsView) && visibleRoles.isEmpty();
-    if (useDefaultRoles) {
-        // Using the details view without any additional information (-> additional column)
-        // makes no sense and leads to a usability problem as no viewport area is available
-        // anymore. Hence as fallback provide at least a size and date column.
-        visibleRoles.clear();
-        visibleRoles.append("text");
-        visibleRoles.append("size");
-        visibleRoles.append("modificationtime");
-        m_viewProps->setVisibleRoles(visibleRoles);
-    }
-
-    QPointer<AdditionalInfoDialog> dialog = new AdditionalInfoDialog(this, visibleRoles);
-    if (dialog->exec() == QDialog::Accepted) {
-        m_viewProps->setVisibleRoles(dialog->visibleRoles());
-        markAsDirty(true);
-    }
-    delete dialog;
-}
-
 void ViewPropertiesDialog::applyViewProperties()
 {
     // if nothing changed in the dialog, we have nothing to apply
     if (!m_isDirty) {
         return;
+    }
+
+    // Update visible roles.
+    {
+        QList<QByteArray> visibleRoles;
+        int index = 0;
+        const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+        foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+            const QListWidgetItem* item = m_listWidget->item(index);
+             if (item->checkState() == Qt::Checked) {
+                visibleRoles.append(info.role);
+            }
+            ++index;
+        }
+
+        m_viewProps->setVisibleRoles(visibleRoles);
     }
 
     const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
