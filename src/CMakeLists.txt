@@ -6,8 +6,6 @@ configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin
 
 add_definitions(
     -DTRANSLATION_DOMAIN=\"dolphin\"
-    -DQT_USE_FAST_CONCATENATION
-    -DQT_USE_FAST_OPERATOR_PLUS
 )
 remove_definitions(
     -DQT_NO_CAST_FROM_BYTEARRAY
