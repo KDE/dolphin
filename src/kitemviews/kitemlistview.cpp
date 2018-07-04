@@ -1354,12 +1354,12 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     // In SingleSelection mode (e.g., in the Places Panel), the current item is
     // always the selected item. It is not necessary to highlight the current item then.
     if (m_controller->selectionBehavior() != KItemListController::SingleSelection) {
-        KItemListWidget* previousWidget = m_visibleItems.value(previous, 0);
+        KItemListWidget* previousWidget = m_visibleItems.value(previous, nullptr);
         if (previousWidget) {
             previousWidget->setCurrent(false);
         }
 
-        KItemListWidget* currentWidget = m_visibleItems.value(current, 0);
+        KItemListWidget* currentWidget = m_visibleItems.value(current, nullptr);
         if (currentWidget) {
             currentWidget->setCurrent(true);
         }

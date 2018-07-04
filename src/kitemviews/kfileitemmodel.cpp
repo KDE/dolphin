@@ -1205,7 +1205,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     } else {
         m_itemData.reserve(totalItemCount);
         for (int i = existingItemCount; i < totalItemCount; ++i) {
-            m_itemData.append(0);
+            m_itemData.append(nullptr);
         }
 
         // We build the new list m_itemData in reverse order to minimize
@@ -1275,7 +1275,7 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
                 delete m_itemData.at(index);
             }
 
-            m_itemData[index] = 0;
+            m_itemData[index] = nullptr;
         }
     }
 
@@ -1316,7 +1316,7 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& 
     }
 
     const int parentIndex = index(parentUrl);
-    ItemData* parentItem = parentIndex < 0 ? 0 : m_itemData.at(parentIndex);
+    ItemData* parentItem = parentIndex < 0 ? nullptr : m_itemData.at(parentIndex);
 
     QList<ItemData*> itemDataList;
     itemDataList.reserve(items.count());
