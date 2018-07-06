@@ -21,26 +21,15 @@
 
 #include <KCModuleProxy>
 
-#include <QVBoxLayout>
+#include <QFormLayout>
 
 TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
         SettingsPageBase(parent)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
-    QWidget* vBox = new QWidget(this);
-    QVBoxLayout *vBoxVBoxLayout = new QVBoxLayout(vBox);
-    vBoxVBoxLayout->setMargin(0);
+    QFormLayout* topLayout = new QFormLayout(this);
 
     m_proxy = new KCModuleProxy(QStringLiteral("kcmtrash"));
-    topLayout->addWidget(m_proxy);
-
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    QWidget *w = new QWidget(vBox);
-    vBoxVBoxLayout->addWidget(w);
-    
-    topLayout->addWidget(vBox);
+    topLayout->addRow(m_proxy);
 
     loadSettings();
 

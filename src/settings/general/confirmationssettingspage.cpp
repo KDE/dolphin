@@ -20,6 +20,7 @@
 #include "confirmationssettingspage.h"
 
 #include "dolphin_generalsettings.h"
+#include "global.h"
 
 #include <KLocalizedString>
 
@@ -55,17 +56,18 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmScriptExecution = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                    "Executing scripts or desktop files"), this);
 
-    QLabel* confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation when:"), this);
+    QLabel* confirmLabelDolphin = new QLabel(i18nc("@title:group", "Ask for confirmation in Dolphin when:"), this);
     confirmLabelDolphin->setWordWrap(true);
 
-    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation when",
-                                                       "Closing Dolphin windows with multiple tabs"), this);
+    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when",
+                                                       "Closing windows with multiple tabs"), this);
 
     topLayout->addWidget(confirmLabelKde);
     topLayout->addWidget(m_confirmMoveToTrash);
     topLayout->addWidget(m_confirmEmptyTrash);
     topLayout->addWidget(m_confirmDelete);
     topLayout->addWidget(m_confirmScriptExecution);
+    topLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
     topLayout->addWidget(confirmLabelDolphin);
     topLayout->addWidget(m_confirmClosingMultipleTabs);
     topLayout->addStretch();

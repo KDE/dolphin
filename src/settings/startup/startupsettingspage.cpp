@@ -29,10 +29,10 @@
 
 #include <QCheckBox>
 #include <QFileDialog>
-#include <QGroupBox>
-#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QFormLayout>
+#include <QHBoxLayout>
 #include <QVBoxLayout>
 
 StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
@@ -45,27 +45,18 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     m_filterBar(nullptr),
     m_showFullPathInTitlebar(nullptr)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
-    QWidget* vBox = new QWidget(this);
-    QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
-    vBoxLayout->setMargin(0);
-    vBoxLayout->setAlignment(Qt::AlignTop);
+    QFormLayout* topLayout = new QFormLayout(this);
+
 
     // create 'Home URL' editor
-    QGroupBox* homeBox = new QGroupBox(i18nc("@title:group", "Home Folder"), vBox);
-    vBoxLayout->addWidget(homeBox);
-
-    QWidget* homeUrlBox = new QWidget(homeBox);
-    QHBoxLayout *homeUrlBoxLayout = new QHBoxLayout(homeUrlBox);
+    QHBoxLayout* homeUrlBoxLayout = new QHBoxLayout();
     homeUrlBoxLayout->setMargin(0);
 
-    QLabel* homeUrlLabel = new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
-    homeUrlBoxLayout->addWidget(homeUrlLabel);
-    m_homeUrl = new QLineEdit(homeUrlBox);
-    homeUrlBoxLayout->addWidget(m_homeUrl);
+    m_homeUrl = new QLineEdit();
     m_homeUrl->setClearButtonEnabled(true);
+    homeUrlBoxLayout->addWidget(m_homeUrl);
 
-    QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString(), homeUrlBox);
+    QPushButton* selectHomeUrlButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-open")), QString());
     homeUrlBoxLayout->addWidget(selectHomeUrlButton);
 
 #ifndef QT_NO_ACCESSIBILITY
@@ -75,41 +66,41 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(selectHomeUrlButton, &QPushButton::clicked,
             this, &StartupSettingsPage::selectHomeUrl);
 
-    QWidget* buttonBox = new QWidget(homeBox);
-    QHBoxLayout *buttonBoxLayout = new QHBoxLayout(buttonBox);
+    QHBoxLayout* buttonBoxLayout = new QHBoxLayout();
     buttonBoxLayout->setMargin(0);
 
-    QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"), buttonBox);
+    QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
     buttonBoxLayout->addWidget(useCurrentButton);
     connect(useCurrentButton, &QPushButton::clicked,
             this, &StartupSettingsPage::useCurrentLocation);
-    QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"), buttonBox);
+    QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"));
     buttonBoxLayout->addWidget(useDefaultButton);
     connect(useDefaultButton, &QPushButton::clicked,
             this, &StartupSettingsPage::useDefaultLocation);
 
-    QVBoxLayout* homeBoxLayout = new QVBoxLayout(homeBox);
-    homeBoxLayout->addWidget(homeUrlBox);
-    homeBoxLayout->addWidget(buttonBox);
+    QVBoxLayout* homeBoxLayout = new QVBoxLayout();
+    homeBoxLayout->setMargin(0);
+    homeBoxLayout->addLayout(homeUrlBoxLayout);
+    homeBoxLayout->addLayout(buttonBoxLayout);
+
+    topLayout->addRow(i18nc("@label:textbox", "Start in:"), homeBoxLayout);
+
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
 
     // create 'Split view', 'Show full path', 'Editable location' and 'Filter bar' checkboxes
-    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
-    vBoxLayout->addWidget(m_splitView);
-    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
-    vBoxLayout->addWidget(m_editableUrl);
-    m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"), vBox);
-    vBoxLayout->addWidget(m_showFullPath);
-    m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
-    vBoxLayout->addWidget(m_filterBar);
-    m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"), vBox);
-    vBoxLayout->addWidget(m_showFullPathInTitlebar);
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"));
+    topLayout->addRow(i18nc("@label:checkbox", "Window options:"), m_splitView);
+    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"));
+    topLayout->addRow(QString(), m_editableUrl);
+    m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"));
+    topLayout->addRow(QString(), m_showFullPath);
+    m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"));
+    topLayout->addRow(QString(), m_filterBar);
+    m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"));
+    topLayout->addRow(QString(), m_showFullPathInTitlebar);
 
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-
-    topLayout->addWidget(vBox);
 
     loadSettings();
 

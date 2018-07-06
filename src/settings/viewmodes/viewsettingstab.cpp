@@ -23,6 +23,7 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphinfontrequester.h"
+#include "global.h"
 #include "views/zoomlevelinfo.h"
 
 #include <KLocalizedString>
@@ -30,10 +31,8 @@
 #include <QApplication>
 #include <QCheckBox>
 #include <QComboBox>
-#include <QGroupBox>
 #include <QHelpEvent>
-#include <QLabel>
-#include <QVBoxLayout>
+#include <QFormLayout>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),
@@ -45,96 +44,73 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_maxLinesBox(nullptr),
     m_expandableFolders(nullptr)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QFormLayout* topLayout = new QFormLayout(this);
 
-    // Create "Icon Size" group
-    QGroupBox* iconSizeGroup = new QGroupBox(this);
-    iconSizeGroup->setTitle(i18nc("@title:group", "Icon Size"));
 
+    // Create "Icon Size" section
     const int minRange = ZoomLevelInfo::minimumLevel();
     const int maxRange = ZoomLevelInfo::maximumLevel();
 
-    QLabel* defaultLabel = new QLabel(i18nc("@label:listbox", "Default:"), this);
-    m_defaultSizeSlider = new QSlider(Qt::Horizontal, this);
+    m_defaultSizeSlider = new QSlider(Qt::Horizontal);
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_defaultSizeSlider->setRange(minRange, maxRange);
     connect(m_defaultSizeSlider, &QSlider::valueChanged,
             this, &ViewSettingsTab::slotDefaultSliderMoved);
+    topLayout->addRow(i18nc("@label:listbox", "Default icon size:"), m_defaultSizeSlider);
 
-    QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
-    m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
+    m_previewSizeSlider = new QSlider(Qt::Horizontal);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     m_previewSizeSlider->setRange(minRange, maxRange);
     connect(m_previewSizeSlider, &QSlider::valueChanged,
             this, &ViewSettingsTab::slotPreviewSliderMoved);
+    topLayout->addRow(i18nc("@label:listbox", "Preview icon size:"), m_previewSizeSlider);
 
-    QGridLayout* layout = new QGridLayout(iconSizeGroup);
-    layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
-    layout->addWidget(m_defaultSizeSlider, 0, 1);
-    layout->addWidget(previewLabel, 1, 0, Qt::AlignRight);
-    layout->addWidget(m_previewSizeSlider, 1, 1);
 
-    // Create "Text" group
-    QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
-    m_fontRequester = new DolphinFontRequester(textGroup);
 
-    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
-    textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
-    textGroupLayout->addWidget(m_fontRequester, 0, 1);
+    // Create "Label" section
+    m_fontRequester = new DolphinFontRequester(this);
+    topLayout->addRow(i18nc("@label:listbox", "Label font:"), m_fontRequester);
+
 
     switch (m_mode) {
     case IconsMode: {
-        QLabel* widthLabel = new QLabel(i18nc("@label:listbox", "Width:"), textGroup);
-        m_widthBox = new QComboBox(textGroup);
-        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
-        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
-        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
-        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
+        m_widthBox = new QComboBox();
+        m_widthBox->addItem(i18nc("@item:inlistbox Label width", "Small"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Label width", "Medium"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Label width", "Large"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Label width", "Huge"));
+        topLayout->addRow(i18nc("@label:listbox", "Label width:"), m_widthBox);
 
-        QLabel* maxLinesLabel = new QLabel(i18nc("@label:listbox", "Maximum lines:"), textGroup);
-        m_maxLinesBox = new QComboBox(textGroup);
+        m_maxLinesBox = new QComboBox();
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "Unlimited"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "1"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "2"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "3"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "4"));
         m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "5"));
-
-        textGroupLayout->addWidget(widthLabel, 2, 0, Qt::AlignRight);
-        textGroupLayout->addWidget(m_widthBox, 2, 1);
-        textGroupLayout->addWidget(maxLinesLabel, 3, 0, Qt::AlignRight);
-        textGroupLayout->addWidget(m_maxLinesBox, 3, 1);
+        topLayout->addRow(i18nc("@label:listbox", "Maximum lines:"), m_maxLinesBox);
         break;
     }
     case CompactMode: {
-        QLabel* maxWidthLabel = new QLabel(i18nc("@label:listbox", "Maximum width:"), textGroup);
-        m_widthBox = new QComboBox(textGroup);
+        m_widthBox = new QComboBox();
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Unlimited"));
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Small"));
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Medium"));
         m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Large"));
-
-        textGroupLayout->addWidget(maxWidthLabel, 2, 0, Qt::AlignRight);
-        textGroupLayout->addWidget(m_widthBox, 2, 1);
+        topLayout->addRow(i18nc("@label:listbox", "Maximum width:"), m_widthBox);
         break;
     }
     case DetailsMode:
-        m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
+        m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable"));
+        topLayout->addRow(i18nc("@label:checkbox", "Folders:"), m_expandableFolders);
         break;
     default:
         break;
     }
-
-    topLayout->addWidget(iconSizeGroup);
-    topLayout->addWidget(textGroup);
-    if (m_expandableFolders) {
-        topLayout->addWidget(m_expandableFolders);
-    }
-    topLayout->addStretch(1);
 
     loadSettings();
 

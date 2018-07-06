@@ -20,14 +20,16 @@
 
 #include "behaviorsettingspage.h"
 
+#include "global.h"
 #include "views/viewproperties.h"
 
 #include <KLocalizedString>
 
+#include <QButtonGroup>
 #include <QCheckBox>
-#include <QGroupBox>
+#include <QFormLayout>
 #include <QRadioButton>
-#include <QVBoxLayout>
+#include <QSpacerItem>
 
 BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
@@ -42,51 +44,55 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     m_renameInline(nullptr),
     m_useTabForSplitViewSwitch(nullptr)
 {
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    QFormLayout* topLayout = new QFormLayout(this);
+
 
     // View properties
-    QGroupBox* viewPropsBox = new QGroupBox(i18nc("@title:group", "View"), this);
-    viewPropsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"));
+    m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common properties for all folders"));
 
-    m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"), viewPropsBox);
-    m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common properties for all folders"), viewPropsBox);
+    QButtonGroup* viewGroup = new QButtonGroup(this);
+    viewGroup->addButton(m_localViewProps);
+    viewGroup->addButton(m_globalViewProps);
+    topLayout->addRow(i18nc("@title:group", "View: "), m_localViewProps);
+    topLayout->addRow(QString(), m_globalViewProps);
 
-    QVBoxLayout* viewPropsLayout = new QVBoxLayout(viewPropsBox);
-    viewPropsLayout->addWidget(m_localViewProps);
-    viewPropsLayout->addWidget(m_globalViewProps);
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
 
     // Sorting properties
-    QGroupBox* sortingPropsBox = new QGroupBox(i18nc("@title:group", "Sorting Mode"), this);
-    sortingPropsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural"));
+    m_caseInsensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case insensitive"));
+    m_caseSensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical, case sensitive"));
 
-    m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural sorting"), sortingPropsBox);
-    m_caseInsensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical sorting, case insensitive"), sortingPropsBox);
-    m_caseSensitiveSorting = new QRadioButton(i18nc("option:radio", "Alphabetical sorting, case sensitive"), sortingPropsBox);
+    QButtonGroup* sortingModeGroup = new QButtonGroup(this);
+    sortingModeGroup->addButton(m_naturalSorting);
+    sortingModeGroup->addButton(m_caseInsensitiveSorting);
+    sortingModeGroup->addButton(m_caseSensitiveSorting);
+    topLayout->addRow(i18nc("@title:group", "Sorting mode: "), m_naturalSorting);
+    topLayout->addRow(QString(), m_caseInsensitiveSorting);
+    topLayout->addRow(QString(), m_caseSensitiveSorting);
 
-    QVBoxLayout* sortingPropsLayout = new QVBoxLayout(sortingPropsBox);
-    sortingPropsLayout->addWidget(m_naturalSorting);
-    sortingPropsLayout->addWidget(m_caseInsensitiveSorting);
-    sortingPropsLayout->addWidget(m_caseSensitiveSorting);
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
 
     // 'Show tooltips'
-    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
+    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"));
+    topLayout->addRow(i18nc("@title:group", "Miscellaneous: "), m_showToolTips);
 
     // 'Show selection marker'
-    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
+    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"));
+    topLayout->addRow(QString(), m_showSelectionToggle);
 
     // 'Inline renaming of items'
-    m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"), this);
+    m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"));
+    topLayout->addRow(QString(), m_renameInline);
 
-    // 'Use tab for switching between right and left split'
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Use tab for switching between right and left split view"), this);
-
-    topLayout->addWidget(viewPropsBox);
-    topLayout->addWidget(sortingPropsBox);
-    topLayout->addWidget(m_showToolTips);
-    topLayout->addWidget(m_showSelectionToggle);
-    topLayout->addWidget(m_renameInline);
-    topLayout->addWidget(m_useTabForSplitViewSwitch);
-    topLayout->addStretch();
+    // 'Switch between split views with tab key'
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Switch between split views with tab key"));
+    topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
 
     loadSettings();
 

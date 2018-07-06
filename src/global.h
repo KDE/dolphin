@@ -41,6 +41,11 @@ namespace Dolphin {
      * Opens a new Dolphin window
      */
     void openNewWindow(const QList<QUrl> &urls = {}, QWidget *window = nullptr, const OpenNewWindowFlags &flags = OpenNewWindowFlag::None);
+
+    /**
+     * TODO: Move this somewhere global to all KDE apps, not just Dolphin
+     */
+    const int VERTICAL_SPACER_HEIGHT = 18;
 }
 
 #endif //GLOBAL_H

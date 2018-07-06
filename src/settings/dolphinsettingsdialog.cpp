@@ -41,7 +41,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
 
 {
     const QSize minSize = minimumSize();
-    setMinimumSize(QSize(512, minSize.height()));
+    setMinimumSize(QSize(540, minSize.height()));
 
     setFaceType(List);
     setWindowTitle(i18nc("@title:window", "Dolphin Preferences"));
