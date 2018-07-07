@@ -1709,24 +1709,63 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
 
+/**
+ * Helper class for KFileItemModel::sort().
+ */
+class KFileItemModelLessThan
+{
+public:
+    KFileItemModelLessThan(const KFileItemModel* model, const QCollator& collator) :
+        m_model(model),
+        m_collator(collator)
+    {
+    }
+
+    KFileItemModelLessThan(const KFileItemModelLessThan& other) :
+        m_model(other.m_model),
+        m_collator()
+    {
+        m_collator.setCaseSensitivity(other.m_collator.caseSensitivity());
+        m_collator.setIgnorePunctuation(other.m_collator.ignorePunctuation());
+        m_collator.setLocale(other.m_collator.locale());
+        m_collator.setNumericMode(other.m_collator.numericMode());
+    }
+
+    ~KFileItemModelLessThan() = default;
+    //We do not delete m_model as the pointer was passed from outside ant it will be deleted elsewhere.
+
+    KFileItemModelLessThan& operator=(const KFileItemModelLessThan& other)
+    {
+        m_model = other.m_model;
+        m_collator = other.m_collator;
+        return *this;
+    }
+
+    bool operator()(const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b) const
+    {
+        return m_model->lessThan(a, b, m_collator);
+    }
+
+private:
+    const KFileItemModel* m_model;
+    QCollator m_collator;
+};
+
 void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
                           QList<KFileItemModel::ItemData*>::iterator end) const
 {
-    auto lambdaLessThan = [&] (const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b)
-    {
-        return lessThan(a, b, m_collator);
-    };
+    KFileItemModelLessThan lessThan(this, m_collator);
 
     if (m_sortRole == NameRole) {
         // Sorting by name can be expensive, in particular if natural sorting is
         // enabled. Use all CPU cores to speed up the sorting process.
         static const int numberOfThreads = QThread::idealThreadCount();
-        parallelMergeSort(begin, end, lambdaLessThan, numberOfThreads);
+        parallelMergeSort(begin, end, lessThan, numberOfThreads);
     } else {
         // Sorting by other roles is quite fast. Use only one thread to prevent
         // problems caused by non-reentrant comparison functions, see
         // https://bugs.kde.org/show_bug.cgi?id=312679
-        mergeSort(begin, end, lambdaLessThan);
+        mergeSort(begin, end, lessThan);
     }
 }
 
