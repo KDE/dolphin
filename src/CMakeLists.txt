@@ -268,7 +268,7 @@ qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
 
 add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
 
-target_include_directories(dolphinstatic PRIVATE ${PHONON_INCLUDES})
+target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
     dolphinprivate
     KF5::KCMUtils
