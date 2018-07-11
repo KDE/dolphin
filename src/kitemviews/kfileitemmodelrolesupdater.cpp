@@ -532,7 +532,8 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
             }
         }
     } else {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize);
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
+        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
     }
 
     QHash<QByteArray, QVariant> data = rolesData(item);
