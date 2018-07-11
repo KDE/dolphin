@@ -1011,7 +1011,8 @@ void KStandardItemListWidget::updatePixmapCache()
     const int maxScaledIconHeight = scaledIconSize;
 
     m_scaledPixmapSize = m_pixmap.size();
-    m_scaledPixmapSize.scale(maxScaledIconWidth, maxScaledIconHeight, Qt::KeepAspectRatio);
+    m_scaledPixmapSize.scale(maxScaledIconWidth * qApp->devicePixelRatio(), maxScaledIconHeight * qApp->devicePixelRatio(), Qt::KeepAspectRatio);
+    m_scaledPixmapSize = m_scaledPixmapSize / qApp->devicePixelRatio();
 
     if (iconOnTop) {
         // Center horizontally and align on bottom within the icon-area
