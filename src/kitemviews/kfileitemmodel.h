@@ -499,7 +499,6 @@ private:
     // and done step after step in slotCompleted().
     QSet<QUrl> m_urlsToExpand;
 
-    friend class KFileItemModelLessThan;       // Accesses lessThan() method
     friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
     friend class KFileItemModelBenchmark;      // For unit testing
