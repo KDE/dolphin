@@ -22,6 +22,7 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "global.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "viewpropsprogressinfo.h"
 #include "views/dolphinview.h"
@@ -38,12 +39,12 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
-#include <QGridLayout>
-#include <QGroupBox>
+#include <QFormLayout>
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
 #include <QRadioButton>
+#include <QSpacerItem>
 
 #include <views/viewproperties.h>
 
@@ -73,35 +74,22 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewProps = new ViewProperties(url);
     m_viewProps->setAutoSaveEnabled(false);
 
-    auto layout = new QVBoxLayout(this);
+    auto layout = new QFormLayout(this);
     // Otherwise the dialog won't resize when we collapse the KCollapsibleGroupBox.
     layout->setSizeConstraint(QLayout::SetFixedSize);
     setLayout(layout);
 
-    auto propsGrid = new QWidget(this);
-    layout->addWidget(propsGrid);
-
     // create 'Properties' group containing view mode, sorting, sort order and show hidden files
-    QWidget* propsBox = this;
-    if (!useGlobalViewProps) {
-        propsBox = new QGroupBox(i18nc("@title:group", "Properties"), this);
-        layout->addWidget(propsBox);
-    }
-
-    QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
-    m_viewMode = new QComboBox(propsGrid);
+    m_viewMode = new QComboBox();
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-icons")), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-details")), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
     m_viewMode->addItem(QIcon::fromTheme(QStringLiteral("view-list-tree")), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
 
-    QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
-    QWidget* sortingBox = new QWidget(propsGrid);
-
-    m_sortOrder = new QComboBox(sortingBox);
+    m_sortOrder = new QComboBox();
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
-    m_sorting = new QComboBox(sortingBox);
+    m_sorting = new QComboBox();
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
@@ -113,7 +101,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"));
 
     auto additionalInfoBox = new KCollapsibleGroupBox();
-    additionalInfoBox->setTitle(i18nc("@title:group", "Additional Information Shown"));
+    additionalInfoBox->setTitle(i18nc("@title:group", "Additional Information"));
     auto innerLayout = new QVBoxLayout();
 
     {
@@ -153,6 +141,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
                 item->setFlags(item->flags() & ~Qt::ItemIsEnabled);
             }
         }
+        QLabel* additionalViewOptionsLabel = new QLabel(i18n("Choose what to see on each file or folder:"));
+        innerLayout->addWidget(additionalViewOptionsLabel);
         innerLayout->addWidget(m_listWidget);
     }
 
@@ -162,21 +152,16 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingLayout->setMargin(0);
     sortingLayout->addWidget(m_sortOrder);
     sortingLayout->addWidget(m_sorting);
-    sortingBox->setLayout(sortingLayout);
 
-    QGridLayout* propsGridLayout = new QGridLayout(propsGrid);
-    propsGridLayout->addWidget(viewModeLabel, 0, 0, Qt::AlignRight);
-    propsGridLayout->addWidget(m_viewMode, 0, 1);
-    propsGridLayout->addWidget(sortingLabel, 1, 0, Qt::AlignRight);
-    propsGridLayout->addWidget(sortingBox, 1, 1);
+    layout->addRow(i18nc("@label:listbox", "View mode:"), m_viewMode);
+    layout->addRow(i18nc("@label:listbox", "Sorting:"), sortingLayout);
 
-    QVBoxLayout* propsBoxLayout = propsBox == this ? layout : new QVBoxLayout(propsBox);
-    propsBoxLayout->addWidget(propsGrid);
-    propsBoxLayout->addWidget(m_sortFoldersFirst);
-    propsBoxLayout->addWidget(m_previewsShown);
-    propsBoxLayout->addWidget(m_showInGroups);
-    propsBoxLayout->addWidget(m_showHiddenFiles);
-    propsBoxLayout->addWidget(additionalInfoBox);
+    layout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
+    layout->addRow(i18n("View options:"), m_sortFoldersFirst);
+    layout->addRow(QString(), m_previewsShown);
+    layout->addRow(QString(), m_showInGroups);
+    layout->addRow(QString(), m_showHiddenFiles);
 
     connect(m_viewMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotViewModeChanged);
@@ -197,29 +182,28 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     // for each directory:
     if (!useGlobalViewProps) {
         // create 'Apply View Properties To' group
-        QGroupBox* applyBox = new QGroupBox(i18nc("@title:group", "Apply View Properties To"), this);
-        layout->addWidget(applyBox);
-
         m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                        "Current folder"), applyBox);
+                                                        "Current folder"));
         m_applyToCurrentFolder->setChecked(true);
         m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                     "Current folder including all sub-folders"), applyBox);
+                                                     "Current folder and sub-folders"));
         m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                     "All folders"), applyBox);
+                                                     "All folders"));
 
         QButtonGroup* applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
         applyGroup->addButton(m_applyToSubFolders);
         applyGroup->addButton(m_applyToAllFolders);
 
-        QVBoxLayout* applyBoxLayout = new QVBoxLayout(applyBox);
-        applyBoxLayout->addWidget(m_applyToCurrentFolder);
-        applyBoxLayout->addWidget(m_applyToSubFolders);
-        applyBoxLayout->addWidget(m_applyToAllFolders);
+        layout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use these view properties as default"), this);
-        layout->addWidget(m_useAsDefault);
+        layout->addRow(i18nc("@title:group", "Apply to:"), m_applyToCurrentFolder);
+        layout->addRow(QString(), m_applyToSubFolders);
+        layout->addRow(QString(), m_applyToAllFolders);
+        layout->addRow(QString(), m_applyToAllFolders);
+
+        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default view settings"), this);
+        layout->addRow(QString(), m_useAsDefault);
 
         connect(m_applyToCurrentFolder, &QRadioButton::clicked,
                 this, &ViewPropertiesDialog::markAsDirty);
@@ -231,7 +215,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
                 this, &ViewPropertiesDialog::markAsDirty);
     }
 
-    layout->addStretch();
+    layout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
+    layout->addRow(additionalInfoBox);
 
     auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::Apply, this);
     connect(buttonBox, &QDialogButtonBox::accepted, this, &ViewPropertiesDialog::accept);
