@@ -78,6 +78,7 @@ QAccessibleInterface* KItemListViewAccessible::cell(int index) const
     QAccessibleInterface* child = m_cells.at(index);
     if (!child) {
         child = new KItemListAccessibleCell(view(), index);
+        m_cells.insert(index, child);
         QAccessible::registerAccessibleInterface(child);
     }
     return child;
