@@ -81,6 +81,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 
 DolphinContextMenu::~DolphinContextMenu()
 {
+    delete m_baseFileItem;
+    m_baseFileItem = nullptr;
     delete m_selectedItemsProperties;
     m_selectedItemsProperties = nullptr;
 }
