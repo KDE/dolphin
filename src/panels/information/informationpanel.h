@@ -132,7 +132,6 @@ private:
 
 private:
     bool m_initialized;
-    bool m_pendingPreview;
     QTimer* m_infoTimer;
     QTimer* m_urlChangedTimer;
     QTimer* m_resetUrlTimer;
