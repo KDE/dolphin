@@ -21,8 +21,8 @@
 
 #include <KIconLoader>
 
+#include <QIcon>
 #include <QPainter>
-
 
 KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
     QGraphicsWidget(parent, nullptr),
@@ -67,8 +67,8 @@ void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphi
         updatePixmap();
     }
 
-    const qreal x = (size().width()  - qreal(m_pixmap.width()))  / 2;
-    const qreal y = (size().height() - qreal(m_pixmap.height())) / 2;
+    const qreal x = (size().width()  - qreal(m_pixmap.width() / m_pixmap.devicePixelRatioF()))  / 2;
+    const qreal y = (size().height() - qreal(m_pixmap.height() / m_pixmap.devicePixelRatioF())) / 2;
     painter->drawPixmap(x, y, m_pixmap);
 }
 
@@ -77,7 +77,7 @@ void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
     QGraphicsWidget::resizeEvent(event);
 
     if (!m_pixmap.isNull()) {
-        const int pixmapSize = m_pixmap.size().width(); // Pixmap width is always equal pixmap height
+        const int pixmapSize = m_pixmap.size().width() / m_pixmap.devicePixelRatioF(); // Pixmap width is always equal pixmap height
 
         if (pixmapSize != iconSize()) {
             // If the required icon size is different from the actual pixmap size,
@@ -91,8 +91,7 @@ void KItemListSelectionToggle::resizeEvent(QGraphicsSceneResizeEvent* event)
 void KItemListSelectionToggle::updatePixmap()
 {
     const QString icon = m_checked ? QStringLiteral("emblem-remove") : QStringLiteral("emblem-added");
-    const KIconLoader::States state = m_hovered ? KIconLoader::ActiveState : KIconLoader::DisabledState;
-    m_pixmap = KIconLoader::global()->loadIcon(icon, KIconLoader::Desktop, iconSize(), state);
+    m_pixmap = QIcon::fromTheme(icon).pixmap(iconSize(), m_hovered ? QIcon::Active : QIcon::Disabled);
 }
 
 int KItemListSelectionToggle::iconSize() const
