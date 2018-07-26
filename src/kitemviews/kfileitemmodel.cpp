@@ -1778,8 +1778,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
     }
 
     case ModificationTimeRole: {
-        const QDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
-        const QDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
+        const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
+        const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
@@ -1789,8 +1789,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
     }
 
     case CreationTimeRole: {
-        const QDateTime dateTimeA = itemA.time(KFileItem::CreationTime);
-        const QDateTime dateTimeB = itemB.time(KFileItem::CreationTime);
+        const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
+        const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
