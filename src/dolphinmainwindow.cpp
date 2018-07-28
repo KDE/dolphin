@@ -25,7 +25,6 @@
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
-#include "dolphinplacesmodelsingleton.h"
 #include "dolphinrecenttabsmenu.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -49,7 +48,6 @@
 #include <KAuthorized>
 #include <KConfig>
 #include <KFileItemListProperties>
-#include <KFilePlacesModel>
 #include <KHelpMenu>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
@@ -137,7 +135,7 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(m_tabWidget, &DolphinTabWidget::tabCountChanged,
             this, &DolphinMainWindow::tabCountChanged);
     connect(m_tabWidget, &DolphinTabWidget::currentUrlChanged,
-            this, &DolphinMainWindow::setUrlAsCaption);
+            this, &DolphinMainWindow::updateWindowTitle);
     setCentralWidget(m_tabWidget);
 
     setupActions();
@@ -1001,46 +999,9 @@ void DolphinMainWindow::tabCountChanged(int count)
     actionCollection()->action(QStringLiteral("activate_prev_tab"))->setEnabled(enableTabActions);
 }
 
-void DolphinMainWindow::setUrlAsCaption(const QUrl& url)
+void DolphinMainWindow::updateWindowTitle()
 {
-    QString schemePrefix;
-    if (!url.isLocalFile()) {
-        schemePrefix.append(url.scheme() + " - ");
-        if (!url.host().isEmpty()) {
-            schemePrefix.append(url.host() + " - ");
-        }
-    }
-
-    if (GeneralSettings::showFullPathInTitlebar()) {
-        const QString path = url.adjusted(QUrl::StripTrailingSlash).path();
-        setWindowTitle(schemePrefix + path);
-        return;
-    }
-
-    KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
-    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, url, 1, Qt::MatchExactly);
-
-    if (!matchedPlaces.isEmpty()) {
-        setWindowTitle(placesModel->text(matchedPlaces.first()));
-        return;
-    }
-
-    QString fileName = url.adjusted(QUrl::StripTrailingSlash).fileName();
-    if (fileName.isEmpty()) {
-        fileName = '/';
-    }
-
-    if (m_activeViewContainer->isSearchModeEnabled()) {
-        if(m_activeViewContainer->currentSearchText().isEmpty()){
-            setWindowTitle(i18n("Search"));
-        } else {
-            const auto searchText = i18n("Search for %1", m_activeViewContainer->currentSearchText());
-            setWindowTitle(searchText);
-        }
-        return;
-    }
-
-    setWindowTitle(schemePrefix + fileName);
+    setWindowTitle(m_activeViewContainer->getCaption());
 }
 
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
@@ -1506,7 +1467,7 @@ void DolphinMainWindow::refreshViews()
         const bool splitView = GeneralSettings::splitView();
         m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView);
         updateSplitAction();
-        setUrlAsCaption(activeViewContainer()->url());
+        updateWindowTitle();
     }
 
     emit settingsChanged();

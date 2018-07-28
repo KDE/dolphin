@@ -31,6 +31,7 @@
 #include "views/viewproperties.h"
 
 #include <KFileItemActions>
+#include <KFilePlacesModel>
 #include <KIO/PreviewJob>
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -407,6 +408,52 @@ void DolphinViewContainer::reload()
 {
     view()->reload();
     m_messageWidget->hide();
+}
+
+QString DolphinViewContainer::getCaption() const
+{
+    if (GeneralSettings::showFullPathInTitlebar()) {
+        if (!url().isLocalFile()) {
+            return url().adjusted(QUrl::StripTrailingSlash).toString();
+        }
+        return url().adjusted(QUrl::StripTrailingSlash).path();
+    }
+
+    KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, url(), 1, Qt::MatchExactly);
+
+    if (!matchedPlaces.isEmpty()) {
+        return placesModel->text(matchedPlaces.first());
+    }
+    if (!url().isLocalFile()) {
+        QUrl adjustedUrl = url().adjusted(QUrl::StripTrailingSlash);
+        QString caption;
+        if (!adjustedUrl.fileName().isEmpty()) {
+            caption = adjustedUrl.fileName();
+        } else if (!adjustedUrl.path().isEmpty() && adjustedUrl.path() != "/") {
+            caption = adjustedUrl.path();
+        } else if (!adjustedUrl.host().isEmpty()) {
+            caption = adjustedUrl.host();
+        } else {
+            caption = adjustedUrl.toString();
+        }
+        return caption;
+    }
+
+    QString fileName = url().adjusted(QUrl::StripTrailingSlash).fileName();
+    if (fileName.isEmpty()) {
+        fileName = '/';
+    }
+
+    if (isSearchModeEnabled()) {
+        if(currentSearchText().isEmpty()){
+            return i18n("Search");
+        } else {
+            return i18n("Search for %1", currentSearchText());
+        }
+    }
+
+    return fileName;
 }
 
 void DolphinViewContainer::setUrl(const QUrl& newUrl)

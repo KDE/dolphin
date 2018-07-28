@@ -193,7 +193,7 @@ private:
     /**
      * Returns the name of the tab for the URL \a url.
      */
-    QString tabName(const QUrl& url) const;
+    QString tabName() const;
 
 private:
     /** Caches the (negated) places panel visibility */

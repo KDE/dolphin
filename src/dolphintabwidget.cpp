@@ -116,6 +116,7 @@ void DolphinTabWidget::refreshViews()
 {
     const int tabCount = count();
     for (int i = 0; i < tabCount; ++i) {
+        tabBar()->setTabText(i, tabName());
         tabPageAt(i)->refreshViews();
     }
 }
@@ -160,7 +161,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
             this, &DolphinTabWidget::tabUrlChanged);
-    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(primaryUrl));
+    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName());
 
     if (focusWidget) {
         // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened
@@ -305,7 +306,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 {
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
-        tabBar()->setTabText(index, tabName(url));
+        tabBar()->setTabText(index, tabName());
         tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
 
         // Emit the currentUrlChanged signal if the url of the current tab has been changed.
@@ -353,20 +354,13 @@ void DolphinTabWidget::tabRemoved(int index)
     emit tabCountChanged(count());
 }
 
-QString DolphinTabWidget::tabName(const QUrl& url) const
+QString DolphinTabWidget::tabName() const
 {
-    QString name;
-    if (url == QUrl(QStringLiteral("file:///"))) {
-        name = '/';
-    } else {
-        name = url.adjusted(QUrl::StripTrailingSlash).fileName();
-        if (name.isEmpty()) {
-            name = url.scheme();
-        } else {
-            // Make sure that a '&' inside the directory name is displayed correctly
-            // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
-            name.replace('&', QLatin1String("&&"));
-        }
+    if (currentTabPage() == nullptr) {
+        return QString();
     }
-    return name;
+    QString name = currentTabPage()->activeViewContainer()->getCaption();
+    // Make sure that a '&' inside the directory name is displayed correctly
+    // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
+    return name.replace('&', QLatin1String("&&"));
 }

@@ -136,6 +136,13 @@ public:
      */
     void reload();
 
+    /**
+     * @return Returns a Caption suitable for display to the user. It is
+     * calculated depending on settings, if a search is active and other
+     * factors.
+     */
+    QString getCaption() const;
+
 public slots:
     /**
      * Sets the current active URL, where all actions are applied. The

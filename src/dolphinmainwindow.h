@@ -412,10 +412,9 @@ private slots:
     void tabCountChanged(int count);
 
     /**
-     * Sets the window caption to url.fileName() if this is non-empty,
-     * "/" if the URL is "file:///", and url.protocol() otherwise.
+     * Updates the Window Title with the caption from the active view container
      */
-    void setUrlAsCaption(const QUrl& url);
+    void updateWindowTitle();
 
     /**
      * This slot is called when the user requested to unmount a removable media
