@@ -74,7 +74,7 @@ qreal KItemListHeader::preferredColumnWidth(const QByteArray& role) const
 }
 
 KItemListHeader::KItemListHeader(KItemListView* listView) :
-    QObject(listView->parent()),
+    QObject(listView),
     m_view(listView)
 {
     m_headerWidget = m_view->m_headerWidget;
