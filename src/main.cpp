@@ -144,7 +144,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     }
 
     DolphinMainWindow* mainWindow = new DolphinMainWindow();
-    mainWindow->setAttribute(Qt::WA_DeleteOnClose);
 
     if (parser.isSet(QStringLiteral("select"))) {
         mainWindow->openFiles(urls, splitView);
