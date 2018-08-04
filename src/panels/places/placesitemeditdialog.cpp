@@ -59,7 +59,7 @@ void PlacesItemEditDialog::setIcon(const QString& icon)
 
 QString PlacesItemEditDialog::icon() const
 {
-    return m_iconButton->icon();
+    return m_iconButton ? m_iconButton->icon() : m_icon;
 }
 
 void PlacesItemEditDialog::setText(const QString& text)
@@ -144,15 +144,17 @@ void PlacesItemEditDialog::initialize()
     m_urlEdit->setMinimumWidth(m_urlEdit->fontMetrics().height() * (40 / 2));
     connect(m_urlEdit, &KUrlRequester::textChanged, this, &PlacesItemEditDialog::slotUrlChanged);
 
-    m_iconButton = new KIconButton(mainWidget);
-    formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);
-    m_iconButton->setIconSize(IconSize(KIconLoader::Desktop));
-    m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
-    if (m_icon.isEmpty()) {
-        QMimeDatabase db;
-        m_iconButton->setIcon(db.mimeTypeForUrl(m_url).iconName());
-    } else {
-        m_iconButton->setIcon(m_icon);
+    if (m_url.scheme() != QLatin1String("trash")) {
+        m_iconButton = new KIconButton(mainWidget);
+        formLayout->addRow(i18nc("@label", "Choose an icon:"), m_iconButton);
+        m_iconButton->setIconSize(IconSize(KIconLoader::Desktop));
+        m_iconButton->setIconType(KIconLoader::NoGroup, KIconLoader::Place);
+        if (m_icon.isEmpty()) {
+            QMimeDatabase db;
+            m_iconButton->setIcon(db.mimeTypeForUrl(m_url).iconName());
+        } else {
+            m_iconButton->setIcon(m_icon);
+        }
     }
 
     if (m_allowGlobal) {
