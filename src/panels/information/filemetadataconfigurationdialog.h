@@ -70,11 +70,7 @@ protected slots:
     void slotAccepted();
 private:
     QLabel* m_descriptionLabel;
-#ifndef HAVE_BALOO
-    KFileMetaDataConfigurationWidget* m_configWidget;
-#else
     Baloo::FileMetaDataConfigWidget* m_configWidget;
-#endif
 };
 
 #endif

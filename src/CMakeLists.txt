@@ -98,8 +98,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
     views/renamedialog.cpp
-    views/tooltips/dolphinfilemetadatawidget.cpp
-    views/tooltips/tooltipmanager.cpp
     views/versioncontrol/updateitemstatesthread.cpp
     views/versioncontrol/versioncontrolobserver.cpp
     views/viewmodecontroller.cpp
@@ -114,6 +112,8 @@ set(dolphinprivate_LIB_SRCS
 if(HAVE_BALOO)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
+        views/tooltips/dolphinfilemetadatawidget.cpp
+        views/tooltips/tooltipmanager.cpp
         kitemviews/private/kbaloorolesprovider.cpp
     )
 endif()
@@ -154,11 +154,6 @@ if(HAVE_BALOO)
         KF5::FileMetaData
         KF5::Baloo
         KF5::BalooWidgets
-    )
-else()
-    target_link_libraries(
-        dolphinprivate PUBLIC
-        KF5::KDELibs4Support # for KFileMetaDataWidget
     )
 endif()
 
@@ -204,11 +199,6 @@ set(dolphinstatic_SRCS
     dolphintabwidget.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
-    panels/information/filemetadataconfigurationdialog.cpp
-    panels/information/informationpanel.cpp
-    panels/information/informationpanelcontent.cpp
-    panels/information/pixmapviewer.cpp
-    panels/information/phononwidget.cpp
     panels/places/placespanel.cpp
     panels/places/placesitem.cpp
     panels/places/placesitemeditdialog.cpp
@@ -251,6 +241,17 @@ set(dolphinstatic_SRCS
     dolphindebug.cpp
     global.cpp
 )
+
+if(HAVE_BALOO)
+    set(dolphinstatic_SRCS
+        ${dolphinstatic_SRCS}
+        panels/information/filemetadataconfigurationdialog.cpp
+        panels/information/informationpanel.cpp
+        panels/information/informationpanelcontent.cpp
+        panels/information/pixmapviewer.cpp
+        panels/information/phononwidget.cpp
+    )
+endif()
 
 kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
     panels/folders/dolphin_folderspanelsettings.kcfgc

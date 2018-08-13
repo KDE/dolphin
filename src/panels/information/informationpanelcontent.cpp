@@ -32,11 +32,7 @@
 #include <QMenu>
 #include <QTextDocument>
 
-#ifndef HAVE_BALOO
-#include <KFileMetaDataWidget>
-#else
 #include <Baloo/FileMetaDataWidget>
-#endif
 
 #include <panels/places/placesitem.h>
 #include <panels/places/placesitemmodel.h>
@@ -106,19 +102,13 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
 
-#ifndef HAVE_BALOO
-    m_metaDataWidget = new KFileMetaDataWidget(parent);
-    connect(m_metaDataWidget, &KFileMetaDataWidget::urlActivated,
-            this, &InformationPanelContent::urlActivated);
-#else
     m_metaDataWidget = new Baloo::FileMetaDataWidget(parent);
     m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
     connect(m_metaDataWidget, &Baloo::FileMetaDataWidget::urlActivated,
             this, &InformationPanelContent::urlActivated);
-#endif
     m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
- 
+
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
     // at the bottom. This prevents that the meta data widget gets vertically stretched
     // in the case where the height of m_metaDataArea > m_metaDataWidget.
@@ -194,9 +184,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     }
 
     if (m_metaDataWidget) {
-#ifdef HAVE_BALOO
         m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
-#endif
         m_metaDataWidget->show();
         m_metaDataWidget->setItems(KFileItemList() << item);
     }
@@ -285,12 +273,11 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
 
-#ifdef HAVE_BALOO
     QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
     dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
     dateformatAction->setCheckable(true);
     dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
-#endif
+
     popup.addSeparator();
     foreach (QAction* action, customContextMenuActions) {
         popup.addAction(action);
@@ -316,14 +303,12 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
         dialog->show();
         connect(dialog, &FileMetaDataConfigurationDialog::destroyed, this, &InformationPanelContent::refreshMetaData);
     }
-#ifdef HAVE_BALOO
     if (action == dateformatAction) {
         int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
 
         InformationPanelSettings::setDateFormat(dateFormat);
         refreshMetaData();
     }
-#endif
 }
 
 void InformationPanelContent::showIcon(const KFileItem& item)

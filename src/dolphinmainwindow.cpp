@@ -1266,6 +1266,8 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setLocked(lock);
     infoDock->setObjectName(QStringLiteral("infoDock"));
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+
+#ifdef HAVE_BALOO
     InformationPanel* infoPanel = new InformationPanel(infoDock);
     infoPanel->setCustomContextMenuActions({lockLayoutAction});
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
@@ -1281,6 +1283,7 @@ void DolphinMainWindow::setupDockWidgets()
             infoPanel, &InformationPanel::setSelection);
     connect(this, &DolphinMainWindow::requestItemInfo,
             infoPanel, &InformationPanel::requestDelayedItemInfo);
+#endif
 
     // Setup "Folders"
     DolphinDockWidget* foldersDock = new DolphinDockWidget(i18nc("@title:window", "Folders"));

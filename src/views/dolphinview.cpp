@@ -176,8 +176,10 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
             this, &DolphinView::slotSelectionChanged);
 
+#ifdef HAVE_BALOO
     m_toolTipManager = new ToolTipManager(this);
     connect(m_toolTipManager, &ToolTipManager::urlActivated, this, &DolphinView::urlActivated);
+#endif
 
     m_versionControlObserver = new VersionControlObserver(this);
     m_versionControlObserver->setModel(m_model);
@@ -1030,7 +1032,9 @@ void DolphinView::slotItemHovered(int index)
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 
+#ifdef HAVE_BALOO
         m_toolTipManager->showToolTip(item, itemRect, nativeParentWidget()->windowHandle());
+#endif
     }
 
     emit requestItemInfo(item);
@@ -1407,9 +1411,11 @@ void DolphinView::updateViewState()
 
 void DolphinView::hideToolTip()
 {
+#ifdef HAVE_BALOO
     if (GeneralSettings::showToolTips()) {
         m_toolTipManager->hideToolTip();
     }
+#endif
 }
 
 void DolphinView::calculateItemCount(int& fileCount,

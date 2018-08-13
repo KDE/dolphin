@@ -29,13 +29,9 @@
 class KFileItemList;
 class QLabel;
 
-#ifndef HAVE_BALOO
-class KFileMetaDataWidget;
-#else
 namespace Baloo {
     class FileMetaDataWidget;
 }
-#endif
 
 /**
  * @brief Widget that shows the meta information and a preview of one
@@ -79,11 +75,7 @@ signals:
 private:
     QLabel* m_preview;
     QLabel* m_name;
-#ifndef HAVE_BALOO
-    KFileMetaDataWidget* m_fileMetaDataWidget;
-#else
     Baloo::FileMetaDataWidget* m_fileMetaDataWidget;
-#endif
 };
 
 #endif
