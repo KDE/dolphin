@@ -1551,26 +1551,25 @@ void KFileItemModelTest::testChangeSortRoleWhileFiltering()
 {
     KFileItemList items;
 
-    KIO::UDSEntry entry[3];
+    KIO::UDSEntry entry;
+    entry.insert(KIO::UDSEntry::UDS_FILE_TYPE, 0100000);    // S_IFREG might not be defined on non-Unix platforms.
+    entry.insert(KIO::UDSEntry::UDS_ACCESS, 07777);
+    entry.insert(KIO::UDSEntry::UDS_SIZE, 0);
+    entry.insert(KIO::UDSEntry::UDS_MODIFICATION_TIME, 0);
+    entry.insert(KIO::UDSEntry::UDS_GROUP, "group");
+    entry.insert(KIO::UDSEntry::UDS_ACCESS_TIME, 0);
 
-    entry[0].insert(KIO::UDSEntry::UDS_NAME, "a.txt");
-    entry[0].insert(KIO::UDSEntry::UDS_USER, "user-b");
+    entry.insert(KIO::UDSEntry::UDS_NAME, "a.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-b");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
 
-    entry[1].insert(KIO::UDSEntry::UDS_NAME, "b.txt");
-    entry[1].insert(KIO::UDSEntry::UDS_USER, "user-c");
+    entry.insert(KIO::UDSEntry::UDS_NAME, "b.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-c");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
 
-    entry[2].insert(KIO::UDSEntry::UDS_NAME, "c.txt");
-    entry[2].insert(KIO::UDSEntry::UDS_USER, "user-a");
-
-    for (int i = 0; i < 3; ++i) {
-        entry[i].insert(KIO::UDSEntry::UDS_FILE_TYPE, 0100000);    // S_IFREG might not be defined on non-Unix platforms.
-        entry[i].insert(KIO::UDSEntry::UDS_ACCESS, 07777);
-        entry[i].insert(KIO::UDSEntry::UDS_SIZE, 0);
-        entry[i].insert(KIO::UDSEntry::UDS_MODIFICATION_TIME, 0);
-        entry[i].insert(KIO::UDSEntry::UDS_GROUP, "group");
-        entry[i].insert(KIO::UDSEntry::UDS_ACCESS_TIME, 0);
-        items.append(KFileItem(entry[i], m_testDir->url(), false, true));
-    }
+    entry.insert(KIO::UDSEntry::UDS_NAME, "c.txt");
+    entry.insert(KIO::UDSEntry::UDS_USER, "user-a");
+    items.append(KFileItem(entry, m_testDir->url(), false, true));
 
     m_model->slotItemsAdded(m_testDir->url(), items);
     m_model->slotCompleted();
