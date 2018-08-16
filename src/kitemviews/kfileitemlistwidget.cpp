@@ -78,7 +78,7 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
             const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
             text = KFormat().formatByteSize(size);
         }
-    } else if (role == "modificationtime" || role == "accesstime" || role == "deletiontime" || role == "imageDateTime") {
+    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime" || role == "deletiontime" || role == "imageDateTime") {
         const QDateTime dateTime = roleValue.toDateTime();
         text = QLocale().toString(dateTime, QLocale::ShortFormat);
     } else {
