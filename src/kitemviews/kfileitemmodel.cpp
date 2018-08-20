@@ -1563,26 +1563,26 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     }
 
     if (m_requestRole[ModificationTimeRole]) {
-        // Don't use KFileItem::timeString() as this is too expensive when
-        // having several thousands of items. Instead the formatting of the
-        // date-time will be done on-demand by the view when the date will be shown.
-        const QDateTime dateTime = item.time(KFileItem::ModificationTime);
+        // Don't use KFileItem::timeString() or KFileItem::time() as this is too expensive when
+        // having several thousands of items. Instead read the raw number from UDSEntry directly
+        // and the formatting of the date-time will be done on-demand by the view when the date will be shown.
+        const long long dateTime = item.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
         data.insert(sharedValue("modificationtime"), dateTime);
     }
 
     if (m_requestRole[CreationTimeRole]) {
-        // Don't use KFileItem::timeString() as this is too expensive when
-        // having several thousands of items. Instead the formatting of the
-        // date-time will be done on-demand by the view when the date will be shown.
-        const QDateTime dateTime = item.time(KFileItem::CreationTime);
+        // Don't use KFileItem::timeString() or KFileItem::time() as this is too expensive when
+        // having several thousands of items. Instead read the raw number from UDSEntry directly
+        // and the formatting of the date-time will be done on-demand by the view when the date will be shown.
+        const long long dateTime = item.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
         data.insert(sharedValue("creationtime"), dateTime);
     }
 
     if (m_requestRole[AccessTimeRole]) {
-        // Don't use KFileItem::timeString() as this is too expensive when
-        // having several thousands of items. Instead the formatting of the
-        // date-time will be done on-demand by the view when the date will be shown.
-        const QDateTime dateTime = item.time(KFileItem::AccessTime);
+        // Don't use KFileItem::timeString() or KFileItem::time() as this is too expensive when
+        // having several thousands of items. Instead read the raw number from UDSEntry directly
+        // and the formatting of the date-time will be done on-demand by the view when the date will be shown.
+        const long long dateTime = item.entry().numberValue(KIO::UDSEntry::UDS_ACCESS_TIME, -1);
         data.insert(sharedValue("accesstime"), dateTime);
     }
 
