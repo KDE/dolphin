@@ -1380,7 +1380,9 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->setDelayed(false);
     const KActionCollection* ac = actionCollection();
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));
+#ifdef HAVE_BALOO
     panelsMenu->addAction(ac->action(QStringLiteral("show_information_panel")));
+#endif
     panelsMenu->addAction(ac->action(QStringLiteral("show_folders_panel")));
     panelsMenu->addAction(ac->action(QStringLiteral("show_terminal_panel")));
     panelsMenu->addSeparator();

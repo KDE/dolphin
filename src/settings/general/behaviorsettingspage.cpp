@@ -86,7 +86,11 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
 
     // 'Show selection marker'
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"));
+#ifdef HAVE_BALOO
     topLayout->addRow(QString(), m_showSelectionToggle);
+#else
+    topLayout->addRow(i18nc("@title:group", "Miscellaneous: "), m_showSelectionToggle);
+#endif
 
     // 'Inline renaming of items'
     m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"));
