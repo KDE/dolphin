@@ -359,7 +359,7 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     if (!tabPage) {
         return QString();
     }
-    QString name = tabPage->activeViewContainer()->getCaption();
+    QString name = tabPage->activeViewContainer()->caption();
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
     return name.replace('&', QLatin1String("&&"));

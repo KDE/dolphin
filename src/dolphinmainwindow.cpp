@@ -1001,7 +1001,7 @@ void DolphinMainWindow::tabCountChanged(int count)
 
 void DolphinMainWindow::updateWindowTitle()
 {
-    setWindowTitle(m_activeViewContainer->getCaption());
+    setWindowTitle(m_activeViewContainer->caption());
 }
 
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)

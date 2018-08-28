@@ -141,7 +141,7 @@ public:
      * calculated depending on settings, if a search is active and other
      * factors.
      */
-    QString getCaption() const;
+    QString caption() const;
 
 public slots:
     /**

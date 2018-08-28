@@ -410,7 +410,7 @@ void DolphinViewContainer::reload()
     m_messageWidget->hide();
 }
 
-QString DolphinViewContainer::getCaption() const
+QString DolphinViewContainer::caption() const
 {
     if (GeneralSettings::showFullPathInTitlebar()) {
         if (!url().isLocalFile()) {
