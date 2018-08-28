@@ -116,7 +116,7 @@ void DolphinTabWidget::refreshViews()
 {
     const int tabCount = count();
     for (int i = 0; i < tabCount; ++i) {
-        tabBar()->setTabText(i, tabName());
+        tabBar()->setTabText(i, tabName(tabPageAt(i)));
         tabPageAt(i)->refreshViews();
     }
 }
@@ -161,7 +161,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
             this, &DolphinTabWidget::tabUrlChanged);
-    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName());
+    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(tabPage));
 
     if (focusWidget) {
         // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened
@@ -306,7 +306,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 {
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
-        tabBar()->setTabText(index, tabName());
+        tabBar()->setTabText(index, tabName(tabPageAt(index)));
         tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
 
         // Emit the currentUrlChanged signal if the url of the current tab has been changed.
@@ -354,12 +354,12 @@ void DolphinTabWidget::tabRemoved(int index)
     emit tabCountChanged(count());
 }
 
-QString DolphinTabWidget::tabName() const
+QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
 {
-    if (currentTabPage() == nullptr) {
+    if (!tabPage) {
         return QString();
     }
-    QString name = currentTabPage()->activeViewContainer()->getCaption();
+    QString name = tabPage->activeViewContainer()->getCaption();
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
     return name.replace('&', QLatin1String("&&"));

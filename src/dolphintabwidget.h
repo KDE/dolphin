@@ -191,9 +191,10 @@ protected:
 
 private:
     /**
-     * Returns the name of the tab for the URL \a url.
+     * @param tabPage The tab page to get the name of
+     * @return The name of the tab page
      */
-    QString tabName() const;
+    QString tabName(DolphinTabPage* tabPage) const;
 
 private:
     /** Caches the (negated) places panel visibility */
