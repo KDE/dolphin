@@ -129,7 +129,10 @@ void ToolTipManager::startContentRetrieval()
     // Request a preview of the item
     m_fileMetaDataWidget->setPreview(QPixmap());
 
-    KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
+    QStringList plugins = KIO::PreviewJob::availablePlugins();
+    KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item,
+                                               QSize(256, 256),
+                                               &plugins);
     job->setIgnoreMaximumSize(m_item.isLocalFile());
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());

@@ -170,7 +170,10 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_outdatedPreviewTimer->start();
         }
 
-        m_previewJob = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
+        QStringList plugins = KIO::PreviewJob::availablePlugins();
+        m_previewJob = new KIO::PreviewJob(KFileItemList() << item,
+                                           QSize(m_preview->width(), m_preview->height()),
+                                           &plugins);
         m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
         m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
         if (m_previewJob->uiDelegate()) {
