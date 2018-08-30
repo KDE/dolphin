@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KDIRECTORYCONTENTENTSCOUNTERWORKER_H
-#define KDIRECTORYCONTENTENTSCOUNTERWORKER_H
+#ifndef KDIRECTORYCONTENTSCOUNTERWORKER_H
+#define KDIRECTORYCONTENTSCOUNTERWORKER_H
 
 #include <QMetaType>
 #include <QObject>

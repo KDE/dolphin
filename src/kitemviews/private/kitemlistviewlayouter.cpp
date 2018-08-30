@@ -17,9 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include "kitemlistviewlayouter.h"
 #include "dolphindebug.h"
 #include "kitemlistsizehintresolver.h"
-#include "kitemlistviewlayouter.h"
 #include "kitemviews/kitemmodelbase.h"
 
 // #define KITEMLISTVIEWLAYOUTER_DEBUG
