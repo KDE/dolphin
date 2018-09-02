@@ -39,6 +39,7 @@ private slots:
     void testActiveViewAfterClosingSplitView_data();
     void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
+    void testOpenInNewTabTitle();
 
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
@@ -168,6 +169,23 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
     QSignalSpy currentUrlChangedSpy(tabWidget, &DolphinTabWidget::currentUrlChanged);
     tabWidget->currentTabPage()->activeViewContainer()->setUrl(QUrl::fromLocalFile(QDir::rootPath()));
     QCOMPARE(currentUrlChangedSpy.count(), 1);
+}
+
+// Test case for bug #397910
+void DolphinMainWindowTest::testOpenInNewTabTitle()
+{
+    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    QVERIFY(tabWidget);
+
+    tabWidget->openNewTab(QUrl::fromLocalFile(QDir::tempPath()));
+    QCOMPARE(tabWidget->count(), 2);
+    QVERIFY(tabWidget->tabIcon(0).name() != tabWidget->tabIcon(1).name());
+    QVERIFY(tabWidget->tabText(0) != tabWidget->tabText(1));
 }
 
 QTEST_MAIN(DolphinMainWindowTest)
