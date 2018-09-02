@@ -49,7 +49,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
-    QLabel* showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews for:"), this);
+    QLabel* showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews in the view for:"), this);
 
     m_listView = new QListView(this);
 
