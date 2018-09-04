@@ -966,7 +966,7 @@ void KStandardItemListWidget::updatePixmapCache()
                 iconName = QStringLiteral("unknown");
             }
             const QStringList overlays = values["iconOverlays"].toStringList();
-            m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight, isSelected() && isActiveWindow() ? QIcon::Selected : QIcon::Normal);
+            m_pixmap = pixmapForIcon(iconName, overlays, maxIconHeight, QIcon::Normal);
 
         } else if (m_pixmap.width() / m_pixmap.devicePixelRatio() != maxIconWidth || m_pixmap.height() / m_pixmap.devicePixelRatio() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
