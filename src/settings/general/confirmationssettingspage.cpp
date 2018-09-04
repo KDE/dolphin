@@ -92,13 +92,14 @@ void ConfirmationsSettingsPage::applySettings()
     confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmEmptyTrash", m_confirmEmptyTrash->isChecked());
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
-    confirmationGroup.sync();
 
+    KConfigGroup scriptExecutionGroup(kioConfig, "Executable scripts");
     if (m_confirmScriptExecution->isChecked()) {
-        KConfigGroup scriptExecutionGroup(kioConfig, "Executable scripts");
         scriptExecutionGroup.writeEntry("behaviourOnLaunch", "alwaysAsk");
-        scriptExecutionGroup.sync();
+    } else {
+        scriptExecutionGroup.writeEntry("behaviourOnLaunch", "dontAsk");
     }
+    kioConfig->sync();
 
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
