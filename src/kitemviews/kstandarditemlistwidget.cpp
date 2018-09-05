@@ -1462,31 +1462,31 @@ void KStandardItemListWidget::closeRoleEditor()
 QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStringList& overlays, int size, QIcon::Mode mode)
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
+
+    int requestedSize = size;
+    if (size <= KIconLoader::SizeSmall) {
+        requestedSize = KIconLoader::SizeSmall;
+    } else if (size <= KIconLoader::SizeSmallMedium) {
+        requestedSize = KIconLoader::SizeSmallMedium;
+    } else if (size <= KIconLoader::SizeMedium) {
+        requestedSize = KIconLoader::SizeMedium;
+    } else if (size <= KIconLoader::SizeLarge) {
+        requestedSize = KIconLoader::SizeLarge;
+    } else if (size <= KIconLoader::SizeHuge) {
+        requestedSize = KIconLoader::SizeHuge;
+    } else if (size <= KIconLoader::SizeEnormous) {
+        requestedSize = KIconLoader::SizeEnormous;
+    } else if (size <= KIconLoader::SizeEnormous * 2) {
+        requestedSize = KIconLoader::SizeEnormous * 2;
+    }
     size *= qApp->devicePixelRatio();
+    requestedSize *= qApp->devicePixelRatio();
+
     const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size) % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
         const QIcon icon = QIcon::fromTheme(name, fallbackIcon);
-
-        int requestedSize;
-        if (size <= KIconLoader::SizeSmall) {
-            requestedSize = KIconLoader::SizeSmall;
-        } else if (size <= KIconLoader::SizeSmallMedium) {
-            requestedSize = KIconLoader::SizeSmallMedium;
-        } else if (size <= KIconLoader::SizeMedium) {
-            requestedSize = KIconLoader::SizeMedium;
-        } else if (size <= KIconLoader::SizeLarge) {
-            requestedSize = KIconLoader::SizeLarge;
-        } else if (size <= KIconLoader::SizeHuge) {
-            requestedSize = KIconLoader::SizeHuge;
-        } else if (size <= KIconLoader::SizeEnormous) {
-            requestedSize = KIconLoader::SizeEnormous;
-        } else if (size <= KIconLoader::SizeEnormous * 2) {
-            requestedSize = KIconLoader::SizeEnormous * 2;
-        } else {
-            requestedSize = size;
-        }
 
         pixmap = icon.pixmap(requestedSize / qApp->devicePixelRatio(), requestedSize / qApp->devicePixelRatio(), mode);
         if (requestedSize != size) {
