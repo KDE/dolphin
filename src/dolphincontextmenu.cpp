@@ -341,7 +341,12 @@ void DolphinContextMenu::openViewportContextMenu()
     addSeparator();
 
     // Insert 'Open With' entries
-    const KFileItemListProperties baseUrlProperties(KFileItemList() << baseFileItem());
+    KFileItem baseItem = view->rootItem();
+    if (baseItem.isNull() || baseItem.url() != m_baseUrl) {
+        baseItem = baseFileItem();
+    }
+
+    const KFileItemListProperties baseUrlProperties(KFileItemList() << baseItem);
     KFileItemActions fileItemActions;
     fileItemActions.setParentWidget(m_mainWindow);
     fileItemActions.setItemListProperties(baseUrlProperties);
