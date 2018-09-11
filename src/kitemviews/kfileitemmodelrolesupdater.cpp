@@ -1165,18 +1165,14 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
 
     // Add items on the last page.
     const int beginLastPage = qMax(qMin(endExtendedVisibleRange + 1, count - 1), count - m_maximumVisibleItems);
-    if (beginLastPage < count - 1) {
-        for (int i = beginLastPage; i < count; ++i) {
-            result.append(i);
-        }
+    for (int i = beginLastPage; i < count; ++i) {
+        result.append(i);
     }
 
     // Add items on the first page.
     const int endFirstPage = qMin(qMax(beginExtendedVisibleRange - 1, 0), m_maximumVisibleItems);
-    if (beginExtendedVisibleRange > 0) {
-        for (int i = 0; i <= endFirstPage; ++i) {
-            result.append(i);
-        }
+    for (int i = 0; i <= endFirstPage; ++i) {
+        result.append(i);
     }
 
     // Continue adding items until ResolveAllItemsLimit is reached.
