@@ -63,17 +63,19 @@ ViewProperties::ViewProperties(const QUrl& url) :
         useDetailsViewWithPath = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
-        const QFileInfo dirInfo(m_filePath);
-        const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
-        // Check if the directory is writable and check if the ".directory" file exists and
-        // is read- and writable.
-        if (!dirInfo.isWritable()
-                || (fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()))
-                || !isPartOfHome(m_filePath)) {
-#ifdef Q_OS_WIN
-			// m_filePath probably begins with C:/ - the colon is not a valid character for paths though
-			m_filePath =  QDir::separator() + m_filePath.remove(QLatin1Char(':'));
-#endif
+
+        bool useDestinationDir = !isPartOfHome(m_filePath);
+        if (!useDestinationDir) {
+            const QFileInfo dirInfo(m_filePath);
+            const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
+            useDestinationDir = !dirInfo.isWritable() || (dirInfo.size() > 0 && fileInfo.exists() && !(fileInfo.isReadable() && fileInfo.isWritable()));
+        }
+
+        if (useDestinationDir) {
+    #ifdef Q_OS_WIN
+            // m_filePath probably begins with C:/ - the colon is not a valid character for paths though
+            m_filePath =  QDir::separator() + m_filePath.remove(QLatin1Char(':'));
+    #endif
             m_filePath = destinationDir(QStringLiteral("local")) + m_filePath;
         }
     } else {
