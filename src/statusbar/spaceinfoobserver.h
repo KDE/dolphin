@@ -40,6 +40,9 @@ public:
 
     void setUrl(const QUrl& url);
 
+public slots:
+    void update();
+
 signals:
     /**
      * This signal is emitted when the size or available space changes.

@@ -88,6 +88,11 @@ public:
      */
     void readSettings();
 
+    /**
+     * Refreshes the disk space information.
+     */
+    void updateSpaceInfo();
+
 public slots:
     void setText(const QString& text);
     void setUrl(const QUrl& url);

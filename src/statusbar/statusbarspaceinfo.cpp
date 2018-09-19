@@ -54,6 +54,13 @@ QUrl StatusBarSpaceInfo::url() const
     return m_url;
 }
 
+void StatusBarSpaceInfo::update()
+{
+    if (m_observer) {
+        m_observer->update();
+    }
+}
+
 void StatusBarSpaceInfo::showEvent(QShowEvent* event)
 {
     KCapacityBar::showEvent(event);

@@ -590,6 +590,7 @@ void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
     m_activeViewContainer->reload();
+    m_activeViewContainer->statusBar()->updateSpaceInfo();
 }
 
 void DolphinMainWindow::stopLoading()

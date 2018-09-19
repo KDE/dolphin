@@ -252,6 +252,11 @@ void DolphinStatusBar::readSettings()
     setExtensionsVisible(true);
 }
 
+void DolphinStatusBar::updateSpaceInfo()
+{
+    m_spaceInfo->update();
+}
+
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
 {
     Q_UNUSED(event);

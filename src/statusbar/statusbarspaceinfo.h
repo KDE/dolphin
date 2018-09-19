@@ -45,6 +45,8 @@ public:
     void setUrl(const QUrl& url);
     QUrl url() const;
 
+    void update();
+
 protected:
     void showEvent(QShowEvent* event) override;
     void hideEvent(QHideEvent* event) override;

@@ -71,6 +71,13 @@ void SpaceInfoObserver::setUrl(const QUrl& url)
     }
 }
 
+void SpaceInfoObserver::update()
+{
+    if (m_mountPointObserver) {
+        m_mountPointObserver->update();
+    }
+}
+
 void SpaceInfoObserver::spaceInfoChanged(quint64 size, quint64 available)
 {
     // Make sure that the size has actually changed
