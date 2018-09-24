@@ -38,22 +38,17 @@
 #include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
 
-#include <KDirNotify>
-#include <KFileItem>
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
 #include <KIO/EmptyTrashJob>
 #include <KIO/Job>
-#include <KIO/JobUiDelegate>
 #include <KIconLoader>
-#include <KJobWidgets>
 #include <KLocalizedString>
-#include <KMessageBox>
-#include <KNotification>
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
 #include <QMenu>
+#include <QMimeData>
 #include <QVBoxLayout>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :

@@ -23,16 +23,14 @@
 
 #include "panels/panel.h"
 
-#include <QMimeData>
 #include <QUrl>
 
 class KItemListController;
-class PlacesItem;
 class PlacesItemModel;
 class PlacesView;
 class QGraphicsSceneDragDropEvent;
-class KJob;
 class QMenu;
+class QMimeData;
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */
