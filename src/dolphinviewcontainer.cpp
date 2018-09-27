@@ -425,6 +425,15 @@ QString DolphinViewContainer::caption() const
     if (!matchedPlaces.isEmpty()) {
         return placesModel->text(matchedPlaces.first());
     }
+
+    if (isSearchModeEnabled()) {
+        if (currentSearchText().isEmpty()){
+            return i18n("Search");
+        } else {
+            return i18n("Search for %1", currentSearchText());
+        }
+    }
+
     if (!url().isLocalFile()) {
         QUrl adjustedUrl = url().adjusted(QUrl::StripTrailingSlash);
         QString caption;
@@ -443,14 +452,6 @@ QString DolphinViewContainer::caption() const
     QString fileName = url().adjusted(QUrl::StripTrailingSlash).fileName();
     if (fileName.isEmpty()) {
         fileName = '/';
-    }
-
-    if (isSearchModeEnabled()) {
-        if(currentSearchText().isEmpty()){
-            return i18n("Search");
-        } else {
-            return i18n("Search for %1", currentSearchText());
-        }
     }
 
     return fileName;
