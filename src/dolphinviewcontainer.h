@@ -331,6 +331,7 @@ private:
     KUrlNavigator* m_urlNavigator;
     QPushButton* m_emptyTrashButton;
     DolphinSearchBox* m_searchBox;
+    bool m_searchModeEnabled;
     KMessageWidget* m_messageWidget;
 
     DolphinView* m_view;

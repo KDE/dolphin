@@ -56,6 +56,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_urlNavigator(nullptr),
     m_emptyTrashButton(nullptr),
     m_searchBox(nullptr),
+    m_searchModeEnabled(false),
     m_messageWidget(nullptr),
     m_view(nullptr),
     m_filterBar(nullptr),
@@ -378,11 +379,13 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
         }
         m_urlNavigator->setLocationUrl(url);
     }
+
+    m_searchModeEnabled = enabled;
 }
 
 bool DolphinViewContainer::isSearchModeEnabled() const
 {
-    return m_searchBox->isVisible();
+    return m_searchModeEnabled;
 }
 
 QString DolphinViewContainer::placesText() const
