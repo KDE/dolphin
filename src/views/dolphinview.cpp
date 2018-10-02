@@ -755,6 +755,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
     case QEvent::GraphicsSceneDragEnter:
         if (watched == m_view) {
             m_dragging = true;
+            abortTwoClicksRenaming();
         }
         break;
 
@@ -1432,8 +1433,8 @@ void DolphinView::slotTwoClicksRenamingTimerTimeout()
 {
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
 
-    // verify that only one item is selected and that no item is dragged
-    if (selectionManager->selectedItems().count() == 1 && !m_dragging) {
+    // verify that only one item is selected
+    if (selectionManager->selectedItems().count() == 1) {
         const int index = selectionManager->currentItem();
         const QUrl fileItemUrl = m_model->fileItem(index).url();
 
