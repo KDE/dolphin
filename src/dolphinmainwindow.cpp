@@ -1041,7 +1041,7 @@ void DolphinMainWindow::setupActions()
     QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, QKeySequence::AddTab});
+    actionCollection()->setDefaultShortcuts(newTab, {QKeySequence::AddTab});
     connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
 
     QAction* closeTab = KStandardAction::close(
