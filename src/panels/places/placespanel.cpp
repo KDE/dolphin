@@ -45,6 +45,7 @@
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <KMountPoint>
+#include <KPropertiesDialog>
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
@@ -214,6 +215,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
     QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
+    QAction* propertiesAction = nullptr;
+    if (item->url().isLocalFile()) {
+        propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
+    }
     if (!isDevice && !isTrash) {
         menu.addSeparator();
     }
@@ -265,6 +270,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
                 m_model->requestTearDown(index);
             } else if (action == ejectAction) {
                 m_model->requestEject(index);
+            } else if (action == propertiesAction) {
+                KPropertiesDialog* dialog = new KPropertiesDialog(item->url(), this);
+                dialog->setAttribute(Qt::WA_DeleteOnClose);
+                dialog->show();
             }
         }
     }
