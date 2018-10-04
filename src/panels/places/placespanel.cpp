@@ -203,7 +203,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     if (!isDevice) {
-        editAction = menu.addAction(QIcon::fromTheme("document-properties"), i18nc("@item:inmenu", "Edit..."));
+        editAction = menu.addAction(QIcon::fromTheme("edit-entry"), i18nc("@item:inmenu", "Edit..."));
     }
 
     QAction* removeAction = nullptr;
