@@ -32,7 +32,6 @@
 #include <QUrl>
 
 class KBookmark;
-class KBookmarkManager;
 class PlacesItem;
 class QAction;
 
