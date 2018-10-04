@@ -36,8 +36,6 @@ class KBookmarkManager;
 class PlacesItem;
 class QAction;
 
-// #define PLACESITEMMODEL_DEBUG
-
 /**
  * @brief Model for maintaining the bookmarks of the places panel.
  *
@@ -203,10 +201,6 @@ private:
      * of the item.
      */
     void insertSortedItem(PlacesItem* item);
-
-#ifdef PLACESITEMMODEL_DEBUG
-    void showModelState();
-#endif
 
     PlacesItem *itemFromBookmark(const KBookmark &bookmark) const;
 
