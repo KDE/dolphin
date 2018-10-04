@@ -38,8 +38,7 @@ class QAction;
 /**
  * @brief Model for maintaining the bookmarks of the places panel.
  *
- * It is compatible to the KFilePlacesModel from kdelibs but adds
- * the ability to have groups for places.
+ * It is based on KFilePlacesModel from KIO.
  */
 class PlacesItemModel: public KStandardItemModel
 {
