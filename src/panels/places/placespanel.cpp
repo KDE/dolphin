@@ -169,6 +169,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QAction* editAction = nullptr;
     QAction* teardownAction = nullptr;
     QAction* ejectAction = nullptr;
+    QAction* mountAction = nullptr;
 
     const bool isDevice = !item->udi().isEmpty();
     const bool isTrash = (item->url().scheme() == QLatin1String("trash"));
@@ -185,7 +186,11 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             menu.addAction(teardownAction);
         }
 
-        if (teardownAction || ejectAction) {
+        if (item->storageSetupNeeded()) {
+            mountAction = menu.addAction(QIcon::fromTheme(QStringLiteral("media-mount")), i18nc("@action:inmenu", "Mount"));
+        }
+
+        if (teardownAction || ejectAction || mountAction) {
             menu.addSeparator();
         }
     } else {
@@ -243,6 +248,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
                 // TriggerItem does set up the storage first and then it will
                 // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
                 triggerItem(index, Qt::MiddleButton);
+            } else if (action == mountAction) {
+                m_model->requestStorageSetup(index);
             } else if (action == teardownAction) {
                 m_model->requestTearDown(index);
             } else if (action == ejectAction) {
