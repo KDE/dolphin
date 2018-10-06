@@ -44,6 +44,7 @@
 #include <KIO/Job>
 #include <KIconLoader>
 #include <KLocalizedString>
+#include <KMountPoint>
 
 #include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
@@ -182,6 +183,16 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
         teardownAction = m_model->teardownAction(index);
         if (teardownAction) {
+            // Disable teardown option for root and home partitions
+            bool teardownEnabled = item->url() != QUrl::fromLocalFile(QDir::rootPath());
+            if (teardownEnabled) {
+                KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(QDir::homePath());
+                if (mountPoint && item->url() == QUrl::fromLocalFile(mountPoint->mountPoint())) {
+                    teardownEnabled = false;
+                }
+            }
+            teardownAction->setEnabled(teardownEnabled);
+
             teardownAction->setParent(&menu);
             menu.addAction(teardownAction);
         }
