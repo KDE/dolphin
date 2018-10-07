@@ -684,7 +684,6 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
 
 void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
 {
-    qCDebug(DolphinDebug) << "slotUrlSelectionRequested: " << url;
     m_view->markUrlsAsSelected({url});
     m_view->markUrlAsCurrent(url); // makes the item scroll into view
 }
