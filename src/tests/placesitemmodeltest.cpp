@@ -235,7 +235,7 @@ QMimeData *PlacesItemModelTest::createMimeData(const QList<int> &indexes) const
 void PlacesItemModelTest::init()
 {
     m_model = new PlacesItemModel();
-    // WORKAROUND: need to wait for bookmark to load, check: PlacesItemModel::updateBookmarks
+    // WORKAROUND: need to wait for bookmark to load
     QTest::qWait(300);
     QCOMPARE(m_model->count(), m_expectedModelCount);
 }
