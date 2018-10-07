@@ -85,6 +85,7 @@ private:
     PlacesItemModel* m_model;
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
+    int m_expectedModelCount = 15;
 
     void setBalooEnabled(bool enabled);
     int indexOf(const QUrl &url);
@@ -227,7 +228,7 @@ void PlacesItemModelTest::init()
     m_model = new PlacesItemModel();
     // WORKAROUND: need to wait for bookmark to load, check: PlacesItemModel::updateBookmarks
     QTest::qWait(300);
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::cleanup()
@@ -259,6 +260,14 @@ void PlacesItemModelTest::initTestCase()
     if (QFileInfo::exists(bookmarsFileName)) {
         // Ensure we'll have a clean bookmark file to start
         QVERIFY(QFile::remove(bookmarsFileName));
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).exists()) {
+        m_expectedModelCount++;
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)).exists()) {
+        m_expectedModelCount++;
     }
 
     qRegisterMetaType<KItemRangeList>();
