@@ -302,26 +302,32 @@ void PlacesItemModelTest::testModelSort()
 void PlacesItemModelTest::testGroups()
 {
     const auto groups = m_model->groups();
-
+    int expectedGroupSize = 3;
+    if (m_hasDesktopFolder) {
+        expectedGroupSize++;
+    }
+    if (m_hasDownloadsFolder) {
+        expectedGroupSize++;
+    }
 
     QCOMPARE(groups.size(), 6);
 
     QCOMPARE(groups.at(0).first, 0);
     QCOMPARE(groups.at(0).second.toString(), QStringLiteral("Places"));
 
-    QCOMPARE(groups.at(1).first, 5);
+    QCOMPARE(groups.at(1).first, expectedGroupSize);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    QCOMPARE(groups.at(2).first, 7);
+    QCOMPARE(groups.at(2).first, expectedGroupSize + 2);
     QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recently Saved"));
 
-    QCOMPARE(groups.at(3).first, 9);
+    QCOMPARE(groups.at(3).first, expectedGroupSize + 4);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, 13);
+    QCOMPARE(groups.at(4).first, expectedGroupSize + 8);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
-    QCOMPARE(groups.at(5).first, 14);
+    QCOMPARE(groups.at(5).first, expectedGroupSize + 9);
     QCOMPARE(groups.at(5).second.toString(), QStringLiteral("Removable Devices"));
 }
 
