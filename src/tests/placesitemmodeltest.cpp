@@ -378,9 +378,17 @@ void PlacesItemModelTest::testDeletePlace()
 
     PlacesItemModel *model = new PlacesItemModel();
 
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(5, tempUrl.toLocalFile());
+    urls.insert(tempDirIndex, tempUrl.toLocalFile());
 
     // check if the new entry was created
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -388,7 +396,7 @@ void PlacesItemModelTest::testDeletePlace()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // delete item
-    m_model->deleteItem(5);
+    m_model->deleteItem(tempDirIndex);
 
     // make sure that the new item is removed
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
