@@ -589,12 +589,20 @@ void PlacesItemModelTest::testSystemItems()
 
 void PlacesItemModelTest::testEditBookmark()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     QScopedPointer<PlacesItemModel> other(new PlacesItemModel());
 
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     QSignalSpy itemsChangedSply(m_model, &PlacesItemModel::itemsChanged);
 
@@ -619,6 +627,14 @@ void PlacesItemModelTest::testEditBookmark()
 
 void PlacesItemModelTest::testEditAfterCreation()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -630,7 +646,7 @@ void PlacesItemModelTest::testEditAfterCreation()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     // modify place text
     PlacesItem *item = m_model->placesItem(3);
@@ -648,6 +664,14 @@ void PlacesItemModelTest::testEditAfterCreation()
 
 void PlacesItemModelTest::testEditMetadata()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -660,7 +684,7 @@ void PlacesItemModelTest::testEditMetadata()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     // modify place metadata
     PlacesItem *item = m_model->placesItem(3);
@@ -679,6 +703,14 @@ void PlacesItemModelTest::testEditMetadata()
 
 void PlacesItemModelTest::testRefresh()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -690,10 +722,10 @@ void PlacesItemModelTest::testRefresh()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
-    PlacesItem *item = m_model->placesItem(5);
-    PlacesItem *sameItem = model->placesItem(5);
+    PlacesItem *item = m_model->placesItem(tempDirIndex);
+    PlacesItem *sameItem = model->placesItem(tempDirIndex);
     QCOMPARE(item->text(), sameItem->text());
 
     // modify place text
@@ -742,6 +774,14 @@ void PlacesItemModelTest::testIcons()
 
 void PlacesItemModelTest::testDragAndDrop()
 {
+    int lastIndex = 2; // last index of places group
+    if (m_hasDesktopFolder) {
+        lastIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        lastIndex++;
+    }
+
     QList<QVariant> args;
     KItemRangeList range;
     QStringList urls = initialUrls();
@@ -752,7 +792,7 @@ void PlacesItemModelTest::testDragAndDrop()
     // Move the home directory to the end of the places group
     QMimeData *dropData = createMimeData(QList<int>() << 0);
     m_model->dropMimeDataBefore(m_model->count() - 1, dropData);
-    urls.move(0, 4);
+    urls.move(0, lastIndex);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -770,7 +810,7 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 4);
+    QCOMPARE(range.at(0).index, lastIndex);
 
     CHECK_PLACES_URLS(urls);
 
@@ -778,9 +818,9 @@ void PlacesItemModelTest::testDragAndDrop()
     itemsRemovedSpy.clear();
 
     // Move home directory item back to its original position
-    dropData = createMimeData(QList<int>() << 4);
+    dropData = createMimeData(QList<int>() << lastIndex);
     m_model->dropMimeDataBefore(0, dropData);
-    urls.move(4, 0);
+    urls.move(lastIndex, 0);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -791,7 +831,7 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 4);
+    QCOMPARE(range.at(0).index, lastIndex);
 
     // insert intem in the requested position
     args = itemsInsertedSpy.takeFirst();
@@ -853,6 +893,14 @@ void PlacesItemModelTest::testDuplicatedEntries()
 
 void PlacesItemModelTest::renameAfterCreation()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QStringList urls = initialUrls();
     PlacesItemModel *model = new PlacesItemModel();
@@ -862,10 +910,10 @@ void PlacesItemModelTest::renameAfterCreation()
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(5, tempUrl.toLocalFile());
+    urls.insert(tempDirIndex, tempUrl.toLocalFile());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     CHECK_PLACES_URLS(urls);
     QCOMPARE(model->count(), m_model->count());
