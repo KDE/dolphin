@@ -86,6 +86,8 @@ private:
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
     int m_expectedModelCount = 15;
+    bool m_hasDesktopFolder = false;
+    bool m_hasDownloadsFolder = false;
 
     void setBalooEnabled(bool enabled);
     int indexOf(const QUrl &url);
@@ -162,10 +164,17 @@ QStringList PlacesItemModelTest::initialUrls() const
 {
     static QStringList urls;
     if (urls.isEmpty()) {
-        urls << QDir::homePath()
-             << QDir::homePath() + QStringLiteral("/Desktop")
-             << QDir::homePath() + QStringLiteral("/Downloads")
-             << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
+        urls << QDir::homePath();
+
+        if (m_hasDesktopFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Desktop");
+        }
+
+        if (m_hasDownloadsFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Downloads");
+        }
+
+        urls << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
              << QStringLiteral("remote:/")
              << QStringLiteral("/media/nfs")
              << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
@@ -263,10 +272,12 @@ void PlacesItemModelTest::initTestCase()
     }
 
     if (QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).exists()) {
+        m_hasDesktopFolder = true;
         m_expectedModelCount++;
     }
 
     if (QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)).exists()) {
+        m_hasDownloadsFolder = true;
         m_expectedModelCount++;
     }
 
@@ -375,7 +386,7 @@ void PlacesItemModelTest::testDeletePlace()
 
     // make sure that the new item is removed
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
     CHECK_PLACES_URLS(initialUrls());
     QTRY_COMPARE(model->count(), m_model->count());
 }
@@ -392,7 +403,7 @@ void PlacesItemModelTest::testTearDownDevice()
     auto teardownAction = m_model->teardownAction(index);
     QVERIFY(teardownAction);
 
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
 
     QSignalSpy spyItemsRemoved(m_model, &PlacesItemModel::itemsRemoved);
     fakeManager()->call(QStringLiteral("unplug"), "/org/kde/solid/fakehw/volume_part1_size_993284096");
@@ -408,7 +419,7 @@ void PlacesItemModelTest::testTearDownDevice()
 
     QSignalSpy spyItemsInserted(m_model, &PlacesItemModel::itemsInserted);
     fakeManager()->call(QStringLiteral("plug"), "/org/kde/solid/fakehw/volume_part1_size_993284096");
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
     QCOMPARE(spyItemsInserted.count(), 1);
     index = indexOf(mediaUrl);
 
@@ -458,12 +469,12 @@ void PlacesItemModelTest::testDefaultViewProperties()
 
 void PlacesItemModelTest::testClear()
 {
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
     m_model->clear();
     QCOMPARE(m_model->count(), 0);
     QCOMPARE(m_model->hiddenCount(), 0);
     m_model->refresh();
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::testHideItem()
@@ -511,12 +522,12 @@ void PlacesItemModelTest::testHideItem()
      // mark model to hide invisible items
     m_model->setHiddenItemsShown(true);
 
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::testSystemItems()
 {
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
     for (int r = 0; r < m_model->count(); r++) {
         QCOMPARE(m_model->placesItem(r)->isSystemItem(), !m_model->placesItem(r)->device().isValid());
     }
@@ -548,7 +559,7 @@ void PlacesItemModelTest::testSystemItems()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.first().index, 5);
     QCOMPARE(range.first().count, 1);
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 
     //cancel removal (it was removed above)
     cancelPlaceRemoval(5);
