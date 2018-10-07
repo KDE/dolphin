@@ -545,6 +545,7 @@ void KItemListControllerTest::testKeyboardNavigation()
                 }
                 // No items are selected. Therefore, the current item should be activated.
                 // This is handled by falling through to the NoSelection/SingleSelection case.
+                Q_FALLTHROUGH();
             case KItemListController::NoSelection:
             case KItemListController::SingleSelection:
                 // In NoSelection and SingleSelection mode, the current item should be activated.
