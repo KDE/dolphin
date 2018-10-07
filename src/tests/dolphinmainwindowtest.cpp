@@ -188,6 +188,7 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
 
     tabWidget->openNewTab(QUrl::fromLocalFile(QDir::tempPath()));
     QCOMPARE(tabWidget->count(), 2);
+    qDebug() << "First tab:" << tabWidget->tabIcon(0).name() << "second tab:" << tabWidget->tabIcon(1).name();
     QVERIFY(tabWidget->tabIcon(0).name() != tabWidget->tabIcon(1).name());
     QVERIFY(tabWidget->tabText(0) != tabWidget->tabText(1));
 }
