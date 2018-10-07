@@ -1488,7 +1488,7 @@ void DolphinView::slotRenamingResult(KJob* job)
 void DolphinView::slotDirectoryLoadingStarted()
 {
     // Disable the writestate temporary until it can be determined in a fast way
-    // in DolphinView::slotLoadingCompleted()
+    // in DolphinView::slotDirectoryLoadingCompleted()
     if (m_isFolderWritable) {
         m_isFolderWritable = false;
         emit writeStateChanged(m_isFolderWritable);
