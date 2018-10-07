@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinmainwindow.h"
+#include "dolphinnewfilemenu.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -40,6 +41,9 @@ private slots:
     void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
     void testOpenInNewTabTitle();
+    void testNewFileMenuEnabled_data();
+    void testNewFileMenuEnabled();
+
 
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
@@ -186,6 +190,31 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
     QCOMPARE(tabWidget->count(), 2);
     QVERIFY(tabWidget->tabIcon(0).name() != tabWidget->tabIcon(1).name());
     QVERIFY(tabWidget->tabText(0) != tabWidget->tabText(1));
+}
+
+void DolphinMainWindowTest::testNewFileMenuEnabled_data()
+{
+    QTest::addColumn<QUrl>("activeViewUrl");
+    QTest::addColumn<bool>("expectedEnabled");
+
+    QTest::newRow("home") << QUrl::fromLocalFile(QDir::homePath()) << true;
+    QTest::newRow("root") << QUrl::fromLocalFile(QDir::rootPath()) << false;
+    QTest::newRow("trash") << QUrl::fromUserInput(QStringLiteral("trash:/")) << false;
+}
+
+void DolphinMainWindowTest::testNewFileMenuEnabled()
+{
+    QFETCH(QUrl, activeViewUrl);
+    m_mainWindow->openDirectories({ activeViewUrl }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu*>("newFileMenu");
+    QVERIFY(newFileMenu);
+
+    QFETCH(bool, expectedEnabled);
+    QCOMPARE(newFileMenu->isEnabled(), expectedEnabled);
 }
 
 QTEST_MAIN(DolphinMainWindowTest)

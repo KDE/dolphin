@@ -85,6 +85,9 @@ private:
     PlacesItemModel* m_model;
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
+    int m_expectedModelCount = 15;
+    bool m_hasDesktopFolder = false;
+    bool m_hasDownloadsFolder = false;
 
     void setBalooEnabled(bool enabled);
     int indexOf(const QUrl &url);
@@ -161,10 +164,17 @@ QStringList PlacesItemModelTest::initialUrls() const
 {
     static QStringList urls;
     if (urls.isEmpty()) {
-        urls << QDir::homePath()
-             << QDir::homePath() + QStringLiteral("/Desktop")
-             << QDir::homePath() + QStringLiteral("/Downloads")
-             << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
+        urls << QDir::homePath();
+
+        if (m_hasDesktopFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Desktop");
+        }
+
+        if (m_hasDownloadsFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Downloads");
+        }
+
+        urls << QStringLiteral(KDE_ROOT_PATH) << QStringLiteral("trash:/")
              << QStringLiteral("remote:/")
              << QStringLiteral("/media/nfs")
              << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
@@ -227,7 +237,7 @@ void PlacesItemModelTest::init()
     m_model = new PlacesItemModel();
     // WORKAROUND: need to wait for bookmark to load, check: PlacesItemModel::updateBookmarks
     QTest::qWait(300);
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::cleanup()
@@ -261,6 +271,16 @@ void PlacesItemModelTest::initTestCase()
         QVERIFY(QFile::remove(bookmarsFileName));
     }
 
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::DesktopLocation)).exists()) {
+        m_hasDesktopFolder = true;
+        m_expectedModelCount++;
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)).exists()) {
+        m_hasDownloadsFolder = true;
+        m_expectedModelCount++;
+    }
+
     qRegisterMetaType<KItemRangeList>();
     qRegisterMetaType<KItemRange>();
 }
@@ -282,26 +302,32 @@ void PlacesItemModelTest::testModelSort()
 void PlacesItemModelTest::testGroups()
 {
     const auto groups = m_model->groups();
-
+    int expectedGroupSize = 3;
+    if (m_hasDesktopFolder) {
+        expectedGroupSize++;
+    }
+    if (m_hasDownloadsFolder) {
+        expectedGroupSize++;
+    }
 
     QCOMPARE(groups.size(), 6);
 
     QCOMPARE(groups.at(0).first, 0);
     QCOMPARE(groups.at(0).second.toString(), QStringLiteral("Places"));
 
-    QCOMPARE(groups.at(1).first, 5);
+    QCOMPARE(groups.at(1).first, expectedGroupSize);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    QCOMPARE(groups.at(2).first, 7);
+    QCOMPARE(groups.at(2).first, expectedGroupSize + 2);
     QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recently Saved"));
 
-    QCOMPARE(groups.at(3).first, 9);
+    QCOMPARE(groups.at(3).first, expectedGroupSize + 4);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, 13);
+    QCOMPARE(groups.at(4).first, expectedGroupSize + 8);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
-    QCOMPARE(groups.at(5).first, 14);
+    QCOMPARE(groups.at(5).first, expectedGroupSize + 9);
     QCOMPARE(groups.at(5).second.toString(), QStringLiteral("Removable Devices"));
 }
 
@@ -352,9 +378,17 @@ void PlacesItemModelTest::testDeletePlace()
 
     PlacesItemModel *model = new PlacesItemModel();
 
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(5, tempUrl.toLocalFile());
+    urls.insert(tempDirIndex, tempUrl.toLocalFile());
 
     // check if the new entry was created
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -362,11 +396,11 @@ void PlacesItemModelTest::testDeletePlace()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // delete item
-    m_model->deleteItem(5);
+    m_model->deleteItem(tempDirIndex);
 
     // make sure that the new item is removed
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
     CHECK_PLACES_URLS(initialUrls());
     QTRY_COMPARE(model->count(), m_model->count());
 }
@@ -383,11 +417,11 @@ void PlacesItemModelTest::testTearDownDevice()
     auto teardownAction = m_model->teardownAction(index);
     QVERIFY(teardownAction);
 
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
 
     QSignalSpy spyItemsRemoved(m_model, &PlacesItemModel::itemsRemoved);
     fakeManager()->call(QStringLiteral("unplug"), "/org/kde/solid/fakehw/volume_part1_size_993284096");
-    QTRY_COMPARE(m_model->count(), 16);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount - 1);
     QCOMPARE(spyItemsRemoved.count(), 1);
     const QList<QVariant> spyItemsRemovedArgs = spyItemsRemoved.takeFirst();
     const KItemRangeList removedRange = spyItemsRemovedArgs.at(0).value<KItemRangeList>();
@@ -399,7 +433,7 @@ void PlacesItemModelTest::testTearDownDevice()
 
     QSignalSpy spyItemsInserted(m_model, &PlacesItemModel::itemsInserted);
     fakeManager()->call(QStringLiteral("plug"), "/org/kde/solid/fakehw/volume_part1_size_993284096");
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
     QCOMPARE(spyItemsInserted.count(), 1);
     index = indexOf(mediaUrl);
 
@@ -449,12 +483,12 @@ void PlacesItemModelTest::testDefaultViewProperties()
 
 void PlacesItemModelTest::testClear()
 {
-    QCOMPARE(m_model->count(), 17);
+    QCOMPARE(m_model->count(), m_expectedModelCount);
     m_model->clear();
     QCOMPARE(m_model->count(), 0);
     QCOMPARE(m_model->hiddenCount(), 0);
     m_model->refresh();
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::testHideItem()
@@ -477,7 +511,7 @@ void PlacesItemModelTest::testHideItem()
     item->setHidden(true);
 
     // check if items removed was fired
-    QTRY_COMPARE(m_model->count(), 16);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount - 1);
     QCOMPARE(spyItemsRemoved.count(), 1);
     spyItemsRemovedArgs = spyItemsRemoved.takeFirst();
     removedRange = spyItemsRemovedArgs.at(0).value<KItemRangeList>();
@@ -502,12 +536,20 @@ void PlacesItemModelTest::testHideItem()
      // mark model to hide invisible items
     m_model->setHiddenItemsShown(true);
 
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 }
 
 void PlacesItemModelTest::testSystemItems()
 {
-    QCOMPARE(m_model->count(), 17);
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
+    QCOMPARE(m_model->count(), m_expectedModelCount);
     for (int r = 0; r < m_model->count(); r++) {
         QCOMPARE(m_model->placesItem(r)->isSystemItem(), !m_model->placesItem(r)->device().isValid());
     }
@@ -521,38 +563,46 @@ void PlacesItemModelTest::testSystemItems()
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
 
     // make sure the new place get removed
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     QList<QVariant> args = itemsInsertedSpy.takeFirst();
     KItemRangeList range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 5);
+    QCOMPARE(range.first().index, tempDirIndex);
     QCOMPARE(range.first().count, 1);
-    QVERIFY(!m_model->placesItem(5)->isSystemItem());
-    QCOMPARE(m_model->count(), 18);
+    QVERIFY(!m_model->placesItem(tempDirIndex)->isSystemItem());
+    QCOMPARE(m_model->count(), m_expectedModelCount + 1);
 
     QTest::qWait(300);
     // check if the removal signal is correct
     QSignalSpy itemsRemovedSpy(m_model, &PlacesItemModel::itemsRemoved);
-    m_model->deleteItem(5);
+    m_model->deleteItem(tempDirIndex);
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
     args = itemsRemovedSpy.takeFirst();
     range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 5);
+    QCOMPARE(range.first().index, tempDirIndex);
     QCOMPARE(range.first().count, 1);
-    QTRY_COMPARE(m_model->count(), 17);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 
     //cancel removal (it was removed above)
-    cancelPlaceRemoval(5);
+    cancelPlaceRemoval(tempDirIndex);
 }
 
 void PlacesItemModelTest::testEditBookmark()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     QScopedPointer<PlacesItemModel> other(new PlacesItemModel());
 
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     QSignalSpy itemsChangedSply(m_model, &PlacesItemModel::itemsChanged);
 
@@ -577,6 +627,14 @@ void PlacesItemModelTest::testEditBookmark()
 
 void PlacesItemModelTest::testEditAfterCreation()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -588,7 +646,7 @@ void PlacesItemModelTest::testEditAfterCreation()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     // modify place text
     PlacesItem *item = m_model->placesItem(3);
@@ -606,6 +664,14 @@ void PlacesItemModelTest::testEditAfterCreation()
 
 void PlacesItemModelTest::testEditMetadata()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -618,7 +684,7 @@ void PlacesItemModelTest::testEditMetadata()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     // modify place metadata
     PlacesItem *item = m_model->placesItem(3);
@@ -637,6 +703,14 @@ void PlacesItemModelTest::testEditMetadata()
 
 void PlacesItemModelTest::testRefresh()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
 
@@ -648,10 +722,10 @@ void PlacesItemModelTest::testRefresh()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
-    PlacesItem *item = m_model->placesItem(5);
-    PlacesItem *sameItem = model->placesItem(5);
+    PlacesItem *item = m_model->placesItem(tempDirIndex);
+    PlacesItem *sameItem = model->placesItem(tempDirIndex);
     QCOMPARE(item->text(), sameItem->text());
 
     // modify place text
@@ -700,6 +774,14 @@ void PlacesItemModelTest::testIcons()
 
 void PlacesItemModelTest::testDragAndDrop()
 {
+    int lastIndex = 2; // last index of places group
+    if (m_hasDesktopFolder) {
+        lastIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        lastIndex++;
+    }
+
     QList<QVariant> args;
     KItemRangeList range;
     QStringList urls = initialUrls();
@@ -710,7 +792,7 @@ void PlacesItemModelTest::testDragAndDrop()
     // Move the home directory to the end of the places group
     QMimeData *dropData = createMimeData(QList<int>() << 0);
     m_model->dropMimeDataBefore(m_model->count() - 1, dropData);
-    urls.move(0, 4);
+    urls.move(0, lastIndex);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -728,7 +810,7 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 4);
+    QCOMPARE(range.at(0).index, lastIndex);
 
     CHECK_PLACES_URLS(urls);
 
@@ -736,9 +818,9 @@ void PlacesItemModelTest::testDragAndDrop()
     itemsRemovedSpy.clear();
 
     // Move home directory item back to its original position
-    dropData = createMimeData(QList<int>() << 4);
+    dropData = createMimeData(QList<int>() << lastIndex);
     m_model->dropMimeDataBefore(0, dropData);
-    urls.move(4, 0);
+    urls.move(lastIndex, 0);
     delete dropData;
 
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
@@ -749,7 +831,7 @@ void PlacesItemModelTest::testDragAndDrop()
     range = args.at(0).value<KItemRangeList>();
     QCOMPARE(range.size(), 1);
     QCOMPARE(range.at(0).count, 1);
-    QCOMPARE(range.at(0).index, 4);
+    QCOMPARE(range.at(0).index, lastIndex);
 
     // insert intem in the requested position
     args = itemsInsertedSpy.takeFirst();
@@ -811,6 +893,14 @@ void PlacesItemModelTest::testDuplicatedEntries()
 
 void PlacesItemModelTest::renameAfterCreation()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QStringList urls = initialUrls();
     PlacesItemModel *model = new PlacesItemModel();
@@ -820,10 +910,10 @@ void PlacesItemModelTest::renameAfterCreation()
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(5, tempUrl.toLocalFile());
+    urls.insert(tempDirIndex, tempUrl.toLocalFile());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     CHECK_PLACES_URLS(urls);
     QCOMPARE(model->count(), m_model->count());

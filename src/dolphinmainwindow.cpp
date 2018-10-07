@@ -455,10 +455,6 @@ void DolphinMainWindow::updateNewMenu()
     m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->hiddenFilesShown());
     m_newFileMenu->checkUpToDate();
     m_newFileMenu->setPopupFiles(activeViewContainer()->url());
-
-    // If we're in the trash, also disable all the 'create new' items
-    // TODO: remove this once https://phabricator.kde.org/T8234 is implemented
-    slotWriteStateChanged(m_activeViewContainer->view()->url().scheme() != QLatin1String("trash"));
 }
 
 void DolphinMainWindow::createDirectory()
@@ -807,10 +803,9 @@ void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
 
 void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 {
-    const auto actions = m_newFileMenu->menu()->actions();
-    for (auto menuItem : actions) {
-        menuItem->setEnabled(isFolderWritable);
-    }
+    // trash:/ is writable but we don't want to create new items in it.
+    // TODO: remove the trash check once https://phabricator.kde.org/T8234 is implemented
+    newFileMenu()->setEnabled(isFolderWritable && m_activeViewContainer->url().scheme() != QLatin1String("trash"));
 }
 
 void DolphinMainWindow::openContextMenu(const QPoint& pos,
@@ -1028,6 +1023,7 @@ void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
+    m_newFileMenu->setObjectName("newFileMenu");
     QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
