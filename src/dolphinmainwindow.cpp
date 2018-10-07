@@ -854,6 +854,11 @@ void DolphinMainWindow::updateControlMenu()
 
     KActionCollection* ac = actionCollection();
 
+    // Add "Create New" menu
+    menu->addMenu(m_newFileMenu->menu());
+
+    menu->addSeparator();
+
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Find)), menu) |
