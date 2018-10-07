@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinmainwindow.h"
+#include "dolphinnewfilemenu.h"
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
@@ -39,6 +40,8 @@ private slots:
     void testActiveViewAfterClosingSplitView_data();
     void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
+    void testNewFileMenuEnabled_data();
+    void testNewFileMenuEnabled();
 
 private:
     QScopedPointer<DolphinMainWindow> m_mainWindow;
@@ -168,6 +171,31 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
     QSignalSpy currentUrlChangedSpy(tabWidget, &DolphinTabWidget::currentUrlChanged);
     tabWidget->currentTabPage()->activeViewContainer()->setUrl(QUrl::fromLocalFile(QDir::rootPath()));
     QCOMPARE(currentUrlChangedSpy.count(), 1);
+}
+
+void DolphinMainWindowTest::testNewFileMenuEnabled_data()
+{
+    QTest::addColumn<QUrl>("activeViewUrl");
+    QTest::addColumn<bool>("expectedEnabled");
+
+    QTest::newRow("home") << QUrl::fromLocalFile(QDir::homePath()) << true;
+    QTest::newRow("root") << QUrl::fromLocalFile(QDir::rootPath()) << false;
+    QTest::newRow("trash") << QUrl::fromUserInput(QStringLiteral("trash:/")) << false;
+}
+
+void DolphinMainWindowTest::testNewFileMenuEnabled()
+{
+    QFETCH(QUrl, activeViewUrl);
+    m_mainWindow->openDirectories({ activeViewUrl }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu*>("newFileMenu");
+    QVERIFY(newFileMenu);
+
+    QFETCH(bool, expectedEnabled);
+    QCOMPARE(newFileMenu->isEnabled(), expectedEnabled);
 }
 
 QTEST_MAIN(DolphinMainWindowTest)
