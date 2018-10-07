@@ -541,6 +541,14 @@ void PlacesItemModelTest::testHideItem()
 
 void PlacesItemModelTest::testSystemItems()
 {
+    int tempDirIndex = 3;
+    if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDownloadsFolder) {
+        tempDirIndex++;
+    }
+
     QCOMPARE(m_model->count(), m_expectedModelCount);
     for (int r = 0; r < m_model->count(); r++) {
         QCOMPARE(m_model->placesItem(r)->isSystemItem(), !m_model->placesItem(r)->device().isValid());
@@ -555,28 +563,28 @@ void PlacesItemModelTest::testSystemItems()
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
 
     // make sure the new place get removed
-    removePlaceAfter(5);
+    removePlaceAfter(tempDirIndex);
 
     QList<QVariant> args = itemsInsertedSpy.takeFirst();
     KItemRangeList range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 5);
+    QCOMPARE(range.first().index, tempDirIndex);
     QCOMPARE(range.first().count, 1);
-    QVERIFY(!m_model->placesItem(5)->isSystemItem());
-    QCOMPARE(m_model->count(), 18);
+    QVERIFY(!m_model->placesItem(tempDirIndex)->isSystemItem());
+    QCOMPARE(m_model->count(), m_expectedModelCount + 1);
 
     QTest::qWait(300);
     // check if the removal signal is correct
     QSignalSpy itemsRemovedSpy(m_model, &PlacesItemModel::itemsRemoved);
-    m_model->deleteItem(5);
+    m_model->deleteItem(tempDirIndex);
     QTRY_COMPARE(itemsRemovedSpy.count(), 1);
     args = itemsRemovedSpy.takeFirst();
     range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 5);
+    QCOMPARE(range.first().index, tempDirIndex);
     QCOMPARE(range.first().count, 1);
     QTRY_COMPARE(m_model->count(), m_expectedModelCount);
 
     //cancel removal (it was removed above)
-    cancelPlaceRemoval(5);
+    cancelPlaceRemoval(tempDirIndex);
 }
 
 void PlacesItemModelTest::testEditBookmark()
