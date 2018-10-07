@@ -421,7 +421,7 @@ void PlacesItemModelTest::testTearDownDevice()
 
     QSignalSpy spyItemsRemoved(m_model, &PlacesItemModel::itemsRemoved);
     fakeManager()->call(QStringLiteral("unplug"), "/org/kde/solid/fakehw/volume_part1_size_993284096");
-    QTRY_COMPARE(m_model->count(), 16);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount - 1);
     QCOMPARE(spyItemsRemoved.count(), 1);
     const QList<QVariant> spyItemsRemovedArgs = spyItemsRemoved.takeFirst();
     const KItemRangeList removedRange = spyItemsRemovedArgs.at(0).value<KItemRangeList>();
