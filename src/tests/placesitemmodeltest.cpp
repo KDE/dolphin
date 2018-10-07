@@ -511,7 +511,7 @@ void PlacesItemModelTest::testHideItem()
     item->setHidden(true);
 
     // check if items removed was fired
-    QTRY_COMPARE(m_model->count(), 16);
+    QTRY_COMPARE(m_model->count(), m_expectedModelCount - 1);
     QCOMPARE(spyItemsRemoved.count(), 1);
     spyItemsRemovedArgs = spyItemsRemoved.takeFirst();
     removedRange = spyItemsRemovedArgs.at(0).value<KItemRangeList>();
