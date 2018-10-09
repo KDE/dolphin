@@ -589,7 +589,7 @@ void PlacesItemModelTest::testSystemItems()
 
 void PlacesItemModelTest::testEditBookmark()
 {
-    int tempDirIndex = 3;
+    int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
@@ -602,32 +602,32 @@ void PlacesItemModelTest::testEditBookmark()
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex);
+    removePlaceAfter(tempDirIndex + 2);
 
     QSignalSpy itemsChangedSply(m_model, &PlacesItemModel::itemsChanged);
 
     // modify place text
-    m_model->item(3)->setText(QStringLiteral("Renamed place"));
+    m_model->item(tempDirIndex)->setText(QStringLiteral("Renamed place"));
     m_model->refresh();
 
     // check if the correct signal was fired
     QTRY_COMPARE(itemsChangedSply.count(), 1);
     QList<QVariant> args = itemsChangedSply.takeFirst();
     KItemRangeList range = args.at(0).value<KItemRangeList>();
-    QCOMPARE(range.first().index, 3);
+    QCOMPARE(range.first().index, tempDirIndex);
     QCOMPARE(range.first().count, 1);
     QSet<QByteArray> roles = args.at(1).value<QSet<QByteArray> >();
     QCOMPARE(roles.size(), 1);
     QCOMPARE(*roles.begin(), QByteArrayLiteral("text"));
-    QCOMPARE(m_model->item(3)->text(), QStringLiteral("Renamed place"));
+    QCOMPARE(m_model->item(tempDirIndex)->text(), QStringLiteral("Renamed place"));
 
     // check if the item was updated in the other model
-    QTRY_COMPARE(other->item(3)->text(), QStringLiteral("Renamed place"));
+    QTRY_COMPARE(other->item(tempDirIndex)->text(), QStringLiteral("Renamed place"));
 }
 
 void PlacesItemModelTest::testEditAfterCreation()
 {
-    int tempDirIndex = 3;
+    int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
@@ -646,25 +646,25 @@ void PlacesItemModelTest::testEditAfterCreation()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex);
+    removePlaceAfter(tempDirIndex + 2);
 
     // modify place text
-    PlacesItem *item = m_model->placesItem(3);
+    PlacesItem *item = m_model->placesItem(tempDirIndex);
     item->setText(QStringLiteral("Renamed place"));
     m_model->refresh();
 
     // check if the second model got the changes
     QTRY_COMPARE(model->count(), m_model->count());
-    QTRY_COMPARE(model->placesItem(3)->text(), m_model->placesItem(3)->text());
-    QTRY_COMPARE(model->placesItem(3)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
-                 m_model->placesItem(3)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")));
-    QTRY_COMPARE(model->placesItem(3)->icon(), m_model->placesItem(3)->icon());
-    QTRY_COMPARE(model->placesItem(3)->url(), m_model->placesItem(3)->url());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->text(), m_model->placesItem(tempDirIndex)->text());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
+                 m_model->placesItem(tempDirIndex)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")));
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->icon(), m_model->placesItem(tempDirIndex)->icon());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->url(), m_model->placesItem(tempDirIndex)->url());
 }
 
 void PlacesItemModelTest::testEditMetadata()
 {
-    int tempDirIndex = 3;
+    int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
@@ -684,21 +684,21 @@ void PlacesItemModelTest::testEditMetadata()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex);
+    removePlaceAfter(tempDirIndex + 2);
 
     // modify place metadata
-    PlacesItem *item = m_model->placesItem(3);
+    PlacesItem *item = m_model->placesItem(tempDirIndex);
     item->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"), KAboutData::applicationData().componentName());
     m_model->refresh();
 
     // check if the place was modified in both models
-    QTRY_COMPARE(model->placesItem(3)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
                  KAboutData::applicationData().componentName());
-    QTRY_COMPARE(model->placesItem(3)->text(), m_model->placesItem(3)->text());
-    QTRY_COMPARE(model->placesItem(3)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
-                 m_model->placesItem(3)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")));
-    QTRY_COMPARE(model->placesItem(3)->icon(), m_model->placesItem(3)->icon());
-    QTRY_COMPARE(model->placesItem(3)->url(), m_model->placesItem(3)->url());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->text(), m_model->placesItem(tempDirIndex)->text());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")),
+                 m_model->placesItem(tempDirIndex)->bookmark().metaDataItem(QStringLiteral("OnlyInApp")));
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->icon(), m_model->placesItem(tempDirIndex)->icon());
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->url(), m_model->placesItem(tempDirIndex)->url());
 }
 
 void PlacesItemModelTest::testRefresh()
@@ -893,7 +893,7 @@ void PlacesItemModelTest::testDuplicatedEntries()
 
 void PlacesItemModelTest::renameAfterCreation()
 {
-    int tempDirIndex = 3;
+    int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
@@ -910,10 +910,10 @@ void PlacesItemModelTest::renameAfterCreation()
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
-    urls.insert(tempDirIndex, tempUrl.toLocalFile());
+    urls.insert(tempDirIndex + 2, tempUrl.toLocalFile());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex);
+    removePlaceAfter(tempDirIndex + 2);
 
     CHECK_PLACES_URLS(urls);
     QCOMPARE(model->count(), m_model->count());
@@ -922,7 +922,7 @@ void PlacesItemModelTest::renameAfterCreation()
     // modify place text
     QSignalSpy changedSpy(m_model, &PlacesItemModel::itemsChanged);
 
-    PlacesItem *item = m_model->placesItem(3);
+    PlacesItem *item = m_model->placesItem(tempDirIndex);
     item->setText(QStringLiteral("New Temporary Dir"));
     item->setUrl(item->url());
     item->setIcon(item->icon());
@@ -931,8 +931,8 @@ void PlacesItemModelTest::renameAfterCreation()
     QTRY_COMPARE(changedSpy.count(), 1);
 
     // check if the place was modified in both models
-    QTRY_COMPARE(m_model->placesItem(3)->text(), QStringLiteral("New Temporary Dir"));
-    QTRY_COMPARE(model->placesItem(3)->text(), QStringLiteral("New Temporary Dir"));
+    QTRY_COMPARE(m_model->placesItem(tempDirIndex)->text(), QStringLiteral("New Temporary Dir"));
+    QTRY_COMPARE(model->placesItem(tempDirIndex)->text(), QStringLiteral("New Temporary Dir"));
 }
 
 QTEST_MAIN(PlacesItemModelTest)
