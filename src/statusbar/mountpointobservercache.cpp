@@ -78,7 +78,7 @@ MountPointObserver* MountPointObserverCache::observerForUrl(const QUrl& url)
         connect(observer, &MountPointObserver::destroyed, this, &MountPointObserverCache::slotObserverDestroyed);
 
         if (!m_updateTimer->isActive()) {
-            m_updateTimer->start(10000);
+            m_updateTimer->start(60000); // 1 minute
         }
 
         connect(m_updateTimer, &QTimer::timeout, observer, &MountPointObserver::update);
