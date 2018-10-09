@@ -201,14 +201,14 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
     }
 
-    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme("window-new"), i18nc("@item:inmenu", "Open in New Window"));
-    QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme("tab-new"), i18nc("@item:inmenu", "Open in New Tab"));
+    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
+    QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
     if (!isDevice && !isTrash) {
         menu.addSeparator();
     }
 
     if (!isDevice) {
-        editAction = menu.addAction(QIcon::fromTheme("edit-entry"), i18nc("@item:inmenu", "Edit..."));
+        editAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-entry")), i18nc("@item:inmenu", "Edit..."));
     }
 
     QAction* removeAction = nullptr;
