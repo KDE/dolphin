@@ -26,7 +26,7 @@
 #include <KNotification>
 #include <KConfig>
 #include <KConfigGroup>
-
+#include <KLocalizedString>
 
 Trash::Trash()
     : m_trashDirLister(new KDirLister())
@@ -66,8 +66,10 @@ KIO::Job *Trash::empty(QWidget *window)
         KJobWidgets::setWindow(job, window);
         job->uiDelegate()->setAutoErrorHandlingEnabled(true);
          // as long as KIO doesn't do this, do it ourselves
-        connect(job, &KIO::Job::result, [](){
-            KNotification::event(QStringLiteral("Trash: emptied"), QString(), QPixmap(), nullptr, KNotification::DefaultEvent);
+        connect(job, &KIO::Job::result, []() {
+            KNotification::event(QStringLiteral("Trash: emptied"), i18n("Trash Emptied"),
+                                 i18n("The Trash was emptied."), QStringLiteral("user-trash"),
+                                 nullptr, KNotification::DefaultEvent);
         });
         return job;
     }
