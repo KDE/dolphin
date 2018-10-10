@@ -96,7 +96,7 @@ private:
     QStringList placesUrls(PlacesItemModel *model = nullptr) const;
     QStringList initialUrls() const;
     void createPlaceItem(const QString &text, const QUrl &url, const QString &icon);
-    void removePlaceAfter(int index);
+    void schedulePlaceRemoval(int index);
     void cancelPlaceRemoval(int index);
     void removeTestUserData();
     QMimeData *createMimeData(const QList<int> &indexes) const;
@@ -190,7 +190,7 @@ void PlacesItemModelTest::createPlaceItem(const QString &text, const QUrl &url, 
     m_model->createPlacesItem(text, url, icon);
 }
 
-void PlacesItemModelTest::removePlaceAfter(int index)
+void PlacesItemModelTest::schedulePlaceRemoval(int index)
 {
     m_tobeRemoved.insert(index);
 }
@@ -563,7 +563,7 @@ void PlacesItemModelTest::testSystemItems()
     QTRY_COMPARE(itemsInsertedSpy.count(), 1);
 
     // make sure the new place get removed
-    removePlaceAfter(tempDirIndex);
+    schedulePlaceRemoval(tempDirIndex);
 
     QList<QVariant> args = itemsInsertedSpy.takeFirst();
     KItemRangeList range = args.at(0).value<KItemRangeList>();
@@ -602,7 +602,7 @@ void PlacesItemModelTest::testEditBookmark()
     createPlaceItem(QStringLiteral("Temporary Dir"), QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation)), QString());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex + 2);
+    schedulePlaceRemoval(tempDirIndex + 2);
 
     QSignalSpy itemsChangedSply(m_model, &PlacesItemModel::itemsChanged);
 
@@ -646,7 +646,7 @@ void PlacesItemModelTest::testEditAfterCreation()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex + 2);
+    schedulePlaceRemoval(tempDirIndex + 2);
 
     // modify place text
     PlacesItem *item = m_model->placesItem(tempDirIndex);
@@ -684,7 +684,7 @@ void PlacesItemModelTest::testEditMetadata()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex + 2);
+    schedulePlaceRemoval(tempDirIndex + 2);
 
     // modify place metadata
     PlacesItem *item = m_model->placesItem(tempDirIndex);
@@ -722,7 +722,7 @@ void PlacesItemModelTest::testRefresh()
     QTRY_COMPARE(model->count(), m_model->count());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex);
+    schedulePlaceRemoval(tempDirIndex);
 
     PlacesItem *item = m_model->placesItem(tempDirIndex);
     PlacesItem *sameItem = model->placesItem(tempDirIndex);
@@ -913,7 +913,7 @@ void PlacesItemModelTest::renameAfterCreation()
     urls.insert(tempDirIndex + 2, tempUrl.toLocalFile());
 
     // make sure that the new item will be removed later
-    removePlaceAfter(tempDirIndex + 2);
+    schedulePlaceRemoval(tempDirIndex + 2);
 
     CHECK_PLACES_URLS(urls);
     QCOMPARE(model->count(), m_model->count());
