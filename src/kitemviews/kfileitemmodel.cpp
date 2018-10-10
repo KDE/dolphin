@@ -1550,8 +1550,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("isLink"), true);
     }
 
-    if (m_requestRole[IsHiddenRole] && item.isHidden()) {
-        data.insert(sharedValue("isHidden"), true);
+    if (m_requestRole[IsHiddenRole]) {
+        data.insert(sharedValue("isHidden"), item.isHidden());
     }
 
     if (m_requestRole[NameRole]) {
