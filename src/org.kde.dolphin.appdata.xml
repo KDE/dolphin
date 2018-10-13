@@ -97,6 +97,7 @@
   <description>
     <p>Dolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات خفيف. صُمِّم دولفين مع أخذ سهولة الاستخدام والبساطة بعين الاعتبار، مع السماح بالمرونة والتخصيص. يعني هذا أنه يمكنك إدارة ملفاتك كما تريد تمامًا.</p>
+    <p xml:lang="ast">Dolphin ye un xestor de ficheros llixeru. Diseñóse cola cenciellez y facilidá d'usu en mente, al empar que permite flexibilidá y personalización. Esto quier dicir que pues facer la xestión de ficheros del mou exautu que quieras.</p>
     <p xml:lang="bs">Dolphinje lagan file manager. On je bio dizajniran sa lakoćom korišćenja i jednostavnosti u vidu, još omogućavajući fleksibilnost i prilagođavanje. To znači da možete da radite svoje upravljanje datotekama onako kako želite da to uradi.</p>
     <p xml:lang="ca">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que sigui simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
     <p xml:lang="ca-valencia">El Dolphin és un gestor de fitxers lleuger. S'ha dissenyat pensant a facilitar el seu ús i que siga simple, permetent la flexibilitat i la personalització. Això vol dir que podeu fer la gestió dels vostres fitxers de la manera exacta com ho vulgueu fer.</p>
@@ -264,6 +265,7 @@
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
       <li>Split view, allowing you to easily copy or move files between locations.</li>
       <li xml:lang="ar">العرض المقسوم، يسمح لك بنسخ ونقل الملفات بين مكانين بسهولة.</li>
+      <li xml:lang="ast">La vista dixebrada permítete copiar o mover ficheros de mou fácil ente allugamientos.</li>
       <li xml:lang="bs">Razdvaja pogled, dopuštajući lako kopiranje ili pomijeranje datoteka između lokacija</li>
       <li xml:lang="ca">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
       <li xml:lang="ca-valencia">Divisió de visualització, permetent copiar o moure fitxers fàcilment entre les ubicacions.</li>
@@ -304,6 +306,7 @@
       <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
       <li>Additional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.</li>
       <li xml:lang="ar">تتوفر معلومات واختصارات إضافية كلوحات قابلة للرصف، مما يسمح لك بنقلها بحريّة وعرضها بالضبط كما تريد.</li>
+      <li xml:lang="ast">La información adicional y los atayos tán disponibles como paneles anclables que pues mover ande quieras y amosar como exautamente quieras.</li>
       <li xml:lang="bs">Dodatne informacije i kratice su dostupne kao usidreni paneli, dopuštajući vam da se krećete slobodno i prikažete šta želite.</li>
       <li xml:lang="ca">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
       <li xml:lang="ca-valencia">Hi ha informació addicional i dreceres disponibles com a plafons que es poden acoblar, permetent moure'ls lliurement i mostrar exactament el què vulgueu.</li>
@@ -390,6 +393,7 @@
       <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
       <li>Informational dialogues are displayed in an unobtrusive way.</li>
       <li xml:lang="ar">حواريات المعلومات تُعرَض بطريقة غير مُزعجة.</li>
+      <li xml:lang="ast">Los diálogos informativos amuésense d'un mou non intrusivu.</li>
       <li xml:lang="bs">Informativni dijalozi su prikazani na nenametljiv način.</li>
       <li xml:lang="ca">Els diàlegs informatius es mostren d'una manera no molesta.</li>
       <li xml:lang="ca-valencia">Els diàlegs informatius es mostren d'una manera no molesta.</li>
@@ -430,6 +434,7 @@
       <li xml:lang="zh-TW">支援多分頁</li>
       <li>Undo/redo support</li>
       <li xml:lang="ar">دعم التراجع والإعادة</li>
+      <li xml:lang="ast">Sofitu pa la desfechura/refechura</li>
       <li xml:lang="bs">Podrška za poništavanje/ponavljanje akcija</li>
       <li xml:lang="ca">Admet desfer/refer</li>
       <li xml:lang="ca-valencia">Admet desfer/refer</li>
