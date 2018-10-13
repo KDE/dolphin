@@ -43,11 +43,6 @@ Q_DECLARE_METATYPE(KItemRange)
 #define KDE_ROOT_PATH "/"
 #endif
 
-namespace
-{
-    constexpr int TIMEOUT = 10000;
-}
-
 static QString bookmarksFile()
 {
     return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation) + "/user-places.xbel";
@@ -740,10 +735,13 @@ void PlacesItemModelTest::testRefresh()
     QVERIFY(item->text() != sameItem->text());
 
     // propagate change
+    QEventLoop eventLoop;
+    connect(m_model, &PlacesItemModel::sourceModelDataChanged, &eventLoop, &QEventLoop::quit);
     m_model->refresh();
+    eventLoop.exec();
 
     // item must be equal
-    QTRY_COMPARE_WITH_TIMEOUT(item->text(), sameItem->text(), TIMEOUT);
+    QCOMPARE(item->text(), sameItem->text());
 }
 
 void PlacesItemModelTest::testIcons_data()

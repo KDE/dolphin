@@ -145,6 +145,7 @@ signals:
     void storageSetupDone(int index, bool success);
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
+    void sourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles = QVector<int>());
 
 protected:
     void onItemInserted(int index) override;
