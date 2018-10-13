@@ -739,11 +739,6 @@ void PlacesItemModelTest::testRefresh()
 
     // item must be equal
     QTRY_COMPARE(item->text(), sameItem->text());
-
-    // TODO REMOVE
-    if (item->text() == sameItem->text()) {
-        QCOMPARE(0, 1);
-    }
 }
 
 void PlacesItemModelTest::testIcons_data()
