@@ -68,7 +68,6 @@ PlacesItemModel::PlacesItemModel(QObject* parent) :
 
     connect(m_sourceModel, &KFilePlacesModel::rowsInserted, this, &PlacesItemModel::onSourceModelRowsInserted);
     connect(m_sourceModel, &KFilePlacesModel::rowsAboutToBeRemoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeRemoved);
-    connect(m_sourceModel, &KFilePlacesModel::dataChanged, this, &PlacesItemModel::sourceModelDataChanged);
     connect(m_sourceModel, &KFilePlacesModel::dataChanged, this, &PlacesItemModel::onSourceModelDataChanged);
     connect(m_sourceModel, &KFilePlacesModel::rowsAboutToBeMoved, this, &PlacesItemModel::onSourceModelRowsAboutToBeMoved);
     connect(m_sourceModel, &KFilePlacesModel::rowsMoved, this, &PlacesItemModel::onSourceModelRowsMoved);

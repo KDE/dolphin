@@ -735,13 +735,10 @@ void PlacesItemModelTest::testRefresh()
     QVERIFY(item->text() != sameItem->text());
 
     // propagate change
-    QEventLoop eventLoop;
-    connect(m_model, &PlacesItemModel::sourceModelDataChanged, &eventLoop, &QEventLoop::quit);
     m_model->refresh();
-    eventLoop.exec();
 
     // item must be equal
-    QCOMPARE(item->text(), sameItem->text());
+    QTRY_COMPARE(item->text(), sameItem->text());
 }
 
 void PlacesItemModelTest::testIcons_data()
