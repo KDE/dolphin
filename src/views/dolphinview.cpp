@@ -1569,7 +1569,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
     if (role == "text") {
         const KFileItem oldItem = m_model->fileItem(index);
         const QString newName = value.toString();
-        if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
+        if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1Char('.') && newName != QLatin1String("..")) {
             const QUrl oldUrl = oldItem.url();
 
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
