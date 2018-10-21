@@ -27,6 +27,7 @@
 #include <knewstuff_version.h>
 
 #include <QMouseEvent>
+#include <QPalette>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
@@ -104,6 +105,12 @@ void StatusBarSpaceInfo::slotValuesChanged()
         const quint64 available = m_observer->available();
         const quint64 used = size - available;
         const int percentUsed = qRound(100.0 * qreal(used) / qreal(size));
+        
+        if (percentUsed >= 80) {
+            QPalette p = this->palette();
+            p.setColor(QPalette::Highlight, QColor(Qt::red));
+            this->setPalette(p);
+        }
 
         setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
         setUpdatesEnabled(false);
