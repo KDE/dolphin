@@ -93,7 +93,7 @@ Q_SIGNALS:
      * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
      * the method createDirectory of their KNewFileMenu instance.
      */
-    void createDirectory();
+    void createDirectoryTriggered();
 
 private Q_SLOTS:
     /**

@@ -95,7 +95,7 @@ void DolphinViewActionHandler::createActions()
     m_actionCollection->setDefaultShortcut(newDirAction, Qt::Key_F10);
     newDirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     newDirAction->setEnabled(false);    // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
-    connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectory);
+    connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectoryTriggered);
 
     // File menu
 
