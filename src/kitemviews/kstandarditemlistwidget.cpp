@@ -1500,9 +1500,25 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
         // setup time.
         foreach (const QString& overlay, overlays) {
             if (!overlay.isEmpty()) {
+                int state = KIconLoader::DefaultState;
+
+                switch (mode) {
+                case QIcon::Normal:
+                    break;
+                case QIcon::Active:
+                    state = KIconLoader::ActiveState;
+                    break;
+                case QIcon::Disabled:
+                    state = KIconLoader::DisabledState;
+                    break;
+                case QIcon::Selected:
+                    state = KIconLoader::SelectedState;
+                    break;
+                }
+
                 // There is at least one overlay, draw all overlays above m_pixmap
                 // and cancel the check
-                KIconLoader::global()->drawOverlays(overlays, pixmap, KIconLoader::Desktop);
+                KIconLoader::global()->drawOverlays(overlays, pixmap, KIconLoader::Desktop, state);
                 break;
             }
         }
