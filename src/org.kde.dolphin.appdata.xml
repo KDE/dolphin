@@ -528,6 +528,7 @@
   <url type="help">https://docs.kde.org/?application=dolphin</url>
   <screenshots>
     <screenshot type="default">
+      <caption>File management in Dolphin</caption>
       <image>https://kde.org/images/screenshots/dolphin.png</image>
     </screenshot>
   </screenshots>
