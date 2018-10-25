@@ -210,7 +210,7 @@ public:
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
-     * part of the view. Per default the expanding of items is is disabled. If expanding of
+     * part of the view. Per default the expanding of items is disabled. If expanding of
      * items is enabled, the methods KItemModelBase::setExpanded(), KItemModelBase::isExpanded(),
      * KItemModelBase::isExpandable() and KItemModelBase::expandedParentsCount()
      * must be reimplemented. The view-implementation

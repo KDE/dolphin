@@ -521,7 +521,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                                    scaledPixmap);
                 scaledPixmap = largeFrame;
             } else {
-                // The image must be shrinked as it is too large to fit into
+                // The image must be shrunk as it is too large to fit into
                 // the available icon size
                 KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
             }
@@ -1148,7 +1148,7 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
 
     // We need a reasonable upper limit for number of items to resolve after
     // and before the visible range. m_maximumVisibleItems can be quite large
-    // when using Compace View.
+    // when using Compact View.
     const int readAheadItems = qMin(ReadAheadPages * m_maximumVisibleItems, ResolveAllItemsLimit / 2);
 
     // Add items after the visible range.

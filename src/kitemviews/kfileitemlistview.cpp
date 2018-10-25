@@ -35,7 +35,7 @@
 
 namespace {
     // If the visible index range changes, KFileItemModelRolesUpdater is not
-    // informed immediatetly, but with a short delay. This ensures that scrolling
+    // informed immediately, but with a short delay. This ensures that scrolling
     // always feels smooth and is not interrupted by icon loading (which can be
     // quite expensive if a disk access is required to determine the final icon).
     const int ShortInterval = 50;

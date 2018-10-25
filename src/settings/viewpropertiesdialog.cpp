@@ -366,7 +366,7 @@ void ViewPropertiesDialog::applyViewProperties()
 
     const bool applyToAllFolders = m_applyToAllFolders && m_applyToAllFolders->isChecked();
 
-    // If the user selected 'Apply To All Folders' the view properties implicitely
+    // If the user selected 'Apply To All Folders' the view properties implicitly
     // are also used as default for new folders.
     const bool useAsDefault = applyToAllFolders || (m_useAsDefault && m_useAsDefault->isChecked());
     if (useAsDefault) {

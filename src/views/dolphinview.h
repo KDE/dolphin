@@ -646,7 +646,7 @@ private slots:
 
     /**
      * Invoked when the file item model indicates that the loading of a directory has
-     * been completed. Assures that pasted items and renamed items get seleced.
+     * been completed. Assures that pasted items and renamed items get selected.
      */
     void slotDirectoryLoadingCompleted();
 

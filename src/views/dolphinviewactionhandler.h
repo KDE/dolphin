@@ -84,7 +84,7 @@ public Q_SLOTS:
 Q_SIGNALS:
     /**
      * Emitted by DolphinViewActionHandler when the user triggered an action.
-     * This is only used for clearining the statusbar in DolphinMainWindow.
+     * This is only used for clearing the statusbar in DolphinMainWindow.
      */
     void actionBeingHandled();
 

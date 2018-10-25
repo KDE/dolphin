@@ -53,12 +53,12 @@ public:
     void setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl = QUrl());
 
     /**
-     * @return The primary view containter.
+     * @return The primary view container.
      */
     DolphinViewContainer* primaryViewContainer() const;
 
     /**
-     * @return The secondary view containter, can be 0 if split view is disabled.
+     * @return The secondary view container, can be 0 if split view is disabled.
      */
     DolphinViewContainer* secondaryViewContainer() const;
 

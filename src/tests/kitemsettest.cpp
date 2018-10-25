@@ -326,7 +326,7 @@ void KItemSetTest::testFind_data()
 
 /**
  * Test all functions that find items:
- * contais(int), find(int), constFind(int)
+ * contains(int), find(int), constFind(int)
  */
 void KItemSetTest::testFind()
 {
@@ -498,7 +498,7 @@ void KItemSetTest::testChangingOneItem()
             QCOMPARE(tmp.end(), tmp.find(i));
             QCOMPARE(tmp.constEnd(), tmp.constFind(i));
 
-            // Check the returen value, now contained in 'it'.
+            // Check the returned value, now contained in 'it'.
             if (i == max) {
                 QCOMPARE(it, tmp.end());
             } else {

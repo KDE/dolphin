@@ -147,7 +147,7 @@ void DolphinStatusBar::setText(const QString& text)
 
     if (text.isEmpty()) {
         // Assure that the previous set text won't get
-        // cleared immediatelly.
+        // cleared immediately.
         m_resetToDefaultTextTimer->start();
     } else {
         m_text = text;

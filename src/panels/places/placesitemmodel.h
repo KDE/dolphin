@@ -60,7 +60,7 @@ public:
     PlacesItem* placesItem(int index) const;
 
     /**
-     * @brief Mark an item as hiden
+     * @brief Mark an item as hidden
      * @param index of the item to be hidden
      */
     void hideItem(int index);

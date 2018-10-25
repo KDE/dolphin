@@ -137,7 +137,7 @@ public:
          */
         IgnoredVersion,
         /**
-         * The file is is tracked by the version control system, but
+         * The file is tracked by the version control system, but
          * is missing in the directory (e.g. by deleted without using
          * a version control command).
          * @since 4.8

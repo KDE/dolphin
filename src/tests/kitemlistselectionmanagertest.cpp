@@ -451,7 +451,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
     QVERIFY(!m_selectionManager->hasSelection());
     QVERIFY(m_selectionManager->selectedItems().isEmpty());
 
-    // Perform the initial selectiion
+    // Perform the initial selection
     m_selectionManager->setSelectedItems(initialSelection);
 
     verifySelectionChange(spySelectionChanged, initialSelection, KItemSet());

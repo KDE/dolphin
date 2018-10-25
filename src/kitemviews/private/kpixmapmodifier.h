@@ -45,7 +45,7 @@ public:
     /**
      * return and paint a frame round an icon
      * @arg framesize is in device-independent pixels
-     * @return is in device-indepent pixels
+     * @return is in device-independent pixels
      */
 
     static QSize sizeInsideFrame(const QSize& frameSize);

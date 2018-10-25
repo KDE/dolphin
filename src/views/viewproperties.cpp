@@ -283,7 +283,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     //
     // For the details-view a special case must be respected: Per default the size
     // and date should be shown without creating a .directory file. Only if
-    // the user explictly has modified the properties of the details view (marked
+    // the user explicitly has modified the properties of the details view (marked
     // by "CustomizedDetails"), also a details-view with no additional information
     // is accepted.
 
