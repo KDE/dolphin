@@ -529,6 +529,14 @@
   <screenshots>
     <screenshot type="default">
       <caption>File management in Dolphin</caption>
+      <caption xml:lang="ca">Gestió de fitxers al Dolphin</caption>
+      <caption xml:lang="ca-valencia">Gestió de fitxers al Dolphin</caption>
+      <caption xml:lang="es">Gestión de archivos en Dolphin</caption>
+      <caption xml:lang="nl">Bestandsbeheer in Dolphin</caption>
+      <caption xml:lang="pt">Gestão de ficheiros no Dolphin</caption>
+      <caption xml:lang="sv">Filhantering i Dolphin</caption>
+      <caption xml:lang="uk">Керування файлами у Dolphin</caption>
+      <caption xml:lang="x-test">xxFile management in Dolphinxx</caption>
       <image>https://kde.org/images/screenshots/dolphin.png</image>
     </screenshot>
   </screenshots>
