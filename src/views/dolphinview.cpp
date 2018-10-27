@@ -1120,7 +1120,7 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
 
 void DolphinView::slotSelectedItemTextPressed(int index)
 {
-    if (GeneralSettings::renameInline()) {
+    if (GeneralSettings::renameInline() && !m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick)) {
         const KFileItem item = m_model->fileItem(index);
         const KFileItemListProperties capabilities(KFileItemList() << item);
         if (capabilities.supportsMoving()) {
