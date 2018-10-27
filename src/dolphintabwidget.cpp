@@ -226,7 +226,8 @@ void DolphinTabWidget::closeTab(const int index)
     Q_ASSERT(index < count());
 
     if (count() < 2) {
-        // Never close the last tab.
+        // Close Dolphin when closing the last tab.
+        parentWidget()->close();
         return;
     }
 

@@ -995,7 +995,6 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
 void DolphinMainWindow::tabCountChanged(int count)
 {
     const bool enableTabActions = (count > 1);
-    actionCollection()->action(KStandardAction::name(KStandardAction::Close))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_next_tab"))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_prev_tab"))->setEnabled(enableTabActions);
 }
@@ -1048,7 +1047,6 @@ void DolphinMainWindow::setupActions()
     QAction* closeTab = KStandardAction::close(
             m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
-    closeTab->setEnabled(false);
 
     KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
 
