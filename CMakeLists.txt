@@ -22,6 +22,7 @@ include(FeatureSummary)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDEFrameworkCompilerSettings NO_POLICY_SCOPE)
+include(ECMQtDeclareLoggingCategory)
 
 ecm_setup_version(${KDE_APPLICATIONS_VERSION} VARIABLE_PREFIX DOLPHIN
                   VERSION_HEADER "${CMAKE_CURRENT_BINARY_DIR}/src/dolphin_version.h"
@@ -131,6 +132,8 @@ configure_file(org.kde.dolphin.FileManager1.service.in
                ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
         DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
+
+install( FILES dolphin.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

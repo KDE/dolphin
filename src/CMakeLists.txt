@@ -106,8 +106,9 @@ set(dolphinprivate_LIB_SRCS
     dolphinremoveaction.cpp
     middleclickactioneventfilter.cpp
     dolphinnewfilemenu.cpp
-    dolphindebug.cpp
 )
+
+ecm_qt_declare_logging_category(dolphinprivate_LIB_SRCS HEADER dolphindebug.h IDENTIFIER DolphinDebug CATEGORY_NAME org.kde.dolphin)
 
 if(HAVE_BALOO)
     set(dolphinprivate_LIB_SRCS
