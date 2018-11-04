@@ -73,8 +73,11 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
                          KAboutLicense::GPL,
                          i18nc("@info:credit", "(C) 2006-2016 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"));
     aboutData.setHomepage(QStringLiteral("http://dolphin.kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Elvis Angelaccio"),
+                        i18nc("@info:credit", "Maintainer (since 2018) and developer"),
+                        QStringLiteral("elvis.angelaccio@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Emmanuel Pescosta"),
-                        i18nc("@info:credit", "Maintainer (since 2014) and developer"),
+                        i18nc("@info:credit", "Maintainer (2014-2018) and developer"),
                         QStringLiteral("emmanuelpescosta099@gmail.com"));
     aboutData.addAuthor(i18nc("@info:credit", "Frank Reininghaus"),
                         i18nc("@info:credit", "Maintainer (2012-2014) and developer"),
