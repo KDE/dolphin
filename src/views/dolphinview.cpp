@@ -1575,6 +1575,29 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
+#ifndef Q_OS_WIN
+            //Confirm hiding file/directory by renaming inline
+            if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
+                KGuiItem yesGuiItem(KStandardGuiItem::yes());
+                yesGuiItem.setText(i18nc("@action:button", "Rename and Hide"));
+
+                const auto code = KMessageBox::questionYesNo(this,
+                                                             oldItem.isFile() ? i18n("Adding a dot to the beginning of this file's name will hide it from view.\n"
+                                                                                     "Do you still want to rename it?")
+                                                                              : i18n("Adding a dot to the beginning of this folder's name will hide it from view.\n"
+                                                                                     "Do you still want to rename it?"),
+                                                             oldItem.isFile() ? i18n("Hide this File?") : i18n("Hide this Folder?"),
+                                                             yesGuiItem,
+                                                             KStandardGuiItem::cancel(),
+                                                             QStringLiteral("ConfirmHide")
+                                                            );
+
+                if (code == KMessageBox::No) {
+                   return;
+                }
+            }
+#endif
+
             const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
             if (!newNameExistsAlready) {
                 // Only change the data in the model if no item with the new name
