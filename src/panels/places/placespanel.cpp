@@ -258,6 +258,9 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
                 m_model->deleteItem(index);
             } else if (action == hideAction) {
                 item->setHidden(hideAction->isChecked());
+                if (!m_model->hiddenCount()) {
+                    showHiddenEntries(false);
+                }
             } else if (action == openInNewWindowAction) {
                 Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
             } else if (action == openInNewTabAction) {
@@ -287,12 +290,11 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 
     QAction* addAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("@item:inmenu", "Add Entry..."));
 
-    QAction* showAllAction = nullptr;
-    if (m_model->hiddenCount() > 0) {
-        showAllAction = menu.addAction(QIcon::fromTheme(QStringLiteral("visibility")), i18nc("@item:inmenu", "Show All Entries"));
-        showAllAction->setCheckable(true);
-        showAllAction->setChecked(m_model->hiddenItemsShown());
-    }
+    QAction* showAllAction = menu.addAction(i18nc("@item:inmenu", "Show Hidden Places"));
+    showAllAction->setCheckable(true);
+    showAllAction->setChecked(m_model->hiddenItemsShown());
+    showAllAction->setIcon(QIcon::fromTheme(m_model->hiddenItemsShown() ? QStringLiteral("visibility") : QStringLiteral("hint")));
+    showAllAction->setEnabled(m_model->hiddenCount());
 
     buildGroupContextMenu(&menu, m_controller->indexCloseToMousePressedPosition());
 
@@ -340,7 +342,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
         if (action == addAction) {
             addEntry();
         } else if (action == showAllAction) {
-            m_model->setHiddenItemsShown(showAllAction->isChecked());
+            showHiddenEntries(showAllAction->isChecked());
         } else if (iconSizeActionMap.contains(action)) {
             m_view->setIconSize(iconSizeActionMap.value(action));
         }
@@ -362,6 +364,9 @@ QAction *PlacesPanel::buildGroupContextMenu(QMenu *menu, int index)
 
     connect(hideGroupAction, &QAction::triggered, this, [this, groupType, hideGroupAction]{
         m_model->setGroupHidden(groupType, hideGroupAction->isChecked());
+        if (!m_model->hiddenCount()) {
+            showHiddenEntries(false);
+        }
     });
 
     return hideGroupAction;
@@ -540,4 +545,18 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
             }
         }
     }
+}
+
+void PlacesPanel::showHiddenEntries(bool shown)
+{
+    m_model->setHiddenItemsShown(shown);
+    emit showHiddenEntriesChanged(shown);
+}
+
+int PlacesPanel::hiddenListCount()
+{
+    if(!m_model) {
+        return 0;
+    }
+    return m_model->hiddenCount();
 }

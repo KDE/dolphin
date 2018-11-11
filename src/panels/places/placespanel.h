@@ -49,6 +49,7 @@ signals:
     void errorMessage(const QString& error);
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
+    void showHiddenEntriesChanged(bool shown);
 
 protected:
     bool urlChanged() override;
@@ -56,6 +57,8 @@ protected:
 
 public slots:
     void readSettings() override;
+    void showHiddenEntries(bool shown);
+    int hiddenListCount();
 
 private slots:
     void slotItemActivated(int index);
