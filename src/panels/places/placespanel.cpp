@@ -30,7 +30,6 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/kstandarditem.h"
 #include "placesitem.h"
-#include "placesitemeditdialog.h"
 #include "placesitemlistgroupheader.h"
 #include "placesitemlistwidget.h"
 #include "placesitemmodel.h"
@@ -38,6 +37,7 @@
 #include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
 
+#include <KFilePlaceEditDialog>
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
 #include <KIO/EmptyTrashJob>
@@ -474,13 +474,12 @@ void PlacesPanel::addEntry()
 {
     const int index = m_controller->selectionManager()->currentItem();
     const QUrl url = m_model->data(index).value("url").toUrl();
+    const QString text = url.fileName().isEmpty() ? url.toDisplayString(QUrl::PreferLocalFile) : url.fileName();
 
-    QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setWindowTitle(i18nc("@title:window", "Add Places Entry"));
-    dialog->setAllowGlobal(true);
-    dialog->setUrl(url);
+    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, QString(), true, false, KIconLoader::SizeMedium, this);
     if (dialog->exec() == QDialog::Accepted) {
-        m_model->createPlacesItem(dialog->text(), dialog->url(), dialog->icon());
+        const QString appName = dialog->applicationLocal() ? QCoreApplication::applicationName() : QString();
+        m_model->createPlacesItem(dialog->label(), dialog->url(), dialog->icon(), appName);
     }
 
     delete dialog;
@@ -489,17 +488,17 @@ void PlacesPanel::addEntry()
 void PlacesPanel::editEntry(int index)
 {
     QHash<QByteArray, QVariant> data = m_model->data(index);
+    const QUrl url = m_model->data(index).value("url").toUrl();
+    const QString text = m_model->data(index).value("text").toString();
+    const bool applicationLocal = !m_model->data(index).value("applicationName").toString().isEmpty();
 
-    QPointer<PlacesItemEditDialog> dialog = new PlacesItemEditDialog(this);
-    dialog->setWindowTitle(i18nc("@title:window", "Edit Places Entry"));
-    dialog->setIcon(data.value("iconName").toString());
-    dialog->setText(data.value("text").toString());
-    dialog->setUrl(data.value("url").toUrl());
-    dialog->setAllowGlobal(true);
+    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, QString(), true, applicationLocal, KIconLoader::SizeMedium, this);
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* oldItem = m_model->placesItem(index);
         if (oldItem) {
-            oldItem->setText(dialog->text());
+            const QString appName = dialog->applicationLocal() ? QCoreApplication::applicationName() : QString();
+            oldItem->setApplicationName(appName);
+            oldItem->setText(dialog->label());
             oldItem->setUrl(dialog->url());
             oldItem->setIcon(dialog->icon());
             m_model->refresh();

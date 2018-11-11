@@ -201,7 +201,6 @@ set(dolphinstatic_SRCS
     filterbar/filterbar.cpp
     panels/places/placespanel.cpp
     panels/places/placesitem.cpp
-    panels/places/placesitemeditdialog.cpp
     panels/places/placesitemlistgroupheader.cpp
     panels/places/placesitemlistwidget.cpp
     panels/places/placesitemmodel.cpp
