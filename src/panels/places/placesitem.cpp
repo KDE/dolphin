@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2018 by Elvis Angelaccio <elvis.angelaccio@kde.org>     *
  *                                                                         *
  *   Based on KFilePlacesItem from kdelibs:                                *
  *   Copyright (C) 2007 Kevin Ottens <ervin@kde.org>                       *
@@ -78,6 +79,16 @@ void PlacesItem::setUdi(const QString& udi)
 QString PlacesItem::udi() const
 {
     return dataValue("udi").toString();
+}
+
+void PlacesItem::setApplicationName(const QString &applicationName)
+{
+    setDataValue("applicationName", applicationName);
+}
+
+QString PlacesItem::applicationName() const
+{
+    return dataValue("applicationName").toString();
 }
 
 void PlacesItem::setHidden(bool hidden)
@@ -247,6 +258,8 @@ void PlacesItem::updateBookmarkForRole(const QByteArray& role)
         m_bookmark.setUrl(url());
     } else if (role == "udi") {
         m_bookmark.setMetaDataItem(QStringLiteral("UDI"), udi());
+    } else if (role == "applicationName") {
+        m_bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), applicationName());
     } else if (role == "isSystemItem") {
         m_bookmark.setMetaDataItem(QStringLiteral("isSystemItem"), isSystemItem() ? QStringLiteral("true") : QStringLiteral("false"));
     } else if (role == "isHidden") {

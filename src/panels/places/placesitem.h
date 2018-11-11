@@ -52,6 +52,9 @@ public:
     void setUdi(const QString& udi);
     QString udi() const;
 
+    void setApplicationName(const QString& applicationName);
+    QString applicationName() const;
+
     void setHidden(bool hidden);
     bool isHidden() const;
 
