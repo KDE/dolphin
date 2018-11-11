@@ -78,12 +78,14 @@ PlacesItemModel::~PlacesItemModel()
 {
 }
 
-void PlacesItemModel::createPlacesItem(const QString& text,
-                                       const QUrl& url,
-                                       const QString& iconName,
-                                       int after)
+void PlacesItemModel::createPlacesItem(const QString &text, const QUrl &url, const QString &iconName, const QString &appName)
 {
-    m_sourceModel->addPlace(text, url, iconName, {}, mapToSource(after));
+    createPlacesItem(text, url, iconName, appName, -1);
+}
+
+void PlacesItemModel::createPlacesItem(const QString &text, const QUrl &url, const QString &iconName, const QString &appName, int after)
+{
+    m_sourceModel->addPlace(text, url, iconName, appName, mapToSource(after));
 }
 
 PlacesItem* PlacesItemModel::placesItem(int index) const
@@ -369,7 +371,7 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
                 continue;
             }
 
-            createPlacesItem(text, url, KIO::iconNameForUrl(url), qMax(0, index - 1));
+            createPlacesItem(text, url, KIO::iconNameForUrl(url), {}, qMax(0, index - 1));
         }
     }
     // will save bookmark alteration and fix sort if that is broken by the drag/drop operation

@@ -52,10 +52,8 @@ public:
      * @brief Create a new place entry in the bookmark file
      * and add it to the model
      */
-    void createPlacesItem(const QString& text,
-                          const QUrl& url,
-                          const QString& iconName = QString(),
-                          int after = -1);
+    void createPlacesItem(const QString& text, const QUrl& url, const QString& iconName = {}, const QString& appName = {});
+    void createPlacesItem(const QString& text, const QUrl& url, const QString& iconName, const QString& appName, int after);
 
     PlacesItem* placesItem(int index) const;
 
