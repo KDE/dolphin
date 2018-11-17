@@ -473,7 +473,8 @@ void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVar
     if (error && errorData.isValid()) {
         emit errorMessage(errorData.toString());
     }
-    m_deviceToTearDown->disconnect();
+    disconnect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
+               this, &PlacesItemModel::slotStorageTearDownDone);
     m_deviceToTearDown = nullptr;
 }
 
