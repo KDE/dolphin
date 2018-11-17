@@ -1335,6 +1335,20 @@ void DolphinMainWindow::setupDockWidgets()
             this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
     m_tabWidget->slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
 
+    auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("hint")), i18nc("@item:inmenu", "Show Hidden Places"), this);
+    actionShowAllPlaces->setCheckable(true);
+    actionShowAllPlaces->setDisabled(true);
+
+    connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
+        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
+        m_placesPanel->showHiddenEntries(checked);
+    });
+
+    connect(m_placesPanel, &PlacesPanel::showHiddenEntriesChanged, this, [actionShowAllPlaces] (bool checked){
+        actionShowAllPlaces->setChecked(checked);
+        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
+   });
+
     // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
     actionCollection()->addAction(QStringLiteral("panels"), panelsMenu);
@@ -1347,7 +1361,12 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(ac->action(QStringLiteral("show_folders_panel")));
     panelsMenu->addAction(ac->action(QStringLiteral("show_terminal_panel")));
     panelsMenu->addSeparator();
+    panelsMenu->addAction(actionShowAllPlaces);
     panelsMenu->addAction(lockLayoutAction);
+
+    connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this]{
+        actionShowAllPlaces->setEnabled(m_placesPanel->hiddenListCount());
+    });
 }
 
 void DolphinMainWindow::updateEditActions()
