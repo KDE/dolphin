@@ -136,7 +136,6 @@ target_link_libraries(
     dolphinvcs
     Qt5::Concurrent
     Qt5::Gui
-    KF5::Crash
     KF5::I18n
     KF5::IconThemes
     KF5::KIOCore
@@ -301,6 +300,7 @@ kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 target_link_libraries(kdeinit_dolphin PRIVATE
     dolphinstatic
     dolphinprivate
+    KF5::Crash
 )
 
 include(DbusInterfaceMacros)
