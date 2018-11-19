@@ -421,26 +421,24 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     addAction(collection->action(KStandardAction::name(KStandardAction::RenameFile)));
 
     // Insert 'Move to Trash' and/or 'Delete'
-    if (properties.supportsDeleting()) {
-        const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
-                                       !properties.isLocal());
-        const bool showMoveToTrashAction = (properties.isLocal() &&
-                                            properties.supportsMoving());
+    const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
+                                    !properties.isLocal());
+    const bool showMoveToTrashAction = (properties.isLocal() &&
+                                        properties.supportsMoving());
 
-        if (showDeleteAction && showMoveToTrashAction) {
-            delete m_removeAction;
-            m_removeAction = nullptr;
-            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
-            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
-        } else if (showDeleteAction && !showMoveToTrashAction) {
-            addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
-        } else {
-            if (!m_removeAction) {
-                m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());
-            }
-            addAction(m_removeAction);
-            m_removeAction->update();
+    if (showDeleteAction && showMoveToTrashAction) {
+        delete m_removeAction;
+        m_removeAction = nullptr;
+        addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::MoveToTrash)));
+        addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
+    } else if (showDeleteAction && !showMoveToTrashAction) {
+        addAction(m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile)));
+    } else {
+        if (!m_removeAction) {
+            m_removeAction = new DolphinRemoveAction(this, m_mainWindow->actionCollection());
         }
+        addAction(m_removeAction);
+        m_removeAction->update();
     }
 }
 
