@@ -304,6 +304,9 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
         int count = 0;
         const RoleInfoMap* map = rolesInfoMap(count);
         for (int i = 0; i < count; ++i) {
+	    if (!map[i].roleTranslation) {
+		    continue;
+	    }
             description.insert(map[i].role, i18nc(map[i].roleTranslationContext, map[i].roleTranslation));
         }
     }
