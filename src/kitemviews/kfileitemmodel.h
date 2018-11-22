@@ -260,7 +260,7 @@ signals:
 
 protected:
     void onGroupedSortingChanged(bool current) override;
-    void onSortRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true) override;
     void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) override;
 
 private slots:

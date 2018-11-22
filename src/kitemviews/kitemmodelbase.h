@@ -85,8 +85,9 @@ public:
      * Sets the sort-role to \a role. The method KItemModelBase::onSortRoleChanged() will be
      * called so that model-implementations can react on the sort-role change. Afterwards the
      * signal sortRoleChanged() will be emitted.
+     * The implementation should resort only if \a resortItems is true.
      */
-    void setSortRole(const QByteArray& role);
+    void setSortRole(const QByteArray& role, bool resortItems = true);
     QByteArray sortRole() const;
 
     /**
@@ -266,8 +267,9 @@ protected:
      * Usually the most efficient way is to emit a
      * itemsRemoved() signal for all items, reorder the items internally and to emit a
      * itemsInserted() signal afterwards.
+     * The implementation should resort only if \a resortItems is true.
      */
-    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true);
 
     /**
      * Is invoked if the sort order has been changed by KItemModelBase::setSortOrder(). Allows

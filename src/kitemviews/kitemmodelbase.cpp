@@ -63,12 +63,12 @@ bool KItemModelBase::groupedSorting() const
     return m_groupedSorting;
 }
 
-void KItemModelBase::setSortRole(const QByteArray& role)
+void KItemModelBase::setSortRole(const QByteArray& role, bool resortItems)
 {
     if (role != m_sortRole) {
         const QByteArray previous = m_sortRole;
         m_sortRole = role;
-        onSortRoleChanged(role, previous);
+        onSortRoleChanged(role, previous, resortItems);
         emit sortRoleChanged(role, previous);
     }
 }
@@ -152,10 +152,11 @@ void KItemModelBase::onGroupedSortingChanged(bool current)
     Q_UNUSED(current);
 }
 
-void KItemModelBase::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemModelBase::onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
+    Q_UNUSED(resortItems);
 }
 
 void KItemModelBase::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)

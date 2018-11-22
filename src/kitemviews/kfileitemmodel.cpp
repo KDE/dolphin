@@ -789,7 +789,7 @@ void KFileItemModel::onGroupedSortingChanged(bool current)
     m_groups.clear();
 }
 
-void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems)
 {
     Q_UNUSED(previous);
     m_sortRole = typeForRole(current);
@@ -800,7 +800,9 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
         setRoles(newRoles);
     }
 
-    resortAllItems();
+    if (resortItems) {
+        resortAllItems();
+    }
 }
 
 void KFileItemModel::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
