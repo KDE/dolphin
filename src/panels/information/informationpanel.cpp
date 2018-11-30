@@ -91,7 +91,7 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
     if (item.isNull()) {
         // The cursor is above the viewport. If files are selected,
         // show information regarding the selection.
-        if (m_selection.size() > 0) {
+        if (!m_selection.isEmpty()) {
             m_fileItem = KFileItem();
             m_infoTimer->start();
         }
