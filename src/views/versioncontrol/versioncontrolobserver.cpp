@@ -248,7 +248,7 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
         }
     }
 
-    if (items.count() > 0) {
+    if (!items.isEmpty()) {
         const QUrl& url = items.first().first.url();
         itemStates.insert(url.adjusted(QUrl::RemoveFilename).path(), items);
     }

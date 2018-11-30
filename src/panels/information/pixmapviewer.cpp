@@ -112,7 +112,7 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
 
 void PixmapViewer::checkPendingPixmaps()
 {
-    if (m_pendingPixmaps.count() > 0) {
+    if (!m_pendingPixmaps.isEmpty()) {
         QPixmap pixmap = m_pendingPixmaps.dequeue();
         m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
         m_pixmap = pixmap;
