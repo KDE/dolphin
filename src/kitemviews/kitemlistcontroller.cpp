@@ -210,18 +210,6 @@ bool KItemListController::singleClickActivationEnforced() const
     return m_singleClickActivationEnforced;
 }
 
-bool KItemListController::showEvent(QShowEvent* event)
-{
-    Q_UNUSED(event);
-    return false;
-}
-
-bool KItemListController::hideEvent(QHideEvent* event)
-{
-    Q_UNUSED(event);
-    return false;
-}
-
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
     int index = m_selectionManager->currentItem();
