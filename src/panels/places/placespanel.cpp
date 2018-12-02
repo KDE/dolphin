@@ -488,9 +488,9 @@ void PlacesPanel::addEntry()
 void PlacesPanel::editEntry(int index)
 {
     QHash<QByteArray, QVariant> data = m_model->data(index);
-    const QUrl url = m_model->data(index).value("url").toUrl();
-    const QString text = m_model->data(index).value("text").toString();
-    const bool applicationLocal = !m_model->data(index).value("applicationName").toString().isEmpty();
+    const QUrl url = data.value("url").toUrl();
+    const QString text = data.value("text").toString();
+    const bool applicationLocal = !data.value("applicationName").toString().isEmpty();
 
     QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, QString(), true, applicationLocal, KIconLoader::SizeMedium, this);
     if (dialog->exec() == QDialog::Accepted) {
