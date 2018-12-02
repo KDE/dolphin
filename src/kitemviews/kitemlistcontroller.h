@@ -134,21 +134,6 @@ public:
     void setSingleClickActivationEnforced(bool singleClick);
     bool singleClickActivationEnforced() const;
 
-    bool keyPressEvent(QKeyEvent* event);
-    bool inputMethodEvent(QInputMethodEvent* event);
-    bool mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseMoveEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseReleaseEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
-    bool dragEnterEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dragLeaveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dragMoveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
-    bool hoverEnterEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
-    bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
-    bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
     bool processEvent(QEvent* event, const QTransform& transform);
 
 signals:
@@ -302,6 +287,22 @@ private:
      * rubberband selection is used the property should be enabled.
      */
     void updateExtendedSelectionRegion();
+
+    bool keyPressEvent(QKeyEvent* event);
+    bool inputMethodEvent(QInputMethodEvent* event);
+    bool mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
+    bool mouseMoveEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
+    bool mouseReleaseEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
+    bool mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform);
+    bool dragEnterEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
+    bool dragLeaveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
+    bool dragMoveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
+    bool dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform);
+    bool hoverEnterEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
+    bool hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
+    bool hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
+    bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
+    bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
 
 private:
     bool m_singleClickActivationEnforced;
