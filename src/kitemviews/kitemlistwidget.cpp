@@ -127,7 +127,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     if (m_current && m_editedRole.isEmpty()) {
         QStyleOptionFocusRect focusRectOption;
-        focusRectOption.initFrom(widget);
+        initStyleOption(&focusRectOption);
         focusRectOption.rect = textFocusRect().toRect();
         focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item | QStyle::State_KeyboardFocusChange;
         if (m_selected) {
@@ -517,11 +517,11 @@ void KItemListWidget::clearHoverCache()
 void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)
 {
     QStyleOptionViewItem viewItemOption;
-    viewItemOption.initFrom(widget);
+    initStyleOption(&viewItemOption);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItem::OnlyOne;
     viewItemOption.showDecorationSelected = true;
     viewItemOption.rect = selectionRect().toRect();
-    widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
