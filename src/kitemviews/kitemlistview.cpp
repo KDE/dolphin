@@ -670,7 +670,7 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
         }
 
         QStyleOptionRubberBand opt;
-        opt.initFrom(widget);
+        initStyleOption(&opt);
         opt.shape = QRubberBand::Rectangle;
         opt.opaque = false;
         opt.rect = rubberBandRect.toRect();
