@@ -307,6 +307,7 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     // insert 'Properties...' entry
+    addSeparator();
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
 
