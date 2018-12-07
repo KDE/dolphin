@@ -710,6 +710,8 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
         return;
     }
     applyChangedBalooRolesForItem(item);
+#else
+    Q_UNUSED(file);
 #endif
 }
 
