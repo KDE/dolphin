@@ -162,7 +162,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
     Q_ASSERT(m_context & TrashContext);
     Q_ASSERT(m_context & ItemContext);
 
-    QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
+    QAction* restoreAction = new QAction(QIcon::fromTheme("restoration"), i18nc("@action:inmenu", "Restore"), m_mainWindow);
     addAction(restoreAction);
 
     QAction* deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
