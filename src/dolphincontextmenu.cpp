@@ -163,7 +163,6 @@ void DolphinContextMenu::openTrashItemContextMenu()
     Q_ASSERT(m_context & ItemContext);
 
     QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
-    restoreAction->setShortcut(Qt::CTRL + Qt::Key_R);
     addAction(restoreAction);
 
     QAction* deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
