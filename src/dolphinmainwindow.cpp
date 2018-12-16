@@ -551,7 +551,7 @@ void DolphinMainWindow::selectAll()
     // URL instead of all items of the view
 
     KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
-    QLineEdit* lineEdit = urlNavigator->editor()->lineEdit(); // krazy:exclude=qclasses
+    QLineEdit* lineEdit = urlNavigator->editor()->lineEdit();
     const bool selectUrl = urlNavigator->isUrlEditable() &&
                            lineEdit->hasFocus();
     if (selectUrl) {
@@ -625,7 +625,7 @@ void DolphinMainWindow::replaceLocation()
     navigator->setFocus();
 
     // select the whole text of the combo box editor
-    QLineEdit* lineEdit = navigator->editor()->lineEdit();  // krazy:exclude=qclasses
+    QLineEdit* lineEdit = navigator->editor()->lineEdit();
     lineEdit->selectAll();
 }
 
