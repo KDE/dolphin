@@ -621,12 +621,19 @@ void DolphinMainWindow::toggleEditLocation()
 void DolphinMainWindow::replaceLocation()
 {
     KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
-    navigator->setUrlEditable(true);
-    navigator->setFocus();
-
-    // select the whole text of the combo box editor
     QLineEdit* lineEdit = navigator->editor()->lineEdit();
-    lineEdit->selectAll();
+
+    // If the text field currently has focus and everything is selected,
+    // pressing the keyboard shortcut returns the whole thing to breadcrumb mode
+    if (navigator->isUrlEditable()
+        && lineEdit->hasFocus()
+        && lineEdit->selectedText() == lineEdit->text() ) {
+        navigator->setUrlEditable(false);
+    } else {
+        navigator->setUrlEditable(true);
+        navigator->setFocus();
+        lineEdit->selectAll();
+    }
 }
 
 void DolphinMainWindow::togglePanelLockState()
