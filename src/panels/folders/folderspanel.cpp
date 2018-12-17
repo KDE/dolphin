@@ -105,9 +105,7 @@ void FoldersPanel::rename(const KFileItem& item)
         m_controller->view()->editRole(index, "text");
     } else {
         RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
-        dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
+        dialog->open();
     }
 }
 

@@ -638,9 +638,7 @@ void DolphinView::renameSelectedItems()
         RenameDialog* dialog = new RenameDialog(this, items);
         connect(dialog, &RenameDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
 
-        dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
+        dialog->open();
     }
 
     // Assure that the current index remains visible when KFileItemModel
