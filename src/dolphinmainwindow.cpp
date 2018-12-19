@@ -1044,6 +1044,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
+    newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
 
     QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
