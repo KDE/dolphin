@@ -40,6 +40,7 @@ private slots:
     void testActiveViewAfterClosingSplitView_data();
     void testActiveViewAfterClosingSplitView();
     void testUpdateWindowTitleAfterClosingSplitView();
+    void testUpdateWindowTitleAfterChangingSplitView();
     void testOpenInNewTabTitle();
     void testNewFileMenuEnabled_data();
     void testNewFileMenuEnabled();
@@ -173,6 +174,37 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterClosingSplitView()
     QSignalSpy currentUrlChangedSpy(tabWidget, &DolphinTabWidget::currentUrlChanged);
     tabWidget->currentTabPage()->activeViewContainer()->setUrl(QUrl::fromLocalFile(QDir::rootPath()));
     QCOMPARE(currentUrlChangedSpy.count(), 1);
+}
+
+// Test case for bug #402641
+void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
+{
+    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    auto tabWidget = m_mainWindow->findChild<DolphinTabWidget*>("tabWidget");
+    QVERIFY(tabWidget);
+
+    // Open split view.
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger();
+    QVERIFY(tabWidget->currentTabPage()->splitViewEnabled());
+
+    auto leftViewContainer = tabWidget->currentTabPage()->primaryViewContainer();
+    auto rightViewContainer = tabWidget->currentTabPage()->secondaryViewContainer();
+
+    // Store old window title.
+    const auto oldTitle = m_mainWindow->windowTitle();
+
+    // Change URL in the right view and make sure the title gets updated.
+    rightViewContainer->setUrl(QUrl::fromLocalFile(QDir::rootPath()));
+    QVERIFY(m_mainWindow->windowTitle() != oldTitle);
+
+    // Activate back the left view and check whether the old title gets restored.
+    leftViewContainer->setActive(true);
+    QEXPECT_FAIL("", "Bug #402641", Continue);
+    QCOMPARE(m_mainWindow->windowTitle(), oldTitle);
 }
 
 // Test case for bug #397910
