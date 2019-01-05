@@ -203,7 +203,6 @@ void DolphinMainWindowTest::testUpdateWindowTitleAfterChangingSplitView()
 
     // Activate back the left view and check whether the old title gets restored.
     leftViewContainer->setActive(true);
-    QEXPECT_FAIL("", "Bug #402641", Continue);
     QCOMPARE(m_mainWindow->windowTitle(), oldTitle);
 }
 
