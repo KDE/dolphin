@@ -331,8 +331,8 @@ void DolphinTabPage::slotViewActivated()
                 this, &DolphinTabPage::slotViewUrlRedirection);
     }
 
-    emit activeViewUrlChanged(activeViewContainer()->url());
     emit activeViewChanged(activeViewContainer());
+    emit activeViewUrlChanged(activeViewContainer()->url());
 }
 
 void DolphinTabPage::slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl)

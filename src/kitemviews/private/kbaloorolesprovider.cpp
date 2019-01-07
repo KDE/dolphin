@@ -129,7 +129,7 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "width",         "width" },
         { "height",        "height" },
         { "imageDateTime",   "imageDateTime"},
-        { "nexif.orientation", "orientation", },
+        { "imageOrientation", "orientation", },
         { "artist",     "artist" },
         { "genre",	"genre"  },
         { "album",    "album" },
