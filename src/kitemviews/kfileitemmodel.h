@@ -371,7 +371,7 @@ private:
      * Sorts the items between \a begin and \a end using the comparison
      * function lessThan().
      */
-    void sort(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end) const;
+    void sort(const QList<ItemData*>::iterator &begin, const QList<ItemData*>::iterator &end) const;
 
     /**
      * Helper method for lessThan() and expandedParentsCountCompare(): Compares
@@ -386,7 +386,7 @@ private:
 
     QList<QPair<int, QVariant> > nameRoleGroups() const;
     QList<QPair<int, QVariant> > sizeRoleGroups() const;
-    QList<QPair<int, QVariant> > timeRoleGroups(std::function<QDateTime(const ItemData *)> fileTimeCb) const;
+    QList<QPair<int, QVariant> > timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;
     QList<QPair<int, QVariant> > permissionRoleGroups() const;
     QList<QPair<int, QVariant> > ratingRoleGroups() const;
     QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& typeForRole) const;

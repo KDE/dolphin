@@ -157,7 +157,7 @@ public:
 private slots:
     void slotItemsInserted(const KItemRangeList& itemRanges);
     void slotItemsRemoved(const KItemRangeList& itemRanges);
-    void slotItemsMoved(const KItemRange& itemRange, QList<int> movedToIndexes);
+    void slotItemsMoved(const KItemRange& itemRange, const QList<int> &movedToIndexes);
     void slotItemsChanged(const KItemRangeList& itemRanges,
                           const QSet<QByteArray>& roles);
     void slotSortRoleChanged(const QByteArray& current,

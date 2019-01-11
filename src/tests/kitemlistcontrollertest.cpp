@@ -197,7 +197,7 @@ struct KeyPress {
  */
 struct ViewState {
 
-    ViewState(int current, const KItemSet selection, bool activated = false) :
+    ViewState(int current, const KItemSet &selection, bool activated = false) :
         m_current(current),
         m_selection(selection),
         m_activated(activated)

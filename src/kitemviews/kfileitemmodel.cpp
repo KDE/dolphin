@@ -1717,8 +1717,8 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
 
-void KFileItemModel::sort(QList<KFileItemModel::ItemData*>::iterator begin,
-                          QList<KFileItemModel::ItemData*>::iterator end) const
+void KFileItemModel::sort(const QList<KFileItemModel::ItemData*>::iterator &begin,
+                          const QList<KFileItemModel::ItemData*>::iterator &end) const
 {
     auto lambdaLessThan = [&] (const KFileItemModel::ItemData* a, const KFileItemModel::ItemData* b)
     {
@@ -1982,7 +1982,7 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
     return groups;
 }
 
-QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(std::function<QDateTime(const ItemData *)> fileTimeCb) const
+QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const
 {
     Q_ASSERT(!m_itemData.isEmpty());
 
