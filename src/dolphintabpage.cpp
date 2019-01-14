@@ -320,17 +320,18 @@ void DolphinTabPage::slotViewActivated()
 
     const DolphinView* newActiveView = activeViewContainer()->view();
 
-    if (newActiveView != oldActiveView) {
-        disconnect(oldActiveView, &DolphinView::urlChanged,
-                   this, &DolphinTabPage::activeViewUrlChanged);
-        disconnect(oldActiveView, &DolphinView::redirection,
-                   this, &DolphinTabPage::slotViewUrlRedirection);
-        connect(newActiveView, &DolphinView::urlChanged,
-                this, &DolphinTabPage::activeViewUrlChanged);
-        connect(newActiveView, &DolphinView::redirection,
-                this, &DolphinTabPage::slotViewUrlRedirection);
+    if (newActiveView == oldActiveView) {
+        return;
     }
 
+    disconnect(oldActiveView, &DolphinView::urlChanged,
+               this, &DolphinTabPage::activeViewUrlChanged);
+    disconnect(oldActiveView, &DolphinView::redirection,
+               this, &DolphinTabPage::slotViewUrlRedirection);
+    connect(newActiveView, &DolphinView::urlChanged,
+            this, &DolphinTabPage::activeViewUrlChanged);
+    connect(newActiveView, &DolphinView::redirection,
+            this, &DolphinTabPage::slotViewUrlRedirection);
     emit activeViewChanged(activeViewContainer());
     emit activeViewUrlChanged(activeViewContainer()->url());
 }
