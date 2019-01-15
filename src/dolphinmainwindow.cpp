@@ -47,6 +47,7 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
+#include <KDualAction>
 #include <KFileItemListProperties>
 #include <KHelpMenu>
 #include <KIO/JobUiDelegate>
@@ -78,7 +79,6 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QToolButton>
-#include <kdualaction.h>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
