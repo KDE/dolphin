@@ -68,6 +68,11 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
 find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
 )
+set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities libraries"
+                       URL "http://www.kde.org"
+                       TYPE OPTIONAL
+                       PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
+                      )
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)
 
@@ -90,6 +95,10 @@ set_package_properties(KF5FileMetaData PROPERTIES
                        TYPE OPTIONAL
                        PURPOSE "For accessing file metadata labels"
                       )
+
+if (KF5Activities_FOUND)
+    set(HAVE_KACTIVITIES TRUE)
+endif()
 
 if (KF5Baloo_FOUND AND KF5BalooWidgets_FOUND AND KF5FileMetaData_FOUND)
     message(STATUS "Baloo packages are found")

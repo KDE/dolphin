@@ -20,7 +20,7 @@
 #ifndef DOLPHINVIEWCONTAINER_H
 #define DOLPHINVIEWCONTAINER_H
 
-#include "config-dolphin.h"
+#include "config-kactivities.h"
 #include "views/dolphinview.h"
 
 #include <KCompletion>
@@ -32,7 +32,7 @@
 #include <QPushButton>
 #include <QWidget>
 
-#ifdef KF5Activities_FOUND
+#ifdef HAVE_KACTIVITIES
 namespace KActivities {
     class ResourceInstance;
 }
@@ -343,7 +343,7 @@ private:
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
 
-#ifdef KF5Activities_FOUND
+#ifdef HAVE_KACTIVITIES
 private:
     KActivities::ResourceInstance * m_activityResourceInstance;
 #endif
