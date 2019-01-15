@@ -71,7 +71,7 @@ find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)
 
-find_package(KF5Baloo 4.97)
+find_package(KF5Baloo ${KF5_MIN_VERSION})
 set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
@@ -84,7 +84,7 @@ set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        TYPE OPTIONAL
                       )
 
-find_package(KF5FileMetaData 5.19.0)
+find_package(KF5FileMetaData ${KF5_MIN_VERSION})
 set_package_properties(KF5FileMetaData PROPERTIES
                        URL "https://projects.kde.org/kfilemetadata"
                        TYPE OPTIONAL
