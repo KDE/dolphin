@@ -78,7 +78,7 @@ set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
-find_package(KF5BalooWidgets 18.07.70)
+find_package(KF5BalooWidgets 18.08.0)
 set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
                        URL "http://www.kde.org"
                        TYPE OPTIONAL
