@@ -24,7 +24,6 @@
 
 #include <KLocalizedString>
 #include <KNS3/KMoreToolsMenuFactory>
-#include <knewstuff_version.h>
 
 #include <QMouseEvent>
 

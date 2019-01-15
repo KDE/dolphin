@@ -40,7 +40,6 @@
 #include <KShell>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
-#include <kio_version.h>
 
 #include <QDropEvent>
 #include <QLoggingCategory>
