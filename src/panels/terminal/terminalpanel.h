@@ -55,7 +55,9 @@ public:
      */
     void goHome();
     QString currentWorkingDirectory();
-    bool isHiddenInVisibleWindow();
+    bool isHiddenInVisibleWindow() const;
+    bool hasProgramRunning() const;
+    QString runningProgramName() const;
 
 public slots:
     void terminalExited();

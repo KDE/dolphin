@@ -47,6 +47,11 @@ private:
     QCheckBox* m_confirmMoveToTrash;
     QCheckBox* m_confirmEmptyTrash;
     QCheckBox* m_confirmDelete;
+
+    #ifndef Q_OS_WIN
+    QCheckBox* m_confirmClosingTerminalRunningProgram;
+    #endif
+
     QCheckBox* m_confirmClosingMultipleTabs;
     QCheckBox* m_confirmScriptExecution;
 };

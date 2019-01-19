@@ -407,7 +407,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
         bool doNotAskAgainCheckboxResult = false;
 
-        const int result = KMessageBox::createKMessageBox(dialog,
+        const auto result = KMessageBox::createKMessageBox(dialog,
             buttons,
             QMessageBox::Warning,
             i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
@@ -427,6 +427,58 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
             case QDialogButtonBox::No:
                 // Close only the current tab
                 m_tabWidget->closeTab();
+                Q_FALLTHROUGH();
+            default:
+                event->ignore();
+                return;
+        }
+    }
+
+    if (m_terminalPanel->hasProgramRunning() && GeneralSettings::confirmClosingTerminalRunningProgram() && closedByUser) {
+        // Ask if the user really wants to quit Dolphin with a program that is still running in the Terminal panel
+        // Open a confirmation dialog with 3 buttons:
+        // QDialogButtonBox::Yes    -> Quit
+        // QDialogButtonBox::No     -> Show Terminal Panel
+        // QDialogButtonBox::Cancel -> do nothing
+        QDialog *dialog = new QDialog(this, Qt::Dialog);
+        dialog->setWindowTitle(i18nc("@title:window", "Confirmation"));
+        dialog->setModal(true);
+        auto standardButtons = QDialogButtonBox::Yes | QDialogButtonBox::Cancel;
+        if (!m_terminalPanel->isVisible()) {
+            standardButtons |= QDialogButtonBox::No;
+        }
+        QDialogButtonBox *buttons = new QDialogButtonBox(standardButtons);
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Yes), KStandardGuiItem::quit());
+        if (!m_terminalPanel->isVisible()) {
+            KGuiItem::assign(
+                    buttons->button(QDialogButtonBox::No),
+                    KGuiItem(i18n("Show &Terminal Panel"), QIcon::fromTheme(QStringLiteral("utilities-terminal"))));
+        }
+        KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
+
+        bool doNotAskAgainCheckboxResult = false;
+
+        const auto result = KMessageBox::createKMessageBox(
+                dialog,
+                buttons,
+                QMessageBox::Warning,
+                i18n("The program '%1' is still running in the Terminal panel. Are you sure you want to quit?", m_terminalPanel->runningProgramName()),
+                QStringList(),
+                i18n("Do not ask again"),
+                &doNotAskAgainCheckboxResult,
+                KMessageBox::Dangerous);
+
+        if (doNotAskAgainCheckboxResult) {
+            GeneralSettings::setConfirmClosingTerminalRunningProgram(false);
+        }
+
+        switch (result) {
+            case QDialogButtonBox::Yes:
+                // Quit
+                break;
+            case QDialogButtonBox::No:
+                actionCollection()->action("show_terminal_panel")->trigger();
+                // Do not quit, ignore quit event
                 Q_FALLTHROUGH();
             default:
                 event->ignore();

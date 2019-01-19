@@ -40,6 +40,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmMoveToTrash(nullptr),
     m_confirmEmptyTrash(nullptr),
     m_confirmDelete(nullptr),
+
+    #ifndef Q_OS_WIN
+    m_confirmClosingTerminalRunningProgram(nullptr),
+    #endif
+
     m_confirmClosingMultipleTabs(nullptr)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -62,6 +67,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when",
                                                        "Closing windows with multiple tabs"), this);
 
+    #ifndef Q_OS_WIN
+    m_confirmClosingTerminalRunningProgram = new QCheckBox(i18nc("@option:check Ask for confirmation when",
+                                                       "Closing windows with a program running in the Terminal panel"), this);
+    #endif
+
     topLayout->addWidget(confirmLabelKde);
     topLayout->addWidget(m_confirmMoveToTrash);
     topLayout->addWidget(m_confirmEmptyTrash);
@@ -70,6 +80,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     topLayout->addSpacing(Dolphin::VERTICAL_SPACER_HEIGHT);
     topLayout->addWidget(confirmLabelDolphin);
     topLayout->addWidget(m_confirmClosingMultipleTabs);
+
+    #ifndef Q_OS_WIN
+    topLayout->addWidget(m_confirmClosingTerminalRunningProgram);
+    #endif
+
     topLayout->addStretch();
 
     loadSettings();
@@ -79,6 +94,10 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmScriptExecution, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+
+    #ifndef Q_OS_WIN
+    connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+    #endif
 }
 
 ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
@@ -103,6 +122,11 @@ void ConfirmationsSettingsPage::applySettings()
 
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
+
+    #ifndef Q_OS_WIN
+    settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
+    #endif
+
     settings->save();
 }
 
@@ -132,5 +156,9 @@ void ConfirmationsSettingsPage::loadSettings()
     m_confirmScriptExecution->setChecked(value == QLatin1String("alwaysAsk"));
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
+
+    #ifndef Q_OS_WIN
+    m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
+    #endif
 }
 

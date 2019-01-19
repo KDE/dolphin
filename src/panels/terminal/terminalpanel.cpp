@@ -79,12 +79,12 @@ void TerminalPanel::terminalExited()
     emit hideTerminalPanel();
 }
 
-bool TerminalPanel::isHiddenInVisibleWindow()
+bool TerminalPanel::isHiddenInVisibleWindow() const
 {
     return parentWidget()
         && parentWidget()->isHidden()
         && m_terminal
-        && (m_terminal->foregroundProcessId() == -1);
+        && !hasProgramRunning();
 }
 
 void TerminalPanel::dockVisibilityChanged()
@@ -107,13 +107,23 @@ void TerminalPanel::dockVisibilityChanged()
     }
 }
 
+QString TerminalPanel::runningProgramName() const
+{
+    return m_terminal ? m_terminal->foregroundProcessName() : QString();
+}
+
+bool TerminalPanel::hasProgramRunning() const
+{
+    return m_terminal && (m_terminal->foregroundProcessId() != -1);
+}
+
 bool TerminalPanel::urlChanged()
 {
     if (!url().isValid()) {
         return false;
     }
 
-    const bool sendInput = m_terminal && (m_terminal->foregroundProcessId() == -1) && isVisible();
+    const bool sendInput = m_terminal && !hasProgramRunning() && isVisible();
     if (sendInput) {
         changeDir(url());
     }

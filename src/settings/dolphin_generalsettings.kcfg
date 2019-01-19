@@ -58,6 +58,10 @@
             <label>Ask for confirmation when closing windows with multiple tabs.</label>
             <default>true</default>
         </entry>
+        <entry name="ConfirmClosingTerminalRunningProgram" type="Bool">
+            <label>Ask for confirmation when closing windows with a program that is still running in the Terminal panel.</label>
+            <default>true</default>
+        </entry>
         <entry name="RenameInline" type="Bool">
             <label>Rename inline</label>
             <default>true</default>
