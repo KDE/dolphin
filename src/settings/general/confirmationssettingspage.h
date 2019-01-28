@@ -19,6 +19,7 @@
 #ifndef CONFIRMATIONSSETTINGSPAGE_H
 #define CONFIRMATIONSSETTINGSPAGE_H
 
+#include "config-terminal.h"
 #include "settings/settingspagebase.h"
 
 class QCheckBox;
@@ -48,9 +49,9 @@ private:
     QCheckBox* m_confirmEmptyTrash;
     QCheckBox* m_confirmDelete;
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     QCheckBox* m_confirmClosingTerminalRunningProgram;
-    #endif
+#endif
 
     QCheckBox* m_confirmClosingMultipleTabs;
     QCheckBox* m_confirmScriptExecution;

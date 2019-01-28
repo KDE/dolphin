@@ -98,6 +98,13 @@ else()
     message(WARNING "Baloo packages not found. They are needed for the metadata features of Dolphin (including the information panel).")
 endif()
 
+# TODO: drop HAVE_TERMINAL once we are sure the terminal panel works on Windows too.
+if(WIN32)
+    set(HAVE_TERMINAL FALSE)
+else()
+    set(HAVE_TERMINAL TRUE)
+endif()
+
 add_subdirectory(src)
 add_subdirectory(doc)
 

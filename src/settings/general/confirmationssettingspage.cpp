@@ -41,9 +41,9 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmEmptyTrash(nullptr),
     m_confirmDelete(nullptr),
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram(nullptr),
-    #endif
+#endif
 
     m_confirmClosingMultipleTabs(nullptr)
 {
@@ -67,10 +67,10 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when",
                                                        "Closing windows with multiple tabs"), this);
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                        "Closing windows with a program running in the Terminal panel"), this);
-    #endif
+#endif
 
     topLayout->addWidget(confirmLabelKde);
     topLayout->addWidget(m_confirmMoveToTrash);
@@ -81,9 +81,9 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     topLayout->addWidget(confirmLabelDolphin);
     topLayout->addWidget(m_confirmClosingMultipleTabs);
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     topLayout->addWidget(m_confirmClosingTerminalRunningProgram);
-    #endif
+#endif
 
     topLayout->addStretch();
 
@@ -95,9 +95,9 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     connect(m_confirmScriptExecution, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
-    #endif
+#endif
 }
 
 ConfirmationsSettingsPage::~ConfirmationsSettingsPage()
@@ -123,9 +123,9 @@ void ConfirmationsSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
-    #endif
+#endif
 
     settings->save();
 }
@@ -157,8 +157,8 @@ void ConfirmationsSettingsPage::loadSettings()
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
 
-    #ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
-    #endif
+#endif
 }
 

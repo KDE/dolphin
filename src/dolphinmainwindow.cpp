@@ -21,6 +21,7 @@
 
 #include "dolphinmainwindow.h"
 
+#include "config-terminal.h"
 #include "global.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
@@ -1213,7 +1214,7 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
 
-#ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
@@ -1332,7 +1333,7 @@ void DolphinMainWindow::setupDockWidgets()
             this, &DolphinMainWindow::showErrorMessage);
 
     // Setup "Terminal"
-#ifndef Q_OS_WIN
+#ifdef HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
         terminalDock->setLocked(lock);
