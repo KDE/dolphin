@@ -150,7 +150,7 @@ Name[sv]=Kompakt
 Name[tr]=Sıkışık
 Name[uk]=Компактний
 Name[x-test]=xxCompactxx
-Name[zh_CN]=精简视图
+Name[zh_CN]=紧凑
 Name[zh_TW]=簡潔模式
 Icon=view-list-details
 # Dummy
@@ -199,7 +199,7 @@ Name[sv]=Detaljinformation
 Name[tr]=Ayrıntılar
 Name[uk]=Подробиці
 Name[x-test]=xxDetailsxx
-Name[zh_CN]=详细信息
+Name[zh_CN]=详细
 Name[zh_TW]=詳細模式
 Icon=view-list-tree
 # Dummy
