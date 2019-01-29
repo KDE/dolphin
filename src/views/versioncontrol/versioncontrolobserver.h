@@ -126,7 +126,7 @@ private:
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */
-    KVersionControlPlugin* searchPlugin(const QUrl& directory) const;
+    KVersionControlPlugin* searchPlugin(const QUrl& directory);
 
     /**
      * Returns true, if the directory contains a version control information.
@@ -143,7 +143,9 @@ private:
 
     QTimer* m_dirVerificationTimer;
 
+    bool m_pluginsInitialized;
     KVersionControlPlugin* m_plugin;
+    QList<KVersionControlPlugin*> m_plugins;
     UpdateItemStatesThread* m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;
