@@ -135,14 +135,10 @@ void DolphinTabWidget::openNewActivatedTab()
 
     // The URL navigator of the new tab should have the same editable state
     // as the current tab
-    KUrlNavigator* navigator = newActiveViewContainer->urlNavigator();
-    navigator->setUrlEditable(isUrlEditable);
+    newActiveViewContainer->urlNavigator()->setUrlEditable(isUrlEditable);
 
-    if (isUrlEditable) {
-        // If a new tab is opened and the URL is editable, assure that
-        // the user can edit the URL without manually setting the focus
-        navigator->setFocus();
-    }
+    // Always focus the new tab's view
+    newActiveViewContainer->view()->setFocus();
 }
 
 void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
