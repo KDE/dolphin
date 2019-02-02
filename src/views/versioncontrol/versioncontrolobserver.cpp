@@ -21,6 +21,7 @@
 
 #include "dolphin_versioncontrolsettings.h"
 #include "dolphindebug.h"
+#include "views/dolphinview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "updateitemstatesthread.h"
 
@@ -35,8 +36,10 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
     m_pendingItemStatesUpdate(false),
     m_versionedDirectory(false),
     m_silentUpdate(false),
+    m_view(nullptr),
     m_model(nullptr),
     m_dirVerificationTimer(nullptr),
+    m_pluginsInitialized(false),
     m_plugin(nullptr),
     m_updateItemStatesThread(nullptr)
 {
@@ -82,6 +85,26 @@ void VersionControlObserver::setModel(KFileItemModel* model)
 KFileItemModel* VersionControlObserver::model() const
 {
     return m_model;
+}
+
+void VersionControlObserver::setView(DolphinView* view)
+{
+    if (m_view) {
+        disconnect(m_view, &DolphinView::activated,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
+    }
+
+    m_view = view;
+
+    if (m_view) {
+        connect(m_view, &DolphinView::activated,
+                this, &VersionControlObserver::delayedDirectoryVerification);
+    }
+}
+
+DolphinView* VersionControlObserver::view() const
+{
+    return m_view;
 }
 
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
@@ -256,18 +279,9 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
     return index - firstIndex; // number of processed items
 }
 
-KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory) const
+KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory)
 {
-    static bool pluginsAvailable = true;
-    static QList<KVersionControlPlugin*> plugins;
-
-    if (!pluginsAvailable) {
-        // A searching for plugins has already been done, but no
-        // plugins are installed
-        return nullptr;
-    }
-
-    if (plugins.isEmpty()) {
+    if (!m_pluginsInitialized) {
         // No searching for plugins has been done yet. Query the KServiceTypeTrader for
         // all fileview version control plugins and remember them in 'plugins'.
         const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
@@ -275,16 +289,19 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
         const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
             if (enabledPlugins.contains((*it)->name())) {
-                KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
+                KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>(this);
                 if (plugin) {
-                    plugins.append(plugin);
+                    m_plugins.append(plugin);
                 }
             }
         }
-        if (plugins.isEmpty()) {
-            pluginsAvailable = false;
-            return nullptr;
-        }
+        m_pluginsInitialized = true;
+    }
+
+    if (m_plugins.empty()) {
+        // A searching for plugins has already been done, but no
+        // plugins are installed
+        return nullptr;
     }
 
     // We use the number of upUrl() calls to find the best matching plugin
@@ -294,7 +311,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
 
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
-    foreach (KVersionControlPlugin* plugin, plugins) {
+    foreach (KVersionControlPlugin* plugin, m_plugins) {
         const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
             // The score of this plugin is 0 (best), so we can just return this plugin,
