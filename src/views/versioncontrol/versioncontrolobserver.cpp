@@ -21,6 +21,7 @@
 
 #include "dolphin_versioncontrolsettings.h"
 #include "dolphindebug.h"
+#include "views/dolphinview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "updateitemstatesthread.h"
 
@@ -83,6 +84,26 @@ void VersionControlObserver::setModel(KFileItemModel* model)
 KFileItemModel* VersionControlObserver::model() const
 {
     return m_model;
+}
+
+void VersionControlObserver::setView(DolphinView* view)
+{
+    if (m_view) {
+        disconnect(m_view, &DolphinView::activated,
+                   this, &VersionControlObserver::delayedDirectoryVerification);
+    }
+
+    m_view = view;
+
+    if (m_view) {
+        connect(m_view, &DolphinView::activated,
+                this, &VersionControlObserver::delayedDirectoryVerification);
+    }
+}
+
+DolphinView* VersionControlObserver::view() const
+{
+    return m_view;
 }
 
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const

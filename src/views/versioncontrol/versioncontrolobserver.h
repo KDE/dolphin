@@ -37,6 +37,8 @@ class QAction;
 class QTimer;
 class UpdateItemStatesThread;
 
+class DolphinView;
+
 /**
  * @brief Observes all version control plugins.
  *
@@ -55,6 +57,8 @@ public:
 
     void setModel(KFileItemModel* model);
     KFileItemModel* model() const;
+    void setView(DolphinView* view);
+    DolphinView* view() const;
 
     QList<QAction*> actions(const KFileItemList& items) const;
 
@@ -139,6 +143,7 @@ private:
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
 
+    DolphinView* m_view;
     KFileItemModel* m_model;
 
     QTimer* m_dirVerificationTimer;

@@ -182,6 +182,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 #endif
 
     m_versionControlObserver = new VersionControlObserver(this);
+    m_versionControlObserver->setView(this);
     m_versionControlObserver->setModel(m_model);
     connect(m_versionControlObserver, &VersionControlObserver::infoMessage, this, &DolphinView::infoMessage);
     connect(m_versionControlObserver, &VersionControlObserver::errorMessage, this, &DolphinView::errorMessage);
