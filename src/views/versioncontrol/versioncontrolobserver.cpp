@@ -36,6 +36,7 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
     m_pendingItemStatesUpdate(false),
     m_versionedDirectory(false),
     m_silentUpdate(false),
+    m_view(nullptr),
     m_model(nullptr),
     m_dirVerificationTimer(nullptr),
     m_pluginsInitialized(false),
