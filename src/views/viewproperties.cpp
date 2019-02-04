@@ -49,6 +49,8 @@ ViewProperties::ViewProperties(const QUrl& url) :
     GeneralSettings* settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
     bool useDetailsViewWithPath = false;
+    bool useRecentDocumentsView = false;
+    bool useDownloadsView = false;
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
@@ -61,6 +63,9 @@ ViewProperties::ViewProperties(const QUrl& url) :
     } else if (url.scheme() == QLatin1String("trash")) {
         m_filePath = destinationDir(QStringLiteral("trash"));
         useDetailsViewWithPath = true;
+    } else if (url.scheme() == QLatin1String("recentdocuments")) {
+        m_filePath = destinationDir(QStringLiteral("recentdocuments"));
+        useRecentDocumentsView = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
 
@@ -78,6 +83,10 @@ ViewProperties::ViewProperties(const QUrl& url) :
     #endif
             m_filePath = destinationDir(QStringLiteral("local")) + m_filePath;
         }
+
+        if (m_filePath == QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)) {
+            useDownloadsView = true;
+        }
     } else {
         m_filePath = destinationDir(QStringLiteral("remote")) + m_filePath;
     }
@@ -94,6 +103,17 @@ ViewProperties::ViewProperties(const QUrl& url) :
         if (useDetailsViewWithPath) {
             setViewMode(DolphinView::DetailsView);
             setVisibleRoles({"path"});
+        } else if (useRecentDocumentsView || useDownloadsView) {
+            setSortRole(QByteArrayLiteral("modificationtime"));
+            setSortOrder(Qt::DescendingOrder);
+
+            if (useRecentDocumentsView) {
+                setViewMode(DolphinView::DetailsView);
+                setVisibleRoles({QByteArrayLiteral("path")});
+            } else if (useDownloadsView) {
+                setSortFoldersFirst(false);
+                setGroupedSorting(true);
+            }
         } else {
             // The global view-properties act as default for directories without
             // any view-property configuration. Constructing a ViewProperties 
