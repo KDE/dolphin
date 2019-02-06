@@ -61,6 +61,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
     proxyModel->setSourceModel(serviceModel);
     proxyModel->setSortRole(Qt::DisplayRole);
+    proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
     m_listView->setModel(proxyModel);
     m_listView->setItemDelegate(delegate);
