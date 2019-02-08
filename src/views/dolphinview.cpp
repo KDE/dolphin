@@ -709,7 +709,7 @@ void DolphinView::stopLoading()
 
 void DolphinView::updatePalette()
 {
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    QColor color = KColorScheme(isActiveWindow() ? QPalette::Active : QPalette::Inactive, KColorScheme::View).background().color();
     if (!m_active) {
         color.setAlpha(150);
     }
@@ -736,6 +736,11 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
     case QEvent::PaletteChange:
         updatePalette();
         QPixmapCache::clear();
+        break;
+
+    case QEvent::WindowActivate:
+    case QEvent::WindowDeactivate:
+        updatePalette();
         break;
 
     case QEvent::KeyPress:
