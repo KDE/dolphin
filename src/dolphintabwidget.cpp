@@ -147,7 +147,7 @@ void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& s
     setCurrentIndex(count() - 1);
 }
 
-void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
+void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl, TabPlacement tabPlacement)
 {
     QWidget* focusWidget = QApplication::focusWidget();
 
@@ -157,7 +157,11 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
             this, &DolphinTabWidget::tabUrlChanged);
-    addTab(tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(tabPage));
+    int newTabIndex = -1;
+    if (tabPlacement == AfterCurrentTab) {
+        newTabIndex = currentIndex() + 1;
+    }
+    insertTab(newTabIndex, tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(tabPage));
 
     if (focusWidget) {
         // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened

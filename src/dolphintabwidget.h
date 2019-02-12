@@ -32,6 +32,19 @@ class DolphinTabWidget : public QTabWidget
     Q_OBJECT
 
 public:
+    /**
+     * @brief Controls where tabs are placed
+     */
+    enum TabPlacement {
+        /**
+          * The new tab is placed after the current tab
+          */
+        AfterCurrentTab,
+        /**
+          * The new tab is placed after the last tab
+          */
+        AfterLastTab
+    };
     explicit DolphinTabWidget(QWidget* parent);
 
     /**
@@ -105,9 +118,11 @@ public slots:
 
     /**
      * Opens a new tab in the background showing the URL \a primaryUrl and the
-     * optional URL \a secondaryUrl.
+     * optional URL \a secondaryUrl. \a tabPlacement controls where the new tab
+     * is placed.
      */
-    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl());
+    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl(),
+                    TabPlacement tabPlacement = AfterLastTab);
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,

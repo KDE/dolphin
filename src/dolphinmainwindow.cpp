@@ -328,7 +328,7 @@ void DolphinMainWindow::openInNewTab()
     foreach (const KFileItem& item, list) {
         const QUrl& url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
-            openNewTab(url);
+            m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterCurrentTab);
             tabCreated = true;
         }
     }
@@ -336,7 +336,7 @@ void DolphinMainWindow::openInNewTab()
     // if no new tab has been created from the selection
     // open the current directory in a new tab
     if (!tabCreated) {
-        openNewTab(m_activeViewContainer->url());
+        m_tabWidget->openNewTab(m_activeViewContainer->url(), QUrl(), DolphinTabWidget::AfterCurrentTab);
     }
 }
 
