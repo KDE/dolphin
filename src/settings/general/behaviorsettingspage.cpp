@@ -100,6 +100,11 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Switch between split views with tab key"));
     topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
 
+    // 'Close active view when turning off split view'
+    m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes active pane"));
+    topLayout->addRow(QString(), m_closeActiveSplitView);
+    m_closeActiveSplitView->setToolTip(i18n("When deactivated, turning off split view will close the inactive pane"));
+
     loadSettings();
 
     connect(m_localViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
@@ -113,6 +118,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_caseSensitiveSorting, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_renameInline, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_useTabForSplitViewSwitch, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
+    connect(m_closeActiveSplitView, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()
@@ -133,6 +139,7 @@ void BehaviorSettingsPage::applySettings()
     setSortingChoiceValue(settings);
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setUseTabForSwitchingSplitView(m_useTabForSplitViewSwitch->isChecked());
+    settings->setCloseActiveSplitView(m_closeActiveSplitView->isChecked());
     settings->save();
 
     if (useGlobalViewProps) {
@@ -165,6 +172,7 @@ void BehaviorSettingsPage::loadSettings()
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_renameInline->setChecked(GeneralSettings::renameInline());
     m_useTabForSplitViewSwitch->setChecked(GeneralSettings::useTabForSwitchingSplitView());
+    m_closeActiveSplitView->setChecked(GeneralSettings::closeActiveSplitView());
 
     loadSortingChoiceSettings();
 }

@@ -74,6 +74,10 @@
             <label>Use tab for switching between right and left split</label>
             <default>false</default>
         </entry>
+        <entry name="CloseActiveSplitView" type="Bool">
+            <label>Close active view when toggling off</label>
+            <default>true</default>
+        </entry>
         <entry name="ShowToolTips" type="Bool">
             <label>Show tooltips</label>
             <default>false</default>

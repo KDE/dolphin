@@ -67,6 +67,7 @@ private:
 
     QCheckBox* m_renameInline;
     QCheckBox* m_useTabForSplitViewSwitch;
+    QCheckBox* m_closeActiveSplitView;
 };
 
 #endif
