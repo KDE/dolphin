@@ -44,10 +44,9 @@ KItemListViewAccessible::KItemListViewAccessible(KItemListView* view_) :
 
 KItemListViewAccessible::~KItemListViewAccessible()
 {
-    foreach (QAccessibleInterface* child, m_cells) {
-        if (child) {
-            QAccessible::Id childId = QAccessible::uniqueId(child);
-            QAccessible::deleteAccessibleInterface(childId);
+    foreach (AccessibleIdWrapper idWrapper, m_cells) {
+        if (idWrapper.isValid) {
+            QAccessible::deleteAccessibleInterface(idWrapper.id);
         }
     }
 }
@@ -75,13 +74,13 @@ QAccessibleInterface* KItemListViewAccessible::cell(int index) const
     }
     Q_ASSERT(index < m_cells.size());
 
-    QAccessibleInterface* child = m_cells.at(index);
-    if (!child) {
-        child = new KItemListAccessibleCell(view(), index);
-        m_cells.insert(index, child);
-        QAccessible::registerAccessibleInterface(child);
+    AccessibleIdWrapper idWrapper = m_cells.at(index);
+    if (!idWrapper.isValid) {
+        idWrapper.id = QAccessible::registerAccessibleInterface(new KItemListAccessibleCell(view(), index));
+        idWrapper.isValid = true;
+        m_cells.insert(index, idWrapper);
     }
-    return child;
+    return QAccessible::accessibleInterface(idWrapper.id);
 }
 
 QAccessibleInterface* KItemListViewAccessible::cellAt(int row, int column) const
@@ -264,6 +263,12 @@ QAccessibleInterface* KItemListViewAccessible::child(int index) const
         return cell(index);
     }
     return nullptr;
+}
+
+KItemListViewAccessible::AccessibleIdWrapper::AccessibleIdWrapper() :
+    isValid(false),
+    id(0)
+{
 }
 
 // Table Cell
