@@ -86,7 +86,13 @@ protected:
     inline QAccessibleInterface* cell(int index) const;
 
 private:
-    mutable QVector<QAccessibleInterface*> m_cells;
+    class AccessibleIdWrapper {
+    public:
+        AccessibleIdWrapper();
+        bool isValid;
+        QAccessible::Id id;
+    };
+    mutable QVector<AccessibleIdWrapper> m_cells;
 };
 
 class DOLPHIN_EXPORT KItemListAccessibleCell: public QAccessibleInterface, public QAccessibleTableCellInterface
