@@ -2046,12 +2046,20 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                  lastMonthDate.month() == fileDate.month()) {
 
                 if (daysDistance == 1) {
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number", "'Yesterday' (MMMM, yyyy)"));
-                    newGroupValue = i18nc("Can be used to script translation of "
-                        "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
-                        "%1", newGroupValue);
+                    const KLocalizedString format = ki18nc("@title:group Date: "
+                                                    "MMMM is full month name in current locale, and yyyy is "
+                                                    "full year number", "'Yesterday' (MMMM, yyyy)");
+                    const QString translatedFormat = format.toString();
+                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = i18nc("Can be used to script translation of "
+                            "\"'Yesterday' (MMMM, yyyy)\" with context @title:group Date",
+                            "%1", newGroupValue);
+                    } else {
+                        qCWarning(DolphinDebug).nospace() << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                        const QString untranslatedFormat = format.toString({ QLatin1String("en_US") });
+                        newGroupValue = fileTime.toString(untranslatedFormat);
+                    }
                 } else if (daysDistance <= 7) {
                     newGroupValue = fileTime.toString(i18nc("@title:group Date: "
                         "The week day name: dddd, MMMM is full month name "
@@ -2061,33 +2069,65 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                         "\"dddd (MMMM, yyyy)\" with context @title:group Date",
                         "%1", newGroupValue);
                 } else if (daysDistance <= 7 * 2) {
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number", "'One Week Ago' (MMMM, yyyy)"));
-                    newGroupValue = i18nc("Can be used to script translation of "
-                        "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
-                        "%1", newGroupValue);
+                    const KLocalizedString format = ki18nc("@title:group Date: "
+                                                           "MMMM is full month name in current locale, and yyyy is "
+                                                           "full year number", "'One Week Ago' (MMMM, yyyy)");
+                    const QString translatedFormat = format.toString();
+                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = i18nc("Can be used to script translation of "
+                            "\"'One Week Ago' (MMMM, yyyy)\" with context @title:group Date",
+                            "%1", newGroupValue);
+                    } else {
+                        qCWarning(DolphinDebug).nospace() << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                        const QString untranslatedFormat = format.toString({ QLatin1String("en_US") });
+                        newGroupValue = fileTime.toString(untranslatedFormat);
+                    }
                 } else if (daysDistance <= 7 * 3) {
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number", "'Two Weeks Ago' (MMMM, yyyy)"));
-                    newGroupValue = i18nc("Can be used to script translation of "
-                        "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
-                        "%1", newGroupValue);
+                    const KLocalizedString format = ki18nc("@title:group Date: "
+                                                           "MMMM is full month name in current locale, and yyyy is "
+                                                           "full year number", "'Two Weeks Ago' (MMMM, yyyy)");
+                    const QString translatedFormat = format.toString();
+                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = i18nc("Can be used to script translation of "
+                            "\"'Two Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                            "%1", newGroupValue);
+                    } else {
+                        qCWarning(DolphinDebug).nospace() << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                        const QString untranslatedFormat = format.toString({ QLatin1String("en_US") });
+                        newGroupValue = fileTime.toString(untranslatedFormat);
+                    }
                 } else if (daysDistance <= 7 * 4) {
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number", "'Three Weeks Ago' (MMMM, yyyy)"));
-                    newGroupValue = i18nc("Can be used to script translation of "
-                        "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
-                        "%1", newGroupValue);
+                    const KLocalizedString format = ki18nc("@title:group Date: "
+                                                           "MMMM is full month name in current locale, and yyyy is "
+                                                           "full year number", "'Three Weeks Ago' (MMMM, yyyy)");
+                    const QString translatedFormat = format.toString();
+                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = i18nc("Can be used to script translation of "
+                            "\"'Three Weeks Ago' (MMMM, yyyy)\" with context @title:group Date",
+                            "%1", newGroupValue);
+                    } else {
+                        qCWarning(DolphinDebug).nospace() << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                        const QString untranslatedFormat = format.toString({ QLatin1String("en_US") });
+                        newGroupValue = fileTime.toString(untranslatedFormat);
+                    }
                 } else {
-                    newGroupValue = fileTime.toString(i18nc("@title:group Date: "
-                        "MMMM is full month name in current locale, and yyyy is "
-                        "full year number", "'Earlier on' MMMM, yyyy"));
-                    newGroupValue = i18nc("Can be used to script translation of "
-                        "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
-                        "%1", newGroupValue);
+                    const KLocalizedString format = ki18nc("@title:group Date: "
+                                                           "MMMM is full month name in current locale, and yyyy is "
+                                                           "full year number", "'Earlier on' MMMM, yyyy");
+                    const QString translatedFormat = format.toString();
+                    if (translatedFormat.count(QLatin1Char('\'')) == 2) {
+                        newGroupValue = fileTime.toString(translatedFormat);
+                        newGroupValue = i18nc("Can be used to script translation of "
+                            "\"'Earlier on' MMMM, yyyy\" with context @title:group Date",
+                            "%1", newGroupValue);
+                    } else {
+                        qCWarning(DolphinDebug).nospace() << "A wrong translation was found: " << translatedFormat << ". Please file a bug report at bugs.kde.org";
+                        const QString untranslatedFormat = format.toString({ QLatin1String("en_US") });
+                        newGroupValue = fileTime.toString(untranslatedFormat);
+                    }
                 }
             } else {
                 newGroupValue = fileTime.toString(i18nc("@title:group "
