@@ -311,6 +311,10 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
 
     m_messageWidget->setText(msg);
 
+    // TODO: wrap at arbitrary character positions once QLabel can do this
+    // https://bugreports.qt.io/browse/QTBUG-1276
+    m_messageWidget->setWordWrap(true);
+
     switch (type) {
     case Information: m_messageWidget->setMessageType(KMessageWidget::Information); break;
     case Warning:     m_messageWidget->setMessageType(KMessageWidget::Warning); break;
