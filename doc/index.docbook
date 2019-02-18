@@ -1134,15 +1134,15 @@ This group contains settings which control the appearance of &dolphin; on startu
 <itemizedlist>
 
 <listitem><para>
-The <guilabel>Home Folder</guilabel> is the folder which is opened on startup. The
+The <guilabel>Start in</guilabel> folder is the folder which is opened on startup. The
 location of the folder can be entered directly or chosen in a dialog which can
 be opened by clicking the button showing a <quote>folder</quote> icon. Moreover,
 the current location or the default location (which is the user's home folder)
-can be used as the Home Folder by clicking the corresponding button.
+can be used as the startup folder by clicking the corresponding button.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Split View Mode</guilabel> controls if the
+<guilabel>Split view mode</guilabel> controls if the
 <link linkend="dolphin-view">&dolphin; view</link> is split on startup
 or not.
 </para></listitem>
@@ -1473,11 +1473,11 @@ mode) can also be changed using toolbar buttons.
 The <guilabel>View Properties</guilabel> dialog can be used to quickly modify
 several view properties at once. This is done for the current folder, for the
 current folder including all subfolders, or even for all folders, depending on
-the choice made in the <guilabel>Apply View Properties To</guilabel> section.
+the choice made in the <guilabel>Apply to</guilabel> section.
 </para>
 
 <para>
-If <guilabel>Use these view properties as default</guilabel> is enabled, the chosen view
+If <guilabel>Use as default view settings</guilabel> is enabled, the chosen view
 properties will also be used for all folders which do not have customized view
 properties yet.
 </para>
