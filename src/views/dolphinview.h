@@ -21,6 +21,7 @@
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
+#include "dolphintabwidget.h"
 #include "dolphin_export.h"
 
 #include <KFileItem>
@@ -400,7 +401,7 @@ signals:
     /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
-    void tabRequested(const QUrl& url);
+    void tabRequested(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,

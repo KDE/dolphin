@@ -853,7 +853,7 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
         const QUrl& url = openItemAsFolderUrl(item);
 
         if (!url.isEmpty()) { // Open folders in new tabs
-            emit tabRequested(url);
+            emit tabRequested(url, DolphinTabWidget::AfterLastTab);
         } else {
             items.append(item);
         }
@@ -871,9 +871,9 @@ void DolphinView::slotItemMiddleClicked(int index)
     const KFileItem& item = m_model->fileItem(index);
     const QUrl& url = openItemAsFolderUrl(item);
     if (!url.isEmpty()) {
-        emit tabRequested(url);
+        emit tabRequested(url, DolphinTabWidget::AfterCurrentTab);
     } else if (isTabsForFilesEnabled()) {
-        emit tabRequested(item.url());
+        emit tabRequested(item.url(), DolphinTabWidget::AfterCurrentTab);
     }
 }
 

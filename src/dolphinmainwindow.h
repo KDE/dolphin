@@ -22,6 +22,7 @@
 #ifndef DOLPHIN_MAINWINDOW_H
 #define DOLPHIN_MAINWINDOW_H
 
+#include "dolphintabwidget.h"
 #include <config-baloo.h>
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
@@ -327,7 +328,17 @@ private slots:
     /**
      * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTab(const QUrl& url);
+    void openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement);
+
+    /**
+     * Opens a new tab and places it after the current tab
+     */
+    void openNewTabAfterCurrentTab(const QUrl& url);
+
+    /**
+     * Opens a new tab and places it as the last tab
+     */
+    void openNewTabAfterLastTab(const QUrl& url);
 
     /**
      * Opens the selected folder in a new tab.

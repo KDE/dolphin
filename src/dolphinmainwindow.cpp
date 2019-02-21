@@ -27,7 +27,6 @@
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinrecenttabsmenu.h"
-#include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
 #include "dolphintabpage.h"
 #include "middleclickactioneventfilter.h"
@@ -315,9 +314,19 @@ void DolphinMainWindow::openNewActivatedTab()
     m_tabWidget->openNewActivatedTab();
 }
 
-void DolphinMainWindow::openNewTab(const QUrl& url)
+void DolphinMainWindow::openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement)
 {
-    m_tabWidget->openNewTab(url);
+    m_tabWidget->openNewTab(url, QUrl(), tabPlacement);
+}
+
+void DolphinMainWindow::openNewTabAfterCurrentTab(const QUrl& url)
+{
+    m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterCurrentTab);
+}
+
+void DolphinMainWindow::openNewTabAfterLastTab(const QUrl& url)
+{
+    m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterLastTab);
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -328,7 +337,7 @@ void DolphinMainWindow::openInNewTab()
     foreach (const KFileItem& item, list) {
         const QUrl& url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
-            m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterCurrentTab);
+            openNewTabAfterCurrentTab(url);
             tabCreated = true;
         }
     }
@@ -336,7 +345,7 @@ void DolphinMainWindow::openInNewTab()
     // if no new tab has been created from the selection
     // open the current directory in a new tab
     if (!tabCreated) {
-        m_tabWidget->openNewTab(m_activeViewContainer->url(), QUrl(), DolphinTabWidget::AfterCurrentTab);
+        openNewTabAfterCurrentTab(m_activeViewContainer->url());
     }
 }
 
@@ -740,25 +749,25 @@ void DolphinMainWindow::goBackInNewTab()
 {
     KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
     const int index = urlNavigator->historyIndex() + 1;
-    openNewTab(urlNavigator->locationUrl(index));
+    openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goForwardInNewTab()
 {
     KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
     const int index = urlNavigator->historyIndex() - 1;
-    openNewTab(urlNavigator->locationUrl(index));
+    openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goUpInNewTab()
 {
     const QUrl currentUrl = activeViewContainer()->urlNavigator()->locationUrl();
-    openNewTab(KIO::upUrl(currentUrl));
+    openNewTabAfterCurrentTab(KIO::upUrl(currentUrl));
 }
 
 void DolphinMainWindow::goHomeInNewTab()
 {
-    openNewTab(Dolphin::homeUrl());
+    openNewTabAfterCurrentTab(Dolphin::homeUrl());
 }
 
 void DolphinMainWindow::compareFiles()
@@ -889,7 +898,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
         break;
 
     case DolphinContextMenu::OpenParentFolderInNewTab:
-        openNewTab(KIO::upUrl(item.url()));
+        openNewTabAfterLastTab(KIO::upUrl(item.url()));
         break;
 
     case DolphinContextMenu::None:
@@ -1328,7 +1337,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, &FoldersPanel::folderActivated,
             this, &DolphinMainWindow::changeUrl);
     connect(foldersPanel, &FoldersPanel::folderMiddleClicked,
-            this, &DolphinMainWindow::openNewTab);
+            this, &DolphinMainWindow::openNewTabAfterCurrentTab);
     connect(foldersPanel, &FoldersPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
 
@@ -1384,7 +1393,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
     connect(m_placesPanel, &PlacesPanel::placeMiddleClicked,
-            this, &DolphinMainWindow::openNewTab);
+            this, &DolphinMainWindow::openNewTabAfterCurrentTab);
     connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1598,7 +1607,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
+            this, &DolphinMainWindow::openNewTabAfterLastTab);
 }
 
 void DolphinMainWindow::updateSplitAction()
