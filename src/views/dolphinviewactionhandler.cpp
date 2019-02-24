@@ -172,6 +172,7 @@ void DolphinViewActionHandler::createActions()
     QActionGroup* sortByActionGroup = createFileItemRolesActionGroup(QStringLiteral("sort_by_"));
 
     KActionMenu* sortByActionMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("sort"));
+    sortByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sort")));
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
     sortByActionMenu->setDelayed(false);
 
