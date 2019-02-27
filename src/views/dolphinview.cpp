@@ -97,7 +97,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
-    m_topLayout->setMargin(0);
+    m_topLayout->setContentsMargins(0, 0, 0, 0);
 
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the

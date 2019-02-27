@@ -33,7 +33,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(0);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     m_splitter = new QSplitter(Qt::Horizontal, this);
     m_splitter->setChildrenCollapsible(false);

@@ -382,7 +382,7 @@ void DolphinSearchBox::init()
 
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
-    searchInputLayout->setMargin(0);
+    searchInputLayout->setContentsMargins(0, 0, 0, 0);
     searchInputLayout->addWidget(closeButton);
     searchInputLayout->addWidget(m_searchLabel);
     searchInputLayout->addWidget(m_searchInput);
@@ -442,7 +442,7 @@ void DolphinSearchBox::init()
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
-    optionsLayout->setMargin(0);
+    optionsLayout->setContentsMargins(0, 0, 0, 0);
     optionsLayout->addWidget(m_fileNameButton);
     optionsLayout->addWidget(m_contentButton);
     optionsLayout->addWidget(m_separator);
@@ -468,7 +468,7 @@ void DolphinSearchBox::init()
     m_optionsScrollArea->setWidgetResizable(true);
 
     m_topLayout = new QVBoxLayout(this);
-    m_topLayout->setMargin(0);
+    m_topLayout->setContentsMargins(0, 0, 0, 0);
     m_topLayout->addLayout(searchInputLayout);
     m_topLayout->addWidget(m_optionsScrollArea);
     m_topLayout->addWidget(m_facetsWidget);

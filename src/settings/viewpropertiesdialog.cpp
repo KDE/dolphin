@@ -149,7 +149,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     additionalInfoBox->setLayout(innerLayout);
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
-    sortingLayout->setMargin(0);
+    sortingLayout->setContentsMargins(0, 0, 0, 0);
     sortingLayout->addWidget(m_sortOrder);
     sortingLayout->addWidget(m_sorting);
 

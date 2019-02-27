@@ -71,12 +71,12 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
-    m_topLayout->setMargin(0);
+    m_topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigatorWidget = new QWidget(this);
     QHBoxLayout* navigatorLayout = new QHBoxLayout(m_navigatorWidget);
     navigatorLayout->setSpacing(0);
-    navigatorLayout->setMargin(0);
+    navigatorLayout->setContentsMargins(0, 0, 0, 0);
 
     m_urlNavigator = new KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, this);
     connect(m_urlNavigator, &KUrlNavigator::activated,

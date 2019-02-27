@@ -33,7 +33,7 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     m_tabs()
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

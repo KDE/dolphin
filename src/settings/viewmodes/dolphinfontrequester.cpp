@@ -35,7 +35,7 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     m_customFont()
 {
     QHBoxLayout* topLayout = new QHBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_modeCombo = new QComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));

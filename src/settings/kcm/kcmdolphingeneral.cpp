@@ -41,7 +41,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

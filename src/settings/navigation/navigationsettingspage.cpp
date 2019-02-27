@@ -34,7 +34,7 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     QWidget* vBox = new QWidget(this);
     QVBoxLayout *vBoxLayout = new QVBoxLayout(vBox);
-    vBoxLayout->setMargin(0);
+    vBoxLayout->setContentsMargins(0, 0, 0, 0);
     vBoxLayout->setAlignment(Qt::AlignTop);
 
     m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);

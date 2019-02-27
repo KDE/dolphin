@@ -37,7 +37,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_services = new ServicesSettingsPage(this);
     connect(m_services, &ServicesSettingsPage::changed, this, static_cast<void(DolphinServicesConfigModule::*)()>(&DolphinServicesConfigModule::changed));

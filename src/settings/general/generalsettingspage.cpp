@@ -35,7 +35,7 @@ GeneralSettingsPage::GeneralSettingsPage(const QUrl& url, QWidget* parent) :
     m_pages()
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     QTabWidget* tabWidget = new QTabWidget(this);
 

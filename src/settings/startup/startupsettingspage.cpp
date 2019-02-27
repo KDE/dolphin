@@ -50,7 +50,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 
     // create 'Home URL' editor
     QHBoxLayout* homeUrlBoxLayout = new QHBoxLayout();
-    homeUrlBoxLayout->setMargin(0);
+    homeUrlBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_homeUrl = new QLineEdit();
     m_homeUrl->setClearButtonEnabled(true);
@@ -67,7 +67,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
             this, &StartupSettingsPage::selectHomeUrl);
 
     QHBoxLayout* buttonBoxLayout = new QHBoxLayout();
-    buttonBoxLayout->setMargin(0);
+    buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
     buttonBoxLayout->addWidget(useCurrentButton);
@@ -79,7 +79,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
             this, &StartupSettingsPage::useDefaultLocation);
 
     QVBoxLayout* homeBoxLayout = new QVBoxLayout();
-    homeBoxLayout->setMargin(0);
+    homeBoxLayout->setContentsMargins(0, 0, 0, 0);
     homeBoxLayout->addLayout(homeUrlBoxLayout);
     homeBoxLayout->addLayout(buttonBoxLayout);
 

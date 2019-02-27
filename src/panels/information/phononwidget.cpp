@@ -104,10 +104,10 @@ void PhononWidget::showEvent(QShowEvent *event)
 
     if (!m_topLayout) {
         m_topLayout = new QVBoxLayout(this);
-        m_topLayout->setMargin(0);
+        m_topLayout->setContentsMargins(0, 0, 0, 0);
 
         QHBoxLayout *controlsLayout = new QHBoxLayout(this);
-        controlsLayout->setMargin(0);
+        controlsLayout->setContentsMargins(0, 0, 0, 0);
         controlsLayout->setSpacing(0);
 
         m_playButton = new QToolButton(this);

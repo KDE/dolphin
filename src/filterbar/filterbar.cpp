@@ -60,7 +60,7 @@ FilterBar::FilterBar(QWidget* parent) :
 
     // Apply layout
     QHBoxLayout* hLayout = new QHBoxLayout(this);
-    hLayout->setMargin(0);
+    hLayout->setContentsMargins(0, 0, 0, 0);
     hLayout->addWidget(closeButton);
     hLayout->addWidget(filterLabel);
     hLayout->addWidget(m_filterInput);

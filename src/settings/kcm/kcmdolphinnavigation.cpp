@@ -37,7 +37,7 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigation = new NavigationSettingsPage(this);
     connect(m_navigation, &NavigationSettingsPage::changed, this, static_cast<void(DolphinNavigationConfigModule::*)()>(&DolphinNavigationConfigModule::changed));
