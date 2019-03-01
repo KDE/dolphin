@@ -67,25 +67,6 @@ private:
      */
     QString tagsFromValues(const QStringList& values) const;
 
-    /**
-     * @return User visible string for the EXIF-orientation property
-     *         which can have the values 0 to 8.
-     *         (see http://sylvana.net/jpegcrop/exif_orientation.html)
-     */
-    QString orientationFromValue(int value) const;
-
-    /**
-     * @return Duration in the format HH::MM::SS for the value given
-     *         in seconds.
-     */
-    QString durationFromValue(int value) const;
-
-    /**
-     * @return Bitrate in the format N kB/s for the value given
-     *         in b/s.
-     */
-    QString bitrateFromValue(int value) const;
-
 private:
     QSet<QByteArray> m_roles;
     QHash<QString, QByteArray> m_roleForProperty;

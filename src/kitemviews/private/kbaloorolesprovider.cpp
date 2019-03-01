@@ -67,22 +67,7 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
             continue;
         }
 
-        const QVariant value = it.value();
-
-        if (role == "orientation") {
-            const QString orientation = orientationFromValue(value.toInt());
-            values.insert(role, orientation);
-        } else if (role == "duration") {
-            const QString duration = durationFromValue(value.toInt());
-            values.insert(role, duration);
-        } else if (role == "bitrate") {
-            const QString bitrate = bitrateFromValue(value.toInt());
-            values.insert(role, bitrate);
-        } else if (pi.valueType() == QVariant::StringList) {
-            values.insert(role, value.toStringList().join(QStringLiteral(", ")));
-        } else {
-            values.insert(role, value.toString());
-        }
+        values.insert(role, pi.formatAsDisplayString(it.value()));
     }
 
     KFileMetaData::UserMetaData md(file.path());
@@ -154,37 +139,3 @@ QString KBalooRolesProvider::tagsFromValues(const QStringList& values) const
     std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString& s1, const QString& s2){ return coll.compare(s1, s2) < 0; });
     return alphabeticalOrderTags.join(QStringLiteral(", "));
 }
-
-QString KBalooRolesProvider::orientationFromValue(int value) const
-{
-    QString string;
-    switch (value) {
-    case 1: string = i18nc("@item:intable Image orientation", "Unchanged"); break;
-    case 2: string = i18nc("@item:intable Image orientation", "Horizontally flipped"); break;
-    case 3: string = i18nc("@item:intable image orientation", "180° rotated"); break;
-    case 4: string = i18nc("@item:intable image orientation", "Vertically flipped"); break;
-    case 5: string = i18nc("@item:intable image orientation", "Transposed"); break;
-    case 6: string = i18nc("@item:intable image orientation", "90° rotated"); break;
-    case 7: string = i18nc("@item:intable image orientation", "Transversed"); break;
-    case 8: string = i18nc("@item:intable image orientation", "270° rotated"); break;
-    default:
-        break;
-    }
-    return string;
-}
-
-QString KBalooRolesProvider::durationFromValue(int value) const
-{
-    QTime duration(0, 0, 0);
-    duration = duration.addSecs(value);
-    return duration.toString(QStringLiteral("hh:mm:ss"));
-}
-
-
-QString KBalooRolesProvider::bitrateFromValue(int value) const
-{
-    KFormat form;
-    QString bitrate = i18nc("@label bitrate (per second)", "%1/s", form.formatByteSize(value, 1, KFormat::MetricBinaryDialect));
-    return bitrate;
-}
-
