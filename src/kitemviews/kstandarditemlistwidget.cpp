@@ -1165,7 +1165,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 do {
                     QString lastTextLine = nameText.mid(line.textStart());
                     lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
-                                                                      Qt::ElideRight,
+                                                                      Qt::ElideMiddle,
                                                                       elidingWidth);
                     const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                     nameTextInfo->staticText.setText(elidedText);
@@ -1221,7 +1221,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             textLine.setLineWidth(maxWidth);
             requiredWidth = textLine.naturalTextWidth();
             if (requiredWidth > maxWidth) {
-                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
+                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.width(elidedText);
             } else if (role == "rating") {
@@ -1270,7 +1270,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         qreal requiredWidth = m_customizedFontMetrics.width(text);
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
-            const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
+            const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
             textInfo->staticText.setText(elidedText);
         }
 
@@ -1327,7 +1327,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         }
 
         if (requiredWidth > availableTextWidth) {
-            text = m_customizedFontMetrics.elidedText(text, Qt::ElideRight, availableTextWidth);
+            text = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, availableTextWidth);
             requiredWidth = m_customizedFontMetrics.width(text);
         }
 
