@@ -84,7 +84,7 @@ private:
     /// Transient parent of the tooltip, mandatory on Wayland.
     QWindow* m_transientParent;
 
-    DolphinFileMetaDataWidget* m_fileMetaDataWidget;
+    QScopedPointer<DolphinFileMetaDataWidget> m_fileMetaDataWidget;
     QScopedPointer<KToolTipWidget> m_tooltipWidget;
 
     bool m_toolTipRequested;

@@ -82,11 +82,10 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, 
     // Only start the retrieving of the content, when the mouse has been over this
     // item for 200 milliseconds. This prevents a lot of useless preview jobs and
     // meta data retrieval, when passing rapidly over a lot of items.
-    delete m_fileMetaDataWidget;
-    m_fileMetaDataWidget = new DolphinFileMetaDataWidget();
-    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::metaDataRequestFinished,
+    m_fileMetaDataWidget.reset(new DolphinFileMetaDataWidget());
+    connect(m_fileMetaDataWidget.data(), &DolphinFileMetaDataWidget::metaDataRequestFinished,
             this, &ToolTipManager::slotMetaDataRequestFinished);
-    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::urlActivated,
+    connect(m_fileMetaDataWidget.data(), &DolphinFileMetaDataWidget::urlActivated,
             this, &ToolTipManager::urlActivated);
 
     m_contentRetrievalTimer->start();
@@ -209,7 +208,7 @@ void ToolTipManager::showToolTip()
     if (!m_tooltipWidget) {
         m_tooltipWidget.reset(new KToolTipWidget());
     }
-    m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataWidget, m_transientParent);
+    m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataWidget.data(), m_transientParent);
     m_toolTipRequested = false;
 }
 
