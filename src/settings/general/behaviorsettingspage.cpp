@@ -96,11 +96,11 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     m_renameInline = new QCheckBox(i18nc("option:check", "Rename inline"));
     topLayout->addRow(QString(), m_renameInline);
 
-    // 'Switch between split views with tab key'
-    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Switch between split views with tab key"));
+    // 'Switch between panes of split views with tab key'
+    m_useTabForSplitViewSwitch = new QCheckBox(i18nc("option:check", "Switch between split views panes with tab key"));
     topLayout->addRow(QString(), m_useTabForSplitViewSwitch);
 
-    // 'Close active view when turning off split view'
+    // 'Close active pane when turning off split view'
     m_closeActiveSplitView = new QCheckBox(i18nc("option:check", "Turning off split view closes active pane"));
     topLayout->addRow(QString(), m_closeActiveSplitView);
     m_closeActiveSplitView->setToolTip(i18n("When deactivated, turning off split view will close the inactive pane"));
