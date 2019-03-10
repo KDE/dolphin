@@ -82,7 +82,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     topLayout->addWidget(downloadButton);
 
     m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
-    qSort(m_enabledVcsPlugins);
+    std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
 ServicesSettingsPage::~ServicesSettingsPage()

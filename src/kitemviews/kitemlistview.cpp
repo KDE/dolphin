@@ -1041,7 +1041,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         // Update the indexes of all KItemListWidget instances that are located
         // after the inserted items. It is important to adjust the indexes in the order
         // from the highest index to the lowest index to prevent overlaps when setting the new index.
-        qSort(itemsToMove);
+        std::sort(itemsToMove.begin(), itemsToMove.end());
         for (int i = itemsToMove.count() - 1; i >= 0; --i) {
             KItemListWidget* widget = m_visibleItems.value(itemsToMove[i]);
             Q_ASSERT(widget);

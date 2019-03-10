@@ -1124,7 +1124,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     }
 
     // Extract the item-ranges out of the changed indexes
-    qSort(indexes);
+    std::sort(indexes.begin(), indexes.end());
     const KItemRangeList itemRangeList = KItemRangeList::fromSortedContainer(indexes);
     emitItemsChangedAndTriggerResorting(itemRangeList, changedRoles);
 }
