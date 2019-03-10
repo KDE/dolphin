@@ -122,7 +122,7 @@ public slots:
      * is placed.
      */
     void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl(),
-                    TabPlacement tabPlacement = AfterLastTab);
+                    DolphinTabWidget::TabPlacement tabPlacement = AfterLastTab);
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
