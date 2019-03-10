@@ -214,12 +214,10 @@ void FoldersPanel::slotItemMiddleClicked(int index)
 
 void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
-    Q_UNUSED(pos);
-
     const KFileItem fileItem = m_model->fileItem(index);
 
     QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
-    contextMenu.data()->open();
+    contextMenu.data()->open(pos.toPoint());
     if (contextMenu.data()) {
         delete contextMenu.data();
     }
@@ -227,10 +225,8 @@ void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
 void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
 {
-    Q_UNUSED(pos);
-
     QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
-    contextMenu.data()->open();
+    contextMenu.data()->open(pos.toPoint());
     if (contextMenu.data()) {
         delete contextMenu.data();
     }

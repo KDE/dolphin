@@ -49,7 +49,7 @@ public:
     ~TreeViewContextMenu() override;
 
     /** Opens the context menu modal. */
-    void open();
+    void open(const QPoint& pos);
 
 private slots:
     /** Cuts the item m_fileItem. */

@@ -55,7 +55,7 @@ TreeViewContextMenu::~TreeViewContextMenu()
 {
 }
 
-void TreeViewContextMenu::open()
+void TreeViewContextMenu::open(const QPoint& pos)
 {
     QMenu* popup = new QMenu(m_parent);
 
@@ -161,7 +161,7 @@ void TreeViewContextMenu::open()
     }
 
     QPointer<QMenu> popupPtr = popup;
-    popup->exec(QCursor::pos());
+    popup->exec(pos);
     if (popupPtr.data()) {
         popupPtr.data()->deleteLater();
     }
