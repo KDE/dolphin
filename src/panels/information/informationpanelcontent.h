@@ -78,7 +78,7 @@ public:
      *
      * TODO: Move this code to the class InformationPanel
      */
-    void configureSettings(const QList<QAction*>& customContextMenuActions);
+    void configureSettings(const QList<QAction*>& customContextMenuActions, const QPointF& pos);
 
 signals:
     void urlActivated( const QUrl& url );

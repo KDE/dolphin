@@ -264,7 +264,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
-void InformationPanelContent::configureSettings(const QList<QAction*>& customContextMenuActions)
+void InformationPanelContent::configureSettings(const QList<QAction*>& customContextMenuActions, const QPointF& pos)
 {
     QMenu popup(this);
 
@@ -288,7 +288,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
 
     // Open the popup and adjust the settings for the
     // selected action.
-    QAction* action = popup.exec(QCursor::pos());
+    QAction* action = popup.exec(pos.toPoint());
     if (!action) {
         return;
     }

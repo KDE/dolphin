@@ -158,7 +158,7 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
 void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
 {
     // TODO: Move code from InformationPanelContent::configureSettings() here
-    m_content->configureSettings(customContextMenuActions());
+    m_content->configureSettings(customContextMenuActions(), event->globalPos());
     Panel::contextMenuEvent(event);
 }
 
