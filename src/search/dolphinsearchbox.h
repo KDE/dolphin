@@ -166,7 +166,6 @@ private:
 
     QVBoxLayout* m_topLayout;
 
-    QLabel* m_searchLabel;
     QLineEdit* m_searchInput;
     QAction* m_saveSearchAction;
     QScrollArea* m_optionsScrollArea;

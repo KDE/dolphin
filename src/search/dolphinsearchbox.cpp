@@ -49,7 +49,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_startedSearching(false),
     m_active(true),
     m_topLayout(nullptr),
-    m_searchLabel(nullptr),
     m_searchInput(nullptr),
     m_saveSearchAction(nullptr),
     m_optionsScrollArea(nullptr),
@@ -355,11 +354,9 @@ void DolphinSearchBox::init()
     closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
     connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
 
-    // Create search label
-    m_searchLabel = new QLabel(this);
-
     // Create search box
     m_searchInput = new QLineEdit(this);
+    m_searchInput->setPlaceholderText(i18n("Search..."));
     m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonEnabled(true);
     m_searchInput->setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
@@ -381,7 +378,6 @@ void DolphinSearchBox::init()
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
     searchInputLayout->setContentsMargins(0, 0, 0, 0);
     searchInputLayout->addWidget(closeButton);
-    searchInputLayout->addWidget(m_searchLabel);
     searchInputLayout->addWidget(m_searchInput);
 
     // Create "Filename" and "Content" button

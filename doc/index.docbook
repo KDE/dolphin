@@ -782,7 +782,7 @@ current folder, &RMB; click in the work space and click
 <para>
 &dolphin; is capable of searching for files and for content in files. If <keycombo action="simul">
 &Ctrl;<keycap>F</keycap></keycombo> is pressed or <menuchoice> <guimenu>Edit</guimenu> 
-<guimenuitem>Find...</guimenuitem> </menuchoice> is used, the <guilabel>Find</guilabel> 
+<guimenuitem>Search...</guimenuitem> </menuchoice> is used, the <guilabel>Search</guilabel>
 bar will open already set up to search for files within the current folder and any sub-folders.
 Start to type into the find input box and the search starts immediately.
 <screenshot>
@@ -821,7 +821,7 @@ starts the search from the user's <replaceable>Home</replaceable> folder.</para>
 </screenshot>
 
 <para>
-Use the <guilabel>More Options</guilabel> button to extend the <guilabel>Find</guilabel> 
+Use the <guilabel>More Options</guilabel> button to extend the <guilabel>Search</guilabel>
 bar. This provides a very comfortable way for 
 the user to shrink the number of search results.</para>
 <para>To start a search select one or more file types (<guilabel>Documents</guilabel>, 
@@ -1693,7 +1693,7 @@ The name of this file has to be entered in a dialog.
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
-<guimenuitem>Find...</guimenuitem>
+<guimenuitem>Search...</guimenuitem>
 </menuchoice></term>
 <listitem><para><action>Opens the find bar. Enter a search term into the edit box and select to search for filename
 or in contents of files starting from the current folder or everywhere.</action></para></listitem>

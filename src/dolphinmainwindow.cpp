@@ -928,9 +928,13 @@ void DolphinMainWindow::updateControlMenu()
 
     menu->addSeparator();
 
+    // Overwrite Find action to Search action
+    QAction *searchAction = ac->action(KStandardAction::name(KStandardAction::Find));
+    searchAction->setText(i18n("Search..."));
+
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
-                 addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Find)), menu) |
+                 addActionToMenu(searchAction, menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
                  addActionToMenu(ac->action(QStringLiteral("invert_selection")), menu);
 
@@ -1140,7 +1144,8 @@ void DolphinMainWindow::setupActions()
     // due to the long text, the text "Paste" is used:
     paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
 
-    KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
+    QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
+    searchAction->setText(i18n("Search..."));
 
     KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
 

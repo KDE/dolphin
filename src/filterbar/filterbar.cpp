@@ -47,13 +47,12 @@ FilterBar::FilterBar(QWidget* parent) :
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
     connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
-    // Create label
-    QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
 
     // Create filter editor
     m_filterInput = new QLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonEnabled(true);
+    m_filterInput->setPlaceholderText(i18n("Filter..."));
     connect(m_filterInput, &QLineEdit::textChanged,
             this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
@@ -62,11 +61,8 @@ FilterBar::FilterBar(QWidget* parent) :
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setContentsMargins(0, 0, 0, 0);
     hLayout->addWidget(closeButton);
-    hLayout->addWidget(filterLabel);
     hLayout->addWidget(m_filterInput);
     hLayout->addWidget(m_lockButton);
-
-    filterLabel->setBuddy(m_filterInput);
 }
 
 FilterBar::~FilterBar()
