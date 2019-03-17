@@ -300,7 +300,7 @@ KFileItemList InformationPanelContent::items() {
 
 void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 {
-    m_preview->setVisible(!hasVideo);
+    m_preview->setVisible(InformationPanelSettings::previewsShown() && !hasVideo);
 }
 
 void InformationPanelContent::refreshMetaData()
