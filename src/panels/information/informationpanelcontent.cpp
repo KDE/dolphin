@@ -29,7 +29,6 @@
 #include <KStringHandler>
 
 #include <QIcon>
-#include <QMenu>
 #include <QTextDocument>
 
 #include <Baloo/FileMetaDataWidget>
@@ -48,7 +47,6 @@
 #include <QStyle>
 
 #include "dolphin_informationpanelsettings.h"
-#include "filemetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
@@ -264,56 +262,6 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
-void InformationPanelContent::configureSettings(const QList<QAction*>& customContextMenuActions, const QPointF& pos)
-{
-    QMenu popup(this);
-
-    QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
-    previewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
-    previewAction->setCheckable(true);
-    previewAction->setChecked(InformationPanelSettings::previewsShown());
-
-    QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
-    configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
-
-    QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
-    dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
-    dateformatAction->setCheckable(true);
-    dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
-
-    popup.addSeparator();
-    foreach (QAction* action, customContextMenuActions) {
-        popup.addAction(action);
-    }
-
-    // Open the popup and adjust the settings for the
-    // selected action.
-    QAction* action = popup.exec(pos.toPoint());
-    if (!action) {
-        return;
-    }
-
-    const bool isChecked = action->isChecked();
-    if (action == previewAction) {
-        m_preview->setVisible(isChecked);
-        InformationPanelSettings::setPreviewsShown(isChecked);
-    } else if (action == configureAction) {
-        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
-        dialog->setDescription(i18nc("@label::textbox",
-                                     "Select which data should be shown in the information panel:"));
-        dialog->setItems(m_metaDataWidget->items());
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
-        connect(dialog, &FileMetaDataConfigurationDialog::destroyed, this, &InformationPanelContent::refreshMetaData);
-    }
-    if (action == dateformatAction) {
-        int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
-
-        InformationPanelSettings::setDateFormat(dateFormat);
-        refreshMetaData();
-    }
-}
-
 void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
@@ -340,6 +288,14 @@ void InformationPanelContent::markOutdatedPreview()
                                                KIconLoader::Desktop,
                                                KIconLoader::DisabledState);
     m_preview->setPixmap(disabledPixmap);
+}
+
+void InformationPanelContent::setPreviewVisible(bool visible) {
+    m_preview->setVisible(visible);
+}
+
+KFileItemList InformationPanelContent::items() {
+    return m_metaDataWidget->items();
 }
 
 void InformationPanelContent::slotHasVideoChanged(bool hasVideo)

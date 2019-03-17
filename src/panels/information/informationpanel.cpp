@@ -25,11 +25,18 @@
 #include <KIO/JobUiDelegate>
 #include <KJobWidgets>
 #include <KDirNotify>
+#include <KLocalizedString>
+
+#include <Baloo/FileMetaDataWidget>
 
 #include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QMenu>
+
+#include "dolphin_informationpanelsettings.h"
+#include "filemetadataconfigurationdialog.h"
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -157,9 +164,57 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
 
 void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
 {
-    // TODO: Move code from InformationPanelContent::configureSettings() here
-    m_content->configureSettings(customContextMenuActions(), event->globalPos());
+    showContextMenu(event->globalPos());
     Panel::contextMenuEvent(event);
+}
+
+void InformationPanel::showContextMenu(const QPoint &pos) {
+    QMenu popup(this);
+
+    QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
+    previewAction->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
+    previewAction->setCheckable(true);
+    previewAction->setChecked(InformationPanelSettings::previewsShown());
+
+    QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
+    configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+
+    QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
+    dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
+    dateformatAction->setCheckable(true);
+    dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
+
+    popup.addSeparator();
+    foreach (QAction* action, customContextMenuActions()) {
+        popup.addAction(action);
+    }
+
+    // Open the popup and adjust the settings for the
+    // selected action.
+    QAction* action = popup.exec(pos);
+    if (!action) {
+        return;
+    }
+
+    const bool isChecked = action->isChecked();
+    if (action == previewAction) {
+        m_content->setPreviewVisible(isChecked);
+        InformationPanelSettings::setPreviewsShown(isChecked);
+    } else if (action == configureAction) {
+        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
+        dialog->setDescription(i18nc("@label::textbox",
+                                     "Select which data should be shown in the information panel:"));
+        dialog->setItems(m_content->items());
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        connect(dialog, &FileMetaDataConfigurationDialog::destroyed, m_content, &InformationPanelContent::refreshMetaData);
+    }
+    if (action == dateformatAction) {
+        int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
+
+        InformationPanelSettings::setDateFormat(dateFormat);
+        m_content->refreshMetaData();
+    }
 }
 
 void InformationPanel::showItemInfo()
