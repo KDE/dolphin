@@ -72,16 +72,19 @@ public:
      */
     void showItems(const KFileItemList& items);
 
-    /**
-     * Opens a menu which allows to configure which meta information
-     * should be shown.
-     *
-     * TODO: Move this code to the class InformationPanel
-     */
-    void configureSettings(const QList<QAction*>& customContextMenuActions, const QPointF& pos);
+    void setPreviewVisible(bool visible);
+
+    KFileItemList items();
 
 signals:
     void urlActivated( const QUrl& url );
+
+public slots:
+    /**
+     * Is invoked after the file meta data configuration dialog has been
+     * closed and refreshes the visibility of the meta data.
+     */
+    void refreshMetaData();
 
 protected:
     /** @see QObject::eventFilter() */
@@ -107,12 +110,6 @@ private slots:
     void markOutdatedPreview();
 
     void slotHasVideoChanged(bool hasVideo);
-
-    /**
-     * Is invoked after the file meta data configuration dialog has been
-     * closed and refreshes the visibility of the meta data.
-     */
-    void refreshMetaData();
 
 private:
     /**

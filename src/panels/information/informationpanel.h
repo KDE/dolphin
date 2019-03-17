@@ -128,6 +128,12 @@ private:
      */
     void markUrlAsInvalid();
 
+    /**
+     * Opens a menu which allows to configure which meta information
+     * should be shown.
+     */
+    void showContextMenu(const QPoint &point);
+
     void init();
 
 private:
