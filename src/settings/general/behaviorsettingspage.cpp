@@ -48,14 +48,15 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
 
 
     // View properties
-    m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"));
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common properties for all folders"));
+    m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"));
+    m_localViewProps->setToolTip(i18nc("@info", "Dolphin will create an hidden .directory file in each folder you change view properties for."));
 
     QButtonGroup* viewGroup = new QButtonGroup(this);
-    viewGroup->addButton(m_localViewProps);
     viewGroup->addButton(m_globalViewProps);
-    topLayout->addRow(i18nc("@title:group", "View: "), m_localViewProps);
-    topLayout->addRow(QString(), m_globalViewProps);
+    viewGroup->addButton(m_localViewProps);
+    topLayout->addRow(i18nc("@title:group", "View: "), m_globalViewProps);
+    topLayout->addRow(QString(), m_localViewProps);
 
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
