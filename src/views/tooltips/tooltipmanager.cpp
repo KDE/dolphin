@@ -25,6 +25,7 @@
 #include <KIO/PreviewJob>
 #include <KJobWidgets>
 #include <KToolTipWidget>
+#include <KIconLoader>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -33,6 +34,15 @@
 #include <QStyle>
 #include <QTimer>
 #include <QWindow>
+
+class IconLoaderSingleton {
+public:
+    IconLoaderSingleton() = default;
+
+    KIconLoader self;
+};
+
+Q_GLOBAL_STATIC(IconLoaderSingleton, iconLoader)
 
 ToolTipManager::ToolTipManager(QWidget* parent) :
     QObject(parent),
@@ -167,8 +177,13 @@ void ToolTipManager::previewFailed()
     if (!m_toolTipRequested) {
         return;
     }
-
-    const QPixmap pixmap = QIcon::fromTheme(m_item.iconName()).pixmap(128, 128);
+    QPalette pal;
+    for (auto state : { QPalette::Active, QPalette::Inactive, QPalette::Disabled }) {
+        pal.setBrush(state, QPalette::WindowText, pal.toolTipText());
+        pal.setBrush(state, QPalette::Window, pal.toolTipBase());
+    }
+    iconLoader->self.setCustomPalette(pal);
+    const QPixmap pixmap = KDE::icon(m_item.iconName(), &iconLoader->self).pixmap(128, 128);
     m_fileMetaDataWidget->setPreview(pixmap);
     if (!m_showToolTipTimer->isActive()) {
         showToolTip();
