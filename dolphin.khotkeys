@@ -1,0 +1,33 @@
+[Main]
+ImportId=dolphin
+Version=2
+Autostart=true
+Disabled=false
+
+[Data]
+DataCount=1
+
+[Data_1]
+Comment=Global keyboard shortcut to launch Dolphin
+Enabled=true
+Name=Launch Dolphin
+Type=MENUENTRY_SHORTCUT_ACTION_DATA
+
+[Data_1Actions]
+ActionsCount=1
+
+[Data_1Actions0]
+CommandURL=org.kde.dolphin.desktop
+Type=MENUENTRY
+
+[Data_1Conditions]
+Comment=
+ConditionsCount=0
+
+[Data_1Triggers]
+Comment=Simple_action
+TriggersCount=1
+
+[Data_1Triggers0]
+Key=Meta+E
+Type=SHORTCUT
