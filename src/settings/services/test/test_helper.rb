@@ -15,14 +15,35 @@
 # Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 
+GLOBAL_COVERAGE_ROOT = File.dirname(__dir__) # ../
+
+# Simplecov is a bit meh and expects src and coverage to be under the
+# same root. Since we get run through cmake that assumption absolutely
+# doesn't hold true, so we'll need to figure out the coverage_dir relative
+# to the root and the root must always be the source :/
+# The relativity only works because internally the path gets expanded, this
+# isn't fully reliable, but oh well...
+# https://github.com/colszowka/simplecov/issues/716
+GLOBAL_COVERAGE_DIR = begin
+  require 'pathname'
+  src_path = Pathname.new(GLOBAL_COVERAGE_ROOT)
+  coverage_path = Pathname.new(File.join(Dir.pwd, 'coverage'))
+  coverage_path.relative_path_from(src_path).to_s
+end
+
 begin
   require 'simplecov'
+
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
     [
       SimpleCov::Formatter::HTMLFormatter
     ]
   )
-  SimpleCov.start
+
+  SimpleCov.start do
+    root GLOBAL_COVERAGE_ROOT
+    coverage_dir GLOBAL_COVERAGE_DIR
+  end
 rescue LoadError
   warn 'SimpleCov not loaded'
 end
@@ -58,8 +79,9 @@ def covered_system(cmd, *argv)
     begin
       require 'simplecov'
       SimpleCov.start do
+        root GLOBAL_COVERAGE_ROOT
+        coverage_dir GLOBAL_COVERAGE_DIR
         command_name "#{cmd}_#{__test_method_name__}"
-        merge_timeout 16
       end
     rescue LoadError
       warn 'SimpleCov not loaded'
