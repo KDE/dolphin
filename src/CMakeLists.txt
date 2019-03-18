@@ -2,7 +2,7 @@ include(ECMAddAppIcon)
 
 configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
-configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
+configure_file(config-kactivities.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kactivities.h)
 
 configure_file(config-terminal.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-terminal.h)
 
@@ -279,7 +279,7 @@ target_link_libraries(dolphinstatic
     Phonon::phonon4qt5
 )
 
-if (KF5Activities_FOUND)
+if (HAVE_KACTIVITIES)
     target_link_libraries(
         dolphinstatic
         KF5::Activities

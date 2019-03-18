@@ -30,6 +30,9 @@
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
+#ifdef HAVE_KACTIVITIES
+#include <KActivities/ResourceInstance>
+#endif
 #include <KFileItemActions>
 #include <KFilePlacesModel>
 #include <KIO/PreviewJob>
@@ -63,8 +66,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_statusBarTimer(nullptr),
     m_statusBarTimestamp(),
     m_autoGrabFocus(true)
-#ifdef KActivities_FOUND
-    , m_activityResourceInstance(0)
+#ifdef HAVE_KACTIVITIES
+    , m_activityResourceInstance(nullptr)
 #endif
 {
     hide();
@@ -221,11 +224,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
     // Initialize kactivities resource instance
 
-    #ifdef KActivities_FOUND
-    m_activityResourceInstance = new KActivities::ResourceInstance(
-            window()->winId(), url);
+#ifdef HAVE_KACTIVITIES
+    m_activityResourceInstance = new KActivities::ResourceInstance(window()->winId(), url);
     m_activityResourceInstance->setParent(this);
-    #endif
+#endif
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -243,13 +245,13 @@ void DolphinViewContainer::setActive(bool active)
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
 
-    #ifdef KActivities_FOUND
+#ifdef HAVE_KACTIVITIES
     if (active) {
         m_activityResourceInstance->notifyFocusedIn();
     } else {
         m_activityResourceInstance->notifyFocusedOut();
     }
-    #endif
+#endif
 }
 
 bool DolphinViewContainer::isActive() const
@@ -469,9 +471,9 @@ void DolphinViewContainer::setUrl(const QUrl& newUrl)
         m_urlNavigator->setLocationUrl(newUrl);
     }
 
-    #ifdef KActivities_FOUND
+#ifdef HAVE_KACTIVITIES
     m_activityResourceInstance->setUri(newUrl);
-    #endif
+#endif
 }
 
 void DolphinViewContainer::setFilterBarVisible(bool visible)
