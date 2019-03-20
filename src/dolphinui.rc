@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="21">
+<kpartgui name="dolphin" version="22">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -43,6 +43,7 @@
             <Action name="view_properties" />
         </Menu>
         <Menu name="go">
+            <Action name="bookmarks" />
             <Action name="closed_tabs" />
         </Menu>
         <Menu name="tools">

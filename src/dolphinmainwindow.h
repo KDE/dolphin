@@ -32,9 +32,11 @@
 #include <QList>
 #include <QPointer>
 #include <QUrl>
+#include <QVector>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
+class DolphinBookmarkHandler;
 class DolphinViewActionHandler;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
@@ -70,6 +72,11 @@ public:
      * is usually shown in darker colors.
      */
     DolphinViewContainer* activeViewContainer() const;
+
+    /**
+     * Returns view container for all tabs
+     */
+    QVector<DolphinViewContainer*> viewContainers() const;
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
@@ -117,6 +124,16 @@ public slots:
 
     /** Stores all settings and quits Dolphin. */
     void quit();
+
+    /**
+     * Opens a new tab and places it after the current tab
+     */
+    void openNewTabAfterCurrentTab(const QUrl& url);
+
+    /**
+     * Opens a new tab and places it as the last tab
+     */
+    void openNewTabAfterLastTab(const QUrl& url);
 
 signals:
     /**
@@ -331,16 +348,6 @@ private slots:
     void openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement);
 
     /**
-     * Opens a new tab and places it after the current tab
-     */
-    void openNewTabAfterCurrentTab(const QUrl& url);
-
-    /**
-     * Opens a new tab and places it as the last tab
-     */
-    void openNewTabAfterLastTab(const QUrl& url);
-
-    /**
      * Opens the selected folder in a new tab.
      */
     void openInNewTab();
@@ -522,6 +529,7 @@ private:
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
+    DolphinBookmarkHandler* m_bookmarkHandler;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QToolButton* m_controlButton;

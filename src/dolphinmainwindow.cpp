@@ -23,6 +23,7 @@
 
 #include "config-terminal.h"
 #include "global.h"
+#include "dolphinbookmarkhandler.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
@@ -94,6 +95,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_actionHandler(nullptr),
     m_remoteEncoding(nullptr),
     m_settingsDialog(),
+    m_bookmarkHandler(nullptr),
     m_controlButton(nullptr),
     m_updateToolBarTimer(nullptr),
     m_lastHandleUrlStatJob(nullptr),
@@ -181,6 +183,16 @@ DolphinMainWindow::DolphinMainWindow() :
 
 DolphinMainWindow::~DolphinMainWindow()
 {
+}
+
+QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
+{
+    QVector<DolphinViewContainer*> viewContainers;
+    viewContainers.reserve(m_tabWidget->count());
+    for (int i = 0; i < m_tabWidget->count(); ++i) {
+        viewContainers << m_tabWidget->tabPageAt(i)->activeViewContainer();
+    }
+    return viewContainers;
 }
 
 void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs, bool splitView)
@@ -982,6 +994,9 @@ void DolphinMainWindow::updateControlMenu()
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Home)));
     goMenu->addAction(ac->action(QStringLiteral("closed_tabs")));
+    KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), goMenu);
+    m_bookmarkHandler->fillControlMenu(bookmarkMenu->menu(), ac);
+    goMenu->addAction(bookmarkMenu);
     menu->addMenu(goMenu);
 
     // Add "Tool" menu
@@ -1239,6 +1254,11 @@ void DolphinMainWindow::setupActions()
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
     }
 #endif
+
+    // setup 'Bookmarks' menu
+    KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), this);
+    m_bookmarkHandler = new DolphinBookmarkHandler(this, actionCollection(), bookmarkMenu->menu(), this);
+    actionCollection()->addAction(QStringLiteral("bookmarks"), bookmarkMenu);
 
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
