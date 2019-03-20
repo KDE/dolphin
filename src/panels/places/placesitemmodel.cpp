@@ -353,7 +353,10 @@ void PlacesItemModel::dropMimeDataBefore(int index, const QMimeData* mimeData)
         int oldIndex;
         stream >> oldIndex;
 
-        m_sourceModel->movePlace(oldIndex, index);
+        QModelIndex sourceIndex = mapToSource(index);
+        QModelIndex oldSourceIndex = mapToSource(oldIndex);
+
+        m_sourceModel->movePlace(oldSourceIndex.row(), sourceIndex.row());
     } else if (mimeData->hasFormat(QStringLiteral("text/uri-list"))) {
         // One or more items must be added to the model
         const QList<QUrl> urls = KUrlMimeData::urlsFromMimeData(mimeData);
