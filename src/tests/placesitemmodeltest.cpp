@@ -29,6 +29,7 @@
 #include <KAboutData>
 #include <KFilePlacesModel>
 
+#include "dolphin_generalsettings.h"
 #include "panels/places/placesitemmodel.h"
 #include "panels/places/placesitem.h"
 #include "views/viewproperties.h"
@@ -475,10 +476,18 @@ void PlacesItemModelTest::testDefaultViewProperties()
     QFETCH(bool, expectedPreviewShow);
     QFETCH(QList<QByteArray>, expectedVisibleRole);
 
+    // In order to test the default view properties, turn off the global view properties.
+    GeneralSettings* settings = GeneralSettings::self();
+    settings->setGlobalViewProps(false);
+    settings->save();
+
     ViewProperties properties(KFilePlacesModel::convertedUrl(url));
     QCOMPARE(properties.viewMode(), expectedViewMode);
     QCOMPARE(properties.previewsShown(), expectedPreviewShow);
     QCOMPARE(properties.visibleRoles(), expectedVisibleRole);
+
+    settings->setGlobalViewProps(true);
+    settings->save();
 }
 
 void PlacesItemModelTest::testClear()
