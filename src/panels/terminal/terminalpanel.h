@@ -56,6 +56,7 @@ public:
     void goHome();
     QString currentWorkingDirectory();
     bool isHiddenInVisibleWindow() const;
+    bool terminalHasFocus() const;
     bool hasProgramRunning() const;
     QString runningProgramName() const;
 

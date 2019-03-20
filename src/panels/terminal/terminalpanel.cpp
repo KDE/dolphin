@@ -147,6 +147,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
         if (m_konsolePart) {
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
             m_terminalWidget = m_konsolePart->widget();
+            setFocusProxy(m_terminalWidget);
             m_layout->addWidget(m_terminalWidget);
             if (m_konsolePartMissingMessage) {
                 m_layout->removeWidget(m_konsolePartMissingMessage);
@@ -262,4 +263,9 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
 
     const QUrl url(QUrl::fromLocalFile(dir));
     emit changeUrl(url);
+}
+
+bool TerminalPanel::terminalHasFocus() const
+{
+    return m_terminalWidget->hasFocus();
 }

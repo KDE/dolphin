@@ -1554,6 +1554,12 @@ void DolphinMainWindow::setupActions()
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+
+        QAction* focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
+        focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
+        focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
+        actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL + Qt::SHIFT + Qt::Key_F4);
+        connect(focusTerminalPanel, &QAction::triggered, this, &DolphinMainWindow::focusTerminalPanel);
     }
 #endif
 
@@ -2303,6 +2309,22 @@ bool DolphinMainWindow::eventFilter(QObject* obj, QEvent* event)
         return true;
     }
     return false;
+}
+
+void DolphinMainWindow::focusTerminalPanel()
+{
+    if (m_terminalPanel->isVisible()) {
+        if (m_terminalPanel->terminalHasFocus()) {
+            m_activeViewContainer->view()->setFocus(Qt::FocusReason::ShortcutFocusReason);
+            actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
+        } else {
+            m_terminalPanel->setFocus(Qt::FocusReason::ShortcutFocusReason);
+            actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Defocus Terminal Panel"));
+        }
+    } else {
+        actionCollection()->action(QStringLiteral("show_terminal_panel"))->trigger();
+        actionCollection()->action(QStringLiteral("focus_terminal_panel"))->setText(i18nc("@action:inmenu Tools", "Defocus Terminal Panel"));
+    }
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

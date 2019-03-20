@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="28">
+<kpartgui name="dolphin" version="29">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -56,6 +56,7 @@
             <Action name="show_filter_bar" />
             <Action name="open_preferred_search_tool" />
             <Action name="open_terminal" />
+            <Action name="focus_terminal_panel"/>
             <Action name="compare_files" />
             <Action name="change_remote_encoding" />
         </Menu>

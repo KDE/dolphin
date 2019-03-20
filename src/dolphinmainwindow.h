@@ -365,6 +365,9 @@ private slots:
     /** Opens a terminal window for the current location. */
     void openTerminal();
 
+    /** Focus a Terminal Panel. */
+    void focusTerminalPanel();
+
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
 
