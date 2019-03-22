@@ -185,7 +185,8 @@ void InformationPanel::showContextMenu(const QPoint &pos) {
     dateformatAction->setChecked(InformationPanelSettings::dateFormat() == static_cast<int>(Baloo::DateFormats::ShortFormat));
 
     popup.addSeparator();
-    foreach (QAction* action, customContextMenuActions()) {
+    const auto actions = customContextMenuActions();
+    for (QAction *action : actions) {
         popup.addAction(action);
     }
 
@@ -311,7 +312,7 @@ void InformationPanel::slotFilesAdded(const QString& directory)
 
 void InformationPanel::slotFilesChanged(const QStringList& files)
 {
-    foreach (const QString& fileName, files) {
+    for (const QString& fileName : files) {
         if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             showItemInfo();
             break;
@@ -321,7 +322,7 @@ void InformationPanel::slotFilesChanged(const QStringList& files)
 
 void InformationPanel::slotFilesRemoved(const QStringList& files)
 {
-    foreach (const QString& fileName, files) {
+    for (const QString& fileName : files) {
         if (m_shownUrl == QUrl::fromLocalFile(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
