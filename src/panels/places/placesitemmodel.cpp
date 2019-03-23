@@ -36,6 +36,8 @@
 #include <KUrlMimeData>
 #include <Solid/DeviceNotifier>
 #include <Solid/OpticalDrive>
+#include <KCoreAddons/KProcessList>
+#include <KCoreAddons/KListOpenFilesJob>
 
 #include <QAction>
 #include <QIcon>
@@ -474,7 +476,29 @@ void PlacesItemModel::updateItem(PlacesItem *item, const QModelIndex &index)
 void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData)
 {
     if (error && errorData.isValid()) {
-        emit errorMessage(errorData.toString());
+        if (error == Solid::ErrorType::DeviceBusy) {
+            KListOpenFilesJob* listOpenFilesJob = new KListOpenFilesJob(m_deviceToTearDown->filePath());
+            connect(listOpenFilesJob, &KIO::Job::result, this, [this, listOpenFilesJob](KJob*) {
+                const KProcessList::KProcessInfoList blockingProcesses = listOpenFilesJob->processInfoList();
+                QString errorString;
+                if (blockingProcesses.isEmpty()) {
+                    errorString = i18n("One or more files on this device are open within an application.");
+                } else {
+                    QStringList blockingApps;
+                    for (const auto& process : blockingProcesses) {
+                        blockingApps << process.name();
+                    }
+                    blockingApps.removeDuplicates();
+                    errorString = xi18np("One or more files on this device are opened in application <application>\"%2\"</application>.",
+                            "One or more files on this device are opened in following applications: <application>%2</application>.",
+                            blockingApps.count(), blockingApps.join(i18nc("separator in list of apps blocking device unmount", ", ")));
+                }
+                emit errorMessage(errorString);
+            });
+            listOpenFilesJob->start();
+        } else {
+            emit errorMessage(errorData.toString());
+        }
     }
     disconnect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
                this, &PlacesItemModel::slotStorageTearDownDone);

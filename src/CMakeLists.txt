@@ -274,6 +274,7 @@ add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
 target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
     dolphinprivate
+    KF5::CoreAddons
     KF5::KCMUtils
     KF5::DBusAddons
     KF5::Notifications
