@@ -198,8 +198,8 @@ void InformationPanel::showContextMenu(const QPoint &pos) {
 
     const bool isChecked = action->isChecked();
     if (action == previewAction) {
-        m_content->setPreviewVisible(isChecked);
         InformationPanelSettings::setPreviewsShown(isChecked);
+        m_content->refreshPreview();
     } else if (action == configureAction) {
         FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
         dialog->setDescription(i18nc("@label::textbox",

@@ -68,13 +68,16 @@ public:
     void showItem(const KFileItem& item);
 
     /**
-     * Shows the meta information for the items \p items.
+     * Shows the meta information for the items \p items and its preview
      */
     void showItems(const KFileItemList& items);
 
-    void setPreviewVisible(bool visible);
-
     KFileItemList items();
+
+    /**
+     * Refreshes the preview display, hiding it if needed
+     */
+    void refreshPreview();
 
 signals:
     void urlActivated( const QUrl& url );
@@ -82,7 +85,7 @@ signals:
 public slots:
     /**
      * Is invoked after the file meta data configuration dialog has been
-     * closed and refreshes the visibility of the meta data.
+     * closed and refreshes the displayed meta data by the panel.
      */
     void refreshMetaData();
 

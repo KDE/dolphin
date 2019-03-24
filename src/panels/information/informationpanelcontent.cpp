@@ -141,73 +141,80 @@ InformationPanelContent::~InformationPanelContent()
 
 void InformationPanelContent::showItem(const KFileItem& item)
 {
+    m_item = item;
+
+    refreshPreview();
+    refreshMetaData();
+}
+
+void InformationPanelContent::refreshPreview() {
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
     if (m_previewJob) {
         m_previewJob->kill();
     }
 
-    const QUrl itemUrl = item.url();
-    const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && item.localPath().isEmpty();
-    setNameLabelText(item.text());
-    if (isSearchUrl) {
-        // in the case of a search-URL the URL is not readable for humans
-        // (at least not useful to show in the Information Panel)
-        m_preview->setPixmap(
-            QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
-        );
+    if (InformationPanelSettings::previewsShown()) {
+        m_preview->show();
+
+        const QUrl itemUrl = m_item.url();
+        const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && m_item.localPath().isEmpty();
+        setNameLabelText(m_item.text());
+        if (isSearchUrl) {
+            // in the case of a search-URL the URL is not readable for humans
+            // (at least not useful to show in the Information Panel)
+            m_preview->setPixmap(
+                QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+            );
+        } else {
+            // try to get a preview pixmap from the item...
+
+            // Mark the currently shown preview as outdated. This is done
+            // with a small delay to prevent a flickering when the next preview
+            // can be shown within a short timeframe. This timer is not started
+            // for directories, as directory previews might fail and return the
+            // same icon.
+            if (!m_item.isDir()) {
+                m_outdatedPreviewTimer->start();
+            }
+
+            QStringList plugins = KIO::PreviewJob::availablePlugins();
+            m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
+                                               QSize(m_preview->width(), m_preview->height()),
+                                               &plugins);
+            m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+            m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile());
+            if (m_previewJob->uiDelegate()) {
+                KJobWidgets::setWindow(m_previewJob, this);
+            }
+
+            connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
+                    this, &InformationPanelContent::showPreview);
+            connect(m_previewJob.data(), &KIO::PreviewJob::failed,
+                    this, &InformationPanelContent::showIcon);
+
+            const QString mimeType = m_item.mimetype();
+            const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || mimeType.startsWith(QLatin1String("video/"));
+            if (usePhonon) {
+                m_phononWidget->show();
+                m_phononWidget->setUrl(m_item.targetUrl());
+                m_phononWidget->setVideoSize(m_preview->size());
+            } else {
+                m_phononWidget->hide();
+            }
+        }
     } else {
-        // try to get a preview pixmap from the item...
-
-        // Mark the currently shown preview as outdated. This is done
-        // with a small delay to prevent a flickering when the next preview
-        // can be shown within a short timeframe. This timer is not started
-        // for directories, as directory previews might fail and return the
-        // same icon.
-        if (!item.isDir()) {
-            m_outdatedPreviewTimer->start();
-        }
-
-        QStringList plugins = KIO::PreviewJob::availablePlugins();
-        m_previewJob = new KIO::PreviewJob(KFileItemList() << item,
-                                           QSize(m_preview->width(), m_preview->height()),
-                                           &plugins);
-        m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
-        m_previewJob->setIgnoreMaximumSize(item.isLocalFile());
-        if (m_previewJob->uiDelegate()) {
-            KJobWidgets::setWindow(m_previewJob, this);
-        }
-
-        connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
-                this, &InformationPanelContent::showPreview);
-        connect(m_previewJob.data(), &KIO::PreviewJob::failed,
-                this, &InformationPanelContent::showIcon);
+        m_preview->hide();
+        m_phononWidget->hide();
     }
+}
 
+void InformationPanelContent::refreshMetaData() {
     if (m_metaDataWidget) {
         m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
         m_metaDataWidget->show();
-        m_metaDataWidget->setItems(KFileItemList() << item);
+        m_metaDataWidget->setItems(KFileItemList() << m_item);
     }
-
-    if (InformationPanelSettings::previewsShown()) {
-        const QString mimeType = item.mimetype();
-        const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || mimeType.startsWith(QLatin1String("video/"));
-        if (usePhonon) {
-            m_phononWidget->show();
-            m_phononWidget->setUrl(item.targetUrl());
-            if (m_preview->isVisible()) {
-                m_phononWidget->setVideoSize(m_preview->size());
-            }
-        } else {
-            m_phononWidget->hide();
-            m_preview->setVisible(true);
-        }
-    } else {
-        m_phononWidget->hide();
-    }
-
-    m_item = item;
 }
 
 void InformationPanelContent::showItems(const KFileItemList& items)
@@ -290,10 +297,6 @@ void InformationPanelContent::markOutdatedPreview()
     m_preview->setPixmap(disabledPixmap);
 }
 
-void InformationPanelContent::setPreviewVisible(bool visible) {
-    m_preview->setVisible(visible);
-}
-
 KFileItemList InformationPanelContent::items() {
     return m_metaDataWidget->items();
 }
@@ -301,13 +304,6 @@ KFileItemList InformationPanelContent::items() {
 void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 {
     m_preview->setVisible(InformationPanelSettings::previewsShown() && !hasVideo);
-}
-
-void InformationPanelContent::refreshMetaData()
-{
-    if (!m_item.isNull()) {
-        showItem(m_item);
-    }
 }
 
 void InformationPanelContent::setNameLabelText(const QString& text)
