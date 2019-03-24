@@ -151,7 +151,5 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
 
 install( FILES dolphin.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
 
-install( FILES dolphin.khotkeys DESTINATION ${KDE_INSTALL_DATADIR}/khotkeys )
-
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

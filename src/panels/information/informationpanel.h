@@ -75,7 +75,7 @@ protected:
 private slots:
     /**
      * Shows the information for the item of the URL which has been provided by
-     * InformationPanel::requestItemInfo() and provides default actions.
+     * InformationPanel::requestDelayedItemInfo() and provides default actions.
      */
     void showItemInfo();
 
