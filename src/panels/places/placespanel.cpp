@@ -175,6 +175,22 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
 
     const bool isDevice = !item->udi().isEmpty();
     const bool isTrash = (item->url().scheme() == QLatin1String("trash"));
+    if (isTrash) {
+        emptyTrashAction = menu.addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"));
+        emptyTrashAction->setEnabled(item->icon() == QLatin1String("user-trash-full"));
+        menu.addSeparator();
+    }
+
+    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
+    QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
+    QAction* propertiesAction = nullptr;
+    if (item->url().isLocalFile()) {
+        propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
+    }
+    if (!isDevice && !isTrash) {
+        menu.addSeparator();
+    }
+    
     if (isDevice) {
         ejectAction = m_model->ejectAction(index);
         if (ejectAction) {
@@ -205,22 +221,6 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         if (teardownAction || ejectAction || mountAction) {
             menu.addSeparator();
         }
-    } else {
-        if (isTrash) {
-            emptyTrashAction = menu.addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"));
-            emptyTrashAction->setEnabled(item->icon() == QLatin1String("user-trash-full"));
-            menu.addSeparator();
-        }
-    }
-
-    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
-    QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
-    QAction* propertiesAction = nullptr;
-    if (item->url().isLocalFile()) {
-        propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
-    }
-    if (!isDevice && !isTrash) {
-        menu.addSeparator();
     }
 
     if (!isDevice) {
