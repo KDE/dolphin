@@ -106,7 +106,7 @@ void PhononWidget::showEvent(QShowEvent *event)
         m_topLayout = new QVBoxLayout(this);
         m_topLayout->setContentsMargins(0, 0, 0, 0);
 
-        QHBoxLayout *controlsLayout = new QHBoxLayout(this);
+        QHBoxLayout *controlsLayout = new QHBoxLayout();
         controlsLayout->setContentsMargins(0, 0, 0, 0);
         controlsLayout->setSpacing(0);
 
