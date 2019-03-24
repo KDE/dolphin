@@ -1045,6 +1045,10 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         oldViewContainer->disconnect(this);
         oldViewContainer->view()->disconnect(this);
         oldViewContainer->urlNavigator()->disconnect(this);
+
+        // except the requestItemInfo so that on hover the information panel can still be updated
+        connect(oldViewContainer->view(), &DolphinView::requestItemInfo,
+                this, &DolphinMainWindow::requestItemInfo);
     }
 
     connectViewSignals(viewContainer);
