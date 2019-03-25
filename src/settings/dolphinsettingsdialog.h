@@ -48,10 +48,14 @@ private slots:
     void applySettings();
     void restoreDefaults();
 
+protected:
+    void closeEvent(QCloseEvent* event) override;
+
 private:
     static SettingsPageBase *createTrashSettingsPage(QWidget *parent);
 
     QList<SettingsPageBase*> m_pages;
+    bool m_unsavedChanges;
 };
 
 #endif

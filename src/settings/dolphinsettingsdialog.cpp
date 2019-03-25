@@ -32,12 +32,14 @@
 #include <KAuthorized>
 #include <KLocalizedString>
 #include <KWindowConfig>
+#include <KMessageBox>
 
 #include <QPushButton>
 
 DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     KPageDialog(parent),
-    m_pages()
+    m_pages(),
+    m_unsavedChanges(false)
 
 {
     const QSize minSize = minimumSize();
@@ -121,6 +123,7 @@ DolphinSettingsDialog::~DolphinSettingsDialog()
 void DolphinSettingsDialog::enableApply()
 {
     buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(true);
+    m_unsavedChanges = true;
 }
 
 void DolphinSettingsDialog::applySettings()
@@ -139,6 +142,7 @@ void DolphinSettingsDialog::applySettings()
         settings->save();
     }
     buttonBox()->button(QDialogButtonBox::Apply)->setEnabled(false);
+    m_unsavedChanges = false;
 }
 
 void DolphinSettingsDialog::restoreDefaults()
@@ -147,6 +151,35 @@ void DolphinSettingsDialog::restoreDefaults()
         page->restoreDefaults();
     }
 }
+
+void DolphinSettingsDialog::closeEvent(QCloseEvent* event)
+{
+    if (!m_unsavedChanges) {
+        event->accept();
+        return;
+    }
+
+    const auto response = KMessageBox::warningYesNoCancel(this,
+                                        i18n("You have have unsaved changes. Do you want to apply the changes or discard them?"),
+                                        i18n("Warning"),
+                                        KStandardGuiItem::save(),
+                                        KStandardGuiItem::discard(),
+                                        KStandardGuiItem::cancel());
+    switch (response) {
+        case KMessageBox::Yes:
+            applySettings();
+            Q_FALLTHROUGH();
+        case KMessageBox::No:
+            event->accept();
+            break;
+        case KMessageBox::Cancel:
+            event->ignore();
+            break;
+        default:
+            break;
+    }
+}
+
 
 SettingsPageBase *DolphinSettingsDialog::createTrashSettingsPage(QWidget *parent)
 {
