@@ -120,6 +120,8 @@ KBalooRolesProvider::KBalooRolesProvider() :
         { "album",    "album" },
         { "duration",      "duration" },
         { "bitRate", "bitrate" },
+        { "aspectRatio", "aspectRatio" },
+        { "frameRate", "frameRate" },
         { "releaseYear",    "releaseYear" },
         { "trackNumber",   "track" },
         { "originUrl", "originUrl" }
