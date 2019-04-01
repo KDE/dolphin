@@ -231,6 +231,9 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
+    const bool navigationPressed = key == Qt::Key_Home || key == Qt::Key_End  ||
+                                   key == Qt::Key_Up   || key == Qt::Key_Down ||
+                                   key == Qt::Key_Left || key == Qt::Key_Right;
 
     const int itemCount = m_model->count();
 
@@ -246,11 +249,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
     }
 
-    const bool selectSingleItem = m_selectionBehavior != NoSelection &&
-                                  itemCount == 1 &&
-                                  (key == Qt::Key_Home || key == Qt::Key_End  ||
-                                   key == Qt::Key_Up   || key == Qt::Key_Down ||
-                                   key == Qt::Key_Left || key == Qt::Key_Right);
+    const bool selectSingleItem = m_selectionBehavior != NoSelection && itemCount == 1 && navigationPressed;
+
     if (selectSingleItem) {
         const int current = m_selectionManager->currentItem();
         m_selectionManager->setSelected(current);
@@ -458,8 +458,12 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             }
             break;
         }
+    }
 
-        m_view->scrollToItem(index);
+    if (navigationPressed) {
+        if (index < m_view->firstVisibleIndex() || index > m_view->lastVisibleIndex()) {
+            m_view->scrollToItem(index);
+        }
     }
     return true;
 }
