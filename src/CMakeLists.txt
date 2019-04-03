@@ -384,6 +384,13 @@ install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 ########### install files ###############
 
 install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${KDE_INSTALL_APPDIR} )
+
+install( DIRECTORY DESTINATION "${KDE_INSTALL_FULL_DATAROOTDIR}/kglobalaccel" )
+
+install(
+    CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink ${KDE_INSTALL_FULL_APPDIR}/org.kde.dolphin.desktop ${KDE_INSTALL_FULL_DATAROOTDIR}/kglobalaccel/org.kde.dolphin.desktop)"
+)
+
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
                settings/dolphin_compactmodesettings.kcfg
