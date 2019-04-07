@@ -87,22 +87,22 @@ void DolphinSearchBox::setSearchPath(const QUrl& url)
     QFontMetrics metrics(m_fromHereButton->font());
     const int maxWidth = metrics.height() * 8;
 
-    QString location = url.fileName();
+    const QUrl cleanedUrl = url.adjusted(QUrl::RemoveUserInfo | QUrl::StripTrailingSlash);
+    QString location = cleanedUrl.fileName();
     if (location.isEmpty()) {
-        if (url.isLocalFile()) {
-            location = QStringLiteral("/");
-        } else {
-            location = url.scheme() + QLatin1String(" - ") + url.host();
-        }
+        location = cleanedUrl.toString(QUrl::PreferLocalFile);
+    }
+    if (m_fromHereButton->isChecked() && cleanedUrl.path() == QDir::homePath()) {
+        m_fromHereButton->setChecked(false);
+        m_everywhereButton->setChecked(true);
+    } else {
+        m_fromHereButton->setChecked(true);
+        m_everywhereButton->setChecked(false);
     }
 
     const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
-
-    const bool showSearchFromButtons = url.isLocalFile();
-    m_separator->setVisible(showSearchFromButtons);
-    m_fromHereButton->setVisible(showSearchFromButtons);
-    m_everywhereButton->setVisible(showSearchFromButtons);
+    m_fromHereButton->setToolTip(i18nc("action:button", "Limit search to '%1' and its subfolders", cleanedUrl.toString(QUrl::PreferLocalFile)));
 
     bool hasFacetsSupport = false;
 #ifdef HAVE_BALOO
@@ -138,9 +138,6 @@ QUrl DolphinSearchBox::urlForSearching() const
 
         QString encodedUrl;
         if (m_everywhereButton->isChecked()) {
-            // It is very unlikely, that the majority of Dolphins target users
-            // mean "the whole harddisk" instead of "my home folder" when
-            // selecting the "Everywhere" button.
             encodedUrl = QDir::homePath();
         } else {
             encodedUrl = m_searchPath.url();
@@ -402,13 +399,16 @@ void DolphinSearchBox::init()
 
     m_separator = new KSeparator(Qt::Vertical, this);
 
-    // Create "From Here" and "Everywhere"button
+    // Create "From Here" and "Your files" buttons
     m_fromHereButton = new QToolButton(this);
     m_fromHereButton->setText(i18nc("action:button", "From Here"));
     initButton(m_fromHereButton);
 
     m_everywhereButton = new QToolButton(this);
-    m_everywhereButton->setText(i18nc("action:button", "Everywhere"));
+    m_everywhereButton->setText(i18nc("action:button", "Your files"));
+    m_everywhereButton->setToolTip(i18nc("action:button", "Search in your home directory"));
+    m_everywhereButton->setIcon(QIcon::fromTheme(QStringLiteral("user-home")));
+    m_everywhereButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     initButton(m_everywhereButton);
 
     QButtonGroup* searchLocationGroup = new QButtonGroup(this);
