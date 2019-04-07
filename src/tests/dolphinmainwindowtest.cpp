@@ -247,7 +247,7 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
     QVERIFY(newFileMenu);
 
     QFETCH(bool, expectedEnabled);
-    QCOMPARE(newFileMenu->isEnabled(), expectedEnabled);
+    QTRY_COMPARE(newFileMenu->isEnabled(), expectedEnabled);
 }
 
 QTEST_MAIN(DolphinMainWindowTest)
