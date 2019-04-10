@@ -351,7 +351,12 @@ void DolphinContextMenu::openViewportContextMenu()
     KFileItemActions fileItemActions;
     fileItemActions.setParentWidget(m_mainWindow);
     fileItemActions.setItemListProperties(baseUrlProperties);
-    addOpenWithActions(fileItemActions);
+
+    // Don't show "Open With" menu items if the current dir is empty, because there's
+    // generally no app that can do anything interesting with an empty directory
+    if (view->itemsCount() != 0) {
+        addOpenWithActions(fileItemActions);
+    }
 
     // Insert 'New Window' and 'New Tab' entries. Don't use "open_in_new_window" and
     // "open_in_new_tab" here, as the current selection should get ignored.
