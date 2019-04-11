@@ -47,6 +47,7 @@ class KFileItemList;
 class KJob;
 class KNewFileMenu;
 class KHelpMenu;
+class KToolBarPopupAction;
 class QToolButton;
 class QIcon;
 class PlacesPanel;
@@ -509,6 +510,36 @@ private slots:
      */
     void slotToolBarActionMiddleClicked(QAction *action);
 
+    /**
+     * Is called before the Back popup menu is shown. This slot will populate
+     * the menu with history data
+     */
+    void slotAboutToShowBackPopupMenu();
+
+    /**
+      * This slot is used by the Back Popup Menu to go back to a specific
+      * history index. The QAction::data will carry an int with the index
+      * to go to.
+      */
+    void slotGoBack(QAction* action);
+
+    /**
+     * Middle clicking Back/Forward will open the resulting folder in a new tab.
+     */
+    void slotBackForwardActionMiddleClicked(QAction *action);
+
+    /**
+     * Is called before the Forward popup menu is shown. This slot will populate
+     * the menu with history data
+     */
+    void slotAboutToShowForwardPopupMenu();
+
+    /**
+      * This slot is used by the Forward Popup Menu to go forward to a specific
+      * history index. The QAction::data will carry an int with the index
+      * to go to.
+      */
+    void slotGoForward(QAction* action);
 private:
     /**
      * Sets up the various menus and actions and connects them.
@@ -599,6 +630,9 @@ private:
     TerminalPanel* m_terminalPanel;
     PlacesPanel* m_placesPanel;
     bool m_tearDownFromPlacesRequested;
+
+    KToolBarPopupAction* m_backAction;
+    KToolBarPopupAction* m_forwardAction;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

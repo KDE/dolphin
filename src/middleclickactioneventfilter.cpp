@@ -21,6 +21,7 @@
 
 #include <QAction>
 #include <QEvent>
+#include <QMenu>
 #include <QMouseEvent>
 #include <QToolBar>
 
@@ -39,16 +40,32 @@ bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
 
         if (me->button() == Qt::MiddleButton) {
             QToolBar *toolBar = qobject_cast<QToolBar *>(watched);
-
-            QAction *action = toolBar->actionAt(me->pos());
-            if (action) {
-                if (event->type() == QEvent::MouseButtonPress) {
-                    m_lastMiddlePressedAction = action;
-                } else if (event->type() == QEvent::MouseButtonRelease) {
-                    if (m_lastMiddlePressedAction == action) {
-                        emit actionMiddleClicked(action);
+            if (toolBar) {
+                QAction *action = toolBar->actionAt(me->pos());
+                if (action) {
+                    if (event->type() == QEvent::MouseButtonPress) {
+                        m_lastMiddlePressedAction = action;
+                    } else if (event->type() == QEvent::MouseButtonRelease) {
+                        if (m_lastMiddlePressedAction == action) {
+                            emit actionMiddleClicked(action);
+                        }
+                        m_lastMiddlePressedAction = nullptr;
                     }
-                    m_lastMiddlePressedAction = nullptr;
+                }
+            }
+            QMenu *menu = qobject_cast<QMenu *>(watched);
+            if (menu) {
+                QAction *action = menu->actionAt(me->pos());
+                if (action) {
+                    if (event->type() == QEvent::MouseButtonPress) {
+                        m_lastMiddlePressedAction = action;
+                    } else if (event->type() == QEvent::MouseButtonRelease) {
+                        if (m_lastMiddlePressedAction == action) {
+                            emit actionMiddleClicked(action);
+                            return true;
+                        }
+                        m_lastMiddlePressedAction = nullptr;
+                    }
                 }
             }
         }

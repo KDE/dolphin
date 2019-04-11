@@ -65,6 +65,7 @@
 #include <KStartupInfo>
 #include <KToggleAction>
 #include <KToolBar>
+#include <KToolBarPopupAction>
 #include <KToolInvocation>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
@@ -90,6 +91,8 @@ namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running.
     const int CurrentDolphinVersion = 200;
+    // The maximum number of entries in the back/forward popup menu
+    const int MaxNumberOfNavigationentries = 12;
 }
 
 DolphinMainWindow::DolphinMainWindow() :
@@ -107,7 +110,9 @@ DolphinMainWindow::DolphinMainWindow() :
     m_lastHandleUrlStatJob(nullptr),
     m_terminalPanel(nullptr),
     m_placesPanel(nullptr),
-    m_tearDownFromPlacesRequested(false)
+    m_tearDownFromPlacesRequested(false),
+    m_backAction(nullptr),
+    m_forwardAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
@@ -673,6 +678,56 @@ void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
         goUpInNewTab();
     } else if (action == actionCollection()->action(QStringLiteral("go_home"))) {
         goHomeInNewTab();
+    }
+}
+
+void DolphinMainWindow::slotAboutToShowBackPopupMenu()
+{
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    int entries = 0;
+    m_backAction->menu()->clear();
+    for (int i = urlNavigator->historyIndex() + 1; i < urlNavigator->historySize() && entries < MaxNumberOfNavigationentries; ++i, ++entries) {
+        QAction* action = new QAction(urlNavigator->locationUrl(i).toString(QUrl::PreferLocalFile), m_backAction->menu());
+        action->setData(i);
+        m_backAction->menu()->addAction(action);
+    }
+}
+
+void DolphinMainWindow::slotGoBack(QAction* action)
+{
+    int gotoIndex = action->data().value<int>();
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    for (int i = gotoIndex - urlNavigator->historyIndex(); i > 0; --i) {
+        goBack();
+    }
+}
+
+void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
+{
+    if (action) {
+        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+        openNewTabAfterCurrentTab(urlNavigator->locationUrl(action->data().value<int>()));
+    }
+}
+
+void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
+{
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    int entries = 0;
+    m_forwardAction->menu()->clear();
+    for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
+        QAction* action = new QAction(urlNavigator->locationUrl(i).toString(QUrl::PreferLocalFile), m_forwardAction->menu());
+        action->setData(i);
+        m_forwardAction->menu()->addAction(action);
+    }
+}
+
+void DolphinMainWindow::slotGoForward(QAction* action)
+{
+    int gotoIndex = action->data().value<int>();
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    for (int i = urlNavigator->historyIndex() - gotoIndex; i > 0; --i) {
+        goForward();
     }
 }
 
@@ -1313,10 +1368,22 @@ void DolphinMainWindow::setupActions()
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
     // setup 'Go' menu
-    QAction* backAction = KStandardAction::back(this, &DolphinMainWindow::goBack, actionCollection());
-    auto backShortcuts = backAction->shortcuts();
+    {
+        QScopedPointer<QAction> backAction(KStandardAction::back(nullptr, nullptr, nullptr));
+        m_backAction = new KToolBarPopupAction(backAction->icon(), backAction->text(), actionCollection());
+        m_backAction->setObjectName(backAction->objectName());
+        m_backAction->setShortcuts(backAction->shortcuts());
+    }
+    m_backAction->setDelayed(true);
+    m_backAction->setStickyMenu(false);
+    connect(m_backAction, &QAction::triggered, this, &DolphinMainWindow::goBack);
+    connect(m_backAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowBackPopupMenu);
+    connect(m_backAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoBack);
+    actionCollection()->addAction(m_backAction->objectName(), m_backAction);
+
+    auto backShortcuts = m_backAction->shortcuts();
     backShortcuts.append(QKeySequence(Qt::Key_Backspace));
-    actionCollection()->setDefaultShortcuts(backAction, backShortcuts);
+    actionCollection()->setDefaultShortcuts(m_backAction, backShortcuts);
 
     DolphinRecentTabsMenu* recentTabsMenu = new DolphinRecentTabsMenu(this);
     actionCollection()->addAction(QStringLiteral("closed_tabs"), recentTabsMenu);
@@ -1345,7 +1412,23 @@ void DolphinMainWindow::setupActions()
         "be undone will ask for your confirmation."));
     undoAction->setEnabled(false); // undo should be disabled by default
 
-    KStandardAction::forward(this, &DolphinMainWindow::goForward, actionCollection());
+    {
+        QScopedPointer<QAction> forwardAction(KStandardAction::forward(nullptr, nullptr, nullptr));
+        m_forwardAction = new KToolBarPopupAction(forwardAction->icon(), forwardAction->text(), actionCollection());
+        m_forwardAction->setObjectName(forwardAction->objectName());
+        m_forwardAction->setShortcuts(forwardAction->shortcuts());
+    }
+    m_forwardAction->setDelayed(true);
+    m_forwardAction->setStickyMenu(false);
+    connect(m_forwardAction, &QAction::triggered, this, &DolphinMainWindow::goForward);
+    connect(m_forwardAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowForwardPopupMenu);
+    connect(m_forwardAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoForward);
+    actionCollection()->addAction(m_forwardAction->objectName(), m_forwardAction);
+    // enable middle-click to open in a new tab
+    auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
+    connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotBackForwardActionMiddleClicked);
+    m_backAction->menu()->installEventFilter(middleClickEventFilter);
+    m_forwardAction->menu()->installEventFilter(middleClickEventFilter);
     KStandardAction::up(this, &DolphinMainWindow::goUp, actionCollection());
     QAction* homeAction = KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
     homeAction->setWhatsThis(xi18nc("@info:whatsthis", "Go to your "
