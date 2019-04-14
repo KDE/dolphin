@@ -210,11 +210,9 @@ void InformationPanelContent::refreshPreview() {
 }
 
 void InformationPanelContent::refreshMetaData() {
-    if (m_metaDataWidget) {
-        m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
-        m_metaDataWidget->show();
-        m_metaDataWidget->setItems(KFileItemList() << m_item);
-    }
+    m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
+    m_metaDataWidget->show();
+    m_metaDataWidget->setItems(KFileItemList() << m_item);
 }
 
 void InformationPanelContent::showItems(const KFileItemList& items)
@@ -230,9 +228,7 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     );
     setNameLabelText(i18ncp("@label", "%1 item selected", "%1 items selected", items.count()));
 
-    if (m_metaDataWidget) {
-        m_metaDataWidget->setItems(items);
-    }
+    m_metaDataWidget->setItems(items);
 
     m_phononWidget->hide();
 
@@ -349,9 +345,7 @@ void InformationPanelContent::adjustWidgetSizes(int width)
 
     // The metadata widget also contains a text widget which may return
     // a large preferred width.
-    if (m_metaDataWidget) {
-        m_metaDataWidget->setMaximumWidth(maxWidth);
-    }
+    m_metaDataWidget->setMaximumWidth(maxWidth);
 
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
