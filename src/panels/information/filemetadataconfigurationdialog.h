@@ -24,19 +24,15 @@
 
 #include <KFileItem>
 #include <config-baloo.h>
-#ifndef HAVE_BALOO
-class KFileMetaDataConfigurationWidget;
-#else
 namespace Baloo {
     class FileMetaDataConfigWidget;
 }
-#endif
 
 class QLabel;
 
 /**
  * @brief Dialog which allows to configure which meta data should be shown
- *        in the KFileMetaDataWidget.
+ *        in the Baloo:FileMetaDataWidget.
  */
 class FileMetaDataConfigurationDialog : public QDialog
 {

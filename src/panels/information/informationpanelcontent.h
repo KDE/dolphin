@@ -40,13 +40,9 @@ namespace KIO {
   class PreviewJob;
 }
 
-#ifndef HAVE_BALOO
-class KFileMetaDataWidget;
-#else
 namespace Baloo {
     class FileMetaDataWidget;
 }
-#endif
 
 /**
  * @brief Manages the widgets that display the meta information
@@ -138,11 +134,7 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     QLabel* m_nameLabel;
-#ifndef HAVE_BALOO
-    KFileMetaDataWidget* m_metaDataWidget;
-#else
     Baloo::FileMetaDataWidget* m_metaDataWidget;
-#endif
     QScrollArea* m_metaDataArea;
 
     PlacesItemModel* m_placesItemModel;
