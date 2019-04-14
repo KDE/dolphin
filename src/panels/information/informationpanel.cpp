@@ -36,7 +36,6 @@
 #include <QMenu>
 
 #include "dolphin_informationpanelsettings.h"
-#include "filemetadataconfigurationdialog.h"
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -179,6 +178,9 @@ void InformationPanel::showContextMenu(const QPoint &pos)
 
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
+    if (m_inConfigurationMode) {
+        configureAction->setEnabled(false);
+    }
 
     QAction* dateformatAction = popup.addAction(i18nc("@action:inmenu", "Condensed Date"));
     dateformatAction->setIcon(QIcon::fromTheme(QStringLiteral("change-date-symbolic")));
@@ -203,13 +205,8 @@ void InformationPanel::showContextMenu(const QPoint &pos)
         InformationPanelSettings::setPreviewsShown(isChecked);
         m_content->refreshPreview();
     } else if (action == configureAction) {
-        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog(this);
-        dialog->setDescription(i18nc("@label::textbox",
-                                     "Select which data should be shown in the information panel:"));
-        dialog->setItems(m_content->items());
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
-        connect(dialog, &FileMetaDataConfigurationDialog::destroyed, m_content, &InformationPanelContent::refreshMetaData);
+        m_inConfigurationMode = true;
+        m_content->configureShownProperties();
     }
     if (action == dateformatAction) {
         int dateFormat = static_cast<int>(isChecked ? Baloo::DateFormats::ShortFormat : Baloo::DateFormats::LongFormat);
@@ -412,6 +409,7 @@ void InformationPanel::init()
 
     m_content = new InformationPanelContent(this);
     connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
+    connect(m_content, &InformationPanelContent::configurationFinished, this, [this]() { m_inConfigurationMode = false; });
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

@@ -246,7 +246,6 @@ set(dolphinstatic_SRCS
 if(HAVE_BALOO)
     set(dolphinstatic_SRCS
         ${dolphinstatic_SRCS}
-        panels/information/filemetadataconfigurationdialog.cpp
         panels/information/informationpanel.cpp
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp

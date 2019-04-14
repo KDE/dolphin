@@ -161,6 +161,7 @@ private:
     KIO::Job* m_folderStatJob;
 
     InformationPanelContent* m_content;
+    bool m_inConfigurationMode = false;
 };
 
 #endif // INFORMATIONPANEL_H

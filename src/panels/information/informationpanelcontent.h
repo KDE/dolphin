@@ -32,6 +32,7 @@ class PhononWidget;
 class PixmapViewer;
 class PlacesItemModel;
 class QPixmap;
+class QDialogButtonBox;
 class QString;
 class QLabel;
 class QScrollArea;
@@ -75,8 +76,14 @@ public:
      */
     void refreshPreview();
 
+    /**
+     * Switch the metadatawidget into configuration mode
+     */
+    void configureShownProperties();
+
 signals:
     void urlActivated( const QUrl& url );
+    void configurationFinished();
 
 public slots:
     /**
@@ -136,6 +143,8 @@ private:
     QLabel* m_nameLabel;
     Baloo::FileMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
+    QLabel* m_configureLabel;
+    QDialogButtonBox* m_configureButtons;
 
     PlacesItemModel* m_placesItemModel;
 };

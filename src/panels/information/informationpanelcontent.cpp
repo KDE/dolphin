@@ -40,6 +40,7 @@
 #include <Phonon/MediaObject>
 
 #include <QLabel>
+#include <QDialogButtonBox>
 #include <QScrollArea>
 #include <QTextLayout>
 #include <QTimer>
@@ -107,6 +108,29 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
+    // Configuration
+    m_configureLabel = new QLabel(i18nc("@label::textbox",
+                                        "Select which data should be shown:"), this);
+    m_configureLabel->setWordWrap(true);
+    m_configureLabel->setVisible(false);
+
+    m_configureButtons = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel);
+    m_configureButtons->setVisible(false);
+    connect(m_configureButtons, &QDialogButtonBox::accepted, this, [this]() {
+                m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Accept);
+                m_configureButtons->setVisible(false);
+                m_configureLabel->setVisible(false);
+                emit configurationFinished();
+            }
+    );
+    connect(m_configureButtons, &QDialogButtonBox::rejected, this, [this]() {
+                m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Cancel);
+                m_configureButtons->setVisible(false);
+                m_configureLabel->setVisible(false);
+                emit configurationFinished();
+            }
+    );
+
     m_metaDataArea = new QScrollArea(parent);
     m_metaDataArea->setWidget(m_metaDataWidget);
     m_metaDataArea->setWidgetResizable(true);
@@ -119,7 +143,9 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_phononWidget);
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator());
+    layout->addWidget(m_configureLabel);
     layout->addWidget(m_metaDataArea);
+    layout->addWidget(m_configureButtons);
 
     m_placesItemModel = new PlacesItemModel(this);
 }
@@ -198,6 +224,13 @@ void InformationPanelContent::refreshPreview()
         m_preview->hide();
         m_phononWidget->hide();
     }
+}
+
+void InformationPanelContent::configureShownProperties()
+{
+    m_configureLabel->setVisible(true);
+    m_configureButtons->setVisible(true);
+    m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::ReStart);
 }
 
 void InformationPanelContent::refreshMetaData()
