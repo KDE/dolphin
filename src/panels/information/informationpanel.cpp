@@ -176,6 +176,11 @@ void InformationPanel::showContextMenu(const QPoint &pos)
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::previewsShown());
 
+    QAction* previewAutoPlayAction = popup.addAction(i18nc("@action:inmenu", "Auto-Play media files"));
+    previewAutoPlayAction->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-start")));
+    previewAutoPlayAction->setCheckable(true);
+    previewAutoPlayAction->setChecked(InformationPanelSettings::previewsAutoPlay());
+
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(QIcon::fromTheme(QStringLiteral("configure")));
     if (m_inConfigurationMode) {
@@ -213,6 +218,9 @@ void InformationPanel::showContextMenu(const QPoint &pos)
 
         InformationPanelSettings::setDateFormat(dateFormat);
         m_content->refreshMetaData();
+    } else if (action == previewAutoPlayAction) {
+        InformationPanelSettings::setPreviewsAutoPlay(isChecked);
+        m_content->setPreviewAutoPlay(isChecked);
     }
 }
 

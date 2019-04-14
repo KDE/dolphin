@@ -86,6 +86,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget = new PhononWidget(parent);
     m_phononWidget->hide();
     m_phononWidget->setMinimumWidth(minPreviewWidth);
+    m_phononWidget->setAutoPlay(InformationPanelSettings::previewsAutoPlay());
     connect(m_phononWidget, &PhononWidget::hasVideoChanged,
             this, &InformationPanelContent::slotHasVideoChanged);
 
@@ -157,10 +158,12 @@ InformationPanelContent::~InformationPanelContent()
 
 void InformationPanelContent::showItem(const KFileItem& item)
 {
-    m_item = item;
+    if (item != m_item) {
+        m_item = item;
 
-    refreshPreview();
-    refreshMetaData();
+        refreshPreview();
+        refreshMetaData();
+    }
 }
 
 void InformationPanelContent::refreshPreview()
@@ -173,11 +176,12 @@ void InformationPanelContent::refreshPreview()
 
     setNameLabelText(m_item.text());
     if (InformationPanelSettings::previewsShown()) {
-        m_preview->show();
 
         const QUrl itemUrl = m_item.url();
         const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && m_item.localPath().isEmpty();
         if (isSearchUrl) {
+            m_preview->show();
+
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
             m_preview->setPixmap(
@@ -211,13 +215,26 @@ void InformationPanelContent::refreshPreview()
                     this, &InformationPanelContent::showIcon);
 
             const QString mimeType = m_item.mimetype();
-            const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || mimeType.startsWith(QLatin1String("video/"));
+            const bool isVideo = mimeType.startsWith(QLatin1String("video/"));
+            const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || isVideo;
+
             if (usePhonon) {
+
+                if (InformationPanelSettings::previewsAutoPlay() && isVideo) {
+                    // hides the preview now to avoid flickering when the autoplay video starts
+                    m_preview->hide();
+                } else {
+                    // the video won't play before the preview is displayed
+                    m_preview->show();
+                }
+
                 m_phononWidget->show();
-                m_phononWidget->setUrl(m_item.targetUrl());
+                m_phononWidget->setUrl(m_item.targetUrl(), isVideo ? PhononWidget::MediaKind::Video : PhononWidget::MediaKind::Audio);
                 m_phononWidget->setVideoSize(m_preview->size());
             } else {
+                // When we don't need it, hide the phonon widget first to avoid flickering
                 m_phononWidget->hide();
+                m_preview->show();
             }
         }
     } else {
@@ -326,6 +343,10 @@ KFileItemList InformationPanelContent::items()
 void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 {
     m_preview->setVisible(InformationPanelSettings::previewsShown() && !hasVideo);
+}
+
+void InformationPanelContent::setPreviewAutoPlay(bool autoPlay) {
+    m_phononWidget->setAutoPlay(autoPlay);
 }
 
 void InformationPanelContent::setNameLabelText(const QString& text)

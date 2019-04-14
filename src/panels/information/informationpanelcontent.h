@@ -81,6 +81,13 @@ public:
      */
     void configureShownProperties();
 
+    /*
+     * Set the auto play media mode for the file previewed
+     * Eventually starting media playback when turning it on
+     * But not stopping it when turning it off
+     */
+    void setPreviewAutoPlay(bool autoPlay);
+
 signals:
     void urlActivated( const QUrl& url );
     void configurationFinished();

@@ -69,11 +69,24 @@ PhononWidget::PhononWidget(QWidget *parent)
 {
 }
 
-void PhononWidget::setUrl(const QUrl &url)
+void PhononWidget::setUrl(const QUrl &url, MediaKind kind)
 {
     if (m_url != url) {
-        stop(); // emits playingStopped() signal
         m_url = url;
+        m_isVideo = kind == MediaKind::Video;
+    }
+    if (m_autoPlay) {
+        play();
+    } else {
+        stop();
+    }
+}
+
+void PhononWidget::setAutoPlay(bool autoPlay)
+{
+    m_autoPlay = autoPlay;
+    if (!m_url.isEmpty() && (m_media == nullptr || m_media->state() != Phonon::State::PlayingState) && m_autoPlay && isVisible()) {
+        play();
     }
 }
 
@@ -162,12 +175,6 @@ void PhononWidget::stateChanged(Phonon::State newstate)
         m_stopButton->show();
         m_playButton->hide();
         break;
-    case Phonon::StoppedState:
-        if (m_videoPlayer) {
-            m_videoPlayer->hide();
-        }
-        emit hasVideoChanged(false);
-        Q_FALLTHROUGH();
     default:
         m_stopButton->hide();
         m_playButton->show();
@@ -182,13 +189,14 @@ void PhononWidget::play()
         m_media = new Phonon::MediaObject(this);
         connect(m_media, &Phonon::MediaObject::stateChanged,
                 this, &PhononWidget::stateChanged);
-        connect(m_media, &Phonon::MediaObject::hasVideoChanged,
-                this, &PhononWidget::slotHasVideoChanged);
+        connect(m_media, &Phonon::MediaObject::finished,
+                this, &PhononWidget::finished);
         m_seekSlider->setMediaObject(m_media);
     }
 
     if (!m_videoPlayer) {
         m_videoPlayer = new EmbeddedVideoPlayer(this);
+        m_videoPlayer->installEventFilter(this);
         m_topLayout->insertWidget(0, m_videoPlayer);
         Phonon::createPath(m_media, m_videoPlayer);
         applyVideoSize();
@@ -199,26 +207,32 @@ void PhononWidget::play()
         Phonon::createPath(m_media, m_audioOutput);
     }
 
-    emit hasVideoChanged(false);
+    if (m_isVideo) {
+        emit hasVideoChanged(true);
+    }
 
-    m_media->setCurrentSource(m_url);
-    m_media->hasVideo();
+    if (m_url != m_media->currentSource().url()) {
+        m_media->setCurrentSource(m_url);
+    }
     m_media->play();
+
+    m_videoPlayer->setVisible(m_isVideo);
+}
+
+void PhononWidget::finished()
+{
+    if (m_isVideo) {
+        m_videoPlayer->hide();
+        emit hasVideoChanged(false);
+    }
 }
 
 void PhononWidget::stop()
 {
     if (m_media) {
         m_media->stop();
-    }
-}
-
-void PhononWidget::slotHasVideoChanged(bool hasVideo)
-{
-    emit hasVideoChanged(hasVideo);
-
-    if (hasVideo) {
-        m_videoPlayer->show();
+        m_videoPlayer->hide();
+        emit hasVideoChanged(false);
     }
 }
 

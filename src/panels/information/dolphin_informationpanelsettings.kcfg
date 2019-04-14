@@ -10,6 +10,10 @@
             <label>Previews shown</label>
             <default>true</default>
         </entry>
+        <entry name="previewsAutoPlay" type="Bool">
+            <label>Auto-Play media files</label>
+            <default>false</default>
+        </entry>
         <entry name="dateFormat" type="Enum">
             <label>Date display format</label>
             <choices>

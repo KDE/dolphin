@@ -43,13 +43,21 @@ class PhononWidget : public QWidget
 {
     Q_OBJECT
     public:
+
+        enum MediaKind {
+            Video,
+            Audio
+        };
+
         explicit PhononWidget(QWidget *parent = nullptr);
 
-        void setUrl(const QUrl &url);
+        void setUrl(const QUrl &url, MediaKind kind);
         QUrl url() const;
 
         void setVideoSize(const QSize& size);
         QSize videoSize() const;
+
+        void setAutoPlay(bool autoPlay);
 
     signals:
         /**
@@ -62,15 +70,17 @@ class PhononWidget : public QWidget
          */
         void hasVideoChanged(bool hasVideo);
 
+    public slots:
+        void play();
+
     protected:
         void showEvent(QShowEvent *event) override;
         void hideEvent(QHideEvent *event) override;
 
     private slots:
-        void stateChanged(Phonon::State);
-        void play();
+        void stateChanged(Phonon::State newstate);
         void stop();
-        void slotHasVideoChanged(bool);
+        void finished();
 
     private:
         void applyVideoSize();
@@ -87,6 +97,8 @@ class PhononWidget : public QWidget
         Phonon::SeekSlider *m_seekSlider;
         Phonon::AudioOutput *m_audioOutput;
         EmbeddedVideoPlayer *m_videoPlayer;
+        bool m_autoPlay;
+        bool m_isVideo;
 };
 
 #endif // PHONONWIDGET_H
