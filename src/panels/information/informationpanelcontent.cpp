@@ -147,7 +147,8 @@ void InformationPanelContent::showItem(const KFileItem& item)
     refreshMetaData();
 }
 
-void InformationPanelContent::refreshPreview() {
+void InformationPanelContent::refreshPreview()
+{
     // If there is a preview job, kill it to prevent that we have jobs for
     // multiple items running, and thus a race condition (bug 250787).
     if (m_previewJob) {
@@ -209,7 +210,8 @@ void InformationPanelContent::refreshPreview() {
     }
 }
 
-void InformationPanelContent::refreshMetaData() {
+void InformationPanelContent::refreshMetaData()
+{
     m_metaDataWidget->setDateFormat(static_cast<Baloo::DateFormats>(InformationPanelSettings::dateFormat()));
     m_metaDataWidget->show();
     m_metaDataWidget->setItems(KFileItemList() << m_item);
