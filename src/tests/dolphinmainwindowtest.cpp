@@ -243,7 +243,7 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
-    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu*>("newFileMenu");
+    auto newFileMenu = m_mainWindow->findChild<DolphinNewFileMenu*>("new_menu");
     QVERIFY(newFileMenu);
 
     QFETCH(bool, expectedEnabled);
