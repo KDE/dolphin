@@ -154,12 +154,12 @@ void InformationPanelContent::refreshPreview() {
         m_previewJob->kill();
     }
 
+    setNameLabelText(m_item.text());
     if (InformationPanelSettings::previewsShown()) {
         m_preview->show();
 
         const QUrl itemUrl = m_item.url();
         const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && m_item.localPath().isEmpty();
-        setNameLabelText(m_item.text());
         if (isSearchUrl) {
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
