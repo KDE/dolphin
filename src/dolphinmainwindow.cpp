@@ -1103,7 +1103,6 @@ void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
-    m_newFileMenu->setObjectName("newFileMenu");
     QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
