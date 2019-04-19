@@ -46,11 +46,9 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     // Prohibit using sudo or kdesu (but allow using the root user directly)
     if (getuid() == 0) {
         if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Executing Dolphin with sudo is not possible due to unfixable security vulnerabilities." << std::endl;
-            return EXIT_FAILURE;
+            std::cout << "Be careful, executing Dolphin with kdesu is dangerous due to unfixable security vulnerabilities." << std::endl;
         } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Executing Dolphin with kdesu is not possible due to unfixable security vulnerabilities." << std::endl;
-            return EXIT_FAILURE;
+            std::cout << "Be careful, executing Dolphin with kdesu is dangerous due to unfixable security vulnerabilities." << std::endl;
         }
     }
 #endif
