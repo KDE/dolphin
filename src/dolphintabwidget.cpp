@@ -19,6 +19,7 @@
 
 #include "dolphintabwidget.h"
 
+#include "dolphin_generalsettings.h"
 #include "dolphintabbar.h"
 #include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
@@ -114,6 +115,14 @@ void DolphinTabWidget::readProperties(const KConfigGroup& group)
 
 void DolphinTabWidget::refreshViews()
 {
+    // Left-elision is better when showing full paths, since you care most
+    // about the current directory which is on the right
+    if (GeneralSettings::showFullPathInTitlebar()) {
+        setElideMode(Qt::ElideLeft);
+    } else {
+        setElideMode(Qt::ElideRight);
+    }
+
     const int tabCount = count();
     for (int i = 0; i < tabCount; ++i) {
         tabBar()->setTabText(i, tabName(tabPageAt(i)));
