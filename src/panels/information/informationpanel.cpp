@@ -168,7 +168,8 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
     Panel::contextMenuEvent(event);
 }
 
-void InformationPanel::showContextMenu(const QPoint &pos) {
+void InformationPanel::showContextMenu(const QPoint &pos)
+{
     QMenu popup(this);
 
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));

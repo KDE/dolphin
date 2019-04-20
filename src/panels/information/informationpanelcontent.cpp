@@ -295,7 +295,8 @@ void InformationPanelContent::markOutdatedPreview()
     m_preview->setPixmap(disabledPixmap);
 }
 
-KFileItemList InformationPanelContent::items() {
+KFileItemList InformationPanelContent::items()
+{
     return m_metaDataWidget->items();
 }
 
