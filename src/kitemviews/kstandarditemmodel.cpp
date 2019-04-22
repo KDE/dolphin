@@ -112,7 +112,7 @@ void KStandardItemModel::removeItem(int index)
 
         onItemRemoved(index, item);
 
-        delete item;
+        item->deleteLater();
         item = nullptr;
 
         emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));

@@ -24,7 +24,7 @@
 
 #include <QByteArray>
 #include <QHash>
-#include <QList>
+#include <QObject>
 #include <QVariant>
 
 class KStandardItemModel;
@@ -36,14 +36,13 @@ class KStandardItemModel;
  * used roles. It is possible to assign values for custom
  * roles by using setDataValue().
  */
-class DOLPHIN_EXPORT KStandardItem
+class DOLPHIN_EXPORT KStandardItem : public QObject
 {
-
+    Q_OBJECT
 public:
     explicit KStandardItem(KStandardItem* parent = nullptr);
     explicit KStandardItem(const QString& text, KStandardItem* parent = nullptr);
     KStandardItem(const QString& icon, const QString& text, KStandardItem* parent = nullptr);
-    KStandardItem(const KStandardItem& item);
     virtual ~KStandardItem();
 
     /**
@@ -70,13 +69,8 @@ public:
     void setDataValue(const QByteArray& role, const QVariant& value);
     QVariant dataValue(const QByteArray& role) const;
 
-    void setParent(KStandardItem* parent);
-    KStandardItem* parent() const;
-
     void setData(const QHash<QByteArray, QVariant>& values);
     QHash<QByteArray, QVariant> data() const;
-
-    QList<KStandardItem*> children() const;
 
 protected:
     virtual void onDataValueChanged(const QByteArray& role,
@@ -87,8 +81,6 @@ protected:
                                const QHash<QByteArray, QVariant>& previous);
 
 private:
-    KStandardItem* m_parent;
-    QList<KStandardItem*> m_children;
     KStandardItemModel* m_model;
 
     QHash<QByteArray, QVariant> m_data;
