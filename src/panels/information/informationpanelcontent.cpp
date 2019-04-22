@@ -107,18 +107,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_metaDataWidget->setFont(QFontDatabase::systemFont(QFontDatabase::SmallestReadableFont));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
-    // Encapsulate the MetaDataWidget inside a container that has a dummy widget
-    // at the bottom. This prevents that the meta data widget gets vertically stretched
-    // in the case where the height of m_metaDataArea > m_metaDataWidget.
-    QWidget* metaDataWidgetContainer = new QWidget(parent);
-    QVBoxLayout* containerLayout = new QVBoxLayout(metaDataWidgetContainer);
-    containerLayout->setContentsMargins(0, 0, 0, 0);
-    containerLayout->setSpacing(0);
-    containerLayout->addWidget(m_metaDataWidget);
-    containerLayout->addStretch();
-
     m_metaDataArea = new QScrollArea(parent);
-    m_metaDataArea->setWidget(metaDataWidgetContainer);
+    m_metaDataArea->setWidget(m_metaDataWidget);
     m_metaDataArea->setWidgetResizable(true);
     m_metaDataArea->setFrameShape(QFrame::NoFrame);
 
