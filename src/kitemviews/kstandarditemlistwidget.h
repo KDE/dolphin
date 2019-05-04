@@ -80,7 +80,7 @@ protected:
 };
 
 /**
- * @brief Itemlist widget implementation for KStandardItemView and KStandardItemModel.
+ * @brief Itemlist widget implementation for KStandardItemListView and KStandardItemModel.
  */
 class DOLPHIN_EXPORT KStandardItemListWidget : public KItemListWidget
 {

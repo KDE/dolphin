@@ -29,7 +29,7 @@
 class KStandardItem;
 
 /**
- * @brief Model counterpart for KStandardItemView.
+ * @brief Model counterpart for KStandardItemListView.
  *
  * Allows to add items to the model in an easy way by the
  * class KStandardItem.
