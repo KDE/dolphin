@@ -387,7 +387,7 @@ install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${KDE_INSTALL_APPDIR} )
 install( DIRECTORY DESTINATION "${KDE_INSTALL_FULL_DATAROOTDIR}/kglobalaccel" )
 
 install(
-    CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink ${KDE_INSTALL_FULL_APPDIR}/org.kde.dolphin.desktop ${KDE_INSTALL_FULL_DATAROOTDIR}/kglobalaccel/org.kde.dolphin.desktop)"
+    CODE "execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink \"${KDE_INSTALL_FULL_APPDIR}/org.kde.dolphin.desktop\" \"\$ENV{DESTDIR}${KDE_INSTALL_FULL_DATAROOTDIR}/kglobalaccel/org.kde.dolphin.desktop\")"
 )
 
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
