@@ -109,10 +109,7 @@ exit 1
     FileUtils.mkpath(service_dir)
     FileUtils.touch(downloaded_file)
 
-    menu_dir = "#{ENV['XDG_DATA_HOME']}/kservices5/ServiceMenus/"
-    installed_file = "#{menu_dir}/foo.desktop"
-    FileUtils.mkpath(menu_dir)
-    FileUtils.touch(installed_file)
+    installed_file = "#{ENV['XDG_DATA_HOME']}/kservices5/ServiceMenus/foo.desktop"
 
     assert(covered_system('servicemenuinstallation', downloaded_file))
 
