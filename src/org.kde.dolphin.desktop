@@ -97,3 +97,4 @@ Terminal=false
 MimeType=inode/directory;
 InitialPreference=10
 X-DBUS-ServiceName=org.kde.dolphin
+StartupWMClass=dolphin
