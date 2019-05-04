@@ -398,8 +398,7 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
-${KDE_INSTALL_KSERVICES5DIR} )
+install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
