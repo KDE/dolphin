@@ -37,7 +37,7 @@ PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     m_animation.setCurveShape(QTimeLine::LinearCurve);
 
     if (m_transition != NoTransition) {
-        connect(&m_animation, &QTimeLine::valueChanged, this, static_cast<void(PixmapViewer::*)()>(&PixmapViewer::update));
+        connect(&m_animation, &QTimeLine::valueChanged, this, QOverload<>::of(&PixmapViewer::update));
         connect(&m_animation, &QTimeLine::finished, this, &PixmapViewer::checkPendingPixmaps);
     }
 }

@@ -111,7 +111,7 @@ DolphinMainWindow::DolphinMainWindow() :
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
 
-    connect(undoManager, static_cast<void(KIO::FileUndoManager::*)(bool)>(&KIO::FileUndoManager::undoAvailable),
+    connect(undoManager, QOverload<bool>::of(&KIO::FileUndoManager::undoAvailable),
             this, &DolphinMainWindow::slotUndoAvailable);
     connect(undoManager, &KIO::FileUndoManager::undoTextChanged,
             this, &DolphinMainWindow::slotUndoTextChanged);
@@ -1122,10 +1122,9 @@ void DolphinMainWindow::setupActions()
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
     actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, Qt::CTRL + Qt::SHIFT + Qt::Key_N});
-    connect(newTab, &QAction::triggered, this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::openNewActivatedTab));
+    connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
 
-    QAction* closeTab = KStandardAction::close(
-            m_tabWidget, static_cast<void(DolphinTabWidget::*)()>(&DolphinTabWidget::closeTab), actionCollection());
+    QAction* closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
 
     KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
@@ -1601,9 +1600,9 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(view, &DolphinView::directoryLoadingCompleted,
             this, &DolphinMainWindow::slotDirectoryLoadingCompleted);
     connect(view, &DolphinView::goBackRequested,
-            this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goBack));
+            this, &DolphinMainWindow::goBack);
     connect(view, &DolphinView::goForwardRequested,
-            this, static_cast<void(DolphinMainWindow::*)()>(&DolphinMainWindow::goForward));
+            this, &DolphinMainWindow::goForward);
     connect(view, &DolphinView::urlActivated,
             this, &DolphinMainWindow::handleUrl);
 

@@ -120,11 +120,11 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     switch (m_mode) {
     case IconsMode:
-        connect(m_widthBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
-        connect(m_maxLinesBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_maxLinesBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case CompactMode:
-        connect(m_widthBox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);

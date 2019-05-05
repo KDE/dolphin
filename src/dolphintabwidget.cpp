@@ -37,13 +37,13 @@ DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     m_lastViewedTab(0)
 {
     connect(this, &DolphinTabWidget::tabCloseRequested,
-            this, static_cast<void (DolphinTabWidget::*)(int)>(&DolphinTabWidget::closeTab));
+            this, QOverload<int>::of(&DolphinTabWidget::closeTab));
     connect(this, &DolphinTabWidget::currentChanged,
             this, &DolphinTabWidget::currentTabChanged);
 
     DolphinTabBar* tabBar = new DolphinTabBar(this);
     connect(tabBar, &DolphinTabBar::openNewActivatedTab,
-            this,  static_cast<void (DolphinTabWidget::*)(int)>(&DolphinTabWidget::openNewActivatedTab));
+            this, QOverload<int>::of(&DolphinTabWidget::openNewActivatedTab));
     connect(tabBar, &DolphinTabBar::tabDropEvent,
             this, &DolphinTabWidget::tabDropEvent);
     connect(tabBar, &DolphinTabBar::tabDetachRequested,

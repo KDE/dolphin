@@ -40,7 +40,7 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigation = new NavigationSettingsPage(this);
-    connect(m_navigation, &NavigationSettingsPage::changed, this, static_cast<void(DolphinNavigationConfigModule::*)()>(&DolphinNavigationConfigModule::changed));
+    connect(m_navigation, &NavigationSettingsPage::changed, this, QOverload<>::of(&DolphinNavigationConfigModule::changed));
     topLayout->addWidget(m_navigation, 0, nullptr);
 }
 

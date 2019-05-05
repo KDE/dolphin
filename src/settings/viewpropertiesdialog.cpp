@@ -163,11 +163,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     layout->addRow(QString(), m_showInGroups);
     layout->addRow(QString(), m_showHiddenFiles);
 
-    connect(m_viewMode, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(m_viewMode, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotViewModeChanged);
-    connect(m_sorting, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(m_sorting, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotSortingChanged);
-    connect(m_sortOrder, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+    connect(m_sortOrder, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &ViewPropertiesDialog::slotSortOrderChanged);
     connect(m_sortFoldersFirst, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);

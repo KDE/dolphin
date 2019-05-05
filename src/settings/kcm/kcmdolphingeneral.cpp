@@ -48,17 +48,17 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
     tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
-    connect(behaviorPage, &BehaviorSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
+    connect(behaviorPage, &BehaviorSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
 
     // initialize 'Previews' tab
     PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
-    connect(previewsPage, &PreviewsSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
+    connect(previewsPage, &PreviewsSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
 
     // initialize 'Confirmations' tab
     ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
     tabWidget->addTab(confirmationsPage,  i18nc("@title:tab Confirmations settings", "Confirmations"));
-    connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, static_cast<void(DolphinGeneralConfigModule::*)()>(&DolphinGeneralConfigModule::changed));
+    connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
 
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);

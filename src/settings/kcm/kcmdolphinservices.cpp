@@ -40,7 +40,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_services = new ServicesSettingsPage(this);
-    connect(m_services, &ServicesSettingsPage::changed, this, static_cast<void(DolphinServicesConfigModule::*)()>(&DolphinServicesConfigModule::changed));
+    connect(m_services, &ServicesSettingsPage::changed, this, QOverload<>::of(&DolphinServicesConfigModule::changed));
     topLayout->addWidget(m_services, 0, nullptr);
 }
 

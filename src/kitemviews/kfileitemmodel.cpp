@@ -68,16 +68,16 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     }
 
     connect(m_dirLister, &KFileItemModelDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
-    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::canceled), this, &KFileItemModel::slotCanceled);
-    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&)>(&KFileItemModelDirLister::completed), this, &KFileItemModel::slotCompleted);
+    connect(m_dirLister, QOverload<>::of(&KCoreDirLister::canceled), this, &KFileItemModel::slotCanceled);
+    connect(m_dirLister, QOverload<const QUrl&>::of(&KCoreDirLister::completed), this, &KFileItemModel::slotCompleted);
     connect(m_dirLister, &KFileItemModelDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
     connect(m_dirLister, &KFileItemModelDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
     connect(m_dirLister, &KFileItemModelDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
-    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)()>(&KFileItemModelDirLister::clear), this, &KFileItemModel::slotClear);
+    connect(m_dirLister, QOverload<>::of(&KCoreDirLister::clear), this, &KFileItemModel::slotClear);
     connect(m_dirLister, &KFileItemModelDirLister::infoMessage, this, &KFileItemModel::infoMessage);
     connect(m_dirLister, &KFileItemModelDirLister::errorMessage, this, &KFileItemModel::errorMessage);
     connect(m_dirLister, &KFileItemModelDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
-    connect(m_dirLister, static_cast<void(KFileItemModelDirLister::*)(const QUrl&, const QUrl&)>(&KFileItemModelDirLister::redirection), this, &KFileItemModel::directoryRedirection);
+    connect(m_dirLister, QOverload<const QUrl&, const QUrl&>::of(&KCoreDirLister::redirection), this, &KFileItemModel::directoryRedirection);
     connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
 
     // Apply default roles that should be determined

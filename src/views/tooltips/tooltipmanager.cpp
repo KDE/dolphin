@@ -64,7 +64,7 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_showToolTipTimer = new QTimer(this);
     m_showToolTipTimer->setSingleShot(true);
     m_showToolTipTimer->setInterval(500);
-    connect(m_showToolTipTimer, &QTimer::timeout, this, static_cast<void(ToolTipManager::*)()>(&ToolTipManager::showToolTip));
+    connect(m_showToolTipTimer, &QTimer::timeout, this, QOverload<>::of(&ToolTipManager::showToolTip));
 
     m_contentRetrievalTimer = new QTimer(this);
     m_contentRetrievalTimer->setSingleShot(true);
