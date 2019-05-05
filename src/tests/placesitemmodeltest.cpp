@@ -476,10 +476,12 @@ void PlacesItemModelTest::testDefaultViewProperties()
     QFETCH(bool, expectedPreviewShow);
     QFETCH(QList<QByteArray>, expectedVisibleRole);
 
-    // In order to test the default view properties, turn off the global view properties.
+    // In order to test the default view properties, turn off the global view properties and re-init the test to reload the model.
     GeneralSettings* settings = GeneralSettings::self();
     settings->setGlobalViewProps(false);
     settings->save();
+    cleanup();
+    init();
 
     ViewProperties properties(KFilePlacesModel::convertedUrl(url));
     QCOMPARE(properties.viewMode(), expectedViewMode);
