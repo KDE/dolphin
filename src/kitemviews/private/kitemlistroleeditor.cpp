@@ -107,6 +107,23 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         }
         break;
     }
+    case Qt::Key_Home:
+    case Qt::Key_End: {
+        if (event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::ShiftModifier) {
+            const QTextCursor::MoveOperation op = event->key() == Qt::Key_Home
+                                                ? QTextCursor::Start
+                                                : QTextCursor::End;
+            const QTextCursor::MoveMode mode = event->modifiers() == Qt::NoModifier
+                                             ? QTextCursor::MoveAnchor
+                                             : QTextCursor::KeepAnchor;
+            QTextCursor cursor = textCursor();
+            cursor.movePosition(op, mode);
+            setTextCursor(cursor);
+            event->accept();
+            return;
+        }
+        break;
+    }
     default:
         break;
     }
