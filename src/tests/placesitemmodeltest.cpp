@@ -292,12 +292,12 @@ void PlacesItemModelTest::testModelSort()
 void PlacesItemModelTest::testGroups()
 {
     const auto groups = m_model->groups();
-    int expectedGroupSize = 3;
+    int expectedRemoteIndex = 3;
     if (m_hasDesktopFolder) {
-        expectedGroupSize++;
+        expectedRemoteIndex++;
     }
     if (m_hasDownloadsFolder) {
-        expectedGroupSize++;
+        expectedRemoteIndex++;
     }
 
     QCOMPARE(groups.size(), 6);
@@ -305,19 +305,19 @@ void PlacesItemModelTest::testGroups()
     QCOMPARE(groups.at(0).first, 0);
     QCOMPARE(groups.at(0).second.toString(), QStringLiteral("Places"));
 
-    QCOMPARE(groups.at(1).first, expectedGroupSize);
+    QCOMPARE(groups.at(1).first, expectedRemoteIndex);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    QCOMPARE(groups.at(2).first, expectedGroupSize + 2);
+    QCOMPARE(groups.at(2).first, expectedRemoteIndex + 2);
     QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recently Saved"));
 
-    QCOMPARE(groups.at(3).first, expectedGroupSize + 4);
+    QCOMPARE(groups.at(3).first, expectedRemoteIndex + 4);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, expectedGroupSize + 8);
+    QCOMPARE(groups.at(4).first, expectedRemoteIndex + 8);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
-    QCOMPARE(groups.at(5).first, expectedGroupSize + 9);
+    QCOMPARE(groups.at(5).first, expectedRemoteIndex + 9);
     QCOMPARE(groups.at(5).second.toString(), QStringLiteral("Removable Devices"));
 }
 
