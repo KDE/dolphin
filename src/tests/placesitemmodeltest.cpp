@@ -99,8 +99,8 @@ private:
     void createPlaceItem(const QString &text, const QUrl &url, const QString &icon);
     void schedulePlaceRemoval(int index);
     void cancelPlaceRemoval(int index);
-    void removeTestUserData();
     QMimeData *createMimeData(const QList<int> &indexes) const;
+    QTemporaryDir m_tempHomeDir;
 };
 
 #define CHECK_PLACES_URLS(urls)                                             \
@@ -201,15 +201,6 @@ void PlacesItemModelTest::cancelPlaceRemoval(int index)
     m_tobeRemoved.remove(index);
 }
 
-void PlacesItemModelTest::removeTestUserData()
-{
-    // user hardcoded path to avoid removal of any user personal data
-    QDir dir(QStringLiteral("/home/renato/.qttest/share/placesitemmodeltest"));
-    if (dir.exists()) {
-        QVERIFY(dir.removeRecursively());
-    }
-}
-
 QMimeData *PlacesItemModelTest::createMimeData(const QList<int> &indexes) const
 {
     QByteArray itemData;
@@ -252,14 +243,15 @@ void PlacesItemModelTest::cleanup()
     m_tobeRemoved.clear();
     delete m_model;
     m_model = nullptr;
-    removeTestUserData();
 }
 
 void PlacesItemModelTest::initTestCase()
 {
+    QVERIFY(m_tempHomeDir.isValid());
+    QVERIFY(qputenv("HOME", m_tempHomeDir.path().toUtf8()));
+    QVERIFY(qputenv("KDE_FORK_SLAVES", "yes"));
+
     QStandardPaths::setTestModeEnabled(true);
-    // remove test user data
-    removeTestUserData();
 
     const QString fakeHw = QFINDTESTDATA("data/fakecomputer.xml");
     QVERIFY(!fakeHw.isEmpty());
@@ -290,9 +282,6 @@ void PlacesItemModelTest::cleanupTestCase()
 {
     qDeleteAll(m_interfacesMap);
     QFile::remove(bookmarksFile());
-
-    // Remove any previous properties file
-    removeTestUserData();
 }
 
 void PlacesItemModelTest::testModelSort()
