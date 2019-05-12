@@ -53,7 +53,7 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setDirProperties(viewProps);
 
-    // the view properties are stored by the ViewPropsApplierJob, so prevent
+    // the view properties are stored by the ApplyViewPropsJob, so prevent
     // that the view properties are saved twice:
     m_viewProps->setAutoSaveEnabled(false);
 
