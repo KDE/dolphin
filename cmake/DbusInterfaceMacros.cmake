@@ -6,7 +6,7 @@ macro (generate_and_install_dbus_interface main_project_target header_file outpu
     add_custom_target(
         ${output_xml_file}_target
         SOURCES ${CMAKE_CURRENT_BINARY_DIR}/${output_xml_file}
-	)
+    )
     install(
         FILES ${CMAKE_CURRENT_BINARY_DIR}/${output_xml_file}
         DESTINATION ${DBUS_INTERFACES_INSTALL_DIR}

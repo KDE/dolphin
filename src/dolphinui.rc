@@ -6,7 +6,7 @@
             <Action name="file_new" />
             <Action name="new_tab" />
             <Action name="file_close" />
-	    <Action name="undo_close_tab" />
+            <Action name="undo_close_tab" />
             <Separator/>
             <Action name="renamefile" />
             <Action name="movetotrash" />

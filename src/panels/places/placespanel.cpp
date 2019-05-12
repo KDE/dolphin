@@ -93,8 +93,8 @@ bool PlacesPanel::urlChanged()
 void PlacesPanel::readSettings()
 {
     if (m_controller) {
-	const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
-	m_controller->setAutoActivationDelay(delay);
+        const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
+        m_controller->setAutoActivationDelay(delay);
     }
 }
 

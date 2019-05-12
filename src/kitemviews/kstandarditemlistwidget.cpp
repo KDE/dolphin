@@ -1225,7 +1225,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.width(elidedText);
             } else if (role == "rating") {
-		// Use the width of the rating pixmap, because the rating text is empty.
+                // Use the width of the rating pixmap, because the rating text is empty.
                 requiredWidth = m_rating.width();
             }
         }

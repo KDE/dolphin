@@ -97,14 +97,14 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
         const bool useOldPixmap = (m_transition == SizeTransition) &&
                                   (m_oldPixmap.width() > m_pixmap.width());
         const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
-	if (!largePixmap.isNull()) {
+        if (!largePixmap.isNull()) {
             const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
                                                             scaledHeight,
                                                             Qt::IgnoreAspectRatio,
                                                             Qt::FastTransformation);
 
             style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
-	}
+        }
     } else {
         style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
     }
