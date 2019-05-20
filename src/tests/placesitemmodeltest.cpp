@@ -88,6 +88,7 @@ private:
     QMap<QString, QDBusInterface *> m_interfacesMap;
     int m_expectedModelCount = 15;
     bool m_hasDesktopFolder = false;
+    bool m_hasDocumentsFolder = false;
     bool m_hasDownloadsFolder = false;
 
     void setBalooEnabled(bool enabled);
@@ -169,6 +170,10 @@ QStringList PlacesItemModelTest::initialUrls() const
 
         if (m_hasDesktopFolder) {
             urls << QDir::homePath() + QStringLiteral("/Desktop");
+        }
+
+        if (m_hasDocumentsFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Documents");
         }
 
         if (m_hasDownloadsFolder) {
@@ -269,6 +274,11 @@ void PlacesItemModelTest::initTestCase()
         m_expectedModelCount++;
     }
 
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation)).exists()) {
+        m_hasDocumentsFolder = true;
+        m_expectedModelCount++;
+    }
+
     if (QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)).exists()) {
         m_hasDownloadsFolder = true;
         m_expectedModelCount++;
@@ -294,6 +304,9 @@ void PlacesItemModelTest::testGroups()
     const auto groups = m_model->groups();
     int expectedRemoteIndex = 3;
     if (m_hasDesktopFolder) {
+        expectedRemoteIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         expectedRemoteIndex++;
     }
     if (m_hasDownloadsFolder) {
@@ -370,6 +383,9 @@ void PlacesItemModelTest::testDeletePlace()
 
     int tempDirIndex = 3;
     if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         tempDirIndex++;
     }
     if (m_hasDownloadsFolder) {
@@ -545,6 +561,9 @@ void PlacesItemModelTest::testSystemItems()
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
+    if (m_hasDocumentsFolder) {
+        tempDirIndex++;
+    }
     if (m_hasDownloadsFolder) {
         tempDirIndex++;
     }
@@ -593,6 +612,9 @@ void PlacesItemModelTest::testEditBookmark()
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
+    if (m_hasDocumentsFolder) {
+        tempDirIndex++;
+    }
     if (m_hasDownloadsFolder) {
         tempDirIndex++;
     }
@@ -629,6 +651,9 @@ void PlacesItemModelTest::testEditAfterCreation()
 {
     int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         tempDirIndex++;
     }
     if (m_hasDownloadsFolder) {
@@ -668,6 +693,9 @@ void PlacesItemModelTest::testEditMetadata()
     if (m_hasDesktopFolder) {
         tempDirIndex++;
     }
+    if (m_hasDocumentsFolder) {
+        tempDirIndex++;
+    }
     if (m_hasDownloadsFolder) {
         tempDirIndex++;
     }
@@ -705,6 +733,9 @@ void PlacesItemModelTest::testRefresh()
 {
     int tempDirIndex = 3;
     if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         tempDirIndex++;
     }
     if (m_hasDownloadsFolder) {
@@ -776,6 +807,9 @@ void PlacesItemModelTest::testDragAndDrop()
 {
     int lastIndex = 2; // last index of places group
     if (m_hasDesktopFolder) {
+        lastIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         lastIndex++;
     }
     if (m_hasDownloadsFolder) {
@@ -895,6 +929,9 @@ void PlacesItemModelTest::renameAfterCreation()
 {
     int tempDirIndex = 1;
     if (m_hasDesktopFolder) {
+        tempDirIndex++;
+    }
+    if (m_hasDocumentsFolder) {
         tempDirIndex++;
     }
     if (m_hasDownloadsFolder) {
