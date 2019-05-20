@@ -171,6 +171,14 @@ protected:
     void hideEvent(QHideEvent* event) override;
     bool event(QEvent *event) override;
 
+protected:
+    struct TextInfo
+    {
+        QPointF pos;
+        QStaticText staticText;
+    };
+    QHash<QByteArray, TextInfo*> m_textInfo;
+
 public slots:
     void finishRoleEditing();
 
@@ -238,13 +246,6 @@ private:
 
     QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
     QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
-
-    struct TextInfo
-    {
-        QPointF pos;
-        QStaticText staticText;
-    };
-    QHash<QByteArray, TextInfo*> m_textInfo;
 
     QRectF m_textRect;
 

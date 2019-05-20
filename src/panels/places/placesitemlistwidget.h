@@ -21,6 +21,8 @@ public:
     PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
     ~PlacesItemListWidget() override;
 
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+
 protected:
     bool isHidden() const override;
     QPalette::ColorRole normalTextColorRole() const override;
