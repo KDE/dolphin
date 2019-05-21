@@ -56,18 +56,34 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 {
     QHash<QByteArray, QVariant> values;
 
-    QMapIterator<KFileMetaData::Property::Property, QVariant> it(file.properties());
-    while (it.hasNext()) {
-        it.next();
+    using entry = std::pair<const KFileMetaData::Property::Property&, const QVariant&>;
 
-        const KFileMetaData::PropertyInfo pi(it.key());
-        const QString property = pi.name();
-        const QByteArray role = roleForProperty(property);
+    const auto& propMap = file.properties();
+    auto rangeBegin = propMap.constKeyValueBegin();
+
+    while (rangeBegin != propMap.constKeyValueEnd()) {
+        auto key = (*rangeBegin).first;
+        const KFileMetaData::PropertyInfo propertyInfo(key);
+        const QByteArray role = roleForProperty(propertyInfo.name());
+
+        auto rangeEnd = std::find_if(rangeBegin, propMap.constKeyValueEnd(),
+            [key](const entry& e) { return e.first != key; });
+
         if (role.isEmpty() || !roles.contains(role)) {
+            rangeBegin = rangeEnd;
             continue;
         }
 
-        values.insert(role, pi.formatAsDisplayString(it.value()));
+        auto distance = std::distance(rangeBegin, rangeEnd);
+        if (distance > 1) {
+            QVariantList list;
+            list.reserve(static_cast<int>(distance));
+            std::for_each(rangeBegin, rangeEnd, [&list](const entry& s) { list.append(s.second); });
+            values.insert(role, propertyInfo.formatAsDisplayString(list));
+        } else {
+            values.insert(role, propertyInfo.formatAsDisplayString((*rangeBegin).second));
+        }
+        rangeBegin = rangeEnd;
     }
 
     KFileMetaData::UserMetaData md(file.path());
