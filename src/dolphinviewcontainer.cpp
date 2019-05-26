@@ -120,7 +120,21 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     }
 #endif
 
+    // Initialize filter bar
+    m_filterBar = new FilterBar(this);
+    m_filterBar->setVisible(settings->filterBar());
+
+    connect(m_filterBar, &FilterBar::filterChanged,
+            this, &DolphinViewContainer::setNameFilter);
+    connect(m_filterBar, &FilterBar::closeRequest,
+            this, &DolphinViewContainer::closeFilterBar);
+    connect(m_filterBar, &FilterBar::focusViewRequest,
+            this, &DolphinViewContainer::requestFocus);
+
+    // Initialize the main view
     m_view = new DolphinView(url, this);
+    connect(m_view, &DolphinView::urlChanged,
+            m_filterBar, &FilterBar::slotUrlChanged);
     connect(m_view, &DolphinView::urlChanged,
             m_urlNavigator, &KUrlNavigator::setLocationUrl);
     connect(m_view, &DolphinView::urlChanged,
@@ -197,18 +211,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
             this, &DolphinViewContainer::delayedStatusBarUpdate);
-
-    // Initialize filter bar
-    m_filterBar = new FilterBar(this);
-    m_filterBar->setVisible(settings->filterBar());
-    connect(m_filterBar, &FilterBar::filterChanged,
-            this, &DolphinViewContainer::setNameFilter);
-    connect(m_filterBar, &FilterBar::closeRequest,
-            this, &DolphinViewContainer::closeFilterBar);
-    connect(m_filterBar, &FilterBar::focusViewRequest,
-            this, &DolphinViewContainer::requestFocus);
-    connect(m_view, &DolphinView::urlChanged,
-            m_filterBar, &FilterBar::slotUrlChanged);
 
     navigatorLayout->addWidget(m_urlNavigator);
     navigatorLayout->addWidget(m_emptyTrashButton);
