@@ -64,6 +64,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     TextWidgets
     Notifications
     Crash
+    WindowSystem
 )
 find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities

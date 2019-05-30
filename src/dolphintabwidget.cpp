@@ -186,11 +186,16 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
+        const int index = getIndexByUrl(primaryUrl);
+        if (index >= 0) {
+            setCurrentIndex(index);
+            continue;
+        }
         if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
-            openNewTab(primaryUrl, secondaryUrl);
+            openNewActivatedTab(primaryUrl, secondaryUrl);
         } else {
-            openNewTab(primaryUrl);
+            openNewActivatedTab(primaryUrl);
         }
     }
 }
@@ -290,6 +295,7 @@ void DolphinTabWidget::detachTab(int index)
         args << tabPage->secondaryViewContainer()->url().url();
         args << QStringLiteral("--split");
     }
+    args << QStringLiteral("--new-window");
 
     const QString command = QStringLiteral("dolphin %1").arg(KShell::joinArgs(args));
     KRun::runCommand(command, this);
@@ -373,4 +379,18 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
     return name.replace('&', QLatin1String("&&"));
+}
+
+int DolphinTabWidget::getIndexByUrl(const QUrl& url) const
+{
+    for (int i = 0; i < count(); i++) {
+        // Conversion to display string is necessary to deal with the '~' alias.
+        // i.e. to acknowledge that ~/ is equivalent to /home/user/
+        const QUrl tabUrl = tabPageAt(i)->activeViewContainer()->url();
+        if (url == tabUrl ||
+            url.toDisplayString(QUrl::StripTrailingSlash) == tabUrl.toDisplayString(QUrl::StripTrailingSlash)) {
+            return i;
+        }
+    }
+    return -1;
 }

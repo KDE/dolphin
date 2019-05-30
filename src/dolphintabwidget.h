@@ -78,6 +78,12 @@ public:
      */
     void refreshViews();
 
+    /**
+     * @param url The URL that we would like
+     * @return index of the tab with the desired URL. returns -1 if not found
+     */
+    int getIndexByUrl(const QUrl& url) const;
+
 signals:
     /**
      * Is emitted when the active view has been changed, by changing the current

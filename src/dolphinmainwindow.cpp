@@ -61,11 +61,13 @@
 #include <KRun>
 #include <KShell>
 #include <KStandardAction>
+#include <KStartupInfo>
 #include <KToggleAction>
 #include <KToolBar>
 #include <KToolInvocation>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
+#include <KWindowSystem>
 
 #include <QApplication>
 #include <QClipboard>
@@ -200,9 +202,25 @@ void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs, bool splitView)
     m_tabWidget->openDirectories(dirs, splitView);
 }
 
+void DolphinMainWindow::openDirectories(const QStringList& dirs, bool splitView)
+{
+    openDirectories(QUrl::fromStringList(dirs), splitView);
+}
+
 void DolphinMainWindow::openFiles(const QList<QUrl>& files, bool splitView)
 {
     m_tabWidget->openFiles(files, splitView);
+}
+
+void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
+{
+    openFiles(QUrl::fromStringList(files), splitView);
+}
+
+void DolphinMainWindow::activateWindow()
+{
+    KStartupInfo::setNewStartupId(window(), KStartupInfo::startupId());
+    KWindowSystem::activateWindow(window()->effectiveWinId());
 }
 
 void DolphinMainWindow::showCommand(CommandType command)
@@ -1704,6 +1722,15 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
         container->showMessage(job->errorString(), DolphinViewContainer::Error);
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);
+    }
+}
+
+bool DolphinMainWindow::isUrlOpen(const QString& url)
+{
+    if (m_tabWidget->getIndexByUrl(QUrl::fromUserInput((url))) >= 0) {
+        return true;
+    } else {
+        return false;
     }
 }
 

@@ -43,6 +43,12 @@ namespace Dolphin {
     void openNewWindow(const QList<QUrl> &urls = {}, QWidget *window = nullptr, const OpenNewWindowFlags &flags = OpenNewWindowFlag::None);
 
     /**
+     * Attaches URLs to an existing Dolphin instance if possible.
+     * Returns true if URLs were successfully attached
+     */
+    bool attachToExistingInstance(const QList<QUrl>& urls, bool openFiles, bool splitView, const QString& preferredService = QString());
+
+    /**
      * TODO: Move this somewhere global to all KDE apps, not just Dolphin
      */
     const int VERTICAL_SPACER_HEIGHT = 18;

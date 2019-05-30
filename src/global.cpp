@@ -23,9 +23,12 @@
 #include "dolphindebug.h"
 
 #include <KRun>
+#include <KWindowSystem>
 
 #include <QApplication>
 #include <QIcon>
+#include <QDBusInterface>
+#include <QDBusConnectionInterface>
 
 QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
 {
@@ -49,7 +52,7 @@ QUrl Dolphin::homeUrl()
 
 void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const OpenNewWindowFlags &flags)
 {
-    QString command = QStringLiteral("dolphin");
+    QString command = QStringLiteral("dolphin --new-window");
 
     if (flags.testFlag(OpenNewWindowFlag::Select)) {
         command.append(QLatin1String(" --select"));
@@ -58,6 +61,83 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
     if (!urls.isEmpty()) {
         command.append(QLatin1String(" %U"));
     }
+    KRun::run(
+        command,
+        urls,
+        window,
+        QApplication::applicationDisplayName(),
+        QApplication::windowIcon().name()
+    );
+}
 
-    KRun::run(command, urls, window, qApp->applicationDisplayName(), qApp->windowIcon().name());
+bool Dolphin::attachToExistingInstance(const QList<QUrl>& urls, bool openFiles, bool splitView, const QString& preferredService)
+{
+    if (KWindowSystem::isPlatformWayland()) {
+        // TODO: once Wayland clients can raise or activate themselves remove this conditional
+        return false;
+    }
+
+    const QStringList services = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
+
+    // Don't match the service without trailing "-" (unique instance)
+    const QString pattern = QStringLiteral("org.kde.dolphin-");
+    const QString myPid = QString::number(QCoreApplication::applicationPid());
+    QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinServices;
+    if (!preferredService.isEmpty()) {
+        QSharedPointer<QDBusInterface> preferred(
+            new QDBusInterface(preferredService,
+            QStringLiteral("/dolphin/Dolphin_1"),
+            QStringLiteral("org.kde.dolphin.MainWindow"))
+        );
+        if (preferred->isValid()) {
+            dolphinServices.append(qMakePair(preferred, QStringList() ));
+        }
+    }
+
+    // find all dolphin instances
+    for (const QString& service : services) {
+        if (service.startsWith(pattern) && !service.endsWith(myPid)) {
+            // Check if instance can handle our URLs
+            QSharedPointer<QDBusInterface> instance(
+                new QDBusInterface(service,
+                QStringLiteral("/dolphin/Dolphin_1"),
+                QStringLiteral("org.kde.dolphin.MainWindow"))
+            );
+            if (!instance->isValid()) {
+                continue;
+            }
+            dolphinServices.append(qMakePair(instance, QStringList()));
+        }
+    }
+
+    if (dolphinServices.isEmpty()) {
+        return false;
+    }
+
+    QStringList newUrls;
+
+    // check to see if any instances already have any of the given URLs open
+    for (const QString& url : QUrl::toStringList(urls)) {
+        bool urlFound = false;
+        for (auto& service: dolphinServices) {
+            QDBusReply<bool> isUrlOpen = service.first->call(QStringLiteral("isUrlOpen"), url);
+            if (isUrlOpen.isValid() && isUrlOpen.value()) {
+                    service.second.append(url);
+                    urlFound = true;
+                    break;
+            }
+        }
+        if (!urlFound) {
+            newUrls.append(url);
+        }
+    }
+    dolphinServices.front().second << newUrls;
+
+    for (const auto& service: dolphinServices) {
+        if (!service.second.isEmpty()) {
+            service.first->call(openFiles ? QStringLiteral("openFiles") : QStringLiteral("openDirectories"), service.second, splitView);
+            service.first->call(QStringLiteral("activateWindow"));
+        }
+    }
+    return true;
 }

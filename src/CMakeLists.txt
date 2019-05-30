@@ -148,6 +148,7 @@ target_link_libraries(
     KF5::ConfigCore
     KF5::NewStuff
     KF5::Parts
+    KF5::WindowSystem
 )
 
 if(HAVE_BALOO)

@@ -34,6 +34,10 @@
 
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QDBusConnection>
+#include <QDBusInterface>
+#include <QDBusAbstractInterface>
+#include <QDBusConnectionInterface>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
@@ -122,33 +126,42 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("select"), i18nc("@info:shell", "The files and folders passed as arguments "
                                                                                         "will be selected.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("new-window"), i18nc("@info:shell", "Dolphin will explicitly open in a new window.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface)")));
     parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
 
+    const bool splitView = parser.isSet(QStringLiteral("split")) || GeneralSettings::splitView();
+    const bool openFiles = parser.isSet(QStringLiteral("select"));
+    const QStringList args = parser.positionalArguments();
+    QList<QUrl> urls = Dolphin::validateUris(args);
+
     if (parser.isSet(QStringLiteral("daemon"))) {
         return app.exec();
     }
-
-    const QStringList args = parser.positionalArguments();
-    QList<QUrl> urls = Dolphin::validateUris(args);
 
     if (urls.isEmpty()) {
         // We need at least one URL to open Dolphin
         urls.append(Dolphin::homeUrl());
     }
 
-    const bool splitView = parser.isSet(QStringLiteral("split")) || GeneralSettings::splitView();
     if (splitView && urls.size() < 2) {
         // Split view does only make sense if we have at least 2 URLs
         urls.append(urls.last());
     }
 
+    if (!parser.isSet(QStringLiteral("new-window"))) {
+        if (Dolphin::attachToExistingInstance(urls, openFiles, splitView)) {
+            // Successfully attached to existing instance of Dolphin
+            return 0;
+        }
+    }
+
     DolphinMainWindow* mainWindow = new DolphinMainWindow();
 
-    if (parser.isSet(QStringLiteral("select"))) {
+    if (openFiles) {
         mainWindow->openFiles(urls, splitView);
     } else {
         mainWindow->openDirectories(urls, splitView);
