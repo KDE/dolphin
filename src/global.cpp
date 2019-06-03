@@ -81,7 +81,8 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& urls, bool openFiles, 
 
     // Don't match the service without trailing "-" (unique instance)
     const QString pattern = QStringLiteral("org.kde.dolphin-");
-    const QString myPid = QString::number(QCoreApplication::applicationPid());
+    // Don't match the pid without leading "-"
+    const QString myPid = QStringLiteral("-") + QString::number(QCoreApplication::applicationPid());
     QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinServices;
     if (!preferredService.isEmpty()) {
         QSharedPointer<QDBusInterface> preferred(
