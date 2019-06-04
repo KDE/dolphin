@@ -232,7 +232,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
     const bool navigationPressed = key == Qt::Key_Home || key == Qt::Key_End  ||
-                                   key == Qt::Key_Up   || key == Qt::Key_Down ||
+                                   key == Qt::Key_PageUp || key == Qt::Key_PageDown ||
+                                   key == Qt::Key_Up || key == Qt::Key_Down ||
                                    key == Qt::Key_Left || key == Qt::Key_Right;
 
     const int itemCount = m_model->count();
@@ -461,9 +462,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     if (navigationPressed) {
-        if (index < m_view->firstVisibleIndex() || index > m_view->lastVisibleIndex()) {
-            m_view->scrollToItem(index);
-        }
+        m_view->scrollToItem(index);
     }
     return true;
 }
