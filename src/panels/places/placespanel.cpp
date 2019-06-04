@@ -490,9 +490,10 @@ void PlacesPanel::editEntry(int index)
     QHash<QByteArray, QVariant> data = m_model->data(index);
     const QUrl url = data.value("url").toUrl();
     const QString text = data.value("text").toString();
+    const QString iconName = data.value("iconName").toString();
     const bool applicationLocal = !data.value("applicationName").toString().isEmpty();
 
-    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, QString(), true, applicationLocal, KIconLoader::SizeMedium, this);
+    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, iconName, true, applicationLocal, KIconLoader::SizeMedium, this);
     if (dialog->exec() == QDialog::Accepted) {
         PlacesItem* oldItem = m_model->placesItem(index);
         if (oldItem) {
