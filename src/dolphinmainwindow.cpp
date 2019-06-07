@@ -1275,6 +1275,9 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Bookmarks' menu
     KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), this);
+    bookmarkMenu->setIcon(QIcon::fromTheme(QStringLiteral("bookmarks")));
+    // Make the toolbar button version work properly on click
+    bookmarkMenu->setDelayed(false);
     m_bookmarkHandler = new DolphinBookmarkHandler(this, actionCollection(), bookmarkMenu->menu(), this);
     actionCollection()->addAction(QStringLiteral("bookmarks"), bookmarkMenu);
 
