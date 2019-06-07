@@ -23,6 +23,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
 #include "panels/places/placesitem.h"
@@ -460,13 +461,11 @@ void DolphinContextMenu::addShowMenuBarAction()
 
 bool DolphinContextMenu::placeExists(const QUrl& url) const
 {
-    Q_UNUSED(url)
-    // Creating up a PlacesItemModel to find out if 'url' is one of the Places
-    // can be expensive because the model asks Solid for the devices which are
-    // available, which can take some time.
-    // TODO: Consider restoring this check if the handling of Places and devices
-    // will be decoupled in the future.
-    return false;
+    const KFilePlacesModel* placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+
+    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, url, 1, Qt::MatchExactly);
+
+    return !matchedPlaces.isEmpty();
 }
 
 QAction* DolphinContextMenu::createPasteAction()
