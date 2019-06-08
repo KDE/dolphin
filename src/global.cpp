@@ -70,7 +70,7 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
     );
 }
 
-bool Dolphin::attachToExistingInstance(const QList<QUrl>& urls, bool openFiles, bool splitView, const QString& preferredService)
+bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService)
 {
     if (KWindowSystem::isPlatformWayland()) {
         // TODO: once Wayland clients can raise or activate themselves remove this conditional
@@ -118,7 +118,8 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& urls, bool openFiles, 
     QStringList newUrls;
 
     // check to see if any instances already have any of the given URLs open
-    for (const QString& url : QUrl::toStringList(urls)) {
+    const auto urls = QUrl::toStringList(inputUrls);
+    for (const QString& url : urls) {
         bool urlFound = false;
         for (auto& service: dolphinServices) {
             QDBusReply<bool> isUrlOpen = service.first->call(QStringLiteral("isUrlOpen"), url);
