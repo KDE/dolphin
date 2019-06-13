@@ -150,7 +150,11 @@ configure_file(org.kde.dolphin.FileManager1.service.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
         DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
 
-install( FILES dolphin.categories DESTINATION ${KDE_INSTALL_CONFDIR} )
+if (${ECM_VERSION} STRGREATER "5.58.0")
+    install(FILES dolphin.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
+else()
+    install(FILES dolphin.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
+endif()
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
