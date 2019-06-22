@@ -72,8 +72,8 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
 
 bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService)
 {
-    if (KWindowSystem::isPlatformWayland()) {
-        // TODO: once Wayland clients can raise or activate themselves remove this conditional
+    // TODO: once Wayland clients can raise or activate themselves remove check from conditional
+    if (KWindowSystem::isPlatformWayland() || inputUrls.isEmpty()) {
         return false;
     }
 

@@ -142,11 +142,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         return app.exec();
     }
 
-    if (urls.isEmpty()) {
-        // We need at least one URL to open Dolphin
-        urls.append(Dolphin::homeUrl());
-    }
-
     if (splitView && urls.size() < 2) {
         // Split view does only make sense if we have at least 2 URLs
         urls.append(urls.last());
@@ -159,6 +154,11 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         }
     }
 
+    if (urls.isEmpty()) {
+        // We need at least one URL to open Dolphin
+        urls.append(Dolphin::homeUrl());
+    }
+    
     DolphinMainWindow* mainWindow = new DolphinMainWindow();
 
     if (openFiles) {
