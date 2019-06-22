@@ -132,9 +132,6 @@ private Q_SLOTS:
     /** Decreases the size of the current set view mode. */
     void zoomOut();
 
-    /** Switches between an ascending and descending sorting order. */
-    void toggleSortOrder();
-
     /** Switches between a separate sorting and a mixed sorting of files and folders. */
     void toggleSortFoldersFirst();
 

@@ -203,10 +203,6 @@ void DolphinViewActionHandler::createActions()
     showPreview->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
     connect(showPreview, &KToggleAction::triggered, this, &DolphinViewActionHandler::togglePreview);
 
-    KToggleAction* sortDescending = m_actionCollection->add<KToggleAction>(QStringLiteral("descending"));
-    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
-    connect(sortDescending, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortOrder);
-
     KToggleAction* sortFoldersFirst = m_actionCollection->add<KToggleAction>(QStringLiteral("folders_first"));
     sortFoldersFirst->setText(i18nc("@action:inmenu Sort", "Folders First"));
     connect(sortFoldersFirst, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleSortFoldersFirst);
@@ -222,8 +218,27 @@ void DolphinViewActionHandler::createActions()
     foreach (QAction* action, sortByActionGroup->actions()) {
         sortByActionMenu->addAction(action);
     }
+
     sortByActionMenu->addSeparator();
-    sortByActionMenu->addAction(sortDescending);
+
+    QActionGroup* group = new QActionGroup(sortByActionMenu);
+    group->setExclusive(true);
+
+    KToggleAction* ascendingAction = m_actionCollection->add<KToggleAction>(QStringLiteral("ascending"));
+    ascendingAction->setActionGroup(group);
+    connect(ascendingAction, &QAction::triggered, this, [this] {
+        m_currentView->setSortOrder(Qt::AscendingOrder);
+    });
+
+    KToggleAction* descendingAction = m_actionCollection->add<KToggleAction>(QStringLiteral("descending"));
+    descendingAction->setActionGroup(group);
+    connect(descendingAction, &QAction::triggered, this, [this] {
+        m_currentView->setSortOrder(Qt::DescendingOrder);
+    });
+
+    sortByActionMenu->addAction(ascendingAction);
+    sortByActionMenu->addAction(descendingAction);
+    sortByActionMenu->addSeparator();
     sortByActionMenu->addAction(sortFoldersFirst);
 
     // View -> Additional Information
@@ -439,14 +454,6 @@ void DolphinViewActionHandler::zoomOut()
     updateViewActions();
 }
 
-void DolphinViewActionHandler::toggleSortOrder()
-{
-    const Qt::SortOrder order = (m_currentView->sortOrder() == Qt::AscendingOrder) ?
-                                Qt::DescendingOrder :
-                                Qt::AscendingOrder;
-    m_currentView->setSortOrder(order);
-}
-
 void DolphinViewActionHandler::toggleSortFoldersFirst()
 {
     const bool sortFirst = m_currentView->sortFoldersFirst();
@@ -456,8 +463,10 @@ void DolphinViewActionHandler::toggleSortFoldersFirst()
 void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
 {
     QAction* descending = m_actionCollection->action(QStringLiteral("descending"));
+    QAction* ascending = m_actionCollection->action(QStringLiteral("ascending"));
     const bool sortDescending = (order == Qt::DescendingOrder);
     descending->setChecked(sortDescending);
+    ascending->setChecked(!sortDescending);
 }
 
 void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
@@ -583,6 +592,28 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
             sortByMenu->setIcon(action->icon());
         }
     }
+
+    QAction* descending = m_actionCollection->action(QStringLiteral("descending"));
+    QAction* ascending = m_actionCollection->action(QStringLiteral("ascending"));
+
+    if (role == "text" || role == "type" || role == "tags" || role == "comment") {
+        descending->setText(i18nc("Sort descending", "Z-A"));
+        ascending->setText(i18nc("Sort ascending", "A-Z"));
+    } else if (role == "size") {
+        descending->setText(i18nc("Sort descending", "Largest first"));
+        ascending->setText(i18nc("Sort ascending", "Smallest first"));
+    } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
+        descending->setText(i18nc("Sort descending", "Newest first"));
+        ascending->setText(i18nc("Sort ascending", "Oldest first"));
+    } else if (role == "rating") {
+        descending->setText(i18nc("Sort descending", "Highest first"));
+        ascending->setText(i18nc("Sort ascending", "Lowest first"));
+    } else {
+        descending->setText(i18nc("Sort descending", "Descending"));
+        ascending->setText(i18nc("Sort ascending", "Ascending"));
+    }
+
+    slotSortOrderChanged(m_currentView->sortOrder());
 }
 
 void DolphinViewActionHandler::slotZoomLevelChanged(int current, int previous)
