@@ -48,6 +48,8 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Widgets
     Gui
     DBus
+    Multimedia
+    MultimediaWidgets
 )
 
 if (UNIX AND NOT APPLE)
@@ -98,8 +100,6 @@ set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities librari
                        TYPE OPTIONAL
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
                       )
-
-find_package(Phonon4Qt${QT_MAJOR_VERSION} CONFIG REQUIRED)
 
 find_package(PackageKitQt${QT_MAJOR_VERSION})
 set_package_properties(PackageKitQt${QT_MAJOR_VERSION}

@@ -23,9 +23,6 @@
 
 #include <Baloo/FileMetaDataWidget>
 
-#include <Phonon/BackendCapabilities>
-#include <Phonon/MediaObject>
-
 #include <QDialogButtonBox>
 #include <QGesture>
 #include <QLabel>
@@ -39,7 +36,7 @@
 #include <QVBoxLayout>
 
 #include "dolphin_informationpanelsettings.h"
-#include "phononwidget.h"
+#include "mediawidget.h"
 #include "pixmapviewer.h"
 
 const int PLAY_ARROW_SIZE = 24;
@@ -51,7 +48,7 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     , m_previewJob(nullptr)
     , m_outdatedPreviewTimer(nullptr)
     , m_preview(nullptr)
-    , m_phononWidget(nullptr)
+    , m_mediaWidget(nullptr)
     , m_nameLabel(nullptr)
     , m_metaDataWidget(nullptr)
     , m_metaDataArea(nullptr)
@@ -76,11 +73,11 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     m_preview->setMinimumWidth(minPreviewWidth);
     m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
-    m_phononWidget = new PhononWidget(parent);
-    m_phononWidget->hide();
-    m_phononWidget->setMinimumWidth(minPreviewWidth);
-    m_phononWidget->setAutoPlay(InformationPanelSettings::previewsAutoPlay());
-    connect(m_phononWidget, &PhononWidget::hasVideoChanged, this, &InformationPanelContent::slotHasVideoChanged);
+    m_mediaWidget = new MediaWidget(parent);
+    m_mediaWidget->hide();
+    m_mediaWidget->setMinimumWidth(minPreviewWidth);
+    m_mediaWidget->setAutoPlay(InformationPanelSettings::previewsAutoPlay());
+    connect(m_mediaWidget, &MediaWidget::hasVideoChanged, this, &InformationPanelContent::slotHasVideoChanged);
 
     // name
     m_nameLabel = new QLabel(parent);
@@ -131,7 +128,7 @@ InformationPanelContent::InformationPanelContent(QWidget *parent)
     viewport->installEventFilter(this);
 
     layout->addWidget(m_preview);
-    layout->addWidget(m_phononWidget);
+    layout->addWidget(m_mediaWidget);
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator());
     layout->addWidget(m_configureLabel);
@@ -201,7 +198,7 @@ void InformationPanelContent::refreshPreview()
         const bool isSearchUrl = itemUrl.scheme().contains(QLatin1String("search")) && m_item.localPath().isEmpty();
         if (isSearchUrl) {
             m_preview->show();
-            m_phononWidget->hide();
+            m_mediaWidget->hide();
 
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
@@ -217,16 +214,17 @@ void InformationPanelContent::refreshPreview()
             if (usePhonon) {
                 // change the cursor of the preview
                 m_preview->setCursor(Qt::PointingHandCursor);
-                m_preview->installEventFilter(m_phononWidget);
-                m_phononWidget->show();
+                m_preview->installEventFilter(m_mediaWidget);
+
+                m_mediaWidget->show();
 
                 // if the video is playing, has been paused or stopped
                 // we don't need to update the preview/phonon widget states
                 // unless the previewed file has changed,
                 // or the setting previewshown has changed
-                if ((m_phononWidget->state() != Phonon::State::PlayingState && m_phononWidget->state() != Phonon::State::PausedState
-                     && m_phononWidget->state() != Phonon::State::StoppedState)
-                    || m_item.targetUrl() != m_phononWidget->url() || (!m_preview->isVisible() && !m_phononWidget->isVisible())) {
+                if ((m_mediaWidget->state() != QMediaPlayer::PlayingState && m_mediaWidget->state() != QMediaPlayer::PausedState
+                     && m_mediaWidget->state() != QMediaPlayer::StoppedState)
+                    || m_item.targetUrl() != m_mediaWidget->url() || (!m_preview->isVisible() && !m_mediaWidget->isVisible())) {
                     if (InformationPanelSettings::previewsAutoPlay() && m_isVideo) {
                         // hides the preview now to avoid flickering when the autoplay video starts
                         m_preview->hide();
@@ -235,7 +233,7 @@ void InformationPanelContent::refreshPreview()
                         m_preview->show();
                     }
 
-                    m_phononWidget->setUrl(m_item.targetUrl(), m_isVideo ? PhononWidget::MediaKind::Video : PhononWidget::MediaKind::Audio);
+                    m_mediaWidget->setUrl(m_item.targetUrl(), m_isVideo ? MediaWidget::MediaKind::Video : MediaWidget::MediaKind::Audio);
                     adjustWidgetSizes(parentWidget()->width());
                 }
             } else {
@@ -243,16 +241,16 @@ void InformationPanelContent::refreshPreview()
                     m_preview->setAnimatedImageFileName(itemUrl.toLocalFile());
                 }
                 // When we don't need it, hide the phonon widget first to avoid flickering
-                m_phononWidget->hide();
+                m_mediaWidget->hide();
                 m_preview->show();
-                m_preview->removeEventFilter(m_phononWidget);
-                m_phononWidget->clearUrl();
+                m_preview->removeEventFilter(m_mediaWidget);
+                m_mediaWidget->clearUrl();
             }
         }
     } else {
         m_preview->stopAnimatedImage();
         m_preview->hide();
-        m_phononWidget->hide();
+        m_mediaWidget->hide();
     }
 }
 
@@ -285,7 +283,7 @@ void InformationPanelContent::showItems(const KFileItemList &items)
 
     m_metaDataWidget->setItems(items);
 
-    m_phononWidget->hide();
+    m_mediaWidget->hide();
 
     m_item = KFileItem();
 }
@@ -433,7 +431,7 @@ void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 
 void InformationPanelContent::setPreviewAutoPlay(bool autoPlay)
 {
-    m_phononWidget->setAutoPlay(autoPlay);
+    m_mediaWidget->setAutoPlay(autoPlay);
 }
 
 void InformationPanelContent::setNameLabelText(const QString &text)
@@ -484,9 +482,9 @@ void InformationPanelContent::adjustWidgetSizes(int width)
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
 
-    if (m_phononWidget->isVisible()) {
+    if (m_mediaWidget->isVisible()) {
         // assure that the size of the video player is the same as the preview size
-        m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
+        m_mediaWidget->setVideoSize(QSize(maxWidth, maxWidth));
     }
 }
 
