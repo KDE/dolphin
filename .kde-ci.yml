@@ -26,7 +26,6 @@ Dependencies:
     'frameworks/kcodecs': '@latest-kf6'
     'frameworks/kuserfeedback': '@latest-kf6'
     'frameworks/kcolorscheme': '@latest-kf6'
-    'libraries/phonon': '@latest-kf6'
 
  - 'on': ['Linux/Qt6', 'Linux/Qt6Next', 'FreeBSD/Qt6']
    'require':

@@ -103,8 +103,6 @@ find_package(KF6 ${KF6_MIN_VERSION} OPTIONAL_COMPONENTS
     DocTools
 )
 
-find_package(Phonon4Qt6 CONFIG REQUIRED)
-
 find_package(PackageKitQt6)
 set_package_properties(PackageKitQt6
         PROPERTIES DESCRIPTION "Software Manager integration"
@@ -138,7 +136,12 @@ set_package_properties(KF6BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
 if (KF6Baloo_FOUND AND KF6BalooWidgets_FOUND)
     message(STATUS "Baloo packages are found")
     set(HAVE_BALOO TRUE)
-else()
+
+    find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+        Multimedia
+        MultimediaWidgets
+    )
+else ()
     message(WARNING "Baloo packages not found. They are needed for the metadata features of Dolphin (including the information panel).")
 endif()
 
