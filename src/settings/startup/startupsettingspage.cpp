@@ -43,7 +43,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     m_editableUrl(nullptr),
     m_showFullPath(nullptr),
     m_filterBar(nullptr),
-    m_showFullPathInTitlebar(nullptr)
+    m_showFullPathInTitlebar(nullptr),
+    m_openExternallyCalledFolderInNewTab(nullptr)
 {
     QFormLayout* topLayout = new QFormLayout(this);
 
@@ -100,6 +101,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     topLayout->addRow(QString(), m_filterBar);
     m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"));
     topLayout->addRow(QString(), m_showFullPathInTitlebar);
+    m_openExternallyCalledFolderInNewTab = new QCheckBox(i18nc("@option:check Startup Settings", "Open new folders in tabs"));
+    topLayout->addRow(QString(), m_openExternallyCalledFolderInNewTab);
 
 
     loadSettings();
@@ -110,6 +113,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_openExternallyCalledFolderInNewTab, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 }
 
 StartupSettingsPage::~StartupSettingsPage()
@@ -133,7 +137,7 @@ void StartupSettingsPage::applySettings()
     settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
     settings->setShowFullPathInTitlebar(m_showFullPathInTitlebar->isChecked());
-
+    settings->setOpenExternallyCalledFolderInNewTab(m_openExternallyCalledFolderInNewTab->isChecked());
     settings->save();
 }
 
@@ -183,4 +187,5 @@ void StartupSettingsPage::loadSettings()
     m_showFullPath->setChecked(GeneralSettings::showFullPath());
     m_filterBar->setChecked(GeneralSettings::filterBar());
     m_showFullPathInTitlebar->setChecked(GeneralSettings::showFullPathInTitlebar());
+    m_openExternallyCalledFolderInNewTab->setChecked(GeneralSettings::openExternallyCalledFolderInNewTab());
 }

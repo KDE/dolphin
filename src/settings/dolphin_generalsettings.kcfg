@@ -26,6 +26,10 @@
             <label>Should the full path be shown in the title bar</label>
             <default>false</default>
         </entry>
+        <entry name="OpenExternallyCalledFolderInNewTab" type="Bool">
+            <label>Should an externally called folder open in a new tab in an existing Dolphin instance</label>
+            <default>true</default>
+        </entry>
         <entry name="Version" type="Int">
             <label>Internal version of Dolphin, containing 3 digits for major, minor, bugfix</label>
             <default>0</default>

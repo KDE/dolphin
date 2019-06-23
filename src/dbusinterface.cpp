@@ -59,7 +59,7 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
     }
     const auto serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
     if(!Dolphin::attachToExistingInstance(urls, true, GeneralSettings::splitView(), serviceName)) {
-        Dolphin::openNewWindow(urls);
+        Dolphin::openNewWindow(urls, nullptr, Dolphin::OpenNewWindowFlag::Select);
     };
 }
 
