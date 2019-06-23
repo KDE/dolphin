@@ -46,6 +46,7 @@ class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
+class KHelpMenu;
 class QToolButton;
 class QIcon;
 class PlacesPanel;
@@ -204,6 +205,11 @@ protected:
 
     /** @see KMainWindow::readProperties() */
     void readProperties(const KConfigGroup& group) override;
+
+    /** Handles QWhatsThisClickedEvent and passes all others on. */
+    bool event(QEvent* event) override;
+    /** Handles QWhatsThisClickedEvent and passes all others on. */
+    bool eventFilter(QObject*, QEvent*) override;
 
 private slots:
     /**
@@ -496,8 +502,16 @@ private slots:
     void slotToolBarActionMiddleClicked(QAction *action);
 
 private:
+    /**
+     * Sets up the various menus and actions and connects them.
+     */
     void setupActions();
+
+    /**
+     * Sets up the dock widgets and their panels.
+     */
     void setupDockWidgets();
+
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
@@ -541,6 +555,9 @@ private:
                            QAction* dockAction,
                            const QString& actionName);
 
+    /** Adds "What's This?" texts to many widgets and StandardActions. */
+    void setupWhatsThis();
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
@@ -556,6 +573,7 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
+    KHelpMenu* m_helpMenu;
     DolphinTabWidget* m_tabWidget;
     DolphinViewContainer* m_activeViewContainer;
 

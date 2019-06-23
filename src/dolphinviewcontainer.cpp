@@ -80,6 +80,18 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QHBoxLayout* navigatorLayout = new QHBoxLayout(m_navigatorWidget);
     navigatorLayout->setSpacing(0);
     navigatorLayout->setContentsMargins(0, 0, 0, 0);
+    m_navigatorWidget->setWhatsThis(xi18nc("@info:whatsthis location bar",
+        "<para>This line describes the location of the files and folders "
+        "displayed below.</para><para>The name of the currently viewed "
+        "folder can be read at the very right. To the left of it is the "
+        "name of the folder that contains it. The whole line is called "
+        "the <emphasis>path</emphasis> to the current location because "
+        "following these folders from left to right leads here.</para>"
+        "<para>The path is displayed on the <emphasis>location bar</emphasis> "
+        "which is more powerful than one would expect. To learn more "
+        "about the basic and advanced features of the location bar "
+        "<link url='help:/dolphin/location-bar.html'>click here</link>. "
+        "This will open the dedicated page in the Handbook.</para>"));
 
     m_urlNavigator = new KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, this);
     connect(m_urlNavigator, &KUrlNavigator::activated,
@@ -107,6 +119,18 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
     connect(m_searchBox, &DolphinSearchBox::returnPressed, this, &DolphinViewContainer::requestFocus);
+    m_searchBox->setWhatsThis(xi18nc("@info:whatsthis findbar",
+        "<para>This helps you find files and folders. Enter a <emphasis>"
+        "search term</emphasis> and specify search settings with the "
+        "buttons at the bottom:<list><item>Filename/Content: "
+        "Does the item you are looking for contain the search terms "
+        "within its filename or its contents?<nl/>The contents of images, "
+        "audio files and videos will not be searched.</item><item>"
+        "From Here/Everywhere: Do you want to search in this "
+        "folder and its sub-folders or everywhere?</item><item>"
+        "More Options: Click this to search by media type, access "
+        "time or rating.</item><item>More Search Tools: Install other "
+        "means to find an item.</item></list></para>"));
 
     m_messageWidget = new KMessageWidget(this);
     m_messageWidget->setCloseButtonVisible(true);

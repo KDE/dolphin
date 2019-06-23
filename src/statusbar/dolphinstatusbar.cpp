@@ -131,6 +131,15 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     topLayout->addWidget(m_progressBar);
 
     setExtensionsVisible(true);
+    setWhatsThis(xi18nc("@info:whatsthis Statusbar", "<para>This is "
+        "the <emphasis>Statusbar</emphasis>. It contains three elements "
+        "by default (left to right):<list><item>A <emphasis>text field"
+        "</emphasis> that displays the size of selected items. If only "
+        "one item is selected the name and type is shown as well.</item>"
+        "<item>A <emphasis>zoom slider</emphasis> that allows you "
+        "to adjust the size of the icons in the view.</item>"
+        "<item><emphasis>Space information</emphasis> about the "
+        "current storage device.</item></list></para>"));
 }
 
 DolphinStatusBar::~DolphinStatusBar()

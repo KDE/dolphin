@@ -37,7 +37,7 @@ class KActionCollection;
  * @short Handles all actions for DolphinView
  *
  * The action handler owns all the actions and slots related to DolphinView,
- * but can the view that is acts upon can be switched to another one
+ * but the view that it acts upon can be switched to another one
  * (this is used in the case of split views).
  *
  * The purpose of this class is also to share this code between DolphinMainWindow

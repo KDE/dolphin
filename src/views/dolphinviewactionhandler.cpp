@@ -99,7 +99,10 @@ void DolphinViewActionHandler::createActions()
 
     // File menu
 
-    KStandardAction::renameFile(this, &DolphinViewActionHandler::slotRename, m_actionCollection);
+    auto renameAction = KStandardAction::renameFile(this, &DolphinViewActionHandler::slotRename, m_actionCollection);
+    renameAction->setWhatsThis(xi18nc("@info:whatsthis", "This renames the "
+        "items in your current selection.<nl/>Renaming multiple items "
+        "at once amounts to their new names differing only in a number."));
 
     auto trashAction = KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
     auto trashShortcuts = trashAction->shortcuts();
@@ -107,6 +110,10 @@ void DolphinViewActionHandler::createActions()
         trashShortcuts.append(QKeySequence::Delete);
         m_actionCollection->setDefaultShortcuts(trashAction, trashShortcuts);
     }
+    trashAction->setWhatsThis(xi18nc("@info:whatsthis", "This moves the "
+        "items in your current selection to the <filename>Trash"
+        "</filename>.<nl/>The trash is a temporary storage where "
+        "items can be deleted from if disk space is needed."));
 
     auto deleteAction = KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
     auto deleteShortcuts = deleteAction->shortcuts();
@@ -114,6 +121,9 @@ void DolphinViewActionHandler::createActions()
         deleteShortcuts.append(Qt::SHIFT | Qt::Key_Delete);
         m_actionCollection->setDefaultShortcuts(deleteAction, deleteShortcuts);
     }
+    deleteAction->setWhatsThis(xi18nc("@info:whatsthis", "This deletes "
+        "the items in your current selection completely. They can "
+        "not be recovered by normal means."));
 
     // This action is useful for being enabled when KStandardAction::MoveToTrash should be
     // disabled and KStandardAction::DeleteFile is enabled (e.g. non-local files), so that Key_Del
@@ -129,6 +139,12 @@ void DolphinViewActionHandler::createActions()
     QAction *propertiesAction = m_actionCollection->addAction( QStringLiteral("properties") );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
     propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
+    propertiesAction->setWhatsThis(xi18nc("@info:whatsthis properties",
+        "This shows a complete list of properties of the currently "
+        "selected items in a new window.<nl/>If nothing is selected the "
+        "window will be about the currently viewed folder instead.<nl/>"
+        "You can configure advanced options there like managing "
+        "read- and write-permissions."));
     propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
     m_actionCollection->setDefaultShortcuts(propertiesAction, {Qt::ALT + Qt::Key_Return, Qt::ALT + Qt::Key_Enter});
     connect(propertiesAction, &QAction::triggered, this, &DolphinViewActionHandler::slotProperties);
@@ -138,6 +154,27 @@ void DolphinViewActionHandler::createActions()
     KToggleAction* compactAction = compactModeAction();
     KToggleAction* detailsAction = detailsModeAction();
 
+    iconsAction->setWhatsThis(xi18nc("@info:whatsthis Icons view mode",
+        "<para>This switches to a view mode that focuses on the folder "
+        "and file icons. This mode makes it easy to distinguish folders "
+        "from files and to detect items with distinctive <emphasis>"
+        "file types</emphasis>.</para><para> This mode is handy to "
+        "browse through pictures when the <interface>Preview"
+        "</interface> option is enabled.</para>"));
+    compactAction->setWhatsThis(xi18nc("@info:whatsthis Compact view mode",
+        "<para>This switches to a compact view mode that lists the folders "
+        "and files in columns with the names beside the icons. <para></para>"
+        "This helps to keep the overview in folders with many items.</para>"));
+    detailsAction->setWhatsThis(xi18nc("@info:whatsthis Details view mode",
+        "<para>This switches to a list view mode that focuses on folder "
+        "and file details.</para><para>Click on a detail in the column "
+        "header to sort the items by it. Click again to sort the other "
+        "way around. To select which details should be displayed click "
+        "the header with the right mouse button.</para><para>You can "
+        "view the contents of a folder without leaving the current "
+        "location by clicking to the left of it. This way you can view "
+        "the contents of multiple folders in the same list.</para>"));
+
     KSelectAction* viewModeActions = m_actionCollection->add<KSelectAction>(QStringLiteral("view_mode"));
     viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
     viewModeActions->addAction(iconsAction);
@@ -146,17 +183,23 @@ void DolphinViewActionHandler::createActions()
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
     connect(viewModeActions, QOverload<QAction*>::of(&KSelectAction::triggered), this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 
-    KStandardAction::zoomIn(this,
+    QAction* zoomInAction = KStandardAction::zoomIn(this,
                             &DolphinViewActionHandler::zoomIn,
                             m_actionCollection);
+    zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));
 
-    KStandardAction::zoomOut(this,
+    QAction* zoomOutAction = KStandardAction::zoomOut(this,
                              &DolphinViewActionHandler::zoomOut,
                              m_actionCollection);
+    zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This reduces the icon size."));
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
     showPreview->setToolTip(i18nc("@info", "Show preview of files and folders"));
+    showPreview->setWhatsThis(xi18nc("@info:whatsthis", "When this is "
+        "enabled, the icons are based on the actual file or folder "
+        "contents.<nl/>For example the icons of images become scaled "
+        "down versions of the images."));
     showPreview->setIcon(QIcon::fromTheme(QStringLiteral("view-preview")));
     connect(showPreview, &KToggleAction::triggered, this, &DolphinViewActionHandler::togglePreview);
 
@@ -197,16 +240,25 @@ void DolphinViewActionHandler::createActions()
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>(QStringLiteral("show_in_groups"));
     showInGroups->setIcon(QIcon::fromTheme(QStringLiteral("view-group")));
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
+    showInGroups->setWhatsThis(i18nc("@info:whatsthis", "This groups files and folders by their first letter."));
     connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>(QStringLiteral("show_hidden_files"));
     showHiddenFiles->setText(i18nc("@action:inmenu View", "Hidden Files"));
     showHiddenFiles->setToolTip(i18nc("@info", "Visibility of hidden files and folders"));
+    showHiddenFiles->setWhatsThis(xi18nc("@info:whatsthis", "<para>When "
+        "this is enabled <emphasis>hidden</emphasis> files and folders "
+        "are visible. They will be displayed semi-transparent.</para>"
+        "<para>Hidden items only differ from other ones in that their "
+        "name starts with a \".\". In general there is no need for "
+        "users to access them which is why they are hidden.</para>"));
     m_actionCollection->setDefaultShortcuts(showHiddenFiles, {Qt::ALT + Qt::Key_Period, Qt::CTRL + Qt::Key_H, Qt::Key_F8});
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 
     QAction* adjustViewProps = m_actionCollection->addAction(QStringLiteral("view_properties"));
     adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
+    adjustViewProps->setWhatsThis(i18nc("@info:whatsthis", "This opens a window "
+        "in which all folder view properties can be adjusted."));
     connect(adjustViewProps, &QAction::triggered, this, &DolphinViewActionHandler::slotAdjustViewProperties);
 }
 

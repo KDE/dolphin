@@ -72,6 +72,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QCloseEvent>
+#include <QDesktopServices>
 #include <QDialog>
 #include <QFileInfo>
 #include <QLineEdit>
@@ -82,6 +83,7 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QToolButton>
+#include <QWhatsThisClickedEvent>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
@@ -90,8 +92,9 @@ namespace {
 }
 
 DolphinMainWindow::DolphinMainWindow() :
-    KXmlGuiWindow(nullptr),
+    KXmlGuiWindow(nullptr, Qt::WindowContextHelpButtonHint),
     m_newFileMenu(nullptr),
+    m_helpMenu(nullptr),
     m_tabWidget(nullptr),
     m_activeViewContainer(nullptr),
     m_actionHandler(nullptr),
@@ -181,6 +184,8 @@ DolphinMainWindow::DolphinMainWindow() :
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotToolBarActionMiddleClicked);
     toolBar()->installEventFilter(middleClickEventFilter);
+
+    setupWhatsThis();
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -318,12 +323,15 @@ void DolphinMainWindow::updateHistory()
     QAction* backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
     if (backAction) {
         backAction->setToolTip(i18nc("@info", "Go back"));
+        backAction->setWhatsThis(i18nc("@info:whatsthis go back", "Return to the previously viewed folder."));
         backAction->setEnabled(index < urlNavigator->historySize() - 1);
     }
 
     QAction* forwardAction = actionCollection()->action(KStandardAction::name(KStandardAction::Forward));
     if (forwardAction) {
         forwardAction->setToolTip(i18nc("@info", "Go forward"));
+        forwardAction->setWhatsThis(xi18nc("@info:whatsthis go forward",
+            "This undoes a <interface>Go|Back</interface> action."));
         forwardAction->setEnabled(index > 0);
     }
 }
@@ -1031,8 +1039,7 @@ void DolphinMainWindow::updateControlMenu()
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
 
     // Add "Help" menu
-    auto helpMenu = new KHelpMenu(menu);
-    menu->addMenu(helpMenu->menu());
+    menu->addMenu(m_helpMenu->menu());
 
     menu->addSeparator();
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
@@ -1149,40 +1156,82 @@ void DolphinMainWindow::setupActions()
 
     QAction* newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
+    newWindow->setWhatsThis(xi18nc("@info:whatsthis", "This opens a new "
+        "window just like this one with the current location and view."
+        "<nl/>You can drag and drop items between windows."));
     newWindow->setIcon(QIcon::fromTheme(QStringLiteral("window-new")));
 
     QAction* newTab = actionCollection()->addAction(QStringLiteral("new_tab"));
     newTab->setIcon(QIcon::fromTheme(QStringLiteral("tab-new")));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
+    newTab->setWhatsThis(xi18nc("@info:whatsthis", "This opens a new "
+        "<emphasis>Tab</emphasis> with the current location and view.<nl/>"
+        "A tab is an additional view within this window. "
+        "You can drag and drop items between tabs."));
     actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, Qt::CTRL + Qt::SHIFT + Qt::Key_N});
     connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
 
     QAction* closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
+    closeTab->setWhatsThis(i18nc("@info:whatsthis", "This closes the "
+        "currently viewed tab. If no more tabs are left this window "
+        "will close instead."));
 
-    KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
+    QAction* quitAction = KStandardAction::quit(this, &DolphinMainWindow::quit, actionCollection());
+    quitAction->setWhatsThis(i18nc("@info:whatsthis quit", "This closes this window."));
 
     // setup 'Edit' menu
     KStandardAction::undo(this,
                           &DolphinMainWindow::undo,
                           actionCollection());
 
-
-    KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
-    KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
+    // i18n: This will be the last paragraph for the whatsthis for all three:
+    // Cut, Copy and Paste
+    const QString cutCopyPastePara = xi18nc("@info:whatsthis", "<para><emphasis>Cut, "
+        "Copy</emphasis> and <emphasis>Paste</emphasis> work between many "
+        "applications and are among the most used commands. That's why their "
+        "<emphasis>keyboard shortcuts</emphasis> are prominently placed right "
+        "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
+        "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>");
+    QAction* cutAction = KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
+    cutAction->setWhatsThis(xi18nc("@info:whatsthis cut", "This copies the items "
+        "in your current selection to the <emphasis>clipboard</emphasis>.<nl/>"
+        "Use the <emphasis>Paste</emphasis> action afterwards to copy them from "
+        "the clipboard to a new location. The items will be removed from their "
+        "initial location.") + cutCopyPastePara);
+    QAction* copyAction = KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
+    copyAction->setWhatsThis(xi18nc("@info:whatsthis copy", "This copies the "
+        "items in your current selection to the <emphasis>clipboard</emphasis>."
+        "<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy them "
+        "from the clipboard to a new location.") +  cutCopyPastePara);
     QAction* paste = KStandardAction::paste(this, &DolphinMainWindow::paste, actionCollection());
     // The text of the paste-action is modified dynamically by Dolphin
     // (e. g. to "Paste One Folder"). To prevent that the size of the toolbar changes
     // due to the long text, the text "Paste" is used:
     paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
+    paste->setWhatsThis(xi18nc("@info:whatsthis paste", "This copies the items from "
+        "your <emphasis>clipboard</emphasis> to the currently viewed folder.<nl/>"
+        "If the items were added to the clipboard by the <emphasis>Cut</emphasis> "
+        "action they are removed from their old location.") +  cutCopyPastePara);
 
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search..."));
+    searchAction->setToolTip(i18nc("@info:tooltip", "Search for files and folders"));
+    searchAction->setWhatsThis(xi18nc("@info:whatsthis find", "<para>This helps you "
+        "find files and folders by opening a <emphasis>find bar</emphasis>. "
+        "There you can enter search terms and specify settings to find the "
+        "objects you are looking for.</para><para>Use this help again on "
+        "the find bar so we can have a look at it while the settings are "
+        "explained.</para>"));
 
-    KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
+    QAction* selectAllAction = KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
+    selectAllAction->setWhatsThis(xi18nc("@info:whatsthis", "This selects all "
+        "files and folders in the current location."));
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
+    invertSelection->setWhatsThis(xi18nc("@info:whatsthis invert", "This selects all "
+        "objects that you have currently <emphasis>not</emphasis> selected instead."));
     invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
     actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL + Qt::SHIFT + Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
@@ -1191,6 +1240,10 @@ void DolphinMainWindow::setupActions()
     // (note that most of it is set up in DolphinViewActionHandler)
 
     QAction* split = actionCollection()->addAction(QStringLiteral("split_view"));
+    split->setWhatsThis(xi18nc("@info:whatsthis find", "<para>This splits "
+        "the folder view below into two autonomous views.</para><para>This "
+        "way you can see two locations at once and move items between them "
+        "quickly.</para>Click this again afterwards to recombine the views."));
     actionCollection()->setDefaultShortcut(split, Qt::Key_F3);
     connect(split, &QAction::triggered, this, &DolphinMainWindow::toggleSplitView);
 
@@ -1208,16 +1261,28 @@ void DolphinMainWindow::setupActions()
     QAction* stop = actionCollection()->addAction(QStringLiteral("stop"));
     stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setToolTip(i18nc("@info", "Stop loading"));
+    stop->setWhatsThis(i18nc("@info", "This stops the loading of the contents of the current folder."));
     stop->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(stop, &QAction::triggered, this, &DolphinMainWindow::stopLoading);
 
     KToggleAction* editableLocation = actionCollection()->add<KToggleAction>(QStringLiteral("editable_location"));
     editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
+    editableLocation->setWhatsThis(xi18nc("@info:whatsthis",
+        "This toggles the <emphasis>Location Bar</emphasis> to be "
+        "editable so you can directly enter a location you want to go to.<nl/>"
+        "You can also switch to editing by clicking to the right of the "
+        "location and switch back by confirming the edited location."));
     actionCollection()->setDefaultShortcut(editableLocation, Qt::Key_F6);
     connect(editableLocation, &KToggleAction::triggered, this, &DolphinMainWindow::toggleEditLocation);
 
     QAction* replaceLocation = actionCollection()->addAction(QStringLiteral("replace_location"));
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
+    // i18n: "enter" is used both in the meaning of "writing" and "going to" a new location here.
+    // Both meanings are useful but not necessary to understand the use of "Replace Location".
+    // So you might want to be more verbose in your language to convey the meaning but it's up to you.
+    replaceLocation->setWhatsThis(xi18nc("@info:whatsthis",
+        "This switches to editing the location and selects it "
+        "so you can quickly enter a different location."));
     actionCollection()->setDefaultShortcut(replaceLocation, Qt::CTRL + Qt::Key_L);
     connect(replaceLocation, &QAction::triggered, this, &DolphinMainWindow::replaceLocation);
 
@@ -1238,21 +1303,37 @@ void DolphinMainWindow::setupActions()
 
     QAction* undoCloseTab = actionCollection()->addAction(QStringLiteral("undo_close_tab"));
     undoCloseTab->setText(i18nc("@action:inmenu File", "Undo close tab"));
+    undoCloseTab->setWhatsThis(i18nc("@info:whatsthis undo close tab",
+        "This returns you to the previously closed tab."));
     actionCollection()->setDefaultShortcut(undoCloseTab, Qt::CTRL + Qt::SHIFT + Qt::Key_T);
     undoCloseTab->setIcon(QIcon::fromTheme(QStringLiteral("edit-undo")));
     undoCloseTab->setEnabled(false);
     connect(undoCloseTab, &QAction::triggered, recentTabsMenu, &DolphinRecentTabsMenu::undoCloseTab);
 
     auto undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
+    undoAction->setWhatsThis(xi18nc("@info:whatsthis", "This undoes "
+        "the last change you made to files or folders.<nl/>"
+        "Such changes include <interface>creating, renaming</interface> "
+        "and <interface>moving</interface> them to a different location "
+        "or to the <filename>Trash</filename>. <nl/>Changes that can't "
+        "be undone will ask for your confirmation."));
     undoAction->setEnabled(false); // undo should be disabled by default
 
     KStandardAction::forward(this, &DolphinMainWindow::goForward, actionCollection());
     KStandardAction::up(this, &DolphinMainWindow::goUp, actionCollection());
-    KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
+    QAction* homeAction = KStandardAction::home(this, &DolphinMainWindow::goHome, actionCollection());
+    homeAction->setWhatsThis(xi18nc("@info:whatsthis", "Go to your "
+        "<filename>Home</filename> folder.<nl/>Every user account "
+        "has their own <filename>Home</filename> that contains their data "
+        "including folders that contain personal application data."));
 
     // setup 'Tools' menu
     QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
+    showFilterBar->setWhatsThis(xi18nc("@info:whatsthis", "This opens the "
+        "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
+        "There you can enter a text to filter the files and folders currently displayed. "
+        "Only those that contain the text in their name will be kept in view."));
     showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
     actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL + Qt::Key_I, Qt::Key_Slash});
     connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
@@ -1267,6 +1348,9 @@ void DolphinMainWindow::setupActions()
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
+        openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
+            "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
+            "<para>To learn more about terminals use the help in the terminal application.</para>"));
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
@@ -1283,9 +1367,20 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
+    showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
+            "This switches between having a <emphasis>Menubar</emphasis> "
+            "and having a <interface>Control</interface> button. Both "
+            "contain mostly the same commands and configuration options."));
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
     KStandardAction::preferences(this, &DolphinMainWindow::editSettings, actionCollection());
+
+    // setup 'Help' menu for the m_controlButton. The other one is set up in the base class.
+    m_helpMenu = new KHelpMenu(nullptr);
+    m_helpMenu->menu()->installEventFilter(this);
+    // remove duplicate shortcuts
+    m_helpMenu->action(KHelpMenu::menuHelpContents)->setShortcut(QKeySequence());
+    m_helpMenu->action(KHelpMenu::menuWhatsThis)->setShortcut(QKeySequence());
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
@@ -1340,6 +1435,11 @@ void DolphinMainWindow::setupDockWidgets()
     lockLayoutAction->setActiveIcon(QIcon::fromTheme(QStringLiteral("object-unlocked")));
     lockLayoutAction->setInactiveText(i18nc("@action:inmenu Panels", "Lock Panels"));
     lockLayoutAction->setInactiveIcon(QIcon::fromTheme(QStringLiteral("object-locked")));
+    lockLayoutAction->setWhatsThis(xi18nc("@info:whatsthis", "This "
+        "switches between having panels <emphasis>locked</emphasis> or "
+        "<emphasis>unlocked</emphasis>.<nl/>Unlocked panels can be "
+        "dragged to the other side of the window and have a close "
+        "button.<nl/>Locked panels are embedded more cleanly."));
     lockLayoutAction->setActive(lock);
     connect(lockLayoutAction, &KDualAction::triggered, this, &DolphinMainWindow::togglePanelLockState);
 
@@ -1367,6 +1467,24 @@ void DolphinMainWindow::setupDockWidgets()
             infoPanel, &InformationPanel::requestDelayedItemInfo);
 #endif
 
+    // i18n: This is the last paragraph for the "What's This"-texts of all four panels.
+    const QString panelWhatsThis = xi18nc("@info:whatsthis", "<para>To show or "
+        "hide panels like this go to <interface>Control|Panels</interface> "
+        "or <interface>View|Panels</interface>.</para>");
+    actionCollection()->action(QStringLiteral("show_information_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis", "<para> This toggles the "
+        "<emphasis>information</emphasis> panel at the right side of the "
+        "window.</para><para>The panel provides in-depth information "
+        "about the items your mouse is hovering over or about the selected "
+        "items. Otherwise it informs you about the currently viewed folder.<nl/>"
+        "For single items a preview of their contents is provided.</para>"));
+    infoDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This panel "
+        "provides in-depth information about the items your mouse is "
+        "hovering over or about the selected items. Otherwise it informs "
+        "you about the currently viewed folder.<nl/>For single items a "
+        "preview of their contents is provided.</para><para>You can configure "
+        "which and how details are given here by right-clicking.</para>") + panelWhatsThis);
+
     // Setup "Folders"
     DolphinDockWidget* foldersDock = new DolphinDockWidget(i18nc("@title:window", "Folders"));
     foldersDock->setLocked(lock);
@@ -1388,6 +1506,17 @@ void DolphinMainWindow::setupDockWidgets()
             this, &DolphinMainWindow::openNewTabAfterCurrentTab);
     connect(foldersPanel, &FoldersPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
+
+    actionCollection()->action(QStringLiteral("show_folders_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis", "This toggles the "
+        "<emphasis>folders</emphasis> panel at the left side of the window."
+        "<nl/><nl/>It shows the folders of the <emphasis>file system"
+        "</emphasis> in a <emphasis>tree view</emphasis>."));
+    foldersDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This panel "
+        "shows the folders of the <emphasis>file system</emphasis> in a "
+        "<emphasis>tree view</emphasis>.</para><para>Click a folder to go "
+        "there. Click the arrow to the left of a folder to see its subfolders. "
+        "This allows quick switching between any folders.</para>") + panelWhatsThis);
 
     // Setup "Terminal"
 #ifdef HAVE_TERMINAL
@@ -1416,6 +1545,22 @@ void DolphinMainWindow::setupDockWidgets()
         if (GeneralSettings::version() < 200) {
             terminalDock->hide();
         }
+
+        actionCollection()->action(QStringLiteral("show_terminal_panel"))
+            ->setWhatsThis(xi18nc("@info:whatsthis", "<para>This toggles the "
+            "<emphasis>terminal</emphasis> panel at the bottom of the window."
+            "<nl/>The location in the terminal will always match the folder "
+            "view so you can navigate using either.</para><para>The terminal "
+            "panel is not needed for basic computer usage but can be useful "
+            "for advanced tasks. To learn more about terminals use the help "
+            "in a standalone terminal application like Konsole.</para>"));
+        terminalDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is "
+            "the <emphasis>terminal</emphasis> panel. It behaves like a "
+            "normal terminal but will match the location of the folder view "
+            "so you can navigate using either.</para><para>The terminal panel "
+            "is not needed for basic computer usage but can be useful for "
+            "advanced tasks. To learn more about terminals use the help in a "
+            "standalone terminal application like Konsole.</para>") + panelWhatsThis);
     }
 #endif
 
@@ -1459,6 +1604,9 @@ void DolphinMainWindow::setupDockWidgets()
     auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("hint")), i18nc("@item:inmenu", "Show Hidden Places"), this);
     actionShowAllPlaces->setCheckable(true);
     actionShowAllPlaces->setDisabled(true);
+    actionShowAllPlaces->setWhatsThis(i18nc("@info:whatsthis", "This displays "
+        "all places in the places panel that have been hidden. They will "
+        "appear semi-transparent unless you uncheck their hide property."));
 
     connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
         actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
@@ -1469,6 +1617,25 @@ void DolphinMainWindow::setupDockWidgets()
         actionShowAllPlaces->setChecked(checked);
         actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
    });
+
+    actionCollection()->action(QStringLiteral("show_places_panel"))
+        ->setWhatsThis(xi18nc("@info:whatsthis", "<para>This toggles the "
+        "<emphasis>places</emphasis> panel at the left side of the window."
+        "</para><para>It allows you to go to locations you have "
+        "bookmarked and to access disk or media attached to the computer "
+        "or to the network. It also contains sections to find recently "
+        "saved files or files of a certain type.</para>"));
+    placesDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is the "
+        "<emphasis>Places</emphasis> panel. It allows you to go to locations "
+        "you have bookmarked and to access disk or media attached to the "
+        "computer or to the network. It also contains sections to find "
+        "recently saved files or files of a certain type.</para><para>"
+        "Click on an entry to go there. Click with the right mouse button "
+        "instead to open any entry in a new tab or new window.</para>"
+        "<para>New entries can be added by dragging folders onto this panel. "
+        "Right-click any section or entry to hide it. Right-click an empty "
+        "space on this panel and select <interface>Show Hidden Places"
+        "</interface> to display it again.</para>") + panelWhatsThis);
 
     // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
@@ -1536,6 +1703,16 @@ void DolphinMainWindow::updateGoActions()
 {
     QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
     const QUrl currentUrl = m_activeViewContainer->url();
+    // I think this is one of the best places to firstly be confronted
+    // with a file system and its hierarchy. Talking about the root
+    // directory might seem too much here but it is the question that
+    // naturally arises in this context.
+    goUpAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>Go to "
+        "the folder that contains the currenty viewed one.</para>"
+        "<para>All files and folders are organized in a hierarchical "
+        "<emphasis>file system</emphasis>. At the top of this hierarchy is "
+        "a directory that contains all data connected to this computer"
+        "—the <emphasis>root directory</emphasis>.</para>"));
     goUpAction->setEnabled(KIO::upUrl(currentUrl) != currentUrl);
 }
 
@@ -1549,11 +1726,13 @@ void DolphinMainWindow::createControlButton()
     m_controlButton = new QToolButton(this);
     m_controlButton->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     m_controlButton->setText(i18nc("@action", "Control"));
+    m_controlButton->setAttribute(Qt::WidgetAttribute::WA_CustomWhatsThis);
     m_controlButton->setPopupMode(QToolButton::InstantPopup);
     m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
 
     QMenu* controlMenu = new QMenu(m_controlButton);
     connect(controlMenu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateControlMenu);
+    controlMenu->installEventFilter(this);
 
     m_controlButton->setMenu(controlMenu);
 
@@ -1706,6 +1885,184 @@ void DolphinMainWindow::createPanelAction(const QIcon& icon,
 
     connect(panelAction, &QAction::triggered, dockAction, &QAction::trigger);
     connect(dockAction, &QAction::toggled, panelAction, &QAction::setChecked);
+}
+
+void DolphinMainWindow::setupWhatsThis()
+{
+    // main widgets
+    menuBar()->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is the "
+        "<emphasis>Menubar</emphasis>. It provides access to commands and "
+        "configuration options. Left-click on any of the menus on this "
+        "bar to see its contents.</para><para>The Menubar can be hidden "
+        "by unchecking <interface>Settings|Show Menubar</interface>. Then "
+        "most of its contents become available through a <interface>Control"
+        "</interface> button on the <emphasis>Toolbar</emphasis>.</para>"));
+    toolBar()->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is the "
+        "<emphasis>Toolbar</emphasis>. It allows quick access to "
+        "frequently used actions.</para><para>It is highly customizable. "
+        "All items you see in the <interface>Control</interface> menu or "
+        "in the <interface>Menubar</interface> can be placed on the "
+        "Toolbar. Just right-click on it and select <interface>Configure "
+        "Toolbars…</interface> or find this action in the <interface>"
+        "Control</interface> or <interface>Settings</interface> menu."
+        "</para><para>The location of the bar and the style of its "
+        "buttons can also be changed in the right-click menu. Right-click "
+        "a button if you want to show or hide its text.</para>"));
+    m_tabWidget->setWhatsThis(xi18nc("@info:whatsthis main view",
+        "<para>Here you can see the <emphasis>folders</emphasis> and "
+        "<emphasis>files</emphasis> that are at the location described in "
+        "the <interface>Location Bar</interface> above. This area is the "
+        "central part of this application where you navigate to the files "
+        "you want to use.</para><para>For an elaborate and general "
+        "introduction to this application <link "
+        "url='https://userbase.kde.org/Dolphin/File_Management#Introduction_to_Dolphin'>"
+        "click here</link>. This will open an introductory article from "
+        "the <emphasis>KDE UserBase Wiki</emphasis>.</para><para>For brief "
+        "explanations of all the features of this <emphasis>view</emphasis> "
+        "<link url='help:/dolphin/dolphin-view.html'>click here</link> "
+        "instead. This will open a page from the <emphasis>Handbook"
+        "</emphasis> that covers the basics.</para>"));
+
+    // Settings menu
+    actionCollection()->action(KStandardAction::name(KStandardAction::KeyBindings))
+        ->setWhatsThis(xi18nc("@info:whatsthis","<para>This opens a window "
+        "that lists the <emphasis>keyboard shortcuts</emphasis>.<nl/>"
+        "There you can set up key combinations to trigger an action when "
+        "they are pressed simultaneously. All commands in this application can "
+        "be triggered this way.</para>"));
+    actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars))
+        ->setWhatsThis(xi18nc("@info:whatsthis","<para>This opens a window in which "
+        "you can change which buttons appear on the <emphasis>Toolbar</emphasis>.</para>"
+        "<para>All items you see in the <interface>Control</interface> menu "
+        "or in the <interface>Menubar</interface> can also be placed on the Toolbar.</para>"));
+    actionCollection()->action(KStandardAction::name(KStandardAction::Preferences))
+        ->setWhatsThis(xi18nc("@info:whatsthis","This opens a window where you can "
+        "change a multitude of settings for this application. For an explanation "
+        "of the various settings go to the chapter <emphasis>Configuring Dolphin"
+        "</emphasis> in <interface>Help|Dolphin Handbook</interface>."));
+
+    // Help menu
+    // The whatsthis has to be set for the m_helpMenu and for the
+    // StandardAction separately because both are used in different locations.
+    // m_helpMenu is only used for createControlButton() button.
+
+    // Links do not work within the Menubar so texts without links are provided there.
+
+    // i18n: If the external link isn't available in your language you should
+    // probably state the external link language at least in brackets to not
+    // frustrate the user. If there are multiple languages that the user might
+    // know with a reasonable chance you might want to have 2 external links.
+    // The same is in my opinion true for every external link you translate.
+    const QString whatsThisHelpContents = xi18nc("@info:whatsthis handbook",
+        "<para>This opens the Handbook for this application. It provides "
+        "explanations for every part of <emphasis>Dolphin</emphasis>.</para>");
+    actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents))
+        ->setWhatsThis(whatsThisHelpContents
+        + xi18nc("@info:whatsthis second half of handbook hb text without link",
+        "<para>If you want more elaborate introductions to the "
+        "different features of <emphasis>Dolphin</emphasis> "
+        "go to the KDE UserBase Wiki.</para>"));
+    m_helpMenu->action(KHelpMenu::menuHelpContents)->setWhatsThis(whatsThisHelpContents
+        + xi18nc("@info:whatsthis second half of handbook text with link",
+        "<para>If you want more elaborate introductions to the "
+        "different features of <emphasis>Dolphin</emphasis> "
+        "<link url='https://userbase.kde.org/Dolphin/File_Management'>click here</link>. "
+        "It will open the dedicated page in the KDE UserBase Wiki.</para>"));
+
+    const QString whatsThisWhatsThis = xi18nc("@info:whatsthis whatsthis button",
+        "<para>This is the button that invokes the help feature you are "
+        "using right now! Click it, then click any component of this "
+        "application to ask \"What's this?\" about it. The mouse cursor "
+        "will change appearance if no help is available for a spot.</para>");
+    actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis))
+       ->setWhatsThis(whatsThisWhatsThis
+        + xi18nc("@info:whatsthis second half of whatsthis button text without link",
+        "<para>There are two other ways to get help for this application: The "
+        "<interface>Dolphin Handbook</interface> in the <interface>Help"
+        "</interface> menu and the <emphasis>KDE UserBase Wiki</emphasis> "
+        "article about <emphasis>File Management</emphasis> online."
+        "</para><para>The \"What's this?\" help is "
+        "missing in most other windows so don't get too used to this.</para>"));
+    m_helpMenu->action(KHelpMenu::menuWhatsThis)->setWhatsThis(whatsThisWhatsThis
+        + xi18nc("@info:whatsthis second half of whatsthis button text with link",
+        "<para>There are two other ways to get help: "
+        "The <link url='help:/dolphin/index.html'>Dolphin Handbook</link> and "
+        "the <link url='https://userbase.kde.org/Dolphin/File_Management'>KDE "
+        "UserBase Wiki</link>.</para><para>The \"What's this?\" help is "
+        "missing in most other windows so don't get too used to this.</para>"));
+
+    const QString whatsThisReportBug = xi18nc("@info:whatsthis","<para>This opens a "
+        "window that will guide you through reporting errors or flaws "
+        "in this application or in other KDE software.</para>");
+    actionCollection()->action(KStandardAction::name(KStandardAction::ReportBug))
+       ->setWhatsThis(whatsThisReportBug);
+    m_helpMenu->action(KHelpMenu::menuReportBug)->setWhatsThis(whatsThisReportBug
+        + xi18nc("@info:whatsthis second half of reportbug text with link",
+        "<para>High-quality bug reports are much appreciated. To learn "
+        "how to make your bug report as effective as possible "
+        "<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>"
+        "click here</link>.</para>"));
+
+    const QString whatsThisDonate = xi18nc("@info:whatsthis","<para>This opens a "
+        "<emphasis>web page</emphasis> where you can donate to "
+        "support the continued work on this application and many "
+        "other projects by the <emphasis>KDE</emphasis> community.</para>"
+        "<para>Donating is the easiest and fastest way to efficiently "
+        "support KDE and its projects. KDE projects are available for "
+        "free therefore your donation is needed to cover things that "
+        "require money like servers, contributor meetings, etc.</para>"
+        "<para><emphasis>KDE e.V.</emphasis> is the non-profit "
+        "organization behind the KDE community.</para>");
+    actionCollection()->action(KStandardAction::name(KStandardAction::Donate))
+       ->setWhatsThis(whatsThisDonate);
+    m_helpMenu->action(KHelpMenu::menuDonate)->setWhatsThis(whatsThisDonate);
+
+    const QString whatsThisSwitchLanguage = xi18nc("@info:whatsthis",
+        "With this you can change the language this application uses."
+        "<nl/>You can even set secondary languages which will be used "
+        "if texts are not available in your preferred language.");
+    actionCollection()->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage))
+       ->setWhatsThis(whatsThisSwitchLanguage);
+    m_helpMenu->action(KHelpMenu::menuSwitchLanguage)->setWhatsThis(whatsThisSwitchLanguage);
+
+    const QString whatsThisAboutApp = xi18nc("@info:whatsthis","This opens a "
+        "window that informs you about the version, license, "
+        "used libraries and maintainers of this application.");
+    actionCollection()->action(KStandardAction::name(KStandardAction::AboutApp))
+       ->setWhatsThis(whatsThisAboutApp);
+    m_helpMenu->action(KHelpMenu::menuAboutApp)->setWhatsThis(whatsThisAboutApp);
+
+    const QString whatsThisAboutKDE = xi18nc("@info:whatsthis","This opens a "
+        "window with information about <emphasis>KDE</emphasis>. "
+        "The KDE community are the people behind this free software."
+        "<nl/>If you like using this application but don't know "
+        "about KDE or want to see a cute dragon have a look!");
+    actionCollection()->action(KStandardAction::name(KStandardAction::AboutKDE))
+       ->setWhatsThis(whatsThisAboutKDE);
+    m_helpMenu->action(KHelpMenu::menuAboutKDE)->setWhatsThis(whatsThisAboutKDE);
+}
+
+bool DolphinMainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::WhatsThisClicked) {
+        event->accept();
+        QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
+        QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
+        return true;
+    }
+    return KXmlGuiWindow::event(event);
+}
+
+bool DolphinMainWindow::eventFilter(QObject* obj, QEvent* event)
+{
+    Q_UNUSED(obj)
+    if (event->type() == QEvent::WhatsThisClicked) {
+        event->accept();
+        QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
+        QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
+        return true;
+    }
+    return false;
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
