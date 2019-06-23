@@ -15,7 +15,7 @@
 #include <QWidget>
 
 class KFileItemList;
-class PhononWidget;
+class MediaWidget;
 class PixmapViewer;
 class QPixmap;
 class QDialogButtonBox;
@@ -145,7 +145,7 @@ private:
     QTimer *m_outdatedPreviewTimer;
 
     PixmapViewer *m_preview;
-    PhononWidget *m_phononWidget;
+    MediaWidget *m_mediaWidget;
     QLabel *m_nameLabel;
     Baloo::FileMetaDataWidget *m_metaDataWidget;
     QScrollArea *m_metaDataArea;

@@ -425,12 +425,12 @@ if(HAVE_BALOO)
         panels/information/informationpanel.cpp
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp
-        panels/information/phononwidget.cpp
+        panels/information/mediawidget.cpp
         settings/interface/panelsettingspage.cpp
         panels/information/informationpanel.h
         panels/information/informationpanelcontent.h
         panels/information/pixmapviewer.h
-        panels/information/phononwidget.h
+        panels/information/mediawidget.h
         settings/interface/panelsettingspage.h
     )
 
@@ -438,6 +438,10 @@ if(HAVE_BALOO)
         panels/information/dolphin_informationpanelsettings.kcfgc
     )
 
+    target_link_libraries(dolphinstatic
+        Qt::Multimedia
+        Qt::MultimediaWidgets
+    )
 endif()
 
 if(HAVE_KUSERFEEDBACK)
@@ -477,7 +481,6 @@ target_sources(dolphinstatic PRIVATE
     ${dolphin_dbus_SRCS}
 )
 
-target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
     dolphinprivate
     KF6::CoreAddons
@@ -486,7 +489,6 @@ target_link_libraries(dolphinstatic
     KF6::DBusAddons
     KF6::Notifications
     KF6::BookmarksWidgets
-    Phonon::phonon4qt6
 )
 
 if(HAVE_PACKAGEKIT)

@@ -4,34 +4,30 @@
   SPDX-License-Identifier: GPL-2.0-or-later
 */
 
-#ifndef PHONONWIDGET_H
-#define PHONONWIDGET_H
-
-#include <phonon/Global>
+#ifndef MEDIAWIDGET_H
+#define MEDIAWIDGET_H
 
 #include <QSize>
+#include <QSlider>
 #include <QUrl>
 #include <QWidget>
 
-namespace Phonon
-{
-class AudioOutput;
-class MediaObject;
+#include <QMediaPlayer>
+
+class QMediaPlayer;
 class SeekSlider;
-class VideoPlayer;
-} // namespace Phonon
 
 class EmbeddedVideoPlayer;
 class QToolButton;
 class QVBoxLayout;
 
-class PhononWidget : public QWidget
+class MediaWidget : public QWidget
 {
     Q_OBJECT
 public:
     enum MediaKind { Video, Audio };
 
-    explicit PhononWidget(QWidget *parent = nullptr);
+    explicit MediaWidget(QWidget *parent = nullptr);
 
     void setUrl(const QUrl &url, MediaKind kind);
     QUrl url() const;
@@ -39,7 +35,7 @@ public:
 
     void setVideoSize(const QSize &size);
     QSize videoSize() const;
-    Phonon::State state() const;
+    QMediaPlayer::PlaybackState state() const;
 
     void setAutoPlay(bool autoPlay);
     bool eventFilter(QObject *object, QEvent *event) override;
@@ -63,15 +59,17 @@ protected:
     void hideEvent(QHideEvent *event) override;
 
 private Q_SLOTS:
-    void stateChanged(Phonon::State newstate);
     void stop();
     void finished();
+    void setPosition(qint64 position);
+    void onStateChanged(QMediaPlayer::PlaybackState newState);
+    void onPositionChanged(qint64 position);
+    void onDurationChanged(qint64 position);
 
 private:
     void applyVideoSize();
-
-private:
     void togglePlayback();
+    void initPlayer();
 
     QUrl m_url;
     QSize m_videoSize;
@@ -80,12 +78,11 @@ private:
     QToolButton *m_pauseButton;
 
     QVBoxLayout *m_topLayout;
-    Phonon::MediaObject *m_media;
-    Phonon::SeekSlider *m_seekSlider;
-    Phonon::AudioOutput *m_audioOutput;
-    EmbeddedVideoPlayer *m_videoPlayer;
+    QMediaPlayer *m_player;
+    QSlider *m_seekSlider;
+    EmbeddedVideoPlayer *m_videoWidget;
     bool m_autoPlay;
     bool m_isVideo;
 };
 
-#endif // PHONONWIDGET_H
+#endif // MEDIAWIDGET_H
