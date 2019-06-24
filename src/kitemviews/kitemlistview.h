@@ -229,7 +229,7 @@ public:
     /**
      * @return The context rectangle of the item relative to the top/left of
      *         the currently visible area (see KItemListView::offset()). The
-     *         context rectangle is defined by by the united rectangle of
+     *         context rectangle is defined by the united rectangle of
      *         the icon rectangle and the text rectangle (see KItemListWidget::iconRect()
      *         and KItemListWidget::textRect()) and is useful as reference for e.g. aligning
      *         a tooltip or a context-menu for an item. Note that a context rectangle will

@@ -1708,7 +1708,7 @@ void DolphinMainWindow::updateGoActions()
     // directory might seem too much here but it is the question that
     // naturally arises in this context.
     goUpAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>Go to "
-        "the folder that contains the currenty viewed one.</para>"
+        "the folder that contains the currently viewed one.</para>"
         "<para>All files and folders are organized in a hierarchical "
         "<emphasis>file system</emphasis>. At the top of this hierarchy is "
         "a directory that contains all data connected to this computer"
