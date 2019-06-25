@@ -1471,6 +1471,7 @@ void DolphinMainWindow::setupDockWidgets()
     const QString panelWhatsThis = xi18nc("@info:whatsthis", "<para>To show or "
         "hide panels like this go to <interface>Control|Panels</interface> "
         "or <interface>View|Panels</interface>.</para>");
+#ifdef HAVE_BALOO
     actionCollection()->action(QStringLiteral("show_information_panel"))
         ->setWhatsThis(xi18nc("@info:whatsthis", "<para> This toggles the "
         "<emphasis>information</emphasis> panel at the right side of the "
@@ -1478,6 +1479,7 @@ void DolphinMainWindow::setupDockWidgets()
         "about the items your mouse is hovering over or about the selected "
         "items. Otherwise it informs you about the currently viewed folder.<nl/>"
         "For single items a preview of their contents is provided.</para>"));
+#endif
     infoDock->setWhatsThis(xi18nc("@info:whatsthis", "<para>This panel "
         "provides in-depth information about the items your mouse is "
         "hovering over or about the selected items. Otherwise it informs "
