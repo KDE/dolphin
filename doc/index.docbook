@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2019-02-17</date>
-<releaseinfo>Applications 19.04</releaseinfo>
+<date>2019-06-26</date>
+<releaseinfo>Applications 19.08</releaseinfo>
 
 <abstract>
 <para>
@@ -1170,6 +1170,10 @@ for details.
 <listitem><para>
 <guilabel>Show full path in title bar</guilabel> makes it easy to distinguish
 between files or folders with the same name in different folders.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Open new folders in tabs</guilabel> controls whether &dolphin; should open a new folder in a new tab of the current instance when called externally. If not enabled, the new folders will be opened in new instances of &dolphin;. By default this option is enabled.
 </para></listitem>
 </itemizedlist>
 
