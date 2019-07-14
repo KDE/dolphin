@@ -24,6 +24,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QCommandLineParser>
+#include <QMimeDatabase>
 
 #include <KLocalizedString>
 
@@ -40,41 +41,6 @@ Q_NORETURN void fail(const QString &str)
     }
 
     exit(1);
-}
-
-bool evaluateShell(const QString &program, const QStringList &arguments, QString &output, QString &errorText)
-{
-    QProcess process;
-    process.start(program, arguments, QIODevice::ReadOnly);
-    if (!process.waitForStarted()) {
-        fail(i18n("Failed to run process: %1 %2", program, arguments.join(" ")));
-    }
-
-    if (!process.waitForFinished()) {
-        fail(i18n("Process did not finish in reasonable time: %1 %2", program, arguments.join(" ")));
-    }
-
-    const auto stdoutResult = QString::fromUtf8(process.readAllStandardOutput()).trimmed();
-    const auto stderrResult = QString::fromUtf8(process.readAllStandardError()).trimmed();
-
-    if (process.exitStatus() == QProcess::NormalExit && process.exitCode() == 0) {
-        output = stdoutResult;
-        return true;
-    } else {
-        errorText = stderrResult + stdoutResult;
-        return false;
-    }
-}
-
-QString mimeType(const QString &path)
-{
-    QString result;
-    QString errorText;
-    if (evaluateShell("xdg-mime", QStringList{"query", "filetype", path}, result, errorText)) {
-        return result;
-    } else {
-        fail(i18n("Failed to run xdg-mime %1: %2", path, errorText));
-    }
 }
 
 QString getServiceMenusDir()
@@ -114,7 +80,7 @@ void runUncompress(const QString &inputPath, const QString &outputPath) {
                                           "multipart/x-zip"},
                               UncompressCommand{"unzip", QStringList{}, QStringList{"-d"}}});
 
-    const auto mime = mimeType(inputPath);
+    const auto mime = QMimeDatabase().mimeTypeForFile(inputPath).name();
 
     UncompressCommand command{};
     for (const auto &pair : mimeTypeToCommand) {
