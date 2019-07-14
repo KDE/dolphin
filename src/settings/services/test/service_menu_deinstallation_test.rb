@@ -51,7 +51,7 @@ touch #{@tmpdir}/deinstall.sh-run
 touch #{@tmpdir}/install.sh-run
     INSTALL_SH
 
-    assert(covered_system('servicemenudeinstallation', archive_base))
+    assert(system('servicemenuinstaller', 'uninstall', archive_base))
 
     # deinstaller should be run
     # installer should not be run
@@ -77,7 +77,7 @@ fi
 exit 1
     INSTALL_SH
 
-    assert(covered_system('servicemenudeinstallation', archive_base))
+    assert(system('servicemenuinstaller', 'uninstall', archive_base))
 
     assert_path_not_exist('deinstall.sh-run')
     assert_path_exist('install.sh-run')
@@ -91,7 +91,7 @@ exit 1
     archive_dir = "#{archive_base}-dir/foo-1.1/"
     FileUtils.mkpath(archive_dir)
 
-    refute(covered_system('servicemenudeinstallation', archive_base))
+    refute(system('servicemenuinstaller', 'uninstall', archive_base))
 
     # I am unsure if deinstallation really should keep the files around. But
     # that's how it behaved originally so it's supposedly intentional
@@ -113,7 +113,7 @@ exit 1
     FileUtils.mkpath(menu_dir)
     FileUtils.touch(installed_file)
 
-    assert(covered_system('servicemenudeinstallation', downloaded_file))
+    assert(system('servicemenuinstaller', 'uninstall', downloaded_file))
 
     assert_path_exist(downloaded_file)
     assert_path_not_exist(installed_file)

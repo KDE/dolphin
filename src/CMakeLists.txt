@@ -382,6 +382,8 @@ install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 install(TARGETS kcm_dolphinservices DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 
+add_subdirectory(settings/services/servicemenuinstaller)
+
 ########### install files ###############
 
 install( PROGRAMS org.kde.dolphin.desktop DESTINATION ${KDE_INSTALL_APPDIR} )
@@ -405,8 +407,6 @@ install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTA
 install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/services/servicemenu.knsrc DESTINATION ${KDE_INSTALL_CONFDIR} )
-install( PROGRAMS settings/services/servicemenuinstallation DESTINATION ${KDE_INSTALL_BINDIR} )
-install( PROGRAMS settings/services/servicemenudeinstallation DESTINATION ${KDE_INSTALL_BINDIR} )
 
 if(BUILD_TESTING)
     find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)

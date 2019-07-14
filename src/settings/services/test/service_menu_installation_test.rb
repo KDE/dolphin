@@ -54,7 +54,7 @@ touch #{@tmpdir}/install.sh-run
     INSTALL_SH
     assert(system('tar', '-cf', archive, archive_dir))
 
-    assert(covered_system('servicemenuinstallation', archive))
+    assert(system('servicemenuinstaller', 'install', archive))
 
     tar_dir = "#{service_dir}/foo.tar-dir"
     tar_extract_dir = "#{service_dir}/foo.tar-dir/foo"
@@ -81,7 +81,7 @@ exit 1
     INSTALL_SH
     assert(system('tar', '-cf', archive, archive_dir))
 
-    assert(covered_system('servicemenuinstallation', archive))
+    assert(system('servicemenuinstaller', 'install', archive))
 
     tar_dir = "#{service_dir}/foo.tar-dir"
     tar_extract_dir = "#{service_dir}/foo.tar-dir/foo"
@@ -100,7 +100,7 @@ exit 1
     FileUtils.mkpath(archive_dir)
     assert(system('tar', '-cf', archive, archive_dir))
 
-    refute(covered_system('servicemenuinstallation', archive))
+    refute(system('servicemenuinstaller', 'install', archive))
   end
 
   def test_run_desktop
@@ -111,7 +111,7 @@ exit 1
 
     installed_file = "#{ENV['XDG_DATA_HOME']}/kservices5/ServiceMenus/foo.desktop"
 
-    assert(covered_system('servicemenuinstallation', downloaded_file))
+    assert(system('servicemenuinstaller', 'install', downloaded_file))
 
     assert_path_exist(downloaded_file)
     assert_path_exist(installed_file)

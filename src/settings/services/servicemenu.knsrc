@@ -5,5 +5,5 @@ ChecksumPolicy=ifpossible
 SignaturePolicy=ifpossible
 TargetDir=servicemenu-download
 Uncompress=never
-InstallationCommand=servicemenuinstallation %f
-UninstallCommand=servicemenudeinstallation %f
+InstallationCommand=servicemenuinstaller install %f
+UninstallCommand=servicemenuinstaller uninstall %f

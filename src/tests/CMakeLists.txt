@@ -9,12 +9,6 @@ find_gem(test-unit REQUIRED)
 set_package_properties(Gem:test-unit PROPERTIES
     DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
 
-if(BUILD_COVERAGE)
-    find_gem(simplecov)
-    set_package_properties(Gem:simplecov PROPERTIES
-        DESCRIPTION "Ruby gem 'simplecov' used for coverage statistics.")
-endif()
-
 # KItemSetTest
 ecm_add_test(kitemsettest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
 
