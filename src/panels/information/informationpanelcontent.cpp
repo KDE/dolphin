@@ -161,9 +161,9 @@ void InformationPanelContent::showItem(const KFileItem& item)
     if (item != m_item) {
         m_item = item;
 
-        refreshPreview();
         refreshMetaData();
     }
+    refreshPreview();
 }
 
 void InformationPanelContent::refreshPreview()
