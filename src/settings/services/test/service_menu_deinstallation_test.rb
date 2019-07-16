@@ -44,10 +44,14 @@ class ServiceMenuDeinstallationTest < Test::Unit::TestCase
     FileUtils.mkpath(archive_dir)
     File.write("#{archive_dir}/deinstall.sh", <<-DEINSTALL_SH)
 #!/bin/sh
+set -e
+cat deinstall.sh
 touch #{@tmpdir}/deinstall.sh-run
     DEINSTALL_SH
     File.write("#{archive_dir}/install.sh", <<-INSTALL_SH)
 #!/bin/sh
+set -e
+cat install.sh
 touch #{@tmpdir}/install.sh-run
     INSTALL_SH
 
