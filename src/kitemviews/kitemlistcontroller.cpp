@@ -596,6 +596,16 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         m_selectionManager->endAnchoredSelection();
     }
 
+    if (event->buttons() & Qt::RightButton) {
+        // Stop rubber band from persisting after right-clicks
+        KItemListRubberBand* rubberBand = m_view->rubberBand();
+        if (rubberBand->isActive()) {
+            disconnect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
+            rubberBand->setActive(false);
+            m_view->setAutoScroll(false);
+        }
+    }
+
     if (m_pressedIndex >= 0) {
         m_selectionManager->setCurrentItem(m_pressedIndex);
 
