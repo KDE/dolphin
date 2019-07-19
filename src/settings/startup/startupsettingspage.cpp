@@ -27,18 +27,24 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QFileDialog>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QRadioButton>
 #include <QFormLayout>
+#include <QGridLayout>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
 
 StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
     m_homeUrl(nullptr),
+    m_homeUrlBoxLayoutContainer(nullptr),
+    m_buttonBoxLayoutContainer(nullptr),
+    m_rememberOpenedTabsRadioButton(nullptr),
+    m_homeUrlRadioButton(nullptr),
     m_splitView(nullptr),
     m_editableUrl(nullptr),
     m_showFullPath(nullptr),
@@ -48,9 +54,19 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 {
     QFormLayout* topLayout = new QFormLayout(this);
 
+    m_rememberOpenedTabsRadioButton = new QRadioButton(i18nc("@option:radio Startup Settings", "Folders, tabs, and window state from last time"));
+    m_homeUrlRadioButton = new QRadioButton();
+    // HACK: otherwise the radio button has too much spacing in a grid layout
+    m_homeUrlRadioButton->setMaximumWidth(24);
+
+    QButtonGroup* initialViewGroup = new QButtonGroup(this);
+    initialViewGroup->addButton(m_rememberOpenedTabsRadioButton);
+    initialViewGroup->addButton(m_homeUrlRadioButton);
+
 
     // create 'Home URL' editor
-    QHBoxLayout* homeUrlBoxLayout = new QHBoxLayout();
+    m_homeUrlBoxLayoutContainer = new QWidget(this);
+    QHBoxLayout* homeUrlBoxLayout = new QHBoxLayout(m_homeUrlBoxLayoutContainer);
     homeUrlBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     m_homeUrl = new QLineEdit();
@@ -67,7 +83,8 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(selectHomeUrlButton, &QPushButton::clicked,
             this, &StartupSettingsPage::selectHomeUrl);
 
-    QHBoxLayout* buttonBoxLayout = new QHBoxLayout();
+    m_buttonBoxLayoutContainer = new QWidget(this);
+    QHBoxLayout* buttonBoxLayout = new QHBoxLayout(m_buttonBoxLayoutContainer);
     buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
 
     QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"));
@@ -79,41 +96,50 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(useDefaultButton, &QPushButton::clicked,
             this, &StartupSettingsPage::useDefaultLocation);
 
-    QVBoxLayout* homeBoxLayout = new QVBoxLayout();
-    homeBoxLayout->setContentsMargins(0, 0, 0, 0);
-    homeBoxLayout->addLayout(homeUrlBoxLayout);
-    homeBoxLayout->addLayout(buttonBoxLayout);
+    QGridLayout* startInLocationLayout = new QGridLayout();
+    startInLocationLayout->setHorizontalSpacing(0);
+    startInLocationLayout->setContentsMargins(0, 0, 0, 0);
+    startInLocationLayout->addWidget(m_homeUrlRadioButton, 0, 0);
+    startInLocationLayout->addWidget(m_homeUrlBoxLayoutContainer, 0, 1);
+    startInLocationLayout->addWidget(m_buttonBoxLayoutContainer, 1, 1);
 
-    topLayout->addRow(i18nc("@label:textbox", "Start in:"), homeBoxLayout);
+    topLayout->addRow(i18nc("@label:textbox", "Show on startup:"), m_rememberOpenedTabsRadioButton);
+    topLayout->addRow(QString(), startInLocationLayout);
 
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-
-    // create 'Split view', 'Show full path', 'Editable location' and 'Filter bar' checkboxes
-    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"));
-    topLayout->addRow(i18nc("@label:checkbox", "Window options:"), m_splitView);
-    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"));
-    topLayout->addRow(QString(), m_editableUrl);
-    m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"));
-    topLayout->addRow(QString(), m_showFullPath);
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Begin in split view mode"));
+    topLayout->addRow(i18n("New windows:"), m_splitView);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"));
     topLayout->addRow(QString(), m_filterBar);
+    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Make location bar editable"));
+    topLayout->addRow(QString(), m_editableUrl);
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
+
+    m_openExternallyCalledFolderInNewTab = new QCheckBox(i18nc("@option:check Startup Settings", "Open new folders in tabs"));
+    topLayout->addRow(i18nc("@label:checkbox", "General:"), m_openExternallyCalledFolderInNewTab);
+    m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"));
+    topLayout->addRow(QString(), m_showFullPath);
     m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"));
     topLayout->addRow(QString(), m_showFullPathInTitlebar);
-    m_openExternallyCalledFolderInNewTab = new QCheckBox(i18nc("@option:check Startup Settings", "Open new folders in tabs"));
-    topLayout->addRow(QString(), m_openExternallyCalledFolderInNewTab);
-
 
     loadSettings();
 
+    updateInitialViewOptions();
+
     connect(m_homeUrl, &QLineEdit::textChanged, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_rememberOpenedTabsRadioButton, &QRadioButton::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_homeUrlRadioButton, &QRadioButton::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+
     connect(m_splitView,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
-    connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
-    connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+
     connect(m_openExternallyCalledFolderInNewTab, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
+    connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 }
 
 StartupSettingsPage::~StartupSettingsPage()
@@ -132,12 +158,21 @@ void StartupSettingsPage::applySettings()
         KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
     }
 
+    // Remove saved state if "remember open tabs" has been turned off
+    if (!m_rememberOpenedTabsRadioButton->isChecked()) {
+        KConfigGroup windowState{KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "WindowState"};
+        if (windowState.exists()) {
+            windowState.deleteGroup();
+        }
+    }
+
+    settings->setRememberOpenedTabs(m_rememberOpenedTabsRadioButton->isChecked());
     settings->setSplitView(m_splitView->isChecked());
     settings->setEditableUrl(m_editableUrl->isChecked());
-    settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
-    settings->setShowFullPathInTitlebar(m_showFullPathInTitlebar->isChecked());
     settings->setOpenExternallyCalledFolderInNewTab(m_openExternallyCalledFolderInNewTab->isChecked());
+    settings->setShowFullPath(m_showFullPath->isChecked());
+    settings->setShowFullPathInTitlebar(m_showFullPathInTitlebar->isChecked());
     settings->save();
 }
 
@@ -155,7 +190,16 @@ void StartupSettingsPage::slotSettingsChanged()
     // to apply the startup settings only if they have been explicitly changed by the user
     // (see bug #254947).
     GeneralSettings::setModifiedStartupSettings(true);
+
+    // Enable and disable home URL controls appropriately
+    updateInitialViewOptions();
     emit changed();
+}
+
+void StartupSettingsPage::updateInitialViewOptions()
+{
+    m_homeUrlBoxLayoutContainer->setEnabled(m_homeUrlRadioButton->isChecked());
+    m_buttonBoxLayoutContainer->setEnabled(m_homeUrlRadioButton->isChecked());
 }
 
 void StartupSettingsPage::selectHomeUrl()
@@ -182,6 +226,8 @@ void StartupSettingsPage::loadSettings()
 {
     const QUrl url(Dolphin::homeUrl());
     m_homeUrl->setText(url.toDisplayString(QUrl::PreferLocalFile));
+    m_rememberOpenedTabsRadioButton->setChecked(GeneralSettings::rememberOpenedTabs());
+    m_homeUrlRadioButton->setChecked(!GeneralSettings::rememberOpenedTabs());
     m_splitView->setChecked(GeneralSettings::splitView());
     m_editableUrl->setChecked(GeneralSettings::editableUrl());
     m_showFullPath->setChecked(GeneralSettings::showFullPath());

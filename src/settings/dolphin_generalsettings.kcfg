@@ -42,6 +42,10 @@
             <label>Home URL</label>
             <default code="true">QUrl::fromLocalFile(QDir::homePath()).toDisplayString(QUrl::PreferLocalFile)</default>
         </entry>
+        <entry name="RememberOpenedTabs" type="Bool">
+            <label>Remember open folders and tabs</label>
+            <default>true</default>
+        </entry>
         <entry name="SplitView" type="Bool">
             <label>Split the view into two panes</label>
             <default>false</default>

@@ -78,36 +78,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         return false;
     }
 
-    QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
-    if (!preferredService.isEmpty()) {
-        QSharedPointer<OrgKdeDolphinMainWindowInterface> preferredInterface(
-            new OrgKdeDolphinMainWindowInterface(preferredService,
-                QStringLiteral("/dolphin/Dolphin_1"),
-                QDBusConnection::sessionBus()));
-        if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
-            dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
-        }
-    }
-
-    // Look for dolphin instances among all available dbus services.
-    const QStringList dbusServices = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
-    // Don't match the service without trailing "-" (unique instance)
-    const QString pattern = QStringLiteral("org.kde.dolphin-");
-    // Don't match the pid without leading "-"
-    const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
-    for (const QString& service : dbusServices) {
-        if (service.startsWith(pattern) && !service.endsWith(myPid)) {
-            // Check if instance can handle our URLs
-            QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
-                        new OrgKdeDolphinMainWindowInterface(service,
-                            QStringLiteral("/dolphin/Dolphin_1"),
-                            QDBusConnection::sessionBus()));
-            if (interface->isValid() && !interface->lastError().isValid()) {
-                dolphinInterfaces.append(qMakePair(interface, QStringList()));
-            }
-        }
-    }
-
+    auto dolphinInterfaces = dolphinGuiInstances(preferredService);
     if (dolphinInterfaces.isEmpty()) {
         return false;
     }
@@ -144,4 +115,39 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         }
     }
     return attached;
+}
+
+QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Dolphin::dolphinGuiInstances(const QString& preferredService)
+{
+    QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
+    if (!preferredService.isEmpty()) {
+        QSharedPointer<OrgKdeDolphinMainWindowInterface> preferredInterface(
+            new OrgKdeDolphinMainWindowInterface(preferredService,
+                QStringLiteral("/dolphin/Dolphin_1"),
+                QDBusConnection::sessionBus()));
+        if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
+            dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
+        }
+    }
+
+    // Look for dolphin instances among all available dbus services.
+    const QStringList dbusServices = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
+    // Don't match the service without trailing "-" (unique instance)
+    const QString pattern = QStringLiteral("org.kde.dolphin-");
+    // Don't match the pid without leading "-"
+    const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
+    for (const QString& service : dbusServices) {
+        if (service.startsWith(pattern) && !service.endsWith(myPid)) {
+            // Check if instance can handle our URLs
+            QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
+                        new OrgKdeDolphinMainWindowInterface(service,
+                            QStringLiteral("/dolphin/Dolphin_1"),
+                            QDBusConnection::sessionBus()));
+            if (interface->isValid() && !interface->lastError().isValid()) {
+                dolphinInterfaces.append(qMakePair(interface, QStringList()));
+            }
+        }
+    }
+
+    return dolphinInterfaces;
 }

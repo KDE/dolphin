@@ -31,6 +31,7 @@
 #include <KDBusService>
 #include <KLocalizedString>
 #include <Kdelibs4ConfigMigrator>
+#include <KConfigGui>
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -139,6 +140,9 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     const bool openFiles = parser.isSet(QStringLiteral("select"));
     const QStringList args = parser.positionalArguments();
     QList<QUrl> urls = Dolphin::validateUris(args);
+    // We later mutate urls, so we need to store if it was empty originally
+    const bool startedWithURLs = !urls.isEmpty();
+
 
     if (parser.isSet(QStringLiteral("daemon"))) {
         KDBusService dolphinDBusService;
@@ -154,7 +158,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         }
     }
 
-    if (urls.isEmpty()) {
+    if (!startedWithURLs) {
         // We need at least one URL to open Dolphin
         urls.append(Dolphin::homeUrl());
     }
@@ -174,12 +178,25 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     mainWindow->show();
 
-    if (app.isSessionRestored()) {
-        const QString className = KXmlGuiWindow::classNameOfToplevel(1);
-        if (className == QLatin1String("DolphinMainWindow")) {
-            mainWindow->restore(1);
-        } else {
-           qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
+    if (!app.isSessionRestored()) {
+        KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
+    }
+
+    // Only restore session if:
+    // 1. Dolphin was not started with command line args
+    // 2. The "remember state" setting is enabled or session restoration after
+    //    reboot is in use
+    // 3. There is a session available to restore
+    if (!startedWithURLs && (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs()) ) {
+        // Get saved state data for the last-closed Dolphin instance
+        const QString serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
+        if (Dolphin::dolphinGuiInstances(serviceName).size() > 0) {
+            const QString className = KXmlGuiWindow::classNameOfToplevel(1);
+            if (className == QLatin1String("DolphinMainWindow")) {
+                mainWindow->restore(1);
+            } else {
+                qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
+            }
         }
     }
 

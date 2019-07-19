@@ -50,6 +50,7 @@
 #include <KActionMenu>
 #include <KAuthorized>
 #include <KConfig>
+#include <KConfigGui>
 #include <KDualAction>
 #include <KFileItemListProperties>
 #include <KHelpMenu>
@@ -578,6 +579,14 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
                 event->ignore();
                 return;
         }
+    }
+
+    if (GeneralSettings::rememberOpenedTabs())  {
+        KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
+        KConfig *config = KConfigGui::sessionConfig();
+        saveGlobalProperties(config);
+        savePropertiesInternal(config, 1);
+        config->sync();
     }
 
     GeneralSettings::setVersion(CurrentDolphinVersion);

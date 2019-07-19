@@ -24,6 +24,8 @@
 #include <QUrl>
 #include <QWidget>
 
+class OrgKdeDolphinMainWindowInterface;
+
 namespace Dolphin {
     QList<QUrl> validateUris(const QStringList& uriList);
 
@@ -50,6 +52,11 @@ namespace Dolphin {
      * Returns true if the URLs were successfully attached.
      */
     bool attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService = QString());
+
+    /**
+     * Returns a QVector with all GUI-capable Dolphin instances
+     */
+    QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString& preferredService);
 
     /**
      * TODO: Move this somewhere global to all KDE apps, not just Dolphin

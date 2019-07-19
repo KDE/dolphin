@@ -23,8 +23,9 @@
 
 #include <QUrl>
 
-class QLineEdit;
 class QCheckBox;
+class QLineEdit;
+class QRadioButton;
 
 /**
  * @brief Page for the 'Startup' settings of the Dolphin settings dialog.
@@ -48,6 +49,7 @@ public:
 
 private slots:
     void slotSettingsChanged();
+    void updateInitialViewOptions();
     void selectHomeUrl();
     void useCurrentLocation();
     void useDefaultLocation();
@@ -58,6 +60,10 @@ private:
 private:
     QUrl m_url;
     QLineEdit* m_homeUrl;
+    QWidget* m_homeUrlBoxLayoutContainer;
+    QWidget* m_buttonBoxLayoutContainer;
+    QRadioButton* m_rememberOpenedTabsRadioButton;
+    QRadioButton* m_homeUrlRadioButton;
 
     QCheckBox* m_splitView;
     QCheckBox* m_editableUrl;
