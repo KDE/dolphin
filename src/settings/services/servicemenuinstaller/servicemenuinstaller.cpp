@@ -205,8 +205,8 @@ bool runInstallerScript(const QString &path, bool hasArgVariants, const QStringL
     }
 
     errorText = i18nc(
-        "%1 = comma separated list of arguments",
-        "Installer script %1 failed, tried arguments \"%1\".", path, argVariants.join(i18nc("Separator between arguments", "\", \"")));
+        "%2 = comma separated list of arguments",
+        "Installer script %1 failed, tried arguments \"%2\".", path, argVariants.join(i18nc("Separator between arguments", "\", \"")));
     return false;
 }
 
