@@ -161,6 +161,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     QWidget* focusWidget = QApplication::focusWidget();
 
     DolphinTabPage* tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
+    tabPage->setActive(false);
     tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     connect(tabPage, &DolphinTabPage::activeViewChanged,
             this, &DolphinTabWidget::activeViewChanged);
