@@ -1905,28 +1905,35 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
         if (firstChar != newFirstChar) {
             QString newGroupValue;
             if (newFirstChar.isLetter()) {
-                // Try to find a matching group in the range 'A' to 'Z'.
-                static std::vector<QChar> lettersAtoZ;
-                lettersAtoZ.reserve('Z' - 'A' + 1);
-                if (lettersAtoZ.empty()) {
-                    for (char c = 'A'; c <= 'Z'; ++c) {
-                        lettersAtoZ.push_back(QLatin1Char(c));
-                    }
-                }
 
-                auto localeAwareLessThan = [this](QChar c1, QChar c2) -> bool {
-                    return m_collator.compare(c1, c2) < 0;
-                };
+                if (m_collator.compare(newFirstChar, QChar(QLatin1Char('A'))) >= 0 && m_collator.compare(newFirstChar, QChar(QLatin1Char('Z'))) <= 0) {
+                    // WARNING! Symbols based on latin 'Z' like 'Z' with acute are treated wrong as non Latin and put in a new group.
 
-                std::vector<QChar>::iterator it = std::lower_bound(lettersAtoZ.begin(), lettersAtoZ.end(), newFirstChar, localeAwareLessThan);
-                if (it != lettersAtoZ.end()) {
-                    if (localeAwareLessThan(newFirstChar, *it) && it != lettersAtoZ.begin()) {
-                        // newFirstChar belongs to the group preceding *it.
-                        // Example: for an umlaut 'A' in the German locale, *it would be 'B' now.
-                        --it;
+                    // Try to find a matching group in the range 'A' to 'Z'.
+                    static std::vector<QChar> lettersAtoZ;
+                    lettersAtoZ.reserve('Z' - 'A' + 1);
+                    if (lettersAtoZ.empty()) {
+                        for (char c = 'A'; c <= 'Z'; ++c) {
+                            lettersAtoZ.push_back(QLatin1Char(c));
+                        }
                     }
-                    newGroupValue = *it;
+
+                    auto localeAwareLessThan = [this](QChar c1, QChar c2) -> bool {
+                        return m_collator.compare(c1, c2) < 0;
+                    };
+
+                    std::vector<QChar>::iterator it = std::lower_bound(lettersAtoZ.begin(), lettersAtoZ.end(), newFirstChar, localeAwareLessThan);
+                    if (it != lettersAtoZ.end()) {
+                        if (localeAwareLessThan(newFirstChar, *it)) {
+                            // newFirstChar belongs to the group preceding *it.
+                            // Example: for an umlaut 'A' in the German locale, *it would be 'B' now.
+                            --it;
+                        }
+                        newGroupValue = *it;
+                    }
+
                 } else {
+                    // Symbols from non Latin-based scripts
                     newGroupValue = newFirstChar;
                 }
             } else if (newFirstChar >= QLatin1Char('0') && newFirstChar <= QLatin1Char('9')) {
