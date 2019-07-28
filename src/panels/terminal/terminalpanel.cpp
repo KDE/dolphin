@@ -177,7 +177,9 @@ void TerminalPanel::showEvent(QShowEvent* event)
     }
     if (m_terminal) {
         m_terminal->showShellInDir(url().toLocalFile());
-        changeDir(url());
+        if(!hasProgramRunning()) {
+            changeDir(url());
+        }
         m_terminalWidget->setFocus();
         connect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
                 this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));
