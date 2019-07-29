@@ -163,7 +163,7 @@ void DolphinViewActionHandler::createActions()
         "</interface> option is enabled.</para>"));
     compactAction->setWhatsThis(xi18nc("@info:whatsthis Compact view mode",
         "<para>This switches to a compact view mode that lists the folders "
-        "and files in columns with the names beside the icons. <para></para>"
+        "and files in columns with the names beside the icons.</para><para>"
         "This helps to keep the overview in folders with many items.</para>"));
     detailsAction->setWhatsThis(xi18nc("@info:whatsthis Details view mode",
         "<para>This switches to a list view mode that focuses on folder "
