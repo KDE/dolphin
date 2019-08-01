@@ -22,10 +22,18 @@ public:
     ~PlacesItemListWidget() override;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+    void polishEvent() override;
 
 protected:
     bool isHidden() const override;
     QPalette::ColorRole normalTextColorRole() const override;
+    void updateCapacityBar();
+    void resetCapacityBar();
+
+private:
+    bool m_isMountPoint;
+    bool m_drawCapacityBar;
+    qreal m_capacityBarRatio;
 };
 
 #endif
