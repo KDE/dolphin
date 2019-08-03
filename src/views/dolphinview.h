@@ -23,6 +23,7 @@
 
 #include "dolphintabwidget.h"
 #include "dolphin_export.h"
+#include "tooltips/tooltipmanager.h"
 
 #include <KFileItem>
 #include <KIO/Job>
@@ -697,8 +698,6 @@ private slots:
      */
     void updateViewState();
 
-    void hideToolTip();
-
     /**
      * Calculates the number of currently shown files into
      * \a fileCount and the number of folders into \a folderCount.
@@ -732,6 +731,11 @@ private:
      * itemlayout-property of the KItemListView.
      */
     void applyModeToView();
+
+    /**
+     * Hides tooltip displayed over element.
+     */
+    void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().

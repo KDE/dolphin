@@ -128,8 +128,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_container = new KItemListContainer(controller, this);
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
-    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
-    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, &DolphinView::hideToolTip);
+    connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
+    connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
@@ -744,6 +744,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         break;
 
     case QEvent::KeyPress:
+        hideToolTip(ToolTipManager::HideBehavior::Instantly);
         if (GeneralSettings::useTabForSwitchingSplitView()) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
@@ -1414,11 +1415,11 @@ void DolphinView::updateViewState()
     }
 }
 
-void DolphinView::hideToolTip()
+void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
 {
 #ifdef HAVE_BALOO
     if (GeneralSettings::showToolTips()) {
-        m_toolTipManager->hideToolTip();
+        m_toolTipManager->hideToolTip(behavior);
     }
 #endif
 }

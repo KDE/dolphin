@@ -42,6 +42,11 @@ class ToolTipManager : public QObject
     Q_OBJECT
 
 public:
+    enum class HideBehavior {
+        Instantly,
+        Later
+    };
+
     explicit ToolTipManager(QWidget* parent);
     ~ToolTipManager() override;
 
@@ -56,7 +61,7 @@ public:
     /**
      * Hides the currently shown tooltip.
      */
-    void hideToolTip();
+    void hideToolTip(const HideBehavior behavior = HideBehavior::Later);
 
 signals:
     /**

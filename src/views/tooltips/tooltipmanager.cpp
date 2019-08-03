@@ -104,7 +104,7 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, 
     Q_ASSERT(!m_metaDataRequested);
 }
 
-void ToolTipManager::hideToolTip()
+void ToolTipManager::hideToolTip(const HideBehavior behavior)
 {
     if (m_appliedWaitCursor) {
         QApplication::restoreOverrideCursor();
@@ -116,7 +116,14 @@ void ToolTipManager::hideToolTip()
     m_showToolTipTimer->stop();
     m_contentRetrievalTimer->stop();
     if (m_tooltipWidget) {
-        m_tooltipWidget->hideLater();
+        switch (behavior) {
+        case HideBehavior::Instantly:
+            m_tooltipWidget->hide();
+            break;
+        case HideBehavior::Later:
+            m_tooltipWidget->hideLater();
+            break;
+        }
     }
 }
 
