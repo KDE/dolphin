@@ -150,7 +150,7 @@ configure_file(org.kde.dolphin.FileManager1.service.in
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
         DESTINATION ${DBUS_SERVICES_INSTALL_DIR})
 
-if (ECM_VERSION VERSION_GREATER_EQUAL "5.59.0")
+if (NOT ECM_VERSION VERSION_LESS "5.59.0")
     install(FILES dolphin.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 else()
     install(FILES dolphin.categories  DESTINATION ${KDE_INSTALL_CONFDIR})
