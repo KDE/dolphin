@@ -82,16 +82,14 @@ void TerminalPanel::terminalExited()
 bool TerminalPanel::isHiddenInVisibleWindow() const
 {
     return parentWidget()
-        && parentWidget()->isHidden()
-        && m_terminal
-        && !hasProgramRunning();
+        && parentWidget()->isHidden();
 }
 
 void TerminalPanel::dockVisibilityChanged()
 {
     // Only react when the DockWidget itself (not some parent) is hidden. This way we don't
     // respond when e.g. Dolphin is minimized.
-    if (isHiddenInVisibleWindow()) {
+    if (isHiddenInVisibleWindow() && m_terminal && !hasProgramRunning()) {
         // Make sure that the following "cd /" command will not affect the view.
         disconnect(m_konsolePart, SIGNAL(currentDirectoryChanged(QString)),
                    this, SLOT(slotKonsolePartCurrentDirectoryChanged(QString)));

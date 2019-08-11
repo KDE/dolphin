@@ -751,7 +751,7 @@ void DolphinMainWindow::togglePanelLockState()
 
 void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
 {
-    if (m_terminalPanel->isHiddenInVisibleWindow()) {
+    if (m_terminalPanel->isHiddenInVisibleWindow() && m_activeViewContainer) {
         m_activeViewContainer->view()->setFocus();
     }
 }
