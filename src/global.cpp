@@ -77,12 +77,6 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         return false;
     }
 
-    const QStringList services = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
-
-    // Don't match the service without trailing "-" (unique instance)
-    const QString pattern = QStringLiteral("org.kde.dolphin-");
-    // Don't match the pid without leading "-"
-    const QString myPid = QStringLiteral("-") + QString::number(QCoreApplication::applicationPid());
     QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinServices;
     if (!preferredService.isEmpty()) {
         QSharedPointer<QDBusInterface> preferred(
@@ -96,6 +90,11 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     }
 
     // find all dolphin instances
+    const QStringList services = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
+    // Don't match the service without trailing "-" (unique instance)
+    const QString pattern = QStringLiteral("org.kde.dolphin-");
+    // Don't match the pid without leading "-"
+    const QString myPid = QStringLiteral("-") + QString::number(QCoreApplication::applicationPid());
     for (const QString& service : services) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
             // Check if instance can handle our URLs
