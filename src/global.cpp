@@ -103,10 +103,9 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
                 QStringLiteral("/dolphin/Dolphin_1"),
                 QStringLiteral("org.kde.dolphin.MainWindow"))
             );
-            if (!instance->isValid() || instance->lastError().isValid()) {
-                continue;
+            if (instance->isValid() && !instance->lastError().isValid()) {
+                dolphinServices.append(qMakePair(instance, QStringList()));
             }
-            dolphinServices.append(qMakePair(instance, QStringList()));
         }
     }
 
