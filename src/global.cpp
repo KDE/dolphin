@@ -91,7 +91,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
             QStringLiteral("org.kde.dolphin.MainWindow"))
         );
         if (preferred->isValid()) {
-            dolphinServices.append(qMakePair(preferred, QStringList() ));
+            dolphinServices.append(qMakePair(preferred, QStringList()));
         }
     }
 
@@ -124,9 +124,9 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         for (auto& service: dolphinServices) {
             QDBusReply<bool> isUrlOpen = service.first->call(QStringLiteral("isUrlOpen"), url);
             if (isUrlOpen.isValid() && isUrlOpen.value()) {
-                    service.second.append(url);
-                    urlFound = true;
-                    break;
+                service.second.append(url);
+                urlFound = true;
+                break;
             }
         }
         if (!urlFound) {
