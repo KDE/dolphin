@@ -280,7 +280,7 @@ void DolphinViewActionHandler::createActions()
 QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QString& groupPrefix)
 {
     const bool isSortGroup = (groupPrefix == QLatin1String("sort_by_"));
-    Q_ASSERT(isSortGroup || (!isSortGroup && groupPrefix == QLatin1String("show_")));
+    Q_ASSERT(isSortGroup || groupPrefix == QLatin1String("show_"));
 
     QActionGroup* rolesActionGroup = new QActionGroup(m_actionCollection);
     rolesActionGroup->setExclusive(isSortGroup);
