@@ -191,7 +191,7 @@ void DolphinViewActionHandler::createActions()
     QAction* zoomOutAction = KStandardAction::zoomOut(this,
                              &DolphinViewActionHandler::zoomOut,
                              m_actionCollection);
-    zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This reduces the icon size."));
+    zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom out", "This reduces the icon size."));
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
