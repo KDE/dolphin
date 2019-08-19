@@ -50,7 +50,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     // View properties
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common properties for all folders"));
     m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"));
-    m_localViewProps->setToolTip(i18nc("@info", "Dolphin will create an hidden .directory file in each folder you change view properties for."));
+    m_localViewProps->setToolTip(i18nc("@info", "Dolphin will create a hidden .directory file in each folder you change view properties for."));
 
     QButtonGroup* viewGroup = new QButtonGroup(this);
     viewGroup->addButton(m_globalViewProps);
