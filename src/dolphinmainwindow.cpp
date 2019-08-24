@@ -1156,6 +1156,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* newWindow = KStandardAction::openNew(this, &DolphinMainWindow::openNewMainWindow, actionCollection());
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
+    newWindow->setToolTip(i18nc("@info", "Open a new Dolphin window"));
     newWindow->setWhatsThis(xi18nc("@info:whatsthis", "This opens a new "
         "window just like this one with the current location and view."
         "<nl/>You can drag and drop items between windows."));
