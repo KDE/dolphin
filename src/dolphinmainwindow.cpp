@@ -1728,10 +1728,9 @@ void DolphinMainWindow::createControlButton()
 
     m_controlButton = new QToolButton(this);
     m_controlButton->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    m_controlButton->setText(i18nc("@action", "Control"));
+    m_controlButton->setToolTip(i18nc("@action", "Show menu"));
     m_controlButton->setAttribute(Qt::WidgetAttribute::WA_CustomWhatsThis);
     m_controlButton->setPopupMode(QToolButton::InstantPopup);
-    m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
 
     QMenu* controlMenu = new QMenu(m_controlButton);
     connect(controlMenu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateControlMenu);
@@ -1742,8 +1741,6 @@ void DolphinMainWindow::createControlButton()
     toolBar()->addWidget(m_controlButton);
     connect(toolBar(), &KToolBar::iconSizeChanged,
             m_controlButton, &QToolButton::setIconSize);
-    connect(toolBar(), &KToolBar::toolButtonStyleChanged,
-            m_controlButton, &QToolButton::setToolButtonStyle);
 
     // The added widgets are owned by the toolbar and may get deleted when e.g. the toolbar
     // gets edited. In this case we must add them again. The adding is done asynchronously by
