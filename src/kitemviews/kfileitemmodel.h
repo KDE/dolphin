@@ -382,8 +382,6 @@ private:
 
     int stringCompare(const QString& a, const QString& b, const QCollator& collator) const;
 
-    bool useMaximumUpdateInterval() const;
-
     QList<QPair<int, QVariant> > nameRoleGroups() const;
     QList<QPair<int, QVariant> > sizeRoleGroups() const;
     QList<QPair<int, QVariant> > timeRoleGroups(const std::function<QDateTime(const ItemData *)> &fileTimeCb) const;

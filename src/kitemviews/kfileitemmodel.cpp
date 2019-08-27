@@ -917,6 +917,7 @@ void KFileItemModel::resortAllItems()
 
 void KFileItemModel::slotCompleted()
 {
+    m_maximumUpdateIntervalTimer->stop();
     dispatchPendingItemsToInsert();
 
     if (!m_urlsToExpand.isEmpty()) {
@@ -1007,7 +1008,7 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
         }
     }
 
-    if (useMaximumUpdateInterval() && !m_maximumUpdateIntervalTimer->isActive()) {
+    if (!m_maximumUpdateIntervalTimer->isActive()) {
         // Assure that items get dispatched if no completed() or canceled() signal is
         // emitted during the maximum update interval.
         m_maximumUpdateIntervalTimer->start();
@@ -1873,11 +1874,6 @@ int KFileItemModel::stringCompare(const QString& a, const QString& b, const QCol
     }
 
     return QString::compare(a, b, Qt::CaseSensitive);
-}
-
-bool KFileItemModel::useMaximumUpdateInterval() const
-{
-    return !m_dirLister->url().isLocalFile();
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
