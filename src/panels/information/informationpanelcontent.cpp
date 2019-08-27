@@ -46,10 +46,17 @@
 #include <QTimer>
 #include <QVBoxLayout>
 #include <QStyle>
+#include <QPainter>
+#include <QBitmap>
+#include <QLinearGradient>
+#include <QPolygon>
 
 #include "dolphin_informationpanelsettings.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
+
+const int PLAY_ARROW_SIZE = 24;
+const int PLAY_ARROW_BORDER_SIZE = 2;
 
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget(parent),
@@ -61,7 +68,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel(nullptr),
     m_metaDataWidget(nullptr),
     m_metaDataArea(nullptr),
-    m_placesItemModel(nullptr)
+    m_placesItemModel(nullptr),
+    m_isVideo(false)
 {
     parent->installEventFilter(this);
 
@@ -166,6 +174,41 @@ void InformationPanelContent::showItem(const KFileItem& item)
     refreshPreview();
 }
 
+void InformationPanelContent::refreshPixmapView()
+{
+    // If there is a preview job, kill it to prevent that we have jobs for
+    // multiple items running, and thus a race condition (bug 250787).
+    if (m_previewJob) {
+        m_previewJob->kill();
+    }
+
+    // try to get a preview pixmap from the item...
+
+    // Mark the currently shown preview as outdated. This is done
+    // with a small delay to prevent a flickering when the next preview
+    // can be shown within a short timeframe. This timer is not started
+    // for directories, as directory previews might fail and return the
+    // same icon.
+    if (!m_item.isDir()) {
+        m_outdatedPreviewTimer->start();
+    }
+
+    QStringList plugins = KIO::PreviewJob::availablePlugins();
+    m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
+                                       QSize(m_preview->width(), m_preview->height()),
+                                       &plugins);
+    m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
+    m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile());
+    if (m_previewJob->uiDelegate()) {
+        KJobWidgets::setWindow(m_previewJob, this);
+    }
+
+    connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
+            this, &InformationPanelContent::showPreview);
+    connect(m_previewJob.data(), &KIO::PreviewJob::failed,
+            this, &InformationPanelContent::showIcon);
+}
+
 void InformationPanelContent::refreshPreview()
 {
     // If there is a preview job, kill it to prevent that we have jobs for
@@ -174,6 +217,8 @@ void InformationPanelContent::refreshPreview()
         m_previewJob->kill();
     }
 
+    m_preview->setCursor(Qt::ArrowCursor);
+    bool usePhonon = false;
     setNameLabelText(m_item.text());
     if (InformationPanelSettings::previewsShown()) {
 
@@ -188,53 +233,46 @@ void InformationPanelContent::refreshPreview()
                 QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
             );
         } else {
-            // try to get a preview pixmap from the item...
 
-            // Mark the currently shown preview as outdated. This is done
-            // with a small delay to prevent a flickering when the next preview
-            // can be shown within a short timeframe. This timer is not started
-            // for directories, as directory previews might fail and return the
-            // same icon.
-            if (!m_item.isDir()) {
-                m_outdatedPreviewTimer->start();
-            }
-
-            QStringList plugins = KIO::PreviewJob::availablePlugins();
-            m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
-                                               QSize(m_preview->width(), m_preview->height()),
-                                               &plugins);
-            m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
-            m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile());
-            if (m_previewJob->uiDelegate()) {
-                KJobWidgets::setWindow(m_previewJob, this);
-            }
-
-            connect(m_previewJob.data(), &KIO::PreviewJob::gotPreview,
-                    this, &InformationPanelContent::showPreview);
-            connect(m_previewJob.data(), &KIO::PreviewJob::failed,
-                    this, &InformationPanelContent::showIcon);
+            refreshPixmapView();
 
             const QString mimeType = m_item.mimetype();
-            const bool isVideo = mimeType.startsWith(QLatin1String("video/"));
-            const bool usePhonon = mimeType.startsWith(QLatin1String("audio/")) || isVideo;
+            m_isVideo = mimeType.startsWith(QLatin1String("video/"));
+            usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
             if (usePhonon) {
+                // change the cursor of the preview
+                m_preview->setCursor(Qt::PointingHandCursor);
+                m_preview->installEventFilter(m_phononWidget);
 
-                if (InformationPanelSettings::previewsAutoPlay() && isVideo) {
-                    // hides the preview now to avoid flickering when the autoplay video starts
-                    m_preview->hide();
-                } else {
-                    // the video won't play before the preview is displayed
-                    m_preview->show();
+                // if the video is playing, has been paused or stopped
+                // we don't need to update the preview/phonon widget states
+                // unless the previewed file has changed,
+                // or the setting previewshown has changed
+                if ((m_phononWidget->state() != Phonon::State::PlayingState &&
+                     m_phononWidget->state() != Phonon::State::PausedState &&
+                     m_phononWidget->state() != Phonon::State::StoppedState) ||
+                        m_item.targetUrl() != m_phononWidget->url() ||
+                        (!m_preview->isVisible() &&! m_phononWidget->isVisible())) {
+
+                    if (InformationPanelSettings::previewsAutoPlay() && m_isVideo) {
+                        // hides the preview now to avoid flickering when the autoplay video starts
+                        m_preview->hide();
+                    } else {
+                        // the video won't play before the preview is displayed
+                        m_preview->show();
+                    }
+
+                    m_phononWidget->show();
+                    m_phononWidget->setUrl(m_item.targetUrl(), m_isVideo ? PhononWidget::MediaKind::Video : PhononWidget::MediaKind::Audio);
+                    adjustWidgetSizes(parentWidget()->width());
                 }
-
-                m_phononWidget->show();
-                m_phononWidget->setUrl(m_item.targetUrl(), isVideo ? PhononWidget::MediaKind::Video : PhononWidget::MediaKind::Audio);
-                m_phononWidget->setVideoSize(m_preview->size());
             } else {
                 // When we don't need it, hide the phonon widget first to avoid flickering
                 m_phononWidget->hide();
                 m_preview->show();
+                m_preview->removeEventFilter(m_phononWidget);
+                m_phononWidget->clearUrl();
             }
         }
     } else {
@@ -319,10 +357,46 @@ void InformationPanelContent::showPreview(const KFileItem& item,
                                           const QPixmap& pixmap)
 {
     m_outdatedPreviewTimer->stop();
-    Q_UNUSED(item);
+    Q_UNUSED(item)
 
     QPixmap p = pixmap;
     KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
+
+    if (m_isVideo) {
+        // adds a play arrow
+
+        // compute relative pixel positions
+        const int zeroX = static_cast<int>(p.width() / 2 - PLAY_ARROW_SIZE / 2 / devicePixelRatio());
+        const int zeroY = static_cast<int>(p.height() / 2 - PLAY_ARROW_SIZE / 2 / devicePixelRatio());
+
+        QPolygon arrow;
+        arrow << QPoint(zeroX, zeroY);
+        arrow << QPoint(zeroX, zeroY + PLAY_ARROW_SIZE);
+        arrow << QPoint(zeroX + PLAY_ARROW_SIZE, zeroY + PLAY_ARROW_SIZE / 2);
+
+        QPainterPath path;
+        path.addPolygon(arrow);
+
+        QLinearGradient gradient(QPointF(zeroX, zeroY),
+                                 QPointF(zeroX + PLAY_ARROW_SIZE,zeroY + PLAY_ARROW_SIZE));
+
+        QColor whiteColor = Qt::white;
+        QColor blackColor = Qt::black;
+        gradient.setColorAt(0, whiteColor);
+        gradient.setColorAt(1, blackColor);
+
+        QBrush brush(gradient);
+
+        QPainter painter(&p);
+
+        QPen pen(blackColor, PLAY_ARROW_BORDER_SIZE, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+        painter.setPen(pen);
+
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.drawPolygon(arrow);
+        painter.fillPath(path, brush);
+    }
+
     m_preview->setPixmap(p);
 }
 
@@ -343,6 +417,11 @@ KFileItemList InformationPanelContent::items()
 void InformationPanelContent::slotHasVideoChanged(bool hasVideo)
 {
     m_preview->setVisible(InformationPanelSettings::previewsShown() && !hasVideo);
+    if (m_preview->isVisible() && m_preview->size().width() != m_preview->pixmap().size().width()) {
+        // in case the information panel has been resized when the preview was not displayed
+        // we need to refresh its content
+        refreshPixmapView();
+    }
 }
 
 void InformationPanelContent::setPreviewAutoPlay(bool autoPlay) {

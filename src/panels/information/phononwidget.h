@@ -53,11 +53,14 @@ class PhononWidget : public QWidget
 
         void setUrl(const QUrl &url, MediaKind kind);
         QUrl url() const;
+        void clearUrl();
 
         void setVideoSize(const QSize& size);
         QSize videoSize() const;
+        Phonon::State state() const;
 
         void setAutoPlay(bool autoPlay);
+        bool eventFilter(QObject *object, QEvent *event) override;
 
     signals:
         /**

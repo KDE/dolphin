@@ -139,6 +139,11 @@ private:
      */
     void adjustWidgetSizes(int width);
 
+    /**
+     * Refreshes the image in the PixmapViewer
+     */
+    void refreshPixmapView();
+
 private:
     KFileItem m_item;
 
@@ -154,6 +159,7 @@ private:
     QDialogButtonBox* m_configureButtons;
 
     PlacesItemModel* m_placesItemModel;
+    bool m_isVideo;
 };
 
 #endif // INFORMATIONPANELCONTENT_H

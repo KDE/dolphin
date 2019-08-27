@@ -95,6 +95,29 @@ QUrl PhononWidget::url() const
     return m_url;
 }
 
+void PhononWidget::clearUrl()
+{
+    m_url.clear();
+}
+
+bool PhononWidget::eventFilter(QObject *object, QEvent *event)
+{
+    Q_UNUSED(object)
+    if (event->type() == QEvent::MouseButtonPress) {
+        const QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+        if (mouseEvent->button() == Qt::LeftButton) {
+            // toggle playback
+            if (m_media && m_media->state() == Phonon::State::PlayingState) {
+                m_media->pause();
+            } else {
+                play();
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
 void PhononWidget::setVideoSize(const QSize& size)
 {
     if (m_videoSize != size) {
@@ -172,8 +195,8 @@ void PhononWidget::stateChanged(Phonon::State newstate)
     switch (newstate) {
     case Phonon::PlayingState:
     case Phonon::BufferingState:
-        m_stopButton->show();
         m_playButton->hide();
+        m_stopButton->show();
         break;
     default:
         m_stopButton->hide();
@@ -196,6 +219,7 @@ void PhononWidget::play()
 
     if (!m_videoPlayer) {
         m_videoPlayer = new EmbeddedVideoPlayer(this);
+        m_videoPlayer->setCursor(Qt::PointingHandCursor);
         m_videoPlayer->installEventFilter(this);
         m_topLayout->insertWidget(0, m_videoPlayer);
         Phonon::createPath(m_media, m_videoPlayer);
@@ -225,6 +249,11 @@ void PhononWidget::finished()
         m_videoPlayer->hide();
         emit hasVideoChanged(false);
     }
+}
+
+Phonon::State PhononWidget::state() const
+{
+    return m_media == nullptr ? Phonon::State::StoppedState : m_media->state();
 }
 
 void PhononWidget::stop()
