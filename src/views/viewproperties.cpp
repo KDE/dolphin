@@ -26,6 +26,8 @@
 
 #include <QCryptographicHash>
 
+#include <KFileItem>
+
 namespace {
     const int AdditionalInfoViewPropertiesVersion = 1;
     const int NameRolePropertiesVersion = 2;
@@ -70,6 +72,11 @@ ViewProperties::ViewProperties(const QUrl& url) :
         m_filePath = url.toLocalFile();
 
         bool useDestinationDir = !isPartOfHome(m_filePath);
+        if (!useDestinationDir) {
+            const KFileItem fileItem(url);
+            useDestinationDir = fileItem.isSlow();
+        }
+
         if (!useDestinationDir) {
             const QFileInfo dirInfo(m_filePath);
             const QFileInfo fileInfo(m_filePath + QDir::separator() + ViewPropertiesFileName);
