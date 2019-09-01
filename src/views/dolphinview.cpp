@@ -66,6 +66,7 @@
 #include <QPixmapCache>
 #include <QPointer>
 #include <QScrollBar>
+#include <QSize>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -1336,6 +1337,20 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
     }
 
     return QUrl();
+}
+
+void DolphinView::resetZoomLevel()
+{
+    ViewModeSettings::ViewMode mode;
+
+    switch (m_mode) {
+    case IconsView:     mode = ViewModeSettings::IconsMode;   break;
+    case CompactView:   mode = ViewModeSettings::CompactMode; break;
+    case DetailsView:   mode = ViewModeSettings::DetailsMode; break;
+    }
+    const ViewModeSettings settings(mode);
+    const QSize iconSize = QSize(settings.iconSize(), settings.iconSize());
+    setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(iconSize));
 }
 
 void DolphinView::observeCreatedItem(const QUrl& url)

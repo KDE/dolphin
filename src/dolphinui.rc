@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="25">
+<kpartgui name="dolphin" version="26">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -23,6 +23,10 @@
             <Action name="invert_selection" />
         </Menu>
         <Menu name="view">
+            <Action name="view_zoom_in"/>
+            <Action name="view_zoom_reset"/>
+            <Action name="view_zoom_out"/>
+            <Separator/>
             <Action name="sort" />
             <Action name="view_mode" />
             <Action name="additional_info" />
@@ -116,6 +120,7 @@
         <Action priority="0" name="compact"/>
         <Action priority="0" name="details"/>
         <Action priority="0" name="view_zoom_in"/>
+        <Action priority="0" name="view_zoom_reset"/>
         <Action priority="0" name="view_zoom_out"/>
         <Action priority="0" name="edit_cut"/>
         <Action priority="0" name="edit_copy"/>

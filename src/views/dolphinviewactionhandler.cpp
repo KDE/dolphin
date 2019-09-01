@@ -188,6 +188,14 @@ void DolphinViewActionHandler::createActions()
                             m_actionCollection);
     zoomInAction->setWhatsThis(i18nc("@info:whatsthis zoom in", "This increases the icon size."));
 
+    QAction* zoomResetAction = m_actionCollection->addAction(QStringLiteral("view_zoom_reset"));
+    zoomResetAction->setText(i18nc("@action:inmenu View", "Reset Zoom Level"));
+    zoomResetAction->setToolTip(i18n("Zoom To Default"));
+    zoomResetAction->setWhatsThis(i18nc("@info:whatsthis zoom reset", "This resets the icon size to default."));
+    zoomResetAction->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
+    m_actionCollection->setDefaultShortcuts(zoomResetAction, {Qt::CTRL + Qt::Key_0});
+    connect(zoomResetAction, &QAction::triggered, this, &DolphinViewActionHandler::zoomReset);
+
     QAction* zoomOutAction = KStandardAction::zoomOut(this,
                              &DolphinViewActionHandler::zoomOut,
                              m_actionCollection);
@@ -391,7 +399,7 @@ void DolphinViewActionHandler::slotPreviewsShownChanged(bool shown)
 {
     Q_UNUSED(shown);
     // It is not enough to update the 'Show Preview' action, also
-    // the 'Zoom In' and 'Zoom Out' actions must be adapted.
+    // the 'Zoom In', 'Zoom Out' and 'Zoom Reset' actions must be adapted.
     updateViewActions();
 }
 
@@ -451,6 +459,12 @@ void DolphinViewActionHandler::zoomOut()
 {
     const int level = m_currentView->zoomLevel();
     m_currentView->setZoomLevel(level - 1);
+    updateViewActions();
+}
+
+void DolphinViewActionHandler::zoomReset()
+{
+    m_currentView->resetZoomLevel();
     updateViewActions();
 }
 

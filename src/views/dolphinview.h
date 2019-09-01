@@ -196,6 +196,11 @@ public:
     void setZoomLevel(int level);
     int zoomLevel() const;
 
+    /**
+     * Resets the view's icon size to the default value
+     */
+    void resetZoomLevel();
+
     void setSortRole(const QByteArray& role);
     QByteArray sortRole() const;
 

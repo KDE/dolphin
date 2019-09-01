@@ -1016,6 +1016,7 @@ void DolphinMainWindow::updateControlMenu()
     // Add "View" actions
     if (!GeneralSettings::showZoomSlider()) {
         addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomIn)), menu);
+        addActionToMenu(ac->action(QStringLiteral("view_zoom_reset")), menu);
         addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomOut)), menu);
         menu->addSeparator();
     }

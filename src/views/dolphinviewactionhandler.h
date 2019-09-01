@@ -131,6 +131,9 @@ private Q_SLOTS:
 
     /** Decreases the size of the current set view mode. */
     void zoomOut();
+    
+    /** Resets the size of the current set view mode to default. */
+    void zoomReset();
 
     /** Switches between a separate sorting and a mixed sorting of files and folders. */
     void toggleSortFoldersFirst();

@@ -1760,6 +1760,17 @@ Selects all unselected items and deselects all selected items in the current fol
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>0</keycap></keycombo>
+</shortcut>
+<guimenu>View</guimenu>
+<guimenuitem>Zoom Reset</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Resets the size of icons in the view to default.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <guimenu>View</guimenu>
 <guisubmenu>View Mode</guisubmenu>
 </menuchoice></term>
