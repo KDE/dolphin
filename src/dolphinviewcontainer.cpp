@@ -426,7 +426,7 @@ QString DolphinViewContainer::placesText() const
     if (isSearchModeEnabled()) {
         text = i18n("Search for %1 in %2", m_searchBox->text(), m_searchBox->searchPath().fileName());
     } else {
-        text = url().fileName();
+        text = url().adjusted(QUrl::StripTrailingSlash).fileName();
         if (text.isEmpty()) {
             text = url().host();
         }
