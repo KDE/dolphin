@@ -385,6 +385,11 @@ private slots:
     void openNewActivatedTab();
 
     /**
+     * Adds the current URL as an entry to the Places panel
+     */
+    void addToPlaces();
+
+    /**
      * Opens a new tab in the background showing the URL \a url.
      */
     void openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement);
@@ -515,7 +520,7 @@ private:
      */
     void setupDockWidgets();
 
-    void updateEditActions();
+    void updateFileAndEditActions();
     void updateViewActions();
     void updateGoActions();
 

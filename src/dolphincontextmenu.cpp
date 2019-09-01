@@ -1,4 +1,4 @@
-/***************************************************************************
+  /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
  *   Cvetoslav Ludmiloff                                                   *
  *                                                                         *
@@ -192,7 +192,6 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* openParentAction = nullptr;
     QAction* openParentInNewWindowAction = nullptr;
     QAction* openParentInNewTabAction = nullptr;
-    QAction* addToPlacesAction = nullptr;
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
 
     KFileItemActions fileItemActions;
@@ -210,9 +209,7 @@ void DolphinContextMenu::openItemContextMenu()
 
             // insert 'Add to Places' entry
             if (!placeExists(m_fileInfo.url())) {
-                addToPlacesAction = addAction(QIcon::fromTheme(QStringLiteral("bookmark-new")),
-                                                       i18nc("@action:inmenu Add selected folder to places",
-                                                             "Add to Places"));
+                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
             }
 
             addSeparator();
@@ -314,14 +311,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     QAction* activatedAction = exec(m_pos);
     if (activatedAction) {
-        if (activatedAction == addToPlacesAction) {
-            const QUrl selectedUrl(m_fileInfo.url());
-            if (selectedUrl.isValid()) {
-                PlacesItemModel model;
-                const QString text = selectedUrl.fileName();
-                model.createPlacesItem(text, selectedUrl, KIO::iconNameForUrl(selectedUrl));
-            }
-        } else if (activatedAction == openParentAction) {
+        if (activatedAction == openParentAction) {
             m_command = OpenParentFolder;
         } else if (activatedAction == openParentInNewWindowAction) {
             m_command = OpenParentFolderInNewWindow;
@@ -365,10 +355,8 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("new_tab")));
 
     // Insert 'Add to Places' entry if exactly one item is selected
-    QAction* addToPlacesAction = nullptr;
     if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction = addAction(QIcon::fromTheme(QStringLiteral("bookmark-new")),
-                                             i18nc("@action:inmenu Add current folder to places", "Add to Places"));
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
     }
 
     addSeparator();
@@ -395,22 +383,6 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(propertiesAction);
 
     addShowMenuBarAction();
-
-    QAction* action = exec(m_pos);
-    if (addToPlacesAction && (action == addToPlacesAction)) {
-        const DolphinViewContainer* container =  m_mainWindow->activeViewContainer();
-        const QUrl url = container->url();
-        if (url.isValid()) {
-            PlacesItemModel model;
-            QString icon;
-            if (container->isSearchModeEnabled()) {
-                icon = QStringLiteral("folder-saved-search-symbolic");
-            } else {
-                icon = KIO::iconNameForUrl(url);
-            }
-            model.createPlacesItem(container->placesText(), url, icon);
-        }
-    }
 }
 
 void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties& properties)

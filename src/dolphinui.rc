@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="24">
+<kpartgui name="dolphin" version="25">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -7,6 +7,8 @@
             <Action name="new_tab" />
             <Action name="file_close" />
             <Action name="undo_close_tab" />
+            <Separator/>
+            <Action name="add_to_places" />
             <Separator/>
             <Action name="renamefile" />
             <Action name="movetotrash" />

@@ -32,6 +32,7 @@
 #include "dolphintabpage.h"
 #include "middleclickactioneventfilter.h"
 #include "panels/folders/folderspanel.h"
+#include "panels/places/placesitemmodel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
 #include "panels/terminal/terminalpanel.h"
@@ -272,7 +273,7 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     }
 
     m_activeViewContainer->setUrl(url);
-    updateEditActions();
+    updateFileAndEditActions();
     updatePasteAction();
     updateViewActions();
     updateGoActions();
@@ -301,7 +302,7 @@ void DolphinMainWindow::slotEditableStateChanged(bool editable)
 
 void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
-    updateEditActions();
+    updateFileAndEditActions();
 
     const int selectedUrlsCount = m_tabWidget->currentTabPage()->selectedItemsCount();
 
@@ -350,6 +351,32 @@ void DolphinMainWindow::openNewMainWindow()
 void DolphinMainWindow::openNewActivatedTab()
 {
     m_tabWidget->openNewActivatedTab();
+}
+
+void DolphinMainWindow::addToPlaces()
+{
+    QUrl url;
+    QString name;
+
+    // If nothing is selected, act on the current dir
+    if (m_activeViewContainer->view()->selectedItems().count() == 0) {
+        url = m_activeViewContainer->url();
+        name = m_activeViewContainer->placesText();
+    } else {
+        const auto dirToAdd = m_activeViewContainer->view()->selectedItems().first();
+        url = dirToAdd.url();
+        name = dirToAdd.name();
+    }
+    if (url.isValid()) {
+        PlacesItemModel model;
+        QString icon;
+        if (m_activeViewContainer->isSearchModeEnabled()) {
+            icon = QStringLiteral("folder-saved-search-symbolic");
+        } else {
+            icon = KIO::iconNameForUrl(url);
+        }
+        model.createPlacesItem(name, url, icon);
+    }
 }
 
 void DolphinMainWindow::openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement)
@@ -1109,7 +1136,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     m_actionHandler->setCurrentView(viewContainer->view());
 
     updateHistory();
-    updateEditActions();
+    updateFileAndEditActions();
     updatePasteAction();
     updateViewActions();
     updateGoActions();
@@ -1181,6 +1208,12 @@ void DolphinMainWindow::setupActions()
         "You can drag and drop items between tabs."));
     actionCollection()->setDefaultShortcuts(newTab, {Qt::CTRL + Qt::Key_T, Qt::CTRL + Qt::SHIFT + Qt::Key_N});
     connect(newTab, &QAction::triggered, this, &DolphinMainWindow::openNewActivatedTab);
+
+    QAction* addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
+    addToPlaces->setIcon(QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    addToPlaces->setWhatsThis(xi18nc("@info:whatsthis", "This adds the selected folder"
+        "to the Places panel."));
+    connect(addToPlaces, &QAction::triggered, this, &DolphinMainWindow::addToPlaces);
 
     QAction* closeTab = KStandardAction::close(m_tabWidget, QOverload<>::of(&DolphinTabWidget::closeTab), actionCollection());
     closeTab->setText(i18nc("@action:inmenu File", "Close Tab"));
@@ -1681,21 +1714,34 @@ void DolphinMainWindow::setupDockWidgets()
     });
 }
 
-void DolphinMainWindow::updateEditActions()
+
+void DolphinMainWindow::updateFileAndEditActions()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    const KActionCollection* col = actionCollection();
+    QAction* addToPlacesAction = col->action(QStringLiteral("add_to_places"));
+
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
+
+        addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add '%1' to Places", m_activeViewContainer->placesText()));
     } else {
         stateChanged(QStringLiteral("has_selection"));
 
-        KActionCollection* col = actionCollection();
         QAction* renameAction            = col->action(KStandardAction::name(KStandardAction::RenameFile));
         QAction* moveToTrashAction       = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
         QAction* deleteAction            = col->action(KStandardAction::name(KStandardAction::DeleteFile));
         QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
         QAction* showTarget              = col->action(QStringLiteral("show_target"));
+
+        if (list.length() == 1 && list.first().isDir()) {
+            addToPlacesAction->setEnabled(true);
+            addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add '%1' to Places", list.first().name()));
+        } else {
+            addToPlacesAction->setEnabled(false);
+            addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add to Places"));
+        }
 
         KFileItemListProperties capabilities(list);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
