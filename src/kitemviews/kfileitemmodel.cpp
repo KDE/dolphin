@@ -1829,8 +1829,15 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
 
     default: {
         const QByteArray role = roleForType(m_sortRole);
-        result = QString::compare(a->values.value(role).toString(),
-                                  b->values.value(role).toString());
+        const QString roleValueA = a->values.value(role).toString();
+        const QString roleValueB = b->values.value(role).toString();
+        if (!roleValueA.isEmpty() && roleValueB.isEmpty()) {
+            result = -1;
+        } else if (roleValueA.isEmpty() && !roleValueB.isEmpty()) {
+            result = +1;
+        } else {
+            result = QString::compare(roleValueA, roleValueB);
+        }
         break;
     }
 
