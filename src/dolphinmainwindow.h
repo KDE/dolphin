@@ -255,6 +255,9 @@ private slots:
     /** Replaces the URL navigator by a search box to find files. */
     void find();
 
+    /** Updates the state of the search action according to the view container. */
+    void updateSearchAction();
+
     /**
      * Updates the text of the paste action dependent on
      * the number of items which are in the clipboard.

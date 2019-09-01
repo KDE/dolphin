@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="23">
+<kpartgui name="dolphin" version="24">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -102,7 +102,7 @@
         <Spacer name="spacer_0" />
         <Action name="split_view" />
         <Action name="split_stash" />
-        <Action name="edit_find" />
+        <Action name="toggle_search" />
     </ToolBar>
     <ActionProperties scheme="Default">
         <Action priority="0" name="go_back"/>
@@ -118,6 +118,6 @@
         <Action priority="0" name="edit_cut"/>
         <Action priority="0" name="edit_copy"/>
         <Action priority="0" name="edit_paste"/>
-        <Action priority="0" name="edit_find"/>
+        <Action priority="0" name="toggle_search"/>
     </ActionProperties>
 </kpartgui>

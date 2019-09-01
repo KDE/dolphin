@@ -118,11 +118,8 @@ public:
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
 
-    /**
-     * Enables the search mode, if \p enabled is true. In the search mode the URL navigator
-     * will be hidden and replaced by a line editor that allows to enter a search term.
-     */
-    void setSearchModeEnabled(bool enabled);
+
+    /** Returns true if the search mode is enabled. */
     bool isSearchModeEnabled() const;
 
     /**
@@ -160,11 +157,21 @@ public slots:
      */
     void setFilterBarVisible(bool visible);
 
+    /**
+     * Enables the search mode, if \p enabled is true. In the search mode the URL navigator
+     * will be hidden and replaced by a line editor that allows to enter a search term.
+     */
+    void setSearchModeEnabled(bool enabled);
+
 signals:
     /**
      * Is emitted whenever the filter bar has changed its visibility state.
      */
     void showFilterBarChanged(bool shown);
+    /**
+     * Is emitted whenever the search mode has changed its state.
+     */
+    void searchModeEnabledChanged(bool enabled);
 
     /**
      * Is emitted when the write state of the folder has been changed. The application

@@ -412,6 +412,8 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     }
 
     m_searchModeEnabled = enabled;
+
+    emit searchModeEnabledChanged(enabled);
 }
 
 bool DolphinViewContainer::isSearchModeEnabled() const

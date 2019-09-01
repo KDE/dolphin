@@ -617,6 +617,12 @@ void DolphinMainWindow::find()
     m_activeViewContainer->setSearchModeEnabled(true);
 }
 
+void DolphinMainWindow::updateSearchAction()
+{
+    QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+    toggleSearchAction->setChecked(m_activeViewContainer->isSearchModeEnabled());
+}
+
 void DolphinMainWindow::updatePasteAction()
 {
     QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
@@ -1084,6 +1090,9 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     m_activeViewContainer = viewContainer;
 
     if (oldViewContainer) {
+        const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+        toggleSearchAction->disconnect(oldViewContainer);
+
         // Disconnect all signals between the old view container (container,
         // view and url navigator) and main window.
         oldViewContainer->disconnect(this);
@@ -1104,6 +1113,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     updatePasteAction();
     updateViewActions();
     updateGoActions();
+    updateSearchAction();
 
     const QUrl url = viewContainer->url();
     emit urlChanged(url);
@@ -1224,6 +1234,17 @@ void DolphinMainWindow::setupActions()
         "objects you are looking for.</para><para>Use this help again on "
         "the find bar so we can have a look at it while the settings are "
         "explained.</para>"));
+
+    // toggle_search acts as a copy of the main searchAction to be used mainly
+    // in the toolbar, with no default shortcut attached, to avoid messing with
+    // existing workflows (search bar always open and Ctrl-F to focus)
+    QAction *toggleSearchAction = actionCollection()->addAction(QStringLiteral("toggle_search"));
+    toggleSearchAction->setText(i18nc("@action:inmenu", "Toggle Search Bar"));
+    toggleSearchAction->setIconText(i18nc("@action:intoolbar", "Search"));
+    toggleSearchAction->setIcon(searchAction->icon());
+    toggleSearchAction->setToolTip(searchAction->toolTip());
+    toggleSearchAction->setWhatsThis(searchAction->whatsThis());
+    toggleSearchAction->setCheckable(true);
 
     QAction* selectAllAction = KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
     selectAllAction->setWhatsThis(xi18nc("@info:whatsthis", "This selects all "
@@ -1803,6 +1824,11 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::updateFilterBarAction);
     connect(container, &DolphinViewContainer::writeStateChanged,
             this, &DolphinMainWindow::slotWriteStateChanged);
+    connect(container, &DolphinViewContainer::searchModeEnabledChanged,
+            this, &DolphinMainWindow::updateSearchAction);
+
+    const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
+    connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
 
     const DolphinView* view = container->view();
     connect(view, &DolphinView::selectionChanged,
