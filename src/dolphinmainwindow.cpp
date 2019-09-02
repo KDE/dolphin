@@ -1211,7 +1211,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
     addToPlaces->setIcon(QIcon::fromTheme(QStringLiteral("bookmark-new")));
-    addToPlaces->setWhatsThis(xi18nc("@info:whatsthis", "This adds the selected folder"
+    addToPlaces->setWhatsThis(xi18nc("@info:whatsthis", "This adds the selected folder "
         "to the Places panel."));
     connect(addToPlaces, &QAction::triggered, this, &DolphinMainWindow::addToPlaces);
 
