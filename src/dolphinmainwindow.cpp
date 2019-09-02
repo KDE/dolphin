@@ -2089,7 +2089,7 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
 
 bool DolphinMainWindow::isUrlOpen(const QString& url)
 {
-    if (m_tabWidget->getIndexByUrl(QUrl::fromUserInput((url))) >= 0) {
+    if (m_tabWidget->getIndexByUrl(QUrl::fromUserInput((url))).first >= 0) {
         return true;
     } else {
         return false;
