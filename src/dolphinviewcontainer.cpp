@@ -568,6 +568,7 @@ void DolphinViewContainer::slotDirectoryLoadingStarted()
         // Trigger an undetermined progress indication. The progress
         // information in percent will be triggered by the percent() signal
         // of the directory lister later.
+        m_statusBar->setProgressText(QString());
         updateDirectoryLoadingProgress(-1);
     }
 }
