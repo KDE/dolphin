@@ -89,11 +89,13 @@ class PhononWidget : public QWidget
         void applyVideoSize();
 
     private:
+        void togglePlayback();
+
         QUrl m_url;
         QSize m_videoSize;
 
         QToolButton *m_playButton;
-        QToolButton *m_stopButton;
+        QToolButton *m_pauseButton;
 
         QVBoxLayout *m_topLayout;
         Phonon::MediaObject *m_media;

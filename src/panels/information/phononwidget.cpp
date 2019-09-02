@@ -60,7 +60,7 @@ PhononWidget::PhononWidget(QWidget *parent)
     : QWidget(parent),
     m_url(),
     m_playButton(nullptr),
-    m_stopButton(nullptr),
+    m_pauseButton(nullptr),
     m_topLayout(nullptr),
     m_media(nullptr),
     m_seekSlider(nullptr),
@@ -100,6 +100,15 @@ void PhononWidget::clearUrl()
     m_url.clear();
 }
 
+void PhononWidget::togglePlayback()
+{
+    if (m_media && m_media->state() == Phonon::State::PlayingState) {
+        m_media->pause();
+    } else {
+        play();
+    }
+}
+
 bool PhononWidget::eventFilter(QObject *object, QEvent *event)
 {
     Q_UNUSED(object)
@@ -107,11 +116,7 @@ bool PhononWidget::eventFilter(QObject *object, QEvent *event)
         const QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
         if (mouseEvent->button() == Qt::LeftButton) {
             // toggle playback
-            if (m_media && m_media->state() == Phonon::State::PlayingState) {
-                m_media->pause();
-            } else {
-                play();
-            }
+            togglePlayback();
             return true;
         }
     }
@@ -147,11 +152,11 @@ void PhononWidget::showEvent(QShowEvent *event)
         controlsLayout->setSpacing(0);
 
         m_playButton = new QToolButton(this);
-        m_stopButton = new QToolButton(this);
+        m_pauseButton = new QToolButton(this);
         m_seekSlider = new Phonon::SeekSlider(this);
 
         controlsLayout->addWidget(m_playButton);
-        controlsLayout->addWidget(m_stopButton);
+        controlsLayout->addWidget(m_pauseButton);
         controlsLayout->addWidget(m_seekSlider);
 
         m_topLayout->addLayout(controlsLayout);
@@ -165,12 +170,12 @@ void PhononWidget::showEvent(QShowEvent *event)
         m_playButton->setAutoRaise(true);
         connect(m_playButton, &QToolButton::clicked, this, &PhononWidget::play);
 
-        m_stopButton->setToolTip(i18n("stop"));
-        m_stopButton->setIconSize(buttonSize);
-        m_stopButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-stop")));
-        m_stopButton->setAutoRaise(true);
-        m_stopButton->hide();
-        connect(m_stopButton, &QToolButton::clicked, this, &PhononWidget::stop);
+        m_pauseButton->setToolTip(i18n("pause"));
+        m_pauseButton->setIconSize(buttonSize);
+        m_pauseButton->setIcon(QIcon::fromTheme(QStringLiteral("media-playback-pause")));
+        m_pauseButton->setAutoRaise(true);
+        m_pauseButton->hide();
+        connect(m_pauseButton, &QToolButton::clicked, this, &PhononWidget::togglePlayback);
 
         m_seekSlider->setIconVisible(false);
 
@@ -196,10 +201,10 @@ void PhononWidget::stateChanged(Phonon::State newstate)
     case Phonon::PlayingState:
     case Phonon::BufferingState:
         m_playButton->hide();
-        m_stopButton->show();
+        m_pauseButton->show();
         break;
     default:
-        m_stopButton->hide();
+        m_pauseButton->hide();
         m_playButton->show();
         break;
     }
