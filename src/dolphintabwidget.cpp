@@ -171,7 +171,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     if (tabPlacement == AfterCurrentTab) {
         newTabIndex = currentIndex() + 1;
     }
-    insertTab(newTabIndex, tabPage, QIcon::fromTheme(KIO::iconNameForUrl(primaryUrl)), tabName(tabPage));
+    insertTab(newTabIndex, tabPage, QIcon() /* loaded in tabInserted */, tabName(tabPage));
 
     if (focusWidget) {
         // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened
@@ -324,7 +324,12 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(tabPageAt(index)));
-        tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
+        if (tabBar()->isVisible()) {
+            tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
+        } else {
+            // Mark as dirty, actually load once the tab bar actually gets shown
+            tabBar()->setTabIcon(index, QIcon());
+        }
 
         // Emit the currentUrlChanged signal if the url of the current tab has been changed.
         if (index == currentIndex()) {
@@ -352,6 +357,13 @@ void DolphinTabWidget::tabInserted(int index)
     QTabWidget::tabInserted(index);
 
     if (count() > 1) {
+        // Resolve all pending tab icons
+        for (int i = 0; i < count(); ++i) {
+            if (tabBar()->tabIcon(i).isNull()) {
+                tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(tabPageAt(i)->activeViewContainer()->url())));
+            }
+        }
+
         tabBar()->show();
     }
 
