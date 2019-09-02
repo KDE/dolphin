@@ -116,9 +116,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     KAboutData::setApplicationData(aboutData);
 
-    KDBusService dolphinDBusService;
-    DBusInterface interface;
-
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
 
@@ -139,6 +136,8 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     QList<QUrl> urls = Dolphin::validateUris(args);
 
     if (parser.isSet(QStringLiteral("daemon"))) {
+        KDBusService dolphinDBusService;
+        DBusInterface interface;
         return app.exec();
     }
 
@@ -177,6 +176,9 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
            qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
         }
     }
+
+    KDBusService dolphinDBusService;
+    DBusInterface interface;
 
     return app.exec(); // krazy:exclude=crash;
 }

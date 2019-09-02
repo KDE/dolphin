@@ -80,9 +80,13 @@ public:
 
     /**
      * @param url The URL that we would like
-     * @return index of the tab with the desired URL. returns -1 if not found
+     * @return a QPair with first containing the index of the tab with the
+     * desired URL or -1 if not found. Second says true if URL is in primary
+     * view container, false otherwise. False means the URL is in the secondary
+     * view container, unless first == -1. In that case the value of second
+     * is meaningless.
      */
-    int getIndexByUrl(const QUrl& url) const;
+    QPair<int, bool> getIndexByUrl(const QUrl& url) const;
 
 signals:
     /**
