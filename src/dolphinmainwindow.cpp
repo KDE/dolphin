@@ -1658,7 +1658,7 @@ void DolphinMainWindow::setupDockWidgets()
             this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
     m_tabWidget->slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
 
-    auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("hint")), i18nc("@item:inmenu", "Show Hidden Places"), this);
+    auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Show Hidden Places"), this);
     actionShowAllPlaces->setCheckable(true);
     actionShowAllPlaces->setDisabled(true);
     actionShowAllPlaces->setWhatsThis(i18nc("@info:whatsthis", "This displays "
@@ -1666,13 +1666,13 @@ void DolphinMainWindow::setupDockWidgets()
         "appear semi-transparent unless you uncheck their hide property."));
 
     connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
-        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
+        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
         m_placesPanel->showHiddenEntries(checked);
     });
 
     connect(m_placesPanel, &PlacesPanel::showHiddenEntriesChanged, this, [actionShowAllPlaces] (bool checked){
         actionShowAllPlaces->setChecked(checked);
-        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("visibility") : QStringLiteral("hint")));
+        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
    });
 
     actionCollection()->action(QStringLiteral("show_places_panel"))

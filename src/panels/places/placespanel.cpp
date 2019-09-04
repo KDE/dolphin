@@ -232,7 +232,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         removeAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@item:inmenu", "Remove"));
     }
 
-    QAction* hideAction = menu.addAction(QIcon::fromTheme(QStringLiteral("hint")), i18nc("@item:inmenu", "Hide"));
+    QAction* hideAction = menu.addAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Hide"));
     hideAction->setCheckable(true);
     hideAction->setChecked(item->isHidden());
 
@@ -293,7 +293,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     QAction* showAllAction = menu.addAction(i18nc("@item:inmenu", "Show Hidden Places"));
     showAllAction->setCheckable(true);
     showAllAction->setChecked(m_model->hiddenItemsShown());
-    showAllAction->setIcon(QIcon::fromTheme(m_model->hiddenItemsShown() ? QStringLiteral("visibility") : QStringLiteral("hint")));
+    showAllAction->setIcon(QIcon::fromTheme(m_model->hiddenItemsShown() ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
     showAllAction->setEnabled(m_model->hiddenCount());
 
     buildGroupContextMenu(&menu, m_controller->indexCloseToMousePressedPosition());
@@ -358,7 +358,7 @@ QAction *PlacesPanel::buildGroupContextMenu(QMenu *menu, int index)
     }
 
     KFilePlacesModel::GroupType groupType = m_model->groupType(index);
-    QAction *hideGroupAction = menu->addAction(QIcon::fromTheme(QStringLiteral("hint")), i18nc("@item:inmenu", "Hide Section '%1'", m_model->item(index)->group()));
+    QAction *hideGroupAction = menu->addAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Hide Section '%1'", m_model->item(index)->group()));
     hideGroupAction->setCheckable(true);
     hideGroupAction->setChecked(m_model->isGroupHidden(groupType));
 

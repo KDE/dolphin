@@ -535,11 +535,11 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 
     // #374508: don't overwrite custom icons.
     const QString iconName = showHiddenFilesAction->icon().name();
-    if (!iconName.isEmpty() && iconName != QLatin1String("visibility") && iconName != QLatin1String("hint")) {
+    if (!iconName.isEmpty() && iconName != QLatin1String("view-visible") && iconName != QLatin1String("view-hidden")) {
         return;
     }
 
-    showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? QStringLiteral("visibility") : QStringLiteral("hint")));
+    showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
 }
 
 void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
