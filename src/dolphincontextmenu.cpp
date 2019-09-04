@@ -383,6 +383,8 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(propertiesAction);
 
     addShowMenuBarAction();
+
+    exec(m_pos);
 }
 
 void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties& properties)
