@@ -222,7 +222,7 @@ void DolphinPart::createActions()
 #ifndef Q_OS_WIN
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         m_openTerminalAction = actionCollection()->addAction(QStringLiteral("open_terminal"));
-        m_openTerminalAction->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        m_openTerminalAction->setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
         m_openTerminalAction->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
         connect(m_openTerminalAction, &QAction::triggered, this, &DolphinPart::slotOpenTerminal);
         actionCollection()->setDefaultShortcut(m_openTerminalAction, Qt::Key_F4);

@@ -527,7 +527,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         if (!m_terminalPanel->isVisible()) {
             KGuiItem::assign(
                     buttons->button(QDialogButtonBox::No),
-                    KGuiItem(i18n("Show &Terminal Panel"), QIcon::fromTheme(QStringLiteral("utilities-terminal"))));
+                    KGuiItem(i18n("Show &Terminal Panel"), QIcon::fromTheme(QStringLiteral("dialog-scripts"))));
         }
         KGuiItem::assign(buttons->button(QDialogButtonBox::Cancel), KStandardGuiItem::cancel());
 
@@ -1406,7 +1406,7 @@ void DolphinMainWindow::setupActions()
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
             "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
             "<para>To learn more about terminals use the help in the terminal application.</para>"));
-        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
     }
@@ -1593,7 +1593,7 @@ void DolphinMainWindow::setupDockWidgets()
                 this, &DolphinMainWindow::slotTerminalPanelVisibilityChanged);
 
         QAction* terminalAction = terminalDock->toggleViewAction();
-        createPanelAction(QIcon::fromTheme(QStringLiteral("utilities-terminal")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
+        createPanelAction(QIcon::fromTheme(QStringLiteral("dialog-scripts")), Qt::Key_F4, terminalAction, QStringLiteral("show_terminal_panel"));
 
         addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
         connect(this, &DolphinMainWindow::urlChanged,
