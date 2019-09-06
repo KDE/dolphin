@@ -89,7 +89,7 @@ Comment[zh_CN]=此服务允许您配置 Dolphin 的导航。
 Comment[zh_TW]=此服務允許設定 Dolphin 的導覽。
 
 [Desktop Entry]
-Icon=input-mouse
+Icon=preferences-desktop-navigation
 Type=Service
 X-KDE-ServiceTypes=KCModule
 Exec=kcmshell5 kcmdolphinnavigation

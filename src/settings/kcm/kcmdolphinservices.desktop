@@ -44,7 +44,7 @@ Name[zh_CN]=Dolphin 服务
 Name[zh_TW]=Dolphin 服務
 
 [Desktop Entry]
-Icon=services
+Icon=preferences-system-services
 Type=Service
 X-KDE-ServiceTypes=KCModule
 Exec=kcmshell5 kcmdolphinservices
