@@ -994,18 +994,15 @@ void DolphinMainWindow::updateControlMenu()
 
     KActionCollection* ac = actionCollection();
 
-    // Add "Create New" menu
     menu->addMenu(m_newFileMenu->menu());
+    addActionToMenu(ac->action(QStringLiteral("file_new")), menu);
+    addActionToMenu(ac->action(QStringLiteral("new_tab")), menu);
+    addActionToMenu(ac->action(QStringLiteral("closed_tabs")), menu);
 
     menu->addSeparator();
 
-    // Overwrite Find action to Search action
-    QAction *searchAction = ac->action(KStandardAction::name(KStandardAction::Find));
-    searchAction->setText(i18n("Search..."));
-
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
-                 addActionToMenu(searchAction, menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
                  addActionToMenu(ac->action(QStringLiteral("invert_selection")), menu);
 
@@ -1021,62 +1018,35 @@ void DolphinMainWindow::updateControlMenu()
         menu->addSeparator();
     }
 
-    added = addActionToMenu(ac->action(QStringLiteral("sort")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("view_mode")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("additional_info")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("show_preview")), menu) |
+    added = addActionToMenu(ac->action(QStringLiteral("show_preview")), menu) |
             addActionToMenu(ac->action(QStringLiteral("show_in_groups")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("show_hidden_files")), menu);
-
-    if (added) {
-        menu->addSeparator();
-    }
-
-    added = addActionToMenu(ac->action(QStringLiteral("split_view")), menu) |
-            addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Redisplay)), menu) |
+            addActionToMenu(ac->action(QStringLiteral("show_hidden_files")), menu) |
+            addActionToMenu(ac->action(QStringLiteral("additional_info")), menu) |
             addActionToMenu(ac->action(QStringLiteral("view_properties")), menu);
+
     if (added) {
         menu->addSeparator();
     }
 
-    addActionToMenu(ac->action(QStringLiteral("panels")), menu);
-    QMenu* locationBarMenu = new QMenu(i18nc("@action:inmenu", "Location Bar"), menu);
-    locationBarMenu->addAction(ac->action(QStringLiteral("editable_location")));
-    locationBarMenu->addAction(ac->action(QStringLiteral("replace_location")));
-    menu->addMenu(locationBarMenu);
+    // Add a curated assortment of items from the "Tools" menu
+    addActionToMenu(ac->action(QStringLiteral("show_filter_bar")), menu);
+    addActionToMenu(ac->action(QStringLiteral("open_terminal")), menu);
 
     menu->addSeparator();
 
-    // Add "Go" menu
-    QMenu* goMenu = new QMenu(i18nc("@action:inmenu", "Go"), menu);
-    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
-    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
-    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
-    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Home)));
-    goMenu->addAction(ac->action(QStringLiteral("closed_tabs")));
-    KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), goMenu);
-    m_bookmarkHandler->fillControlMenu(bookmarkMenu->menu(), ac);
-    goMenu->addAction(bookmarkMenu);
-    menu->addMenu(goMenu);
-
-    // Add "Tool" menu
-    QMenu* toolsMenu = new QMenu(i18nc("@action:inmenu", "Tools"), menu);
-    toolsMenu->addAction(ac->action(QStringLiteral("show_filter_bar")));
-    toolsMenu->addAction(ac->action(QStringLiteral("compare_files")));
-    toolsMenu->addAction(ac->action(QStringLiteral("open_terminal")));
-    toolsMenu->addAction(ac->action(QStringLiteral("change_remote_encoding")));
-    menu->addMenu(toolsMenu);
+    // Add "Show Panels" menu
+    addActionToMenu(ac->action(QStringLiteral("panels")), menu);
 
     // Add "Settings" menu entries
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::KeyBindings)), menu);
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)), menu);
     addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
+    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
 
     // Add "Help" menu
-    menu->addMenu(m_helpMenu->menu());
-
-    menu->addSeparator();
-    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
+    auto helpMenu = m_helpMenu->menu();
+    helpMenu->setIcon(QIcon::fromTheme(QStringLiteral("system-help")));
+    menu->addMenu(helpMenu);
 }
 
 void DolphinMainWindow::updateToolBar()

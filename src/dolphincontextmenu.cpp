@@ -207,29 +207,22 @@ void DolphinContextMenu::openItemContextMenu()
             // Insert 'Open With' entries
             addOpenWithActions(fileItemActions);
 
-            // insert 'Add to Places' entry
-            if (!placeExists(m_fileInfo.url())) {
-                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
-            }
-
-            addSeparator();
-
             // set up 'Create New' menu
-            DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-            const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-            newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
-            newFileMenu->checkUpToDate();
-            newFileMenu->setPopupFiles(m_fileInfo.url());
-            newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
-            connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
-            connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+             DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
+             const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+             newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
+             newFileMenu->checkUpToDate();
+             newFileMenu->setPopupFiles(m_fileInfo.url());
+             newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
+             connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+             connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
 
-            QMenu* menu = newFileMenu->menu();
-            menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-            menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-            addMenu(menu);
+             QMenu* menu = newFileMenu->menu();
+             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
+             menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+             addMenu(menu);
 
-            addSeparator();
+             addSeparator();
         } else if (m_baseUrl.scheme().contains(QLatin1String("search")) || m_baseUrl.scheme().contains(QLatin1String("timeline"))) {
             addOpenWithActions(fileItemActions);
 
@@ -250,15 +243,6 @@ void DolphinContextMenu::openItemContextMenu()
                                                          "Open Path in New Tab"),
                                                    this);
             addAction(openParentInNewTabAction);
-
-            addSeparator();
-        } else if (!DolphinView::openItemAsFolderUrl(m_fileInfo).isEmpty()) {
-            // Insert 'Open With" entries
-            addOpenWithActions(fileItemActions);
-
-            // insert 'Open in new window' and 'Open in new tab' entries
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
 
             addSeparator();
         } else {
@@ -288,6 +272,15 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     insertDefaultItemActions(selectedItemsProps);
+
+    // insert 'Add to Places' entry if appropriate
+    if (m_selectedItems.count() == 1) {
+        if (m_fileInfo.isDir()) {
+            if (!placeExists(m_fileInfo.url())) {
+                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
+            }
+        }
+    }
 
     addSeparator();
 
@@ -323,14 +316,7 @@ void DolphinContextMenu::openItemContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    // setup 'Create New' menu
-    KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
-    newFileMenu->checkUpToDate();
-    newFileMenu->setPopupFiles(m_baseUrl);
-    addMenu(newFileMenu->menu());
-    addSeparator();
 
     // Insert 'Open With' entries
     KFileItem baseItem = view->rootItem();
@@ -349,20 +335,20 @@ void DolphinContextMenu::openViewportContextMenu()
         addOpenWithActions(fileItemActions);
     }
 
-    // Insert 'New Window' and 'New Tab' entries. Don't use "open_in_new_window" and
-    // "open_in_new_tab" here, as the current selection should get ignored.
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("file_new")));
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("new_tab")));
-
-    // Insert 'Add to Places' entry if exactly one item is selected
-    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
-    }
-
-    addSeparator();
+    // Set up and insert 'Create New' menu
+    KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
+    newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
+    newFileMenu->checkUpToDate();
+    newFileMenu->setPopupFiles(m_baseUrl);
+    addMenu(newFileMenu->menu());
 
     QAction* pasteAction = createPasteAction();
     addAction(pasteAction);
+
+    // Insert 'Add to Places' entry if it's not already in the places panel
+    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
+    }
     addSeparator();
 
     // Insert 'Sort By' and 'View Mode'
@@ -378,6 +364,8 @@ void DolphinContextMenu::openViewportContextMenu()
     addVersionControlPluginActions();
 
     addCustomActions();
+
+    addSeparator();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
