@@ -1482,7 +1482,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     size *= qApp->devicePixelRatio();
     requestedSize *= qApp->devicePixelRatio();
 
-    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QStringLiteral(":")) % ":" % QString::number(size) % ":" % QString::number(mode);
+    const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % ":" % QString::number(mode);
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {

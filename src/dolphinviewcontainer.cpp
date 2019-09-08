@@ -699,7 +699,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
                 app = browser;
                 if (app.startsWith('!')) {
                     // a literal command has been configured, remove the '!' prefix
-                    app = app.mid(1);
+                    app.remove(0, 1);
                 }
             }
         } else {
@@ -787,7 +787,7 @@ void DolphinViewContainer::showErrorMessage(const QString& msg)
 
 bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
 {
-    return url.scheme().contains(QStringLiteral("search"));
+    return url.scheme().contains(QLatin1String("search"));
 }
 
 void DolphinViewContainer::saveViewState()

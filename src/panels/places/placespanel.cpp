@@ -77,7 +77,7 @@ void PlacesPanel::proceedWithTearDown()
 
 bool PlacesPanel::urlChanged()
 {
-    if (!url().isValid() || url().scheme().contains(QStringLiteral("search"))) {
+    if (!url().isValid() || url().scheme().contains(QLatin1String("search"))) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;

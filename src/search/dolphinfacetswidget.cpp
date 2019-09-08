@@ -150,7 +150,7 @@ QString DolphinFacetsWidget::ratingTerm() const
         terms << QStringLiteral("modified>=%1").arg(date.toString(Qt::ISODate));
     }
 
-    return terms.join(QStringLiteral(" AND "));
+    return terms.join(QLatin1String(" AND "));
 }
 
 QString DolphinFacetsWidget::facetType() const

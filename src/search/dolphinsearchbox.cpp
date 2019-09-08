@@ -505,7 +505,7 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
         query.setIncludeFolder(m_searchPath.toLocalFile());
     }
 
-    query.setSearchString(queryStrings.join(QStringLiteral(" ")));
+    query.setSearchString(queryStrings.join(QLatin1Char(' ')));
 
     return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                    "Query Results from '%1'", text));

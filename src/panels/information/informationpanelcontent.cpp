@@ -223,7 +223,7 @@ void InformationPanelContent::refreshPreview()
     if (InformationPanelSettings::previewsShown()) {
 
         const QUrl itemUrl = m_item.url();
-        const bool isSearchUrl = itemUrl.scheme().contains(QStringLiteral("search")) && m_item.localPath().isEmpty();
+        const bool isSearchUrl = itemUrl.scheme().contains(QLatin1String("search")) && m_item.localPath().isEmpty();
         if (isSearchUrl) {
             m_preview->show();
 

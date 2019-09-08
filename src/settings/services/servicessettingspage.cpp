@@ -222,7 +222,7 @@ void ServicesSettingsPage::loadServices()
 
     // Load JSON-based plugins that implement the KFileItemActionPlugin interface
     const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QStringLiteral("KFileItemAction/Plugin"));
+        return metaData.serviceTypes().contains(QLatin1String("KFileItemAction/Plugin"));
     });
 
     foreach (const auto& jsonMetadata, jsonPlugins) {

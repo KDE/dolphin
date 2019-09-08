@@ -94,7 +94,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     // Don't match the service without trailing "-" (unique instance)
     const QString pattern = QStringLiteral("org.kde.dolphin-");
     // Don't match the pid without leading "-"
-    const QString myPid = QStringLiteral("-") + QString::number(QCoreApplication::applicationPid());
+    const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
     for (const QString& service : services) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
             // Check if instance can handle our URLs

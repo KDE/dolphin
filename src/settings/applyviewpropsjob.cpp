@@ -54,7 +54,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
 {
     foreach (const KIO::UDSEntry& entry, list) {
         const QString name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
-        if (name != QLatin1String(".") && name != QLatin1String("..") && entry.isDir()) {
+        if (name != QLatin1Char('.') && name != QLatin1String("..") && entry.isDir()) {
             ++m_progress;
 
             QUrl url(m_dir);

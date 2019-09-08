@@ -188,7 +188,7 @@ void RenameDialog::slotAccepted()
 
 void RenameDialog::slotTextChanged(const QString& newName)
 {
-    bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String("."));
+    bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1Char('.'));
     if (enable && !m_renameOneItem) {
         const int count = newName.count(QLatin1Char('#'));
         if (count == 0) {

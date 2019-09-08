@@ -111,7 +111,7 @@ void FoldersPanel::rename(const KFileItem& item)
 
 bool FoldersPanel::urlChanged()
 {
-    if (!url().isValid() || url().scheme().contains(QStringLiteral("search"))) {
+    if (!url().isValid() || url().scheme().contains(QLatin1String("search"))) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
         return false;
@@ -258,7 +258,7 @@ void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, co
     if (role == "text") {
         const KFileItem item = m_model->fileItem(index);
         const QString newName = value.toString();
-        if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
+        if (!newName.isEmpty() && newName != item.text() && newName != QLatin1Char('.') && newName != QLatin1String("..")) {
             const QUrl oldUrl = item.url();
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));

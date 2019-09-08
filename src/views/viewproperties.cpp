@@ -59,7 +59,7 @@ ViewProperties::ViewProperties(const QUrl& url) :
     // we store the properties information in a local file.
     if (useGlobalViewProps) {
         m_filePath = destinationDir(QStringLiteral("global"));
-    } else if (url.scheme().contains(QStringLiteral("search"))) {
+    } else if (url.scheme().contains(QLatin1String("search"))) {
         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
         useDetailsViewWithPath = true;
     } else if (url.scheme() == QLatin1String("trash")) {
