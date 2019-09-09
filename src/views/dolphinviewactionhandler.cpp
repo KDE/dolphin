@@ -637,9 +637,10 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
     // and several sub-menus. Because of this they don't have a common
     // action-group that assures an exclusive toggle-state between the main-menu
     // actions and the sub-menu-actions. If an action gets checked, it must
-    // be assured that all other actions get unchecked.
+    // be assured that all other actions get unchecked, except the ascending/
+    // descending actions
     QAction* sortByMenu =  m_actionCollection->action(QStringLiteral("sort"));
-    foreach (QAction* groupAction, sortByMenu->menu()->actions()) {
+    for (QAction *groupAction : qAsConst(m_sortByActions)) {
         KActionMenu* actionMenu = qobject_cast<KActionMenu*>(groupAction);
         if (actionMenu) {
             foreach (QAction* subAction, actionMenu->menu()->actions()) {
