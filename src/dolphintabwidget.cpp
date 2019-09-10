@@ -130,6 +130,11 @@ void DolphinTabWidget::refreshViews()
     }
 }
 
+bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
+{
+    return indexByUrl(url).first >= 0;
+}
+
 void DolphinTabWidget::openNewActivatedTab()
 {
     const DolphinViewContainer* oldActiveViewContainer = currentTabPage()->activeViewContainer();
@@ -187,11 +192,13 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
-        const QPair<int, bool> viewLocation = getIndexByUrl(primaryUrl);
-        if (viewLocation.first >= 0) {
-            setCurrentIndex(viewLocation.first);
-            const auto tabPage = tabPageAt(viewLocation.first);
-            if (viewLocation.second) {
+        const QPair<int, bool> indexInfo = indexByUrl(primaryUrl);
+        const int index = indexInfo.first;
+        const bool isInPrimaryView = indexInfo.second;
+        if (index >= 0) {
+            setCurrentIndex(index);
+            const auto tabPage = tabPageAt(index);
+            if (isInPrimaryView) {
                 tabPage->primaryViewContainer()->setActive(true);
             } else {
                 tabPage->secondaryViewContainer()->setActive(true);
@@ -400,7 +407,7 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     return name.replace('&', QLatin1String("&&"));
 }
 
-QPair<int, bool> DolphinTabWidget::getIndexByUrl(const QUrl& url) const
+QPair<int, bool> DolphinTabWidget::indexByUrl(const QUrl& url) const
 {
     for (int i = 0; i < count(); i++) {
         const auto tabPage = tabPageAt(i);

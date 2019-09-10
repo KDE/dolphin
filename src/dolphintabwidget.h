@@ -79,14 +79,10 @@ public:
     void refreshViews();
 
     /**
-     * @param url The URL that we would like
-     * @return a QPair with first containing the index of the tab with the
-     * desired URL or -1 if not found. Second says true if URL is in primary
-     * view container, false otherwise. False means the URL is in the secondary
-     * view container, unless first == -1. In that case the value of second
-     * is meaningless.
+     * @return Whether any of the tab pages contains @p url in their primary
+     * or secondary view.
      */
-    QPair<int, bool> getIndexByUrl(const QUrl& url) const;
+    bool isUrlOpen(const QUrl& url) const;
 
 signals:
     /**
@@ -220,6 +216,16 @@ private:
      * @return The name of the tab page
      */
     QString tabName(DolphinTabPage* tabPage) const;
+
+    /**
+     * @param url The URL that we would like
+     * @return a QPair with first containing the index of the tab with the
+     * desired URL or -1 if not found. Second says true if URL is in primary
+     * view container, false otherwise. False means the URL is in the secondary
+     * view container, unless first == -1. In that case the value of second
+     * is meaningless.
+     */
+    QPair<int, bool> indexByUrl(const QUrl& url) const;
 
 private:
     /** Caches the (negated) places panel visibility */
