@@ -203,7 +203,7 @@ void KItemSetTest::testIterators()
     QVERIFY(itemSet.isValid());
     QVERIFY(itemSet.count() == itemsQVector.count());
 
-    if (itemSet.count() == 0) {
+    if (itemSet.isEmpty()) {
         QVERIFY(itemSet.isEmpty());
         QVERIFY(itemSet.begin() == itemSet.end());
         QVERIFY(itemSet.constBegin() == itemSet.constEnd());
@@ -342,7 +342,7 @@ void KItemSetTest::testFind()
     int min;
     int max;
 
-    if (itemSet.count() == 0) {
+    if (itemSet.isEmpty()) {
         // Use some arbitrary values for the upcoming tests.
         min = 0;
         max = 5;
@@ -401,7 +401,7 @@ void KItemSetTest::testChangingOneItem()
     int min;
     int max;
 
-    if (itemSet.count() == 0) {
+    if (itemSet.isEmpty()) {
         // Use some arbitrary values for the upcoming tests.
         min = 0;
         max = 5;

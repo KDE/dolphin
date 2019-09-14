@@ -460,7 +460,7 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
         }
 
         m_model->m_dirLister->updateDirectory(m_testDir->url());
-        if (itemsInsertedSpy.count() == 0) {
+        if (itemsInsertedSpy.isEmpty()) {
             QVERIFY(itemsInsertedSpy.wait());
         }
 

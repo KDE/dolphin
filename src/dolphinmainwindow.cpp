@@ -359,7 +359,7 @@ void DolphinMainWindow::addToPlaces()
     QString name;
 
     // If nothing is selected, act on the current dir
-    if (m_activeViewContainer->view()->selectedItems().count() == 0) {
+    if (m_activeViewContainer->view()->selectedItems().isEmpty()) {
         url = m_activeViewContainer->url();
         name = m_activeViewContainer->placesText();
     } else {
