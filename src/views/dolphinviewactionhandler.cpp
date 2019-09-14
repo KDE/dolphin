@@ -653,7 +653,6 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
     // actions and the sub-menu-actions. If an action gets checked, it must
     // be assured that all other actions get unchecked, except the ascending/
     // descending actions
-    QAction* sortByMenu =  m_actionCollection->action(QStringLiteral("sort"));
     for (QAction *groupAction : qAsConst(m_sortByActions)) {
         KActionMenu* actionMenu = qobject_cast<KActionMenu*>(groupAction);
         if (actionMenu) {
