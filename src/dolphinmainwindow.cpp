@@ -1696,8 +1696,9 @@ void DolphinMainWindow::setupDockWidgets()
         "</interface> to display it again.</para>") + panelWhatsThis);
 
     // Add actions into the "Panels" menu
-    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
+    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Show Panels"), this);
     actionCollection()->addAction(QStringLiteral("panels"), panelsMenu);
+    panelsMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sidetree")));
     panelsMenu->setDelayed(false);
     const KActionCollection* ac = actionCollection();
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));

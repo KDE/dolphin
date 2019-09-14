@@ -202,7 +202,7 @@ void DolphinViewActionHandler::createActions()
     zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom out", "This reduces the icon size."));
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));
-    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
+    showPreview->setText(i18nc("@action:intoolbar", "Show Previews"));
     showPreview->setToolTip(i18nc("@info", "Show preview of files and folders"));
     showPreview->setWhatsThis(xi18nc("@info:whatsthis", "When this is "
         "enabled, the icons are based on the actual file or folder "
@@ -253,7 +253,8 @@ void DolphinViewActionHandler::createActions()
     QActionGroup* visibleRolesGroup = createFileItemRolesActionGroup(QStringLiteral("show_"));
 
     KActionMenu* visibleRolesMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("additional_info"));
-    visibleRolesMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
+    visibleRolesMenu->setText(i18nc("@action:inmenu View", "Show Additional Information"));
+    visibleRolesMenu->setIcon(QIcon::fromTheme(QStringLiteral("documentinfo")));
     visibleRolesMenu->setDelayed(false);
 
     foreach (QAction* action, visibleRolesGroup->actions()) {
@@ -267,7 +268,7 @@ void DolphinViewActionHandler::createActions()
     connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>(QStringLiteral("show_hidden_files"));
-    showHiddenFiles->setText(i18nc("@action:inmenu View", "Hidden Files"));
+    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
     showHiddenFiles->setToolTip(i18nc("@info", "Visibility of hidden files and folders"));
     showHiddenFiles->setWhatsThis(xi18nc("@info:whatsthis", "<para>When "
         "this is enabled <emphasis>hidden</emphasis> files and folders "
@@ -280,6 +281,7 @@ void DolphinViewActionHandler::createActions()
 
     QAction* adjustViewProps = m_actionCollection->addAction(QStringLiteral("view_properties"));
     adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
+    adjustViewProps->setIcon(QIcon::fromTheme(QStringLiteral("view-choose")));
     adjustViewProps->setWhatsThis(i18nc("@info:whatsthis", "This opens a window "
         "in which all folder view properties can be adjusted."));
     connect(adjustViewProps, &QAction::triggered, this, &DolphinViewActionHandler::slotAdjustViewProperties);
