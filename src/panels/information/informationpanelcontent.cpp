@@ -357,7 +357,6 @@ void InformationPanelContent::showPreview(const KFileItem& item,
                                           const QPixmap& pixmap)
 {
     m_outdatedPreviewTimer->stop();
-    Q_UNUSED(item)
 
     QPixmap p = pixmap;
     KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
