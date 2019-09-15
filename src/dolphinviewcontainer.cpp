@@ -456,7 +456,7 @@ QString DolphinViewContainer::caption() const
     }
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
-    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, url(), 1, Qt::MatchExactly);
+    const auto& matchedPlaces = placesModel->match(placesModel->index(0,0), KFilePlacesModel::UrlRole, QUrl(url().adjusted(QUrl::StripTrailingSlash).toString(QUrl::FullyEncoded).append("/?")), 1, Qt::MatchRegExp);
 
     if (!matchedPlaces.isEmpty()) {
         return placesModel->text(matchedPlaces.first());
