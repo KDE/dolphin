@@ -261,7 +261,6 @@ void DolphinMainWindowTest::testWindowTitle_data()
     // TODO: this test should enforce the english locale.
     QTest::newRow("home") << QUrl::fromLocalFile(QDir::homePath()) << QStringLiteral("Home");
     QTest::newRow("home with trailing slash") << QUrl::fromLocalFile(QStringLiteral("%1/").arg(QDir::homePath())) << QStringLiteral("Home");
-    QTest::newRow("root") << QUrl::fromLocalFile(QDir::rootPath()) << QStringLiteral("Root");
     QTest::newRow("trash") << QUrl::fromUserInput(QStringLiteral("trash:/")) << QStringLiteral("Trash");
 }
 
