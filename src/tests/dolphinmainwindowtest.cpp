@@ -44,6 +44,9 @@ private slots:
     void testOpenInNewTabTitle();
     void testNewFileMenuEnabled_data();
     void testNewFileMenuEnabled();
+    void testWindowTitle_data();
+    void testWindowTitle();
+
 
 
 private:
@@ -248,6 +251,30 @@ void DolphinMainWindowTest::testNewFileMenuEnabled()
 
     QFETCH(bool, expectedEnabled);
     QTRY_COMPARE(newFileMenu->isEnabled(), expectedEnabled);
+}
+
+void DolphinMainWindowTest::testWindowTitle_data()
+{
+    QTest::addColumn<QUrl>("activeViewUrl");
+    QTest::addColumn<QString>("expectedWindowTitle");
+
+    // TODO: this test should enforce the english locale.
+    QTest::newRow("home") << QUrl::fromLocalFile(QDir::homePath()) << QStringLiteral("Home");
+    QTest::newRow("home with trailing slash") << QUrl::fromLocalFile(QStringLiteral("%1/").arg(QDir::homePath())) << QStringLiteral("Home");
+    QTest::newRow("root") << QUrl::fromLocalFile(QDir::rootPath()) << QStringLiteral("Root");
+    QTest::newRow("trash") << QUrl::fromUserInput(QStringLiteral("trash:/")) << QStringLiteral("Trash");
+}
+
+void DolphinMainWindowTest::testWindowTitle()
+{
+    QFETCH(QUrl, activeViewUrl);
+    m_mainWindow->openDirectories({ activeViewUrl }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QFETCH(QString, expectedWindowTitle);
+    QCOMPARE(m_mainWindow->windowTitle(), expectedWindowTitle);
 }
 
 QTEST_MAIN(DolphinMainWindowTest)
