@@ -1463,24 +1463,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
 {
     static const QIcon fallbackIcon = QIcon::fromTheme(QStringLiteral("unknown"));
 
-    int requestedSize = size;
-    if (size <= KIconLoader::SizeSmall) {
-        requestedSize = KIconLoader::SizeSmall;
-    } else if (size <= KIconLoader::SizeSmallMedium) {
-        requestedSize = KIconLoader::SizeSmallMedium;
-    } else if (size <= KIconLoader::SizeMedium) {
-        requestedSize = KIconLoader::SizeMedium;
-    } else if (size <= KIconLoader::SizeLarge) {
-        requestedSize = KIconLoader::SizeLarge;
-    } else if (size <= KIconLoader::SizeHuge) {
-        requestedSize = KIconLoader::SizeHuge;
-    } else if (size <= KIconLoader::SizeEnormous) {
-        requestedSize = KIconLoader::SizeEnormous;
-    } else if (size <= KIconLoader::SizeEnormous * 2) {
-        requestedSize = KIconLoader::SizeEnormous * 2;
-    }
     size *= qApp->devicePixelRatio();
-    requestedSize *= qApp->devicePixelRatio();
 
     const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % ":" % QString::number(mode);
     QPixmap pixmap;
@@ -1488,8 +1471,8 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     if (!QPixmapCache::find(key, pixmap)) {
         const QIcon icon = QIcon::fromTheme(name, fallbackIcon);
 
-        pixmap = icon.pixmap(requestedSize / qApp->devicePixelRatio(), requestedSize / qApp->devicePixelRatio(), mode);
-        if (requestedSize != size) {
+        pixmap = icon.pixmap(size / qApp->devicePixelRatio(), size / qApp->devicePixelRatio(), mode);
+        if (pixmap.width() != size || pixmap.height() != size) {
             KPixmapModifier::scale(pixmap, QSize(size, size));
         }
 
