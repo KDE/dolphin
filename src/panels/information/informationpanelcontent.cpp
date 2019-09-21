@@ -169,6 +169,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     if (item != m_item) {
         m_item = item;
 
+        m_preview->stopAnimatedImage();
         refreshMetaData();
     }
     refreshPreview();
@@ -237,7 +238,8 @@ void InformationPanelContent::refreshPreview()
             refreshPixmapView();
 
             const QString mimeType = m_item.mimetype();
-            m_isVideo = mimeType.startsWith(QLatin1String("video/"));
+            const bool isAnimatedImage = m_preview->isAnimatedImage(itemUrl.toLocalFile());
+            m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
             usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
             if (usePhonon) {
@@ -268,6 +270,9 @@ void InformationPanelContent::refreshPreview()
                     adjustWidgetSizes(parentWidget()->width());
                 }
             } else {
+                if (isAnimatedImage) {
+                    m_preview->setAnimatedImageFileName(itemUrl.toLocalFile());
+                }
                 // When we don't need it, hide the phonon widget first to avoid flickering
                 m_phononWidget->hide();
                 m_preview->show();
@@ -276,6 +281,7 @@ void InformationPanelContent::refreshPreview()
             }
         }
     } else {
+        m_preview->stopAnimatedImage();
         m_preview->hide();
         m_phononWidget->hide();
     }
@@ -302,6 +308,8 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     if (m_previewJob) {
         m_previewJob->kill();
     }
+
+    m_preview->stopAnimatedImage();
 
     m_preview->setPixmap(
         QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)

@@ -26,6 +26,7 @@
 #include <QWidget>
 
 class QPaintEvent;
+class QMovie;
 
 /**
  * @brief Widget which shows a pixmap centered inside the boundaries.
@@ -73,20 +74,33 @@ public:
     void setSizeHint(const QSize& size);
     QSize sizeHint() const override;
 
+    void setAnimatedImageFileName(const QString& fileName);
+    QString animatedImageFileName() const;
+
+    void stopAnimatedImage();
+
+    /**
+     * Checks if \a fileName contains an animated image supported by QMovie.
+     */
+    static bool isAnimatedImage(const QString &fileName);
+
 protected:
     void paintEvent(QPaintEvent* event) override;
 
 private Q_SLOTS:
     void checkPendingPixmaps();
+    void updateAnimatedImageFrame();
 
 private:
     QPixmap m_pixmap;
     QPixmap m_oldPixmap;
+    QMovie* m_animatedImage;
     QQueue<QPixmap> m_pendingPixmaps;
     QTimeLine m_animation;
     Transition m_transition;
     int m_animationStep;
     QSize m_sizeHint;
+    bool m_hasAnimatedImage;
 };
 
 inline QPixmap PixmapViewer::pixmap() const

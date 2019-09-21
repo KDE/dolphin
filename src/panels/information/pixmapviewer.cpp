@@ -21,14 +21,18 @@
 
 #include <KIconLoader>
 
+#include <QImageReader>
+#include <QMovie>
 #include <QPainter>
 #include <QStyle>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
+    m_animatedImage(nullptr),
     m_transition(transition),
     m_animationStep(0),
-    m_sizeHint()
+    m_sizeHint(),
+    m_hasAnimatedImage(false)
 {
     setMinimumWidth(KIconLoader::SizeEnormous);
     setMinimumHeight(KIconLoader::SizeEnormous);
@@ -52,6 +56,11 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
         return;
     }
 
+    // Avoid flicker with static pixmap if an animated image is running
+    if (m_animatedImage && m_animatedImage->state() == QMovie::Running) {
+        return;
+    }
+
     if ((m_transition != NoTransition) && (m_animation.state() == QTimeLine::Running)) {
         m_pendingPixmaps.enqueue(pixmap);
         if (m_pendingPixmaps.count() > 5) {
@@ -65,15 +74,26 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
     m_pixmap = pixmap;
     update();
 
-    const bool animate = (m_transition != NoTransition) &&
-                         (m_pixmap.size() != m_oldPixmap.size());
-    if (animate) {
+    const bool animateTransition = (m_transition != NoTransition) &&
+                                   (m_pixmap.size() != m_oldPixmap.size());
+    if (animateTransition) {
         m_animation.start();
+    } else if (m_hasAnimatedImage) {
+        // If there is no transition animation but an animatedImage
+        // and it is not already running, start animating now
+        if (m_animatedImage->state() != QMovie::Running) {
+            m_animatedImage->setScaledSize(m_pixmap.size());
+            m_animatedImage->start();
+        }
     }
 }
 
 void PixmapViewer::setSizeHint(const QSize& size)
 {
+    if (m_animatedImage && size != m_sizeHint) {
+        m_animatedImage->stop();
+    }
+
     m_sizeHint = size;
     updateGeometry();
 }
@@ -83,13 +103,37 @@ QSize PixmapViewer::sizeHint() const
     return m_sizeHint;
 }
 
+void PixmapViewer::setAnimatedImageFileName(const QString &fileName)
+{
+    if (!m_animatedImage) {
+        m_animatedImage = new QMovie(this);
+        connect(m_animatedImage, &QMovie::frameChanged, this, &PixmapViewer::updateAnimatedImageFrame);
+    }
+
+    if (m_animatedImage->fileName() != fileName) {
+        m_animatedImage->stop();
+        m_animatedImage->setFileName(fileName);
+    }
+
+    m_hasAnimatedImage = m_animatedImage->isValid() && (m_animatedImage->frameCount() > 1);
+}
+
+
+QString PixmapViewer::animatedImageFileName() const
+{
+    if (!m_hasAnimatedImage) {
+        return QString();
+    }
+    return m_animatedImage->fileName();
+}
+
 void PixmapViewer::paintEvent(QPaintEvent* event)
 {
     QWidget::paintEvent(event);
 
     QPainter painter(this);
 
-    if (m_transition != NoTransition) {
+    if (m_transition != NoTransition || (m_hasAnimatedImage && m_animatedImage->state() != QMovie::Running)) {
         const float value = m_animation.currentValue();
         const int scaledWidth  = static_cast<int>((m_oldPixmap.width()  * (1.0 - value)) + (m_pixmap.width()  * value));
         const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
@@ -118,8 +162,32 @@ void PixmapViewer::checkPendingPixmaps()
         m_pixmap = pixmap;
         update();
         m_animation.start();
+    } else if (m_hasAnimatedImage) {
+        m_animatedImage->setScaledSize(m_pixmap.size());
+        m_animatedImage->start();
     } else {
         m_oldPixmap = m_pixmap;
     }
 }
 
+void PixmapViewer::updateAnimatedImageFrame()
+{
+    Q_ASSERT (m_animatedImage);
+
+    m_pixmap = m_animatedImage->currentPixmap();
+    update();
+}
+
+void PixmapViewer::stopAnimatedImage()
+{
+    if (m_hasAnimatedImage) {
+        m_animatedImage->stop();
+        m_hasAnimatedImage = false;
+    }
+}
+
+bool PixmapViewer::isAnimatedImage(const QString &fileName)
+{
+    const QByteArray imageFormat = QImageReader::imageFormat(fileName);
+    return !imageFormat.isEmpty() && QMovie::supportedFormats().contains(imageFormat);
+}
