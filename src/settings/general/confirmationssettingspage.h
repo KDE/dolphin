@@ -23,6 +23,7 @@
 #include "settings/settingspagebase.h"
 
 class QCheckBox;
+class QComboBox;
 
 /**
  * @brief Page for the enabling or disabling confirmation dialogs.
@@ -54,7 +55,7 @@ private:
 #endif
 
     QCheckBox* m_confirmClosingMultipleTabs;
-    QCheckBox* m_confirmScriptExecution;
+    QComboBox* m_confirmScriptExecution;
 };
 
 #endif
