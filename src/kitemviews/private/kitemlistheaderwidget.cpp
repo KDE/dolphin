@@ -93,7 +93,6 @@ void KItemListHeaderWidget::setColumns(const QList<QByteArray>& roles)
 {
     foreach (const QByteArray& role, roles) {
         if (!m_columnWidths.contains(role)) {
-            m_columnWidths.remove(role);
             m_preferredColumnWidths.remove(role);
         }
     }
