@@ -70,7 +70,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2019-09-15</date>
+<date>2019-09-30</date>
 <releaseinfo>Applications 19.12</releaseinfo>
 
 <abstract>
@@ -1078,7 +1078,10 @@ be shown inside a folder's icon.
 <title>Confirmations Tab</title>
 <para>
 In the ask for confirmation section, you can enable warning dialogs that
-are shown before potentially harmful actions .
+are shown before potentially harmful actions.
+</para>
+<para>
+It is also possible to choose the default action <guilabel>When opening an executable file</guilabel>. There are three options, namely <guimenuitem>Always ask</guimenuitem>, <guimenuitem>Open in application</guimenuitem>, and <guimenuitem>Run script</guimenuitem>.
 </para>
 <warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
 <guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
