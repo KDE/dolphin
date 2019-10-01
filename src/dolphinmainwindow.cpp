@@ -514,7 +514,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         }
     }
 
-    if (m_terminalPanel->hasProgramRunning() && GeneralSettings::confirmClosingTerminalRunningProgram() && closedByUser) {
+    if (m_terminalPanel && m_terminalPanel->hasProgramRunning() && GeneralSettings::confirmClosingTerminalRunningProgram() && closedByUser) {
         // Ask if the user really wants to quit Dolphin with a program that is still running in the Terminal panel
         // Open a confirmation dialog with 3 buttons:
         // QDialogButtonBox::Yes    -> Quit
