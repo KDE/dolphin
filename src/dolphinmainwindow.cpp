@@ -1427,6 +1427,8 @@ void DolphinMainWindow::setupActions()
     connect(m_forwardAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowForwardPopupMenu);
     connect(m_forwardAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoForward);
     actionCollection()->addAction(m_forwardAction->objectName(), m_forwardAction);
+    actionCollection()->setDefaultShortcuts(m_forwardAction, m_forwardAction->shortcuts());
+
     // enable middle-click to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotBackForwardActionMiddleClicked);
