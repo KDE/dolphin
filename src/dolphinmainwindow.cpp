@@ -96,7 +96,7 @@ namespace {
 }
 
 DolphinMainWindow::DolphinMainWindow() :
-    KXmlGuiWindow(nullptr, Qt::WindowContextHelpButtonHint),
+    KXmlGuiWindow(nullptr),
     m_newFileMenu(nullptr),
     m_helpMenu(nullptr),
     m_tabWidget(nullptr),
@@ -115,6 +115,9 @@ DolphinMainWindow::DolphinMainWindow() :
     m_forwardAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
+#ifndef Q_OS_WIN
+	setWindowFlags(Qt::WindowContextHelpButtonHint);
+#endif
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
 
