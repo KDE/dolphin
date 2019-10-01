@@ -1189,7 +1189,7 @@ void DolphinMainWindow::updateWindowTitle()
 
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
 {
-    if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = true;
         m_terminalPanel->goHome();
         // m_placesPanel->proceedWithTearDown() will be called in slotTerminalDirectoryChanged
@@ -1200,7 +1200,7 @@ void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mo
 
 void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mountPath)
 {
-    if (m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
+    if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = false;
         m_terminalPanel->goHome();
     }
