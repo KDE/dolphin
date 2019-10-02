@@ -28,6 +28,7 @@
 #include <KConfigGroup>
 #include <KAboutData>
 #include <KFilePlacesModel>
+#include <KProtocolInfo>
 
 #include "dolphin_generalsettings.h"
 #include "panels/places/placesitemmodel.h"
@@ -79,7 +80,7 @@ private:
     PlacesItemModel* m_model;
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
-    int m_expectedModelCount = 14;
+    int m_expectedModelCount = qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused")) ? 16 : 14;
     bool m_hasDesktopFolder = false;
     bool m_hasDocumentsFolder = false;
     bool m_hasDownloadsFolder = false;
@@ -175,8 +176,14 @@ QStringList PlacesItemModelTest::initialUrls() const
 
         urls << QStringLiteral("trash:/")
              << QStringLiteral("remote:/")
-             << QStringLiteral("/media/nfs")
-             << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
+             << QStringLiteral("/media/nfs");
+
+        if (qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused"))) {
+            urls << QStringLiteral("recentlyused:/files");
+            urls << QStringLiteral("recentlyused:/locations");
+        }
+
+        urls << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
              << QStringLiteral("search:/documents") << QStringLiteral("search:/images") << QStringLiteral("search:/audio") << QStringLiteral("search:/videos")
              << QStringLiteral("/foreign")
              << QStringLiteral("/media/floppy0") << QStringLiteral("/media/XO-Y4") << QStringLiteral("/media/cdrom");
@@ -315,7 +322,11 @@ void PlacesItemModelTest::testGroups()
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
     QCOMPARE(groups.at(2).first, expectedRemoteIndex + 2);
-    QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recently Saved"));
+    QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recent"));
+
+    if (qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused"))) {
+        expectedRemoteIndex += 2;
+    }
 
     QCOMPARE(groups.at(3).first, expectedRemoteIndex + 4);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
@@ -342,7 +353,7 @@ void PlacesItemModelTest::testPlaceItem_data()
     QTest::newRow("Baloo - Documents") << QUrl("search:/documents") << false << true << QStringLiteral("Search For") << false;
 
     // baloo - timeline
-    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << false << true << QStringLiteral("Recently Saved") << false;
+    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << false << true << QStringLiteral("Recent") << false;
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << false << false << QStringLiteral("Removable Devices") << false;
