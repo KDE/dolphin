@@ -396,10 +396,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_searchBox->setVisible(enabled);
     m_navigatorWidget->setVisible(!enabled);
 
-    if (enabled) {
-        const QUrl& locationUrl = m_urlNavigator->locationUrl();
-        m_searchBox->fromSearchUrl(locationUrl);
-    } else {
+    if (!enabled) {
         m_view->setViewPropertiesContext(QString());
 
         // Restore the URL for the URL navigator. If Dolphin has been
@@ -676,11 +673,15 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     slotReturnPressed();
 
     if (KProtocolManager::supportsListing(url)) {
-        setSearchModeEnabled(isSearchUrl(url));
+        const bool searchUrl = isSearchUrl(url);
+        if (searchUrl) {
+            m_searchBox->fromSearchUrl(url);
+        }
+        setSearchModeEnabled(searchUrl);
         m_view->setUrl(url);
         tryRestoreViewState();
 
-        if (m_autoGrabFocus && isActive() && !isSearchUrl(url)) {
+        if (m_autoGrabFocus && isActive() && !searchUrl) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.
