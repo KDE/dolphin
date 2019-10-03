@@ -385,6 +385,11 @@ bool DolphinViewContainer::isFilterBarVisible() const
 
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
+    if (enabled) {
+        const QUrl& locationUrl = m_urlNavigator->locationUrl();
+        m_searchBox->fromSearchUrl(locationUrl);
+    }
+
     if (enabled == isSearchModeEnabled()) {
         if (enabled && !m_searchBox->hasFocus()) {
             m_searchBox->setFocus();
@@ -673,15 +678,11 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
     slotReturnPressed();
 
     if (KProtocolManager::supportsListing(url)) {
-        const bool searchUrl = isSearchUrl(url);
-        if (searchUrl) {
-            m_searchBox->fromSearchUrl(url);
-        }
-        setSearchModeEnabled(searchUrl);
+        setSearchModeEnabled(isSearchUrl(url));
         m_view->setUrl(url);
         tryRestoreViewState();
 
-        if (m_autoGrabFocus && isActive() && !searchUrl) {
+        if (m_autoGrabFocus && isActive() && !isSearchUrl(url)) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.
