@@ -385,6 +385,9 @@ bool DolphinViewContainer::isFilterBarVisible() const
 
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
+    m_searchBox->setVisible(enabled);
+    m_navigatorWidget->setVisible(!enabled);
+
     if (enabled) {
         const QUrl& locationUrl = m_urlNavigator->locationUrl();
         m_searchBox->fromSearchUrl(locationUrl);
@@ -397,9 +400,6 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
         }
         return;
     }
-
-    m_searchBox->setVisible(enabled);
-    m_navigatorWidget->setVisible(!enabled);
 
     if (!enabled) {
         m_view->setViewPropertiesContext(QString());
