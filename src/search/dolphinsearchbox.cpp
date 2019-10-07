@@ -81,6 +81,10 @@ QString DolphinSearchBox::text() const
 
 void DolphinSearchBox::setSearchPath(const QUrl& url)
 {
+    if (url == m_searchPath) {
+        return;
+    }
+
     m_searchPath = url;
 
     QFontMetrics metrics(m_fromHereButton->font());
