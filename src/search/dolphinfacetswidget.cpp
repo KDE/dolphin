@@ -211,7 +211,9 @@ void DolphinFacetsWidget::setRatingTerm(const QString& term)
 
 void DolphinFacetsWidget::setFacetType(const QString& type)
 {
-    if (type == QLatin1String("Document")) {
+    if (type == QLatin1String("Folder")) {
+        m_folders->setChecked(true);
+    } else if (type == QLatin1String("Document")) {
         m_documents->setChecked(true);
     } else if (type == QLatin1String("Image")) {
         m_images->setChecked(true);
