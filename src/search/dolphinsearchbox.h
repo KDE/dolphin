@@ -160,6 +160,8 @@ private:
 
     void updateFacetsToggleButton();
 
+    bool isIndexingEnabled() const;
+
 private:
     bool m_startedSearching;
     bool m_active;

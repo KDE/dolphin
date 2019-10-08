@@ -107,12 +107,7 @@ void DolphinSearchBox::setSearchPath(const QUrl& url)
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
     m_fromHereButton->setToolTip(i18nc("action:button", "Limit search to '%1' and its subfolders", cleanedUrl.toString(QUrl::PreferLocalFile)));
 
-    bool hasFacetsSupport = false;
-#ifdef HAVE_BALOO
-    const Baloo::IndexerConfig searchInfo;
-    hasFacetsSupport = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
-#endif
-    m_facetsWidget->setEnabled(hasFacetsSupport);
+    m_facetsWidget->setEnabled(isIndexingEnabled());
 }
 
 QUrl DolphinSearchBox::searchPath() const
@@ -123,12 +118,8 @@ QUrl DolphinSearchBox::searchPath() const
 QUrl DolphinSearchBox::urlForSearching() const
 {
     QUrl url;
-    bool useBalooSearch = false;
-#ifdef HAVE_BALOO
-    const Baloo::IndexerConfig searchInfo;
-    useBalooSearch = searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
-#endif
-    if (useBalooSearch) {
+
+    if (isIndexingEnabled()) {
         url = balooUrlForSearching();
     } else {
         url.setScheme(QStringLiteral("filenamesearch"));
@@ -566,3 +557,12 @@ void DolphinSearchBox::updateFacetsToggleButton()
     m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
 }
 
+bool DolphinSearchBox::isIndexingEnabled() const
+{
+#ifdef HAVE_BALOO
+    const Baloo::IndexerConfig searchInfo;
+    return searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
+#else
+    return false;
+#endif
+}
