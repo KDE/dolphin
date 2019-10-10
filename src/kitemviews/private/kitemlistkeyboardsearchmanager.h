@@ -59,6 +59,7 @@ public:
     qint64 timeout() const;
 
     void cancelSearch();
+    bool shouldClearSearchIfInputTimeReached();
 
 public slots:
 

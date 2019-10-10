@@ -34,11 +34,16 @@ KItemListKeyboardSearchManager::~KItemListKeyboardSearchManager()
 {
 }
 
-void KItemListKeyboardSearchManager::addKeys(const QString& keys)
+bool KItemListKeyboardSearchManager::shouldClearSearchIfInputTimeReached()
 {
     const bool keyboardTimeWasValid = m_keyboardInputTime.isValid();
     const qint64 keyboardInputTimeElapsed = m_keyboardInputTime.restart();
-    if (keyboardInputTimeElapsed > m_timeout || !keyboardTimeWasValid) {
+    return (keyboardInputTimeElapsed > m_timeout) || !keyboardTimeWasValid;
+}
+
+void KItemListKeyboardSearchManager::addKeys(const QString& keys)
+{
+    if (shouldClearSearchIfInputTimeReached()) {
         m_searchedString.clear();
     }
 
