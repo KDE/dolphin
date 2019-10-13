@@ -59,8 +59,13 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     }
 #endif
 
+    /**
+     * enable high dpi support
+     */
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
     QApplication app(argc, argv);
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
 
     KCrash::initialize();
@@ -152,12 +157,12 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         // We need at least one URL to open Dolphin
         urls.append(Dolphin::homeUrl());
     }
-    
+
     if (splitView && urls.size() < 2) {
         // Split view does only make sense if we have at least 2 URLs
         urls.append(urls.last());
     }
-    
+
     DolphinMainWindow* mainWindow = new DolphinMainWindow();
 
     if (openFiles) {
