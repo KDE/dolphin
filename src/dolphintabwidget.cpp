@@ -266,6 +266,18 @@ void DolphinTabWidget::closeTab(const int index)
     tabPage->deleteLater();
 }
 
+void DolphinTabWidget::activateTab(const int index)
+{
+    if (index < count()) {
+        setCurrentIndex(index);
+    }
+}
+
+void DolphinTabWidget::activateLastTab()
+{
+    setCurrentIndex(count() - 1);
+}
+
 void DolphinTabWidget::activateNextTab()
 {
     const int index = currentIndex() + 1;

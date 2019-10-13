@@ -93,6 +93,8 @@ namespace {
     const int CurrentDolphinVersion = 200;
     // The maximum number of entries in the back/forward popup menu
     const int MaxNumberOfNavigationentries = 12;
+    // The maximum number of "Activate Tab" shortcuts
+    const int MaxActivateTabShortcuts = 9;
 }
 
 DolphinMainWindow::DolphinMainWindow() :
@@ -1178,6 +1180,10 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
 void DolphinMainWindow::tabCountChanged(int count)
 {
     const bool enableTabActions = (count > 1);
+    for (int i = 0; i < MaxActivateTabShortcuts; ++i) {
+        actionCollection()->action(QStringLiteral("activate_tab_%1").arg(i))->setEnabled(enableTabActions);
+    }
+    actionCollection()->action(QStringLiteral("activate_last_tab"))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_next_tab"))->setEnabled(enableTabActions);
     actionCollection()->action(QStringLiteral("activate_prev_tab"))->setEnabled(enableTabActions);
 }
@@ -1502,6 +1508,24 @@ void DolphinMainWindow::setupActions()
 
     QList<QKeySequence> prevTabKeys = KStandardShortcut::tabPrev();
     prevTabKeys.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Tab));
+
+    for (int i = 0; i < MaxActivateTabShortcuts; ++i) {
+        QAction* activateTab = actionCollection()->addAction(QStringLiteral("activate_tab_%1").arg(i));
+        activateTab->setText(i18nc("@action:inmenu", "Activate Tab %1", i + 1));
+        activateTab->setEnabled(false);
+        connect(activateTab, &QAction::triggered, this, [this, i]() { m_tabWidget->activateTab(i); });
+
+        // only add default shortcuts for the first 9 tabs regardless of MaxActivateTabShortcuts
+        if (i < 9) {
+            actionCollection()->setDefaultShortcut(activateTab, QStringLiteral("Alt+%1").arg(i + 1));
+        }
+    }
+
+    QAction* activateLastTab = actionCollection()->addAction(QStringLiteral("activate_last_tab"));
+    activateLastTab->setText(i18nc("@action:inmenu", "Activate Last Tab"));
+    activateLastTab->setEnabled(false);
+    connect(activateLastTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activateLastTab);
+    actionCollection()->setDefaultShortcut(activateLastTab, Qt::ALT + Qt::Key_0);
 
     QAction* activateNextTab = actionCollection()->addAction(QStringLiteral("activate_next_tab"));
     activateNextTab->setIconText(i18nc("@action:inmenu", "Next Tab"));

@@ -155,6 +155,16 @@ public slots:
     void closeTab(const int index);
 
     /**
+     * Activates the tab with the index \a index.
+     */
+    void activateTab(const int index);
+
+    /**
+     * Activates the last tab in the tab bar.
+     */
+    void activateLastTab();
+
+    /**
      * Activates the next tab in the tab bar.
      * If the current active tab is the last tab, it activates the first tab.
      */
