@@ -158,6 +158,7 @@ private:
      */
     void fromBalooSearchUrl(const QUrl& url);
 
+    void setFacetsVisible(bool visible);
     void updateFacetsToggleButton();
 
     bool isIndexingEnabled() const;

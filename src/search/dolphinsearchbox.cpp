@@ -107,7 +107,7 @@ void DolphinSearchBox::setSearchPath(const QUrl& url)
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
     m_fromHereButton->setToolTip(i18nc("action:button", "Limit search to '%1' and its subfolders", cleanedUrl.toString(QUrl::PreferLocalFile)));
 
-    m_facetsWidget->setEnabled(isIndexingEnabled());
+    setFacetsVisible(SearchSettings::showFacetsWidget());
 }
 
 QUrl DolphinSearchBox::searchPath() const
@@ -194,6 +194,7 @@ void DolphinSearchBox::showEvent(QShowEvent* event)
         m_searchInput->setFocus();
         m_startedSearching = false;
     }
+    updateFacetsToggleButton();
 }
 
 void DolphinSearchBox::hideEvent(QHideEvent* event)
@@ -282,9 +283,7 @@ void DolphinSearchBox::slotReturnPressed()
 
 void DolphinSearchBox::slotFacetsButtonToggled()
 {
-    const bool facetsIsVisible = !m_facetsWidget->isVisible();
-    m_facetsWidget->setVisible(facetsIsVisible);
-    updateFacetsToggleButton();
+    setFacetsVisible(m_facetsToggleButton->isChecked());
 }
 
 void DolphinSearchBox::slotFacetChanged()
@@ -329,14 +328,16 @@ void DolphinSearchBox::loadSettings()
         m_fileNameButton->setChecked(true);
     }
 
-    m_facetsWidget->setVisible(SearchSettings::showFacetsWidget());
+    setFacetsVisible(SearchSettings::showFacetsWidget());
 }
 
 void DolphinSearchBox::saveSettings()
 {
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? QStringLiteral("FromHere") : QStringLiteral("Everywhere"));
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? QStringLiteral("FileName") : QStringLiteral("Content"));
-    SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
+    if (isIndexingEnabled()) {
+        SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
+    }
     SearchSettings::self()->save();
 }
 
@@ -472,8 +473,6 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
     connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
-
-    updateFacetsToggleButton();
 }
 
 QUrl DolphinSearchBox::balooUrlForSearching() const
@@ -549,12 +548,44 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 #endif
 }
 
+void DolphinSearchBox::setFacetsVisible(bool visible)
+{
+    const bool indexingEnabled = isIndexingEnabled();
+    m_facetsWidget->setEnabled(indexingEnabled);
+    m_facetsWidget->setVisible(indexingEnabled && visible);
+    updateFacetsToggleButton();
+}
+
 void DolphinSearchBox::updateFacetsToggleButton()
 {
-    const bool facetsIsVisible = SearchSettings::showFacetsWidget();
-    m_facetsToggleButton->setChecked(facetsIsVisible ? true : false);
-    m_facetsToggleButton->setIcon(QIcon::fromTheme(facetsIsVisible ? QStringLiteral("arrow-up-double") : QStringLiteral("arrow-down-double")));
-    m_facetsToggleButton->setText(facetsIsVisible ? i18nc("action:button", "Fewer Options") : i18nc("action:button", "More Options"));
+    const bool facetsEnabled = m_facetsWidget->isEnabled();
+    const bool facetsVisible = m_facetsWidget->isVisible();
+
+    m_facetsToggleButton->setEnabled(facetsEnabled);
+    m_facetsToggleButton->setChecked(facetsVisible);
+
+    m_facetsToggleButton->setIcon(QIcon::fromTheme(
+           facetsVisible ? QStringLiteral("arrow-up-double") :
+                           QStringLiteral("arrow-down-double")));
+
+    m_facetsToggleButton->setText(
+           facetsVisible ? i18nc("@action:button", "Fewer Options") :
+                           i18nc("@action:button", "More Options"));
+
+    if (facetsEnabled) {
+        m_facetsToggleButton->setToolTip(QString());
+    } else {
+#ifdef HAVE_BALOO
+        const Baloo::IndexerConfig searchInfo;
+        if (!searchInfo.fileIndexingEnabled()) {
+            m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because the file indexing service is disabled."));
+        } else {
+            m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because this location is not indexed."));
+        }
+#else
+        m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because this version of Dolphin does not support the Baloo file indexer."));
+#endif
+    }
 }
 
 bool DolphinSearchBox::isIndexingEnabled() const
