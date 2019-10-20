@@ -526,6 +526,8 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
         setSearchPath(QUrl::fromLocalFile(QDir::homePath()));
     }
 
+    m_facetsWidget->resetOptions();
+
     setText(query.searchString());
 
     QStringList types = query.types();

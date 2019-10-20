@@ -24,6 +24,7 @@
 
 class QButtonGroup;
 class QDate;
+class QEvent;
 class QRadioButton;
 
 /**
@@ -50,6 +51,8 @@ public:
     explicit DolphinFacetsWidget(QWidget* parent = nullptr);
     ~DolphinFacetsWidget() override;
 
+    void resetOptions();
+
     QString ratingTerm() const;
     QString facetType() const;
 
@@ -60,6 +63,9 @@ public:
 
 signals:
     void facetChanged();
+
+protected:
+    void changeEvent(QEvent* event) override;
 
 private:
     void setRating(const int stars);

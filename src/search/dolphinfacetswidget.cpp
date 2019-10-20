@@ -24,6 +24,7 @@
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QDate>
+#include <QEvent>
 #include <QHBoxLayout>
 #include <QRadioButton>
 
@@ -106,13 +107,25 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     topLayout->addLayout(ratingLayout);
     topLayout->addStretch();
 
-    m_anyType->setChecked(true);
-    m_anytime->setChecked(true);
-    m_anyRating->setChecked(true);
+    resetOptions();
 }
 
 DolphinFacetsWidget::~DolphinFacetsWidget()
 {
+}
+
+void DolphinFacetsWidget::changeEvent(QEvent *event)
+{
+    if (event->type() == QEvent::EnabledChange && !isEnabled()) {
+        resetOptions();
+    }
+}
+
+void DolphinFacetsWidget::resetOptions()
+{
+    m_anyType->setChecked(true);
+    m_anytime->setChecked(true);
+    m_anyRating->setChecked(true);
 }
 
 QString DolphinFacetsWidget::ratingTerm() const
