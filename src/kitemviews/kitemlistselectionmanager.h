@@ -62,6 +62,13 @@ public:
     bool hasSelection() const;
 
     void setSelected(int index, int count = 1, SelectionMode mode = Select);
+    /**
+     * Equivalent to:
+     * clearSelection();
+     * setSelected(index, count);
+     * but emitting once only selectionChanged signal
+     */
+    void replaceSelection(int index, int count = 1);
     void clearSelection();
 
     void beginAnchoredSelection(int anchor);

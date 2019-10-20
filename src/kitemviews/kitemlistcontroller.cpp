@@ -472,19 +472,18 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
     if (!m_model || m_model->count() == 0) {
         return;
     }
-    const int currentIndex = m_selectionManager->currentItem();
     int index;
     if (searchFromNextItem) {
+        const int currentIndex = m_selectionManager->currentItem();
         index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
     } else {
-        index = m_model->indexForKeyboardSearch(text, currentIndex);
+        index = m_model->indexForKeyboardSearch(text, 0);
     }
     if (index >= 0) {
         m_selectionManager->setCurrentItem(index);
 
         if (m_selectionBehavior != NoSelection) {
-            m_selectionManager->clearSelection();
-            m_selectionManager->setSelected(index, 1);
+            m_selectionManager->replaceSelection(index);
             m_selectionManager->beginAnchoredSelection(index);
         }
 

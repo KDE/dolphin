@@ -173,6 +173,16 @@ void KItemListSelectionManager::clearSelection()
     }
 }
 
+void KItemListSelectionManager::replaceSelection(int index, int count)
+{
+    const KItemSet previous = selectedItems();
+    if (!previous.isEmpty()) {
+        m_selectedItems.clear();
+        m_isAnchoredSelectionActive = false;
+    }
+    setSelected(index, count);
+}
+
 void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 {
     if (anchor >= 0 && m_model && anchor < m_model->count()) {
