@@ -62,8 +62,8 @@ public:
     QString text() const;
 
     /**
-     * Sets the current path that is used as root for
-     * searching files, if "From Here" has been selected.
+     * Sets the current path that is used as root for searching files.
+     * If @url is the Home dir, "From Here" is selected instead.
      */
     void setSearchPath(const QUrl& url);
     QUrl searchPath() const;

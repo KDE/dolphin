@@ -85,34 +85,36 @@ void DolphinSearchBox::setSearchPath(const QUrl& url)
         return;
     }
 
+    const QUrl cleanedUrl = url.adjusted(QUrl::RemoveUserInfo | QUrl::StripTrailingSlash);
+
+    if (cleanedUrl.path() == QDir::homePath()) {
+        m_fromHereButton->setChecked(false);
+        m_everywhereButton->setChecked(true);
+        if (!m_searchPath.isEmpty()) {
+            return;
+        }
+    } else {
+        m_everywhereButton->setChecked(false);
+        m_fromHereButton->setChecked(true);
+    }
+
     m_searchPath = url;
 
     QFontMetrics metrics(m_fromHereButton->font());
     const int maxWidth = metrics.height() * 8;
 
-    const QUrl cleanedUrl = url.adjusted(QUrl::RemoveUserInfo | QUrl::StripTrailingSlash);
     QString location = cleanedUrl.fileName();
     if (location.isEmpty()) {
         location = cleanedUrl.toString(QUrl::PreferLocalFile);
     }
-    if (m_fromHereButton->isChecked() && cleanedUrl.path() == QDir::homePath()) {
-        m_fromHereButton->setChecked(false);
-        m_everywhereButton->setChecked(true);
-    } else {
-        m_fromHereButton->setChecked(true);
-        m_everywhereButton->setChecked(false);
-    }
-
     const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
     m_fromHereButton->setToolTip(i18nc("action:button", "Limit search to '%1' and its subfolders", cleanedUrl.toString(QUrl::PreferLocalFile)));
-
-    setFacetsVisible(SearchSettings::showFacetsWidget());
 }
 
 QUrl DolphinSearchBox::searchPath() const
 {
-    return m_searchPath;
+    return m_everywhereButton->isChecked() ? QUrl::fromLocalFile(QDir::homePath()) : m_searchPath;
 }
 
 QUrl DolphinSearchBox::urlForSearching() const
@@ -130,13 +132,7 @@ QUrl DolphinSearchBox::urlForSearching() const
             query.addQueryItem(QStringLiteral("checkContent"), QStringLiteral("yes"));
         }
 
-        QString encodedUrl;
-        if (m_everywhereButton->isChecked()) {
-            encodedUrl = QDir::homePath();
-        } else {
-            encodedUrl = m_searchPath.url();
-        }
-        query.addQueryItem(QStringLiteral("url"), encodedUrl);
+        query.addQueryItem(QStringLiteral("url"), searchPath().url());
 
         url.setQuery(query);
     }
@@ -151,12 +147,18 @@ void DolphinSearchBox::fromSearchUrl(const QUrl& url)
     } else if (url.scheme() == QLatin1String("filenamesearch")) {
         const QUrlQuery query(url);
         setText(query.queryItemValue(QStringLiteral("search")));
+        if (m_searchPath.scheme() != url.scheme()) {
+            m_searchPath = QUrl();
+        }
         setSearchPath(QUrl::fromUserInput(query.queryItemValue(QStringLiteral("url")), QString(), QUrl::AssumeLocalFile));
         m_contentButton->setChecked(query.queryItemValue(QStringLiteral("checkContent")) == QLatin1String("yes"));
     } else {
         setText(QString());
+        m_searchPath = QUrl();
         setSearchPath(url);
     }
+
+    setFacetsVisible(SearchSettings::showFacetsWidget());
 }
 
 void DolphinSearchBox::selectAll()
@@ -592,7 +594,7 @@ bool DolphinSearchBox::isIndexingEnabled() const
 {
 #ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
-    return searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(m_searchPath.toLocalFile());
+    return searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(searchPath().toLocalFile());
 #else
     return false;
 #endif
