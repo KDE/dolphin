@@ -1808,6 +1808,7 @@ void DolphinMainWindow::updateFileAndEditActions()
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
 
+        addToPlacesAction->setEnabled(true);
         addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add '%1' to Places", m_activeViewContainer->placesText()));
     } else {
         stateChanged(QStringLiteral("has_selection"));
