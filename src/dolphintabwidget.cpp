@@ -28,6 +28,7 @@
 #include <KRun>
 #include <KShell>
 #include <kio/global.h>
+#include <KAcceleratorManager>
 
 #include <QApplication>
 #include <QDropEvent>
@@ -37,6 +38,8 @@ DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     m_placesSelectorVisible(true),
     m_lastViewedTab(0)
 {
+    KAcceleratorManager::setNoAccel(this);
+
     connect(this, &DolphinTabWidget::tabCloseRequested,
             this, QOverload<int>::of(&DolphinTabWidget::closeTab));
     connect(this, &DolphinTabWidget::currentChanged,
