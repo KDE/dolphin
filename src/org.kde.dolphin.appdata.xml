@@ -200,7 +200,7 @@
       <li xml:lang="gl">Barra de navegación (ou ronsel) para enderezos URL, que lle permite navegar rapidamente pola xerarquía de ficheiros e cartafoles.</li>
       <li xml:lang="hu">Navigációs (vagy webmorzsa) sáv az URL-ekhez, amely lehetővé teszi a fájlok és mappák hierarchiáján keresztüli gyors navigációt.</li>
       <li xml:lang="ia">Barra de navigation (o "breadcrumb") pro URLs, que il permitte te navigar rapidemente a transverso del hierarchia de files e dossieres.</li>
-      <li xml:lang="id">Bilah navigasi (atau remah) untuk URL-URL, memungkinkanmu secara cepat menavigasi melalui hirerarki file-file dan folder-folder.</li>
+      <li xml:lang="id">Bilah navigasi (atau breadcrumb) untuk URL-URL, memungkinkan kamu secara cepat bernavigasi melalui hirerarki file-file dan folder-folder.</li>
       <li xml:lang="it">La barra di navigazione per gli URL, che ti consente di navigare rapidamente attraverso la struttura di file e cartelle.</li>
       <li xml:lang="ko">파일과 폴더 구조를 빠르게 탐색할 수 있도록 URL 탐색 표시줄을 사용할 수 있습니다.</li>
       <li xml:lang="nb">Navigasjonslinje (brødsmulelinje) for URL-er slik at du raskt kan navigere gjennom hierarkiet av filer og mapper.</li>
@@ -366,7 +366,7 @@
       <li xml:lang="he">תמיכה בכרטיסיות</li>
       <li xml:lang="hu">Több lap támogatása</li>
       <li xml:lang="ia">Supporto de scheda multiple</li>
-      <li xml:lang="id">Mendukung berlipat tab</li>
+      <li xml:lang="id">Dukungan multipel tab</li>
       <li xml:lang="it">Supporto di schede multiple</li>
       <li xml:lang="ko">다중 탭 지원</li>
       <li xml:lang="lt">Daugelio kortelių palaikymas</li>
