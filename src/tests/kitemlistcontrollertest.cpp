@@ -326,6 +326,12 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                         << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
                         << qMakePair(KeyPress(Qt::Key_Space), ViewState(14, KItemSet() << 14))
                         << qMakePair(KeyPress(Qt::Key_3), ViewState(15, KItemSet() << 15))
+                        << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
+                        << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
+                        << qMakePair(KeyPress(Qt::Key_E), ViewState(14, KItemSet() << 14))
+                        << qMakePair(KeyPress(Qt::Key_E), ViewState(15, KItemSet() << 15))
+                        << qMakePair(KeyPress(Qt::Key_Escape), ViewState(15, KItemSet()))
+                        << qMakePair(KeyPress(Qt::Key_E), ViewState(13, KItemSet() << 13))
                         << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, KItemSet() << 0))
                         << qMakePair(KeyPress(Qt::Key_Escape), ViewState(0, KItemSet()));
 

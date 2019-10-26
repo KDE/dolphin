@@ -24,6 +24,7 @@
 #define KITEMLISTKEYBOARDSEARCHMANAGER_H
 
 #include "dolphin_export.h"
+#include "kitemviews/kitemset.h"
 
 #include <QElapsedTimer>
 #include <QObject>
@@ -64,6 +65,7 @@ public:
 public slots:
 
     void slotCurrentChanged(int current, int previous);
+    void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
 
 signals:
     /**
@@ -79,6 +81,7 @@ signals:
 
 private:
     QString m_searchedString;
+    bool m_isSearchRestarted;
     QElapsedTimer m_keyboardInputTime;
     qint64 m_timeout;
 };

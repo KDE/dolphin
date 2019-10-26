@@ -61,6 +61,8 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
             this, &KItemListController::slotChangeCurrentItem);
     connect(m_selectionManager, &KItemListSelectionManager::currentChanged,
             m_keyboardManager, &KItemListKeyboardSearchManager::slotCurrentChanged);
+    connect(m_selectionManager, &KItemListSelectionManager::selectionChanged,
+            m_keyboardManager, &KItemListKeyboardSearchManager::slotSelectionChanged);
 
     m_autoActivationTimer = new QTimer(this);
     m_autoActivationTimer->setSingleShot(true);

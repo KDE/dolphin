@@ -51,7 +51,7 @@ void KItemListKeyboardSearchManagerTest::testBasicKeyboardSearch()
 
     m_keyboardSearchManager.addKeys("f");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << true);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << false);
 
     m_keyboardSearchManager.addKeys("i");
     QCOMPARE(spy.count(), 1);
@@ -77,7 +77,7 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
 
     m_keyboardSearchManager.addKeys("f");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << true);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "f" << false);
 
     m_keyboardSearchManager.addKeys("i");
     QCOMPARE(spy.count(), 1);
@@ -94,6 +94,13 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
     m_keyboardSearchManager.addKeys("e");
     QCOMPARE(spy.count(), 1);
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "le" << false);
+
+    // the selection was deselected, for instance with Esc or a click outside the selection
+    m_keyboardSearchManager.slotSelectionChanged(KItemSet(), KItemSet() << 1);
+
+    m_keyboardSearchManager.addKeys("a");
+    QCOMPARE(spy.count(), 1);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << false);
 }
 
 void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
@@ -109,7 +116,7 @@ void KItemListKeyboardSearchManagerTest::testRepeatedKeyPress()
 
     m_keyboardSearchManager.addKeys("p");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "p" << true);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "p" << false);
 
     m_keyboardSearchManager.addKeys("p");
     QCOMPARE(spy.count(), 1);
@@ -138,7 +145,7 @@ void KItemListKeyboardSearchManagerTest::testPressShift()
     // Simulate that the user enters "a_b".
     m_keyboardSearchManager.addKeys("a");
     QCOMPARE(spy.count(), 1);
-    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << true);
+    QCOMPARE(spy.takeFirst(), QList<QVariant>() << "a" << false);
 
     m_keyboardSearchManager.addKeys("");
     QCOMPARE(spy.count(), 0);
