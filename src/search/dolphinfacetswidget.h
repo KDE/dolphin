@@ -22,10 +22,9 @@
 
 #include <QWidget>
 
-class QButtonGroup;
+class QComboBox;
 class QDate;
 class QEvent;
-class QRadioButton;
 
 /**
  * @brief Allows to filter search-queries by facets.
@@ -70,36 +69,12 @@ protected:
 private:
     void setRating(const int stars);
     void setTimespan(const QDate& date);
-
-    /**
-     * @return New radiobutton which is connected to the
-     *         slotFacedChanged() slot whenever it has
-     *         been toggled.
-     */
-    QRadioButton* createRadioButton(const QString& text,
-                                    QButtonGroup* group);
+    void initComboBox(QComboBox* combo);
 
 private:
-    QRadioButton* m_anyType;
-    QRadioButton* m_folders;
-    QRadioButton* m_documents;
-    QRadioButton* m_images;
-    QRadioButton* m_audio;
-    QRadioButton* m_videos;
-
-    QRadioButton* m_anytime;
-    QRadioButton* m_today;
-    QRadioButton* m_yesterday;
-    QRadioButton* m_thisWeek;
-    QRadioButton* m_thisMonth;
-    QRadioButton* m_thisYear;
-
-    QRadioButton* m_anyRating;
-    QRadioButton* m_oneOrMore;
-    QRadioButton* m_twoOrMore;
-    QRadioButton* m_threeOrMore;
-    QRadioButton* m_fourOrMore;
-    QRadioButton* m_maxRating;
+    QComboBox* m_typeSelector;
+    QComboBox* m_dateSelector;
+    QComboBox* m_ratingSelector;
 };
 
 #endif

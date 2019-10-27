@@ -1,5 +1,6 @@
 /***************************************************************************
 *    Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>            *
+*    Copyright (C) 2019 by Ismael Asensio <isma.af@mgmail.com>            *
 *                                                                         *
 *    This program is free software; you can redistribute it and/or modify *
 *    it under the terms of the GNU General Public License as published by *
@@ -21,91 +22,51 @@
 
 #include <KLocalizedString>
 
-#include <QButtonGroup>
-#include <QCheckBox>
+#include <QComboBox>
 #include <QDate>
 #include <QEvent>
 #include <QHBoxLayout>
-#include <QRadioButton>
+#include <QIcon>
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),
-    m_folders(nullptr),
-    m_documents(nullptr),
-    m_images(nullptr),
-    m_audio(nullptr),
-    m_videos(nullptr),
-    m_anytime(nullptr),
-    m_today(nullptr),
-    m_yesterday(nullptr),
-    m_thisWeek(nullptr),
-    m_thisMonth(nullptr),
-    m_thisYear(nullptr),
-    m_anyRating(nullptr),
-    m_oneOrMore(nullptr),
-    m_twoOrMore(nullptr),
-    m_threeOrMore(nullptr),
-    m_fourOrMore(nullptr),
-    m_maxRating(nullptr)
+    m_typeSelector(nullptr),
+    m_dateSelector(nullptr),
+    m_ratingSelector(nullptr)
 {
-    QButtonGroup* filetypeGroup = new QButtonGroup(this);
-    m_anyType   = createRadioButton(i18nc("@option:check", "Any"), filetypeGroup);
-    m_folders   = createRadioButton(i18nc("@option:check", "Folders"), filetypeGroup);
-    m_documents = createRadioButton(i18nc("@option:check", "Documents"), filetypeGroup);
-    m_images    = createRadioButton(i18nc("@option:check", "Images"), filetypeGroup);
-    m_audio     = createRadioButton(i18nc("@option:check", "Audio Files"), filetypeGroup);
-    m_videos    = createRadioButton(i18nc("@option:check", "Videos"), filetypeGroup);
+    m_typeSelector = new QComboBox(this);
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("none")), i18nc("@item:inlistbox", "Any Type"), QString());
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("inode-directory")), i18nc("@item:inlistbox", "Folders") , QStringLiteral("Folder"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("text-x-generic")), i18nc("@item:inlistbox", "Documents") , QStringLiteral("Document"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("image-x-generic")), i18nc("@item:inlistbox", "Images") , QStringLiteral("Image"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("audio-x-generic")), i18nc("@item:inlistbox", "Audio Files"), QStringLiteral("Audio"));
+    m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("video-x-generic")), i18nc("@item:inlistbox", "Videos") , QStringLiteral("Video"));
+    initComboBox(m_typeSelector);
 
-    QVBoxLayout* typeLayout = new QVBoxLayout();
-    typeLayout->setSpacing(0);
-    typeLayout->addWidget(m_anyType);
-    typeLayout->addWidget(m_folders);
-    typeLayout->addWidget(m_documents);
-    typeLayout->addWidget(m_images);
-    typeLayout->addWidget(m_audio);
-    typeLayout->addWidget(m_videos);
-    typeLayout->addStretch();
+    const QDate currentDate = QDate::currentDate();
 
-    QButtonGroup* timespanGroup = new QButtonGroup(this);
-    m_anytime   = createRadioButton(i18nc("@option:option", "Anytime"), timespanGroup);
-    m_today     = createRadioButton(i18nc("@option:option", "Today"), timespanGroup);
-    m_yesterday = createRadioButton(i18nc("@option:option", "Yesterday"), timespanGroup);
-    m_thisWeek  = createRadioButton(i18nc("@option:option", "This Week"), timespanGroup);
-    m_thisMonth = createRadioButton(i18nc("@option:option", "This Month"), timespanGroup);
-    m_thisYear  = createRadioButton(i18nc("@option:option", "This Year"), timespanGroup);
+    m_dateSelector = new QComboBox(this);
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar")), i18nc("@item:inlistbox", "Any Date"), QDate());
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Today") , currentDate);
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18nc("@item:inlistbox", "Yesterday") , currentDate.addDays(-1));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-week")), i18nc("@item:inlistbox", "This Week") , currentDate.addDays(1 - currentDate.dayOfWeek()));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-month")), i18nc("@item:inlistbox", "This Month"), currentDate.addDays(1 - currentDate.day()));
+    m_dateSelector->addItem(QIcon::fromTheme(QStringLiteral("view-calendar-year")), i18nc("@item:inlistbox", "This Year") , currentDate.addDays(1 - currentDate.dayOfYear()));
+    initComboBox(m_dateSelector);
 
-    QVBoxLayout* timespanLayout = new QVBoxLayout();
-    timespanLayout->setSpacing(0);
-    timespanLayout->addWidget(m_anytime);
-    timespanLayout->addWidget(m_today);
-    timespanLayout->addWidget(m_yesterday);
-    timespanLayout->addWidget(m_thisWeek);
-    timespanLayout->addWidget(m_thisMonth);
-    timespanLayout->addWidget(m_thisYear);
-    timespanLayout->addStretch();
-
-    QButtonGroup* ratingGroup = new QButtonGroup(this);
-    m_anyRating   = createRadioButton(i18nc("@option:option", "Any Rating"), ratingGroup);
-    m_oneOrMore   = createRadioButton(i18nc("@option:option", "1 or more"), ratingGroup);
-    m_twoOrMore   = createRadioButton(i18nc("@option:option", "2 or more"), ratingGroup);
-    m_threeOrMore = createRadioButton(i18nc("@option:option", "3 or more"), ratingGroup);
-    m_fourOrMore  = createRadioButton(i18nc("@option:option", "4 or more"), ratingGroup);
-    m_maxRating   = createRadioButton(i18nc("@option:option", "Highest Rating"), ratingGroup);
-
-    QVBoxLayout* ratingLayout = new QVBoxLayout();
-    ratingLayout->setSpacing(0);
-    ratingLayout->addWidget(m_anyRating);
-    ratingLayout->addWidget(m_oneOrMore);
-    ratingLayout->addWidget(m_twoOrMore);
-    ratingLayout->addWidget(m_threeOrMore);
-    ratingLayout->addWidget(m_fourOrMore);
-    ratingLayout->addWidget(m_maxRating);
+    m_ratingSelector = new QComboBox(this);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("non-starred-symbolic")), i18nc("@item:inlistbox", "Any Rating"), 0);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "1 or more"), 1);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "2 or more"), 2);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "3 or more"), 3);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "4 or more"), 4);
+    m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "Highest Rating"), 5);
+    initComboBox(m_ratingSelector);
 
     QHBoxLayout* topLayout = new QHBoxLayout(this);
-    topLayout->addLayout(typeLayout);
-    topLayout->addLayout(timespanLayout);
-    topLayout->addLayout(ratingLayout);
-    topLayout->addStretch();
+    topLayout->addWidget(m_typeSelector);
+    topLayout->addWidget(m_dateSelector);
+    topLayout->addWidget(m_ratingSelector);
 
     resetOptions();
 }
@@ -123,43 +84,22 @@ void DolphinFacetsWidget::changeEvent(QEvent *event)
 
 void DolphinFacetsWidget::resetOptions()
 {
-    m_anyType->setChecked(true);
-    m_anytime->setChecked(true);
-    m_anyRating->setChecked(true);
+    m_typeSelector->setCurrentIndex(0);
+    m_dateSelector->setCurrentIndex(0);
+    m_ratingSelector->setCurrentIndex(0);
 }
 
 QString DolphinFacetsWidget::ratingTerm() const
 {
     QStringList terms;
 
-    if (!m_anyRating->isChecked()) {
-        int stars = 1; // represents m_oneOrMore
-        if (m_twoOrMore->isChecked()) {
-            stars = 2;
-        } else if (m_threeOrMore->isChecked()) {
-            stars = 3;
-        } else if (m_fourOrMore->isChecked()) {
-            stars = 4;
-        } else if (m_maxRating->isChecked()) {
-            stars = 5;
-        }
-
-        const int rating = stars * 2;
+    if (m_ratingSelector->currentIndex() > 0) {
+        const int rating = m_ratingSelector->currentData().toInt() * 2;
         terms << QStringLiteral("rating>=%1").arg(rating);
     }
 
-    if (!m_anytime->isChecked()) {
-        QDate date = QDate::currentDate(); // represents m_today
-        if (m_yesterday->isChecked()) {
-            date = date.addDays(-1);
-        } else if (m_thisWeek->isChecked()) {
-            date = date.addDays(1 - date.dayOfWeek());
-        } else if (m_thisMonth->isChecked()) {
-            date = date.addDays(1 - date.day());
-        } else if (m_thisYear->isChecked()) {
-            date = date.addDays(1 - date.dayOfYear());
-        }
-
+    if (m_dateSelector->currentIndex() > 0) {
+        const QDate date = m_dateSelector->currentData().toDate();
         terms << QStringLiteral("modified>=%1").arg(date.toString(Qt::ISODate));
     }
 
@@ -168,19 +108,7 @@ QString DolphinFacetsWidget::ratingTerm() const
 
 QString DolphinFacetsWidget::facetType() const
 {
-    if (m_folders->isChecked()) {
-        return QStringLiteral("Folder");
-    } else if (m_documents->isChecked()) {
-        return QStringLiteral("Document");
-    } else if (m_images->isChecked()) {
-        return QStringLiteral("Image");
-    } else if (m_audio->isChecked()) {
-        return QStringLiteral("Audio");
-    } else if (m_videos->isChecked()) {
-        return QStringLiteral("Video");
-    }
-
-    return QString();
+    return m_typeSelector->currentData().toString();
 }
 
 bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
@@ -224,75 +152,41 @@ void DolphinFacetsWidget::setRatingTerm(const QString& term)
 
 void DolphinFacetsWidget::setFacetType(const QString& type)
 {
-    if (type == QLatin1String("Folder")) {
-        m_folders->setChecked(true);
-    } else if (type == QLatin1String("Document")) {
-        m_documents->setChecked(true);
-    } else if (type == QLatin1String("Image")) {
-        m_images->setChecked(true);
-    } else if (type == QLatin1String("Audio")) {
-        m_audio->setChecked(true);
-    } else if (type == QLatin1String("Video")) {
-        m_videos->setChecked(true);
-    } else {
-        m_anyType->setChecked(true);
+    for (int index = 1; index <= m_typeSelector->count(); index++) {
+        if (type == m_typeSelector->itemData(index).toString()) {
+            m_typeSelector->setCurrentIndex(index);
+            break;
+        }
     }
 }
 
 void DolphinFacetsWidget::setRating(const int stars)
 {
-    switch (stars) {
-    case 5:
-        m_maxRating->setChecked(true);
-        break;
-
-    case 4:
-        m_fourOrMore->setChecked(true);
-        break;
-
-    case 3:
-        m_threeOrMore->setChecked(true);
-        break;
-
-    case 2:
-        m_twoOrMore->setChecked(true);
-        break;
-
-    case 1:
-        m_oneOrMore->setChecked(true);
-        break;
-
-    default:
-        m_anyRating->setChecked(true);
+    if (stars < 0 || stars > 5) {
+        return;
     }
+    m_ratingSelector->setCurrentIndex(stars);
 }
 
 void DolphinFacetsWidget::setTimespan(const QDate& date)
 {
-    const QDate currentDate = QDate::currentDate();
-    const int days = date.daysTo(currentDate);
-
-    if (days <= 0) {
-        m_today->setChecked(true);
-    } else if (days <= 1) {
-        m_yesterday->setChecked(true);
-    } else if (days <= currentDate.dayOfWeek()) {
-        m_thisWeek->setChecked(true);
-    } else if (days <= currentDate.day()) {
-        m_thisMonth->setChecked(true);
-    } else if (days <= currentDate.dayOfYear()) {
-        m_thisYear->setChecked(true);
-    } else {
-        m_anytime->setChecked(true);
+    if (!date.isValid()) {
+        return;
+    }
+    m_dateSelector->setCurrentIndex(0);
+    for (int index = 1; index <= m_dateSelector->count(); index++) {
+        if (date >= m_dateSelector->itemData(index).toDate()) {
+            m_dateSelector->setCurrentIndex(index);
+            break;
+        }
     }
 }
 
-QRadioButton* DolphinFacetsWidget::createRadioButton(const QString& text,
-                                                     QButtonGroup* group)
+void DolphinFacetsWidget::initComboBox(QComboBox* combo)
 {
-    QRadioButton* button = new QRadioButton(text);
-    connect(button, &QRadioButton::clicked, this, &DolphinFacetsWidget::facetChanged);
-    group->addButton(button);
-    return button;
+    combo->setFrame(false);
+    combo->setMinimumHeight(parentWidget()->height());
+    combo->setCurrentIndex(0);
+    connect(combo, QOverload<int>::of(&QComboBox::activated), this, &DolphinFacetsWidget::facetChanged);
 }
 
