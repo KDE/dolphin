@@ -190,7 +190,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
         return false;
     }
 
-    if (archive.endsWith(".desktop")) {
+    if (archive.endsWith(QLatin1String(".desktop"))) {
         // Append basename to destination directory
         const auto dest = QDir(serviceDir).absoluteFilePath(QFileInfo(archive).fileName());
         qInfo() << "Single-File Service-Menu" << archive << dest;
@@ -254,7 +254,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
 bool cmdUninstall(const QString &archive, QString &errorText)
 {
     const auto serviceDir = getServiceMenusDir();
-    if (archive.endsWith(".desktop")) {
+    if (archive.endsWith(QLatin1String(".desktop"))) {
         // Append basename to destination directory
         const auto dest = QDir(serviceDir).absoluteFilePath(QFileInfo(archive).fileName());
         QFile file(dest);
