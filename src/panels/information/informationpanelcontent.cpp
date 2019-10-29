@@ -231,7 +231,7 @@ void InformationPanelContent::refreshPreview()
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
             m_preview->setPixmap(
-                QIcon::fromTheme(QStringLiteral("nepomuk")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+                QIcon::fromTheme(QStringLiteral("baloo")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
             );
         } else {
 
