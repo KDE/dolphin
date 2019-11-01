@@ -43,8 +43,9 @@ QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
 
 void PlacesItemListWidget::updateCapacityBar()
 {
+    const bool isDevice = !data().value("udi").toString().isEmpty();
     const QUrl url = data().value("url").toUrl();
-    if (url.isLocalFile()) {
+    if (isDevice && url.isLocalFile()) {
         const QString mountPointPath = url.toLocalFile();
         qDebug() << "url:" << mountPointPath;
         KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(mountPointPath);
@@ -57,12 +58,12 @@ void PlacesItemListWidget::updateCapacityBar()
             qDebug() << "    capacityBarRatio:" << m_capacityBarRatio << "(" << info.used() << "/" << info.size() << ")";
 
             // update();
-        } else {
-            resetCapacityBar();
+            return;
         }
-    } else {
-        resetCapacityBar();
     }
+
+    // else
+    resetCapacityBar();
 }
 
 void PlacesItemListWidget::resetCapacityBar()
