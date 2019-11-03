@@ -137,7 +137,6 @@ private slots:
     void slotConfigurationChanged();
     void slotSearchTextChanged(const QString& text);
     void slotReturnPressed();
-    void slotFacetsButtonToggled();
     void slotFacetChanged();
     void slotSearchSaved();
 
@@ -158,8 +157,7 @@ private:
      */
     void fromBalooSearchUrl(const QUrl& url);
 
-    void setFacetsVisible(bool visible);
-    void updateFacetsToggleButton();
+    void updateFacetsVisible();
 
     bool isIndexingEnabled() const;
 
@@ -177,7 +175,6 @@ private:
     KSeparator* m_separator;
     QToolButton* m_fromHereButton;
     QToolButton* m_everywhereButton;
-    QToolButton* m_facetsToggleButton;
     DolphinFacetsWidget* m_facetsWidget;
 
     QUrl m_searchPath;

@@ -57,7 +57,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_separator(nullptr),
     m_fromHereButton(nullptr),
     m_everywhereButton(nullptr),
-    m_facetsToggleButton(nullptr),
     m_facetsWidget(nullptr),
     m_searchPath(),
     m_startSearchTimer(nullptr)
@@ -158,7 +157,7 @@ void DolphinSearchBox::fromSearchUrl(const QUrl& url)
         setSearchPath(url);
     }
 
-    setFacetsVisible(SearchSettings::showFacetsWidget());
+    updateFacetsVisible();
 }
 
 void DolphinSearchBox::selectAll()
@@ -196,7 +195,6 @@ void DolphinSearchBox::showEvent(QShowEvent* event)
         m_searchInput->setFocus();
         m_startedSearching = false;
     }
-    updateFacetsToggleButton();
 }
 
 void DolphinSearchBox::hideEvent(QHideEvent* event)
@@ -283,11 +281,6 @@ void DolphinSearchBox::slotReturnPressed()
     emit returnPressed();
 }
 
-void DolphinSearchBox::slotFacetsButtonToggled()
-{
-    setFacetsVisible(m_facetsToggleButton->isChecked());
-}
-
 void DolphinSearchBox::slotFacetChanged()
 {
     m_startedSearching = true;
@@ -330,16 +323,13 @@ void DolphinSearchBox::loadSettings()
         m_fileNameButton->setChecked(true);
     }
 
-    setFacetsVisible(SearchSettings::showFacetsWidget());
+    updateFacetsVisible();
 }
 
 void DolphinSearchBox::saveSettings()
 {
     SearchSettings::setLocation(m_fromHereButton->isChecked() ? QStringLiteral("FromHere") : QStringLiteral("Everywhere"));
     SearchSettings::setWhat(m_fileNameButton->isChecked() ? QStringLiteral("FileName") : QStringLiteral("Content"));
-    if (isIndexingEnabled()) {
-        SearchSettings::setShowFacetsWidget(m_facetsToggleButton->isChecked());
-    }
     SearchSettings::self()->save();
 }
 
@@ -423,12 +413,7 @@ void DolphinSearchBox::init()
         m_menuFactory->fillMenuFromGroupingNames(moreSearchToolsButton->menu(), { "files-find" }, this->m_searchPath);
     } );
 
-    // Create "Facets" widgets
-    m_facetsToggleButton = new QToolButton(this);
-    m_facetsToggleButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    initButton(m_facetsToggleButton);
-    connect(m_facetsToggleButton, &QToolButton::clicked, this, &DolphinSearchBox::slotFacetsButtonToggled);
-
+    // Create "Facets" widget
     m_facetsWidget = new DolphinFacetsWidget(this);
     m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
@@ -443,7 +428,6 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_fromHereButton);
     optionsLayout->addWidget(m_everywhereButton);
     optionsLayout->addWidget(new KSeparator(Qt::Vertical, this));
-    optionsLayout->addWidget(m_facetsToggleButton);
     optionsLayout->addWidget(moreSearchToolsButton);
     optionsLayout->addStretch(1);
 
@@ -552,44 +536,11 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
 #endif
 }
 
-void DolphinSearchBox::setFacetsVisible(bool visible)
+void DolphinSearchBox::updateFacetsVisible()
 {
     const bool indexingEnabled = isIndexingEnabled();
     m_facetsWidget->setEnabled(indexingEnabled);
-    m_facetsWidget->setVisible(indexingEnabled && visible);
-    updateFacetsToggleButton();
-}
-
-void DolphinSearchBox::updateFacetsToggleButton()
-{
-    const bool facetsEnabled = m_facetsWidget->isEnabled();
-    const bool facetsVisible = m_facetsWidget->isVisible();
-
-    m_facetsToggleButton->setEnabled(facetsEnabled);
-    m_facetsToggleButton->setChecked(facetsVisible);
-
-    m_facetsToggleButton->setIcon(QIcon::fromTheme(
-           facetsVisible ? QStringLiteral("arrow-up-double") :
-                           QStringLiteral("arrow-down-double")));
-
-    m_facetsToggleButton->setText(
-           facetsVisible ? i18nc("@action:button", "Fewer Options") :
-                           i18nc("@action:button", "More Options"));
-
-    if (facetsEnabled) {
-        m_facetsToggleButton->setToolTip(QString());
-    } else {
-#ifdef HAVE_BALOO
-        const Baloo::IndexerConfig searchInfo;
-        if (!searchInfo.fileIndexingEnabled()) {
-            m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because the file indexing service is disabled."));
-        } else {
-            m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because this location is not indexed."));
-        }
-#else
-        m_facetsToggleButton->setToolTip(i18nc("@info:tooltip", "Advanced search options are not available because this version of Dolphin does not support the Baloo file indexer."));
-#endif
-    }
+    m_facetsWidget->setVisible(indexingEnabled);
 }
 
 bool DolphinSearchBox::isIndexingEnabled() const
