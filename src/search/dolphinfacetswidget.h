@@ -63,6 +63,7 @@ private:
     void setTimespan(const QDate& date);
     void addSearchTag(const QString& tag);
     void removeSearchTag(const QString& tag);
+    void resetSearchTags();
 
     void initComboBox(QComboBox* combo);
     void updateTagsSelector();
@@ -75,6 +76,7 @@ private:
 
     QStringList m_searchTags;
     KCoreDirLister m_tagsLister;
+    QAction *m_clearTagsAction;
 };
 
 #endif

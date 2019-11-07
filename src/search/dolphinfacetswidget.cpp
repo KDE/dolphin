@@ -53,6 +53,12 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "Highest Rating"), 5);
     initComboBox(m_ratingSelector);
 
+    m_clearTagsAction = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear-all")), i18nc("@action:inmenu", "Clear Selection"), this);
+    connect(m_clearTagsAction, &QAction::triggered, this, [this]() {
+        resetSearchTags();
+        Q_EMIT facetChanged();
+    });
+
     m_tagsSelector = new QToolButton(this);
     m_tagsSelector->setIcon(QIcon::fromTheme(QStringLiteral("tag")));
     m_tagsSelector->setMenu(new QMenu(this));
@@ -97,9 +103,7 @@ void DolphinFacetsWidget::resetSearchTerms()
     m_dateSelector->setCurrentIndex(0);
     m_ratingSelector->setCurrentIndex(0);
 
-    m_searchTags = QStringList();
-    updateTagsSelector();
-    updateTagsMenu();
+    resetSearchTags();
 }
 
 QStringList DolphinFacetsWidget::searchTerms() const
@@ -218,6 +222,13 @@ void DolphinFacetsWidget::removeSearchTag(const QString& tag)
     updateTagsSelector();
 }
 
+void DolphinFacetsWidget::resetSearchTags()
+{
+    m_searchTags = QStringList();
+    updateTagsSelector();
+    updateTagsMenu();
+}
+
 void DolphinFacetsWidget::initComboBox(QComboBox* combo)
 {
     combo->setFrame(false);
@@ -240,6 +251,7 @@ void DolphinFacetsWidget::updateTagsSelector()
     }
 
     m_tagsSelector->setEnabled(isEnabled() && (hasListedTags || hasSelectedTags));
+    m_clearTagsAction->setEnabled(hasSelectedTags);
 }
 
 void DolphinFacetsWidget::updateTagsMenu()
@@ -250,7 +262,8 @@ void DolphinFacetsWidget::updateTagsMenu()
 
 void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& items)
 {
-    m_tagsSelector->menu()->clear();
+    QMenu *tagsMenu = m_tagsSelector->menu();
+    tagsMenu->clear();
 
     QStringList allTags = QStringList(m_searchTags);
     for (const KFileItem &item: items) {
@@ -262,7 +275,7 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
     const bool onlyOneTag = allTags.count() == 1;
 
     for (const QString& tagName : qAsConst(allTags)) {
-        QAction* action = m_tagsSelector->menu()->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
+        QAction *action = tagsMenu->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
         action->setCheckable(true);
         action->setChecked(m_searchTags.contains(tagName));
 
@@ -278,6 +291,11 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
                 m_tagsSelector->menu()->show();
             }
         });
+    }
+
+    if (allTags.count() > 1) {
+        tagsMenu->addSeparator();
+        tagsMenu->addAction(m_clearTagsAction);
     }
 
     updateTagsSelector();
