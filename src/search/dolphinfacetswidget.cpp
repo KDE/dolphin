@@ -64,6 +64,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     initComboBox(m_ratingSelector);
 
     QHBoxLayout* topLayout = new QHBoxLayout(this);
+    topLayout->setContentsMargins(0, 0, 0, 0);
     topLayout->addWidget(m_typeSelector);
     topLayout->addWidget(m_dateSelector);
     topLayout->addWidget(m_ratingSelector);

@@ -52,6 +52,7 @@ namespace Dolphin {
      * TODO: Move this somewhere global to all KDE apps, not just Dolphin
      */
     const int VERTICAL_SPACER_HEIGHT = 18;
+    const int LAYOUT_SPACING_SMALL = 2;
 }
 
 #endif //GLOBAL_H

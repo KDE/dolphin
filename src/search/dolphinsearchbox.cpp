@@ -17,6 +17,7 @@
 *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA           *
 * **************************************************************************/
 
+#include "global.h"
 #include "dolphinsearchbox.h"
 
 #include "dolphin_searchsettings.h"
@@ -417,11 +418,13 @@ void DolphinSearchBox::init()
     m_facetsWidget = new DolphinFacetsWidget(this);
     m_facetsWidget->installEventFilter(this);
     m_facetsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    m_facetsWidget->layout()->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     connect(m_facetsWidget, &DolphinFacetsWidget::facetChanged, this, &DolphinSearchBox::slotFacetChanged);
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
     optionsLayout->setContentsMargins(0, 0, 0, 0);
+    optionsLayout->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     optionsLayout->addWidget(m_fileNameButton);
     optionsLayout->addWidget(m_contentButton);
     optionsLayout->addWidget(m_separator);
@@ -447,6 +450,7 @@ void DolphinSearchBox::init()
 
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setContentsMargins(0, 0, 0, 0);
+    m_topLayout->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     m_topLayout->addLayout(searchInputLayout);
     m_topLayout->addWidget(m_optionsScrollArea);
     m_topLayout->addWidget(m_facetsWidget);
