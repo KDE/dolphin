@@ -67,8 +67,7 @@ public:
 
     /**
      * Replaces the text set by setText() by the text that
-     * has been set by setDefaultText(). It is assured that the previous
-     * text will be shown for at least 1 second. DolphinStatusBar::text()
+     * has been set by setDefaultText(). DolphinStatusBar::text()
      * will return an empty string after the reset has been done.
      */
     void resetToDefaultText();
@@ -120,14 +119,6 @@ private slots:
     void updateLabelText();
 
     /**
-     * Is invoked by m_resetToDefaultTextTimer and clears
-     * m_text so that the default text will be shown. This
-     * prevents that information-messages will be cleared
-     * too fast.
-     */
-    void slotResetToDefaultText();
-
-    /**
      * Updates the text of the zoom slider tooltip to show
      * the currently used size.
      */
@@ -156,7 +147,7 @@ private:
     int m_progress;
     QTimer* m_showProgressBarTimer;
 
-    QTimer* m_resetToDefaultTextTimer;
+    QTimer* m_delayUpdateTimer;
     QTime m_textTimestamp;
 };
 
