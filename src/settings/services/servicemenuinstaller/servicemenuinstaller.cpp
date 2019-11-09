@@ -57,7 +57,7 @@ struct UncompressCommand
 };
 
 void runUncompress(const QString &inputPath, const QString &outputPath) {
-    QList<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
+    QVector<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
     mimeTypeToCommand.append({QStringList{"application/x-tar", "application/tar", "application/x-gtar",
                                           "multipart/x-tar"},
                               UncompressCommand{"tar", QStringList() << "-xf", QStringList() << "-C"}});
