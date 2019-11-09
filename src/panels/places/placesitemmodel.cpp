@@ -44,19 +44,6 @@
 #include <QMimeData>
 #include <QTimer>
 
-namespace {
-    static QList<QUrl> balooURLs = {
-        QUrl(QStringLiteral("timeline:/today")),
-        QUrl(QStringLiteral("timeline:/yesterday")),
-        QUrl(QStringLiteral("timeline:/thismonth")),
-        QUrl(QStringLiteral("timeline:/lastmonth")),
-        QUrl(QStringLiteral("search:/documents")),
-        QUrl(QStringLiteral("search:/images")),
-        QUrl(QStringLiteral("search:/audio")),
-        QUrl(QStringLiteral("search:/videos"))
-    };
-}
-
 PlacesItemModel::PlacesItemModel(QObject* parent) :
     KStandardItemModel(parent),
     m_hiddenItemsShown(false),
@@ -627,6 +614,18 @@ void PlacesItemModel::cleanupBookmarks()
 {
     // KIO model now provides support for baloo urls, and because of that we
     // need to remove old URLs that were visible only in Dolphin to avoid duplication
+
+    static const QVector<QUrl> balooURLs = {
+        QUrl(QStringLiteral("timeline:/today")),
+        QUrl(QStringLiteral("timeline:/yesterday")),
+        QUrl(QStringLiteral("timeline:/thismonth")),
+        QUrl(QStringLiteral("timeline:/lastmonth")),
+        QUrl(QStringLiteral("search:/documents")),
+        QUrl(QStringLiteral("search:/images")),
+        QUrl(QStringLiteral("search:/audio")),
+        QUrl(QStringLiteral("search:/videos"))
+    };
+
     int row = 0;
     do {
         const QModelIndex sourceIndex = m_sourceModel->index(row, 0);
