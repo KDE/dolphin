@@ -719,8 +719,8 @@ void PlacesItemModelTest::testEditMetadata()
     schedulePlaceRemoval(tempDirIndex);
 
     // modify place metadata
-    PlacesItem *item = m_model->placesItem(tempDirIndex);
-    item->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"), KAboutData::applicationData().componentName());
+    auto bookmark = m_model->placesItem(tempDirIndex)->bookmark();
+    bookmark.setMetaDataItem(QStringLiteral("OnlyInApp"), KAboutData::applicationData().componentName());
     m_model->refresh();
 
     // check if the place was modified in both models
