@@ -37,7 +37,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
     KCModule(parent),
     m_tabs()
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
 
     setButtons(KCModule::Default | KCModule::Help);
 

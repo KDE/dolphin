@@ -200,7 +200,7 @@ void DolphinSearchBox::showEvent(QShowEvent* event)
 
 void DolphinSearchBox::hideEvent(QHideEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     m_startedSearching = false;
     m_startSearchTimer->stop();
 }
@@ -536,7 +536,7 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
     m_startSearchTimer->stop();
     blockSignals(false);
 #else
-    Q_UNUSED(url);
+    Q_UNUSED(url)
 #endif
 }
 

@@ -399,7 +399,7 @@ void DolphinViewActionHandler::togglePreview(bool show)
 
 void DolphinViewActionHandler::slotPreviewsShownChanged(bool shown)
 {
-    Q_UNUSED(shown);
+    Q_UNUSED(shown)
     // It is not enough to update the 'Show Preview' action, also
     // the 'Zoom In', 'Zoom Out' and 'Zoom Reset' actions must be adapted.
     updateViewActions();
@@ -515,7 +515,7 @@ void DolphinViewActionHandler::toggleVisibleRole(QAction* action)
 void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray>& current,
                                                        const QList<QByteArray>& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     const QSet<QByteArray> checkedRoles = current.toSet();
     QHashIterator<QByteArray, KToggleAction*> it(m_visibleRoles);
@@ -634,7 +634,7 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
 
 void DolphinViewActionHandler::slotZoomLevelChanged(int current, int previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
     if (zoomInAction) {

@@ -38,7 +38,7 @@ ServiceItemDelegate::~ServiceItemDelegate()
 QSize ServiceItemDelegate::sizeHint(const QStyleOptionViewItem &option,
                                     const QModelIndex &index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
 
     const QStyle *style = itemView()->style();
     const int buttonHeight = style->pixelMetric(QStyle::PM_ButtonMargin) * 2 +
@@ -50,7 +50,7 @@ QSize ServiceItemDelegate::sizeHint(const QStyleOptionViewItem &option,
 void ServiceItemDelegate::paint(QPainter* painter, const QStyleOptionViewItem& option,
                                   const QModelIndex& index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     painter->save();
 
     itemView()->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &option, painter);

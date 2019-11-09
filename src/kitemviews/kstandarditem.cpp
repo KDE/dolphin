@@ -128,15 +128,15 @@ void KStandardItem::onDataValueChanged(const QByteArray& role,
                                        const QVariant& current,
                                        const QVariant& previous)
 {
-    Q_UNUSED(role);
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(role)
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KStandardItem::onDataChanged(const QHash<QByteArray, QVariant>& current,
                                   const QHash<QByteArray, QVariant>& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 

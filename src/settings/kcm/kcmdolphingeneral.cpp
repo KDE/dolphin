@@ -36,7 +36,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     KCModule(parent),
     m_pages()
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
 
     setButtons(KCModule::Default | KCModule::Help);
 

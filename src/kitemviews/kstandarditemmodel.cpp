@@ -166,7 +166,7 @@ QHash<QByteArray, QVariant> KStandardItemModel::data(int index) const
 
 bool KStandardItemModel::setData(int index, const QHash<QByteArray, QVariant>& values)
 {
-    Q_UNUSED(values);
+    Q_UNUSED(values)
     if (index < 0 || index >= count()) {
         return false;
     }
@@ -176,26 +176,26 @@ bool KStandardItemModel::setData(int index, const QHash<QByteArray, QVariant>& v
 
 QMimeData* KStandardItemModel::createMimeData(const KItemSet& indexes) const
 {
-    Q_UNUSED(indexes);
+    Q_UNUSED(indexes)
     return nullptr;
 }
 
 int KStandardItemModel::indexForKeyboardSearch(const QString& text, int startFromIndex) const
 {
-    Q_UNUSED(text);
-    Q_UNUSED(startFromIndex);
+    Q_UNUSED(text)
+    Q_UNUSED(startFromIndex)
     return -1;
 }
 
 bool KStandardItemModel::supportsDropping(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return false;
 }
 
 QString KStandardItemModel::roleDescription(const QByteArray& role) const
 {
-    Q_UNUSED(role);
+    Q_UNUSED(role)
     return QString();
 }
 
@@ -221,18 +221,18 @@ QList<QPair<int, QVariant> > KStandardItemModel::groups() const
 
 void KStandardItemModel::onItemInserted(int index)
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
 }
 
 void KStandardItemModel::onItemChanged(int index, const QSet<QByteArray>& changedRoles)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(changedRoles);
+    Q_UNUSED(index)
+    Q_UNUSED(changedRoles)
 }
 
 void KStandardItemModel::onItemRemoved(int index, KStandardItem* removedItem)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(removedItem);
+    Q_UNUSED(index)
+    Q_UNUSED(removedItem)
 }
 

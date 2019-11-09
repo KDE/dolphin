@@ -785,13 +785,13 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
 
 void KFileItemModel::onGroupedSortingChanged(bool current)
 {
-    Q_UNUSED(current);
+    Q_UNUSED(current)
     m_groups.clear();
 }
 
 void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     m_sortRole = typeForRole(current);
 
     if (!m_requestRole[m_sortRole]) {
@@ -807,8 +807,8 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
 
 void KFileItemModel::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     resortAllItems();
 }
 

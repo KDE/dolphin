@@ -421,7 +421,7 @@ int KItemListAccessibleCell::childCount() const
 
 int KItemListAccessibleCell::indexOfChild(const QAccessibleInterface* child) const
 {
-    Q_UNUSED(child);
+    Q_UNUSED(child)
     return -1;
 }
 

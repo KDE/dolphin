@@ -355,7 +355,7 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
 
 void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    Q_UNUSED(itemRanges);
+    Q_UNUSED(itemRanges)
 
     const bool allItemsRemoved = (m_model->count() == 0);
 
@@ -407,8 +407,8 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 
 void KFileItemModelRolesUpdater::slotItemsMoved(const KItemRange& itemRange, const QList<int> &movedToIndexes)
 {
-    Q_UNUSED(itemRange);
-    Q_UNUSED(movedToIndexes);
+    Q_UNUSED(itemRange)
+    Q_UNUSED(movedToIndexes)
 
     // The visible items might have changed.
     startUpdating();
@@ -417,7 +417,7 @@ void KFileItemModelRolesUpdater::slotItemsMoved(const KItemRange& itemRange, con
 void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRanges,
                                                   const QSet<QByteArray>& roles)
 {
-    Q_UNUSED(roles);
+    Q_UNUSED(roles)
 
     // Find out if slotItemsChanged() has been done recently. If that is the
     // case, resolving the roles is postponed until a timer has exceeded
@@ -445,8 +445,8 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
 void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
                                                      const QByteArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 
     if (m_resolvableRoles.contains(current)) {
         m_pendingSortRoleItems.clear();
@@ -711,7 +711,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
     }
     applyChangedBalooRolesForItem(item);
 #else
-    Q_UNUSED(file);
+    Q_UNUSED(file)
 #endif
 }
 
@@ -745,7 +745,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
             this,    &KFileItemModelRolesUpdater::slotItemsChanged);
 #else
 #ifndef Q_CC_MSVC
-    Q_UNUSED(item);
+    Q_UNUSED(item)
 #endif
 #endif
 }

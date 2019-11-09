@@ -213,7 +213,7 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
 
 void KFileItemListView::onPreviewsShownChanged(bool shown)
 {
-    Q_UNUSED(shown);
+    Q_UNUSED(shown)
 }
 
 void KFileItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
@@ -246,8 +246,8 @@ void KFileItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::
 
 void KFileItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     triggerVisibleIndexRangeUpdate();
 }
 

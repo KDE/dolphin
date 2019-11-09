@@ -109,7 +109,7 @@ QHash<QByteArray, QVariant> KItemListWidget::data() const
 
 void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(option);
+    Q_UNUSED(option)
 
     if (m_alternateBackground) {
         const QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
@@ -394,63 +394,63 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option
 void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
                                   const QSet<QByteArray>& roles)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(roles);
+    Q_UNUSED(current)
+    Q_UNUSED(roles)
 }
 
 void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
                                           const QList<QByteArray>& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListWidget::columnWidthChanged(const QByteArray& role,
                                          qreal current,
                                          qreal previous)
 {
-    Q_UNUSED(role);
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(role)
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
                                          const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListWidget::currentChanged(bool current)
 {
-    Q_UNUSED(current);
+    Q_UNUSED(current)
 }
 
 void KItemListWidget::selectedChanged(bool selected)
 {
-    Q_UNUSED(selected);
+    Q_UNUSED(selected)
 }
 
 void KItemListWidget::hoveredChanged(bool hovered)
 {
-    Q_UNUSED(hovered);
+    Q_UNUSED(hovered)
 }
 
 void KItemListWidget::alternateBackgroundChanged(bool enabled)
 {
-    Q_UNUSED(enabled);
+    Q_UNUSED(enabled)
 }
 
 void KItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)

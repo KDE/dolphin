@@ -261,7 +261,7 @@ void DolphinStatusBar::updateSpaceInfo()
 
 void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
 
     QMenu menu(this);
 

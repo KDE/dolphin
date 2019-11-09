@@ -726,7 +726,7 @@ void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
 
 void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)
 {
-    Q_UNUSED(oldUrl);
+    Q_UNUSED(oldUrl)
     const bool block = m_urlNavigator->signalsBlocked();
     m_urlNavigator->blockSignals(true);
 

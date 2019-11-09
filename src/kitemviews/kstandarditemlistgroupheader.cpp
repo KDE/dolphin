@@ -75,15 +75,15 @@ void KStandardItemListGroupHeader::paintSeparator(QPainter* painter, const QColo
 
 void KStandardItemListGroupHeader::roleChanged(const QByteArray &current, const QByteArray &previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     m_dirtyCache = true;
 }
 
 void KStandardItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     m_dirtyCache = true;
 }
 

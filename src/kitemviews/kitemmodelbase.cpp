@@ -44,8 +44,8 @@ KItemModelBase::~KItemModelBase()
 
 bool KItemModelBase::setData(int index, const QHash<QByteArray, QVariant> &values)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(values);
+    Q_UNUSED(index)
+    Q_UNUSED(values)
     return false;
 }
 
@@ -100,45 +100,45 @@ QList<QPair<int, QVariant> > KItemModelBase::groups() const
 
 bool KItemModelBase::setExpanded(int index, bool expanded)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(expanded);
+    Q_UNUSED(index)
+    Q_UNUSED(expanded)
     return false;
 }
 
 bool KItemModelBase::isExpanded(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return false;
 }
 
 bool KItemModelBase::isExpandable(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return false;
 }
 
 int KItemModelBase::expandedParentsCount(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return 0;
 }
 
 QMimeData* KItemModelBase::createMimeData(const KItemSet& indexes) const
 {
-    Q_UNUSED(indexes);
+    Q_UNUSED(indexes)
     return nullptr;
 }
 
 int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromIndex) const
 {
-    Q_UNUSED(text);
-    Q_UNUSED(startFromIndex);
+    Q_UNUSED(text)
+    Q_UNUSED(startFromIndex)
     return -1;
 }
 
 bool KItemModelBase::supportsDropping(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return false;
 }
 
@@ -149,20 +149,20 @@ QString KItemModelBase::blacklistItemDropEventMimeType() const
 
 void KItemModelBase::onGroupedSortingChanged(bool current)
 {
-    Q_UNUSED(current);
+    Q_UNUSED(current)
 }
 
 void KItemModelBase::onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
-    Q_UNUSED(resortItems);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
+    Q_UNUSED(resortItems)
 }
 
 void KItemModelBase::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 QUrl KItemModelBase::url(int index) const

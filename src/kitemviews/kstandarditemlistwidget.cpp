@@ -113,8 +113,8 @@ QString KStandardItemListWidgetInformant::itemText(int index, const KItemListVie
 
 bool KStandardItemListWidgetInformant::itemIsLink(int index, const KItemListView* view) const
 {
-    Q_UNUSED(index);
-    Q_UNUSED(view);
+    Q_UNUSED(index)
+    Q_UNUSED(view)
     return false;
 }
 
@@ -600,7 +600,7 @@ void KStandardItemListWidget::refreshCache()
 
 bool KStandardItemListWidget::isRoleRightAligned(const QByteArray& role) const
 {
-    Q_UNUSED(role);
+    Q_UNUSED(role)
     return false;
 }
 
@@ -665,7 +665,7 @@ QString KStandardItemListWidget::roleText(const QByteArray& role,
 void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
                                           const QSet<QByteArray>& roles)
 {
-    Q_UNUSED(current);
+    Q_UNUSED(current)
 
     m_dirtyContent = true;
 
@@ -697,7 +697,7 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
 void KStandardItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
                                               const QList<QByteArray>& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     m_sortedVisibleRoles = current;
     m_dirtyLayout = true;
 }
@@ -706,38 +706,38 @@ void KStandardItemListWidget::columnWidthChanged(const QByteArray& role,
                                              qreal current,
                                              qreal previous)
 {
-    Q_UNUSED(role);
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(role)
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     m_dirtyLayout = true;
 }
 
 void KStandardItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
                                              const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     updateAdditionalInfoTextColor();
     m_dirtyLayout = true;
 }
 
 void KStandardItemListWidget::hoveredChanged(bool hovered)
 {
-    Q_UNUSED(hovered);
+    Q_UNUSED(hovered)
     m_dirtyLayout = true;
 }
 
 void KStandardItemListWidget::selectedChanged(bool selected)
 {
-    Q_UNUSED(selected);
+    Q_UNUSED(selected)
     updateAdditionalInfoTextColor();
     m_dirtyContent = true;
 }
 
 void KStandardItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     m_dirtyLayout = true;
 }
 
@@ -748,7 +748,7 @@ int KStandardItemListWidget::selectionLength(const QString& text) const
 
 void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     QGraphicsView* parent = scene()->views()[0];
     if (current.isEmpty() || !parent || current != "text") {

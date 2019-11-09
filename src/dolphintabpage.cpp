@@ -348,7 +348,7 @@ void DolphinTabPage::slotViewActivated()
 
 void DolphinTabPage::slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl)
 {
-    Q_UNUSED(oldUrl);
+    Q_UNUSED(oldUrl)
 
     emit activeViewUrlChanged(newUrl);
 }

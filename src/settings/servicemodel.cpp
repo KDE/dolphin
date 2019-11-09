@@ -101,7 +101,7 @@ QVariant ServiceModel::data(const QModelIndex& index, int role) const
 
 int ServiceModel::rowCount(const QModelIndex& parent) const
 {
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
     return m_items.count();
 }
 

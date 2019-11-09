@@ -28,7 +28,7 @@
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    Q_UNUSED(context);
+    Q_UNUSED(context)
 
     switch (type) {
     case QtDebugMsg:

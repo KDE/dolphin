@@ -525,7 +525,7 @@ void KItemListController::slotAutoActivationTimeout()
 
 bool KItemListController::inputMethodEvent(QInputMethodEvent* event)
 {
-    Q_UNUSED(event);
+    Q_UNUSED(event)
     return false;
 }
 
@@ -845,8 +845,8 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
 
 bool KItemListController::dragEnterEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
 
     DragAndDropHelper::clearUrlListMatchesUrlCache();
 
@@ -855,8 +855,8 @@ bool KItemListController::dragEnterEvent(QGraphicsSceneDragDropEvent* event, con
 
 bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
 
     m_autoActivationTimer->stop();
     m_view->setAutoScroll(false);
@@ -969,14 +969,14 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
 
 bool KItemListController::hoverEnterEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
     return false;
 }
 
 bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(transform);
+    Q_UNUSED(transform)
     if (!m_model || !m_view) {
         return false;
     }
@@ -1007,8 +1007,8 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
 
 bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
 
     if (!m_model || !m_view) {
         return false;
@@ -1025,15 +1025,15 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const
 
 bool KItemListController::wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
     return false;
 }
 
 bool KItemListController::resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
     return false;
 }
 

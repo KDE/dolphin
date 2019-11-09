@@ -1049,7 +1049,7 @@ void DolphinView::slotItemHovered(int index)
 
 void DolphinView::slotItemUnhovered(int index)
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     hideToolTip();
     emit requestItemInfo(KFileItem());
 }
@@ -1113,7 +1113,7 @@ void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* prev
 
 void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons)
 {
-    Q_UNUSED(itemIndex);
+    Q_UNUSED(itemIndex)
 
     hideToolTip();
 
@@ -1535,7 +1535,7 @@ void DolphinView::slotItemsChanged()
 
 void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOrder previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     Q_ASSERT(m_model->sortOrder() == current);
 
     ViewProperties props(viewPropertiesUrl());
@@ -1546,7 +1546,7 @@ void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOr
 
 void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     Q_ASSERT(m_model->sortRole() == current);
 
     ViewProperties props(viewPropertiesUrl());
@@ -1558,7 +1558,7 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const Q
 void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
                                                   const QList<QByteArray>& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     Q_ASSERT(m_container->controller()->view()->visibleRoles() == current);
 
     const QList<QByteArray> previousVisibleRoles = m_visibleRoles;

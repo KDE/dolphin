@@ -124,7 +124,7 @@ void DolphinItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout pre
 
 void DolphinItemListView::onPreviewsShownChanged(bool shown)
 {
-    Q_UNUSED(shown);
+    Q_UNUSED(shown)
     updateGridSize();
 }
 

@@ -142,7 +142,7 @@ void KItemListSizeHintResolver::itemsMoved(const KItemRange& range, const QList<
 
 void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray>& roles)
 {
-    Q_UNUSED(roles);
+    Q_UNUSED(roles)
     while (count) {
         m_logicalHeightHintCache[index] = 0.0;
         ++index;

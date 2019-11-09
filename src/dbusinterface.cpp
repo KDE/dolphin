@@ -39,7 +39,7 @@ DBusInterface::DBusInterface() :
 
 void DBusInterface::ShowFolders(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId);
+    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (urls.isEmpty()) {
         return;
@@ -52,7 +52,7 @@ void DBusInterface::ShowFolders(const QStringList& uriList, const QString& start
 
 void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId);
+    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (urls.isEmpty()) {
         return;
@@ -65,7 +65,7 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
 
 void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId);
+    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (!urls.isEmpty()) {
         KPropertiesDialog::showDialog(urls);

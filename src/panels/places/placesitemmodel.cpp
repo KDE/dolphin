@@ -496,7 +496,7 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
                                            const QVariant& errorData,
                                            const QString& udi)
 {
-    Q_UNUSED(udi);
+    Q_UNUSED(udi)
 
     const int index = m_storageSetupInProgress.take(sender());
     const PlacesItem*  item = placesItem(index);
@@ -540,8 +540,8 @@ void PlacesItemModel::onSourceModelRowsAboutToBeRemoved(const QModelIndex &paren
 
 void PlacesItemModel::onSourceModelRowsAboutToBeMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
 {
-    Q_UNUSED(destination);
-    Q_UNUSED(row);
+    Q_UNUSED(destination)
+    Q_UNUSED(row)
 
     for(int r = start; r <= end; r++) {
         const QModelIndex sourceIndex = m_sourceModel->index(r, 0, parent);
@@ -552,8 +552,8 @@ void PlacesItemModel::onSourceModelRowsAboutToBeMoved(const QModelIndex &parent,
 
 void PlacesItemModel::onSourceModelRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row)
 {
-    Q_UNUSED(destination);
-    Q_UNUSED(parent);
+    Q_UNUSED(destination)
+    Q_UNUSED(parent)
 
     const int blockSize = (end - start) + 1;
 
@@ -568,7 +568,7 @@ void PlacesItemModel::onSourceModelRowsMoved(const QModelIndex &parent, int star
 
 void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight, const QVector<int> &roles)
 {
-    Q_UNUSED(roles);
+    Q_UNUSED(roles)
 
     for (int r = topLeft.row(); r <= bottomRight.row(); r++) {
         const QModelIndex sourceIndex = m_sourceModel->index(r, 0);
@@ -760,7 +760,7 @@ int PlacesItemModel::mapFromSource(const QModelIndex &index) const
 
 bool PlacesItemModel::isDir(int index) const
 {
-    Q_UNUSED(index);
+    Q_UNUSED(index)
     return true;
 }
 

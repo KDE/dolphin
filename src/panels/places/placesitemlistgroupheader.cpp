@@ -33,8 +33,8 @@ PlacesItemListGroupHeader::~PlacesItemListGroupHeader()
 
 void PlacesItemListGroupHeader::paintSeparator(QPainter* painter, const QColor& color)
 {
-    Q_UNUSED(painter);
-    Q_UNUSED(color);
+    Q_UNUSED(painter)
+    Q_UNUSED(color)
 }
 
 QPalette::ColorRole PlacesItemListGroupHeader::normalTextColorRole() const

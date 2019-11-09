@@ -843,60 +843,60 @@ KItemListGroupHeaderCreatorBase* KItemListView::defaultGroupHeaderCreator() cons
 
 void KItemListView::initializeItemListWidget(KItemListWidget* item)
 {
-    Q_UNUSED(item);
+    Q_UNUSED(item)
 }
 
 bool KItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
 {
-    Q_UNUSED(changedRoles);
+    Q_UNUSED(changedRoles)
     return true;
 }
 
 void KItemListView::onControllerChanged(KItemListController* current, KItemListController* previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
 {
-    Q_UNUSED(supportsExpanding);
+    Q_UNUSED(supportsExpanding)
 }
 
 void KItemListView::onTransactionBegin()
@@ -1329,8 +1329,8 @@ void KItemListView::slotGroupedSortingChanged(bool current)
 
 void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     if (m_grouped) {
         updateVisibleGroupHeaders();
         doLayout(NoAnimation);
@@ -1339,8 +1339,8 @@ void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pr
 
 void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     if (m_grouped) {
         updateVisibleGroupHeaders();
         doLayout(NoAnimation);
@@ -1349,7 +1349,7 @@ void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteAr
 
 void KItemListView::slotCurrentChanged(int current, int previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     // In SingleSelection mode (e.g., in the Places Panel), the current item is
     // always the selected item. It is not necessary to highlight the current item then.
@@ -1372,7 +1372,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
 
 void KItemListView::slotSelectionChanged(const KItemSet& current, const KItemSet& previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
@@ -1450,9 +1450,9 @@ void KItemListView::slotHeaderColumnWidthChanged(const QByteArray& role,
                                                  qreal currentWidth,
                                                  qreal previousWidth)
 {
-    Q_UNUSED(role);
-    Q_UNUSED(currentWidth);
-    Q_UNUSED(previousWidth);
+    Q_UNUSED(role)
+    Q_UNUSED(currentWidth)
+    Q_UNUSED(previousWidth)
 
     m_headerWidget->setAutomaticColumnResizing(false);
     applyColumnWidthsFromHeader();

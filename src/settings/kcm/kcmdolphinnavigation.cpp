@@ -32,7 +32,7 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
     KCModule(parent),
     m_navigation(nullptr)
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
 
     setButtons(KCModule::Default | KCModule::Help);
 

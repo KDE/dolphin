@@ -95,7 +95,7 @@ void KItemListKeyboardSearchManager::cancelSearch()
 
 void KItemListKeyboardSearchManager::slotCurrentChanged(int current, int previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
 
     if (current < 0) {
         // The current item has been removed. We should cancel the search.

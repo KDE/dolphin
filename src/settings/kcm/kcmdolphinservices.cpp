@@ -32,7 +32,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
     KCModule(parent),
     m_services(nullptr)
 {
-    Q_UNUSED(args);
+    Q_UNUSED(args)
 
     setButtons(KCModule::Default | KCModule::Help);
 

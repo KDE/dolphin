@@ -108,21 +108,21 @@ bool KStandardItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) c
 
 void KStandardItemListView::onItemLayoutChanged(ItemLayout current, ItemLayout previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     updateLayoutOfVisibleItems();
 }
 
 void KStandardItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     updateLayoutOfVisibleItems();
 }
 
 void KStandardItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
 {
-    Q_UNUSED(supportsExpanding);
+    Q_UNUSED(supportsExpanding)
     updateLayoutOfVisibleItems();
 }
 

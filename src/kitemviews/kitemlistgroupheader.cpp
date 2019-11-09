@@ -127,9 +127,9 @@ Qt::Orientation KItemListGroupHeader::scrollOrientation() const
 
 void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(painter);
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    Q_UNUSED(painter)
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
     if (m_dirtyCache) {
         updateCache();
@@ -141,32 +141,32 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
 
 void KItemListGroupHeader::roleChanged(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListGroupHeader::styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListGroupHeader::scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListGroupHeader::itemIndexChanged(int current, int previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)

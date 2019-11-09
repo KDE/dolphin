@@ -60,8 +60,8 @@ void KItemListSelectionToggle::setHovered(bool hovered)
 
 void KItemListSelectionToggle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
     if (m_pixmap.isNull()) {
         updatePixmap();

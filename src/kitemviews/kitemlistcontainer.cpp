@@ -186,14 +186,14 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
 
 void KItemListContainer::slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
 {
-    Q_UNUSED(previous);
+    Q_UNUSED(previous)
     updateSmoothScrollers(current);
 }
 
 void KItemListContainer::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
 }
 
 void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* previous)

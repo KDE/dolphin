@@ -155,8 +155,8 @@ qreal KItemListHeaderWidget::minimumColumnWidth() const
 
 void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
+    Q_UNUSED(option)
+    Q_UNUSED(widget)
 
     if (!m_model) {
         return;
@@ -377,15 +377,15 @@ void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
 void KItemListHeaderWidget::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     update();
 }
 
 void KItemListHeaderWidget::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
     update();
 }
 

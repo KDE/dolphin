@@ -74,7 +74,7 @@ void ViewPropertiesTest::testReadOnlyBehavior()
     QScopedPointer<ViewProperties> props(new ViewProperties(m_testDir->url()));
     QVERIFY(props->isAutoSaveEnabled());
     const QByteArray sortRole = props->sortRole();
-    Q_UNUSED(sortRole);
+    Q_UNUSED(sortRole)
     props.reset();
 
     QVERIFY(!QFile::exists(dotDirectoryFile));
