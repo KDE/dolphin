@@ -235,7 +235,8 @@ void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
 
 void DolphinMainWindow::activateWindow()
 {
-    KStartupInfo::setNewStartupId(window(), KStartupInfo::startupId());
+    window()->setAttribute(Qt::WA_NativeWindow, true);
+    KStartupInfo::setNewStartupId(window()->windowHandle(), KStartupInfo::startupId());
     KWindowSystem::activateWindow(window()->effectiveWinId());
 }
 
