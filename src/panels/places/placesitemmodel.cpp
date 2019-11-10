@@ -588,11 +588,6 @@ void PlacesItemModel::onSourceModelDataChanged(const QModelIndex &topLeft, const
         }
 
         if (placeItem && !m_sourceModel->isDevice(sourceIndex)) {
-            placeItem->setText(bookmark.text());
-            placeItem->setIcon(sourceIndex.data(KFilePlacesModel::IconNameRole).toString());
-            placeItem->setUrl(m_sourceModel->url(sourceIndex));
-            placeItem->bookmark().setMetaDataItem(QStringLiteral("OnlyInApp"),
-                                                  bookmark.metaDataItem(QStringLiteral("OnlyInApp")));
             // must update the bookmark object
             placeItem->setBookmark(bookmark);
         }
