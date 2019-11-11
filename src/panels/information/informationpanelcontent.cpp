@@ -166,12 +166,13 @@ InformationPanelContent::~InformationPanelContent()
 
 void InformationPanelContent::showItem(const KFileItem& item)
 {
-    if (item != m_item) {
+    // compares item entries, comparing items only compares urls
+    if (m_item.entry() != item.entry()) {
         m_item = item;
-
         m_preview->stopAnimatedImage();
         refreshMetaData();
     }
+
     refreshPreview();
 }
 
