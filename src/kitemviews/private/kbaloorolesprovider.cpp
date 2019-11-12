@@ -81,7 +81,12 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
             std::for_each(rangeBegin, rangeEnd, [&list](const entry& s) { list.append(s.second); });
             values.insert(role, propertyInfo.formatAsDisplayString(list));
         } else {
-            values.insert(role, propertyInfo.formatAsDisplayString((*rangeBegin).second));
+            if (propertyInfo.valueType() == QVariant::DateTime) {
+                // Let dolphin format later Dates
+                values.insert(role, (*rangeBegin).second);
+            } else {
+                values.insert(role, propertyInfo.formatAsDisplayString((*rangeBegin).second));
+            }
         }
         rangeBegin = rangeEnd;
     }
