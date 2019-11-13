@@ -22,6 +22,7 @@
 
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
+#include "dolphinquery.h"
 #include "panels/places/placesitemmodel.h"
 
 #include <KLocalizedString>
@@ -143,7 +144,8 @@ QUrl DolphinSearchBox::urlForSearching() const
 void DolphinSearchBox::fromSearchUrl(const QUrl& url)
 {
     if (url.scheme() == QLatin1String("baloosearch")) {
-        fromBalooSearchUrl(url);
+        const DolphinQuery query = DolphinQuery::fromBalooSearchUrl(url);
+        updateFromQuery(query);
     } else if (url.scheme() == QLatin1String("filenamesearch")) {
         const QUrlQuery query(url);
         setText(query.queryItemValue(QStringLiteral("search")));
@@ -498,11 +500,8 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
 #endif
 }
 
-void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
+void DolphinSearchBox::updateFromQuery(const DolphinQuery& query)
 {
-#ifdef HAVE_BALOO
-    const Baloo::Query query = Baloo::Query::fromSearchUrl(url);
-
     // Block all signals to avoid unnecessary "searchRequest" signals
     // while we adjust the search text and the facet widget.
     blockSignals(true);
@@ -514,30 +513,17 @@ void DolphinSearchBox::fromBalooSearchUrl(const QUrl& url)
         setSearchPath(QUrl::fromLocalFile(QDir::homePath()));
     }
 
+    setText(query.text());
+
     m_facetsWidget->resetOptions();
-
-    setText(query.searchString());
-
-    QStringList types = query.types();
-    if (!types.isEmpty()) {
-        m_facetsWidget->setFacetType(types.first());
-    }
-
-    const QStringList subTerms = query.searchString().split(' ', QString::SkipEmptyParts);
-    foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith(QLatin1String("filename:"))) {
-            const QString value = subTerm.mid(9);
-            setText(value);
-        } else if (m_facetsWidget->isRatingTerm(subTerm)) {
-            m_facetsWidget->setRatingTerm(subTerm);
-        }
+    m_facetsWidget->setFacetType(query.type());
+    const QStringList searchTerms = query.searchTerms();
+    for (const QString& searchTerm : searchTerms) {
+        m_facetsWidget->setRatingTerm(searchTerm);
     }
 
     m_startSearchTimer->stop();
     blockSignals(false);
-#else
-    Q_UNUSED(url)
-#endif
 }
 
 void DolphinSearchBox::updateFacetsVisible()

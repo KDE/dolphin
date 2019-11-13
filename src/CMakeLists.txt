@@ -216,6 +216,7 @@ set(dolphinstatic_SRCS
     panels/folders/folderspanel.cpp
     panels/terminal/terminalpanel.cpp
     search/dolphinfacetswidget.cpp
+    search/dolphinquery.cpp
     search/dolphinsearchbox.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
