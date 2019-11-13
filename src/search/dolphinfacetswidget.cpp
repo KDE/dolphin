@@ -153,7 +153,7 @@ void DolphinFacetsWidget::setRatingTerm(const QString& term)
 
 void DolphinFacetsWidget::setFacetType(const QString& type)
 {
-    for (int index = 1; index <= m_typeSelector->count(); index++) {
+    for (int index = 0; index <= m_typeSelector->count(); index++) {
         if (type == m_typeSelector->itemData(index).toString()) {
             m_typeSelector->setCurrentIndex(index);
             break;
