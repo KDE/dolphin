@@ -29,7 +29,7 @@
  * @brief Simple query model that parses a Baloo search Url and extracts its
  * separate components to be displayed on dolphin search box.
  */
-class DOLPHIN_EXPORT DolphinQuery
+class DolphinQuery
 {
 public:
     /** Calls Baloo::Query::fromSearchUrl() with the given @p searchUrl
