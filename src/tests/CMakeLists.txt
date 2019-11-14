@@ -49,6 +49,13 @@ if (KF5Baloo_FOUND)
   LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 endif()
 
+# DolphinQuery
+if (KF5Baloo_FOUND)
+  ecm_add_test(dolphinquerytest.cpp
+  TEST_NAME dolphinquerytest
+  LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
+endif()
+
 # KStandardItemModelTest
 ecm_add_test(kstandarditemmodeltest.cpp
 TEST_NAME kstandarditemmodeltest
