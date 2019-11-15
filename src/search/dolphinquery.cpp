@@ -54,20 +54,38 @@ DolphinQuery DolphinQuery::fromBalooSearchUrl(const QUrl& searchUrl)
 
     model.m_includeFolder = query.includeFolder();
 
-    model.m_searchText = query.searchString();
-
     const QStringList types = query.types();
     model.m_fileType = types.isEmpty() ? QString() : types.first();
 
+    QStringList textParts;
+
     const QStringList subTerms = query.searchString().split(' ', QString::SkipEmptyParts);
     foreach (const QString& subTerm, subTerms) {
+        QString value;
         if (subTerm.startsWith(QLatin1String("filename:"))) {
-            const QString value = subTerm.mid(9);
-            model.m_searchText = value;
+            value = subTerm.mid(9);
         } else if (isSearchTerm(subTerm)) {
             model.m_searchTerms << subTerm;
+            continue;
+        } else if (subTerm == QLatin1String("AND") && subTerm != subTerms.at(0) && subTerm != subTerms.back()) {
+            continue;
+        } else {
+            value = subTerm;
+        }
+
+        if (!value.isEmpty() && value.at(0) == QLatin1Char('"')) {
+            value = value.mid(1);
+        }
+        if (!value.isEmpty() && value.back() == QLatin1Char('"')) {
+            value = value.mid(0, value.size() - 1);
+        }
+        if (!value.isEmpty()) {
+            textParts << value;
         }
     }
+
+    model.m_searchText = textParts.join(QLatin1Char(' '));
+
 #endif
     return model;
 }
