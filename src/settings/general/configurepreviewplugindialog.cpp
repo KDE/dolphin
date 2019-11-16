@@ -66,7 +66,7 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
             // delete the whole thumbnails directory.
             previewPlugin->writeConfiguration(configurationWidget);
 
-            // http://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html#DIRECTORY
+            // https://specifications.freedesktop.org/thumbnail-spec/thumbnail-spec-latest.html#DIRECTORY
             const QString thumbnailsPath = QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation) + QLatin1String("/thumbnails/");
             KIO::del(QUrl::fromLocalFile(thumbnailsPath), KIO::HideProgressInfo);
         });

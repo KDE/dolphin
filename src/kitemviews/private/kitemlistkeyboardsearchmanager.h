@@ -1,8 +1,7 @@
 /***************************************************************************
  * Copyright (C) 2011 by Tirtha Chatterjee <tirtha.p.chatterjee@gmail.com> *
  *                                                                         *
- *   Based on the Itemviews NG project from Trolltech Labs:                *
- *   http://qt.gitorious.org/qt-labs/itemviews-ng                          *
+ *   Based on the Itemviews NG project from Trolltech Labs                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -76,7 +75,7 @@ signals:
      *                           current item.
      */
     // TODO: Think about getting rid of the bool parameter
-    // (see http://doc.qt.nokia.com/qq/qq13-apis.html#thebooleanparametertrap)
+    // (see https://doc.qt.io/archives/qq/qq13-apis.html#thebooleanparametertrap)
     void changeCurrentItem(const QString& string, bool searchFromNextItem);
 
 private:

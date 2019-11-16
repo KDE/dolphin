@@ -70,7 +70,7 @@ find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
 )
 set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities libraries"
-                       URL "http://www.kde.org"
+                       URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
                       )
@@ -79,14 +79,14 @@ find_package(Phonon4Qt5 CONFIG REQUIRED)
 
 find_package(KF5Baloo ${KF5_MIN_VERSION})
 set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
-                       URL "http://www.kde.org"
+                       URL "https://www.kde.org"
                        TYPE OPTIONAL
                        PURPOSE "For adding desktop-wide search and tagging support to dolphin"
                       )
 
 find_package(KF5BalooWidgets 19.07.70)
 set_package_properties(KF5BalooWidgets PROPERTIES DESCRIPTION "Baloos Widgets"
-                       URL "http://www.kde.org"
+                       URL "https://www.kde.org"
                        TYPE OPTIONAL
                       )
 

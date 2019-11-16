@@ -1,8 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
- *   Based on the Itemviews NG project from Trolltech Labs:                *
- *   http://qt.gitorious.org/qt-labs/itemviews-ng                          *
+ *   Based on the Itemviews NG project from Trolltech Labs                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
