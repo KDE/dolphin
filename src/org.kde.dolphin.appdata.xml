@@ -523,7 +523,7 @@
       <li xml:lang="zh-TW">復原支援</li>
     </ul>
   </description>
-  <url type="homepage">https://dolphin.kde.org/</url>
+  <url type="homepage">https://kde.org/applications/system/dolphin</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=dolphin</url>
   <url type="help">https://docs.kde.org/?application=dolphin</url>
   <url type="donation">https://www.kde.org/community/donations/?app=dolphin&amp;source=appdata</url>

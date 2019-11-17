@@ -24,6 +24,7 @@
 #include <QWidget>
 
 class DolphinFacetsWidget;
+class DolphinQuery;
 class QLineEdit;
 class KSeparator;
 class QToolButton;
@@ -152,10 +153,9 @@ private:
     QUrl balooUrlForSearching() const;
 
     /**
-     * Extracts information from the given Baloo search \a url to
-     * initialize the search box properly.
+     * Sets the searchbox UI with the parameters established by the \a query
      */
-    void fromBalooSearchUrl(const QUrl& url);
+    void updateFromQuery(const DolphinQuery& query);
 
     void updateFacetsVisible();
 
