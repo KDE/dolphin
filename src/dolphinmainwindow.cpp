@@ -57,6 +57,7 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KNS3/KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KRun>
@@ -197,6 +198,8 @@ DolphinMainWindow::DolphinMainWindow() :
     toolBar()->installEventFilter(middleClickEventFilter);
 
     setupWhatsThis();
+
+    QTimer::singleShot(0, this, &DolphinMainWindow::setupUpdateOpenPreferredSearchToolAction);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -933,23 +936,88 @@ void DolphinMainWindow::toggleShowMenuBar()
     }
 }
 
-void DolphinMainWindow::openTerminal()
+QString DolphinMainWindow::activeContainerLocalPath()
 {
-    QString dir(QDir::homePath());
-
-    // If the given directory is not local, it can still be the URL of an
-    // ioslave using UDS_LOCAL_PATH which to be converted first.
     KIO::StatJob* statJob = KIO::mostLocalUrl(m_activeViewContainer->url());
     KJobWidgets::setWindow(statJob, this);
     statJob->exec();
     QUrl url = statJob->mostLocalUrl();
-
-    //If the URL is local after the above conversion, set the directory.
     if (url.isLocalFile()) {
-        dir = url.toLocalFile();
+        return url.toLocalFile();
+    }
+    return QDir::homePath();
+}
+
+QPointer<QAction> DolphinMainWindow::preferredSearchTool()
+{
+    m_searchTools.clear();
+    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(
+        &m_searchTools, { "files-find" }, QUrl::fromLocalFile(activeContainerLocalPath())
+    );
+    QList<QAction*> actions = m_searchTools.actions();
+    if (actions.isEmpty()) {
+        return nullptr;
+    }
+    QAction* action = actions.first();
+    if (action->isSeparator()) {
+        return nullptr;
+    }
+    return action;
+}
+
+void DolphinMainWindow::setupUpdateOpenPreferredSearchToolAction()
+{
+    QAction* openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
+    const QList<QWidget*> widgets = openPreferredSearchTool->associatedWidgets();
+    for (QWidget* widget : widgets) {
+        QMenu* menu = qobject_cast<QMenu*>(widget);
+        if (menu) {
+            connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
+        }
     }
 
-    KToolInvocation::invokeTerminal(QString(), dir);
+    // Update the open_preferred_search_tool action *before* the Configure Shortcuts window is shown,
+    // since this action is then listed in that window and it should be up-to-date when it is displayed.
+    // This update is instantaneous if user made no changes to the search tools in the meantime.
+    // Maybe all KStandardActions should defer calls to their slots, so that we could simply connect() to trigger()?
+    connect(
+        actionCollection()->action(KStandardAction::name(KStandardAction::KeyBindings)), &QAction::hovered,
+        this, &DolphinMainWindow::updateOpenPreferredSearchToolAction
+    );
+
+    updateOpenPreferredSearchToolAction();
+}
+
+void DolphinMainWindow::updateOpenPreferredSearchToolAction()
+{
+    QAction* openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
+    if (!openPreferredSearchTool) {
+        return;
+    }
+    QPointer<QAction> tool = preferredSearchTool();
+    if (tool) {
+        openPreferredSearchTool->setVisible(true);
+        openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open %1", tool->text()));
+        openPreferredSearchTool->setIcon(tool->icon());
+    } else {
+        openPreferredSearchTool->setVisible(false);
+        // still visible in Shortcuts configuration window
+        openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open Preferred Search Tool"));
+        openPreferredSearchTool->setIcon(QIcon::fromTheme(QStringLiteral("search")));
+    }
+}
+
+void DolphinMainWindow::openPreferredSearchTool()
+{
+    QPointer<QAction> tool = preferredSearchTool();
+    if (tool) {
+        tool->trigger();
+    }
+}
+
+void DolphinMainWindow::openTerminal()
+{
+    KToolInvocation::invokeTerminal(QString(), activeContainerLocalPath());
 }
 
 void DolphinMainWindow::editSettings()
@@ -1091,7 +1159,9 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add a curated assortment of items from the "Tools" menu
     addActionToMenu(ac->action(QStringLiteral("show_filter_bar")), menu);
+    addActionToMenu(ac->action(QStringLiteral("open_preferred_search_tool")), menu);
     addActionToMenu(ac->action(QStringLiteral("open_terminal")), menu);
+    connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     menu->addSeparator();
 
@@ -1464,6 +1534,15 @@ void DolphinMainWindow::setupActions()
     compareFiles->setIcon(QIcon::fromTheme(QStringLiteral("kompare")));
     compareFiles->setEnabled(false);
     connect(compareFiles, &QAction::triggered, this, &DolphinMainWindow::compareFiles);
+
+    QAction* openPreferredSearchTool = actionCollection()->addAction(QStringLiteral("open_preferred_search_tool"));
+    openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open Preferred Search Tool"));
+    openPreferredSearchTool->setWhatsThis(xi18nc("@info:whatsthis",
+        "<para>This opens a preferred search tool for the viewed location.</para>"
+        "<para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</para>"));
+    openPreferredSearchTool->setIcon(QIcon::fromTheme(QStringLiteral("search")));
+    actionCollection()->setDefaultShortcut(openPreferredSearchTool, Qt::CTRL + Qt::SHIFT + Qt::Key_F);
+    connect(openPreferredSearchTool, &QAction::triggered, this, &DolphinMainWindow::openPreferredSearchTool);
 
 #ifdef HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
@@ -2207,6 +2286,8 @@ bool DolphinMainWindow::event(QEvent *event)
         QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
         QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
         return true;
+    } else if (event->type() == QEvent::WindowActivate) {
+        updateOpenPreferredSearchToolAction();
     }
     return KXmlGuiWindow::event(event);
 }

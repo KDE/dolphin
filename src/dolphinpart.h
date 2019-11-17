@@ -194,7 +194,7 @@ private Q_SLOTS:
     void slotOpenTerminal();
 
     /**
-     * Open KFind with the current path.
+     * Open preferred search tool in the current directory to find files.
      */
     void slotFindFile();
 

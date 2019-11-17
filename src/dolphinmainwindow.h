@@ -30,6 +30,7 @@
 
 #include <QIcon>
 #include <QList>
+#include <QMenu>
 #include <QPointer>
 #include <QUrl>
 #include <QVector>
@@ -352,6 +353,15 @@ private slots:
      */
     void toggleShowMenuBar();
 
+    /** Sets up updates for "Open Preferred Search Tool" action. */
+    void setupUpdateOpenPreferredSearchToolAction();
+
+    /** Updates "Open Preferred Search Tool" action. */
+    void updateOpenPreferredSearchToolAction();
+
+    /** Opens preferred search tool for the current location. */
+    void openPreferredSearchTool();
+
     /** Opens a terminal window for the current location. */
     void openTerminal();
 
@@ -597,6 +607,15 @@ private:
     /** Adds "What's This?" texts to many widgets and StandardActions. */
     void setupWhatsThis();
 
+    /**
+     * Returns the KIO::StatJob::mostLocalUrl() for the active container URL
+     * if it's a local file. Otherwise returns the user's home path.
+     */
+    QString activeContainerLocalPath();
+
+    /** Returns preferred search tool as configured in "More Search Tools" menu. */
+    QPointer<QAction> preferredSearchTool();
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
@@ -633,6 +652,9 @@ private:
 
     KToolBarPopupAction* m_backAction;
     KToolBarPopupAction* m_forwardAction;
+
+    QMenu m_searchTools;
+
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

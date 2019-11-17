@@ -40,6 +40,7 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeEditor>
+#include <KNS3/KMoreToolsMenuFactory>
 #include <KPluginFactory>
 #include <KRun>
 #include <KSharedConfig>
@@ -553,7 +554,16 @@ void DolphinPart::slotOpenTerminal()
 
 void DolphinPart::slotFindFile()
 {
-    KRun::run(QStringLiteral("kfind"), {url()}, widget());
+    QMenu searchTools;
+    KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(
+        &searchTools, { "files-find" }, QUrl::fromLocalFile(KParts::ReadOnlyPart::localFilePath())
+    );
+    QList<QAction*> actions = searchTools.actions();
+    if (!(actions.isEmpty())) {
+        actions.first()->trigger();
+    } else {
+        KRun::run(QStringLiteral("kfind"), {url()}, widget());
+    }
 }
 
 void DolphinPart::updateNewMenu()

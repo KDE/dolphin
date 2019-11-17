@@ -2020,6 +2020,17 @@ for this action.</para></listitem>
 
 <varlistentry>
 <term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;&Shift;<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>Tools</guimenu>
+<guimenuitem>Open Preferred Search Tool</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Opens preferred search tool in the current folder.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
 <guimenu>Tools</guimenu>
 <guimenuitem>Compare Files</guimenuitem>
 </menuchoice></term>
