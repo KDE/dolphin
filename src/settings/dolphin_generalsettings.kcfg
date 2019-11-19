@@ -16,7 +16,7 @@
         </entry>
         <entry name="UrlCompletionMode" type="Enum">
             <label>Text completion mode of the URL Navigator</label>
-            <default>KCompletion::CompletionPopup</default>
+            <default>KCompletion::CompletionPopupAuto</default>
         </entry>
         <entry name="ShowFullPath" type="Bool">
             <label>Should the full path be shown inside the location bar</label>
