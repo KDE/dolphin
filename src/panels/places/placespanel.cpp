@@ -309,10 +309,10 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
 
     const int iconSizeCount = 4;
     static const IconSizeInfo iconSizes[iconSizeCount] = {
-        {KIconLoader::SizeSmall,        I18N_NOOP2_NOSTRIP("Small icon size", "Small (%1x%2)")},
-        {KIconLoader::SizeSmallMedium,  I18N_NOOP2_NOSTRIP("Medium icon size", "Medium (%1x%2)")},
-        {KIconLoader::SizeMedium,       I18N_NOOP2_NOSTRIP("Large icon size", "Large (%1x%2)")},
-        {KIconLoader::SizeLarge,        I18N_NOOP2_NOSTRIP("Huge icon size", "Huge (%1x%2)")}
+        {KIconLoader::SizeSmall,        I18NC_NOOP("Small icon size", "Small (%1x%2)")},
+        {KIconLoader::SizeSmallMedium,  I18NC_NOOP("Medium icon size", "Medium (%1x%2)")},
+        {KIconLoader::SizeMedium,       I18NC_NOOP("Large icon size", "Large (%1x%2)")},
+        {KIconLoader::SizeLarge,        I18NC_NOOP("Huge icon size", "Huge (%1x%2)")}
     };
 
     QHash<QAction*, int> iconSizeActionMap;
