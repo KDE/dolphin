@@ -42,7 +42,6 @@
 #include <KIO/RestoreJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
-#include <KMimeTypeTrader>
 #include <KNewFileMenu>
 #include <KPluginMetaData>
 #include <KService>
