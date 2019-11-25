@@ -54,11 +54,6 @@ DolphinBookmarkHandler::~DolphinBookmarkHandler()
 {
 }
 
-void DolphinBookmarkHandler::fillControlMenu(QMenu* menu, KActionCollection* collection)
-{
-    m_bookmarkControlMenu.reset(new KBookmarkMenu(m_bookmarkManager, this, menu, collection));
-}
-
 QString DolphinBookmarkHandler::currentTitle() const
 {
     return title(m_mainWindow->activeViewContainer());

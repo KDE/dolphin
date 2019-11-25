@@ -36,7 +36,7 @@ class DolphinBookmarkHandler : public QObject, public KBookmarkOwner
 public:
     DolphinBookmarkHandler(DolphinMainWindow *mainWindow, KActionCollection *collection, QMenu *menu, QObject *parent);
     ~DolphinBookmarkHandler() override;
-    void fillControlMenu(QMenu *menu, KActionCollection *collection);
+
 private:
     QString currentTitle() const override;
     QUrl currentUrl() const override;
@@ -55,7 +55,6 @@ private:
     DolphinMainWindow* m_mainWindow;
     KBookmarkManager *m_bookmarkManager;
     QScopedPointer<KBookmarkMenu> m_bookmarkMenu;
-    QScopedPointer<KBookmarkMenu> m_bookmarkControlMenu;
 };
 
 #endif // DOLPHINBOOKMARKHANDLER_H
