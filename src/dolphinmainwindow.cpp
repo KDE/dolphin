@@ -1959,6 +1959,7 @@ void DolphinMainWindow::createControlButton()
     Q_ASSERT(!m_controlButton);
 
     m_controlButton = new QToolButton(this);
+    m_controlButton->setAccessibleName(i18nc("@action:intoolbar", "Control"));
     m_controlButton->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
     m_controlButton->setToolTip(i18nc("@action", "Show menu"));
     m_controlButton->setAttribute(Qt::WidgetAttribute::WA_CustomWhatsThis);

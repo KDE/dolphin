@@ -114,24 +114,6 @@ void DolphinSearchBoxTest::testBalooSearchParsing()
     QStringList searchTerms = query.searchTerms();
     searchTerms.sort();
 
-    // FIXME: Current parsing bugs
-    QEXPECT_FAIL("content/singleQuote", "Quotes around text are shown", Continue);
-    QEXPECT_FAIL("content/doubleQuote", "Quotes around text are shown", Continue);
-
-    QEXPECT_FAIL("filename",             "Quotes around text are shown", Continue);
-    QEXPECT_FAIL("filename/singleQuote", "Quotes around text are shown", Continue);
-    QEXPECT_FAIL("filename/doubleQuote", "Quotes around text are shown", Continue);
-
-    QEXPECT_FAIL("rating"                  , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("rating+content"          , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("rating+filename"         , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("modified"                , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("modified+content"        , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("modified+filename"       , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("rating+modified"         , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("rating+modified+content" , "Text includes also search terms", Continue);
-    QEXPECT_FAIL("rating+modified+filename", "Text includes also search terms", Continue);
-
     // Check for parsed text (would be displayed on the input search bar)
     QCOMPARE(query.text(), expectedText);
 
