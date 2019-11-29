@@ -94,8 +94,13 @@ void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
 DolphinContextMenu::Command DolphinContextMenu::open()
 {
     // get the context information
-    if (m_baseUrl.scheme() == QLatin1String("trash")) {
+    const auto scheme = m_baseUrl.scheme();
+    if (scheme == QLatin1String("trash")) {
         m_context |= TrashContext;
+    } else if (scheme == QLatin1String("search")) {
+        m_context |= SearchContext;
+    } else if (scheme == QLatin1String("timeline")) {
+        m_context |= TimelineContext;
     }
 
     if (!m_fileInfo.isNull() && !m_selectedItems.isEmpty()) {
@@ -183,6 +188,36 @@ void DolphinContextMenu::openTrashItemContextMenu()
     }
 }
 
+void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemActions)
+{
+    // insert 'Open in new window' and 'Open in new tab' entries
+
+    const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
+
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
+
+    // Insert 'Open With' entries
+    addOpenWithActions(fileItemActions);
+
+    // set up 'Create New' menu
+     DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
+     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+     newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
+     newFileMenu->checkUpToDate();
+     newFileMenu->setPopupFiles(m_fileInfo.url());
+     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
+     connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+     connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+
+     QMenu* menu = newFileMenu->menu();
+     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
+     menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+     addMenu(menu);
+
+     addSeparator();
+}
+
 void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
@@ -197,31 +232,10 @@ void DolphinContextMenu::openItemContextMenu()
     fileItemActions.setItemListProperties(selectedItemsProps);
 
     if (m_selectedItems.count() == 1) {
+        // single files
         if (m_fileInfo.isDir()) {
-            // insert 'Open in new window' and 'Open in new tab' entries
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
-            addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
-
-            // Insert 'Open With' entries
-            addOpenWithActions(fileItemActions);
-
-            // set up 'Create New' menu
-             DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-             const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-             newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
-             newFileMenu->checkUpToDate();
-             newFileMenu->setPopupFiles(m_fileInfo.url());
-             newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
-             connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
-             connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
-
-             QMenu* menu = newFileMenu->menu();
-             menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-             menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-             addMenu(menu);
-
-             addSeparator();
-        } else if (m_baseUrl.scheme().contains(QLatin1String("search")) || m_baseUrl.scheme().contains(QLatin1String("timeline"))) {
+            addDirectoryItemContextMenu(fileItemActions);
+        } else if (m_context & TimelineContext || m_context & SearchContext) {
             addOpenWithActions(fileItemActions);
 
             openParentAction = new QAction(QIcon::fromTheme(QStringLiteral("document-open-folder")),
@@ -252,8 +266,9 @@ void DolphinContextMenu::openItemContextMenu()
             addSeparator();
         }
     } else {
+        // multiple files
         bool selectionHasOnlyDirs = true;
-        foreach (const KFileItem& item, m_selectedItems) {
+        for (const auto &item : qAsConst(m_selectedItems)) {
             const QUrl& url = DolphinView::openItemAsFolderUrl(item);
             if (url.isEmpty()) {
                 selectionHasOnlyDirs = false;

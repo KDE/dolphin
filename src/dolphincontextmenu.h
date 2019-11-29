@@ -146,7 +146,9 @@ private:
     {
         NoContext = 0,
         ItemContext = 1,
-        TrashContext = 2
+        TrashContext = 2,
+        TimelineContext = 4,
+        SearchContext = 8,
     };
 
     QPoint m_pos;
@@ -167,6 +169,8 @@ private:
     Command m_command;
 
     DolphinRemoveAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
+    void addDirectoryItemContextMenu(KFileItemActions &fileItemActions);
+
 };
 
 #endif
