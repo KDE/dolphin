@@ -32,7 +32,6 @@
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
-#include <KAbstractFileItemActionPlugin>
 #include <KActionCollection>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
