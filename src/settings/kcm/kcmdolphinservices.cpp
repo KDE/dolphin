@@ -21,6 +21,7 @@
 
 #include "settings/services/servicessettingspage.h"
 
+#include <kconfigwidgets_version.h>
 #include <KPluginFactory>
 #include <KPluginLoader>
 
@@ -40,7 +41,11 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_services = new ServicesSettingsPage(this);
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
     connect(m_services, &ServicesSettingsPage::changed, this, QOverload<>::of(&DolphinServicesConfigModule::changed));
+#else
+    connect(m_services, &ServicesSettingsPage::changed, this, &DolphinServicesConfigModule::markAsChanged);
+#endif
     topLayout->addWidget(m_services, 0, nullptr);
 }
 

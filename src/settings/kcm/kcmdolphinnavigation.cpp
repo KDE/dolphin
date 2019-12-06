@@ -20,6 +20,7 @@
 #include "kcmdolphinnavigation.h"
 
 #include "settings/navigation/navigationsettingspage.h"
+#include <kconfigwidgets_version.h>
 
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -40,7 +41,11 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigation = new NavigationSettingsPage(this);
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
     connect(m_navigation, &NavigationSettingsPage::changed, this, QOverload<>::of(&DolphinNavigationConfigModule::changed));
+#else
+    connect(m_navigation, &NavigationSettingsPage::changed, this, &DolphinNavigationConfigModule::markAsChanged);
+#endif
     topLayout->addWidget(m_navigation, 0, nullptr);
 }
 

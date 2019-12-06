@@ -205,7 +205,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemA
      const DolphinView* view = m_mainWindow->activeViewContainer()->view();
      newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
      newFileMenu->checkUpToDate();
-     newFileMenu->setPopupFiles(m_fileInfo.url());
+     newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
      newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
      connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
      connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
@@ -352,7 +352,7 @@ void DolphinContextMenu::openViewportContextMenu()
     KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
     newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
     newFileMenu->checkUpToDate();
-    newFileMenu->setPopupFiles(m_baseUrl);
+    newFileMenu->setPopupFiles(QList<QUrl>() << m_baseUrl);
     addMenu(newFileMenu->menu());
 
     QAction* pasteAction = createPasteAction();

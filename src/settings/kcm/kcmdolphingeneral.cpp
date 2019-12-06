@@ -26,6 +26,7 @@
 #include <KLocalizedString>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <kconfigwidgets_version.h>
 
 #include <QTabWidget>
 #include <QVBoxLayout>
@@ -48,18 +49,29 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     // initialize 'Behavior' tab
     BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(QUrl::fromLocalFile(QDir::homePath()), tabWidget);
     tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
     connect(behaviorPage, &BehaviorSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
+#else
+    connect(behaviorPage, &BehaviorSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
+#endif
 
     // initialize 'Previews' tab
     PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
     connect(previewsPage, &PreviewsSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
+#else
+    connect(previewsPage, &PreviewsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
+#endif
 
     // initialize 'Confirmations' tab
     ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
     tabWidget->addTab(confirmationsPage,  i18nc("@title:tab Confirmations settings", "Confirmations"));
+#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
     connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, QOverload<>::of(&DolphinGeneralConfigModule::changed));
-
+#else
+    connect(confirmationsPage, &ConfirmationsSettingsPage::changed, this, &DolphinGeneralConfigModule::markAsChanged);
+#endif
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);
     m_pages.append(confirmationsPage);

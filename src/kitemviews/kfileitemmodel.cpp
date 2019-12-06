@@ -267,7 +267,7 @@ QMimeData* KFileItemModel::createMimeData(const KItemSet& indexes) const
             urls << item.url();
 
             bool isLocal;
-            mostLocalUrls << item.mostLocalUrl(isLocal);
+            mostLocalUrls << item.mostLocalUrl(&isLocal);
         }
     }
 
