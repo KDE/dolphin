@@ -22,6 +22,7 @@
 
 #include <QList>
 #include <QUrl>
+#include <QWidget>
 
 namespace Dolphin {
     QList<QUrl> validateUris(const QStringList& uriList);

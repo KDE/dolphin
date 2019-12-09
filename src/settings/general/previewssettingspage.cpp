@@ -32,6 +32,7 @@
 #include <QLabel>
 #include <QListView>
 #include <QPainter>
+#include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QSpinBox>
 

@@ -34,6 +34,7 @@
 #include <KWindowConfig>
 #include <KMessageBox>
 
+#include <QCloseEvent>
 #include <QPushButton>
 
 DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
