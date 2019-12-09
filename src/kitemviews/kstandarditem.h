@@ -25,6 +25,7 @@
 #include <QByteArray>
 #include <QHash>
 #include <QObject>
+#include <QSet>
 #include <QVariant>
 
 class KStandardItemModel;

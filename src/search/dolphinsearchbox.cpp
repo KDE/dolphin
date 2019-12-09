@@ -39,9 +39,11 @@
 #include <QFontDatabase>
 #include <QHBoxLayout>
 #include <QIcon>
+#include <QKeyEvent>
 #include <QLabel>
 #include <QLineEdit>
 #include <QScrollArea>
+#include <QShowEvent>
 #include <QTimer>
 #include <QToolButton>
 #include <QUrlQuery>

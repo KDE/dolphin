@@ -36,6 +36,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QListWidget>
+#include <QShowEvent>
 #include <QSortFilterProxyModel>
 
 namespace

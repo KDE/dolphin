@@ -25,6 +25,7 @@
 
 #include <QDBusConnection>
 #include <QDBusMessage>
+#include <QDropEvent>
 #include <QMimeData>
 
 QHash<QUrl, bool> DragAndDropHelper::m_urlListMatchesUrlCache;
