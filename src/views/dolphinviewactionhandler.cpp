@@ -280,7 +280,7 @@ void DolphinViewActionHandler::createActions()
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 
     QAction* adjustViewProps = m_actionCollection->addAction(QStringLiteral("view_properties"));
-    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
+    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Display Style..."));
     adjustViewProps->setIcon(QIcon::fromTheme(QStringLiteral("view-choose")));
     adjustViewProps->setWhatsThis(i18nc("@info:whatsthis", "This opens a window "
         "in which all folder view properties can be adjusted."));

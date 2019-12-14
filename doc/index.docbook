@@ -312,7 +312,7 @@ The buttons in the toolbar which control the appearance of the view.
 All the settings discussed below and other options concerning, &eg; the
 sorting of the files in the current folder, can also be modified in the
 <guimenu>View</guimenu> menu and in the
-<link linkend="view-properties-dialog">View Properties dialog</link>. By
+<link linkend="view-properties-dialog">View Display Style dialog</link>. By
 default, these settings are remembered for each folder separately. This
 behavior can be changed in the
 <link linkend="preferences-dialog-general"><quote>General</quote></link> section of the settings.
@@ -951,11 +951,11 @@ using the <link linkend="preferences-dialog">Preferences Dialog</link>.
 
 <listitem><para>
 Settings which determine how the contents of a folder are displayed in &dolphin;.
-These settings are called <link linkend="view-properties">View Properties</link>
+These settings are called <link linkend="view-properties">View Display Styles</link>
 and can be controlled with toolbar buttons, via the <guimenu>View</guimenu> menu,
-and with the <link linkend="view-properties-dialog">View Properties Dialog</link>.
-In the default configuration, the view properties are remembered for each folder,
-but &dolphin; can also be configured to use common view properties for all folders
+and with the <link linkend="view-properties-dialog">View Display Style dialog</link>.
+In the default configuration, all folders use the same display style,
+but &dolphin; can also be configured to remember each folder's display style separately
 in the <link linkend="preferences-dialog-general-behavior"><quote>General</quote>
 section of the settings</link>.
 </para></listitem>
@@ -1008,9 +1008,9 @@ tab bar at the top.
 <itemizedlist>
 
 <listitem><para>
-In the <guilabel>View</guilabel> section, you can configure whether the
-<link linkend="view-properties"> view properties</link> are stored for each
-folder or if common view properties are to be used for all folders.
+In the <guilabel>View</guilabel> section, you can configure whether the same
+<link linkend="view-properties"> view display style</link>is shared among all folders
+or folders remember their own individual view display styles.
 </para></listitem>
 
 <listitem><para>
@@ -1412,7 +1412,7 @@ largest files can be deleted automatically.
 </sect1>
 <!-- begin copy to konqueror filemanager.docbook -->
 <sect1 id="view-properties">
-<title>Folder View Properties</title>
+<title>Folder View Display Style</title>
 
 <para>
 The following settings control how the contents of a folder are displayed in the
@@ -1454,31 +1454,31 @@ What additional information (besides the name) is shown in the Icons or Details 
 
 </itemizedlist>
 <para>
-The view properties can be configured in the
+The view display style can be configured in the
 <menuchoice><guimenu>View</guimenu></menuchoice> menu, some (such as the view
 mode) can also be changed using toolbar buttons.
 </para>
 
 <sect2 id="view-properties-dialog">
-<title>The View Properties Dialog</title>
+<title>The View Display Style dialog</title>
 
 <para>
 
 <screenshot>
-<screeninfo>Screenshot of the View Properties dialog</screeninfo>
+<screeninfo>Screenshot of the View Display Style dialog</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="viewproperties-dialog.png" format="PNG"/>
 </imageobject>
 <textobject>
-<phrase>The View Properties dialog.</phrase>
+<phrase>The View Display Style dialog.</phrase>
 </textobject>
-<caption><para>The View Properties Dialog.</para></caption>
+<caption><para>The View Display Style Dialog.</para></caption>
 </mediaobject>
 </screenshot>
 
-The <guilabel>View Properties</guilabel> dialog can be used to quickly modify
-several view properties at once. This is done for the current folder, for the
+The <guilabel>View Display Style</guilabel> dialog can be used to quickly modify
+the view display styles for many folders at once. This is done for the current folder, for the
 current folder including all subfolders, or even for all folders, depending on
 the choice made in the <guilabel>Apply to</guilabel> section.
 </para>
@@ -1917,9 +1917,9 @@ if necessary, and selects the location such that it can be replaced quickly.
 <varlistentry>
 <term><menuchoice>
 <guimenu>View</guimenu>
-<guimenuitem>Adjust View Properties...</guimenuitem>
+<guimenuitem>Adjust View Display Style...</guimenuitem>
 </menuchoice></term>
-<listitem><para><action>Opens the <link linkend="view-properties-dialog">View Properties
+<listitem><para><action>Opens the <link linkend="view-properties-dialog">View Display Style
 Dialog</link>.</action></para></listitem>
 </varlistentry>
 </variablelist>

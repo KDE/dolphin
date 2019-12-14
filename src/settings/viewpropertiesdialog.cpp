@@ -68,7 +68,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     Q_ASSERT(dolphinView);
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
-    setWindowTitle(i18nc("@title:window", "View Properties"));
+    setWindowTitle(i18nc("@title:window", "View Display Style"));
 
     const QUrl& url = dolphinView->url();
     m_viewProps = new ViewProperties(url);
