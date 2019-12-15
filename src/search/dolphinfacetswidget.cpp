@@ -115,7 +115,7 @@ void DolphinFacetsWidget::resetSearchTerms()
     updateTagsMenu();
 }
 
-QString DolphinFacetsWidget::searchTerms() const
+QStringList DolphinFacetsWidget::searchTerms() const
 {
     QStringList terms;
 
@@ -135,7 +135,7 @@ QString DolphinFacetsWidget::searchTerms() const
         }
     }
 
-    return terms.join(QLatin1String(" AND "));
+    return terms;
 }
 
 QString DolphinFacetsWidget::facetType() const
@@ -145,48 +145,34 @@ QString DolphinFacetsWidget::facetType() const
 
 bool DolphinFacetsWidget::isSearchTerm(const QString& term) const
 {
-    const QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
+    static const QLatin1String searchTokens[] {
+        QLatin1String("modified>="),
+        QLatin1String("rating>="),
+        QLatin1String("tag:"), QLatin1String("tag=")
+    };
 
-    // If term has sub terms, then sone of the sub terms are always "rating" and "modified" terms.
-    bool containsRating = false;
-    bool containsModified = false;
-    bool containsTag = false;
-
-    foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith(QLatin1String("rating>="))) {
-            containsRating = true;
-        } else if (subTerm.startsWith(QLatin1String("modified>="))) {
-            containsModified = true;
-        } else if (subTerm.startsWith(QLatin1String("tag:")) ||
-                   subTerm.startsWith(QLatin1String("tag="))) {
-            containsTag = true;
+    for (const auto &searchToken : searchTokens) {
+        if (term.startsWith(searchToken)) {
+            return true;
         }
     }
-
-    return containsModified || containsRating || containsTag;
+    return false;
 }
 
 void DolphinFacetsWidget::setSearchTerm(const QString& term)
 {
-    // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
-    // If term has no sub terms, then the term itself is either a "rating" term or a "modified"
-    // term. To avoid code duplication we add term to subTerms list, if the list is empty.
-    QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
-
-    foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith(QLatin1String("modified>="))) {
-            const QString value = subTerm.mid(10);
-            const QDate date = QDate::fromString(value, Qt::ISODate);
-            setTimespan(date);
-        } else if (subTerm.startsWith(QLatin1String("rating>="))) {
-            const QString value = subTerm.mid(8);
-            const int stars = value.toInt() / 2;
-            setRating(stars);
-        } else if (subTerm.startsWith(QLatin1String("tag:")) ||
-                   subTerm.startsWith(QLatin1String("tag="))) {
-            const QString value = subTerm.mid(4);
-            addSearchTag(value);
-        }
+    if (term.startsWith(QLatin1String("modified>="))) {
+        const QString value = term.mid(10);
+        const QDate date = QDate::fromString(value, Qt::ISODate);
+        setTimespan(date);
+    } else if (term.startsWith(QLatin1String("rating>="))) {
+        const QString value = term.mid(8);
+        const int stars = value.toInt() / 2;
+        setRating(stars);
+    } else if (term.startsWith(QLatin1String("tag:")) ||
+               term.startsWith(QLatin1String("tag="))) {
+        const QString value = term.mid(4);
+        addSearchTag(value);
     }
 }
 

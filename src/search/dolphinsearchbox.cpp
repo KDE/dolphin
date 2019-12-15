@@ -477,11 +477,7 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
     Baloo::Query query;
     query.addType(m_facetsWidget->facetType());
 
-    QStringList queryStrings;
-    QString ratingQuery = m_facetsWidget->searchTerms();
-    if (!ratingQuery.isEmpty()) {
-        queryStrings << ratingQuery;
-    }
+    QStringList queryStrings = m_facetsWidget->searchTerms();
 
     if (m_contentButton->isChecked()) {
         queryStrings << text;

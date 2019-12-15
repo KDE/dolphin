@@ -52,7 +52,7 @@ public:
     explicit DolphinFacetsWidget(QWidget* parent = nullptr);
     ~DolphinFacetsWidget() override;
 
-    QString searchTerms() const;
+    QStringList searchTerms() const;
     QString facetType() const;
 
     bool isSearchTerm(const QString& term) const;
