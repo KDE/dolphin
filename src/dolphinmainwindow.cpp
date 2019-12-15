@@ -26,13 +26,13 @@
 #include "dolphinbookmarkhandler.h"
 #include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinrecenttabsmenu.h"
 #include "dolphinviewcontainer.h"
 #include "dolphintabpage.h"
 #include "middleclickactioneventfilter.h"
 #include "panels/folders/folderspanel.h"
-#include "panels/places/placesitemmodel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
 #include "panels/terminal/terminalpanel.h"
@@ -51,6 +51,7 @@
 #include <KConfig>
 #include <KDualAction>
 #include <KFileItemListProperties>
+#include <KFilePlacesModel>
 #include <KHelpMenu>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
@@ -382,14 +383,14 @@ void DolphinMainWindow::addToPlaces()
         name = dirToAdd.name();
     }
     if (url.isValid()) {
-        PlacesItemModel model;
         QString icon;
         if (m_activeViewContainer->isSearchModeEnabled()) {
             icon = QStringLiteral("folder-saved-search-symbolic");
         } else {
             icon = KIO::iconNameForUrl(url);
         }
-        model.createPlacesItem(name, url, icon);
+
+        DolphinPlacesModelSingleton::instance().placesModel()->addPlace(name, url, icon);
     }
 }
 
@@ -1802,7 +1803,12 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     m_placesPanel = new PlacesPanel(placesDock);
-    m_placesPanel->setCustomContextMenuActions({lockLayoutAction});
+    connect(m_placesPanel, &KFilePlacesView::contextMenuAboutToShow,
+            this, [lockLayoutAction](const QModelIndex &index, QMenu *menu) {
+        Q_UNUSED(index)
+        menu->addSeparator();
+        menu->addAction(lockLayoutAction);
+    });
     placesDock->setWidget(m_placesPanel);
 
     QAction *placesAction = placesDock->toggleViewAction();
@@ -1834,12 +1840,13 @@ void DolphinMainWindow::setupDockWidgets()
         "all places in the places panel that have been hidden. They will "
         "appear semi-transparent unless you uncheck their hide property."));
 
+
     connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
         actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
-        m_placesPanel->showHiddenEntries(checked);
+        m_placesPanel->setShowAll(checked);
     });
 
-    connect(m_placesPanel, &PlacesPanel::showHiddenEntriesChanged, this, [actionShowAllPlaces] (bool checked){
+    connect(m_placesPanel, &PlacesPanel::showAllChanged, this, [actionShowAllPlaces] (bool checked){
         actionShowAllPlaces->setChecked(checked);
         actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
    });
@@ -1880,7 +1887,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(lockLayoutAction);
 
     connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this]{
-        actionShowAllPlaces->setEnabled(m_placesPanel->hiddenListCount());
+        actionShowAllPlaces->setEnabled(m_placesPanel->hiddenItemsCount());
     });
 }
 

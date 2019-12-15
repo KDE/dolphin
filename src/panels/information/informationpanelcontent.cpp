@@ -33,9 +33,6 @@
 
 #include <Baloo/FileMetaDataWidget>
 
-#include <panels/places/placesitem.h>
-#include <panels/places/placesitemmodel.h>
-
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
 
@@ -68,7 +65,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel(nullptr),
     m_metaDataWidget(nullptr),
     m_metaDataArea(nullptr),
-    m_placesItemModel(nullptr),
     m_isVideo(false)
 {
     parent->installEventFilter(this);
@@ -155,8 +151,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_configureLabel);
     layout->addWidget(m_metaDataArea);
     layout->addWidget(m_configureButtons);
-
-    m_placesItemModel = new PlacesItemModel(this);
 }
 
 InformationPanelContent::~InformationPanelContent()

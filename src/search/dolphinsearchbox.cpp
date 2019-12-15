@@ -22,9 +22,10 @@
 
 #include "dolphin_searchsettings.h"
 #include "dolphinfacetswidget.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphinquery.h"
-#include "panels/places/placesitemmodel.h"
 
+#include <KFilePlacesModel>
 #include <KLocalizedString>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <KSeparator>
@@ -297,11 +298,10 @@ void DolphinSearchBox::slotSearchSaved()
 {
     const QUrl searchURL = urlForSearching();
     if (searchURL.isValid()) {
-        PlacesItemModel model;
         const QString label = i18n("Search for %1 in %2", text(), searchPath().fileName());
-        model.createPlacesItem(label,
-                               searchURL,
-                               QStringLiteral("folder-saved-search-symbolic"));
+        DolphinPlacesModelSingleton::instance().placesModel()->addPlace(label,
+                                                                        searchURL,
+                                                                        QStringLiteral("folder-saved-search-symbolic"));
     }
 }
 

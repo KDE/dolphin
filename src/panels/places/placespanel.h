@@ -1,6 +1,7 @@
 /***************************************************************************
- *   Copyright (C) 2008-2012 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *   Copyright (C) 2010 by Christian Muehlhaeuser <muesli@gmail.com>       *
+ *   Copyright (C) 2019 by Kai Uwe Broulik <kde@broulik.de>                *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,84 +19,54 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef PLACESPANEL_H
-#define PLACESPANEL_H
+#pragma once
 
-#include "panels/panel.h"
+#include <QPersistentModelIndex>
 
-#include <QUrl>
+#include <KFilePlacesView>
 
-class KItemListController;
-class PlacesItemModel;
-class PlacesView;
-class QGraphicsSceneDragDropEvent;
-class QMenu;
-class QMimeData;
-/**
- * @brief Combines bookmarks and mounted devices as list.
- */
-class PlacesPanel : public Panel
+class QTimer;
+
+class PlacesPanel : public KFilePlacesView
 {
     Q_OBJECT
 
 public:
-    explicit PlacesPanel(QWidget* parent);
+    PlacesPanel(QWidget* parent);
     ~PlacesPanel() override;
+
+    void readSettings();
+
+    int hiddenItemsCount() const;
+
     void proceedWithTearDown();
 
 signals:
-    void placeActivated(const QUrl& url);
-    void placeMiddleClicked(const QUrl& url);
-    void errorMessage(const QString& error);
+    // forwarded from KFilePlacesModel
+    void errorMessage(const QString &errorMessage);
+
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
-    void showHiddenEntriesChanged(bool shown);
 
 protected:
-    bool urlChanged() override;
-    void showEvent(QShowEvent* event) override;
-
-public slots:
-    void readSettings() override;
-    void showHiddenEntries(bool shown);
-    int hiddenListCount();
+    void showEvent(QShowEvent *event) override;
+    void dragEnterEvent(QDragEnterEvent *event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
 
 private slots:
-    void slotItemActivated(int index);
-    void slotItemMiddleClicked(int index);
-    void slotItemContextMenuRequested(int index, const QPointF& pos);
-    void slotViewContextMenuRequested(const QPointF& pos);
-    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
-    void slotItemDropEventStorageSetupDone(int index, bool success);
-    void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
-    void slotStorageSetupDone(int index, bool success);
+    void slotDragActivationTimeout();
+    void slotTeardownRequested(const QModelIndex &index);
 
 private:
-    void addEntry();
-    void editEntry(int index);
+    void slotRowsInserted(const QModelIndex &parent, int first, int last);
+    void slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
 
-    /**
-     * Selects the item that has the closest URL for the URL set
-     * for the panel (see Panel::setUrl()).
-     */
-    void selectClosestItem();
+    void connectDeviceSignals(const QModelIndex &index);
 
-    void triggerItem(int index, Qt::MouseButton button);
+    QTimer *m_dragActivationTimer = nullptr;
+    QPersistentModelIndex m_pendingDragActivation;
 
-    QAction* buildGroupContextMenu(QMenu* menu, int index);
-
-private:
-    KItemListController* m_controller;
-    PlacesItemModel* m_model;
-    PlacesView* m_view;
-
-    QUrl m_storageSetupFailedUrl;
-    Qt::MouseButton m_triggerStorageSetupButton;
-
-    int m_itemDropEventIndex;
-    QMimeData* m_itemDropEventMimeData;
-    QDropEvent* m_itemDropEvent;
+    QPersistentModelIndex m_indexToTeardown;
 };
-
-#endif // PLACESPANEL_H

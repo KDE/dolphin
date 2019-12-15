@@ -26,8 +26,6 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
-#include "panels/places/placesitem.h"
-#include "panels/places/placesitemmodel.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
@@ -35,6 +33,7 @@
 #include <KActionCollection>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
+#include <KFilePlacesModel>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>

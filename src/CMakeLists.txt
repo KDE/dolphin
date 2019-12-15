@@ -204,12 +204,6 @@ set(dolphinstatic_SRCS
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
     panels/places/placespanel.cpp
-    panels/places/placesitem.cpp
-    panels/places/placesitemlistgroupheader.cpp
-    panels/places/placesitemlistwidget.cpp
-    panels/places/placesitemmodel.cpp
-    panels/places/placesitemsignalhandler.cpp
-    panels/places/placesview.cpp
     panels/panel.cpp
     panels/folders/foldersitemlistwidget.cpp
     panels/folders/treeviewcontextmenu.cpp

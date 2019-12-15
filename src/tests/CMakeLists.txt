@@ -77,12 +77,5 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
 
-# PlacesItemModelTest
-if (KF5_VERSION VERSION_GREATER_EQUAL 5.63.0)
-    ecm_add_test(placesitemmodeltest.cpp
-    TEST_NAME placesitemmodeltest
-    LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
-endif()
-
 add_test(NAME servicemenutest
  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
