@@ -32,7 +32,8 @@ namespace {
     {
         static const QLatin1String searchTokens[] {
             QLatin1String("modified>="),
-            QLatin1String("rating>=")
+            QLatin1String("rating>="),
+            QLatin1String("tag:"), QLatin1String("tag=")
         };
 
         for (const auto &searchToken : searchTokens) {

@@ -27,12 +27,15 @@
 #include <QEvent>
 #include <QHBoxLayout>
 #include <QIcon>
+#include <QMenu>
+#include <QToolButton>
 
 DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     QWidget(parent),
     m_typeSelector(nullptr),
     m_dateSelector(nullptr),
-    m_ratingSelector(nullptr)
+    m_ratingSelector(nullptr),
+    m_tagsSelector(nullptr)
 {
     m_typeSelector = new QComboBox(this);
     m_typeSelector->addItem(QIcon::fromTheme(QStringLiteral("none")), i18nc("@item:inlistbox", "Any Type"), QString());
@@ -63,11 +66,25 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     m_ratingSelector->addItem(QIcon::fromTheme(QStringLiteral("starred-symbolic")), i18nc("@item:inlistbox", "Highest Rating"), 5);
     initComboBox(m_ratingSelector);
 
+    m_tagsSelector = new QToolButton(this);
+    m_tagsSelector->setIcon(QIcon::fromTheme(QStringLiteral("tag")));
+    m_tagsSelector->setMenu(new QMenu(this));
+    m_tagsSelector->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    m_tagsSelector->setPopupMode(QToolButton::MenuButtonPopup);
+    m_tagsSelector->setAutoRaise(true);
+    updateTagsSelector();
+
+    connect(m_tagsSelector, &QToolButton::clicked, m_tagsSelector, &QToolButton::showMenu);
+    connect(m_tagsSelector->menu(), &QMenu::aboutToShow, this, &DolphinFacetsWidget::updateTagsMenu);
+    connect(&m_tagsLister, &KCoreDirLister::itemsAdded, this, &DolphinFacetsWidget::updateTagsMenuItems);
+    updateTagsMenu();
+
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
     topLayout->addWidget(m_typeSelector);
     topLayout->addWidget(m_dateSelector);
     topLayout->addWidget(m_ratingSelector);
+    topLayout->addWidget(m_tagsSelector);
 
     resetOptions();
 }
@@ -78,8 +95,12 @@ DolphinFacetsWidget::~DolphinFacetsWidget()
 
 void DolphinFacetsWidget::changeEvent(QEvent *event)
 {
-    if (event->type() == QEvent::EnabledChange && !isEnabled()) {
-        resetOptions();
+    if (event->type() == QEvent::EnabledChange) {
+        if (isEnabled()) {
+            updateTagsSelector();
+        } else {
+            resetOptions();
+        }
     }
 }
 
@@ -88,6 +109,10 @@ void DolphinFacetsWidget::resetOptions()
     m_typeSelector->setCurrentIndex(0);
     m_dateSelector->setCurrentIndex(0);
     m_ratingSelector->setCurrentIndex(0);
+
+    m_searchTags = QStringList();
+    updateTagsSelector();
+    updateTagsMenu();
 }
 
 QString DolphinFacetsWidget::ratingTerm() const
@@ -102,6 +127,12 @@ QString DolphinFacetsWidget::ratingTerm() const
     if (m_dateSelector->currentIndex() > 0) {
         const QDate date = m_dateSelector->currentData().toDate();
         terms << QStringLiteral("modified>=%1").arg(date.toString(Qt::ISODate));
+    }
+
+    if (!m_searchTags.isEmpty()) {
+        for (auto const &tag : m_searchTags) {
+            terms << QStringLiteral("tag:%1").arg(tag);
+        }
     }
 
     return terms.join(QLatin1String(" AND "));
@@ -119,16 +150,20 @@ bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
     // If term has sub terms, then sone of the sub terms are always "rating" and "modified" terms.
     bool containsRating = false;
     bool containsModified = false;
+    bool containsTag = false;
 
     foreach (const QString& subTerm, subTerms) {
         if (subTerm.startsWith(QLatin1String("rating>="))) {
             containsRating = true;
         } else if (subTerm.startsWith(QLatin1String("modified>="))) {
             containsModified = true;
+        } else if (subTerm.startsWith(QLatin1String("tag:")) ||
+                   subTerm.startsWith(QLatin1String("tag="))) {
+            containsTag = true;
         }
     }
 
-    return containsModified || containsRating;
+    return containsModified || containsRating || containsTag;
 }
 
 void DolphinFacetsWidget::setRatingTerm(const QString& term)
@@ -147,6 +182,10 @@ void DolphinFacetsWidget::setRatingTerm(const QString& term)
             const QString value = subTerm.mid(8);
             const int stars = value.toInt() / 2;
             setRating(stars);
+        } else if (subTerm.startsWith(QLatin1String("tag:")) ||
+                   subTerm.startsWith(QLatin1String("tag="))) {
+            const QString value = subTerm.mid(4);
+            addSearchTag(value);
         }
     }
 }
@@ -183,6 +222,25 @@ void DolphinFacetsWidget::setTimespan(const QDate& date)
     }
 }
 
+void DolphinFacetsWidget::addSearchTag(const QString& tag)
+{
+    if (tag.isEmpty() || m_searchTags.contains(tag)) {
+        return;
+    }
+    m_searchTags.append(tag);
+    m_searchTags.sort();
+    updateTagsSelector();
+}
+
+void DolphinFacetsWidget::removeSearchTag(const QString& tag)
+{
+    if (tag.isEmpty() || !m_searchTags.contains(tag)) {
+        return;
+    }
+    m_searchTags.removeAll(tag);
+    updateTagsSelector();
+}
+
 void DolphinFacetsWidget::initComboBox(QComboBox* combo)
 {
     combo->setFrame(false);
@@ -191,3 +249,53 @@ void DolphinFacetsWidget::initComboBox(QComboBox* combo)
     connect(combo, QOverload<int>::of(&QComboBox::activated), this, &DolphinFacetsWidget::facetChanged);
 }
 
+void DolphinFacetsWidget::updateTagsSelector()
+{
+    const bool hasListedTags = !m_tagsSelector->menu()->isEmpty();
+    const bool hasSelectedTags = !m_searchTags.isEmpty();
+
+    if (hasSelectedTags) {
+        const QString tagsText = m_searchTags.join(i18nc("String list separator", ", "));
+        m_tagsSelector->setText(i18ncp("@action:button %2 is a list of tags",
+                                       "Tag: %2", "Tags: %2",m_searchTags.count(), tagsText));
+    } else {
+        m_tagsSelector->setText(i18nc("@action:button", "Add Tags"));
+    }
+
+    m_tagsSelector->setEnabled(isEnabled() && (hasListedTags || hasSelectedTags));
+}
+
+void DolphinFacetsWidget::updateTagsMenu()
+{
+    updateTagsMenuItems({}, {});
+    m_tagsLister.openUrl(QUrl(QStringLiteral("tags:/")), KCoreDirLister::OpenUrlFlag::Reload);
+}
+
+void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& items)
+{
+    m_tagsSelector->menu()->clear();
+
+    QStringList allTags = QStringList(m_searchTags);
+    for (const KFileItem &item: items) {
+        allTags.append(item.name());
+    }
+    allTags.sort(Qt::CaseInsensitive);
+    allTags.removeDuplicates();
+
+    for (const QString& tagName : qAsConst(allTags)) {
+        QAction* action = m_tagsSelector->menu()->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
+        action->setCheckable(true);
+        action->setChecked(m_searchTags.contains(tagName));
+
+        connect(action, &QAction::triggered, this, [this, tagName](bool isChecked) {
+            if (isChecked) {
+                addSearchTag(tagName);
+            } else {
+                removeSearchTag(tagName);
+            }
+            emit facetChanged();
+        });
+    }
+
+    updateTagsSelector();
+}

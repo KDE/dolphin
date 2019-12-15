@@ -21,10 +21,12 @@
 #define DOLPHINFACETSWIDGET_H
 
 #include <QWidget>
+#include <KCoreDirLister>
 
 class QComboBox;
 class QDate;
 class QEvent;
+class QToolButton;
 
 /**
  * @brief Allows to filter search-queries by facets.
@@ -66,15 +68,27 @@ signals:
 protected:
     void changeEvent(QEvent* event) override;
 
+private slots:
+    void updateTagsMenu();
+    void updateTagsMenuItems(const QUrl&, const KFileItemList& items);
+
 private:
     void setRating(const int stars);
     void setTimespan(const QDate& date);
+    void addSearchTag(const QString& tag);
+    void removeSearchTag(const QString& tag);
+
     void initComboBox(QComboBox* combo);
+    void updateTagsSelector();
 
 private:
     QComboBox* m_typeSelector;
     QComboBox* m_dateSelector;
     QComboBox* m_ratingSelector;
+    QToolButton* m_tagsSelector;
+
+    QStringList m_searchTags;
+    KCoreDirLister m_tagsLister;
 };
 
 #endif

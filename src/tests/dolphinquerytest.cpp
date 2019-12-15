@@ -45,6 +45,8 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     const QString filename = QStringLiteral("filename:\"xyz\"");
     const QString rating = QStringLiteral("rating>=2");
     const QString modified = QString("modified>=2019-08-07");
+    const QString tagA = QString("tag:tagA");
+    const QString tagB = QString("tag:tagB");
 
     QTest::addColumn<QString>("searchString");
     QTest::addColumn<QString>("expectedText");
@@ -55,7 +57,8 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     QTest::newRow("content/empty")        << ""      << ""   << QStringList();
     QTest::newRow("content/singleQuote")  << "\""    << ""   << QStringList();
     QTest::newRow("content/doubleQuote")  << "\"\""  << ""   << QStringList();
-    // Test for empty `filename`
+
+    // Test for "Filename"
     QTest::newRow("filename")             << filename         << text << QStringList();
     QTest::newRow("filename/empty")       << "filename:"      << ""   << QStringList();
     QTest::newRow("filename/singleQuote") << "filename:\""    << ""   << QStringList();
@@ -65,14 +68,34 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     QTest::newRow("rating")          << rating                  << ""   << QStringList({rating});
     QTest::newRow("rating+content")  << rating + " " + text     << text << QStringList({rating});
     QTest::newRow("rating+filename") << rating + " " + filename << text << QStringList({rating});
+
     // Test for modified date
     QTest::newRow("modified")          << modified                  << ""   << QStringList({modified});
     QTest::newRow("modified+content")  << modified + " " + text     << text << QStringList({modified});
     QTest::newRow("modified+filename") << modified + " " + filename << text << QStringList({modified});
+
+    // Test for tags
+    QTest::newRow("tag")          << tagA                  << ""   << QStringList({tagA});
+    QTest::newRow("tag/double")   << tagA + " " + tagB     << ""   << QStringList({tagA, tagB});
+    QTest::newRow("tag+content")  << tagA + " " + text     << text << QStringList({tagA});
+    QTest::newRow("tag+filename") << tagA + " " + filename << text << QStringList({tagA});
+
     // Combined tests
-    QTest::newRow("rating+modified")          << rating + " AND " + modified                  << ""   << QStringList({modified, rating});
-    QTest::newRow("rating+modified+content")  << rating + " AND " + modified + " " + text     << text << QStringList({modified, rating});
-    QTest::newRow("rating+modified+filename") << rating + " AND " + modified + " " + filename << text << QStringList({modified, rating});
+    QTest::newRow("rating+modified")
+        << rating + " AND " + modified
+        << "" << QStringList({modified, rating});
+
+    QTest::newRow("allTerms")
+        << rating + " AND " + modified + " AND " + tagA + " AND " + tagB
+        << "" << QStringList({modified, rating, tagA, tagB});
+
+    QTest::newRow("allTerms+content")
+        << rating + " AND " + modified + " " + text + " " + tagA + " AND " + tagB
+        << text << QStringList({modified, rating, tagA, tagB});
+    
+    QTest::newRow("allTerms+filename")
+        << rating + " AND " + modified + " " + filename + " " + tagA + " AND " + tagB
+        << text << QStringList({modified, rating, tagA, tagB});
 }
 
 /**
