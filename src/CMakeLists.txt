@@ -68,11 +68,9 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
     kitemviews/kitemset.cpp
-    kitemviews/kstandarditem.cpp
     kitemviews/kstandarditemlistgroupheader.cpp
     kitemviews/kstandarditemlistwidget.cpp
     kitemviews/kstandarditemlistview.cpp
-    kitemviews/kstandarditemmodel.cpp
     kitemviews/private/kdirectorycontentscounter.cpp
     kitemviews/private/kdirectorycontentscounterworker.cpp
     kitemviews/private/kfileitemclipboard.cpp
