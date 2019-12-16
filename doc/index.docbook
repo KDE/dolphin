@@ -1009,7 +1009,7 @@ tab bar at the top.
 
 <listitem><para>
 In the <guilabel>View</guilabel> section, you can configure whether the same
-<link linkend="view-properties"> view display style</link>is shared among all folders
+<link linkend="view-properties">view display style</link> is shared among all folders
 or folders remember their own individual view display styles.
 </para></listitem>
 
