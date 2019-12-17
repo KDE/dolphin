@@ -37,6 +37,8 @@ public:
     PlacesPanel(QWidget* parent);
     ~PlacesPanel() override;
 
+    void setUrl(const QUrl &url); // shadows KFilePlacesView::setUrl
+
     void readSettings();
 
     QList<QAction*> customContextMenuActions() const;
@@ -71,6 +73,8 @@ private:
     void slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
 
     void connectDeviceSignals(const QModelIndex &index);
+
+    QUrl m_url;
 
     QList<QAction *> m_customContextMenuActions;
 

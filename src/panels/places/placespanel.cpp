@@ -58,6 +58,14 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
 
 PlacesPanel::~PlacesPanel() = default;
 
+void PlacesPanel::setUrl(const QUrl &url)
+{
+    // KFilePlacesView::setUrl no-ops when no model is set but we only set it in showEvent()
+    // Remember the URL and set it in showEvent
+    m_url = url;
+    KFilePlacesView::setUrl(url);
+}
+
 void PlacesPanel::readSettings()
 {
     if (GeneralSettings::autoExpandFolders()) {
@@ -119,6 +127,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
         connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
         connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
+
+        setUrl(m_url);
 
         for (int i = 0; i < model()->rowCount(); ++i) {
             connectDeviceSignals(model()->index(i, 0, QModelIndex()));
