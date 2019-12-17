@@ -22,6 +22,7 @@
 #include "placespanel.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphin_placespanelsettings.h"
 #include "dolphinplacesmodelsingleton.h"
 #include "views/draganddrophelper.h"
 
@@ -29,7 +30,9 @@
 #include <QTimer>
 
 #include <KFilePlacesModel>
+#include <KIconLoader>
 #include <KIO/DropJob>
+#include <KLocalizedString>
 
 #include <Solid/Device>
 #include <Solid/StorageAccess>
@@ -38,6 +41,8 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
     KFilePlacesView(parent)
 {
     setDropOnPlaceEnabled(true);
+
+    setAutoResizeItemsEnabled(false);
 
     connect(this, &KFilePlacesView::urlsDropped,
             this, &PlacesPanel::slotUrlsDropped);
@@ -67,6 +72,12 @@ void PlacesPanel::readSettings()
         m_dragActivationTimer = nullptr;
         m_pendingDragActivation = QPersistentModelIndex();
     }
+
+    int iconSize = PlacesPanelSettings::iconSize();
+    if (iconSize < 0) {
+        iconSize = style()->pixelMetric(QStyle::PM_SmallIconSize, nullptr, this);
+    }
+    setIconSize(QSize(iconSize, iconSize));
 }
 
 QList<QAction *> PlacesPanel::customContextMenuActions() const
@@ -177,6 +188,53 @@ void PlacesPanel::slotDragActivationTimeout()
 
 void PlacesPanel::slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu)
 {
+    // Clicking an empty area
+    if (!index.isValid()) {
+        QMenu* iconSizeSubMenu = new QMenu(i18nc("@item:inmenu", "Icon Size"), menu);
+
+        struct IconSizeInfo
+        {
+            int size;
+            const char* context;
+            const char* text;
+        };
+
+        const int iconSizeCount = 4;
+        static const IconSizeInfo iconSizes[iconSizeCount] = {
+            {KIconLoader::SizeSmall,        I18NC_NOOP("Small icon size", "Small (%1x%2)")},
+            {KIconLoader::SizeSmallMedium,  I18NC_NOOP("Medium icon size", "Medium (%1x%2)")},
+            {KIconLoader::SizeMedium,       I18NC_NOOP("Large icon size", "Large (%1x%2)")},
+            {KIconLoader::SizeLarge,        I18NC_NOOP("Huge icon size", "Huge (%1x%2)")}
+        };
+
+        QActionGroup* iconSizeGroup = new QActionGroup(iconSizeSubMenu);
+
+        for (int i = 0; i < iconSizeCount; ++i) {
+            const int size = iconSizes[i].size;
+            const QString text = i18nc(iconSizes[i].context, iconSizes[i].text,
+                                       size, size);
+
+            QAction* action = iconSizeSubMenu->addAction(text);
+            action->setActionGroup(iconSizeGroup);
+            action->setCheckable(true);
+            action->setChecked(iconSize().width() == size);
+            action->setData(size);
+            connect(action, &QAction::triggered, this, [this, action] {
+                const int size = action->data().toInt();
+                const QSize iconSize(size, size);
+
+                if (iconSize != this->iconSize()) {
+                    setIconSize(iconSize);
+                    PlacesPanelSettings* settings = PlacesPanelSettings::self();
+                    settings->setIconSize(size);
+                    settings->save();
+                }
+            });
+        }
+
+        menu->addMenu(iconSizeSubMenu);
+    }
+
     if (!m_customContextMenuActions.isEmpty()) {
         menu->addSeparator();
         menu->addActions(m_customContextMenuActions);
