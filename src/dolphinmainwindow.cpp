@@ -1803,12 +1803,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     m_placesPanel = new PlacesPanel(placesDock);
-    connect(m_placesPanel, &KFilePlacesView::contextMenuAboutToShow,
-            this, [lockLayoutAction](const QModelIndex &index, QMenu *menu) {
-        Q_UNUSED(index)
-        menu->addSeparator();
-        menu->addAction(lockLayoutAction);
-    });
+    m_placesPanel->setCustomContextMenuActions({lockLayoutAction});
     placesDock->setWidget(m_placesPanel);
 
     QAction *placesAction = placesDock->toggleViewAction();

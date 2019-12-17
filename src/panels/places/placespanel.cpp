@@ -25,6 +25,7 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "views/draganddrophelper.h"
 
+#include <QMenu>
 #include <QTimer>
 
 #include <KFilePlacesModel>
@@ -40,6 +41,9 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
 
     connect(this, &KFilePlacesView::urlsDropped,
             this, &PlacesPanel::slotUrlsDropped);
+
+    connect(this, &KFilePlacesView::contextMenuAboutToShow,
+            this, &PlacesPanel::slotContextMenuAboutToShow);
 
     // Replace default teardown handling with our own
     disconnect(this, &KFilePlacesView::teardownRequested, this, nullptr);
@@ -63,6 +67,16 @@ void PlacesPanel::readSettings()
         m_dragActivationTimer = nullptr;
         m_pendingDragActivation = QPersistentModelIndex();
     }
+}
+
+QList<QAction *> PlacesPanel::customContextMenuActions() const
+{
+    return m_customContextMenuActions;
+}
+
+void PlacesPanel::setCustomContextMenuActions(const QList<QAction *> &actions)
+{
+    m_customContextMenuActions = actions;
 }
 
 int PlacesPanel::hiddenItemsCount() const
@@ -159,6 +173,14 @@ void PlacesPanel::slotDragActivationTimeout()
 
     auto *placesModel = static_cast<KFilePlacesModel *>(model());
     emit placeActivated(KFilePlacesModel::convertedUrl(placesModel->url(m_pendingDragActivation)));
+}
+
+void PlacesPanel::slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu)
+{
+    if (!m_customContextMenuActions.isEmpty()) {
+        menu->addSeparator();
+        menu->addActions(m_customContextMenuActions);
+    }
 }
 
 void PlacesPanel::slotTeardownRequested(const QModelIndex &index)

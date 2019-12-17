@@ -21,10 +21,12 @@
 
 #pragma once
 
+#include <QList>
 #include <QPersistentModelIndex>
 
 #include <KFilePlacesView>
 
+class QAction;
 class QTimer;
 
 class PlacesPanel : public KFilePlacesView
@@ -36,6 +38,9 @@ public:
     ~PlacesPanel() override;
 
     void readSettings();
+
+    QList<QAction*> customContextMenuActions() const;
+    void setCustomContextMenuActions(const QList<QAction*>& actions);
 
     int hiddenItemsCount() const;
 
@@ -57,6 +62,7 @@ protected:
 private slots:
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
     void slotDragActivationTimeout();
+    void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
     void slotTeardownRequested(const QModelIndex &index);
 
 private:
@@ -64,6 +70,8 @@ private:
     void slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
 
     void connectDeviceSignals(const QModelIndex &index);
+
+    QList<QAction *> m_customContextMenuActions;
 
     QTimer *m_dragActivationTimer = nullptr;
     QPersistentModelIndex m_pendingDragActivation;
