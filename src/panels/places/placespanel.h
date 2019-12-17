@@ -64,6 +64,7 @@ private slots:
     void slotDragActivationTimeout();
     void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
     void slotTeardownRequested(const QModelIndex &index);
+    void slotTrashEmptinessChanged(bool isEmpty);
 
 private:
     void slotRowsInserted(const QModelIndex &parent, int first, int last);

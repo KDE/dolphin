@@ -24,6 +24,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_placespanelsettings.h"
 #include "dolphinplacesmodelsingleton.h"
+#include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
 
 #include <QMenu>
@@ -122,6 +123,10 @@ void PlacesPanel::showEvent(QShowEvent* event)
         for (int i = 0; i < model()->rowCount(); ++i) {
             connectDeviceSignals(model()->index(i, 0, QModelIndex()));
         }
+
+        // Ideally, we'd only connect this when there is a Trash in places model
+        // but Dolphin creates the Trash singleton elsewhere unconditionally anyway
+        connect(&Trash::instance(), &Trash::emptinessChanged, this, &PlacesPanel::slotTrashEmptinessChanged);
     }
 
     KFilePlacesView::showEvent(event);
@@ -256,6 +261,34 @@ void PlacesPanel::slotTeardownRequested(const QModelIndex &index)
 
     m_indexToTeardown = index;
     storageTearDownRequested(storageAccess->filePath());
+}
+
+void PlacesPanel::slotTrashEmptinessChanged(bool isEmpty)
+{
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+
+    bool trashIconDirty = false;
+    const QString trashIcon = isEmpty ? QStringLiteral("user-trash") : QStringLiteral("user-trash-full");
+
+    for (int i = 0; i < placesModel->rowCount(); ++i) {
+        const QModelIndex index = placesModel->index(i, 0);
+
+        const QUrl url = placesModel->url(index);
+        if (url.scheme() == QLatin1String("trash")) {
+            KBookmark bookmark = placesModel->bookmarkForIndex(index);
+
+            if (bookmark.icon() != trashIcon) {
+                bookmark.setIcon(trashIcon);
+                trashIconDirty = true;
+                // break; -- A user could have multiple trash places theoretically? :)
+            }
+        }
+    }
+
+    if (trashIconDirty) {
+        // FIXME Starting Dolphin with full trash and then emptying doesn't update the icon correctly for some reason
+        placesModel->refresh();
+    }
 }
 
 void PlacesPanel::slotRowsInserted(const QModelIndex &parent, int first, int last)
