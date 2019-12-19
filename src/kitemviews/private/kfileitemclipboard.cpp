@@ -46,7 +46,7 @@ bool KFileItemClipboard::isCut(const QUrl& url) const
 
 QList<QUrl> KFileItemClipboard::cutItems() const
 {
-    return m_cutItems.toList();
+    return m_cutItems.values();
 }
 
 KFileItemClipboard::~KFileItemClipboard()
