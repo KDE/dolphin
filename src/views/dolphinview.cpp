@@ -63,6 +63,7 @@
 #include <QDropEvent>
 #include <QGraphicsSceneDragDropEvent>
 #include <QMenu>
+#include <QMimeDatabase>
 #include <QPixmapCache>
 #include <QPointer>
 #include <QScrollBar>
@@ -701,6 +702,50 @@ void DolphinView::pasteIntoFolder()
     const KFileItemList items = selectedItems();
     if ((items.count() == 1) && items.first().isDir()) {
         pasteToUrl(items.first().url());
+    }
+}
+
+void DolphinView::duplicateSelectedItems()
+{
+    const KFileItemList itemList = selectedItems();
+    if (itemList.isEmpty()) {
+        return;
+    }
+
+    const QMimeDatabase db;
+
+    // Duplicate all selected items and append "copy" to the end of the file name
+    // but before the filename extension, if present
+    QList<QUrl> newSelection;
+    for (const auto &item : itemList) {
+        const QUrl originalURL  = item.url();
+        const QString originalFileName = item.name();
+        QString extension = db.suffixForFileName(originalFileName);
+
+        QUrl duplicateURL = originalURL;
+
+        // No extension; new filename is "<oldfilename> copy"
+        if (extension.isEmpty()) {
+            duplicateURL.setPath(i18nc("<file path> copy", "%1 copy", originalURL.path()));
+        // There's an extension; new filename is "<oldfilename> copy.<extension>"
+        } else {
+            // Need to add a dot since QMimeDatabase::suffixForFileName() doesn't include it
+            extension = QLatin1String(".") + extension;
+            const QString directoryPath = originalURL.adjusted(QUrl::RemoveFilename).path();
+            const QString originalFilenameWithoutExtension = originalFileName.chopped(extension.size());
+            // Preserve file's original filename extension in case the casing differs
+            // from what QMimeDatabase::suffixForFileName() returned
+            const QString originalExtension = originalFileName.right(extension.size());
+            duplicateURL.setPath(i18nc("<file path><filename> copy.<extension>", "%1%2 copy%3", directoryPath, originalFilenameWithoutExtension, originalExtension));
+        }
+
+        KIO::CopyJob* job = KIO::copyAs(originalURL, duplicateURL, KIO::HideProgressInfo);
+        KJobWidgets::setWindow(job, this);
+
+        if (job) {
+            newSelection << duplicateURL;
+            KIO::FileUndoManager::self()->recordCopyJob(job);
+        }
     }
 }
 
