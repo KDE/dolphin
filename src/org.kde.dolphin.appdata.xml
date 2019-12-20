@@ -26,6 +26,7 @@
   <name xml:lang="it">Dolphin</name>
   <name xml:lang="ko">Dolphin</name>
   <name xml:lang="lt">Dolphin</name>
+  <name xml:lang="ml">ഡോൾഫിൻ</name>
   <name xml:lang="nb">Dolphin</name>
   <name xml:lang="nds">Dolphin</name>
   <name xml:lang="nl">Dolphin</name>
@@ -72,6 +73,7 @@
   <summary xml:lang="it">Gestore file</summary>
   <summary xml:lang="ko">파일 관리자</summary>
   <summary xml:lang="lt">Failų tvarkytuvė</summary>
+  <summary xml:lang="ml">ഫയല്‍ കാര്യസ്ഥന്‍</summary>
   <summary xml:lang="nb">Filbehandler</summary>
   <summary xml:lang="nds">Dateipleger</summary>
   <summary xml:lang="nl">Bestandsbeheerder</summary>
@@ -117,6 +119,7 @@
     <p xml:lang="id">Dolphin adalah pengelola file yang ringan. Ini telah dirancang dengan kemudahan penggunaan dan kesederhanaan dalam hal, sementara masih memungkinkan fleksibilitas dan kustomisasi. Ini berarti kamu bisa melakukan pengelolaan file-mu persis seperti yang kamu inginkan.</p>
     <p xml:lang="it">Dolphin è un gestore file leggero. È stato progettato per essere facile da utilizzare e pensando alla semplicità, garantendo al contempo flessibilità e personalizzazione. Ciò significa che puoi gestire i tuoi file come meglio desideri.</p>
     <p xml:lang="ko">Dolphin은 가벼운 파일 관리자입니다. 사용 편의성과 단순함을 염두에 두고 설계되었으며, 유연성과 사용자 지정을 여전히 허용합니다. 즉, 파일 관리를 원하는 방식으로 정확하게 수행할 수 있습니다.</p>
+    <p xml:lang="ml">ഡോൾഫിൻ ഒരു ഭാരം കുറഞ്ഞ ഫയൽ മാനേജറാണ്. ഇത് നിർമ്മിച്ചിരിക്കുന്നത് ഉപയോഗിക്കുന്നതിനുള്ള എളുപ്പത്തിനും , മാനസികമായിയുള്ള എളുപ്പത്തിനുമാണ്, ഒപ്പം തന്നെ അഭിരുചിക്കനുസൃതമാക്കുന്നതിനും വഴക്കം നൽകുന്നതിനും അനുവദിക്കുന്നു. അതായത് നിങ്ങൾക്ക് നിങ്ങളുടെ ഫയലുകൾ  എങ്ങനെയൊക്കെ കൈകാര്യം ചെയ്യണോ അങ്ങനെ കൈകാര്യം ചെയ്യാവുന്നതാണ്.</p>
     <p xml:lang="nb">Dolphin er en lettvekts filbehandler. Den er laget for å være enkel og lett å bruke, samtidig som den er fleksibel og kan tilpasses. Det betyr at du kan utføre dine filbehandlingsoppgaver akkurat slik du vil gjøre det.</p>
     <p xml:lang="nds">Dolphin is en slank Dateipleger. Dat wöör buut mit de Idee vun't eenfache Bedenen vör Ogen, bides dat liekers flexibel un topassbor wesen schull. Du kannst Dien Dateien also jüst so plegen, as Du dat wullt.</p>
     <p xml:lang="nl">Dolphin is een lichtgewicht bestandsbeheerder. Het is ontworpen met gebruiksgemak en eenvoud in gedachte en staat toch flexibiliteit en aan te passen toe. Dit betekent dat u uw bestandsbeheer kunt doen precies op de manier zoals u dat wilt.</p>
@@ -161,6 +164,7 @@
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="lt">Galimybės</p>
+    <p xml:lang="ml">വിശേഷതകൾ:</p>
     <p xml:lang="nb">Egenskaper:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
@@ -203,6 +207,7 @@
       <li xml:lang="id">Bilah navigasi (atau breadcrumb) untuk URL-URL, memungkinkan kamu secara cepat bernavigasi melalui hirerarki file-file dan folder-folder.</li>
       <li xml:lang="it">La barra di navigazione per gli URL, che ti consente di navigare rapidamente attraverso la struttura di file e cartelle.</li>
       <li xml:lang="ko">URL에 대한 탐색(또는 이동 경로) 표시줄을 사용하면 파일 및 폴더의 계층 구조를 빠르게 탐색할 수 있습니다.</li>
+      <li xml:lang="ml">ഫയലുകളുടെയും അറകളുടെയും ശ്രേണി കണ്ടുപിടിക്കുന്നതിന് URL കൾക്ക്  നാവിഗേഷൻ (അല്ലെങ്കിൽ വഴി കാട്ടുന്നതിനുള്ള) സ്ഥലം.</li>
       <li xml:lang="nb">Navigasjonslinje (brødsmulelinje) for URL-er slik at du raskt kan navigere gjennom hierarkiet av filer og mapper.</li>
       <li xml:lang="nds">Steed- (oder Krömelspoor-)Balken för URLs, mit de Du Di fix dör de Hierarchie ut Dateien un Ornern bewegen kannst</li>
       <li xml:lang="nl">Navigatie- (of broodkruimel)balk voor URL's, waarmee u snel kunt navigeren door de hiërarchie van bestanden en mappen.</li>
@@ -244,6 +249,7 @@
       <li xml:lang="id">Mendukung beberapa jenis gaya tampilan dan properti yang berbeda dan memungkinkanmu untuk mengonfigurasi tampilan persis seperti yang kamu inginkan.</li>
       <li xml:lang="it">Supporta diversi stili di visualizzazione e proprietà e ti consente di configurare la vista come desideri.</li>
       <li xml:lang="ko">여러 종류의 보기 스타일 및 속성을 지원하며 원하는 방식으로 보기를 구성할 수 있습니다.</li>
+      <li xml:lang="ml">നിങ്ങൾക്ക് ഇഷ്ടമുള്ള രീതിയിൽ കാണുന്നതിന് ആവശ്യമായിട്ടുള്ള വിവിധ അലങ്കാര രീതികള്‍ക്ക് പിന്തുണ നൽകുന്നു.</li>
       <li xml:lang="nb">Støtter flere forskjellige visningsstiler og kan sette opp visningen akkurat slik du vil ha den.</li>
       <li xml:lang="nds">Ünnerstütt en Reeg verscheden Ansichtstilen un -egenschappen un lett Di de Ansicht jüst so topassen, as Du dat bruukst.</li>
       <li xml:lang="nl">Ondersteunt een aantal verschillende soorten stijlen van weergave en eigenschappen en biedt u de mogelijkheid de weergave in te stellen precies zoals u dat wilt.</li>
@@ -285,6 +291,7 @@
       <li xml:lang="id">Tampilan belah, memungkinkanmu untuk menyalin atau memindah file antar lokasi dengan mudah.</li>
       <li xml:lang="it">La vista divisa, che ti consente di copiare o spostare i file tra le diverse posizioni in maniera semplice.</li>
       <li xml:lang="ko">분할 보기를 통해 위치간에 파일을 쉽게 복사하거나 이동할 수 있습니다.</li>
+      <li xml:lang="ml">എളുപ്പത്തിൽ ഫയലുകൾ പക‍‍ർത്തുന്നതിനും നീക്കുന്നതിനും സഹായിക്കുന്ന വേർതിരിച്ച കാഴ്ച</li>
       <li xml:lang="nb">Delt visning, så du lett kan kopiere eller flytte filer mellom steder.</li>
       <li xml:lang="nds">Deelt Ansicht, mit De Du Dateien eenfach twischen Steden koperen oder bewegen kannst.</li>
       <li xml:lang="nl">Gesplitst beeld, waarmee u gemakkelijk bestanden kunt kopiëren of verplaatsen tussen locaties.</li>
@@ -326,6 +333,7 @@
       <li xml:lang="id">Informasi tambahan dan pintasan tersedia sebagai panel yang bisa di-dock, memungkinkanmu untuk memindahkannya secara bebas dan menampilkan apa yang kamu inginkan.</li>
       <li xml:lang="it">Informazioni aggiuntive e scorciatoie sono disponibili come pannelli agganciabili, che possono essere spostati liberamente e visualizzare esattamente ciò che desideri.</li>
       <li xml:lang="ko">추가 정보 및 바로 가기는 도킹 가능한 패널로 제공되므로 자유롭게 이동할 수 있고 원하는 대로 정확히 표시할 수 있습니다.</li>
+      <li xml:lang="ml">നിങ്ങൾക്ക് ആവശ്യമായിട്ടുള്ള കുറുക്കുവഴികളും വിവരങ്ങളും എളുപ്പത്തിൽ തുറക്കാവുന്ന ഭാഗങ്ങളായി ലഭ്യമാണ്.</li>
       <li xml:lang="nb">Mer informasjon og snarveier er tilgjengelige som dokkbare ruter, som du kan flytte fritt rundt og bruke til å vise akkurat hva du vil.</li>
       <li xml:lang="nds">Bito-Infos un Leestekens laat sik as Paneels andocken, Du kannst ehr verschuven un se jüst dat wiesen laten, wat Du weten wullt.</li>
       <li xml:lang="nl">Extra informatie en sneltoetsen zijn beschikbaar als vast te zetten panelen, die u vrij kunt verplaatsen en precies kunt tonen wat u wilt.</li>
@@ -370,6 +378,7 @@
       <li xml:lang="it">Supporto di schede multiple</li>
       <li xml:lang="ko">다중 탭 지원</li>
       <li xml:lang="lt">Daugelio kortelių palaikymas</li>
+      <li xml:lang="ml">അനേക  ടാബുകളുടെ പിൻതുണ</li>
       <li xml:lang="nb">Støtte for flere faner</li>
       <li xml:lang="nds">Ünnerstütten för Paneels</li>
       <li xml:lang="nl">Ondersteuning voor meerdere tabbladen</li>
@@ -413,6 +422,7 @@
       <li xml:lang="id">Dialog informasi ditampilkan dengan cara yang tidak mengganggu.</li>
       <li xml:lang="it">Le finestre informative sono visualizzate in modo molto discreto.</li>
       <li xml:lang="ko">정보 대화 상자는 눈에 거슬리지 않는 방식으로 표시됩니다.</li>
+      <li xml:lang="ml">വിവരങ്ങൾ അച്ചടക്കമുള്ള രീതിയിൽ ദൃശ്യമാകുന്നു.</li>
       <li xml:lang="nb">Informasjonsdialoger vises på en lite påtrengende måte.</li>
       <li xml:lang="nds">Informatschoondialogen kaamt Di nich in'n Weg.</li>
       <li xml:lang="nl">Informatiedialogen worden op een prettige manier getoond.</li>
@@ -456,6 +466,7 @@
       <li xml:lang="id">Dukungan urungkan/lanjurkan</li>
       <li xml:lang="it">Supporto di annulla/rifai</li>
       <li xml:lang="ko">실행 취소/다시 실행 지원</li>
+      <li xml:lang="ml">നിഷ്ക്രിയമാക്കുക/വീണ്ടും ചെയ്യുക പിന്തുണയ്ക്കുന്നു</li>
       <li xml:lang="nb">Støtte for angring/omgjøring</li>
       <li xml:lang="nds">Ünnerstütten för Torüchnehmen un Wedderherstellen</li>
       <li xml:lang="nl">Ondersteuning ongedaan maken/opnieuw</li>
@@ -500,6 +511,7 @@
       <li xml:lang="id">Akses jaringan transparan melalui sistem KIO.</li>
       <li xml:lang="it">Accesso trasparente alla rete tramite il sistema KIO.</li>
       <li xml:lang="ko">KIO 시스템을 통한 투명한 네트워크 액세스.</li>
+      <li xml:lang="ml">KIO സിസ്റ്റത്തിലൂടെ ശൃംഖലയെ സമീപിക്കുന്നു.</li>
       <li xml:lang="nb">Gjennomsiktig nettverkstilgang via KIO-systemet.</li>
       <li xml:lang="nds">Direkt Nettwarktogriep över dat KDE-In-/Utgaav-(KIO-)Moduulsysteem</li>
       <li xml:lang="nl">Transparante toegang tot het netwerk via het KIO systeem.</li>
@@ -547,6 +559,7 @@
       <caption xml:lang="id">Pengelolaan file di Dolphin</caption>
       <caption xml:lang="it">Gestione dei file in Dolphin</caption>
       <caption xml:lang="ko">Dolphin의 파일 관리</caption>
+      <caption xml:lang="ml">ഡോൾഫിനിലെ ഫയൽ കൈകാര്യം ചെയ്യൽ</caption>
       <caption xml:lang="nl">Bestandsbeheer in Dolphin</caption>
       <caption xml:lang="nn">Filhandsaming i Dolphin</caption>
       <caption xml:lang="pl">Zarządzanie plikami w Dolphinie</caption>
