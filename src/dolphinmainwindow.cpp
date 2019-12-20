@@ -1905,6 +1905,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
         QAction* showTarget              = col->action(QStringLiteral("show_target"));
+        QAction* duplicateAction         = col->action(QStringLiteral("duplicate")); // see DolphinViewActionHandler
 
         if (list.length() == 1 && list.first().isDir()) {
             addToPlacesAction->setEnabled(true);
@@ -1921,6 +1922,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         cutAction->setEnabled(capabilities.supportsMoving());
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
+        duplicateAction->setEnabled(capabilities.supportsWriting());
     }
 }
 

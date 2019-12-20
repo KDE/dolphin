@@ -207,6 +207,11 @@ private Q_SLOTS:
     void slotAdjustViewProperties();
 
     /**
+     * Begins a duplicate operation on the selected files
+     */
+    void slotDuplicate();
+
+    /**
      * Connected to the "properties" action.
      * Opens the properties dialog for the selected items of the
      * active view. The properties dialog shows information

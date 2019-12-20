@@ -396,6 +396,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
     addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
     addAction(createPasteAction());
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("duplicate")));
 
     addSeparator();
 

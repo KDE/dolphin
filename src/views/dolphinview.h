@@ -375,6 +375,12 @@ public slots:
     void pasteIntoFolder();
 
     /**
+     * Creates duplicates of selected items, appending "copy"
+     * to the end.
+     */
+    void duplicateSelectedItems();
+
+    /**
      * Handles a drop of @p dropEvent onto widget @p dropWidget and destination @p destUrl
      */
     void dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *dropWidget);

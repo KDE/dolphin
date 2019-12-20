@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="29">
+<kpartgui name="dolphin" version="30">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -11,6 +11,7 @@
             <Action name="add_to_places" />
             <Separator/>
             <Action name="renamefile" />
+            <Action name="duplicate" />
             <Action name="movetotrash" />
             <Action name="deletefile" />
             <Separator/>
@@ -81,6 +82,7 @@
             <Action name="edit_cut" />
             <Action name="edit_copy" />
             <Action name="renamefile" />
+            <Action name="duplicate" />
             <Action name="movetotrash" />
             <Action name="deletefile" />
             <Action name="invert_selection" />
@@ -91,6 +93,7 @@
             <Action name="edit_cut" />
             <Action name="edit_copy" />
             <Action name="renamefile" />
+            <Action name="duplicate" />
             <Action name="movetotrash" />
             <Action name="deletefile" />
             <Action name="delete_shortcut" />

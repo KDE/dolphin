@@ -136,6 +136,13 @@ void DolphinViewActionHandler::createActions()
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, &QAction::triggered, this, &DolphinViewActionHandler::slotDeleteItems);
 
+    QAction* duplicateAction = m_actionCollection->addAction(QStringLiteral("duplicate"));
+    duplicateAction->setText(i18nc("@action:inmenu File", "Duplicate Here"));
+    duplicateAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-duplicate")));
+    m_actionCollection->setDefaultShortcut(duplicateAction, Qt::CTRL | Qt::Key_D);
+    duplicateAction->setEnabled(false);
+    connect(duplicateAction, &QAction::triggered, this, &DolphinViewActionHandler::slotDuplicate);
+
     QAction *propertiesAction = m_actionCollection->addAction( QStringLiteral("properties") );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
     propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
@@ -678,6 +685,12 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
     QPointer<ViewPropertiesDialog> dialog = new ViewPropertiesDialog(m_currentView);
     dialog->exec();
     delete dialog;
+}
+
+void DolphinViewActionHandler::slotDuplicate()
+{
+    emit actionBeingHandled();
+    m_currentView->duplicateSelectedItems();
 }
 
 void DolphinViewActionHandler::slotProperties()
