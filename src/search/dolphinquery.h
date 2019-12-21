@@ -48,6 +48,10 @@ public:
     /** @return Baloo::Query::includeFolder(), that is, the initial directory
      * for the query or an empty string if its a global search" */
     QString includeFolder() const;
+    /** @return whether the query includes search in file content */
+    bool hasContentSearch() const;
+    /** @return whether the query includes a filter by fileName */
+    bool hasFileName() const;
 
 private:
     QUrl m_searchUrl;
@@ -55,6 +59,8 @@ private:
     QString m_fileType;
     QStringList m_searchTerms;
     QString m_includeFolder;
+    bool m_hasContentSearch = false;
+    bool m_hasFileName = false;
 };
 
 #endif //DOLPHINQUERY_H

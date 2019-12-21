@@ -41,8 +41,8 @@ private slots:
  */
 void DolphinSearchBoxTest::testBalooSearchParsing_data()
 {
-    const QString text = QStringLiteral("xyz");
-    const QString filename = QStringLiteral("filename:\"xyz\"");
+    const QString text = QStringLiteral("abc xyz");
+    const QString filename = QStringLiteral("filename:\"%1\"").arg(text);
     const QString rating = QStringLiteral("rating>=2");
     const QString modified = QString("modified>=2019-08-07");
     const QString tagA = QString("tag:tagA");
@@ -51,51 +51,56 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     QTest::addColumn<QString>("searchString");
     QTest::addColumn<QString>("expectedText");
     QTest::addColumn<QStringList>("expectedTerms");
+    QTest::addColumn<bool>("hasContent");
+    QTest::addColumn<bool>("hasFileName");
 
     // Test for "Content"
-    QTest::newRow("content")              << text    << text << QStringList();
-    QTest::newRow("content/empty")        << ""      << ""   << QStringList();
-    QTest::newRow("content/singleQuote")  << "\""    << ""   << QStringList();
-    QTest::newRow("content/doubleQuote")  << "\"\""  << ""   << QStringList();
+    QTest::newRow("content")              << text    << text << QStringList() << true  << false;
+    QTest::newRow("content/empty")        << ""      << ""   << QStringList() << false << false;
+    QTest::newRow("content/singleQuote")  << "\""    << ""   << QStringList() << false << false;
+    QTest::newRow("content/doubleQuote")  << "\"\""  << ""   << QStringList() << false << false;
 
-    // Test for "Filename"
-    QTest::newRow("filename")             << filename         << text << QStringList();
-    QTest::newRow("filename/empty")       << "filename:"      << ""   << QStringList();
-    QTest::newRow("filename/singleQuote") << "filename:\""    << ""   << QStringList();
-    QTest::newRow("filename/doubleQuote") << "filename:\"\""  << ""   << QStringList();
+    // Test for "FileName"
+    QTest::newRow("filename")             << filename         << text << QStringList() << false << true;
+    QTest::newRow("filename/empty")       << "filename:"      << ""   << QStringList() << false << false;
+    QTest::newRow("filename/singleQuote") << "filename:\""    << ""   << QStringList() << false << false;
+    QTest::newRow("filename/doubleQuote") << "filename:\"\""  << ""   << QStringList() << false << false;
+
+    // Combined content and filename search
+    QTest::newRow("content+filename") << text + " " + filename << text + " " + filename << QStringList() << true << true;
 
     // Test for rating
-    QTest::newRow("rating")          << rating                  << ""   << QStringList({rating});
-    QTest::newRow("rating+content")  << rating + " " + text     << text << QStringList({rating});
-    QTest::newRow("rating+filename") << rating + " " + filename << text << QStringList({rating});
+    QTest::newRow("rating")          << rating                  << ""   << QStringList({rating}) << false << false;
+    QTest::newRow("rating+content")  << rating + " " + text     << text << QStringList({rating}) << true  << false;
+    QTest::newRow("rating+filename") << rating + " " + filename << text << QStringList({rating}) << false << true;
 
     // Test for modified date
-    QTest::newRow("modified")          << modified                  << ""   << QStringList({modified});
-    QTest::newRow("modified+content")  << modified + " " + text     << text << QStringList({modified});
-    QTest::newRow("modified+filename") << modified + " " + filename << text << QStringList({modified});
+    QTest::newRow("modified")          << modified                  << ""   << QStringList({modified}) << false << false;
+    QTest::newRow("modified+content")  << modified + " " + text     << text << QStringList({modified}) << true  << false;
+    QTest::newRow("modified+filename") << modified + " " + filename << text << QStringList({modified}) << false << true;
 
     // Test for tags
-    QTest::newRow("tag")          << tagA                  << ""   << QStringList({tagA});
-    QTest::newRow("tag/double")   << tagA + " " + tagB     << ""   << QStringList({tagA, tagB});
-    QTest::newRow("tag+content")  << tagA + " " + text     << text << QStringList({tagA});
-    QTest::newRow("tag+filename") << tagA + " " + filename << text << QStringList({tagA});
+    QTest::newRow("tag")          << tagA                  << ""   << QStringList({tagA})       << false << false;
+    QTest::newRow("tag/double")   << tagA + " " + tagB     << ""   << QStringList({tagA, tagB}) << false << false;
+    QTest::newRow("tag+content")  << tagA + " " + text     << text << QStringList({tagA})       << true  << false;
+    QTest::newRow("tag+filename") << tagA + " " + filename << text << QStringList({tagA})       << false << true;
 
-    // Combined tests
-    QTest::newRow("rating+modified")
-        << rating + " AND " + modified
-        << "" << QStringList({modified, rating});
-
+    // Combined search terms
     QTest::newRow("allTerms")
         << rating + " AND " + modified + " AND " + tagA + " AND " + tagB
-        << "" << QStringList({modified, rating, tagA, tagB});
+        << "" << QStringList({modified, rating, tagA, tagB}) << false << false;
 
     QTest::newRow("allTerms+content")
         << rating + " AND " + modified + " " + text + " " + tagA + " AND " + tagB
-        << text << QStringList({modified, rating, tagA, tagB});
-    
+        << text << QStringList({modified, rating, tagA, tagB}) << true << false;
+
     QTest::newRow("allTerms+filename")
         << rating + " AND " + modified + " " + filename + " " + tagA + " AND " + tagB
-        << text << QStringList({modified, rating, tagA, tagB});
+        << text << QStringList({modified, rating, tagA, tagB}) << false << true;
+
+    QTest::newRow("allTerms+content+filename")
+        << text + " " + filename + " " + rating + " AND " + modified + " AND " + tagA + " AND " + tagB
+        << text + " " + filename << QStringList({modified, rating, tagA, tagB}) << true << true;
 }
 
 /**
@@ -130,6 +135,8 @@ void DolphinSearchBoxTest::testBalooSearchParsing()
     QFETCH(QString, searchString);
     QFETCH(QString, expectedText);
     QFETCH(QStringList, expectedTerms);
+    QFETCH(bool, hasContent);
+    QFETCH(bool, hasFileName);
 
     const QUrl testUrl = composeQueryUrl(searchString);
     const DolphinQuery query = DolphinQuery::fromBalooSearchUrl(testUrl);
@@ -145,6 +152,10 @@ void DolphinSearchBoxTest::testBalooSearchParsing()
     for (int i = 0; i < expectedTerms.count(); i++) {
         QCOMPARE(searchTerms.at(i), expectedTerms.at(i));
     }
+
+    // Check for filename and content detection
+    QCOMPARE(query.hasContentSearch(), hasContent);
+    QCOMPARE(query.hasFileName(), hasFileName);
 }
 
 QTEST_MAIN(DolphinSearchBoxTest)

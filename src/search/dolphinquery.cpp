@@ -19,6 +19,8 @@
 
 #include "dolphinquery.h"
 
+#include <QRegularExpression>
+
 #include <config-baloo.h>
 #ifdef HAVE_BALOO
 #include <Baloo/Query>
@@ -43,6 +45,30 @@ namespace {
         }
         return false;
     }
+
+    QString stripQuotes(const QString& text)
+    {
+        QString cleanedText = text;
+        if (!cleanedText.isEmpty() && cleanedText.at(0) == QLatin1Char('"')) {
+            cleanedText = cleanedText.mid(1);
+        }
+        if (!cleanedText.isEmpty() && cleanedText.back() == QLatin1Char('"')) {
+            cleanedText = cleanedText.mid(0, cleanedText.size() - 1);
+        }
+        return cleanedText;
+    }
+
+    QStringList splitOutsideQuotes(const QString& text)
+    {
+        const QRegularExpression subTermsRegExp("([^ ]*\"[^\"]*\"|(?<= |^)[^ ]+(?= |$))");
+        auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
+
+        QStringList textParts;
+        while (subTermsMatchIterator.hasNext()) {
+            textParts << subTermsMatchIterator.next().captured(0);
+        }
+        return textParts;
+    }
 }
 
 DolphinQuery DolphinQuery::fromBalooSearchUrl(const QUrl& searchUrl)
@@ -59,29 +85,35 @@ DolphinQuery DolphinQuery::fromBalooSearchUrl(const QUrl& searchUrl)
     model.m_fileType = types.isEmpty() ? QString() : types.first();
 
     QStringList textParts;
+    QString fileName;
 
-    const QStringList subTerms = query.searchString().split(' ', QString::SkipEmptyParts);
+    const QStringList subTerms = splitOutsideQuotes(query.searchString());
     foreach (const QString& subTerm, subTerms) {
-        QString value;
         if (subTerm.startsWith(QLatin1String("filename:"))) {
-            value = subTerm.mid(9);
+            fileName = stripQuotes(subTerm.mid(9));
+            if (!fileName.isEmpty()) {
+                model.m_hasFileName = true;
+            }
+            continue;
         } else if (isSearchTerm(subTerm)) {
             model.m_searchTerms << subTerm;
             continue;
         } else if (subTerm == QLatin1String("AND") && subTerm != subTerms.at(0) && subTerm != subTerms.back()) {
             continue;
         } else {
-            value = subTerm;
+            const QString cleanedTerm = stripQuotes(subTerm);
+            if (!cleanedTerm.isEmpty()) {
+                textParts << cleanedTerm;
+                model.m_hasContentSearch = true;
+            }
         }
+    }
 
-        if (!value.isEmpty() && value.at(0) == QLatin1Char('"')) {
-            value = value.mid(1);
-        }
-        if (!value.isEmpty() && value.back() == QLatin1Char('"')) {
-            value = value.mid(0, value.size() - 1);
-        }
-        if (!value.isEmpty()) {
-            textParts << value;
+    if (model.m_hasFileName) {
+        if (model.m_hasContentSearch) {
+            textParts << QStringLiteral("filename:\"%1\"").arg(fileName);
+        } else {
+            textParts << fileName;
         }
     }
 
@@ -114,4 +146,14 @@ QStringList DolphinQuery::searchTerms() const
 QString DolphinQuery::includeFolder() const
 {
     return m_includeFolder;
+}
+
+bool DolphinQuery::hasContentSearch() const
+{
+    return m_hasContentSearch;
+}
+
+bool DolphinQuery::hasFileName() const
+{
+    return m_hasFileName;
 }

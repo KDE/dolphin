@@ -517,6 +517,12 @@ void DolphinSearchBox::updateFromQuery(const DolphinQuery& query)
 
     setText(query.text());
 
+    if (query.hasContentSearch()) {
+        m_contentButton->setChecked(true);
+    } else if (query.hasFileName())  {
+        m_fileNameButton->setChecked(true);
+    }
+
     m_facetsWidget->resetOptions();
     m_facetsWidget->setFacetType(query.type());
     const QStringList searchTerms = query.searchTerms();
