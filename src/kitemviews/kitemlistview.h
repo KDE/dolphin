@@ -157,11 +157,6 @@ public:
      */
     QSizeF itemSize() const;
 
-    /**
-     * @return The size hint of all items. It is provided by the KItemListSizeHintResolver.
-     */
-    QSizeF itemSizeHint() const;
-
     const KItemListStyleOption& styleOption() const;
 
     void setGeometry(const QRectF& rect) override;

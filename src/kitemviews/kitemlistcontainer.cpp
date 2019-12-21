@@ -26,6 +26,7 @@
 #include "private/kitemlistsmoothscroller.h"
 
 #include <QApplication>
+#include <QFontMetrics>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
@@ -260,7 +261,14 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     if (view->scrollOrientation() == Qt::Vertical) {
         smoothScroller = m_verticalSmoothScroller;
         scrollOffsetScrollBar = verticalScrollBar();
-        singleStep = view->itemSizeHint().height();
+
+        // Don't scroll super fast when using a wheel mouse:
+        // We want to consider one "line" to be the text label which has a
+        // roughly fixed height rather than using the height of the icon which
+        // may be very tall
+        const QFontMetrics metrics(font());
+        singleStep = metrics.height() * QApplication::wheelScrollLines();
+
         // We cannot use view->size().height() because this height might
         // include the header widget, which is not part of the scrolled area.
         pageStep = view->verticalPageStep();
