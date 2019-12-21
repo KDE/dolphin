@@ -533,23 +533,7 @@ void DolphinPart::setNameFilter(const QString& nameFilter)
 
 void DolphinPart::slotOpenTerminal()
 {
-    QString dir(QDir::homePath());
-
-    QUrl u(url());
-
-    // If the given directory is not local, it can still be the URL of an
-    // ioslave using UDS_LOCAL_PATH which to be converted first.
-    KIO::StatJob* statJob = KIO::mostLocalUrl(u);
-    KJobWidgets::setWindow(statJob, widget());
-    statJob->exec();
-    u = statJob->mostLocalUrl();
-
-    //If the URL is local after the above conversion, set the directory.
-    if (u.isLocalFile()) {
-        dir = u.toLocalFile();
-    }
-
-    KToolInvocation::invokeTerminal(QString(), dir);
+    KToolInvocation::invokeTerminal(QString(), KParts::ReadOnlyPart::localFilePath());
 }
 
 void DolphinPart::slotFindFile()
