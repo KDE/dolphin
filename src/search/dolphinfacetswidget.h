@@ -52,13 +52,12 @@ public:
     explicit DolphinFacetsWidget(QWidget* parent = nullptr);
     ~DolphinFacetsWidget() override;
 
-    void resetOptions();
-
-    QString ratingTerm() const;
+    QString searchTerms() const;
     QString facetType() const;
 
-    bool isRatingTerm(const QString& term) const;
-    void setRatingTerm(const QString& term);
+    bool isSearchTerm(const QString& term) const;
+    void setSearchTerm(const QString& term);
+    void resetSearchTerms();
 
     void setFacetType(const QString& type);
 

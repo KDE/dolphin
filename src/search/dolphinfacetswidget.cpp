@@ -86,7 +86,7 @@ DolphinFacetsWidget::DolphinFacetsWidget(QWidget* parent) :
     topLayout->addWidget(m_ratingSelector);
     topLayout->addWidget(m_tagsSelector);
 
-    resetOptions();
+    resetSearchTerms();
 }
 
 DolphinFacetsWidget::~DolphinFacetsWidget()
@@ -99,12 +99,12 @@ void DolphinFacetsWidget::changeEvent(QEvent *event)
         if (isEnabled()) {
             updateTagsSelector();
         } else {
-            resetOptions();
+            resetSearchTerms();
         }
     }
 }
 
-void DolphinFacetsWidget::resetOptions()
+void DolphinFacetsWidget::resetSearchTerms()
 {
     m_typeSelector->setCurrentIndex(0);
     m_dateSelector->setCurrentIndex(0);
@@ -115,7 +115,7 @@ void DolphinFacetsWidget::resetOptions()
     updateTagsMenu();
 }
 
-QString DolphinFacetsWidget::ratingTerm() const
+QString DolphinFacetsWidget::searchTerms() const
 {
     QStringList terms;
 
@@ -143,7 +143,7 @@ QString DolphinFacetsWidget::facetType() const
     return m_typeSelector->currentData().toString();
 }
 
-bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
+bool DolphinFacetsWidget::isSearchTerm(const QString& term) const
 {
     const QStringList subTerms = term.split(' ', QString::SkipEmptyParts);
 
@@ -166,7 +166,7 @@ bool DolphinFacetsWidget::isRatingTerm(const QString& term) const
     return containsModified || containsRating || containsTag;
 }
 
-void DolphinFacetsWidget::setRatingTerm(const QString& term)
+void DolphinFacetsWidget::setSearchTerm(const QString& term)
 {
     // If term has sub terms, then the sub terms are always "rating" and "modified" terms.
     // If term has no sub terms, then the term itself is either a "rating" term or a "modified"

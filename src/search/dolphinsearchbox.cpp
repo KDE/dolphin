@@ -478,7 +478,7 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
     query.addType(m_facetsWidget->facetType());
 
     QStringList queryStrings;
-    QString ratingQuery = m_facetsWidget->ratingTerm();
+    QString ratingQuery = m_facetsWidget->searchTerms();
     if (!ratingQuery.isEmpty()) {
         queryStrings << ratingQuery;
     }
@@ -523,11 +523,11 @@ void DolphinSearchBox::updateFromQuery(const DolphinQuery& query)
         m_fileNameButton->setChecked(true);
     }
 
-    m_facetsWidget->resetOptions();
+    m_facetsWidget->resetSearchTerms();
     m_facetsWidget->setFacetType(query.type());
     const QStringList searchTerms = query.searchTerms();
     for (const QString& searchTerm : searchTerms) {
-        m_facetsWidget->setRatingTerm(searchTerm);
+        m_facetsWidget->setSearchTerm(searchTerm);
     }
 
     m_startSearchTimer->stop();

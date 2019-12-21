@@ -28,7 +28,7 @@
 
 namespace {
     /** Checks if a given term in the Baloo::Query::searchString() is a special search term.
-     * This is a copy of `DolphinFacetsWidget::isRatingTerm()` method.
+     * This is a copy of `DolphinFacetsWidget::isSearchTerm()` method.
      */
     bool isSearchTerm(const QString& term)
     {
