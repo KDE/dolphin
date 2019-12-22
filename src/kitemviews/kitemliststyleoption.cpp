@@ -35,21 +35,6 @@ KItemListStyleOption::KItemListStyleOption() :
 {
 }
 
-KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
-    rect(other.rect),
-    font(other.font),
-    fontMetrics(other.fontMetrics),
-    palette(other.palette),
-    padding(other.padding),
-    horizontalMargin(other.horizontalMargin),
-    verticalMargin(other.verticalMargin),
-    iconSize(other.iconSize),
-    extendedSelectionRegion(other.extendedSelectionRegion),
-    maxTextLines(other.maxTextLines),
-    maxTextWidth(other.maxTextWidth)
-{
-}
-
 KItemListStyleOption::~KItemListStyleOption()
 {
 }

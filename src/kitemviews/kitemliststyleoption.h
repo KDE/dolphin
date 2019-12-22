@@ -31,7 +31,6 @@ class DOLPHIN_EXPORT KItemListStyleOption
 {
 public:
     KItemListStyleOption();
-    KItemListStyleOption(const KItemListStyleOption& other);
     virtual ~KItemListStyleOption();
 
     QRect rect;
@@ -48,8 +47,6 @@ public:
 
     bool operator==(const KItemListStyleOption& other) const;
     bool operator!=(const KItemListStyleOption& other) const;
-
-
 };
 #endif
 
