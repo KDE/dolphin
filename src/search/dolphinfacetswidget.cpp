@@ -280,6 +280,8 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
                 removeSearchTag(tagName);
             }
             emit facetChanged();
+
+            m_tagsSelector->menu()->show();
         });
     }
 
