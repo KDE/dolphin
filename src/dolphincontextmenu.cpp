@@ -97,9 +97,9 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     const auto scheme = m_baseUrl.scheme();
     if (scheme == QLatin1String("trash")) {
         m_context |= TrashContext;
-    } else if (scheme == QLatin1String("search")) {
+    } else if (scheme.contains(QLatin1String("search"))) {
         m_context |= SearchContext;
-    } else if (scheme == QLatin1String("timeline")) {
+    } else if (scheme.contains(QLatin1String("timeline"))) {
         m_context |= TimelineContext;
     }
 
