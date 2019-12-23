@@ -77,39 +77,39 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         return false;
     }
 
-    QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinServices;
+    QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinInterfaces;
     if (!preferredService.isEmpty()) {
-        QSharedPointer<QDBusInterface> preferred(
+        QSharedPointer<QDBusInterface> preferredInterface(
             new QDBusInterface(preferredService,
             QStringLiteral("/dolphin/Dolphin_1"),
             QString()) // #414402: use empty interface name to prevent QtDBus from caching the interface.
         );
-        if (preferred->isValid() && !preferred->lastError().isValid()) {
-            dolphinServices.append(qMakePair(preferred, QStringList()));
+        if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
+            dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
         }
     }
 
-    // find all dolphin instances
-    const QStringList services = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
+    // Look for dolphin instances among all available dbus services.
+    const QStringList dbusServices = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
     // Don't match the service without trailing "-" (unique instance)
     const QString pattern = QStringLiteral("org.kde.dolphin-");
     // Don't match the pid without leading "-"
     const QString myPid = QLatin1Char('-') + QString::number(QCoreApplication::applicationPid());
-    for (const QString& service : services) {
+    for (const QString& service : dbusServices) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
             // Check if instance can handle our URLs
-            QSharedPointer<QDBusInterface> instance(
+            QSharedPointer<QDBusInterface> interface(
                 new QDBusInterface(service,
                 QStringLiteral("/dolphin/Dolphin_1"),
                 QStringLiteral("org.kde.dolphin.MainWindow"))
             );
-            if (instance->isValid() && !instance->lastError().isValid()) {
-                dolphinServices.append(qMakePair(instance, QStringList()));
+            if (interface->isValid() && !interface->lastError().isValid()) {
+                dolphinInterfaces.append(qMakePair(interface, QStringList()));
             }
         }
     }
 
-    if (dolphinServices.isEmpty()) {
+    if (dolphinInterfaces.isEmpty()) {
         return false;
     }
 
@@ -119,10 +119,10 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     const auto urls = QUrl::toStringList(inputUrls);
     for (const QString& url : urls) {
         bool urlFound = false;
-        for (auto& service: dolphinServices) {
-            QDBusReply<bool> isUrlOpen = service.first->call(QStringLiteral("isUrlOpen"), url);
-            if (isUrlOpen.isValid() && isUrlOpen.value()) {
-                service.second.append(url);
+        for (auto& interface: dolphinInterfaces) {
+            QDBusReply<bool> isUrlOpenReply = interface.first->call(QStringLiteral("isUrlOpen"), url);
+            if (isUrlOpenReply.isValid() && isUrlOpenReply.value()) {
+                interface.second.append(url);
                 urlFound = true;
                 break;
             }
@@ -131,12 +131,12 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
             newUrls.append(url);
         }
     }
-    dolphinServices.front().second << newUrls;
+    dolphinInterfaces.front().second << newUrls;
 
-    for (const auto& service: dolphinServices) {
-        if (!service.second.isEmpty()) {
-            service.first->call(openFiles ? QStringLiteral("openFiles") : QStringLiteral("openDirectories"), service.second, splitView);
-            service.first->call(QStringLiteral("activateWindow"));
+    for (const auto& interface: dolphinInterfaces) {
+        if (!interface.second.isEmpty()) {
+            interface.first->call(openFiles ? QStringLiteral("openFiles") : QStringLiteral("openDirectories"), interface.second, splitView);
+            interface.first->call(QStringLiteral("activateWindow"));
         }
     }
     return true;
