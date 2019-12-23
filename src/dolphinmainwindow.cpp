@@ -21,6 +21,7 @@
 
 #include "dolphinmainwindow.h"
 
+#include "dolphinmainwindowadaptor.h"
 #include "config-terminal.h"
 #include "global.h"
 #include "dolphinbookmarkhandler.h"
@@ -118,6 +119,9 @@ DolphinMainWindow::DolphinMainWindow() :
     m_forwardAction(nullptr)
 {
     Q_INIT_RESOURCE(dolphin);
+
+    new MainWindowAdaptor(this);
+
 #ifndef Q_OS_WIN
 	setWindowFlags(Qt::WindowContextHelpButtonHint);
 #endif

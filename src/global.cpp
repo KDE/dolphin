@@ -21,14 +21,13 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
+#include "dolphinmainwindowinterface.h"
 
 #include <KRun>
 #include <KWindowSystem>
 
 #include <QApplication>
 #include <QIcon>
-#include <QDBusInterface>
-#include <QDBusConnectionInterface>
 
 QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
 {
@@ -72,18 +71,19 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
 
 bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService)
 {
+    bool attached = false;
+
     // TODO: once Wayland clients can raise or activate themselves remove check from conditional
     if (KWindowSystem::isPlatformWayland() || inputUrls.isEmpty() || !GeneralSettings::openExternallyCalledFolderInNewTab()) {
         return false;
     }
 
-    QVector<QPair<QSharedPointer<QDBusInterface>, QStringList>> dolphinInterfaces;
+    QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinInterfaces;
     if (!preferredService.isEmpty()) {
-        QSharedPointer<QDBusInterface> preferredInterface(
-            new QDBusInterface(preferredService,
-            QStringLiteral("/dolphin/Dolphin_1"),
-            QStringLiteral("org.kde.dolphin.MainWindow"))
-        );
+        QSharedPointer<OrgKdeDolphinMainWindowInterface> preferredInterface(
+            new OrgKdeDolphinMainWindowInterface(preferredService,
+                QStringLiteral("/dolphin/Dolphin_1"),
+                QDBusConnection::sessionBus()));
         if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
             dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));
         }
@@ -98,11 +98,10 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     for (const QString& service : dbusServices) {
         if (service.startsWith(pattern) && !service.endsWith(myPid)) {
             // Check if instance can handle our URLs
-            QSharedPointer<QDBusInterface> interface(
-                new QDBusInterface(service,
-                QStringLiteral("/dolphin/Dolphin_1"),
-                QStringLiteral("org.kde.dolphin.MainWindow"))
-            );
+            QSharedPointer<OrgKdeDolphinMainWindowInterface> interface(
+                        new OrgKdeDolphinMainWindowInterface(service,
+                            QStringLiteral("/dolphin/Dolphin_1"),
+                            QDBusConnection::sessionBus()));
             if (interface->isValid() && !interface->lastError().isValid()) {
                 dolphinInterfaces.append(qMakePair(interface, QStringList()));
             }
@@ -120,8 +119,9 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     for (const QString& url : urls) {
         bool urlFound = false;
         for (auto& interface: dolphinInterfaces) {
-            QDBusReply<bool> isUrlOpenReply = interface.first->call(QStringLiteral("isUrlOpen"), url);
-            if (isUrlOpenReply.isValid() && isUrlOpenReply.value()) {
+            auto isUrlOpenReply = interface.first->isUrlOpen(url);
+            isUrlOpenReply.waitForFinished();
+            if (!isUrlOpenReply.isError() && isUrlOpenReply.value()) {
                 interface.second.append(url);
                 urlFound = true;
                 break;
@@ -135,9 +135,13 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
 
     for (const auto& interface: dolphinInterfaces) {
         if (!interface.second.isEmpty()) {
-            interface.first->call(openFiles ? QStringLiteral("openFiles") : QStringLiteral("openDirectories"), interface.second, splitView);
-            interface.first->call(QStringLiteral("activateWindow"));
+            auto reply = openFiles ? interface.first->openFiles(interface.second, splitView) : interface.first->openDirectories(interface.second, splitView);
+            reply.waitForFinished();
+            if (!reply.isError()) {
+                interface.first->activateWindow();
+                attached = true;
+            }
         }
     }
-    return true;
+    return attached;
 }
