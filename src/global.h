@@ -45,7 +45,9 @@ namespace Dolphin {
 
     /**
      * Attaches URLs to an existing Dolphin instance if possible.
-     * Returns true if URLs were successfully attached
+     * If @p preferredService is a valid dbus service, it will be tried first.
+     * @p preferredService needs to support the org.kde.dolphin.MainWindow dbus interface with the /dolphin/Dolphin_1 path.
+     * Returns true if the URLs were successfully attached.
      */
     bool attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService = QString());
 

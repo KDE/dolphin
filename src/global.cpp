@@ -82,7 +82,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         QSharedPointer<QDBusInterface> preferredInterface(
             new QDBusInterface(preferredService,
             QStringLiteral("/dolphin/Dolphin_1"),
-            QString()) // #414402: use empty interface name to prevent QtDBus from caching the interface.
+            QStringLiteral("org.kde.dolphin.MainWindow"))
         );
         if (preferredInterface->isValid() && !preferredInterface->lastError().isValid()) {
             dolphinInterfaces.append(qMakePair(preferredInterface, QStringList()));

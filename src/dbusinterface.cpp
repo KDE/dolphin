@@ -44,7 +44,7 @@ void DBusInterface::ShowFolders(const QStringList& uriList, const QString& start
     if (urls.isEmpty()) {
         return;
     }
-    const auto serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
+    const auto serviceName = isDaemon() ? QString() : QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
     if(!Dolphin::attachToExistingInstance(urls, false, GeneralSettings::splitView(), serviceName)) {
         Dolphin::openNewWindow(urls);
     }
@@ -57,7 +57,7 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
     if (urls.isEmpty()) {
         return;
     }
-    const auto serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
+    const auto serviceName = isDaemon() ? QString() : QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
     if(!Dolphin::attachToExistingInstance(urls, true, GeneralSettings::splitView(), serviceName)) {
         Dolphin::openNewWindow(urls, nullptr, Dolphin::OpenNewWindowFlag::Select);
     };
@@ -70,4 +70,14 @@ void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString
     if (!urls.isEmpty()) {
         KPropertiesDialog::showDialog(urls);
     }
+}
+
+void DBusInterface::setAsDaemon()
+{
+    m_isDaemon = true;
+}
+
+bool DBusInterface::isDaemon() const
+{
+    return m_isDaemon;
 }

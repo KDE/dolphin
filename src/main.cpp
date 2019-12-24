@@ -143,6 +143,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     if (parser.isSet(QStringLiteral("daemon"))) {
         KDBusService dolphinDBusService;
         DBusInterface interface;
+        interface.setAsDaemon();
         return app.exec();
     }
 
