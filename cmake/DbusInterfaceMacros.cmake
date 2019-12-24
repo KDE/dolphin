@@ -9,7 +9,7 @@ macro (generate_and_install_dbus_interface main_project_target header_file outpu
     )
     install(
         FILES ${CMAKE_CURRENT_BINARY_DIR}/${output_xml_file}
-        DESTINATION ${DBUS_INTERFACES_INSTALL_DIR}
+        DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR}
     )
     add_dependencies(
         ${main_project_target}
