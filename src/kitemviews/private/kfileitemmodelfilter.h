@@ -26,7 +26,7 @@
 #include <QStringList>
 
 class KFileItem;
-class QRegExp;
+class QRegularExpression;
 
 /**
  * @brief Allows to check whether an item of the KFileItemModel
@@ -83,7 +83,7 @@ private:
 
     bool m_useRegExp;           // If true, m_regExp is used for filtering,
                                 // otherwise m_lowerCaseFilter is used.
-    QRegExp* m_regExp;
+    QRegularExpression *m_regExp;
     QString m_lowerCasePattern; // Lowercase version of m_filter for
                                 // faster comparison in matches().
     QString m_pattern;          // Property set by setPattern().

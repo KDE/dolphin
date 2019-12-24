@@ -20,8 +20,9 @@
 
 #include "kfileitemmodelfilter.h"
 
-#include <KFileItem>
+#include <QRegularExpression>
 
+#include <KFileItem>
 
 KFileItemModelFilter::KFileItemModelFilter() :
     m_useRegExp(false),
@@ -44,12 +45,10 @@ void KFileItemModelFilter::setPattern(const QString& filter)
 
     if (filter.contains('*') || filter.contains('?') || filter.contains('[')) {
         if (!m_regExp) {
-            m_regExp = new QRegExp();
-            m_regExp->setCaseSensitivity(Qt::CaseInsensitive);
-            m_regExp->setMinimal(false);
-            m_regExp->setPatternSyntax(QRegExp::WildcardUnix);
+            m_regExp = new QRegularExpression();
+            m_regExp->setPatternOptions(QRegularExpression::CaseInsensitiveOption);
         }
-        m_regExp->setPattern(filter);
+        m_regExp->setPattern(QRegularExpression::wildcardToRegularExpression(filter));
         m_useRegExp = m_regExp->isValid();
     } else {
         m_useRegExp = false;
@@ -103,7 +102,7 @@ bool KFileItemModelFilter::matches(const KFileItem& item) const
 bool KFileItemModelFilter::matchesPattern(const KFileItem& item) const
 {
     if (m_useRegExp) {
-        return m_regExp->exactMatch(item.text());
+        return m_regExp->match(item.text()).hasMatch();
     } else {
         return item.text().toLower().contains(m_lowerCasePattern);
     }

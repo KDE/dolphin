@@ -364,7 +364,7 @@ void DolphinView::markUrlAsCurrent(const QUrl &url)
     m_scrollToCurrentItem = true;
 }
 
-void DolphinView::selectItems(const QRegExp& pattern, bool enabled)
+void DolphinView::selectItems(const QRegularExpression &regexp, bool enabled)
 {
     const KItemListSelectionManager::SelectionMode mode = enabled
                                                         ? KItemListSelectionManager::Select
@@ -373,7 +373,7 @@ void DolphinView::selectItems(const QRegExp& pattern, bool enabled)
 
     for (int index = 0; index < m_model->count(); index++) {
         const KFileItem item = m_model->fileItem(index);
-        if (pattern.exactMatch(item.text())) {
+        if (regexp.match(item.text()).hasMatch()) {
             // An alternative approach would be to store the matching items in a KItemSet and
             // select them in one go after the loop, but we'd need a new function
             // KItemListSelectionManager::setSelected(KItemSet, SelectionMode mode)

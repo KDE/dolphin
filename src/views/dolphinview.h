@@ -46,7 +46,7 @@ class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
 class QGraphicsSceneDragDropEvent;
-class QRegExp;
+class QRegularExpression;
 
 /**
  * @short Represents a view for the directory content.
@@ -183,10 +183,16 @@ public:
     void markUrlAsCurrent(const QUrl& url);
 
     /**
-     * All items that match to the pattern \a pattern will get selected
-     * if \a enabled is true and deselected if  \a enabled is false.
+     * All items that match the regular expression \a regexp will get selected
+     * if \a enabled is true and deselected if \a enabled is false.
+     *
+     * Note that to match the whole string the pattern should be anchored:
+     * - you can anchor the pattern with QRegularExpression::anchoredPattern()
+     * - if you use QRegularExpresssion::wildcardToRegularExpression(), don't use
+     *   QRegularExpression::anchoredPattern() as the former already returns an
+     *   anchored pattern
      */
-    void selectItems(const QRegExp& pattern, bool enabled);
+    void selectItems(const QRegularExpression &regexp, bool enabled);
 
     /**
      * Sets the zoom level to \a level. It is assured that the used

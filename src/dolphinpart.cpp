@@ -54,6 +54,7 @@
 #include <QInputDialog>
 #include <QKeyEvent>
 #include <QMenu>
+#include <QRegularExpression>
 #include <QStandardPaths>
 #include <QTextDocument>
 
@@ -507,7 +508,7 @@ void DolphinPart::openSelectionDialog(const QString& title, const QString& text,
     const QString pattern = QInputDialog::getText(m_view, title, text, QLineEdit::Normal, QStringLiteral("*"), &okClicked);
 
     if (okClicked && !pattern.isEmpty()) {
-        QRegExp patternRegExp(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+        const QRegularExpression patternRegExp(QRegularExpression::wildcardToRegularExpression(pattern));
         m_view->selectItems(patternRegExp, selectItems);
     }
 }
