@@ -30,7 +30,7 @@ class DolphinDockWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit DolphinDockWidget(const QString& title = QString(), QWidget* parent = nullptr, Qt::WindowFlags flags = nullptr);
+    explicit DolphinDockWidget(const QString& title = QString(), QWidget* parent = nullptr, Qt::WindowFlags flags = {});
     ~DolphinDockWidget() override;
 
     /**

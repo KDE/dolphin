@@ -38,7 +38,7 @@ KItemListWidgetInformant::~KItemListWidgetInformant()
 }
 
 KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
-    QGraphicsWidget(parent, nullptr),
+    QGraphicsWidget(parent),
     m_informant(informant),
     m_index(-1),
     m_selected(false),

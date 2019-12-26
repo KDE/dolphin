@@ -46,7 +46,7 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
 #else
     connect(m_navigation, &NavigationSettingsPage::changed, this, &DolphinNavigationConfigModule::markAsChanged);
 #endif
-    topLayout->addWidget(m_navigation, 0, nullptr);
+    topLayout->addWidget(m_navigation, 0, {});
 }
 
 DolphinNavigationConfigModule::~DolphinNavigationConfigModule()

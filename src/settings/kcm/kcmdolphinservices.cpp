@@ -46,7 +46,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
 #else
     connect(m_services, &ServicesSettingsPage::changed, this, &DolphinServicesConfigModule::markAsChanged);
 #endif
-    topLayout->addWidget(m_services, 0, nullptr);
+    topLayout->addWidget(m_services, 0, {});
 }
 
 DolphinServicesConfigModule::~DolphinServicesConfigModule()
