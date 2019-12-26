@@ -20,7 +20,6 @@
 
 #include "phononwidget.h"
 
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>
@@ -28,6 +27,7 @@
 #include <Phonon/VideoWidget>
 
 #include <QShowEvent>
+#include <QStyle>
 #include <QToolButton>
 #include <QVBoxLayout>
 
@@ -161,7 +161,7 @@ void PhononWidget::showEvent(QShowEvent *event)
 
         m_topLayout->addLayout(controlsLayout);
 
-        const int smallIconSize = IconSize(KIconLoader::Small);
+        const int smallIconSize = style()->pixelMetric(QStyle::PM_SmallIconSize);
         const QSize buttonSize(smallIconSize, smallIconSize);
 
         m_playButton->setToolTip(i18n("play"));
