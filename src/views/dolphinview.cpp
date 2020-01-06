@@ -31,6 +31,7 @@
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistheader.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "renamedialog.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -51,7 +52,6 @@
 #include <KIO/Paste>
 #include <KIO/PasteJob>
 #include <KIO/PreviewJob>
-#include <KIO/RenameFileDialog>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -637,9 +637,8 @@ void DolphinView::renameSelectedItems()
         connect(m_view, &DolphinItemListView::roleEditingFinished,
                 this, &DolphinView::slotRoleEditingFinished);
     } else {
-        KIO::RenameFileDialog* dialog = new KIO::RenameFileDialog(items, this);
-        connect(dialog, &KIO::RenameFileDialog::renamingFinished,
-                this, &DolphinView::slotRenameDialogRenamingFinished);
+        RenameDialog* dialog = new RenameDialog(this, items);
+        connect(dialog, &RenameDialog::renamingFinished, this, &DolphinView::slotRenameDialogRenamingFinished);
 
         dialog->open();
     }
