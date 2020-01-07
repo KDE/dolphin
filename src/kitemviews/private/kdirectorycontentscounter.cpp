@@ -23,6 +23,7 @@
 
 #include <KDirWatch>
 
+#include <QFileInfo>
 #include <QThread>
 
 KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObject* parent) :
@@ -85,9 +86,11 @@ void KDirectoryContentsCounter::addDirectory(const QString& path)
 
 int KDirectoryContentsCounter::countDirectoryContentsSynchronously(const QString& path)
 {
-    if (!m_dirWatcher->contains(path)) {
-        m_dirWatcher->addDir(path);
-        m_watchedDirs.insert(path);
+    const QString resolvedPath = QFileInfo(path).canonicalFilePath();
+
+    if (!m_dirWatcher->contains(resolvedPath)) {
+        m_dirWatcher->addDir(resolvedPath);
+        m_watchedDirs.insert(resolvedPath);
     }
 
     KDirectoryContentsCounterWorker::Options options;
@@ -107,9 +110,11 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count)
 {
     m_workerIsBusy = false;
 
-    if (!m_dirWatcher->contains(path)) {
-        m_dirWatcher->addDir(path);
-        m_watchedDirs.insert(path);
+    const QString resolvedPath = QFileInfo(path).canonicalFilePath();
+
+    if (!m_dirWatcher->contains(resolvedPath)) {
+        m_dirWatcher->addDir(resolvedPath);
+        m_watchedDirs.insert(resolvedPath);
     }
 
     if (!m_queue.isEmpty()) {
