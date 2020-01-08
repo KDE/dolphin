@@ -27,12 +27,13 @@
 #endif
 
 namespace {
-    /** Checks if a given term in the Baloo::Query::searchString() is a special search term.
-     * This is a copy of `DolphinFacetsWidget::isSearchTerm()` method.
+    /** Checks if a given term in the Baloo::Query::searchString() is a special search term
+     * @return: the specific search token of the term, or an empty QString() if none is found
      */
-    bool isSearchTerm(const QString& term)
+    QString searchTermToken(const QString& term)
     {
         static const QLatin1String searchTokens[] {
+            QLatin1String("filename:"),
             QLatin1String("modified>="),
             QLatin1String("rating>="),
             QLatin1String("tag:"), QLatin1String("tag=")
@@ -40,27 +41,24 @@ namespace {
 
         for (const auto &searchToken : searchTokens) {
             if (term.startsWith(searchToken)) {
-                return true;
+                return searchToken;
             }
         }
-        return false;
+        return QString();
     }
 
     QString stripQuotes(const QString& text)
     {
-        QString cleanedText = text;
-        if (!cleanedText.isEmpty() && cleanedText.at(0) == QLatin1Char('"')) {
-            cleanedText = cleanedText.mid(1);
+        if (text.length() >= 2 && text.at(0) == QLatin1Char('"')
+                               && text.back() == QLatin1Char('"')) {
+            return text.mid(1, text.size() - 2);
         }
-        if (!cleanedText.isEmpty() && cleanedText.back() == QLatin1Char('"')) {
-            cleanedText = cleanedText.mid(0, cleanedText.size() - 1);
-        }
-        return cleanedText;
+        return text;
     }
 
     QStringList splitOutsideQuotes(const QString& text)
     {
-        const QRegularExpression subTermsRegExp("([^ ]*\"[^\"]*\"|(?<= |^)[^ ]+(?= |$))");
+        const QRegularExpression subTermsRegExp("(\\S*?\"[^\"]*?\"|(?<=\\s|^)\\S+(?=\\s|$))");
         auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
 
         QStringList textParts;
@@ -89,23 +87,23 @@ DolphinQuery DolphinQuery::fromBalooSearchUrl(const QUrl& searchUrl)
 
     const QStringList subTerms = splitOutsideQuotes(query.searchString());
     foreach (const QString& subTerm, subTerms) {
-        if (subTerm.startsWith(QLatin1String("filename:"))) {
-            fileName = stripQuotes(subTerm.mid(9));
-            if (!fileName.isEmpty()) {
+        const QString token = searchTermToken(subTerm);
+        const QString value = stripQuotes(subTerm.mid(token.length()));
+
+        if (token == QLatin1String("filename:")) {
+            if (!value.isEmpty()) {
+                fileName = value;
                 model.m_hasFileName = true;
             }
             continue;
-        } else if (isSearchTerm(subTerm)) {
-            model.m_searchTerms << subTerm;
+        } else if (!token.isEmpty()) {
+            model.m_searchTerms << token + value;
             continue;
         } else if (subTerm == QLatin1String("AND") && subTerm != subTerms.at(0) && subTerm != subTerms.back()) {
             continue;
-        } else {
-            const QString cleanedTerm = stripQuotes(subTerm);
-            if (!cleanedTerm.isEmpty()) {
-                textParts << cleanedTerm;
-                model.m_hasContentSearch = true;
-            }
+        } else if (!value.isEmpty()) {
+            textParts << value;
+            model.m_hasContentSearch = true;
         }
     }
 

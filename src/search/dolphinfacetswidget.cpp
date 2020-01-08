@@ -131,7 +131,11 @@ QStringList DolphinFacetsWidget::searchTerms() const
 
     if (!m_searchTags.isEmpty()) {
         for (auto const &tag : m_searchTags) {
-            terms << QStringLiteral("tag:%1").arg(tag);
+            if (tag.contains(QLatin1Char(' '))) {
+                terms << QStringLiteral("tag:\"%1\"").arg(tag);
+            } else {
+                terms << QStringLiteral("tag:%1").arg(tag);
+            }
         }
     }
 
