@@ -1317,6 +1317,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* addToPlaces = actionCollection()->addAction(QStringLiteral("add_to_places"));
     addToPlaces->setIcon(QIcon::fromTheme(QStringLiteral("bookmark-new")));
+    addToPlaces->setText(i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     addToPlaces->setWhatsThis(xi18nc("@info:whatsthis", "This adds the selected folder "
         "to the Places panel."));
     connect(addToPlaces, &QAction::triggered, this, &DolphinMainWindow::addToPlaces);
@@ -1895,7 +1896,6 @@ void DolphinMainWindow::updateFileAndEditActions()
         stateChanged(QStringLiteral("has_no_selection"));
 
         addToPlacesAction->setEnabled(true);
-        addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add '%1' to Places", m_activeViewContainer->placesText()));
     } else {
         stateChanged(QStringLiteral("has_selection"));
 
@@ -1908,10 +1908,8 @@ void DolphinMainWindow::updateFileAndEditActions()
 
         if (list.length() == 1 && list.first().isDir()) {
             addToPlacesAction->setEnabled(true);
-            addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add '%1' to Places", list.first().name()));
         } else {
             addToPlacesAction->setEnabled(false);
-            addToPlacesAction->setText(i18nc("@action:inmenu Add current folder to places", "Add to Places"));
         }
 
         KFileItemListProperties capabilities(list);
