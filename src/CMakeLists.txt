@@ -99,7 +99,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
-    views/renamedialog.cpp
     views/versioncontrol/updateitemstatesthread.cpp
     views/versioncontrol/versioncontrolobserver.cpp
     views/viewmodecontroller.cpp

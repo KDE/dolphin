@@ -30,13 +30,13 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "treeviewcontextmenu.h"
 #include "views/draganddrophelper.h"
-#include "views/renamedialog.h"
 
 #include <KJobWidgets>
 #include <KJobUiDelegate>
 #include <KIO/CopyJob>
 #include <KIO/DropJob>
 #include <KIO/FileUndoManager>
+#include <KIO/RenameFileDialog>
 
 #include <QApplication>
 #include <QBoxLayout>
@@ -104,7 +104,7 @@ void FoldersPanel::rename(const KFileItem& item)
         const int index = m_model->index(item);
         m_controller->view()->editRole(index, "text");
     } else {
-        RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
+        KIO::RenameFileDialog* dialog = new KIO::RenameFileDialog(KFileItemList({item}), this);
         dialog->open();
     }
 }
