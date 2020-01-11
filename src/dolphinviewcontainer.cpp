@@ -510,6 +510,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
 {
     Q_ASSERT(m_filterBar);
     if (visible) {
+        m_view->hideToolTip(ToolTipManager::HideBehavior::Instantly);
         m_filterBar->show();
         m_filterBar->setFocus();
         m_filterBar->selectAll();
@@ -659,6 +660,7 @@ void DolphinViewContainer::closeFilterBar()
 
 void DolphinViewContainer::setNameFilter(const QString& nameFilter)
 {
+    m_view->hideToolTip(ToolTipManager::HideBehavior::Instantly);
     m_view->setNameFilter(nameFilter);
     delayedStatusBarUpdate();
 }
