@@ -312,6 +312,11 @@ public:
      */
     static QUrl openItemAsFolderUrl(const KFileItem& item, const bool browseThroughArchives = true);
 
+    /**
+     * Hides tooltip displayed over element.
+     */
+    void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -736,11 +741,6 @@ private:
      * itemlayout-property of the KItemListView.
      */
     void applyModeToView();
-
-    /**
-     * Hides tooltip displayed over element.
-     */
-    void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
