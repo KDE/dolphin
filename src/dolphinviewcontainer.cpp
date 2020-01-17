@@ -50,6 +50,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QVBoxLayout>
+#include <QDesktopServices>
 
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
@@ -691,30 +692,18 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
             QTimer::singleShot(0, this, &DolphinViewContainer::requestFocus);
         }
     } else if (KProtocolManager::isSourceProtocol(url)) {
-        QString app = QStringLiteral("konqueror");
         if (url.scheme().startsWith(QLatin1String("http"))) {
             showMessage(i18nc("@info:status", // krazy:exclude=qmethods
                               "Dolphin does not support web pages, the web browser has been launched"),
                         Information);
-
-            const KConfigGroup config(KSharedConfig::openConfig(QStringLiteral("kdeglobals")), "General");
-            const QString browser = config.readEntry("BrowserApplication");
-            if (!browser.isEmpty()) {
-                app = browser;
-                if (app.startsWith('!')) {
-                    // a literal command has been configured, remove the '!' prefix
-                    app.remove(0, 1);
-                }
-            }
         } else {
             showMessage(i18nc("@info:status",
-                              "Protocol not supported by Dolphin, Konqueror has been launched"),
+                              "Protocol not supported by Dolphin, default application has been launched"),
                         Information);
         }
 
-        const QString secureUrl = KShell::quoteArg(url.toDisplayString(QUrl::PreferLocalFile));
-        const QString command = app + ' ' + secureUrl;
-        KRun::runCommand(command, app, app, this);
+        QDesktopServices::openUrl(url);
+        redirect(QUrl(), m_urlNavigator->locationUrl(1));
     } else {
         showMessage(i18nc("@info:status", "Invalid protocol"), Error);
     }
