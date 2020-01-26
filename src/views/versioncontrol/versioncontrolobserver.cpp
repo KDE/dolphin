@@ -69,7 +69,7 @@ void VersionControlObserver::setModel(KFileItemModel* model)
         disconnect(m_model, &KFileItemModel::itemsInserted,
                    this, &VersionControlObserver::delayedDirectoryVerification);
         disconnect(m_model, &KFileItemModel::itemsChanged,
-                   this, &VersionControlObserver::delayedDirectoryVerification);
+                   this, &VersionControlObserver::slotItemsChanged);
     }
 
     m_model = model;
@@ -78,7 +78,7 @@ void VersionControlObserver::setModel(KFileItemModel* model)
         connect(m_model, &KFileItemModel::itemsInserted,
                 this, &VersionControlObserver::delayedDirectoryVerification);
         connect(m_model, &KFileItemModel::itemsChanged,
-                this, &VersionControlObserver::delayedDirectoryVerification);
+                this, &VersionControlObserver::slotItemsChanged);
     }
 }
 
@@ -135,6 +135,18 @@ void VersionControlObserver::silentDirectoryVerification()
 {
     m_silentUpdate = true;
     m_dirVerificationTimer->start();
+}
+
+void VersionControlObserver::slotItemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles)
+{
+    Q_UNUSED(itemRanges)
+
+    // Because "version" role is emitted by VCS plugin (ourselfs) we don't need to
+    // analyze it and update directory item states information. So lets check if
+    // there is only "version".
+    if ( !(roles.count() == 1 && roles.contains("version")) ) {
+        delayedDirectoryVerification();
+    }
 }
 
 void VersionControlObserver::verifyDirectory()

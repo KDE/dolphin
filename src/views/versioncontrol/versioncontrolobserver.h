@@ -33,6 +33,7 @@
 
 class KFileItemList;
 class KFileItemModel;
+class KItemRangeList;
 class QAction;
 class QTimer;
 class UpdateItemStatesThread;
@@ -96,6 +97,12 @@ private slots:
      * the directory is done silently without information messages.
      */
     void silentDirectoryVerification();
+
+    /**
+     * Invokes delayedDirectoryVerification() only if the itemsChanged() signal has not
+     * been triggered by the VCS plugin itself.
+     */
+    void slotItemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
 
     void verifyDirectory();
 
