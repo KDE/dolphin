@@ -675,7 +675,7 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
     if (!m_dropIndicator.isEmpty()) {
         const QRectF r = m_dropIndicator.toRect();
 
-        QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
+        QColor color = palette().brush(QPalette::Normal, QPalette::Text).color();
         painter->setPen(color);
 
         // TODO: The following implementation works only for a vertical scroll-orientation
