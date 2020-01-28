@@ -356,6 +356,11 @@ private:
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item, const ItemData* parent) const;
 
     /**
+     * @return True if role values benefit from natural or case insensitive sorting.
+     */
+    static bool isRoleValueNatural(const RoleType roleType);
+
+    /**
      * @return True if \a a has a KFileItem whose text is 'less than' the one
      *         of \a b according to QString::operator<(const QString&).
      */
@@ -504,11 +509,26 @@ private:
     friend class DolphinPart;                  // Accesses m_dirLister
 };
 
+inline bool KFileItemModel::isRoleValueNatural(RoleType roleType)
+{
+    return (roleType == TypeRole ||
+            roleType == TagsRole ||
+            roleType == CommentRole ||
+            roleType == TitleRole ||
+            roleType == ArtistRole ||
+            roleType == GenreRole ||
+            roleType == AlbumRole ||
+            roleType == PathRole ||
+            roleType == DestinationRole ||
+            roleType == OriginUrlRole ||
+            roleType == OwnerRole ||
+            roleType == GroupRole);
+}
+
 inline bool KFileItemModel::nameLessThan(const ItemData* a, const ItemData* b)
 {
     return a->item.text() < b->item.text();
 }
-
 
 inline bool KFileItemModel::isChildItem(int index) const
 {
