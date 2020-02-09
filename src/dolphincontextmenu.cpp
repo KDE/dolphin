@@ -342,18 +342,18 @@ void DolphinContextMenu::openViewportContextMenu()
     fileItemActions.setParentWidget(m_mainWindow);
     fileItemActions.setItemListProperties(baseUrlProperties);
 
-    // Don't show "Open With" menu items if the current dir is empty, because there's
-    // generally no app that can do anything interesting with an empty directory
-    if (view->itemsCount() != 0) {
-        addOpenWithActions(fileItemActions);
-    }
-
     // Set up and insert 'Create New' menu
     KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
     newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
     newFileMenu->checkUpToDate();
     newFileMenu->setPopupFiles(QList<QUrl>() << m_baseUrl);
     addMenu(newFileMenu->menu());
+
+    // Don't show "Open With" menu items if the current dir is empty, because there's
+    // generally no app that can do anything interesting with an empty directory
+    if (view->itemsCount() != 0) {
+        addOpenWithActions(fileItemActions);
+    }
 
     QAction* pasteAction = createPasteAction();
     addAction(pasteAction);
