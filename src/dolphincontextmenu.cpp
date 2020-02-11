@@ -194,8 +194,8 @@ void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemA
 
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
 
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
+    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
 
     // Insert 'Open With' entries
     addOpenWithActions(fileItemActions);

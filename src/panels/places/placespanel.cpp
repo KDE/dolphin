@@ -181,8 +181,8 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         menu.addSeparator();
     }
 
-    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
     QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
+    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
     QAction* propertiesAction = nullptr;
     if (item->url().isLocalFile()) {
         propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
