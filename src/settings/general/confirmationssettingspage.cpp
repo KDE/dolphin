@@ -110,7 +110,11 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     connect(m_confirmMoveToTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmEmptyTrash, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmDelete, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
+#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_confirmScriptExecution, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ConfirmationsSettingsPage::changed);
+#else
+    connect(m_confirmScriptExecution, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged), this, &ConfirmationsSettingsPage::changed);
+#endif
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
 #ifdef HAVE_TERMINAL
