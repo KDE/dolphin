@@ -303,7 +303,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
             if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>(this);
                 if (plugin) {
-                    m_plugins.append(plugin);
+                    m_plugins.append( qMakePair(plugin, plugin->fileName()) );
                 }
             }
         }
@@ -323,12 +323,12 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
 
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
-    foreach (KVersionControlPlugin* plugin, m_plugins) {
-        const QString fileName = directory.path() + '/' + plugin->fileName();
+    for (const auto &it : qAsConst(m_plugins)) {
+        const QString fileName = directory.path() + '/' + it.second;
         if (QFile::exists(fileName)) {
             // The score of this plugin is 0 (best), so we can just return this plugin,
             // instead of going through the plugin scoring procedure, we can't find a better one ;)
-            return plugin;
+            return it.first;
         }
 
         // Version control systems like Git provide the version information
@@ -342,10 +342,10 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
             QUrl upUrl = KIO::upUrl(dirUrl);
             int upUrlCounter = 1;
             while ((upUrlCounter < bestScore) && (upUrl != dirUrl)) {
-                const QString fileName = dirUrl.path() + '/' + plugin->fileName();
+                const QString fileName = dirUrl.path() + '/' + it.second;
                 if (QFile::exists(fileName)) {
                     if (upUrlCounter < bestScore) {
-                        bestPlugin = plugin;
+                        bestPlugin = it.first;
                         bestScore = upUrlCounter;
                     }
                     break;

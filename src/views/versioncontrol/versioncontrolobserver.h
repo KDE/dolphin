@@ -114,6 +114,7 @@ private slots:
 
 private:
     typedef QPair<KFileItem, KVersionControlPlugin::ItemVersion> ItemState;
+    typedef QPair<KVersionControlPlugin*, QString> VCSPlugin;
 
     void updateItemStates();
 
@@ -157,7 +158,7 @@ private:
 
     bool m_pluginsInitialized;
     KVersionControlPlugin* m_plugin;
-    QList<KVersionControlPlugin*> m_plugins;
+    QList<VCSPlugin> m_plugins;
     UpdateItemStatesThread* m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;
