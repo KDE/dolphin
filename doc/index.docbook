@@ -610,11 +610,11 @@ programs built into &kde; which add support for many different protocols to
 used to manage files and folders on a remote host that is accessible 
 via <acronym>SSH</acronym>. To do this you would type <userinput>fish://username@remotehost</userinput> 
 into the location bar. Similar remote file management can be done on 
-remote hosts accessible via the &FTP;, NFS, SFTP, SMB (CIFS) or webdav protocols.</para>
+remote hosts accessible via the &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) or webdav protocols.</para>
 
-<para>It is also possible to use the kioslaves drop down list to access 
+<para>It is also possible to use the kioslaves drop down box to access 
 &systemsettings;, fonts, trash, other programs and devices attached to your computer. 
-See the drop down list for the full list of capabilities available from kioslaves on your system.
+See the drop down box for the full list of capabilities available from kioslaves on your system.
 </para>
 <screenshot>
 <screeninfo>Screenshot of the list of kioslaves</screeninfo>
@@ -1085,7 +1085,7 @@ It is also possible to choose the default action <guilabel>When opening an execu
 </para>
 <warning><para>The confirmation settings for <guilabel>Moving files or folders to trash</guilabel> and
 <guilabel>Deleting files or folders</guilabel> affect file operations in &dolphin;, &konqueror;, 
-<application>Gwenview</application> and all &kde; applications using the default &kde; file dialog, 
+&gwenview; and all &kde; applications using the default &kde; file dialog, 
 whereas <guilabel>Closing Dolphin windows
 with multiple tabs</guilabel> is a &dolphin; specific setting.</para></warning>
 </sect3>
