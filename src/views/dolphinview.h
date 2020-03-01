@@ -381,6 +381,12 @@ public slots:
 
     void stopLoading();
 
+    /**
+     * Applies the state that has been restored by restoreViewState()
+     * to the view.
+     */
+    void updateViewState();
+
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject* watched, QEvent* event) override;
 
@@ -701,12 +707,6 @@ private slots:
      * Testcase: fish://localhost
      */
     void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
-
-    /**
-     * Applies the state that has been restored by restoreViewState()
-     * to the view.
-     */
-    void updateViewState();
 
     /**
      * Calculates the number of currently shown files into

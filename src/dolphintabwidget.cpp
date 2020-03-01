@@ -206,6 +206,10 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
             } else {
                 tabPage->secondaryViewContainer()->setActive(true);
             }
+            // BUG: 417230
+            // Required for updateViewState() call in openFiles() to work as expected
+            // If there is a selection, updateViewState() calls are effectively a no-op
+            tabPage->activeViewContainer()->view()->clearSelection();
             continue;
         }
         if (splitView && (it != dirs.constEnd())) {
@@ -239,10 +243,14 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
     // Select the files. Although the files can be split between several
     // tabs, there is no need to split 'files' accordingly, as
     // the DolphinView will just ignore invalid selections.
-    for (int i = oldTabCount; i < tabCount; ++i) {
+    for (int i = 0; i < tabCount; ++i) {
         DolphinTabPage* tabPage = tabPageAt(i);
         tabPage->markUrlsAsSelected(files);
         tabPage->markUrlAsCurrent(files.first());
+        if (i < oldTabCount) {
+            // Force selection of file if directory was already open, BUG: 417230
+            tabPage->activeViewContainer()->view()->updateViewState();
+        }
     }
 }
 
