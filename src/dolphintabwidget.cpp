@@ -206,7 +206,7 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
             } else {
                 tabPage->secondaryViewContainer()->setActive(true);
             }
-            // BUG: 147230
+            // BUG: 417230
             // Required for updateViewState() call in openFiles() to work as expected
             // If there is a selection, updateViewState() calls are effectively a no-op
             tabPage->activeViewContainer()->view()->clearSelection();
