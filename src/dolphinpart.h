@@ -218,6 +218,8 @@ private:
 
     void openSelectionDialog(const QString& title, const QString& text,
                              bool selectItems);
+    QString urlToLocalFilePath(const QUrl &url);
+    QString localFilePathOrHome() const;
 
 private:
     DolphinView* m_view;

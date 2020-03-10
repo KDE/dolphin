@@ -283,6 +283,18 @@ void DolphinPart::updatePasteAction()
     Q_EMIT m_extension->setActionText( "paste", pasteInfo.second );
 }
 
+QString DolphinPart::urlToLocalFilePath(const QUrl &url)
+{
+    KIO::StatJob* statJob = KIO::mostLocalUrl(url);
+    KJobWidgets::setWindow(statJob, widget());
+    statJob->exec();
+    QUrl localUrl = statJob->mostLocalUrl();
+    if (localUrl.isLocalFile()) {
+        return localUrl.toLocalFile();
+    }
+    return QString();
+}
+
 bool DolphinPart::openUrl(const QUrl &url)
 {
     bool reload = arguments().reload();
@@ -293,7 +305,8 @@ bool DolphinPart::openUrl(const QUrl &url)
     if (m_view->url() == url && !reload) { // DolphinView won't do anything in that case, so don't emit started
         return true;
     }
-    setUrl(url); // remember it at the KParts level
+    setUrl(url); // remember url at the KParts level
+    setLocalFilePath(urlToLocalFilePath(url)); // remember local path at the KParts level
     QUrl visibleUrl(url);
     if (!m_nameFilter.isEmpty()) {
         visibleUrl.setPath(visibleUrl.path() + '/' + m_nameFilter);
@@ -310,7 +323,7 @@ bool DolphinPart::openUrl(const QUrl &url)
         m_view->reload();
     // Disable "Find File" and "Open Terminal" actions for non-file URLs,
     // e.g. ftp, smb, etc. #279283
-    const bool isLocalUrl = url.isLocalFile();
+    const bool isLocalUrl = !(localFilePath().isEmpty());
     m_findFileAction->setEnabled(isLocalUrl);
     if (m_openTerminalAction) {
         m_openTerminalAction->setEnabled(isLocalUrl);
@@ -542,16 +555,25 @@ void DolphinPart::setNameFilter(const QString& nameFilter)
     // TODO save/restore name filter in saveState/restoreState like KonqDirPart did in kde3?
 }
 
+QString DolphinPart::localFilePathOrHome() const
+{
+    const QString localPath = localFilePath();
+    if (!localPath.isEmpty()) {
+        return localPath;
+    }
+    return QDir::homePath();
+}
+
 void DolphinPart::slotOpenTerminal()
 {
-    KToolInvocation::invokeTerminal(QString(), KParts::ReadOnlyPart::localFilePath());
+    KToolInvocation::invokeTerminal(QString(), localFilePathOrHome());
 }
 
 void DolphinPart::slotFindFile()
 {
     QMenu searchTools;
     KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(
-        &searchTools, { "files-find" }, QUrl::fromLocalFile(KParts::ReadOnlyPart::localFilePath())
+        &searchTools, { "files-find" }, QUrl::fromLocalFile(localFilePathOrHome())
     );
     QList<QAction*> actions = searchTools.actions();
     if (!(actions.isEmpty())) {
