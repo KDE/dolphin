@@ -32,6 +32,19 @@ public:
     Q_SCRIPTABLE void ShowFolders(const QStringList& uriList, const QString& startUpId);
     Q_SCRIPTABLE void ShowItems(const QStringList& uriList, const QString& startUpId);
     Q_SCRIPTABLE void ShowItemProperties(const QStringList& uriList, const QString& startUpId);
+
+    /**
+     * Set whether this interface has been created by dolphin --deamon.
+     */
+    void setAsDaemon();
+
+    /**
+     * @return Whether this interface has been created by dolphin --deamon.
+     */
+    bool isDaemon() const;
+
+private:
+    bool m_isDaemon = false;
 };
 
 #endif // DBUSINTERFACE_H
