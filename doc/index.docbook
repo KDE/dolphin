@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2019-09-30</date>
-<releaseinfo>Applications 19.12</releaseinfo>
+<date>2020-03-17</date>
+<releaseinfo>Applications 20.04</releaseinfo>
 
 <abstract>
 <para>
@@ -1609,6 +1609,17 @@ to the trash and cannot be restored.</action></para></listitem>
 </menuchoice></term>
 <listitem><para>This action highlights a link target in a new &dolphin; window.
 </para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Duplicate Here</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Creates duplicates of selected items appending <replaceable> copy</replaceable> to the end of their names.</action></para></listitem>
 </varlistentry>
 
 <varlistentry>
