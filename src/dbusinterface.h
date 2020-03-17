@@ -34,12 +34,12 @@ public:
     Q_SCRIPTABLE void ShowItemProperties(const QStringList& uriList, const QString& startUpId);
 
     /**
-     * Set whether this interface has been created by dolphin --deamon.
+     * Set whether this interface has been created by dolphin --daemon.
      */
     void setAsDaemon();
 
     /**
-     * @return Whether this interface has been created by dolphin --deamon.
+     * @return Whether this interface has been created by dolphin --daemon.
      */
     bool isDaemon() const;
 
