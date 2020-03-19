@@ -27,6 +27,7 @@
 #include <KLocalizedString>
 #include <KSeparator>
 #include <KStringHandler>
+#include <QPainterPath>
 
 #include <QIcon>
 #include <QTextDocument>

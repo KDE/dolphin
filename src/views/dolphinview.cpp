@@ -747,6 +747,8 @@ void DolphinView::duplicateSelectedItems()
             KIO::FileUndoManager::self()->recordCopyJob(job);
         }
     }
+
+    forceUrlsSelection(newSelection.first(), newSelection);
 }
 
 void DolphinView::stopLoading()
