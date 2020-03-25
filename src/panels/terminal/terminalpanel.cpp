@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "terminalpanel.h"
+#include "kiofuse_interface.h"
 
 #include <KIO/DesktopExecParser>
 #include <KIO/Job>
@@ -25,6 +26,7 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageWidget>
+#include <KMountPoint>
 #include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
 #include <KPluginLoader>
@@ -50,7 +52,10 @@ TerminalPanel::TerminalPanel(QWidget* parent) :
     m_konsolePartMissingMessage(nullptr),
     m_konsolePart(nullptr),
     m_konsolePartCurrentDirectory(),
-    m_sendCdToTerminalHistory()
+    m_sendCdToTerminalHistory(),
+    m_kiofuseInterface(QStringLiteral("org.kde.KIOFuse"),
+                       QStringLiteral("/org/kde/KIOFuse"),
+                       QDBusConnection::sessionBus())
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setContentsMargins(0, 0, 0, 0);
@@ -244,6 +249,19 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
     const QUrl url = statJob->mostLocalUrl();
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
+    } else {
+        // URL isn't local, only hope for the terminal to be in sync with the
+        // DolphinView is to mount the remote URL in KIOFuse and point to it.
+        // If we can't do that for any reason, silently fail.
+        auto reply = m_kiofuseInterface.mountUrl(url.toString());
+        QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
+        QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
+            watcher->deleteLater();
+            if (!reply.isError()) {
+                // Successfully mounted, point to the KIOFuse equivalent path.
+                sendCdToTerminal(reply.value());
+            }
+        });
     }
 
     m_mostLocalUrlJob = nullptr;
@@ -261,8 +279,31 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
         }
     }
 
+    // User may potentially be browsing inside a KIOFuse mount.
+    // If so lets try and change the DolphinView to point to the remote URL equivalent.
+    // instead of into the KIOFuse mount itself (which can cause performance issues!)
     const QUrl url(QUrl::fromLocalFile(dir));
-    emit changeUrl(url);
+
+    KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(m_konsolePartCurrentDirectory);
+    if (mountPoint && mountPoint->mountType() != QStringLiteral("fuse.kio-fuse")) {
+        // Not in KIOFUse mount, so just switch to the corresponding URL.
+        emit changeUrl(url);
+        return;
+    }
+
+    auto reply = m_kiofuseInterface.remoteUrl(m_konsolePartCurrentDirectory);
+    QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
+        watcher->deleteLater();
+        if (reply.isError()) {
+            // KIOFuse errored out... just show the normal URL
+            emit changeUrl(url);
+        } else {
+            // Our location happens to be in a KIOFuse mount and is mounted.
+            // Let's change the DolphinView to point to the remote URL equivalent.
+            emit changeUrl(QUrl::fromUserInput(reply.value()));
+        }
+    });
 }
 
 bool TerminalPanel::terminalHasFocus() const

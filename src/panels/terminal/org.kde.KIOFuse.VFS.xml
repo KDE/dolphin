@@ -1,0 +1,13 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="org.kde.KIOFuse.VFS">
+    <method name="mountUrl">
+      <arg name="remoteUrl" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+    <method name="remoteUrl">
+      <arg name="localUrl" type="s" direction="in"/>
+      <arg type="s" direction="out"/>
+    </method>
+  </interface>
+</node>

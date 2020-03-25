@@ -21,6 +21,7 @@
 #define TERMINALPANEL_H
 
 #include "panels/panel.h"
+#include "kiofuse_interface.h"
 
 #include <QQueue>
 
@@ -101,6 +102,7 @@ private:
     KParts::ReadOnlyPart* m_konsolePart;
     QString m_konsolePartCurrentDirectory;
     QQueue<QString> m_sendCdToTerminalHistory;
+    org::kde::KIOFuse::VFS m_kiofuseInterface;
 };
 
 #endif // TERMINALPANEL_H

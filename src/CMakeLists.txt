@@ -272,6 +272,7 @@ qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
 qt5_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
 qt5_add_dbus_adaptor(dolphinstatic_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
 qt5_add_dbus_interface(dolphinstatic_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindowinterface)
+qt5_add_dbus_interface(dolphinstatic_SRCS panels/terminal/org.kde.KIOFuse.VFS.xml kiofuse_interface)
 
 add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
 
