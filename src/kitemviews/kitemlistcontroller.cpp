@@ -929,8 +929,13 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
         m_view->hideDropIndicator();
     }
 
-    event->setAccepted(!DragAndDropHelper::urlListMatchesUrl(event->mimeData()->urls(), hoveredDir));
-
+    if (DragAndDropHelper::urlListMatchesUrl(event->mimeData()->urls(), hoveredDir)) {
+        event->setDropAction(Qt::IgnoreAction);
+        event->ignore();
+    } else {
+        event->setDropAction(event->proposedAction());
+        event->accept();
+    }
     return false;
 }
 
