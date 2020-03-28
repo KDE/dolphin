@@ -4,3 +4,4 @@ CMakeLists.txt.user
 .directory
 *.kdev4
 /build*/
+.cmake/
