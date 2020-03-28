@@ -1219,7 +1219,7 @@ void KItemListController::startDragging()
     const QPoint hotSpot((pixmap.width() / pixmap.devicePixelRatio()) / 2, 0);
     drag->setHotSpot(hotSpot);
 
-    drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
+    drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::MoveAction);
 
     QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropStart);
     QAccessible::updateAccessibility(&accessibilityEvent);
