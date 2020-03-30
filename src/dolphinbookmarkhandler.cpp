@@ -21,6 +21,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
 #include "global.h"
+#include <KActionCollection>
 #include <KBookmarkMenu>
 #include <KIO/Global>
 #include <QDebug>
@@ -47,7 +48,11 @@ DolphinBookmarkHandler::DolphinBookmarkHandler(DolphinMainWindow *mainWindow,
     }
     m_bookmarkManager = KBookmarkManager::managerForFile(bookmarksFile, QStringLiteral("dolphin"));
     m_bookmarkManager->setUpdate(true);
-    m_bookmarkMenu.reset(new KBookmarkMenu(m_bookmarkManager, this, menu, collection));
+    m_bookmarkMenu.reset(new KBookmarkMenu(m_bookmarkManager, this, menu));
+
+    collection->addAction(QStringLiteral("add_bookmark"), m_bookmarkMenu->addBookmarkAction());
+    collection->addAction(QStringLiteral("edit_bookmarks"), m_bookmarkMenu->editBookmarksAction());
+    collection->addAction(QStringLiteral("add_bookmarks_list"), m_bookmarkMenu->bookmarkTabsAsFolderAction());
 }
 
 DolphinBookmarkHandler::~DolphinBookmarkHandler()
