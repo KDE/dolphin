@@ -163,23 +163,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     layout->addRow(QString(), m_showInGroups);
     layout->addRow(QString(), m_showHiddenFiles);
 
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_viewMode, QOverload<int>::of(&QComboBox::currentIndexChanged),
-#else
-    connect(m_viewMode, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged),
-#endif
             this, &ViewPropertiesDialog::slotViewModeChanged);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_sorting, QOverload<int>::of(&QComboBox::currentIndexChanged),
-#else
-    connect(m_sorting, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged),
-#endif
             this, &ViewPropertiesDialog::slotSortingChanged);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
     connect(m_sortOrder, QOverload<int>::of(&QComboBox::currentIndexChanged),
-#else
-    connect(m_sortOrder, QOverload<int, const QString &>::of(&QComboBox::currentIndexChanged),
-#endif
             this, &ViewPropertiesDialog::slotSortOrderChanged);
     connect(m_sortFoldersFirst, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
