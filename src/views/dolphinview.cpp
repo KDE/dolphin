@@ -719,24 +719,25 @@ void DolphinView::duplicateSelectedItems()
     QList<QUrl> newSelection;
     for (const auto &item : itemList) {
         const QUrl originalURL  = item.url();
+        const QString originalDirectoryPath = originalURL.adjusted(QUrl::RemoveFilename).path();
         const QString originalFileName = item.name();
+
         QString extension = db.suffixForFileName(originalFileName);
 
         QUrl duplicateURL = originalURL;
 
         // No extension; new filename is "<oldfilename> copy"
         if (extension.isEmpty()) {
-            duplicateURL.setPath(i18nc("<file path> copy", "%1 copy", originalURL.path()));
+            duplicateURL.setPath(originalDirectoryPath + i18nc("<filename> copy", "%1 copy", originalFileName));
         // There's an extension; new filename is "<oldfilename> copy.<extension>"
         } else {
             // Need to add a dot since QMimeDatabase::suffixForFileName() doesn't include it
             extension = QLatin1String(".") + extension;
-            const QString directoryPath = originalURL.adjusted(QUrl::RemoveFilename).path();
             const QString originalFilenameWithoutExtension = originalFileName.chopped(extension.size());
             // Preserve file's original filename extension in case the casing differs
             // from what QMimeDatabase::suffixForFileName() returned
             const QString originalExtension = originalFileName.right(extension.size());
-            duplicateURL.setPath(i18nc("<file path><filename> copy.<extension>", "%1%2 copy%3", directoryPath, originalFilenameWithoutExtension, originalExtension));
+            duplicateURL.setPath(originalDirectoryPath + i18nc("<filename> copy", "%1 copy", originalFilenameWithoutExtension) + originalExtension);
         }
 
         KIO::CopyJob* job = KIO::copyAs(originalURL, duplicateURL, KIO::HideProgressInfo);
