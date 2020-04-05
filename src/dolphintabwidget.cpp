@@ -25,9 +25,9 @@
 #include "dolphinviewcontainer.h"
 
 #include <KConfigGroup>
-#include <KRun>
 #include <KShell>
 #include <kio/global.h>
+#include <KIO/CommandLauncherJob>
 #include <KAcceleratorManager>
 
 #include <QApplication>
@@ -334,8 +334,9 @@ void DolphinTabWidget::detachTab(int index)
     }
     args << QStringLiteral("--new-window");
 
-    const QString command = QStringLiteral("dolphin %1").arg(KShell::joinArgs(args));
-    KRun::runCommand(command, this);
+    KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob("dolphin", args, this);
+    job->setDesktopName(QStringLiteral("org.kde.dolphin"));
+    job->start();
 
     closeTab(index);
 }

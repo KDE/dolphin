@@ -53,6 +53,7 @@
 #include <KDualAction>
 #include <KFileItemListProperties>
 #include <KHelpMenu>
+#include <KIO/CommandLauncherJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
 #include <KJobWidgets>
@@ -926,7 +927,10 @@ void DolphinMainWindow::compareFiles()
     command.append("\" \"");
     command.append(urlB.toDisplayString(QUrl::PreferLocalFile));
     command.append('\"');
-    KRun::runCommand(command, QStringLiteral("Kompare"), QStringLiteral("kompare"), this);
+
+    KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(command, this);
+    job->setDesktopName(QStringLiteral("org.kde.kompare"));
+    job->start();
 }
 
 void DolphinMainWindow::toggleShowMenuBar()
