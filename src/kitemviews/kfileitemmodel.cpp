@@ -33,6 +33,9 @@
 #include <QMimeData>
 #include <QTimer>
 #include <QWidget>
+#include <QMutex>
+
+Q_GLOBAL_STATIC_WITH_ARGS(QMutex, s_collatorMutex, (QMutex::Recursive))
 
 // #define KFILEITEMMODEL_DEBUG
 
@@ -1878,6 +1881,8 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
 
 int KFileItemModel::stringCompare(const QString& a, const QString& b, const QCollator& collator) const
 {
+    QMutexLocker collatorLock(s_collatorMutex());
+
     if (m_naturalSorting) {
         return collator.compare(a, b);
     }
