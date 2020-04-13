@@ -34,6 +34,7 @@
 #include <KActionCollection>
 #include <KAuthorized>
 #include <KConfigGroup>
+#include <KDialogJobUiDelegate>
 #include <KFileItemListProperties>
 #include <KIconLoader>
 #include <KJobWidgets>
@@ -42,7 +43,7 @@
 #include <KMimeTypeEditor>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <KPluginFactory>
-#include <KRun>
+#include <KIO/CommandLauncherJob>
 #include <KSharedConfig>
 #include <KToolInvocation>
 
@@ -546,7 +547,10 @@ void DolphinPart::slotFindFile()
     if (!(actions.isEmpty())) {
         actions.first()->trigger();
     } else {
-        KRun::run(QStringLiteral("kfind"), {url()}, widget());
+        KIO::CommandLauncherJob *job = new KIO::CommandLauncherJob(QStringLiteral("kfind"), {url().toString()}, this);
+        job->setDesktopName(QStringLiteral("org.kde.kfind"));
+        job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, widget()));
+        job->start();
     }
 }
 
