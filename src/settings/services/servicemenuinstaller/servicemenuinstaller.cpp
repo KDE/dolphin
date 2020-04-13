@@ -25,6 +25,9 @@
 #include <QDirIterator>
 #include <QCommandLineParser>
 #include <QMimeDatabase>
+#include <QUrl>
+#include <QDesktopServices>
+#include <QGuiApplication>
 
 #include <KLocalizedString>
 
@@ -201,6 +204,10 @@ bool cmdInstall(const QString &archive, QString &errorText)
             return false;
         }
     } else {
+        const QStringList binaryPackages = {"application/vnd.debian.binary-package", "application/x-rpm"};
+        if (binaryPackages.contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
+            return QDesktopServices::openUrl(QUrl(archive));
+        }
         const QString dir = generateDirPath(archive);
         if (QFile::exists(dir)) {
             if (!QDir(dir).removeRecursively()) {
@@ -318,7 +325,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
     QCommandLineParser parser;
     parser.addPositionalArgument(QStringLiteral("command"), i18nc("@info:shell", "Command to execute: install or uninstall."));
