@@ -283,7 +283,7 @@ void DolphinViewActionHandler::createActions()
         "<para>Hidden items only differ from other ones in that their "
         "name starts with a \".\". In general there is no need for "
         "users to access them which is why they are hidden.</para>"));
-    m_actionCollection->setDefaultShortcuts(showHiddenFiles, {Qt::ALT + Qt::Key_Period, Qt::CTRL + Qt::Key_H, Qt::Key_F8});
+    m_actionCollection->setDefaultShortcuts(showHiddenFiles, KStandardShortcut::showHideHiddenFiles());
     connect(showHiddenFiles, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleShowHiddenFiles);
 
     QAction* adjustViewProps = m_actionCollection->addAction(QStringLiteral("view_properties"));
