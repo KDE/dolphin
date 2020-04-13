@@ -23,7 +23,9 @@
 #include "dolphindebug.h"
 #include "dolphinmainwindowinterface.h"
 
-#include <KRun>
+#include <KDialogJobUiDelegate>
+#include <KIO/ApplicationLauncherJob>
+#include <KService>
 #include <KWindowSystem>
 
 #include <QApplication>
@@ -60,13 +62,11 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
     if (!urls.isEmpty()) {
         command.append(QLatin1String(" %U"));
     }
-    KRun::run(
-        command,
-        urls,
-        window,
-        QApplication::applicationDisplayName(),
-        QApplication::windowIcon().name()
-    );
+    KService::Ptr service(new KService(QApplication::applicationDisplayName(), command, QApplication::windowIcon().name()));
+    auto *job = new KIO::ApplicationLauncherJob(service, window);
+    job->setUrls(urls);
+    job->setUiDelegate(new KDialogJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, window));
+    job->start();
 }
 
 bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService)
