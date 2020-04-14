@@ -451,6 +451,14 @@ void DolphinViewContainer::reload()
 
 QString DolphinViewContainer::caption() const
 {
+    if (isSearchModeEnabled()) {
+        if (currentSearchText().isEmpty()){
+            return i18n("Search");
+        } else {
+            return i18n("Search for %1", currentSearchText());
+        }
+    }
+
     if (GeneralSettings::showFullPathInTitlebar()) {
         if (!url().isLocalFile()) {
             return url().adjusted(QUrl::StripTrailingSlash).toString();
@@ -465,13 +473,6 @@ QString DolphinViewContainer::caption() const
         return placesModel->text(matchedPlaces.first());
     }
 
-    if (isSearchModeEnabled()) {
-        if (currentSearchText().isEmpty()){
-            return i18n("Search");
-        } else {
-            return i18n("Search for %1", currentSearchText());
-        }
-    }
 
     if (!url().isLocalFile()) {
         QUrl adjustedUrl = url().adjusted(QUrl::StripTrailingSlash);
