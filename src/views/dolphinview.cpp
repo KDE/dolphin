@@ -1493,13 +1493,27 @@ void DolphinView::calculateItemCount(int& fileCount,
                                      KIO::filesize_t& totalFileSize) const
 {
     const int itemCount = m_model->count();
+
+    bool countFileSize = true;
+
+    // In case we have a precomputed value
+    const auto job = KIO::stat(m_model->rootItem().url());
+    job->exec();
+    const auto entry =  job->statResult();
+    if (entry.contains(KIO::UDSEntry::UDS_RECURSIVE_SIZE)) {
+        totalFileSize = static_cast<KIO::filesize_t>(entry.numberValue(KIO::UDSEntry::UDS_RECURSIVE_SIZE));
+        countFileSize = false;
+    }
+
     for (int i = 0; i < itemCount; ++i) {
         const KFileItem item = m_model->fileItem(i);
         if (item.isDir()) {
             ++folderCount;
         } else {
             ++fileCount;
-            totalFileSize += item.size();
+            if (countFileSize) {
+                totalFileSize += item.size();
+            }
         }
     }
 }
