@@ -68,6 +68,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_sortModel = new QSortFilterProxyModel(this);
     m_sortModel->setSourceModel(m_serviceModel);
     m_sortModel->setSortRole(Qt::DisplayRole);
+    m_sortModel->setSortLocaleAware(true);
     m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
