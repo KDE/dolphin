@@ -449,6 +449,18 @@ void DolphinViewContainer::reload()
     m_messageWidget->hide();
 }
 
+QString DolphinViewContainer::captionWindowTitle() const
+{
+    if (GeneralSettings::showFullPathInTitlebar() && !isSearchModeEnabled()) {
+        if (!url().isLocalFile()) {
+            return url().adjusted(QUrl::StripTrailingSlash).toString();
+        }
+        return url().adjusted(QUrl::StripTrailingSlash).path();
+    } else {
+        return DolphinViewContainer::caption();
+    }
+}
+
 QString DolphinViewContainer::caption() const
 {
     if (isSearchModeEnabled()) {
@@ -457,13 +469,6 @@ QString DolphinViewContainer::caption() const
         } else {
             return i18n("Search for %1", currentSearchText());
         }
-    }
-
-    if (GeneralSettings::showFullPathInTitlebar()) {
-        if (!url().isLocalFile()) {
-            return url().adjusted(QUrl::StripTrailingSlash).toString();
-        }
-        return url().adjusted(QUrl::StripTrailingSlash).path();
     }
 
     KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();

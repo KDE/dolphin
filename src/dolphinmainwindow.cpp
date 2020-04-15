@@ -1269,7 +1269,7 @@ void DolphinMainWindow::tabCountChanged(int count)
 
 void DolphinMainWindow::updateWindowTitle()
 {
-    const QString newTitle = m_activeViewContainer->caption();
+    const QString newTitle = m_activeViewContainer->captionWindowTitle();
     if (windowTitle() != newTitle) {
         setWindowTitle(newTitle);
     }

@@ -134,6 +134,13 @@ public:
     void reload();
 
     /**
+     * @return Returns a Caption suitable for display in the window title.
+     * It is calculated depending on GeneralSettings::showFullPathInTitlebar().
+     * If it's false, it calls caption().
+     */
+    QString captionWindowTitle() const;
+
+    /**
      * @return Returns a Caption suitable for display to the user. It is
      * calculated depending on settings, if a search is active and other
      * factors.
