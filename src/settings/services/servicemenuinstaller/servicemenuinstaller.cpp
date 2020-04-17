@@ -37,7 +37,7 @@ Q_NORETURN void fail(const QString &str)
     qCritical() << str;
 
     QProcess process;
-    auto args = QStringList{"--passivepopup", i18n("Dolphin service menu installation failed"), "15"};
+    const QStringList args = {"--passivepopup", i18n("Dolphin service menu installation failed"), "15"};
     process.start("kdialog", args, QIODevice::ReadOnly);
     if (!process.waitForStarted()) {
         qFatal("Failed to run kdialog");
@@ -59,34 +59,34 @@ struct UncompressCommand
     QStringList args2;
 };
 
-void runUncompress(const QString &inputPath, const QString &outputPath) {
+void runUncompress(const QString &inputPath, const QString &outputPath)
+{
     QVector<QPair<QStringList, UncompressCommand>> mimeTypeToCommand;
-    mimeTypeToCommand.append({QStringList{"application/x-tar", "application/tar", "application/x-gtar",
-                                          "multipart/x-tar"},
-                              UncompressCommand{"tar", QStringList() << "-xf", QStringList() << "-C"}});
-    mimeTypeToCommand.append({QStringList{"application/x-gzip", "application/gzip",
-                                          "application/x-gzip-compressed-tar", "application/gzip-compressed-tar",
-                                          "application/x-gzip-compressed", "application/gzip-compressed",
-                                          "application/tgz", "application/x-compressed-tar",
-                                          "application/x-compressed-gtar", "file/tgz",
-                                          "multipart/x-tar-gz", "application/x-gunzip", "application/gzipped",
-                                          "gzip/document"},
-                              UncompressCommand{"tar", QStringList{"-zxf"}, QStringList{"-C"}}});
-    mimeTypeToCommand.append({QStringList{"application/bzip", "application/bzip2", "application/x-bzip",
-                                          "application/x-bzip2", "application/bzip-compressed",
-                                          "application/bzip2-compressed", "application/x-bzip-compressed",
-                                          "application/x-bzip2-compressed", "application/bzip-compressed-tar",
-                                          "application/bzip2-compressed-tar", "application/x-bzip-compressed-tar",
-                                          "application/x-bzip2-compressed-tar", "application/x-bz2"},
-                              UncompressCommand{"tar", QStringList{"-jxf"}, QStringList{"-C"}}});
-    mimeTypeToCommand.append({QStringList{"application/zip", "application/x-zip", "application/x-zip-compressed",
-                                          "multipart/x-zip"},
-                              UncompressCommand{"unzip", QStringList{}, QStringList{"-d"}}});
+    mimeTypeToCommand.append({{"application/x-tar", "application/tar", "application/x-gtar", "multipart/x-tar"},
+                              UncompressCommand({"tar", {"-xf"}, {"-C"}})});
+    mimeTypeToCommand.append({{"application/x-gzip", "application/gzip",
+                               "application/x-gzip-compressed-tar", "application/gzip-compressed-tar",
+                               "application/x-gzip-compressed", "application/gzip-compressed",
+                               "application/tgz", "application/x-compressed-tar",
+                               "application/x-compressed-gtar", "file/tgz",
+                               "multipart/x-tar-gz", "application/x-gunzip", "application/gzipped",
+                               "gzip/document"},
+                              UncompressCommand({"tar", {"-zxf"}, {"-C"}})});
+    mimeTypeToCommand.append({{"application/bzip", "application/bzip2", "application/x-bzip",
+                               "application/x-bzip2", "application/bzip-compressed",
+                               "application/bzip2-compressed", "application/x-bzip-compressed",
+                               "application/x-bzip2-compressed", "application/bzip-compressed-tar",
+                               "application/bzip2-compressed-tar", "application/x-bzip-compressed-tar",
+                               "application/x-bzip2-compressed-tar", "application/x-bz2"},
+                              UncompressCommand({"tar", {"-jxf"}, {"-C"}})});
+    mimeTypeToCommand.append({{"application/zip", "application/x-zip", "application/x-zip-compressed",
+                               "multipart/x-zip"},
+                              UncompressCommand({"unzip", {}, {"-d"}})});
 
     const auto mime = QMimeDatabase().mimeTypeForFile(inputPath).name();
 
     UncompressCommand command{};
-    for (const auto &pair : mimeTypeToCommand) {
+    for (const auto &pair : qAsConst(mimeTypeToCommand)) {
         if (pair.first.contains(mime)) {
             command = pair.second;
             break;
@@ -163,14 +163,12 @@ bool runInstallerScript(const QString &path, bool hasArgVariants, const QStringL
     qInfo() << "[servicemenuinstaller]: Trying to run installer/uninstaller" << path;
     if (hasArgVariants) {
         for (const auto &arg : argVariants) {
-            if (runInstallerScriptOnce(path, QStringList{arg})) {
+            if (runInstallerScriptOnce(path, {arg})) {
                 return true;
             }
         }
-    } else {
-        if (runInstallerScriptOnce(path, QStringList{})) {
-            return true;
-        }
+    } else if (runInstallerScriptOnce(path, {})) {
+        return true;
     }
 
     errorText = i18nc(
@@ -224,8 +222,8 @@ bool cmdInstall(const QString &archive, QString &errorText)
 
         // Try "install-it" first
         QString installItPath;
-        const auto basenames1 = QStringList{"install-it.sh", "install-it"};
-        for (const auto &basename : qAsConst(basenames1)) {
+        const QStringList basenames1 = {"install-it.sh", "install-it"};
+        for (const auto &basename : basenames1) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
                 installItPath = path;
@@ -239,8 +237,8 @@ bool cmdInstall(const QString &archive, QString &errorText)
 
         // If "install-it" is missing, try "install"
         QString installerPath;
-        const auto basenames2 = QStringList{"installKDE4.sh", "installKDE4", "install.sh", "install"};
-        for (const auto &basename : qAsConst(basenames2)) {
+        const QStringList basenames2 = {"installKDE4.sh", "installKDE4", "install.sh", "install"};
+        for (const auto &basename : basenames2) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
                 installerPath = path;
@@ -249,7 +247,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
         }
 
         if (!installerPath.isEmpty()) {
-            return runInstallerScript(installerPath, true, QStringList{"--local", "--local-install", "--install"}, errorText);
+            return runInstallerScript(installerPath, true, {"--local", "--local-install", "--install"}, errorText);
         }
 
         fail(i18n("Failed to find an installation script in %1", dir));
@@ -274,8 +272,8 @@ bool cmdUninstall(const QString &archive, QString &errorText)
 
         // Try "deinstall" first
         QString deinstallPath;
-        const auto basenames1 = QStringList{"deinstall.sh", "deinstall"};
-        for (const auto &basename : qAsConst(basenames1)) {
+        const QStringList basenames1 = {"deinstall.sh", "deinstall"};
+        for (const auto &basename : basenames1) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
                 deinstallPath = path;
@@ -284,17 +282,16 @@ bool cmdUninstall(const QString &archive, QString &errorText)
         }
 
         if (!deinstallPath.isEmpty()) {
-            bool ok = runInstallerScript(deinstallPath, false, QStringList{}, errorText);
+            const bool ok = runInstallerScript(deinstallPath, false, {}, errorText);
             if (!ok) {
                 return ok;
             }
         } else {
             // If "deinstall" is missing, try "install --uninstall"
-
             QString installerPath;
-            const auto basenames2 = QStringList{"install-it.sh", "install-it", "installKDE4.sh",
-                                                "installKDE4", "install.sh", "install"};
-            for (const auto &basename : qAsConst(basenames2)) {
+            const QStringList basenames2 = {"install-it.sh", "install-it", "installKDE4.sh",
+                                            "installKDE4", "install.sh", "install"};
+            for (const auto &basename : basenames2) {
                 const auto path = findRecursive(dir, basename);
                 if (!path.isEmpty()) {
                     installerPath = path;
@@ -303,8 +300,8 @@ bool cmdUninstall(const QString &archive, QString &errorText)
             }
 
             if (!installerPath.isEmpty()) {
-                bool ok = runInstallerScript(
-                    installerPath, true, QStringList{"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
+                const bool ok = runInstallerScript(installerPath, true,
+                                                   {"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
                 if (!ok) {
                     return ok;
                 }
@@ -344,11 +341,11 @@ int main(int argc, char *argv[])
     const QString archive = args[1];
 
     QString errorText;
-    if (cmd == "install") {
+    if (cmd == QLatin1String("install")) {
         if (!cmdInstall(archive, errorText)) {
             fail(errorText);
         }
-    } else if (cmd == "uninstall") {
+    } else if (cmd == QLatin1String("uninstall")) {
         if (!cmdUninstall(archive, errorText)) {
             fail(errorText);
         }
