@@ -119,7 +119,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_searchBox, &DolphinSearchBox::activated, this, &DolphinViewContainer::activate);
     connect(m_searchBox, &DolphinSearchBox::closeRequest, this, &DolphinViewContainer::closeSearchBox);
     connect(m_searchBox, &DolphinSearchBox::searchRequest, this, &DolphinViewContainer::startSearching);
-    connect(m_searchBox, &DolphinSearchBox::returnPressed, this, &DolphinViewContainer::requestFocus);
+    connect(m_searchBox, &DolphinSearchBox::focusViewRequest, this, &DolphinViewContainer::requestFocus);
     m_searchBox->setWhatsThis(xi18nc("@info:whatsthis findbar",
         "<para>This helps you find files and folders. Enter a <emphasis>"
         "search term</emphasis> and specify search settings with the "

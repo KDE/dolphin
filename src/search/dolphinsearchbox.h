@@ -118,8 +118,6 @@ signals:
      */
     void searchTextChanged(const QString& text);
 
-    void returnPressed();
-
     /**
      * Emitted as soon as the search box should get closed.
      */
@@ -131,6 +129,7 @@ signals:
      * @see DolphinSearchBox::setActive()
      */
     void activated();
+    void focusViewRequest();
 
 private slots:
     void emitSearchRequest();

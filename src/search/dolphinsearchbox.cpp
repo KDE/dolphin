@@ -219,6 +219,9 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
             m_searchInput->clear();
         }
     }
+    else if (event->key() == Qt::Key_Down) {
+        emit focusViewRequest();
+    }
 }
 
 bool DolphinSearchBox::eventFilter(QObject* obj, QEvent* event)
@@ -283,7 +286,7 @@ void DolphinSearchBox::slotSearchTextChanged(const QString& text)
 void DolphinSearchBox::slotReturnPressed()
 {
     emitSearchRequest();
-    emit returnPressed();
+    emit focusViewRequest();
 }
 
 void DolphinSearchBox::slotFacetChanged()
