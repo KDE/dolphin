@@ -233,7 +233,7 @@ void InformationPanelContent::refreshPreview()
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
             m_preview->setPixmap(
-                QIcon::fromTheme(QStringLiteral("baloo")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+                QIcon::fromTheme(QStringLiteral("baloo")).pixmap(m_preview->height(), m_preview->width())
             );
         } else {
 
@@ -314,7 +314,7 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     m_preview->stopAnimatedImage();
 
     m_preview->setPixmap(
-        QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous)
+        QIcon::fromTheme(QStringLiteral("dialog-information")).pixmap(m_preview->height(), m_preview->width())
     );
     setNameLabelText(i18ncp("@label", "%1 item selected", "%1 items selected", items.count()));
 
@@ -358,7 +358,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
-    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(KIconLoader::SizeEnormous, KIconLoader::SizeEnormous);
+    QPixmap pixmap = QIcon::fromTheme(item.iconName()).pixmap(m_preview->height(), m_preview->width());
     KIconLoader::global()->drawOverlays(item.overlays(), pixmap, KIconLoader::Desktop);
     m_preview->setPixmap(pixmap);
 }
