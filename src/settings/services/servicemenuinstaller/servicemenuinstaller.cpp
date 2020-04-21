@@ -126,7 +126,7 @@ QString findRecursive(const QString &dir, const QString &basename)
     return QString();
 }
 
-bool runInstallerScriptOnce(const QString &path, const QStringList &args)
+bool runScriptOnce(const QString &path, const QStringList &args)
 {
     QProcess process;
     process.setWorkingDirectory(QFileInfo(path).absolutePath());
@@ -152,7 +152,7 @@ bool runInstallerScriptOnce(const QString &path, const QStringList &args)
 
 // If hasArgVariants is true, run "path".
 // If hasArgVariants is false, run "path argVariants[i]" until successful.
-bool runInstallerScript(const QString &path, bool hasArgVariants, const QStringList &argVariants, QString &errorText)
+bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringList &argVariants, QString &errorText)
 {
     QFile file(path);
     if (!file.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner)) {
@@ -163,11 +163,11 @@ bool runInstallerScript(const QString &path, bool hasArgVariants, const QStringL
     qInfo() << "[servicemenuinstaller]: Trying to run installer/uninstaller" << path;
     if (hasArgVariants) {
         for (const auto &arg : argVariants) {
-            if (runInstallerScriptOnce(path, {arg})) {
+            if (runScriptOnce(path, {arg})) {
                 return true;
             }
         }
-    } else if (runInstallerScriptOnce(path, {})) {
+    } else if (runScriptOnce(path, {})) {
         return true;
     }
 
@@ -232,7 +232,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
         }
 
         if (!installItPath.isEmpty()) {
-            return runInstallerScript(installItPath, false, QStringList{}, errorText);
+            return runScriptVariants(installItPath, false, QStringList{}, errorText);
         }
 
         // If "install-it" is missing, try "install"
@@ -247,7 +247,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
         }
 
         if (!installerPath.isEmpty()) {
-            return runInstallerScript(installerPath, true, {"--local", "--local-install", "--install"}, errorText);
+            return runScriptVariants(installerPath, true, {"--local", "--local-install", "--install"}, errorText);
         }
 
         fail(i18n("Failed to find an installation script in %1", dir));
@@ -272,7 +272,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
 
         // Try "deinstall" first
         QString deinstallPath;
-        const QStringList basenames1 = {"deinstall.sh", "deinstall"};
+        const QStringList basenames1 = {"uninstall.sh", "uninstal", "deinstall.sh", "deinstall"};
         for (const auto &basename : basenames1) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
@@ -282,7 +282,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
         }
 
         if (!deinstallPath.isEmpty()) {
-            const bool ok = runInstallerScript(deinstallPath, false, {}, errorText);
+            const bool ok = runScriptVariants(deinstallPath, false, {}, errorText);
             if (!ok) {
                 return ok;
             }
@@ -300,8 +300,8 @@ bool cmdUninstall(const QString &archive, QString &errorText)
             }
 
             if (!installerPath.isEmpty()) {
-                const bool ok = runInstallerScript(installerPath, true,
-                                                   {"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
+                const bool ok = runScriptVariants(installerPath, true,
+                                                  {"--remove", "--delete", "--uninstall", "--deinstall"}, errorText);
                 if (!ok) {
                     return ok;
                 }
