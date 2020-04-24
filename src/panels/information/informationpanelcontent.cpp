@@ -248,6 +248,7 @@ void InformationPanelContent::refreshPreview()
                 // change the cursor of the preview
                 m_preview->setCursor(Qt::PointingHandCursor);
                 m_preview->installEventFilter(m_phononWidget);
+                m_phononWidget->show();
 
                 // if the video is playing, has been paused or stopped
                 // we don't need to update the preview/phonon widget states
@@ -267,7 +268,6 @@ void InformationPanelContent::refreshPreview()
                         m_preview->show();
                     }
 
-                    m_phononWidget->show();
                     m_phononWidget->setUrl(m_item.targetUrl(), m_isVideo ? PhononWidget::MediaKind::Video : PhononWidget::MediaKind::Audio);
                     adjustWidgetSizes(parentWidget()->width());
                 }
