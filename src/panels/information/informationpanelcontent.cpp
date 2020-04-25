@@ -221,7 +221,6 @@ void InformationPanelContent::refreshPreview()
     }
 
     m_preview->setCursor(Qt::ArrowCursor);
-    bool usePhonon = false;
     setNameLabelText(m_item.text());
     if (InformationPanelSettings::previewsShown()) {
 
@@ -229,6 +228,7 @@ void InformationPanelContent::refreshPreview()
         const bool isSearchUrl = itemUrl.scheme().contains(QLatin1String("search")) && m_item.localPath().isEmpty();
         if (isSearchUrl) {
             m_preview->show();
+            m_phononWidget->hide();
 
             // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
@@ -242,7 +242,7 @@ void InformationPanelContent::refreshPreview()
             const QString mimeType = m_item.mimetype();
             const bool isAnimatedImage = m_preview->isAnimatedImage(itemUrl.toLocalFile());
             m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
-            usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
+            bool usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 
             if (usePhonon) {
                 // change the cursor of the preview
