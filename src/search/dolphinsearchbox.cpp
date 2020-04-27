@@ -544,7 +544,7 @@ bool DolphinSearchBox::isIndexingEnabled() const
 {
 #ifdef HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
-    return searchInfo.fileIndexingEnabled() && searchInfo.shouldBeIndexed(searchPath().toLocalFile());
+    return searchInfo.fileIndexingEnabled() && !searchPath().isEmpty() && searchInfo.shouldBeIndexed(searchPath().toLocalFile());
 #else
     return false;
 #endif
