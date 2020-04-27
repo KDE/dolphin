@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-03-17</date>
-<releaseinfo>Applications 20.04</releaseinfo>
+<date>2020-04-27</date>
+<releaseinfo>Applications 20.08</releaseinfo>
 
 <abstract>
 <para>
@@ -1137,24 +1137,53 @@ This group contains settings which control the appearance of &dolphin; on startu
 <itemizedlist>
 
 <listitem><para>
-The <guilabel>Start in</guilabel> folder is the folder which is opened on startup. The
-location of the folder can be entered directly or chosen in a dialog which can
+The <guilabel>Show on startup</guilabel> option allows choosing the folder which is opened on startup.
+</para>
+<para>
+    If the <guimenuitem>Folders, tabs, and window state from last time</guimenuitem> item is selected then
+</para>
+<itemizedlist>
+    <listitem>
+        <para>When launched from the &GUI; or CLI without any &URL;s, &dolphin; restores session</para>
+    </listitem>
+    <listitem>
+        <para>When rebooting with &dolphin; open, it restores session normally after the system comes back</para>
+    </listitem>
+    <listitem>
+        <para>When launched with &URL;s, &dolphin; window is opened showing those &URL;s instead of restoring session</para>
+    </listitem>
+    <listitem>
+        <para>When &dolphin; is already running and a new window is opened, that new window shows a single tab with the same &URL; as was visible in the previously-open &dolphin; instance</para>
+    </listitem>
+</itemizedlist>
+<para>
+The location of the folder can also be entered directly or chosen in a dialog which can
 be opened by clicking the button showing a <quote>folder</quote> icon. Moreover,
 the current location or the default location (which is the user's home folder)
 can be used as the startup folder by clicking the corresponding button.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Split view mode</guilabel> controls if the
+<guilabel>Begin in split view mode</guilabel> controls if the
 <link linkend="dolphin-view">&dolphin; view</link> is split on startup
-or not.
+or not for new windows.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Editable location bar</guilabel> controls if the location bar is in
+<guilabel>Show filter bar</guilabel> controls if the filter bar is shown on
+startup or not. See the <link linkend="filter-files">section on the filter bar</link>
+for details.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Make location bar editable</guilabel> controls if the location bar is in
 editable mode on startup. The bread crumb mode of the location bar is used
 otherwise. See the <link linkend="location-bar">section about the location bar</link>
 for details about the two modes.
+</para></listitem>
+
+<listitem><para>
+<guilabel>Open new folders in tabs</guilabel> controls whether &dolphin; should open a new folder in a new tab of the current instance when called externally. If not enabled, the new folders will be opened in new instances of &dolphin;. By default this option is enabled.
 </para></listitem>
 
 <listitem><para>
@@ -1165,19 +1194,10 @@ one of the places in the <guilabel>Places</guilabel> panel.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Show filter bar</guilabel> controls if the filter bar is shown on
-startup or not. See the <link linkend="filter-files">section on the filter bar</link>
-for details.
-</para></listitem>
-
-<listitem><para>
 <guilabel>Show full path in title bar</guilabel> makes it easy to distinguish
 between files or folders with the same name in different folders.
 </para></listitem>
 
-<listitem><para>
-<guilabel>Open new folders in tabs</guilabel> controls whether &dolphin; should open a new folder in a new tab of the current instance when called externally. If not enabled, the new folders will be opened in new instances of &dolphin;. By default this option is enabled.
-</para></listitem>
 </itemizedlist>
 
 </para>
