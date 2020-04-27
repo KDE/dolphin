@@ -118,11 +118,19 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
         }
     }
 
-    if (!m_model || hasNullItems || !isVersioned()) {
+    if (!m_model || hasNullItems) {
         return {};
     }
 
-    return m_plugin->actions(items);
+    if (isVersionControlled()) {
+        return m_plugin->versionControlActions(items);
+    } else {
+        QList<QAction*> actions;
+        for (const auto &plugin : qAsConst(m_plugins)) {
+            actions << plugin.first->outOfVersionControlActions(items);
+        }
+        return actions;
+    }
 }
 
 void VersionControlObserver::delayedDirectoryVerification()
@@ -360,7 +368,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
     return bestPlugin;
 }
 
-bool VersionControlObserver::isVersioned() const
+bool VersionControlObserver::isVersionControlled() const
 {
     return m_versionedDirectory && m_plugin;
 }

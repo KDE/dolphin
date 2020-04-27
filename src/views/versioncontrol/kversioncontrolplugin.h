@@ -180,14 +180,17 @@ public:
     virtual ItemVersion itemVersion(const KFileItem& item) const = 0;
 
     /**
-     * @return List of actions that are available for the items \p items.
-     *         It is recommended to keep the number of returned actions small
-     *         in case if an item is an unversioned directory that is not
-     *         inside the hierarchy tree of the version control system. This
-     *         prevents having a cluttered context menu for directories
-     *         outside the version control system.
+     * @return List of actions that are available for the \p items in a version controlled
+     *         path.
      */
-    virtual QList<QAction*> actions(const KFileItemList& items) const = 0;
+    virtual QList<QAction*> versionControlActions(const KFileItemList& items) const = 0;
+
+    /**
+     * @return List of actions that are available for the out of version control
+     *         items \p items. It's opposed to the \p versionedActions. Common usage
+     *         is for clone/checkout actions.
+     */
+    virtual QList<QAction*> outOfVersionControlActions(const KFileItemList& items) const = 0;
 
 Q_SIGNALS:
     /**

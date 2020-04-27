@@ -143,7 +143,7 @@ private:
     /**
      * Returns true, if the directory contains a version control information.
      */
-    bool isVersioned() const;
+    bool isVersionControlled() const;
 
 private:
     bool m_pendingItemStatesUpdate;
