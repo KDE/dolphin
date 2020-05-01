@@ -78,7 +78,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     // delay. This prevents flickering if the new preview can be generated
     // within a very small timeframe.
     m_outdatedPreviewTimer = new QTimer(this);
-    m_outdatedPreviewTimer->setInterval(300);
+    m_outdatedPreviewTimer->setInterval(100);
     m_outdatedPreviewTimer->setSingleShot(true);
     connect(m_outdatedPreviewTimer, &QTimer::timeout,
             this, &InformationPanelContent::markOutdatedPreview);
@@ -189,12 +189,8 @@ void InformationPanelContent::refreshPixmapView()
 
     // Mark the currently shown preview as outdated. This is done
     // with a small delay to prevent a flickering when the next preview
-    // can be shown within a short timeframe. This timer is not started
-    // for directories, as directory previews might fail and return the
-    // same icon.
-    if (!m_item.isDir()) {
-        m_outdatedPreviewTimer->start();
-    }
+    // can be shown within a short timeframe.
+    m_outdatedPreviewTimer->start();
 
     QStringList plugins = KIO::PreviewJob::availablePlugins();
     m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
@@ -411,11 +407,18 @@ void InformationPanelContent::showPreview(const KFileItem& item,
 
 void InformationPanelContent::markOutdatedPreview()
 {
-    KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
-    QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(),
-                                               KIconLoader::Desktop,
-                                               KIconLoader::DisabledState);
-    m_preview->setPixmap(disabledPixmap);
+    if (m_item.isDir()) {
+        // directory preview can be long
+        // but since we always have icons to display
+        // use it until the preview is done
+        showIcon(m_item);
+    } else {
+        KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
+        QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(),
+                                                   KIconLoader::Desktop,
+                                                   KIconLoader::DisabledState);
+        m_preview->setPixmap(disabledPixmap);
+    }
 }
 
 KFileItemList InformationPanelContent::items()
