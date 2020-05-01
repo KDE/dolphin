@@ -308,5 +308,9 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
 
 bool TerminalPanel::terminalHasFocus() const
 {
-    return m_terminalWidget->hasFocus();
+    if (m_terminalWidget) {
+        return m_terminalWidget->hasFocus();
+    }
+
+    return hasFocus();
 }
