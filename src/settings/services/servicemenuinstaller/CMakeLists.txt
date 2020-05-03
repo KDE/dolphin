@@ -6,5 +6,6 @@ target_link_libraries(servicemenuinstaller PRIVATE
     Qt5::Core
     Qt5::Gui
     KF5::I18n
+    KF5::CoreAddons
 )
 install(TARGETS servicemenuinstaller ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})

@@ -30,6 +30,7 @@
 #include <QGuiApplication>
 
 #include <KLocalizedString>
+#include <KShell>
 
 // @param msg Error that gets logged to CLI
 Q_NORETURN void fail(const QString &str)
@@ -57,6 +58,11 @@ struct UncompressCommand
     QString command;
     QStringList args1;
     QStringList args2;
+};
+
+enum ScriptExecution{
+    Process,
+    Konsole
 };
 
 void runUncompress(const QString &inputPath, const QString &outputPath)
@@ -126,12 +132,24 @@ QString findRecursive(const QString &dir, const QString &basename)
     return QString();
 }
 
-bool runScriptOnce(const QString &path, const QStringList &args)
+bool runScriptOnce(const QString &path, const QStringList &args, ScriptExecution execution)
 {
     QProcess process;
     process.setWorkingDirectory(QFileInfo(path).absolutePath());
 
-    process.start(path, args, QIODevice::NotOpen);
+    const static bool konsoleAvailable = !QStandardPaths::findExecutable("konsole").isEmpty();
+    if (konsoleAvailable && execution == ScriptExecution::Konsole) {
+        QString bashCommand = KShell::quoteArg(path) + ' ';
+        if (!args.isEmpty()) {
+            bashCommand.append(args.join(' '));
+        }
+        bashCommand.append("|| $SHELL");
+        // If the install script fails a shell opens and the user can fix the problem
+        // without an error konsole closes
+        process.start("konsole", QStringList() << "-e" << "bash" << "-c" << bashCommand, QIODevice::NotOpen);
+    } else {
+        process.start(path, args, QIODevice::NotOpen);
+    }
     if (!process.waitForStarted()) {
         fail(i18n("Failed to run installer script %1", path));
     }
@@ -163,11 +181,11 @@ bool runScriptVariants(const QString &path, bool hasArgVariants, const QStringLi
     qInfo() << "[servicemenuinstaller]: Trying to run installer/uninstaller" << path;
     if (hasArgVariants) {
         for (const auto &arg : argVariants) {
-            if (runScriptOnce(path, {arg})) {
+            if (runScriptOnce(path, {arg}, ScriptExecution::Process)) {
                 return true;
             }
         }
-    } else if (runScriptOnce(path, {})) {
+    } else if (runScriptOnce(path, {}, ScriptExecution::Konsole)) {
         return true;
     }
 
@@ -247,7 +265,11 @@ bool cmdInstall(const QString &archive, QString &errorText)
         }
 
         if (!installerPath.isEmpty()) {
-            return runScriptVariants(installerPath, true, {"--local", "--local-install", "--install"}, errorText);
+            // Try to run script without variants first
+            if (!runScriptVariants(installerPath, false, {}, errorText)) {
+                return runScriptVariants(installerPath, true, {"--local", "--local-install", "--install"}, errorText);
+            }
+            return true;
         }
 
         fail(i18n("Failed to find an installation script in %1", dir));
