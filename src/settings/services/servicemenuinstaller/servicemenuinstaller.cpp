@@ -20,29 +20,42 @@
 
 #include <QDebug>
 #include <QProcess>
+#include <QTimer>
 #include <QStandardPaths>
 #include <QDir>
 #include <QDirIterator>
 #include <QCommandLineParser>
 #include <QMimeDatabase>
 #include <QUrl>
-#include <QDesktopServices>
 #include <QGuiApplication>
-
 #include <KLocalizedString>
 #include <KShell>
+
+#include "../../../config-packagekit.h"
+
+const static QStringList binaryPackages = {QStringLiteral("application/vnd.debian.binary-package"),
+                                     QStringLiteral("application/x-rpm"),
+                                     QStringLiteral("application/x-xz"),
+                                     QStringLiteral("application/zstd")};
+enum PackageOperation {
+    Install,
+    Uninstall
+};
+
+#ifdef HAVE_PACKAGEKIT
+#include <PackageKit/Daemon>
+#include <PackageKit/Details>
+#include <PackageKit/Transaction>
+#else
+#include <QDesktopServices>
+#endif
 
 // @param msg Error that gets logged to CLI
 Q_NORETURN void fail(const QString &str)
 {
     qCritical() << str;
-
-    QProcess process;
-    const QStringList args = {"--passivepopup", i18n("Dolphin service menu installation failed"), "15"};
-    process.start("kdialog", args, QIODevice::ReadOnly);
-    if (!process.waitForStarted()) {
-        qFatal("Failed to run kdialog");
-    }
+    const QStringList args = {"--detailederror" ,i18n("Dolphin service menu installation failed"),  str};
+    QProcess::startDetached("kdialog", args);
 
     exit(1);
 }
@@ -51,6 +64,84 @@ QString getServiceMenusDir()
 {
     const QString dataLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     return QDir(dataLocation).absoluteFilePath("kservices5/ServiceMenus");
+}
+
+#ifdef HAVE_PACKAGEKIT
+void packageKitInstall(const QString &fileName)
+{
+    PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName);
+
+    const auto exitWithError = [=](PackageKit::Transaction::Error, const QString &details) {
+       fail(details);
+    };
+
+    QObject::connect(transaction, &PackageKit::Transaction::finished,
+                     [=](PackageKit::Transaction::Exit status, uint) {
+                        if (status == PackageKit::Transaction::ExitSuccess) {
+                            exit(0);
+                        }
+                        // Fallback error handling
+                        QTimer::singleShot(500, [=](){
+                            fail(i18n("Failed to install \"%1\", exited with status \"%2\"",
+                                      fileName, QVariant::fromValue(status).toString()));
+                        });
+                    });
+    QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
+}
+
+void packageKitUninstall(const QString &fileName)
+{
+    const auto exitWithError = [=](PackageKit::Transaction::Error, const QString &details) {
+        fail(details);
+    };
+    const auto uninstallLambda = [=](PackageKit::Transaction::Exit status, uint) {
+        if (status == PackageKit::Transaction::ExitSuccess) {
+            exit(0);
+        }
+    };
+
+    PackageKit::Transaction *transaction = PackageKit::Daemon::getDetailsLocal(fileName);
+    QObject::connect(transaction, &PackageKit::Transaction::details,
+                     [=](const PackageKit::Details &details) {
+                         PackageKit::Transaction *transaction = PackageKit::Daemon::removePackage(details.packageId());
+                         QObject::connect(transaction, &PackageKit::Transaction::finished, uninstallLambda);
+                         QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
+                     });
+
+    QObject::connect(transaction, &PackageKit::Transaction::errorCode, exitWithError);
+    // Fallback error handling
+    QObject::connect(transaction, &PackageKit::Transaction::finished,
+        [=](PackageKit::Transaction::Exit status, uint) {
+            if (status != PackageKit::Transaction::ExitSuccess) {
+                QTimer::singleShot(500, [=]() {
+                    fail(i18n("Failed to uninstall \"%1\", exited with status \"%2\"",
+                              fileName, QVariant::fromValue(status).toString()));
+                });
+            }
+        });
+    }
+#endif
+
+Q_NORETURN void packageKit(PackageOperation operation, const QString &fileName)
+{
+#ifdef HAVE_PACKAGEKIT
+    QFileInfo fileInfo(fileName);
+    if (!fileInfo.exists()) {
+        fail(i18n("The file does not exist!"));
+    }
+    const QString absPath = fileInfo.absoluteFilePath();
+    if (operation == PackageOperation::Install) {
+        packageKitInstall(absPath);
+    } else {
+        packageKitUninstall(absPath);
+    }
+    QGuiApplication::exec(); // For event handling, no return after signals finish
+    fail(i18n("Unknown error when installing package"));
+#else
+    Q_UNUSED(operation)
+    QDesktopServices::openUrl(QUrl(fileName));
+    exit(0);
+#endif
 }
 
 struct UncompressCommand
@@ -220,9 +311,8 @@ bool cmdInstall(const QString &archive, QString &errorText)
             return false;
         }
     } else {
-        const QStringList binaryPackages = {"application/vnd.debian.binary-package", "application/x-rpm"};
         if (binaryPackages.contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
-            return QDesktopServices::openUrl(QUrl(archive));
+            packageKit(PackageOperation::Install, archive);
         }
         const QString dir = generateDirPath(archive);
         if (QFile::exists(dir)) {
@@ -290,6 +380,9 @@ bool cmdUninstall(const QString &archive, QString &errorText)
             return false;
         }
     } else {
+        if (binaryPackages.contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
+            packageKit(PackageOperation::Uninstall, archive);
+        }
         const QString dir = generateDirPath(archive);
 
         // Try "deinstall" first

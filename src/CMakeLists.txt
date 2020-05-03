@@ -4,6 +4,8 @@ configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
 
 configure_file(config-kactivities.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kactivities.h)
 
+configure_file(config-packagekit.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-packagekit.h)
+
 configure_file(config-terminal.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-terminal.h)
 
 add_definitions(

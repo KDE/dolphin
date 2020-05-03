@@ -77,6 +77,16 @@ set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities librari
 
 find_package(Phonon4Qt5 CONFIG REQUIRED)
 
+find_package(PackageKitQt5)
+set_package_properties(PackageKitQt5
+        PROPERTIES DESCRIPTION "Software Manager integration"
+        TYPE OPTIONAL
+        PURPOSE "Used in the service menu installer"
+        )
+if(PackageKitQt5_FOUND)
+    set(HAVE_PACKAGEKIT TRUE)
+endif()
+
 find_package(KF5Baloo ${KF5_MIN_VERSION})
 set_package_properties(KF5Baloo PROPERTIES DESCRIPTION "Baloo Core libraries"
                        URL "https://www.kde.org"

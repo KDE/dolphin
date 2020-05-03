@@ -8,4 +8,8 @@ target_link_libraries(servicemenuinstaller PRIVATE
     KF5::I18n
     KF5::CoreAddons
 )
+
+if(HAVE_PACKAGEKIT)
+    target_link_libraries(servicemenuinstaller PRIVATE PK::packagekitqt5)
+endif()
 install(TARGETS servicemenuinstaller ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
