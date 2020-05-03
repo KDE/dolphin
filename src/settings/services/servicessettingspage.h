@@ -26,6 +26,7 @@
 class QListView;
 class QSortFilterProxyModel;
 class ServiceModel;
+class QLineEdit;
 
 /**
  * @brief Page for the 'Services' settings of the Dolphin settings dialog.
@@ -74,6 +75,7 @@ private:
     ServiceModel* m_serviceModel;
     QSortFilterProxyModel* m_sortModel;
     QListView* m_listView;
+    QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;
 };
 

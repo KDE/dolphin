@@ -38,6 +38,7 @@
 #include <QListWidget>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
+#include <QLineEdit>
 
 namespace
 {
@@ -61,6 +62,11 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
                                      "Select which services should "
                                      "be shown in the context menu:"), this);
     label->setWordWrap(true);
+    m_searchLineEdit = new QLineEdit(this);
+    m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search..."));
+    connect(m_searchLineEdit, &QLineEdit::textChanged, [=](const QString &filter){
+        m_sortModel->setFilterFixedString(filter);
+    });
 
     m_listView = new QListView(this);
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
@@ -69,6 +75,8 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_sortModel->setSourceModel(m_serviceModel);
     m_sortModel->setSortRole(Qt::DisplayRole);
     m_sortModel->setSortLocaleAware(true);
+    m_sortModel->setFilterRole(Qt::DisplayRole);
+    m_sortModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
     m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
@@ -80,6 +88,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
 
     topLayout->addWidget(label);
+    topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_listView);
     topLayout->addWidget(downloadButton);
 
@@ -236,6 +245,7 @@ void ServicesSettingsPage::loadServices()
     }
 
     m_sortModel->sort(Qt::DisplayRole);
+    m_searchLineEdit->setFocus(Qt::OtherFocusReason);
 }
 
 void ServicesSettingsPage::loadVersionControlSystems()
