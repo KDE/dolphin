@@ -64,7 +64,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     label->setWordWrap(true);
     m_searchLineEdit = new QLineEdit(this);
     m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search..."));
-    connect(m_searchLineEdit, &QLineEdit::textChanged, [=](const QString &filter){
+    connect(m_searchLineEdit, &QLineEdit::textChanged, this, [=](const QString &filter){
         m_sortModel->setFilterFixedString(filter);
     });
 
