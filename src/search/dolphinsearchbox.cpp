@@ -136,6 +136,7 @@ QUrl DolphinSearchBox::urlForSearching() const
         }
 
         query.addQueryItem(QStringLiteral("url"), searchPath().url());
+        query.addQueryItem(QStringLiteral("title"), queryTitle(m_searchInput->text()));
 
         url.setQuery(query);
     }
@@ -472,6 +473,12 @@ void DolphinSearchBox::init()
     connect(m_startSearchTimer, &QTimer::timeout, this, &DolphinSearchBox::emitSearchRequest);
 }
 
+QString DolphinSearchBox::queryTitle(const QString& text) const
+{
+    return i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
+                             "Query Results from '%1'", text);
+}
+
 QUrl DolphinSearchBox::balooUrlForSearching() const
 {
 #ifdef HAVE_BALOO
@@ -494,8 +501,7 @@ QUrl DolphinSearchBox::balooUrlForSearching() const
 
     query.setSearchString(queryStrings.join(QLatin1Char(' ')));
 
-    return query.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
-                                   "Query Results from '%1'", text));
+    return query.toSearchUrl(queryTitle(text));
 #else
     return QUrl();
 #endif

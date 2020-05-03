@@ -161,6 +161,8 @@ private:
     bool isIndexingEnabled() const;
 
 private:
+    QString queryTitle(const QString& text) const;
+
     bool m_startedSearching;
     bool m_active;
 
