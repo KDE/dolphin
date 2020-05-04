@@ -1200,7 +1200,7 @@ void DolphinView::slotPasteJobResult(KJob *job)
         emit errorMessage(job->errorString());
     }
     if (!m_selectedUrls.isEmpty()) {
-        m_selectedUrls << KDirModel::simplifiedUrlList(m_selectedUrls);
+        m_selectedUrls = KDirModel::simplifiedUrlList(m_selectedUrls);
     }
 }
 
