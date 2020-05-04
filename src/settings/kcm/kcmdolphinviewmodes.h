@@ -32,7 +32,7 @@ class DolphinViewModesConfigModule : public KCModule
     Q_OBJECT
 
 public:
-    DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args);
+    DolphinViewModesConfigModule(QWidget *parent, const QVariantList &args);
     ~DolphinViewModesConfigModule() override;
 
     void save() override;

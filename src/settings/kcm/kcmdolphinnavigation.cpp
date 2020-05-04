@@ -29,23 +29,17 @@
 
 K_PLUGIN_FACTORY(KCMDolphinNavigationConfigFactory, registerPlugin<DolphinNavigationConfigModule>(QStringLiteral("dolphinnavigation"));)
 
-DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(parent),
+DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget *parent, const QVariantList &args) :
+    KCModule(parent, args),
     m_navigation(nullptr)
 {
-    Q_UNUSED(args)
-
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_navigation = new NavigationSettingsPage(this);
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
-    connect(m_navigation, &NavigationSettingsPage::changed, this, QOverload<>::of(&DolphinNavigationConfigModule::changed));
-#else
     connect(m_navigation, &NavigationSettingsPage::changed, this, &DolphinNavigationConfigModule::markAsChanged);
-#endif
     topLayout->addWidget(m_navigation, 0, {});
 }
 

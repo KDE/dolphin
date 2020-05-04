@@ -39,7 +39,7 @@ public:
     void defaults() override;
 
 private:
-    ServicesSettingsPage* m_services;
+    ServicesSettingsPage *m_services;
 };
 
 #endif

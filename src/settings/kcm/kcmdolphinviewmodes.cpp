@@ -33,12 +33,10 @@
 
 K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>(QStringLiteral("dolphinviewmodes"));)
 
-DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(parent),
+DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget *parent, const QVariantList &args) :
+    KCModule(parent, args),
     m_tabs()
 {
-    Q_UNUSED(args)
-
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -74,7 +72,7 @@ DolphinViewModesConfigModule::~DolphinViewModesConfigModule()
 
 void DolphinViewModesConfigModule::save()
 {
-    foreach (ViewSettingsTab* tab, m_tabs) {
+    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
         tab->applySettings();
     }
     reparseConfiguration();
@@ -82,7 +80,7 @@ void DolphinViewModesConfigModule::save()
 
 void DolphinViewModesConfigModule::defaults()
 {
-    foreach (ViewSettingsTab* tab, m_tabs) {
+    for (ViewSettingsTab *tab : qAsConst(m_tabs)) {
         tab->restoreDefaultSettings();
     }
     reparseConfiguration();
@@ -90,13 +88,15 @@ void DolphinViewModesConfigModule::defaults()
 
 void DolphinViewModesConfigModule::reparseConfiguration()
 {
-    QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/KonqMain"), QStringLiteral("org.kde.Konqueror.Main"), QStringLiteral("reparseConfiguration"));
+    QDBusMessage message = QDBusMessage::createSignal(QStringLiteral("/KonqMain"),
+                                                      QStringLiteral("org.kde.Konqueror.Main"),
+                                                      QStringLiteral("reparseConfiguration"));
     QDBusConnection::sessionBus().send(message);
 }
 
 void DolphinViewModesConfigModule::viewModeChanged()
 {
-    emit changed(true);
+    emit markAsChanged();
 }
 
 #include "kcmdolphinviewmodes.moc"

@@ -34,7 +34,7 @@ class DolphinGeneralConfigModule : public KCModule
     Q_OBJECT
 
 public:
-    DolphinGeneralConfigModule(QWidget* parent, const QVariantList& args);
+    DolphinGeneralConfigModule(QWidget *parent, const QVariantList &args);
     ~DolphinGeneralConfigModule() override;
 
     void save() override;

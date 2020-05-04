@@ -30,22 +30,16 @@
 K_PLUGIN_FACTORY(KCMDolphinServicesConfigFactory, registerPlugin<DolphinServicesConfigModule>(QStringLiteral("dolphinservices"));)
 
 DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(parent),
+    KCModule(parent, args),
     m_services(nullptr)
 {
-    Q_UNUSED(args)
-
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
 
     m_services = new ServicesSettingsPage(this);
-#if KCONFIGWIDGETS_VERSION < QT_VERSION_CHECK(5, 64, 0)
-    connect(m_services, &ServicesSettingsPage::changed, this, QOverload<>::of(&DolphinServicesConfigModule::changed));
-#else
     connect(m_services, &ServicesSettingsPage::changed, this, &DolphinServicesConfigModule::markAsChanged);
-#endif
     topLayout->addWidget(m_services, 0, {});
 }
 
