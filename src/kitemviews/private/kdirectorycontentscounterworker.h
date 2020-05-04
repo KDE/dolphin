@@ -37,6 +37,14 @@ public:
     };
     Q_DECLARE_FLAGS(Options, Option)
 
+    struct CountResult {
+        /// number of elements in the directory
+        int count;
+        /// Recursive sum of the size of the directory content files and folders
+        /// Calculation depends on DetailsModeSettings::recursiveDirectorySizeLimit
+        long size;
+    };
+
     explicit KDirectoryContentsCounterWorker(QObject* parent = nullptr);
 
     /**
@@ -45,13 +53,13 @@ public:
      *
      * @return The number of items.
      */
-    static int subItemsCount(const QString& path, Options options);
+    static CountResult subItemsCount(const QString& path, Options options);
 
 signals:
     /**
-     * Signals that the directory \a path contains \a count items.
+     * Signals that the directory \a path contains \a count items and optionally the size of its content.
      */
-    void result(const QString& path, int count);
+    void result(const QString& path, int count, long size);
 
 public slots:
     /**

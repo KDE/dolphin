@@ -21,6 +21,8 @@
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
+#include "dolphin_detailsmodesettings.h"
+
 #include <KFormat>
 #include <KLocalizedString>
 
@@ -64,14 +66,24 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
 
     if (role == "size") {
         if (values.value("isDir").toBool()) {
-            // The item represents a directory. Show the number of sub directories
-            // instead of the file size of the directory.
+            // The item represents a directory.
             if (!roleValue.isNull()) {
-                const int count = roleValue.toInt();
+                const int count = values.value("count").toInt();
                 if (count < 0) {
                     text = i18nc("@item:intable", "Unknown");
                 } else {
-                    text = i18ncp("@item:intable", "%1 item", "%1 items", count);
+                    if (DetailsModeSettings::directorySizeCount()) {
+                        //  Show the number of sub directories instead of the file size of the directory.
+                        text = i18ncp("@item:intable", "%1 item", "%1 items", count);
+                    } else {
+                        // if we have directory size available
+                        if (roleValue == -1) {
+                            text = i18nc("@item:intable", "Unknown");
+                        } else {
+                            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
+                            text = KFormat().formatByteSize(size);
+                        }
+                    }
                 }
             }
         } else {

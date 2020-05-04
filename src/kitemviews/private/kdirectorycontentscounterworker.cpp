@@ -22,11 +22,13 @@
 
 // Required includes for subItemsCount():
 #ifdef Q_OS_WIN
-    #include <QDir>
+#include <QDir>
 #else
-    #include <QFile>
-    #include <qplatformdefs.h>
+#include <QFile>
+#include <qplatformdefs.h>
 #endif
+
+#include "dolphin_detailsmodesettings.h"
 
 KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent) :
     QObject(parent)
@@ -34,32 +36,19 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent
     qRegisterMetaType<KDirectoryContentsCounterWorker::Options>();
 }
 
-int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options options)
+KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
+                                                     const bool countHiddenFiles,
+                                                     const bool countDirectoriesOnly,
+                                                     QT_DIRENT *dirEntry,
+                                                     const uint allowedRecursiveLevel)
 {
-    const bool countHiddenFiles = options & CountHiddenFiles;
-    const bool countDirectoriesOnly = options & CountDirectoriesOnly;
-
-#ifdef Q_OS_WIN
-    QDir dir(path);
-    QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System;
-    if (countHiddenFiles) {
-        filters |= QDir::Hidden;
-    }
-    if (countDirectoriesOnly) {
-        filters |= QDir::Dirs;
-    } else {
-        filters |= QDir::AllEntries;
-    }
-    return dir.entryList(filters).count();
-#else
-    // Taken from kio/src/widgets/kdirmodel.cpp
-    // Copyright (C) 2006 David Faure <faure@kde.org>
-
     int count = -1;
-    auto dir = QT_OPENDIR(QFile::encodeName(path));
+    long size = -1;
+    auto dir = QT_OPENDIR(QFile::encodeName(dirPath));
     if (dir) {
         count = 0;
-        QT_DIRENT *dirEntry = nullptr;
+        QT_STATBUF buf;
+
         while ((dirEntry = QT_READDIR(dir))) {
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
@@ -76,20 +65,69 @@ int KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options 
             // as directory instead of trying to do an expensive stat()
             // (see bugs 292642 and 299997).
             const bool countEntry = !countDirectoriesOnly ||
-                                    dirEntry->d_type == DT_DIR ||
-                                    dirEntry->d_type == DT_LNK ||
-                                    dirEntry->d_type == DT_UNKNOWN;
+                    dirEntry->d_type == DT_DIR ||
+                    dirEntry->d_type == DT_LNK ||
+                    dirEntry->d_type == DT_UNKNOWN;
             if (countEntry) {
                 ++count;
+            }
+
+            if (allowedRecursiveLevel > 0) {
+
+                bool linkFound = false;
+                QString nameBuf = QStringLiteral("%1/%2").arg(dirPath, dirEntry->d_name);
+
+                if (dirEntry->d_type == DT_REG || dirEntry->d_type == DT_LNK) {
+                    if (QT_STAT(nameBuf.toLocal8Bit(), &buf) == 0) {
+                        if (S_ISDIR(buf.st_mode)) {
+                            // was a dir link, recurse
+                            linkFound = true;
+                        }
+                        size += buf.st_size;
+                    }
+                }
+                if (dirEntry->d_type == DT_DIR || linkFound) {
+                    // recursion for dirs and dir links
+                    size += walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, dirEntry, allowedRecursiveLevel - 1).size;
+                }
             }
         }
         QT_CLOSEDIR(dir);
     }
-    return count;
+    return KDirectoryContentsCounterWorker::CountResult{count, size};
+}
+
+KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options options)
+{
+    const bool countHiddenFiles = options & CountHiddenFiles;
+    const bool countDirectoriesOnly = options & CountDirectoriesOnly;
+
+#ifdef Q_OS_WIN
+    QDir dir(path);
+    QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System;
+    if (countHiddenFiles) {
+        filters |= QDir::Hidden;
+    }
+    if (countDirectoriesOnly) {
+        filters |= QDir::Dirs;
+    } else {
+        filters |= QDir::AllEntries;
+    }
+    return {dir.entryList(filters).count(), 0};
+#else
+
+    const uint maxRecursiveLevel = DetailsModeSettings::directorySizeCount() ? 1 : DetailsModeSettings::recursiveDirectorySizeLimit();
+
+    QT_DIRENT *dirEntry = nullptr;
+
+    auto res = walkDir(QFile::encodeName(path), countHiddenFiles, countDirectoriesOnly, dirEntry, maxRecursiveLevel);
+
+    return res;
 #endif
 }
 
 void KDirectoryContentsCounterWorker::countDirectoryContents(const QString& path, Options options)
 {
-    emit result(path, subItemsCount(path, options));
+    auto res = subItemsCount(path, options);
+    emit result(path, res.count, res.size);
 }

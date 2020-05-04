@@ -212,7 +212,7 @@ private slots:
     void applyChangedBalooRoles(const QString& file);
     void applyChangedBalooRolesForItem(const KFileItem& file);
 
-    void slotDirectoryContentsCountReceived(const QString& path, int count);
+    void slotDirectoryContentsCountReceived(const QString& path, int count, long size);
 
 private:
     /**

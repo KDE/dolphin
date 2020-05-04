@@ -22,6 +22,7 @@
 #include "kfileitemmodel.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphindebug.h"
 #include "private/kfileitemmodeldirlister.h"
 #include "private/kfileitemmodelsortalgorithm.h"
@@ -1767,8 +1768,15 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
             // See "if (m_sortFoldersFirst || m_sortRole == SizeRole)" in KFileItemModel::lessThan():
             Q_ASSERT(itemB.isDir());
 
-            const QVariant valueA = a->values.value("size");
-            const QVariant valueB = b->values.value("size");
+            QVariant valueA, valueB;
+            if (DetailsModeSettings::directorySizeCount()) {
+                // use dir size then
+                valueA = a->values.value("size");
+                valueB = b->values.value("size");
+            } else {
+                valueA = a->values.value("count");
+                valueB = b->values.value("count");
+            }
             if (valueA.isNull() && valueB.isNull()) {
                 result = 0;
             } else if (valueA.isNull()) {
@@ -1776,7 +1784,11 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
             } else if (valueB.isNull()) {
                 result = +1;
             } else {
-                result = valueA.toInt() - valueB.toInt();
+                if (valueA < valueB) {
+                    return -1;
+                } else {
+                    return +1;
+                }
             }
         } else {
             // See "if (m_sortFoldersFirst || m_sortRole == SizeRole)" in KFileItemModel::lessThan():

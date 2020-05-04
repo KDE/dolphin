@@ -24,7 +24,13 @@
 #include <KDirWatch>
 
 #include <QFileInfo>
+#include <QDir>
 #include <QThread>
+
+namespace  {
+    /// cache of directory counting result
+    static QHash<QString, QPair<int, long>> *s_cache;
+}
 
 KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObject* parent) :
     QObject(parent),
@@ -43,9 +49,12 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
         m_workerThread->start();
     }
 
+    if (s_cache == nullptr) {
+        s_cache = new QHash<QString, QPair<int, long>>();
+    }
+
     m_worker = new KDirectoryContentsCounterWorker();
     m_worker->moveToThread(m_workerThread);
-    ++m_workersCount;
 
     connect(this,     &KDirectoryContentsCounter::requestDirectoryContentsCount,
             m_worker, &KDirectoryContentsCounterWorker::countDirectoryContents);
@@ -58,9 +67,7 @@ KDirectoryContentsCounter::KDirectoryContentsCounter(KFileItemModel* model, QObj
 
 KDirectoryContentsCounter::~KDirectoryContentsCounter()
 {
-    --m_workersCount;
-
-    if (m_workersCount > 0) {
+    if (m_workerThread->isRunning()) {
         // The worker thread will continue running. It could even be running
         // a method of m_worker at the moment, so we delete it using
         // deleteLater() to prevent a crash.
@@ -79,38 +86,17 @@ KDirectoryContentsCounter::~KDirectoryContentsCounter()
     }
 }
 
-void KDirectoryContentsCounter::addDirectory(const QString& path)
+void KDirectoryContentsCounter::scanDirectory(const QString& path)
 {
     startWorker(path);
 }
 
-int KDirectoryContentsCounter::countDirectoryContentsSynchronously(const QString& path)
-{
-    const QString resolvedPath = QFileInfo(path).canonicalFilePath();
-
-    if (!m_dirWatcher->contains(resolvedPath)) {
-        m_dirWatcher->addDir(resolvedPath);
-        m_watchedDirs.insert(resolvedPath);
-    }
-
-    KDirectoryContentsCounterWorker::Options options;
-
-    if (m_model->showHiddenFiles()) {
-        options |= KDirectoryContentsCounterWorker::CountHiddenFiles;
-    }
-
-    if (m_model->showDirectoriesOnly()) {
-        options |= KDirectoryContentsCounterWorker::CountDirectoriesOnly;
-    }
-
-    return KDirectoryContentsCounterWorker::subItemsCount(path, options);
-}
-
-void KDirectoryContentsCounter::slotResult(const QString& path, int count)
+void KDirectoryContentsCounter::slotResult(const QString& path, int count, long size)
 {
     m_workerIsBusy = false;
 
-    const QString resolvedPath = QFileInfo(path).canonicalFilePath();
+    const QFileInfo info = QFileInfo(path);
+    const QString resolvedPath = info.canonicalFilePath();
 
     if (!m_dirWatcher->contains(resolvedPath)) {
         m_dirWatcher->addDir(resolvedPath);
@@ -121,7 +107,22 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count)
         startWorker(m_queue.dequeue());
     }
 
-    emit result(path, count);
+    if (s_cache->contains(resolvedPath)) {
+        const auto pair = s_cache->value(resolvedPath);
+        if (pair.first == count && pair.second == size) {
+            // no change no need to send another result event
+            return;
+        }
+    }
+
+    if (info.dir().path() == m_model->rootItem().url().path()) {
+        // update cache or overwrite value
+        // when path is a direct children of the current model root
+        s_cache->insert(resolvedPath, QPair<int, long>(count, size));
+    }
+
+    // sends the results
+    emit result(resolvedPath, count, size);
 }
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
@@ -146,7 +147,7 @@ void KDirectoryContentsCounter::slotItemsRemoved()
     if (!m_watchedDirs.isEmpty()) {
         // Don't let KDirWatch watch for removed items
         if (allItemsRemoved) {
-            foreach (const QString& path, m_watchedDirs) {
+            for (const QString& path : qAsConst(m_watchedDirs)) {
                 m_dirWatcher->removeDir(path);
             }
             m_watchedDirs.clear();
@@ -166,6 +167,13 @@ void KDirectoryContentsCounter::slotItemsRemoved()
 
 void KDirectoryContentsCounter::startWorker(const QString& path)
 {
+    if (s_cache->contains(path)) {
+        // fast path when in cache
+        // will be updated later if result has changed
+        const auto pair = s_cache->value(path);
+        emit result(path, pair.first, pair.second);
+    }
+
     if (m_workerIsBusy) {
         m_queue.enqueue(path);
     } else {
@@ -185,4 +193,3 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
 }
 
 QThread* KDirectoryContentsCounter::m_workerThread = nullptr;
-int KDirectoryContentsCounter::m_workersCount = 0;

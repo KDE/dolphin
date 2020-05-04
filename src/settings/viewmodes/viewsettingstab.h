@@ -28,6 +28,8 @@ class DolphinFontRequester;
 class QComboBox;
 class QCheckBox;
 class QSlider;
+class QSpinBox;
+class QRadioButton;
 
 /**
  * @brief Represents one tab of the view-settings page.
@@ -72,6 +74,9 @@ private:
     QComboBox* m_widthBox;
     QComboBox* m_maxLinesBox;
     QCheckBox* m_expandableFolders;
+    QRadioButton* m_numberOfItems;
+    QRadioButton* m_sizeOfContents;
+    QSpinBox* m_recursiveDirectorySizeLimit;
 };
 
 #endif

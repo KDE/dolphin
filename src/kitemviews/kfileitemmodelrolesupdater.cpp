@@ -44,7 +44,6 @@
 #include <QElapsedTimer>
 #include <QTimer>
 
-
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
 
 namespace {
@@ -108,9 +107,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
             this,    &KFileItemModelRolesUpdater::slotSortRoleChanged);
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
-    // resolving of the roles. Postpone the resolving until no update has been done for 1 second.
+    // resolving of the roles. Postpone the resolving until no update has been done for 100 ms.
     m_recentlyChangedItemsTimer = new QTimer(this);
-    m_recentlyChangedItemsTimer->setInterval(1000);
+    m_recentlyChangedItemsTimer->setInterval(100);
     m_recentlyChangedItemsTimer->setSingleShot(true);
     connect(m_recentlyChangedItemsTimer, &QTimer::timeout, this, &KFileItemModelRolesUpdater::resolveRecentlyChangedItems);
 
@@ -750,7 +749,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
 #endif
 }
 
-void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString& path, int count)
+void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QString& path, int count, long size)
 {
     const bool getSizeRole = m_roles.contains("size");
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
@@ -761,17 +760,16 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
             QHash<QByteArray, QVariant> data;
 
             if (getSizeRole) {
-                data.insert("size", count);
+                data.insert("count", count);
+                if (size != -1) {
+                    data.insert("size", QVariant::fromValue(size));
+                }
             }
             if (getIsExpandableRole) {
                 data.insert("isExpandable", count > 0);
             }
 
-            disconnect(m_model, &KFileItemModel::itemsChanged,
-                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
             m_model->setData(index, data);
-            connect(m_model, &KFileItemModel::itemsChanged,
-                    this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         }
     }
 }
@@ -997,7 +995,7 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
         const QString path = item.localPath();
-        data.insert("size", m_directoryContentsCounter->countDirectoryContentsSynchronously(path));
+        m_directoryContentsCounter->scanDirectory(path);
     } else {
         // Probably the sort role is a baloo role - just determine all roles.
         data = rolesData(item);
@@ -1070,7 +1068,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
             // Tell m_directoryContentsCounter that we want to count the items
             // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
             const QString path = item.localPath();
-            m_directoryContentsCounter->addDirectory(path);
+            m_directoryContentsCounter->scanDirectory(path);
         } else if (getSizeRole) {
             data.insert("size", -1); // -1 indicates an unknown number of items
         }

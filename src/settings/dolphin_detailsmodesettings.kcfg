@@ -44,5 +44,13 @@
             <label>Expandable folders</label>
             <default>true</default>
         </entry>
+        <entry name="DirectorySizeCount" type="Bool">
+            <label>Whether or not content count is use as directory size</label>
+            <default>true</default>
+        </entry>
+        <entry name="RecursiveDirectorySizeLimit" type="UInt">
+            <label>Recursive directory size limit</label>
+            <default>10</default>
+        </entry>
     </group>
 </kcfg>

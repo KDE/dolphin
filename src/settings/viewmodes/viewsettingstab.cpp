@@ -33,6 +33,10 @@
 #include <QComboBox>
 #include <QHelpEvent>
 #include <QFormLayout>
+#include <QSpinBox>
+#include <QRadioButton>
+#include <QButtonGroup>
+#include <QLabel>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),
@@ -42,10 +46,10 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_fontRequester(nullptr),
     m_widthBox(nullptr),
     m_maxLinesBox(nullptr),
-    m_expandableFolders(nullptr)
+    m_expandableFolders(nullptr),
+    m_recursiveDirectorySizeLimit(nullptr)
 {
     QFormLayout* topLayout = new QFormLayout(this);
-
 
     // Create "Icon Size" section
     const int minRange = ZoomLevelInfo::minimumLevel();
@@ -74,7 +78,6 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     // Create "Label" section
     m_fontRequester = new DolphinFontRequester(this);
     topLayout->addRow(i18nc("@label:listbox", "Label font:"), m_fontRequester);
-
 
     switch (m_mode) {
     case IconsMode: {
@@ -107,8 +110,30 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     case DetailsMode:
         m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable"));
         topLayout->addRow(i18nc("@label:checkbox", "Folders:"), m_expandableFolders);
-        break;
-    default:
+
+#ifndef Q_OS_WIN
+        // Sorting properties
+        m_numberOfItems = new QRadioButton(i18nc("option:radio", "Number of items"));
+        m_sizeOfContents = new QRadioButton(i18nc("option:radio", "Size of contents, up to "));
+
+        QButtonGroup* sortingModeGroup = new QButtonGroup(this);
+        sortingModeGroup->addButton(m_numberOfItems);
+        sortingModeGroup->addButton(m_sizeOfContents);
+
+        m_recursiveDirectorySizeLimit = new QSpinBox();
+        connect(m_recursiveDirectorySizeLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value) {
+            m_recursiveDirectorySizeLimit->setSuffix(i18np(" level deep", " levels deep", value));
+        });
+        m_recursiveDirectorySizeLimit->setRange(1, 20);
+        m_recursiveDirectorySizeLimit->setSingleStep(1);
+
+        QHBoxLayout *contentsSizeLayout = new QHBoxLayout();
+        contentsSizeLayout->addWidget(m_sizeOfContents);
+        contentsSizeLayout->addWidget(m_recursiveDirectorySizeLimit);
+
+        topLayout->addRow(i18nc("@title:group", "Folder size displays:"), m_numberOfItems);
+        topLayout->addRow(QString(), contentsSizeLayout);
+#endif
         break;
     }
 
@@ -128,6 +153,11 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         break;
     case DetailsMode:
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
+        connect(m_recursiveDirectorySizeLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, &ViewSettingsTab::changed);
+        connect(m_numberOfItems, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
+        connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
+            m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
+        });
         break;
     default:
         break;
@@ -153,6 +183,8 @@ void ViewSettingsTab::applySettings()
         break;
     case DetailsMode:
         DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
+        DetailsModeSettings::setDirectorySizeCount(m_numberOfItems->isChecked());
+        DetailsModeSettings::setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
         break;
     default:
         break;
@@ -201,6 +233,14 @@ void ViewSettingsTab::loadSettings()
         break;
     case DetailsMode:
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
+        if (DetailsModeSettings::directorySizeCount()) {
+            m_numberOfItems->setChecked(true);
+            m_recursiveDirectorySizeLimit->setEnabled(false);
+        } else {
+            m_sizeOfContents->setChecked(true);
+            m_recursiveDirectorySizeLimit->setEnabled(true);
+        }
+        m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
         break;
     default:
         break;

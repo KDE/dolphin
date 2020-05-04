@@ -25,6 +25,7 @@
 
 #include <QQueue>
 #include <QSet>
+#include <QHash>
 
 class KDirWatch;
 class KFileItemModel;
@@ -45,28 +46,23 @@ public:
      *
      * The directory \a path is watched for changes, and the signal is emitted
      * again if a change occurs.
-     */
-    void addDirectory(const QString& path);
-
-    /**
-     * In contrast to \a addDirectory, this function counts the items inside
-     * the directory \a path synchronously and returns the result.
      *
-     * The directory is watched for changes, and the signal \a result is
-     * emitted if a change occurs.
+     * Uses a cache internally to speed up first result,
+     * but emit again result when the cache was updated
      */
-    int countDirectoryContentsSynchronously(const QString& path);
+    void scanDirectory(const QString& path);
 
 signals:
     /**
-     * Signals that the directory \a path contains \a count items.
+     * Signals that the directory \a path contains \a count items of size \a
+     * Size calculation depends on parameter DetailsModeSettings::recursiveDirectorySizeLimit
      */
-    void result(const QString& path, int count);
+    void result(const QString& path, int count, long size);
 
     void requestDirectoryContentsCount(const QString& path, KDirectoryContentsCounterWorker::Options options);
 
 private slots:
-    void slotResult(const QString& path, int count);
+    void slotResult(const QString& path, int count, long size);
     void slotDirWatchDirty(const QString& path);
     void slotItemsRemoved();
 
@@ -79,7 +75,6 @@ private:
     QQueue<QString> m_queue;
 
     static QThread* m_workerThread;
-    static int m_workersCount;
 
     KDirectoryContentsCounterWorker* m_worker;
     bool m_workerIsBusy;

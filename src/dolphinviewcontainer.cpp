@@ -29,6 +29,8 @@
 #include "trash/dolphintrash.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
+#include "dolphin_detailsmodesettings.h"
+#include "views/dolphinview.h"
 
 #ifdef HAVE_KACTIVITIES
 #include <KActivities/ResourceInstance>
@@ -248,6 +250,12 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_topLayout->addWidget(m_statusBar);
 
     setSearchModeEnabled(isSearchUrl(url));
+
+    connect(DetailsModeSettings::self(), &KCoreConfigSkeleton::configChanged, this, [=]() {
+        if (view()->mode() == DolphinView::Mode::DetailsView) {
+            view()->reload();
+        }
+    });
 
     // Initialize kactivities resource instance
 
