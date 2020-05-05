@@ -70,7 +70,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-04-27</date>
+<date>2020-05-05</date>
 <releaseinfo>Applications 20.08</releaseinfo>
 
 <abstract>
@@ -1292,7 +1292,11 @@ the text of a file item.
 <guilabel>Expandable folders</guilabel> determines whether any folders that have subfolders
 are displayed in a tree view, where the sub items can be expanded by &LMB; clicking the
 <guiicon>&gt;</guiicon> icon and collapsed by clicking the <guiicon>v</guiicon> icon.
-</para></listitem>
+</para>
+<para>
+<guilabel>Folder size displays</guilabel> allows defining the property to use then sorting folders by their size. It is possible to sort folders by <guilabel>Number of items</guilabel> or <guilabel>Size of contents</guilabel> and choose a limit to the recursive level (can be useful to constrain unneeded iterations in the deep folder structures or on the slow file systems).
+</para>
+</listitem>
 </itemizedlist>
 </para>
 </sect3>
