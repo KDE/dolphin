@@ -956,7 +956,7 @@ QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 {
     m_searchTools.clear();
     KMoreToolsMenuFactory("dolphin/search-tools").fillMenuFromGroupingNames(
-        &m_searchTools, { "files-find" }, QUrl::fromLocalFile(activeContainerLocalPath())
+        &m_searchTools, { "files-find" }, m_activeViewContainer->url()
     );
     QList<QAction*> actions = m_searchTools.actions();
     if (actions.isEmpty()) {
