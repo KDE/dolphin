@@ -1770,12 +1770,12 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
 
             QVariant valueA, valueB;
             if (DetailsModeSettings::directorySizeCount()) {
+                valueA = a->values.value("count");
+                valueB = b->values.value("count");
+            } else {
                 // use dir size then
                 valueA = a->values.value("size");
                 valueB = b->values.value("size");
-            } else {
-                valueA = a->values.value("count");
-                valueB = b->values.value("count");
             }
             if (valueA.isNull() && valueB.isNull()) {
                 result = 0;
