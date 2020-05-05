@@ -378,7 +378,6 @@ QPixmap KItemListWidget::createDragPixmap(const QStyleOptionGraphicsItem* option
     const bool wasHovered = m_hovered;
 
     setAlternateBackground(false);
-    setSelected(false);
     setHovered(false);
 
     paint(&painter, option, widget);
