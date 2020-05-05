@@ -36,6 +36,7 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent
     qRegisterMetaType<KDirectoryContentsCounterWorker::Options>();
 }
 
+#ifndef Q_OS_WIN
 KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
                                                      const bool countHiddenFiles,
                                                      const bool countDirectoriesOnly,
@@ -96,6 +97,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
     }
     return KDirectoryContentsCounterWorker::CountResult{count, size};
 }
+#endif
 
 KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::subItemsCount(const QString& path, Options options)
 {
