@@ -168,21 +168,8 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    if (m_plugin) {
-        m_plugin->disconnect(this);
-    }
-
     m_plugin = searchPlugin(rootItem.url());
     if (m_plugin) {
-        connect(m_plugin, &KVersionControlPlugin::itemVersionsChanged,
-                this, &VersionControlObserver::silentDirectoryVerification);
-        connect(m_plugin, &KVersionControlPlugin::infoMessage,
-                this, &VersionControlObserver::infoMessage);
-        connect(m_plugin, &KVersionControlPlugin::errorMessage,
-                this, &VersionControlObserver::errorMessage);
-        connect(m_plugin, &KVersionControlPlugin::operationCompletedMessage,
-                this, &VersionControlObserver::operationCompletedMessage);
-
         if (!m_versionedDirectory) {
             m_versionedDirectory = true;
 
@@ -311,6 +298,15 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
             if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>(this);
                 if (plugin) {
+                    connect(plugin, &KVersionControlPlugin::itemVersionsChanged,
+                            this, &VersionControlObserver::silentDirectoryVerification);
+                    connect(plugin, &KVersionControlPlugin::infoMessage,
+                            this, &VersionControlObserver::infoMessage);
+                    connect(plugin, &KVersionControlPlugin::errorMessage,
+                            this, &VersionControlObserver::errorMessage);
+                    connect(plugin, &KVersionControlPlugin::operationCompletedMessage,
+                            this, &VersionControlObserver::operationCompletedMessage);
+
                     m_plugins.append( qMakePair(plugin, plugin->fileName()) );
                 }
             }
