@@ -2297,8 +2297,6 @@ bool DolphinMainWindow::event(QEvent *event)
         QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
         QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
         return true;
-    } else if (event->type() == QEvent::WindowActivate) {
-        updateOpenPreferredSearchToolAction();
     }
     return KXmlGuiWindow::event(event);
 }
