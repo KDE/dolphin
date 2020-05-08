@@ -153,11 +153,13 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         break;
     case DetailsMode:
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
+#ifndef Q_OS_WIN
         connect(m_recursiveDirectorySizeLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, &ViewSettingsTab::changed);
         connect(m_numberOfItems, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
         connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
             m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());
         });
+#endif
         break;
     default:
         break;
@@ -183,8 +185,10 @@ void ViewSettingsTab::applySettings()
         break;
     case DetailsMode:
         DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
+#ifndef Q_OS_WIN
         DetailsModeSettings::setDirectorySizeCount(m_numberOfItems->isChecked());
         DetailsModeSettings::setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
+#endif
         break;
     default:
         break;
