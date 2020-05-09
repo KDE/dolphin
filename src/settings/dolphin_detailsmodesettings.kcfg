@@ -45,7 +45,7 @@
             <default>true</default>
         </entry>
         <entry name="DirectorySizeCount" type="Bool">
-            <label>Whether or not content count is use as directory size</label>
+            <label>Whether or not content count is used as directory size</label>
             <default>true</default>
         </entry>
         <entry name="RecursiveDirectorySizeLimit" type="UInt">
