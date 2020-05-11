@@ -368,7 +368,7 @@ public slots:
     void cutSelectedItems();
 
     /** Copies all selected items to the clipboard. */
-    void copySelectedItems();
+    void copySelectedItemsToClipboard();
 
     /** Pastes the clipboard data to this view. */
     void paste();

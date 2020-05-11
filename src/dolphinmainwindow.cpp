@@ -659,7 +659,7 @@ void DolphinMainWindow::cut()
 
 void DolphinMainWindow::copy()
 {
-    m_activeViewContainer->view()->copySelectedItems();
+    m_activeViewContainer->view()->copySelectedItemsToClipboard();
 }
 
 void DolphinMainWindow::paste()

@@ -48,7 +48,7 @@ void DolphinPartBrowserExtension::cut()
 
 void DolphinPartBrowserExtension::copy()
 {
-    m_part->view()->copySelectedItems();
+    m_part->view()->copySelectedItemsToClipboard();
 }
 
 void DolphinPartBrowserExtension::paste()

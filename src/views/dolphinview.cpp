@@ -686,7 +686,7 @@ void DolphinView::cutSelectedItems()
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
-void DolphinView::copySelectedItems()
+void DolphinView::copySelectedItemsToClipboard()
 {
     QMimeData* mimeData = selectionMimeData();
     QApplication::clipboard()->setMimeData(mimeData);
