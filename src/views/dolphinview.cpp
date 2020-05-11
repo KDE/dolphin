@@ -679,7 +679,7 @@ void DolphinView::deleteSelectedItems()
     }
 }
 
-void DolphinView::cutSelectedItems()
+void DolphinView::cutSelectedItemsToClipboard()
 {
     QMimeData* mimeData = selectionMimeData();
     KIO::setClipboardDataCut(mimeData, true);

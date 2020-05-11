@@ -365,7 +365,7 @@ public slots:
      * Copies all selected items to the clipboard and marks
      * the items as cut.
      */
-    void cutSelectedItems();
+    void cutSelectedItemsToClipboard();
 
     /** Copies all selected items to the clipboard. */
     void copySelectedItemsToClipboard();

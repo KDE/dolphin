@@ -654,7 +654,7 @@ void DolphinMainWindow::undo()
 
 void DolphinMainWindow::cut()
 {
-    m_activeViewContainer->view()->cutSelectedItems();
+    m_activeViewContainer->view()->cutSelectedItemsToClipboard();
 }
 
 void DolphinMainWindow::copy()

@@ -43,7 +43,7 @@ void DolphinPartBrowserExtension::saveState(QDataStream &stream)
 
 void DolphinPartBrowserExtension::cut()
 {
-    m_part->view()->cutSelectedItems();
+    m_part->view()->cutSelectedItemsToClipboard();
 }
 
 void DolphinPartBrowserExtension::copy()
