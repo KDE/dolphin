@@ -60,20 +60,20 @@ private:
      */
     void loadVersionControlSystems();
 
-    bool isInServicesList(const QString& service) const;
+    bool isInServicesList(const QString &service) const;
 
     /**
      * Adds a row to the model of m_listView.
      */
-    void addRow(const QString& icon,
-                const QString& text,
-                const QString& value,
+    void addRow(const QString &icon,
+                const QString &text,
+                const QString &value,
                 bool checked);
 
 private:
     bool m_initialized;
-    ServiceModel* m_serviceModel;
-    QSortFilterProxyModel* m_sortModel;
+    ServiceModel *m_serviceModel;
+    QSortFilterProxyModel *m_sortModel;
     QListView* m_listView;
     QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;

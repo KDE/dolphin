@@ -64,12 +64,12 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     label->setWordWrap(true);
     m_searchLineEdit = new QLineEdit(this);
     m_searchLineEdit->setPlaceholderText(i18nc("@label:textbox", "Search..."));
-    connect(m_searchLineEdit, &QLineEdit::textChanged, this, [=](const QString &filter){
+    connect(m_searchLineEdit, &QLineEdit::textChanged, this, [this](const QString &filter){
         m_sortModel->setFilterFixedString(filter);
     });
 
     m_listView = new QListView(this);
-    ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
+    auto *delegate = new ServiceItemDelegate(m_listView, m_listView);
     m_serviceModel = new ServiceModel(this);
     m_sortModel = new QSortFilterProxyModel(this);
     m_sortModel->setSourceModel(m_serviceModel);
@@ -82,9 +82,9 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
-    KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
-                                                    QStringLiteral("servicemenu.knsrc"),
-                                                    this);
+    auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
+                                                  QStringLiteral("servicemenu.knsrc"),
+                                                  this);
     connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
 
     topLayout->addWidget(label);
@@ -96,9 +96,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
-ServicesSettingsPage::~ServicesSettingsPage()
-{
-}
+ServicesSettingsPage::~ServicesSettingsPage() = default;
 
 void ServicesSettingsPage::applySettings()
 {
@@ -111,7 +109,7 @@ void ServicesSettingsPage::applySettings()
 
     QStringList enabledPlugins;
 
-    const QAbstractItemModel* model = m_listView->model();
+    const QAbstractItemModel *model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
@@ -197,19 +195,16 @@ void ServicesSettingsPage::loadServices()
 
     // Load generic services
     const KService::List entries = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
-    foreach (const KService::Ptr& service, entries) {
+    for (const KService::Ptr &service : entries) {
         const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
-        const QList<KServiceAction> serviceActions =
-                                    KDesktopFileActions::userDefinedServices(file, true);
+        const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(file, true);
 
-        KDesktopFile desktopFile(file);
+        const KDesktopFile desktopFile(file);
         const QString subMenuName = desktopFile.desktopGroup().readEntry("X-KDE-Submenu");
 
-        foreach (const KServiceAction& action, serviceActions) {
+        for (const KServiceAction &action : serviceActions) {
             const QString serviceName = action.name();
-            const bool addService = !action.noDisplay()
-                                    && !action.isSeparator()
-                                    && !isInServicesList(serviceName);
+            const bool addService = !action.noDisplay() && !action.isSeparator() && !isInServicesList(serviceName);
 
             if (addService) {
                 const QString itemName = subMenuName.isEmpty()
@@ -223,7 +218,7 @@ void ServicesSettingsPage::loadServices()
 
     // Load service plugins that implement the KFileItemActionPlugin interface
     const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("KFileItemAction/Plugin"));
-    foreach (const KService::Ptr& service, pluginServices) {
+    for (const KService::Ptr &service : pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
             const bool checked = showGroup.readEntry(desktopEntryName, true);
@@ -236,7 +231,7 @@ void ServicesSettingsPage::loadServices()
         return metaData.serviceTypes().contains(QLatin1String("KFileItemAction/Plugin"));
     });
 
-    foreach (const auto& jsonMetadata, jsonPlugins) {
+    for (const auto &jsonMetadata : jsonPlugins) {
         const QString desktopEntryName = jsonMetadata.pluginId();
         if (!isInServicesList(desktopEntryName)) {
             const bool checked = showGroup.readEntry(desktopEntryName, true);
@@ -254,8 +249,8 @@ void ServicesSettingsPage::loadVersionControlSystems()
 
     // Create a checkbox for each available version control plugin
     const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
-    for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
-        const QString pluginName = (*it)->name();
+    for (const auto &plugin : pluginServices) {
+        const QString pluginName = plugin->name();
         addRow(QStringLiteral("code-class"),
                pluginName,
                VersionControlServicePrefix + pluginName,
@@ -265,7 +260,7 @@ void ServicesSettingsPage::loadVersionControlSystems()
     m_sortModel->sort(Qt::DisplayRole);
 }
 
-bool ServicesSettingsPage::isInServicesList(const QString& service) const
+bool ServicesSettingsPage::isInServicesList(const QString &service) const
 {
     for (int i = 0; i < m_serviceModel->rowCount(); ++i) {
         const QModelIndex index = m_serviceModel->index(i, 0);
@@ -276,9 +271,9 @@ bool ServicesSettingsPage::isInServicesList(const QString& service) const
     return false;
 }
 
-void ServicesSettingsPage::addRow(const QString& icon,
-                                  const QString& text,
-                                  const QString& value,
+void ServicesSettingsPage::addRow(const QString &icon,
+                                  const QString &text,
+                                  const QString &value,
                                   bool checked)
 {
     m_serviceModel->insertRow(0);
