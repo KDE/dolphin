@@ -42,6 +42,10 @@ public:
     explicit StatusBarSpaceInfo(QWidget* parent = nullptr);
     ~StatusBarSpaceInfo() override;
 
+    /**
+     * Use this to set the widget visibility as it can hide itself
+     */
+    void setShown(bool);
     void setUrl(const QUrl& url);
     QUrl url() const;
 
@@ -58,6 +62,8 @@ private slots:
 private:
     QScopedPointer<SpaceInfoObserver> m_observer;
     QUrl m_url;
+    bool m_ready;
+    bool m_shown;
 };
 
 #endif

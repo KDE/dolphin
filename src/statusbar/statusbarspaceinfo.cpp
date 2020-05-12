@@ -38,12 +38,23 @@ StatusBarSpaceInfo::~StatusBarSpaceInfo()
 {
 }
 
+void StatusBarSpaceInfo::setShown(bool shown)
+{
+    m_shown = shown;
+    if (!m_shown) {
+        hide();
+        m_ready = false;
+    }
+}
+
 void StatusBarSpaceInfo::setUrl(const QUrl& url)
 {
     if (m_url != url) {
         m_url = url;
+        m_ready = false;
         if (m_observer) {
-            m_observer->setUrl(url);
+            m_observer.reset(new SpaceInfoObserver(m_url, this));
+            connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
         }
     }
 }
@@ -62,15 +73,24 @@ void StatusBarSpaceInfo::update()
 
 void StatusBarSpaceInfo::showEvent(QShowEvent* event)
 {
-    KCapacityBar::showEvent(event);
-    m_observer.reset(new SpaceInfoObserver(m_url, this));
-    slotValuesChanged();
-    connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
+    if (m_shown) {
+        if (m_ready) {
+            KCapacityBar::showEvent(event);
+        }
+
+        if (m_observer.isNull()) {
+            m_observer.reset(new SpaceInfoObserver(m_url, this));
+            connect(m_observer.data(), &SpaceInfoObserver::valuesChanged, this, &StatusBarSpaceInfo::slotValuesChanged);
+        }
+    }
 }
 
 void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
 {
-    m_observer.reset();
+    if (m_ready) {
+        m_observer.reset();
+        m_ready = false;
+    }
     KCapacityBar::hideEvent(event);
 }
 
@@ -95,19 +115,26 @@ void StatusBarSpaceInfo::slotValuesChanged()
 {
     Q_ASSERT(m_observer);
     const quint64 size = m_observer->size();
-    if (size == 0) {
-        setText(i18nc("@info:status", "Unknown size"));
-        setValue(0);
-        update();
-    } else {
-        const quint64 available = m_observer->available();
-        const quint64 used = size - available;
-        const int percentUsed = qRound(100.0 * qreal(used) / qreal(size));
 
-        setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
-        setUpdatesEnabled(false);
-        setValue(percentUsed);
-        setUpdatesEnabled(true);
+    if (!m_shown || size == 0) {
+        hide();
+        return;
+    }
+
+    m_ready = true;
+
+    const quint64 available = m_observer->available();
+    const quint64 used = size - available;
+    const int percentUsed = qRound(100.0 * qreal(used) / qreal(size));
+
+    setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
+    setUpdatesEnabled(false);
+    setValue(percentUsed);
+    setUpdatesEnabled(true);
+
+    if (!isVisible()) {
+        show();
+    } else {
         update();
     }
 }

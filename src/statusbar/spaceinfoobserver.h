@@ -55,6 +55,7 @@ private slots:
 private:
     MountPointObserver* m_mountPointObserver;
 
+    bool    m_hasData;
     quint64 m_dataSize;
     quint64 m_dataAvailable;
 };

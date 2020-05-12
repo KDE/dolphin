@@ -24,6 +24,7 @@
 SpaceInfoObserver::SpaceInfoObserver(const QUrl& url, QObject* parent) :
     QObject(parent),
     m_mountPointObserver(nullptr),
+    m_hasData(false),
     m_dataSize(0),
     m_dataAvailable(0)
 {
@@ -81,7 +82,8 @@ void SpaceInfoObserver::update()
 void SpaceInfoObserver::spaceInfoChanged(quint64 size, quint64 available)
 {
     // Make sure that the size has actually changed
-    if (m_dataSize != size || m_dataAvailable != available) {
+    if (m_dataSize != size || m_dataAvailable != available || !m_hasData) {
+        m_hasData = true;
         m_dataSize = size;
         m_dataAvailable = available;
 

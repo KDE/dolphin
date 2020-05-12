@@ -229,7 +229,9 @@ QString DolphinStatusBar::defaultText() const
 
 void DolphinStatusBar::setUrl(const QUrl& url)
 {
-    m_spaceInfo->setUrl(url);
+    if (GeneralSettings::showSpaceInfo()) {
+        m_spaceInfo->setUrl(url);
+    }
 }
 
 QUrl DolphinStatusBar::url() const
@@ -332,7 +334,7 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
         showSpaceInfo = GeneralSettings::showSpaceInfo();
         showZoomSlider = GeneralSettings::showZoomSlider();
     }
-    m_spaceInfo->setVisible(showSpaceInfo);
+    m_spaceInfo->setShown(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
 }
 
