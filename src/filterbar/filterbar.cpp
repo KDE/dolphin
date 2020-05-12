@@ -32,13 +32,6 @@
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
 {
-    // Create close button
-    QToolButton *closeButton = new QToolButton(this);
-    closeButton->setAutoRaise(true);
-    closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
-    closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
-    connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
-
     // Create button to lock text when changing folders
     m_lockButton = new QToolButton(this);
     m_lockButton->setAutoRaise(true);
@@ -57,12 +50,19 @@ FilterBar::FilterBar(QWidget* parent) :
             this, &FilterBar::filterChanged);
     setFocusProxy(m_filterInput);
 
+    // Create close button
+    QToolButton *closeButton = new QToolButton(this);
+    closeButton->setAutoRaise(true);
+    closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
+    closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
+    connect(closeButton, &QToolButton::clicked, this, &FilterBar::closeRequest);
+
     // Apply layout
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setContentsMargins(0, 0, 0, 0);
-    hLayout->addWidget(closeButton);
     hLayout->addWidget(m_lockButton);
     hLayout->addWidget(m_filterInput);
+    hLayout->addWidget(closeButton);
 }
 
 FilterBar::~FilterBar()

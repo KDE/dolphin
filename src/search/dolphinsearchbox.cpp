@@ -344,13 +344,6 @@ void DolphinSearchBox::saveSettings()
 
 void DolphinSearchBox::init()
 {
-    // Create close button
-    QToolButton* closeButton = new QToolButton(this);
-    closeButton->setAutoRaise(true);
-    closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
-    closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
-    connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
-
     // Create search box
     m_searchInput = new QLineEdit(this);
     m_searchInput->setPlaceholderText(i18n("Search..."));
@@ -371,11 +364,18 @@ void DolphinSearchBox::init()
     m_searchInput->addAction(m_saveSearchAction, QLineEdit::TrailingPosition);
     connect(m_saveSearchAction, &QAction::triggered, this, &DolphinSearchBox::slotSearchSaved);
 
+    // Create close button
+    QToolButton* closeButton = new QToolButton(this);
+    closeButton->setAutoRaise(true);
+    closeButton->setIcon(QIcon::fromTheme(QStringLiteral("dialog-close")));
+    closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
+    connect(closeButton, &QToolButton::clicked, this, &DolphinSearchBox::emitCloseRequest);
+
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
     searchInputLayout->setContentsMargins(0, 0, 0, 0);
-    searchInputLayout->addWidget(closeButton);
     searchInputLayout->addWidget(m_searchInput);
+    searchInputLayout->addWidget(closeButton);
 
     // Create "Filename" and "Content" button
     m_fileNameButton = new QToolButton(this);
