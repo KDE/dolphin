@@ -692,6 +692,27 @@ void DolphinView::copySelectedItemsToClipboard()
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
+void DolphinView::copySelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl)
+{
+    KIO::CopyJob* job = KIO::copy(selection.urlList(), destinationUrl, KIO::DefaultFlags);
+    KJobWidgets::setWindow(job, this);
+
+    connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
+    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotCopyingDone);
+    KIO::FileUndoManager::self()->recordCopyJob(job);
+}
+
+void DolphinView::moveSelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl)
+{
+    KIO::CopyJob* job = KIO::move(selection.urlList(), destinationUrl, KIO::DefaultFlags);
+    KJobWidgets::setWindow(job, this);
+
+    connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
+    connect(job, &KIO::CopyJob::copyingDone, this, &DolphinView::slotCopyingDone);
+    KIO::FileUndoManager::self()->recordCopyJob(job);
+
+}
+
 void DolphinView::paste()
 {
     pasteToUrl(url());
@@ -1132,7 +1153,7 @@ void DolphinView::dropUrls(const QUrl &destUrl, QDropEvent *dropEvent, QWidget *
     KIO::DropJob* job = DragAndDropHelper::dropUrls(destUrl, dropEvent, dropWidget);
 
     if (job) {
-        connect(job, &KIO::DropJob::result, this, &DolphinView::slotPasteJobResult);
+        connect(job, &KIO::DropJob::result, this, &DolphinView::slotJobResult);
 
         if (destUrl == url()) {
             // Mark the dropped urls as selected.
@@ -1185,6 +1206,11 @@ void DolphinView::slotSelectedItemTextPressed(int index)
     }
 }
 
+void DolphinView::slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to)
+{
+    slotItemCreated(to);
+}
+
 void DolphinView::slotItemCreated(const QUrl& url)
 {
     if (m_markFirstNewlySelectedItemAsCurrent) {
@@ -1194,7 +1220,7 @@ void DolphinView::slotItemCreated(const QUrl& url)
     m_selectedUrls << url;
 }
 
-void DolphinView::slotPasteJobResult(KJob *job)
+void DolphinView::slotJobResult(KJob *job)
 {
     if (job->error()) {
         emit errorMessage(job->errorString());
@@ -1845,7 +1871,7 @@ void DolphinView::pasteToUrl(const QUrl& url)
     m_clearSelectionBeforeSelectingNewItems = true;
     m_markFirstNewlySelectedItemAsCurrent = true;
     connect(job, &KIO::PasteJob::itemCreated, this, &DolphinView::slotItemCreated);
-    connect(job, &KIO::PasteJob::result, this, &DolphinView::slotPasteJobResult);
+    connect(job, &KIO::PasteJob::result, this, &DolphinView::slotJobResult);
 }
 
 QList<QUrl> DolphinView::simplifiedSelectedUrls() const

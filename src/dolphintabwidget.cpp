@@ -320,6 +320,40 @@ void DolphinTabWidget::restoreClosedTab(const QByteArray& state)
     currentTabPage()->restoreState(state);
 }
 
+void DolphinTabWidget::copyToInactiveSplitView()
+{
+    const DolphinTabPage* tabPage = tabPageAt(currentIndex());
+    DolphinViewContainer* activeViewContainer = currentTabPage()->activeViewContainer();
+    if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
+        return;
+    }
+
+    if (tabPage->primaryViewActive()) {
+        // copy from left panel to right
+        activeViewContainer->view()->copySelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
+    } else {
+        // copy from right panel to left
+        activeViewContainer->view()->copySelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+    }
+}
+
+void DolphinTabWidget::moveToInactiveSplitView()
+{
+    const DolphinTabPage* tabPage = tabPageAt(currentIndex());
+    DolphinViewContainer* activeViewContainer = currentTabPage()->activeViewContainer();
+    if (!tabPage->splitViewEnabled() || activeViewContainer->view()->selectedItems().isEmpty()) {
+        return;
+    }
+
+    if (tabPage->primaryViewActive()) {
+        // move from left panel to right
+        activeViewContainer->view()->moveSelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
+    } else {
+        // move from right panel to left
+        activeViewContainer->view()->moveSelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+    }
+}
+
 void DolphinTabWidget::detachTab(int index)
 {
     Q_ASSERT(index >= 0);

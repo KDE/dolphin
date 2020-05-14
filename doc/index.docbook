@@ -1732,6 +1732,29 @@ The name of this file has to be entered in a dialog.
 <varlistentry>
 <term><menuchoice>
 <shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F5</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Copy to inactive split view</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Copies the currently selected item(s) from the active split view to the inactive split view.</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>F6</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Move to inactive split view</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Moves the currently selected item(s) from the active split view to the inactive split view.
+Is disabled if the current user does not have write permission on the selected item(s).</action></para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>

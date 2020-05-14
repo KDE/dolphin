@@ -1149,6 +1149,8 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
+                 addActionToMenu(ac->action(QStringLiteral("copy_to_inactive_split_view")), menu) |
+                 addActionToMenu(ac->action(QStringLiteral("move_to_inactive_split_view")), menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
                  addActionToMenu(ac->action(QStringLiteral("invert_selection")), menu);
 
@@ -1381,6 +1383,24 @@ void DolphinMainWindow::setupActions()
         "your <emphasis>clipboard</emphasis> to the currently viewed folder.<nl/>"
         "If the items were added to the clipboard by the <emphasis>Cut</emphasis> "
         "action they are removed from their old location.") +  cutCopyPastePara);
+
+    QAction* copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
+    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to inactive split view"));
+    copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy", "This copies the selected items from "
+        "the <emphasis>active</emphasis> view to the inactive split view."));
+    copyToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to inactive split view"));
+    actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT + Qt::Key_F5 );
+    connect(copyToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::copyToInactiveSplitView);
+
+    QAction* moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
+    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to inactive split view"));
+    moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move", "This moves the selected items from "
+        "the <emphasis>active</emphasis> view to the inactive split view."));
+    moveToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
+    moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to inactive split view"));
+    actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT + Qt::Key_F6 );
+    connect(moveToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::moveToInactiveSplitView);
 
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search..."));
@@ -1907,12 +1927,18 @@ void DolphinMainWindow::updateFileAndEditActions()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
     const KActionCollection* col = actionCollection();
+    KFileItemListProperties capabilitiesSource(list);
+
     QAction* addToPlacesAction = col->action(QStringLiteral("add_to_places"));
+    QAction* copyToOtherViewAction   = col->action(QStringLiteral("copy_to_inactive_split_view"));
+    QAction* moveToOtherViewAction   = col->action(QStringLiteral("move_to_inactive_split_view"));
 
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
 
         addToPlacesAction->setEnabled(true);
+        copyToOtherViewAction->setEnabled(false);
+        moveToOtherViewAction->setEnabled(false);
     } else {
         stateChanged(QStringLiteral("has_selection"));
 
@@ -1930,16 +1956,32 @@ void DolphinMainWindow::updateFileAndEditActions()
             addToPlacesAction->setEnabled(false);
         }
 
-        KFileItemListProperties capabilities(list);
-        const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
+        if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
+            DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+            KFileItem capabilitiesDestination;
 
-        renameAction->setEnabled(capabilities.supportsMoving());
+            if (tabPage->primaryViewActive()) {
+                capabilitiesDestination = tabPage->secondaryViewContainer()->url();
+            } else {
+                capabilitiesDestination = tabPage->primaryViewContainer()->url();
+            }
+
+            copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
+            moveToOtherViewAction->setEnabled(capabilitiesSource.supportsMoving() && capabilitiesDestination.isWritable());
+        } else {
+            copyToOtherViewAction->setEnabled(false);
+            moveToOtherViewAction->setEnabled(false);
+        }
+
+        const bool enableMoveToTrash = capabilitiesSource.isLocal() && capabilitiesSource.supportsMoving();
+
+        renameAction->setEnabled(capabilitiesSource.supportsMoving());
         moveToTrashAction->setEnabled(enableMoveToTrash);
-        deleteAction->setEnabled(capabilities.supportsDeleting());
-        deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
-        cutAction->setEnabled(capabilities.supportsMoving());
+        deleteAction->setEnabled(capabilitiesSource.supportsDeleting());
+        deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting() && !enableMoveToTrash);
+        cutAction->setEnabled(capabilitiesSource.supportsMoving());
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
-        duplicateAction->setEnabled(capabilities.supportsWriting());
+        duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
     }
 }
 

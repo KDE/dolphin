@@ -370,6 +370,18 @@ public slots:
     /** Copies all selected items to the clipboard. */
     void copySelectedItemsToClipboard();
 
+    /**
+     * Copies all selected items to the inactive split view.
+     * Only used in Split View.
+     */
+    void copySelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl);
+
+    /**
+     * Moves all selected items to the inactive split view.
+     * Only used in Split View.
+     */
+    void moveSelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl);
+
     /** Pastes the clipboard data to this view. */
     void paste();
 
@@ -608,6 +620,7 @@ private slots:
     void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
     void slotRenameDialogRenamingFinished(const QList<QUrl>& urls);
     void slotSelectedItemTextPressed(int index);
+    void slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to);
 
     /*
      * Is called when new items get pasted or dropped.
@@ -616,7 +629,7 @@ private slots:
     /*
      * Is called after all pasted or dropped items have been copied to destination.
      */
-    void slotPasteJobResult(KJob *job);
+    void slotJobResult(KJob *job);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is

@@ -189,6 +189,12 @@ public slots:
      */
     void restoreClosedTab(const QByteArray& state);
 
+    /** Copies all selected items to the inactive view. */
+    void copyToInactiveSplitView();
+
+    /** Moves all selected items to the inactive view. */
+    void moveToInactiveSplitView();
+
 private slots:
     /**
      * Opens the tab with the index \a index in a new Dolphin instance and closes
