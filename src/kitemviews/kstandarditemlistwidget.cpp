@@ -1113,6 +1113,26 @@ void KStandardItemListWidget::updateTextsCache()
     }
 }
 
+QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, int elidingWidth) const
+{
+    auto extensionIndex = text.lastIndexOf('.');
+    if (extensionIndex != -1) {
+        // has file extension
+        auto extensionLength = text.length() - extensionIndex;
+        auto extensionWidth = m_customizedFontMetrics.width(text.right(extensionLength));
+        if (elidingWidth > extensionWidth && extensionLength < 6 && (float(extensionWidth) / float(elidingWidth)) < 0.3) {
+            // if we have room to display the file extension and the extension is not too long
+            QString ret = m_customizedFontMetrics.elidedText(text.chopped(extensionLength),
+                                                             Qt::ElideRight,
+                                                             elidingWidth - extensionWidth);
+            ret.append(text.right(extensionLength));
+            return ret;
+        }
+    }
+    return m_customizedFontMetrics.elidedText(text,Qt::ElideRight,
+                                              elidingWidth);
+}
+
 void KStandardItemListWidget::updateIconsLayoutTextCache()
 {
     //      +------+
@@ -1164,9 +1184,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 qreal lastLineWidth;
                 do {
                     QString lastTextLine = nameText.mid(line.textStart());
-                    lastTextLine = m_customizedFontMetrics.elidedText(lastTextLine,
-                                                                      Qt::ElideMiddle,
-                                                                      elidingWidth);
+                    lastTextLine = elideRightKeepExtension(lastTextLine, elidingWidth);
                     const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
                     nameTextInfo->staticText.setText(elidedText);
 
@@ -1221,7 +1239,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             textLine.setLineWidth(maxWidth);
             requiredWidth = textLine.naturalTextWidth();
             if (requiredWidth > maxWidth) {
-                const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
+                const QString elidedText = elideRightKeepExtension(text, maxWidth);
                 textInfo->staticText.setText(elidedText);
                 requiredWidth = m_customizedFontMetrics.width(elidedText);
             } else if (role == "rating") {
@@ -1270,7 +1288,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         qreal requiredWidth = m_customizedFontMetrics.width(text);
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
-            const QString elidedText = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, maxWidth);
+            const QString elidedText = elideRightKeepExtension(text, maxWidth);
             textInfo->staticText.setText(elidedText);
         }
 
@@ -1327,7 +1345,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         }
 
         if (requiredWidth > availableTextWidth) {
-            text = m_customizedFontMetrics.elidedText(text, Qt::ElideMiddle, availableTextWidth);
+            text = elideRightKeepExtension(text, availableTextWidth);
             requiredWidth = m_customizedFontMetrics.width(text);
         }
 
