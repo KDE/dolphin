@@ -371,16 +371,14 @@ public slots:
     void copySelectedItemsToClipboard();
 
     /**
-     * Copies all selected items to the inactive split view.
-     * Only used in Split View.
+     * Copies all selected items to @p destinationUrl.
      */
-    void copySelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl);
+    void copySelectedItems(const KFileItemList &selection, const QUrl &destinationUrl);
 
     /**
-     * Moves all selected items to the inactive split view.
-     * Only used in Split View.
+     * Moves all selected items to @p destinationUrl.
      */
-    void moveSelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl);
+    void moveSelectedItems(const KFileItemList &selection, const QUrl &destinationUrl);
 
     /** Pastes the clipboard data to this view. */
     void paste();

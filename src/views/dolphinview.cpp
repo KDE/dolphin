@@ -692,7 +692,7 @@ void DolphinView::copySelectedItemsToClipboard()
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
-void DolphinView::copySelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl)
+void DolphinView::copySelectedItems(const KFileItemList &selection, const QUrl &destinationUrl)
 {
     KIO::CopyJob* job = KIO::copy(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);
@@ -702,7 +702,7 @@ void DolphinView::copySelectedItemsToInactiveSplitView(const KFileItemList &sele
     KIO::FileUndoManager::self()->recordCopyJob(job);
 }
 
-void DolphinView::moveSelectedItemsToInactiveSplitView(const KFileItemList &selection, const QUrl &destinationUrl)
+void DolphinView::moveSelectedItems(const KFileItemList &selection, const QUrl &destinationUrl)
 {
     KIO::CopyJob* job = KIO::move(selection.urlList(), destinationUrl, KIO::DefaultFlags);
     KJobWidgets::setWindow(job, this);

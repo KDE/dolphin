@@ -330,10 +330,10 @@ void DolphinTabWidget::copyToInactiveSplitView()
 
     if (tabPage->primaryViewActive()) {
         // copy from left panel to right
-        activeViewContainer->view()->copySelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
+        activeViewContainer->view()->copySelectedItems(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
     } else {
         // copy from right panel to left
-        activeViewContainer->view()->copySelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+        activeViewContainer->view()->copySelectedItems(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
     }
 }
 
@@ -347,10 +347,10 @@ void DolphinTabWidget::moveToInactiveSplitView()
 
     if (tabPage->primaryViewActive()) {
         // move from left panel to right
-        activeViewContainer->view()->moveSelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
+        activeViewContainer->view()->moveSelectedItems(activeViewContainer->view()->selectedItems(), tabPage->secondaryViewContainer()->url());
     } else {
         // move from right panel to left
-        activeViewContainer->view()->moveSelectedItemsToInactiveSplitView(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
+        activeViewContainer->view()->moveSelectedItems(activeViewContainer->view()->selectedItems(), tabPage->primaryViewContainer()->url());
     }
 }
 
