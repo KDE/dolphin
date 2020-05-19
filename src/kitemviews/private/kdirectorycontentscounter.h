@@ -72,6 +72,7 @@ private:
 private:
     KFileItemModel* m_model;
 
+    QLinkedList<QString> m_priorityQueue;
     QLinkedList<QString> m_queue;
 
     static QThread* m_workerThread;
