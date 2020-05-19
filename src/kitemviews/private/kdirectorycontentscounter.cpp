@@ -104,7 +104,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
     }
 
     if (!m_queue.isEmpty()) {
-        startWorker(m_queue.dequeue());
+        startWorker(m_queue.takeFirst());
     }
 
     if (s_cache->contains(resolvedPath)) {
@@ -175,7 +175,9 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 
     if (m_workerIsBusy) {
-        m_queue.enqueue(path);
+        if (!m_queue.contains(path)) {
+            m_queue.append(path);
+        }
     } else {
         KDirectoryContentsCounterWorker::Options options;
 

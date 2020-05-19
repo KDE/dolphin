@@ -23,7 +23,7 @@
 
 #include "kdirectorycontentscounterworker.h"
 
-#include <QQueue>
+#include <QLinkedList>
 #include <QSet>
 #include <QHash>
 
@@ -72,7 +72,7 @@ private:
 private:
     KFileItemModel* m_model;
 
-    QQueue<QString> m_queue;
+    QLinkedList<QString> m_queue;
 
     static QThread* m_workerThread;
 
