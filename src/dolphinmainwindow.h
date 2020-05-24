@@ -353,9 +353,6 @@ private slots:
      */
     void toggleShowMenuBar();
 
-    /** Sets up updates for "Open Preferred Search Tool" action. */
-    void setupUpdateOpenPreferredSearchToolAction();
-
     /** Updates "Open Preferred Search Tool" action. */
     void updateOpenPreferredSearchToolAction();
 
