@@ -65,6 +65,7 @@
 #include <KShell>
 #include <KStandardAction>
 #include <KStartupInfo>
+#include <KSycoca>
 #include <KToggleAction>
 #include <KToolBar>
 #include <KToolBarPopupAction>
@@ -203,7 +204,9 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setupWhatsThis();
 
-    QTimer::singleShot(0, this, &DolphinMainWindow::setupUpdateOpenPreferredSearchToolAction);
+    connect(KSycoca::self(), QOverload<>::of(&KSycoca::databaseChanged), this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
+
+    QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -969,29 +972,6 @@ QPointer<QAction> DolphinMainWindow::preferredSearchTool()
     return action;
 }
 
-void DolphinMainWindow::setupUpdateOpenPreferredSearchToolAction()
-{
-    QAction* openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
-    const QList<QWidget*> widgets = openPreferredSearchTool->associatedWidgets();
-    for (QWidget* widget : widgets) {
-        QMenu* menu = qobject_cast<QMenu*>(widget);
-        if (menu) {
-            connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
-        }
-    }
-
-    // Update the open_preferred_search_tool action *before* the Configure Shortcuts window is shown,
-    // since this action is then listed in that window and it should be up-to-date when it is displayed.
-    // This update is instantaneous if user made no changes to the search tools in the meantime.
-    // Maybe all KStandardActions should defer calls to their slots, so that we could simply connect() to trigger()?
-    connect(
-        actionCollection()->action(KStandardAction::name(KStandardAction::KeyBindings)), &QAction::hovered,
-        this, &DolphinMainWindow::updateOpenPreferredSearchToolAction
-    );
-
-    updateOpenPreferredSearchToolAction();
-}
-
 void DolphinMainWindow::updateOpenPreferredSearchToolAction()
 {
     QAction* openPreferredSearchTool = actionCollection()->action(QStringLiteral("open_preferred_search_tool"));
@@ -1165,7 +1145,6 @@ void DolphinMainWindow::updateControlMenu()
     addActionToMenu(ac->action(QStringLiteral("show_filter_bar")), menu);
     addActionToMenu(ac->action(QStringLiteral("open_preferred_search_tool")), menu);
     addActionToMenu(ac->action(QStringLiteral("open_terminal")), menu);
-    connect(menu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     menu->addSeparator();
 
