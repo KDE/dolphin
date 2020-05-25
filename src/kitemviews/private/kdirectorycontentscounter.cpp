@@ -103,7 +103,9 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
         m_watchedDirs.insert(resolvedPath);
     }
 
-    if (!m_queue.isEmpty()) {
+    if (!m_priorityQueue.isEmpty()) {
+        startWorker(m_priorityQueue.takeLast());
+    } else if (!m_queue.isEmpty()) {
         startWorker(m_queue.takeFirst());
     }
 
@@ -167,7 +169,8 @@ void KDirectoryContentsCounter::slotItemsRemoved()
 
 void KDirectoryContentsCounter::startWorker(const QString& path)
 {
-    if (s_cache->contains(path)) {
+    const bool alreadyInCache = s_cache->contains(path);
+    if (alreadyInCache) {
         // fast path when in cache
         // will be updated later if result has changed
         const auto pair = s_cache->value(path);
@@ -175,8 +178,13 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 
     if (m_workerIsBusy) {
-        if (!m_queue.contains(path)) {
-            m_queue.append(path);
+        if (!m_queue.contains(path) && !m_priorityQueue.contains(path)) {
+            if (alreadyInCache) {
+                m_queue.append(path);
+            } else {
+                // append to priority queue
+                m_priorityQueue.append(path);
+            }
         }
     } else {
         KDirectoryContentsCounterWorker::Options options;
