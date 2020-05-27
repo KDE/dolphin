@@ -14,7 +14,7 @@ To submit a patch to Dolphin, use https://phabricator.kde.org. See https://commu
 
 
 
-Development philosophy
+Development Philosophy
 ======================
 Dolphin is a file manager focusing on usability. When reading the term Usability people often assume that the focus is on newbies and only basic features are offered. This is not the case; Dolphin is quite full-featured, but the features are carefully chosen so as to not impede any of the users in the target user groups.
 
