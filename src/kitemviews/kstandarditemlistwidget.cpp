@@ -88,7 +88,7 @@ qreal KStandardItemListWidgetInformant::preferredRoleColumnWidth(const QByteArra
         // If current item is a link, we use the customized link font metrics instead of the normal font metrics.
         const QFontMetrics& fontMetrics = itemIsLink(index, view) ? linkFontMetrics : normalFontMetrics;
 
-        width += fontMetrics.width(text);
+        width += fontMetrics.boundingRect(text).width();
 
         if (role == "text") {
             if (view->supportsItemExpanding()) {
@@ -214,12 +214,12 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
         qreal maximumRequiredWidth = 0.0;
 
         if (showOnlyTextRole) {
-            maximumRequiredWidth = fontMetrics.width(itemText(index, view));
+            maximumRequiredWidth = fontMetrics.boundingRect(itemText(index, view)).width();
         } else {
             const QHash<QByteArray, QVariant>& values = view->model()->data(index);
             foreach (const QByteArray& role, visibleRoles) {
                 const QString& text = roleText(role, values);
-                const qreal requiredWidth = fontMetrics.width(text);
+                const qreal requiredWidth = fontMetrics.boundingRect(text).width();
                 maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
             }
         }
@@ -478,7 +478,7 @@ QRectF KStandardItemListWidget::textFocusRect() const
         const KItemListStyleOption& option = styleOption();
         if (option.extendedSelectionRegion) {
             const QString text = textInfo->staticText.text();
-            rect.setWidth(m_customizedFontMetrics.width(text) + 2 * option.padding);
+            rect.setWidth(m_customizedFontMetrics.boundingRect(text).width() + 2 * option.padding);
         }
 
         return rect;
@@ -1119,7 +1119,7 @@ QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, in
     if (extensionIndex != -1) {
         // has file extension
         const auto extensionLength = text.length() - extensionIndex;
-        const auto extensionWidth = m_customizedFontMetrics.width(text.right(extensionLength));
+        const auto extensionWidth = m_customizedFontMetrics.boundingRect(text.right(extensionLength)).width();
         if (elidingWidth > extensionWidth && extensionLength < 6 && (float(extensionWidth) / float(elidingWidth)) < 0.3) {
             // if we have room to display the file extension and the extension is not too long
             QString ret = m_customizedFontMetrics.elidedText(text.chopped(extensionLength),
@@ -1241,7 +1241,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
             if (requiredWidth > maxWidth) {
                 const QString elidedText = elideRightKeepExtension(text, maxWidth);
                 textInfo->staticText.setText(elidedText);
-                requiredWidth = m_customizedFontMetrics.width(elidedText);
+                requiredWidth = m_customizedFontMetrics.boundingRect(elidedText).width();
             } else if (role == "rating") {
                 // Use the width of the rating pixmap, because the rating text is empty.
                 requiredWidth = m_rating.width();
@@ -1285,7 +1285,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
 
-        qreal requiredWidth = m_customizedFontMetrics.width(text);
+        qreal requiredWidth = m_customizedFontMetrics.boundingRect(text).width();
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
             const QString elidedText = elideRightKeepExtension(text, maxWidth);
@@ -1335,7 +1335,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         QString text = roleText(role, values);
 
         // Elide the text in case it does not fit into the available column-width
-        qreal requiredWidth = m_customizedFontMetrics.width(text);
+        qreal requiredWidth = m_customizedFontMetrics.boundingRect(text).width();
         const qreal roleWidth = columnWidth(role);
         qreal availableTextWidth = roleWidth - columnWidthInc;
 
@@ -1346,7 +1346,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         if (requiredWidth > availableTextWidth) {
             text = elideRightKeepExtension(text, availableTextWidth);
-            requiredWidth = m_customizedFontMetrics.width(text);
+            requiredWidth = m_customizedFontMetrics.boundingRect(text).width();
         }
 
         TextInfo* textInfo = m_textInfo.value(role);
