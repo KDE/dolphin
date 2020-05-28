@@ -104,7 +104,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     }
     dolphinInterfaces.front().second << newUrls;
 
-    for (const auto& interface: dolphinInterfaces) {
+    for (const auto& interface: qAsConst(dolphinInterfaces)) {
         if (!interface.second.isEmpty()) {
             auto reply = openFiles ? interface.first->openFiles(interface.second, splitView) : interface.first->openDirectories(interface.second, splitView);
             reply.waitForFinished();
