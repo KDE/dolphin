@@ -388,7 +388,8 @@ void KFileItemListView::applyRolesToModel()
 
     // KFileItemModel does not distinct between "visible" and "invisible" roles.
     // Add all roles that are mandatory for having a working KFileItemListView:
-    QSet<QByteArray> roles = visibleRoles().toSet();
+    const auto visibleRoles = this->visibleRoles();
+    auto roles = QSet<QByteArray>(visibleRoles.constBegin(), visibleRoles.constEnd());
     roles.insert("iconPixmap");
     roles.insert("iconName");
     roles.insert("text");

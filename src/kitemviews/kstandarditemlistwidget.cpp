@@ -658,7 +658,8 @@ void KStandardItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& cur
 
     QSet<QByteArray> dirtyRoles;
     if (roles.isEmpty()) {
-        dirtyRoles = visibleRoles().toSet();
+        const auto visibleRoles = this->visibleRoles();
+        dirtyRoles = QSet<QByteArray>(visibleRoles.constBegin(), visibleRoles.constEnd());
     } else {
         dirtyRoles = roles;
     }

@@ -521,7 +521,7 @@ void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray>& 
 {
     Q_UNUSED(previous)
 
-    const QSet<QByteArray> checkedRoles = current.toSet();
+    const auto checkedRoles = QSet<QByteArray>(current.constBegin(), current.constEnd());
     QHashIterator<QByteArray, KToggleAction*> it(m_visibleRoles);
     while (it.hasNext()) {
         it.next();

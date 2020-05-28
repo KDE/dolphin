@@ -963,7 +963,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     QPointer<QMenu> menu = new QMenu(QApplication::activeWindow());
 
     KItemListView* view = m_container->controller()->view();
-    const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
+    const QList<QByteArray> visibleRolesSet = view->visibleRoles();
 
     bool indexingEnabled = false;
 #ifdef HAVE_BALOO
