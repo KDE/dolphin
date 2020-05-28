@@ -1486,7 +1486,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     const QString key = "KStandardItemListWidget:" % name % ":" % overlays.join(QLatin1Char(':')) % ":" % QString::number(size) % ":" % QString::number(mode);
     QPixmap pixmap;
 
-    if (!QPixmapCache::find(key, pixmap)) {
+    if (!QPixmapCache::find(key, &pixmap)) {
         const QIcon icon = QIcon::fromTheme(name, fallbackIcon);
 
         pixmap = icon.pixmap(size / qApp->devicePixelRatio(), size / qApp->devicePixelRatio(), mode);
