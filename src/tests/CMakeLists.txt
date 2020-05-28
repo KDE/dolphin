@@ -40,16 +40,16 @@ ecm_add_test(kitemlistkeyboardsearchmanagertest.cpp LINK_LIBRARIES dolphinprivat
 
 # DolphinSearchBox
 if (KF5Baloo_FOUND)
-  ecm_add_test(dolphinsearchboxtest.cpp
-  TEST_NAME dolphinsearchboxtest
-  LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
+    ecm_add_test(dolphinsearchboxtest.cpp
+    TEST_NAME dolphinsearchboxtest
+    LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 endif()
 
 # DolphinQuery
 if (KF5Baloo_FOUND)
-  ecm_add_test(dolphinquerytest.cpp
-  TEST_NAME dolphinquerytest
-  LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
+    ecm_add_test(dolphinquerytest.cpp
+    TEST_NAME dolphinquerytest
+    LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 endif()
 
 # KStandardItemModelTest
@@ -85,6 +85,6 @@ set_package_properties(Gem:test-unit PROPERTIES
     TYPE RECOMMENDED
     DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
 if (Gem:test-unit_FOUND)
-  add_test(NAME servicemenutest
-  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
+    add_test(NAME servicemenutest
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
 endif()
