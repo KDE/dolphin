@@ -176,8 +176,8 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
         return;
     }
 
-    const bool scrollHorizontally = (event->orientation() == Qt::Horizontal) ||
-                                    (event->orientation() == Qt::Vertical && !verticalScrollBar()->isVisible());
+    const bool scrollHorizontally = (event->angleDelta().x() != 0) ||
+                                    (event->angleDelta().y() != 0 && !verticalScrollBar()->isVisible());
     KItemListSmoothScroller* smoothScroller = scrollHorizontally ?
                                               m_horizontalSmoothScroller : m_verticalSmoothScroller;
 
