@@ -18,6 +18,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include <QRandomGenerator>
 #include <QTest>
 #include <QSignalSpy>
 #include <QTimer>
@@ -450,9 +451,9 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
         itemsInsertedSpy.clear();
 
         for (int j = 0; j < 10; ++j) {
-            int itemName = qrand();
+            int itemName = QRandomGenerator::global()->generate();
             while (insertedItems.contains(itemName)) {
-                itemName = qrand();
+                itemName = QRandomGenerator::global()->generate();
             }
             insertedItems.insert(itemName);
 
