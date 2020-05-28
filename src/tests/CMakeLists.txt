@@ -3,11 +3,7 @@ set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 find_package(Qt5Test CONFIG REQUIRED)
 include(ECMAddTests)
 
-include(FindGem)
-
-find_gem(test-unit REQUIRED)
-set_package_properties(Gem:test-unit PROPERTIES
-    DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
+include(FindGem)  # For servicemenutest, see bottom of this file
 
 # KItemSetTest
 ecm_add_test(kitemsettest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
@@ -84,5 +80,11 @@ if (KF5_VERSION VERSION_GREATER_EQUAL 5.63.0)
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 endif()
 
-add_test(NAME servicemenutest
- COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
+find_gem(test-unit)
+set_package_properties(Gem:test-unit PROPERTIES
+    TYPE RECOMMENDED
+    DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
+if (Gem:test-unit_FOUND)
+  add_test(NAME servicemenutest
+  COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
+endif()
