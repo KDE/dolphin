@@ -96,7 +96,7 @@ void DolphinViewModesConfigModule::reparseConfiguration()
 
 void DolphinViewModesConfigModule::viewModeChanged()
 {
-    emit markAsChanged();
+    markAsChanged();
 }
 
 #include "kcmdolphinviewmodes.moc"
