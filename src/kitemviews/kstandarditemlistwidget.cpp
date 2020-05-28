@@ -1115,11 +1115,11 @@ void KStandardItemListWidget::updateTextsCache()
 
 QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, int elidingWidth) const
 {
-    auto extensionIndex = text.lastIndexOf('.');
+    const auto extensionIndex = text.lastIndexOf('.');
     if (extensionIndex != -1) {
         // has file extension
-        auto extensionLength = text.length() - extensionIndex;
-        auto extensionWidth = m_customizedFontMetrics.width(text.right(extensionLength));
+        const auto extensionLength = text.length() - extensionIndex;
+        const auto extensionWidth = m_customizedFontMetrics.width(text.right(extensionLength));
         if (elidingWidth > extensionWidth && extensionLength < 6 && (float(extensionWidth) / float(elidingWidth)) < 0.3) {
             // if we have room to display the file extension and the extension is not too long
             QString ret = m_customizedFontMetrics.elidedText(text.chopped(extensionLength),
