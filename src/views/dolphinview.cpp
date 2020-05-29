@@ -1522,6 +1522,10 @@ void DolphinView::calculateItemCount(int& fileCount,
 
     bool countFileSize = true;
 
+    if (!m_model->rootItem().url().isValid()) {
+        return;
+    }
+
     // In case we have a precomputed value
     const auto job = KIO::statDetails(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
     job->exec();
