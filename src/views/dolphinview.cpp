@@ -1523,7 +1523,7 @@ void DolphinView::calculateItemCount(int& fileCount,
     bool countFileSize = true;
 
     // In case we have a precomputed value
-    const auto job = KIO::statDetails(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize);
+    const auto job = KIO::statDetails(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
     job->exec();
     const auto entry =  job->statResult();
     if (entry.contains(KIO::UDSEntry::UDS_RECURSIVE_SIZE)) {
