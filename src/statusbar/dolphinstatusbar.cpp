@@ -115,7 +115,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
 
     m_zoomSlider->setMaximumWidth(fontMetrics.averageCharWidth() * 25);
 
-    m_spaceInfo->setFixedHeight(zoomSliderHeight);
+    m_spaceInfo->setFixedHeight(contentHeight);
     m_spaceInfo->setMaximumWidth(fontMetrics.averageCharWidth() * 25);
     m_spaceInfo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
