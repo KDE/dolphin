@@ -104,7 +104,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
     }
 
     if (!m_priorityQueue.isEmpty()) {
-        startWorker(m_priorityQueue.takeLast());
+        startWorker(m_priorityQueue.takeFirst());
     } else if (!m_queue.isEmpty()) {
         startWorker(m_queue.takeFirst());
     }

@@ -72,6 +72,7 @@ private:
 private:
     KFileItemModel* m_model;
 
+    // Used as FIFO queues.
     QLinkedList<QString> m_priorityQueue;
     QLinkedList<QString> m_queue;
 
