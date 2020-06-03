@@ -761,7 +761,7 @@ void DolphinView::duplicateSelectedItems()
             duplicateURL.setPath(originalDirectoryPath + i18nc("<filename> copy", "%1 copy", originalFilenameWithoutExtension) + originalExtension);
         }
 
-        KIO::CopyJob* job = KIO::copyAs(originalURL, duplicateURL, KIO::HideProgressInfo);
+        KIO::CopyJob* job = KIO::copyAs(originalURL, duplicateURL);
         KJobWidgets::setWindow(job, this);
 
         if (job) {
