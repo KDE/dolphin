@@ -186,8 +186,9 @@ void PixmapViewer::stopAnimatedImage()
     }
 }
 
-bool PixmapViewer::isAnimatedImage(const QString &fileName)
+bool PixmapViewer::isAnimatedMimeType(const QString &mimeType)
 {
-    const QByteArray imageFormat = QImageReader::imageFormat(fileName);
-    return !imageFormat.isEmpty() && QMovie::supportedFormats().contains(imageFormat);
+    const QList<QByteArray> imageFormats = QImageReader::imageFormatsForMimeType(mimeType.toUtf8());
+    return std::any_of(imageFormats.begin(), imageFormats.end(),
+                       [](const QByteArray &format){ return QMovie::supportedFormats().contains(format); });
 }

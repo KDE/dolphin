@@ -236,7 +236,7 @@ void InformationPanelContent::refreshPreview()
             refreshPixmapView();
 
             const QString mimeType = m_item.mimetype();
-            const bool isAnimatedImage = m_preview->isAnimatedImage(itemUrl.toLocalFile());
+            const bool isAnimatedImage = m_preview->isAnimatedMimeType(mimeType);
             m_isVideo = !isAnimatedImage && mimeType.startsWith(QLatin1String("video/"));
             bool usePhonon = m_isVideo || mimeType.startsWith(QLatin1String("audio/"));
 

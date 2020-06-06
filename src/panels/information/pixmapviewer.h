@@ -80,9 +80,9 @@ public:
     void stopAnimatedImage();
 
     /**
-     * Checks if \a fileName contains an animated image supported by QMovie.
+     * Checks if \a mimeType has a format supported by QMovie.
      */
-    static bool isAnimatedImage(const QString &fileName);
+    static bool isAnimatedMimeType(const QString &mimeType);
 
 protected:
     void paintEvent(QPaintEvent* event) override;
