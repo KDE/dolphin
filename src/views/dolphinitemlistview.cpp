@@ -91,7 +91,7 @@ void DolphinItemListView::readSettings()
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     setEnabledPlugins(globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins()));
-
+    setLocalFileSizePreviewLimit(globalConfig.readEntry("MaximumSize", 0));
     endTransaction();
 }
 

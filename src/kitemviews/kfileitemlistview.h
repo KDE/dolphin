@@ -71,6 +71,17 @@ public:
      */
     QStringList enabledPlugins() const;
 
+    /**
+     * Sets the maximum file size of local files for which
+     * previews will be generated (if enabled). A value of 0
+     * indicates no file size limit.
+     * Per default the value from KConfigGroup "PreviewSettings"
+     * MaximumSize is used, 0 otherwise.
+     * @param size
+     */
+    void setLocalFileSizePreviewLimit(qlonglong size);
+    qlonglong localFileSizePreviewLimit() const;
+
     QPixmap createDragPixmap(const KItemSet& indexes) const override;
 
 protected:

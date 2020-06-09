@@ -85,7 +85,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_recentlyChangedItemsTimer(nullptr),
     m_recentlyChangedItems(),
     m_changedItems(),
-    m_directoryContentsCounter(nullptr)
+    m_directoryContentsCounter(nullptr),
+    m_localFileSizePreviewLimit(0)
   #ifdef HAVE_BALOO
   , m_balooFileMonitor(nullptr)
   #endif
@@ -94,6 +95,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
 
     const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
     m_enabledPlugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
+    m_localFileSizePreviewLimit = static_cast<qulonglong>(globalConfig.readEntry("MaximumSize", 0));
 
     connect(m_model, &KFileItemModel::itemsInserted,
             this,    &KFileItemModelRolesUpdater::slotItemsInserted);
@@ -315,6 +317,16 @@ bool KFileItemModelRolesUpdater::isPaused() const
 QStringList KFileItemModelRolesUpdater::enabledPlugins() const
 {
     return m_enabledPlugins;
+}
+
+void KFileItemModelRolesUpdater::setLocalFileSizePreviewLimit(const qlonglong size)
+{
+    m_localFileSizePreviewLimit = size;
+}
+
+qlonglong KFileItemModelRolesUpdater::localFileSizePreviewLimit() const
+{
+    return m_localFileSizePreviewLimit;
 }
 
 void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRanges)
@@ -898,7 +910,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
 
     KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
 
-    job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile());
+    job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
