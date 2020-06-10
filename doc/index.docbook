@@ -70,7 +70,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-05-05</date>
+<date>2020-06-10</date>
 <releaseinfo>Applications 20.08</releaseinfo>
 
 <abstract>
@@ -1066,7 +1066,7 @@ to close the inactive pane when you are turning off the split view mode, &eg; pr
 
 <para>
 In this tab, you can configure for which file types previews are shown.
-Moreover, the maximum size of remote files for which previews are generated can be chosen.
+Moreover, the maximum size of local and remote files for which previews are generated can be chosen.
 </para>
 <para>
 If previews are enabled for folders, previews of some files in the folder will
