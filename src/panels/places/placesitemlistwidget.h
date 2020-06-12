@@ -9,6 +9,24 @@
 
 #include "kitemviews/kstandarditemlistwidget.h"
 
+#include <QDateTime>
+#include <QPointer>
+
+#include <KIO/FileSystemFreeSpaceJob>
+
+
+// The free space / capacity bar is based on KFilePlacesView.
+// https://github.com/KDE/kio/commit/933887dc334f3498505af7a86d25db7faae91019
+struct PlaceFreeSpaceInfo
+{
+    QDateTime lastUpdated;
+    KIO::filesize_t used = 0;
+    KIO::filesize_t size = 0;
+    qreal usedRatio = 0;
+    QPointer<KIO::FileSystemFreeSpaceJob> job;
+};
+
+
 /**
  * @brief Extends KStandardItemListWidget to interpret the hidden
  *        property of the PlacesModel and use the right text color.
@@ -31,9 +49,8 @@ protected:
     void resetCapacityBar();
 
 private:
-    bool m_isMountPoint;
     bool m_drawCapacityBar;
-    qreal m_capacityBarRatio;
+    PlaceFreeSpaceInfo m_freeSpaceInfo;
 };
 
 #endif
