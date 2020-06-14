@@ -73,6 +73,14 @@ namespace {
         return textParts;
     }
 #endif
+
+    QString trimChar(const QString& text, const QLatin1Char aChar)
+    {
+        const int start = text.startsWith(aChar) ? 1 : 0;
+        const int end = (text.length() > 1 && text.endsWith(aChar)) ? 1 : 0;
+
+        return text.mid(start, text.length() - start - end);
+    }
 }
 
 
@@ -83,6 +91,10 @@ DolphinQuery DolphinQuery::fromSearchUrl(const QUrl& searchUrl)
 
     if (searchUrl.scheme() == QLatin1String("baloosearch")) {
         model.parseBalooQuery();
+    } else if (searchUrl.scheme() == QLatin1String("tags")) {
+        // tags can contain # symbols or slashes within the Url
+        QString tag = trimChar(searchUrl.toString(QUrl::RemoveScheme), QLatin1Char('/'));
+        model.m_searchTerms << QStringLiteral("tag:%1").arg(tag);
     }
 
     return model;
@@ -92,6 +104,7 @@ bool DolphinQuery::supportsScheme(const QString& urlScheme)
 {
     static const QStringList supportedSchemes = {
         QStringLiteral("baloosearch"),
+        QStringLiteral("tags"),
     };
 
     return supportedSchemes.contains(urlScheme);
