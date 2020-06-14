@@ -68,9 +68,14 @@ public:
     DolphinViewContainer* activeViewContainer() const;
 
     /**
-     * Returns view container for all tabs
+     * Returns view containers for all tabs
+     * @param includeInactive   When true all view containers available in
+     *                          this window are returned. When false the
+     *                          view containers of split views that are not
+     *                          currently active are ignored.
+     *                          Default is true.
      */
-    QVector<DolphinViewContainer*> viewContainers() const;
+    QVector<DolphinViewContainer*> viewContainers(bool includeInactive = true) const;
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
@@ -304,6 +309,12 @@ private slots:
     void disableStopAction();
 
     void showFilterBar();
+
+    /**
+     * Toggle between either using an UrlNavigator in the toolbar or the
+     * ones in the location bar for navigating.
+     */
+    void toggleLocationInToolbar();
 
     /**
      * Toggles between edit and browse mode of the navigation bar.

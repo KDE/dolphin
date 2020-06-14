@@ -68,9 +68,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
             const QUrl& url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
             m_secondaryViewContainer = createViewContainer(url);
 
-            const bool placesSelectorVisible = m_primaryViewContainer->urlNavigator()->isPlacesSelectorVisible();
-            m_secondaryViewContainer->urlNavigator()->setPlacesSelectorVisible(placesSelectorVisible);
-
             m_splitter->addWidget(m_secondaryViewContainer);
             m_secondaryViewContainer->show();
             m_secondaryViewContainer->setActive(true);
@@ -150,14 +147,6 @@ void DolphinTabPage::markUrlAsCurrent(const QUrl& url)
     }
 }
 
-void DolphinTabPage::setPlacesSelectorVisible(bool visible)
-{
-    m_primaryViewContainer->urlNavigator()->setPlacesSelectorVisible(visible);
-    if (m_splitViewEnabled) {
-        m_secondaryViewContainer->urlNavigator()->setPlacesSelectorVisible(visible);
-    }
-}
-
 void DolphinTabPage::refreshViews()
 {
     m_primaryViewContainer->readSettings();
@@ -176,12 +165,12 @@ QByteArray DolphinTabPage::saveState() const
     stream << m_splitViewEnabled;
 
     stream << m_primaryViewContainer->url();
-    stream << m_primaryViewContainer->urlNavigator()->isUrlEditable();
+    stream << m_primaryViewContainer->urlNavigatorInternal()->isUrlEditable();
     m_primaryViewContainer->view()->saveState(stream);
 
     if (m_splitViewEnabled) {
         stream << m_secondaryViewContainer->url();
-        stream << m_secondaryViewContainer->urlNavigator()->isUrlEditable();
+        stream << m_secondaryViewContainer->urlNavigatorInternal()->isUrlEditable();
         m_secondaryViewContainer->view()->saveState(stream);
     }
 
@@ -217,7 +206,7 @@ void DolphinTabPage::restoreState(const QByteArray& state)
     m_primaryViewContainer->setUrl(primaryUrl);
     bool primaryUrlEditable;
     stream >> primaryUrlEditable;
-    m_primaryViewContainer->urlNavigator()->setUrlEditable(primaryUrlEditable);
+    m_primaryViewContainer->urlNavigatorInternal()->setUrlEditable(primaryUrlEditable);
     m_primaryViewContainer->view()->restoreState(stream);
 
     if (isSplitViewEnabled) {
@@ -226,7 +215,7 @@ void DolphinTabPage::restoreState(const QByteArray& state)
         m_secondaryViewContainer->setUrl(secondaryUrl);
         bool secondaryUrlEditable;
         stream >> secondaryUrlEditable;
-        m_secondaryViewContainer->urlNavigator()->setUrlEditable(secondaryUrlEditable);
+        m_secondaryViewContainer->urlNavigatorInternal()->setUrlEditable(secondaryUrlEditable);
         m_secondaryViewContainer->view()->restoreState(stream);
     }
 
@@ -261,7 +250,7 @@ void DolphinTabPage::restoreStateV1(const QByteArray& state)
     m_primaryViewContainer->setUrl(primaryUrl);
     bool primaryUrlEditable;
     stream >> primaryUrlEditable;
-    m_primaryViewContainer->urlNavigator()->setUrlEditable(primaryUrlEditable);
+    m_primaryViewContainer->urlNavigatorInternal()->setUrlEditable(primaryUrlEditable);
 
     if (isSplitViewEnabled) {
         QUrl secondaryUrl;
@@ -269,7 +258,7 @@ void DolphinTabPage::restoreStateV1(const QByteArray& state)
         m_secondaryViewContainer->setUrl(secondaryUrl);
         bool secondaryUrlEditable;
         stream >> secondaryUrlEditable;
-        m_secondaryViewContainer->urlNavigator()->setUrlEditable(secondaryUrlEditable);
+        m_secondaryViewContainer->urlNavigatorInternal()->setUrlEditable(secondaryUrlEditable);
     }
 
     stream >> m_primaryViewActive;

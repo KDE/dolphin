@@ -31,6 +31,7 @@
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 #include "views/dolphinnewfilemenuobserver.h"
+#include "views/dolphinurlnavigatorwidgetaction.h"
 #include "dolphin_generalsettings.h"
 
 #include <KActionCollection>
@@ -201,7 +202,7 @@ DolphinMainWindow::~DolphinMainWindow()
 {
 }
 
-QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
+QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers(bool includeInactive) const
 {
     QVector<DolphinViewContainer*> viewContainers;
 
@@ -356,7 +357,7 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 
 void DolphinMainWindow::updateHistory()
 {
-    const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     const int index = urlNavigator->historyIndex();
 
     QAction* backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
@@ -727,7 +728,7 @@ void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
 
 void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 {
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     int entries = 0;
     m_backAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() + 1; i < urlNavigator->historySize() && entries < MaxNumberOfNavigationentries; ++i, ++entries) {
@@ -740,7 +741,7 @@ void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 void DolphinMainWindow::slotGoBack(QAction* action)
 {
     int gotoIndex = action->data().value<int>();
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     for (int i = gotoIndex - urlNavigator->historyIndex(); i > 0; --i) {
         goBack();
     }
@@ -749,14 +750,14 @@ void DolphinMainWindow::slotGoBack(QAction* action)
 void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
 {
     if (action) {
-        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+        const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternal();
         openNewTabAfterCurrentTab(urlNavigator->locationUrl(action->data().value<int>()));
     }
 }
 
 void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
 {
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     int entries = 0;
     m_forwardAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
@@ -769,7 +770,7 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
 void DolphinMainWindow::slotGoForward(QAction* action)
 {
     int gotoIndex = action->data().value<int>();
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     for (int i = urlNavigator->historyIndex() - gotoIndex; i > 0; --i) {
         goForward();
     }
@@ -841,6 +842,47 @@ void DolphinMainWindow::showFilterBar()
     m_activeViewContainer->setFilterBarVisible(true);
 }
 
+void DolphinMainWindow::toggleLocationInToolbar()
+{
+    // collect needed variables
+    const bool locationInToolbar = actionCollection()->action(QStringLiteral("location_in_toolbar"))->isChecked();
+    auto viewContainers = this->viewContainers();
+    auto urlNavigatorWidgetAction = static_cast<DolphinUrlNavigatorWidgetAction *>
+        (actionCollection()->action(QStringLiteral("url_navigator")));
+    const bool isEditable = m_activeViewContainer->urlNavigator()->isUrlEditable();
+    const QLineEdit *lineEdit = m_activeViewContainer->urlNavigator()->editor()->lineEdit();
+    const bool hasFocus = lineEdit->hasFocus();
+    const int cursorPosition = lineEdit->cursorPosition();
+    const int selectionStart = lineEdit->selectionStart();
+    const int selectionLength = lineEdit->selectionLength();
+
+    // do the switching
+    GeneralSettings::setLocationInToolbar(locationInToolbar);
+    if (locationInToolbar) {
+        for (const auto viewContainer : viewContainers) {
+            viewContainer->disconnectUrlNavigator();
+        }
+        m_activeViewContainer->connectUrlNavigator(urlNavigatorWidgetAction->urlNavigator());
+    } else {
+        m_activeViewContainer->disconnectUrlNavigator();
+        for (const auto viewContainer : viewContainers) {
+            viewContainer->connectToInternalUrlNavigator();
+        }
+    }
+
+    urlNavigatorWidgetAction->setUrlNavigatorVisible(!locationInToolbar);
+    m_activeViewContainer->urlNavigator()->setUrlEditable(isEditable);
+    if (hasFocus) { // the rest of this method is unneeded perfectionism
+        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setText(lineEdit->text());
+        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setFocus();
+        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setCursorPosition(cursorPosition);
+        if (selectionStart != -1) {
+            m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setSelection(selectionStart, selectionLength);
+        }
+    }
+        
+}
+
 void DolphinMainWindow::toggleEditLocation()
 {
     clearStatusBar();
@@ -891,7 +933,7 @@ void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
 
 void DolphinMainWindow::goBack()
 {
-    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    DolphinUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
     urlNavigator->goBack();
 
     if (urlNavigator->locationState().isEmpty()) {
@@ -918,14 +960,14 @@ void DolphinMainWindow::goHome()
 
 void DolphinMainWindow::goBackInNewTab()
 {
-    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternal();
     const int index = urlNavigator->historyIndex() + 1;
     openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goForwardInNewTab()
 {
-    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternal();
     const int index = urlNavigator->historyIndex() - 1;
     openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
@@ -1057,6 +1099,7 @@ void DolphinMainWindow::editSettings()
         const QUrl url = container->url();
         DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
         connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, this, &DolphinMainWindow::refreshViews);
+        connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, &DolphinUrlNavigator::slotReadSettings);
         settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
         settingsDialog->show();
         m_settingsDialog = settingsDialog;
@@ -1254,12 +1297,19 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         oldViewContainer->disconnect(this);
         oldViewContainer->view()->disconnect(this);
         oldViewContainer->urlNavigator()->disconnect(this);
+        if (GeneralSettings::locationInToolbar()) {
+            oldViewContainer->disconnectUrlNavigator();
+        }
 
         // except the requestItemInfo so that on hover the information panel can still be updated
         connect(oldViewContainer->view(), &DolphinView::requestItemInfo,
                 this, &DolphinMainWindow::requestItemInfo);
     }
 
+    if (GeneralSettings::locationInToolbar()) {
+        viewContainer->connectUrlNavigator(static_cast<DolphinUrlNavigatorWidgetAction *>
+            (actionCollection()->action(QStringLiteral("url_navigator")))->urlNavigator());
+    }
     connectViewSignals(viewContainer);
 
     m_actionHandler->setCurrentView(viewContainer->view());
@@ -1491,6 +1541,16 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(stop, &QAction::triggered, this, &DolphinMainWindow::stopLoading);
 
+    KToggleAction* locationInToolbar = actionCollection()->add<KToggleAction>(QStringLiteral("location_in_toolbar"));
+    locationInToolbar->setText(i18nc("@action:inmenu Navigation Bar", "Location in Toolbar"));
+    locationInToolbar->setWhatsThis(xi18nc("@info:whatsthis",
+        "This toggles between showing the <emphasis>path</emphasis> in the "
+        "<emphasis>Location Bar</emphasis> and in the <emphasis>Toolbar</emphasis>."));
+    actionCollection()->setDefaultShortcut(locationInToolbar, Qt::Key_F12);
+    locationInToolbar->setChecked(GeneralSettings::locationInToolbar());
+    connect(locationInToolbar, &KToggleAction::triggered, this, &DolphinMainWindow::toggleLocationInToolbar);
+    DolphinUrlNavigator::addToContextMenu(locationInToolbar);
+
     KToggleAction* editableLocation = actionCollection()->add<KToggleAction>(QStringLiteral("editable_location"));
     editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
     editableLocation->setWhatsThis(xi18nc("@info:whatsthis",
@@ -1692,6 +1752,14 @@ void DolphinMainWindow::setupActions()
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
     actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
 
+    auto *urlNavigatorWidgetAction = new DolphinUrlNavigatorWidgetAction(this);
+    urlNavigatorWidgetAction->setText(i18nc("@action:inmenu auto-hide: "
+        "Depending on the settings this Widget is blank/invisible.",
+        "Url Navigator (auto-hide)"));
+    actionCollection()->addAction(QStringLiteral("url_navigator"), urlNavigatorWidgetAction);
+    connect(locationInToolbar, &KToggleAction::triggered,
+            urlNavigatorWidgetAction, &DolphinUrlNavigatorWidgetAction::setUrlNavigatorVisible);
+
     // for context menu
     QAction* showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
     showTarget->setText(i18nc("@action:inmenu", "Show Target"));
@@ -1883,14 +1951,14 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, &DolphinMainWindow::urlChanged,
             m_placesPanel, &PlacesPanel::setUrl);
     connect(placesDock, &DolphinDockWidget::visibilityChanged,
-            m_tabWidget, &DolphinTabWidget::slotPlacesPanelVisibilityChanged);
+            &DolphinUrlNavigator::slotPlacesPanelVisibilityChanged);
     connect(this, &DolphinMainWindow::settingsChanged,
         m_placesPanel, &PlacesPanel::readSettings);
     connect(m_placesPanel, &PlacesPanel::storageTearDownRequested,
             this, &DolphinMainWindow::slotStorageTearDownFromPlacesRequested);
     connect(m_placesPanel, &PlacesPanel::storageTearDownExternallyRequested,
             this, &DolphinMainWindow::slotStorageTearDownExternallyRequested);
-    m_tabWidget->slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
+    DolphinUrlNavigator::slotPlacesPanelVisibilityChanged(m_placesPanel->isVisible());
 
     auto actionShowAllPlaces = new QAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Show Hidden Places"), this);
     actionShowAllPlaces->setCheckable(true);
@@ -2165,12 +2233,13 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, &KUrlNavigator::urlChanged,
             this, &DolphinMainWindow::changeUrl);
-    connect(navigator, &KUrlNavigator::historyChanged,
-            this, &DolphinMainWindow::updateHistory);
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTabAfterLastTab);
+    
+    connect(container->urlNavigatorInternal(), &KUrlNavigator::historyChanged,
+            this, &DolphinMainWindow::updateHistory);
 }
 
 void DolphinMainWindow::updateSplitAction()

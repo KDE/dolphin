@@ -22,7 +22,6 @@
 
 DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
     QTabWidget(parent),
-    m_placesSelectorVisible(true),
     m_lastViewedTab(0)
 {
     KAcceleratorManager::setNoAccel(this);
@@ -157,7 +156,6 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
 
     DolphinTabPage* tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
     tabPage->setActive(false);
-    tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     connect(tabPage, &DolphinTabPage::activeViewChanged,
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
@@ -286,19 +284,6 @@ void DolphinTabWidget::activatePrevTab()
 {
     const int index = currentIndex() - 1;
     setCurrentIndex(index >= 0 ? index : (count() - 1));
-}
-
-void DolphinTabWidget::slotPlacesPanelVisibilityChanged(bool visible)
-{
-    // The places-selector from the URL navigator should only be shown
-    // if the places dock is invisible
-    m_placesSelectorVisible = !visible;
-
-    const int tabCount = count();
-    for (int i = 0; i < tabCount; ++i) {
-        DolphinTabPage* tabPage = tabPageAt(i);
-        tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
-    }
 }
 
 void DolphinTabWidget::restoreClosedTab(const QByteArray& state)

@@ -164,13 +164,6 @@ public slots:
     void activatePrevTab();
 
     /**
-     * Is invoked if the Places panel got visible/invisible and takes care
-     * that the places-selector of all views is only shown if the Places panel
-     * is invisible.
-     */
-    void slotPlacesPanelVisibilityChanged(bool visible);
-
-    /**
      * Is called when the user wants to reopen a previously closed tab from
      * the recent tabs menu.
      */
@@ -231,9 +224,6 @@ private:
     QPair<int, bool> indexByUrl(const QUrl& url) const;
 
 private:
-    /** Caches the (negated) places panel visibility */
-    bool m_placesSelectorVisible;
-
     int m_lastViewedTab;
 };
 

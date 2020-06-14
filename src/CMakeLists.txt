@@ -208,6 +208,7 @@ set(dolphinstatic_SRCS
     dolphinrecenttabsmenu.cpp
     dolphintabpage.cpp
     dolphintabwidget.cpp
+    dolphinurlnavigator.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
     panels/places/placespanel.cpp
@@ -248,6 +249,7 @@ set(dolphinstatic_SRCS
     statusbar/mountpointobservercache.cpp
     statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
+    views/dolphinurlnavigatorwidgetaction.cpp
     views/zoomlevelinfo.cpp
     dolphindebug.cpp
     global.cpp
