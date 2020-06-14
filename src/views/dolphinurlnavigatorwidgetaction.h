@@ -43,7 +43,7 @@ public:
     DolphinUrlNavigatorWidgetAction(QWidget *parent = nullptr);
 
     DolphinUrlNavigator *urlNavigator() const;
-    
+
     /**
      * Set the QStackedWidget which is the defaultWidget() to either
      * show a KUrlNavigator or an expanding spacer.

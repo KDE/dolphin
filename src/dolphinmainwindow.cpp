@@ -880,7 +880,6 @@ void DolphinMainWindow::toggleLocationInToolbar()
             m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setSelection(selectionStart, selectionLength);
         }
     }
-        
 }
 
 void DolphinMainWindow::toggleEditLocation()
@@ -2237,7 +2236,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTabAfterLastTab);
-    
+
     connect(container->urlNavigatorInternal(), &KUrlNavigator::historyChanged,
             this, &DolphinMainWindow::updateHistory);
 }
