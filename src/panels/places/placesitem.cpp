@@ -209,7 +209,7 @@ void PlacesItem::initializeDevice(const QString& udi)
     m_disc = m_device.as<Solid::OpticalDisc>();
     m_mtp = m_device.as<Solid::PortableMediaPlayer>();
 
-    setText(m_device.description());
+    setText(m_device.displayName());
     setIcon(m_device.icon());
     setIconOverlays(m_device.emblems());
     setUdi(udi);
