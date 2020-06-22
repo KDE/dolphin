@@ -32,9 +32,10 @@
 class DolphinQuery
 {
 public:
-    /** Calls Baloo::Query::fromSearchUrl() with the given @p searchUrl
-     * and parses the result to extract its separate components */
-    static DolphinQuery fromBalooSearchUrl(const QUrl& searchUrl);
+    /** Parses the components of @p searchUrl for the supported schemes */
+    static DolphinQuery fromSearchUrl(const QUrl& searchUrl);
+    /** Checks whether the DolphinQuery supports the given @p urlScheme */
+    static bool supportsScheme(const QString& urlScheme);
 
     /** @return the \a searchUrl passed to Baloo::Query::fromSearchUrl() */
     QUrl searchUrl() const;
@@ -52,6 +53,11 @@ public:
     bool hasContentSearch() const;
     /** @return whether the query includes a filter by fileName */
     bool hasFileName() const;
+
+private:
+    /** Calls Baloo::Query::fromSearchUrl() on the current searchUrl
+     * and parses the result to extract its separate components */
+    void parseBalooQuery();
 
 private:
     QUrl m_searchUrl;

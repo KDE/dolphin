@@ -146,8 +146,8 @@ QUrl DolphinSearchBox::urlForSearching() const
 
 void DolphinSearchBox::fromSearchUrl(const QUrl& url)
 {
-    if (url.scheme() == QLatin1String("baloosearch")) {
-        const DolphinQuery query = DolphinQuery::fromBalooSearchUrl(url);
+    if (DolphinQuery::supportsScheme(url.scheme())) {
+        const DolphinQuery query = DolphinQuery::fromSearchUrl(url);
         updateFromQuery(query);
     } else if (url.scheme() == QLatin1String("filenamesearch")) {
         const QUrlQuery query(url);
