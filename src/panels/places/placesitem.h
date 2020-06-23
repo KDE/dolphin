@@ -106,7 +106,7 @@ private:
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
-    QPointer<Solid::PortableMediaPlayer> m_mtp;
+    QPointer<Solid::PortableMediaPlayer> m_player;
     QPointer<PlacesItemSignalHandler> m_signalHandler;
     KBookmark m_bookmark;
 
