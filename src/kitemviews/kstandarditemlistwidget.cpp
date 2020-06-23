@@ -1487,7 +1487,13 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
     QPixmap pixmap;
 
     if (!QPixmapCache::find(key, pixmap)) {
-        const QIcon icon = QIcon::fromTheme(name, fallbackIcon);
+        QIcon icon = QIcon::fromTheme(name);
+        if (icon.isNull()) {
+            icon = QIcon(name);
+        }
+        if (icon.isNull()) {
+            icon = fallbackIcon;
+        }
 
         pixmap = icon.pixmap(size / qApp->devicePixelRatio(), size / qApp->devicePixelRatio(), mode);
         if (pixmap.width() != size || pixmap.height() != size) {
