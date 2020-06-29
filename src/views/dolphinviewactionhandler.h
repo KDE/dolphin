@@ -219,6 +219,11 @@ private Q_SLOTS:
      */
     void slotProperties();
 
+    /**
+     * Copies the path of the first selected KFileItem into Clipboard.
+     */
+    void slotCopyPath();
+
 private:
     /**
      * Create all the actions.

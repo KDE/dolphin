@@ -34,7 +34,6 @@
 #include <KNewFileMenu>
 #include <KPropertiesDialog>
 #include <KProtocolManager>
-
 #include <QMenu>
 #include <QPointer>
 
@@ -155,6 +154,17 @@ void DolphinViewActionHandler::createActions()
     propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
     m_actionCollection->setDefaultShortcuts(propertiesAction, {Qt::ALT + Qt::Key_Return, Qt::ALT + Qt::Key_Enter});
     connect(propertiesAction, &QAction::triggered, this, &DolphinViewActionHandler::slotProperties);
+
+    QAction *copyPathAction = m_actionCollection->addAction( QStringLiteral("copy_location") );
+    copyPathAction->setText(i18nc("@action:incontextmenu", "Copy location"));
+    copyPathAction->setWhatsThis(i18nc("@info:whatsthis copy_location",
+                                          "This will copy the path of the first selected item into the clipboard."
+                                ));
+
+    copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL + Qt::SHIFT + Qt::Key_C});
+    connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
+
 
     // View menu
     KToggleAction* iconsAction = iconsModeAction();
@@ -708,4 +718,9 @@ void DolphinViewActionHandler::slotProperties()
     dialog->show();
     dialog->raise();
     dialog->activateWindow();
+}
+
+void DolphinViewActionHandler::slotCopyPath()
+{
+    m_currentView->copyPathToClipboard();
 }

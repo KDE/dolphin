@@ -391,6 +391,11 @@ public slots:
     void pasteIntoFolder();
 
     /**
+     * Copies the path of the first selected KFileItem into Clipboard.
+     */
+    void copyPathToClipboard();
+
+    /**
      * Creates duplicates of selected items, appending "copy"
      * to the end.
      */

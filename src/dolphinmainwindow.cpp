@@ -1129,6 +1129,7 @@ void DolphinMainWindow::updateControlMenu()
 
     // Add "Edit" actions
     bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
+                 addActionToMenu(ac->action(QString("copy_location")), menu) |
                  addActionToMenu(ac->action(QStringLiteral("copy_to_inactive_split_view")), menu) |
                  addActionToMenu(ac->action(QStringLiteral("move_to_inactive_split_view")), menu) |
                  addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
@@ -1911,6 +1912,7 @@ void DolphinMainWindow::updateFileAndEditActions()
     QAction* addToPlacesAction = col->action(QStringLiteral("add_to_places"));
     QAction* copyToOtherViewAction   = col->action(QStringLiteral("copy_to_inactive_split_view"));
     QAction* moveToOtherViewAction   = col->action(QStringLiteral("move_to_inactive_split_view"));
+    QAction* copyLocation            = col->action(QString("copy_location"));
 
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
@@ -1918,6 +1920,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         addToPlacesAction->setEnabled(true);
         copyToOtherViewAction->setEnabled(false);
         moveToOtherViewAction->setEnabled(false);
+        copyLocation->setEnabled(false);
     } else {
         stateChanged(QStringLiteral("has_selection"));
 
@@ -1959,6 +1962,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         deleteAction->setEnabled(capabilitiesSource.supportsDeleting());
         deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting() && !enableMoveToTrash);
         cutAction->setEnabled(capabilitiesSource.supportsMoving());
+        copyLocation->setEnabled(list.length() == 1);
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
     }

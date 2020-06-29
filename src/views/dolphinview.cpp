@@ -1949,3 +1949,21 @@ void DolphinView::forceUrlsSelection(const QUrl& current, const QList<QUrl>& sel
     markUrlAsCurrent(current);
     markUrlsAsSelected(selected);
 }
+
+void DolphinView::copyPathToClipboard()
+{
+    const KFileItemList list = selectedItems();
+    if (list.isEmpty()) {
+        return;
+    }
+    const KFileItem& item = list.at(0);
+    QString path = item.localPath();
+    if (path.isEmpty()) {
+        path = item.url().toDisplayString();
+    }
+    QClipboard* clipboard = QApplication::clipboard();
+    if (clipboard == nullptr) {
+        return;
+    }
+    clipboard->setText(path);
+}
