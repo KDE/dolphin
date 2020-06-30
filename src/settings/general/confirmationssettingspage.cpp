@@ -137,7 +137,7 @@ void ConfirmationsSettingsPage::applySettings()
         scriptExecutionGroup.writeEntry("behaviourOnLaunch", "alwaysAsk");
         break;
     case ScriptExecution::Open:
-        scriptExecutionGroup.writeEntry("behaviourOnLaunch", "dontAsk");
+        scriptExecutionGroup.writeEntry("behaviourOnLaunch", "open");
         break;
     case ScriptExecution::Execute:
         scriptExecutionGroup.writeEntry("behaviourOnLaunch", "execute");
@@ -178,12 +178,12 @@ void ConfirmationsSettingsPage::loadSettings()
 
     const KConfigGroup scriptExecutionGroup(KSharedConfig::openConfig(QStringLiteral("kiorc")), "Executable scripts");
     const QString value = scriptExecutionGroup.readEntry("behaviourOnLaunch", "alwaysAsk");
-    if (value == QLatin1String("dontAsk")) {
-        m_confirmScriptExecution->setCurrentIndex(ScriptExecution::Open);
+    if (value == QLatin1String("alwaysAsk")) {
+        m_confirmScriptExecution->setCurrentIndex(ScriptExecution::AlwaysAsk);
     } else if (value == QLatin1String("execute")) {
         m_confirmScriptExecution->setCurrentIndex(ScriptExecution::Execute);
-    } else /* if (value == QLatin1String("alwaysAsk"))*/ {
-        m_confirmScriptExecution->setCurrentIndex(ScriptExecution::AlwaysAsk);
+    } else /* if (value == QLatin1String("open"))*/ {
+        m_confirmScriptExecution->setCurrentIndex(ScriptExecution::Open);
     }
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
