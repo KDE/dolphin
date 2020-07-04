@@ -520,7 +520,10 @@ void DolphinSearchBox::updateFromQuery(const DolphinQuery& query)
         setSearchPath(QUrl::fromLocalFile(QDir::homePath()));
     }
 
-    setText(query.text());
+    // If the input box has focus, do not update to avoid messing with user typing
+    if (!m_searchInput->hasFocus()) {
+        setText(query.text());
+    }
 
     if (query.hasContentSearch()) {
         m_contentButton->setChecked(true);
