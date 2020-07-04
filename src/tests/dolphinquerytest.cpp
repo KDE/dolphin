@@ -72,8 +72,13 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
 
     const QString text = QStringLiteral("abc");
     const QString textS = QStringLiteral("abc xyz");
+    const QString textQ = QStringLiteral("\"abc xyz\"");
+    const QString textM = QStringLiteral("\"abc xyz\" tuv");
+
     const QString filename = QStringLiteral("filename:\"%1\"").arg(text);
     const QString filenameS = QStringLiteral("filename:\"%1\"").arg(textS);
+    const QString filenameQ = QStringLiteral("filename:\"%1\"").arg(textQ);
+    const QString filenameM = QStringLiteral("filename:\"%1\"").arg(textM);
 
     const QString rating = QStringLiteral("rating>=2");
     const QString modified = QStringLiteral("modified>=2019-08-07");
@@ -85,6 +90,7 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     // Test for "Content"
     QTest::newRow("content")              << balooQueryUrl(text)   << text  << QStringList() << true  << false;
     QTest::newRow("content/space")        << balooQueryUrl(textS)  << textS << QStringList() << true  << false;
+    QTest::newRow("content/quoted")       << balooQueryUrl(textQ)  << textS << QStringList() << true  << false;
     QTest::newRow("content/empty")        << balooQueryUrl("")     << ""    << QStringList() << false << false;
     QTest::newRow("content/single_quote") << balooQueryUrl("\"")   << "\""  << QStringList() << true  << false;
     QTest::newRow("content/double_quote") << balooQueryUrl("\"\"") << ""    << QStringList() << false << false;
@@ -92,6 +98,8 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     // Test for "FileName"
     QTest::newRow("filename")              << balooQueryUrl(filename)        << text  << QStringList() << false << true;
     QTest::newRow("filename/space")        << balooQueryUrl(filenameS)       << textS << QStringList() << false << true;
+    QTest::newRow("filename/quoted")       << balooQueryUrl(filenameQ)       << textQ << QStringList() << false << true;
+    QTest::newRow("filename/mixed")        << balooQueryUrl(filenameM)       << textM << QStringList() << false << true;
     QTest::newRow("filename/empty")        << balooQueryUrl("filename:")     << ""    << QStringList() << false << false;
     QTest::newRow("filename/single_quote") << balooQueryUrl("filename:\"")   << "\""  << QStringList() << false << true;
     QTest::newRow("filename/double_quote") << balooQueryUrl("filename:\"\"") << ""    << QStringList() << false << false;
@@ -100,6 +108,10 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
     QTest::newRow("content+filename")
         << balooQueryUrl(text + " " + filename)
         << text + " " + filename << QStringList() << true << true;
+
+    QTest::newRow("content+filename/quoted")
+        << balooQueryUrl(textQ + " " + filenameQ)
+        << textS + " " + filenameQ << QStringList() << true << true;
 
     // Test for rating
     QTest::newRow("rating")          << balooQueryUrl(rating)                  << ""   << QStringList({rating}) << false << false;

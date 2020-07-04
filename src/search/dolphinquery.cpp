@@ -59,7 +59,11 @@ namespace {
 
     QStringList splitOutsideQuotes(const QString& text)
     {
-        const QRegularExpression subTermsRegExp("(\\S*?\"[^\"]*?\"|(?<=\\s|^)\\S+(?=\\s|$))");
+        // Match groups on 3 possible conditions:
+        //   - Groups with two leading quotes must close both on them (filename:""abc xyz" tuv")
+        //   - Groups enclosed in quotes
+        //   - Words separated by spaces
+        const QRegularExpression subTermsRegExp("(\\S*?\"\"[^\"]+\"[^\"]+\"+|\\S*?\"[^\"]+\"+|(?<=\\s|^)\\S+(?=\\s|$))");
         auto subTermsMatchIterator = subTermsRegExp.globalMatch(text);
 
         QStringList textParts;
