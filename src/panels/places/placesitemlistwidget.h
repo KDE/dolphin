@@ -16,7 +16,7 @@
 
 
 // The free space / capacity bar is based on KFilePlacesView.
-// https://github.com/KDE/kio/commit/933887dc334f3498505af7a86d25db7faae91019
+// https://invent.kde.org/frameworks/kio/-/commit/933887dc334f3498505af7a86d25db7faae91019
 struct PlaceFreeSpaceInfo
 {
     QDateTime lastUpdated;
