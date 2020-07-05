@@ -103,10 +103,14 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
         m_watchedDirs.insert(resolvedPath);
     }
 
-    if (!m_priorityQueue.isEmpty()) {
-        startWorker(m_priorityQueue.takeFirst());
-    } else if (!m_queue.isEmpty()) {
-        startWorker(m_queue.takeFirst());
+    if (!m_priorityQueue.empty()) {
+        const QString firstPath = m_priorityQueue.front();
+        m_priorityQueue.pop_front();
+        startWorker(firstPath);
+    } else if (!m_queue.empty()) {
+        const QString firstPath = m_queue.front();
+        m_queue.pop_front();
+        startWorker(firstPath);
     }
 
     if (s_cache->contains(resolvedPath)) {
@@ -178,12 +182,13 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
     }
 
     if (m_workerIsBusy) {
-        if (!m_queue.contains(path) && !m_priorityQueue.contains(path)) {
+        if (std::find(m_queue.begin(), m_queue.end(), path) == m_queue.end() &&
+            std::find(m_priorityQueue.begin(), m_priorityQueue.end(), path) == m_priorityQueue.end()) {
             if (alreadyInCache) {
-                m_queue.append(path);
+                m_queue.push_back(path);
             } else {
                 // append to priority queue
-                m_priorityQueue.append(path);
+                m_priorityQueue.push_back(path);
             }
         }
     } else {
