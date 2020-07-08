@@ -382,6 +382,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(tabPageAt(index)));
+        tabBar()->setTabToolTip(index, url.path());
         if (tabBar()->isVisible()) {
             tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
         } else {
@@ -417,8 +418,12 @@ void DolphinTabWidget::tabInserted(int index)
     if (count() > 1) {
         // Resolve all pending tab icons
         for (int i = 0; i < count(); ++i) {
+            const QUrl url = tabPageAt(i)->activeViewContainer()->url();
             if (tabBar()->tabIcon(i).isNull()) {
-                tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(tabPageAt(i)->activeViewContainer()->url())));
+                tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(url)));
+            }
+            if (tabBar()->tabToolTip(i).isEmpty()) {
+                tabBar()->setTabToolTip(index, url.path());
             }
         }
 
