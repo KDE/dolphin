@@ -2,6 +2,7 @@
 Name=Dolphin
 Name[ar]=دولفين
 Name[ast]=Dolphin
+Name[az]=Dolphin
 Name[ca]=Dolphin
 Name[ca@valencia]=Dolphin
 Name[cs]=Dolphin
@@ -53,6 +54,7 @@ Categories=Qt;KDE;System;FileTools;FileManager;
 GenericName=File Manager
 GenericName[ar]=مدير ملفّات
 GenericName[ast]=Xestor de ficheros
+GenericName[az]=Fayl meneceri
 GenericName[ca]=Gestor de fitxers
 GenericName[ca@valencia]=Gestor de fitxers
 GenericName[cs]=Správce souborů
