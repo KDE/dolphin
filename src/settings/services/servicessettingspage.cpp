@@ -31,7 +31,7 @@
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
-#include <kdesktopfileactions.h>
+#include <KDesktopFileActions>
 
 #include <QGridLayout>
 #include <QLabel>

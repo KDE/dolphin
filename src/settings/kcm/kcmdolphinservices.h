@@ -20,7 +20,7 @@
 #ifndef KCMDOLPHINSERVICES_H
 #define KCMDOLPHINSERVICES_H
 
-#include <kcmodule.h>
+#include <KCModule>
 
 class ServicesSettingsPage;
 

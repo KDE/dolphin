@@ -20,7 +20,7 @@
 #ifndef KCMDOLPHINNAVIGATION_H
 #define KCMDOLPHINNAVIGATION_H
 
-#include <kcmodule.h>
+#include <KCModule>
 
 class NavigationSettingsPage;
 

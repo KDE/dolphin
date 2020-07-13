@@ -25,7 +25,7 @@
 #include "dolphintabwidget.h"
 #include <config-baloo.h>
 #include <kio/fileundomanager.h>
-#include <ksortablelist.h>
+#include <KSortableList>
 #include <kxmlguiwindow.h>
 
 #include <QIcon>

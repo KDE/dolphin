@@ -20,7 +20,7 @@
 #ifndef KCMDOLPHINGENERAL_H
 #define KCMDOLPHINGENERAL_H
 
-#include <kcmodule.h>
+#include <KCModule>
 
 #include <QList>
 

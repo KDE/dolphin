@@ -21,7 +21,7 @@
 #ifndef DOLPHINSETTINGSDIALOG_H
 #define DOLPHINSETTINGSDIALOG_H
 
-#include <kpagedialog.h>
+#include <KPageDialog>
 
 class QUrl;
 class SettingsPageBase;

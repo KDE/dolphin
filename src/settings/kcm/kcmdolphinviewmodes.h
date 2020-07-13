@@ -20,7 +20,7 @@
 #ifndef KCMDOLPHINVIEWMODES_H
 #define KCMDOLPHINVIEWMODES_H
 
-#include <kcmodule.h>
+#include <KCModule>
 
 class ViewSettingsTab;
 
