@@ -415,7 +415,7 @@ install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTAL
 install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-install( FILES settings/services/servicemenu.knsrc DESTINATION ${KDE_INSTALL_CONFDIR} )
+install( FILES settings/services/servicemenu.knsrc DESTINATION ${KDE_INSTALL_KNSRCDIR} )
 
 if(BUILD_TESTING)
     find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
