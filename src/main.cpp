@@ -178,6 +178,9 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     mainWindow->show();
 
+    KDBusService dolphinDBusService;
+    DBusInterface interface;
+
     if (!app.isSessionRestored()) {
         KConfigGui::setSessionConfig(QStringLiteral("dolphin"), QStringLiteral("dolphin"));
     }
@@ -199,9 +202,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
             }
         }
     }
-
-    KDBusService dolphinDBusService;
-    DBusInterface interface;
 
     return app.exec(); // krazy:exclude=crash;
 }
