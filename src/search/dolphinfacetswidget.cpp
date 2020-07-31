@@ -272,12 +272,14 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
     allTags.sort(Qt::CaseInsensitive);
     allTags.removeDuplicates();
 
+    const bool onlyOneTag = allTags.count() == 1;
+
     for (const QString& tagName : qAsConst(allTags)) {
         QAction* action = m_tagsSelector->menu()->addAction(QIcon::fromTheme(QStringLiteral("tag")), tagName);
         action->setCheckable(true);
         action->setChecked(m_searchTags.contains(tagName));
 
-        connect(action, &QAction::triggered, this, [this, tagName](bool isChecked) {
+        connect(action, &QAction::triggered, this, [this, tagName, onlyOneTag](bool isChecked) {
             if (isChecked) {
                 addSearchTag(tagName);
             } else {
@@ -285,7 +287,9 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
             }
             emit facetChanged();
 
-            m_tagsSelector->menu()->show();
+            if (!onlyOneTag) {
+                m_tagsSelector->menu()->show();
+            }
         });
     }
 
