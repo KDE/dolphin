@@ -131,10 +131,14 @@ void PreviewsSettingsPage::applySettings()
     KConfigGroup globalConfig(KSharedConfig::openConfig(), QStringLiteral("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
-    const qulonglong maximumLocalSize = static_cast<qulonglong>(m_localFileSizeBox->value()) * 1024 * 1024;
-    globalConfig.writeEntry("MaximumSize",
-                            maximumLocalSize,
-                            KConfigBase::Normal | KConfigBase::Global);
+    if (!m_localFileSizeBox->value()) {
+        globalConfig.deleteEntry("MaximumSize", KConfigBase::Normal | KConfigBase::Global);
+    } else {
+        const qulonglong maximumLocalSize = static_cast<qulonglong>(m_localFileSizeBox->value()) * 1024 * 1024;
+        globalConfig.writeEntry("MaximumSize",
+                                maximumLocalSize,
+                                KConfigBase::Normal | KConfigBase::Global);
+    }
 
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
     globalConfig.writeEntry("MaximumRemoteSize",
