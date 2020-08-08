@@ -76,7 +76,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_localFileSizeBox->setSingleStep(1);
     m_localFileSizeBox->setSuffix(QStringLiteral(" MB"));
     m_localFileSizeBox->setRange(0, 9999999); /* MB */
-    m_localFileSizeBox->setSpecialValueText(tr("No limit"));
+    m_localFileSizeBox->setSpecialValueText(i18n("No limit"));
 
     QHBoxLayout* localFileSizeBoxLayout = new QHBoxLayout();
     localFileSizeBoxLayout->addWidget(localFileSizeLabel);
@@ -89,7 +89,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QStringLiteral(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
-    m_remoteFileSizeBox->setSpecialValueText(tr("No previews"));
+    m_remoteFileSizeBox->setSpecialValueText(i18n("No previews"));
 
     QHBoxLayout* remoteFileSizeBoxLayout = new QHBoxLayout();
     remoteFileSizeBoxLayout->addWidget(remoteFileSizeLabel);
