@@ -367,10 +367,13 @@ void DolphinViewContainer::disconnectUrlNavigator()
     updateNavigatorWidgetVisibility();
 }
 
-void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
+KMessageWidget *DolphinViewContainer::showMessage(const QString& msg, MessageType type)
 {
     if (msg.isEmpty()) {
-        return;
+        return m_messageWidget;
+    }
+    for (auto action : m_messageWidget->actions()) {
+        m_messageWidget->removeAction(action);
     }
 
     m_messageWidget->setText(msg);
@@ -396,6 +399,7 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
         m_messageWidget->hide();
     }
     m_messageWidget->animatedShow();
+    return m_messageWidget;
 }
 
 void DolphinViewContainer::readSettings()

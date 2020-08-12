@@ -68,7 +68,7 @@ bool DolphinBookmarkHandler::supportsTabs() const
 
 QList<KBookmarkOwner::FutureBookmark> DolphinBookmarkHandler::currentBookmarkList() const
 {
-    const auto viewContainers = m_mainWindow->viewContainers(false);
+    const auto viewContainers = m_mainWindow->activeViewContainers();
     QList<FutureBookmark> bookmarks;
     bookmarks.reserve(viewContainers.size());
     for (const auto viewContainer : viewContainers) {

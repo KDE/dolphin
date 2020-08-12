@@ -140,8 +140,9 @@ public:
     /**
      * Shows the message \msg with the given type non-modal above
      * the view-content.
+     * @return the KMessageWidget used to show the message
      */
-    void showMessage(const QString& msg, MessageType type);
+    KMessageWidget *showMessage(const QString& msg, MessageType type);
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.

@@ -65,17 +65,19 @@ public:
      * having a split view setup, the nonactive view
      * is usually shown in darker colors.
      */
-    DolphinViewContainer* activeViewContainer() const;
+    DolphinViewContainer *activeViewContainer() const;
 
     /**
-     * Returns view containers for all tabs
-     * @param includeInactive   When true all view containers available in
-     *                          this window are returned. When false the
-     *                          view containers of split views that are not
-     *                          currently active are ignored.
-     *                          Default is true.
+     * Returns the active view containers of all tabs.
+     * @see activeViewContainer()
+     * Use viewContainers() to also include the inactive ones.
      */
-    QVector<DolphinViewContainer*> viewContainers(bool includeInactive = true) const;
+    QVector<DolphinViewContainer *> activeViewContainers() const;
+
+    /**
+     * Returns all view containers.
+     */
+    QVector<DolphinViewContainer *> viewContainers() const;
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,

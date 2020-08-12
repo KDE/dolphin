@@ -49,6 +49,7 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KMessageWidget>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
@@ -202,7 +203,7 @@ DolphinMainWindow::~DolphinMainWindow()
 {
 }
 
-QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers(bool includeInactive) const
+QVector<DolphinViewContainer *> DolphinMainWindow::activeViewContainers() const
 {
     QVector<DolphinViewContainer*> viewContainers;
 
@@ -845,7 +846,8 @@ void DolphinMainWindow::showFilterBar()
 void DolphinMainWindow::toggleLocationInToolbar()
 {
     // collect needed variables
-    const bool locationInToolbar = actionCollection()->action(QStringLiteral("location_in_toolbar"))->isChecked();
+    QAction *locationInToolbarAction = actionCollection()->action(QStringLiteral("location_in_toolbar"));
+    const bool locationInToolbar = locationInToolbarAction->isChecked();
     auto viewContainers = this->viewContainers();
     auto urlNavigatorWidgetAction = static_cast<DolphinUrlNavigatorWidgetAction *>
         (actionCollection()->action(QStringLiteral("url_navigator")));
@@ -855,6 +857,21 @@ void DolphinMainWindow::toggleLocationInToolbar()
     const int cursorPosition = lineEdit->cursorPosition();
     const int selectionStart = lineEdit->selectionStart();
     const int selectionLength = lineEdit->selectionLength();
+
+    // prevent the switching if it would leave the user without a visible UrlNavigator
+    if (locationInToolbar && !toolBar()->actions().contains(urlNavigatorWidgetAction)) {
+        QAction *configureToolbars = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
+        KMessageWidget *messageWidget = m_activeViewContainer->showMessage(
+            xi18nc("@info 2 is the visible text on a button just below the message",
+            "The location could not be moved onto the toolbar because there is currently "
+            "no \"%1\" item on the toolbar. Select <interface>%2</interface> and add the "
+            "\"%1\" item. Then this will work.", urlNavigatorWidgetAction->iconText(),
+            configureToolbars->iconText()), DolphinViewContainer::Information);
+        messageWidget->addAction(configureToolbars);
+        messageWidget->addAction(locationInToolbarAction);
+        locationInToolbarAction->setChecked(false);
+        return;
+    }
 
     // do the switching
     GeneralSettings::setLocationInToolbar(locationInToolbar);
@@ -870,7 +887,7 @@ void DolphinMainWindow::toggleLocationInToolbar()
         }
     }
 
-    urlNavigatorWidgetAction->setUrlNavigatorVisible(!locationInToolbar);
+    urlNavigatorWidgetAction->setUrlNavigatorVisible(locationInToolbar);
     m_activeViewContainer->urlNavigator()->setUrlEditable(isEditable);
     if (hasFocus) { // the rest of this method is unneeded perfectionism
         m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setText(lineEdit->text());
@@ -1756,8 +1773,6 @@ void DolphinMainWindow::setupActions()
         "Depending on the settings this Widget is blank/invisible.",
         "Url Navigator (auto-hide)"));
     actionCollection()->addAction(QStringLiteral("url_navigator"), urlNavigatorWidgetAction);
-    connect(locationInToolbar, &KToggleAction::triggered,
-            urlNavigatorWidgetAction, &DolphinUrlNavigatorWidgetAction::setUrlNavigatorVisible);
 
     // for context menu
     QAction* showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
