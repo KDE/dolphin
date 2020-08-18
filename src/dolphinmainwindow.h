@@ -54,6 +54,10 @@ class QIcon;
 class PlacesPanel;
 class TerminalPanel;
 
+namespace KIO {
+    class OpenUrlJob;
+}
+
 /**
  * @short Main window for Dolphin.
  *
@@ -433,12 +437,6 @@ private slots:
     void handleUrl(const QUrl& url);
 
     /**
-     * handleUrl() can trigger a stat job to see if the url can actually
-     * be listed.
-     */
-    void slotHandleUrlStatFinished(KJob* job);
-
-    /**
      * Is invoked when the write state of a folder has been changed and
      * enables/disables the "Create New..." menu entry.
      */
@@ -644,7 +642,7 @@ private:
     QToolButton* m_controlButton;
     QTimer* m_updateToolBarTimer;
 
-    KIO::Job* m_lastHandleUrlStatJob;
+    KIO::OpenUrlJob *m_lastHandleUrlOpenJob;
 
     TerminalPanel* m_terminalPanel;
     PlacesPanel* m_placesPanel;

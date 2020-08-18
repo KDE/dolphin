@@ -38,10 +38,11 @@
 #include <KFileItemActions>
 #include <KFilePlacesModel>
 #include <KIO/PreviewJob>
+#include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegate>
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <KProtocolManager>
-#include <KRun>
 #include <KShell>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
@@ -645,8 +646,10 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
         return;
     }
 
-    KRun *run = new KRun(item.targetUrl(), this);
-    run->setShowScriptExecutionPrompt(true);
+    KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl());
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    job->setShowOpenOrExecuteDialog(true);
+    job->start();
 }
 
 void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)

@@ -57,13 +57,13 @@
 #include <KIO/CommandLauncherJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
+#include <KIO/OpenUrlJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
-#include <KRun>
 #include <KShell>
 #include <KStandardAction>
 #include <KStartupInfo>
@@ -114,7 +114,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_bookmarkHandler(nullptr),
     m_controlButton(nullptr),
     m_updateToolBarTimer(nullptr),
-    m_lastHandleUrlStatJob(nullptr),
+    m_lastHandleUrlOpenJob(nullptr),
     m_terminalPanel(nullptr),
     m_placesPanel(nullptr),
     m_tearDownFromPlacesRequested(false),
@@ -1036,34 +1036,31 @@ void DolphinMainWindow::editSettings()
 
 void DolphinMainWindow::handleUrl(const QUrl& url)
 {
-    delete m_lastHandleUrlStatJob;
-    m_lastHandleUrlStatJob = nullptr;
+    delete m_lastHandleUrlOpenJob;
+    m_lastHandleUrlOpenJob = nullptr;
 
     if (url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir()) {
         activeViewContainer()->setUrl(url);
-    } else if (KProtocolManager::supportsListing(url)) {
-        // stat the URL to see if it is a dir or not
-        m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
-        if (m_lastHandleUrlStatJob->uiDelegate()) {
-            KJobWidgets::setWindow(m_lastHandleUrlStatJob, this);
-        }
-        connect(m_lastHandleUrlStatJob, &KIO::Job::result,
-                this, &DolphinMainWindow::slotHandleUrlStatFinished);
-
     } else {
-        new KRun(url, this); // Automatically deletes itself after being finished
-    }
-}
+        m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
+        m_lastHandleUrlOpenJob->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        m_lastHandleUrlOpenJob->setRunExecutables(true);
 
-void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
-{
-    m_lastHandleUrlStatJob = nullptr;
-    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
-    const QUrl url = static_cast<KIO::StatJob*>(job)->url();
-    if (entry.isDir()) {
-        activeViewContainer()->setUrl(url);
-    } else {
-        new KRun(url, this);  // Automatically deletes itself after being finished
+        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this,
+                [this, url](const QString &mimetype) {
+                    if (mimetype == QLatin1String("inode/directory")) {
+                        // If it's a dir, we'll take it from here
+                        m_lastHandleUrlOpenJob->kill();
+                        m_lastHandleUrlOpenJob = nullptr;
+                        activeViewContainer()->setUrl(url);
+                    }
+        });
+
+        connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::result, this, [this]() {
+            m_lastHandleUrlOpenJob = nullptr;
+        });
+
+        m_lastHandleUrlOpenJob->start();
     }
 }
 
