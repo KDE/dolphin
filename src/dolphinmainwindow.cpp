@@ -245,6 +245,16 @@ void DolphinMainWindow::openFiles(const QList<QUrl>& files, bool splitView)
     m_tabWidget->openFiles(files, splitView);
 }
 
+bool DolphinMainWindow::isFoldersPanelEnabled() const
+{
+    return actionCollection()->action(QStringLiteral("show_folders_panel"))->isChecked();
+}
+
+bool DolphinMainWindow::isInformationPanelEnabled() const
+{
+    return actionCollection()->action(QStringLiteral("show_information_panel"))->isChecked();
+}
+
 void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
 {
     openFiles(QUrl::fromStringList(files), splitView);

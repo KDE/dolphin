@@ -14,6 +14,11 @@
 #include "startup/startupsettingspage.h"
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
+#include "config-kuserfeedback.h"
+#ifdef HAVE_KUSERFEEDBACK
+#include "userfeedback/dolphinfeedbackprovider.h"
+#include "userfeedback/userfeedbacksettingspage.h"
+#endif
 
 #include <KAuthorized>
 #include <KLocalizedString>
@@ -91,6 +96,17 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
         connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
     }
 
+#ifdef HAVE_KUSERFEEDBACK
+    // User Feedback
+    UserFeedbackSettingsPage* feedbackSettingsPage = nullptr;
+    if (DolphinFeedbackProvider::instance()->isEnabled()) {
+        feedbackSettingsPage = new UserFeedbackSettingsPage(this);
+        auto feedbackSettingsFrame = addPage(feedbackSettingsPage, i18nc("@title:group", "User Feedback"));
+        feedbackSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-locale")));
+        connect(feedbackSettingsPage, &UserFeedbackSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    }
+#endif
+
     m_pages.append(generalSettingsPage);
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
@@ -99,6 +115,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     if (trashSettingsPage) {
         m_pages.append(trashSettingsPage);
     }
+#ifdef HAVE_KUSERFEEDBACK
+    if (feedbackSettingsPage) {
+        m_pages.append(feedbackSettingsPage);
+    }
+#endif
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);

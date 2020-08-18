@@ -8,6 +8,8 @@ configure_file(config-packagekit.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-pack
 
 configure_file(config-terminal.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-terminal.h)
 
+configure_file(config-kuserfeedback.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kuserfeedback.h)
+
 add_definitions(
     -DTRANSLATION_DOMAIN=\"dolphin\"
 )
@@ -261,6 +263,16 @@ if(HAVE_BALOO)
     )
 endif()
 
+if(HAVE_KUSERFEEDBACK)
+    set(dolphinstatic_SRCS
+        ${dolphinstatic_SRCS}
+        userfeedback/dolphinfeedbackprovider.cpp
+        userfeedback/settingsdatasource.cpp
+        userfeedback/placesdatasource.cpp
+        settings/userfeedback/userfeedbacksettingspage.cpp
+    )
+endif()
+
 kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
@@ -296,6 +308,14 @@ if (HAVE_KACTIVITIES)
     target_link_libraries(
         dolphinstatic
         KF5::Activities
+    )
+endif()
+
+if (HAVE_KUSERFEEDBACK)
+    target_link_libraries(
+        dolphinstatic
+        KUserFeedbackCore
+        KUserFeedbackWidgets
     )
 endif()
 

@@ -12,6 +12,10 @@
 #include "dolphindebug.h"
 #include "dolphinmainwindow.h"
 #include "global.h"
+#include "config-kuserfeedback.h"
+#ifdef HAVE_KUSERFEEDBACK
+#include "userfeedback/dolphinfeedbackprovider.h"
+#endif
 
 #include <KAboutData>
 #include <KCrash>
@@ -209,6 +213,11 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
             }
         }
     }
+
+#ifdef HAVE_KUSERFEEDBACK
+    auto feedbackProvider = DolphinFeedbackProvider::instance();
+    Q_UNUSED(feedbackProvider)
+#endif
 
     return app.exec(); // krazy:exclude=crash;
 }

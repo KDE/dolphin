@@ -66,6 +66,17 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Crash
     WindowSystem
 )
+
+find_package(KUserFeedback 1.0.0)
+set_package_properties(KUserFeedback
+        PROPERTIES TYPE OPTIONAL
+        PURPOSE "Used for submission of telemetry data"
+        )
+
+if(KUserFeedback_FOUND)
+    set(HAVE_KUSERFEEDBACK TRUE)
+endif()
+
 find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
 )

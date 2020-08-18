@@ -108,6 +108,9 @@ public:
      */
     void setViewsWithInvalidPathsToHome();
 
+    bool isFoldersPanelEnabled() const;
+    bool isInformationPanelEnabled() const;
+
 public slots:
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
