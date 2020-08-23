@@ -335,6 +335,7 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
         showZoomSlider = GeneralSettings::showZoomSlider();
     }
     m_spaceInfo->setShown(showSpaceInfo);
+    m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
 }
 
