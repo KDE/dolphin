@@ -237,14 +237,16 @@ void ViewSettingsTab::loadSettings()
         break;
     case DetailsMode:
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
-        if (DetailsModeSettings::directorySizeCount()) {
-            m_numberOfItems->setChecked(true);
-            m_recursiveDirectorySizeLimit->setEnabled(false);
-        } else {
-            m_sizeOfContents->setChecked(true);
-            m_recursiveDirectorySizeLimit->setEnabled(true);
-        }
-        m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
+        #ifndef Q_OS_WIN
+            if (DetailsModeSettings::directorySizeCount()) {
+                    m_numberOfItems->setChecked(true);
+                    m_recursiveDirectorySizeLimit->setEnabled(false);
+            } else {
+                m_sizeOfContents->setChecked(true);
+                m_recursiveDirectorySizeLimit->setEnabled(true);
+            }
+            m_recursiveDirectorySizeLimit->setValue(DetailsModeSettings::recursiveDirectorySizeLimit());
+        #endif
         break;
     default:
         break;
