@@ -1,23 +1,10 @@
-/*****************************************************************************
- *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>               *
- *   Copyright (C) 2012 by Emmanuel Pescosta <emmanuelpescosta099@gmail.com> *
- *   Copyright (C) 2013 by Frank Reininghaus <frank78ac@googlemail.com>      *
- *                                                                           *
- *   This program is free software; you can redistribute it and/or modify    *
- *   it under the terms of the GNU General Public License as published by    *
- *   the Free Software Foundation; either version 2 of the License, or       *
- *   (at your option) any later version.                                     *
- *                                                                           *
- *   This program is distributed in the hope that it will be useful,         *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
- *   GNU General Public License for more details.                            *
- *                                                                           *
- *   You should have received a copy of the GNU General Public License       *
- *   along with this program; if not, write to the                           *
- *   Free Software Foundation, Inc.,                                         *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
- *****************************************************************************/
+/*
+ * SPDX-FileCopyrightText: 2012 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2012 Emmanuel Pescosta <emmanuelpescosta099@gmail.com>
+ * SPDX-FileCopyrightText: 2013 Frank Reininghaus <frank78ac@googlemail.com>
+ *
+ * SPDX-License-Identifier: GPL-2.0-or-later
+ */
 
 #ifndef KFILEITEMMODELSORTALGORITHM_H
 #define KFILEITEMMODELSORTALGORITHM_H
@@ -31,7 +18,7 @@
  * worst-case of O(n * log(n)) and to keep the number of comparisons low.
  *
  * The implementation is based on qStableSortHelper() from qalgorithms.h
- * Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+ * SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
  */
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -40,7 +27,7 @@ static void mergeSort(RandomAccessIterator begin,
                       const LessThan& lessThan)
 {
     // The implementation is based on qStableSortHelper() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
 
     const int span = end - begin;
     if (span < 2) {
@@ -92,7 +79,7 @@ static void parallelMergeSort(RandomAccessIterator begin,
  * \a begin and \a end.
  *
  * The implementation is based on qMerge() from qalgorithms.h
- * Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+ * SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
  */
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -102,7 +89,7 @@ static void merge(RandomAccessIterator begin,
                   const LessThan& lessThan)
 {
     // The implementation is based on qMerge() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
 
     const int len1 = pivot - begin;
     const int len2 = end - pivot;
