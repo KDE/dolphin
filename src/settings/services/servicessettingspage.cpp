@@ -69,15 +69,19 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
+#ifndef Q_OS_WIN
     auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                   QStringLiteral("servicemenu.knsrc"),
                                                   this);
     connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
+#endif
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_searchLineEdit);
     topLayout->addWidget(m_listView);
+#ifndef Q_OS_WIN
     topLayout->addWidget(downloadButton);
+#endif
 
     m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
