@@ -143,7 +143,7 @@ void DolphinViewActionHandler::createActions()
     connect(propertiesAction, &QAction::triggered, this, &DolphinViewActionHandler::slotProperties);
 
     QAction *copyPathAction = m_actionCollection->addAction( QStringLiteral("copy_location") );
-    copyPathAction->setText(i18nc("@action:incontextmenu", "Copy location"));
+    copyPathAction->setText(i18nc("@action:incontextmenu", "Copy Location"));
     copyPathAction->setWhatsThis(i18nc("@info:whatsthis copy_location",
                                           "This will copy the path of the first selected item into the clipboard."
                                 ));
@@ -620,14 +620,14 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
         descending->setText(i18nc("Sort descending", "Z-A"));
         ascending->setText(i18nc("Sort ascending", "A-Z"));
     } else if (role == "size") {
-        descending->setText(i18nc("Sort descending", "Largest first"));
-        ascending->setText(i18nc("Sort ascending", "Smallest first"));
+        descending->setText(i18nc("Sort descending", "Largest First"));
+        ascending->setText(i18nc("Sort ascending", "Smallest First"));
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
-        descending->setText(i18nc("Sort descending", "Newest first"));
-        ascending->setText(i18nc("Sort ascending", "Oldest first"));
+        descending->setText(i18nc("Sort descending", "Newest First"));
+        ascending->setText(i18nc("Sort ascending", "Oldest First"));
     } else if (role == "rating") {
-        descending->setText(i18nc("Sort descending", "Highest first"));
-        ascending->setText(i18nc("Sort ascending", "Lowest first"));
+        descending->setText(i18nc("Sort descending", "Highest First"));
+        ascending->setText(i18nc("Sort ascending", "Lowest First"));
     } else {
         descending->setText(i18nc("Sort descending", "Descending"));
         ascending->setText(i18nc("Sort ascending", "Ascending"));

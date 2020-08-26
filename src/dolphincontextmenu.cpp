@@ -378,7 +378,7 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
 
-    // Insert 'Cut', 'Copy', 'Copy location' and 'Paste'
+    // Insert 'Cut', 'Copy', 'Copy Location' and 'Paste'
     addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
     addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
     QAction* copyPathAction = collection->action(QString("copy_location"));

@@ -1349,20 +1349,20 @@ void DolphinMainWindow::setupActions()
         "action they are removed from their old location.") +  cutCopyPastePara);
 
     QAction* copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
-    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to inactive split view"));
+    copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Inactive Split View"));
     copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy", "This copies the selected items from "
         "the <emphasis>active</emphasis> view to the inactive split view."));
     copyToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-    copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to inactive split view"));
+    copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to Inactive Split View"));
     actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT + Qt::Key_F5 );
     connect(copyToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::copyToInactiveSplitView);
 
     QAction* moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
-    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to inactive split view"));
+    moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Inactive Split View"));
     moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move", "This moves the selected items from "
         "the <emphasis>active</emphasis> view to the inactive split view."));
     moveToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
-    moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to inactive split view"));
+    moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to Inactive Split View"));
     actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT + Qt::Key_F6 );
     connect(moveToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::moveToInactiveSplitView);
 
