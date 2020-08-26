@@ -1546,7 +1546,6 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcut(openPreferredSearchTool, Qt::CTRL + Qt::SHIFT + Qt::Key_F);
     connect(openPreferredSearchTool, &QAction::triggered, this, &DolphinMainWindow::openPreferredSearchTool);
 
-#ifdef HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         QAction* openTerminal = actionCollection()->addAction(QStringLiteral("open_terminal"));
         openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
@@ -1557,13 +1556,14 @@ void DolphinMainWindow::setupActions()
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
+#ifdef HAVE_TERMINAL
         QAction* focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
         focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
         focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
         actionCollection()->setDefaultShortcut(focusTerminalPanel, Qt::CTRL + Qt::SHIFT + Qt::Key_F4);
         connect(focusTerminalPanel, &QAction::triggered, this, &DolphinMainWindow::focusTerminalPanel);
-    }
 #endif
+    }
 
     // setup 'Bookmarks' menu
     KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), this);
