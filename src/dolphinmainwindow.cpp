@@ -358,7 +358,7 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 
 void DolphinMainWindow::updateHistory()
 {
-    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex();
 
     QAction* backAction = actionCollection()->action(KStandardAction::name(KStandardAction::Back));
@@ -729,7 +729,7 @@ void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
 
 void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 {
-    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
     m_backAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() + 1; i < urlNavigator->historySize() && entries < MaxNumberOfNavigationentries; ++i, ++entries) {
@@ -742,7 +742,7 @@ void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 void DolphinMainWindow::slotGoBack(QAction* action)
 {
     int gotoIndex = action->data().value<int>();
-    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     for (int i = gotoIndex - urlNavigator->historyIndex(); i > 0; --i) {
         goBack();
     }
@@ -751,14 +751,14 @@ void DolphinMainWindow::slotGoBack(QAction* action)
 void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
 {
     if (action) {
-        const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternal();
+        const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
         openNewTabAfterCurrentTab(urlNavigator->locationUrl(action->data().value<int>()));
     }
 }
 
 void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
 {
-    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
     m_forwardAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
@@ -771,7 +771,7 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
 void DolphinMainWindow::slotGoForward(QAction* action)
 {
     int gotoIndex = action->data().value<int>();
-    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     for (int i = urlNavigator->historyIndex() - gotoIndex; i > 0; --i) {
         goForward();
     }
@@ -858,19 +858,21 @@ void DolphinMainWindow::toggleLocationInToolbar()
     const int selectionStart = lineEdit->selectionStart();
     const int selectionLength = lineEdit->selectionLength();
 
-    // prevent the switching if it would leave the user without a visible UrlNavigator
     if (locationInToolbar && !toolBar()->actions().contains(urlNavigatorWidgetAction)) {
-        QAction *configureToolbars = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
-        KMessageWidget *messageWidget = m_activeViewContainer->showMessage(
+        // There is no UrlNavigator on the toolbar. Try to fix it. Otherwise show an error.
+        if (!urlNavigatorWidgetAction->addToToolbarAndSave(this)) {
+            QAction *configureToolbars = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
+            KMessageWidget *messageWidget = m_activeViewContainer->showMessage(
             xi18nc("@info 2 is the visible text on a button just below the message",
             "The location could not be moved onto the toolbar because there is currently "
             "no \"%1\" item on the toolbar. Select <interface>%2</interface> and add the "
             "\"%1\" item. Then this will work.", urlNavigatorWidgetAction->iconText(),
             configureToolbars->iconText()), DolphinViewContainer::Information);
-        messageWidget->addAction(configureToolbars);
-        messageWidget->addAction(locationInToolbarAction);
-        locationInToolbarAction->setChecked(false);
-        return;
+            messageWidget->addAction(configureToolbars);
+            messageWidget->addAction(locationInToolbarAction);
+            locationInToolbarAction->setChecked(false);
+            return;
+        }
     }
 
     // do the switching
@@ -949,7 +951,7 @@ void DolphinMainWindow::slotTerminalPanelVisibilityChanged()
 
 void DolphinMainWindow::goBack()
 {
-    DolphinUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternal();
+    DolphinUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     urlNavigator->goBack();
 
     if (urlNavigator->locationState().isEmpty()) {
@@ -976,14 +978,14 @@ void DolphinMainWindow::goHome()
 
 void DolphinMainWindow::goBackInNewTab()
 {
-    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternal();
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() + 1;
     openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goForwardInNewTab()
 {
-    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternal();
+    KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() - 1;
     openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
 }
@@ -2252,7 +2254,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTabAfterLastTab);
 
-    connect(container->urlNavigatorInternal(), &KUrlNavigator::historyChanged,
+    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
             this, &DolphinMainWindow::updateHistory);
 }
 

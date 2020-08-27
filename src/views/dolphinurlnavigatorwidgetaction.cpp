@@ -24,6 +24,11 @@
 #include "dolphinviewcontainer.h"
 
 #include <KLocalizedString>
+#include <KXMLGUIFactory>
+#include <KXmlGuiWindow>
+
+#include <QDomDocument>
+#include <QStackedWidget>
 
 DolphinUrlNavigatorWidgetAction::DolphinUrlNavigatorWidgetAction(QWidget *parent) :
     QWidgetAction(parent)
@@ -55,4 +60,32 @@ void DolphinUrlNavigatorWidgetAction::setUrlNavigatorVisible(bool visible)
     } else {
         m_stackedWidget->setCurrentIndex(1); // urlNavigator
     }
+}
+
+bool DolphinUrlNavigatorWidgetAction::addToToolbarAndSave(KXmlGuiWindow *mainWindow)
+{
+    const QString rawXml = KXMLGUIFactory::readConfigFile(mainWindow->xmlFile());
+    QDomDocument domDocument;
+    if (rawXml.isEmpty() || !domDocument.setContent(rawXml) || domDocument.isNull()) {
+        return false;
+    }
+    QDomNode toolbar = domDocument.elementsByTagName(QStringLiteral("ToolBar")).at(0);
+    if (toolbar.isNull()) {
+        return false;
+    }
+
+    QDomElement urlNavigatorElement = domDocument.createElement(QStringLiteral("Action"));
+    urlNavigatorElement.setAttribute(QStringLiteral("name"), QStringLiteral("url_navigator"));
+
+    QDomNode position = toolbar.lastChildElement(QStringLiteral("Spacer"));
+    if (position.isNull()) {
+        toolbar.appendChild(urlNavigatorElement);
+    } else {
+        toolbar.replaceChild(urlNavigatorElement, position);
+    }
+
+    KXMLGUIFactory::saveConfigFile(domDocument, mainWindow->xmlFile());
+    mainWindow->reloadXML();
+    mainWindow->createGUI();
+    return true;
 }

@@ -91,8 +91,8 @@ public:
      * @see connectUrlNavigator()
      * @see disconnectUrlNavigator()
      * 
-     * Use urlNavigatorInternal() if you want to access the history.
-     * @see urlNavigatorInternal()
+     * Use urlNavigatorInternalWithHistory() if you want to access the history.
+     * @see urlNavigatorInternalWithHistory()
      */
     const DolphinUrlNavigator *urlNavigator() const;
     /**
@@ -101,8 +101,8 @@ public:
      * @see connectUrlNavigator()
      * @see disconnectUrlNavigator()
      * 
-     * Use urlNavigatorInternal() if you want to access the history.
-     * @see urlNavigatorInternal()
+     * Use urlNavigatorInternalWithHistory() if you want to access the history.
+     * @see urlNavigatorInternalWithHistory()
      */
     DolphinUrlNavigator *urlNavigator();
 
@@ -110,12 +110,12 @@ public:
      * @return An UrlNavigator that contains this view's history.
      * Use urlNavigator() instead when not accessing the history.
      */
-    const DolphinUrlNavigator *urlNavigatorInternal() const;
+    const DolphinUrlNavigator *urlNavigatorInternalWithHistory() const;
     /**
      * @return An UrlNavigator that contains this view's history.
      * Use urlNavigator() instead when not accessing the history.
      */
-    DolphinUrlNavigator *urlNavigatorInternal();
+    DolphinUrlNavigator *urlNavigatorInternalWithHistory();
 
     const DolphinView* view() const;
     DolphinView* view();

@@ -24,7 +24,9 @@
 #include "dolphinurlnavigator.h"
 
 #include <QWidgetAction>
-#include <QStackedWidget>
+
+class KXmlGuiWindow;
+class QStackedWidget;
 
 /**
  * @brief QWidgetAction that allows to use a KUrlNavigator in a toolbar.
@@ -45,10 +47,19 @@ public:
     DolphinUrlNavigator *urlNavigator() const;
 
     /**
-     * Set the QStackedWidget which is the defaultWidget() to either
+     * Sets the QStackedWidget which is the defaultWidget() to either
      * show a KUrlNavigator or an expanding spacer.
      */
     void setUrlNavigatorVisible(bool visible);
+
+    /**
+     * Adds this action to the mainWindow's toolbar and saves the change
+     * in the users ui configuration file.
+     * @return true if successful. Otherwise false.
+     * @note This method does multiple things which are discouraged in
+     *       the API documentation.
+     */
+    bool addToToolbarAndSave(KXmlGuiWindow *mainWindow);
 
 private:
     QStackedWidget *m_stackedWidget;

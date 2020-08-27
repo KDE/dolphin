@@ -290,12 +290,12 @@ DolphinUrlNavigator* DolphinViewContainer::urlNavigator()
     return m_urlNavigatorConnected;
 }
 
-const DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternal() const
+const DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternalWithHistory() const
 {
     return m_urlNavigator;
 }
 
-DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternal()
+DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternalWithHistory()
 {
     return m_urlNavigator;
 }
