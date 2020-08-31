@@ -780,7 +780,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             if (emitItemActivated) {
                 emit itemActivated(index);
             }
-        } else if (event->button() & Qt::MidButton) {
+        } else if (event->button() & Qt::MiddleButton) {
             emit itemMiddleClicked(index);
         }
     }
