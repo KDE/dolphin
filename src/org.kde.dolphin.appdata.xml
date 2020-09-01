@@ -131,6 +131,7 @@
     <p xml:lang="pl">Dolphin jest lekkim programem do zarządzania plikami. Został on opracowany mając na uwadze łatwość i prostotę obsługi, zapewniając jednocześnie elastyczność i możliwość dostosowania. Oznacza to, że można urządzić zarządzanie plikami w dokładnie taki sposób w jaki jest to pożądane.</p>
     <p xml:lang="pt">O Dolphin é um gestor de ficheiros leve. Foi desenhado com a facilidade de uso e simplicidade em mente, permitindo à mesma a flexibilidade e personalização. Isto significa que poderá fazer a sua gestão de ficheiros exactamente da forma que deseja.</p>
     <p xml:lang="pt-BR">Dolphin é um gerenciador de arquivos leve e fácil de usar. Foi projetado para ser simples e ao mesmo tempo manter a flexibilidade e personalização. Isso significa que você poderá gerenciar seus arquivos da forma que desejar.</p>
+    <p xml:lang="ro">Dolphin e un gestionar de fișiere simplu. A fost proiectat cu ușurința la utilizare și simplitatea în minte, în același timp permițând flexibilitate și personalizare. Aceasta înseamnă vă puteți gestiona fișierele exact așa cum vă doriți s-o faceți.</p>
     <p xml:lang="ru">Dolphin — это упрощённый диспетчер файлов. Он создавался как лёгкий в использовании, но в то же время является гибким и расширяемым.</p>
     <p xml:lang="sk">Dolphin je odľahčený správca súborov. Bol navrhnutý na jednoduché použitie a jednoduchosť, ale s možnosťami flexibility a prispôsobenia. To znamená, že môžete vykonávať správu súborov presne tak, ako chcete.</p>
     <p xml:lang="sl">Dolphin je enostaven upravljalnik datotek. Bil je zasnovan kot enostaven in preprost, vseeno pa ostaja prilagodljiv. To pomeni, da lahko upravljanje datotek izvajate točno tako kot želite.</p>
@@ -222,6 +223,7 @@
       <li xml:lang="pl">Pasek nawigacji (lub okruchy chleba) dla adresów URL, umożliwiające szybkie przechodzenie w hierarchii plików i katalogów.</li>
       <li xml:lang="pt">Barra de navegação dos URL's, que lhe permite navegar rapidamente pela hierarquia de ficheiros e pastas.</li>
       <li xml:lang="pt-BR">Barra de navegação de URLs, permitindo-lhe navegar rapidamente pela hierarquia de arquivos e pastas.</li>
+      <li xml:lang="ro">Bară de navigare (sau firimituri) pentru URL-uri, ceea ce vă permite să navigați rapid prin ierarhia de fișiere și dosare.</li>
       <li xml:lang="ru">Адресная строка позволяет быстро перемещаться по дереву папок;</li>
       <li xml:lang="sk">Navigačná lišta pre URL, umožňujúca vám rýchlu navigáciu cez hierarchiu súborov a priečinkov.</li>
       <li xml:lang="sl">Vrstica za krmarjenje po naslovih URL, ki omogoča hitro krmarjenje po hierarhiji datotek in map.</li>
@@ -266,6 +268,7 @@
       <li xml:lang="pl">Obsługa wielu różnych rodzajów stylów widoków i właściwości oraz możliwość ustawienia widoku dopasowanego do potrzeb.</li>
       <li xml:lang="pt">Suposta diferentes tipos de vistas e propriedades e permite-lhe configurar cada vista exactamente como a deseja.</li>
       <li xml:lang="pt-BR">Suporte a diferentes tipos de visualização, permitindo-lhe configurar cada modo de exibição da forma que desejar.</li>
+      <li xml:lang="ro">Susține câteva feluri de stiluri și proprietăți de vizualizare, ceea ce vă permite să configurați vizualizarea exact așa cum vă doriți.</li>
       <li xml:lang="ru">Несколько различных визуальных представлений папок, каждое из которых можно настроить по своему вкусу;</li>
       <li xml:lang="sk">Podporuje niekoľko rôznych typov štýlov zobrazenia a vlastností a umožňuje vám nastaviť pohľad presne tak, ako chcete.</li>
       <li xml:lang="sl">Podpira številne vrste slogov in lastnosti pogledov ter omogoča, da pogled nastavite točno tako kot vam ustreza.</li>
@@ -310,6 +313,7 @@
       <li xml:lang="pl">Widok podzielony, umożliwiający łatwe kopiowane lub przenoszenie plików pomiędzy położeniami.</li>
       <li xml:lang="pt">Uma vista dividida, que lhe permite facilmente copiar ou mover os ficheiros entre locais.</li>
       <li xml:lang="pt-BR">Um modo de exibição dividido, permitindo-lhe copiar ou mover arquivos facilmente entre locais.</li>
+      <li xml:lang="ro">Desparte vizualizarea, ceea ce vă permite să copiați sau mutați ușor fișiere între amplasări.</li>
       <li xml:lang="ru">Двухпанельный режим, в котором удобно копировать и перемещать файлы между разными папками;</li>
       <li xml:lang="sk">Rozdelený pohľad, umožňuje vám jednoducho kopírovať alebo presúvať súbory medzi umiestneniami.</li>
       <li xml:lang="sl">Razdeljeni pogled vam omogoča enostavno kopiranje ali premikanje datotek med mesti.</li>
@@ -354,6 +358,7 @@
       <li xml:lang="pl">Dodatkowe szczegóły i skróty dostępne jako dokowalne panele, umożliwiające ich dowolne przenoszenie i wyświetlanie dopasowane do potrzeb.</li>
       <li xml:lang="pt">Estão disponíveis informações e atalhos adicionais como painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
       <li xml:lang="pt-BR">As informações e atalhos adicionais estão disponíveis na forma de painéis acopláveis, permitindo-lhe movê-los à vontade e apresentar como desejar.</li>
+      <li xml:lang="ro">Informații suplimentare și scurtături sunt disponibile ca panouri andocabile, ceea ce vă permite să le mutați liber și să afișați exact ceea ce doriți.</li>
       <li xml:lang="ru">Дополнительные сведения об элементах и ярлыки быстрого доступа в виде отдельных перемещаемых панелей;</li>
       <li xml:lang="sk">Dodatočné informácie a skratky sú dostupné ako dokovateľné panely, umožňujúce vám ich voľný presun a zobrazenie presne tak, ako chcete.</li>
       <li xml:lang="sl">Dodatne podrobnosti in bližnjice lahko vklopite kot sidrne pulte, ki jih lahko poljubno premikate in prikazujete.</li>
@@ -446,6 +451,7 @@
       <li xml:lang="pl">Pokazywanie informacyjnych okien dialogowych w nienatrętny sposób.</li>
       <li xml:lang="pt">As janelas informativas são apresentadas de forma não-intrusiva.</li>
       <li xml:lang="pt-BR">As janelas informativas são apresentadas de forma não-intrusiva.</li>
+      <li xml:lang="ro">Dialogurile informaționale sunt afișate într-un mod discret.</li>
       <li xml:lang="ru">Ненавязчивый способ показа информационных диалогов;</li>
       <li xml:lang="sk">Informačné dialógy sú zobrazené nevtieravým spôsobom.</li>
       <li xml:lang="sl">Pogovorna okna s podrobnostmi so prikazana na nevsiljiv način.</li>
@@ -588,6 +594,7 @@
       <caption xml:lang="pl">Zarządzanie plikami w Dolphinie</caption>
       <caption xml:lang="pt">Gestão de ficheiros no Dolphin</caption>
       <caption xml:lang="pt-BR">Gerenciamento de arquivos no Dolphin</caption>
+      <caption xml:lang="ro">Gestiunea fișierelor în Dolphin</caption>
       <caption xml:lang="ru">Управление файлами</caption>
       <caption xml:lang="sk">Správa súborov v Dolphin</caption>
       <caption xml:lang="sl">Upravljanje datotek v Dolphinu</caption>
