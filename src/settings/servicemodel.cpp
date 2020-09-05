@@ -92,3 +92,10 @@ int ServiceModel::rowCount(const QModelIndex& parent) const
     return m_items.count();
 }
 
+void ServiceModel::clear()
+{
+    beginRemoveRows(QModelIndex(), 0, m_items.count());
+    m_items.clear();
+    endRemoveRows();
+}
+

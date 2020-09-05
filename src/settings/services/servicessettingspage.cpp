@@ -73,7 +73,13 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                   QStringLiteral("servicemenu.knsrc"),
                                                   this);
-    connect(downloadButton, &KNS3::Button::dialogFinished, this, &ServicesSettingsPage::loadServices);
+    connect(downloadButton, &KNS3::Button::dialogFinished, this, [this](const KNS3::Entry::List &changedEntries) {
+           if (!changedEntries.isEmpty()) {
+               m_serviceModel->clear();
+               loadServices();
+           }
+    });
+
 #endif
 
     topLayout->addWidget(label);
