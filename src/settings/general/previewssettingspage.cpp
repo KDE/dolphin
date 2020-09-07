@@ -74,7 +74,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     m_localFileSizeBox = new QSpinBox(this);
     m_localFileSizeBox->setSingleStep(1);
-    m_localFileSizeBox->setSuffix(QStringLiteral(" MB"));
+    m_localFileSizeBox->setSuffix(i18nc("Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'", " MiB"));
     m_localFileSizeBox->setRange(0, 9999999); /* MB */
     m_localFileSizeBox->setSpecialValueText(i18n("No limit"));
 
@@ -87,7 +87,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     m_remoteFileSizeBox = new QSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
-    m_remoteFileSizeBox->setSuffix(QStringLiteral(" MB"));
+    m_remoteFileSizeBox->setSuffix(i18nc("Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'", " MiB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
     m_remoteFileSizeBox->setSpecialValueText(i18n("No previews"));
 
