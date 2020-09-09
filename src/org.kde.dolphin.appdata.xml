@@ -567,7 +567,7 @@
       <li xml:lang="sv">Transparent nätverksåtkomst via I/O-slavsystemet.</li>
       <li xml:lang="tr">KIO sistemi üzerinden şeffaf ağ erişimi.</li>
       <li xml:lang="uk">Прозорий доступ до ресурсів у мережі за допомогою системи KIO.</li>
-      <li xml:lang="vi">Truy cập tập tin mạng như tập tin cục bộ thông qua hệ thống KIO.</li>
+      <li xml:lang="vi">Truy cập tệp mạng như tệp cục bộ thông qua hệ thống KIO.</li>
       <li xml:lang="x-test">xxTransparent network access through the KIO system.xx</li>
       <li xml:lang="zh-CN">通过 KIO 系统支持透明的网络访问。</li>
       <li xml:lang="zh-TW">復原支援</li>
@@ -613,7 +613,7 @@
       <caption xml:lang="sl">Upravljanje datotek v Dolphinu</caption>
       <caption xml:lang="sv">Filhantering i Dolphin</caption>
       <caption xml:lang="uk">Керування файлами у Dolphin</caption>
-      <caption xml:lang="vi">Quản lí tập tin trong Dolphin</caption>
+      <caption xml:lang="vi">Quản lí tệp trong Dolphin</caption>
       <caption xml:lang="x-test">xxFile management in Dolphinxx</caption>
       <caption xml:lang="zh-CN">在 Dolphin 中管理文件</caption>
       <caption xml:lang="zh-TW">在 Dolphin 管理檔案</caption>
