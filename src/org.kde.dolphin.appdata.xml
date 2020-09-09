@@ -2,7 +2,7 @@
 <component type="desktop">
   <id>org.kde.dolphin.desktop</id>
   <metadata_license>CC0-1.0</metadata_license>
-  <project_license>GPL-2.0+</project_license>
+  <project_license>GPL-2.0-or-later</project_license>
   <name>Dolphin</name>
   <name xml:lang="ar">دولفين</name>
   <name xml:lang="ast">Dolphin</name>
@@ -118,7 +118,7 @@
     <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="fr">Dolphin est un gestionnaire de fichier léger. Il a été conçu en gardant à l'esprit la simplicité et l'aisance à l'usage, tout en permettant flexibilité et personnalisation. Cela signifie que vous pouvez gérer vos fichiers de la manière exacte que vous voulez.</p>
     <p xml:lang="gl">Dolphin é un xestor de ficheiros lixeiro. Deseñouse pensando na facilidade de uso e a simplicidade, pero permitindo flexibilidade e personalización. Noutras palabras, permítelle xestionar os seus ficheiros do xeito que máis lle agrade.</p>
-    <p xml:lang="he">‏Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
+    <p xml:lang="he">Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
     <p xml:lang="hu">A Dolphin egy pehelysúlyú fájlkezelő. Az egyszerű használatot és az egyszerűséget szem előtt tartva tervezték, miközben továbbra is lehetővé teszi a rugalmasságot és a testre szabhatóságot. Ez azt jelenti, hogy pontosan oly módon végezheti a fájlkezelést, ahogy csak akarja.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
     <p xml:lang="id">Dolphin adalah pengelola file yang ringan. Ini telah dirancang dengan kemudahan penggunaan dan kesederhanaan dalam hal, sementara masih memungkinkan fleksibilitas dan kustomisasi. Ini berarti kamu bisa melakukan pengelolaan file-mu persis seperti yang kamu inginkan.</p>
