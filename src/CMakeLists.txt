@@ -376,20 +376,30 @@ kconfig_add_kcfg_files(kcm_dolphinservices_PART_SRCS
 kconfig_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
-add_library(kcm_dolphinviewmodes MODULE ${kcm_dolphinviewmodes_PART_SRCS})
-add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
-add_library(kcm_dolphinservices MODULE ${kcm_dolphinservices_PART_SRCS})
-add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
 
-target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
-target_link_libraries(kcm_dolphinnavigation dolphinprivate)
-target_link_libraries(kcm_dolphinservices dolphinprivate)
-target_link_libraries(kcm_dolphingeneral dolphinprivate)
+if(NOT WIN32)
+    # The settings are still accessible from the hamburger menu
+    add_library(kcm_dolphinviewmodes MODULE ${kcm_dolphinviewmodes_PART_SRCS})
+    add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
+    add_library(kcm_dolphinservices MODULE ${kcm_dolphinservices_PART_SRCS})
+    add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
 
-install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-install(TARGETS kcm_dolphinservices DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+    target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
+    target_link_libraries(kcm_dolphinnavigation dolphinprivate)
+    target_link_libraries(kcm_dolphinservices dolphinprivate)
+    target_link_libraries(kcm_dolphingeneral dolphinprivate)
+
+    install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
+    install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+    install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+    install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+    install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+
+    install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+    install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+    install(TARGETS kcm_dolphinservices DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+    install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+endif()
 
 if(NOT WIN32)
     add_subdirectory(settings/services/servicemenuinstaller)
@@ -413,11 +423,6 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
-install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 
 if(BUILD_TESTING)
     find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
