@@ -47,6 +47,7 @@
   <name xml:lang="sv">Dolphin</name>
   <name xml:lang="tr">Dolphin</name>
   <name xml:lang="uk">Dolphin</name>
+  <name xml:lang="vi">Dolphin</name>
   <name xml:lang="x-test">xxDolphinxx</name>
   <name xml:lang="zh-CN">Dolphin</name>
   <name xml:lang="zh-TW">Dolphin</name>
@@ -95,6 +96,7 @@
   <summary xml:lang="sv">Filhanterare</summary>
   <summary xml:lang="tr">Dosya Yöneticisi</summary>
   <summary xml:lang="uk">Програма для керування файлами</summary>
+  <summary xml:lang="vi">Trình quản lí tệp</summary>
   <summary xml:lang="x-test">xxFile Managerxx</summary>
   <summary xml:lang="zh-CN">文件管理器</summary>
   <summary xml:lang="zh-TW">檔案管理員</summary>
@@ -142,6 +144,7 @@
     <p xml:lang="sv">Dolphin är en lättviktig filhanterare. Den har konstruerats med användbarhet och enkelhet i åtanke, men ändå tillåta flexibilitet och anpassning. Det betyder att du kan hantera filer exakt på det sätt som du vill göra det.</p>
     <p xml:lang="tr">Dolphin hafif bir dosya yöneticisidir. Kolay kullanım ve basitliğin yanı sıra esneklik ve özelleştirilebilme de akılda tutularak geliştirilmiştir. Bu da dosya yöneticisini tam da istediğiniz gibi kullanabileceğiniz anlamına gelir.</p>
     <p xml:lang="uk">Dolphin — невибаглива до ресурсів програма для керування файлами. Її створено простою у користуванні і гнучкою у налаштовуванні. Це означає, що ви можете зробити керування файлами саме таким, як вам потрібно.</p>
+    <p xml:lang="vi">Dolphin là một trình quản lí tệp nhẹ. Nó được thiết kế với lưu ý đến tính dễ dùng và sự đơn giản, đồng thời vẫn cho phép tính linh hoạt và sự tuỳ biến. Điều này có nghĩa là bạn có thể quản lí tệp theo đúng cách bạn muốn.</p>
     <p xml:lang="x-test">xxDolphin is a lightweight file manager. It has been designed with ease of use and simplicity in mind, while still allowing flexibility and customisation. This means that you can do your file management exactly the way you want to do it.xx</p>
     <p xml:lang="zh-CN">Dolphin 是一个轻量的文件管理器。它设计时考虑了简单易用，但仍然保持了灵活性和定制性。这意味着您可以用完全属于您的方式来管理文件。</p>
     <p xml:lang="zh-TW">Dolphin 是一套輕量級的檔案管理員。它設計的理念是易用與簡單，但仍然保持足夠的彈性。這表示您可以用您想要使用的方式來管理您的檔案。</p>
@@ -190,6 +193,7 @@
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
+    <p xml:lang="vi">Tính năng:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">功能：</p>
     <p xml:lang="zh-TW">功能：</p>
@@ -234,6 +238,7 @@
       <li xml:lang="sv">Navigeringsrad (eller länkstig) för webbadresser, som låter dig snabbt navigera igenom hierarkin av filer och kataloger.</li>
       <li xml:lang="tr">Dosya ve dizinlerin sıralı dizilerinde hızlıca gezinmenize imkan veren adresler için gezinti (veya işaret) çubuğu.</li>
       <li xml:lang="uk">Панель навігації (звичайний режим і режим послідовної навігації) для адрес надає вам змогу швидко пересуватися ієрархією файлів та каталогів.</li>
+      <li xml:lang="vi">Thanh điều hướng (hay vụn bánh) cho URL, cho phép bạn điều hướng nhanh chóng qua hệ thống cây tệp và thư mục.</li>
       <li xml:lang="x-test">xxNavigation (or breadcrumb) bar for URLs, allowing you to quickly navigate through the hierarchy of files and folders.xx</li>
       <li xml:lang="zh-CN">URL 的导航栏（面包屑导航），允许您快速地在文件和文件夹的层次结构间跳转。</li>
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
@@ -279,6 +284,7 @@
       <li xml:lang="sv">Stöder flera olika sorters visningsstilar och egenskaper och låter dig anpassa visningen exakt som du vill ha den.</li>
       <li xml:lang="tr">Bir çok farklı görünüm tipini ve özelliğini destekler ve görünümü tam istediğiniz gibi yapılandırmanıza izin verir.</li>
       <li xml:lang="uk">Підтримка декількох різних типів та параметрів перегляду надає вам змогу налаштувати перегляд каталогів саме так, як вам це потрібно.</li>
+      <li xml:lang="vi">Hỗ trợ nhiều loại kiểu cách và thuộc tính xem khác nhau, và cho phép bạn cấu hình khung xem đúng với cách bạn muốn.</li>
       <li xml:lang="x-test">xxSupports several different kinds of view styles and properties and allows you to configure the view exactly how you want it.xx</li>
       <li xml:lang="zh-CN">支持多种不同的视图风格和属性并且允许您用您想要的方式配置视图。</li>
       <li xml:lang="zh-TW">網址導覽列讓您可以快速瀏覽檔案與資料夾。</li>
@@ -324,6 +330,7 @@
       <li xml:lang="sv">Delad visning, som låter dig enkelt kopiera eller flytta filer mellan platser.</li>
       <li xml:lang="tr">Dosyaları farklı konumlar arasında kolayca kopyalamaya ve taşımaya izin veren ayrık görünüm.</li>
       <li xml:lang="uk">За допомогою режиму двопанельного розділеного перегляду ви зможе без проблем копіювати або пересувати файли між каталогами.</li>
+      <li xml:lang="vi">Khung xem chia đôi, cho phép bạn dễ dàng chép hay di chuyển tệp giữa các địa điểm.</li>
       <li xml:lang="x-test">xxSplit view, allowing you to easily copy or move files between locations.xx</li>
       <li xml:lang="zh-CN">拆分视图，让您可以方便地在不同位置间复制和移动文件。</li>
       <li xml:lang="zh-TW">支援數個檢視模式，您也可以調整檢視模式的屬性。</li>
@@ -369,6 +376,7 @@
       <li xml:lang="sv">Ytterligare information och genvägar är tillgängliga som dockningsbara paneler, vilket låter dig flytta omkring dem fritt och visa exakt vad du vill.</li>
       <li xml:lang="tr">Ek bilgi ve kısayollar kilitlenebilen panolar olarak kullanılabilirler, bu sayede onları istediğiniz gibi taşıyabilir ve tam istediğiniz gibi görüntülenmelerini sağlayabilirsiniz.</li>
       <li xml:lang="uk">За допомогою бічних пересувних панелей ви зможете отримувати додаткову інформацію та пересуватися каталогами. Ви можете розташувати ці панелі так, як вам це зручно, і наказати програмі показувати на них саме те, що вам потрібно.</li>
+      <li xml:lang="vi">Thông tin bổ sung và các lối tắt sẵn dùng dưới dạng các bảng lắp ghép được, cho phép bạn di chuyển chúng khắp nơi một cách tự do và hiển thị đúng những gì bạn muốn.</li>
       <li xml:lang="x-test">xxAdditional information and shortcuts are available as dock-able panels, allowing you to move them around freely and display exactly what you want.xx</li>
       <li xml:lang="zh-CN">额外信息，快捷键，可停靠面板，允许您自由地移动它们并且完全按照您想要的方式来显示。</li>
       <li xml:lang="zh-TW">分割檢視讓您可以輕鬆複製或移動檔案。</li>
@@ -417,6 +425,7 @@
       <li xml:lang="sv">Stöd för flera flikar</li>
       <li xml:lang="tr">Çoklu sekme desteği</li>
       <li xml:lang="uk">Підтримка роботи з вкладками.</li>
+      <li xml:lang="vi">Hỗ trợ đa thẻ</li>
       <li xml:lang="x-test">xxMultiple tab supportxx</li>
       <li xml:lang="zh-CN">多标签支持</li>
       <li xml:lang="zh-TW">額外資訊與嵌入式面板捷徑讓您可以輕易顯示您常用的項目。</li>
@@ -462,6 +471,7 @@
       <li xml:lang="sv">Dialogrutor med information visas på ett diskret sätt.</li>
       <li xml:lang="tr">Bilgi pencereleri rahatsız etmeyecek şekilde görüntülenir.</li>
       <li xml:lang="uk">Показ інформаційних панелей у зручний спосіб, що не заважає роботі.</li>
+      <li xml:lang="vi">Các hộp thoại thông tin được hiển thị một cách không gây phiền nhiễu.</li>
       <li xml:lang="x-test">xxInformational dialogues are displayed in an unobtrusive way.xx</li>
       <li xml:lang="zh-CN">信息对话框采用了非侵入式的方式来呈现。</li>
       <li xml:lang="zh-TW">支援多分頁</li>
@@ -510,6 +520,7 @@
       <li xml:lang="sv">Stöd för ångra och gör om</li>
       <li xml:lang="tr">Geri alma/tekrarlama desteği</li>
       <li xml:lang="uk">Підтримка скасовування та повторення дій.</li>
+      <li xml:lang="vi">Hỗ trợ đảo ngược/làm lại</li>
       <li xml:lang="x-test">xxUndo/redo supportxx</li>
       <li xml:lang="zh-CN">撤销/重做支持</li>
       <li xml:lang="zh-TW">以不唐突的方式顯示資訊對話框。</li>
@@ -556,6 +567,7 @@
       <li xml:lang="sv">Transparent nätverksåtkomst via I/O-slavsystemet.</li>
       <li xml:lang="tr">KIO sistemi üzerinden şeffaf ağ erişimi.</li>
       <li xml:lang="uk">Прозорий доступ до ресурсів у мережі за допомогою системи KIO.</li>
+      <li xml:lang="vi">Truy cập tệp mạng như tệp cục bộ thông qua hệ thống KIO.</li>
       <li xml:lang="x-test">xxTransparent network access through the KIO system.xx</li>
       <li xml:lang="zh-CN">通过 KIO 系统支持透明的网络访问。</li>
       <li xml:lang="zh-TW">復原支援</li>
@@ -600,6 +612,7 @@
       <caption xml:lang="sl">Upravljanje datotek v Dolphinu</caption>
       <caption xml:lang="sv">Filhantering i Dolphin</caption>
       <caption xml:lang="uk">Керування файлами у Dolphin</caption>
+      <caption xml:lang="vi">Quản lí tệp trong Dolphin</caption>
       <caption xml:lang="x-test">xxFile management in Dolphinxx</caption>
       <caption xml:lang="zh-CN">在 Dolphin 中管理文件</caption>
       <caption xml:lang="zh-TW">在 Dolphin 管理檔案</caption>
