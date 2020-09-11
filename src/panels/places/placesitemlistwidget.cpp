@@ -6,8 +6,6 @@
 
 #include "placesitemlistwidget.h"
 
-// #include <QDebug>
-
 #include <QDateTime>
 #include <QGraphicsView>
 #include <QStyleOption>
@@ -53,7 +51,6 @@ void PlacesItemListWidget::updateCapacityBar()
                 || m_freeSpaceInfo.lastUpdated.secsTo(QDateTime::currentDateTimeUtc()) > 60
             )
         ) {
-            // qDebug() << "url:" << url;
             m_freeSpaceInfo.job = KIO::fileSystemFreeSpace(url);
             connect(
                 m_freeSpaceInfo.job,
@@ -71,11 +68,6 @@ void PlacesItemListWidget::updateCapacityBar()
                     m_freeSpaceInfo.used = size - available;
                     m_freeSpaceInfo.usedRatio = (qreal)m_freeSpaceInfo.used / (qreal)m_freeSpaceInfo.size;
                     m_drawCapacityBar = size > 0;
-                    // qDebug() << "job.url:" << data().value("url").toUrl();
-                    // qDebug() << "job.size:" << m_freeSpaceInfo.size;
-                    // qDebug() << "job.used:" << m_freeSpaceInfo.used;
-                    // qDebug() << "job.ratio:" << m_freeSpaceInfo.usedRatio;
-                    // qDebug() << "job.draw:" << m_drawCapacityBar;
 
                     update();
                 }
