@@ -91,6 +91,8 @@ void PlacesItemListWidget::updateCapacityBar()
 void PlacesItemListWidget::resetCapacityBar()
 {
     m_drawCapacityBar = false;
+    delete m_freeSpaceInfo.job;
+    m_freeSpaceInfo.lastUpdated = QDateTime();
     m_freeSpaceInfo.size = 0;
     m_freeSpaceInfo.used = 0;
     m_freeSpaceInfo.usedRatio = 0;
