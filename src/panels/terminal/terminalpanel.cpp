@@ -17,6 +17,7 @@
 #include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <KProtocolInfo>
 #include <KService>
 #include <KShell>
 #include <kde_terminal_interface.h>
@@ -186,13 +187,21 @@ void TerminalPanel::changeDir(const QUrl& url)
 
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
-    } else {
+        return;
+    }
+
+    // Try stat'ing the url; note that mostLocalUrl only works with ":local" protocols
+    if (KProtocolInfo::protocolClass(url.scheme()) == QLatin1String(":local")) {
         m_mostLocalUrlJob = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
         if (m_mostLocalUrlJob->uiDelegate()) {
             KJobWidgets::setWindow(m_mostLocalUrlJob, this);
         }
         connect(m_mostLocalUrlJob, &KIO::StatJob::result, this, &TerminalPanel::slotMostLocalUrlResult);
+        return;
     }
+
+    // Last chance, try kio fuse
+    sendCdToTerminalKIOFuse(url);
 }
 
 void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHistory)
@@ -230,6 +239,21 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
     }
 }
 
+void TerminalPanel::sendCdToTerminalKIOFuse (const QUrl &url) {
+    // URL isn't local, only hope for the terminal to be in sync with the
+    // DolphinView is to mount the remote URL in KIOFuse and point to it.
+    // If we can't do that for any reason, silently fail.
+    auto reply = m_kiofuseInterface.mountUrl(url.toString());
+    QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
+    QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
+        watcher->deleteLater();
+        if (!reply.isError()) {
+            // Successfully mounted, point to the KIOFuse equivalent path.
+            sendCdToTerminal(reply.value());
+        }
+    });
+}
+
 void TerminalPanel::slotMostLocalUrlResult(KJob* job)
 {
     KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
@@ -237,18 +261,7 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
     if (url.isLocalFile()) {
         sendCdToTerminal(url.toLocalFile());
     } else {
-        // URL isn't local, only hope for the terminal to be in sync with the
-        // DolphinView is to mount the remote URL in KIOFuse and point to it.
-        // If we can't do that for any reason, silently fail.
-        auto reply = m_kiofuseInterface.mountUrl(url.toString());
-        QDBusPendingCallWatcher * watcher = new QDBusPendingCallWatcher(reply, this);
-        QObject::connect(watcher, &QDBusPendingCallWatcher::finished, this, [=] (QDBusPendingCallWatcher* watcher) {
-            watcher->deleteLater();
-            if (!reply.isError()) {
-                // Successfully mounted, point to the KIOFuse equivalent path.
-                sendCdToTerminal(reply.value());
-            }
-        });
+        sendCdToTerminalKIOFuse(url);
     }
 
     m_mostLocalUrlJob = nullptr;

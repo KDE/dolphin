@@ -77,7 +77,7 @@ private:
 
     void changeDir(const QUrl& url);
     void sendCdToTerminal(const QString& path, HistoryPolicy addToHistory = HistoryPolicy::AddToHistory);
-
+    void sendCdToTerminalKIOFuse (const QUrl &url);
 private:
     bool m_clearTerminal;
     KIO::StatJob* m_mostLocalUrlJob;
