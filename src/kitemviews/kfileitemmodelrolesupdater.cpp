@@ -65,6 +65,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_roles(),
     m_resolvableRoles(),
     m_enabledPlugins(),
+    m_localFileSizePreviewLimit(0),
     m_pendingSortRoleItems(),
     m_pendingIndexes(),
     m_pendingPreviewItems(),
@@ -72,10 +73,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_recentlyChangedItemsTimer(nullptr),
     m_recentlyChangedItems(),
     m_changedItems(),
-    m_directoryContentsCounter(nullptr),
-    m_localFileSizePreviewLimit(0)
+    m_directoryContentsCounter(nullptr)
   #ifdef HAVE_BALOO
-  , m_balooFileMonitor(nullptr)
+   , m_balooFileMonitor(nullptr)
   #endif
 {
     Q_ASSERT(model);
