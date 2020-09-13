@@ -23,6 +23,7 @@ class QDialogButtonBox;
 class QString;
 class QLabel;
 class QScrollArea;
+class QGestureEvent;
 
 namespace KIO {
   class PreviewJob;
@@ -78,6 +79,7 @@ public:
 signals:
     void urlActivated( const QUrl& url );
     void configurationFinished();
+    void contextMenuRequested(const QPoint& pos);
 
 public slots:
     /**
@@ -89,6 +91,8 @@ public slots:
 protected:
     /** @see QObject::eventFilter() */
     bool eventFilter(QObject* obj, QEvent* event) override;
+
+    bool event(QEvent * event) override;
 
 private slots:
     /**
@@ -130,6 +134,8 @@ private:
      * Refreshes the image in the PixmapViewer
      */
     void refreshPixmapView();
+
+    bool gestureEvent(QGestureEvent* event);
 
 private:
     KFileItem m_item;

@@ -24,6 +24,7 @@
 #include <QElapsedTimer>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QPropertyAnimation>
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 
@@ -80,11 +81,13 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_oldMaximumItemOffset(0),
     m_skipAutoScrollForRubberBand(false),
     m_rubberBand(nullptr),
+    m_tapAndHoldIndicator(nullptr),
     m_mousePos(),
     m_autoScrollIncrement(0),
     m_autoScrollTimer(nullptr),
     m_header(nullptr),
     m_headerWidget(nullptr),
+    m_indicatorAnimation(nullptr),
     m_dropIndicator()
 {
     setAcceptHoverEvents(true);
@@ -104,6 +107,23 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
 
     m_rubberBand = new KItemListRubberBand(this);
     connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);
+
+    m_tapAndHoldIndicator = new KItemListRubberBand(this);
+    m_indicatorAnimation = new QPropertyAnimation(m_tapAndHoldIndicator, "endPosition", this);
+    connect(m_tapAndHoldIndicator, &KItemListRubberBand::activationChanged, this, [this](bool active) {
+        if (active) {
+            m_indicatorAnimation->setDuration(150);
+            m_indicatorAnimation->setStartValue(QPointF(1, 1));
+            m_indicatorAnimation->setEndValue(QPointF(40, 40));
+            m_indicatorAnimation->start();
+        }
+        update();
+    });
+    connect(m_tapAndHoldIndicator, &KItemListRubberBand::endPositionChanged, this, [this]() {
+        if (m_tapAndHoldIndicator->isActive()) {
+            update();
+        }
+    });
 
     m_headerWidget = new KItemListHeaderWidget(this);
     m_headerWidget->setVisible(false);
@@ -650,6 +670,18 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
             rubberBandRect.moveTo(topLeft.x() - scrollOffset(), topLeft.y());
         }
 
+        QStyleOptionRubberBand opt;
+        initStyleOption(&opt);
+        opt.shape = QRubberBand::Rectangle;
+        opt.opaque = false;
+        opt.rect = rubberBandRect.toRect();
+        style()->drawControl(QStyle::CE_RubberBand, &opt, painter);
+    }
+
+    if (m_tapAndHoldIndicator->isActive()) {
+        const QPointF indicatorSize = m_tapAndHoldIndicator->endPosition();
+        const QRectF rubberBandRect = QRectF(m_tapAndHoldIndicator->startPosition() - indicatorSize,
+                                    (m_tapAndHoldIndicator->startPosition()) + indicatorSize).normalized();
         QStyleOptionRubberBand opt;
         initStyleOption(&opt);
         opt.shape = QRubberBand::Rectangle;

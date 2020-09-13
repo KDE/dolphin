@@ -18,6 +18,7 @@
 class DOLPHIN_EXPORT KItemListRubberBand : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QPointF endPosition MEMBER m_endPos READ endPosition WRITE setEndPosition)
 
 public:
     explicit KItemListRubberBand(QObject* parent = nullptr);

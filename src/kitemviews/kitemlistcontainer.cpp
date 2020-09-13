@@ -17,6 +17,7 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QScrollBar>
+#include <QScroller>
 #include <QStyleOption>
 
 /**
@@ -54,7 +55,8 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
     QAbstractScrollArea(parent),
     m_controller(controller),
     m_horizontalSmoothScroller(nullptr),
-    m_verticalSmoothScroller(nullptr)
+    m_verticalSmoothScroller(nullptr),
+    m_scroller(nullptr)
 {
     Q_ASSERT(controller);
     controller->setParent(this);
@@ -76,6 +78,13 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
             this, &KItemListContainer::slotModelChanged);
     connect(controller, &KItemListController::viewChanged,
             this, &KItemListContainer::slotViewChanged);
+
+    m_scroller = QScroller::scroller(viewport());
+    m_scroller->grabGesture(viewport());
+    connect(controller, &KItemListController::scrollerStop,
+            this, &KItemListContainer::stopScroller);
+    connect(m_scroller, &QScroller::stateChanged,
+            controller, &KItemListController::slotStateChanged);
 }
 
 KItemListContainer::~KItemListContainer()
@@ -323,6 +332,11 @@ void KItemListContainer::updateItemOffsetScrollBar()
         itemOffsetScrollBar->setMaximum(maximum);
         itemOffsetScrollBar->setValue(value);
     }
+}
+
+void KItemListContainer::stopScroller()
+{
+    m_scroller->stop();
 }
 
 void KItemListContainer::updateGeometries()

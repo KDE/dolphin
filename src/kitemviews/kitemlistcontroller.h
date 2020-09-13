@@ -14,6 +14,7 @@
 
 #include <QObject>
 #include <QPointF>
+#include <QScroller>
 
 class QTimer;
 class KItemModelBase;
@@ -21,6 +22,7 @@ class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
 class KItemListView;
 class KItemListWidget;
+class QGestureEvent;
 class QGraphicsSceneHoverEvent;
 class QGraphicsSceneDragDropEvent;
 class QGraphicsSceneMouseEvent;
@@ -28,6 +30,7 @@ class QGraphicsSceneResizeEvent;
 class QGraphicsSceneWheelEvent;
 class QInputMethodEvent;
 class QKeyEvent;
+class QTapGesture;
 class QTransform;
 
 /**
@@ -208,6 +211,14 @@ signals:
 
     void selectedItemTextPressed(int index);
 
+    void scrollerStop();
+    void increaseZoom();
+    void decreaseZoom();
+    void swipeUp();
+
+public slots:
+    void slotStateChanged(QScroller::State newState);
+
 private slots:
     void slotViewScrollOffsetChanged(qreal current, qreal previous);
 
@@ -289,11 +300,25 @@ private:
     bool hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform);
     bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
     bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
+    bool gestureEvent(QGestureEvent* event, const QTransform& transform);
+    void tapTriggered(QTapGesture* tap, const QTransform& transform);
+    void tapAndHoldTriggered(QGestureEvent* event, const QTransform& transform);
+    void pinchTriggered(QGestureEvent* event, const QTransform& transform);
+    void swipeTriggered(QGestureEvent* event, const QTransform& transform);
+    void twoFingerTapTriggered(QGestureEvent* event, const QTransform& transform);
+    bool onPress(const QPoint& screenPos, const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons);
+    bool onRelease(const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch);
+    void startRubberBand();
 
 private:
     bool m_singleClickActivationEnforced;
     bool m_selectionTogglePressed;
     bool m_clearSelectionIfItemsAreNotDragged;
+    bool m_isSwipeGesture;
+    bool m_dragActionOrRightClick;
+    bool m_scrollerIsScrolling;
+    bool m_pinchGestureInProgress;
+    bool m_mousePress;
     SelectionBehavior m_selectionBehavior;
     AutoActivationBehavior m_autoActivationBehavior;
     MouseDoubleClickAction m_mouseDoubleClickAction;
@@ -305,6 +330,10 @@ private:
     QPointF m_pressedMousePos;
 
     QTimer* m_autoActivationTimer;
+
+    Qt::GestureType m_swipeGesture;
+    Qt::GestureType m_twoFingerTapGesture;
+    Qt::MouseEventSource m_lastSource;
 
     /**
      * When starting a rubberband selection during a Shift- or Control-key has been

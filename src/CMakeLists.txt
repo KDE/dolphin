@@ -90,6 +90,8 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/private/kitemlistviewanimation.cpp
     kitemviews/private/kitemlistviewlayouter.cpp
     kitemviews/private/kpixmapmodifier.cpp
+    kitemviews/private/ktwofingerswipe.cpp
+    kitemviews/private/ktwofingertap.cpp
     settings/applyviewpropsjob.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp

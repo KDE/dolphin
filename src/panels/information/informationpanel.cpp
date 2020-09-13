@@ -405,6 +405,7 @@ void InformationPanel::init()
     m_content = new InformationPanelContent(this);
     connect(m_content, &InformationPanelContent::urlActivated, this, &InformationPanel::urlActivated);
     connect(m_content, &InformationPanelContent::configurationFinished, this, [this]() { m_inConfigurationMode = false; });
+    connect(m_content, &InformationPanelContent::contextMenuRequested, this, &InformationPanel::showContextMenu);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

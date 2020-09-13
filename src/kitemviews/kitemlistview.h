@@ -31,6 +31,7 @@ class KItemListWidget;
 class KItemListWidgetInformant;
 class KItemListWidgetCreatorBase;
 class QTimer;
+class QPropertyAnimation;
 
 /**
  * @brief Represents the view of an item-list.
@@ -727,6 +728,7 @@ private:
 
     bool m_skipAutoScrollForRubberBand;
     KItemListRubberBand* m_rubberBand;
+    KItemListRubberBand* m_tapAndHoldIndicator;
 
     QPointF m_mousePos;
     int m_autoScrollIncrement;
@@ -734,6 +736,8 @@ private:
 
     KItemListHeader* m_header;
     KItemListHeaderWidget* m_headerWidget;
+
+    QPropertyAnimation* m_indicatorAnimation;
 
     // When dragging items into the view where the sort-role of the model
     // is empty, a visual indicator should be shown during dragging where

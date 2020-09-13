@@ -17,6 +17,7 @@ class KItemListController;
 class KItemListSmoothScroller;
 class KItemListView;
 class KItemModelBase;
+class QScroller;
 
 /**
  * @brief Provides a QWidget based scrolling view for a KItemListController.
@@ -57,6 +58,7 @@ private slots:
     void scrollTo(qreal offset);
     void updateScrollOffsetScrollBar();
     void updateItemOffsetScrollBar();
+    void stopScroller();
 
 private:
     void updateGeometries();
@@ -74,6 +76,7 @@ private:
 
     KItemListSmoothScroller* m_horizontalSmoothScroller;
     KItemListSmoothScroller* m_verticalSmoothScroller;
+    QScroller* m_scroller;
 };
 
 #endif

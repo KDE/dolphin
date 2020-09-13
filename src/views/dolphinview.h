@@ -582,6 +582,8 @@ signals:
      */
     void urlActivated(const QUrl& url);
 
+    void goUpRequested();
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent* event) override;
@@ -611,6 +613,9 @@ private slots:
     void slotRenameDialogRenamingFinished(const QList<QUrl>& urls);
     void slotSelectedItemTextPressed(int index);
     void slotCopyingDone(KIO::Job *, const QUrl &, const QUrl &to);
+    void slotIncreaseZoom();
+    void slotDecreaseZoom();
+    void slotSwipeUp();
 
     /*
      * Is called when new items get pasted or dropped.

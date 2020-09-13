@@ -23,6 +23,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QListWidget>
+#include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
@@ -56,6 +57,8 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     });
 
     m_listView = new QListView(this);
+    QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
+
     auto *delegate = new ServiceItemDelegate(m_listView, m_listView);
     m_serviceModel = new ServiceModel(this);
     m_sortModel = new QSortFilterProxyModel(this);

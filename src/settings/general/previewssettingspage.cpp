@@ -19,6 +19,7 @@
 #include <QLabel>
 #include <QListView>
 #include <QPainter>
+#include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QSpinBox>
@@ -42,6 +43,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     QLabel* showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews in the view for:"), this);
 
     m_listView = new QListView(this);
+    QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
 
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
     connect(delegate, &ServiceItemDelegate::requestServiceConfiguration,
@@ -56,6 +58,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView->setModel(proxyModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
+    m_listView->setUniformItemSizes(true);
 
     QLabel* localFileSizeLabel = new QLabel(i18n("Skip previews for local files above:"), this);
 

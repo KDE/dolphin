@@ -134,6 +134,9 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
     connect(controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
     connect(controller, &KItemListController::selectedItemTextPressed, this, &DolphinView::slotSelectedItemTextPressed);
+    connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
+    connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
+    connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -1953,4 +1956,19 @@ void DolphinView::copyPathToClipboard()
         return;
     }
     clipboard->setText(path);
+}
+
+void DolphinView::slotIncreaseZoom()
+{
+    setZoomLevel(zoomLevel() + 1);
+}
+
+void DolphinView::slotDecreaseZoom()
+{
+    setZoomLevel(zoomLevel() - 1);
+}
+
+void DolphinView::slotSwipeUp()
+{
+    emit goUpRequested();
 }

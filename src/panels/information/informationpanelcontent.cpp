@@ -33,11 +33,13 @@
 #include <QTextLayout>
 #include <QTimer>
 #include <QVBoxLayout>
+#include <QScroller>
 #include <QStyle>
 #include <QPainter>
 #include <QBitmap>
 #include <QLinearGradient>
 #include <QPolygon>
+#include <QGesture>
 
 #include "dolphin_informationpanelsettings.h"
 #include "phononwidget.h"
@@ -134,6 +136,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_metaDataArea->setFrameShape(QFrame::NoFrame);
 
     QWidget* viewport = m_metaDataArea->viewport();
+    QScroller::grabGesture(viewport, QScroller::TouchGesture);
     viewport->installEventFilter(this);
 
     layout->addWidget(m_preview);
@@ -143,6 +146,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_configureLabel);
     layout->addWidget(m_metaDataArea);
     layout->addWidget(m_configureButtons);
+
+    grabGesture(Qt::TapAndHoldGesture);
 
     m_placesItemModel = new PlacesItemModel(this);
 }
@@ -336,6 +341,33 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
     }
 
     return QWidget::eventFilter(obj, event);
+}
+
+bool InformationPanelContent::event(QEvent* event)
+{
+    if (event->type() == QEvent::Gesture) {
+        gestureEvent(static_cast<QGestureEvent*>(event));
+        return true;
+    }
+    return QWidget::event(event);
+}
+
+bool InformationPanelContent::gestureEvent(QGestureEvent* event)
+{
+    if (!underMouse()) {
+        return false;
+    }
+
+    QTapAndHoldGesture* tap = static_cast<QTapAndHoldGesture*>(event->gesture(Qt::TapAndHoldGesture));
+
+    if (tap) {
+        if (tap->state() == Qt::GestureFinished) {
+            emit contextMenuRequested(tap->position().toPoint());
+        }
+        event->accept();
+        return true;
+    }
+    return false;
 }
 
 void InformationPanelContent::showIcon(const KFileItem& item)
