@@ -200,7 +200,7 @@ void TerminalPanel::changeDir(const QUrl& url)
         return;
     }
 
-    // Last chance, try kio fuse
+    // Last chance, try KIOFuse
     sendCdToTerminalKIOFuse(url);
 }
 
@@ -239,7 +239,7 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
     }
 }
 
-void TerminalPanel::sendCdToTerminalKIOFuse (const QUrl &url) {
+void TerminalPanel::sendCdToTerminalKIOFuse(const QUrl &url) {
     // URL isn't local, only hope for the terminal to be in sync with the
     // DolphinView is to mount the remote URL in KIOFuse and point to it.
     // If we can't do that for any reason, silently fail.
