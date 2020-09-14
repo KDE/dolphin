@@ -185,6 +185,9 @@ KItemListController::MouseDoubleClickAction KItemListController::mouseDoubleClic
 
 int KItemListController::indexCloseToMousePressedPosition() const
 {
+    if (!m_view) {
+        return -1; //not sure
+    }
     QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_view->m_visibleGroups);
     while (it.hasNext()) {
         it.next();
@@ -219,6 +222,9 @@ bool KItemListController::singleClickActivationEnforced() const
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
+    if (!m_model || !m_view) {
+        return false;//not sure
+    }
     int index = m_selectionManager->currentItem();
     int key = event->key();
 
@@ -652,12 +658,15 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
 bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
+    if (!m_model || !m_view) {
+        return false;
+    }
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
 
     // Expand item if desired - See Bug 295573
     if (m_mouseDoubleClickAction != ActivateItemOnly) {
-        if (m_view && m_model && m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
+        if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
         }
@@ -704,9 +713,11 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
     Q_UNUSED(transform)
 
     m_autoActivationTimer->stop();
-    m_view->setAutoScroll(false);
-    m_view->hideDropIndicator();
-
+    if (m_view) {
+        m_view->setAutoScroll(false);
+        m_view->hideDropIndicator();
+    }
+    
     KItemListWidget* widget = hoveredWidget();
     if (widget) {
         widget->setHovered(false);
@@ -787,7 +798,8 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
 
 bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    if (!m_view) {
+    
+    if (!m_model || !m_view ) {
         return false;
     }
 
@@ -975,7 +987,9 @@ void KItemListController::tapTriggered(QTapGesture* tap, const QTransform& trans
 
 void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTransform& transform)
 {
-
+    if (!m_view) {
+        return;
+    }
     //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
     if (m_lastSource == Qt::MouseEventNotSynthesized) {
         return;
@@ -1073,7 +1087,9 @@ void KItemListController::twoFingerTapTriggered(QGestureEvent* event, const QTra
     if (!twoTap) {
         return;
     }
-
+    if (!m_view) {
+        return;
+    }
     if (twoTap->state() == Qt::GestureStarted) {
         m_pressedMousePos = transform.map(twoTap->pos());
         m_pressedIndex = m_view->itemAt(m_pressedMousePos);
@@ -1276,7 +1292,7 @@ KItemListWidget* KItemListController::hoveredWidget() const
     Q_ASSERT(m_view);
 
     foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
-        if (widget->isHovered()) {
+        if (widget && widget->isHovered()) {
             return widget;
         }
     }
@@ -1289,12 +1305,14 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
     Q_ASSERT(m_view);
 
     foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
-        const QPointF mappedPos = widget->mapFromItem(m_view, pos);
+        if (widget){
+            const QPointF mappedPos = widget->mapFromItem(m_view, pos);
 
-        const bool hovered = widget->contains(mappedPos) &&
-                             !widget->expansionToggleRect().contains(mappedPos);
-        if (hovered) {
-            return widget;
+            const bool hovered = widget->contains(mappedPos) &&
+                                !widget->expansionToggleRect().contains(mappedPos);
+            if (hovered) {
+                return widget;
+            }
         }
     }
 
@@ -1303,6 +1321,9 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
 
 void KItemListController::updateKeyboardAnchor()
 {
+    if (!m_model || !m_selectionManager) {
+        return;
+    }
     const bool validAnchor = m_keyboardAnchorIndex >= 0 &&
                              m_keyboardAnchorIndex < m_model->count() &&
                              keyboardAnchorPos(m_keyboardAnchorIndex) == m_keyboardAnchorPos;
@@ -1315,7 +1336,8 @@ void KItemListController::updateKeyboardAnchor()
 
 int KItemListController::nextRowIndex(int index) const
 {
-    if (m_keyboardAnchorIndex < 0) {
+    
+    if (m_keyboardAnchorIndex < 0 || !m_model ) {
         return index;
     }
 
@@ -1408,6 +1430,10 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 {
     emit mouseButtonPressed(m_pressedIndex, buttons);
 
+    if (!m_view){
+        return false;//not sure
+    }
+    
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
         m_selectionManager->setCurrentItem(m_pressedIndex);
@@ -1519,6 +1545,9 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
 bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch)
 {
+    if (!m_model || !m_view) {
+        return false; // not sure
+    }
     const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
     if (isAboveSelectionToggle) {
         m_selectionTogglePressed = false;
