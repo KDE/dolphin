@@ -592,12 +592,6 @@ private:
     /** Adds "What's This?" texts to many widgets and StandardActions. */
     void setupWhatsThis();
 
-    /**
-     * Returns the KIO::StatJob::mostLocalUrl() for the active container URL
-     * if it's a local file. Otherwise returns the user's home path.
-     */
-    QString activeContainerLocalPath();
-
     /** Returns preferred search tool as configured in "More Search Tools" menu. */
     QPointer<QAction> preferredSearchTool();
 

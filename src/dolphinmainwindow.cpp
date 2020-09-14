@@ -943,18 +943,6 @@ void DolphinMainWindow::toggleShowMenuBar()
     }
 }
 
-QString DolphinMainWindow::activeContainerLocalPath()
-{
-    KIO::StatJob* statJob = KIO::mostLocalUrl(m_activeViewContainer->url());
-    KJobWidgets::setWindow(statJob, this);
-    statJob->exec();
-    QUrl url = statJob->mostLocalUrl();
-    if (url.isLocalFile()) {
-        return url.toLocalFile();
-    }
-    return QDir::homePath();
-}
-
 QPointer<QAction> DolphinMainWindow::preferredSearchTool()
 {
     m_searchTools.clear();
@@ -1001,7 +989,31 @@ void DolphinMainWindow::openPreferredSearchTool()
 
 void DolphinMainWindow::openTerminal()
 {
-    KToolInvocation::invokeTerminal(QString(), activeContainerLocalPath());
+    const QUrl url = m_activeViewContainer->url();
+
+    if (url.isLocalFile()) {
+        KToolInvocation::invokeTerminal(QString(), url.toLocalFile());
+        return;
+    }
+
+     // Not a local file, with protocol Class ":local", try stat'ing
+    if (KProtocolInfo::protocolClass(url.scheme()) == QLatin1String(":local")) {
+        KIO::StatJob *job = KIO::mostLocalUrl(url);
+        KJobWidgets::setWindow(job, this);
+        connect(job, &KJob::result, this, [job]() {
+            QUrl statUrl;
+            if (!job->error()) {
+                statUrl = job->mostLocalUrl();
+            }
+
+            KToolInvocation::invokeTerminal(QString(), statUrl.isLocalFile() ? statUrl.toLocalFile() : QDir::homePath());
+        });
+
+        return;
+    }
+
+    // Nothing worked, just use $HOME
+    KToolInvocation::invokeTerminal(QString(), QDir::homePath());
 }
 
 void DolphinMainWindow::editSettings()
