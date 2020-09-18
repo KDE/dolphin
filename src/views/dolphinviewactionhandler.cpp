@@ -272,8 +272,8 @@ void DolphinViewActionHandler::createActions()
     connect(showInGroups, &KToggleAction::triggered, this, &DolphinViewActionHandler::toggleGroupedSorting);
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>(QStringLiteral("show_hidden_files"));
+    showHiddenFiles->setIcon(QIcon::fromTheme(QStringLiteral("view-visible")));
     showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
-    showHiddenFiles->setToolTip(i18nc("@info", "Visibility of hidden files and folders"));
     showHiddenFiles->setWhatsThis(xi18nc("@info:whatsthis", "<para>When "
         "this is enabled <emphasis>hidden</emphasis> files and folders "
         "are visible. They will be displayed semi-transparent.</para>"
@@ -552,14 +552,6 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 {
     QAction* showHiddenFilesAction = m_actionCollection->action(QStringLiteral("show_hidden_files"));
     showHiddenFilesAction->setChecked(shown);
-
-    // #374508: don't overwrite custom icons.
-    const QString iconName = showHiddenFilesAction->icon().name();
-    if (!iconName.isEmpty() && iconName != QLatin1String("view-visible") && iconName != QLatin1String("view-hidden")) {
-        return;
-    }
-
-    showHiddenFilesAction->setIcon(QIcon::fromTheme(shown ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
 }
 
 void DolphinViewActionHandler::slotWriteStateChanged(bool isFolderWritable)
