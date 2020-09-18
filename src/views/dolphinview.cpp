@@ -1501,6 +1501,8 @@ void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
     if (GeneralSettings::showToolTips()) {
         m_toolTipManager->hideToolTip(behavior);
     }
+#else
+        Q_UNUSED(behavior)
 #endif
 }
 
