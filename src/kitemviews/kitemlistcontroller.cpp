@@ -550,17 +550,19 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedMousePos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
-    if (event->buttons() & (Qt::BackButton | Qt::ForwardButton)) {
+    const Qt::MouseButtons buttons = event->buttons();
+
+    if (!onPress(event->screenPos(), event->pos(), event->modifiers(), buttons)) {
+        startRubberBand();
+        return false;
+    }
+
+    if (buttons & (Qt::BackButton | Qt::ForwardButton)) {
         // Do not select items when clicking the back/forward buttons, see
         // https://bugs.kde.org/show_bug.cgi?id=327412.
         return true;
     }
 
-    const Qt::MouseButtons buttons = event->buttons();
-    if (!onPress(event->screenPos(), event->pos(), event->modifiers(), buttons)) {
-        startRubberBand();
-        return false;
-    }
     return true;
 }
 
