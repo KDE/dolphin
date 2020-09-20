@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinviewcontainer.h"
 
+#include <QPropertyAnimation>
 #include <QSplitter>
 #include <QVBoxLayout>
 
@@ -24,6 +25,8 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
 
     m_splitter = new QSplitter(Qt::Horizontal, this);
     m_splitter->setChildrenCollapsible(false);
+    connect(m_splitter, &QSplitter::splitterMoved,
+            this, &DolphinTabPage::splitterMoved);
     layout->addWidget(m_splitter);
 
     // Create a new primary view
@@ -34,6 +37,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
             this, &DolphinTabPage::slotViewUrlRedirection);
 
     m_splitter->addWidget(m_primaryViewContainer);
+    m_primaryViewContainer->installEventFilter(this);
     m_primaryViewContainer->show();
 
     if (secondaryUrl.isValid() || GeneralSettings::splitView()) {
@@ -43,6 +47,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
         const QUrl& url = secondaryUrl.isValid() ? secondaryUrl : primaryUrl;
         m_secondaryViewContainer = createViewContainer(url);
         m_splitter->addWidget(m_secondaryViewContainer);
+        m_secondaryViewContainer->installEventFilter(this);
         m_secondaryViewContainer->show();
     }
 
@@ -65,17 +70,59 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
         m_splitViewEnabled = enabled;
 
         if (enabled) {
+            int splitterTotalWidth = m_splitter->width();
             const QUrl& url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
             m_secondaryViewContainer = createViewContainer(url);
 
+            auto secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
+            if (!secondaryNavigator) {
+                m_navigatorsWidget->createSecondaryUrlNavigator();
+                secondaryNavigator = m_navigatorsWidget->secondaryUrlNavigator();
+            }
+            m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
+            m_navigatorsWidget->setSecondaryNavigatorVisible(true);
+
             m_splitter->addWidget(m_secondaryViewContainer);
-            m_secondaryViewContainer->show();
+            m_secondaryViewContainer->installEventFilter(this);
             m_secondaryViewContainer->setActive(true);
+
+            // opening animation
+            m_splitter->widget(1)->setMinimumWidth(1);
+            const QList<int> splitterSizes = {m_splitter->width(), 0};
+            m_splitter->setSizes(splitterSizes);
+
+            // TODO: This is only here to test the robustness of DolphinNavigatorsWidgetAction! I still have to move it to another merge request!
+            m_splitViewAnimation = new QVariantAnimation(m_splitter);
+            m_splitViewAnimation->setDuration(200); // TODO: where do I get the animation times from again?
+            m_splitViewAnimation->setStartValue(splitterTotalWidth);
+            m_splitViewAnimation->setEndValue(splitterTotalWidth / 2);
+            m_splitViewAnimation->setEasingCurve(QEasingCurve::OutCubic);
+
+            connect(m_splitViewAnimation, &QVariantAnimation::valueChanged, [=]() {
+                if (m_splitter->count() != 2) {
+                    return;
+                }
+                int value = m_splitViewAnimation->currentValue().toInt();
+                const QList<int> splitterSizes = {value, m_splitter->width() - value};
+                m_splitter->setSizes(splitterSizes);
+                if (value == m_splitViewAnimation->endValue().toInt()) {
+                    m_splitter->widget(1)->setMinimumWidth(m_splitter->widget(1)->minimumSizeHint().width());
+                }
+            });
+            m_splitViewAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+            m_secondaryViewContainer->show();
         } else {
+            m_navigatorsWidget->setSecondaryNavigatorVisible(false);
+            m_secondaryViewContainer->disconnectUrlNavigator();
+
             DolphinViewContainer* view;
             if (GeneralSettings::closeActiveSplitView()) {
                 view = activeViewContainer();
                 if (m_primaryViewActive) {
+                    m_primaryViewContainer->disconnectUrlNavigator();
+                    m_secondaryViewContainer->connectUrlNavigator(
+                            m_navigatorsWidget->primaryUrlNavigator());
+
                     // If the primary view is active, we have to swap the pointers
                     // because the secondary view will be the new primary view.
                     qSwap(m_primaryViewContainer, m_secondaryViewContainer);
@@ -84,6 +131,10 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
             } else {
                 view = m_primaryViewActive ? m_secondaryViewContainer : m_primaryViewContainer;
                 if (!m_primaryViewActive) {
+                    m_primaryViewContainer->disconnectUrlNavigator();
+                    m_secondaryViewContainer->connectUrlNavigator(
+                            m_navigatorsWidget->primaryUrlNavigator());
+
                     // If the secondary view is active, we have to swap the pointers
                     // because the secondary view will be the new primary view.
                     qSwap(m_primaryViewContainer, m_secondaryViewContainer);
@@ -93,6 +144,10 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
             m_primaryViewContainer->setActive(true);
             view->close();
             view->deleteLater();
+            if (m_splitViewAnimation) {
+                delete m_splitViewAnimation;
+                m_splitter->widget(0)->setMinimumWidth(m_splitter->widget(0)->minimumSizeHint().width());
+            }
         }
     }
 }
@@ -129,6 +184,56 @@ int DolphinTabPage::selectedItemsCount() const
         selectedItemsCount += m_secondaryViewContainer->view()->selectedItemsCount();
     }
     return selectedItemsCount;
+}
+
+void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigatorsWidget)
+{
+    m_navigatorsWidget = navigatorsWidget;
+    auto primaryNavigator = navigatorsWidget->primaryUrlNavigator();
+    primaryNavigator->setActive(m_primaryViewActive);
+    m_primaryViewContainer->connectUrlNavigator(primaryNavigator);
+    if (m_splitViewEnabled) {
+        auto secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
+        if (!secondaryNavigator) {
+            navigatorsWidget->createSecondaryUrlNavigator();
+            secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
+        }
+        secondaryNavigator->setActive(!m_primaryViewActive);
+        m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
+    }
+    resizeNavigators();
+}
+
+void DolphinTabPage::disconnectNavigators()
+{
+    m_navigatorsWidget = nullptr;
+    m_primaryViewContainer->disconnectUrlNavigator();
+    if (m_splitViewEnabled) {
+        m_secondaryViewContainer->disconnectUrlNavigator();
+    }
+}
+
+bool DolphinTabPage::eventFilter(QObject */* watched */, QEvent *event)
+{
+    if (event->type() == QEvent::Resize && m_navigatorsWidget) {
+        resizeNavigators();
+    }
+    return false;
+}
+
+void DolphinTabPage::resizeNavigators() const
+{
+    if (!m_splitViewEnabled) {
+        m_navigatorsWidget->followViewContainerGeometry(
+                m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
+                m_primaryViewContainer->width());
+    } else {
+        m_navigatorsWidget->followViewContainersGeometry(
+                m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
+                m_primaryViewContainer->width(),
+                m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
+                m_secondaryViewContainer->width());
+    }
 }
 
 void DolphinTabPage::markUrlsAsSelected(const QList<QUrl>& urls)
@@ -222,11 +327,17 @@ void DolphinTabPage::restoreState(const QByteArray& state)
     stream >> m_primaryViewActive;
     if (m_primaryViewActive) {
         m_primaryViewContainer->setActive(true);
+        m_navigatorsWidget->primaryUrlNavigator()->setActive(true);
     } else {
         Q_ASSERT(m_splitViewEnabled);
         m_secondaryViewContainer->setActive(true);
+        m_navigatorsWidget->primaryUrlNavigator()->setActive(false);
     }
 
+    if (m_splitViewAnimation) {
+        delete m_splitViewAnimation;
+        m_splitter->widget(0)->setMinimumWidth(m_splitter->widget(0)->minimumSizeHint().width());
+    }
     QByteArray splitterState;
     stream >> splitterState;
     m_splitter->restoreState(splitterState);

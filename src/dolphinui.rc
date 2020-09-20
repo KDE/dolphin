@@ -56,7 +56,6 @@
                 <text context="@title:menu">Location Bar</text>
                 <Action name="editable_location" />
                 <Action name="replace_location" />
-                <Action name="location_in_toolbar" />
             </Menu>
             <Separator/>
             <Action name="view_properties" />
@@ -120,9 +119,7 @@
         <Action name="icons" />
         <Action name="compact" />
         <Action name="details" />
-        <Separator name="separator_0" />
-        <Action name="sort" />
-        <Action name="url_navigator" />
+        <Action name="url_navigators" />
         <Action name="split_view" />
         <Action name="split_stash" />
         <Action name="toggle_search" />

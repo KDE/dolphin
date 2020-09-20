@@ -31,7 +31,7 @@
 #include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 #include "views/dolphinnewfilemenuobserver.h"
-#include "views/dolphinurlnavigatorwidgetaction.h"
+#include "dolphinnavigatorswidgetaction.h"
 #include "dolphin_generalsettings.h"
 
 #include <KActionCollection>
@@ -49,7 +49,6 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMessageWidget>
 #include <KNS3/KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
@@ -107,7 +106,8 @@ DolphinMainWindow::DolphinMainWindow() :
     m_placesPanel(nullptr),
     m_tearDownFromPlacesRequested(false),
     m_backAction(nullptr),
-    m_forwardAction(nullptr)
+    m_forwardAction(nullptr),
+    m_updateHistoryConnection{}
 {
     Q_INIT_RESOURCE(dolphin);
 
@@ -142,7 +142,12 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setAcceptDrops(true);
 
-    m_tabWidget = new DolphinTabWidget(this);
+    auto *navigatorsWidgetAction = new DolphinNavigatorsWidgetAction(this);
+    navigatorsWidgetAction->setText(i18nc(
+        "@action:inmenu When split view is enabled there are two otherwise one.",
+        "Url Navigator(s)"));
+    actionCollection()->addAction(QStringLiteral("url_navigators"), navigatorsWidgetAction);
+    m_tabWidget = new DolphinTabWidget(navigatorsWidgetAction, this);
     m_tabWidget->setObjectName("tabWidget");
     connect(m_tabWidget, &DolphinTabWidget::activeViewChanged,
             this, &DolphinMainWindow::activeViewChanged);
@@ -167,6 +172,11 @@ DolphinMainWindow::DolphinMainWindow() :
     setupGUI(Keys | Save | Create | ToolBar);
     stateChanged(QStringLiteral("new_file"));
 
+    toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
+    toolBar()->setFloatable(false);
+    if (!toolBar()->actions().contains(navigatorsWidgetAction)) {
+        navigatorsWidgetAction->addToToolbarAndSave(this);
+    }
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, &QClipboard::dataChanged,
             this, &DolphinMainWindow::updatePasteAction);
@@ -843,64 +853,6 @@ void DolphinMainWindow::showFilterBar()
     m_activeViewContainer->setFilterBarVisible(true);
 }
 
-void DolphinMainWindow::toggleLocationInToolbar()
-{
-    // collect needed variables
-    QAction *locationInToolbarAction = actionCollection()->action(QStringLiteral("location_in_toolbar"));
-    const bool locationInToolbar = locationInToolbarAction->isChecked();
-    auto viewContainers = this->viewContainers();
-    auto urlNavigatorWidgetAction = static_cast<DolphinUrlNavigatorWidgetAction *>
-        (actionCollection()->action(QStringLiteral("url_navigator")));
-    const bool isEditable = m_activeViewContainer->urlNavigator()->isUrlEditable();
-    const QLineEdit *lineEdit = m_activeViewContainer->urlNavigator()->editor()->lineEdit();
-    const bool hasFocus = lineEdit->hasFocus();
-    const int cursorPosition = lineEdit->cursorPosition();
-    const int selectionStart = lineEdit->selectionStart();
-    const int selectionLength = lineEdit->selectionLength();
-
-    if (locationInToolbar && !toolBar()->actions().contains(urlNavigatorWidgetAction)) {
-        // There is no UrlNavigator on the toolbar. Try to fix it. Otherwise show an error.
-        if (!urlNavigatorWidgetAction->addToToolbarAndSave(this)) {
-            QAction *configureToolbars = actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars));
-            KMessageWidget *messageWidget = m_activeViewContainer->showMessage(
-            xi18nc("@info 2 is the visible text on a button just below the message",
-            "The location could not be moved onto the toolbar because there is currently "
-            "no \"%1\" item on the toolbar. Select <interface>%2</interface> and add the "
-            "\"%1\" item. Then this will work.", urlNavigatorWidgetAction->iconText(),
-            configureToolbars->iconText()), DolphinViewContainer::Information);
-            messageWidget->addAction(configureToolbars);
-            messageWidget->addAction(locationInToolbarAction);
-            locationInToolbarAction->setChecked(false);
-            return;
-        }
-    }
-
-    // do the switching
-    GeneralSettings::setLocationInToolbar(locationInToolbar);
-    if (locationInToolbar) {
-        for (const auto viewContainer : viewContainers) {
-            viewContainer->disconnectUrlNavigator();
-        }
-        m_activeViewContainer->connectUrlNavigator(urlNavigatorWidgetAction->urlNavigator());
-    } else {
-        m_activeViewContainer->disconnectUrlNavigator();
-        for (const auto viewContainer : viewContainers) {
-            viewContainer->connectToInternalUrlNavigator();
-        }
-    }
-
-    urlNavigatorWidgetAction->setUrlNavigatorVisible(locationInToolbar);
-    m_activeViewContainer->urlNavigator()->setUrlEditable(isEditable);
-    if (hasFocus) { // the rest of this method is unneeded perfectionism
-        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setText(lineEdit->text());
-        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setFocus();
-        m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setCursorPosition(cursorPosition);
-        if (selectionStart != -1) {
-            m_activeViewContainer->urlNavigator()->editor()->lineEdit()->setSelection(selectionStart, selectionLength);
-        }
-    }
-}
-
 void DolphinMainWindow::toggleEditLocation()
 {
     clearStatusBar();
@@ -1314,9 +1266,11 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         // view and url navigator) and main window.
         oldViewContainer->disconnect(this);
         oldViewContainer->view()->disconnect(this);
-        oldViewContainer->urlNavigator()->disconnect(this);
-        if (GeneralSettings::locationInToolbar()) {
-            oldViewContainer->disconnectUrlNavigator();
+        auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
+                          (actionCollection()->action(QStringLiteral("url_navigators")));
+        navigators->primaryUrlNavigator()->disconnect(this);
+        if (auto secondaryUrlNavigator = navigators->secondaryUrlNavigator()) {
+            secondaryUrlNavigator->disconnect(this);
         }
 
         // except the requestItemInfo so that on hover the information panel can still be updated
@@ -1324,10 +1278,6 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
                 this, &DolphinMainWindow::requestItemInfo);
     }
 
-    if (GeneralSettings::locationInToolbar()) {
-        viewContainer->connectUrlNavigator(static_cast<DolphinUrlNavigatorWidgetAction *>
-            (actionCollection()->action(QStringLiteral("url_navigator")))->urlNavigator());
-    }
     connectViewSignals(viewContainer);
 
     m_actionHandler->setCurrentView(viewContainer->view());
@@ -1559,16 +1509,6 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(QIcon::fromTheme(QStringLiteral("process-stop")));
     connect(stop, &QAction::triggered, this, &DolphinMainWindow::stopLoading);
 
-    KToggleAction* locationInToolbar = actionCollection()->add<KToggleAction>(QStringLiteral("location_in_toolbar"));
-    locationInToolbar->setText(i18nc("@action:inmenu Navigation Bar", "Location in Toolbar"));
-    locationInToolbar->setWhatsThis(xi18nc("@info:whatsthis",
-        "This toggles between showing the <emphasis>path</emphasis> in the "
-        "<emphasis>Location Bar</emphasis> and in the <emphasis>Toolbar</emphasis>."));
-    actionCollection()->setDefaultShortcut(locationInToolbar, Qt::Key_F12);
-    locationInToolbar->setChecked(GeneralSettings::locationInToolbar());
-    connect(locationInToolbar, &KToggleAction::triggered, this, &DolphinMainWindow::toggleLocationInToolbar);
-    DolphinUrlNavigator::addToContextMenu(locationInToolbar);
-
     KToggleAction* editableLocation = actionCollection()->add<KToggleAction>(QStringLiteral("editable_location"));
     editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
     editableLocation->setWhatsThis(xi18nc("@info:whatsthis",
@@ -1769,12 +1709,6 @@ void DolphinMainWindow::setupActions()
     activatePrevTab->setEnabled(false);
     connect(activatePrevTab, &QAction::triggered, m_tabWidget, &DolphinTabWidget::activatePrevTab);
     actionCollection()->setDefaultShortcuts(activatePrevTab, prevTabKeys);
-
-    auto *urlNavigatorWidgetAction = new DolphinUrlNavigatorWidgetAction(this);
-    urlNavigatorWidgetAction->setText(i18nc("@action:inmenu auto-hide: "
-        "Depending on the settings this Widget is blank/invisible.",
-        "Url Navigator (auto-hide)"));
-    actionCollection()->addAction(QStringLiteral("url_navigator"), urlNavigatorWidgetAction);
 
     // for context menu
     QAction* showTarget = actionCollection()->addAction(QStringLiteral("show_target"));
@@ -2107,10 +2041,6 @@ void DolphinMainWindow::updateViewActions()
     showFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
     updateSplitAction();
-
-    QAction* editableLocactionAction = actionCollection()->action(QStringLiteral("editable_location"));
-    const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
-    editableLocactionAction->setChecked(urlNavigator->isUrlEditable());
 }
 
 void DolphinMainWindow::updateGoActions()
@@ -2246,15 +2176,24 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(view, &DolphinView::goUpRequested,
             this, &DolphinMainWindow::goUp);
 
-    const KUrlNavigator* navigator = container->urlNavigator();
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
+        (actionCollection()->action(QStringLiteral("url_navigators")));
+    KUrlNavigator *navigator = m_tabWidget->currentTabPage()->primaryViewActive() ?
+                               navigators->primaryUrlNavigator() :
+                               navigators->secondaryUrlNavigator();
+
     connect(navigator, &KUrlNavigator::urlChanged,
             this, &DolphinMainWindow::changeUrl);
+    QAction* editableLocactionAction = actionCollection()->action(QStringLiteral("editable_location"));
+    editableLocactionAction->setChecked(navigator->isUrlEditable());
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTabAfterLastTab);
 
-    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
+    disconnect(m_updateHistoryConnection);
+    m_updateHistoryConnection = connect(
+            container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
             this, &DolphinMainWindow::updateHistory);
 }
 

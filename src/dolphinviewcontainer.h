@@ -90,7 +90,7 @@ public:
      *          or nullptr if there is none.
      * @see connectUrlNavigator()
      * @see disconnectUrlNavigator()
-     * 
+     *
      * Use urlNavigatorInternalWithHistory() if you want to access the history.
      * @see urlNavigatorInternalWithHistory()
      */
@@ -100,7 +100,7 @@ public:
      *          or nullptr if there is none.
      * @see connectUrlNavigator()
      * @see disconnectUrlNavigator()
-     * 
+     *
      * Use urlNavigatorInternalWithHistory() if you want to access the history.
      * @see urlNavigatorInternalWithHistory()
      */
@@ -126,11 +126,6 @@ public:
      */
     void connectUrlNavigator(DolphinUrlNavigator *urlNavigator);
 
-    inline void connectToInternalUrlNavigator()
-    {
-        connectUrlNavigator(m_urlNavigator);
-    }
-
     /**
      * Disconnects the navigator that is currently controling the view.
      * This method completely reverses connectUrlNavigator().
@@ -140,9 +135,8 @@ public:
     /**
      * Shows the message \msg with the given type non-modal above
      * the view-content.
-     * @return the KMessageWidget used to show the message
      */
-    KMessageWidget *showMessage(const QString& msg, MessageType type);
+    void showMessage(const QString& msg, MessageType type);
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
@@ -243,8 +237,6 @@ private slots:
     void updateDirectoryLoadingProgress(int percent);
 
     void updateDirectorySortingProgress(int percent);
-
-    void updateNavigatorWidgetVisibility();
 
     /**
      * Updates the statusbar to show an undetermined progress with the correct
@@ -369,21 +361,20 @@ private:
 
 private:
     QVBoxLayout* m_topLayout;
-    QWidget* m_navigatorWidget;
 
     /**
-     * The UrlNavigator within the m_navigatorWidget. m_urlNavigator is
-     * used even when another UrlNavigator is controlling the view to keep
-     * track of this view containers history.
+     * The internal UrlNavigator which is never visible to the user.
+     * m_urlNavigator is used even when another UrlNavigator is controlling
+     * the view to keep track of this object's history.
      */
-    DolphinUrlNavigator *m_urlNavigator;
+    std::unique_ptr<DolphinUrlNavigator> m_urlNavigator;
 
     /**
-     * The UrlNavigator that is currently connected to the view. This could
-     * either be m_urlNavigator, the urlNavigator in the toolbar or nullptr.
+     * The UrlNavigator that is currently connected to the view.
+     * This is a nullptr if no UrlNavigator is connected.
+     * Otherwise it's one of the UrlNavigators visible in the toolbar.
      */
     QPointer<DolphinUrlNavigator> m_urlNavigatorConnected;
-    QPushButton* m_emptyTrashButton;
     DolphinSearchBox* m_searchBox;
     bool m_searchModeEnabled;
     KMessageWidget* m_messageWidget;
@@ -396,6 +387,11 @@ private:
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
+    /**
+     * The visual state to be applied to the next UrlNavigator that gets
+     * connected to this ViewContainer.
+     */
+    std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
 
 #ifdef HAVE_KACTIVITIES
 private:

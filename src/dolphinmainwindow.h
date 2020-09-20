@@ -69,15 +69,8 @@ public:
 
     /**
      * Returns the active view containers of all tabs.
-     * @see activeViewContainer()
-     * Use viewContainers() to also include the inactive ones.
      */
     QVector<DolphinViewContainer *> activeViewContainers() const;
-
-    /**
-     * Returns all view containers.
-     */
-    QVector<DolphinViewContainer *> viewContainers() const;
 
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
@@ -311,12 +304,6 @@ private slots:
     void disableStopAction();
 
     void showFilterBar();
-
-    /**
-     * Toggle between either using an UrlNavigator in the toolbar or the
-     * ones in the location bar for navigating.
-     */
-    void toggleLocationInToolbar();
 
     /**
      * Toggles between edit and browse mode of the navigation bar.
@@ -661,6 +648,9 @@ private:
 
     KToolBarPopupAction* m_backAction;
     KToolBarPopupAction* m_forwardAction;
+
+    /** Makes sure that only one object is ever connected to the history. */
+    QMetaObject::Connection m_updateHistoryConnection;
 
     QMenu m_searchTools;
 

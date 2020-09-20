@@ -1,22 +1,9 @@
 /*
- * Copyright 2020  Felix Ernst <fe.a.ernst@gmail.com>
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) version 3, or any
- * later version accepted by the membership of KDE e.V. (or its
- * successor approved by the membership of KDE e.V.), which shall
- * act as a proxy defined in Section 6 of version 3 of the license.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
- */
+    This file is part of the KDE project
+    SPDX-FileCopyrightText: 2020 Felix Ernst <fe.a.ernst@gmail.com>
+
+    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+*/
 
 #ifndef DOLPHINURLNAVIGATOR_H
 #define DOLPHINURLNAVIGATOR_H
@@ -30,10 +17,10 @@ class KToggleAction;
 
 /**
  * @brief Extends KUrlNavigator in a Dolphin-specific way
- * 
+ *
  * Makes sure that Dolphin preferences, settings and settings changes are
  * applied to all constructed DolphinUrlNavigators.
- * 
+ *
  * @see KUrlNavigator
  */
 class DolphinUrlNavigator : public KUrlNavigator
@@ -55,6 +42,36 @@ public:
 
     virtual ~DolphinUrlNavigator();
 
+    /**
+     * This method is needed so the DolphinNavigatorWidgetAction knows when there is not enough
+     * space to neatly align the UrlNavigator with the ViewContainers. Unfortunately KUrlNavigator
+     * does not have a useful sizeHint() currently. It would make more sense to change
+     * KUrlNavigator instead.
+     */
+    QSize sizeHint() const override;
+
+    /**
+     * Wraps the visual state of a DolphinUrlNavigator so it can be passed around.
+     * This notably doesn't involve the locationUrl or history.
+     */
+    struct VisualState {
+        bool isUrlEditable;
+        bool hasFocus;
+        QString text;
+        int cursorPosition;
+        int selectionStart;
+        int selectionLength;
+    };
+    /**
+     * Retrieve the visual state of this DolphinUrlNavigator.
+     * If two DolphinUrlNavigators have the same visual state they should look identical.
+     */
+    std::unique_ptr<VisualState> visualState() const;
+    /**
+     * @param visualState A struct describing the new visual state of this object.
+     */
+    void setVisualState(const VisualState &visualState);
+
 public slots:
     /**
      * Refreshes all DolphinUrlNavigators to get synchronized with the
@@ -68,16 +85,6 @@ public slots:
      */
     void slotReturnPressed();
 
-    /**
-     * This method is specifically here so the locationInToolbar
-     * KToggleAction that is created in DolphinMainWindow can be passed to
-     * this class and then appear in all context menus. This last part is
-     * done by eventFilter().
-     * For any other use parts of this class need to be rewritten.
-     * @param action The locationInToolbar-action from DolphinMainWindow
-     */
-    static void addToContextMenu(QAction *action);
-
     static void slotPlacesPanelVisibilityChanged(bool visible);
 
 protected:
@@ -85,14 +92,6 @@ protected:
      * Constructor-helper function
      */
     void init();
-
-    /**
-     * This filter adds the s_ActionForContextMenu action to QMenus which
-     * are spawned by the watched QObject if that QMenu contains at least
-     * two separators.
-     * @see addToContextMenu()
-     */
-    bool eventFilter(QObject * watched, QEvent * event) override;
 
 protected slots:
     /**
@@ -107,9 +106,6 @@ protected:
 
     /** Caches the (negated) places panel visibility */
     static bool s_placesSelectorVisible;
-
-    /** An action that is added to the context menu */
-    static QAction *s_ActionForContextMenu;
 };
 
 #endif // DOLPHINURLNAVIGATOR_H

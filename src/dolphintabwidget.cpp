@@ -20,9 +20,10 @@
 #include <QApplication>
 #include <QDropEvent>
 
-DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
+DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget* parent) :
     QTabWidget(parent),
-    m_lastViewedTab(0)
+    m_lastViewedTab(nullptr),
+    m_navigatorsWidget{navigatorsWidget}
 {
     KAcceleratorManager::setNoAccel(this);
 
@@ -126,10 +127,18 @@ bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
 
 void DolphinTabWidget::openNewActivatedTab()
 {
+    std::unique_ptr<DolphinUrlNavigator::VisualState> oldNavigatorState;
+    if (currentTabPage()->primaryViewActive()) {
+        oldNavigatorState = m_navigatorsWidget->primaryUrlNavigator()->visualState();
+    } else {
+        if (!m_navigatorsWidget->secondaryUrlNavigator()) {
+            m_navigatorsWidget->createSecondaryUrlNavigator();
+        }
+        oldNavigatorState = m_navigatorsWidget->secondaryUrlNavigator()->visualState();
+    }
+
     const DolphinViewContainer* oldActiveViewContainer = currentTabPage()->activeViewContainer();
     Q_ASSERT(oldActiveViewContainer);
-
-    const bool isUrlEditable = oldActiveViewContainer->urlNavigator()->isUrlEditable();
 
     openNewActivatedTab(oldActiveViewContainer->url());
 
@@ -138,7 +147,7 @@ void DolphinTabWidget::openNewActivatedTab()
 
     // The URL navigator of the new tab should have the same editable state
     // as the current tab
-    newActiveViewContainer->urlNavigator()->setUrlEditable(isUrlEditable);
+    newActiveViewContainer->urlNavigator()->setVisualState(*oldNavigatorState.get());
 
     // Always focus the new tab's view
     newActiveViewContainer->view()->setFocus();
@@ -384,16 +393,21 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 
 void DolphinTabWidget::currentTabChanged(int index)
 {
-    // last-viewed tab deactivation
-    if (DolphinTabPage* tabPage = tabPageAt(m_lastViewedTab)) {
-        tabPage->setActive(false);
+    DolphinTabPage *tabPage = tabPageAt(index);
+    if (tabPage == m_lastViewedTab) {
+        return;
     }
-    DolphinTabPage* tabPage = tabPageAt(index);
+    if (m_lastViewedTab) {
+        m_lastViewedTab->disconnectNavigators();
+        m_lastViewedTab->setActive(false);
+    }
     DolphinViewContainer* viewContainer = tabPage->activeViewContainer();
     Q_EMIT activeViewChanged(viewContainer);
     Q_EMIT currentUrlChanged(viewContainer->url());
     tabPage->setActive(true);
-    m_lastViewedTab = index;
+    tabPage->connectNavigators(m_navigatorsWidget);
+    m_navigatorsWidget->setSecondaryNavigatorVisible(tabPage->splitViewEnabled());
+    m_lastViewedTab = tabPageAt(index);
 }
 
 void DolphinTabWidget::tabInserted(int index)

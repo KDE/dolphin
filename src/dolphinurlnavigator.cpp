@@ -1,22 +1,9 @@
 /*
- * Copyright 2020  Felix Ernst <fe.a.ernst@gmail.com>
- * 
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) version 3, or any
- * later version accepted by the membership of KDE e.V. (or its
- * successor approved by the membership of KDE e.V.), which shall
- * act as a proxy defined in Section 6 of version 3 of the license.
- * 
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- * 
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library.  If not, see <https://www.gnu.org/licenses/>.
- */
+    This file is part of the KDE project
+    SPDX-FileCopyrightText: 2020 Felix Ernst <fe.a.ernst@gmail.com>
+
+    SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
+*/
 
 #include "dolphinurlnavigator.h"
 
@@ -24,12 +11,12 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "global.h"
 
-#include <KToggleAction>
 #include <KUrlComboBox>
 #include <KLocalizedString>
 
+#include <QAbstractButton>
+#include <QLayout>
 #include <QLineEdit>
-#include <QMenu>
 
 DolphinUrlNavigator::DolphinUrlNavigator(QWidget *parent) :
     KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), QUrl(), parent)
@@ -51,10 +38,8 @@ void DolphinUrlNavigator::init()
     setHomeUrl(Dolphin::homeUrl());
     setPlacesSelectorVisible(s_placesSelectorVisible);
     editor()->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
-    editor()->lineEdit()->installEventFilter(this);
-    installEventFilter(this);
     setWhatsThis(xi18nc("@info:whatsthis location bar",
-        "<para>This line describes the location of the files and folders "
+        "<para>This describes the location of the files and folders "
         "displayed below.</para><para>The name of the currently viewed "
         "folder can be read at the very right. To the left of it is the "
         "name of the folder that contains it. The whole line is called "
@@ -79,30 +64,50 @@ DolphinUrlNavigator::~DolphinUrlNavigator()
     s_instances.remove(this);
 }
 
-bool DolphinUrlNavigator::eventFilter(QObject* watched, QEvent* event)
+QSize DolphinUrlNavigator::sizeHint() const
 {
-    Q_UNUSED(watched)
-    if (event->type() == QEvent::ChildPolished) {
-        QChildEvent *childEvent = static_cast<QChildEvent *>(event);
-        QMenu *popup = qobject_cast<QMenu *>(childEvent->child());
-        if (popup) {
-            // The popups of the "breadcrumb mode" navigation buttons
-            // should not get the action added. They can currently be
-            // identified by their number of separators: 0 or 1
-            // The popups we are interested in have 2 or more separators.
-            int separatorCount = 0;
-            for (QAction *action : popup->actions()) {
-                if (action->isSeparator()) {
-                    separatorCount++;
-                }
-            }
-            if (separatorCount > 1) {
-                q_check_ptr(s_ActionForContextMenu);
-                popup->addAction(s_ActionForContextMenu);
-            }
+    // Change sizeHint() in KUrlNavigator instead.
+    if (isUrlEditable()) {
+        return editor()->lineEdit()->sizeHint();
+    }
+    int widthHint = 0;
+    for (int i = 0; i < layout()->count(); ++i) {
+        QWidget *widget = layout()->itemAt(i)->widget();
+        const QAbstractButton *button = qobject_cast<QAbstractButton *>(widget);
+        if (button && button->icon().isNull()) {
+            widthHint += widget->minimumSizeHint().width();
         }
     }
-    return false;
+    return QSize(widthHint, KUrlNavigator::sizeHint().height());
+}
+
+std::unique_ptr<DolphinUrlNavigator::VisualState> DolphinUrlNavigator::visualState() const
+{
+    std::unique_ptr<VisualState> visualState{new VisualState};
+    visualState->isUrlEditable = (isUrlEditable());
+    const QLineEdit *lineEdit = editor()->lineEdit();
+    visualState->hasFocus = lineEdit->hasFocus();
+    visualState->text = lineEdit->text();
+    visualState->cursorPosition = lineEdit->cursorPosition();
+    visualState->selectionStart = lineEdit->selectionStart();
+    visualState->selectionLength = lineEdit->selectionLength();
+    return visualState;
+}
+
+void DolphinUrlNavigator::setVisualState(const VisualState& visualState)
+{
+    setUrlEditable(visualState.isUrlEditable);
+    if (!visualState.isUrlEditable) {
+        return;
+    }
+    editor()->lineEdit()->setText(visualState.text);
+    if (visualState.hasFocus) {
+        editor()->lineEdit()->setFocus();
+        editor()->lineEdit()->setCursorPosition(visualState.cursorPosition);
+        if (visualState.selectionStart != -1) {
+            editor()->lineEdit()->setSelection(visualState.selectionStart, visualState.selectionLength);
+        }
+    }
 }
 
 void DolphinUrlNavigator::slotReadSettings()
@@ -125,12 +130,6 @@ void DolphinUrlNavigator::slotReturnPressed()
         setUrlEditable(false);
     }
 }
-
-void DolphinUrlNavigator::addToContextMenu(QAction* action)
-{
-    s_ActionForContextMenu = action;
-}
-
 
 void DolphinUrlNavigator::slotPlacesPanelVisibilityChanged(bool visible)
 {
@@ -157,4 +156,3 @@ void DolphinUrlNavigator::setCompletionMode(const KCompletion::CompletionMode co
 
 std::forward_list<DolphinUrlNavigator *> DolphinUrlNavigator::s_instances;
 bool DolphinUrlNavigator::s_placesSelectorVisible = true;
-QAction *DolphinUrlNavigator::s_ActionForContextMenu = nullptr;

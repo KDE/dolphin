@@ -11,8 +11,10 @@
 #include <QUrl>
 #include <QWidget>
 
-class QSplitter;
+class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
+class QSplitter;
+class QVariantAnimation;
 class KFileItemList;
 
 class DolphinTabPage : public QWidget
@@ -67,6 +69,30 @@ public:
     int selectedItemsCount() const;
 
     /**
+     * Connects a navigatorsWidget to this. It will be connected to the DolphinViewContainers
+     * managed by this tab. For alignment purposes this will from now on notify the
+     * navigatorsWidget when this tab or its viewContainers are resized.
+     */
+    void connectNavigators(DolphinNavigatorsWidgetAction *navigatorsWidget);
+
+    /**
+     * Makes it so this tab and its DolphinViewContainers aren't controlled by any
+     * UrlNavigators anymore.
+     */
+    void disconnectNavigators();
+
+    /**
+     * Calls resizeNavigators() when a watched object is resized.
+     */
+    bool eventFilter(QObject */* watched */, QEvent *event) override;
+
+    /**
+     * Notify the connected DolphinNavigatorsWidgetAction of geometry changes which it
+     * needs for visual alignment.
+     */
+    void resizeNavigators() const;
+
+    /**
      * Marks the items indicated by \p urls to get selected after the
      * directory DolphinView::url() has been loaded. Note that nothing
      * gets selected if no loading of a directory has been triggered
@@ -79,14 +105,6 @@ public:
      * current item after directory DolphinView::url() has been loaded.
      */
     void markUrlAsCurrent(const QUrl& url);
-
-    /**
-     * Sets the places selector visible, if \a visible is true.
-     * The places selector allows to select the places provided
-     * by the places model passed in the constructor. Per default
-     * the places selector is visible.
-     */
-    void setPlacesSelectorVisible(bool visible);
 
     /**
      * Refreshes the views of the main window by recreating them according to
@@ -125,6 +143,7 @@ public:
 signals:
     void activeViewChanged(DolphinViewContainer* viewContainer);
     void activeViewUrlChanged(const QUrl& url);
+    void splitterMoved(int pos, int index);
 
 private slots:
     /**
@@ -153,8 +172,10 @@ private:
 private:
     QSplitter* m_splitter;
 
+    QPointer<DolphinNavigatorsWidgetAction> m_navigatorsWidget;
     QPointer<DolphinViewContainer> m_primaryViewContainer;
     QPointer<DolphinViewContainer> m_secondaryViewContainer;
+    QPointer<QVariantAnimation> m_splitViewAnimation;
 
     bool m_primaryViewActive;
     bool m_splitViewEnabled;

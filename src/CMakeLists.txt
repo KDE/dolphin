@@ -203,6 +203,7 @@ set(dolphinstatic_SRCS
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
+    dolphinnavigatorswidgetaction.cpp
     dolphintabbar.cpp
     dolphinplacesmodelsingleton.cpp
     dolphinrecenttabsmenu.cpp
@@ -249,7 +250,6 @@ set(dolphinstatic_SRCS
     statusbar/mountpointobservercache.cpp
     statusbar/spaceinfoobserver.cpp
     statusbar/statusbarspaceinfo.cpp
-    views/dolphinurlnavigatorwidgetaction.cpp
     views/zoomlevelinfo.cpp
     dolphindebug.cpp
     global.cpp
