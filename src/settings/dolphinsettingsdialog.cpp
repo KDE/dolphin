@@ -80,7 +80,10 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
-    auto* trashSettingsPage = createTrashSettingsPage(this);
+    SettingsPageBase* trashSettingsPage = nullptr;
+#ifndef Q_OS_WIN
+    trashSettingsPage = createTrashSettingsPage(this);
+#endif
     if (trashSettingsPage) {
         KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
                                                      i18nc("@title:group", "Trash"));
