@@ -491,13 +491,38 @@ void DolphinPart::slotUnselectItemsMatchingPattern()
 
 void DolphinPart::openSelectionDialog(const QString& title, const QString& text, bool selectItems)
 {
-    bool okClicked;
-    const QString pattern = QInputDialog::getText(m_view, title, text, QLineEdit::Normal, QStringLiteral("*"), &okClicked);
+    auto *dialog = new QInputDialog(m_view);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    dialog->setInputMode(QInputDialog::TextInput);
+    dialog->setWindowTitle(title);
+    dialog->setLabelText(text);
 
-    if (okClicked && !pattern.isEmpty()) {
-        const QRegularExpression patternRegExp(QRegularExpression::wildcardToRegularExpression(pattern));
-        m_view->selectItems(patternRegExp, selectItems);
-    }
+    const KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group("Select Dialog");
+    dialog->setComboBoxEditable(true);
+    dialog->setComboBoxItems(group.readEntry("History", QStringList()));
+
+    dialog->setTextValue(QStringLiteral("*"));
+
+    connect(dialog, &QDialog::accepted, this, [=]() {
+        const QString pattern = dialog->textValue();
+        if (!pattern.isEmpty()) {
+            QStringList items = dialog->comboBoxItems();
+            items.removeAll(pattern);
+            items.prepend(pattern);
+
+            // Need to evaluate this again here, because the captured value is const
+            // (even if the const were removed from 'const KConfigGroup group =' above).
+            KConfigGroup group = KSharedConfig::openConfig("dolphinpartrc")->group("Select Dialog");
+            // Limit the size of the saved history.
+            group.writeEntry("History", items.mid(0, 10));
+            group.sync();
+
+            const QRegularExpression patternRegExp(QRegularExpression::wildcardToRegularExpression(pattern));
+            m_view->selectItems(patternRegExp, selectItems);
+        }
+    });
+
+    dialog->open();
 }
 
 void DolphinPart::setCurrentViewMode(const QString& viewModeName)
