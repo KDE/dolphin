@@ -298,7 +298,7 @@ namespace {
 
 void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
 {
-    if (scaledSize.isEmpty()) {
+    if (scaledSize.isEmpty() || pixmap.isNull()) {
         pixmap = QPixmap();
         return;
     }
@@ -309,6 +309,12 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
 
 void KPixmapModifier::applyFrame(QPixmap& icon, const QSize& scaledSize)
 {
+    if (icon.isNull()) {
+        icon = QPixmap(scaledSize);
+        icon.fill(Qt::transparent);
+        return;
+    }
+
     static TileSet tileSet;
     qreal dpr = qApp->devicePixelRatio();
 

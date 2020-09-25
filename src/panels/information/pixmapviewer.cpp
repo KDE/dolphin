@@ -136,7 +136,7 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
 
             style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, scaledPixmap);
         }
-    } else {
+    } else if (!m_pixmap.isNull()) {
         style()->drawItemPixmap(&painter, rect(), Qt::AlignCenter, m_pixmap);
     }
 }

@@ -314,7 +314,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
     }
 
     const KItemListStyleOption& itemListStyleOption = styleOption();
-    if (isHovered()) {
+    if (isHovered() && !m_pixmap.isNull()) {
         if (hoverOpacity() < 1.0) {
             /*
              * Linear interpolation between m_pixmap and m_hoverPixmap.
@@ -357,7 +357,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
         } else {
             drawPixmap(painter, m_hoverPixmap);
         }
-    } else {
+    } else if (!m_pixmap.isNull()) {
         drawPixmap(painter, m_pixmap);
     }
 
@@ -962,6 +962,11 @@ void KStandardItemListWidget::updatePixmapCache()
             KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight) * qApp->devicePixelRatio());
         }
 
+        if (m_pixmap.isNull()) {
+            m_hoverPixmap = QPixmap();
+            return;
+        }
+
         if (m_isCut) {
             KIconEffect* effect = KIconLoader::global()->iconEffect();
             m_pixmap = effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
@@ -974,6 +979,10 @@ void KStandardItemListWidget::updatePixmapCache()
         if (m_layout == IconsLayout && isSelected()) {
             const QColor color = palette().brush(QPalette::Normal, QPalette::Highlight).color();
             QImage image = m_pixmap.toImage();
+            if (image.isNull()) {
+                m_hoverPixmap = QPixmap();
+                return;
+            }
             KIconEffect::colorize(image, color, 0.8f);
             m_pixmap = QPixmap::fromImage(image);
         }

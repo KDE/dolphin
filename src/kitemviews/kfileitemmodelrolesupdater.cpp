@@ -494,7 +494,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
 
     QPixmap scaledPixmap = pixmap;
 
-    if (!pixmap.hasAlpha()
+    if (!pixmap.hasAlpha() && !pixmap.isNull()
         && m_iconSize.width()  > KIconLoader::SizeSmallMedium
         && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
         if (m_enlargeSmallPreviews) {
@@ -525,7 +525,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
                 KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
             }
         }
-    } else {
+    } else if (!pixmap.isNull()) {
         KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
         scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
     }
@@ -538,12 +538,14 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     // It is more efficient to do it here, as KIconLoader::drawOverlays()
     // assumes that an overlay will be drawn and has some additional
     // setup time.
-    for (const QString& overlay : overlays) {
-        if (!overlay.isEmpty()) {
-            // There is at least one overlay, draw all overlays above m_pixmap
-            // and cancel the check
-            KIconLoader::global()->drawOverlays(overlays, scaledPixmap, KIconLoader::Desktop);
-            break;
+    if (!scaledPixmap.isNull()) {
+        for (const QString& overlay : overlays) {
+            if (!overlay.isEmpty()) {
+                // There is at least one overlay, draw all overlays above m_pixmap
+                // and cancel the check
+                KIconLoader::global()->drawOverlays(overlays, scaledPixmap, KIconLoader::Desktop);
+                break;
+            }
         }
     }
 

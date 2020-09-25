@@ -168,7 +168,12 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
             QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
-            pixmap = icon.pixmap(size, size);
+            if (!icon.isNull()) {
+                pixmap = icon.pixmap(size, size);
+            } else {
+                pixmap = QPixmap(size, size);
+                pixmap.fill(Qt::transparent);
+            }
         } else {
             KPixmapModifier::scale(pixmap, QSize(size, size) * dpr);
         }
