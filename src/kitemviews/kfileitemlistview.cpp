@@ -17,6 +17,8 @@
 #include <QGraphicsView>
 #include <QPainter>
 #include <QTimer>
+#include <QIcon>
+#include <QMimeDatabase>
 
 // #define KFILEITEMLISTVIEW_DEBUG
 
@@ -168,6 +170,9 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
         QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
         if (pixmap.isNull()) {
             QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
+            if (icon.isNull()) {
+                icon = QIcon::fromTheme("unknown");
+            }
             if (!icon.isNull()) {
                 pixmap = icon.pixmap(size, size);
             } else {
@@ -210,7 +215,12 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
         KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
 
         const KFileItem fileItem = fileItemModel->fileItem(item->index());
-        data.insert("iconName", fileItem.iconName());
+        QString iconName = fileItem.iconName();
+        if (!QIcon::hasThemeIcon(iconName)) {
+            QMimeDatabase mimeDb;
+            iconName = mimeDb.mimeTypeForName(fileItem.mimetype()).genericIconName();
+        }
+        data.insert("iconName", iconName);
         item->setData(data, {"iconName"});
     }
 }

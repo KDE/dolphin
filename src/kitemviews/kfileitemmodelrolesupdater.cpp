@@ -27,6 +27,7 @@
 #endif
 
 #include <QApplication>
+#include <QIcon>
 #include <QPainter>
 #include <QElapsedTimer>
 #include <QTimer>
@@ -1044,7 +1045,9 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
             data = rolesData(item);
         }
 
-        data.insert("iconName", item.iconName());
+        if (QIcon::hasThemeIcon(item.iconName())) {
+            data.insert("iconName", item.iconName());
+        }
 
         if (m_clearPreviews) {
             data.insert("iconPixmap", QPixmap());

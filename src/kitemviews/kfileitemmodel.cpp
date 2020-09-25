@@ -19,9 +19,11 @@
 
 #include <QElapsedTimer>
 #include <QMimeData>
+#include <QMimeDatabase>
 #include <QTimer>
 #include <QWidget>
 #include <QMutex>
+#include <QIcon>
 
 Q_GLOBAL_STATIC_WITH_ARGS(QMutex, s_collatorMutex, (QMutex::Recursive))
 
@@ -1657,7 +1659,13 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
     }
 
     if (item.isMimeTypeKnown()) {
-        data.insert(sharedValue("iconName"), item.iconName());
+        QString iconName = item.iconName();
+        if (!QIcon::hasThemeIcon(iconName)) {
+            QMimeType mimeType = QMimeDatabase().mimeTypeForName(item.mimetype());
+            iconName = mimeType.genericIconName();
+        }
+
+        data.insert(sharedValue("iconName"), iconName);
 
         if (m_requestRole[TypeRole]) {
             data.insert(sharedValue("type"), item.mimeComment());
