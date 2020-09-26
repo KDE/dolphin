@@ -10,6 +10,7 @@
 // Qt
 #include <QTouchEvent>
 #include <QApplication>
+#include <QGraphicsWidget>
 
 KTwoFingerTapRecognizer::KTwoFingerTapRecognizer() :
     QGestureRecognizer(),
@@ -28,7 +29,9 @@ QGesture* KTwoFingerTapRecognizer::create(QObject*)
 
 QGestureRecognizer::Result KTwoFingerTapRecognizer::recognize(QGesture* gesture, QObject* watched, QEvent* event)
 {
-    Q_UNUSED(watched)
+    if (qobject_cast<QGraphicsWidget*>(watched)) {
+        return Ignore;
+    }
 
     KTwoFingerTap* const kTwoFingerTap = static_cast<KTwoFingerTap*>(gesture);
     const QTouchEvent* touchEvent = static_cast<const QTouchEvent*>(event);

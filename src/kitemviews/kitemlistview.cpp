@@ -91,6 +91,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_dropIndicator()
 {
     setAcceptHoverEvents(true);
+    setAcceptTouchEvents(true);
 
     m_sizeHintResolver = new KItemListSizeHintResolver(this);
 

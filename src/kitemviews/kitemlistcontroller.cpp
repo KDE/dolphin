@@ -37,6 +37,7 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_scrollerIsScrolling(false),
     m_pinchGestureInProgress(false),
     m_mousePress(false),
+    m_isTouchEvent(false),
     m_selectionBehavior(NoSelection),
     m_autoActivationBehavior(ActivationAndExpansion),
     m_mouseDoubleClickAction(ActivateItemOnly),
@@ -49,7 +50,6 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_autoActivationTimer(nullptr),
     m_swipeGesture(Qt::CustomGesture),
     m_twoFingerTapGesture(Qt::CustomGesture),
-    m_lastSource(Qt::MouseEventNotSynthesized),
     m_oldSelection(),
     m_keyboardAnchorIndex(-1),
     m_keyboardAnchorPos(0)
@@ -537,9 +537,8 @@ bool KItemListController::inputMethodEvent(QInputMethodEvent* event)
 bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
     m_mousePress = true;
-    m_lastSource = event->source();
 
-    if (event->source() == Qt::MouseEventSynthesizedByQt) {
+    if (event->source() == Qt::MouseEventSynthesizedByQt && m_isTouchEvent) {
         return false;
     }
 
@@ -576,7 +575,7 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         m_view->m_tapAndHoldIndicator->setActive(false);
     }
 
-    if (event->source() == Qt::MouseEventSynthesizedByQt && !m_dragActionOrRightClick) {
+    if (event->source() == Qt::MouseEventSynthesizedByQt && !m_dragActionOrRightClick && m_isTouchEvent) {
         return false;
     }
 
@@ -633,6 +632,7 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
 bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
     m_mousePress = false;
+    m_isTouchEvent = false;
 
     if (!m_view) {
         return false;
@@ -643,7 +643,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     }
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
-    if (event->source() == Qt::MouseEventSynthesizedByQt && !rubberBand->isActive()) {
+    if (event->source() == Qt::MouseEventSynthesizedByQt && !rubberBand->isActive() && m_isTouchEvent) {
         return false;
     }
 
@@ -863,6 +863,7 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const
     Q_UNUSED(transform)
 
     m_mousePress = false;
+    m_isTouchEvent = false;
 
     if (!m_model || !m_view) {
         return false;
@@ -935,6 +936,15 @@ bool KItemListController::gestureEvent(QGestureEvent* event, const QTransform& t
     return accepted;
 }
 
+bool KItemListController::touchBeginEvent(QGestureEvent* event, const QTransform& transform)
+{
+    Q_UNUSED(event)
+    Q_UNUSED(transform)
+
+    m_isTouchEvent = true;
+    return false;
+}
+
 void KItemListController::tapTriggered(QTapGesture* tap, const QTransform& transform)
 {
     static bool scrollerWasActive = false;
@@ -943,7 +953,6 @@ void KItemListController::tapTriggered(QTapGesture* tap, const QTransform& trans
         m_dragActionOrRightClick = false;
         m_isSwipeGesture = false;
         m_pinchGestureInProgress = false;
-        m_lastSource = Qt::MouseEventSynthesizedByQt;
         scrollerWasActive = m_scrollerIsScrolling;
     }
 
@@ -972,6 +981,7 @@ void KItemListController::tapTriggered(QTapGesture* tap, const QTransform& trans
             onPress(tap->hotSpot().toPoint(), tap->position().toPoint(), Qt::NoModifier, Qt::LeftButton);
             onRelease(transform.map(tap->position()), Qt::NoModifier, Qt::LeftButton, true);
         }
+        m_isTouchEvent = false;
     }
 }
 
@@ -979,7 +989,7 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
 {
 
     //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
-    if (m_lastSource == Qt::MouseEventNotSynthesized) {
+    if (!m_isTouchEvent) {
         return;
     }
 
@@ -1126,6 +1136,8 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
         return resizeEvent(static_cast<QGraphicsSceneResizeEvent*>(event), transform);
     case QEvent::Gesture:
         return gestureEvent(static_cast<QGestureEvent*>(event), transform);
+    case QEvent::TouchBegin:
+        return touchBeginEvent();
     default:
         break;
     }

@@ -301,6 +301,7 @@ private:
     bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
     bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
     bool gestureEvent(QGestureEvent* event, const QTransform& transform);
+    bool touchBeginEvent(QGestureEvent* event, const QTransform& transform);
     void tapTriggered(QTapGesture* tap, const QTransform& transform);
     void tapAndHoldTriggered(QGestureEvent* event, const QTransform& transform);
     void pinchTriggered(QGestureEvent* event, const QTransform& transform);
@@ -319,6 +320,7 @@ private:
     bool m_scrollerIsScrolling;
     bool m_pinchGestureInProgress;
     bool m_mousePress;
+    bool m_isTouchEvent;
     SelectionBehavior m_selectionBehavior;
     AutoActivationBehavior m_autoActivationBehavior;
     MouseDoubleClickAction m_mouseDoubleClickAction;
@@ -333,7 +335,6 @@ private:
 
     Qt::GestureType m_swipeGesture;
     Qt::GestureType m_twoFingerTapGesture;
-    Qt::MouseEventSource m_lastSource;
 
     /**
      * When starting a rubberband selection during a Shift- or Control-key has been
