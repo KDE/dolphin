@@ -26,6 +26,7 @@
 #include <QGraphicsView>
 #include <QMimeData>
 #include <QTimer>
+#include <QTouchEvent>
 
 KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),
@@ -936,7 +937,7 @@ bool KItemListController::gestureEvent(QGestureEvent* event, const QTransform& t
     return accepted;
 }
 
-bool KItemListController::touchBeginEvent(QGestureEvent* event, const QTransform& transform)
+bool KItemListController::touchBeginEvent(QTouchEvent* event, const QTransform& transform)
 {
     Q_UNUSED(event)
     Q_UNUSED(transform)
@@ -1137,7 +1138,7 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
     case QEvent::Gesture:
         return gestureEvent(static_cast<QGestureEvent*>(event), transform);
     case QEvent::TouchBegin:
-        return touchBeginEvent();
+        return touchBeginEvent(static_cast<QTouchEvent*>(event), transform);
     default:
         break;
     }

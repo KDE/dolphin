@@ -32,6 +32,7 @@ class QInputMethodEvent;
 class QKeyEvent;
 class QTapGesture;
 class QTransform;
+class QTouchEvent;
 
 /**
  * @brief Controls the view, model and selection of an item-list.
@@ -301,7 +302,7 @@ private:
     bool wheelEvent(QGraphicsSceneWheelEvent* event, const QTransform& transform);
     bool resizeEvent(QGraphicsSceneResizeEvent* event, const QTransform& transform);
     bool gestureEvent(QGestureEvent* event, const QTransform& transform);
-    bool touchBeginEvent(QGestureEvent* event, const QTransform& transform);
+    bool touchBeginEvent(QTouchEvent* event, const QTransform& transform);
     void tapTriggered(QTapGesture* tap, const QTransform& transform);
     void tapAndHoldTriggered(QGestureEvent* event, const QTransform& transform);
     void pinchTriggered(QGestureEvent* event, const QTransform& transform);
