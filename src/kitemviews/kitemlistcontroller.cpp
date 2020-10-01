@@ -557,12 +557,6 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return false;
     }
 
-    if (buttons & (Qt::BackButton | Qt::ForwardButton)) {
-        // Do not select items when clicking the back/forward buttons, see
-        // https://bugs.kde.org/show_bug.cgi?id=327412.
-        return true;
-    }
-
     return true;
 }
 
@@ -1422,6 +1416,12 @@ void KItemListController::updateExtendedSelectionRegion()
 bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons)
 {
     emit mouseButtonPressed(m_pressedIndex, buttons);
+
+    if (buttons & (Qt::BackButton | Qt::ForwardButton)) {
+        // Do not select items when clicking the back/forward buttons, see
+        // https://bugs.kde.org/show_bug.cgi?id=327412.
+        return true;
+    }
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
