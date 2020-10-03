@@ -710,6 +710,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
         redirect(QUrl(), m_urlNavigator->locationUrl(1));
     } else {
         showMessage(i18nc("@info:status", "Invalid protocol"), Error);
+        m_urlNavigator->goBack();
     }
 }
 
