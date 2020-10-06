@@ -173,17 +173,24 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
     }
 
     // Only restore session if:
-    // 1. Dolphin was not started with command line args
+    // 1. Not explicitly opening a new instance
     // 2. The "remember state" setting is enabled or session restoration after
     //    reboot is in use
     // 3. There is a session available to restore
-    if (!startedWithURLs && (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs()) ) {
+    if (!parser.isSet(QStringLiteral("new-window"))
+        && (app.isSessionRestored() || GeneralSettings::rememberOpenedTabs())
+    ) {
         // Get saved state data for the last-closed Dolphin instance
         const QString serviceName = QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
         if (Dolphin::dolphinGuiInstances(serviceName).size() > 0) {
             const QString className = KXmlGuiWindow::classNameOfToplevel(1);
             if (className == QLatin1String("DolphinMainWindow")) {
                 mainWindow->restore(1);
+                // If the user passed any URLs to Dolphin, open those in the
+                // window after session-restoring it
+                if (startedWithURLs) {
+                    mainWindow->openDirectories(urls, splitView);
+                }
             } else {
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
             }
