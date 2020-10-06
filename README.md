@@ -6,11 +6,11 @@ See https://userbase.kde.org/Special:myLanguage/Dolphin
 
 Development Information
 =======================
-Dolphin's source code can be found at https://cgit.kde.org/dolphin.git.
+Dolphin's source code can be found at https://invent.kde.org/system/dolphin/
 
 To build Dolphin from source, see https://community.kde.org/Get_Involved/development#Applications
 
-To submit a patch to Dolphin, use https://phabricator.kde.org. See https://community.kde.org/Infrastructure/Phabricator
+To submit a patch to Dolphin, use https://invent.kde.org/system/dolphin/-/merge_requests/.
 
 
 
