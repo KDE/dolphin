@@ -37,6 +37,7 @@ signals:
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
     void showHiddenEntriesChanged(bool shown);
+    void storageTearDownSuccessful();
 
 protected:
     bool urlChanged() override;

@@ -104,6 +104,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
                 this, &PlacesPanel::storageTearDownRequested);
         connect(m_model, &PlacesItemModel::storageTearDownExternallyRequested,
                 this, &PlacesPanel::storageTearDownExternallyRequested);
+        connect(m_model, &PlacesItemModel::storageTearDownSuccessful,
+                this, &PlacesPanel::storageTearDownSuccessful);
 
         m_view = new PlacesView();
         m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());

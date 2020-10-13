@@ -92,7 +92,15 @@ public:
      */
     KNewFileMenu* newFileMenu() const;
 
-    void setTabsToHomeIfMountPathOpen(const QString& mountPath);
+    /**
+     * Switch the window's view containers' locations to display the home path
+     * for any which are currently displaying a location corresponding to or
+     * within mountPath.
+     *
+     * This typically done after unmounting a disk at mountPath to ensure that
+     * the window is not displaying an invalid location.
+     */
+    void setViewsToHomeIfMountPathOpen(const QString& mountPath);
 
 public slots:
     /**

@@ -130,6 +130,7 @@ signals:
     void storageSetupDone(int index, bool success);
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
+    void storageTearDownSuccessful();
 
 protected:
     void onItemInserted(int index) override;

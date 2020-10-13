@@ -473,6 +473,9 @@ void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVar
         } else {
             emit errorMessage(errorData.toString());
         }
+    } else {
+        // No error; it must have been unmounted successfully
+        emit storageTearDownSuccessful();
     }
     disconnect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
                this, &PlacesItemModel::slotStorageTearDownDone);

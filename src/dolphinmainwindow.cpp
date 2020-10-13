@@ -1271,6 +1271,10 @@ void DolphinMainWindow::updateWindowTitle()
 
 void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mountPath)
 {
+    connect(m_placesPanel, &PlacesPanel::storageTearDownSuccessful, this, [this, mountPath]() {
+        setViewsToHomeIfMountPathOpen(mountPath);
+    });
+
     if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = true;
         m_terminalPanel->goHome();
@@ -1282,10 +1286,25 @@ void DolphinMainWindow::slotStorageTearDownFromPlacesRequested(const QString& mo
 
 void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mountPath)
 {
+    connect(m_placesPanel, &PlacesPanel::storageTearDownSuccessful, this, [this, mountPath]() {
+        setViewsToHomeIfMountPathOpen(mountPath);
+    });
+
     if (m_terminalPanel && m_terminalPanel->currentWorkingDirectory().startsWith(mountPath)) {
         m_tearDownFromPlacesRequested = false;
         m_terminalPanel->goHome();
     }
+}
+
+void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
+{
+    const QVector<DolphinViewContainer*> theViewContainers = viewContainers();
+    for (DolphinViewContainer *viewContainer : theViewContainers) {
+        if (viewContainer && viewContainer->url().toLocalFile().startsWith(mountPath)) {
+            viewContainer->setUrl(QUrl::fromLocalFile(QDir::homePath()));
+        }
+    }
+    disconnect(m_placesPanel, &PlacesPanel::storageTearDownSuccessful, nullptr, nullptr);
 }
 
 void DolphinMainWindow::setupActions()
