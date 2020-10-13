@@ -335,11 +335,9 @@ void DolphinContextMenu::openViewportContextMenu()
     newFileMenu->setPopupFiles(QList<QUrl>() << m_baseUrl);
     addMenu(newFileMenu->menu());
 
-    // Don't show "Open With" menu items if the current dir is empty, because there's
-    // generally no app that can do anything interesting with an empty directory
-    if (view->itemsCount() != 0) {
-        addOpenWithActions(fileItemActions);
-    }
+    // Show "open with" menu items even if the dir is empty, because there are legitimate
+    // use cases for this, such as opening an empty dir in Kate or VSCode or something
+    addOpenWithActions(fileItemActions);
 
     QAction* pasteAction = createPasteAction();
     addAction(pasteAction);
