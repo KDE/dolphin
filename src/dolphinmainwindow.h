@@ -102,6 +102,12 @@ public:
      */
     void setViewsToHomeIfMountPathOpen(const QString& mountPath);
 
+    /**
+     * Sets any of the window's view containers which are currently displaying
+     * invalid locations to the home path
+     */
+    void setViewsWithInvalidPathsToHome();
+
 public slots:
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,

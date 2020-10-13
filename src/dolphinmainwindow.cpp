@@ -216,6 +216,20 @@ QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
     return viewContainers;
 }
 
+void DolphinMainWindow::setViewsWithInvalidPathsToHome()
+{
+    const QVector<DolphinViewContainer*> theViewContainers = viewContainers();
+    for (DolphinViewContainer *viewContainer : theViewContainers) {
+
+        // Only consider local dirs, not remote locations and abstract protocols
+        if (viewContainer->url().isLocalFile()) {
+            if (!QFileInfo::exists(viewContainer->url().toLocalFile())) {
+                viewContainer->setUrl(QUrl::fromLocalFile(QDir::homePath()));
+            }
+        }
+    }
+}
+
 void DolphinMainWindow::openDirectories(const QList<QUrl>& dirs, bool splitView)
 {
     m_tabWidget->openDirectories(dirs, splitView);
