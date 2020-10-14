@@ -1771,7 +1771,7 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
             } else if (valueB.isNull()) {
                 result = +1;
             } else {
-                if (valueA < valueB) {
+                if (valueA.toLongLong() < valueB.toLongLong()) {
                     return -1;
                 } else {
                     return +1;
