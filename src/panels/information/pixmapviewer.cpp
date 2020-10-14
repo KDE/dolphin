@@ -25,7 +25,7 @@ PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     setMinimumHeight(KIconLoader::SizeEnormous);
 
     m_animation.setDuration(150);
-    m_animation.setCurveShape(QTimeLine::LinearCurve);
+    m_animation.setEasingCurve(QEasingCurve::Linear);
 
     if (m_transition != NoTransition) {
         connect(&m_animation, &QTimeLine::valueChanged, this, QOverload<>::of(&PixmapViewer::update));
