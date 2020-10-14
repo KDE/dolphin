@@ -175,7 +175,7 @@ void DolphinRemoteEncoding::slotDefault()
     // settings here since it affects what will be matched.
     KConfig config(("kio_" + m_currentURL.scheme() + "rc").toLatin1());
 
-    QStringList partList = m_currentURL.host().split('.', QString::SkipEmptyParts);
+    QStringList partList = m_currentURL.host().split('.', Qt::SkipEmptyParts);
     if (!partList.isEmpty()) {
         partList.erase(partList.begin());
 
