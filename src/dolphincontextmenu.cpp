@@ -61,6 +61,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     // or the items itself. To increase the performance both lists are cached.
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
+
+    installEventFilter(this);
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -110,20 +112,28 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     return m_command;
 }
 
-void DolphinContextMenu::keyPressEvent(QKeyEvent *ev)
+void DolphinContextMenu::childEvent(QChildEvent* event)
 {
-    if (m_removeAction && ev->key() == Qt::Key_Shift) {
-        m_removeAction->update(DolphinRemoveAction::ShiftState::Pressed);
+    if(event->added()) {
+        event->child()->installEventFilter(this);
     }
-    QMenu::keyPressEvent(ev);
+    QMenu::childEvent(event);
 }
 
-void DolphinContextMenu::keyReleaseEvent(QKeyEvent *ev)
+bool DolphinContextMenu::eventFilter(QObject* dest, QEvent* event)
 {
-    if (m_removeAction && ev->key() == Qt::Key_Shift) {
-        m_removeAction->update(DolphinRemoveAction::ShiftState::Released);
+    if(event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if(m_removeAction && keyEvent->key() == Qt::Key_Shift) {
+            if(event->type() == QEvent::KeyPress) {
+                m_removeAction->update(DolphinRemoveAction::ShiftState::Pressed);
+            } else {
+                m_removeAction->update(DolphinRemoveAction::ShiftState::Released);
+            }
+            return true;
+        }
     }
-    QMenu::keyReleaseEvent(ev);
+    return QMenu::eventFilter(dest, event);
 }
 
 void DolphinContextMenu::openTrashContextMenu()
@@ -198,6 +208,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemA
      QMenu* menu = newFileMenu->menu();
      menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
      menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+     menu->setParent(this, Qt::Popup);
      addMenu(menu);
 
      addSeparator();

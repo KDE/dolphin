@@ -74,8 +74,8 @@ public:
     Command open();
 
 protected:
-    void keyPressEvent(QKeyEvent *ev) override;
-    void keyReleaseEvent(QKeyEvent *ev) override;
+    void childEvent(QChildEvent* event) override;
+    bool eventFilter(QObject* dest, QEvent* event) override;
 
 private:
     void openTrashContextMenu();
