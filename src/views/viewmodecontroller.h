@@ -61,11 +61,6 @@ public:
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
 
-    /**
-     * Requests the view mode implementation to hide tooltips.
-     */
-    void requestToolTipHiding();
-
 public slots:
     /**
      * Sets the URL to \a url and emits the signals cancelPreviews() and

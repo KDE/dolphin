@@ -257,11 +257,6 @@ private:
     QHash<QByteArray, QVariant> rolesData(const KFileItem& item);
 
     /**
-     * @return The number of items of the path \a path.
-     */
-    int subItemsCount(const QString& path) const;
-
-    /**
      * Must be invoked if a property has been changed that affects
      * the look of the preview. Takes care to update all previews.
      */
