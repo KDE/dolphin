@@ -204,9 +204,14 @@ DolphinMainWindow::~DolphinMainWindow()
 QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
 {
     QVector<DolphinViewContainer*> viewContainers;
-    viewContainers.reserve(m_tabWidget->count());
+
     for (int i = 0; i < m_tabWidget->count(); ++i) {
-        viewContainers << m_tabWidget->tabPageAt(i)->activeViewContainer();
+        DolphinTabPage *tabPage = m_tabWidget->tabPageAt(i);
+
+        viewContainers << tabPage->primaryViewContainer();
+        if (tabPage->splitViewEnabled()) {
+            viewContainers << tabPage->secondaryViewContainer();
+        }
     }
     return viewContainers;
 }
