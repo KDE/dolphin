@@ -9,7 +9,7 @@
 
 #include "kitemviews/kstandarditemlistwidget.h"
 
-#include <QDateTime>
+#include <QDeadlineTimer>
 #include <QPainter>
 #include <QPointer>
 #include <QStyleOptionGraphicsItem>
@@ -22,7 +22,7 @@
 // https://invent.kde.org/frameworks/kio/-/commit/933887dc334f3498505af7a86d25db7faae91019
 struct PlaceFreeSpaceInfo
 {
-    QDateTime lastUpdated;
+    QDeadlineTimer lastUpdated;
     KIO::filesize_t used = 0;
     KIO::filesize_t size = 0;
     qreal usedRatio = 0;

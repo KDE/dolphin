@@ -6,7 +6,6 @@
 
 #include "placesitemlistwidget.h"
 
-#include <QDateTime>
 #include <QStyleOption>
 #include <QPainter>
 
@@ -16,6 +15,7 @@
 
 #define CAPACITYBAR_HEIGHT 2
 #define CAPACITYBAR_MARGIN 2
+#define CAPACITYBAR_CACHE_TTL 60000
 
 
 PlacesItemListWidget::PlacesItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
@@ -43,47 +43,44 @@ void PlacesItemListWidget::updateCapacityBar()
 {
     const bool isDevice = !data().value("udi").toString().isEmpty();
     const QUrl url = data().value("url").toUrl();
-    if (isDevice && url.isLocalFile()) {
-        if (!m_freeSpaceInfo.job
-            && (
-                !m_freeSpaceInfo.lastUpdated.isValid()
-                || m_freeSpaceInfo.lastUpdated.secsTo(QDateTime::currentDateTimeUtc()) > 60
-            )
-        ) {
-            m_freeSpaceInfo.job = KIO::fileSystemFreeSpace(url);
-            connect(
-                m_freeSpaceInfo.job,
-                &KIO::FileSystemFreeSpaceJob::result,
-                this,
-                [this](KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available) {
-                    // even if we receive an error we want to refresh lastUpdated to avoid repeatedly querying in this case
-                    m_freeSpaceInfo.lastUpdated = QDateTime::currentDateTimeUtc();
-
-                    if (job->error()) {
-                        return;
-                    }
-
-                    m_freeSpaceInfo.size = size;
-                    m_freeSpaceInfo.used = size - available;
-                    m_freeSpaceInfo.usedRatio = (qreal)m_freeSpaceInfo.used / (qreal)m_freeSpaceInfo.size;
-                    m_drawCapacityBar = size > 0;
-
-                    update();
-                }
-            );
-        } else {
-            // Job running or cache is still valid.
-        }
-    } else {
+    if (!(isDevice && url.isLocalFile())) {
         resetCapacityBar();
+        return;
     }
+
+    if (m_freeSpaceInfo.job || !m_freeSpaceInfo.lastUpdated.hasExpired()) {
+        // Job running or cache is still valid.
+        return;
+    }
+
+    m_freeSpaceInfo.job = KIO::fileSystemFreeSpace(url);
+    connect(
+        m_freeSpaceInfo.job,
+        &KIO::FileSystemFreeSpaceJob::result,
+        this,
+        [this](KIO::Job *job, KIO::filesize_t size, KIO::filesize_t available) {
+            // even if we receive an error we want to refresh lastUpdated to avoid repeatedly querying in this case
+            m_freeSpaceInfo.lastUpdated.setRemainingTime(CAPACITYBAR_CACHE_TTL);
+
+            if (job->error()) {
+                return;
+            }
+
+            m_freeSpaceInfo.size = size;
+            m_freeSpaceInfo.used = size - available;
+            m_freeSpaceInfo.usedRatio = (qreal)m_freeSpaceInfo.used / (qreal)m_freeSpaceInfo.size;
+            m_drawCapacityBar = size > 0;
+
+            update();
+        }
+    );
 }
 
 void PlacesItemListWidget::resetCapacityBar()
 {
     m_drawCapacityBar = false;
     delete m_freeSpaceInfo.job;
-    m_freeSpaceInfo.lastUpdated = QDateTime();
+    m_freeSpaceInfo.lastUpdated.setRemainingTime(0);
     m_freeSpaceInfo.size = 0;
     m_freeSpaceInfo.used = 0;
     m_freeSpaceInfo.usedRatio = 0;
