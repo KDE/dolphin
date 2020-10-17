@@ -7,11 +7,10 @@
 #include "placesitemlistwidget.h"
 
 #include <QDateTime>
-#include <QGraphicsView>
 #include <QStyleOption>
+#include <QPainter>
 
 #include <KColorScheme>
-#include <KMountPoint>
 
 #include <KIO/FileSystemFreeSpaceJob>
 

@@ -10,7 +10,10 @@
 #include "kitemviews/kstandarditemlistwidget.h"
 
 #include <QDateTime>
+#include <QPainter>
 #include <QPointer>
+#include <QStyleOptionGraphicsItem>
+#include <QWidget>
 
 #include <KIO/FileSystemFreeSpaceJob>
 
