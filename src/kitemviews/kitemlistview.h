@@ -32,6 +32,7 @@ class KItemListWidgetInformant;
 class KItemListWidgetCreatorBase;
 class QTimer;
 class QPropertyAnimation;
+class QVariantAnimation;
 
 /**
  * @brief Represents the view of an item-list.
@@ -746,6 +747,8 @@ private:
     // The m_dropIndicator is set by the KItemListController
     // by KItemListView::showDropIndicator() and KItemListView::hideDropIndicator().
     QRectF m_dropIndicator;
+
+    QList<QVariantAnimation*> m_rubberBandAnimations;
 
     friend class KItemListContainer; // Accesses scrollBarRequired()
     friend class KItemListHeader;    // Accesses m_headerWidget

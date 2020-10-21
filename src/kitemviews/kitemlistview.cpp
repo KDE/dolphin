@@ -27,6 +27,7 @@
 #include <QPropertyAnimation>
 #include <QStyleOptionRubberBand>
 #include <QTimer>
+#include <QVariantAnimation>
 
 
 namespace {
@@ -36,6 +37,11 @@ namespace {
 
     // Delay in ms for triggering the next autoscroll
     const int RepeatingAutoScrollDelay = 1000 / 60;
+
+    // Copied from the Kirigami.Units.shortDuration
+    const int RubberFadeSpeed = 150;
+
+    const char* RubberPropertyName = "_kitemviews_rubberBandPosition";
 }
 
 #ifndef QT_NO_ACCESSIBILITY
@@ -659,6 +665,30 @@ void KItemListView::editRole(int index, const QByteArray& role)
 void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     QGraphicsWidget::paint(painter, option, widget);
+
+    for (auto animation : qAsConst(m_rubberBandAnimations)) {
+        QRectF rubberBandRect = animation->property(RubberPropertyName).toRectF();
+
+        const QPointF topLeft = rubberBandRect.topLeft();
+        if (scrollOrientation() == Qt::Vertical) {
+            rubberBandRect.moveTo(topLeft.x(), topLeft.y() - scrollOffset());
+        } else {
+            rubberBandRect.moveTo(topLeft.x() - scrollOffset(), topLeft.y());
+        }
+
+        QStyleOptionRubberBand opt;
+        initStyleOption(&opt);
+        opt.shape = QRubberBand::Rectangle;
+        opt.opaque = false;
+        opt.rect = rubberBandRect.toRect();
+
+        painter->save();
+
+        painter->setOpacity(animation->currentValue().toReal());
+        style()->drawControl(QStyle::CE_RubberBand, &opt, painter);
+
+        painter->restore();
+    }
 
     if (m_rubberBand->isActive()) {
         QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(),
@@ -1455,6 +1485,30 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
         connect(m_rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         m_skipAutoScrollForRubberBand = true;
     } else {
+        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(),
+                                       m_rubberBand->endPosition()).normalized();
+
+        auto animation = new QVariantAnimation(this);
+        animation->setStartValue(1.0);
+        animation->setEndValue(0.0);
+        animation->setDuration(RubberFadeSpeed);
+        animation->setProperty(RubberPropertyName, rubberBandRect);
+
+        QEasingCurve curve;
+        curve.setType(QEasingCurve::BezierSpline);
+        curve.addCubicBezierSegment(QPointF(0.4, 0.0), QPointF(1.0, 1.0), QPointF(1.0, 1.0));
+        animation->setEasingCurve(curve);
+
+        connect(animation, &QVariantAnimation::valueChanged, this, [=](const QVariant&) {
+            update();
+        });
+        connect(animation, &QVariantAnimation::finished, this, [=]() {
+            m_rubberBandAnimations.removeAll(animation);
+            delete animation;
+        });
+        animation->start();
+        m_rubberBandAnimations << animation;
+
         disconnect(m_rubberBand, &KItemListRubberBand::startPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         disconnect(m_rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListView::slotRubberBandPosChanged);
         m_skipAutoScrollForRubberBand = false;
