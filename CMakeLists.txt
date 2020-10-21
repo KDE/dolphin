@@ -8,7 +8,7 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(Dolphin VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION "5.14.0")
-set(KF5_MIN_VERSION "5.73.0")
+set(KF5_MIN_VERSION "5.75.0")
 
 # ECM setup
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
@@ -16,6 +16,8 @@ set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake)
 
 include(ECMSetupVersion)
 include(ECMGenerateHeaders)
+include(ECMGenerateDBusServiceFile)
+include(ECMConfiguredInstall)
 include(CMakePackageConfigHelpers)
 include(GenerateExportHeader)
 include(FeatureSummary)
@@ -155,10 +157,16 @@ install(FILES
     COMPONENT Devel
 )
 
-configure_file(org.kde.dolphin.FileManager1.service.in
-               ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/org.kde.dolphin.FileManager1.service
-        DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR})
+ecm_generate_dbus_service_file(
+   NAME org.freedesktop.FileManager1
+   EXECUTABLE "${KDE_INSTALL_FULL_BINDIR}/dolphin --daemon"
+   SYSTEMD_SERVICE plasma-dolphin.service
+   DESTINATION ${KDE_INSTALL_DBUSSERVICEDIR}
+   RENAME org.kde.dolphin.FileManager1.service
+)
+
+ecm_install_configured_files(INPUT plasma-dolphin.service.in DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
+
 install(FILES dolphin.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
