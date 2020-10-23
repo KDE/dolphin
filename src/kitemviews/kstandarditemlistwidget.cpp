@@ -741,7 +741,7 @@ void KStandardItemListWidget::editedRoleChanged(const QByteArray& current, const
     QGraphicsView* parent = scene()->views()[0];
     if (current.isEmpty() || !parent || current != "text") {
         if (m_roleEditor) {
-            emit roleEditingCanceled(index(), current, data().value(current));
+            Q_EMIT roleEditingCanceled(index(), current, data().value(current));
 
             disconnect(m_roleEditor, &KItemListRoleEditor::roleEditingCanceled,
                        this, &KStandardItemListWidget::slotRoleEditingCanceled);
@@ -866,7 +866,7 @@ void KStandardItemListWidget::slotRoleEditingCanceled(const QByteArray& role,
                                                       const QVariant& value)
 {
     closeRoleEditor();
-    emit roleEditingCanceled(index(), role, value);
+    Q_EMIT roleEditingCanceled(index(), role, value);
     setEditedRole(QByteArray());
 }
 
@@ -874,7 +874,7 @@ void KStandardItemListWidget::slotRoleEditingFinished(const QByteArray& role,
                                                       const QVariant& value)
 {
     closeRoleEditor();
-    emit roleEditingFinished(index(), role, value);
+    Q_EMIT roleEditingFinished(index(), role, value);
     setEditedRole(QByteArray());
 }
 

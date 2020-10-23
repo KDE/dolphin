@@ -43,7 +43,7 @@ void KStandardItemModel::insertItem(int index, KStandardItem* item)
         // TODO: no hierarchical items are handled yet
 
         onItemInserted(index);
-        emit itemsInserted(KItemRangeList() << KItemRange(index, 1));
+        Q_EMIT itemsInserted(KItemRangeList() << KItemRange(index, 1));
     }
 }
 
@@ -81,7 +81,7 @@ void KStandardItemModel::changeItem(int index, KStandardItem* item)
     m_indexesForItems.insert(item, index);
 
     onItemChanged(index, changedRoles);
-    emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
+    Q_EMIT itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 }
 
 void KStandardItemModel::removeItem(int index)
@@ -102,7 +102,7 @@ void KStandardItemModel::removeItem(int index)
         item->deleteLater();
         item = nullptr;
 
-        emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
+        Q_EMIT itemsRemoved(KItemRangeList() << KItemRange(index, 1));
 
         // TODO: no hierarchical items are handled yet
     }
@@ -114,7 +114,7 @@ void KStandardItemModel::clear()
     m_items.clear();
     m_indexesForItems.clear();
 
-    emit itemsRemoved(KItemRangeList() << KItemRange(0, size));
+    Q_EMIT itemsRemoved(KItemRangeList() << KItemRange(0, size));
 }
 
 KStandardItem* KStandardItemModel::item(int index) const

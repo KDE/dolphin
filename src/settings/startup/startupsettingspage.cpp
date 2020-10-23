@@ -180,7 +180,7 @@ void StartupSettingsPage::slotSettingsChanged()
 
     // Enable and disable home URL controls appropriately
     updateInitialViewOptions();
-    emit changed();
+    Q_EMIT changed();
 }
 
 void StartupSettingsPage::updateInitialViewOptions()

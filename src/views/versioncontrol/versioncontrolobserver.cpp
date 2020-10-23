@@ -202,7 +202,7 @@ void VersionControlObserver::slotThreadFinished()
         // Using an empty message results in clearing the previously shown information message and showing
         // the default status bar information. This is useful as the user already gets feedback that the
         // operation has been completed because of the icon emblems.
-        emit operationCompletedMessage(QString());
+        Q_EMIT operationCompletedMessage(QString());
     }
 
     if (m_pendingItemStatesUpdate) {
@@ -226,7 +226,7 @@ void VersionControlObserver::updateItemStates()
 
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
-            emit infoMessage(i18nc("@info:status", "Updating version information..."));
+            Q_EMIT infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread = new UpdateItemStatesThread(m_plugin, itemStates);
         connect(m_updateItemStatesThread, &UpdateItemStatesThread::finished,

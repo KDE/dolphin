@@ -90,7 +90,7 @@ void KStandardItem::setDataValue(const QByteArray& role, const QVariant& value)
         QSet<QByteArray> changedRoles;
         changedRoles.insert(role);
         m_model->onItemChanged(index, changedRoles);
-        emit m_model->itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
+        Q_EMIT m_model->itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
     }
 }
 

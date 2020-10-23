@@ -272,7 +272,7 @@ void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& 
             } else {
                 removeSearchTag(tagName);
             }
-            emit facetChanged();
+            Q_EMIT facetChanged();
 
             if (!onlyOneTag) {
                 m_tagsSelector->menu()->show();

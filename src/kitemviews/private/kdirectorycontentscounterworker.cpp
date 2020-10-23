@@ -118,5 +118,5 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
 void KDirectoryContentsCounterWorker::countDirectoryContents(const QString& path, Options options)
 {
     auto res = subItemsCount(path, options);
-    emit result(path, res.count, res.size);
+    Q_EMIT result(path, res.count, res.size);
 }

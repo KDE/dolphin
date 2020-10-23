@@ -164,7 +164,7 @@ void DolphinSearchBox::setActive(bool active)
         m_active = active;
 
         if (active) {
-            emit activated();
+            Q_EMIT activated();
         }
     }
 }
@@ -202,13 +202,13 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
     QWidget::keyReleaseEvent(event);
     if (event->key() == Qt::Key_Escape) {
         if (m_searchInput->text().isEmpty()) {
-            emit closeRequest();
+            Q_EMIT closeRequest();
         } else {
             m_searchInput->clear();
         }
     }
     else if (event->key() == Qt::Key_Down) {
-        emit focusViewRequest();
+        Q_EMIT focusViewRequest();
     }
 }
 
@@ -241,7 +241,7 @@ void DolphinSearchBox::emitSearchRequest()
     m_startSearchTimer->stop();
     m_startedSearching = true;
     m_saveSearchAction->setEnabled(true);
-    emit searchRequest();
+    Q_EMIT searchRequest();
 }
 
 void DolphinSearchBox::emitCloseRequest()
@@ -249,7 +249,7 @@ void DolphinSearchBox::emitCloseRequest()
     m_startSearchTimer->stop();
     m_startedSearching = false;
     m_saveSearchAction->setEnabled(false);
-    emit closeRequest();
+    Q_EMIT closeRequest();
 }
 
 void DolphinSearchBox::slotConfigurationChanged()
@@ -268,20 +268,20 @@ void DolphinSearchBox::slotSearchTextChanged(const QString& text)
     } else {
         m_startSearchTimer->start();
     }
-    emit searchTextChanged(text);
+    Q_EMIT searchTextChanged(text);
 }
 
 void DolphinSearchBox::slotReturnPressed()
 {
     emitSearchRequest();
-    emit focusViewRequest();
+    Q_EMIT focusViewRequest();
 }
 
 void DolphinSearchBox::slotFacetChanged()
 {
     m_startedSearching = true;
     m_startSearchTimer->stop();
-    emit searchRequest();
+    Q_EMIT searchRequest();
 }
 
 void DolphinSearchBox::slotSearchSaved()

@@ -201,18 +201,18 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
             const Qt::SortOrder current = (m_model->sortOrder() == Qt::AscendingOrder) ?
                                           Qt::DescendingOrder : Qt::AscendingOrder;
             m_model->setSortOrder(current);
-            emit sortOrderChanged(current, previous);
+            Q_EMIT sortOrderChanged(current, previous);
         } else {
             // Change the sort role and reset to the ascending order
             const QByteArray previous = m_model->sortRole();
             const QByteArray current = m_columns[m_pressedRoleIndex];
             const bool resetSortOrder = m_model->sortOrder() == Qt::DescendingOrder;
             m_model->setSortRole(current, !resetSortOrder);
-            emit sortRoleChanged(current, previous);
+            Q_EMIT sortRoleChanged(current, previous);
 
             if (resetSortOrder) {
                 m_model->setSortOrder(Qt::AscendingOrder);
-                emit sortOrderChanged(Qt::AscendingOrder, Qt::DescendingOrder);
+                Q_EMIT sortOrderChanged(Qt::AscendingOrder, Qt::DescendingOrder);
             }
         }
         break;
@@ -221,7 +221,7 @@ void KItemListHeaderWidget::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
     case ResizeRoleOperation: {
         const QByteArray pressedRole = m_columns[m_pressedRoleIndex];
         const qreal currentWidth = m_columnWidths.value(pressedRole);
-        emit columnWidthChangeFinished(pressedRole, currentWidth);
+        Q_EMIT columnWidthChangeFinished(pressedRole, currentWidth);
         break;
     }
 
@@ -287,7 +287,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         m_columnWidths.insert(pressedRole, currentWidth);
         update();
 
-        emit columnWidthChanged(pressedRole, currentWidth, previousWidth);
+        Q_EMIT columnWidthChanged(pressedRole, currentWidth, previousWidth);
         break;
     }
 
@@ -304,7 +304,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
                 const QByteArray role = m_columns[m_movingRole.index];
                 const int previousIndex = m_movingRole.index;
                 m_movingRole.index = targetIndex;
-                emit columnMoved(role, targetIndex, previousIndex);
+                Q_EMIT columnMoved(role, targetIndex, previousIndex);
 
                 m_movingRole.xDec = event->pos().x() - roleXPosition(role);
             }
@@ -329,8 +329,8 @@ void KItemListHeaderWidget::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* even
         setColumnWidth(role, preferredColumnWidth(role));
         qreal currentWidth = columnWidth(role);
 
-        emit columnWidthChanged(role, currentWidth, previousWidth);
-        emit columnWidthChangeFinished(role, currentWidth);
+        Q_EMIT columnWidthChanged(role, currentWidth, previousWidth);
+        Q_EMIT columnWidthChangeFinished(role, currentWidth);
     }
 }
 

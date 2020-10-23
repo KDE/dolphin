@@ -437,7 +437,7 @@ void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* 
 {
     KIO::DropJob *job = DragAndDropHelper::dropUrls(dest, event, parent);
     if (job) {
-        connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
+        connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) Q_EMIT errorMessage(job->errorString()); });
     }
 }
 
@@ -529,9 +529,9 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
         const QUrl url = m_model->data(index).value("url").toUrl();
         if (!url.isEmpty()) {
             if (button == Qt::MiddleButton) {
-                emit placeMiddleClicked(KFilePlacesModel::convertedUrl(url));
+                Q_EMIT placeMiddleClicked(KFilePlacesModel::convertedUrl(url));
             } else {
-                emit placeActivated(KFilePlacesModel::convertedUrl(url));
+                Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(url));
             }
         }
     }
@@ -540,7 +540,7 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
 void PlacesPanel::showHiddenEntries(bool shown)
 {
     m_model->setHiddenItemsShown(shown);
-    emit showHiddenEntriesChanged(shown);
+    Q_EMIT showHiddenEntriesChanged(shown);
 }
 
 int PlacesPanel::hiddenListCount()

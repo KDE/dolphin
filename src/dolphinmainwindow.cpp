@@ -306,7 +306,7 @@ void DolphinMainWindow::changeUrl(const QUrl &url)
     updateViewActions();
     updateGoActions();
 
-    emit urlChanged(url);
+    Q_EMIT urlChanged(url);
 }
 
 void DolphinMainWindow::slotTerminalDirectoryChanged(const QUrl& url)
@@ -341,7 +341,7 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
         compareFilesAction->setEnabled(false);
     }
 
-    emit selectionChanged(selection);
+    Q_EMIT selectionChanged(selection);
 }
 
 void DolphinMainWindow::updateHistory()
@@ -1262,7 +1262,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
     updateSearchAction();
 
     const QUrl url = viewContainer->url();
-    emit urlChanged(url);
+    Q_EMIT urlChanged(url);
 }
 
 void DolphinMainWindow::tabCountChanged(int count)
@@ -2108,7 +2108,7 @@ void DolphinMainWindow::refreshViews()
         updateWindowTitle();
     }
 
-    emit settingsChanged();
+    Q_EMIT settingsChanged();
 }
 
 void DolphinMainWindow::clearStatusBar()

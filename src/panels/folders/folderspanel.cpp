@@ -187,7 +187,7 @@ void FoldersPanel::slotItemActivated(int index)
 {
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
-        emit folderActivated(item.url());
+        Q_EMIT folderActivated(item.url());
     }
 }
 
@@ -195,7 +195,7 @@ void FoldersPanel::slotItemMiddleClicked(int index)
 {
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
-        emit folderMiddleClicked(item.url());
+        Q_EMIT folderMiddleClicked(item.url());
     }
 }
 
@@ -235,7 +235,7 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
 
         KIO::DropJob *job = DragAndDropHelper::dropUrls(destItem.mostLocalUrl(), &dropEvent, this);
         if (job) {
-            connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) emit errorMessage(job->errorString()); });
+            connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) Q_EMIT errorMessage(job->errorString()); });
         }
     }
 }
@@ -323,7 +323,7 @@ void FoldersPanel::loadTree(const QUrl& url, FoldersPanel::NavigationBehaviour n
 
     const int index = m_model->index(url);
     if (jumpHome) {
-      emit folderActivated(baseUrl);
+      Q_EMIT folderActivated(baseUrl);
     } else if (index >= 0) {
         updateCurrentItem(index);
     } else if (url == baseUrl) {

@@ -32,14 +32,14 @@ void ViewModeController::redirectToUrl(const QUrl& url)
 
 void ViewModeController::indicateActivationChange(bool active)
 {
-    emit activationChanged(active);
+    Q_EMIT activationChanged(active);
 }
 
 void ViewModeController::setNameFilter(const QString& nameFilter)
 {
     if (nameFilter != m_nameFilter) {
         m_nameFilter = nameFilter;
-        emit nameFilterChanged(nameFilter);
+        Q_EMIT nameFilterChanged(nameFilter);
     }
 }
 
@@ -54,7 +54,7 @@ void ViewModeController::setZoomLevel(int level)
     Q_ASSERT(level <= ZoomLevelInfo::maximumLevel());
     if (level != m_zoomLevel) {
         m_zoomLevel = level;
-        emit zoomLevelChanged(m_zoomLevel);
+        Q_EMIT zoomLevelChanged(m_zoomLevel);
     }
 }
 
@@ -67,8 +67,8 @@ void ViewModeController::setUrl(const QUrl& url)
 {
     if (m_url != url) {
         m_url = url;
-        emit cancelPreviews();
-        emit urlChanged(url);
+        Q_EMIT cancelPreviews();
+        Q_EMIT urlChanged(url);
     }
 }
 

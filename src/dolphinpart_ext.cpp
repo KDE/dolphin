@@ -164,11 +164,11 @@ KParts::ListingNotificationExtension::NotificationEventTypes DolphinPartListingN
 
 void DolphinPartListingNotificationExtension::slotNewItems(const KFileItemList& items)
 {
-    emit listingEvent(KParts::ListingNotificationExtension::ItemsAdded, items);
+    Q_EMIT listingEvent(KParts::ListingNotificationExtension::ItemsAdded, items);
 }
 
 void DolphinPartListingNotificationExtension::slotItemsDeleted(const KFileItemList& items)
 {
-    emit listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
+    Q_EMIT listingEvent(KParts::ListingNotificationExtension::ItemsDeleted, items);
 }
 

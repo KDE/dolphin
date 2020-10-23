@@ -237,7 +237,7 @@ void PlacesItemModel::requestEject(int index)
         } else {
             const QString label = item->text();
             const QString message = i18nc("@info", "The device '%1' is not a disk and cannot be ejected.", label);
-            emit errorMessage(message);
+            Q_EMIT errorMessage(message);
         }
     }
 }
@@ -254,7 +254,7 @@ void PlacesItemModel::requestTearDown(int index)
             // after we have emitted PlacesItemModel::storageTearDownRequested
             disconnect(tmp, &Solid::StorageAccess::teardownRequested,
                        item->signalHandler(), &PlacesItemSignalHandler::onTearDownRequested);
-            emit storageTearDownRequested(tmp->filePath());
+            Q_EMIT storageTearDownRequested(tmp->filePath());
         }
     }
 }
@@ -467,11 +467,11 @@ void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVar
                             "One or more files on this device are opened in following applications: <application>%2</application>.",
                             blockingApps.count(), blockingApps.join(i18nc("separator in list of apps blocking device unmount", ", ")));
                 }
-                emit errorMessage(errorString);
+                Q_EMIT errorMessage(errorString);
             });
             listOpenFilesJob->start();
         } else {
-            emit errorMessage(errorData.toString());
+            Q_EMIT errorMessage(errorData.toString());
         }
     } else {
         // No error; it must have been unmounted successfully
@@ -496,16 +496,16 @@ void PlacesItemModel::slotStorageSetupDone(Solid::ErrorType error,
 
     if (error != Solid::NoError) {
         if (errorData.isValid()) {
-            emit errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
+            Q_EMIT errorMessage(i18nc("@info", "An error occurred while accessing '%1', the system responded: %2",
                                     item->text(),
                                     errorData.toString()));
         } else {
-            emit errorMessage(i18nc("@info", "An error occurred while accessing '%1'",
+            Q_EMIT errorMessage(i18nc("@info", "An error occurred while accessing '%1'",
                                     item->text()));
         }
-        emit storageSetupDone(index, false);
+        Q_EMIT storageSetupDone(index, false);
     } else {
-        emit storageSetupDone(index, true);
+        Q_EMIT storageSetupDone(index, true);
     }
 }
 

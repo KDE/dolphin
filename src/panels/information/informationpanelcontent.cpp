@@ -119,14 +119,14 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
                 m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Accept);
                 m_configureButtons->setVisible(false);
                 m_configureLabel->setVisible(false);
-                emit configurationFinished();
+                Q_EMIT configurationFinished();
             }
     );
     connect(m_configureButtons, &QDialogButtonBox::rejected, this, [this]() {
                 m_metaDataWidget->setConfigurationMode(Baloo::ConfigurationMode::Cancel);
                 m_configureButtons->setVisible(false);
                 m_configureLabel->setVisible(false);
-                emit configurationFinished();
+                Q_EMIT configurationFinished();
             }
     );
 
@@ -362,7 +362,7 @@ bool InformationPanelContent::gestureEvent(QGestureEvent* event)
 
     if (tap) {
         if (tap->state() == Qt::GestureFinished) {
-            emit contextMenuRequested(tap->position().toPoint());
+            Q_EMIT contextMenuRequested(tap->position().toPoint());
         }
         event->accept();
         return true;

@@ -122,7 +122,7 @@ void DolphinSettingsDialog::applySettings()
         page->applySettings();
     }
 
-    emit settingsChanged();
+    Q_EMIT settingsChanged();
 
     GeneralSettings* settings = GeneralSettings::self();
     if (settings->modifiedStartupSettings()) {

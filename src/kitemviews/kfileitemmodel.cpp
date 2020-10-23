@@ -487,7 +487,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
             m_itemData[i]->values = retrieveData(m_itemData.at(i)->item, m_itemData.at(i)->parent);
         }
 
-        emit itemsChanged(KItemRangeList() << KItemRange(0, count()), changedRoles);
+        Q_EMIT itemsChanged(KItemRangeList() << KItemRange(0, count()), changedRoles);
     }
 
     // Clear the 'values' of all filtered items. They will be re-populated with the
@@ -892,13 +892,13 @@ void KFileItemModel::resortAllItems()
             movedToIndexes.append(newIndex);
         }
 
-        emit itemsMoved(KItemRange(firstMovedIndex, movedItemsCount), movedToIndexes);
+        Q_EMIT itemsMoved(KItemRange(firstMovedIndex, movedItemsCount), movedToIndexes);
     } else if (groupedSorting()) {
         // The groups might have changed even if the order of the items has not.
         const QList<QPair<int, QVariant> > oldGroups = m_groups;
         m_groups.clear();
         if (groups() != oldGroups) {
-            emit groupsChanged();
+            Q_EMIT groupsChanged();
         }
     }
 
@@ -934,7 +934,7 @@ void KFileItemModel::slotCompleted()
         m_urlsToExpand.clear();
     }
 
-    emit directoryLoadingCompleted();
+    Q_EMIT directoryLoadingCompleted();
 }
 
 void KFileItemModel::slotCanceled()
@@ -942,7 +942,7 @@ void KFileItemModel::slotCanceled()
     m_maximumUpdateIntervalTimer->stop();
     dispatchPendingItemsToInsert();
 
-    emit directoryLoadingCanceled();
+    Q_EMIT directoryLoadingCanceled();
 }
 
 void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemList& items)
@@ -1143,7 +1143,7 @@ void KFileItemModel::slotClear()
         qDeleteAll(m_itemData);
         m_itemData.clear();
         m_items.clear();
-        emit itemsRemoved(KItemRangeList() << KItemRange(0, removedCount));
+        Q_EMIT itemsRemoved(KItemRangeList() << KItemRange(0, removedCount));
     }
 
     m_expandedDirs.clear();
@@ -1259,7 +1259,7 @@ void KFileItemModel::insertItems(QList<ItemData*>& newItems)
     // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
-    emit itemsInserted(itemRanges);
+    Q_EMIT itemsInserted(itemRanges);
 
 #ifdef KFILEITEMMODEL_DEBUG
     qCDebug(DolphinDebug) << "[TIME] Inserting of" << newItems.count() << "items:" << timer.elapsed();
@@ -1312,7 +1312,7 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
     // It will be re-populated with the updated indices if index(const QUrl&) is called.
     m_items.clear();
 
-    emit itemsRemoved(itemRanges);
+    Q_EMIT itemsRemoved(itemRanges);
 }
 
 QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& parentUrl, const KFileItemList& items) const
@@ -1428,7 +1428,7 @@ void KFileItemModel::removeExpandedItems()
 
 void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& itemRanges, const QSet<QByteArray>& changedRoles)
 {
-    emit itemsChanged(itemRanges, changedRoles);
+    Q_EMIT itemsChanged(itemRanges, changedRoles);
 
     // Trigger a resorting if necessary. Note that this can happen even if the sort
     // role has not changed at all because the file name can be used as a fallback.
@@ -2307,14 +2307,14 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
             resortAllItems();
         }
 
-        emit directorySortingProgress(100);
+        Q_EMIT directorySortingProgress(100);
     } else if (itemCount > 0) {
         resolvedCount = qBound(0, resolvedCount, itemCount);
 
         const int progress = resolvedCount * 100 / itemCount;
         if (m_sortingProgressPercent != progress) {
             m_sortingProgressPercent = progress;
-            emit directorySortingProgress(progress);
+            Q_EMIT directorySortingProgress(progress);
         }
     }
 }

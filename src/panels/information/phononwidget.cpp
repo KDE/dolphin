@@ -223,7 +223,7 @@ void PhononWidget::play()
     }
 
     if (m_isVideo) {
-        emit hasVideoChanged(true);
+        Q_EMIT hasVideoChanged(true);
     }
 
     if (m_url != m_media->currentSource().url()) {
@@ -238,7 +238,7 @@ void PhononWidget::finished()
 {
     if (m_isVideo) {
         m_videoPlayer->hide();
-        emit hasVideoChanged(false);
+        Q_EMIT hasVideoChanged(false);
     }
 }
 
@@ -252,7 +252,7 @@ void PhononWidget::stop()
     if (m_media) {
         m_media->stop();
         m_videoPlayer->hide();
-        emit hasVideoChanged(false);
+        Q_EMIT hasVideoChanged(false);
     }
 }
 

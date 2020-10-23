@@ -25,7 +25,7 @@ Trash::Trash()
     m_trashDirLister->setDelayedMimeTypes(true);
     auto trashDirContentChanged = [this]() {
         bool isTrashEmpty = m_trashDirLister->items().isEmpty();
-        emit emptinessChanged(isTrashEmpty);
+        Q_EMIT emptinessChanged(isTrashEmpty);
     };
     connect(m_trashDirLister, QOverload<>::of(&KCoreDirLister::completed), this, trashDirContentChanged);
     connect(m_trashDirLister, &KDirLister::itemsDeleted, this, trashDirContentChanged);

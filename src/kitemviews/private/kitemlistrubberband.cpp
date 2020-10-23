@@ -23,7 +23,7 @@ void KItemListRubberBand::setStartPosition(const QPointF& pos)
     if (m_startPos != pos) {
         const QPointF previous = m_startPos;
         m_startPos = pos;
-        emit startPositionChanged(m_startPos, previous);
+        Q_EMIT startPositionChanged(m_startPos, previous);
     }
 }
 
@@ -53,7 +53,7 @@ void KItemListRubberBand::setEndPosition(const QPointF& pos)
             }
         }
 
-        emit endPositionChanged(m_endPos, previous);
+        Q_EMIT endPositionChanged(m_endPos, previous);
     }
 }
 
@@ -66,7 +66,7 @@ void KItemListRubberBand::setActive(bool active)
 {
     if (m_active != active) {
         m_active = active;
-        emit activationChanged(active);
+        Q_EMIT activationChanged(active);
     }
 }
 

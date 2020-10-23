@@ -25,7 +25,7 @@ DolphinNewFileMenu::~DolphinNewFileMenu()
 void DolphinNewFileMenu::slotResult(KJob* job)
 {
     if (job->error()) {
-        emit errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString());
     } else {
         KNewFileMenu::slotResult(job);
     }

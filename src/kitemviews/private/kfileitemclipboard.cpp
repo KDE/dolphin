@@ -47,7 +47,7 @@ void KFileItemClipboard::updateCutItems()
     // mimeData can be 0 according to https://bugs.kde.org/show_bug.cgi?id=335053
     if (!mimeData) {
         m_cutItems.clear();
-        emit cutItemsChanged();
+        Q_EMIT cutItemsChanged();
         return;
     }
 
@@ -59,7 +59,7 @@ void KFileItemClipboard::updateCutItems()
     } else {
         m_cutItems.clear();
     }
-    emit cutItemsChanged();
+    Q_EMIT cutItemsChanged();
 }
 
 KFileItemClipboard::KFileItemClipboard() :

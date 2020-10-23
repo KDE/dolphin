@@ -34,7 +34,7 @@ bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
                         m_lastMiddlePressedAction = action;
                     } else if (event->type() == QEvent::MouseButtonRelease) {
                         if (m_lastMiddlePressedAction == action) {
-                            emit actionMiddleClicked(action);
+                            Q_EMIT actionMiddleClicked(action);
                         }
                         m_lastMiddlePressedAction = nullptr;
                     }
@@ -48,7 +48,7 @@ bool MiddleClickActionEventFilter::eventFilter(QObject *watched, QEvent *event)
                         m_lastMiddlePressedAction = action;
                     } else if (event->type() == QEvent::MouseButtonRelease) {
                         if (m_lastMiddlePressedAction == action) {
-                            emit actionMiddleClicked(action);
+                            Q_EMIT actionMiddleClicked(action);
                             return true;
                         }
                         m_lastMiddlePressedAction = nullptr;

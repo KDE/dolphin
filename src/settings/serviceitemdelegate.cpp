@@ -109,6 +109,6 @@ void ServiceItemDelegate::slotCheckBoxClicked(bool checked)
 
 void ServiceItemDelegate::slotConfigureButtonClicked()
 {
-    emit requestServiceConfiguration(focusedIndex());
+    Q_EMIT requestServiceConfiguration(focusedIndex());
 }
 

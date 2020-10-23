@@ -410,7 +410,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 
     m_searchModeEnabled = enabled;
 
-    emit searchModeEnabledChanged(enabled);
+    Q_EMIT searchModeEnabledChanged(enabled);
 }
 
 bool DolphinViewContainer::isSearchModeEnabled() const
@@ -658,7 +658,7 @@ void DolphinViewContainer::closeFilterBar()
 {
     m_filterBar->closeFilterBar();
     m_view->setFocus();
-    emit showFilterBarChanged(false);
+    Q_EMIT showFilterBarChanged(false);
 }
 
 void DolphinViewContainer::setNameFilter(const QString& nameFilter)

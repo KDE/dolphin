@@ -115,7 +115,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
     }
 
     // sends the results
-    emit result(resolvedPath, count, size);
+    Q_EMIT result(resolvedPath, count, size);
 }
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
@@ -165,7 +165,7 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
         // fast path when in cache
         // will be updated later if result has changed
         const auto pair = s_cache->value(path);
-        emit result(path, pair.first, pair.second);
+        Q_EMIT result(path, pair.first, pair.second);
     }
 
     if (m_workerIsBusy) {
@@ -189,7 +189,7 @@ void KDirectoryContentsCounter::startWorker(const QString& path)
             options |= KDirectoryContentsCounterWorker::CountDirectoriesOnly;
         }
 
-        emit requestDirectoryContentsCount(path, options);
+        Q_EMIT requestDirectoryContentsCount(path, options);
         m_workerIsBusy = true;
     }
 }

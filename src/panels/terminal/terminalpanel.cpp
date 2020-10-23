@@ -68,7 +68,7 @@ QString TerminalPanel::currentWorkingDirectory()
 void TerminalPanel::terminalExited()
 {
     m_terminal = nullptr;
-    emit hideTerminalPanel();
+    Q_EMIT hideTerminalPanel();
 }
 
 bool TerminalPanel::isHiddenInVisibleWindow() const
@@ -286,7 +286,7 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
     KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(m_konsolePartCurrentDirectory);
     if (mountPoint && mountPoint->mountType() != QStringLiteral("fuse.kio-fuse")) {
         // Not in KIOFUse mount, so just switch to the corresponding URL.
-        emit changeUrl(url);
+        Q_EMIT changeUrl(url);
         return;
     }
 
@@ -296,11 +296,11 @@ void TerminalPanel::slotKonsolePartCurrentDirectoryChanged(const QString& dir)
         watcher->deleteLater();
         if (reply.isError()) {
             // KIOFuse errored out... just show the normal URL
-            emit changeUrl(url);
+            Q_EMIT changeUrl(url);
         } else {
             // Our location happens to be in a KIOFuse mount and is mounted.
             // Let's change the DolphinView to point to the remote URL equivalent.
-            emit changeUrl(QUrl::fromUserInput(reply.value()));
+            Q_EMIT changeUrl(QUrl::fromUserInput(reply.value()));
         }
     });
 }

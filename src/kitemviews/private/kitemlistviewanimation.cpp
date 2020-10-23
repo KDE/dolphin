@@ -174,7 +174,7 @@ void KItemListViewAnimation::stop(QGraphicsWidget* widget, AnimationType type)
         m_animation[type].remove(widget);
         delete propertyAnim;
 
-        emit finished(widget, type);
+        Q_EMIT finished(widget, type);
     }
 }
 
@@ -213,7 +213,7 @@ void KItemListViewAnimation::slotFinished()
                 it.remove();
                 finishedAnim->deleteLater();
 
-                emit finished(widget, static_cast<AnimationType>(type));
+                Q_EMIT finished(widget, static_cast<AnimationType>(type));
                 return;
             }
         }

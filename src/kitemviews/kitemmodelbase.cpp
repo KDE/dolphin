@@ -40,7 +40,7 @@ void KItemModelBase::setGroupedSorting(bool grouped)
     if (m_groupedSorting != grouped) {
         m_groupedSorting = grouped;
         onGroupedSortingChanged(grouped);
-        emit groupedSortingChanged(grouped);
+        Q_EMIT groupedSortingChanged(grouped);
     }
 }
 
@@ -55,7 +55,7 @@ void KItemModelBase::setSortRole(const QByteArray& role, bool resortItems)
         const QByteArray previous = m_sortRole;
         m_sortRole = role;
         onSortRoleChanged(role, previous, resortItems);
-        emit sortRoleChanged(role, previous);
+        Q_EMIT sortRoleChanged(role, previous);
     }
 }
 
@@ -70,7 +70,7 @@ void KItemModelBase::setSortOrder(Qt::SortOrder order)
         const Qt::SortOrder previous = m_sortOrder;
         m_sortOrder = order;
         onSortOrderChanged(order, previous);
-        emit sortOrderChanged(order, previous);
+        Q_EMIT sortOrderChanged(order, previous);
     }
 }
 

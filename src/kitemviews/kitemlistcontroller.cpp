@@ -110,7 +110,7 @@ void KItemListController::setModel(KItemModelBase* model)
 
     m_selectionManager->setModel(m_model);
 
-    emit modelChanged(m_model, oldModel);
+    Q_EMIT modelChanged(m_model, oldModel);
 }
 
 KItemModelBase* KItemListController::model() const
@@ -145,7 +145,7 @@ void KItemListController::setView(KItemListView* view)
         updateExtendedSelectionRegion();
     }
 
-    emit viewChanged(m_view, oldView);
+    Q_EMIT viewChanged(m_view, oldView);
 }
 
 KItemListView* KItemListController::view() const
@@ -373,11 +373,11 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Return: {
         const KItemSet selectedItems = m_selectionManager->selectedItems();
         if (selectedItems.count() >= 2) {
-            emit itemsActivated(selectedItems);
+            Q_EMIT itemsActivated(selectedItems);
         } else if (selectedItems.count() == 1) {
-            emit itemActivated(selectedItems.first());
+            Q_EMIT itemActivated(selectedItems.first());
         } else {
-            emit itemActivated(index);
+            Q_EMIT itemActivated(index);
         }
         break;
     }
@@ -398,9 +398,9 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         if (index >= 0) {
             const QRectF contextRect = m_view->itemContextRect(index);
             const QPointF pos(m_view->scene()->views().first()->mapToGlobal(contextRect.bottomRight().toPoint()));
-            emit itemContextMenuRequested(index, pos);
+            Q_EMIT itemContextMenuRequested(index, pos);
         } else {
-            emit viewContextMenuRequested(QCursor::pos());
+            Q_EMIT viewContextMenuRequested(QCursor::pos());
         }
         break;
     }
@@ -410,7 +410,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->clearSelection();
         }
         m_keyboardManager->cancelSearch();
-        emit escapePressed();
+        Q_EMIT escapePressed();
         break;
 
     case Qt::Key_Space:
@@ -524,7 +524,7 @@ void KItemListController::slotAutoActivationTimeout()
             const bool expanded = m_model->isExpanded(index);
             m_model->setExpanded(index, !expanded);
         } else if (m_autoActivationBehavior != ExpansionOnly) {
-            emit itemActivated(index);
+            Q_EMIT itemActivated(index);
         }
     }
 }
@@ -642,7 +642,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         return false;
     }
 
-    emit mouseButtonReleased(m_pressedIndex, event->buttons());
+    Q_EMIT mouseButtonReleased(m_pressedIndex, event->buttons());
 
     return onRelease(transform.map(event->pos()), event->modifiers(), event->button(), false);
 }
@@ -664,13 +664,13 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
         m_selectionManager->clearSelection();
         if (index >= 0) {
             m_selectionManager->setSelected(index);
-            emit itemContextMenuRequested(index, event->screenPos());
+            Q_EMIT itemContextMenuRequested(index, event->screenPos());
         } else {
             const QRectF headerBounds = m_view->headerBoundaries();
             if (headerBounds.contains(event->pos())) {
-                emit headerContextMenuRequested(event->screenPos());
+                Q_EMIT headerContextMenuRequested(event->screenPos());
             } else {
-                emit viewContextMenuRequested(event->screenPos());
+                Q_EMIT viewContextMenuRequested(event->screenPos());
             }
         }
         return true;
@@ -680,7 +680,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
                              (event->button() & Qt::LeftButton) &&
                              index >= 0 && index < m_model->count();
     if (emitItemActivated) {
-        emit itemActivated(index);
+        Q_EMIT itemActivated(index);
     }
     return false;
 }
@@ -707,7 +707,7 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
     KItemListWidget* widget = hoveredWidget();
     if (widget) {
         widget->setHovered(false);
-        emit itemUnhovered(widget->index());
+        Q_EMIT itemUnhovered(widget->index());
     }
     return false;
 }
@@ -730,7 +730,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
 
         if (oldHoveredWidget) {
             oldHoveredWidget->setHovered(false);
-            emit itemUnhovered(oldHoveredWidget->index());
+            Q_EMIT itemUnhovered(oldHoveredWidget->index());
         }
     }
 
@@ -753,7 +753,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
                 m_view->hideDropIndicator();
                 if (!newHoveredWidget->isHovered()) {
                     newHoveredWidget->setHovered(true);
-                    emit itemHovered(index);
+                    Q_EMIT itemHovered(index);
                 }
 
                 if (!m_autoActivationTimer->isActive() && m_autoActivationTimer->interval() >= 0) {
@@ -765,7 +765,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
             m_autoActivationTimer->stop();
             if (newHoveredWidget && newHoveredWidget->isHovered()) {
                 newHoveredWidget->setHovered(false);
-                emit itemUnhovered(index);
+                Q_EMIT itemUnhovered(index);
             }
         }
     } else {
@@ -802,10 +802,10 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
     if (dropAboveIndex >= 0) {
         // Something has been dropped between two items.
         m_view->hideDropIndicator();
-        emit aboveItemDropEvent(dropAboveIndex, event);
+        Q_EMIT aboveItemDropEvent(dropAboveIndex, event);
     } else if (!event->mimeData()->hasFormat(m_model->blacklistItemDropEventMimeType())) {
         // Something has been dropped on an item or on an empty part of the view.
-        emit itemDropEvent(m_view->itemAt(pos), event);
+        Q_EMIT itemDropEvent(m_view->itemAt(pos), event);
     }
 
     QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropEnd);
@@ -835,14 +835,14 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
     if (oldHoveredWidget != newHoveredWidget) {
         if (oldHoveredWidget) {
             oldHoveredWidget->setHovered(false);
-            emit itemUnhovered(oldHoveredWidget->index());
+            Q_EMIT itemUnhovered(oldHoveredWidget->index());
         }
 
         if (newHoveredWidget) {
             newHoveredWidget->setHovered(true);
             const QPointF mappedPos = newHoveredWidget->mapFromItem(m_view, pos);
             newHoveredWidget->setHoverPosition(mappedPos);
-            emit itemHovered(newHoveredWidget->index());
+            Q_EMIT itemHovered(newHoveredWidget->index());
         }
     } else if (oldHoveredWidget) {
         const QPointF mappedPos = oldHoveredWidget->mapFromItem(m_view, pos);
@@ -868,7 +868,7 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const
     for (KItemListWidget* widget : widgets) {
         if (widget->isHovered()) {
             widget->setHovered(false);
-            emit itemUnhovered(widget->index());
+            Q_EMIT itemUnhovered(widget->index());
         }
     }
     return false;
@@ -1006,7 +1006,7 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
             startRubberBand();
         }
 
-        emit scrollerStop();
+        Q_EMIT scrollerStop();
 
         m_view->m_tapAndHoldIndicator->setStartPosition(m_pressedMousePos);
         m_view->m_tapAndHoldIndicator->setActive(true);
@@ -1034,10 +1034,10 @@ void KItemListController::pinchTriggered(QGestureEvent* event, const QTransform&
         }
         counter = counter + (pinch->scaleFactor() - 1);
         if (counter >= sensitivityModifier) {
-            emit increaseZoom();
+            Q_EMIT increaseZoom();
             counter = 0;
         } else if (counter <= -sensitivityModifier) {
-            emit decreaseZoom();
+            Q_EMIT decreaseZoom();
             counter = 0;
         }
     }
@@ -1061,14 +1061,14 @@ void KItemListController::swipeTriggered(QGestureEvent* event, const QTransform&
     }
 
     if (swipe->state() == Qt::GestureFinished) {
-        emit scrollerStop();
+        Q_EMIT scrollerStop();
 
         if (swipe->swipeAngle() <= 20 || swipe->swipeAngle() >= 340) {
-            emit mouseButtonPressed(m_pressedIndex, Qt::BackButton);
+            Q_EMIT mouseButtonPressed(m_pressedIndex, Qt::BackButton);
         } else if (swipe->swipeAngle() <= 200 && swipe->swipeAngle() >= 160) {
-            emit mouseButtonPressed(m_pressedIndex, Qt::ForwardButton);
+            Q_EMIT mouseButtonPressed(m_pressedIndex, Qt::ForwardButton);
         } else if (swipe->swipeAngle() <= 110 && swipe->swipeAngle() >= 60) {
-            emit swipeUp();
+            Q_EMIT swipeUp();
         }
         m_isSwipeGesture = true;
     }
@@ -1419,7 +1419,7 @@ void KItemListController::updateExtendedSelectionRegion()
 
 bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons)
 {
-    emit mouseButtonPressed(m_pressedIndex, buttons);
+    Q_EMIT mouseButtonPressed(m_pressedIndex, buttons);
 
     if (buttons & (Qt::BackButton | Qt::ForwardButton)) {
         // Do not select items when clicking the back/forward buttons, see
@@ -1470,7 +1470,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         m_clearSelectionIfItemsAreNotDragged = true;
 
         if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex, m_pressedMousePos)) {
-            emit selectedItemTextPressed(m_pressedIndex);
+            Q_EMIT selectedItemTextPressed(m_pressedIndex);
         }
     }
 
@@ -1517,7 +1517,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         }
 
         if (buttons & Qt::RightButton) {
-            emit itemContextMenuRequested(m_pressedIndex, screenPos);
+            Q_EMIT itemContextMenuRequested(m_pressedIndex, screenPos);
         }
 
         return true;
@@ -1526,9 +1526,9 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     if (buttons & Qt::RightButton) {
         const QRectF headerBounds = m_view->headerBoundaries();
         if (headerBounds.contains(pos)) {
-            emit headerContextMenuRequested(screenPos);
+            Q_EMIT headerContextMenuRequested(screenPos);
         } else {
-            emit viewContextMenuRequested(screenPos);
+            Q_EMIT viewContextMenuRequested(screenPos);
         }
         return true;
     }
@@ -1580,7 +1580,7 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
                 const bool expanded = m_model->isExpanded(index);
                 m_model->setExpanded(index, !expanded);
 
-                emit itemExpansionToggleClicked(index);
+                Q_EMIT itemExpansionToggleClicked(index);
                 emitItemActivated = false;
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
@@ -1593,10 +1593,10 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
                 }
             }
             if (emitItemActivated) {
-                emit itemActivated(index);
+                Q_EMIT itemActivated(index);
             }
         } else if (buttons & Qt::MiddleButton) {
-            emit itemMiddleClicked(index);
+            Q_EMIT itemMiddleClicked(index);
         }
     }
 

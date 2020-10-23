@@ -536,7 +536,7 @@ void KItemListView::scrollToItem(int index)
         }
 
         if (newOffset != scrollOffset()) {
-            emit scrollTo(newOffset);
+            Q_EMIT scrollTo(newOffset);
         }
     }
 }
@@ -837,7 +837,7 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
     doLayout(NoAnimation);
 
     onScrollOrientationChanged(orientation, previousOrientation);
-    emit scrollOrientationChanged(orientation, previousOrientation);
+    Q_EMIT scrollOrientationChanged(orientation, previousOrientation);
 }
 
 Qt::Orientation KItemListView::scrollOrientation() const
@@ -1487,7 +1487,7 @@ void KItemListView::slotHeaderColumnMoved(const QByteArray& role,
 
     setVisibleRoles(current);
 
-    emit visibleRolesChanged(current, previous);
+    Q_EMIT visibleRolesChanged(current, previous);
 }
 
 void KItemListView::triggerAutoScrolling()
@@ -1562,7 +1562,7 @@ void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, c
 {
     disconnectRoleEditingSignals(index);
 
-    emit roleEditingCanceled(index, role, value);
+    Q_EMIT roleEditingCanceled(index, role, value);
     m_editingRole = false;
 }
 
@@ -1570,7 +1570,7 @@ void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, c
 {
     disconnectRoleEditingSignals(index);
 
-    emit roleEditingFinished(index, role, value);
+    Q_EMIT roleEditingFinished(index, role, value);
     m_editingRole = false;
 }
 
@@ -1926,25 +1926,25 @@ void KItemListView::emitOffsetChanges()
 {
     const qreal newScrollOffset = m_layouter->scrollOffset();
     if (m_oldScrollOffset != newScrollOffset) {
-        emit scrollOffsetChanged(newScrollOffset, m_oldScrollOffset);
+        Q_EMIT scrollOffsetChanged(newScrollOffset, m_oldScrollOffset);
         m_oldScrollOffset = newScrollOffset;
     }
 
     const qreal newMaximumScrollOffset = m_layouter->maximumScrollOffset();
     if (m_oldMaximumScrollOffset != newMaximumScrollOffset) {
-        emit maximumScrollOffsetChanged(newMaximumScrollOffset, m_oldMaximumScrollOffset);
+        Q_EMIT maximumScrollOffsetChanged(newMaximumScrollOffset, m_oldMaximumScrollOffset);
         m_oldMaximumScrollOffset = newMaximumScrollOffset;
     }
 
     const qreal newItemOffset = m_layouter->itemOffset();
     if (m_oldItemOffset != newItemOffset) {
-        emit itemOffsetChanged(newItemOffset, m_oldItemOffset);
+        Q_EMIT itemOffsetChanged(newItemOffset, m_oldItemOffset);
         m_oldItemOffset = newItemOffset;
     }
 
     const qreal newMaximumItemOffset = m_layouter->maximumItemOffset();
     if (m_oldMaximumItemOffset != newMaximumItemOffset) {
-        emit maximumItemOffsetChanged(newMaximumItemOffset, m_oldMaximumItemOffset);
+        Q_EMIT maximumItemOffsetChanged(newMaximumItemOffset, m_oldMaximumItemOffset);
         m_oldMaximumItemOffset = newMaximumItemOffset;
     }
 }

@@ -71,7 +71,7 @@ void DolphinTabBar::dropEvent(QDropEvent* event)
     const int index = tabAt(event->pos());
 
     if (index >= 0 && mimeData->hasUrls()) {
-        emit tabDropEvent(index, event);
+        Q_EMIT tabDropEvent(index, event);
     }
 
     QTabBar::dropEvent(event);
@@ -96,7 +96,7 @@ void DolphinTabBar::mouseReleaseEvent(QMouseEvent *event)
     if (index >= 0 && index == m_tabToBeClosedOnMiddleMouseButtonRelease
         && event->button() == Qt::MiddleButton) {
         // Mouse middle click on a tab closes this tab.
-        emit tabCloseRequested(index);
+        Q_EMIT tabCloseRequested(index);
         return;
     }
 
@@ -110,7 +110,7 @@ void DolphinTabBar::mouseDoubleClickEvent(QMouseEvent* event)
     if (index < 0) {
         // Double click on the empty tabbar area opens a new activated tab
         // with the url from the current tab.
-        emit openNewActivatedTab(currentIndex());
+        Q_EMIT openNewActivatedTab(currentIndex());
         return;
     }
 
@@ -132,19 +132,19 @@ void DolphinTabBar::contextMenuEvent(QContextMenuEvent* event)
 
         QAction* selectedAction = menu.exec(event->globalPos());
         if (selectedAction == newTabAction) {
-            emit openNewActivatedTab(index);
+            Q_EMIT openNewActivatedTab(index);
         } else if (selectedAction == detachTabAction) {
-            emit tabDetachRequested(index);
+            Q_EMIT tabDetachRequested(index);
         } else if (selectedAction == closeOtherTabsAction) {
             const int tabCount = count();
             for (int i = 0; i < index; i++) {
-                emit tabCloseRequested(0);
+                Q_EMIT tabCloseRequested(0);
             }
             for (int i = index + 1; i < tabCount; i++) {
-                emit tabCloseRequested(1);
+                Q_EMIT tabCloseRequested(1);
             }
         } else if (selectedAction == closeTabAction) {
-            emit tabCloseRequested(index);
+            Q_EMIT tabCloseRequested(index);
         }
 
         return;

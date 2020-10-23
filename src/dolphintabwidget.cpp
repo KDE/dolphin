@@ -258,7 +258,7 @@ void DolphinTabWidget::closeTab(const int index)
     }
 
     DolphinTabPage* tabPage = tabPageAt(index);
-    emit rememberClosedTab(tabPage->activeViewContainer()->url(), tabPage->saveState());
+    Q_EMIT rememberClosedTab(tabPage->activeViewContainer()->url(), tabPage->saveState());
 
     removeTab(index);
     tabPage->deleteLater();
@@ -392,7 +392,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 
         // Emit the currentUrlChanged signal if the url of the current tab has been changed.
         if (index == currentIndex()) {
-            emit currentUrlChanged(url);
+            Q_EMIT currentUrlChanged(url);
         }
     }
 }
@@ -405,8 +405,8 @@ void DolphinTabWidget::currentTabChanged(int index)
     }
     DolphinTabPage* tabPage = tabPageAt(index);
     DolphinViewContainer* viewContainer = tabPage->activeViewContainer();
-    emit activeViewChanged(viewContainer);
-    emit currentUrlChanged(viewContainer->url());
+    Q_EMIT activeViewChanged(viewContainer);
+    Q_EMIT currentUrlChanged(viewContainer->url());
     tabPage->setActive(true);
     m_lastViewedTab = index;
 }
@@ -430,7 +430,7 @@ void DolphinTabWidget::tabInserted(int index)
         tabBar()->show();
     }
 
-    emit tabCountChanged(count());
+    Q_EMIT tabCountChanged(count());
 }
 
 void DolphinTabWidget::tabRemoved(int index)
@@ -443,7 +443,7 @@ void DolphinTabWidget::tabRemoved(int index)
         tabBar()->hide();
     }
 
-    emit tabCountChanged(count());
+    Q_EMIT tabCountChanged(count());
 }
 
 QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const

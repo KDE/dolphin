@@ -22,13 +22,13 @@ KFileItemModelDirLister::~KFileItemModelDirLister()
 void KFileItemModelDirLister::handleError(KIO::Job* job)
 {
     if (job->error() == KIO::ERR_IS_FILE) {
-        emit urlIsFileError(url());
+        Q_EMIT urlIsFileError(url());
     } else {
         const QString errorString = job->errorString();
         if (errorString.isEmpty()) {
-            emit errorMessage(i18nc("@info:status", "Unknown error."));
+            Q_EMIT errorMessage(i18nc("@info:status", "Unknown error."));
         } else {
-            emit errorMessage(errorString);
+            Q_EMIT errorMessage(errorString);
         }
     }
 }

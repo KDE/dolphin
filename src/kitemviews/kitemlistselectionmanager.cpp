@@ -35,12 +35,12 @@ void KItemListSelectionManager::setCurrentItem(int current)
     }
 
     if (m_currentItem != previous) {
-        emit currentChanged(m_currentItem, previous);
+        Q_EMIT currentChanged(m_currentItem, previous);
 
         if (m_isAnchoredSelectionActive) {
             const KItemSet selection = selectedItems();
             if (selection != previousSelection) {
-                emit selectionChanged(selection, previousSelection);
+                Q_EMIT selectionChanged(selection, previousSelection);
             }
         }
     }
@@ -56,7 +56,7 @@ void KItemListSelectionManager::setSelectedItems(const KItemSet& items)
     if (m_selectedItems != items) {
         const KItemSet previous = m_selectedItems;
         m_selectedItems = items;
-        emit selectionChanged(m_selectedItems, previous);
+        Q_EMIT selectionChanged(m_selectedItems, previous);
     }
 }
 
@@ -145,7 +145,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
 
     const KItemSet selection = selectedItems();
     if (selection != previous) {
-        emit selectionChanged(selection, previous);
+        Q_EMIT selectionChanged(selection, previous);
     }
 }
 
@@ -155,7 +155,7 @@ void KItemListSelectionManager::clearSelection()
     if (!previous.isEmpty()) {
         m_selectedItems.clear();
         m_isAnchoredSelectionActive = false;
-        emit selectionChanged(KItemSet(), previous);
+        Q_EMIT selectionChanged(KItemSet(), previous);
     }
 }
 
@@ -234,7 +234,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         if (m_currentItem >= m_model->count()) {
             m_currentItem = -1;
         }
-        emit currentChanged(m_currentItem, previousCurrent);
+        Q_EMIT currentChanged(m_currentItem, previousCurrent);
     }
 
     // Update the anchor item
@@ -270,7 +270,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 
     const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
-        emit selectionChanged(selection, previousSelection);
+        Q_EMIT selectionChanged(selection, previousSelection);
     }
 }
 
@@ -283,12 +283,12 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     // Update the current item
     m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges, DiscardRemovedIndex);
     if (m_currentItem != previousCurrent) {
-        emit currentChanged(m_currentItem, previousCurrent);
+        Q_EMIT currentChanged(m_currentItem, previousCurrent);
         if (m_currentItem < 0) {
             // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
             // emit it only once in this function -> change the current item manually and emit currentChanged
             m_currentItem = indexAfterRangesRemoving(previousCurrent, itemRanges, AdjustRemovedIndex);
-            emit currentChanged(m_currentItem, -1);
+            Q_EMIT currentChanged(m_currentItem, -1);
         }
     }
 
@@ -315,7 +315,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 
     const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
-        emit selectionChanged(selection, previousSelection);
+        Q_EMIT selectionChanged(selection, previousSelection);
     }
 
     Q_ASSERT(m_currentItem < m_model->count());
@@ -343,7 +343,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
         // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
         // emit it only once in this function -> change the current item manually and emit currentChanged
         m_currentItem = newCurrentItem;
-        emit currentChanged(newCurrentItem, previousCurrentItem);
+        Q_EMIT currentChanged(newCurrentItem, previousCurrentItem);
     }
 
     // Start a new anchored selection.
@@ -368,7 +368,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
 
     const KItemSet selection = selectedItems();
     if (selection != previousSelection) {
-        emit selectionChanged(selection, previousSelection);
+        Q_EMIT selectionChanged(selection, previousSelection);
     }
 }
 

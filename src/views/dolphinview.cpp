@@ -211,8 +211,8 @@ void DolphinView::setActive(bool active)
 
     if (active) {
         m_container->setFocus();
-        emit activated();
-        emit writeStateChanged(m_isFolderWritable);
+        Q_EMIT activated();
+        Q_EMIT writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -251,11 +251,11 @@ void DolphinView::setPreviewsShown(bool show)
 
     const int oldZoomLevel = m_view->zoomLevel();
     m_view->setPreviewsShown(show);
-    emit previewsShownChanged(show);
+    Q_EMIT previewsShownChanged(show);
 
     const int newZoomLevel = m_view->zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
-        emit zoomLevelChanged(newZoomLevel, oldZoomLevel);
+        Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
     }
 }
 
@@ -278,7 +278,7 @@ void DolphinView::setHiddenFilesShown(bool show)
     props.setHiddenFilesShown(show);
 
     m_model->setShowHiddenFiles(show);
-    emit hiddenFilesShownChanged(show);
+    Q_EMIT hiddenFilesShownChanged(show);
 }
 
 bool DolphinView::hiddenFilesShown() const
@@ -298,7 +298,7 @@ void DolphinView::setGroupedSorting(bool grouped)
 
     m_container->controller()->model()->setGroupedSorting(grouped);
 
-    emit groupedSortingChanged(grouped);
+    Q_EMIT groupedSortingChanged(grouped);
 }
 
 bool DolphinView::groupedSorting() const
@@ -379,7 +379,7 @@ void DolphinView::setZoomLevel(int level)
     m_view->setZoomLevel(level);
     if (zoomLevel() != oldZoomLevel) {
         hideToolTip();
-        emit zoomLevelChanged(zoomLevel(), oldZoomLevel);
+        Q_EMIT zoomLevelChanged(zoomLevel(), oldZoomLevel);
     }
 }
 
@@ -435,7 +435,7 @@ void DolphinView::setVisibleRoles(const QList<QByteArray>& roles)
     m_visibleRoles = roles;
     m_view->setVisibleRoles(roles);
 
-    emit visibleRolesChanged(m_visibleRoles, previousRoles);
+    Q_EMIT visibleRolesChanged(m_visibleRoles, previousRoles);
 }
 
 QList<QByteArray> DolphinView::visibleRoles() const
@@ -469,7 +469,7 @@ void DolphinView::readSettings()
 
     const int newZoomLevel = m_view->zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
-        emit zoomLevelChanged(newZoomLevel, oldZoomLevel);
+        Q_EMIT zoomLevelChanged(newZoomLevel, oldZoomLevel);
     }
 }
 
@@ -591,7 +591,7 @@ void DolphinView::setUrl(const QUrl& url)
     applyViewProperties();
     loadDirectory(url);
 
-    emit urlChanged(url);
+    Q_EMIT urlChanged(url);
 }
 
 void DolphinView::selectAll()
@@ -809,7 +809,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         if (GeneralSettings::useTabForSwitchingSplitView()) {
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Tab && keyEvent->modifiers() == Qt::NoModifier) {
-                emit toggleActiveViewRequested();
+                Q_EMIT toggleActiveViewRequested();
                 return true;
             }
         }
@@ -889,7 +889,7 @@ void DolphinView::slotItemActivated(int index)
 
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {
-        emit itemActivated(item);
+        Q_EMIT itemActivated(item);
     }
 }
 
@@ -915,16 +915,16 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
         const QUrl& url = openItemAsFolderUrl(item);
 
         if (!url.isEmpty()) { // Open folders in new tabs
-            emit tabRequested(url, DolphinTabWidget::AfterLastTab);
+            Q_EMIT tabRequested(url, DolphinTabWidget::AfterLastTab);
         } else {
             items.append(item);
         }
     }
 
     if (items.count() == 1) {
-        emit itemActivated(items.first());
+        Q_EMIT itemActivated(items.first());
     } else if (items.count() > 1) {
-        emit itemsActivated(items);
+        Q_EMIT itemsActivated(items);
     }
 }
 
@@ -933,9 +933,9 @@ void DolphinView::slotItemMiddleClicked(int index)
     const KFileItem& item = m_model->fileItem(index);
     const QUrl& url = openItemAsFolderUrl(item);
     if (!url.isEmpty()) {
-        emit tabRequested(url, DolphinTabWidget::AfterCurrentTab);
+        Q_EMIT tabRequested(url, DolphinTabWidget::AfterCurrentTab);
     } else if (isTabsForFilesEnabled()) {
-        emit tabRequested(item.url(), DolphinTabWidget::AfterCurrentTab);
+        Q_EMIT tabRequested(item.url(), DolphinTabWidget::AfterCurrentTab);
     }
 }
 
@@ -948,12 +948,12 @@ void DolphinView::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     const KFileItem item = m_model->fileItem(index);
-    emit requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
+    Q_EMIT requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
 }
 
 void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
 {
-    emit requestContextMenu(pos.toPoint(), KFileItem(), url(), QList<QAction*>());
+    Q_EMIT requestContextMenu(pos.toPoint(), KFileItem(), url(), QList<QAction*>());
 }
 
 void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
@@ -1106,14 +1106,14 @@ void DolphinView::slotItemHovered(int index)
 #endif
     }
 
-    emit requestItemInfo(item);
+    Q_EMIT requestItemInfo(item);
 }
 
 void DolphinView::slotItemUnhovered(int index)
 {
     Q_UNUSED(index)
     hideToolTip();
-    emit requestItemInfo(KFileItem());
+    Q_EMIT requestItemInfo(KFileItem());
 }
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
@@ -1180,9 +1180,9 @@ void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons
     hideToolTip();
 
     if (buttons & Qt::BackButton) {
-        emit goBackRequested();
+        Q_EMIT goBackRequested();
     } else if (buttons & Qt::ForwardButton) {
-        emit goForwardRequested();
+        Q_EMIT goForwardRequested();
     }
 }
 
@@ -1215,7 +1215,7 @@ void DolphinView::slotItemCreated(const QUrl& url)
 void DolphinView::slotJobResult(KJob *job)
 {
     if (job->error()) {
-        emit errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString());
     }
     if (!m_selectedUrls.isEmpty()) {
         m_selectedUrls = KDirModel::simplifiedUrlList(m_selectedUrls);
@@ -1239,7 +1239,7 @@ void DolphinView::slotSelectionChanged(const KItemSet& current, const KItemSet& 
 void DolphinView::emitSelectionChangedSignal()
 {
     m_selectionChangedTimer->stop();
-    emit selectionChanged(selectedItems());
+    Q_EMIT selectionChanged(selectedItems());
 }
 
 void DolphinView::updateSortRole(const QByteArray& role)
@@ -1250,7 +1250,7 @@ void DolphinView::updateSortRole(const QByteArray& role)
     KItemModelBase* model = m_container->controller()->model();
     model->setSortRole(role);
 
-    emit sortRoleChanged(role);
+    Q_EMIT sortRoleChanged(role);
 }
 
 void DolphinView::updateSortOrder(Qt::SortOrder order)
@@ -1260,7 +1260,7 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 
     m_model->setSortOrder(order);
 
-    emit sortOrderChanged(order);
+    Q_EMIT sortOrderChanged(order);
 }
 
 void DolphinView::updateSortFoldersFirst(bool foldersFirst)
@@ -1270,7 +1270,7 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
 
     m_model->setSortDirectoriesFirst(foldersFirst);
 
-    emit sortFoldersFirstChanged(foldersFirst);
+    Q_EMIT sortFoldersFirstChanged(foldersFirst);
 }
 
 QPair<bool, QString> DolphinView::pasteInfo() const
@@ -1430,7 +1430,7 @@ void DolphinView::observeCreatedItem(const QUrl& url)
 void DolphinView::slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl)
 {
     if (oldUrl.matches(url(), QUrl::StripTrailingSlash)) {
-        emit redirection(oldUrl, newUrl);
+        Q_EMIT redirection(oldUrl, newUrl);
         m_url = newUrl; // #186947
     }
 }
@@ -1561,18 +1561,18 @@ void DolphinView::slotTwoClicksRenamingTimerTimeout()
 void DolphinView::slotTrashFileFinished(KJob* job)
 {
     if (job->error() == 0) {
-        emit operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
+        Q_EMIT operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
-        emit errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString());
     }
 }
 
 void DolphinView::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
-        emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
+        Q_EMIT operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
-        emit errorMessage(job->errorString());
+        Q_EMIT errorMessage(job->errorString());
     }
 }
 
@@ -1598,10 +1598,10 @@ void DolphinView::slotDirectoryLoadingStarted()
     // in DolphinView::slotDirectoryLoadingCompleted()
     if (m_isFolderWritable) {
         m_isFolderWritable = false;
-        emit writeStateChanged(m_isFolderWritable);
+        Q_EMIT writeStateChanged(m_isFolderWritable);
     }
 
-    emit directoryLoadingStarted();
+    Q_EMIT directoryLoadingStarted();
 }
 
 void DolphinView::slotDirectoryLoadingCompleted()
@@ -1610,7 +1610,7 @@ void DolphinView::slotDirectoryLoadingCompleted()
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, &DolphinView::updateViewState);
 
-    emit directoryLoadingCompleted();
+    Q_EMIT directoryLoadingCompleted();
 
     updateWritableState();
 }
@@ -1628,7 +1628,7 @@ void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOr
     ViewProperties props(viewPropertiesUrl());
     props.setSortOrder(current);
 
-    emit sortOrderChanged(current);
+    Q_EMIT sortOrderChanged(current);
 }
 
 void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous)
@@ -1639,7 +1639,7 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const Q
     ViewProperties props(viewPropertiesUrl());
     props.setSortRole(current);
 
-    emit sortRoleChanged(current);
+    Q_EMIT sortRoleChanged(current);
 }
 
 void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
@@ -1655,7 +1655,7 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
     ViewProperties props(viewPropertiesUrl());
     props.setVisibleRoles(m_visibleRoles);
 
-    emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
+    Q_EMIT visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
 }
 
 void DolphinView::slotRoleEditingCanceled()
@@ -1738,9 +1738,9 @@ void DolphinView::loadDirectory(const QUrl& url, bool reload)
     if (!url.isValid()) {
         const QString location(url.toDisplayString(QUrl::PreferLocalFile));
         if (location.isEmpty()) {
-            emit errorMessage(i18nc("@info:status", "The location is empty."));
+            Q_EMIT errorMessage(i18nc("@info:status", "The location is empty."));
         } else {
-            emit errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location));
+            Q_EMIT errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location));
         }
         return;
     }
@@ -1773,41 +1773,41 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
         const int oldZoomLevel = m_view->zoomLevel();
         applyModeToView();
 
-        emit modeChanged(m_mode, previousMode);
+        Q_EMIT modeChanged(m_mode, previousMode);
 
         if (m_view->zoomLevel() != oldZoomLevel) {
-            emit zoomLevelChanged(m_view->zoomLevel(), oldZoomLevel);
+            Q_EMIT zoomLevelChanged(m_view->zoomLevel(), oldZoomLevel);
         }
     }
 
     const bool hiddenFilesShown = props.hiddenFilesShown();
     if (hiddenFilesShown != m_model->showHiddenFiles()) {
         m_model->setShowHiddenFiles(hiddenFilesShown);
-        emit hiddenFilesShownChanged(hiddenFilesShown);
+        Q_EMIT hiddenFilesShownChanged(hiddenFilesShown);
     }
 
     const bool groupedSorting = props.groupedSorting();
     if (groupedSorting != m_model->groupedSorting()) {
         m_model->setGroupedSorting(groupedSorting);
-        emit groupedSortingChanged(groupedSorting);
+        Q_EMIT groupedSortingChanged(groupedSorting);
     }
 
     const QByteArray sortRole = props.sortRole();
     if (sortRole != m_model->sortRole()) {
         m_model->setSortRole(sortRole);
-        emit sortRoleChanged(sortRole);
+        Q_EMIT sortRoleChanged(sortRole);
     }
 
     const Qt::SortOrder sortOrder = props.sortOrder();
     if (sortOrder != m_model->sortOrder()) {
         m_model->setSortOrder(sortOrder);
-        emit sortOrderChanged(sortOrder);
+        Q_EMIT sortOrderChanged(sortOrder);
     }
 
     const bool sortFoldersFirst = props.sortFoldersFirst();
     if (sortFoldersFirst != m_model->sortDirectoriesFirst()) {
         m_model->setSortDirectoriesFirst(sortFoldersFirst);
-        emit sortFoldersFirstChanged(sortFoldersFirst);
+        Q_EMIT sortFoldersFirstChanged(sortFoldersFirst);
     }
 
     const QList<QByteArray> visibleRoles = props.visibleRoles();
@@ -1815,7 +1815,7 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
         const QList<QByteArray> previousVisibleRoles = m_visibleRoles;
         m_visibleRoles = visibleRoles;
         m_view->setVisibleRoles(visibleRoles);
-        emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
+        Q_EMIT visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
     }
 
     const bool previewsShown = props.previewsShown();
@@ -1823,11 +1823,11 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
         const int oldZoomLevel = zoomLevel();
 
         m_view->setPreviewsShown(previewsShown);
-        emit previewsShownChanged(previewsShown);
+        Q_EMIT previewsShownChanged(previewsShown);
 
         // Changing the preview-state might result in a changed zoom-level
         if (oldZoomLevel != zoomLevel()) {
-            emit zoomLevelChanged(zoomLevel(), oldZoomLevel);
+            Q_EMIT zoomLevelChanged(zoomLevel(), oldZoomLevel);
         }
     }
 
@@ -1915,7 +1915,7 @@ void DolphinView::updateWritableState()
     m_isFolderWritable = capabilities.supportsWriting();
 
     if (m_isFolderWritable != wasFolderWritable) {
-        emit writeStateChanged(m_isFolderWritable);
+        Q_EMIT writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -1974,5 +1974,5 @@ void DolphinView::slotDecreaseZoom()
 
 void DolphinView::slotSwipeUp()
 {
-    emit goUpRequested();
+    Q_EMIT goUpRequested();
 }

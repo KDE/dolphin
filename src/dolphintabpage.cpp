@@ -329,15 +329,15 @@ void DolphinTabPage::slotViewActivated()
             this, &DolphinTabPage::activeViewUrlChanged);
     connect(newActiveView, &DolphinView::redirection,
             this, &DolphinTabPage::slotViewUrlRedirection);
-    emit activeViewChanged(activeViewContainer());
-    emit activeViewUrlChanged(activeViewContainer()->url());
+    Q_EMIT activeViewChanged(activeViewContainer());
+    Q_EMIT activeViewUrlChanged(activeViewContainer()->url());
 }
 
 void DolphinTabPage::slotViewUrlRedirection(const QUrl& oldUrl, const QUrl& newUrl)
 {
     Q_UNUSED(oldUrl)
 
-    emit activeViewUrlChanged(newUrl);
+    Q_EMIT activeViewUrlChanged(newUrl);
 }
 
 void DolphinTabPage::switchActiveView()

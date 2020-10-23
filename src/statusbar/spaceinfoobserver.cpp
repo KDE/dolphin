@@ -74,6 +74,6 @@ void SpaceInfoObserver::spaceInfoChanged(quint64 size, quint64 available)
         m_dataSize = size;
         m_dataAvailable = available;
 
-        emit valuesChanged();
+        Q_EMIT valuesChanged();
     }
 }

@@ -32,7 +32,7 @@ void PlacesItemSignalHandler::onTearDownRequested(const QString& udi)
     if (m_item) {
         Solid::StorageAccess *tmp = m_item->device().as<Solid::StorageAccess>();
         if (tmp) {
-            emit tearDownExternallyRequested(tmp->filePath());
+            Q_EMIT tearDownExternallyRequested(tmp->filePath());
         }
     }
 }

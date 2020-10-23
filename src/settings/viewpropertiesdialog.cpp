@@ -309,7 +309,7 @@ void ViewPropertiesDialog::markAsDirty(bool isDirty)
 {
     if (m_isDirty != isDirty) {
         m_isDirty = isDirty;
-        emit isDirtyChanged(isDirty);
+        Q_EMIT isDirtyChanged(isDirty);
     }
 }
 

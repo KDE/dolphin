@@ -58,7 +58,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
         // loosing keyboard search context basically
         m_isSearchRestarted = false;
 
-        emit changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
+        Q_EMIT changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
     }
     m_keyboardInputTime.start();
 }

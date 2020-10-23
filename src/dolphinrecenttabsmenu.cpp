@@ -43,7 +43,7 @@ void DolphinRecentTabsMenu::rememberClosedTab(const QUrl& url, const QByteArray&
     } else {
         insertAction(menu()->actions().at(2), action);
     }
-    emit closedTabsCountChanged(menu()->actions().size() - 2);
+    Q_EMIT closedTabsCountChanged(menu()->actions().size() - 2);
     // Assure that only up to 6 closed tabs are shown in the menu.
     // 8 because of clear action + separator + 6 closed tabs
     if (menu()->actions().size() > 8) {
@@ -69,14 +69,14 @@ void DolphinRecentTabsMenu::handleAction(QAction* action)
         for (int i = 2; i < count; ++i) {
             removeAction(actions.at(i));
         }
-        emit closedTabsCountChanged(0);
+        Q_EMIT closedTabsCountChanged(0);
     } else {
         const QByteArray state = action->data().toByteArray();
         removeAction(action);
         delete action;
         action = nullptr;
-        emit restoreClosedTab(state);
-        emit closedTabsCountChanged(menu()->actions().size() - 2);
+        Q_EMIT restoreClosedTab(state);
+        Q_EMIT closedTabsCountChanged(menu()->actions().size() - 2);
     }
 
     if (menu()->actions().count() <= 2) {

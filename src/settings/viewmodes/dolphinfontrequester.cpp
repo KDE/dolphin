@@ -78,13 +78,13 @@ void DolphinFontRequester::openFontDialog()
     if (ok) {
         m_customFont = font;
         m_modeCombo->setFont(m_customFont);
-        emit changed();
+        Q_EMIT changed();
     }
 }
 
 void DolphinFontRequester::changeMode(int index)
 {
     setMode((index == CustomFont) ? CustomFont : SystemFont);
-    emit changed();
+    Q_EMIT changed();
 }
 

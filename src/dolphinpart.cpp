@@ -234,7 +234,7 @@ void DolphinPart::createGoAction(const char* name, const char* iconName,
 void DolphinPart::slotGoTriggered(QAction* action)
 {
     const QString url = action->data().toString();
-    emit m_extension->openUrlRequest(QUrl(url));
+    Q_EMIT m_extension->openUrlRequest(QUrl(url));
 }
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
@@ -251,8 +251,8 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
     if (!hasSelection) {
         stateChanged(QStringLiteral("has_no_selection"));
 
-        emit m_extension->enableAction("cut", false);
-        emit m_extension->enableAction("copy", false);
+        Q_EMIT m_extension->enableAction("cut", false);
+        Q_EMIT m_extension->enableAction("copy", false);
         deleteWithTrashShortcut->setEnabled(false);
         editMimeTypeAction->setEnabled(false);
     } else {
@@ -269,16 +269,16 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
         deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         editMimeTypeAction->setEnabled(true);
         propertiesAction->setEnabled(true);
-        emit m_extension->enableAction("cut", capabilities.supportsMoving());
-        emit m_extension->enableAction("copy", true);
+        Q_EMIT m_extension->enableAction("cut", capabilities.supportsMoving());
+        Q_EMIT m_extension->enableAction("copy", true);
     }
 }
 
 void DolphinPart::updatePasteAction()
 {
     QPair<bool, QString> pasteInfo = m_view->pasteInfo();
-    emit m_extension->enableAction( "paste", pasteInfo.first );
-    emit m_extension->setActionText( "paste", pasteInfo.second );
+    Q_EMIT m_extension->enableAction( "paste", pasteInfo.first );
+    Q_EMIT m_extension->setActionText( "paste", pasteInfo.second );
 }
 
 KAboutData* DolphinPart::createAboutData()
@@ -302,13 +302,13 @@ bool DolphinPart::openUrl(const QUrl &url)
         visibleUrl.setPath(visibleUrl.path() + '/' + m_nameFilter);
     }
     QString prettyUrl = visibleUrl.toDisplayString(QUrl::PreferLocalFile);
-    emit setWindowCaption(prettyUrl);
-    emit m_extension->setLocationBarUrl(prettyUrl);
-    emit started(nullptr); // get the wheel to spin
+    Q_EMIT setWindowCaption(prettyUrl);
+    Q_EMIT m_extension->setLocationBarUrl(prettyUrl);
+    Q_EMIT started(nullptr); // get the wheel to spin
     m_view->setNameFilter(m_nameFilter);
     m_view->setUrl(url);
     updatePasteAction();
-    emit aboutToOpenURL();
+    Q_EMIT aboutToOpenURL();
     if (reload)
         m_view->reload();
     // Disable "Find File" and "Open Terminal" actions for non-file URLs,
@@ -323,24 +323,24 @@ bool DolphinPart::openUrl(const QUrl &url)
 
 void DolphinPart::slotMessage(const QString& msg)
 {
-    emit setStatusBarText(msg);
+    Q_EMIT setStatusBarText(msg);
 }
 
 void DolphinPart::slotErrorMessage(const QString& msg)
 {
     qCDebug(DolphinDebug) << msg;
-    emit canceled(msg);
+    Q_EMIT canceled(msg);
     //KMessageBox::error(m_view, msg);
 }
 
 void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 {
-    emit m_extension->mouseOverInfo(item);
+    Q_EMIT m_extension->mouseOverInfo(item);
     if (item.isNull()) {
         updateStatusBar();
     } else {
         const QString escapedText = Qt::convertFromPlainText(item.getStatusBarInfo());
-        emit ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
+        Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
     }
 }
 
@@ -357,7 +357,7 @@ void DolphinPart::slotItemActivated(const KFileItem& item)
     // since the idea was not to need BrowserArguments for non-browser stuff...
     KParts::BrowserArguments browserArgs;
     browserArgs.trustedSource = true;
-    emit m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
+    Q_EMIT m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
 }
 
 void DolphinPart::slotItemsActivated(const KFileItemList& items)
@@ -371,7 +371,7 @@ void DolphinPart::createNewWindow(const QUrl& url)
 {
     // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
     // should be moved into DolphinPart::slotItemActivated()
-    emit m_extension->createNewWindow(url);
+    Q_EMIT m_extension->createNewWindow(url);
 }
 
 void DolphinPart::slotOpenContextMenu(const QPoint& pos,
@@ -448,7 +448,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
 
     actionGroups.insert(QStringLiteral("editactions"), editActions);
 
-    emit m_extension->popupMenu(pos,
+    Q_EMIT m_extension->popupMenu(pos,
                                 items,
                                 KParts::OpenUrlArguments(),
                                 KParts::BrowserArguments(),
@@ -462,7 +462,7 @@ void DolphinPart::slotDirectoryRedirection(const QUrl &oldUrl, const QUrl &newUr
     if (oldUrl.matches(url(), QUrl::StripTrailingSlash /* #207572 */)) {
         KParts::ReadOnlyPart::setUrl(newUrl);
         const QString prettyUrl = newUrl.toDisplayString(QUrl::PreferLocalFile);
-        emit m_extension->setLocationBarUrl(prettyUrl);
+        Q_EMIT m_extension->setLocationBarUrl(prettyUrl);
     }
 }
 
@@ -579,12 +579,12 @@ void DolphinPart::updateNewMenu()
 void DolphinPart::updateStatusBar()
 {
     const QString escapedText = Qt::convertFromPlainText(m_view->statusBarText());
-    emit ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
+    Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
 }
 
 void DolphinPart::updateProgress(int percent)
 {
-    emit m_extension->loadingProgress(percent);
+    Q_EMIT m_extension->loadingProgress(percent);
 }
 
 void DolphinPart::createDirectory()

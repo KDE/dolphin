@@ -381,25 +381,25 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
 
 void DolphinViewActionHandler::slotRename()
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->renameSelectedItems();
 }
 
 void DolphinViewActionHandler::slotTrashActivated()
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->trashSelectedItems();
 }
 
 void DolphinViewActionHandler::slotDeleteItems()
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->deleteSelectedItems();
 }
 
 void DolphinViewActionHandler::togglePreview(bool show)
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->setPreviewsShown(show);
 }
 
@@ -498,7 +498,7 @@ void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
 
 void DolphinViewActionHandler::toggleVisibleRole(QAction* action)
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
 
     const QByteArray toggledRole = action->data().toByteArray();
 
@@ -546,7 +546,7 @@ void DolphinViewActionHandler::slotGroupedSortingChanged(bool groupedSorting)
 
 void DolphinViewActionHandler::toggleShowHiddenFiles(bool show)
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->setHiddenFilesShown(show);
 }
 
@@ -673,7 +673,7 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
 
 void DolphinViewActionHandler::slotAdjustViewProperties()
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     QPointer<ViewPropertiesDialog> dialog = new ViewPropertiesDialog(m_currentView);
     dialog->exec();
     delete dialog;
@@ -681,7 +681,7 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 
 void DolphinViewActionHandler::slotDuplicate()
 {
-    emit actionBeingHandled();
+    Q_EMIT actionBeingHandled();
     m_currentView->duplicateSelectedItems();
 }
 
