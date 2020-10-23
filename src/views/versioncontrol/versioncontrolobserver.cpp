@@ -97,7 +97,7 @@ DolphinView* VersionControlObserver::view() const
 QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
 {
     bool hasNullItems = false;
-    foreach (const KFileItem& item, items) {
+    for (const KFileItem& item : items) {
         if (item.isNull()) {
             qCWarning(DolphinDebug) << "Requesting version-control-actions for empty items";
             hasNullItems = true;
@@ -189,7 +189,7 @@ void VersionControlObserver::slotThreadFinished()
     for (; it != itemStates.constEnd(); ++it) {
         const QVector<ItemState>& items = it.value();
 
-        foreach (const ItemState& item, items) {
+        for (const ItemState& item : items) {
             const KFileItem& fileItem = item.first;
             const KVersionControlPlugin::ItemVersion version = item.second;
             QHash<QByteArray, QVariant> values;

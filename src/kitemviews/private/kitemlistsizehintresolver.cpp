@@ -35,7 +35,7 @@ QSizeF KItemListSizeHintResolver::sizeHint(int index)
 void KItemListSizeHintResolver::itemsInserted(const KItemRangeList& itemRanges)
 {
     int insertedCount = 0;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         insertedCount += range.count;
     }
 

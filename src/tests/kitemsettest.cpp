@@ -16,7 +16,7 @@ Q_DECLARE_METATYPE(KItemRangeList)
 KItemSet KItemRangeList2KItemSet(const KItemRangeList& itemRanges)
 {
     KItemSet result;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.insert(i);
         }
@@ -30,7 +30,7 @@ KItemSet KItemRangeList2KItemSet(const KItemRangeList& itemRanges)
 QSet<int> KItemRangeList2QSet(const KItemRangeList& itemRanges)
 {
     QSet<int> result;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.insert(i);
         }
@@ -44,7 +44,7 @@ QSet<int> KItemRangeList2QSet(const KItemRangeList& itemRanges)
 QVector<int> KItemRangeList2QVector(const KItemRangeList& itemRanges)
 {
     QVector<int> result;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         for (int i = range.index; i < range.index + range.count; ++i) {
             result.append(i);
         }
@@ -65,11 +65,11 @@ static QSet<int> KItemSet2QSet(const KItemSet& itemSet)
     // Check that the conversion was successful.
     Q_ASSERT(itemSet.count() == result.count());
 
-    for (int i : itemSet) {
+    for (int i : qAsConst(itemSet)) {
         Q_ASSERT(result.contains(i));
     }
 
-    foreach (int i, result) {
+    for (int i : qAsConst(result)) {
         Q_ASSERT(itemSet.contains(i));
     }
 

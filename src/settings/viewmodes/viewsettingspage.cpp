@@ -51,14 +51,14 @@ ViewSettingsPage::~ViewSettingsPage()
 
 void ViewSettingsPage::applySettings()
 {
-    foreach (ViewSettingsTab* tab, m_tabs) {
+    for (ViewSettingsTab* tab : qAsConst(m_tabs)) {
         tab->applySettings();
     }
 }
 
 void ViewSettingsPage::restoreDefaults()
 {
-    foreach (ViewSettingsTab* tab, m_tabs) {
+    for (ViewSettingsTab* tab : qAsConst(m_tabs)) {
         tab->restoreDefaultSettings();
     }
 }

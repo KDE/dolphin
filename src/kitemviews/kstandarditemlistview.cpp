@@ -80,7 +80,8 @@ bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& c
     // Even if the icons have a different size they are always aligned within
     // the area defined by KItemStyleOption.iconSize and hence result in no
     // change of the item-size.
-    foreach (const QByteArray& role, visibleRoles()) {
+    const auto roles = visibleRoles();
+    for (const QByteArray& role : roles) {
         if (changedRoles.contains(role)) {
             return true;
         }
@@ -152,7 +153,8 @@ void KStandardItemListView::applyDefaultStyleOption(int iconSize,
 void KStandardItemListView::updateLayoutOfVisibleItems()
 {
     if (model()) {
-        foreach (KItemListWidget* widget, visibleItemListWidgets()) {
+        const auto widgets = visibleItemListWidgets();
+        for (KItemListWidget* widget : widgets) {
             initializeItemListWidget(widget);
         }
     }

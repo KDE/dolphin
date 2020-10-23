@@ -230,7 +230,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
         if (!m_headerWidget->automaticColumnResizing()) {
             // The column-width of new roles are still 0. Apply the preferred
             // column-width as default with.
-            foreach (const QByteArray& role, m_visibleRoles) {
+            for (const QByteArray& role : qAsConst(m_visibleRoles)) {
                 if (m_headerWidget->columnWidth(role) == 0) {
                     const qreal width = m_headerWidget->preferredColumnWidth(role);
                     m_headerWidget->setColumnWidth(role, width);
@@ -1029,7 +1029,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     m_sizeHintResolver->itemsInserted(itemRanges);
 
     int previouslyInsertedCount = 0;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         // range.index is related to the model before anything has been inserted.
         // As in each loop the current item-range gets inserted the index must
         // be increased by the already previously inserted items.
@@ -1155,7 +1155,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         QVector<int> itemsToMove;
 
         // Remove all KItemListWidget instances that got deleted
-        foreach (KItemListWidget* widget, m_visibleItems) {
+        for (KItemListWidget* widget : qAsConst(m_visibleItems)) {
             const int i = widget->index();
             if (i < firstRemovedIndex) {
                 continue;
@@ -1191,7 +1191,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         // after the deleted items. It is important to update them in ascending
         // order to prevent overlaps when setting the new index.
         std::sort(itemsToMove.begin(), itemsToMove.end());
-        foreach (int i, itemsToMove) {
+        for (int i : qAsConst(itemsToMove)) {
             KItemListWidget* widget = m_visibleItems.value(i);
             Q_ASSERT(widget);
             const int newIndex = i - count;
@@ -1269,7 +1269,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         updatePreferredColumnWidths(itemRanges);
     }
 
-    foreach (const KItemRange& itemRange, itemRanges) {
+    for (const KItemRange& itemRange : itemRanges) {
         const int index = itemRange.index;
         const int count = itemRange.count;
 
@@ -1823,7 +1823,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     }
 
     // Delete invisible KItemListWidget instances that have not been reused
-    foreach (int index, reusableItems) {
+    for (int index : qAsConst(reusableItems)) {
         recycleWidget(m_visibleItems.value(index));
     }
 
@@ -2197,7 +2197,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
     const QFontMetricsF fontMetrics(m_headerWidget->font());
     const int gripMargin   = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     const int headerMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderMargin);
-    foreach (const QByteArray& visibleRole, visibleRoles()) {
+    for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
         const QString headerText = m_model->roleDescription(visibleRole);
         const qreal headerWidth = fontMetrics.width(headerText) + gripMargin + headerMargin * 2;
         widths.insert(visibleRole, headerWidth);
@@ -2208,12 +2208,12 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
     const KItemListWidgetCreatorBase* creator = widgetCreator();
     int calculatedItemCount = 0;
     bool maxTimeExceeded = false;
-    foreach (const KItemRange& itemRange, itemRanges) {
+    for (const KItemRange& itemRange : itemRanges) {
         const int startIndex = itemRange.index;
         const int endIndex = startIndex + itemRange.count - 1;
 
         for (int i = startIndex; i <= endIndex; ++i) {
-            foreach (const QByteArray& visibleRole, visibleRoles()) {
+            for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
                 qreal maxWidth = widths.value(visibleRole, 0);
                 const qreal width = creator->preferredRoleColumnWidth(visibleRole, i, this);
                 maxWidth = qMax(width, maxWidth);
@@ -2255,7 +2255,7 @@ void KItemListView::applyColumnWidthsFromHeader()
 
 void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
 {
-    foreach (const QByteArray& role, m_visibleRoles) {
+    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
         widget->setColumnWidth(role, m_headerWidget->columnWidth(role));
     }
 }
@@ -2265,13 +2265,13 @@ void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges
     Q_ASSERT(m_itemSize.isEmpty());
     const int itemCount = m_model->count();
     int rangesItemCount = 0;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         rangesItemCount += range.count;
     }
 
     if (itemCount == rangesItemCount) {
         const QHash<QByteArray, qreal> preferredWidths = preferredColumnWidths(itemRanges);
-        foreach (const QByteArray& role, m_visibleRoles) {
+        for (const QByteArray& role : qAsConst(m_visibleRoles)) {
             m_headerWidget->setPreferredColumnWidth(role, preferredWidths.value(role));
         }
     } else {
@@ -2326,7 +2326,7 @@ void KItemListView::applyAutomaticColumnWidths()
     // size does not use the available view-size the size of the
     // first role will get stretched.
 
-    foreach (const QByteArray& role, m_visibleRoles) {
+    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
         const qreal preferredWidth = m_headerWidget->preferredColumnWidth(role);
         m_headerWidget->setColumnWidth(role, preferredWidth);
     }
@@ -2373,7 +2373,7 @@ void KItemListView::applyAutomaticColumnWidths()
 qreal KItemListView::columnWidthsSum() const
 {
     qreal widthsSum = 0;
-    foreach (const QByteArray& role, m_visibleRoles) {
+    for (const QByteArray& role : qAsConst(m_visibleRoles)) {
         widthsSum += m_headerWidget->columnWidth(role);
     }
     return widthsSum;

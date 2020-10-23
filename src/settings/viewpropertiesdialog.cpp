@@ -78,7 +78,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     m_sorting = new QComboBox();
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+    for (const KFileItemModel::RoleInfo& info : rolesInfo) {
         m_sorting->addItem(info.translation, info.role);
     }
 
@@ -116,7 +116,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         connect(m_listWidget, &QListWidget::itemChanged, this, &ViewPropertiesDialog::slotItemChanged);
         m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
         const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-        foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        for (const KFileItemModel::RoleInfo& info : rolesInfo) {
             QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
             item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
 
@@ -325,7 +325,7 @@ void ViewPropertiesDialog::applyViewProperties()
         QList<QByteArray> visibleRoles;
         int index = 0;
         const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-        foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        for (const KFileItemModel::RoleInfo& info : rolesInfo) {
             const QListWidgetItem* item = m_listWidget->item(index);
              if (item->checkState() == Qt::Checked) {
                 visibleRoles.append(info.role);

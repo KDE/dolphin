@@ -45,7 +45,8 @@ qreal KItemListHeader::columnWidth(const QByteArray& role) const
 void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal>& columnWidths)
 {
     if (!m_headerWidget->automaticColumnResizing()) {
-        foreach (const QByteArray& role, m_view->visibleRoles()) {
+        const auto visibleRoles = m_view->visibleRoles();
+        for (const QByteArray& role : visibleRoles) {
             const qreal width = columnWidths.value(role);
             m_headerWidget->setColumnWidth(role, width);
         }

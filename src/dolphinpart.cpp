@@ -362,7 +362,7 @@ void DolphinPart::slotItemActivated(const KFileItem& item)
 
 void DolphinPart::slotItemsActivated(const KFileItemList& items)
 {
-    foreach (const KFileItem& item, items) {
+    for (const KFileItem& item : items) {
         slotItemActivated(item);
     }
 }

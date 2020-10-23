@@ -266,7 +266,7 @@ void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
 
     // Add the updated values for the current view-mode
     newVisibleRoles.reserve(roles.count());
-    foreach (const QByteArray& role, roles) {
+    for (const QByteArray& role : roles) {
         newVisibleRoles.append(prefix + role);
     }
 
@@ -309,7 +309,7 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     const int prefixLength = prefix.length();
 
     const QStringList visibleRoles = m_node->visibleRoles();
-    foreach (const QString& visibleRole, visibleRoles) {
+    for (const QString& visibleRole : visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
             if (role != "text") {
@@ -422,7 +422,7 @@ void ViewProperties::convertAdditionalInfo()
         // the internal role. One special-case must be handled: "LinkDestination"
         // has been used for "destination".
         visibleRoles.reserve(additionalInfo.count());
-        foreach (const QString& info, additionalInfo) {
+        for (const QString& info : additionalInfo) {
             QString visibleRole = info;
             int index = visibleRole.indexOf('_');
             if (index >= 0 && index + 1 < visibleRole.length()) {

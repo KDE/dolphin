@@ -216,7 +216,7 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
     // for each directory. If the "split view" option is enabled, two
     // directories are shown inside one tab (see openDirectories()).
     QList<QUrl> dirs;
-    foreach (const QUrl& url, files) {
+    for (const QUrl& url : files) {
         const QUrl dir(url.adjusted(QUrl::RemoveFilename));
         if (!dirs.contains(dir)) {
             dirs.append(dir);

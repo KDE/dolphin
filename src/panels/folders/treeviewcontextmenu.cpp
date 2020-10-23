@@ -139,10 +139,10 @@ void TreeViewContextMenu::open(const QPoint& pos)
         popup->addAction(propertiesAction);
     }
 
-    QList<QAction*> customActions = m_parent->customContextMenuActions();
+    const QList<QAction*> customActions = m_parent->customContextMenuActions();
     if (!customActions.isEmpty()) {
         popup->addSeparator();
-        foreach (QAction* action, customActions) {
+        for (QAction* action : customActions) {
             popup->addAction(action);
         }
     }

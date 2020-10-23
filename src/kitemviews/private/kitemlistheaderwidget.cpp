@@ -78,7 +78,7 @@ bool KItemListHeaderWidget::automaticColumnResizing() const
 
 void KItemListHeaderWidget::setColumns(const QList<QByteArray>& roles)
 {
-    foreach (const QByteArray& role, roles) {
+    for (const QByteArray& role : roles) {
         if (!m_columnWidths.contains(role)) {
             m_preferredColumnWidths.remove(role);
         }
@@ -155,7 +155,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
 
     qreal x = -m_offset;
     int orderIndex = 0;
-    foreach (const QByteArray& role, m_columns) {
+    for (const QByteArray& role : qAsConst(m_columns)) {
         const qreal roleWidth = m_columnWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
         paintRole(painter, role, rect, orderIndex, widget);
@@ -468,7 +468,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
     int index = -1;
 
     qreal x = -m_offset;
-    foreach (const QByteArray& role, m_columns) {
+    for (const QByteArray& role : qAsConst(m_columns)) {
         ++index;
         x += m_columnWidths.value(role);
         if (pos.x() <= x) {
@@ -549,7 +549,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
 qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
 {
     qreal x = -m_offset;
-    foreach (const QByteArray& visibleRole, m_columns) {
+    for (const QByteArray& visibleRole : qAsConst(m_columns)) {
         if (visibleRole == role) {
             return x;
         }

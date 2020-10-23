@@ -96,7 +96,7 @@ bool KFileItemModelFilter::matchesPattern(const KFileItem& item) const
 
 bool KFileItemModelFilter::matchesType(const KFileItem& item) const
 {
-    foreach (const QString& mimeType, m_mimeTypes) {
+    for (const QString& mimeType : qAsConst(m_mimeTypes)) {
         if (item.mimetype() == mimeType) {
             return true;
         }

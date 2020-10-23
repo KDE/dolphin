@@ -59,14 +59,14 @@ GeneralSettingsPage::~GeneralSettingsPage()
 
 void GeneralSettingsPage::applySettings()
 {
-    foreach (SettingsPageBase* page, m_pages) {
+    for (SettingsPageBase* page : qAsConst(m_pages)) {
         page->applySettings();
     }
 }
 
 void GeneralSettingsPage::restoreDefaults()
 {
-    foreach (SettingsPageBase* page, m_pages) {
+    for (SettingsPageBase* page : qAsConst(m_pages)) {
         page->restoreDefaults();
     }
 }

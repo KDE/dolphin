@@ -61,7 +61,7 @@ void TestDir::createFile(const QString& path, const QByteArray& data, const QDat
 
 void TestDir::createFiles(const QStringList& files)
 {
-    foreach (const QString& path, files) {
+    for (const QString& path : files) {
         createFile(path);
     }
 }
@@ -81,7 +81,7 @@ void TestDir::createDir(const QString& path, const QDateTime& time)
 
 void TestDir::removeFiles(const QStringList& files)
 {
-    foreach (const QString& path, files) {
+    for (const QString& path : files) {
         removeFile(path);
     }
 }

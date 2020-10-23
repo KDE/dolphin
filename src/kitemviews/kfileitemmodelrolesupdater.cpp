@@ -113,8 +113,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
             this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 
-    auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, qApp);
-    foreach (QObject *it, plugins) {
+    const auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, qApp);
+    for (QObject *it : plugins) {
         auto plugin = qobject_cast<KOverlayIconPlugin*>(it);
         if (plugin) {
             m_overlayIconsPlugin.append(plugin);
@@ -324,7 +324,7 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
     // Determine the sort role synchronously for as many items as possible.
     if (m_resolvableRoles.contains(m_model->sortRole())) {
         int insertedCount = 0;
-        foreach (const KItemRange& range, itemRanges) {
+        for (const KItemRange& range : itemRanges) {
             const int lastIndex = insertedCount + range.index + range.count - 1;
             for (int i = insertedCount + range.index; i <= lastIndex; ++i) {
                 if (timer.elapsed() < MaxBlockTimeout) {
@@ -364,7 +364,8 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
             m_balooFileMonitor->clear();
         } else {
             QStringList newFileList;
-            foreach (const QString& file, m_balooFileMonitor->files()) {
+            const QStringList oldFileList = m_balooFileMonitor->files();
+            for (const QString& file : oldFileList) {
                 if (m_model->index(QUrl::fromLocalFile(file)) >= 0) {
                     newFileList.append(file);
                 }
@@ -424,7 +425,7 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
 
     QSet<KFileItem>& targetSet = itemsChangedRecently ? m_recentlyChangedItems : m_changedItems;
 
-    foreach (const KItemRange& itemRange, itemRanges) {
+    for (const KItemRange& itemRange : itemRanges) {
         int index = itemRange.index;
         for (int count = itemRange.count; count > 0; --count) {
             const KFileItem item = m_model->fileItem(index);
@@ -537,7 +538,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     // It is more efficient to do it here, as KIconLoader::drawOverlays()
     // assumes that an overlay will be drawn and has some additional
     // setup time.
-    foreach (const QString& overlay, overlays) {
+    for (const QString& overlay : overlays) {
         if (!overlay.isEmpty()) {
             // There is at least one overlay, draw all overlays above m_pixmap
             // and cancel the check
@@ -722,7 +723,8 @@ void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &
     const KBalooRolesProvider& rolesProvider = KBalooRolesProvider::instance();
     QHash<QByteArray, QVariant> data;
 
-    foreach (const QByteArray& role, rolesProvider.roles()) {
+    const auto roles = rolesProvider.roles();
+    for (const QByteArray& role : roles) {
         // Overwrite all the role values with an empty QVariant, because the roles
         // provider doesn't overwrite it when the property value list is empty.
         // See bug 322348
@@ -808,7 +810,7 @@ void KFileItemModelRolesUpdater::startUpdating()
         m_pendingPreviewItems.clear();
         m_pendingPreviewItems.reserve(indexes.count());
 
-        foreach (int index, indexes) {
+        for (int index : qAsConst(indexes)) {
             const KFileItem item = m_model->fileItem(index);
             if (!m_finishedItems.contains(item)) {
                 m_pendingPreviewItems.append(item);
@@ -941,7 +943,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     QList<int> visibleChangedIndexes;
     QList<int> invisibleChangedIndexes;
 
-    foreach (const KFileItem& item, m_changedItems) {
+    for (const KFileItem& item : qAsConst(m_changedItems)) {
         const int index = m_model->index(item);
 
         if (index < 0) {
@@ -959,11 +961,11 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     std::sort(visibleChangedIndexes.begin(), visibleChangedIndexes.end());
 
     if (m_previewShown) {
-        foreach (int index, visibleChangedIndexes) {
+        for (int index : qAsConst(visibleChangedIndexes)) {
             m_pendingPreviewItems.append(m_model->fileItem(index));
         }
 
-        foreach (int index, invisibleChangedIndexes) {
+        for (int index : qAsConst(invisibleChangedIndexes)) {
             m_pendingPreviewItems.append(m_model->fileItem(index));
         }
 
@@ -1078,7 +1080,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 
     QStringList overlays = item.overlays();
-    foreach(KOverlayIconPlugin *it, m_overlayIconsPlugin) {
+    for (KOverlayIconPlugin *it : qAsConst(m_overlayIconsPlugin)) {
         overlays.append(it->getOverlays(item.url()));
     }
     data.insert("iconOverlays", overlays);
@@ -1101,7 +1103,7 @@ void KFileItemModelRolesUpdater::slotOverlaysChanged(const QUrl& url, const QStr
     const int index = m_model->index(item);
     QHash<QByteArray, QVariant> data =  m_model->data(index);
     QStringList overlays = item.overlays();
-    foreach (KOverlayIconPlugin *it, m_overlayIconsPlugin) {
+    for (KOverlayIconPlugin *it : qAsConst(m_overlayIconsPlugin)) {
         overlays.append(it->getOverlays(url));
     }
     data.insert("iconOverlays", overlays);

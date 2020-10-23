@@ -512,7 +512,7 @@ QString DolphinView::statusBarText() const
     if (m_container->controller()->selectionManager()->hasSelection()) {
         // Give a summary of the status of the selected files
         const KFileItemList list = selectedItems();
-        foreach (const KFileItem& item, list) {
+        for (const KFileItem& item : list) {
             if (item.isDir()) {
                 ++folderCount;
             } else {
@@ -976,7 +976,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
     // Add all roles to the menu that can be shown or hidden by the user
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+    for (const KFileItemModel::RoleInfo& info : rolesInfo) {
         if (info.role == "text") {
             // It should not be possible to hide the "text" role
             continue;
@@ -1033,8 +1033,9 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             // Apply the current column-widths as custom column-widths and turn
             // off the automatic resizing of the columns
             QList<int> columnWidths;
-            columnWidths.reserve(view->visibleRoles().count());
-            foreach (const QByteArray& role, view->visibleRoles()) {
+            const auto visibleRoles = view->visibleRoles();
+            columnWidths.reserve(visibleRoles.count());
+            for (const QByteArray& role : visibleRoles) {
                 columnWidths.append(header->columnWidth(role));
             }
             props.setHeaderColumnWidths(columnWidths);
@@ -1055,8 +1056,9 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
             QList<int> columnWidths;
             if (!header->automaticColumnResizing()) {
-                columnWidths.reserve(view->visibleRoles().count());
-                foreach (const QByteArray& role, view->visibleRoles()) {
+                const auto visibleRoles = view->visibleRoles();
+                columnWidths.reserve(visibleRoles.count());
+                for (const QByteArray& role : visibleRoles) {
                     columnWidths.append(header->columnWidth(role));
                 }
             }
@@ -1077,7 +1079,7 @@ void DolphinView::slotHeaderColumnWidthChangeFinished(const QByteArray& role, qr
         columnWidths.clear();
         columnWidths.reserve(visibleRoles.count());
         const KItemListHeader* header = m_view->header();
-        foreach (const QByteArray& role, visibleRoles) {
+        for (const QByteArray& role : visibleRoles) {
             const int width = header->columnWidth(role);
             columnWidths.append(width);
         }
@@ -1876,7 +1878,7 @@ QList<QUrl> DolphinView::simplifiedSelectedUrls() const
 
     const KFileItemList items = selectedItems();
     urls.reserve(items.count());
-    foreach (const KFileItem& item, items) {
+    for (const KFileItem& item : items) {
         urls.append(item.url());
     }
 

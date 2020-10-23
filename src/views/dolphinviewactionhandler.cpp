@@ -227,7 +227,8 @@ void DolphinViewActionHandler::createActions()
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
     sortByActionMenu->setDelayed(false);
 
-    foreach (QAction* action, sortByActionGroup->actions()) {
+    const auto sortByActionGroupActions = sortByActionGroup->actions();
+    for (QAction* action : sortByActionGroupActions) {
         sortByActionMenu->addAction(action);
     }
 
@@ -261,7 +262,8 @@ void DolphinViewActionHandler::createActions()
     visibleRolesMenu->setIcon(QIcon::fromTheme(QStringLiteral("documentinfo")));
     visibleRolesMenu->setDelayed(false);
 
-    foreach (QAction* action, visibleRolesGroup->actions()) {
+    const auto visibleRolesGroupActions = visibleRolesGroup->actions();
+    for (QAction* action : visibleRolesGroupActions) {
         visibleRolesMenu->addAction(action);
     }
 
@@ -317,7 +319,7 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 #endif
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+    for (const KFileItemModel::RoleInfo& info : rolesInfo) {
         if (!isSortGroup && info.role == "text") {
             // It should not be possible to hide the "text" role
             continue;
@@ -654,7 +656,8 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
     for (QAction *groupAction : qAsConst(m_sortByActions)) {
         KActionMenu* actionMenu = qobject_cast<KActionMenu*>(groupAction);
         if (actionMenu) {
-            foreach (QAction* subAction, actionMenu->menu()->actions()) {
+            const auto actions = actionMenu->menu()->actions();
+            for (QAction* subAction : actions) {
                 subAction->setChecked(false);
             }
         } else if (groupAction->actionGroup()) {

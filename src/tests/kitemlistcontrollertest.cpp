@@ -241,7 +241,7 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     groupingEnabledList.append(true);
     groupingEnabledNames[true] = "grouping enabled";
 
-    foreach (const KFileItemListView::ItemLayout& layout, layoutList) {
+    for (const KFileItemListView::ItemLayout& layout : layoutList) {
         // The following settings depend on the layout.
         // Note that 'columns' are actually 'rows' in
         // Compact layout.
@@ -279,9 +279,9 @@ void KItemListControllerTest::testKeyboardNavigation_data()
             break;
         }
 
-        foreach (int columnCount, columnCountList) {
-            foreach (const KItemListController::SelectionBehavior& selectionBehavior, selectionBehaviorList) {
-                foreach (bool groupingEnabled, groupingEnabledList) { // krazy:exclude=foreach
+        for (int columnCount : qAsConst(columnCountList)) {
+            for (const KItemListController::SelectionBehavior& selectionBehavior : qAsConst(selectionBehaviorList)) {
+                for (bool groupingEnabled : qAsConst(groupingEnabledList)) {
                     QList<QPair<KeyPress, ViewState> > testList;
 
                     // First, key presses which should have the same effect

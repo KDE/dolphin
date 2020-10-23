@@ -864,7 +864,8 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const
         return false;
     }
 
-    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (KItemListWidget* widget : widgets) {
         if (widget->isHovered()) {
             widget->setHovered(false);
             emit itemUnhovered(widget->index());
@@ -1195,7 +1196,8 @@ void KItemListController::slotRubberBandChanged()
     KItemSet selectedItems;
 
     // Select all visible items that intersect with the rubberband
-    foreach (const KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (const KItemListWidget* widget : widgets) {
         const int index = widget->index();
 
         const QRectF widgetRect = m_view->itemRect(index);
@@ -1284,7 +1286,8 @@ KItemListWidget* KItemListController::hoveredWidget() const
 {
     Q_ASSERT(m_view);
 
-    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (KItemListWidget* widget : widgets) {
         if (widget->isHovered()) {
             return widget;
         }
@@ -1297,7 +1300,8 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
 {
     Q_ASSERT(m_view);
 
-    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (KItemListWidget* widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
 
         const bool hovered = widget->contains(mappedPos) &&

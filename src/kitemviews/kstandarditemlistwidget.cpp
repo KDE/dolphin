@@ -204,7 +204,7 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
             maximumRequiredWidth = fontMetrics.horizontalAdvance(itemText(index, view));
         } else {
             const QHash<QByteArray, QVariant>& values = view->model()->data(index);
-            foreach (const QByteArray& role, visibleRoles) {
+            for (const QByteArray& role : visibleRoles) {
                 const QString& text = roleText(role, values);
                 const qreal requiredWidth = fontMetrics.horizontalAdvance(text);
                 maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
@@ -1205,7 +1205,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
 
     // Calculate the position for each additional information
     qreal y = nameTextInfo->pos.y() + nameHeight;
-    foreach (const QByteArray& role, m_sortedVisibleRoles) {
+    for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
         if (role == "text") {
             continue;
         }
@@ -1268,7 +1268,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     const qreal x = option.padding * 3 + scaledIconSize;
     qreal y = qRound((widgetHeight - textLinesHeight) / 2);
     const qreal maxWidth = size().width() - x - option.padding;
-    foreach (const QByteArray& role, m_sortedVisibleRoles) {
+    for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
         const QString text = roleText(role, values);
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
@@ -1319,7 +1319,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
-    foreach (const QByteArray& role, m_sortedVisibleRoles) {
+    for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
         QString text = roleText(role, values);
 
         // Elide the text in case it does not fit into the available column-width
@@ -1493,7 +1493,7 @@ QPixmap KStandardItemListWidget::pixmapForIcon(const QString& name, const QStrin
         // It is more efficient to do it here, as KIconLoader::drawOverlays()
         // assumes that an overlay will be drawn and has some additional
         // setup time.
-        foreach (const QString& overlay, overlays) {
+        for (const QString& overlay : overlays) {
             if (!overlay.isEmpty()) {
                 int state = KIconLoader::DefaultState;
 

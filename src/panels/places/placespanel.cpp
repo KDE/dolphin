@@ -322,7 +322,8 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
     menu.addMenu(iconSizeSubMenu);
 
     menu.addSeparator();
-    foreach (QAction* action, customContextMenuActions()) {
+    const auto actions = customContextMenuActions();
+    for (QAction* action : actions) {
         menu.addAction(action);
     }
 

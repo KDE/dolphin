@@ -80,7 +80,7 @@ void KItemListWidget::setData(const QHash<QByteArray, QVariant>& data,
         m_data = data;
         dataChanged(m_data);
     } else {
-        foreach (const QByteArray& role, roles) {
+        for (const QByteArray& role : roles) {
             m_data[role] = data[role];
         }
         dataChanged(m_data, roles);

@@ -118,7 +118,7 @@ void DolphinSettingsDialog::enableApply()
 
 void DolphinSettingsDialog::applySettings()
 {
-    foreach (SettingsPageBase* page, m_pages) {
+    for (SettingsPageBase* page : qAsConst(m_pages)) {
         page->applySettings();
     }
 
@@ -137,7 +137,7 @@ void DolphinSettingsDialog::applySettings()
 
 void DolphinSettingsDialog::restoreDefaults()
 {
-    foreach (SettingsPageBase* page, m_pages) {
+    for (SettingsPageBase* page : qAsConst(m_pages)) {
         page->restoreDefaults();
     }
 }

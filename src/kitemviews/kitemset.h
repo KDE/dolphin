@@ -303,7 +303,7 @@ inline KItemSet& KItemSet::operator=(const KItemSet& other)
 inline int KItemSet::count() const
 {
     int result = 0;
-    foreach (const KItemRange& range, m_itemRanges) {
+    for (const KItemRange& range : qAsConst(m_itemRanges)) {
         result += range.count;
     }
     return result;

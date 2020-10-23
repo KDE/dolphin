@@ -67,7 +67,7 @@ void KFileItemModelBenchmark::insertAndRemoveManyItems_data()
     QList<int> sizes;
     sizes << 100000;
 
-    foreach (int n, sizes) {
+    for (int n : qAsConst(sizes)) {
         QStringList allStrings;
         for (int i = 0; i < n; ++i) {
             allStrings << QString::number(i);
@@ -197,7 +197,7 @@ KFileItemList KFileItemModelBenchmark::createFileItemList(const QStringList& fil
     qInstallMessageHandler(myMessageOutput);
 
     KFileItemList result;
-    foreach (const QString& name, fileNames) {
+    for (const QString& name : fileNames) {
         const KFileItem item(QUrl::fromLocalFile(prefix + name), QString(), KFileItem::Unknown);
         result << item;
     }

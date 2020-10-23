@@ -111,7 +111,7 @@ void DolphinQuery::parseBalooQuery()
     QString fileName;
 
     const QStringList subTerms = splitOutsideQuotes(query.searchString());
-    foreach (const QString& subTerm, subTerms) {
+    for (const QString& subTerm : subTerms) {
         const QString token = searchTermToken(subTerm);
         const QString value = stripQuotes(subTerm.mid(token.length()));
 

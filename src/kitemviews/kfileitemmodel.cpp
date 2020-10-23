@@ -420,7 +420,8 @@ int KFileItemModel::index(const QUrl& url) const
                 indexesForUrl.insert(m_itemData.at(i)->item.url(), i);
             }
 
-            foreach (const QUrl& url, indexesForUrl.uniqueKeys()) {
+            const auto uniqueKeys = indexesForUrl.uniqueKeys();
+            for (const QUrl& url : uniqueKeys) {
                 if (indexesForUrl.count(url) > 1) {
                     qCWarning(DolphinDebug) << "Multiple items found with the URL" << url;
 
@@ -524,7 +525,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         m_dirLister->openUrl(url, KDirLister::Keep);
 
         const QVariantList previouslyExpandedChildren = m_itemData.at(index)->values.value("previouslyExpandedChildren").value<QVariantList>();
-        foreach (const QVariant& var, previouslyExpandedChildren) {
+        for (const QVariant& var : previouslyExpandedChildren) {
             m_urlsToExpand.insert(var.toUrl());
         }
     } else {
@@ -728,7 +729,7 @@ void KFileItemModel::removeFilteredChildren(const KItemRangeList& itemRanges)
     }
 
     QSet<ItemData*> parents;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         for (int index = range.index; index < range.index + range.count; ++index) {
             parents.insert(m_itemData.at(index));
         }
@@ -848,7 +849,7 @@ void KFileItemModel::resortAllItems()
     // been moved because of the resorting.
     QList<QUrl> oldUrls;
     oldUrls.reserve(itemCount);
-    foreach (const ItemData* itemData, m_itemData) {
+    for (const ItemData* itemData : qAsConst(m_itemData)) {
         oldUrls.append(itemData->item.url());
     }
 
@@ -916,7 +917,7 @@ void KFileItemModel::slotCompleted()
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        foreach (const QUrl& url, m_urlsToExpand) {
+        for (const QUrl& url : qAsConst(m_urlsToExpand)) {
             const int indexForUrl = index(url);
             if (indexForUrl >= 0) {
                 m_urlsToExpand.remove(url);
@@ -982,7 +983,7 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
         }
     }
 
-    QList<ItemData*> itemDataList = createItemDataList(parentUrl, items);
+    const QList<ItemData*> itemDataList = createItemDataList(parentUrl, items);
 
     if (!m_filter.hasSetFilters()) {
         m_pendingItemsToInsert.append(itemDataList);
@@ -990,7 +991,7 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
         // The name or type filter is active. Hide filtered items
         // before inserting them into the model and remember
         // the filtered items in m_filteredItems.
-        foreach (ItemData* itemData, itemDataList) {
+        for (ItemData* itemData : itemDataList) {
             if (m_filter.matches(itemData->item)) {
                 m_pendingItemsToInsert.append(itemData);
             } else {
@@ -1013,7 +1014,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     QVector<int> indexesToRemove;
     indexesToRemove.reserve(items.count());
 
-    foreach (const KFileItem& item, items) {
+    for (const KFileItem& item : items) {
         const int indexForItem = index(item);
         if (indexForItem >= 0) {
             indexesToRemove.append(indexForItem);
@@ -1035,7 +1036,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         indexesToRemoveWithChildren.reserve(m_itemData.count());
 
         const int itemCount = m_itemData.count();
-        foreach (int index, indexesToRemove) {
+        for (int index : qAsConst(indexesToRemove)) {
             indexesToRemoveWithChildren.append(index);
 
             const int parentLevel = expandedParentsCount(index);
@@ -1275,7 +1276,7 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
 
     // Step 1: Remove the items from m_itemData, and free the ItemData.
     int removedItemsCount = 0;
-    foreach (const KItemRange& range, itemRanges) {
+    for (const KItemRange& range : itemRanges) {
         removedItemsCount += range.count;
 
         for (int index = range.index; index < range.index + range.count; ++index) {
@@ -1329,7 +1330,7 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& 
     QList<ItemData*> itemDataList;
     itemDataList.reserve(items.count());
 
-    foreach (const KFileItem& item, items) {
+    for (const KFileItem& item : items) {
         ItemData* itemData = new ItemData();
         itemData->item = item;
         itemData->parent = parentItem;
@@ -1350,7 +1351,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData*>& itemDataList)
     case DeletionTimeRole:
         // These roles can be determined with retrieveData, and they have to be stored
         // in the QHash "values" for the sorting.
-        foreach (ItemData* itemData, itemDataList) {
+        for (ItemData* itemData : qAsConst(itemDataList)) {
             if (itemData->values.isEmpty()) {
                 itemData->values = retrieveData(itemData->item, itemData->parent);
             }
@@ -1359,7 +1360,7 @@ void KFileItemModel::prepareItemsForSorting(QList<ItemData*>& itemDataList)
 
     case TypeRole:
         // At least store the data including the file type for items with known MIME type.
-        foreach (ItemData* itemData, itemDataList) {
+        for (ItemData* itemData : qAsConst(itemDataList)) {
             if (itemData->values.isEmpty()) {
                 const KFileItem item = itemData->item;
                 if (item.isDir() || item.isMimeTypeKnown()) {
@@ -1432,7 +1433,7 @@ void KFileItemModel::emitItemsChangedAndTriggerResorting(const KItemRangeList& i
     // Trigger a resorting if necessary. Note that this can happen even if the sort
     // role has not changed at all because the file name can be used as a fallback.
     if (changedRoles.contains(sortRole()) || changedRoles.contains(roleForType(NameRole))) {
-        foreach (const KItemRange& range, itemRanges) {
+        for (const KItemRange& range : itemRanges) {
             bool needsResorting = false;
 
             const int first = range.index;
@@ -2365,7 +2366,7 @@ void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
 {
     QElapsedTimer timer;
     timer.start();
-    foreach (const KFileItem& item, items) { // krazy:exclude=foreach
+    for (const KFileItem& item : items) {
         // Only determine mime types for files here. For directories,
         // KFileItem::determineMimeType() reads the .directory file inside to
         // load the icon, but this is not necessary at all if we just need the

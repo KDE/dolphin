@@ -427,7 +427,7 @@ void DolphinMainWindow::openInNewTab()
     const KFileItemList& list = m_activeViewContainer->view()->selectedItems();
     bool tabCreated = false;
 
-    foreach (const KFileItem& item, list) {
+    for (const KFileItem& item : list) {
         const QUrl& url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
             openNewTabAfterCurrentTab(url);
@@ -861,7 +861,8 @@ void DolphinMainWindow::replaceLocation()
 void DolphinMainWindow::togglePanelLockState()
 {
     const bool newLockState = !GeneralSettings::lockPanels();
-    foreach (QObject* child, children()) {
+    const auto childrenObjects = children();
+    for (QObject* child : childrenObjects) {
         DolphinDockWidget* dock = qobject_cast<DolphinDockWidget*>(child);
         if (dock) {
             dock->setLocked(newLockState);
@@ -2083,7 +2084,8 @@ bool DolphinMainWindow::addActionToMenu(QAction* action, QMenu* menu)
     Q_ASSERT(menu);
 
     const KToolBar* toolBarWidget = toolBar();
-    foreach (const QWidget* widget, action->associatedWidgets()) {
+    const auto associatedWidgets = action->associatedWidgets();
+    for (const QWidget* widget : associatedWidgets) {
         if (widget == toolBarWidget) {
             return false;
         }
