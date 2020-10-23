@@ -5,7 +5,6 @@
  */
 
 #include "terminalpanel.h"
-#include "kiofuse_interface.h"
 
 #include <KIO/DesktopExecParser>
 #include <KIO/Job>

@@ -17,7 +17,6 @@
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 #include "dolphin_detailsmodesettings.h"
-#include "views/dolphinview.h"
 
 #ifdef HAVE_KACTIVITIES
 #include <KActivities/ResourceInstance>
@@ -32,7 +31,6 @@
 #include <KProtocolManager>
 #include <KShell>
 #include <KUrlComboBox>
-#include <KUrlNavigator>
 
 #include <QDropEvent>
 #include <QLoggingCategory>

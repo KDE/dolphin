@@ -36,7 +36,6 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
-#include <QMenu>
 #include <QMenuBar>
 #include <QMimeDatabase>
 

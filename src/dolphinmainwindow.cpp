@@ -70,7 +70,6 @@
 #include <QDialog>
 #include <QFileInfo>
 #include <QLineEdit>
-#include <QMenu>
 #include <QMenuBar>
 #include <QPushButton>
 #include <QShowEvent>
