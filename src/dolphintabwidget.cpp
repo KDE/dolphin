@@ -382,7 +382,7 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
     const int index = indexOf(qobject_cast<QWidget*>(sender()));
     if (index >= 0) {
         tabBar()->setTabText(index, tabName(tabPageAt(index)));
-        tabBar()->setTabToolTip(index, url.path());
+        tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
         if (tabBar()->isVisible()) {
             tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
         } else {
@@ -423,7 +423,7 @@ void DolphinTabWidget::tabInserted(int index)
                 tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(url)));
             }
             if (tabBar()->tabToolTip(i).isEmpty()) {
-                tabBar()->setTabToolTip(index, url.path());
+                tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
             }
         }
 
