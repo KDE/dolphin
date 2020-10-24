@@ -917,7 +917,9 @@ void KFileItemModel::slotCompleted()
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        for (const QUrl& url : qAsConst(m_urlsToExpand)) {
+        QMutableSetIterator<QUrl> it(m_urlsToExpand);
+        while (it.hasNext()) {
+            const QUrl url = it.next();
             const int indexForUrl = index(url);
             if (indexForUrl >= 0) {
                 m_urlsToExpand.remove(url);
