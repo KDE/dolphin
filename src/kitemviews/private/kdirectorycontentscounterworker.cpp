@@ -109,7 +109,7 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
 
     QT_DIRENT *dirEntry = nullptr;
 
-    auto res = walkDir(QFile::encodeName(path), countHiddenFiles, countDirectoriesOnly, dirEntry, maxRecursiveLevel);
+    auto res = walkDir(path, countHiddenFiles, countDirectoriesOnly, dirEntry, maxRecursiveLevel);
 
     return res;
 #endif
