@@ -57,7 +57,13 @@ public:
     bool addToToolbarAndSave(KXmlGuiWindow *mainWindow);
 
     /**
-     * Different to the primary UrlNavigator, the secondary UrlNavigator is only created on-demand.
+     * The secondary UrlNavigator is only created on-demand. Such an action is not necessary
+     * for the primary UrlNavigator which is created preemptively.
+     *
+     * This method should preferably only be called when:
+     * - Split view is activated in the active tab
+     * OR
+     * - A switch to a tab that is already in split view mode is occuring
      */
     void createSecondaryUrlNavigator();
 

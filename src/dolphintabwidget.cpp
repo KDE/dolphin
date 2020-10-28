@@ -128,12 +128,9 @@ bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
 void DolphinTabWidget::openNewActivatedTab()
 {
     std::unique_ptr<DolphinUrlNavigator::VisualState> oldNavigatorState;
-    if (currentTabPage()->primaryViewActive()) {
+    if (currentTabPage()->primaryViewActive() || !m_navigatorsWidget->secondaryUrlNavigator()) {
         oldNavigatorState = m_navigatorsWidget->primaryUrlNavigator()->visualState();
     } else {
-        if (!m_navigatorsWidget->secondaryUrlNavigator()) {
-            m_navigatorsWidget->createSecondaryUrlNavigator();
-        }
         oldNavigatorState = m_navigatorsWidget->secondaryUrlNavigator()->visualState();
     }
 
@@ -400,6 +397,9 @@ void DolphinTabWidget::currentTabChanged(int index)
     if (m_lastViewedTab) {
         m_lastViewedTab->disconnectNavigators();
         m_lastViewedTab->setActive(false);
+    }
+    if (tabPage->splitViewEnabled() && !m_navigatorsWidget->secondaryUrlNavigator()) {
+        m_navigatorsWidget->createSecondaryUrlNavigator();
     }
     DolphinViewContainer* viewContainer = tabPage->activeViewContainer();
     Q_EMIT activeViewChanged(viewContainer);

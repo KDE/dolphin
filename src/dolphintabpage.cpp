@@ -9,7 +9,6 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinviewcontainer.h"
 
-#include <QPropertyAnimation>
 #include <QSplitter>
 #include <QVBoxLayout>
 
@@ -70,7 +69,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
         m_splitViewEnabled = enabled;
 
         if (enabled) {
-            int splitterTotalWidth = m_splitter->width();
             const QUrl& url = (secondaryUrl.isEmpty()) ? m_primaryViewContainer->url() : secondaryUrl;
             m_secondaryViewContainer = createViewContainer(url);
 
@@ -84,33 +82,8 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
 
             m_splitter->addWidget(m_secondaryViewContainer);
             m_secondaryViewContainer->installEventFilter(this);
-            m_secondaryViewContainer->setActive(true);
-
-            // opening animation
-            m_splitter->widget(1)->setMinimumWidth(1);
-            const QList<int> splitterSizes = {m_splitter->width(), 0};
-            m_splitter->setSizes(splitterSizes);
-
-            // TODO: This is only here to test the robustness of DolphinNavigatorsWidgetAction! I still have to move it to another merge request!
-            m_splitViewAnimation = new QVariantAnimation(m_splitter);
-            m_splitViewAnimation->setDuration(200); // TODO: where do I get the animation times from again?
-            m_splitViewAnimation->setStartValue(splitterTotalWidth);
-            m_splitViewAnimation->setEndValue(splitterTotalWidth / 2);
-            m_splitViewAnimation->setEasingCurve(QEasingCurve::OutCubic);
-
-            connect(m_splitViewAnimation, &QVariantAnimation::valueChanged, [=]() {
-                if (m_splitter->count() != 2) {
-                    return;
-                }
-                int value = m_splitViewAnimation->currentValue().toInt();
-                const QList<int> splitterSizes = {value, m_splitter->width() - value};
-                m_splitter->setSizes(splitterSizes);
-                if (value == m_splitViewAnimation->endValue().toInt()) {
-                    m_splitter->widget(1)->setMinimumWidth(m_splitter->widget(1)->minimumSizeHint().width());
-                }
-            });
-            m_splitViewAnimation->start(QAbstractAnimation::DeleteWhenStopped);
             m_secondaryViewContainer->show();
+            m_secondaryViewContainer->setActive(true);
         } else {
             m_navigatorsWidget->setSecondaryNavigatorVisible(false);
             m_secondaryViewContainer->disconnectUrlNavigator();
@@ -144,10 +117,6 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl)
             m_primaryViewContainer->setActive(true);
             view->close();
             view->deleteLater();
-            if (m_splitViewAnimation) {
-                delete m_splitViewAnimation;
-                m_splitter->widget(0)->setMinimumWidth(m_splitter->widget(0)->minimumSizeHint().width());
-            }
         }
     }
 }
@@ -194,10 +163,6 @@ void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigators
     m_primaryViewContainer->connectUrlNavigator(primaryNavigator);
     if (m_splitViewEnabled) {
         auto secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
-        if (!secondaryNavigator) {
-            navigatorsWidget->createSecondaryUrlNavigator();
-            secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
-        }
         secondaryNavigator->setActive(!m_primaryViewActive);
         m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
     }
@@ -334,10 +299,6 @@ void DolphinTabPage::restoreState(const QByteArray& state)
         m_navigatorsWidget->primaryUrlNavigator()->setActive(false);
     }
 
-    if (m_splitViewAnimation) {
-        delete m_splitViewAnimation;
-        m_splitter->widget(0)->setMinimumWidth(m_splitter->widget(0)->minimumSizeHint().width());
-    }
     QByteArray splitterState;
     stream >> splitterState;
     m_splitter->restoreState(splitterState);

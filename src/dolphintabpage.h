@@ -14,7 +14,6 @@
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
 class QSplitter;
-class QVariantAnimation;
 class KFileItemList;
 
 class DolphinTabPage : public QWidget
@@ -175,7 +174,6 @@ private:
     QPointer<DolphinNavigatorsWidgetAction> m_navigatorsWidget;
     QPointer<DolphinViewContainer> m_primaryViewContainer;
     QPointer<DolphinViewContainer> m_secondaryViewContainer;
-    QPointer<QVariantAnimation> m_splitViewAnimation;
 
     bool m_primaryViewActive;
     bool m_splitViewEnabled;

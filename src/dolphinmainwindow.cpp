@@ -213,7 +213,7 @@ DolphinMainWindow::~DolphinMainWindow()
 {
 }
 
-QVector<DolphinViewContainer *> DolphinMainWindow::activeViewContainers() const
+QVector<DolphinViewContainer *> DolphinMainWindow::viewContainers() const
 {
     QVector<DolphinViewContainer*> viewContainers;
 
@@ -2178,6 +2178,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
         (actionCollection()->action(QStringLiteral("url_navigators")));
+
     KUrlNavigator *navigator = m_tabWidget->currentTabPage()->primaryViewActive() ?
                                navigators->primaryUrlNavigator() :
                                navigators->secondaryUrlNavigator();
