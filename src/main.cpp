@@ -26,6 +26,7 @@
 #include <QDBusInterface>
 #include <QDBusAbstractInterface>
 #include <QDBusConnectionInterface>
+#include <QSessionManager>
 
 #ifndef Q_OS_WIN
 #include <unistd.h>
@@ -132,6 +133,14 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
 
     if (parser.isSet(QStringLiteral("daemon"))) {
+        // Disable session management for the daemonized version
+        // See https://bugs.kde.org/show_bug.cgi?id=417219
+        auto disableSessionManagement = [](QSessionManager &sm) {
+            sm.setRestartHint(QSessionManager::RestartNever);
+        };
+        QObject::connect(&app, &QGuiApplication::commitDataRequest, disableSessionManagement);
+        QObject::connect(&app, &QGuiApplication::saveStateRequest, disableSessionManagement);
+
         KDBusService dolphinDBusService;
         DBusInterface interface;
         interface.setAsDaemon();
