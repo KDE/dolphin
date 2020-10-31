@@ -152,6 +152,13 @@ public:
     void setLocalFileSizePreviewLimit(qlonglong size);
     qlonglong localFileSizePreviewLimit() const;
 
+    /**
+     * If set to true, directories contents are scanned to determine their size
+     * Default true
+     */
+    void setScanDirectories(bool enabled);
+    bool scanDirectories() const;
+
 private slots:
     void slotItemsInserted(const KItemRangeList& itemRanges);
     void slotItemsRemoved(const KItemRangeList& itemRanges);
@@ -307,6 +314,7 @@ private:
     QSet<QByteArray> m_resolvableRoles;
     QStringList m_enabledPlugins;
     qulonglong m_localFileSizePreviewLimit;
+    bool m_scanDirectories;
 
     // Items for which the sort role still has to be determined.
     QSet<KFileItem> m_pendingSortRoleItems;

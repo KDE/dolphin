@@ -67,6 +67,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvableRoles(),
     m_enabledPlugins(),
     m_localFileSizePreviewLimit(0),
+    m_scanDirectories(true),
     m_pendingSortRoleItems(),
     m_pendingIndexes(),
     m_pendingPreviewItems(),
@@ -315,6 +316,16 @@ void KFileItemModelRolesUpdater::setLocalFileSizePreviewLimit(const qlonglong si
 qlonglong KFileItemModelRolesUpdater::localFileSizePreviewLimit() const
 {
     return m_localFileSizePreviewLimit;
+}
+
+void KFileItemModelRolesUpdater::setScanDirectories(bool enabled)
+{
+    m_scanDirectories = enabled;
+}
+
+bool KFileItemModelRolesUpdater::scanDirectories() const
+{
+    return m_scanDirectories;
 }
 
 void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRanges)
@@ -1001,7 +1012,9 @@ void KFileItemModelRolesUpdater::applySortRole(int index)
         data.insert("type", item.mimeComment());
     } else if (m_model->sortRole() == "size" && item.isLocalFile() && item.isDir()) {
         const QString path = item.localPath();
-        m_directoryContentsCounter->scanDirectory(path);
+        if (m_scanDirectories) {
+            m_directoryContentsCounter->scanDirectory(path);
+        }
     } else {
         // Probably the sort role is a baloo role - just determine all roles.
         data = rolesData(item);
@@ -1072,11 +1085,13 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
-        if (item.isLocalFile()) {
+        if (item.isLocalFile() && !item.isSlow()) {
             // Tell m_directoryContentsCounter that we want to count the items
             // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
-            const QString path = item.localPath();
-            m_directoryContentsCounter->scanDirectory(path);
+            if (m_scanDirectories) {
+                const QString path = item.localPath();
+                m_directoryContentsCounter->scanDirectory(path);
+            }
         } else if (getSizeRole) {
             data.insert("size", -1); // -1 indicates an unknown number of items
         }
