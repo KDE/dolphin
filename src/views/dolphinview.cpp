@@ -847,10 +847,10 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 void DolphinView::wheelEvent(QWheelEvent* event)
 {
     if (event->modifiers().testFlag(Qt::ControlModifier)) {
-        const int numDegrees = event->delta() / 8;
-        const int numSteps = numDegrees / 15;
+        const QPoint numDegrees = event->angleDelta() / 8;
+        const QPoint numSteps = numDegrees / 15;
 
-        setZoomLevel(zoomLevel() + numSteps);
+        setZoomLevel(zoomLevel() + numSteps.y());
         event->accept();
     } else {
         event->ignore();
