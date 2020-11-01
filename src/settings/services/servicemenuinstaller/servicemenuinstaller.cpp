@@ -19,10 +19,11 @@
 
 #include "../../../config-packagekit.h"
 
-const static QStringList binaryPackages = {QStringLiteral("application/vnd.debian.binary-package"),
-                                     QStringLiteral("application/x-rpm"),
-                                     QStringLiteral("application/x-xz"),
-                                     QStringLiteral("application/zstd")};
+Q_GLOBAL_STATIC_WITH_ARGS(QStringList, binaryPackages, ({QLatin1String("application/vnd.debian.binary-package"),
+                                                        QLatin1String("application/x-rpm"),
+                                                        QLatin1String("application/x-xz"),
+                                                        QLatin1String("application/zstd")}))
+
 enum PackageOperation {
     Install,
     Uninstall
@@ -297,7 +298,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
             return false;
         }
     } else {
-        if (binaryPackages.contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
+        if (binaryPackages->contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
             packageKit(PackageOperation::Install, archive);
         }
         const QString dir = generateDirPath(archive);
@@ -366,7 +367,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
             return false;
         }
     } else {
-        if (binaryPackages.contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
+        if (binaryPackages->contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
             packageKit(PackageOperation::Uninstall, archive);
         }
         const QString dir = generateDirPath(archive);
