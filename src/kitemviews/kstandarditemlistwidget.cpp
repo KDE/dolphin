@@ -1122,7 +1122,7 @@ QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, in
             QString ret = m_customizedFontMetrics.elidedText(text.chopped(extensionLength),
                                                              Qt::ElideRight,
                                                              elidingWidth - extensionWidth);
-            ret.append(text.right(extensionLength));
+            ret.append(text.rightRef(extensionLength));
             return ret;
         }
     }
