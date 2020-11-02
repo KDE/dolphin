@@ -67,7 +67,7 @@ private:
     PlacesItemModel* m_model;
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
-    int m_expectedModelCount = qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused")) ? 16 : 14;
+    int m_expectedModelCount = qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused")) ? 14 : 12;
     bool m_hasDesktopFolder = false;
     bool m_hasDocumentsFolder = false;
     bool m_hasDownloadsFolder = false;
@@ -170,8 +170,7 @@ QStringList PlacesItemModelTest::initialUrls() const
             urls << QStringLiteral("recentlyused:/locations");
         }
 
-        urls << QStringLiteral("timeline:/today") << QStringLiteral("timeline:/yesterday")
-             << QStringLiteral("search:/documents") << QStringLiteral("search:/images") << QStringLiteral("search:/audio") << QStringLiteral("search:/videos")
+        urls << QStringLiteral("search:/documents") << QStringLiteral("search:/images") << QStringLiteral("search:/audio") << QStringLiteral("search:/videos")
              << QStringLiteral("/foreign")
              << QStringLiteral("/media/floppy0") << QStringLiteral("/media/XO-Y4") << QStringLiteral("/media/cdrom");
     }
@@ -308,20 +307,17 @@ void PlacesItemModelTest::testGroups()
     QCOMPARE(groups.at(1).first, expectedRemoteIndex);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    QCOMPARE(groups.at(2).first, expectedRemoteIndex + 2);
-    QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recent"));
-
     if (qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused"))) {
         expectedRemoteIndex += 2;
     }
 
-    QCOMPARE(groups.at(3).first, expectedRemoteIndex + 4);
+    QCOMPARE(groups.at(3).first, expectedRemoteIndex + 2);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, expectedRemoteIndex + 8);
+    QCOMPARE(groups.at(4).first, expectedRemoteIndex + 6);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
-    QCOMPARE(groups.at(5).first, expectedRemoteIndex + 9);
+    QCOMPARE(groups.at(5).first, expectedRemoteIndex + 7);
     QCOMPARE(groups.at(5).second.toString(), QStringLiteral("Removable Devices"));
 }
 
@@ -338,9 +334,6 @@ void PlacesItemModelTest::testPlaceItem_data()
 
     // baloo -search
     QTest::newRow("Baloo - Documents") << QUrl("search:/documents") << false << true << QStringLiteral("Search For") << false;
-
-    // baloo - timeline
-    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << false << true << QStringLiteral("Recent") << false;
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << false << false << QStringLiteral("Removable Devices") << false;
@@ -456,9 +449,6 @@ void PlacesItemModelTest::testDefaultViewProperties_data()
 
     // audio files
     QTest::newRow("Places - Audio") << QUrl("search:/audio") << DolphinView::DetailsView << false << QList<QByteArray>({"text", "artist", "album"});
-
-    // baloo - timeline
-    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << DolphinView::DetailsView << true << QList<QByteArray>({"text", "modificationtime"});
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << DolphinView::IconsView << true << QList<QByteArray>({"text"});
@@ -773,9 +763,6 @@ void PlacesItemModelTest::testIcons_data()
 
     // baloo -search
     QTest::newRow("Baloo - Documents") << QUrl("search:/documents") << QStringLiteral("folder-text");
-
-    // baloo - timeline
-    QTest::newRow("Baloo - Today") << QUrl("timeline:/today") << QStringLiteral("go-jump-today");
 
     // devices
     QTest::newRow("Devices - Floppy") << QUrl("file:///media/floppy0") << QStringLiteral("blockdevice");
