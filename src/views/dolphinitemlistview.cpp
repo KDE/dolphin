@@ -17,6 +17,7 @@
 #include "zoomlevelinfo.h"
 
 #include <KIO/PreviewJob>
+#include <QtMath>
 
 
 DolphinItemListView::DolphinItemListView(QGraphicsWidget* parent) :
@@ -163,11 +164,16 @@ void DolphinItemListView::updateGridSize()
 
     switch (itemLayout()) {
     case KFileItemListView::IconsLayout: {
-        const int minItemWidth = 48;
-        itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
 
-        if (itemWidth < iconSize + padding * 2) {
-            itemWidth = iconSize + padding * 2;
+        // an exponential factor based on zoom, 0 -> 1, 4 -> 1.36 8 -> ~1.85, 16 -> 3.4
+        auto zoomFactor = qExp(m_zoomLevel / 13.0);
+        // 9 is the average char width for 10pt Noto Sans, making fontFactor =1
+        // by each pixel the font gets larger the factor increases by 1/9
+        auto fontFactor = option.fontMetrics.averageCharWidth() / 9.0;
+        itemWidth = 48 + IconsModeSettings::textWidthIndex() * 64 * fontFactor * zoomFactor;
+
+        if (itemWidth < iconSize + padding * 2 * zoomFactor) {
+            itemWidth = iconSize + padding * 2 * zoomFactor;
         }
 
         itemHeight = padding * 3 + iconSize + option.fontMetrics.lineSpacing();
