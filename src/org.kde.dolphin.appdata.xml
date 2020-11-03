@@ -21,6 +21,7 @@
   <name xml:lang="fi">Dolphin</name>
   <name xml:lang="fr">Dolphin</name>
   <name xml:lang="gl">Dolphin</name>
+  <name xml:lang="he">Dolphin</name>
   <name xml:lang="hu">Dolphin</name>
   <name xml:lang="ia">Dolphin</name>
   <name xml:lang="id">Dolphin</name>
@@ -118,7 +119,7 @@
     <p xml:lang="fi">Dolphin on kevyt tiedostonhallinta. Se on suunniteltu helppokäyttöiseksi ja yksinkertaiseksi, mutta silti joustavaksi ja mukautettavaksi. Voit siis hallita tiedostojasi juuri niin kuin haluat.</p>
     <p xml:lang="fr">Dolphin est un gestionnaire de fichier léger. Il a été conçu en gardant à l'esprit la simplicité et l'aisance à l'usage, tout en permettant flexibilité et personnalisation. Cela signifie que vous pouvez gérer vos fichiers de la manière exacte que vous voulez.</p>
     <p xml:lang="gl">Dolphin é un xestor de ficheiros lixeiro. Deseñouse pensando na facilidade de uso e a simplicidade, pero permitindo flexibilidade e personalización. Noutras palabras, permítelle xestionar os seus ficheiros do xeito que máis lle agrade.</p>
-    <p xml:lang="he">‏Dolphin הוא מנהל קבצים קל־משקל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שתוכל לנהל את קבציך איך שאתה רוצה לעשות זאת.</p>
+    <p xml:lang="he">‏Dolphin הוא מנהל קבצים קליל. הוא עוצב לקלות שימוש ופשטות, תוך כדי אפשור גמישות והתאמה אישית. זה אומר שניתן לנהל את הקבצים שלך כרצונך.</p>
     <p xml:lang="hu">A Dolphin egy pehelysúlyú fájlkezelő. Az egyszerű használatot és az egyszerűséget szem előtt tartva tervezték, miközben továbbra is lehetővé teszi a rugalmasságot és a testre szabhatóságot. Ez azt jelenti, hogy pontosan oly módon végezheti a fájlkezelést, ahogy csak akarja.</p>
     <p xml:lang="ia">Dolphin es un gerente de file legier. Il ha essite designate con facilitate de uso e simplicitate in le mente, mentre il permitte ancora flexibilitate e personalisation. Isto significa que tu pote facer le gerente de file exactemente como tu lo vole.</p>
     <p xml:lang="id">Dolphin adalah pengelola file yang ringan. Ini telah dirancang dengan kemudahan penggunaan dan kesederhanaan dalam hal, sementara masih memungkinkan fleksibilitas dan kustomisasi. Ini berarti kamu bisa melakukan pengelolaan file-mu persis seperti yang kamu inginkan.</p>
@@ -398,7 +399,7 @@
       <li xml:lang="fi">Useiden välilehtien tuki</li>
       <li xml:lang="fr">Prise en charge des onglets multiples</li>
       <li xml:lang="gl">Permite abrir varios separadores</li>
-      <li xml:lang="he">תמיכה בכרטיסיות</li>
+      <li xml:lang="he">תמיכה בלשוניות מרובות</li>
       <li xml:lang="hu">Több lap támogatása</li>
       <li xml:lang="ia">Supporto de scheda multiple</li>
       <li xml:lang="id">Dukungan multipel tab</li>
@@ -595,6 +596,7 @@
       <caption xml:lang="fi">Tiedostonhallinta Dolphinissa</caption>
       <caption xml:lang="fr">Gestion de fichiers dans Dophin</caption>
       <caption xml:lang="gl">Xestión de ficheiros en Dolphin</caption>
+      <caption xml:lang="he">ניהול קבצים ב־Dolphin</caption>
       <caption xml:lang="ia">Gerente de file in Dolphin</caption>
       <caption xml:lang="id">Pengelolaan file di Dolphin</caption>
       <caption xml:lang="it">Gestione dei file in Dolphin</caption>
