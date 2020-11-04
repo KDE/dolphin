@@ -26,6 +26,7 @@ void PlacesView::setIconSize(int size)
 
         KItemListStyleOption option = styleOption();
         option.iconSize = size;
+        option.padding = 4;
         setStyleOption(option);
     }
 }
