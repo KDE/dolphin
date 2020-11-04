@@ -1155,10 +1155,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         QVector<int> itemsToMove;
 
         // Remove all KItemListWidget instances that got deleted
-        QMutableHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            KItemListWidget* widget = it.value();
+        foreach (KItemListWidget* widget, m_visibleItems) {
             const int i = widget->index();
             if (i < firstRemovedIndex) {
                 continue;
@@ -1826,7 +1823,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     }
 
     // Delete invisible KItemListWidget instances that have not been reused
-    for (int index : qAsConst(reusableItems)) {
+    foreach (int index, reusableItems) {
         recycleWidget(m_visibleItems.value(index));
     }
 
@@ -1859,11 +1856,7 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
 
     QList<int> items;
 
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-    while (it.hasNext()) {
-        it.next();
-
-        KItemListWidget* widget = it.value();
+    foreach (KItemListWidget *widget, m_visibleItems) {
         const int index = widget->index();
         const bool invisible = (index < firstVisibleIndex) || (index > lastVisibleIndex);
 
@@ -2200,7 +2193,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
     const QFontMetricsF fontMetrics(m_headerWidget->font());
     const int gripMargin   = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     const int headerMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderMargin);
-    for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
+    foreach (const QByteArray& visibleRole, visibleRoles()) {
         const QString headerText = m_model->roleDescription(visibleRole);
         const qreal headerWidth = fontMetrics.width(headerText) + gripMargin + headerMargin * 2;
         widths.insert(visibleRole, headerWidth);

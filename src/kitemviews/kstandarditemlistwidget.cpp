@@ -1214,7 +1214,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
 
     // Calculate the position for each additional information
     qreal y = nameTextInfo->pos.y() + nameHeight;
-    for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
+    foreach (const QByteArray& role, m_sortedVisibleRoles) {
         if (role == "text") {
             continue;
         }
@@ -1328,7 +1328,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
-    for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
+    foreach (const QByteArray& role, m_sortedVisibleRoles) {
         QString text = roleText(role, values);
 
         // Elide the text in case it does not fit into the available column-width

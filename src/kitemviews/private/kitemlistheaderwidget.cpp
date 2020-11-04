@@ -155,7 +155,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
 
     qreal x = -m_offset;
     int orderIndex = 0;
-    for (const QByteArray& role : qAsConst(m_columns)) {
+    foreach (const QByteArray& role, m_columns) {
         const qreal roleWidth = m_columnWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
         paintRole(painter, role, rect, orderIndex, widget);

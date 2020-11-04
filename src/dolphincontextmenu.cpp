@@ -163,7 +163,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
     if (exec(m_pos) == restoreAction) {
         QList<QUrl> selectedUrls;
         selectedUrls.reserve(m_selectedItems.count());
-        for (const KFileItem &item : qAsConst(m_selectedItems)) {
+        foreach (const KFileItem &item, m_selectedItems) {
             selectedUrls.append(item.url());
         }
 

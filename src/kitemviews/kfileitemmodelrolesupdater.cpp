@@ -115,8 +115,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
             this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 
-    const auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, qApp);
-    for (QObject *it : plugins) {
+    auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, qApp);
+    foreach (QObject *it, plugins) {
         auto plugin = qobject_cast<KOverlayIconPlugin*>(it);
         if (plugin) {
             m_overlayIconsPlugin.append(plugin);
@@ -376,8 +376,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
             m_balooFileMonitor->clear();
         } else {
             QStringList newFileList;
-            const QStringList oldFileList = m_balooFileMonitor->files();
-            for (const QString& file : oldFileList) {
+            foreach (const QString& file, m_balooFileMonitor->files()) {
                 if (m_model->index(QUrl::fromLocalFile(file)) >= 0) {
                     newFileList.append(file);
                 }
@@ -957,9 +956,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     QList<int> visibleChangedIndexes;
     QList<int> invisibleChangedIndexes;
 
-    QMutableSetIterator<KFileItem> it(m_changedItems);
-    while (it.hasNext()) {
-        const KFileItem item = it.next();
+    foreach (const KFileItem& item, m_changedItems) {
         const int index = m_model->index(item);
 
         if (index < 0) {
