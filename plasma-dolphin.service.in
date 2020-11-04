@@ -1,8 +1,0 @@
-[Unit]
-Description=Dolphin file manager
-PartOf=graphical-session.target
-
-[Service]
-ExecStart=@KDE_INSTALL_FULL_BINDIR@/dolphin --daemon
-BusName=org.freedesktop.FileManager1
-Slice=background.slice
