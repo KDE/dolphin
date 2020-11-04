@@ -232,6 +232,7 @@ void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVect
 
 KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
     KItemListWidget(informant, parent),
+    m_textInfo(),
     m_isCut(false),
     m_isHidden(false),
     m_customizedFont(),
@@ -247,7 +248,6 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     m_scaledPixmapSize(),
     m_iconRect(),
     m_hoverPixmap(),
-    m_textInfo(),
     m_textRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),

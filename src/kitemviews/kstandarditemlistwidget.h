@@ -171,13 +171,11 @@ protected:
     void hideEvent(QHideEvent* event) override;
     bool event(QEvent *event) override;
 
-protected:
     struct TextInfo
     {
         QPointF pos;
         QStaticText staticText;
     };
-    QHash<QByteArray, TextInfo*> m_textInfo;
 
 public slots:
     void finishRoleEditing();
@@ -226,6 +224,9 @@ private:
      *         a column to display the content.
      */
     static qreal columnPadding(const KItemListStyleOption& option);
+
+protected:
+    QHash<QByteArray, TextInfo*> m_textInfo; // PlacesItemListWidget needs to access this
 
 private:
     bool m_isCut;
