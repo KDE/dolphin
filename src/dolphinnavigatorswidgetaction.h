@@ -38,14 +38,6 @@ class DolphinNavigatorsWidgetAction : public QWidgetAction
 {
     Q_OBJECT
 
-    /**
-     * In Left-to-right languages the Primary side will be the left one.
-     */
-    enum Side {
-        Primary,
-        Secondary
-    };
-
 public:
     DolphinNavigatorsWidgetAction(QWidget *parent = nullptr);
 
@@ -95,7 +87,7 @@ public:
      */
     void setSecondaryNavigatorVisible(bool visible);
 
-protected:
+private:
     /**
      * Adjusts the width of the spacings used to align the UrlNavigators with ViewContainers.
      * This can only work nicely if up-to-date geometry of ViewContainers is cached so
@@ -103,6 +95,13 @@ protected:
      */
     void adjustSpacing();
 
+    /**
+     * In Left-to-right languages the Primary side will be the left one.
+     */
+    enum Side {
+        Primary,
+        Secondary
+    };
     /**
      * Used to create the navigatorWidgets for both sides of the QSplitter.
      */
@@ -132,6 +131,11 @@ protected:
      * on both sides. A secondary leading spacing does not exist.
      */
     QWidget *spacing(Side side, Position position) const;
+
+    /**
+     * Sets this action's text depending on the amount of visible UrlNavigators.
+     */
+    void updateText();
 
     /**
      * The defaultWidget() of this QWidgetAction.

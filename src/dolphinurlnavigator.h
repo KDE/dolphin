@@ -8,17 +8,12 @@
 #ifndef DOLPHINURLNAVIGATOR_H
 #define DOLPHINURLNAVIGATOR_H
 
-#include <KCompletion>
 #include <KUrlNavigator>
 
-#include <forward_list>
-
-class KToggleAction;
-
 /**
- * @brief Extends KUrlNavigator in a Dolphin-specific way
+ * @brief Extends KUrlNavigator in a Dolphin-specific way.
  *
- * Makes sure that Dolphin preferences, settings and settings changes are
+ * Makes sure that Dolphin preferences and settings are
  * applied to all constructed DolphinUrlNavigators.
  *
  * @see KUrlNavigator
@@ -42,12 +37,7 @@ public:
 
     virtual ~DolphinUrlNavigator();
 
-    /**
-     * This method is needed so the DolphinNavigatorWidgetAction knows when there is not enough
-     * space to neatly align the UrlNavigator with the ViewContainers. Unfortunately KUrlNavigator
-     * does not have a useful sizeHint() currently. It would make more sense to change
-     * KUrlNavigator instead.
-     */
+    // TODO: Fix KUrlNavigator::sizeHint() instead.
     QSize sizeHint() const override;
 
     /**
@@ -74,38 +64,10 @@ public:
 
 public slots:
     /**
-     * Refreshes all DolphinUrlNavigators to get synchronized with the
-     * Dolphin settings if they were changed.
-     */
-    static void slotReadSettings();
-
-    /**
      * Switches to "breadcrumb" mode if the editable mode is not set to be
      * preferred in the Dolphin settings.
      */
     void slotReturnPressed();
-
-    static void slotPlacesPanelVisibilityChanged(bool visible);
-
-protected:
-    /**
-     * Constructor-helper function
-     */
-    void init();
-
-protected slots:
-    /**
-     * Sets the completion mode for all DolphinUrlNavigators
-     * and saves it in settings.
-     */
-    static void setCompletionMode(const KCompletion::CompletionMode completionMode);
-
-protected:
-    /** Contains all currently constructed DolphinUrlNavigators */
-    static std::forward_list<DolphinUrlNavigator *> s_instances;
-
-    /** Caches the (negated) places panel visibility */
-    static bool s_placesSelectorVisible;
 };
 
 #endif // DOLPHINURLNAVIGATOR_H

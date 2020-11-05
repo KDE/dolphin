@@ -9,6 +9,7 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphinplacesmodelsingleton.h"
+#include "dolphinurlnavigatorscontroller.h"
 #include "global.h"
 
 #include <KUrlComboBox>
@@ -19,24 +20,17 @@
 #include <QLineEdit>
 
 DolphinUrlNavigator::DolphinUrlNavigator(QWidget *parent) :
-    KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), QUrl(), parent)
-{
-    init();
-}
+    DolphinUrlNavigator(QUrl(), parent)
+{}
 
 DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent) :
     KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, parent)
-{
-    init();
-}
-
-void DolphinUrlNavigator::init()
 {
     const GeneralSettings* settings = GeneralSettings::self();
     setUrlEditable(settings->editableUrl());
     setShowFullPath(settings->showFullPath());
     setHomeUrl(Dolphin::homeUrl());
-    setPlacesSelectorVisible(s_placesSelectorVisible);
+    setPlacesSelectorVisible(DolphinUrlNavigatorsController::placesSelectorVisible());
     editor()->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
     setWhatsThis(xi18nc("@info:whatsthis location bar",
         "<para>This describes the location of the files and folders "
@@ -51,22 +45,21 @@ void DolphinUrlNavigator::init()
         "<link url='help:/dolphin/location-bar.html'>click here</link>. "
         "This will open the dedicated page in the Handbook.</para>"));
 
-    s_instances.push_front(this);
+    DolphinUrlNavigatorsController::registerDolphinUrlNavigator(this);
 
     connect(this, &DolphinUrlNavigator::returnPressed,
             this, &DolphinUrlNavigator::slotReturnPressed);
     connect(editor(), &KUrlComboBox::completionModeChanged,
-            this, DolphinUrlNavigator::setCompletionMode);
+            DolphinUrlNavigatorsController::setCompletionMode);
 }
 
 DolphinUrlNavigator::~DolphinUrlNavigator()
 {
-    s_instances.remove(this);
+    DolphinUrlNavigatorsController::unregisterDolphinUrlNavigator(this);
 }
 
 QSize DolphinUrlNavigator::sizeHint() const
 {
-    // Change sizeHint() in KUrlNavigator instead.
     if (isUrlEditable()) {
         return editor()->lineEdit()->sizeHint();
     }
@@ -110,49 +103,9 @@ void DolphinUrlNavigator::setVisualState(const VisualState& visualState)
     }
 }
 
-void DolphinUrlNavigator::slotReadSettings()
-{
-    // The startup settings should (only) get applied if they have been
-    // modified by the user. Otherwise keep the (possibly) different current
-    // settings of the URL navigators and split view.
-    if (GeneralSettings::modifiedStartupSettings()) {
-        for (DolphinUrlNavigator *urlNavigator : s_instances) {
-            urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
-            urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
-            urlNavigator->setHomeUrl(Dolphin::homeUrl());
-        }
-    }
-}
-
 void DolphinUrlNavigator::slotReturnPressed()
 {
     if (!GeneralSettings::editableUrl()) {
         setUrlEditable(false);
     }
 }
-
-void DolphinUrlNavigator::slotPlacesPanelVisibilityChanged(bool visible)
-{
-    // The places-selector from the URL navigator should only be shown
-    // if the places dock is invisible
-    s_placesSelectorVisible = !visible;
-
-    for (DolphinUrlNavigator *urlNavigator : s_instances) {
-        urlNavigator->setPlacesSelectorVisible(s_placesSelectorVisible);
-    }
-}
-
-void DolphinUrlNavigator::setCompletionMode(const KCompletion::CompletionMode completionMode)
-{
-    if (completionMode != GeneralSettings::urlCompletionMode())
-    {
-        GeneralSettings::setUrlCompletionMode(completionMode);
-        for (const DolphinUrlNavigator *urlNavigator : s_instances)
-        {
-            urlNavigator->editor()->setCompletionMode(completionMode);
-        }
-    }
-}
-
-std::forward_list<DolphinUrlNavigator *> DolphinUrlNavigator::s_instances;
-bool DolphinUrlNavigator::s_placesSelectorVisible = true;

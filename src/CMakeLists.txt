@@ -210,6 +210,7 @@ set(dolphinstatic_SRCS
     dolphintabpage.cpp
     dolphintabwidget.cpp
     dolphinurlnavigator.cpp
+    dolphinurlnavigatorscontroller.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
     panels/places/placespanel.cpp

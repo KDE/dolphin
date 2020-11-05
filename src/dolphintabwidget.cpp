@@ -8,7 +8,6 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphintabbar.h"
-#include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
 
 #include <KConfigGroup>

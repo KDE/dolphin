@@ -18,18 +18,19 @@
 #include <QPushButton>
 #include <QSplitter>
 
+#include <limits>
+
 DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
     QWidgetAction{parent},
     m_splitter{new QSplitter(Qt::Horizontal)},
     m_adjustSpacingTimer{new QTimer(this)},
-    m_globalXOfPrimary{-1},
-    m_widthOfPrimary{-1},
-    m_globalXOfSecondary{-1},
-    m_widthOfSecondary{-1}
+    m_globalXOfSplitter{INT_MIN},
+    m_globalXOfPrimary{INT_MIN},
+    m_widthOfPrimary{INT_MIN},
+    m_globalXOfSecondary{INT_MIN},
+    m_widthOfSecondary{INT_MIN}
 {
-    setText(i18nc(
-        "@action:inmenu When split view is enabled there are two otherwise one.",
-        "Url Navigator(s)"));
+    updateText();
     setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
 
     m_splitter->setChildrenCollapsible(false);
@@ -76,12 +77,13 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     Q_ASSERT(m_splitter->count() == 1);
     m_splitter->addWidget(createNavigatorWidget(Secondary));
     Q_ASSERT(m_splitter->count() == 2);
+    updateText();
 }
 
 void DolphinNavigatorsWidgetAction::followViewContainerGeometry(
                                     int globalXOfPrimary,   int widthOfPrimary)
 {
-    followViewContainersGeometry(globalXOfPrimary, widthOfPrimary, -1, -1);
+    followViewContainersGeometry(globalXOfPrimary, widthOfPrimary, INT_MIN, INT_MIN);
 }
 
 void DolphinNavigatorsWidgetAction::followViewContainersGeometry(
@@ -99,7 +101,7 @@ void DolphinNavigatorsWidgetAction::followViewContainersGeometry(
 DolphinUrlNavigator* DolphinNavigatorsWidgetAction::primaryUrlNavigator() const
 {
     Q_ASSERT(m_splitter);
-    return static_cast<DolphinUrlNavigator *>(m_splitter->widget(0)->findChild<KUrlNavigator *>());
+    return m_splitter->widget(0)->findChild<DolphinUrlNavigator *>();
 }
 
 DolphinUrlNavigator* DolphinNavigatorsWidgetAction::secondaryUrlNavigator() const
@@ -108,7 +110,7 @@ DolphinUrlNavigator* DolphinNavigatorsWidgetAction::secondaryUrlNavigator() cons
     if (m_splitter->count() < 2) {
         return nullptr;
     }
-    return static_cast<DolphinUrlNavigator *>(m_splitter->widget(1)->findChild<KUrlNavigator *>());
+    return m_splitter->widget(1)->findChild<DolphinUrlNavigator *>();
 }
 
 void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
@@ -121,10 +123,14 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
         // Fix an unlikely event of wrong trash button visibility.
         emptyTrashButton(Secondary)->setVisible(false);
     }
+    updateText();
 }
 
 void DolphinNavigatorsWidgetAction::adjustSpacing()
 {
+    Q_ASSERT(m_globalXOfSplitter != INT_MIN);
+    Q_ASSERT(m_globalXOfPrimary  != INT_MIN);
+    Q_ASSERT(m_widthOfPrimary    != INT_MIN);
     const int widthOfSplitterPrimary = m_globalXOfPrimary + m_widthOfPrimary - m_globalXOfSplitter;
     const QList<int> splitterSizes = {widthOfSplitterPrimary,
                                       m_splitter->width() - widthOfSplitterPrimary};
@@ -156,8 +162,8 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     spacing(Primary, Trailing)->setFixedWidth(trailingSpacing);
 
     // secondary side of m_splitter
-    if (m_globalXOfSecondary == -1) {
-        Q_ASSERT(m_widthOfSecondary == -1);
+    if (m_globalXOfSecondary == INT_MIN) {
+        Q_ASSERT(m_widthOfSecondary == INT_MIN);
         return;
     }
     spacing(Primary, Trailing)->setFixedWidth(0);
@@ -243,4 +249,11 @@ QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) co
         return m_splitter->widget(sideIndex)->layout()->itemAt(3)->widget();
     }
     return m_splitter->widget(sideIndex)->layout()->itemAt(2)->widget();
+}
+
+void DolphinNavigatorsWidgetAction::updateText()
+{
+    const int urlNavigatorsAmount = m_splitter->count() > 1 && m_splitter->widget(1)->isVisible() ?
+                                    2 : 1;
+    setText(i18ncp("@action:inmenu", "Url Navigator", "Url Navigators", urlNavigatorsAmount));
 }

@@ -53,8 +53,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_statusBar(nullptr),
     m_statusBarTimer(nullptr),
     m_statusBarTimestamp(),
-    m_autoGrabFocus(true),
-    m_urlNavigatorVisualState{}
+    m_autoGrabFocus(true)
 #ifdef HAVE_KACTIVITIES
     , m_activityResourceInstance(nullptr)
 #endif

@@ -8,11 +8,11 @@
 #define DOLPHIN_TAB_WIDGET_H
 
 #include "dolphinnavigatorswidgetaction.h"
+#include "dolphintabpage.h"
 
 #include <QTabWidget>
 #include <QUrl>
 
-class DolphinTabPage;
 class DolphinViewContainer;
 class KConfigGroup;
 
