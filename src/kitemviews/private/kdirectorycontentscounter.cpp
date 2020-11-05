@@ -115,7 +115,7 @@ void KDirectoryContentsCounter::slotResult(const QString& path, int count, long 
     }
 
     // sends the results
-    Q_EMIT result(resolvedPath, count, size);
+    Q_EMIT result(path, count, size);
 }
 
 void KDirectoryContentsCounter::slotDirWatchDirty(const QString& path)
@@ -160,11 +160,12 @@ void KDirectoryContentsCounter::slotItemsRemoved()
 
 void KDirectoryContentsCounter::startWorker(const QString& path)
 {
-    const bool alreadyInCache = s_cache->contains(path);
+    const QString resolvedPath = QFileInfo(path).canonicalFilePath();
+    const bool alreadyInCache = s_cache->contains(resolvedPath);
     if (alreadyInCache) {
         // fast path when in cache
         // will be updated later if result has changed
-        const auto pair = s_cache->value(path);
+        const auto pair = s_cache->value(resolvedPath);
         Q_EMIT result(path, pair.first, pair.second);
     }
 
