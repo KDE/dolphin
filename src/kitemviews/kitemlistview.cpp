@@ -1184,7 +1184,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
                 // remove-animation the item gets removed from m_visibleItems but the widget
                 // will stay alive until the animation has been finished and will
                 // be recycled (deleted) in KItemListView::slotAnimationFinished().
-                m_visibleItems.remove(i);
+                it.remove();
                 widget->setIndex(-1);
                 m_animation->start(widget, KItemListViewAnimation::DeleteAnimation);
             }
