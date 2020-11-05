@@ -1151,6 +1151,9 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
 
+        qDebug() << "\n" << "m_visibleItems: " << m_visibleItems.keys();
+        qDebug() << "Range to delete: from " << firstRemovedIndex << " to " << lastRemovedIndex;
+
         // Remember which items have to be moved because they are behind the removed range.
         QVector<int> itemsToMove;
 
@@ -1161,10 +1164,13 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             KItemListWidget* widget = it.value();
             const int i = widget->index();
             if (i < firstRemovedIndex) {
+                qDebug() << " - Keep widget:" << i << " : " << m_visibleItems.value(i)->data().value("text").toString();
                 continue;
             } else if (itemsToMove.contains(i)) {
+                qDebug() << " - We're getting this item twice! THIS CAUSES CRASHES :" << i;
                 continue;
             } else if (i > lastRemovedIndex) {
+                qDebug() << " - Set to move: " << i << " : " << m_visibleItems.value(i)->data().value("text").toString();
                 itemsToMove.append(i);
                 continue;
             }
@@ -1174,13 +1180,19 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             // it is invisible (see slotAnimationFinished()).
             // Check again whether it is still visible:
             if (!m_visibleItems.contains(i)) {
+                qDebug() << " - Index not found in m_visibleItems " << i << " : " << m_visibleItems.value(i)->data().value("text").toString();
                 continue;
             }
+
+            qDebug() << " - Removed widget index :" << i << " : " << m_visibleItems.value(i)->data().value("text").toString();
+
 
             if (m_model->count() == 0 || hasMultipleRanges || !animateChangedItemCount(count)) {
                 // Remove the widget without animation
                 recycleWidget(widget);
             } else {
+                qDebug() << "Went through the single range with animation path ";
+
                 // Animate the removing of the items. Special case: When removing an item there
                 // is no valid model index available anymore. For the
                 // remove-animation the item gets removed from m_visibleItems but the widget
@@ -1196,10 +1208,12 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         // after the deleted items. It is important to update them in ascending
         // order to prevent overlaps when setting the new index.
         std::sort(itemsToMove.begin(), itemsToMove.end());
+        qDebug() << "Items to move :" << itemsToMove;
         for (int i : qAsConst(itemsToMove)) {
             KItemListWidget* widget = m_visibleItems.value(i);
             Q_ASSERT(widget);
             const int newIndex = i - count;
+            qDebug() << "  - Item " << i << " is now " << newIndex << " : " << widget->data().value("text").toString();
             if (hasMultipleRanges) {
                 setWidgetIndex(widget, newIndex);
             } else {
