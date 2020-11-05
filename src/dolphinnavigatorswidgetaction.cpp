@@ -27,7 +27,10 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
     m_globalXOfSecondary{-1},
     m_widthOfSecondary{-1}
 {
-    setText(i18nc("@action:inmenu", "Url navigator"));
+    setText(i18nc(
+        "@action:inmenu When split view is enabled there are two otherwise one.",
+        "Url Navigator(s)"));
+    setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
 
     m_splitter->setChildrenCollapsible(false);
     setDefaultWidget(m_splitter.get());
@@ -55,7 +58,7 @@ bool DolphinNavigatorsWidgetAction::addToToolbarAndSave(KXmlGuiWindow *mainWindo
     QDomElement urlNavigatorElement = domDocument.createElement(QStringLiteral("Action"));
     urlNavigatorElement.setAttribute(QStringLiteral("name"), QStringLiteral("url_navigators"));
 
-    QDomNode position = toolbar.lastChildElement(QStringLiteral("Spacer"));
+    QDomNode position = toolbar.firstChildElement(QStringLiteral("Spacer"));
     if (position.isNull()) {
         toolbar.appendChild(urlNavigatorElement);
     } else {
@@ -193,10 +196,10 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     layout->addWidget(emptyTrashButton);
 
     connect(urlNavigator, &KUrlNavigator::urlChanged, [this]() {
-                // We have to wait for DolphinUrlNavigator::sizeHint() to update which
-                // happens a little bit later than when urlChanged is emitted.
-                this->m_adjustSpacingTimer->start();
-            });
+        // We have to wait for DolphinUrlNavigator::sizeHint() to update which
+        // happens a little bit later than when urlChanged is emitted.
+        this->m_adjustSpacingTimer->start();
+    });
 
     auto trailingSpacing = new QWidget{navigatorWidget};
     layout->addWidget(trailingSpacing);

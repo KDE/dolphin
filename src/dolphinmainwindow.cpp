@@ -143,9 +143,6 @@ DolphinMainWindow::DolphinMainWindow() :
     setAcceptDrops(true);
 
     auto *navigatorsWidgetAction = new DolphinNavigatorsWidgetAction(this);
-    navigatorsWidgetAction->setText(i18nc(
-        "@action:inmenu When split view is enabled there are two otherwise one.",
-        "Url Navigator(s)"));
     actionCollection()->addAction(QStringLiteral("url_navigators"), navigatorsWidgetAction);
     m_tabWidget = new DolphinTabWidget(navigatorsWidgetAction, this);
     m_tabWidget->setObjectName("tabWidget");
@@ -915,17 +912,17 @@ void DolphinMainWindow::goBack()
 
 void DolphinMainWindow::goForward()
 {
-    m_activeViewContainer->urlNavigator()->goForward();
+    m_activeViewContainer->urlNavigatorInternalWithHistory()->goForward();
 }
 
 void DolphinMainWindow::goUp()
 {
-    m_activeViewContainer->urlNavigator()->goUp();
+    m_activeViewContainer->urlNavigatorInternalWithHistory()->goUp();
 }
 
 void DolphinMainWindow::goHome()
 {
-    m_activeViewContainer->urlNavigator()->goHome();
+    m_activeViewContainer->urlNavigatorInternalWithHistory()->goHome();
 }
 
 void DolphinMainWindow::goBackInNewTab()
