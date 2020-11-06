@@ -1058,7 +1058,10 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         std::sort(itemsToMove.begin(), itemsToMove.end());
         for (int i = itemsToMove.count() - 1; i >= 0; --i) {
             KItemListWidget* widget = m_visibleItems.value(itemsToMove[i]);
-            Q_ASSERT(widget);
+            if (!widget) {
+                continue;
+            }
+
             const int newIndex = widget->index() + count;
             if (hasMultipleRanges) {
                 setWidgetIndex(widget, newIndex);
@@ -1196,7 +1199,10 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         std::sort(itemsToMove.begin(), itemsToMove.end());
         for (int i : qAsConst(itemsToMove)) {
             KItemListWidget* widget = m_visibleItems.value(i);
-            Q_ASSERT(widget);
+            if (!widget) {
+                continue;
+            }
+
             const int newIndex = i - count;
             if (hasMultipleRanges) {
                 setWidgetIndex(widget, newIndex);
@@ -1557,8 +1563,9 @@ void KItemListView::slotGeometryOfGroupHeaderParentChanged()
     KItemListWidget* widget = qobject_cast<KItemListWidget*>(sender());
     Q_ASSERT(widget);
     KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
-    Q_ASSERT(groupHeader);
-    updateGroupHeaderLayout(widget);
+    if (groupHeader) {
+        updateGroupHeaderLayout(widget);
+    }
 }
 
 void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
@@ -1724,9 +1731,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 // Reuse a KItemListWidget instance from an invisible item
                 const int oldIndex = reusableItems.takeLast();
                 widget = m_visibleItems.value(oldIndex);
-                setWidgetIndex(widget, i);
-                updateWidgetProperties(widget, i);
-                initializeItemListWidget(widget);
+                if (widget) {
+                    setWidgetIndex(widget, i);
+                    updateWidgetProperties(widget, i);
+                    initializeItemListWidget(widget);
+                }
             } else {
                 // No reusable KItemListWidget instance is available, create a new one
                 widget = createWidget(i);
@@ -1827,7 +1836,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     // Delete invisible KItemListWidget instances that have not been reused
     for (int index : qAsConst(reusableItems)) {
-        recycleWidget(m_visibleItems.value(index));
+        auto *widget = m_visibleItems.value(index);
+        if (widget) {
+            recycleWidget(widget);
+        }
     }
 
     if (supportsExpanding && firstSibblingIndex >= 0) {
@@ -2080,7 +2092,9 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
 {
     KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
-    Q_ASSERT(groupHeader);
+    if (!groupHeader) {
+        return;
+    }
 
     const int index = widget->index();
     const QRectF groupHeaderRect = m_layouter->groupHeaderRect(index);
