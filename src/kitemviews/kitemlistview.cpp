@@ -1155,10 +1155,10 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         QVector<int> itemsToMove;
 
         // Remove all KItemListWidget instances that got deleted
-        QMutableHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            KItemListWidget* widget = it.value();
+        // Iterate over a const copy because the container is mutated within the loop
+        // directly and in `recycleWidget()` (https://bugs.kde.org/show_bug.cgi?id=428374)
+        const auto visibleItems = m_visibleItems;
+        for (KItemListWidget* widget : visibleItems) {
             const int i = widget->index();
             if (i < firstRemovedIndex) {
                 continue;

@@ -957,9 +957,9 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     QList<int> visibleChangedIndexes;
     QList<int> invisibleChangedIndexes;
 
-    QMutableSetIterator<KFileItem> it(m_changedItems);
-    while (it.hasNext()) {
-        const KFileItem item = it.next();
+    // Iterate over a const copy because items are deleted within the loop
+    const auto changedItems = m_changedItems;
+    for (const KFileItem item : changedItems) {
         const int index = m_model->index(item);
 
         if (index < 0) {
