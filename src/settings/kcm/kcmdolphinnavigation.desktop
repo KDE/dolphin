@@ -102,11 +102,9 @@ Comment[zh_TW]=此服務允許設定 Dolphin 的導覽。
 Icon=preferences-desktop-navigation
 Type=Service
 X-KDE-ServiceTypes=KCModule
-Exec=kcmshell5 kcmdolphinnavigation
 
 X-KDE-Library=kcm_dolphinnavigation
 X-KDE-PluginKeyword=dolphinnavigation
-X-KDE-ParentApp=kcontrol
 X-DocPath=dolphin/index.html#preferences-dialog-navigation
 Name=Navigation
 Name[ar]=التّنقّل

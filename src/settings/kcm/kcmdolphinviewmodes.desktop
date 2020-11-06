@@ -100,11 +100,9 @@ Comment[zh_TW]=此服務允許設定 Dolphin 的檢視模式。
 Icon=preferences-desktop-icons
 Type=Service
 X-KDE-ServiceTypes=KCModule
-Exec=kcmshell5 kcmdolphinviewmodes
 
 X-KDE-Library=kcm_dolphinviewmodes
 X-KDE-PluginKeyword=dolphinviewmodes
-X-KDE-ParentApp=kcontrol
 X-DocPath=dolphin/index.html#preferences-dialog-viewmodes
 Name=View Modes
 Name[ar]=أوضاع المنظور
