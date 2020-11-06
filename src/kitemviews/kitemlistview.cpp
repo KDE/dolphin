@@ -1162,6 +1162,8 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             const int i = widget->index();
             if (i < firstRemovedIndex) {
                 continue;
+            } else if (itemsToMove.contains(i)) {
+                continue;
             } else if (i > lastRemovedIndex) {
                 itemsToMove.append(i);
                 continue;
