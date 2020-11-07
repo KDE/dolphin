@@ -39,6 +39,8 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QVBoxLayout>
+#include <QToolTip>
+#include <QTimer>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),
@@ -49,8 +51,12 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
     m_triggerStorageSetupButton(),
     m_itemDropEventIndex(-1),
     m_itemDropEventMimeData(nullptr),
-    m_itemDropEvent(nullptr)
+    m_itemDropEvent(nullptr),
+    m_tooltipTimer()
 {
+    m_tooltipTimer.setInterval(500);
+    m_tooltipTimer.setSingleShot(true);
+    connect(&m_tooltipTimer, &QTimer::timeout, this, &PlacesPanel::slotShowTooltip);
 }
 
 PlacesPanel::~PlacesPanel()
@@ -111,6 +117,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
         m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
         m_view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
 
+        installEventFilter(this);
+
         m_controller = new KItemListController(m_model, m_view, this);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
         m_controller->setSingleClickActivationEnforced(true);
@@ -135,6 +143,21 @@ void PlacesPanel::showEvent(QShowEvent* event)
     }
 
     Panel::showEvent(event);
+}
+
+bool PlacesPanel::eventFilter(QObject * /* obj */, QEvent *event)
+{
+    if (event->type() == QEvent::ToolTip) {
+
+        QHelpEvent *hoverEvent = reinterpret_cast<QHelpEvent *>(event);
+
+        m_hoveredIndex = m_view->itemAt(hoverEvent->pos());
+        m_hoverPos = mapToGlobal(hoverEvent->pos());
+
+        m_tooltipTimer.start();
+        return true;
+    }
+    return false;
 }
 
 void PlacesPanel::slotItemActivated(int index)
@@ -458,6 +481,13 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
         setUrl(m_storageSetupFailedUrl);
         m_storageSetupFailedUrl = QUrl();
     }
+}
+
+void PlacesPanel::slotShowTooltip()
+{
+    const QUrl url = m_model->data(m_hoveredIndex).value("url").value<QUrl>();
+    const QString text = url.isLocalFile() ? url.path() : url.toString();
+    QToolTip::showText(m_hoverPos, text);
 }
 
 void PlacesPanel::addEntry()
