@@ -959,7 +959,7 @@ void KFileItemModelRolesUpdater::updateChangedItems()
 
     // Iterate over a const copy because items are deleted within the loop
     const auto changedItems = m_changedItems;
-    for (const KFileItem item : changedItems) {
+    for (const KFileItem &item : changedItems) {
         const int index = m_model->index(item);
 
         if (index < 0) {
