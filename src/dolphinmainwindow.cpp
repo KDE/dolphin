@@ -1243,7 +1243,9 @@ void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
         // which had been unmounted earlier, see https://bugs.kde.org/show_bug.cgi?id=161385.
         reloadView();
     } else {
+        view->disableUrlNavigatorSelectionRequests();
         changeUrl(url);
+        view->enableUrlNavigatorSelectionRequests();
     }
 }
 

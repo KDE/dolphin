@@ -174,6 +174,15 @@ public:
      */
     QString caption() const;
 
+    /**
+     * Disable/enable the behavior of "select child when moving to parent folder"
+     * offered by KUrlNavigator.
+     *
+     * See KUrlNavigator::urlSelectionRequested
+     */
+    void disableUrlNavigatorSelectionRequests();
+    void enableUrlNavigatorSelectionRequests();
+
 public Q_SLOTS:
     /**
      * Sets the current active URL, where all actions are applied. The

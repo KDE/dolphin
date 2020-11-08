@@ -727,6 +727,18 @@ void DolphinViewContainer::slotUrlSelectionRequested(const QUrl& url)
     m_view->markUrlAsCurrent(url); // makes the item scroll into view
 }
 
+void DolphinViewContainer::disableUrlNavigatorSelectionRequests()
+{
+    disconnect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested,
+        this, &DolphinViewContainer::slotUrlSelectionRequested);
+}
+
+void DolphinViewContainer::enableUrlNavigatorSelectionRequests()
+{
+    connect(m_urlNavigator.get(), &KUrlNavigator::urlSelectionRequested,
+        this, &DolphinViewContainer::slotUrlSelectionRequested);
+}
+
 void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)
 {
     Q_UNUSED(oldUrl)
