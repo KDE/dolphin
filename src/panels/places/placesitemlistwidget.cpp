@@ -12,6 +12,8 @@
 #include <KColorScheme>
 
 #include <KIO/FileSystemFreeSpaceJob>
+#include <Solid/Device>
+#include <Solid/NetworkShare>
 
 #define CAPACITYBAR_HEIGHT 2
 #define CAPACITYBAR_MARGIN 2
@@ -41,12 +43,19 @@ QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
 
 void PlacesItemListWidget::updateCapacityBar()
 {
-    const bool isDevice = !data().value("udi").toString().isEmpty();
-    const QUrl url = data().value("url").toUrl();
-    if (!(isDevice && url.isLocalFile())) {
+    const QString udi = data().value("udi").toString();
+    if (udi.isEmpty()) {
         resetCapacityBar();
         return;
     }
+    const Solid::Device device = Solid::Device(udi);
+    if (device.isDeviceInterface(Solid::DeviceInterface::NetworkShare)
+            || device.isDeviceInterface(Solid::DeviceInterface::OpticalDrive)
+            || device.isDeviceInterface(Solid::DeviceInterface::OpticalDisc)) {
+        resetCapacityBar();
+        return;
+    }
+    const QUrl url = data().value("url").toUrl();
 
     if (m_freeSpaceInfo.job || !m_freeSpaceInfo.lastUpdated.hasExpired()) {
         // Job running or cache is still valid.
