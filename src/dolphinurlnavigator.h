@@ -15,8 +15,9 @@
  *
  * Makes sure that Dolphin preferences and settings are
  * applied to all constructed DolphinUrlNavigators.
- *
  * @see KUrlNavigator
+ *
+ * To apply changes to all instances of this class @see DolphinUrlNavigatorsController.
  */
 class DolphinUrlNavigator : public KUrlNavigator
 {
@@ -55,6 +56,9 @@ public:
     /**
      * Retrieve the visual state of this DolphinUrlNavigator.
      * If two DolphinUrlNavigators have the same visual state they should look identical.
+     *
+     * @return a copy of the visualState of this object. Ownership of this copy is transferred
+     *         to the caller via std::unique_ptr.
      */
     std::unique_ptr<VisualState> visualState() const;
     /**

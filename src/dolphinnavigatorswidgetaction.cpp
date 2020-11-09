@@ -201,7 +201,7 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto emptyTrashButton = newEmptyTrashButton(urlNavigator, navigatorWidget);
     layout->addWidget(emptyTrashButton);
 
-    connect(urlNavigator, &KUrlNavigator::urlChanged, [this]() {
+    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [this]() {
         // We have to wait for DolphinUrlNavigator::sizeHint() to update which
         // happens a little bit later than when urlChanged is emitted.
         this->m_adjustSpacingTimer->start();
@@ -231,7 +231,7 @@ QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrl
     connect(&Trash::instance(), &Trash::emptinessChanged,
             emptyTrashButton, &QPushButton::setDisabled);
     emptyTrashButton->hide();
-    connect(urlNavigator, &KUrlNavigator::urlChanged, [emptyTrashButton, urlNavigator]() {
+    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [emptyTrashButton, urlNavigator]() {
         emptyTrashButton->setVisible(urlNavigator->locationUrl().scheme() == QLatin1String("trash"));
     });
     emptyTrashButton->setDisabled(Trash::isEmpty());

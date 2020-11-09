@@ -83,7 +83,7 @@ public:
     /**
      * Calls resizeNavigators() when a watched object is resized.
      */
-    bool eventFilter(QObject */* watched */, QEvent *event) override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
     /**
      * Notify the connected DolphinNavigatorsWidgetAction of geometry changes which it

@@ -159,11 +159,9 @@ void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigators
 {
     m_navigatorsWidget = navigatorsWidget;
     auto primaryNavigator = navigatorsWidget->primaryUrlNavigator();
-    primaryNavigator->setActive(m_primaryViewActive);
     m_primaryViewContainer->connectUrlNavigator(primaryNavigator);
     if (m_splitViewEnabled) {
         auto secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
-        secondaryNavigator->setActive(!m_primaryViewActive);
         m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
     }
     resizeNavigators();
@@ -178,12 +176,13 @@ void DolphinTabPage::disconnectNavigators()
     }
 }
 
-bool DolphinTabPage::eventFilter(QObject */* watched */, QEvent *event)
+bool DolphinTabPage::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Resize && m_navigatorsWidget) {
         resizeNavigators();
+        return false;
     }
-    return false;
+    return QWidget::eventFilter(watched, event);
 }
 
 void DolphinTabPage::resizeNavigators() const
@@ -292,11 +291,9 @@ void DolphinTabPage::restoreState(const QByteArray& state)
     stream >> m_primaryViewActive;
     if (m_primaryViewActive) {
         m_primaryViewContainer->setActive(true);
-        m_navigatorsWidget->primaryUrlNavigator()->setActive(true);
     } else {
         Q_ASSERT(m_splitViewEnabled);
         m_secondaryViewContainer->setActive(true);
-        m_navigatorsWidget->primaryUrlNavigator()->setActive(false);
     }
 
     QByteArray splitterState;

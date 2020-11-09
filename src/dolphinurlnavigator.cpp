@@ -47,10 +47,8 @@ DolphinUrlNavigator::DolphinUrlNavigator(const QUrl &url, QWidget *parent) :
 
     DolphinUrlNavigatorsController::registerDolphinUrlNavigator(this);
 
-    connect(this, &DolphinUrlNavigator::returnPressed,
+    connect(this, &KUrlNavigator::returnPressed,
             this, &DolphinUrlNavigator::slotReturnPressed);
-    connect(editor(), &KUrlComboBox::completionModeChanged,
-            DolphinUrlNavigatorsController::setCompletionMode);
 }
 
 DolphinUrlNavigator::~DolphinUrlNavigator()

@@ -291,11 +291,11 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     Q_CHECK_PTR(m_view);
 
     urlNavigator->setLocationUrl(m_view->url());
-    urlNavigator->setActive(isActive());
     if (m_urlNavigatorVisualState) {
         urlNavigator->setVisualState(*m_urlNavigatorVisualState.get());
         m_urlNavigatorVisualState.reset();
     }
+    urlNavigator->setActive(isActive());
 
     connect(m_view, &DolphinView::urlChanged,
             urlNavigator, &DolphinUrlNavigator::setLocationUrl);
@@ -307,7 +307,8 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
             this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
     connect(urlNavigator, &DolphinUrlNavigator::urlSelectionRequested,
             this, &DolphinViewContainer::slotUrlSelectionRequested);
-    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
+    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped,
+            this, [=](const QUrl &destination, QDropEvent *event) {
         m_view->dropUrls(destination, event, urlNavigator->dropWidget());
     });
 

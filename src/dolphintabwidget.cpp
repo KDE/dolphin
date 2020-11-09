@@ -406,7 +406,7 @@ void DolphinTabWidget::currentTabChanged(int index)
     tabPage->setActive(true);
     tabPage->connectNavigators(m_navigatorsWidget);
     m_navigatorsWidget->setSecondaryNavigatorVisible(tabPage->splitViewEnabled());
-    m_lastViewedTab = tabPageAt(index);
+    m_lastViewedTab = tabPage;
 }
 
 void DolphinTabWidget::tabInserted(int index)

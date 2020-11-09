@@ -46,6 +46,8 @@ bool DolphinUrlNavigatorsController::placesSelectorVisible()
 void DolphinUrlNavigatorsController::registerDolphinUrlNavigator(DolphinUrlNavigator *dolphinUrlNavigator)
 {
     s_instances.push_front(dolphinUrlNavigator);
+    connect(dolphinUrlNavigator->editor(), &KUrlComboBox::completionModeChanged,
+            DolphinUrlNavigatorsController::setCompletionMode);
 }
 
 void DolphinUrlNavigatorsController::unregisterDolphinUrlNavigator(DolphinUrlNavigator *dolphinUrlNavigator)
