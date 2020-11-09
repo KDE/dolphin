@@ -21,6 +21,7 @@
 #include <KCrash>
 #include <KDBusService>
 #include <KLocalizedString>
+#include <KToolBar>
 #include <Kdelibs4ConfigMigrator>
 #include <KConfigGui>
 
@@ -212,6 +213,12 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
             }
         }
+    }
+    Qt::ToolBarArea area = mainWindow->toolBarArea(mainWindow->toolBar());
+    if (area != Qt::TopToolBarArea && area != Qt::BottomToolBarArea) {
+        // Migrate users with disabled tool bar positions.
+        // Remove this a few years from now (2020).
+        mainWindow->addToolBar(Qt::TopToolBarArea, mainWindow->toolBar());
     }
 
 #ifdef HAVE_KUSERFEEDBACK

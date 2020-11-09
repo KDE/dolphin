@@ -7,13 +7,12 @@
 #include "dolphinviewcontainer.h"
 
 #include "dolphin_generalsettings.h"
-#include "dolphinplacesmodelsingleton.h"
 #include "dolphindebug.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "trash/dolphintrash.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 #include "dolphin_detailsmodesettings.h"
@@ -31,6 +30,7 @@
 #include <KProtocolManager>
 #include <KShell>
 #include <KUrlComboBox>
+#include <KUrlNavigator>
 
 #include <QDropEvent>
 #include <QLoggingCategory>
@@ -43,9 +43,8 @@
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
     m_topLayout(nullptr),
-    m_navigatorWidget(nullptr),
-    m_urlNavigator(nullptr),
-    m_emptyTrashButton(nullptr),
+    m_urlNavigator{new DolphinUrlNavigator(url)},
+    m_urlNavigatorConnected{nullptr},
     m_searchBox(nullptr),
     m_searchModeEnabled(false),
     m_messageWidget(nullptr),
@@ -64,43 +63,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setContentsMargins(0, 0, 0, 0);
-
-    m_navigatorWidget = new QWidget(this);
-    QHBoxLayout* navigatorLayout = new QHBoxLayout(m_navigatorWidget);
-    navigatorLayout->setSpacing(0);
-    navigatorLayout->setContentsMargins(0, 0, 0, 0);
-    m_navigatorWidget->setWhatsThis(xi18nc("@info:whatsthis location bar",
-        "<para>This line describes the location of the files and folders "
-        "displayed below.</para><para>The name of the currently viewed "
-        "folder can be read at the very right. To the left of it is the "
-        "name of the folder that contains it. The whole line is called "
-        "the <emphasis>path</emphasis> to the current location because "
-        "following these folders from left to right leads here.</para>"
-        "<para>The path is displayed on the <emphasis>location bar</emphasis> "
-        "which is more powerful than one would expect. To learn more "
-        "about the basic and advanced features of the location bar "
-        "<link url='help:/dolphin/location-bar.html'>click here</link>. "
-        "This will open the dedicated page in the Handbook.</para>"));
-
-    m_urlNavigator = new KUrlNavigator(DolphinPlacesModelSingleton::instance().placesModel(), url, this);
-    connect(m_urlNavigator, &KUrlNavigator::activated,
-            this, &DolphinViewContainer::activate);
-    connect(m_urlNavigator->editor(), &KUrlComboBox::completionModeChanged,
-            this, &DolphinViewContainer::saveUrlCompletionMode);
-
-    const GeneralSettings* settings = GeneralSettings::self();
-    m_urlNavigator->setUrlEditable(settings->editableUrl());
-    m_urlNavigator->setShowFullPath(settings->showFullPath());
-    m_urlNavigator->setHomeUrl(Dolphin::homeUrl());
-    KUrlComboBox* editor = m_urlNavigator->editor();
-    editor->setCompletionMode(KCompletion::CompletionMode(settings->urlCompletionMode()));
-
-    m_emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")), i18nc("@action:button", "Empty Trash"), this);
-    m_emptyTrashButton->setFlat(true);
-    connect(m_emptyTrashButton, &QPushButton::clicked, this, [this]() { Trash::empty(this); });
-    connect(&Trash::instance(), &Trash::emptinessChanged, m_emptyTrashButton, &QPushButton::setDisabled);
-    m_emptyTrashButton->setDisabled(Trash::isEmpty());
-    m_emptyTrashButton->hide();
 
     m_searchBox = new DolphinSearchBox(this);
     m_searchBox->hide();
@@ -135,7 +97,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
     // Initialize filter bar
     m_filterBar = new FilterBar(this);
-    m_filterBar->setVisible(settings->filterBar());
+    m_filterBar->setVisible(GeneralSettings::filterBar());
 
     connect(m_filterBar, &FilterBar::filterChanged,
             this, &DolphinViewContainer::setNameFilter);
@@ -149,9 +111,13 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_view, &DolphinView::urlChanged,
             m_filterBar, &FilterBar::slotUrlChanged);
     connect(m_view, &DolphinView::urlChanged,
-            m_urlNavigator, &KUrlNavigator::setLocationUrl);
-    connect(m_view, &DolphinView::urlChanged,
             m_messageWidget, &KMessageWidget::hide);
+    // m_urlNavigator stays in sync with m_view's location changes and
+    // keeps track of them so going back and forth in the history works.
+    connect(m_view, &DolphinView::urlChanged,
+            m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
     connect(m_view, &DolphinView::writeStateChanged,
             this, &DolphinViewContainer::writeStateChanged);
     connect(m_view, &DolphinView::requestItemInfo,
@@ -183,22 +149,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_view, &DolphinView::activated,
             this, &DolphinViewContainer::activate);
 
-    connect(m_urlNavigator, &KUrlNavigator::urlAboutToBeChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
-    connect(m_urlNavigator, &KUrlNavigator::urlChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
-    connect(m_urlNavigator, &KUrlNavigator::urlSelectionRequested,
-            this, &DolphinViewContainer::slotUrlSelectionRequested);
-    connect(m_urlNavigator, &KUrlNavigator::returnPressed,
-            this, &DolphinViewContainer::slotReturnPressed);
-    connect(m_urlNavigator, &KUrlNavigator::urlsDropped, this, [=](const QUrl &destination, QDropEvent *event) {
-        m_view->dropUrls(destination, event, m_urlNavigator->dropWidget());
-    });
-
-    connect(m_view, &DolphinView::directoryLoadingCompleted, this, [this]() {
-        m_emptyTrashButton->setVisible(m_view->url().scheme() == QLatin1String("trash"));
-    });
-
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
@@ -225,10 +175,6 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
             this, &DolphinViewContainer::delayedStatusBarUpdate);
 
-    navigatorLayout->addWidget(m_urlNavigator);
-    navigatorLayout->addWidget(m_emptyTrashButton);
-
-    m_topLayout->addWidget(m_navigatorWidget);
     m_topLayout->addWidget(m_searchBox);
     m_topLayout->addWidget(m_messageWidget);
     m_topLayout->addWidget(m_view);
@@ -263,7 +209,9 @@ QUrl DolphinViewContainer::url() const
 void DolphinViewContainer::setActive(bool active)
 {
     m_searchBox->setActive(active);
-    m_urlNavigator->setActive(active);
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setActive(active);
+    }
     m_view->setActive(active);
 
 #ifdef HAVE_KACTIVITIES
@@ -277,7 +225,6 @@ void DolphinViewContainer::setActive(bool active)
 
 bool DolphinViewContainer::isActive() const
 {
-    Q_ASSERT(m_view->isActive() == m_urlNavigator->isActive());
     return m_view->isActive();
 }
 
@@ -306,14 +253,24 @@ DolphinStatusBar* DolphinViewContainer::statusBar()
     return m_statusBar;
 }
 
-const KUrlNavigator* DolphinViewContainer::urlNavigator() const
+const DolphinUrlNavigator* DolphinViewContainer::urlNavigator() const
 {
-    return m_urlNavigator;
+    return m_urlNavigatorConnected;
 }
 
-KUrlNavigator* DolphinViewContainer::urlNavigator()
+DolphinUrlNavigator* DolphinViewContainer::urlNavigator()
 {
-    return m_urlNavigator;
+    return m_urlNavigatorConnected;
+}
+
+const DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternalWithHistory() const
+{
+    return m_urlNavigator.get();
+}
+
+DolphinUrlNavigator *DolphinViewContainer::urlNavigatorInternalWithHistory()
+{
+    return m_urlNavigator.get();
 }
 
 const DolphinView* DolphinViewContainer::view() const
@@ -324,6 +281,61 @@ const DolphinView* DolphinViewContainer::view() const
 DolphinView* DolphinViewContainer::view()
 {
     return m_view;
+}
+
+void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator)
+{
+    Q_CHECK_PTR(urlNavigator);
+    Q_ASSERT(!m_urlNavigatorConnected);
+    Q_ASSERT(m_urlNavigator.get() != urlNavigator);
+    Q_CHECK_PTR(m_view);
+
+    urlNavigator->setLocationUrl(m_view->url());
+    if (m_urlNavigatorVisualState) {
+        urlNavigator->setVisualState(*m_urlNavigatorVisualState.get());
+        m_urlNavigatorVisualState.reset();
+    }
+    urlNavigator->setActive(isActive());
+
+    connect(m_view, &DolphinView::urlChanged,
+            urlNavigator, &DolphinUrlNavigator::setLocationUrl);
+    connect(urlNavigator, &DolphinUrlNavigator::urlChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    connect(urlNavigator, &DolphinUrlNavigator::activated,
+            this, &DolphinViewContainer::activate);
+    connect(urlNavigator, &DolphinUrlNavigator::urlAboutToBeChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
+    connect(urlNavigator, &DolphinUrlNavigator::urlSelectionRequested,
+            this, &DolphinViewContainer::slotUrlSelectionRequested);
+    connect(urlNavigator, &DolphinUrlNavigator::urlsDropped,
+            this, [=](const QUrl &destination, QDropEvent *event) {
+        m_view->dropUrls(destination, event, urlNavigator->dropWidget());
+    });
+
+    m_urlNavigatorConnected = urlNavigator;
+}
+
+void DolphinViewContainer::disconnectUrlNavigator()
+{
+    if (!m_urlNavigatorConnected) {
+        return;
+    }
+
+    disconnect(m_view, &DolphinView::urlChanged,
+               m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlChanged,
+               this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated,
+               this, &DolphinViewContainer::activate);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlAboutToBeChanged,
+               this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlSelectionRequested,
+               this, &DolphinViewContainer::slotUrlSelectionRequested);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped,
+               this, nullptr);
+
+    m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
+    m_urlNavigatorConnected = nullptr;
 }
 
 void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
@@ -359,13 +371,10 @@ void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
 
 void DolphinViewContainer::readSettings()
 {
+    // The startup settings should (only) get applied if they have been
+    // modified by the user. Otherwise keep the (possibly) different current
+    // setting of the filterbar.
     if (GeneralSettings::modifiedStartupSettings()) {
-        // The startup settings should only get applied if they have been
-        // modified by the user. Otherwise keep the (possibly) different current
-        // settings of the URL navigator and the filterbar.
-        m_urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
-        m_urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
-        m_urlNavigator->setHomeUrl(Dolphin::homeUrl());
         setFilterBarVisible(GeneralSettings::filterBar());
     }
 
@@ -381,10 +390,9 @@ bool DolphinViewContainer::isFilterBarVisible() const
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
     m_searchBox->setVisible(enabled);
-    m_navigatorWidget->setVisible(!enabled);
 
     if (enabled) {
-        const QUrl& locationUrl = m_urlNavigator->locationUrl();
+        const QUrl& locationUrl = m_urlNavigatorConnected->locationUrl();
         m_searchBox->fromSearchUrl(locationUrl);
     }
 
@@ -405,7 +413,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
         if (url.isEmpty() || !url.isValid() || isSearchUrl(url)) {
             url = Dolphin::homeUrl();
         }
-        m_urlNavigator->setLocationUrl(url);
+        m_urlNavigatorConnected->setLocationUrl(url);
     }
 
     m_searchModeEnabled = enabled;
@@ -680,7 +688,9 @@ void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const QUrl&)
 
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const QUrl& url)
 {
-    slotReturnPressed();
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->slotReturnPressed();
+    }
 
     if (KProtocolManager::supportsListing(url)) {
         setSearchModeEnabled(isSearchUrl(url));
@@ -739,24 +749,13 @@ void DolphinViewContainer::requestFocus()
     m_view->setFocus();
 }
 
-void DolphinViewContainer::saveUrlCompletionMode(KCompletion::CompletionMode completion)
-{
-    GeneralSettings::setUrlCompletionMode(completion);
-}
-
-void DolphinViewContainer::slotReturnPressed()
-{
-    if (!GeneralSettings::editableUrl()) {
-        m_urlNavigator->setUrlEditable(false);
-    }
-}
-
 void DolphinViewContainer::startSearching()
 {
+    Q_CHECK_PTR(m_urlNavigatorConnected);
     const QUrl url = m_searchBox->urlForSearching();
     if (url.isValid() && !url.isEmpty()) {
         m_view->setViewPropertiesContext(QStringLiteral("search"));
-        m_urlNavigator->setLocationUrl(url);
+        m_urlNavigatorConnected->setLocationUrl(url);
     }
 }
 

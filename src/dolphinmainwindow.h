@@ -649,6 +649,9 @@ private:
     KToolBarPopupAction* m_backAction;
     KToolBarPopupAction* m_forwardAction;
 
+    /** Makes sure that only one object is ever connected to the history. */
+    QMetaObject::Connection m_updateHistoryConnection;
+
     QMenu m_searchTools;
 
 };

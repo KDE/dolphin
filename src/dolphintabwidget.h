@@ -7,11 +7,13 @@
 #ifndef DOLPHIN_TAB_WIDGET_H
 #define DOLPHIN_TAB_WIDGET_H
 
+#include "dolphinnavigatorswidgetaction.h"
+#include "dolphintabpage.h"
+
 #include <QTabWidget>
 #include <QUrl>
 
 class DolphinViewContainer;
-class DolphinTabPage;
 class KConfigGroup;
 
 class DolphinTabWidget : public QTabWidget
@@ -32,7 +34,12 @@ public:
           */
         AfterLastTab
     };
-    explicit DolphinTabWidget(QWidget* parent);
+
+    /**
+     * @param navigatorsWidget The navigatorsWidget which is always going to be connected
+     *                         to the active tabPage.
+     */
+    explicit DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget *parent);
 
     /**
      * @return Tab page at the current index (can be 0 if tabs count is smaller than 1)
@@ -164,13 +171,6 @@ public slots:
     void activatePrevTab();
 
     /**
-     * Is invoked if the Places panel got visible/invisible and takes care
-     * that the places-selector of all views is only shown if the Places panel
-     * is invisible.
-     */
-    void slotPlacesPanelVisibilityChanged(bool visible);
-
-    /**
      * Is called when the user wants to reopen a previously closed tab from
      * the recent tabs menu.
      */
@@ -231,10 +231,8 @@ private:
     QPair<int, bool> indexByUrl(const QUrl& url) const;
 
 private:
-    /** Caches the (negated) places panel visibility */
-    bool m_placesSelectorVisible;
-
-    int m_lastViewedTab;
+    QPointer<DolphinTabPage> m_lastViewedTab;
+    QPointer<DolphinNavigatorsWidgetAction> m_navigatorsWidget;
 };
 
 #endif

@@ -8,9 +8,9 @@
 #define DOLPHINVIEWCONTAINER_H
 
 #include "config-kactivities.h"
+#include "dolphinurlnavigator.h"
 #include "views/dolphinview.h"
 
-#include <KCompletion>
 #include <KFileItem>
 #include <KIO/Job>
 #include <KUrlNavigator>
@@ -85,11 +85,52 @@ public:
     const DolphinStatusBar* statusBar() const;
     DolphinStatusBar* statusBar();
 
-    const KUrlNavigator* urlNavigator() const;
-    KUrlNavigator* urlNavigator();
+    /**
+     * @return  An UrlNavigator that is controlling this view
+     *          or nullptr if there is none.
+     * @see connectUrlNavigator()
+     * @see disconnectUrlNavigator()
+     *
+     * Use urlNavigatorInternalWithHistory() if you want to access the history.
+     * @see urlNavigatorInternalWithHistory()
+     */
+    const DolphinUrlNavigator *urlNavigator() const;
+    /**
+     * @return  An UrlNavigator that is controlling this view
+     *          or nullptr if there is none.
+     * @see connectUrlNavigator()
+     * @see disconnectUrlNavigator()
+     *
+     * Use urlNavigatorInternalWithHistory() if you want to access the history.
+     * @see urlNavigatorInternalWithHistory()
+     */
+    DolphinUrlNavigator *urlNavigator();
+
+    /**
+     * @return An UrlNavigator that contains this view's history.
+     * Use urlNavigator() instead when not accessing the history.
+     */
+    const DolphinUrlNavigator *urlNavigatorInternalWithHistory() const;
+    /**
+     * @return An UrlNavigator that contains this view's history.
+     * Use urlNavigator() instead when not accessing the history.
+     */
+    DolphinUrlNavigator *urlNavigatorInternalWithHistory();
 
     const DolphinView* view() const;
     DolphinView* view();
+
+    /**
+     * @param urlNavigator  The UrlNavigator that is supposed to control
+     *                      this view.
+     */
+    void connectUrlNavigator(DolphinUrlNavigator *urlNavigator);
+
+    /**
+     * Disconnects the navigator that is currently controling the view.
+     * This method completely reverses connectUrlNavigator().
+     */
+    void disconnectUrlNavigator();
 
     /**
      * Shows the message \msg with the given type non-modal above
@@ -282,14 +323,6 @@ private slots:
     void requestFocus();
 
     /**
-     * Saves the currently used URL completion mode of
-     * the URL navigator.
-     */
-    void saveUrlCompletionMode(KCompletion::CompletionMode completion);
-
-    void slotReturnPressed();
-
-    /**
      * Gets the search URL from the searchbox and starts searching.
      */
     void startSearching();
@@ -328,9 +361,20 @@ private:
 
 private:
     QVBoxLayout* m_topLayout;
-    QWidget* m_navigatorWidget;
-    KUrlNavigator* m_urlNavigator;
-    QPushButton* m_emptyTrashButton;
+
+    /**
+     * The internal UrlNavigator which is never visible to the user.
+     * m_urlNavigator is used even when another UrlNavigator is controlling
+     * the view to keep track of this object's history.
+     */
+    std::unique_ptr<DolphinUrlNavigator> m_urlNavigator;
+
+    /**
+     * The UrlNavigator that is currently connected to the view.
+     * This is a nullptr if no UrlNavigator is connected.
+     * Otherwise it's one of the UrlNavigators visible in the toolbar.
+     */
+    QPointer<DolphinUrlNavigator> m_urlNavigatorConnected;
     DolphinSearchBox* m_searchBox;
     bool m_searchModeEnabled;
     KMessageWidget* m_messageWidget;
@@ -343,6 +387,11 @@ private:
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
     bool m_autoGrabFocus;
+    /**
+     * The visual state to be applied to the next UrlNavigator that gets
+     * connected to this ViewContainer.
+     */
+    std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
 
 #ifdef HAVE_KACTIVITIES
 private:

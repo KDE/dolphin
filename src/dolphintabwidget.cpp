@@ -8,7 +8,6 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphintabbar.h"
-#include "dolphintabpage.h"
 #include "dolphinviewcontainer.h"
 
 #include <KConfigGroup>
@@ -20,10 +19,10 @@
 #include <QApplication>
 #include <QDropEvent>
 
-DolphinTabWidget::DolphinTabWidget(QWidget* parent) :
+DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget* parent) :
     QTabWidget(parent),
-    m_placesSelectorVisible(true),
-    m_lastViewedTab(0)
+    m_lastViewedTab(nullptr),
+    m_navigatorsWidget{navigatorsWidget}
 {
     KAcceleratorManager::setNoAccel(this);
 
@@ -127,10 +126,15 @@ bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
 
 void DolphinTabWidget::openNewActivatedTab()
 {
+    std::unique_ptr<DolphinUrlNavigator::VisualState> oldNavigatorState;
+    if (currentTabPage()->primaryViewActive() || !m_navigatorsWidget->secondaryUrlNavigator()) {
+        oldNavigatorState = m_navigatorsWidget->primaryUrlNavigator()->visualState();
+    } else {
+        oldNavigatorState = m_navigatorsWidget->secondaryUrlNavigator()->visualState();
+    }
+
     const DolphinViewContainer* oldActiveViewContainer = currentTabPage()->activeViewContainer();
     Q_ASSERT(oldActiveViewContainer);
-
-    const bool isUrlEditable = oldActiveViewContainer->urlNavigator()->isUrlEditable();
 
     openNewActivatedTab(oldActiveViewContainer->url());
 
@@ -139,7 +143,7 @@ void DolphinTabWidget::openNewActivatedTab()
 
     // The URL navigator of the new tab should have the same editable state
     // as the current tab
-    newActiveViewContainer->urlNavigator()->setUrlEditable(isUrlEditable);
+    newActiveViewContainer->urlNavigator()->setVisualState(*oldNavigatorState.get());
 
     // Always focus the new tab's view
     newActiveViewContainer->view()->setFocus();
@@ -157,7 +161,6 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
 
     DolphinTabPage* tabPage = new DolphinTabPage(primaryUrl, secondaryUrl, this);
     tabPage->setActive(false);
-    tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
     connect(tabPage, &DolphinTabPage::activeViewChanged,
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
@@ -288,19 +291,6 @@ void DolphinTabWidget::activatePrevTab()
     setCurrentIndex(index >= 0 ? index : (count() - 1));
 }
 
-void DolphinTabWidget::slotPlacesPanelVisibilityChanged(bool visible)
-{
-    // The places-selector from the URL navigator should only be shown
-    // if the places dock is invisible
-    m_placesSelectorVisible = !visible;
-
-    const int tabCount = count();
-    for (int i = 0; i < tabCount; ++i) {
-        DolphinTabPage* tabPage = tabPageAt(i);
-        tabPage->setPlacesSelectorVisible(m_placesSelectorVisible);
-    }
-}
-
 void DolphinTabWidget::restoreClosedTab(const QByteArray& state)
 {
     openNewActivatedTab();
@@ -399,16 +389,24 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
 
 void DolphinTabWidget::currentTabChanged(int index)
 {
-    // last-viewed tab deactivation
-    if (DolphinTabPage* tabPage = tabPageAt(m_lastViewedTab)) {
-        tabPage->setActive(false);
+    DolphinTabPage *tabPage = tabPageAt(index);
+    if (tabPage == m_lastViewedTab) {
+        return;
     }
-    DolphinTabPage* tabPage = tabPageAt(index);
+    if (m_lastViewedTab) {
+        m_lastViewedTab->disconnectNavigators();
+        m_lastViewedTab->setActive(false);
+    }
+    if (tabPage->splitViewEnabled() && !m_navigatorsWidget->secondaryUrlNavigator()) {
+        m_navigatorsWidget->createSecondaryUrlNavigator();
+    }
     DolphinViewContainer* viewContainer = tabPage->activeViewContainer();
     Q_EMIT activeViewChanged(viewContainer);
     Q_EMIT currentUrlChanged(viewContainer->url());
     tabPage->setActive(true);
-    m_lastViewedTab = index;
+    tabPage->connectNavigators(m_navigatorsWidget);
+    m_navigatorsWidget->setSecondaryNavigatorVisible(tabPage->splitViewEnabled());
+    m_lastViewedTab = tabPage;
 }
 
 void DolphinTabWidget::tabInserted(int index)

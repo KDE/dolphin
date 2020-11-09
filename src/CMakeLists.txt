@@ -203,11 +203,14 @@ set(dolphinstatic_SRCS
     dolphinmainwindow.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
+    dolphinnavigatorswidgetaction.cpp
     dolphintabbar.cpp
     dolphinplacesmodelsingleton.cpp
     dolphinrecenttabsmenu.cpp
     dolphintabpage.cpp
     dolphintabwidget.cpp
+    dolphinurlnavigator.cpp
+    dolphinurlnavigatorscontroller.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
     panels/places/placespanel.cpp
