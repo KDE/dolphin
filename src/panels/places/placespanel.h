@@ -11,6 +11,7 @@
 #include "panels/panel.h"
 
 #include <QUrl>
+#include <QTimer>
 
 class KItemListController;
 class PlacesItemModel;
@@ -29,6 +30,8 @@ public:
     explicit PlacesPanel(QWidget* parent);
     ~PlacesPanel() override;
     void proceedWithTearDown();
+
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
 signals:
     void placeActivated(const QUrl& url);
@@ -58,6 +61,7 @@ private slots:
     void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
     void slotStorageSetupDone(int index, bool success);
+    void slotShowTooltip();
 
 private:
     void addEntry();
@@ -84,6 +88,9 @@ private:
     int m_itemDropEventIndex;
     QMimeData* m_itemDropEventMimeData;
     QDropEvent* m_itemDropEvent;
+    QTimer m_tooltipTimer;
+    int m_hoveredIndex;
+    QPoint m_hoverPos;
 };
 
 #endif // PLACESPANEL_H
