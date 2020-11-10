@@ -341,7 +341,11 @@ void DolphinContextMenu::openViewportContextMenu()
     addSeparator();
 
     // Insert service actions
-    fileItemActions.addServiceActionsTo(this);
+    QList<QAction *> additionalActions;
+    if (baseUrlProperties.isDirectory() && baseUrlProperties.isLocal()) {
+        additionalActions << m_mainWindow->actionCollection()->action(QStringLiteral("open_terminal"));
+    }
+    fileItemActions.addServiceActionsTo(this, additionalActions);
     fileItemActions.addPluginActionsTo(this);
 
     addVersionControlPluginActions();
