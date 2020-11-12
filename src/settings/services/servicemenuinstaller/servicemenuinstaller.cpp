@@ -56,7 +56,7 @@ QString getServiceMenusDir()
 #ifdef HAVE_PACKAGEKIT
 void packageKitInstall(const QString &fileName)
 {
-    PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName);
+    PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName, PackageKit::Transaction::TransactionFlagNone);
 
     const auto exitWithError = [=](PackageKit::Transaction::Error, const QString &details) {
        fail(details);
