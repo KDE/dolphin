@@ -3,8 +3,8 @@
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
-#ifndef SERVICESSETTINGSPAGE_H
-#define SERVICESSETTINGSPAGE_H
+#ifndef CONTEXTMENUSETTINGSPAGE_H
+#define CONTEXTMENUSETTINGSPAGE_H
 
 #include "settings/settingspagebase.h"
 
@@ -16,15 +16,15 @@ class ServiceModel;
 class QLineEdit;
 
 /**
- * @brief Page for the 'Services' settings of the Dolphin settings dialog.
+ * @brief Configurations for services in the context menu.
  */
-class ServicesSettingsPage : public SettingsPageBase
+class ContextMenuSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    explicit ServicesSettingsPage(QWidget* parent);
-    ~ServicesSettingsPage() override;
+    explicit ContextMenuSettingsPage(QWidget* parent);
+    ~ContextMenuSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
     void applySettings() override;

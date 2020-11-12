@@ -4,10 +4,11 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
-#include "servicessettingspage.h"
+#include "contextmenusettingspage.h"
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
+#include "dolphin_contextmenusettings.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
 
@@ -34,9 +35,16 @@ namespace
     const char VersionControlServicePrefix[] = "_version_control_";
     const char DeleteService[] = "_delete";
     const char CopyToMoveToService[] ="_copy_to_move_to";
+    const char AddToPlacesService[] = "_add_to_places";
+    const char SortByService[] = "_sort_by";
+    const char ViewModeService[] = "_view_mode";
+    const char OpenInNewTabService[] = "_open_in_new_tab";
+    const char OpenInNewWindowService[] = "_open_in_new_window";
+    const char CopyLocationService[] = "_copy_location";
+    const char DuplicateHereService[] = "_duplicate_here";
 }
 
-ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
+ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
     m_serviceModel(nullptr),
@@ -70,7 +78,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
-    connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
+    connect(m_listView, &QListView::clicked, this, &ContextMenuSettingsPage::changed);
 
 #ifndef Q_OS_WIN
     auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
@@ -96,9 +104,10 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
-ServicesSettingsPage::~ServicesSettingsPage() = default;
+ContextMenuSettingsPage::~ContextMenuSettingsPage() {
+}
 
-void ServicesSettingsPage::applySettings()
+void ContextMenuSettingsPage::applySettings()
 {
     if (!m_initialized) {
         return;
@@ -125,8 +134,29 @@ void ServicesSettingsPage::applySettings()
             configGroup.writeEntry("ShowDeleteCommand", checked);
             configGroup.sync();
         } else if (service == QLatin1String(CopyToMoveToService)) {
-            GeneralSettings::setShowCopyMoveMenu(checked);
-            GeneralSettings::self()->save();
+            ContextMenuSettings::setShowCopyMoveMenu(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(AddToPlacesService)) {
+            ContextMenuSettings::setShowAddToPlaces(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(SortByService)) {
+            ContextMenuSettings::setShowSortBy(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(ViewModeService)) {
+            ContextMenuSettings::setShowViewMode(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(OpenInNewTabService)) {
+            ContextMenuSettings::setShowOpenInNewTab(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(OpenInNewWindowService)) {
+            ContextMenuSettings::setShowOpenInNewWindow(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(CopyLocationService)) {
+            ContextMenuSettings::setShowCopyLocation(checked);
+            ContextMenuSettings::self()->save();
+        } else if (service == QLatin1String(DuplicateHereService)) {
+            ContextMenuSettings::setShowDuplicateHere(checked);
+            ContextMenuSettings::self()->save();
         } else {
             showGroup.writeEntry(service, checked);
         }
@@ -146,7 +176,7 @@ void ServicesSettingsPage::applySettings()
     }
 }
 
-void ServicesSettingsPage::restoreDefaults()
+void ContextMenuSettingsPage::restoreDefaults()
 {
     QAbstractItemModel* model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
@@ -160,7 +190,7 @@ void ServicesSettingsPage::restoreDefaults()
     }
 }
 
-void ServicesSettingsPage::showEvent(QShowEvent* event)
+void ContextMenuSettingsPage::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
         loadServices();
@@ -179,7 +209,37 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
         addRow(QStringLiteral("edit-copy"),
                i18nc("@option:check", "'Copy To' and 'Move To' commands"),
                CopyToMoveToService,
-               GeneralSettings::showCopyMoveMenu());
+               ContextMenuSettings::showCopyMoveMenu());
+
+        // Add other built-in actions
+        addRow(QStringLiteral("bookmark-new"),
+               i18nc("@option:check", "Add to Places"),
+               AddToPlacesService,
+               ContextMenuSettings::showAddToPlaces());
+        addRow(QStringLiteral("view-sort"),
+               i18nc("@option:check", "Sort By"),
+               SortByService,
+               ContextMenuSettings::showSortBy());
+        addRow(QStringLiteral("view-list-icons"),
+               i18nc("@option:check", "View Mode"),
+               ViewModeService,
+               ContextMenuSettings::showViewMode());
+        addRow(QStringLiteral("folder-new"),
+               i18nc("@option:check", "'Open in New Tab' and 'Open in New Tabs'"),
+               OpenInNewTabService,
+               ContextMenuSettings::showOpenInNewTab());
+        addRow(QStringLiteral("window-new"),
+               i18nc("@option:check", "Open in New Window"),
+               OpenInNewWindowService,
+               ContextMenuSettings::showOpenInNewWindow());
+        addRow(QStringLiteral("edit-copy"),
+               i18nc("@option:check", "Copy Location"),
+               CopyLocationService,
+               ContextMenuSettings::showCopyLocation());
+        addRow(QStringLiteral("edit-copy"),
+               i18nc("@option:check", "Duplicate Here"),
+               DuplicateHereService,
+               ContextMenuSettings::showDuplicateHere());
 
         m_sortModel->sort(Qt::DisplayRole);
 
@@ -188,7 +248,7 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
     SettingsPageBase::showEvent(event);
 }
 
-void ServicesSettingsPage::loadServices()
+void ContextMenuSettingsPage::loadServices()
 {
     const KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
@@ -243,7 +303,7 @@ void ServicesSettingsPage::loadServices()
     m_searchLineEdit->setFocus(Qt::OtherFocusReason);
 }
 
-void ServicesSettingsPage::loadVersionControlSystems()
+void ContextMenuSettingsPage::loadVersionControlSystems()
 {
     const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
@@ -260,7 +320,7 @@ void ServicesSettingsPage::loadVersionControlSystems()
     m_sortModel->sort(Qt::DisplayRole);
 }
 
-bool ServicesSettingsPage::isInServicesList(const QString &service) const
+bool ContextMenuSettingsPage::isInServicesList(const QString &service) const
 {
     for (int i = 0; i < m_serviceModel->rowCount(); ++i) {
         const QModelIndex index = m_serviceModel->index(i, 0);
@@ -271,10 +331,10 @@ bool ServicesSettingsPage::isInServicesList(const QString &service) const
     return false;
 }
 
-void ServicesSettingsPage::addRow(const QString &icon,
-                                  const QString &text,
-                                  const QString &value,
-                                  bool checked)
+void ContextMenuSettingsPage::addRow(const QString &icon,
+                                     const QString &text,
+                                     const QString &value,
+                                     bool checked)
 {
     m_serviceModel->insertRow(0);
 
@@ -284,4 +344,3 @@ void ServicesSettingsPage::addRow(const QString &icon,
     m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
     m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
-

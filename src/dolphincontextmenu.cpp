@@ -7,6 +7,7 @@
 #include "dolphincontextmenu.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphin_contextmenusettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinplacesmodelsingleton.h"
@@ -185,32 +186,33 @@ void DolphinContextMenu::openTrashItemContextMenu()
 void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemActions)
 {
     // insert 'Open in new window' and 'Open in new tab' entries
-
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
-
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
+    if (ContextMenuSettings::showOpenInNewTab()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tab")));
+    }
+    if (ContextMenuSettings::showOpenInNewWindow()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_window")));
+    }
 
     // Insert 'Open With' entries
     addOpenWithActions(fileItemActions);
 
     // set up 'Create New' menu
-     DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-     newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
-     newFileMenu->checkUpToDate();
-     newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
-     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
-     connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
-     connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+    DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
+    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+    newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
+    newFileMenu->checkUpToDate();
+    newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
+    newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
+    connect(newFileMenu, &DolphinNewFileMenu::fileCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
+    connect(newFileMenu, &DolphinNewFileMenu::directoryCreated, newFileMenu, &DolphinNewFileMenu::deleteLater);
 
-     QMenu* menu = newFileMenu->menu();
-     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-     menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
-     menu->setParent(this, Qt::Popup);
-     addMenu(menu);
+    QMenu* menu = newFileMenu->menu();
+    menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
+    menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    addMenu(menu);
 
-     addSeparator();
+    addSeparator();
 }
 
 void DolphinContextMenu::openItemContextMenu()
@@ -271,7 +273,7 @@ void DolphinContextMenu::openItemContextMenu()
             }
         }
 
-        if (selectionHasOnlyDirs) {
+        if (selectionHasOnlyDirs && ContextMenuSettings::showOpenInNewTab()) {
             // insert 'Open in new tab' entry
             addAction(m_mainWindow->actionCollection()->action(QStringLiteral("open_in_new_tabs")));
         }
@@ -284,7 +286,7 @@ void DolphinContextMenu::openItemContextMenu()
     addAdditionalActions(fileItemActions, selectedItemsProps);
 
     // insert 'Copy To' and 'Move To' sub menus
-    if (GeneralSettings::showCopyMoveMenu()) {
+    if (ContextMenuSettings::showCopyMoveMenu()) {
         m_copyToMenu.setUrls(m_selectedItems.urlList());
         m_copyToMenu.setReadOnly(!selectedItemsProps.supportsWriting());
         m_copyToMenu.setAutoErrorHandlingEnabled(true);
@@ -334,14 +336,22 @@ void DolphinContextMenu::openViewportContextMenu()
     }
 
     // Insert 'Add to Places' entry if it's not already in the places panel
-    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
+    if (ContextMenuSettings::showAddToPlaces() &&
+            !placeExists(m_mainWindow->activeViewContainer()->url())) {
         addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
     }
     addSeparator();
 
     // Insert 'Sort By' and 'View Mode'
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
+    if (ContextMenuSettings::showSortBy()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
+    }
+    if (ContextMenuSettings::showViewMode()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
+    }
+    if (ContextMenuSettings::showSortBy() || ContextMenuSettings::showViewMode()) {
+        addSeparator();
+    }
 
     addAdditionalActions(fileItemActions, baseUrlProperties);
     addCustomActions();
@@ -363,25 +373,30 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     // Insert 'Cut', 'Copy', 'Copy Location' and 'Paste'
     addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
     addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
-    QAction* copyPathAction = collection->action(QString("copy_location"));
-    copyPathAction->setEnabled(m_selectedItems.size() == 1);
-    addAction(copyPathAction);
+    if (ContextMenuSettings::showCopyLocation()) {
+        QAction* copyPathAction = collection->action(QString("copy_location"));
+        copyPathAction->setEnabled(m_selectedItems.size() == 1);
+        addAction(copyPathAction);
+    }
     QAction* pasteAction = createPasteAction();
     if (pasteAction) {
         addAction(pasteAction);
     }
-    addAction(m_mainWindow->actionCollection()->action(QStringLiteral("duplicate")));
+
+    // Insert 'Duplicate Here'
+    if (ContextMenuSettings::showDuplicateHere()) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("duplicate")));
+    }
 
     // Insert 'Rename'
     addAction(collection->action(KStandardAction::name(KStandardAction::RenameFile)));
 
-    // insert 'Add to Places' entry if appropriate
-    if (m_selectedItems.count() == 1) {
-        if (m_fileInfo.isDir()) {
-            if (!placeExists(m_fileInfo.url())) {
-                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
-            }
-        }
+    // Insert 'Add to Places' entry if appropriate
+    if (ContextMenuSettings::showAddToPlaces() &&
+            m_selectedItems.count() == 1 &&
+            m_fileInfo.isDir() &&
+            !placeExists(m_fileInfo.url())) {
+        addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
     }
 
     addSeparator();

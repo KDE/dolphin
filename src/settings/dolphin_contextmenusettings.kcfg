@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <kcfgfile name="dolphinrc"/>
+    <group name="ContextMenu">
+        <entry name="ShowCopyMoveMenu" type="Bool">
+            <label>Show 'Copy To' and 'Move To' commands in context menu</label>
+            <default>false</default>
+        </entry>
+        <entry name="ShowAddToPlaces" type="Bool">
+            <label>Show 'Add to Places' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowSortBy" type="Bool">
+            <label>Show 'Sort By' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowViewMode" type="Bool">
+            <label>Show 'View Mode' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowOpenInNewTab" type="Bool">
+            <label>Show 'Open in New Tab' and 'Open in New Tabs' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowOpenInNewWindow" type="Bool">
+            <label>Show 'Open in New Window' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowCopyLocation" type="Bool">
+            <label>Show 'Copy Location' in context menu.</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowDuplicateHere" type="Bool">
+            <label>Show 'Duplicate Here' in context menu.</label>
+            <default>true</default>
+        </entry>
+    </group>
+</kcfg>

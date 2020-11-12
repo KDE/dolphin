@@ -84,5 +84,5 @@ set_package_properties(Gem:test-unit PROPERTIES
     DESCRIPTION "Ruby gem 'test-unit' required for testing of servicemenu helpers.")
 if (Gem:test-unit_FOUND)
     add_test(NAME servicemenutest
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/services/test/test_run.rb)
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../settings/contextmenu/test/test_run.rb)
 endif()

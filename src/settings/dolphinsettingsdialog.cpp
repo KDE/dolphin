@@ -10,7 +10,7 @@
 #include "dolphinmainwindow.h"
 #include "general/generalsettingspage.h"
 #include "navigation/navigationsettingspage.h"
-#include "services/servicessettingspage.h"
+#include "contextmenu/contextmenusettingspage.h"
 #include "startup/startupsettingspage.h"
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
@@ -77,12 +77,12 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     navigationSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-navigation")));
     connect(navigationSettingsPage, &NavigationSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
-    // Services
-    ServicesSettingsPage* servicesSettingsPage = new ServicesSettingsPage(this);
-    KPageWidgetItem* servicesSettingsFrame = addPage(servicesSettingsPage,
-                                                       i18nc("@title:group", "Services"));
-    servicesSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-system-services")));
-    connect(servicesSettingsPage, &ServicesSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
+    // Context Menu
+    auto contextMenuSettingsPage = new ContextMenuSettingsPage(this);
+    KPageWidgetItem* contextMenuSettingsFrame = addPage(contextMenuSettingsPage,
+                                                        i18nc("@title:group", "Context Menu"));
+    contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
     SettingsPageBase* trashSettingsPage = nullptr;
@@ -111,7 +111,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
-    m_pages.append(servicesSettingsPage);
+    m_pages.append(contextMenuSettingsPage);
     if (trashSettingsPage) {
         m_pages.append(trashSettingsPage);
     }
