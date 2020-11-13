@@ -13,6 +13,7 @@
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
 
+#include <QApplication>
 #include <QDomDocument>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -90,10 +91,20 @@ void DolphinNavigatorsWidgetAction::followViewContainersGeometry(
                                     int globalXOfPrimary,   int widthOfPrimary,
                                     int globalXOfSecondary, int widthOfSecondary)
 {
-    m_globalXOfSplitter = m_splitter->mapToGlobal(QPoint(0,0)).x();
-    m_globalXOfPrimary = globalXOfPrimary;
+    if (QApplication::layoutDirection() == Qt::LeftToRight) {
+        m_globalXOfSplitter = m_splitter->mapToGlobal(QPoint(0,0)).x();
+        m_globalXOfPrimary = globalXOfPrimary;
+        m_globalXOfSecondary = globalXOfSecondary;
+    } else {
+        // When the direction is reversed, globalX does not change.
+        // For the adjustSpacing() code to work we need globalX to measure from right to left
+        // and to measure up to the rightmost point of a widget instead of the leftmost.
+        m_globalXOfSplitter = (-1) * (m_splitter->mapToGlobal(QPoint(0,0)).x() + m_splitter->width());
+        m_globalXOfPrimary = (-1) * (globalXOfPrimary + widthOfPrimary);
+        m_globalXOfSecondary = (globalXOfSecondary == INT_MIN) ? INT_MIN :
+                               (-1) * (globalXOfSecondary + widthOfSecondary);
+    }
     m_widthOfPrimary = widthOfPrimary;
-    m_globalXOfSecondary = globalXOfSecondary;
     m_widthOfSecondary = widthOfSecondary;
     adjustSpacing();
 }
