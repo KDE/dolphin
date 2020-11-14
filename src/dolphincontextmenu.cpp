@@ -316,13 +316,7 @@ void DolphinContextMenu::openViewportContextMenu()
 {
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
 
-    // Insert 'Open With' entries
-    KFileItem baseItem = view->rootItem();
-    if (baseItem.isNull() || baseItem.url() != m_baseUrl) {
-        baseItem = baseFileItem();
-    }
-
-    const KFileItemListProperties baseUrlProperties(KFileItemList() << baseItem);
+    const KFileItemListProperties baseUrlProperties(KFileItemList() << baseFileItem());
     KFileItemActions fileItemActions;
     fileItemActions.setParentWidget(m_mainWindow);
     fileItemActions.setItemListProperties(baseUrlProperties);
@@ -339,7 +333,9 @@ void DolphinContextMenu::openViewportContextMenu()
     addOpenWithActions(fileItemActions);
 
     QAction* pasteAction = createPasteAction();
-    addAction(pasteAction);
+    if (pasteAction) {
+        addAction(pasteAction);
+    }
 
     // Insert 'Add to Places' entry if it's not already in the places panel
     if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
@@ -381,7 +377,10 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     QAction* copyPathAction = collection->action(QString("copy_location"));
     copyPathAction->setEnabled(m_selectedItems.size() == 1);
     addAction(copyPathAction);
-    addAction(createPasteAction());
+    QAction* pasteAction = createPasteAction();
+    if (pasteAction) {
+        addAction(pasteAction);
+    }
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("duplicate")));
 
     addSeparator();
@@ -433,16 +432,26 @@ bool DolphinContextMenu::placeExists(const QUrl& url) const
 QAction* DolphinContextMenu::createPasteAction()
 {
     QAction* action = nullptr;
-    const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
-    if (isDir && (m_selectedItems.count() == 1)) {
-        const QMimeData *mimeData = QApplication::clipboard()->mimeData();
-        bool canPaste;
-        const QString text = KIO::pasteActionText(mimeData, &canPaste, m_fileInfo);
-        action = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), text, this);
-        action->setEnabled(canPaste);
-        connect(action, &QAction::triggered, m_mainWindow, &DolphinMainWindow::pasteIntoFolder);
+    KFileItem destItem;
+    if (!m_fileInfo.isNull()) {
+        destItem = m_fileInfo;
     } else {
-        action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
+        destItem = baseFileItem();
+    }
+
+    if (!destItem.isNull() && destItem.isDir()) {
+        if (m_selectedItems.count() <= 1) {
+            const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+            bool canPaste;
+            const QString text = KIO::pasteActionText(mimeData, &canPaste, destItem);
+            action = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), text, this);
+            if (canPaste) {
+                connect(action, &QAction::triggered, m_mainWindow, &DolphinMainWindow::pasteIntoFolder);
+            } else {
+                // don't add the unavailable action
+                action = nullptr;
+            }
+        }
     }
 
     return action;
@@ -459,7 +468,13 @@ KFileItemListProperties& DolphinContextMenu::selectedItemsProperties() const
 KFileItem DolphinContextMenu::baseFileItem()
 {
     if (!m_baseFileItem) {
-        m_baseFileItem = new KFileItem(m_baseUrl);
+        const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+        KFileItem baseItem = view->rootItem();
+        if (baseItem.isNull() || baseItem.url() != m_baseUrl) {
+            m_baseFileItem = new KFileItem(m_baseUrl);
+        } else {
+            m_baseFileItem = new KFileItem(baseItem);
+        }
     }
     return *m_baseFileItem;
 }
