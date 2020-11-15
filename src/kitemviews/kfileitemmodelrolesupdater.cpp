@@ -1058,7 +1058,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
             data = rolesData(item);
         }
 
-        if (QIcon::hasThemeIcon(item.iconName())) {
+        if (!item.iconName().isEmpty()) {
             data.insert("iconName", item.iconName());
         }
 
