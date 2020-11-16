@@ -486,7 +486,7 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
 void PlacesPanel::slotShowTooltip()
 {
     const QUrl url = m_model->data(m_hoveredIndex).value("url").value<QUrl>();
-    const QString text = url.isLocalFile() ? url.path() : url.toString();
+    const QString text = url.toDisplayString(QUrl::PreferLocalFile);
     QToolTip::showText(m_hoverPos, text);
 }
 
