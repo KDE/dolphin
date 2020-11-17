@@ -34,6 +34,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_text(),
     m_defaultText(),
     m_label(nullptr),
+    m_zoomLabel(nullptr),
     m_spaceInfo(nullptr),
     m_zoomSlider(nullptr),
     m_progressBar(nullptr),
@@ -47,6 +48,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_label = new KSqueezedTextLabel(m_text, this);
     m_label->setWordWrap(true);
     m_label->setTextFormat(Qt::PlainText);
+
+    // Initialize zoom slider's explanatory label
+    m_zoomLabel = new QLabel(i18nc("Used as a noun, i.e. 'Here is the zoom level:'","Zoom:"), this);
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
@@ -113,6 +117,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     topLayout->setContentsMargins(2, 0, 2, 0);
     topLayout->setSpacing(4);
     topLayout->addWidget(m_label, 1);
+    topLayout->addWidget(m_zoomLabel);
     topLayout->addWidget(m_zoomSlider, 1);
     topLayout->addWidget(m_spaceInfo, 1);
     topLayout->addWidget(m_stopButton);
@@ -324,5 +329,6 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_spaceInfo->setShown(showSpaceInfo);
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);
+    m_zoomLabel->setVisible(showZoomSlider);
 }
 

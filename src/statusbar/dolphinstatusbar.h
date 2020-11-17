@@ -124,6 +124,7 @@ private:
     QString m_text;
     QString m_defaultText;
     KSqueezedTextLabel* m_label;
+    QLabel* m_zoomLabel;
     StatusBarSpaceInfo* m_spaceInfo;
 
     QSlider* m_zoomSlider;
