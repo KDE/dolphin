@@ -1631,7 +1631,7 @@ void DolphinMainWindow::setupActions()
         openTerminal->setWhatsThis(xi18nc("@info:whatsthis",
             "<para>This opens a <emphasis>terminal</emphasis> application for the viewed location.</para>"
             "<para>To learn more about terminals use the help in the terminal application.</para>"));
-        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
+        openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT + Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
 
