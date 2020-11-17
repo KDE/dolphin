@@ -68,10 +68,10 @@ private:
     void editEntry(int index);
 
     /**
-     * Selects the item that has the closest URL for the URL set
+     * Selects the item that matches the URL set
      * for the panel (see Panel::setUrl()).
      */
-    void selectClosestItem();
+    void selectItem();
 
     void triggerItem(int index, Qt::MouseButton button);
 
