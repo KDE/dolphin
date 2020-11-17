@@ -32,6 +32,7 @@ class KItemSet;
 class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
+class QLabel;
 class QGraphicsSceneDragDropEvent;
 class QRegularExpression;
 
@@ -804,6 +805,8 @@ private:
 
     void abortTwoClicksRenaming();
 
+    void updatePlaceholderLabel();
+
 private:
     void updatePalette();
 
@@ -841,6 +844,7 @@ private:
 
     QTimer* m_twoClicksRenamingTimer;
     QUrl m_twoClicksRenamingItemUrl;
+    QLabel* m_placeholderLabel;
 
     // For unit tests
     friend class TestBase;

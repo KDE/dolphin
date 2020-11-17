@@ -48,7 +48,9 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QDropEvent>
+#include <QGraphicsOpacityEffect>
 #include <QGraphicsSceneDragDropEvent>
+#include <QLabel>
 #include <QMenu>
 #include <QMimeDatabase>
 #include <QPixmapCache>
@@ -82,7 +84,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_clearSelectionBeforeSelectingNewItems(false),
     m_markFirstNewlySelectedItemAsCurrent(false),
     m_versionControlObserver(nullptr),
-    m_twoClicksRenamingTimer(nullptr)
+    m_twoClicksRenamingTimer(nullptr),
+    m_placeholderLabel(nullptr)
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -120,6 +123,29 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
     connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
 
+    // Show some placeholder text for empty folders
+    // This is made using a heavily-modified QLabel rather than a KTitleWidget
+    // because KTitleWidget can't be told to turn off mouse-selectable text
+    m_placeholderLabel = new QLabel(this);
+    QFont placeholderLabelFont;
+    // To match the size of a level 2 Heading/KTitleWidget
+    placeholderLabelFont.setPointSize(qRound(placeholderLabelFont.pointSize() * 1.3));
+    m_placeholderLabel->setFont(placeholderLabelFont);
+    m_placeholderLabel->setTextInteractionFlags(Qt::NoTextInteraction);
+    m_placeholderLabel->setWordWrap(true);
+    m_placeholderLabel->setAlignment(Qt::AlignCenter);
+    // Match opacity of QML placeholder label component
+    auto *effect = new QGraphicsOpacityEffect(m_placeholderLabel);
+    effect->setOpacity(0.5);
+    m_placeholderLabel->setGraphicsEffect(effect);
+    // Set initial text and visibility
+    updatePlaceholderLabel();
+    // Add a new layout to hold it and put it in the layout
+    auto *centeringLayout = new QVBoxLayout(this);
+    m_container->setLayout(centeringLayout);
+    centeringLayout->addWidget(m_placeholderLabel);
+    centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
+
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
     connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
@@ -151,6 +177,11 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(m_model, &KFileItemModel::errorMessage,           this, &DolphinView::errorMessage);
     connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
     connect(m_model, &KFileItemModel::urlIsFileError,            this, &DolphinView::urlIsFileError);
+
+    connect(this, &DolphinView::itemCountChanged,
+            this, &DolphinView::updatePlaceholderLabel);
+    connect(this, &DolphinView::urlChanged,
+            this, &DolphinView::updatePlaceholderLabel);
 
     m_view->installEventFilter(this);
     connect(m_view, &DolphinItemListView::sortOrderChanged,
@@ -1594,6 +1625,9 @@ void DolphinView::slotRenamingResult(KJob* job)
 
 void DolphinView::slotDirectoryLoadingStarted()
 {
+    // We don't want the placeholder label to flicker while the folder is loading
+    m_placeholderLabel->setVisible(false);
+
     // Disable the writestate temporary until it can be determined in a fast way
     // in DolphinView::slotDirectoryLoadingCompleted()
     if (m_isFolderWritable) {
@@ -1610,8 +1644,12 @@ void DolphinView::slotDirectoryLoadingCompleted()
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, &DolphinView::updateViewState);
 
+    // Update the placeholder label in case we found that the folder was empty
+    // after loading it
+
     Q_EMIT directoryLoadingCompleted();
 
+    updatePlaceholderLabel();
     updateWritableState();
 }
 
@@ -1975,4 +2013,36 @@ void DolphinView::slotDecreaseZoom()
 void DolphinView::slotSwipeUp()
 {
     Q_EMIT goUpRequested();
+}
+
+void DolphinView::updatePlaceholderLabel()
+{
+    if (itemsCount() > 0) {
+        m_placeholderLabel->setVisible(false);
+        return;
+    }
+
+    if (!nameFilter().isEmpty()) {
+        m_placeholderLabel->setText(i18n("No items matching the filter"));
+    } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")) {
+        m_placeholderLabel->setText(i18n("No items matching the search"));
+    } else if (m_url.scheme() == QLatin1String("trash")) {
+        m_placeholderLabel->setText(i18n("Trash is empty"));
+    } else if (m_url.scheme() == QLatin1String("tags")) {
+        m_placeholderLabel->setText(i18n("No tags"));
+    } else if (m_url.scheme() == QLatin1String("recentlyused")) {
+        m_placeholderLabel->setText(i18n("No recently used items"));
+    } else if (m_url.scheme() == QLatin1String("smb")) {
+        m_placeholderLabel->setText(i18n("No shared folders found"));
+    } else if (m_url.scheme() == QLatin1String("network")) {
+        m_placeholderLabel->setText(i18n("No relevant network resources found"));
+    } else if (m_url.scheme() == QLatin1String("mtp")) {
+        m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
+    } else if (m_url.scheme() == QLatin1String("bluetooth")) {
+        m_placeholderLabel->setText(i18n("No Bluetooth devices found"));
+    } else {
+        m_placeholderLabel->setText(i18n("Folder is empty"));
+    }
+
+    m_placeholderLabel->setVisible(true);
 }
