@@ -11,6 +11,7 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
+#include "kconfig_version.h"
 
 #ifdef HAVE_BALOO
 #include <Baloo/IndexerConfig>
