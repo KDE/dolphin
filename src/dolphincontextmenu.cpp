@@ -271,15 +271,6 @@ void DolphinContextMenu::openItemContextMenu()
 
     insertDefaultItemActions(selectedItemsProps);
 
-    // insert 'Add to Places' entry if appropriate
-    if (m_selectedItems.count() == 1) {
-        if (m_fileInfo.isDir()) {
-            if (!placeExists(m_fileInfo.url())) {
-                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
-            }
-        }
-    }
-
     addSeparator();
 
     fileItemActions.addServiceActionsTo(this);
@@ -383,10 +374,19 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
     }
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("duplicate")));
 
-    addSeparator();
-
     // Insert 'Rename'
     addAction(collection->action(KStandardAction::name(KStandardAction::RenameFile)));
+
+    // insert 'Add to Places' entry if appropriate
+    if (m_selectedItems.count() == 1) {
+        if (m_fileInfo.isDir()) {
+            if (!placeExists(m_fileInfo.url())) {
+                addAction(m_mainWindow->actionCollection()->action(QStringLiteral("add_to_places")));
+            }
+        }
+    }
+
+    addSeparator();
 
     // Insert 'Move to Trash' and/or 'Delete'
     const bool showDeleteAction = (KSharedConfig::openConfig()->group("KDE").readEntry("ShowDeleteCommand", false) ||
