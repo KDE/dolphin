@@ -221,6 +221,14 @@ protected:
     /** Handles QWhatsThisClickedEvent and passes all others on. */
     bool eventFilter(QObject*, QEvent*) override;
 
+protected slots:
+    /**
+     * Calls the base method KXmlGuiWindow::saveNewToolbarConfig().
+     * Is also used to set toolbar constraints and UrlNavigator position
+     * based on the newly changed toolbar configuration.
+     */
+    void saveNewToolbarConfig() override;
+
 private slots:
     /**
      * Refreshes the views of the main window by recreating them according to
@@ -592,6 +600,11 @@ private:
      * is updated to match with the text and the currently active view.
      */
     void updateSplitAction();
+
+    /**
+     * Sets the window sides the toolbar may be moved to based on toolbar contents.
+     */
+    void updateAllowedToolbarAreas();
 
     bool isKompareInstalled() const;
 

@@ -85,6 +85,8 @@ public:
      */
     bool eventFilter(QObject *watched, QEvent *event) override;
 
+    void insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navigatorsWidget);
+
     /**
      * Notify the connected DolphinNavigatorsWidgetAction of geometry changes which it
      * needs for visual alignment.

@@ -10,7 +10,8 @@
 #include "dolphinviewcontainer.h"
 
 #include <QSplitter>
-#include <QVBoxLayout>
+#include <QGridLayout>
+#include <QWidgetAction>
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget* parent) :
     QWidget(parent),
@@ -18,7 +19,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     m_splitViewEnabled(false),
     m_active(true)
 {
-    QVBoxLayout* layout = new QVBoxLayout(this);
+    QGridLayout *layout = new QGridLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
@@ -26,7 +27,8 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     m_splitter->setChildrenCollapsible(false);
     connect(m_splitter, &QSplitter::splitterMoved,
             this, &DolphinTabPage::splitterMoved);
-    layout->addWidget(m_splitter);
+    layout->addWidget(m_splitter, 1, 0);
+    layout->setRowStretch(1, 1);
 
     // Create a new primary view
     m_primaryViewContainer = createViewContainer(primaryUrl);
@@ -157,6 +159,7 @@ int DolphinTabPage::selectedItemsCount() const
 
 void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigatorsWidget)
 {
+    insertNavigatorsWidget(navigatorsWidget);
     m_navigatorsWidget = navigatorsWidget;
     auto primaryNavigator = navigatorsWidget->primaryUrlNavigator();
     m_primaryViewContainer->connectUrlNavigator(primaryNavigator);
@@ -184,6 +187,20 @@ bool DolphinTabPage::eventFilter(QObject *watched, QEvent *event)
     }
     return QWidget::eventFilter(watched, event);
 }
+
+void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction* navigatorsWidget)
+{
+    QGridLayout *gridLayout = static_cast<QGridLayout *>(layout());
+    if (navigatorsWidget->isInToolbar()) {
+        gridLayout->setRowMinimumHeight(0, 0);
+    } else {
+        // We set a row minimum height, so the height does not visibly change whenever
+        // navigatorsWidget is inserted which happens every time the current tab is changed.
+        gridLayout->setRowMinimumHeight(0, navigatorsWidget->primaryUrlNavigator()->height());
+        gridLayout->addWidget(navigatorsWidget->requestWidget(this), 0, 0);
+    }
+}
+
 
 void DolphinTabPage::resizeNavigators() const
 {

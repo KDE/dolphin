@@ -169,11 +169,6 @@ DolphinMainWindow::DolphinMainWindow() :
     setupGUI(Keys | Save | Create | ToolBar);
     stateChanged(QStringLiteral("new_file"));
 
-    toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
-    toolBar()->setFloatable(false);
-    if (!toolBar()->actions().contains(navigatorsWidgetAction)) {
-        navigatorsWidgetAction->addToToolbarAndSave(this);
-    }
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, &QClipboard::dataChanged,
             this, &DolphinMainWindow::updatePasteAction);
@@ -193,6 +188,8 @@ DolphinMainWindow::DolphinMainWindow() :
     if (!showMenu) {
         createControlButton();
     }
+
+    updateAllowedToolbarAreas();
 
     // enable middle-click on back/forward/up to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
@@ -2217,6 +2214,21 @@ void DolphinMainWindow::updateSplitAction()
     }
 }
 
+void DolphinMainWindow::updateAllowedToolbarAreas()
+{
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
+                        (actionCollection()->action(QStringLiteral("url_navigators")));
+    if (toolBar()->actions().contains(navigators)) {
+        toolBar()->setAllowedAreas(Qt::TopToolBarArea | Qt::BottomToolBarArea);
+        if (toolBarArea(toolBar()) == Qt::LeftToolBarArea ||
+            toolBarArea(toolBar()) == Qt::RightToolBarArea) {
+            addToolBar(Qt::TopToolBarArea, toolBar());
+        }
+    } else {
+        toolBar()->setAllowedAreas(Qt::AllToolBarAreas);
+    }
+}
+
 bool DolphinMainWindow::isKompareInstalled() const
 {
     static bool initialized = false;
@@ -2422,6 +2434,19 @@ bool DolphinMainWindow::eventFilter(QObject* obj, QEvent* event)
         return true;
     }
     return false;
+}
+
+void DolphinMainWindow::saveNewToolbarConfig()
+{
+    KXmlGuiWindow::saveNewToolbarConfig(); // Applies the new config. This has to be called first
+                                           // because the rest of this method decides things
+                                           // based on the new config.
+    auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
+                        (actionCollection()->action(QStringLiteral("url_navigators")));
+    if (!toolBar()->actions().contains(navigators)) {
+        m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
+    }
+    updateAllowedToolbarAreas();
 }
 
 void DolphinMainWindow::focusTerminalPanel()
