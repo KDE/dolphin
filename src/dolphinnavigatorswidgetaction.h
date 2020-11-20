@@ -42,13 +42,6 @@ public:
     DolphinNavigatorsWidgetAction(QWidget *parent = nullptr);
 
     /**
-     * Adds this action to the mainWindow's toolbar and saves the change
-     * in the users ui configuration file.
-     * @return true if successful. Otherwise false.
-     */
-    bool addToToolbarAndSave(KXmlGuiWindow *mainWindow);
-
-    /**
      * The secondary UrlNavigator is only created on-demand. Such an action is not necessary
      * for the primary UrlNavigator which is created preemptively.
      *
@@ -71,6 +64,8 @@ public:
     void followViewContainersGeometry(int globalXOfPrimary,   int widthOfPrimary,
                                       int globalXOfSecondary, int widthOfSecondary);
 
+    bool isInToolbar() const;
+
     /**
      * @return the primary UrlNavigator.
      */
@@ -86,6 +81,20 @@ public:
      *                WidgetAction's QSplitter making the QSplitter effectively disappear.
      */
     void setSecondaryNavigatorVisible(bool visible);
+
+protected:
+    /**
+     * There should always ever be one navigatorsWidget for this action so
+     * this method always returns the same widget and reparents it.
+     * You normally don't have to use this method directly because
+     * QWidgetAction::requestWidget() is used to obtain the navigatorsWidget
+     * and to steal it from whereever it was prior.
+     * @param parent the new parent of the navigatorsWidget.
+     */
+    QWidget *createWidget(QWidget *parent) override;
+
+    /** @see QWidgetAction::deleteWidget() */
+    void deleteWidget(QWidget *widget) override;
 
 private:
     /**

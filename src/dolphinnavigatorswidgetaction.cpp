@@ -18,6 +18,7 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QSplitter>
+#include <QToolBar>
 
 #include <limits>
 
@@ -35,7 +36,6 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
     setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
 
     m_splitter->setChildrenCollapsible(false);
-    setDefaultWidget(m_splitter.get());
 
     m_splitter->addWidget(createNavigatorWidget(Primary));
 
@@ -43,34 +43,6 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
     m_adjustSpacingTimer->setSingleShot(true);
     connect(m_adjustSpacingTimer.get(), &QTimer::timeout,
             this, &DolphinNavigatorsWidgetAction::adjustSpacing);
-}
-
-bool DolphinNavigatorsWidgetAction::addToToolbarAndSave(KXmlGuiWindow *mainWindow)
-{
-    const QString rawXml = KXMLGUIFactory::readConfigFile(mainWindow->xmlFile());
-    QDomDocument domDocument;
-    if (rawXml.isEmpty() || !domDocument.setContent(rawXml) || domDocument.isNull()) {
-        return false;
-    }
-    QDomNode toolbar = domDocument.elementsByTagName(QStringLiteral("ToolBar")).at(0);
-    if (toolbar.isNull()) {
-        return false;
-    }
-
-    QDomElement urlNavigatorElement = domDocument.createElement(QStringLiteral("Action"));
-    urlNavigatorElement.setAttribute(QStringLiteral("name"), QStringLiteral("url_navigators"));
-
-    QDomNode position = toolbar.firstChildElement(QStringLiteral("Spacer"));
-    if (position.isNull()) {
-        toolbar.appendChild(urlNavigatorElement);
-    } else {
-        toolbar.replaceChild(urlNavigatorElement, position);
-    }
-
-    KXMLGUIFactory::saveConfigFile(domDocument, mainWindow->xmlFile());
-    mainWindow->reloadXML();
-    mainWindow->createGUI();
-    return true;
 }
 
 void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
@@ -109,6 +81,11 @@ void DolphinNavigatorsWidgetAction::followViewContainersGeometry(
     adjustSpacing();
 }
 
+bool DolphinNavigatorsWidgetAction::isInToolbar() const
+{
+    return qobject_cast<QToolBar *>(m_splitter->parentWidget());
+}
+
 DolphinUrlNavigator* DolphinNavigatorsWidgetAction::primaryUrlNavigator() const
 {
     Q_ASSERT(m_splitter);
@@ -135,6 +112,29 @@ void DolphinNavigatorsWidgetAction::setSecondaryNavigatorVisible(bool visible)
         emptyTrashButton(Secondary)->setVisible(false);
     }
     updateText();
+}
+
+QWidget *DolphinNavigatorsWidgetAction::createWidget(QWidget *parent)
+{
+    QWidget *oldParent = m_splitter->parentWidget();
+    if (oldParent && oldParent->layout()) {
+        oldParent->layout()->removeWidget(m_splitter.get());
+        QGridLayout *layout = qobject_cast<QGridLayout *>(oldParent->layout());
+        if (qobject_cast<QToolBar *>(parent) && layout) {
+            // in DolphinTabPage::insertNavigatorsWidget the minimumHeight of this row was
+            // set to fit the m_splitter. Since we are now removing it again, the
+            // minimumHeight can be reset to 0.
+            layout->setRowMinimumHeight(0, 0);
+        }
+    }
+    m_splitter->setParent(parent);
+    return m_splitter.get();
+}
+
+void DolphinNavigatorsWidgetAction::deleteWidget(QWidget *widget)
+{
+    Q_UNUSED(widget)
+    m_splitter->setParent(nullptr);
 }
 
 void DolphinNavigatorsWidgetAction::adjustSpacing()
