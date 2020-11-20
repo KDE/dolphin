@@ -118,6 +118,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
     connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged,
             this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlAboutToBeChanged,
+            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
+    connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlSelectionRequested,
+            this, &DolphinViewContainer::slotUrlSelectionRequested);
     connect(m_view, &DolphinView::writeStateChanged,
             this, &DolphinViewContainer::writeStateChanged);
     connect(m_view, &DolphinView::requestItemInfo,
@@ -297,20 +301,18 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     }
     urlNavigator->setActive(isActive());
 
-    connect(m_view, &DolphinView::urlChanged,
-            urlNavigator, &DolphinUrlNavigator::setLocationUrl);
+    // Url changes are still done via m_urlNavigator.
     connect(urlNavigator, &DolphinUrlNavigator::urlChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
-    connect(urlNavigator, &DolphinUrlNavigator::activated,
-            this, &DolphinViewContainer::activate);
-    connect(urlNavigator, &DolphinUrlNavigator::urlAboutToBeChanged,
-            this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
-    connect(urlNavigator, &DolphinUrlNavigator::urlSelectionRequested,
-            this, &DolphinViewContainer::slotUrlSelectionRequested);
+            m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
     connect(urlNavigator, &DolphinUrlNavigator::urlsDropped,
             this, [=](const QUrl &destination, QDropEvent *event) {
         m_view->dropUrls(destination, event, urlNavigator->dropWidget());
     });
+    // Aside from these, only visual things need to be connected.
+    connect(m_view, &DolphinView::urlChanged,
+            urlNavigator, &DolphinUrlNavigator::setLocationUrl);
+    connect(urlNavigator, &DolphinUrlNavigator::activated,
+            this, &DolphinViewContainer::activate);
 
     m_urlNavigatorConnected = urlNavigator;
 }
@@ -321,18 +323,14 @@ void DolphinViewContainer::disconnectUrlNavigator()
         return;
     }
 
-    disconnect(m_view, &DolphinView::urlChanged,
-               m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlChanged,
-               this, &DolphinViewContainer::slotUrlNavigatorLocationChanged);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated,
-               this, &DolphinViewContainer::activate);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlAboutToBeChanged,
-               this, &DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged);
-    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlSelectionRequested,
-               this, &DolphinViewContainer::slotUrlSelectionRequested);
+               m_urlNavigator.get(), &DolphinUrlNavigator::setLocationUrl);
     disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::urlsDropped,
                this, nullptr);
+    disconnect(m_view, &DolphinView::urlChanged,
+               m_urlNavigatorConnected, &DolphinUrlNavigator::setLocationUrl);
+    disconnect(m_urlNavigatorConnected, &DolphinUrlNavigator::activated,
+               this, &DolphinViewContainer::activate);
 
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
