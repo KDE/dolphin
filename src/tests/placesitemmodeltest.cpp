@@ -82,6 +82,7 @@ private:
     void schedulePlaceRemoval(int index);
     void cancelPlaceRemoval(int index);
     QMimeData *createMimeData(const QList<int> &indexes) const;
+    void increaseIndexIfNeeded(int &index) const;
     QTemporaryDir m_tempHomeDir;
 };
 
@@ -215,6 +216,19 @@ QMimeData *PlacesItemModelTest::createMimeData(const QList<int> &indexes) const
     return mimeData;
 }
 
+void PlacesItemModelTest::increaseIndexIfNeeded(int &index) const
+{
+    if (m_hasDesktopFolder) {
+        index++;
+    }
+    if (m_hasDocumentsFolder) {
+        index++;
+    }
+    if (m_hasDownloadsFolder) {
+        index++;
+    }
+}
+
 void PlacesItemModelTest::init()
 {
     m_model = new PlacesItemModel();
@@ -289,15 +303,7 @@ void PlacesItemModelTest::testGroups()
 {
     const auto groups = m_model->groups();
     int expectedRemoteIndex = 2;
-    if (m_hasDesktopFolder) {
-        expectedRemoteIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        expectedRemoteIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        expectedRemoteIndex++;
-    }
+    increaseIndexIfNeeded(expectedRemoteIndex);
 
     QCOMPARE(groups.size(), 6);
 
@@ -366,15 +372,7 @@ void PlacesItemModelTest::testDeletePlace()
     PlacesItemModel *model = new PlacesItemModel();
 
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     // create a new place
     createPlaceItem(QStringLiteral("Temporary Dir"), tempUrl, QString());
@@ -539,15 +537,7 @@ void PlacesItemModelTest::testHideItem()
 void PlacesItemModelTest::testSystemItems()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     QCOMPARE(m_model->count(), m_expectedModelCount);
     for (int r = 0; r < m_model->count(); r++) {
@@ -590,15 +580,7 @@ void PlacesItemModelTest::testSystemItems()
 void PlacesItemModelTest::testEditBookmark()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     QScopedPointer<PlacesItemModel> other(new PlacesItemModel());
 
@@ -631,15 +613,7 @@ void PlacesItemModelTest::testEditBookmark()
 void PlacesItemModelTest::testEditAfterCreation()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
@@ -671,15 +645,7 @@ void PlacesItemModelTest::testEditAfterCreation()
 void PlacesItemModelTest::testEditMetadata()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
@@ -713,15 +679,7 @@ void PlacesItemModelTest::testEditMetadata()
 void PlacesItemModelTest::testRefresh()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QSignalSpy itemsInsertedSpy(m_model, &PlacesItemModel::itemsInserted);
@@ -784,15 +742,7 @@ void PlacesItemModelTest::testIcons()
 void PlacesItemModelTest::testDragAndDrop()
 {
     int lastIndex = 1; // last index of places group
-    if (m_hasDesktopFolder) {
-        lastIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        lastIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        lastIndex++;
-    }
+    increaseIndexIfNeeded(lastIndex);
 
     QList<QVariant> args;
     KItemRangeList range;
@@ -907,15 +857,7 @@ void PlacesItemModelTest::testDuplicatedEntries()
 void PlacesItemModelTest::renameAfterCreation()
 {
     int tempDirIndex = 2;
-    if (m_hasDesktopFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDocumentsFolder) {
-        tempDirIndex++;
-    }
-    if (m_hasDownloadsFolder) {
-        tempDirIndex++;
-    }
+    increaseIndexIfNeeded(tempDirIndex);
 
     const QUrl tempUrl = QUrl::fromLocalFile(QStandardPaths::writableLocation(QStandardPaths::TempLocation));
     QStringList urls = initialUrls();
