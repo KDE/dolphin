@@ -79,11 +79,7 @@ void DolphinViewActionHandler::createActions()
     // KNewFileMenu takes care of the GUI stuff.
     QAction* newDirAction = m_actionCollection->addAction(QStringLiteral("create_dir"));
     newDirAction->setText(i18nc("@action", "Create Folder..."));
-#if KCONFIG_VERSION >= QT_VERSION_CHECK(5, 74, 0)
     m_actionCollection->setDefaultShortcuts(newDirAction, KStandardShortcut::createFolder());
-#else
-    m_actionCollection->setDefaultShortcut(newDirAction, Qt::Key_F10);
-#endif
     newDirAction->setIcon(QIcon::fromTheme(QStringLiteral("folder-new")));
     newDirAction->setEnabled(false);    // Will be enabled in slotWriteStateChanged(bool) if the current URL is writable
     connect(newDirAction, &QAction::triggered, this, &DolphinViewActionHandler::createDirectoryTriggered);
