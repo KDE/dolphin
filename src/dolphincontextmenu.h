@@ -108,17 +108,17 @@ private:
     void addOpenWithActions(KFileItemActions& fileItemActions);
 
     /**
-     * Adds actions that are provided by a KVersionControlPlugin.
-     */
-    void addVersionControlPluginActions();
-
-    /**
      * Adds custom actions e.g. like the "[x] Expandable Folders"-action
      * provided in the details view.
      */
     void addCustomActions();
 
 private:
+    /**
+     * Add services, custom actions, plugins and version control items to the menu
+     */
+    void addAdditionalActions(KFileItemActions &fileItemActions, const KFileItemListProperties &props);
+
     struct Entry
     {
         int type;

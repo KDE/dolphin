@@ -271,12 +271,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     insertDefaultItemActions(selectedItemsProps);
 
-    addSeparator();
-
-    fileItemActions.addServiceActionsTo(this);
-    fileItemActions.addPluginActionsTo(this);
-
-    addVersionControlPluginActions();
+    addAdditionalActions(fileItemActions, selectedItemsProps);
 
     // insert 'Copy To' and 'Move To' sub menus
     if (GeneralSettings::showCopyMoveMenu()) {
@@ -338,18 +333,7 @@ void DolphinContextMenu::openViewportContextMenu()
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("sort")));
     addAction(m_mainWindow->actionCollection()->action(QStringLiteral("view_mode")));
 
-    addSeparator();
-
-    // Insert service actions
-    QList<QAction *> additionalActions;
-    if (baseUrlProperties.isDirectory() && baseUrlProperties.isLocal()) {
-        additionalActions << m_mainWindow->actionCollection()->action(QStringLiteral("open_terminal"));
-    }
-    fileItemActions.addServiceActionsTo(this, additionalActions);
-    fileItemActions.addPluginActionsTo(this);
-
-    addVersionControlPluginActions();
-
+    addAdditionalActions(fileItemActions, baseUrlProperties);
     addCustomActions();
 
     addSeparator();
@@ -489,18 +473,27 @@ void DolphinContextMenu::addOpenWithActions(KFileItemActions& fileItemActions)
     fileItemActions.addOpenWithActionsTo(this, QStringLiteral("DesktopEntryName != '%1'").arg(qApp->desktopFileName()));
 }
 
-void DolphinContextMenu::addVersionControlPluginActions()
+void DolphinContextMenu::addCustomActions()
 {
+    addActions(m_customActions);
+}
+
+void DolphinContextMenu::addAdditionalActions(KFileItemActions &fileItemActions, const KFileItemListProperties &props)
+{
+    addSeparator();
+
+    QList<QAction *> additionalActions;
+    if (props.isDirectory() && props.isLocal()) {
+        additionalActions << m_mainWindow->actionCollection()->action(QStringLiteral("open_terminal"));
+    }
+    fileItemActions.addServiceActionsTo(this, additionalActions);
+    fileItemActions.addPluginActionsTo(this);
+
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
     if (!versionControlActions.isEmpty()) {
         addActions(versionControlActions);
         addSeparator();
     }
-}
-
-void DolphinContextMenu::addCustomActions()
-{
-    addActions(m_customActions);
 }
 
