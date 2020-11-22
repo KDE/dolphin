@@ -71,6 +71,9 @@ private:
     bool m_hasDesktopFolder = false;
     bool m_hasDocumentsFolder = false;
     bool m_hasDownloadsFolder = false;
+    bool m_hasMusicFolder = false;
+    bool m_hasPicturesFolder = false;
+    bool m_hasVideosFolder = false;
 
     void setBalooEnabled(bool enabled);
     int indexOf(const QUrl &url);
@@ -162,6 +165,18 @@ QStringList PlacesItemModelTest::initialUrls() const
             urls << QDir::homePath() + QStringLiteral("/Downloads");
         }
 
+        if (m_hasMusicFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Music");
+        }
+
+        if (m_hasPicturesFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Pictures");
+        }
+
+        if (m_hasVideosFolder) {
+            urls << QDir::homePath() + QStringLiteral("/Videos");
+        }
+
         urls << QStringLiteral("trash:/")
              << QStringLiteral("remote:/")
              << QStringLiteral("/media/nfs");
@@ -227,6 +242,15 @@ void PlacesItemModelTest::increaseIndexIfNeeded(int &index) const
     if (m_hasDownloadsFolder) {
         index++;
     }
+    if (m_hasMusicFolder) {
+        index++;
+    }
+    if (m_hasPicturesFolder) {
+        index++;
+    }
+    if (m_hasVideosFolder) {
+        index++;
+    }
 }
 
 void PlacesItemModelTest::init()
@@ -281,6 +305,21 @@ void PlacesItemModelTest::initTestCase()
 
     if (QDir(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation)).exists()) {
         m_hasDownloadsFolder = true;
+        m_expectedModelCount++;
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::MusicLocation)).exists()) {
+        m_hasMusicFolder = true;
+        m_expectedModelCount++;
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::PicturesLocation)).exists()) {
+        m_hasPicturesFolder = true;
+        m_expectedModelCount++;
+    }
+
+    if (QDir(QStandardPaths::writableLocation(QStandardPaths::MoviesLocation)).exists()) {
+        m_hasVideosFolder = true;
         m_expectedModelCount++;
     }
 
