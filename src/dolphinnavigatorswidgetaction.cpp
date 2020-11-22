@@ -266,5 +266,5 @@ void DolphinNavigatorsWidgetAction::updateText()
 {
     const int urlNavigatorsAmount = m_splitter->count() > 1 && m_splitter->widget(1)->isVisible() ?
                                     2 : 1;
-    setText(i18ncp("@action:inmenu", "Url Navigator", "Url Navigators", urlNavigatorsAmount));
+    setText(i18ncp("@action:inmenu", "Location Bar", "Location Bars", urlNavigatorsAmount));
 }
