@@ -77,7 +77,7 @@ bool PlacesPanel::urlChanged()
     }
 
     if (m_controller) {
-        selectClosestItem();
+        selectItem();
     }
 
     return true;
@@ -139,7 +139,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         layout->setContentsMargins(0, 0, 0, 0);
         layout->addWidget(container);
 
-        selectClosestItem();
+        selectItem();
     }
 
     Panel::showEvent(event);
@@ -293,7 +293,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
     }
 
-    selectClosestItem();
+    selectItem();
 }
 
 void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
@@ -361,7 +361,7 @@ void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
         }
     }
 
-    selectClosestItem();
+    selectItem();
 }
 
 QAction *PlacesPanel::buildGroupContextMenu(QMenu *menu, int index)
@@ -529,13 +529,17 @@ void PlacesPanel::editEntry(int index)
     delete dialog;
 }
 
-void PlacesPanel::selectClosestItem()
+void PlacesPanel::selectItem()
 {
     const int index = m_model->closestItem(url());
     KItemListSelectionManager* selectionManager = m_controller->selectionManager();
     selectionManager->setCurrentItem(index);
     selectionManager->clearSelection();
-    selectionManager->setSelected(index);
+
+    const QUrl closestUrl = m_model->url(index);
+    if (!closestUrl.path().isEmpty() && url() == closestUrl) {
+        selectionManager->setSelected(index);
+    }
 }
 
 void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
