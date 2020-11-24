@@ -211,7 +211,8 @@ void DolphinMainWindowTest::testOpenInNewTabTitle()
     QCOMPARE(tabWidget->count(), 2);
     QVERIFY(tabWidget->tabText(0) != tabWidget->tabText(1));
     if (!tabWidget->tabIcon(0).isNull() && !tabWidget->tabIcon(1).isNull()) {
-        QVERIFY(tabWidget->tabIcon(0).name() != tabWidget->tabIcon(1).name());
+        QCOMPARE(QStringLiteral("inode-directory"), tabWidget->tabIcon(0).name());
+        QCOMPARE(QStringLiteral("inode-directory"), tabWidget->tabIcon(1).name());
     }
 }
 

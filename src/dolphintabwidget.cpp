@@ -383,7 +383,9 @@ void DolphinTabWidget::tabUrlChanged(const QUrl& url)
         tabBar()->setTabText(index, tabName(tabPageAt(index)));
         tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
         if (tabBar()->isVisible()) {
-            tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(url)));
+            // ensure the path url ends with a slash to have proper folder icon for remote folders
+            const QUrl pathUrl = QUrl(url.adjusted(QUrl::StripTrailingSlash).toString(QUrl::FullyEncoded).append("/"));
+            tabBar()->setTabIcon(index, QIcon::fromTheme(KIO::iconNameForUrl(pathUrl)));
         } else {
             // Mark as dirty, actually load once the tab bar actually gets shown
             tabBar()->setTabIcon(index, QIcon());
@@ -427,7 +429,9 @@ void DolphinTabWidget::tabInserted(int index)
         for (int i = 0; i < count(); ++i) {
             const QUrl url = tabPageAt(i)->activeViewContainer()->url();
             if (tabBar()->tabIcon(i).isNull()) {
-                tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(url)));
+                // ensure the path url ends with a slash to have proper folder icon for remote folders
+                const QUrl pathUrl = QUrl(url.adjusted(QUrl::StripTrailingSlash).toString(QUrl::FullyEncoded).append("/"));
+                tabBar()->setTabIcon(i, QIcon::fromTheme(KIO::iconNameForUrl(pathUrl)));
             }
             if (tabBar()->tabToolTip(i).isEmpty()) {
                 tabBar()->setTabToolTip(index, url.toDisplayString(QUrl::PreferLocalFile));
