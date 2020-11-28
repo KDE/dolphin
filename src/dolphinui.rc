@@ -1,5 +1,6 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="33">
+<?xml version="1.0"?>
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="dolphin" version="33">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -141,4 +142,4 @@
         <Action priority="0" name="edit_paste"/>
         <Action priority="0" name="toggle_search"/>
     </ActionProperties>
-</kpartgui>
+</gui>

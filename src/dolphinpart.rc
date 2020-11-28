@@ -1,5 +1,6 @@
-<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphinpart" version="15" translationDomain="dolphin">
+<?xml version="1.0"?>
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<gui name="dolphinpart" version="15" translationDomain="dolphin">
  <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
@@ -64,4 +65,4 @@
    <Action name="deletefile" />
   </disable>
 </State>
-</kpartgui>
+</gui>
