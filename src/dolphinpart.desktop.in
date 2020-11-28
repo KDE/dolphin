@@ -55,7 +55,7 @@ X-KDE-Library=kf5/parts/dolphinpart
 #X-KDE-BrowserView-Args=Icon
 X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-Built-Into=konqueror
-Icon=view-icon
+Icon=view-list-icons
 InitialPreference=7
 
 X-KDE-PluginInfo-Name=dolphinpart
