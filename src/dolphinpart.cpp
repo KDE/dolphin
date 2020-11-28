@@ -17,7 +17,7 @@
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 
-#include <KAboutData>
+#include <KPluginMetaData>
 #include <KActionCollection>
 #include <KAuthorized>
 #include <KConfigGroup>
@@ -47,13 +47,15 @@
 
 K_PLUGIN_CLASS_WITH_JSON(DolphinPart, "dolphinpart.json")
 
-DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
+DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
+                         const KPluginMetaData& metaData, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
       ,m_openTerminalAction(nullptr)
       ,m_removeAction(nullptr)
 {
     Q_UNUSED(args)
-    setComponentData(*createAboutData(), false);
+    setMetaData(metaData);
+
     m_extension = new DolphinPartBrowserExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
@@ -141,7 +143,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
 
-    loadPlugins(this, this, componentData());
+    loadPlugins(this, this, componentName());
 }
 
 DolphinPart::~DolphinPart()
@@ -279,11 +281,6 @@ void DolphinPart::updatePasteAction()
     QPair<bool, QString> pasteInfo = m_view->pasteInfo();
     Q_EMIT m_extension->enableAction( "paste", pasteInfo.first );
     Q_EMIT m_extension->setActionText( "paste", pasteInfo.second );
-}
-
-KAboutData* DolphinPart::createAboutData()
-{
-    return new KAboutData(QStringLiteral("dolphinpart"), i18nc("@title", "Dolphin Part"), QStringLiteral("0.1"));
 }
 
 bool DolphinPart::openUrl(const QUrl &url)

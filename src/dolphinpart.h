@@ -20,7 +20,6 @@ class DolphinPartBrowserExtension;
 class DolphinRemoteEncoding;
 class KDirLister;
 class DolphinView;
-class KAboutData;
 class DolphinRemoveAction;
 
 class DolphinPart : public KParts::ReadOnlyPart
@@ -40,10 +39,9 @@ class DolphinPart : public KParts::ReadOnlyPart
     Q_PROPERTY( QList<QUrl> filesToSelect READ filesToSelect WRITE setFilesToSelect )
 
 public:
-    explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
+    explicit DolphinPart(QWidget* parentWidget, QObject* parent,
+                         const KPluginMetaData& metaData, const QVariantList& args);
     ~DolphinPart() override;
-
-    static KAboutData* createAboutData();
 
     /**
      * Standard KParts::ReadOnlyPart openUrl method.

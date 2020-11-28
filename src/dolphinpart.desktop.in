@@ -58,6 +58,11 @@ X-KDE-BrowserView-Built-Into=konqueror
 Icon=view-icon
 InitialPreference=7
 
+X-KDE-PluginInfo-Name=dolphinpart
+X-KDE-PluginInfo-Version=@DOLPHIN_VERSION@
+X-KDE-PluginInfo-License=LGPL v2+
+
+
 # Provide info about the view modes using the Actions mechanism so that KService parses it.
 # Konqueror then queries KService to get hold of the translated texts for the view modes
 Actions=icons;details;compact;

@@ -176,6 +176,7 @@ install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMEL
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 ##########################################
+configure_file(dolphinpart.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop @ONLY)
 
 set(dolphinpart_SRCS
    dolphinpart.cpp
@@ -186,7 +187,7 @@ set(dolphinpart_SRCS
 qt5_add_resources(dolphinpart_SRCS dolphinpart.qrc)
 
 add_library(dolphinpart MODULE ${dolphinpart_SRCS})
-kcoreaddons_desktop_to_json(dolphinpart dolphinpart.desktop)
+kcoreaddons_desktop_to_json(dolphinpart ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop)
 
 target_link_libraries(dolphinpart
     dolphinprivate
@@ -194,7 +195,7 @@ target_link_libraries(dolphinpart
 
 install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
 
-install(FILES dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
 
 ##########################################
 
