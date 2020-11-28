@@ -497,8 +497,7 @@ void DolphinContextMenu::addAdditionalActions(KFileItemActions &fileItemActions,
     if (props.isDirectory() && props.isLocal()) {
         additionalActions << m_mainWindow->actionCollection()->action(QStringLiteral("open_terminal"));
     }
-    fileItemActions.addServiceActionsTo(this, additionalActions);
-    fileItemActions.addPluginActionsTo(this);
+    fileItemActions.addActionsTo(this, KFileItemActions::MenuActionSource::All, additionalActions);
 
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
