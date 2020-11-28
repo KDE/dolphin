@@ -45,7 +45,7 @@
 #include <QStandardPaths>
 #include <QTextDocument>
 
-K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
+K_PLUGIN_CLASS_WITH_JSON(DolphinPart, "dolphinpart.json")
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
