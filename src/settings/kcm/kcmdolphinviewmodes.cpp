@@ -10,7 +10,6 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KPluginLoader>
 
 #include <QDBusConnection>
 #include <QDBusMessage>

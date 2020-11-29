@@ -10,7 +10,6 @@
 
 #include <kconfigwidgets_version.h>
 #include <KPluginFactory>
-#include <KPluginLoader>
 
 #include <QVBoxLayout>
 

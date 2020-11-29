@@ -12,7 +12,6 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KPluginLoader>
 #include <kconfigwidgets_version.h>
 
 #include <QTabWidget>
