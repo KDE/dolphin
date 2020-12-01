@@ -432,23 +432,23 @@ QAction* DolphinContextMenu::createPasteAction()
 {
     QAction* action = nullptr;
     KFileItem destItem;
-    if (!m_fileInfo.isNull()) {
+    if (!m_fileInfo.isNull() && m_selectedItems.count() <= 1) {
         destItem = m_fileInfo;
     } else {
         destItem = baseFileItem();
     }
 
     if (!destItem.isNull() && destItem.isDir()) {
-        if (m_selectedItems.count() <= 1) {
-            const QMimeData *mimeData = QApplication::clipboard()->mimeData();
-            bool canPaste;
-            const QString text = KIO::pasteActionText(mimeData, &canPaste, destItem);
-            action = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), text, this);
-            if (canPaste) {
+        const QMimeData *mimeData = QApplication::clipboard()->mimeData();
+        bool canPaste;
+        const QString text = KIO::pasteActionText(mimeData, &canPaste, destItem);
+        if (canPaste) {
+            if (destItem == m_fileInfo) {
+                // if paste destination is a selected folder
+                action = new QAction(QIcon::fromTheme(QStringLiteral("edit-paste")), text, this);
                 connect(action, &QAction::triggered, m_mainWindow, &DolphinMainWindow::pasteIntoFolder);
             } else {
-                // don't add the unavailable action
-                action = nullptr;
+                action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
             }
         }
     }
