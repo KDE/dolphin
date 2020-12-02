@@ -14,7 +14,7 @@
 #include <KDesktopFile>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KNS3/Button>
+#include <KNS3/QtQuickDialogWrapper>
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
@@ -27,6 +27,7 @@
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
+#include <QPushButton>
 
 namespace
 {
@@ -73,16 +74,9 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     connect(m_listView, &QListView::clicked, this, &ServicesSettingsPage::changed);
 
 #ifndef Q_OS_WIN
-    auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
-                                                  QStringLiteral("servicemenu.knsrc"),
-                                                  this);
-    connect(downloadButton, &KNS3::Button::dialogFinished, this, [this](const KNS3::Entry::List &changedEntries) {
-           if (!changedEntries.isEmpty()) {
-               m_serviceModel->clear();
-               loadServices();
-           }
-    });
-
+    auto *downloadButton = new QPushButton(i18nc("@action:button", "Download New Services..."), this);
+    downloadButton->setIcon(QIcon::fromTheme(QStringLiteral("get-hot-new-stuff")));
+    connect(downloadButton, &QPushButton::clicked, this, &ServicesSettingsPage::knsButtonClicked);
 #endif
 
     topLayout->addWidget(label);
@@ -285,3 +279,13 @@ void ServicesSettingsPage::addRow(const QString &icon,
     m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
 
+void ServicesSettingsPage::knsButtonClicked()
+{
+    if (!knsDialog) {
+        knsDialog = new KNS3::QtQuickDialogWrapper(QStringLiteral("servicemenu.knsrc"), this);
+    }
+    if (!knsDialog->exec().isEmpty()) {
+        m_serviceModel->clear();
+        loadServices();
+    }
+}

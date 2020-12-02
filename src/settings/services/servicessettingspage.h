@@ -14,6 +14,7 @@ class QListView;
 class QSortFilterProxyModel;
 class ServiceModel;
 class QLineEdit;
+namespace KNS3 {class QtQuickDialogWrapper;}
 
 /**
  * @brief Page for the 'Services' settings of the Dolphin settings dialog.
@@ -41,6 +42,8 @@ private slots:
      */
     void loadServices();
 
+    void knsButtonClicked();
+
 private:
     /**
      * Loads installed version control systems.
@@ -64,6 +67,7 @@ private:
     QListView* m_listView;
     QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;
+    KNS3::QtQuickDialogWrapper *knsDialog;
 };
 
 #endif
