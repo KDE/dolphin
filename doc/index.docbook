@@ -775,6 +775,26 @@ current folder, &RMB; click in the work space and click
 
 </sect2>
 
+<sect2 id="filter-files">
+<title>Filtering Files</title>
+
+<para>
+&dolphin; is capable of filtering files, &ie; showing only those items in the
+view whose name contains a given text. For example, if you wish to show
+only the <acronym>MP3</acronym> files within a folder, you could filter for <quote>.mp3</quote>.
+This would then filter out all files whose name does not contain <quote>.mp3</quote>.
+</para>
+
+<para>
+To filter files, first enable the filter bar, either by pressing <keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+or via the menu: <menuchoice> <guimenu>Edit</guimenu> <guimenuitem>Filter...</guimenuitem> </menuchoice>.
+You can then enter the text to be filtered for in the filter bar. The filter bar can
+be disabled either by pressing &Esc;, or with a &LMB; click on the 
+<guiicon>Hide Filter Bar</guiicon> icon.
+</para>
+
+</sect2>
+
 <sect2 id="finding-searching-in-file">
 <title>Finding Files and Searching in Files</title>
 <!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
@@ -908,26 +928,6 @@ between two files or folders.
 First select the two files or folders to be compared. Then launch the &kompare; application
 via the Tools menu: <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Compare Files</guimenuitem> </menuchoice>.
 &kompare; will then open showing the differences between the files or folders.
-</para>
-
-</sect2>
-
-<sect2 id="filter-files">
-<title>Filtering Files</title>
-
-<para>
-&dolphin; is capable of filtering files, &ie; showing only those items in the
-view whose name contains a given text. For example, if you wish to show
-only the <acronym>MP3</acronym> files within a folder, you could filter for <quote>.mp3</quote>.
-This would then filter out all files whose name does not contain <quote>.mp3</quote>.
-</para>
-
-<para>
-To filter files, first enable the filter bar, either by pressing <keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
-or via the menu: <menuchoice> <guimenu>Tools</guimenu> <guimenuitem>Show Filter Bar</guimenuitem> </menuchoice>.
-You can then enter the text to be filtered for in the filter bar. The filter bar can
-be disabled either by pressing &Esc;, or with a &LMB; click on the 
-<guiicon>Hide Filter Bar</guiicon> icon.
 </para>
 
 </sect2>
@@ -1755,6 +1755,19 @@ Is disabled if the current user does not have write permission on the selected i
 <varlistentry>
 <term><menuchoice>
 <shortcut>
+<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
+</shortcut>
+<guimenu>Edit</guimenu>
+<guimenuitem>Filter...</guimenuitem>
+</menuchoice></term>
+<listitem><para><action>Enables and disables the <link linkend="filter-files">filter bar</link>.</action>
+You can also use the alternate shortcut <keycombo action="simul">&Shift;<keycap>/</keycap></keycombo>
+for this action.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut>
 <keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
 </shortcut>
 <guimenu>Edit</guimenu>
@@ -2052,19 +2065,6 @@ be reopened.</action></para></listitem>
 <para>
 
 <variablelist>
-<varlistentry>
-<term><menuchoice>
-<shortcut>
-<keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo>
-</shortcut>
-<guimenu>Tools</guimenu>
-<guimenuitem>Show Filter Bar</guimenuitem>
-</menuchoice></term>
-<listitem><para><action>Enables and disables the <link linkend="filter-files">filter bar</link>.</action>
-You can also use the alternate shortcut <keycombo action="simul">&Shift;<keycap>/</keycap></keycombo>
-for this action.</para></listitem>
-</varlistentry>
-
 <varlistentry>
 <term><menuchoice>
 <shortcut>

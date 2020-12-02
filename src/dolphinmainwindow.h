@@ -312,6 +312,7 @@ private slots:
     void disableStopAction();
 
     void showFilterBar();
+    void toggleFilterBar();
 
     /**
      * Toggles between edit and browse mode of the navigation bar.

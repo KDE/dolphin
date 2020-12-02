@@ -173,8 +173,8 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(clipboard, &QClipboard::dataChanged,
             this, &DolphinMainWindow::updatePasteAction);
 
-    QAction* showFilterBarAction = actionCollection()->action(QStringLiteral("show_filter_bar"));
-    showFilterBarAction->setChecked(generalSettings->filterBar());
+    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    toggleFilterBarAction->setChecked(generalSettings->filterBar());
 
     if (firstRun) {
         menuBar()->setVisible(false);
@@ -383,8 +383,8 @@ void DolphinMainWindow::updateHistory()
 
 void DolphinMainWindow::updateFilterBarAction(bool show)
 {
-    QAction* showFilterBarAction = actionCollection()->action(QStringLiteral("show_filter_bar"));
-    showFilterBarAction->setChecked(show);
+    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    toggleFilterBarAction->setChecked(show);
 }
 
 void DolphinMainWindow::openNewMainWindow()
@@ -845,6 +845,15 @@ void DolphinMainWindow::disableStopAction()
 void DolphinMainWindow::showFilterBar()
 {
     m_activeViewContainer->setFilterBarVisible(true);
+}
+
+void DolphinMainWindow::toggleFilterBar()
+{
+    bool checked = !m_activeViewContainer->isFilterBarVisible();
+    m_activeViewContainer->setFilterBarVisible(checked);
+
+    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    toggleFilterBarAction->setChecked(checked);
 }
 
 void DolphinMainWindow::toggleEditLocation()
@@ -1442,6 +1451,29 @@ void DolphinMainWindow::setupActions()
     actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT + Qt::Key_F6 );
     connect(moveToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::moveToInactiveSplitView);
 
+    QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
+    showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter..."));
+    showFilterBar->setToolTip(i18nc("@info:tooltip", "Toggle Filter Bar"));
+    showFilterBar->setWhatsThis(xi18nc("@info:whatsthis", "This opens the "
+        "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
+        "There you can enter a text to filter the files and folders currently displayed. "
+        "Only those that contain the text in their name will be kept in view."));
+    showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
+    actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL + Qt::Key_I, Qt::Key_Slash});
+    connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
+
+    // toggle_filter acts as a copy of the main showFilterBar to be used mainly
+    // in the toolbar, with no default shortcut attached, to avoid messing with
+    // existing workflows (filter bar always open and Ctrl-I to focus)
+    QAction *toggleFilter = actionCollection()->addAction(QStringLiteral("toggle_filter"));
+    toggleFilter->setText(i18nc("@action:inmenu", "Toggle Filter Bar"));
+    toggleFilter->setIconText(i18nc("@action:intoolbar", "Filter"));
+    toggleFilter->setIcon(showFilterBar->icon());
+    toggleFilter->setToolTip(showFilterBar->toolTip());
+    toggleFilter->setWhatsThis(showFilterBar->whatsThis());
+    toggleFilter->setCheckable(true);
+    connect(toggleFilter, &QAction::triggered, this, &DolphinMainWindow::toggleFilterBar);
+
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search..."));
     searchAction->setToolTip(i18nc("@info:tooltip", "Search for files and folders"));
@@ -1597,16 +1629,6 @@ void DolphinMainWindow::setupActions()
         "including folders that contain personal application data."));
 
     // setup 'Tools' menu
-    QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
-    showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
-    showFilterBar->setWhatsThis(xi18nc("@info:whatsthis", "This opens the "
-        "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
-        "There you can enter a text to filter the files and folders currently displayed. "
-        "Only those that contain the text in their name will be kept in view."));
-    showFilterBar->setIcon(QIcon::fromTheme(QStringLiteral("view-filter")));
-    actionCollection()->setDefaultShortcuts(showFilterBar, {Qt::CTRL + Qt::Key_I, Qt::Key_Slash});
-    connect(showFilterBar, &QAction::triggered, this, &DolphinMainWindow::showFilterBar);
-
     QAction* compareFiles = actionCollection()->addAction(QStringLiteral("compare_files"));
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
     compareFiles->setIcon(QIcon::fromTheme(QStringLiteral("kompare")));
@@ -2032,8 +2054,8 @@ void DolphinMainWindow::updateViewActions()
 {
     m_actionHandler->updateViewActions();
 
-    QAction* showFilterBarAction = actionCollection()->action(QStringLiteral("show_filter_bar"));
-    showFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
+    QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
+    toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
     updateSplitAction();
 }

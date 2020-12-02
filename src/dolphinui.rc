@@ -28,6 +28,7 @@
             <Action name="copy_location" />
             <Action name="edit_paste" />
             <Separator />
+            <Action name="show_filter_bar" />
             <Action name="edit_find" />
             <Separator />
             <Action name="copy_to_inactive_split_view" />
@@ -66,7 +67,6 @@
             <Action name="closed_tabs" />
         </Menu>
         <Menu name="tools">
-            <Action name="show_filter_bar" />
             <Action name="open_preferred_search_tool" />
             <Action name="open_terminal" />
             <Action name="focus_terminal_panel"/>
@@ -124,6 +124,7 @@
         <Action name="split_view" />
         <Action name="split_stash" />
         <Action name="toggle_search" />
+        <Action name="toggle_filter" />
     </ToolBar>
     <ActionProperties scheme="Default">
         <Action priority="0" name="go_back"/>
@@ -141,5 +142,6 @@
         <Action priority="0" name="edit_copy"/>
         <Action priority="0" name="edit_paste"/>
         <Action priority="0" name="toggle_search"/>
+        <Action priority="0" name="toggle_filter"/>
     </ActionProperties>
 </gui>
