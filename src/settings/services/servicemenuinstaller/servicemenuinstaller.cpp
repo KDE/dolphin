@@ -290,6 +290,9 @@ bool cmdInstall(const QString &archive, QString &errorText)
     if (archive.endsWith(QLatin1String(".desktop"))) {
         // Append basename to destination directory
         const auto dest = QDir(serviceDir).absoluteFilePath(QFileInfo(archive).fileName());
+        if (QFileInfo::exists(dest)) {
+            QFile::remove(dest);
+        }
         qInfo() << "Single-File Service-Menu" << archive << dest;
 
         QFile source(archive);
