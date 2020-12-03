@@ -38,7 +38,6 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
     setMinimumWidth(400);
 
     auto layout = new QVBoxLayout(this);
-    setLayout(layout);
 
     if (previewPlugin) {
         auto configurationWidget = previewPlugin->createConfigurationWidget();

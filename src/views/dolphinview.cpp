@@ -140,9 +140,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_placeholderLabel->setGraphicsEffect(effect);
     // Set initial text and visibility
     updatePlaceholderLabel();
-    // Add a new layout to hold it and put it in the layout
-    auto *centeringLayout = new QVBoxLayout(this);
-    m_container->setLayout(centeringLayout);
+
+    auto *centeringLayout = new QVBoxLayout(m_container);
     centeringLayout->addWidget(m_placeholderLabel);
     centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
 

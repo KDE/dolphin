@@ -64,7 +64,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     auto layout = new QFormLayout(this);
     // Otherwise the dialog won't resize when we collapse the KCollapsibleGroupBox.
     layout->setSizeConstraint(QLayout::SetFixedSize);
-    setLayout(layout);
 
     // create 'Properties' group containing view mode, sorting, sort order and show hidden files
     m_viewMode = new QComboBox();
@@ -89,7 +88,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     auto additionalInfoBox = new KCollapsibleGroupBox();
     additionalInfoBox->setTitle(i18nc("@title:group", "Additional Information"));
-    auto innerLayout = new QVBoxLayout();
+    auto innerLayout = new QVBoxLayout(additionalInfoBox);
 
     {
         QList<QByteArray> visibleRoles = m_viewProps->visibleRoles();
@@ -132,8 +131,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         innerLayout->addWidget(additionalViewOptionsLabel);
         innerLayout->addWidget(m_listWidget);
     }
-
-    additionalInfoBox->setLayout(innerLayout);
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setContentsMargins(0, 0, 0, 0);

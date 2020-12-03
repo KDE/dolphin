@@ -416,8 +416,12 @@ void DolphinSearchBox::init()
     m_facetsWidget->layout()->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     connect(m_facetsWidget, &DolphinFacetsWidget::facetChanged, this, &DolphinSearchBox::slotFacetChanged);
 
+    // Put the options into a QScrollArea. This prevents increasing the view width
+    // in case that not enough width for the options is available.
+    QWidget* optionsContainer = new QWidget(this);
+
     // Apply layout for the options
-    QHBoxLayout* optionsLayout = new QHBoxLayout();
+    QHBoxLayout* optionsLayout = new QHBoxLayout(optionsContainer);
     optionsLayout->setContentsMargins(0, 0, 0, 0);
     optionsLayout->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     optionsLayout->addWidget(m_fileNameButton);
@@ -428,11 +432,6 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(new KSeparator(Qt::Vertical, this));
     optionsLayout->addWidget(moreSearchToolsButton);
     optionsLayout->addStretch(1);
-
-    // Put the options into a QScrollArea. This prevents increasing the view width
-    // in case that not enough width for the options is available.
-    QWidget* optionsContainer = new QWidget(this);
-    optionsContainer->setLayout(optionsLayout);
 
     m_optionsScrollArea = new QScrollArea(this);
     m_optionsScrollArea->setFrameShape(QFrame::NoFrame);

@@ -44,7 +44,6 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     m_viewProps->setAutoSaveEnabled(false);
 
     auto layout = new QVBoxLayout(this);
-    setLayout(layout);
 
     m_label = new QLabel(i18nc("@info:progress", "Counting folders: %1", 0), this);
     layout->addWidget(m_label);
