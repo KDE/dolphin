@@ -238,9 +238,9 @@ can be accessed or manipulated in different ways:
 
 <listitem><para>
 A file or folder can be opened by clicking it with the &LMB; (or
-double-clicking, if <guilabel>Double-click to open files and folders</guilabel>
-is enabled in the &systemsettings; in the <menuchoice><guimenu>Input Devices</guimenu>
-<guimenuitem>Mouse</guimenuitem></menuchoice> module.
+double-clicking, if <guilabel>Open by double-clicking instead</guilabel>
+is enabled in the &systemsettings; in the <menuchoice><guimenu>Workspace</guimenu>
+<guimenuitem>General Behavior</guimenuitem></menuchoice> module).
 </para></listitem>
 
 <listitem><para>
