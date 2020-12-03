@@ -1327,8 +1327,8 @@ structure and in archives works.
 
 <listitem><para>
 The option to open items with a single or double mouse click is a system wide setting and can be
-changed in the &systemsettings; in the <menuchoice><guimenu>Input Devices</guimenu>
-<guimenuitem>Mouse</guimenuitem></menuchoice> module.</para>
+changed in the &systemsettings; in the <menuchoice><guimenu>Workspace</guimenu>
+<guimenuitem>General Behavior</guimenuitem></menuchoice> module.</para>
 </listitem>
 
 <listitem><para>
