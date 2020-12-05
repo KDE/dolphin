@@ -67,7 +67,7 @@ private:
     PlacesItemModel* m_model;
     QSet<int> m_tobeRemoved;
     QMap<QString, QDBusInterface *> m_interfacesMap;
-    int m_expectedModelCount = qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused")) ? 14 : 12;
+    int m_expectedModelCount = 14;
     bool m_hasDesktopFolder = false;
     bool m_hasDocumentsFolder = false;
     bool m_hasDownloadsFolder = false;
@@ -184,6 +184,9 @@ QStringList PlacesItemModelTest::initialUrls() const
         if (qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused"))) {
             urls << QStringLiteral("recentlyused:/files");
             urls << QStringLiteral("recentlyused:/locations");
+        } else {
+            urls << QStringLiteral("timeline:/today")
+                 << QStringLiteral("timeline:/yesterday");
         }
 
         urls << QStringLiteral("search:/documents") << QStringLiteral("search:/images") << QStringLiteral("search:/audio") << QStringLiteral("search:/videos")
@@ -352,17 +355,16 @@ void PlacesItemModelTest::testGroups()
     QCOMPARE(groups.at(1).first, expectedRemoteIndex);
     QCOMPARE(groups.at(1).second.toString(), QStringLiteral("Remote"));
 
-    if (qEnvironmentVariableIsSet("KDE_FULL_SESSION") && KProtocolInfo::isKnownProtocol(QStringLiteral("recentlyused"))) {
-        expectedRemoteIndex += 2;
-    }
+    QCOMPARE(groups.at(2).first, expectedRemoteIndex + 2);
+    QCOMPARE(groups.at(2).second.toString(), QStringLiteral("Recent"));
 
-    QCOMPARE(groups.at(3).first, expectedRemoteIndex + 2);
+    QCOMPARE(groups.at(3).first, expectedRemoteIndex + 4);
     QCOMPARE(groups.at(3).second.toString(), QStringLiteral("Search For"));
 
-    QCOMPARE(groups.at(4).first, expectedRemoteIndex + 6);
+    QCOMPARE(groups.at(4).first, expectedRemoteIndex + 8);
     QCOMPARE(groups.at(4).second.toString(), QStringLiteral("Devices"));
 
-    QCOMPARE(groups.at(5).first, expectedRemoteIndex + 7);
+    QCOMPARE(groups.at(5).first, expectedRemoteIndex + 9);
     QCOMPARE(groups.at(5).second.toString(), QStringLiteral("Removable Devices"));
 }
 
