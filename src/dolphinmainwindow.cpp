@@ -849,7 +849,7 @@ void DolphinMainWindow::showFilterBar()
 
 void DolphinMainWindow::toggleFilterBar()
 {
-    bool checked = !m_activeViewContainer->isFilterBarVisible();
+    const bool checked = !m_activeViewContainer->isFilterBarVisible();
     m_activeViewContainer->setFilterBarVisible(checked);
 
     QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
