@@ -74,11 +74,9 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
 
 # PlacesItemModelTest
-if (KF5_VERSION VERSION_GREATER_EQUAL 5.63.0)
-    ecm_add_test(placesitemmodeltest.cpp
-    TEST_NAME placesitemmodeltest
-    LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
-endif()
+ecm_add_test(placesitemmodeltest.cpp
+TEST_NAME placesitemmodeltest
+LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
 find_gem(test-unit)
 set_package_properties(Gem:test-unit PROPERTIES
