@@ -15,3 +15,8 @@ KVersionControlPlugin::KVersionControlPlugin(QObject* parent) :
 KVersionControlPlugin::~KVersionControlPlugin()
 {
 }
+
+QString KVersionControlPlugin::localRepositoryRoot(const QString &/*directory*/) const
+{
+    return QString();
+}

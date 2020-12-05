@@ -144,6 +144,12 @@ public:
     virtual QString fileName() const = 0;
 
     /**
+     * Returns the path of the local repository root for the versionned directory
+     * Returns an emtpy QString when directory is not part of a working copy
+     */
+    virtual QString localRepositoryRoot(const QString& directory) const;
+
+    /**
      * Is invoked whenever the version control
      * information will get retrieved for the directory
      * \p directory. It is assured that the directory

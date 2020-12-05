@@ -101,7 +101,6 @@ private slots:
 
 private:
     typedef QPair<KFileItem, KVersionControlPlugin::ItemVersion> ItemState;
-    typedef QPair<KVersionControlPlugin*, QString> VCSPlugin;
 
     void updateItemStates();
 
@@ -133,10 +132,12 @@ private:
     bool isVersionControlled() const;
 
 private:
+    void initPlugins();
+
     bool m_pendingItemStatesUpdate;
-    bool m_versionedDirectory;
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
+    QString m_wcRoot;
 
     DolphinView* m_view;
     KFileItemModel* m_model;
@@ -145,7 +146,7 @@ private:
 
     bool m_pluginsInitialized;
     KVersionControlPlugin* m_plugin;
-    QList<VCSPlugin> m_plugins;
+    QList<KVersionControlPlugin*> m_plugins;
     UpdateItemStatesThread* m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;

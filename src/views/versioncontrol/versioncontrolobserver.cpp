@@ -21,7 +21,6 @@
 VersionControlObserver::VersionControlObserver(QObject* parent) :
     QObject(parent),
     m_pendingItemStatesUpdate(false),
-    m_versionedDirectory(false),
     m_silentUpdate(false),
     m_view(nullptr),
     m_model(nullptr),
@@ -114,7 +113,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
     } else {
         QList<QAction*> actions;
         for (const auto &plugin : qAsConst(m_plugins)) {
-            actions << plugin.first->outOfVersionControlActions(items);
+            actions << plugin->outOfVersionControlActions(items);
         }
         return actions;
     }
@@ -155,23 +154,23 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    m_plugin = searchPlugin(rootItem.url());
-    if (m_plugin) {
-        if (!m_versionedDirectory) {
-            m_versionedDirectory = true;
+    if (m_plugin != nullptr) {
+        if (!rootItem.url().path().startsWith(m_wcRoot) || !QFile::exists(m_wcRoot + '/' + m_plugin->fileName())) {
+            m_plugin = nullptr;
 
-            // The directory is versioned. Assume that the user will further browse through
-            // versioned directories and decrease the verification timer.
-            m_dirVerificationTimer->setInterval(100);
+            // The directory is not versioned. Reset the verification timer to a higher
+            // value, so that browsing through non-versioned directories is not slown down
+            // by an immediate verification.
+            m_dirVerificationTimer->setInterval(500);
+        } else {
+            // View was versionned but should not be anymore
+            updateItemStates();
         }
+    } else if ((m_plugin = searchPlugin(rootItem.url()))) {
+        // The directory is versioned. Assume that the user will further browse through
+        // versioned directories and decrease the verification timer.
+        m_dirVerificationTimer->setInterval(100);
         updateItemStates();
-    } else if (m_versionedDirectory) {
-        m_versionedDirectory = false;
-
-        // The directory is not versioned. Reset the verification timer to a higher
-        // value, so that browsing through non-versioned directories is not slown down
-        // by an immediate verification.
-        m_dirVerificationTimer->setInterval(500);
     }
 }
 
@@ -273,7 +272,7 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
     return index - firstIndex; // number of processed items
 }
 
-KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory)
+void VersionControlObserver::initPlugins()
 {
     if (!m_pluginsInitialized) {
         // No searching for plugins has been done yet. Query the KServiceTypeTrader for
@@ -294,65 +293,37 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
                     connect(plugin, &KVersionControlPlugin::operationCompletedMessage,
                             this, &VersionControlObserver::operationCompletedMessage);
 
-                    m_plugins.append( qMakePair(plugin, plugin->fileName()) );
+                    m_plugins.append(plugin);
                 }
             }
         }
         m_pluginsInitialized = true;
     }
+}
 
-    if (m_plugins.empty()) {
-        // A searching for plugins has already been done, but no
-        // plugins are installed
-        return nullptr;
-    }
+KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& directory)
+{
+    initPlugins();
 
-    // We use the number of upUrl() calls to find the best matching plugin
-    // for the given directory. The smaller value, the better it is (0 is best).
-    KVersionControlPlugin* bestPlugin = nullptr;
-    int bestScore = INT_MAX;
-
-    // Verify whether the current directory contains revision information
-    // like .svn, .git, ...
-    for (const auto &it : qAsConst(m_plugins)) {
-        const QString fileName = directory.path() + '/' + it.second;
+    // Verify whether the current directory is under a version system
+    for (const auto &plugin : qAsConst(m_plugins)) {
+        // first naively check if we are at working copy root
+        const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
-            // The score of this plugin is 0 (best), so we can just return this plugin,
-            // instead of going through the plugin scoring procedure, we can't find a better one ;)
-            return it.first;
+            m_wcRoot = directory.path();
+            return plugin;
         }
-
-        // Version control systems like Git provide the version information
-        // file only in the root directory. Check whether the version information file can
-        // be found in one of the parent directories. For performance reasons this
-        // step is only done, if the previous directory was marked as versioned by
-        // m_versionedDirectory. Drawback: Until e. g. Git is recognized, the root directory
-        // must be shown at least once.
-        if (m_versionedDirectory) {
-            QUrl dirUrl(directory);
-            QUrl upUrl = KIO::upUrl(dirUrl);
-            int upUrlCounter = 1;
-            while ((upUrlCounter < bestScore) && (upUrl != dirUrl)) {
-                const QString fileName = dirUrl.path() + '/' + it.second;
-                if (QFile::exists(fileName)) {
-                    if (upUrlCounter < bestScore) {
-                        bestPlugin = it.first;
-                        bestScore = upUrlCounter;
-                    }
-                    break;
-                }
-                dirUrl = upUrl;
-                upUrl = KIO::upUrl(dirUrl);
-                ++upUrlCounter;
-            }
+        auto wcRoot = plugin->localRepositoryRoot(directory.path());
+        if (!wcRoot.isEmpty()) {
+            m_wcRoot = wcRoot;
+            return plugin;
         }
     }
-
-    return bestPlugin;
+    return nullptr;
 }
 
 bool VersionControlObserver::isVersionControlled() const
 {
-    return m_versionedDirectory && m_plugin;
+    return m_plugin != nullptr;
 }
 
