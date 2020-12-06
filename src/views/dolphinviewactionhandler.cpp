@@ -259,7 +259,7 @@ void DolphinViewActionHandler::createActions()
     KActionMenu* sortByActionMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("sort"));
     sortByActionMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sort")));
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
-    sortByActionMenu->setDelayed(false);
+    sortByActionMenu->setPopupMode(QToolButton::InstantPopup);
 
     const auto sortByActionGroupActions = sortByActionGroup->actions();
     for (QAction* action : sortByActionGroupActions) {
@@ -294,7 +294,7 @@ void DolphinViewActionHandler::createActions()
     KActionMenu* visibleRolesMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("additional_info"));
     visibleRolesMenu->setText(i18nc("@action:inmenu View", "Show Additional Information"));
     visibleRolesMenu->setIcon(QIcon::fromTheme(QStringLiteral("documentinfo")));
-    visibleRolesMenu->setDelayed(false);
+    visibleRolesMenu->setPopupMode(QToolButton::InstantPopup);
 
     const auto visibleRolesGroupActions = visibleRolesGroup->actions();
     for (QAction* action : visibleRolesGroupActions) {

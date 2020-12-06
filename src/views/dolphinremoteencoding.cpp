@@ -41,7 +41,7 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionH
           this, &DolphinRemoteEncoding::slotAboutToShow);
 
     m_menu->setEnabled(false);
-    m_menu->setDelayed(false);
+    m_menu->setPopupMode(QToolButton::InstantPopup);
 }
 
 DolphinRemoteEncoding::~DolphinRemoteEncoding()

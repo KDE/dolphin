@@ -1371,7 +1371,7 @@ void DolphinMainWindow::setupActions()
     QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
-    m_newFileMenu->setDelayed(false);
+    m_newFileMenu->setPopupMode(QToolButton::InstantPopup);
     connect(menu, &QMenu::aboutToShow,
             this, &DolphinMainWindow::updateNewMenu);
 
@@ -1574,8 +1574,7 @@ void DolphinMainWindow::setupActions()
         m_backAction->setObjectName(backAction->objectName());
         m_backAction->setShortcuts(backAction->shortcuts());
     }
-    m_backAction->setDelayed(true);
-    m_backAction->setStickyMenu(false);
+    m_backAction->setPopupMode(QToolButton::DelayedPopup);
     connect(m_backAction, &QAction::triggered, this, &DolphinMainWindow::goBack);
     connect(m_backAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowBackPopupMenu);
     connect(m_backAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoBack);
@@ -1618,8 +1617,7 @@ void DolphinMainWindow::setupActions()
         m_forwardAction->setObjectName(forwardAction->objectName());
         m_forwardAction->setShortcuts(forwardAction->shortcuts());
     }
-    m_forwardAction->setDelayed(true);
-    m_forwardAction->setStickyMenu(false);
+    m_forwardAction->setPopupMode(QToolButton::DelayedPopup);
     connect(m_forwardAction, &QAction::triggered, this, &DolphinMainWindow::goForward);
     connect(m_forwardAction->menu(), &QMenu::aboutToShow, this, &DolphinMainWindow::slotAboutToShowForwardPopupMenu);
     connect(m_forwardAction->menu(), &QMenu::triggered, this, &DolphinMainWindow::slotGoForward);
@@ -1677,7 +1675,7 @@ void DolphinMainWindow::setupActions()
     KActionMenu *bookmarkMenu = new KActionMenu(i18nc("@title:menu", "&Bookmarks"), this);
     bookmarkMenu->setIcon(QIcon::fromTheme(QStringLiteral("bookmarks")));
     // Make the toolbar button version work properly on click
-    bookmarkMenu->setDelayed(false);
+    bookmarkMenu->setPopupMode(QToolButton::InstantPopup);
     m_bookmarkHandler = new DolphinBookmarkHandler(this, actionCollection(), bookmarkMenu->menu(), this);
     actionCollection()->addAction(QStringLiteral("bookmarks"), bookmarkMenu);
 
@@ -1979,7 +1977,7 @@ void DolphinMainWindow::setupDockWidgets()
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Show Panels"), this);
     actionCollection()->addAction(QStringLiteral("panels"), panelsMenu);
     panelsMenu->setIcon(QIcon::fromTheme(QStringLiteral("view-sidetree")));
-    panelsMenu->setDelayed(false);
+    panelsMenu->setPopupMode(QToolButton::InstantPopup);
     const KActionCollection* ac = actionCollection();
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));
 #ifdef HAVE_BALOO

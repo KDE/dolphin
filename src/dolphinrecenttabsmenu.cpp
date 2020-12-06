@@ -15,7 +15,7 @@
 DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
     KActionMenu(QIcon::fromTheme(QStringLiteral("edit-undo")), i18n("Recently Closed Tabs"), parent)
 {
-    setDelayed(false);
+    setPopupMode(QToolButton::InstantPopup);
     setEnabled(false);
 
     m_clearListAction = new QAction(i18n("Empty Recently Closed Tabs"), this);
