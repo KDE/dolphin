@@ -183,6 +183,7 @@ public:
      * @return List of actions that are available for the out of version control
      *         items \p items. It's opposed to the \p versionedActions. Common usage
      *         is for clone/checkout actions.
+     * @since 21.04
      */
     virtual QList<QAction*> outOfVersionControlActions(const KFileItemList& items) const = 0;
 
