@@ -165,7 +165,7 @@ void DolphinPart::createActions()
 
     QAction* selectItemsMatching = actionCollection()->addAction(QStringLiteral("select_items_matching"));
     selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
-    actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL + Qt::Key_S);
+    actionCollection()->setDefaultShortcut(selectItemsMatching, Qt::CTRL | Qt::Key_S);
     connect(selectItemsMatching, &QAction::triggered, this, &DolphinPart::slotSelectItemsMatchingPattern);
 
     QAction* unselectItemsMatching = actionCollection()->addAction(QStringLiteral("unselect_items_matching"));
@@ -180,7 +180,7 @@ void DolphinPart::createActions()
 
     QAction* invertSelection = actionCollection()->addAction(QStringLiteral("invert_selection"));
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
-    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL + Qt::SHIFT + Qt::Key_A);
+    actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, m_view, &DolphinView::invertSelection);
 
     // View menu: all done by DolphinViewActionHandler

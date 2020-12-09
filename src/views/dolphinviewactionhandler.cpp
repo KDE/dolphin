@@ -140,7 +140,7 @@ void DolphinViewActionHandler::createActions()
         "You can configure advanced options there like managing "
         "read- and write-permissions."));
     propertiesAction->setIcon(QIcon::fromTheme(QStringLiteral("document-properties")));
-    m_actionCollection->setDefaultShortcuts(propertiesAction, {Qt::ALT + Qt::Key_Return, Qt::ALT + Qt::Key_Enter});
+    m_actionCollection->setDefaultShortcuts(propertiesAction, {Qt::ALT | Qt::Key_Return, Qt::ALT | Qt::Key_Enter});
     connect(propertiesAction, &QAction::triggered, this, &DolphinViewActionHandler::slotProperties);
 
     QAction *copyPathAction = m_actionCollection->addAction( QStringLiteral("copy_location") );
@@ -150,7 +150,7 @@ void DolphinViewActionHandler::createActions()
                                 ));
 
     copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-    m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL + Qt::SHIFT + Qt::Key_C});
+    m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL | Qt::SHIFT | Qt::Key_C});
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
 
 
@@ -198,7 +198,7 @@ void DolphinViewActionHandler::createActions()
     zoomResetAction->setToolTip(i18n("Zoom To Default"));
     zoomResetAction->setWhatsThis(i18nc("@info:whatsthis zoom reset", "This resets the icon size to default."));
     zoomResetAction->setIcon(QIcon::fromTheme(QStringLiteral("zoom-original")));
-    m_actionCollection->setDefaultShortcuts(zoomResetAction, {Qt::CTRL + Qt::Key_0});
+    m_actionCollection->setDefaultShortcuts(zoomResetAction, {Qt::CTRL | Qt::Key_0});
     connect(zoomResetAction, &QAction::triggered, this, &DolphinViewActionHandler::zoomReset);
 
     QAction* zoomOutAction = KStandardAction::zoomOut(this,
@@ -568,7 +568,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>(QStringLiteral("icons"));
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setToolTip(i18nc("@info", "Icons view mode"));
-    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL + Qt::Key_1);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-icons")));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
     return iconsView;
@@ -579,7 +579,7 @@ KToggleAction* DolphinViewActionHandler::compactModeAction()
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>(QStringLiteral("compact"));
     iconsView->setText(i18nc("@action:inmenu View Mode", "Compact"));
     iconsView->setToolTip(i18nc("@info", "Compact view mode"));
-    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL + Qt::Key_2);
+    m_actionCollection->setDefaultShortcut(iconsView, Qt::CTRL | Qt::Key_2);
     iconsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-details"))); // TODO: discuss with Oxygen-team the wrong (?) name
     iconsView->setData(QVariant::fromValue(DolphinView::CompactView));
     return iconsView;
@@ -590,7 +590,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>(QStringLiteral("details"));
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
-    m_actionCollection->setDefaultShortcut(detailsView, Qt::CTRL + Qt::Key_3);
+    m_actionCollection->setDefaultShortcut(detailsView, Qt::CTRL | Qt::Key_3);
     detailsView->setIcon(QIcon::fromTheme(QStringLiteral("view-list-tree")));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
