@@ -101,6 +101,16 @@ void DolphinUrlNavigator::setVisualState(const VisualState& visualState)
     }
 }
 
+void DolphinUrlNavigator::clearText() const
+{
+    editor()->lineEdit()->clear();
+}
+
+void DolphinUrlNavigator::setPlaceholderText(const QString &text)
+{
+    editor()->lineEdit()->setPlaceholderText(text);
+}
+
 void DolphinUrlNavigator::slotReturnPressed()
 {
     if (!GeneralSettings::editableUrl()) {

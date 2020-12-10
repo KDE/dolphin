@@ -66,6 +66,16 @@ public:
      */
     void setVisualState(const VisualState &visualState);
 
+    /**
+     * Clears the text in the text field
+     */
+    void clearText() const;
+
+    /**
+     * Displays placeholder text in the URL navigator
+     */
+    void setPlaceholderText(const QString &text);
+
 public slots:
     /**
      * Switches to "breadcrumb" mode if the editable mode is not set to be
