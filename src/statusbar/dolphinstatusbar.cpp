@@ -104,14 +104,14 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_label->setFixedHeight(contentHeight);
     m_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    m_zoomSlider->setMaximumWidth(fontMetrics.averageCharWidth() * 25);
+    m_zoomSlider->setMaximumWidth(fontMetrics.averageCharWidth() * 15);
 
     m_spaceInfo->setFixedHeight(contentHeight);
     m_spaceInfo->setMaximumWidth(fontMetrics.averageCharWidth() * 25);
     m_spaceInfo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_progressBar->setFixedHeight(zoomSliderHeight);
-    m_progressBar->setMaximumWidth(fontMetrics.averageCharWidth() * 25);
+    m_progressBar->setMaximumWidth(fontMetrics.averageCharWidth() * 20);
 
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setContentsMargins(2, 0, 2, 0);
