@@ -371,13 +371,6 @@ set(kcm_dolphinnavigation_PART_SRCS
     settings/navigation/navigationsettingspage.cpp
     settings/settingspagebase.cpp)
 
-set(kcm_dolphincontextmenu_PART_SRCS
-    settings/kcm/kcmdolphincontextmenu.cpp
-    settings/contextmenu/contextmenusettingspage.cpp
-    settings/settingspagebase.cpp
-    settings/serviceitemdelegate.cpp
-    settings/servicemodel.cpp)
-
 set(kcm_dolphingeneral_PART_SRCS
     settings/kcm/kcmdolphingeneral.cpp
     settings/general/behaviorsettingspage.cpp
@@ -400,11 +393,6 @@ kconfig_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
 kconfig_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
-kconfig_add_kcfg_files(kcm_dolphincontextmenu_PART_SRCS
-    settings/dolphin_generalsettings.kcfgc
-    settings/dolphin_contextmenusettings.kcfgc
-    settings/dolphin_versioncontrolsettings.kcfgc)
-
 kconfig_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
@@ -413,23 +401,19 @@ if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
     add_library(kcm_dolphinviewmodes MODULE ${kcm_dolphinviewmodes_PART_SRCS})
     add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
-    add_library(kcm_dolphincontextmenu MODULE ${kcm_dolphincontextmenu_PART_SRCS})
     add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
 
     target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
     target_link_libraries(kcm_dolphinnavigation dolphinprivate)
-    target_link_libraries(kcm_dolphincontextmenu dolphinprivate)
     target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
     install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
     install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
     install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-    install( FILES settings/kcm/kcmdolphincontextmenu.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
     install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 
     install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR} )
     install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-    install(TARGETS kcm_dolphincontextmenu DESTINATION ${KDE_INSTALL_PLUGINDIR} )
     install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
 endif()
 
