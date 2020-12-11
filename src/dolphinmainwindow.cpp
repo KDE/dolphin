@@ -134,10 +134,9 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
             this, &DolphinMainWindow::showCommand);
 
-    GeneralSettings* generalSettings = GeneralSettings::self();
-    const bool firstRun = (generalSettings->version() < 200);
+    const bool firstRun = (GeneralSettings::version() < 200);
     if (firstRun) {
-        generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
+        GeneralSettings::setViewPropsTimestamp(QDateTime::currentDateTime());
     }
 
     setAcceptDrops(true);
@@ -174,7 +173,7 @@ DolphinMainWindow::DolphinMainWindow() :
             this, &DolphinMainWindow::updatePasteAction);
 
     QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
-    toggleFilterBarAction->setChecked(generalSettings->filterBar());
+    toggleFilterBarAction->setChecked(GeneralSettings::filterBar());
 
     if (firstRun) {
         menuBar()->setVisible(false);
