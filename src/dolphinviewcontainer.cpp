@@ -390,7 +390,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_searchBox->setVisible(enabled);
 
     if (enabled) {
-        const QUrl& locationUrl = m_urlNavigatorConnected->locationUrl();
+        const QUrl& locationUrl = m_urlNavigator->locationUrl();
         m_searchBox->fromSearchUrl(locationUrl);
     }
 
