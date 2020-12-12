@@ -98,7 +98,7 @@ void DolphinBookmarkHandler::openFolderinTabs(const KBookmarkGroup& bookmarkGrou
 
 void DolphinBookmarkHandler::openInNewTab(const KBookmark& bookmark)
 {
-    m_mainWindow->openNewTabAfterCurrentTab(bookmark.url());
+    m_mainWindow->openNewTab(bookmark.url());
 }
 
 void DolphinBookmarkHandler::openInNewWindow(const KBookmark& bookmark)

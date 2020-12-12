@@ -86,6 +86,10 @@
             <label>Close active pane when toggling off split view</label>
             <default>true</default>
         </entry>
+        <entry name="OpenNewTabAfterLastTab" type="Bool">
+            <label>New tab will be open after last one</label>
+            <default>false</default>
+        </entry>
         <entry name="ShowToolTips" type="Bool">
             <label>Show tooltips</label>
             <default>false</default>

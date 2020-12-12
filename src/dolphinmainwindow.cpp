@@ -393,7 +393,11 @@ void DolphinMainWindow::openNewMainWindow()
 
 void DolphinMainWindow::openNewActivatedTab()
 {
+    // keep browsers compatibility, new tab is always after last one
+    auto openNewTabAfterLastTabConfigured = GeneralSettings::openNewTabAfterLastTab();
+    GeneralSettings::setOpenNewTabAfterLastTab(true);
     m_tabWidget->openNewActivatedTab();
+    GeneralSettings::setOpenNewTabAfterLastTab(openNewTabAfterLastTabConfigured);
 }
 
 void DolphinMainWindow::addToPlaces()
@@ -422,19 +426,9 @@ void DolphinMainWindow::addToPlaces()
     }
 }
 
-void DolphinMainWindow::openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement)
+void DolphinMainWindow::openNewTab(const QUrl& url)
 {
-    m_tabWidget->openNewTab(url, QUrl(), tabPlacement);
-}
-
-void DolphinMainWindow::openNewTabAfterCurrentTab(const QUrl& url)
-{
-    m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterCurrentTab);
-}
-
-void DolphinMainWindow::openNewTabAfterLastTab(const QUrl& url)
-{
-    m_tabWidget->openNewTab(url, QUrl(), DolphinTabWidget::AfterLastTab);
+    m_tabWidget->openNewTab(url, QUrl());
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -445,7 +439,7 @@ void DolphinMainWindow::openInNewTab()
     for (const KFileItem& item : list) {
         const QUrl& url = DolphinView::openItemAsFolderUrl(item);
         if (!url.isEmpty()) {
-            openNewTabAfterCurrentTab(url);
+            openNewTab(url);
             tabCreated = true;
         }
     }
@@ -453,7 +447,7 @@ void DolphinMainWindow::openInNewTab()
     // if no new tab has been created from the selection
     // open the current directory in a new tab
     if (!tabCreated) {
-        openNewTabAfterCurrentTab(m_activeViewContainer->url());
+        openNewTab(m_activeViewContainer->url());
     }
 }
 
@@ -755,7 +749,7 @@ void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
 {
     if (action) {
         const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
-        openNewTabAfterCurrentTab(urlNavigator->locationUrl(action->data().value<int>()));
+        openNewTab(urlNavigator->locationUrl(action->data().value<int>()));
     }
 }
 
@@ -934,25 +928,25 @@ void DolphinMainWindow::goBackInNewTab()
 {
     const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() + 1;
-    openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
+    openNewTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goForwardInNewTab()
 {
     const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
     const int index = urlNavigator->historyIndex() - 1;
-    openNewTabAfterCurrentTab(urlNavigator->locationUrl(index));
+    openNewTab(urlNavigator->locationUrl(index));
 }
 
 void DolphinMainWindow::goUpInNewTab()
 {
     const QUrl currentUrl = activeViewContainer()->urlNavigator()->locationUrl();
-    openNewTabAfterCurrentTab(KIO::upUrl(currentUrl));
+    openNewTab(KIO::upUrl(currentUrl));
 }
 
 void DolphinMainWindow::goHomeInNewTab()
 {
-    openNewTabAfterCurrentTab(Dolphin::homeUrl());
+    openNewTab(Dolphin::homeUrl());
 }
 
 void DolphinMainWindow::compareFiles()
@@ -1139,7 +1133,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
         break;
 
     case DolphinContextMenu::OpenParentFolderInNewTab:
-        openNewTabAfterLastTab(KIO::upUrl(item.url()));
+        openNewTab(KIO::upUrl(item.url()));
         break;
 
     case DolphinContextMenu::None:
@@ -1828,7 +1822,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, &FoldersPanel::folderActivated,
             this, &DolphinMainWindow::changeUrl);
     connect(foldersPanel, &FoldersPanel::folderMiddleClicked,
-            this, &DolphinMainWindow::openNewTabAfterCurrentTab);
+            this, &DolphinMainWindow::openNewTab);
     connect(foldersPanel, &FoldersPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
 
@@ -1911,7 +1905,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
     connect(m_placesPanel, &PlacesPanel::placeMiddleClicked,
-            this, &DolphinMainWindow::openNewTabAfterCurrentTab);
+            this, &DolphinMainWindow::openNewTab);
     connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -2206,7 +2200,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
-            this, &DolphinMainWindow::openNewTabAfterLastTab);
+            this, &DolphinMainWindow::openNewTab);
 
     disconnect(m_updateHistoryConnection);
     m_updateHistoryConnection = connect(

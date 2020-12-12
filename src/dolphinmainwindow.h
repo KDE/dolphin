@@ -170,14 +170,9 @@ public slots:
     void quit();
 
     /**
-     * Opens a new tab and places it after the current tab
+     * Opens a new tab in the background showing the URL \a url.
      */
-    void openNewTabAfterCurrentTab(const QUrl& url);
-
-    /**
-     * Opens a new tab and places it as the last tab
-     */
-    void openNewTabAfterLastTab(const QUrl& url);
+    void openNewTab(const QUrl& url);
 
 signals:
     /**
@@ -416,11 +411,6 @@ private slots:
      * Adds the current URL as an entry to the Places panel
      */
     void addToPlaces();
-
-    /**
-     * Opens a new tab in the background showing the URL \a url.
-     */
-    void openNewTab(const QUrl& url, DolphinTabWidget::TabPlacement tabPlacement);
 
     /**
      * Opens the selected folder in a new tab.

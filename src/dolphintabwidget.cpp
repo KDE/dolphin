@@ -152,10 +152,14 @@ void DolphinTabWidget::openNewActivatedTab()
 void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     openNewTab(primaryUrl, secondaryUrl);
-    setCurrentIndex(count() - 1);
+    if (GeneralSettings::openNewTabAfterLastTab()) {
+        setCurrentIndex(count() - 1);
+    } else {
+        setCurrentIndex(currentIndex() + 1);
+    }
 }
 
-void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl, TabPlacement tabPlacement)
+void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
 {
     QWidget* focusWidget = QApplication::focusWidget();
 
@@ -166,7 +170,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
             this, &DolphinTabWidget::tabUrlChanged);
     int newTabIndex = -1;
-    if (tabPlacement == AfterCurrentTab) {
+    if (!GeneralSettings::openNewTabAfterLastTab()) {
         newTabIndex = currentIndex() + 1;
     }
     insertTab(newTabIndex, tabPage, QIcon() /* loaded in tabInserted */, tabName(tabPage));
