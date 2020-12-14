@@ -1083,7 +1083,7 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
     } else {
         m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
         m_lastHandleUrlOpenJob->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
-        m_lastHandleUrlOpenJob->setRunExecutables(true);
+        m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
 
         connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this,
                 [this, url](const QString &mimetype) {
