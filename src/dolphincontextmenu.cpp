@@ -230,28 +230,6 @@ void DolphinContextMenu::openItemContextMenu()
         // single files
         if (m_fileInfo.isDir()) {
             addDirectoryItemContextMenu(fileItemActions);
-        } else if (m_context & TimelineContext || m_context & SearchContext) {
-            addOpenWithActions(fileItemActions);
-
-            openParentAction = new QAction(QIcon::fromTheme(QStringLiteral("document-open-folder")),
-                                           i18nc("@action:inmenu",
-                                                 "Open Path"),
-                                           this);
-            addAction(openParentAction);
-
-            openParentInNewWindowAction = new QAction(QIcon::fromTheme(QStringLiteral("window-new")),
-                                                    i18nc("@action:inmenu",
-                                                          "Open Path in New Window"),
-                                                    this);
-            addAction(openParentInNewWindowAction);
-
-            openParentInNewTabAction = new QAction(QIcon::fromTheme(QStringLiteral("tab-new")),
-                                                   i18nc("@action:inmenu",
-                                                         "Open Path in New Tab"),
-                                                   this);
-            addAction(openParentInNewTabAction);
-
-            addSeparator();
         } else {
             // Insert 'Open With" entries
             addOpenWithActions(fileItemActions);
