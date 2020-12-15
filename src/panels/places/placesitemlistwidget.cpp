@@ -57,8 +57,8 @@ void PlacesItemListWidget::updateCapacityBar()
     }
     const QUrl url = data().value("url").toUrl();
 
-    if (m_freeSpaceInfo.job || !m_freeSpaceInfo.lastUpdated.hasExpired()) {
-        // Job running or cache is still valid.
+    if (url.isEmpty() || m_freeSpaceInfo.job || !m_freeSpaceInfo.lastUpdated.hasExpired()) {
+        // No url, job running or cache is still valid.
         return;
     }
 
