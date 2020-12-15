@@ -776,9 +776,7 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
 
             if (getSizeRole) {
                 data.insert("count", count);
-                if (size != -1) {
-                    data.insert("size", QVariant::fromValue(size));
-                }
+                data.insert("size", QVariant::fromValue(size));
             }
             if (getIsExpandableRole) {
                 data.insert("isExpandable", count > 0);

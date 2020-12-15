@@ -35,6 +35,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
     auto dir = QT_OPENDIR(QFile::encodeName(dirPath));
     if (dir) {
         count = 0;
+        size = 0;
         QT_STATBUF buf;
 
         while ((dirEntry = QT_READDIR(dir))) {

@@ -53,20 +53,16 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
 
     if (role == "size") {
         if (values.value("isDir").toBool()) {
-            // The item represents a directory.
-            if (!roleValue.isNull()) {
-                const int count = values.value("count").toInt();
-                if (count > 0) {
-                    if (DetailsModeSettings::directorySizeCount()) {
-                        //  Show the number of sub directories instead of the file size of the directory.
-                        text = i18ncp("@item:intable", "%1 item", "%1 items", count);
-                    } else {
-                        // if we have directory size available
-                        if (roleValue != -1) {
-                            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-                            text = KFormat().formatByteSize(size);
-                        }
-                    }
+            if (!roleValue.isNull() && roleValue != -1) {
+                // The item represents a directory.
+                if (DetailsModeSettings::directorySizeCount()) {
+                    //  Show the number of sub directories instead of the file size of the directory.
+                    const int count = values.value("count").toInt();
+                    text = i18ncp("@item:intable", "%1 item", "%1 items", count);
+                } else {
+                    // if we have directory size available
+                    const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
+                    text = KFormat().formatByteSize(size);
                 }
             }
         } else {
