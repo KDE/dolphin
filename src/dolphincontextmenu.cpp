@@ -105,7 +105,6 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     } else if (m_context & ItemContext) {
         openItemContextMenu();
     } else {
-        Q_ASSERT(m_context == NoContext);
         openViewportContextMenu();
     }
 
