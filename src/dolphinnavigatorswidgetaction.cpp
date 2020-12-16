@@ -10,8 +10,12 @@
 #include "trash/dolphintrash.h"
 
 #include <KLocalizedString>
+#include <KNotificationJobUiDelegate>
+#include <KService>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
+
+#include <KIO/ApplicationLauncherJob>
 
 #include <QApplication>
 #include <QDomDocument>
@@ -56,7 +60,9 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
     }
     int trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
                           - (viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary);
-    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible()) {
+    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible()
+                            || networkFolderButton(Primary)->isVisible()
+    ) {
         trailingSpacing = 0;
     }
     const int widthLeftForUrlNavigator = m_splitter->widget(0)->width() - leadingSpacing - trailingSpacing;
@@ -83,7 +89,9 @@ void DolphinNavigatorsWidgetAction::adjustSpacing()
 
     trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
                       - (viewGeometries.globalXOfSecondary + viewGeometries.widthOfSecondary);
-    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible()) {
+    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible()
+                            || networkFolderButton(Secondary)->isVisible()
+    ) {
         trailingSpacing = 0;
     } else {
         const int widthLeftForUrlNavigator2 = m_splitter->widget(1)->width() - trailingSpacing;
@@ -185,6 +193,9 @@ QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
     auto emptyTrashButton = newEmptyTrashButton(urlNavigator, navigatorWidget);
     layout->addWidget(emptyTrashButton);
 
+    auto networkFolderButton = newNetworkFolderButton(urlNavigator, navigatorWidget);
+    layout->addWidget(networkFolderButton);
+
     connect(urlNavigator, &KUrlNavigator::urlChanged, this, [urlNavigator, this]() {
         // Update URL navigator to show a server URL entry placeholder text if we
         // just loaded the remote:/ page, to make it easier for users to figure out
@@ -235,6 +246,36 @@ QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrl
     return emptyTrashButton;
 }
 
+QPushButton *DolphinNavigatorsWidgetAction::networkFolderButton(DolphinNavigatorsWidgetAction::Side side)
+{
+    int sideIndex = (side == Primary ? 0 : 1);
+    if (side == Primary) {
+        return static_cast<QPushButton *>(m_splitter->widget(sideIndex)->layout()->itemAt(3)->widget());
+    }
+    return static_cast<QPushButton *>(m_splitter->widget(sideIndex)->layout()->itemAt(2)->widget());
+}
+
+QPushButton *DolphinNavigatorsWidgetAction::newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const
+{
+    auto networkFolderButton = new QPushButton(QIcon::fromTheme(QStringLiteral("folder-add")),
+                                        i18nc("@action:button", "Add Network Folder"), parent);
+    networkFolderButton->setFlat(true);
+    connect(networkFolderButton, &QPushButton::clicked,
+            this, [networkFolderButton]() {
+                KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("org.kde.knetattach"));
+                auto *job = new KIO::ApplicationLauncherJob(service, networkFolderButton);
+                auto *delegate = new KNotificationJobUiDelegate;
+                delegate->setAutoErrorHandlingEnabled(true);
+                job->setUiDelegate(delegate);
+                job->start();
+            });
+    networkFolderButton->hide();
+    connect(urlNavigator, &KUrlNavigator::urlChanged, this, [networkFolderButton, urlNavigator]() {
+        networkFolderButton->setVisible(urlNavigator->locationUrl().scheme() == QLatin1String("remote"));
+    });
+    return networkFolderButton;
+}
+
 QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) const
 {
     int sideIndex = (side == Primary ? 0 : 1);
@@ -243,9 +284,9 @@ QWidget *DolphinNavigatorsWidgetAction::spacing(Side side, Position position) co
         return m_splitter->widget(sideIndex)->layout()->itemAt(0)->widget();
     }
     if (side == Primary) {
-        return m_splitter->widget(sideIndex)->layout()->itemAt(3)->widget();
+        return m_splitter->widget(sideIndex)->layout()->itemAt(4)->widget();
     }
-    return m_splitter->widget(sideIndex)->layout()->itemAt(2)->widget();
+    return m_splitter->widget(sideIndex)->layout()->itemAt(3)->widget();
 }
 
 void DolphinNavigatorsWidgetAction::updateText()
