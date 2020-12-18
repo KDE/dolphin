@@ -106,7 +106,8 @@ void PlacesItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIt
 {
     KStandardItemListWidget::paint(painter, option, widget);
 
-    if (m_drawCapacityBar) {
+    // We check if option=nullptr since it is null when the place is dragged (Bug #430441)
+    if (m_drawCapacityBar && option) {
         const TextInfo* textInfo = m_textInfo.value("text");
         if (textInfo) { // See KStandarItemListWidget::paint() for info on why we check textInfo.
             painter->save();
