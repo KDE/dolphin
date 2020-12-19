@@ -204,6 +204,8 @@ DolphinMainWindow::DolphinMainWindow() :
 
 DolphinMainWindow::~DolphinMainWindow()
 {
+    // This fixes a crash on Wayland when closing the mainwindow while another dialog is open.
+    disconnect(QGuiApplication::clipboard(), &QClipboard::dataChanged, this, &DolphinMainWindow::updatePasteAction);
 }
 
 QVector<DolphinViewContainer*> DolphinMainWindow::viewContainers() const
