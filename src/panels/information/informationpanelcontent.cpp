@@ -394,8 +394,8 @@ void InformationPanelContent::showPreview(const KFileItem& item,
         // adds a play arrow
 
         // compute relative pixel positions
-        const int zeroX = static_cast<int>(p.width() / 2 - PLAY_ARROW_SIZE / 2 / devicePixelRatio());
-        const int zeroY = static_cast<int>(p.height() / 2 - PLAY_ARROW_SIZE / 2 / devicePixelRatio());
+        const int zeroX = static_cast<int>((p.width() / 2 - PLAY_ARROW_SIZE / 2) / pixmap.devicePixelRatio());
+        const int zeroY = static_cast<int>((p.height() / 2 - PLAY_ARROW_SIZE / 2) / pixmap.devicePixelRatio());
 
         QPolygon arrow;
         arrow << QPoint(zeroX, zeroY);

@@ -23,6 +23,7 @@
 #include <KLocalizedString>
 #include <Kdelibs4ConfigMigrator>
 #include <KConfigGui>
+#include <KIO/PreviewJob>
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -60,6 +61,8 @@ int main(int argc, char **argv)
 
     QApplication app(argc, argv);
     app.setWindowIcon(QIcon::fromTheme(QStringLiteral("system-file-manager"), app.windowIcon()));
+
+    KIO::PreviewJob::setDefaultDevicePixelRatio(app.devicePixelRatio());
 
     KCrash::initialize();
 
