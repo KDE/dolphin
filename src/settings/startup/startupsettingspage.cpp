@@ -13,6 +13,7 @@
 
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KProtocolManager>
 
 #include <QButtonGroup>
 #include <QCheckBox>
@@ -138,11 +139,17 @@ void StartupSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
 
     const QUrl url(QUrl::fromUserInput(m_homeUrl->text(), QString(), QUrl::AssumeLocalFile));
-    KFileItem fileItem(url);
-    if ((url.isValid() && fileItem.isDir()) || (url.scheme() == QLatin1String("timeline"))) {
-        settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
+    if (url.isValid() && KProtocolManager::supportsListing(url)) {
+        KIO::StatJob* job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+        connect(job, &KJob::result, this, [this, settings, url](KJob* job) {
+            if (job->error() == 0 && qobject_cast<KIO::StatJob*>(job)->statResult().isDir()) {
+                settings->setHomeUrl(url.toDisplayString(QUrl::PreferLocalFile));
+            } else {
+                showSetDefaultDirectoryError();
+            }
+        });
     } else {
-        KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
+        showSetDefaultDirectoryError();
     }
 
     // Remove saved state if "remember open tabs" has been turned off
@@ -221,4 +228,9 @@ void StartupSettingsPage::loadSettings()
     m_filterBar->setChecked(GeneralSettings::filterBar());
     m_showFullPathInTitlebar->setChecked(GeneralSettings::showFullPathInTitlebar());
     m_openExternallyCalledFolderInNewTab->setChecked(GeneralSettings::openExternallyCalledFolderInNewTab());
+}
+
+void StartupSettingsPage::showSetDefaultDirectoryError()
+{
+    KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid or does not exist, it will not be applied."));
 }
