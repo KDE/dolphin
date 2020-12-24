@@ -64,6 +64,8 @@ private:
     QRadioButton* m_numberOfItems;
     QRadioButton* m_sizeOfContents;
     QSpinBox* m_recursiveDirectorySizeLimit;
+    QRadioButton* m_useRelatetiveDates;
+    QRadioButton* m_useShortDates;
 };
 
 #endif

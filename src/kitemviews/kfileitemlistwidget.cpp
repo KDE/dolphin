@@ -47,9 +47,19 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
 {
     QString text;
     const QVariant roleValue = values.value(role);
+    QLocale local;
+    KFormat formatter(local);
 
     // Implementation note: In case if more roles require a custom handling
     // use a hash + switch for a linear runtime.
+
+    auto formatDate = [formatter, local](const QDateTime& time) {
+        if (DetailsModeSettings::useShortRelativeDates()) {
+            return formatter.formatRelativeDateTime(time, QLocale::ShortFormat);
+        } else {
+            return local.toString(time, QLocale::ShortFormat);
+        }
+    };
 
     if (role == "size") {
         if (values.value("isDir").toBool()) {
@@ -62,22 +72,25 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
                 } else {
                     // if we have directory size available
                     const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-                    text = KFormat().formatByteSize(size);
+                    text = formatter.formatByteSize(size);
                 }
             }
         } else {
             const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-            text = KFormat().formatByteSize(size);
+            text = formatter.formatByteSize(size);
         }
     } else if (role == "modificationtime" || role == "creationtime" || role == "accesstime") {
             bool ok;
             const long long time = roleValue.toLongLong(&ok);
             if (ok && time != -1) {
-                return QLocale().toString(QDateTime::fromSecsSinceEpoch(time), QLocale::ShortFormat);
+                const QDateTime dateTime = QDateTime::fromSecsSinceEpoch(time);
+                text = formatDate(dateTime);
             }
     } else if (role == "deletiontime" || role == "imageDateTime") {
         const QDateTime dateTime = roleValue.toDateTime();
-        text = QLocale().toString(dateTime, QLocale::ShortFormat);
+        if (dateTime.isValid()) {
+            text = formatDate(dateTime);
+        }
     } else {
         text = KStandardItemListWidgetInformant::roleText(role, values);
     }
