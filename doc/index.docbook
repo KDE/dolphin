@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-06-10</date>
-<releaseinfo>Applications 20.08</releaseinfo>
+<date>2020-12-24</date>
+<releaseinfo>Applications 21.04</releaseinfo>
 
 <abstract>
 <para>
@@ -1295,6 +1295,9 @@ are displayed in a tree view, where the sub items can be expanded by &LMB; click
 </para>
 <para>
 <guilabel>Folder size displays</guilabel> allows defining the property to use then sorting folders by their size. It is possible to sort folders by <guilabel>Number of items</guilabel> or <guilabel>Size of contents</guilabel> and choose a limit to the recursive level (can be useful to constrain unneeded iterations in the deep folder structures or on the slow file systems).
+</para>
+<para>
+The <guilabel>Date style</guilabel> option can be used to configure the mode to display dates in &dolphin;. It is possible to choose between <guilabel>Relative</guilabel> (&eg;, <quote>Yesterday, 3:00pm</quote>) or <guilabel>Absolute</guilabel> (&eg;, <quote>2020-12-23 15:00</quote>).
 </para>
 </listitem>
 </itemizedlist>
