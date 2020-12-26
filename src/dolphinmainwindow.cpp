@@ -1069,7 +1069,7 @@ void DolphinMainWindow::editSettings()
         container->view()->writeSettings();
 
         const QUrl url = container->url();
-        DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
+        DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this, actionCollection());
         connect(settingsDialog, &DolphinSettingsDialog::settingsChanged, this, &DolphinMainWindow::refreshViews);
         connect(settingsDialog, &DolphinSettingsDialog::settingsChanged,
                 &DolphinUrlNavigatorsController::slotReadSettings);

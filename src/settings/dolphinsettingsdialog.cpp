@@ -28,7 +28,7 @@
 #include <QCloseEvent>
 #include <QPushButton>
 
-DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
+DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, KActionCollection* actions) :
     KPageDialog(parent),
     m_pages(),
     m_unsavedChanges(false)
@@ -78,7 +78,15 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent) :
     connect(navigationSettingsPage, &NavigationSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Context Menu
-    auto contextMenuSettingsPage = new ContextMenuSettingsPage(this);
+    auto contextMenuSettingsPage = new ContextMenuSettingsPage(this, actions, {
+        QStringLiteral("add_to_places"),
+        QStringLiteral("sort"),
+        QStringLiteral("view_mode"),
+        QStringLiteral("open_in_new_tab"),
+        QStringLiteral("open_in_new_window"),
+        QStringLiteral("copy_location"),
+        QStringLiteral("duplicate")
+    });
     KPageWidgetItem* contextMenuSettingsFrame = addPage(contextMenuSettingsPage,
                                                         i18nc("@title:group", "Context Menu"));
     contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));

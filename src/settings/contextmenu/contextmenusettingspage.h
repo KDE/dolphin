@@ -8,6 +8,8 @@
 
 #include "settings/settingspagebase.h"
 
+#include <KActionCollection>
+
 #include <QString>
 
 class QListView;
@@ -23,7 +25,7 @@ class ContextMenuSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ContextMenuSettingsPage(QWidget* parent);
+    explicit ContextMenuSettingsPage(QWidget* parent, KActionCollection* actions, QStringList actionIds);
     ~ContextMenuSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -56,6 +58,8 @@ private:
                 const QString &text,
                 const QString &value,
                 bool checked);
+    bool entryVisible(const QString& id);
+    void setEntryVisible(const QString& id, bool visible);
 
 private:
     bool m_initialized;
@@ -64,6 +68,8 @@ private:
     QListView* m_listView;
     QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;
+    KActionCollection* m_actions;
+    QStringList m_actionIds;
 };
 
 #endif

@@ -35,22 +35,19 @@ namespace
     const char VersionControlServicePrefix[] = "_version_control_";
     const char DeleteService[] = "_delete";
     const char CopyToMoveToService[] ="_copy_to_move_to";
-    const char AddToPlacesService[] = "_add_to_places";
-    const char SortByService[] = "_sort_by";
-    const char ViewModeService[] = "_view_mode";
-    const char OpenInNewTabService[] = "_open_in_new_tab";
-    const char OpenInNewWindowService[] = "_open_in_new_window";
-    const char CopyLocationService[] = "_copy_location";
-    const char DuplicateHereService[] = "_duplicate_here";
 }
 
-ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
+ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
+                                                 KActionCollection* actions,
+                                                 QStringList actionIds) :
     SettingsPageBase(parent),
     m_initialized(false),
     m_serviceModel(nullptr),
     m_sortModel(nullptr),
     m_listView(nullptr),
-    m_enabledVcsPlugins()
+    m_enabledVcsPlugins(),
+    m_actions(actions),
+    m_actionIds(actionIds)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -107,6 +104,45 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
 ContextMenuSettingsPage::~ContextMenuSettingsPage() {
 }
 
+bool ContextMenuSettingsPage::entryVisible(const QString& id)
+{
+    if (id == "add_to_places") {
+        return ContextMenuSettings::showAddToPlaces();
+    } else if (id == "sort") {
+        return ContextMenuSettings::showSortBy();
+    } else if (id == "view_mode") {
+        return ContextMenuSettings::showViewMode();
+    } else if (id == "open_in_new_tab") {
+        return ContextMenuSettings::showOpenInNewTab();
+    } else if (id == "open_in_new_window") {
+        return ContextMenuSettings::showOpenInNewWindow();
+    } else if (id == "copy_location") {
+        return ContextMenuSettings::showCopyLocation();
+    } else if (id == "duplicate") {
+        return ContextMenuSettings::showDuplicateHere();
+    }
+    return false;
+}
+
+void ContextMenuSettingsPage::setEntryVisible(const QString& id, bool visible)
+{
+    if (id == "add_to_places") {
+        ContextMenuSettings::setShowAddToPlaces(visible);
+    } else if (id == "sort") {
+        ContextMenuSettings::setShowSortBy(visible);
+    } else if (id == "view_mode") {
+        ContextMenuSettings::setShowViewMode(visible);
+    } else if (id == "open_in_new_tab") {
+        ContextMenuSettings::setShowOpenInNewTab(visible);
+    } else if (id == "open_in_new_window") {
+        ContextMenuSettings::setShowOpenInNewWindow(visible);
+    } else if (id == "copy_location") {
+        ContextMenuSettings::setShowCopyLocation(visible);
+    } else if (id == "duplicate") {
+        ContextMenuSettings::setShowDuplicateHere(visible);
+    }
+}
+
 void ContextMenuSettingsPage::applySettings()
 {
     if (!m_initialized) {
@@ -136,26 +172,8 @@ void ContextMenuSettingsPage::applySettings()
         } else if (service == QLatin1String(CopyToMoveToService)) {
             ContextMenuSettings::setShowCopyMoveMenu(checked);
             ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(AddToPlacesService)) {
-            ContextMenuSettings::setShowAddToPlaces(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(SortByService)) {
-            ContextMenuSettings::setShowSortBy(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(ViewModeService)) {
-            ContextMenuSettings::setShowViewMode(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(OpenInNewTabService)) {
-            ContextMenuSettings::setShowOpenInNewTab(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(OpenInNewWindowService)) {
-            ContextMenuSettings::setShowOpenInNewWindow(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(CopyLocationService)) {
-            ContextMenuSettings::setShowCopyLocation(checked);
-            ContextMenuSettings::self()->save();
-        } else if (service == QLatin1String(DuplicateHereService)) {
-            ContextMenuSettings::setShowDuplicateHere(checked);
+        } else if (m_actionIds.contains(service)) {
+            setEntryVisible(service, checked);
             ContextMenuSettings::self()->save();
         } else {
             showGroup.writeEntry(service, checked);
@@ -212,34 +230,12 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
                ContextMenuSettings::showCopyMoveMenu());
 
         // Add other built-in actions
-        addRow(QStringLiteral("bookmark-new"),
-               i18nc("@option:check", "Add to Places"),
-               AddToPlacesService,
-               ContextMenuSettings::showAddToPlaces());
-        addRow(QStringLiteral("view-sort"),
-               i18nc("@option:check", "Sort By"),
-               SortByService,
-               ContextMenuSettings::showSortBy());
-        addRow(QStringLiteral("view-list-icons"),
-               i18nc("@option:check", "View Mode"),
-               ViewModeService,
-               ContextMenuSettings::showViewMode());
-        addRow(QStringLiteral("folder-new"),
-               i18nc("@option:check", "'Open in New Tab' and 'Open in New Tabs'"),
-               OpenInNewTabService,
-               ContextMenuSettings::showOpenInNewTab());
-        addRow(QStringLiteral("window-new"),
-               i18nc("@option:check", "Open in New Window"),
-               OpenInNewWindowService,
-               ContextMenuSettings::showOpenInNewWindow());
-        addRow(QStringLiteral("edit-copy"),
-               i18nc("@option:check", "Copy Location"),
-               CopyLocationService,
-               ContextMenuSettings::showCopyLocation());
-        addRow(QStringLiteral("edit-copy"),
-               i18nc("@option:check", "Duplicate Here"),
-               DuplicateHereService,
-               ContextMenuSettings::showDuplicateHere());
+        for (const QString& id : m_actionIds) {
+            QAction* action = m_actions->action(id);
+            if (action != nullptr) {
+                addRow(action->icon().name(), action->text(), id, entryVisible(id));
+            }
+        }
 
         m_sortModel->sort(Qt::DisplayRole);
 

@@ -8,6 +8,7 @@
 #define DOLPHINSETTINGSDIALOG_H
 
 #include <KPageDialog>
+#include <KActionCollection>
 
 class QUrl;
 class SettingsPageBase;
@@ -22,7 +23,7 @@ class DolphinSettingsDialog : public KPageDialog
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = nullptr);
+    explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = nullptr, KActionCollection* actions = {});
     ~DolphinSettingsDialog() override;
 
 signals:
