@@ -15,6 +15,17 @@
 #include <QDebug>
 #include <QTime>
 
+namespace {
+    QString tagsFromValues(const QStringList& values)
+    {
+        QStringList alphabeticalOrderTags = values;
+        QCollator coll;
+        coll.setNumericMode(true);
+        std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString& s1, const QString& s2){ return coll.compare(s1, s2) < 0; });
+        return alphabeticalOrderTags.join(QLatin1String(", "));
+    }
+}
+
 struct KBalooRolesProviderSingleton
 {
     KBalooRolesProvider instance;
@@ -137,13 +148,6 @@ KBalooRolesProvider::KBalooRolesProvider() :
         m_roleForProperty.insert(propertyInfoList[i].property, propertyInfoList[i].role);
         m_roles.insert(propertyInfoList[i].role);
     }
+
 }
 
-QString KBalooRolesProvider::tagsFromValues(const QStringList& values) const
-{
-    QStringList alphabeticalOrderTags = values;
-    QCollator coll;
-    coll.setNumericMode(true);
-    std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString& s1, const QString& s2){ return coll.compare(s1, s2) < 0; });
-    return alphabeticalOrderTags.join(QLatin1String(", "));
-}

@@ -48,13 +48,6 @@ protected:
     KBalooRolesProvider();
 
 private:
-    /**
-     * @return User visible string for the given tag-values.
-     *         The tag-values are sorted in alphabetical order.
-     */
-    QString tagsFromValues(const QStringList& values) const;
-
-private:
     QSet<QByteArray> m_roles;
     QHash<QString, QByteArray> m_roleForProperty;
 
