@@ -108,11 +108,6 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
     return values;
 }
 
-QByteArray KBalooRolesProvider::roleForProperty(const QString& property) const
-{
-    return m_roleForProperty.value(property);
-}
-
 KBalooRolesProvider::KBalooRolesProvider() :
     m_roles(),
     m_roleForProperty()

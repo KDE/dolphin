@@ -42,8 +42,6 @@ public:
     QHash<QByteArray, QVariant> roleValues(const Baloo::File& file,
                                            const QSet<QByteArray>& roles) const;
 
-    QByteArray roleForProperty(const QString& property) const;
-
 protected:
     KBalooRolesProvider();
 
