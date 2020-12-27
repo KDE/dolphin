@@ -124,7 +124,7 @@ private:
     /**
      * Creates a new empty trash button.
      * @param urlNavigator Only when this UrlNavigator shows the trash directory
-     *                     will the the button be visible.
+     *                     will the button be visible.
      * @param parent       Aside from the usual QObject deletion mechanisms,
      *                     this parameter influences the positioning of dialog windows
      *                     pertaining to this trash button.
