@@ -108,9 +108,7 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
     return values;
 }
 
-KBalooRolesProvider::KBalooRolesProvider() :
-    m_roles(),
-    m_roleForProperty()
+KBalooRolesProvider::KBalooRolesProvider()
 {
     struct PropertyInfo
     {
