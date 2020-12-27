@@ -10,8 +10,6 @@
 #include <Baloo/File>
 #include <KFileMetaData/PropertyInfo>
 #include <KFileMetaData/UserMetaData>
-#include <KFormat>
-#include <KLocalizedString>
 
 #include <QCollator>
 #include <QDebug>
