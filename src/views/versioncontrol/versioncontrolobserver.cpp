@@ -155,7 +155,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     if (m_plugin != nullptr) {
-        if (!rootItem.url().path().startsWith(m_localeRepoRoot) || !QFile::exists(m_localeRepoRoot + '/' + m_plugin->fileName())) {
+        if (!rootItem.url().path().startsWith(m_localRepoRoot) || !QFile::exists(m_localRepoRoot + '/' + m_plugin->fileName())) {
             m_plugin = nullptr;
 
             // The directory is not versioned. Reset the verification timer to a higher
@@ -310,12 +310,12 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
         // first naively check if we are at working copy root
         const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
-            m_localeRepoRoot = directory.path();
+            m_localRepoRoot = directory.path();
             return plugin;
         }
-        auto wcRoot = plugin->localRepositoryRoot(directory.path());
-        if (!wcRoot.isEmpty()) {
-            m_localeRepoRoot = wcRoot;
+        auto root = plugin->localRepositoryRoot(directory.path());
+        if (!root.isEmpty()) {
+            m_localRepoRoot = root;
             return plugin;
         }
     }

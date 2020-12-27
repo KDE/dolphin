@@ -137,7 +137,7 @@ private:
     bool m_pendingItemStatesUpdate;
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
-    QString m_localeRepoRoot;
+    QString m_localRepoRoot;
 
     DolphinView* m_view;
     KFileItemModel* m_model;
