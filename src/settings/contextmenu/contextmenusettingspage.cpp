@@ -230,9 +230,9 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
                ContextMenuSettings::showCopyMoveMenu());
 
         // Add other built-in actions
-        for (const QString& id : m_actionIds) {
+        for (const QString& id : qAsConst(m_actionIds)) {
             QAction* action = m_actions->action(id);
-            if (action != nullptr) {
+            if (action) {
                 addRow(action->icon().name(), action->text(), id, entryVisible(id));
             }
         }
