@@ -47,7 +47,6 @@ protected:
 
 private:
     QSet<QByteArray> m_roles;
-    QHash<QString, QByteArray> m_roleForProperty;
 
     friend struct KBalooRolesProviderSingleton;
 };

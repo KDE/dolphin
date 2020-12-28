@@ -28,6 +28,32 @@ namespace {
         std::sort(alphabeticalOrderTags.begin(), alphabeticalOrderTags.end(), [&](const QString& s1, const QString& s2){ return coll.compare(s1, s2) < 0; });
         return alphabeticalOrderTags.join(QLatin1String(", "));
     }
+
+    using Property = KFileMetaData::Property::Property;
+    // Mapping from the KFM::Property to the KFileItemModel roles.
+    const QHash<Property, QByteArray> propertyRoleMap() {
+        static const auto map = QHash<Property, QByteArray> {
+            { Property::Rating,            QByteArrayLiteral("rating") },
+            { Property::Comment,           QByteArrayLiteral("comment") },
+            { Property::Title,             QByteArrayLiteral("title") },
+            { Property::WordCount,         QByteArrayLiteral("wordCount") },
+            { Property::LineCount,         QByteArrayLiteral("lineCount") },
+            { Property::Width,             QByteArrayLiteral("width") },
+            { Property::Height,            QByteArrayLiteral("height") },
+            { Property::ImageDateTime,     QByteArrayLiteral("imageDateTime") },
+            { Property::ImageOrientation,  QByteArrayLiteral("orientation") },
+            { Property::Artist,            QByteArrayLiteral("artist") },
+            { Property::Genre,             QByteArrayLiteral("genre")  },
+            { Property::Album,             QByteArrayLiteral("album") },
+            { Property::Duration,          QByteArrayLiteral("duration") },
+            { Property::BitRate,           QByteArrayLiteral("bitrate") },
+            { Property::AspectRatio,       QByteArrayLiteral("aspectRatio") },
+            { Property::FrameRate,         QByteArrayLiteral("frameRate") },
+            { Property::ReleaseYear,       QByteArrayLiteral("releaseYear") },
+            { Property::TrackNumber,       QByteArrayLiteral("track") }
+        };
+        return map;
+    }
 }
 
 struct KBalooRolesProviderSingleton
@@ -63,17 +89,17 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 
     while (rangeBegin != propMap.constKeyValueEnd()) {
         auto key = (*rangeBegin).first;
-        const KFileMetaData::PropertyInfo propertyInfo(key);
-        const QByteArray role = roleForProperty(propertyInfo.name());
 
         auto rangeEnd = std::find_if(rangeBegin, propMap.constKeyValueEnd(),
             [key](const entry& e) { return e.first != key; });
 
+        const QByteArray role = propertyRoleMap().value(key);
         if (role.isEmpty() || !roles.contains(role)) {
             rangeBegin = rangeEnd;
             continue;
         }
 
+        const KFileMetaData::PropertyInfo propertyInfo(key);
         auto distance = std::distance(rangeBegin, rangeEnd);
         if (distance > 1) {
             QVariantList list;
@@ -130,41 +156,15 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
 
 KBalooRolesProvider::KBalooRolesProvider()
 {
-    struct PropertyInfo
-    {
-        const char* const property;
-        const char* const role;
-    };
-
-    // Mapping from the URIs to the KFileItemModel roles. Note that this must not be
-    // a 1:1 mapping: One role may contain several URI-values
-    static const PropertyInfo propertyInfoList[] = {
-        { "rating", "rating" },
-        { "tag",        "tags" },
-        { "comment",   "comment" },
-        { "title",         "title" },
-        { "wordCount",     "wordCount" },
-        { "lineCount",     "lineCount" },
-        { "width",         "width" },
-        { "height",        "height" },
-        { "imageDateTime",   "imageDateTime"},
-        { "imageOrientation", "orientation", },
-        { "artist",     "artist" },
-        { "genre",	"genre"  },
-        { "album",    "album" },
-        { "duration",      "duration" },
-        { "bitRate", "bitrate" },
-        { "aspectRatio", "aspectRatio" },
-        { "frameRate", "frameRate" },
-        { "releaseYear",    "releaseYear" },
-        { "trackNumber",   "track" },
-        { "originUrl", "originUrl" }
-    };
-
-    for (unsigned int i = 0; i < sizeof(propertyInfoList) / sizeof(PropertyInfo); ++i) {
-        m_roleForProperty.insert(propertyInfoList[i].property, propertyInfoList[i].role);
-        m_roles.insert(propertyInfoList[i].role);
+    // Display roles filled from Baloo property cache
+    for (const auto& role : propertyRoleMap()) {
+        m_roles.insert(role);
     }
 
+    // Display roles provided by UserMetaData
+    m_roles.insert(QByteArrayLiteral("tags"));
+    m_roles.insert(QByteArrayLiteral("rating"));
+    m_roles.insert(QByteArrayLiteral("comment"));
+    m_roles.insert(QByteArrayLiteral("originUrl"));
 }
 
