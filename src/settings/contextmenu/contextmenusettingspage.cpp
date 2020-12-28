@@ -38,8 +38,8 @@ namespace
 }
 
 ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
-                                                 KActionCollection* actions,
-                                                 QStringList actionIds) :
+                                                 const KActionCollection* actions,
+                                                 const QStringList& actionIds) :
     SettingsPageBase(parent),
     m_initialized(false),
     m_serviceModel(nullptr),
@@ -230,8 +230,8 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
                ContextMenuSettings::showCopyMoveMenu());
 
         // Add other built-in actions
-        for (const QString& id : qAsConst(m_actionIds)) {
-            QAction* action = m_actions->action(id);
+        for (const QString& id : m_actionIds) {
+            const QAction* action = m_actions->action(id);
             if (action) {
                 addRow(action->icon().name(), action->text(), id, entryVisible(id));
             }

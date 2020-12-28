@@ -25,7 +25,9 @@ class ContextMenuSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    explicit ContextMenuSettingsPage(QWidget* parent, KActionCollection* actions, QStringList actionIds);
+    explicit ContextMenuSettingsPage(QWidget* parent,
+                                     const KActionCollection* actions,
+                                     const QStringList& actionIds);
     ~ContextMenuSettingsPage() override;
 
     /** @see SettingsPageBase::applySettings() */
@@ -68,8 +70,8 @@ private:
     QListView* m_listView;
     QLineEdit *m_searchLineEdit;
     QStringList m_enabledVcsPlugins;
-    KActionCollection* m_actions;
-    QStringList m_actionIds;
+    const KActionCollection* m_actions;
+    const QStringList m_actionIds;
 };
 
 #endif
