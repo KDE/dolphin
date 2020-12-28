@@ -18,6 +18,10 @@
 namespace {
     QString tagsFromValues(const QStringList& values)
     {
+        if (values.size() == 1) {
+            return values.at(0);
+        }
+
         QStringList alphabeticalOrderTags = values;
         QCollator coll;
         coll.setNumericMode(true);
