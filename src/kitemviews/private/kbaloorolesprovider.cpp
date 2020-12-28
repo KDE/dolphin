@@ -91,17 +91,37 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         rangeBegin = rangeEnd;
     }
 
-    KFileMetaData::UserMetaData md(file.path());
+    KFileMetaData::UserMetaData::Attributes attributes;
     if (roles.contains("tags")) {
-        values.insert("tags", tagsFromValues(md.tags()));
+        attributes |= KFileMetaData::UserMetaData::Tags;
     }
     if (roles.contains("rating")) {
-        values.insert("rating", QString::number(md.rating()));
+        attributes |= KFileMetaData::UserMetaData::Rating;
     }
     if (roles.contains("comment")) {
-        values.insert("comment", md.userComment());
+        attributes |= KFileMetaData::UserMetaData::Comment;
     }
     if (roles.contains("originUrl")) {
+        attributes |= KFileMetaData::UserMetaData::OriginUrl;
+    }
+
+    if (attributes == KFileMetaData::UserMetaData::None) {
+        return values;
+    }
+
+    KFileMetaData::UserMetaData md(file.path());
+    attributes = md.queryAttributes(attributes);
+
+    if (attributes & KFileMetaData::UserMetaData::Tags) {
+        values.insert("tags", tagsFromValues(md.tags()));
+    }
+    if (attributes & KFileMetaData::UserMetaData::Rating) {
+        values.insert("rating", QString::number(md.rating()));
+    }
+    if (attributes & KFileMetaData::UserMetaData::Comment) {
+        values.insert("comment", md.userComment());
+    }
+    if (attributes & KFileMetaData::UserMetaData::OriginUrl) {
         values.insert("originUrl", md.originUrl());
     }
 
