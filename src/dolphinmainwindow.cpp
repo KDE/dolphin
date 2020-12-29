@@ -1905,7 +1905,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setWidget(m_placesPanel);
 
     QAction *placesAction = placesDock->toggleViewAction();
-    createPanelAction(QIcon::fromTheme(QStringLiteral("bookmarks")), Qt::Key_F9, placesAction, QStringLiteral("show_places_panel"));
+    createPanelAction(QIcon::fromTheme(QStringLiteral("compass")), Qt::Key_F9, placesAction, QStringLiteral("show_places_panel"));
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(m_placesPanel, &PlacesPanel::placeActivated,
