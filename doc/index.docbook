@@ -70,7 +70,7 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-12-24</date>
+<date>2020-12-29</date>
 <releaseinfo>Applications 21.04</releaseinfo>
 
 <abstract>
@@ -773,6 +773,13 @@ current folder, &RMB; click in the work space and click
 <menuchoice><guimenuitem>Add to Places</guimenuitem></menuchoice> in the context menu.
 </para>
 
+<note>
+    <para>
+        The corresponding menu item visibility can be toggled via the
+        <link linkend="preferences-dialog-context-menu">&dolphin; context menu settings</link>.
+    </para>
+</note>
+
 </sect2>
 
 <sect2 id="filter-files">
@@ -809,7 +816,7 @@ Start to type into the find input box and the search starts immediately.
 <screeninfo>Search files and for content in files</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="nepomuk-search.png" format="PNG"/>
+<imagedata fileref="baloo-search.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase>Search files and for content in files</phrase>
@@ -831,7 +838,7 @@ starts the search from the user's <replaceable>Home</replaceable> folder.</para>
 <screeninfo>Search with More Options</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
 </imageobject>
 <textobject>
 <phrase>Search with More Options</phrase>
@@ -1352,8 +1359,8 @@ several levels deeper in the folder hierarchy.
 
 </sect2>
 
-<sect2 id="preferences-dialog-services">
-<title>Services</title>
+<sect2 id="preferences-dialog-context-menu">
+<title>Context Menu</title>
 
 <para>
 This group offers a selection of services that can be shown in the
@@ -1362,15 +1369,15 @@ appears when clicking a file or folder with the &RMB;.
 </para>
 
 <screenshot>
-<screeninfo>Screenshot of the Services settings in &dolphin;'s preferences dialog</screeninfo>
+<screeninfo>Screenshot of the Context Menu settings in &dolphin;'s preferences dialog</screeninfo>
 <mediaobject>
 <imageobject>
-<imagedata fileref="preferences-services.png" format="PNG"/>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
-<phrase>Services Settings.</phrase>
+<phrase>Context Menu Settings.</phrase>
 </textobject>
-<caption><para>Services Settings in &dolphin;'s Preferences Dialog.</para></caption>
+<caption><para>Context Menu Settings in &dolphin;'s Preferences Dialog.</para></caption>
 </mediaobject>
 </screenshot>
 
@@ -1388,13 +1395,15 @@ and you have additional entries in the
 context menu like commit, update, add, remove &etc;
 </para>
 <para>
-In the service list you can also choose if the <guimenuitem>Delete</guimenuitem>,
-<guimenuitem>Copy To</guimenuitem>, and <guimenuitem>Move To</guimenuitem>
+In the service list you can also choose if the <guimenuitem>Copy To</guimenuitem>,
+<guimenuitem>Move To</guimenuitem>, <guimenuitem>Add to Places</guimenuitem>,
+<guimenuitem>Sort By</guimenuitem>, <guimenuitem>View Mode</guimenuitem>,
+<guimenuitem>Open in New Tab</guimenuitem>, <guimenuitem>Open in New Window</guimenuitem>,
+<guimenuitem>Copy Location</guimenuitem>, and <guimenuitem>Duplicate Here</guimenuitem>
 commands are shown in the context menu.
 </para>
 <para>
 &dolphin; has to be restarted to activate the changes for some of these settings.
-<!--FIXME wrong for Copy To + Move To + Delete, what about the other items?-->
 </para>
 
 </sect2>
