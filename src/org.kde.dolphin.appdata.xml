@@ -350,7 +350,7 @@
       <li xml:lang="et">Lisateave ja otseteed dokitavate paneelidena, mida saab vabalt vajalikku kohta tõsta ja panna näitama just vajalikku teavet.</li>
       <li xml:lang="eu">Informazio eta lasterbide osagarriak erabilgarri daude panel ainguragarrien bidez, haiek askatasun osoz mugitu ditzakezu eta zehazki nahi duzuna bistaratu.</li>
       <li xml:lang="fi">Lisätiedoille ja oikoteille on paneelit, joita voi siirtää sekä näyttää ja piilottaa vapaasti.</li>
-      <li xml:lang="fr">Des informations supplémentaires et des raccourcis sont disponible comme panneaux ancrable librement déplaçable et affichant exactement ce que vous voulez.</li>
+      <li xml:lang="fr">Des informations supplémentaires et des raccourcis sont disponibles comme des panneaux ancrables, librement déplaçable et affichant exactement ce que vous voulez.</li>
       <li xml:lang="gl">Información adicional e atallos dispoñíbeis como paneis acoplábeis que pode colocar en calquera parte e mostrar como prefira.</li>
       <li xml:lang="hu">További információk és gyorsbillentyűk érhetők el dokkolható panelekként, lehetővé téve azok szabad mozgatását, illetve pontosan úgy megjelenítve, ahogy szeretné.</li>
       <li xml:lang="ia">Information additional e vias breve es disponibile como pannellos de basin (dock-panels), il permitte mover los liberemente e monstrar los exactemente como tu vole.</li>
@@ -594,7 +594,7 @@
       <caption xml:lang="et">Failihaldus Dolphinis</caption>
       <caption xml:lang="eu">Fitxategi-kudeaketa Dolphin-ekin</caption>
       <caption xml:lang="fi">Tiedostonhallinta Dolphinissa</caption>
-      <caption xml:lang="fr">Gestion de fichiers dans Dophin</caption>
+      <caption xml:lang="fr">Gestion de fichiers dans Dolphin</caption>
       <caption xml:lang="gl">Xestión de ficheiros en Dolphin</caption>
       <caption xml:lang="he">ניהול קבצים ב־Dolphin</caption>
       <caption xml:lang="hu">Fájlkezelés a Dolphinban</caption>
