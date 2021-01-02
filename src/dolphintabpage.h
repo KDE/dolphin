@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2014 Emmanuel Pescosta <emmanuelpescosta099@gmail.com>
+ * SPDX-FileCopyrightText: 2020 Felix Ernst <fe.a.ernst@gmail.com>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -14,7 +15,13 @@
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
 class QSplitter;
+class QVariantAnimation;
 class KFileItemList;
+
+enum Animated {
+    WithAnimation,
+    WithoutAnimation
+};
 
 class DolphinTabPage : public QWidget
 {
@@ -36,9 +43,15 @@ public:
     /**
      * Enables or disables the split view mode.
      *
-     * If \a enabled is true, it creates a secondary view with the url of the primary view.
+     * @param enabled      If true, creates a secondary viewContainer in this tab.
+     *                     Otherwise deletes it.
+     * @param animated     Decides wether the effects of this method call should
+     *                     happen instantly or be transitioned to smoothly.
+     * @param secondaryUrl If \p enabled is true, the new viewContainer will be opened at this
+     *                     parameter. The default value will set the Url of the new viewContainer
+     *                     to be the same as the existing one.
      */
-    void setSplitViewEnabled(bool enabled, const QUrl &secondaryUrl = QUrl());
+    void setSplitViewEnabled(bool enabled, Animated animated, const QUrl &secondaryUrl = QUrl());
 
     /**
      * @return The primary view container.
@@ -148,6 +161,17 @@ signals:
 
 private slots:
     /**
+     * Deletes all zombie viewContainers that were used for the animation
+     * and resets the minimum size of the others to a sane value.
+     */
+    void slotAnimationFinished();
+
+    /**
+     * This method is called for every frame of the m_expandViewAnimation.
+     */
+    void slotAnimationValueChanged(const QVariant &value);
+
+    /**
      * Handles the view activated event.
      *
      * It sets the previous active view to inactive, updates the current
@@ -170,12 +194,25 @@ private:
      */
     DolphinViewContainer* createViewContainer(const QUrl& url) const;
 
+    /**
+     * Starts an animation that transitions between split view mode states.
+     *
+     * One of the viewContainers is always being expanded when toggling so
+     * this method can animate both opening and closing of viewContainers.
+     * @param expandingContainer The container that will increase in size
+     *                           over the course of the animation.
+     */
+    void startExpandViewAnimation(DolphinViewContainer *expandingContainer);
+
 private:
     QSplitter* m_splitter;
 
     QPointer<DolphinNavigatorsWidgetAction> m_navigatorsWidget;
     QPointer<DolphinViewContainer> m_primaryViewContainer;
     QPointer<DolphinViewContainer> m_secondaryViewContainer;
+
+    DolphinViewContainer *m_expandingContainer;
+    QPointer<QVariantAnimation> m_expandViewAnimation;
 
     bool m_primaryViewActive;
     bool m_splitViewEnabled;

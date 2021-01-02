@@ -807,7 +807,7 @@ void DolphinMainWindow::invertSelection()
 void DolphinMainWindow::toggleSplitView()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
-    tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled());
+    tabPage->setSplitViewEnabled(!tabPage->splitViewEnabled(), WithAnimation);
 
     updateViewActions();
 }
@@ -815,8 +815,8 @@ void DolphinMainWindow::toggleSplitView()
 void DolphinMainWindow::toggleSplitStash()
 {
     DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
-    tabPage->setSplitViewEnabled(false);
-    tabPage->setSplitViewEnabled(true, QUrl("stash:/"));
+    tabPage->setSplitViewEnabled(false, WithAnimation);
+    tabPage->setSplitViewEnabled(true, WithAnimation, QUrl("stash:/"));
 }
 
 void DolphinMainWindow::reloadView()
@@ -2143,7 +2143,7 @@ void DolphinMainWindow::refreshViews()
         // The startup settings have been changed by the user (see bug #254947).
         // Synchronize the split-view setting with the active view:
         const bool splitView = GeneralSettings::splitView();
-        m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView);
+        m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView, WithAnimation);
         updateSplitAction();
         updateWindowTitle();
     }

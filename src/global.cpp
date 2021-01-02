@@ -10,6 +10,7 @@
 #include "dolphindebug.h"
 #include "dolphinmainwindowinterface.h"
 
+#include <KConfigWatcher>
 #include <KDialogJobUiDelegate>
 #include <KIO/ApplicationLauncherJob>
 #include <KService>
@@ -138,3 +139,29 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
 
     return dolphinInterfaces;
 }
+
+double GlobalConfig::animationDurationFactor()
+{
+    if (s_animationDurationFactor >= 0.0) {
+        return s_animationDurationFactor;
+    }
+    // This is the first time this method is called.
+    auto kdeGlobalsConfig = KConfigGroup(KSharedConfig::openConfig(), QStringLiteral("KDE"));
+    updateAnimationDurationFactor(kdeGlobalsConfig, {"AnimationDurationFactor"});
+
+    KConfigWatcher::Ptr configWatcher = KConfigWatcher::create(KSharedConfig::openConfig());
+    connect(configWatcher.data(), &KConfigWatcher::configChanged,
+            &GlobalConfig::updateAnimationDurationFactor);
+    return s_animationDurationFactor;
+}
+
+void GlobalConfig::updateAnimationDurationFactor(const KConfigGroup &group, const QByteArrayList &names)
+{
+    if (group.name() == QLatin1String("KDE") &&
+        names.contains(QByteArrayLiteral("AnimationDurationFactor"))) {
+        s_animationDurationFactor = std::max(0.0,
+                group.readEntry("AnimationDurationFactor", 1.0));
+    }
+}
+
+double GlobalConfig::s_animationDurationFactor = -1.0;

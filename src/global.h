@@ -11,6 +11,7 @@
 #include <QUrl>
 #include <QWidget>
 
+class KConfigGroup;
 class OrgKdeDolphinMainWindowInterface;
 
 namespace Dolphin {
@@ -51,5 +52,27 @@ namespace Dolphin {
     const int VERTICAL_SPACER_HEIGHT = 12;
     const int LAYOUT_SPACING_SMALL = 2;
 }
+
+class GlobalConfig : public QObject
+{
+    Q_OBJECT
+
+public:
+    GlobalConfig() = delete;
+
+    /**
+     * @return a value from the global KDE config that should be
+     *         multiplied with every animation duration once.
+     *         0.0 is returned if animations are globally turned off.
+     *         1.0 is the default value.
+     */
+    static double animationDurationFactor();
+
+private:
+    static void updateAnimationDurationFactor(const KConfigGroup &group, const QByteArrayList &names);
+
+private:
+    static double s_animationDurationFactor;
+};
 
 #endif //GLOBAL_H
