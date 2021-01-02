@@ -225,7 +225,7 @@ void DolphinContextMenu::openItemContextMenu()
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
 
     KFileItemActions fileItemActions;
-    fileItemActions.setParentWidget(this);
+    fileItemActions.setParentWidget(m_mainWindow);
     fileItemActions.setItemListProperties(selectedItemsProps);
 
     if (m_selectedItems.count() == 1) {
