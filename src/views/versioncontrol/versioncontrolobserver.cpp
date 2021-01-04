@@ -112,7 +112,7 @@ QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) cons
         return m_plugin->versionControlActions(items);
     } else {
         QList<QAction*> actions;
-        for (const auto &plugin : qAsConst(m_plugins)) {
+        for (const QPointer<KVersionControlPlugin> &plugin : qAsConst(m_plugins)) {
             actions << plugin->outOfVersionControlActions(items);
         }
         return actions;
@@ -306,14 +306,18 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const QUrl& director
     initPlugins();
 
     // Verify whether the current directory is under a version system
-    for (const auto &plugin : qAsConst(m_plugins)) {
+    for (const QPointer<KVersionControlPlugin> &plugin : qAsConst(m_plugins)) {
+        if (!plugin) {
+            continue;
+        }
+
         // first naively check if we are at working copy root
         const QString fileName = directory.path() + '/' + plugin->fileName();
         if (QFile::exists(fileName)) {
             m_localRepoRoot = directory.path();
             return plugin;
         }
-        auto root = plugin->localRepositoryRoot(directory.path());
+        const QString root = plugin->localRepositoryRoot(directory.path());
         if (!root.isEmpty()) {
             m_localRepoRoot = root;
             return plugin;

@@ -146,7 +146,7 @@ private:
 
     bool m_pluginsInitialized;
     KVersionControlPlugin* m_plugin;
-    QList<KVersionControlPlugin*> m_plugins;
+    QList<QPointer<KVersionControlPlugin>> m_plugins;
     UpdateItemStatesThread* m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;
