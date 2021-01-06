@@ -1550,8 +1550,9 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
         return true;
     }
 
+    const bool controlPressed = modifiers & Qt::ControlModifier;
     const bool shiftOrControlPressed = modifiers & Qt::ShiftModifier ||
-                                       modifiers & Qt::ControlModifier;
+                                       controlPressed;
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
@@ -1585,6 +1586,11 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
                 emitItemActivated = false;
+                // When Ctrl-clicking an item when in single selection mode
+                // i.e. where Ctrl won't change the selection, pretend it was middle clicked
+                if (controlPressed && m_selectionBehavior == SingleSelection) {
+                    Q_EMIT itemMiddleClicked(index);
+                }
             } else if (!(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)) {
                 if (touch) {
                 emitItemActivated = true;
