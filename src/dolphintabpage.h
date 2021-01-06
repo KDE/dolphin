@@ -93,11 +93,6 @@ public:
      */
     void disconnectNavigators();
 
-    /**
-     * Calls resizeNavigators() when a watched object is resized.
-     */
-    bool eventFilter(QObject *watched, QEvent *event) override;
-
     void insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navigatorsWidget);
 
     /**

@@ -43,7 +43,6 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
             this, &DolphinTabPage::slotViewUrlRedirection);
 
     m_splitter->addWidget(m_primaryViewContainer);
-    m_primaryViewContainer->installEventFilter(this);
     m_primaryViewContainer->show();
 
     if (secondaryUrl.isValid() || GeneralSettings::splitView()) {
@@ -53,7 +52,6 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
         const QUrl& url = secondaryUrl.isValid() ? secondaryUrl : primaryUrl;
         m_secondaryViewContainer = createViewContainer(url);
         m_splitter->addWidget(m_secondaryViewContainer);
-        m_secondaryViewContainer->installEventFilter(this);
         m_secondaryViewContainer->show();
     }
 
@@ -98,9 +96,10 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
             }
             m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
             m_navigatorsWidget->setSecondaryNavigatorVisible(true);
+            m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer,
+                                                             m_secondaryViewContainer);
 
             m_splitter->addWidget(m_secondaryViewContainer);
-            m_secondaryViewContainer->installEventFilter(this);
             m_secondaryViewContainer->setActive(true);
 
             if (animated == WithAnimation) {
@@ -141,6 +140,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
                 }
             }
             m_primaryViewContainer->setActive(true);
+            m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer, nullptr);
 
             if (animated == WithoutAnimation) {
                 view->close();
@@ -201,7 +201,8 @@ void DolphinTabPage::connectNavigators(DolphinNavigatorsWidgetAction *navigators
         auto secondaryNavigator = navigatorsWidget->secondaryUrlNavigator();
         m_secondaryViewContainer->connectUrlNavigator(secondaryNavigator);
     }
-    resizeNavigators();
+    m_navigatorsWidget->followViewContainersGeometry(m_primaryViewContainer,
+                                                     m_secondaryViewContainer);
 }
 
 void DolphinTabPage::disconnectNavigators()
@@ -211,15 +212,6 @@ void DolphinTabPage::disconnectNavigators()
     if (m_splitViewEnabled) {
         m_secondaryViewContainer->disconnectUrlNavigator();
     }
-}
-
-bool DolphinTabPage::eventFilter(QObject *watched, QEvent *event)
-{
-    if (event->type() == QEvent::Resize && m_navigatorsWidget) {
-        resizeNavigators();
-        return false;
-    }
-    return QWidget::eventFilter(watched, event);
 }
 
 void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction* navigatorsWidget)
@@ -232,22 +224,6 @@ void DolphinTabPage::insertNavigatorsWidget(DolphinNavigatorsWidgetAction* navig
         // navigatorsWidget is inserted which happens every time the current tab is changed.
         gridLayout->setRowMinimumHeight(0, navigatorsWidget->primaryUrlNavigator()->height());
         gridLayout->addWidget(navigatorsWidget->requestWidget(this), 0, 0);
-    }
-}
-
-
-void DolphinTabPage::resizeNavigators() const
-{
-    if (!m_secondaryViewContainer) {
-        m_navigatorsWidget->followViewContainerGeometry(
-                m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
-                m_primaryViewContainer->width());
-    } else {
-        m_navigatorsWidget->followViewContainersGeometry(
-                m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
-                m_primaryViewContainer->width(),
-                m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x(),
-                m_secondaryViewContainer->width());
     }
 }
 

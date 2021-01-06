@@ -10,6 +10,7 @@
 
 #include "dolphinurlnavigator.h"
 
+#include <QPointer>
 #include <QSplitter>
 #include <QTimer>
 #include <QWidgetAction>
@@ -42,6 +43,13 @@ public:
     DolphinNavigatorsWidgetAction(QWidget *parent = nullptr);
 
     /**
+     * Adjusts the width of the spacings used to align the UrlNavigators with ViewContainers.
+     * This can only work nicely if up-to-date geometry of ViewContainers is cached so
+     * followViewContainersGeometry() has to have been called at least once before.
+     */
+    void adjustSpacing();
+
+    /**
      * The secondary UrlNavigator is only created on-demand. Such an action is not necessary
      * for the primary UrlNavigator which is created preemptively.
      *
@@ -53,16 +61,11 @@ public:
     void createSecondaryUrlNavigator();
 
     /**
-     * Notify the primary UrlNavigator of changes in geometry of the ViewContainer it tries to be
-     * aligned with. Only call this method if there is no secondary UrlNavigator.
-     */
-    void followViewContainerGeometry(int globalXOfPrimary,   int widthOfPrimary);
-    /**
      * Notify this widget of changes in geometry of the ViewContainers it tries to be
      * aligned with.
      */
-    void followViewContainersGeometry(int globalXOfPrimary,   int widthOfPrimary,
-                                      int globalXOfSecondary, int widthOfSecondary);
+    void followViewContainersGeometry(QWidget *primaryViewContainer,
+                                      QWidget *secondaryViewContainer = nullptr);
 
     bool isInToolbar() const;
 
@@ -97,13 +100,6 @@ protected:
     void deleteWidget(QWidget *widget) override;
 
 private:
-    /**
-     * Adjusts the width of the spacings used to align the UrlNavigators with ViewContainers.
-     * This can only work nicely if up-to-date geometry of ViewContainers is cached so
-     * followViewContainersGeometry() has to have been called at least once before.
-     */
-    void adjustSpacing();
-
     /**
      * In Left-to-right languages the Primary side will be the left one.
      */
@@ -157,12 +153,54 @@ private:
      */
     std::unique_ptr<QTimer> m_adjustSpacingTimer;
 
-    // cached values
-    int m_globalXOfSplitter;
-    int m_globalXOfPrimary;
-    int m_widthOfPrimary;
-    int m_globalXOfSecondary;
-    int m_widthOfSecondary;
+    /**
+     * Extracts the geometry information needed by adjustSpacing() from
+     * ViewContainers. They are also monitored for size changes which
+     * will lead to adjustSpacing() calls.
+     */
+    class ViewGeometriesHelper : public QObject
+    {
+    public:
+        /**
+         * @param navigatorsWidget       The QWidget of the navigatorsWidgetAction.
+         * @param navigatorsWidgetAction is only used to call adjustSpacing() whenever that is
+         *                               deemed necessary.
+         */
+        ViewGeometriesHelper(QWidget *navigatorsWidget, DolphinNavigatorsWidgetAction *navigatorsWidgetAction);
+
+        /**
+         * Calls m_navigatorsWidgetAction::adjustSpacing() when a watched object is resized.
+         */
+        bool eventFilter(QObject *watched, QEvent *event) override;
+
+        /**
+         * Sets the ViewContainers whose geometry is obtained when viewGeometries() is called.
+         */
+        void setViewContainers(QWidget *primaryViewContainer,
+                               QWidget *secondaryViewContainer = nullptr);
+
+        struct Geometries {
+            int globalXOfNavigatorsWidget;
+            int globalXOfPrimary;
+            int widthOfPrimary;
+            int globalXOfSecondary;
+            int widthOfSecondary;
+        };
+        /**
+         * @return a Geometries struct that contains values adjustSpacing() requires.
+         */
+        Geometries viewGeometries();
+
+    private:
+        QWidget *m_navigatorsWidget;
+        /** Is only used to call adjustSpacing() whenever that is deemed necessary. */
+        DolphinNavigatorsWidgetAction *m_navigatorsWidgetAction;
+
+        QPointer<QWidget> m_primaryViewContainer;
+        QPointer<QWidget> m_secondaryViewContainer;
+    };
+
+    ViewGeometriesHelper m_viewGeometriesHelper;
 };
 
 #endif // DOLPHINNAVIGATORSWIDGETACTION_H

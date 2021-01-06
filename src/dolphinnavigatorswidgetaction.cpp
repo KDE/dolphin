@@ -26,11 +26,7 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
     QWidgetAction{parent},
     m_splitter{new QSplitter(Qt::Horizontal)},
     m_adjustSpacingTimer{new QTimer(this)},
-    m_globalXOfSplitter{INT_MIN},
-    m_globalXOfPrimary{INT_MIN},
-    m_widthOfPrimary{INT_MIN},
-    m_globalXOfSecondary{INT_MIN},
-    m_widthOfSecondary{INT_MIN}
+    m_viewGeometriesHelper{m_splitter.get(), this}
 {
     updateText();
     setIcon(QIcon::fromTheme(QStringLiteral("dialog-scripts")));
@@ -45,6 +41,63 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
             this, &DolphinNavigatorsWidgetAction::adjustSpacing);
 }
 
+void DolphinNavigatorsWidgetAction::adjustSpacing()
+{
+    auto viewGeometries = m_viewGeometriesHelper.viewGeometries();
+    const int widthOfSplitterPrimary = viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
+    const QList<int> splitterSizes = {widthOfSplitterPrimary,
+                                      m_splitter->width() - widthOfSplitterPrimary};
+    m_splitter->setSizes(splitterSizes);
+
+    // primary side of m_splitter
+    int leadingSpacing = viewGeometries.globalXOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
+    if (leadingSpacing < 0) {
+        leadingSpacing = 0;
+    }
+    int trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
+                          - (viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary);
+    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible()) {
+        trailingSpacing = 0;
+    }
+    const int widthLeftForUrlNavigator = m_splitter->widget(0)->width() - leadingSpacing - trailingSpacing;
+    const int widthNeededForUrlNavigator = primaryUrlNavigator()->sizeHint().width() - widthLeftForUrlNavigator;
+    if (widthNeededForUrlNavigator > 0) {
+        trailingSpacing -= widthNeededForUrlNavigator;
+        if (trailingSpacing < 0) {
+            leadingSpacing += trailingSpacing;
+            trailingSpacing = 0;
+        }
+        if (leadingSpacing < 0) {
+            leadingSpacing = 0;
+        }
+    }
+    spacing(Primary, Leading)->setMinimumWidth(leadingSpacing);
+    spacing(Primary, Trailing)->setFixedWidth(trailingSpacing);
+
+    // secondary side of m_splitter
+    if (viewGeometries.globalXOfSecondary == INT_MIN) {
+        Q_ASSERT(viewGeometries.widthOfSecondary == INT_MIN);
+        return;
+    }
+    spacing(Primary, Trailing)->setFixedWidth(0);
+
+    trailingSpacing = (viewGeometries.globalXOfNavigatorsWidget + m_splitter->width())
+                      - (viewGeometries.globalXOfSecondary + viewGeometries.widthOfSecondary);
+    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible()) {
+        trailingSpacing = 0;
+    } else {
+        const int widthLeftForUrlNavigator2 = m_splitter->widget(1)->width() - trailingSpacing;
+        const int widthNeededForUrlNavigator2 = secondaryUrlNavigator()->sizeHint().width() - widthLeftForUrlNavigator2;
+        if (widthNeededForUrlNavigator2 > 0) {
+            trailingSpacing -= widthNeededForUrlNavigator2;
+            if (trailingSpacing < 0) {
+                trailingSpacing = 0;
+            }
+        }
+    }
+    spacing(Secondary, Trailing)->setMinimumWidth(trailingSpacing);
+}
+
 void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
 {
     Q_ASSERT(m_splitter->count() == 1);
@@ -53,31 +106,10 @@ void DolphinNavigatorsWidgetAction::createSecondaryUrlNavigator()
     updateText();
 }
 
-void DolphinNavigatorsWidgetAction::followViewContainerGeometry(
-                                    int globalXOfPrimary,   int widthOfPrimary)
+void DolphinNavigatorsWidgetAction::followViewContainersGeometry(QWidget *primaryViewContainer,
+                                                                 QWidget *secondaryViewContainer)
 {
-    followViewContainersGeometry(globalXOfPrimary, widthOfPrimary, INT_MIN, INT_MIN);
-}
-
-void DolphinNavigatorsWidgetAction::followViewContainersGeometry(
-                                    int globalXOfPrimary,   int widthOfPrimary,
-                                    int globalXOfSecondary, int widthOfSecondary)
-{
-    if (QApplication::layoutDirection() == Qt::LeftToRight) {
-        m_globalXOfSplitter = m_splitter->mapToGlobal(QPoint(0,0)).x();
-        m_globalXOfPrimary = globalXOfPrimary;
-        m_globalXOfSecondary = globalXOfSecondary;
-    } else {
-        // When the direction is reversed, globalX does not change.
-        // For the adjustSpacing() code to work we need globalX to measure from right to left
-        // and to measure up to the rightmost point of a widget instead of the leftmost.
-        m_globalXOfSplitter = (-1) * (m_splitter->mapToGlobal(QPoint(0,0)).x() + m_splitter->width());
-        m_globalXOfPrimary = (-1) * (globalXOfPrimary + widthOfPrimary);
-        m_globalXOfSecondary = (globalXOfSecondary == INT_MIN) ? INT_MIN :
-                               (-1) * (globalXOfSecondary + widthOfSecondary);
-    }
-    m_widthOfPrimary = widthOfPrimary;
-    m_widthOfSecondary = widthOfSecondary;
+    m_viewGeometriesHelper.setViewContainers(primaryViewContainer, secondaryViewContainer);
     adjustSpacing();
 }
 
@@ -135,65 +167,6 @@ void DolphinNavigatorsWidgetAction::deleteWidget(QWidget *widget)
 {
     Q_UNUSED(widget)
     m_splitter->setParent(nullptr);
-}
-
-void DolphinNavigatorsWidgetAction::adjustSpacing()
-{
-    Q_ASSERT(m_globalXOfSplitter != INT_MIN);
-    Q_ASSERT(m_globalXOfPrimary  != INT_MIN);
-    Q_ASSERT(m_widthOfPrimary    != INT_MIN);
-    const int widthOfSplitterPrimary = m_globalXOfPrimary + m_widthOfPrimary - m_globalXOfSplitter;
-    const QList<int> splitterSizes = {widthOfSplitterPrimary,
-                                      m_splitter->width() - widthOfSplitterPrimary};
-    m_splitter->setSizes(splitterSizes);
-
-    // primary side of m_splitter
-    int leadingSpacing = m_globalXOfPrimary - m_globalXOfSplitter;
-    if (leadingSpacing < 0) {
-        leadingSpacing = 0;
-    }
-    int trailingSpacing = (m_globalXOfSplitter + m_splitter->width())
-                          - (m_globalXOfPrimary + m_widthOfPrimary);
-    if (trailingSpacing < 0 || emptyTrashButton(Primary)->isVisible()) {
-        trailingSpacing = 0;
-    }
-    const int widthLeftForUrlNavigator = m_splitter->widget(0)->width() - leadingSpacing - trailingSpacing;
-    const int widthNeededForUrlNavigator = primaryUrlNavigator()->sizeHint().width() - widthLeftForUrlNavigator;
-    if (widthNeededForUrlNavigator > 0) {
-        trailingSpacing -= widthNeededForUrlNavigator;
-        if (trailingSpacing < 0) {
-            leadingSpacing += trailingSpacing;
-            trailingSpacing = 0;
-        }
-        if (leadingSpacing < 0) {
-            leadingSpacing = 0;
-        }
-    }
-    spacing(Primary, Leading)->setMinimumWidth(leadingSpacing);
-    spacing(Primary, Trailing)->setFixedWidth(trailingSpacing);
-
-    // secondary side of m_splitter
-    if (m_globalXOfSecondary == INT_MIN) {
-        Q_ASSERT(m_widthOfSecondary == INT_MIN);
-        return;
-    }
-    spacing(Primary, Trailing)->setFixedWidth(0);
-
-    trailingSpacing = (m_globalXOfSplitter + m_splitter->width())
-                      - (m_globalXOfSecondary + m_widthOfSecondary);
-    if (trailingSpacing < 0 || emptyTrashButton(Secondary)->isVisible()) {
-        trailingSpacing = 0;
-    } else {
-        const int widthLeftForUrlNavigator2 = m_splitter->widget(1)->width() - trailingSpacing;
-        const int widthNeededForUrlNavigator2 = secondaryUrlNavigator()->sizeHint().width() - widthLeftForUrlNavigator2;
-        if (widthNeededForUrlNavigator2 > 0) {
-            trailingSpacing -= widthNeededForUrlNavigator2;
-            if (trailingSpacing < 0) {
-                trailingSpacing = 0;
-            }
-        }
-    }
-    spacing(Secondary, Trailing)->setMinimumWidth(trailingSpacing);
 }
 
 QWidget *DolphinNavigatorsWidgetAction::createNavigatorWidget(Side side) const
@@ -280,4 +253,71 @@ void DolphinNavigatorsWidgetAction::updateText()
     const int urlNavigatorsAmount = m_splitter->count() > 1 && m_splitter->widget(1)->isVisible() ?
                                     2 : 1;
     setText(i18ncp("@action:inmenu", "Location Bar", "Location Bars", urlNavigatorsAmount));
+}
+
+DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper
+    (QWidget *navigatorsWidget, DolphinNavigatorsWidgetAction *navigatorsWidgetAction) :
+    m_navigatorsWidget{navigatorsWidget},
+    m_navigatorsWidgetAction{navigatorsWidgetAction}
+{
+    Q_CHECK_PTR(navigatorsWidget);
+    Q_CHECK_PTR(navigatorsWidgetAction);
+}
+
+bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::Resize) {
+        m_navigatorsWidgetAction->adjustSpacing();
+        return false;
+    }
+    return QObject::eventFilter(watched, event);
+}
+
+void DolphinNavigatorsWidgetAction::ViewGeometriesHelper::setViewContainers(QWidget *primaryViewContainer,
+                                                                            QWidget *secondaryViewContainer)
+{
+    Q_CHECK_PTR(primaryViewContainer);
+    if (m_primaryViewContainer) {
+        m_primaryViewContainer->removeEventFilter(this);
+    }
+    primaryViewContainer->installEventFilter(this);
+    m_primaryViewContainer = primaryViewContainer;
+
+    // It is not possible to resize the secondaryViewContainer without simultaneously
+    // resizing the primaryViewContainer so we don't have to installEventFilter() here.
+    m_secondaryViewContainer = secondaryViewContainer;
+}
+
+DolphinNavigatorsWidgetAction::ViewGeometriesHelper::Geometries
+        DolphinNavigatorsWidgetAction::ViewGeometriesHelper::viewGeometries()
+{
+    Q_ASSERT(m_primaryViewContainer);
+    Geometries geometries;
+
+    // width
+    geometries.widthOfPrimary = m_primaryViewContainer->width();
+    if (m_secondaryViewContainer) {
+        geometries.widthOfSecondary = m_secondaryViewContainer->width();
+    } else {
+        geometries.widthOfSecondary = INT_MIN;
+    }
+
+    // globalX
+    if (QApplication::layoutDirection() == Qt::LeftToRight) {
+        geometries.globalXOfNavigatorsWidget = m_navigatorsWidget->mapToGlobal(QPoint(0,0)).x();
+        geometries.globalXOfPrimary = m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x();
+        geometries.globalXOfSecondary = !m_secondaryViewContainer ? INT_MIN :
+                m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x();
+    } else {
+        // When the direction is reversed, globalX does not change.
+        // For the adjustSpacing() code to work we need globalX to measure from right to left
+        // and to measure up to the rightmost point of a widget instead of the leftmost.
+        geometries.globalXOfNavigatorsWidget =
+                (-1) * (m_navigatorsWidget->mapToGlobal(QPoint(0,0)).x() + m_navigatorsWidget->width());
+        geometries.globalXOfPrimary =
+                (-1) * (m_primaryViewContainer->mapToGlobal(QPoint(0,0)).x() + geometries.widthOfPrimary);
+        geometries.globalXOfSecondary = !m_secondaryViewContainer ? INT_MIN :
+                (-1) * (m_secondaryViewContainer->mapToGlobal(QPoint(0,0)).x() + geometries.widthOfSecondary);
+    }
+    return geometries;
 }
