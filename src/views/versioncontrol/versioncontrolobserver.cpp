@@ -304,6 +304,13 @@ void VersionControlObserver::initPlugins()
                 continue;
             }
             if (enabledPlugins.contains((*it)->name())) {
+                KPluginLoader pluginLoader(*(*it));
+                // Need to cast to int, because pluginVersion() returns -1 as
+                // an unsigned int for plugins without versions.
+                if (int(pluginLoader.pluginVersion()) < 2) {
+                    qCWarning(DolphinDebug) << "Can't load old plugin" << (*it)->name();
+                    continue;
+                }
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>(this);
                 if (plugin) {
                     m_plugins.append(plugin);
