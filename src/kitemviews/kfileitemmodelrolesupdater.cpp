@@ -1085,7 +1085,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     const bool getIsExpandableRole = m_roles.contains("isExpandable");
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir()) {
-        if (item.isLocalFile() && !item.isSlow()) {
+        if (item.isLocalFile()) {
             // Tell m_directoryContentsCounter that we want to count the items
             // inside the directory. The result will be received in slotDirectoryContentsCountReceived.
             if (m_scanDirectories) {
