@@ -149,7 +149,7 @@ void DolphinViewActionHandler::createActions()
                                 ));
 
     copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
-    m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL + Qt::SHIFT + Qt::Key_C});
+    m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL | Qt::ALT | Qt::Key_C});
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
 
 
