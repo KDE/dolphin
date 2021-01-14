@@ -46,6 +46,7 @@ Name[tr]=Dolphin Görünümü
 Name[uk]=Перегляд Dolphin
 Name[vi]=Khung xem Dolphin
 Name[x-test]=xxDolphin Viewxx
+Name[zh_CN]=Dolphin 视图
 Name[zh_TW]=Dolphin 檢視
 MimeType=inode/directory;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
@@ -113,6 +114,7 @@ Name[tr]=Simgeler
 Name[uk]=Піктограми
 Name[vi]=Biểu tượng
 Name[x-test]=xxIconsxx
+Name[zh_CN]=图标
 Name[zh_TW]=圖示
 Icon=view-list-icons
 # Dummy
@@ -165,6 +167,7 @@ Name[tr]=Sıkışık
 Name[uk]=Компактний
 Name[vi]=Gọn
 Name[x-test]=xxCompactxx
+Name[zh_CN]=紧凑
 Name[zh_TW]=簡潔模式
 Icon=view-list-details
 # Dummy
@@ -217,6 +220,7 @@ Name[tr]=Ayrıntılar
 Name[uk]=Подробиці
 Name[vi]=Chi tiết
 Name[x-test]=xxDetailsxx
+Name[zh_CN]=详细
 Name[zh_TW]=詳細模式
 Icon=view-list-tree
 # Dummy
