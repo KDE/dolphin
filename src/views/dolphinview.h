@@ -690,6 +690,12 @@ private slots:
     void slotDirectoryLoadingCompleted();
 
     /**
+     * Invoked when the file item model indicates that the loading of a directory has
+     * been canceled.
+     */
+    void slotDirectoryLoadingCanceled();
+
+    /**
      * Is invoked when items of KFileItemModel have been changed.
      */
     void slotItemsChanged();
@@ -816,6 +822,7 @@ private:
     bool m_isFolderWritable;
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
                      // tooltip may be shown when hovering an item.
+    bool m_loading;
 
     QUrl m_url;
     QString m_viewPropertiesContext;

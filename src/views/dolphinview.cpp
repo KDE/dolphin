@@ -67,6 +67,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_assureVisibleCurrentIndex(false),
     m_isFolderWritable(true),
     m_dragging(false),
+    m_loading(false),
     m_url(url),
     m_viewPropertiesContext(),
     m_mode(DolphinView::IconsView),
@@ -165,7 +166,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
-    connect(m_model, &KFileItemModel::directoryLoadingCanceled,      this, &DolphinView::directoryLoadingCanceled);
+    connect(m_model, &KFileItemModel::directoryLoadingCanceled,      this, &DolphinView::slotDirectoryLoadingCanceled);
     connect(m_model, &KFileItemModel::directoryLoadingProgress,   this, &DolphinView::directoryLoadingProgress);
     connect(m_model, &KFileItemModel::directorySortingProgress,   this, &DolphinView::directorySortingProgress);
     connect(m_model, &KFileItemModel::itemsChanged,
@@ -178,8 +179,6 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(m_model, &KFileItemModel::urlIsFileError,            this, &DolphinView::urlIsFileError);
 
     connect(this, &DolphinView::itemCountChanged,
-            this, &DolphinView::updatePlaceholderLabel);
-    connect(this, &DolphinView::urlChanged,
             this, &DolphinView::updatePlaceholderLabel);
 
     m_view->installEventFilter(this);
@@ -1624,8 +1623,8 @@ void DolphinView::slotRenamingResult(KJob* job)
 
 void DolphinView::slotDirectoryLoadingStarted()
 {
-    // We don't want the placeholder label to flicker while the folder is loading
-    m_placeholderLabel->setVisible(false);
+    m_loading = true;
+    updatePlaceholderLabel();
 
     // Disable the writestate temporary until it can be determined in a fast way
     // in DolphinView::slotDirectoryLoadingCompleted()
@@ -1639,6 +1638,8 @@ void DolphinView::slotDirectoryLoadingStarted()
 
 void DolphinView::slotDirectoryLoadingCompleted()
 {
+    m_loading = false;
+
     // Update the view-state. This has to be done asynchronously
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, &DolphinView::updateViewState);
@@ -1650,6 +1651,15 @@ void DolphinView::slotDirectoryLoadingCompleted()
 
     updatePlaceholderLabel();
     updateWritableState();
+}
+
+void DolphinView::slotDirectoryLoadingCanceled()
+{
+    m_loading = false;
+
+    updatePlaceholderLabel();
+
+    Q_EMIT directoryLoadingCanceled();
 }
 
 void DolphinView::slotItemsChanged()
@@ -2016,7 +2026,7 @@ void DolphinView::slotSwipeUp()
 
 void DolphinView::updatePlaceholderLabel()
 {
-    if (itemsCount() > 0) {
+    if (m_loading || itemsCount() > 0) {
         m_placeholderLabel->setVisible(false);
         return;
     }
