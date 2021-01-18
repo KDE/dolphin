@@ -10,6 +10,7 @@
 
 #include "dolphinurlnavigator.h"
 
+#include <kio_version.h>
 #include <QSplitter>
 #include <QTimer>
 #include <QWidgetAction>
@@ -30,7 +31,8 @@ class QPushButton;
  *      The secondary side only exists for split view and is created by
  *      createSecondaryUrlNavigator() when necessary.
  * - Each side is a QWidget which I call NavigatorWidget with a QHBoxLayout.
- * - Each NavigatorWidget consists an UrlNavigator, an emptyTrashButton and spacing.
+ * - Each NavigatorWidget consists an UrlNavigator, an emptyTrashButton, a
+ *   networkFolderButton (for frameworks >= 5.78), and spacing.
  * - Only the primary navigatorWidget has leading spacing. Both have trailing spacing.
  *      The spacing is there to align the UrlNavigator with its DolphinViewContainer.
  */
@@ -130,6 +132,22 @@ private:
      *                     pertaining to this trash button.
      */
     QPushButton *newEmptyTrashButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
+
+#if !(KIO_VERSION < QT_VERSION_CHECK(5, 78, 0))
+    /**
+     * Used to retrieve the networkFolderButtons for the navigatorWidgets on
+     * both sides.
+     */
+    QPushButton *networkFolderButton(Side side);
+
+    /**
+     * Creates a new add "network folder" button.
+     * @param urlNavigator Only when this UrlNavigator shows the remote directory
+     *                     will the button be visible.
+     * @param parent       The object that should be the button's parent.
+     */
+    QPushButton *newNetworkFolderButton(const DolphinUrlNavigator *urlNavigator, QWidget *parent) const;
+#endif
 
     enum Position {
         Leading,
