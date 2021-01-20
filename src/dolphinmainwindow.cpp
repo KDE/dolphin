@@ -258,7 +258,11 @@ bool DolphinMainWindow::isFoldersPanelEnabled() const
 
 bool DolphinMainWindow::isInformationPanelEnabled() const
 {
+#ifdef HAVE_BALOO
     return actionCollection()->action(QStringLiteral("show_information_panel"))->isChecked();
+#else
+    return false;
+#endif
 }
 
 void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
