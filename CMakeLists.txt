@@ -178,7 +178,10 @@ ecm_generate_dbus_service_file(
 
 ecm_install_configured_files(INPUT plasma-dolphin.service.in DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
 
-install(FILES dolphin.categories  DESTINATION  ${KDE_INSTALL_LOGGINGCATEGORIESDIR})
-
+ecm_qt_install_logging_categories(
+        EXPORT DOLPHIN
+        FILE dolphin.categories
+        DESTINATION ${KDE_INSTALL_LOGGINGCATEGORIESDIR}
+        )
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

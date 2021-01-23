@@ -117,7 +117,8 @@ set(dolphinprivate_LIB_SRCS
     dolphinnewfilemenu.cpp
 )
 
-ecm_qt_declare_logging_category(dolphinprivate_LIB_SRCS HEADER dolphindebug.h IDENTIFIER DolphinDebug CATEGORY_NAME org.kde.dolphin)
+ecm_qt_declare_logging_category(dolphinprivate_LIB_SRCS HEADER dolphindebug.h IDENTIFIER DolphinDebug CATEGORY_NAME org.kde.dolphin
+    DESCRIPTION "dolphin" EXPORT DOLPHIN)
 
 if(HAVE_BALOO)
     set(dolphinprivate_LIB_SRCS
