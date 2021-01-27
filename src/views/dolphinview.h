@@ -1,6 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2006-2009 Peter Penz <peter.penz19@gmail.com>
  * SPDX-FileCopyrightText: 2006 Gregor Kališnik <gregor@podnapisi.net>
+ * SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -75,6 +76,20 @@ public:
          * to the right side.
          */
         CompactView
+    };
+
+    /** Bool style API helper */
+    enum class FromSelection { No, Yes };
+
+    /** Context helper for status bar updates */
+    struct FileItemCount
+    {
+        FileItemCount(const KFileItemList &list, bool withSize = true /* I'd actually want this to be a std::optional :( */);
+        FileItemCount(KFileItemModel *model);
+
+        quint64 folders = 0;
+        quint64 files = 0;
+        KIO::filesize_t totalFileSize = 0;
     };
 
     /**
@@ -242,6 +257,7 @@ public:
     /**
      * Returns a textual representation of the state of the current
      * folder or selected items, suitable for use in the status bar.
+     * \warning this is a getter. to request an update use refreshStatusBarText()
      */
     QString statusBarText() const;
 
@@ -404,6 +420,11 @@ public slots:
 
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject* watched, QEvent* event) override;
+
+    /**
+     * Request a text update. Emits statusBarTextChanged() when done.
+     */
+    void refreshStatusBarText();
 
 signals:
     /**
@@ -585,6 +606,11 @@ signals:
 
     void goUpRequested();
 
+    /**
+     * Emitted when the statusBarText changed.
+     */
+    void statusBarTextChanged() const;
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent* event) override;
@@ -735,17 +761,14 @@ private slots:
      */
     void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
-    /**
-     * Calculates the number of currently shown files into
-     * \a fileCount and the number of folders into \a folderCount.
-     * The size of all files is written into \a totalFileSize.
-     * It is recommend using this method instead of asking the
-     * directory lister or the model directly, as it takes
-     * filtering and hierarchical previews into account.
-     */
-    void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
-
     void slotTwoClicksRenamingTimerTimeout();
+
+    /**
+     * Update the status bar text with the provided context.
+     * \param count contains count data for current context
+     * \param selection whether the count is of a selection or the entire dir
+     */
+    void updateStatusBarText(const FileItemCount &count, FromSelection selection);
 
 private:
     void loadDirectory(const QUrl& url, bool reload = false);
@@ -852,6 +875,8 @@ private:
     QTimer* m_twoClicksRenamingTimer;
     QUrl m_twoClicksRenamingItemUrl;
     QLabel* m_placeholderLabel;
+
+    QString m_statusBarText;
 
     // For unit tests
     friend class TestBase;

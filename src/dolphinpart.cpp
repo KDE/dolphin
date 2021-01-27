@@ -1,5 +1,6 @@
 /* This file is part of the KDE project
    SPDX-FileCopyrightText: 2007 David Faure <faure@kde.org>
+   SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
 
    SPDX-License-Identifier: LGPL-2.0-or-later
 */
@@ -102,8 +103,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
 
     // Watch for changes that should result in updates to the
     // status bar text.
-    connect(m_view, &DolphinView::itemCountChanged, this, &DolphinPart::updateStatusBar);
-    connect(m_view,  &DolphinView::selectionChanged, this, &DolphinPart::updateStatusBar);
+    connect(m_view, &DolphinView::itemCountChanged, m_view, &DolphinView::refreshStatusBarText);
+    connect(m_view, &DolphinView::selectionChanged, m_view, &DolphinView::refreshStatusBarText);
+    connect(m_view, &DolphinView::statusBarTextChanged, this, &DolphinPart::updateStatusBar);
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
@@ -347,7 +349,7 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 {
     Q_EMIT m_extension->mouseOverInfo(item);
     if (item.isNull()) {
-        updateStatusBar();
+        m_view->refreshStatusBarText();
     } else {
         const QString escapedText = Qt::convertFromPlainText(item.getStatusBarInfo());
         Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
@@ -597,6 +599,7 @@ void DolphinPart::updateNewMenu()
 
 void DolphinPart::updateStatusBar()
 {
+    // Don't call this directly - you might get outdated text.
     const QString escapedText = Qt::convertFromPlainText(m_view->statusBarText());
     Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
 }

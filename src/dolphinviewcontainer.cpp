@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2007 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -152,6 +153,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotUrlIsFileError);
     connect(m_view, &DolphinView::activated,
             this, &DolphinViewContainer::activate);
+    connect(m_view, &DolphinView::statusBarTextChanged, this, [this] {
+        m_statusBar->setDefaultText(m_view->statusBarText());
+        m_statusBar->resetToDefaultText();
+    });
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -544,10 +549,7 @@ void DolphinViewContainer::delayedStatusBarUpdate()
 void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
-
-    const QString text = m_view->statusBarText();
-    m_statusBar->setDefaultText(text);
-    m_statusBar->resetToDefaultText();
+    m_view->refreshStatusBarText();
 }
 
 void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
