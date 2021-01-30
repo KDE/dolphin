@@ -10,6 +10,9 @@
 #include "dolphin_export.h"
 #include "kitemviews/kstandarditemlistwidget.h"
 
+class KFileItemListView;
+
+
 class DOLPHIN_EXPORT KFileItemListWidgetInformant : public KStandardItemListWidgetInformant
 {
 public:
@@ -34,6 +37,10 @@ public:
     static KItemListWidgetInformant* createInformant();
 
 protected:
+    virtual void hoverSequenceStarted() override;
+    virtual void hoverSequenceIndexChanged(int sequenceIndex) override;
+    virtual void hoverSequenceEnded() override;
+
     bool isRoleRightAligned(const QByteArray& role) const override;
     bool isHidden() const override;
     QFont customizedFont(const QFont& baseFont) const override;
@@ -42,6 +49,9 @@ protected:
      * @return Selection length without MIME-type extension
      */
     int selectionLength(const QString& text) const override;
+
+private:
+    KFileItemListView* listView();
 };
 
 #endif

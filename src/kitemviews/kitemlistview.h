@@ -851,6 +851,7 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
         widget = new T(m_informant, view);
         addCreatedWidget(widget);
     }
+    widget->setParentItem(view);
     return widget;
 }
 

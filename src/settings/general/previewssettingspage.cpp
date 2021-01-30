@@ -134,6 +134,7 @@ void PreviewsSettingsPage::applySettings()
     globalConfig.writeEntry("MaximumRemoteSize",
                             maximumRemoteSize,
                             KConfigBase::Normal | KConfigBase::Global);
+
     globalConfig.sync();
 }
 

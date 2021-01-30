@@ -17,6 +17,7 @@
 #include <KRatingPainter>
 #include <KStringHandler>
 
+#include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>
@@ -581,6 +582,13 @@ void KStandardItemListWidget::invalidateCache()
     m_dirtyContent = true;
 }
 
+void KStandardItemListWidget::invalidateIconCache()
+{
+    m_dirtyContent = true;
+    m_dirtyContentRoles.insert("iconPixmap");
+    m_dirtyContentRoles.insert("iconOverlays");
+}
+
 void KStandardItemListWidget::refreshCache()
 {
 }
@@ -945,7 +953,34 @@ void KStandardItemListWidget::updatePixmapCache()
     }
 
     if (updatePixmap) {
-        m_pixmap = values["iconPixmap"].value<QPixmap>();
+        m_pixmap = QPixmap();
+
+        int sequenceIndex = hoverSequenceIndex();
+
+        if (values.contains("hoverSequencePixmaps")) {
+            // Use one of the hover sequence pixmaps instead of the default
+            // icon pixmap.
+
+            const QVector<QPixmap> pixmaps = values["hoverSequencePixmaps"].value<QVector<QPixmap>>();
+
+            if (values.contains("hoverSequenceWraparoundPoint")) {
+                const float wap = values["hoverSequenceWraparoundPoint"].toFloat();
+                if (wap >= 1.0f) {
+                    sequenceIndex %= static_cast<int>(wap);
+                }
+            }
+
+            const int loadedIndex = qMax(qMin(sequenceIndex, pixmaps.size()-1), 0);
+
+            if (loadedIndex != 0) {
+                m_pixmap = pixmaps[loadedIndex];
+            }
+        }
+
+        if (m_pixmap.isNull()) {
+            m_pixmap = values["iconPixmap"].value<QPixmap>();
+        }
+
         if (m_pixmap.isNull()) {
             // Use the icon that fits to the MIME-type
             QString iconName = values["iconName"].toString();

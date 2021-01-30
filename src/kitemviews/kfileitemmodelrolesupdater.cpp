@@ -6,6 +6,7 @@
 
 #include "kfileitemmodelrolesupdater.h"
 
+#include "dolphindebug.h"
 #include "kfileitemmodel.h"
 #include "private/kdirectorycontentscounter.h"
 #include "private/kpixmapmodifier.h"
@@ -72,6 +73,10 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_pendingIndexes(),
     m_pendingPreviewItems(),
     m_previewJob(),
+    m_hoverSequenceItem(),
+    m_hoverSequenceIndex(0),
+    m_hoverSequencePreviewJob(nullptr),
+    m_hoverSequenceNumSuccessiveFailures(0),
     m_recentlyChangedItemsTimer(nullptr),
     m_recentlyChangedItems(),
     m_changedItems(),
@@ -328,6 +333,26 @@ bool KFileItemModelRolesUpdater::scanDirectories() const
     return m_scanDirectories;
 }
 
+void KFileItemModelRolesUpdater::setHoverSequenceState(const QUrl& itemUrl, int seqIdx)
+{
+    const KFileItem item = m_model->fileItem(itemUrl);
+
+    if (item != m_hoverSequenceItem) {
+        killHoverSequencePreviewJob();
+    }
+
+    m_hoverSequenceItem = item;
+    m_hoverSequenceIndex = seqIdx;
+
+    if (!m_previewShown) {
+        return;
+    }
+
+    m_hoverSequenceNumSuccessiveFailures = 0;
+
+    loadNextHoverSequencePreview();
+}
+
 void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRanges)
 {
     QElapsedTimer timer;
@@ -397,6 +422,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         m_recentlyChangedItems.clear();
         m_recentlyChangedItemsTimer->stop();
         m_changedItems.clear();
+        m_hoverSequenceLoadedItems.clear();
 
         killPreviewJob();
     } else {
@@ -408,6 +434,16 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
                 it = m_finishedItems.erase(it);
             } else {
                 ++it;
+            }
+        }
+
+        // Removed items won't have hover previews loaded anymore.
+        for (const KItemRange& itemRange : itemRanges) {
+            int index = itemRange.index;
+            for (int count = itemRange.count; count > 0; --count) {
+                const KFileItem item = m_model->fileItem(index);
+                m_hoverSequenceLoadedItems.remove(item);
+                ++index;
             }
         }
 
@@ -504,43 +540,7 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
         return;
     }
 
-    QPixmap scaledPixmap = pixmap;
-
-    if (!pixmap.hasAlpha() && !pixmap.isNull()
-        && m_iconSize.width()  > KIconLoader::SizeSmallMedium
-        && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
-        if (m_enlargeSmallPreviews) {
-            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
-        } else {
-            // Assure that small previews don't get enlarged. Instead they
-            // should be shown centered within the frame.
-            const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
-            const bool enlargingRequired = scaledPixmap.width()  < contentSize.width() &&
-                                           scaledPixmap.height() < contentSize.height();
-            if (enlargingRequired) {
-                QSize frameSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
-                frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
-
-                QPixmap largeFrame(frameSize);
-                largeFrame.fill(Qt::transparent);
-
-                KPixmapModifier::applyFrame(largeFrame, frameSize);
-
-                QPainter painter(&largeFrame);
-                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
-                                   (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
-                                   scaledPixmap);
-                scaledPixmap = largeFrame;
-            } else {
-                // The image must be shrunk as it is too large to fit into
-                // the available icon size
-                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
-            }
-        }
-    } else if (!pixmap.isNull()) {
-        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
-        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
-    }
+    QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
 
     QHash<QByteArray, QVariant> data = rolesData(item);
 
@@ -615,6 +615,112 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished()
     }
 }
 
+void KFileItemModelRolesUpdater::slotHoverSequenceGotPreview(const KFileItem& item, const QPixmap& pixmap)
+{
+    const int index = m_model->index(item);
+    if (index < 0) {
+        return;
+    }
+
+    QHash<QByteArray, QVariant> data = m_model->data(index);
+    QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
+    const int loadedIndex = pixmaps.size();
+
+    float wap = m_hoverSequencePreviewJob->sequenceIndexWraparoundPoint();
+    if (!m_hoverSequencePreviewJob->handlesSequences()) {
+        wap = 1.0f;
+    }
+    if (wap >= 0.0f) {
+        data["hoverSequenceWraparoundPoint"] = wap;
+        m_model->setData(index, data);
+    }
+
+    // For hover sequence previews we never load index 0, because that's just the regular preview
+    // in "iconPixmap". But that means we'll load index 1 even for thumbnailers that don't support
+    // sequences, in which case we can just throw away the preview because it's the same as for
+    // index 0. Unfortunately we can't find it out earlier :(
+    if (wap < 0.0f || loadedIndex < static_cast<int>(wap)) {
+        // Add the preview to the model data
+
+        const QPixmap scaledPixmap = transformPreviewPixmap(pixmap);
+
+        pixmaps.append(scaledPixmap);
+        data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
+
+        m_model->setData(index, data);
+
+        const auto loadedIt = std::find(m_hoverSequenceLoadedItems.begin(),
+                m_hoverSequenceLoadedItems.end(), item);
+        if (loadedIt == m_hoverSequenceLoadedItems.end()) {
+            m_hoverSequenceLoadedItems.push_back(item);
+            trimHoverSequenceLoadedItems();
+        }
+    }
+
+    m_hoverSequenceNumSuccessiveFailures = 0;
+}
+
+void KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed(const KFileItem& item)
+{
+    const int index = m_model->index(item);
+    if (index < 0) {
+        return;
+    }
+
+    static const int numRetries = 2;
+
+    QHash<QByteArray, QVariant> data = m_model->data(index);
+    QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
+
+    qCDebug(DolphinDebug).nospace()
+            << "Failed to generate hover sequence preview #" << pixmaps.size()
+            << " for file " << item.url().toString()
+            << " (attempt " << (m_hoverSequenceNumSuccessiveFailures+1)
+            << "/" << (numRetries+1) << ")";
+
+    if (m_hoverSequenceNumSuccessiveFailures >= numRetries) {
+        // Give up and simply duplicate the previous sequence image (if any)
+
+        pixmaps.append(pixmaps.empty() ? QPixmap() : pixmaps.last());
+        data["hoverSequencePixmaps"] = QVariant::fromValue(pixmaps);
+
+        if (!data.contains("hoverSequenceWraparoundPoint")) {
+            // hoverSequenceWraparoundPoint is only available when PreviewJob succeeds, so unless
+            // it has previously succeeded, it's best to assume that it just doesn't handle
+            // sequences instead of trying to load the next image indefinitely.
+            data["hoverSequenceWraparoundPoint"] = 1.0f;
+        }
+
+        m_model->setData(index, data);
+
+        m_hoverSequenceNumSuccessiveFailures = 0;
+    } else {
+        // Retry
+
+        m_hoverSequenceNumSuccessiveFailures++;
+    }
+
+    // Next image in the sequence (or same one if the retry limit wasn't reached yet) will be
+    // loaded automatically, because slotHoverSequencePreviewJobFinished() will be triggered
+    // even when PreviewJob fails.
+}
+
+void KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished()
+{
+    const int index = m_model->index(m_hoverSequenceItem);
+    if (index < 0) {
+        m_hoverSequencePreviewJob = nullptr;
+        return;
+    }
+
+    // Since a PreviewJob can only have one associated sequence index, we can only generate
+    // one sequence image per job, so we have to start another one for the next index.
+
+    // Load the next image in the sequence
+    m_hoverSequencePreviewJob = nullptr;
+    loadNextHoverSequencePreview();
+}
+
 void KFileItemModelRolesUpdater::resolveNextSortRole()
 {
     if (m_state != ResolvingSortRole) {
@@ -684,11 +790,14 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
             if (m_finishedItems.count() != m_model->count()) {
                 QHash<QByteArray, QVariant> data;
                 data.insert("iconPixmap", QPixmap());
+                data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
 
                 disconnect(m_model, &KFileItemModel::itemsChanged,
                            this,    &KFileItemModelRolesUpdater::slotItemsChanged);
                 for (int index = 0; index <= m_model->count(); ++index) {
-                    if (m_model->data(index).contains("iconPixmap")) {
+                    if (m_model->data(index).contains("iconPixmap") ||
+                        m_model->data(index).contains("hoverSequencePixmaps"))
+                    {
                         m_model->setData(index, data);
                     }
                 }
@@ -930,6 +1039,129 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     m_previewJob = job;
 }
 
+QPixmap KFileItemModelRolesUpdater::transformPreviewPixmap(const QPixmap& pixmap)
+{
+    QPixmap scaledPixmap = pixmap;
+
+    if (!pixmap.hasAlpha() && !pixmap.isNull()
+        && m_iconSize.width()  > KIconLoader::SizeSmallMedium
+        && m_iconSize.height() > KIconLoader::SizeSmallMedium) {
+        if (m_enlargeSmallPreviews) {
+            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+        } else {
+            // Assure that small previews don't get enlarged. Instead they
+            // should be shown centered within the frame.
+            const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
+            const bool enlargingRequired = scaledPixmap.width()  < contentSize.width() &&
+                                           scaledPixmap.height() < contentSize.height();
+            if (enlargingRequired) {
+                QSize frameSize = scaledPixmap.size() / scaledPixmap.devicePixelRatio();
+                frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
+
+                QPixmap largeFrame(frameSize);
+                largeFrame.fill(Qt::transparent);
+
+                KPixmapModifier::applyFrame(largeFrame, frameSize);
+
+                QPainter painter(&largeFrame);
+                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width() / scaledPixmap.devicePixelRatio()) / 2,
+                                   (largeFrame.height() - scaledPixmap.height() / scaledPixmap.devicePixelRatio()) / 2,
+                                   scaledPixmap);
+                scaledPixmap = largeFrame;
+            } else {
+                // The image must be shrunk as it is too large to fit into
+                // the available icon size
+                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+            }
+        }
+    } else if (!pixmap.isNull()) {
+        KPixmapModifier::scale(scaledPixmap, m_iconSize * qApp->devicePixelRatio());
+        scaledPixmap.setDevicePixelRatio(qApp->devicePixelRatio());
+    }
+
+    return scaledPixmap;
+}
+
+void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
+{
+    if (m_hoverSequenceItem.isNull() || m_hoverSequencePreviewJob) {
+        return;
+    }
+
+    const int index = m_model->index(m_hoverSequenceItem);
+    if (index < 0) {
+        return;
+    }
+
+    // We generate the next few sequence indices in advance (buffering)
+    const int maxSeqIdx = m_hoverSequenceIndex+5;
+
+    QHash<QByteArray, QVariant> data = m_model->data(index);
+
+    if (!data.contains("hoverSequencePixmaps")) {
+        // The pixmap at index 0 isn't used ("iconPixmap" will be used instead)
+        data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>() << QPixmap()));
+        m_model->setData(index, data);
+    }
+
+    const QVector<QPixmap> pixmaps = data["hoverSequencePixmaps"].value<QVector<QPixmap>>();
+
+    const int loadSeqIdx = pixmaps.size();
+
+    float wap = -1.0f;
+    if (data.contains("hoverSequenceWraparoundPoint")) {
+        wap = data["hoverSequenceWraparoundPoint"].toFloat();
+    }
+    if (wap >= 1.0f && loadSeqIdx >= static_cast<int>(wap)) {
+        // Reached the wraparound point -> no more previews to load.
+        return;
+    }
+
+    if (loadSeqIdx > maxSeqIdx) {
+        // Wait until setHoverSequenceState() is called with a higher sequence index.
+        return;
+    }
+
+    // PreviewJob internally caches items always with the size of
+    // 128 x 128 pixels or 256 x 256 pixels. A (slow) downscaling is done
+    // by PreviewJob if a smaller size is requested. For images KFileItemModelRolesUpdater must
+    // do a downscaling anyhow because of the frame, so in this case only the provided
+    // cache sizes are requested.
+    const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128)
+                             ? QSize(256, 256) : QSize(128, 128);
+
+    KIO::PreviewJob* job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize, &m_enabledPlugins);
+
+    job->setSequenceIndex(loadSeqIdx);
+    job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && m_localFileSizePreviewLimit <= 0);
+    if (job->uiDelegate()) {
+        KJobWidgets::setWindow(job, qApp->activeWindow());
+    }
+
+    connect(job,  &KIO::PreviewJob::gotPreview,
+            this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+    connect(job,  &KIO::PreviewJob::failed,
+            this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
+    connect(job,  &KIO::PreviewJob::finished,
+            this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
+
+    m_hoverSequencePreviewJob = job;
+}
+
+void KFileItemModelRolesUpdater::killHoverSequencePreviewJob()
+{
+    if (m_hoverSequencePreviewJob) {
+        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::gotPreview,
+                   this, &KFileItemModelRolesUpdater::slotHoverSequenceGotPreview);
+        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::failed,
+                   this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewFailed);
+        disconnect(m_hoverSequencePreviewJob,  &KIO::PreviewJob::finished,
+                   this, &KFileItemModelRolesUpdater::slotHoverSequencePreviewJobFinished);
+        m_hoverSequencePreviewJob->kill();
+        m_hoverSequencePreviewJob = nullptr;
+    }
+}
+
 void KFileItemModelRolesUpdater::updateChangedItems()
 {
     if (m_state == Paused) {
@@ -1069,6 +1301,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(int index, ResolveHint hint)
 
         if (m_clearPreviews) {
             data.insert("iconPixmap", QPixmap());
+            data.insert("hoverSequencePixmaps", QVariant::fromValue(QVector<QPixmap>()));
         }
 
         disconnect(m_model, &KFileItemModel::itemsChanged,
@@ -1219,5 +1452,25 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
     }
 
     return result;
+}
+
+void KFileItemModelRolesUpdater::trimHoverSequenceLoadedItems()
+{
+    static const size_t maxLoadedItems = 20;
+
+    size_t loadedItems = m_hoverSequenceLoadedItems.size();
+    while (loadedItems > maxLoadedItems) {
+        const KFileItem item = m_hoverSequenceLoadedItems.front();
+
+        m_hoverSequenceLoadedItems.pop_front();
+        loadedItems--;
+
+        const int index = m_model->index(item);
+        if (index >= 0) {
+            QHash<QByteArray, QVariant> data = m_model->data(index);
+            data["hoverSequencePixmaps"] = QVariant::fromValue(QVector<QPixmap>() << QPixmap());
+            m_model->setData(index, data);
+        }
+    }
 }
 

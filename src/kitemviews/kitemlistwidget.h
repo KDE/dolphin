@@ -15,6 +15,7 @@
 #include <QBitArray>
 #include <QGraphicsWidget>
 #include <QStyle>
+#include <QTimer>
 
 class KItemListSelectionToggle;
 class KItemListView;
@@ -191,15 +192,35 @@ protected:
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;
 
     /**
+     * Called when the user starts hovering this item.
+     */
+    virtual void hoverSequenceStarted();
+
+    /**
+     * Called in regular intervals while the user is hovering this item.
+     *
+     * @param sequenceIndex An index that increases over time while the user hovers.
+     */
+    virtual void hoverSequenceIndexChanged(int sequenceIndex);
+
+    /**
+     * Called when the user stops hovering this item.
+     */
+    virtual void hoverSequenceEnded();
+
+    /**
      * @return The current opacity of the hover-animation. When implementing a custom painting-code for a hover-state
      *         this opacity value should be respected.
      */
     qreal hoverOpacity() const;
 
+    int hoverSequenceIndex() const;
+
     const KItemListWidgetInformant* informant() const;
 
 private Q_SLOTS:
     void slotHoverAnimationFinished();
+    void slotHoverSequenceTimerTimeout();
 
 private:
     void initializeSelectionToggle();
@@ -226,6 +247,9 @@ private:
     qreal m_hoverOpacity;
     mutable QPixmap* m_hoverCache;
     QPropertyAnimation* m_hoverAnimation;
+
+    int m_hoverSequenceIndex;
+    QTimer m_hoverSequenceTimer;
 
     KItemListSelectionToggle* m_selectionToggle;
 

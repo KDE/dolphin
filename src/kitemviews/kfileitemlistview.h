@@ -10,6 +10,8 @@
 #include "dolphin_export.h"
 #include "kitemviews/kstandarditemlistview.h"
 
+#include <KFileItem>
+
 class KFileItemModelRolesUpdater;
 class QTimer;
 
@@ -77,6 +79,16 @@ public:
     bool scanDirectories();
 
     QPixmap createDragPixmap(const KItemSet& indexes) const override;
+
+    /**
+     * Notifies the view of a change in the hover state on an item.
+     *
+     * @param itemUrl URL of the item that is hovered, or an empty URL if no item is hovered.
+     * @param seqIdx The current hover sequence index. While an item is hovered,
+     *               this method will be called repeatedly with increasing values
+     *               for this parameter.
+     */
+    void setHoverSequenceState(const QUrl& itemUrl, int seqIdx);
 
 protected:
     KItemListWidgetCreatorBase* defaultWidgetCreator() const override;

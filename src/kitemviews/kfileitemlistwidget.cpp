@@ -5,6 +5,7 @@
  */
 
 #include "kfileitemlistwidget.h"
+#include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 
@@ -13,6 +14,8 @@
 #include <KFormat>
 #include <KLocalizedString>
 
+#include <QGraphicsScene>
+#include <QGraphicsView>
 #include <QMimeDatabase>
 
 KFileItemListWidgetInformant::KFileItemListWidgetInformant() :
@@ -168,5 +171,51 @@ int KFileItemListWidget::selectionLength(const QString& text) const
     }
 
     return selectionLength;
+}
+
+void KFileItemListWidget::hoverSequenceStarted()
+{
+    KFileItemListView* view = listView();
+
+    if (!view) {
+        return;
+    }
+
+    const QUrl itemUrl = data().value("url").toUrl();
+
+    view->setHoverSequenceState(itemUrl, 0);
+}
+
+void KFileItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
+{
+    KFileItemListView* view = listView();
+
+    if (!view) {
+        return;
+    }
+
+    const QUrl itemUrl = data().value("url").toUrl();
+
+    view->setHoverSequenceState(itemUrl, sequenceIndex);
+
+    // Force-update the displayed icon
+    invalidateIconCache();
+    update();
+}
+
+void KFileItemListWidget::hoverSequenceEnded()
+{
+    KFileItemListView* view = listView();
+
+    if (!view) {
+        return;
+    }
+
+    view->setHoverSequenceState(QUrl(), 0);
+}
+
+KFileItemListView* KFileItemListWidget::listView()
+{
+    return dynamic_cast<KFileItemListView*>(parentItem());
 }
 

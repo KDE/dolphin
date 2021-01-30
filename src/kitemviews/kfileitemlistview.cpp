@@ -213,6 +213,13 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
     return dragPixmap;
 }
 
+void KFileItemListView::setHoverSequenceState(const QUrl& itemUrl, int seqIdx)
+{
+    if (m_modelRolesUpdater) {
+        m_modelRolesUpdater->setHoverSequenceState(itemUrl, seqIdx);
+    }
+}
+
 KItemListWidgetCreatorBase* KFileItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<KFileItemListWidget>();

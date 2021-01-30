@@ -110,6 +110,12 @@ protected:
     void invalidateCache();
 
     /**
+     * Invalidates the icon cache which results in calling KStandardItemListWidget::refreshCache() as
+     * soon as the item needs to get repainted.
+     */
+    void invalidateIconCache();
+
+    /**
      * Is called if the cache got invalidated by KStandardItemListWidget::invalidateCache().
      * The default implementation is empty.
      */

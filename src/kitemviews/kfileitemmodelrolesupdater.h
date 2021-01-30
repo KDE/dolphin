@@ -10,6 +10,8 @@
 #include "dolphin_export.h"
 #include "kitemviews/kitemmodelbase.h"
 
+#include <list>
+
 #include <KFileItem>
 #include <config-baloo.h>
 
@@ -159,6 +161,19 @@ public:
     void setScanDirectories(bool enabled);
     bool scanDirectories() const;
 
+    /**
+     * Notifies the updater of a change in the hover state on an item.
+     *
+     * This will trigger asynchronous loading of the next few thumb sequence images
+     * using a PreviewJob.
+     *
+     * @param item URL of the item that is hovered, or an empty URL if no item is hovered.
+     * @param seqIdx The current hover sequence index. While an item is hovered,
+     *               this method will be called repeatedly with increasing values
+     *               for this parameter.
+     */
+    void setHoverSequenceState(const QUrl& itemUrl, int seqIdx);
+
 private Q_SLOTS:
     void slotItemsInserted(const KItemRangeList& itemRanges);
     void slotItemsRemoved(const KItemRangeList& itemRanges);
@@ -170,12 +185,18 @@ private Q_SLOTS:
 
     /**
      * Is invoked after a preview has been received successfully.
+     *
+     * Note that this is not called for hover sequence previews.
+     *
      * @see startPreviewJob()
      */
     void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
 
     /**
      * Is invoked after generating a preview has failed.
+     *
+     * Note that this is not called for hover sequence previews.
+     *
      * @see startPreviewJob()
      */
     void slotPreviewFailed(const KFileItem& item);
@@ -183,10 +204,33 @@ private Q_SLOTS:
     /**
      * Is invoked when the preview job has been finished. Starts a new preview
      * job if there are any interesting items without previews left, or updates
-     * the changed items otherwise.     *
+     * the changed items otherwise.
+     *
+     * Note that this is not called for hover sequence previews.
+     *
      * @see startPreviewJob()
      */
     void slotPreviewJobFinished();
+
+    /**
+     * Is invoked after a hover sequence preview has been received successfully.
+     */
+    void slotHoverSequenceGotPreview(const KFileItem& item, const QPixmap& pixmap);
+
+    /**
+     * Is invoked after generating a hover sequence preview has failed.
+     */
+    void slotHoverSequencePreviewFailed(const KFileItem& item);
+
+    /**
+     * Is invoked when a hover sequence preview job is finished. May start another
+     * job for the next sequence index right away by calling
+     * \a loadNextHoverSequencePreview().
+     *
+     * Note that a PreviewJob will only ever generate a single sequence image, due
+     * to limitations of the PreviewJob API.
+     */
+    void slotHoverSequencePreviewJobFinished();
 
     /**
      * Is invoked when one of the KOverlayIconPlugin emit the signal that an overlay has changed
@@ -244,6 +288,24 @@ private:
     void startPreviewJob();
 
     /**
+     * Transforms a raw preview image, applying scale and frame.
+     *
+     * @param pixmap A raw preview image from a PreviewJob.
+     * @return The scaled and decorated preview image.
+     */
+    QPixmap transformPreviewPixmap(const QPixmap& pixmap);
+
+    /**
+     * Starts a PreviewJob for loading the next hover sequence image.
+     */
+    void loadNextHoverSequencePreview();
+
+    /**
+     * Aborts the currently running hover sequence PreviewJob (if any).
+     */
+    void killHoverSequencePreviewJob();
+
+    /**
      * Ensures that icons, previews, and other roles are determined for any
      * items that have been changed.
      */
@@ -272,6 +334,8 @@ private:
     void killPreviewJob();
 
     QList<int> indexesToResolve() const;
+
+    void trimHoverSequenceLoadedItems();
 
 private:
     enum State {
@@ -328,6 +392,14 @@ private:
     KFileItemList m_pendingPreviewItems;
 
     KIO::PreviewJob* m_previewJob;
+
+    // Info about the item that the user currently hovers, and the current sequence
+    // index for thumb generation.
+    KFileItem m_hoverSequenceItem;
+    int m_hoverSequenceIndex;
+    KIO::PreviewJob* m_hoverSequencePreviewJob;
+    int m_hoverSequenceNumSuccessiveFailures;
+    std::list<KFileItem> m_hoverSequenceLoadedItems;
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent

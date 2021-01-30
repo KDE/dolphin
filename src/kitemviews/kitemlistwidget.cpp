@@ -11,6 +11,9 @@
 #include "kitemlistview.h"
 #include "private/kitemlistselectiontoggle.h"
 
+#include <KConfigGroup>
+#include <KSharedConfig>
+
 #include <QApplication>
 #include <QPainter>
 #include <QPropertyAnimation>
@@ -41,9 +44,11 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsI
     m_hoverOpacity(0),
     m_hoverCache(nullptr),
     m_hoverAnimation(nullptr),
+    m_hoverSequenceIndex(0),
     m_selectionToggle(nullptr),
     m_editedRole()
 {
+    connect(&m_hoverSequenceTimer, &QTimer::timeout, this, &KItemListWidget::slotHoverSequenceTimerTimeout);
 }
 
 KItemListWidget::~KItemListWidget()
@@ -240,6 +245,8 @@ void KItemListWidget::setHovered(bool hovered)
     }
     m_hoverAnimation->stop();
 
+    m_hoverSequenceIndex = 0;
+
     if (hovered) {
         const qreal startValue = qMax(hoverOpacity(), qreal(0.1));
         m_hoverAnimation->setStartValue(startValue);
@@ -247,9 +254,19 @@ void KItemListWidget::setHovered(bool hovered)
         if (m_enabledSelectionToggle && !(QApplication::mouseButtons() & Qt::LeftButton)) {
             initializeSelectionToggle();
         }
+
+        hoverSequenceStarted();
+
+        const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
+        const int interval = globalConfig.readEntry("HoverSequenceInterval", 700);
+
+        m_hoverSequenceTimer.start(interval);
     } else {
         m_hoverAnimation->setStartValue(hoverOpacity());
         m_hoverAnimation->setEndValue(0.0);
+
+        hoverSequenceEnded();
+        m_hoverSequenceTimer.stop();
     }
 
     m_hoverAnimation->start();
@@ -450,9 +467,27 @@ void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
     }
 }
 
+void KItemListWidget::hoverSequenceStarted()
+{
+}
+
+void KItemListWidget::hoverSequenceIndexChanged(int sequenceIndex)
+{
+    Q_UNUSED(sequenceIndex);
+}
+
+void KItemListWidget::hoverSequenceEnded()
+{
+}
+
 qreal KItemListWidget::hoverOpacity() const
 {
     return m_hoverOpacity;
+}
+
+int KItemListWidget::hoverSequenceIndex() const
+{
+    return m_hoverSequenceIndex;
 }
 
 void KItemListWidget::slotHoverAnimationFinished()
@@ -461,6 +496,12 @@ void KItemListWidget::slotHoverAnimationFinished()
         m_selectionToggle->deleteLater();
         m_selectionToggle = nullptr;
     }
+}
+
+void KItemListWidget::slotHoverSequenceTimerTimeout()
+{
+    m_hoverSequenceIndex++;
+    hoverSequenceIndexChanged(m_hoverSequenceIndex);
 }
 
 void KItemListWidget::initializeSelectionToggle()
