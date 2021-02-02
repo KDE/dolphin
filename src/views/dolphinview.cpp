@@ -597,7 +597,7 @@ void DolphinView::refreshStatusBarText()
         const auto entry = job->statResult();
         const bool hasRecursiveSize = entry.contains(KIO::UDSEntry::UDS_RECURSIVE_SIZE);
 
-        FileItemCount count(modelToFileItemList(m_model), hasRecursiveSize);
+        FileItemCount count(modelToFileItemList(m_model), !hasRecursiveSize);
         if (hasRecursiveSize) {
             count.totalFileSize = static_cast<KIO::filesize_t>(entry.numberValue(KIO::UDSEntry::UDS_RECURSIVE_SIZE));
         }
