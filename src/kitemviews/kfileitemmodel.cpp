@@ -14,6 +14,7 @@
 #include "private/kfileitemmodeldirlister.h"
 #include "private/kfileitemmodelsortalgorithm.h"
 
+#include <kio_version.h>
 #include <KLocalizedString>
 #include <KUrlMimeData>
 
@@ -62,7 +63,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
 
     connect(m_dirLister, &KFileItemModelDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
     connect(m_dirLister, QOverload<>::of(&KCoreDirLister::canceled), this, &KFileItemModel::slotCanceled);
-    connect(m_dirLister, QOverload<const QUrl&>::of(&KCoreDirLister::completed), this, &KFileItemModel::slotCompleted);
     connect(m_dirLister, &KFileItemModelDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
     connect(m_dirLister, &KFileItemModelDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
     connect(m_dirLister, &KFileItemModelDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
@@ -72,6 +72,12 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     connect(m_dirLister, &KFileItemModelDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
     connect(m_dirLister, QOverload<const QUrl&, const QUrl&>::of(&KCoreDirLister::redirection), this, &KFileItemModel::directoryRedirection);
     connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
+
+#if KIO_VERSION < QT_VERSION_CHECK(5, 79, 0)
+    connect(m_dirLister, QOverload<const QUrl&>::of(&KCoreDirLister::completed), this, &KFileItemModel::slotCompleted);
+#else
+    connect(m_dirLister, &KCoreDirLister::listingDirCompleted, this, &KFileItemModel::slotCompleted);
+#endif
 
     // Apply default roles that should be determined
     resetRoles();
