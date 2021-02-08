@@ -9,6 +9,7 @@
 
 #include <KParts/ReadOnlyPart>
 
+#include <QAction>
 #include <QUrl>
 
 class DolphinNewFileMenu;

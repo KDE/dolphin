@@ -8,6 +8,7 @@
 #define DOLPHINBOOKMARKHANDLER_H
 
 #include <KBookmarkManager>
+#include <KBookmarkOwner>
 #include <QObject>
 
 class DolphinMainWindow;

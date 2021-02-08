@@ -34,6 +34,7 @@
 #include <KMountPoint>
 #include <KPropertiesDialog>
 
+#include <QActionGroup>
 #include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
 #include <QMenu>

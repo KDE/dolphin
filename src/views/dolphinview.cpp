@@ -45,6 +45,7 @@
 #include <KProtocolManager>
 
 #include <QAbstractItemView>
+#include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
 #include <QDropEvent>

@@ -22,6 +22,8 @@
 #include <KNewFileMenu>
 #include <KPropertiesDialog>
 #include <KProtocolManager>
+
+#include <QActionGroup>
 #include <QMenu>
 #include <QPointer>
 
