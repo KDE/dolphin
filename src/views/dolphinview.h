@@ -19,6 +19,7 @@
 #include <kparts/part.h>
 
 #include <QMimeData>
+#include <QPointer>
 #include <QUrl>
 #include <QWidget>
 
@@ -240,10 +241,13 @@ public:
     QStringList mimeTypeFilters() const;
 
     /**
-     * Returns a textual representation of the state of the current
+     * Tells the view to generate an updated status bar text. The result
+     * is returned through the statusBarTextChanged(QString statusBarText) signal.
+     * It will carry a textual representation of the state of the current
      * folder or selected items, suitable for use in the status bar.
+     * Any pending requests of status bar text are killed.
      */
-    QString statusBarText() const;
+    void requestStatusBarText();
 
     /**
      * Returns the version control actions that are provided for the items \p items.
@@ -450,6 +454,10 @@ signals:
     /** Is emitted if the 'grouped sorting' property has been changed. */
     void groupedSortingChanged(bool groupedSorting);
 
+    /** Is emmited in reaction to a requestStatusBarText() call.
+     * @see requestStatusBarText() */
+    void statusBarTextChanged(QString statusBarText);
+
     /** Is emitted if the sorting by name, size or date has been changed. */
     void sortRoleChanged(const QByteArray& role);
 
@@ -643,6 +651,15 @@ private slots:
     void emitSelectionChangedSignal();
 
     /**
+     * Helper method for DolphinView::requestStatusBarText().
+     * Calculates the amount of folders and files and their total size in
+     * response to a KStatJob::result(), then calls emitStatusBarText().
+     * @see requestStatusBarText()
+     * @see emitStatusBarText()
+     */
+    void slotStatJobResult(KJob *job);
+
+    /**
      * Updates the view properties of the current URL to the
      * sorting given by \a role.
      */
@@ -735,16 +752,6 @@ private slots:
      */
     void slotDirectoryRedirection(const QUrl& oldUrl, const QUrl& newUrl);
 
-    /**
-     * Calculates the number of currently shown files into
-     * \a fileCount and the number of folders into \a folderCount.
-     * The size of all files is written into \a totalFileSize.
-     * It is recommend using this method instead of asking the
-     * directory lister or the model directly, as it takes
-     * filtering and hierarchical previews into account.
-     */
-    void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
-
     void slotTwoClicksRenamingTimerTimeout();
 
 private:
@@ -768,6 +775,21 @@ private:
      * itemlayout-property of the KItemListView.
      */
     void applyModeToView();
+
+    enum Selection {
+        HasSelection,
+        NoSelection
+    };
+    /**
+     * Helper method for DolphinView::requestStatusBarText().
+     * Generates the status bar text from the parameters and
+     * then emits statusBarTextChanged().
+     * @param totalFileSize the sum of the sizes of the files
+     * @param selection     if HasSelection is passed, the emitted status bar text will say
+     *                      that the folders and files which are counted here are selected.
+     */
+    void emitStatusBarText(const int folderCount, const int fileCount,
+                           KIO::filesize_t totalFileSize, const Selection selection);
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
@@ -828,6 +850,8 @@ private:
     QString m_viewPropertiesContext;
     Mode m_mode;
     QList<QByteArray> m_visibleRoles;
+
+    QPointer<KIO::StatJob> m_statJobForStatusBarText;
 
     QVBoxLayout* m_topLayout;
 

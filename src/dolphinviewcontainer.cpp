@@ -165,6 +165,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             m_statusBar, &DolphinStatusBar::setText);
     connect(m_view, &DolphinView::operationCompletedMessage,
             m_statusBar, &DolphinStatusBar::setText);
+    connect(m_view, &DolphinView::statusBarTextChanged,
+            m_statusBar, &DolphinStatusBar::setDefaultText);
+    connect(m_view, &DolphinView::statusBarTextChanged,
+            m_statusBar, &DolphinStatusBar::resetToDefaultText);
     connect(m_statusBar, &DolphinStatusBar::stopPressed,
             this, &DolphinViewContainer::stopDirectoryLoading);
     connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged,
@@ -544,10 +548,7 @@ void DolphinViewContainer::delayedStatusBarUpdate()
 void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
-
-    const QString text = m_view->statusBarText();
-    m_statusBar->setDefaultText(text);
-    m_statusBar->resetToDefaultText();
+    m_view->requestStatusBarText();
 }
 
 void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)

@@ -85,6 +85,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
             this, &DolphinPart::slotItemActivated);
     connect(m_view, &DolphinView::itemsActivated,
             this, &DolphinPart::slotItemsActivated);
+    connect(m_view, &DolphinView::statusBarTextChanged, this, [this](const QString &text) {
+        const QString escapedText = Qt::convertFromPlainText(text);
+        Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
+    });
     connect(m_view, &DolphinView::tabRequested,
             this, &DolphinPart::createNewWindow);
     connect(m_view, &DolphinView::requestContextMenu,
@@ -597,8 +601,7 @@ void DolphinPart::updateNewMenu()
 
 void DolphinPart::updateStatusBar()
 {
-    const QString escapedText = Qt::convertFromPlainText(m_view->statusBarText());
-    Q_EMIT ReadOnlyPart::setStatusBarText(QStringLiteral("<qt>%1</qt>").arg(escapedText));
+    m_view->requestStatusBarText();
 }
 
 void DolphinPart::updateProgress(int percent)

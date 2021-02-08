@@ -528,17 +528,18 @@ QStringList DolphinView::mimeTypeFilters() const
     return m_model->mimeTypeFilters();
 }
 
-QString DolphinView::statusBarText() const
+void DolphinView::requestStatusBarText()
 {
-    QString summary;
-    QString foldersText;
-    QString filesText;
-
-    int folderCount = 0;
-    int fileCount = 0;
-    KIO::filesize_t totalFileSize = 0;
+    if (m_statJobForStatusBarText) {
+        // Kill the pending request.
+        m_statJobForStatusBarText->kill();
+    }
 
     if (m_container->controller()->selectionManager()->hasSelection()) {
+        int folderCount = 0;
+        int fileCount = 0;
+        KIO::filesize_t totalFileSize = 0;
+
         // Give a summary of the status of the selected files
         const KFileItemList list = selectedItems();
         for (const KFileItem& item : list) {
@@ -552,14 +553,37 @@ QString DolphinView::statusBarText() const
 
         if (folderCount + fileCount == 1) {
             // If only one item is selected, show info about it
-            return list.first().getStatusBarInfo();
+            Q_EMIT statusBarTextChanged(list.first().getStatusBarInfo());
         } else {
             // At least 2 items are selected
-            foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-            filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
+            emitStatusBarText(folderCount, fileCount, totalFileSize, HasSelection);
         }
+    } else { // has no selection
+        if (!m_model->rootItem().url().isValid()) {
+            return;
+        }
+
+        m_statJobForStatusBarText = KIO::statDetails(m_model->rootItem().url(),
+                        KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
+        connect(m_statJobForStatusBarText, &KJob::result,
+                this, &DolphinView::slotStatJobResult);
+        m_statJobForStatusBarText->start();
+    }
+}
+
+void DolphinView::emitStatusBarText(const int folderCount, const int fileCount,
+                                    KIO::filesize_t totalFileSize, const Selection selection)
+{
+    QString foldersText;
+    QString filesText;
+    QString summary;
+
+    if (selection == HasSelection) {
+        // At least 2 items are selected because the case of 1 selected item is handled in
+        // DolphinView::requestStatusBarText().
+        foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
+        filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
     } else {
-        calculateItemCount(fileCount, folderCount, totalFileSize);
         foldersText = i18ncp("@info:status", "1 Folder", "%1 Folders", folderCount);
         filesText = i18ncp("@info:status", "1 File", "%1 Files", fileCount);
     }
@@ -577,8 +601,7 @@ QString DolphinView::statusBarText() const
     } else {
         summary = i18nc("@info:status", "0 Folders, 0 Files");
     }
-
-    return summary;
+    Q_EMIT statusBarTextChanged(summary);
 }
 
 QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) const
@@ -1271,6 +1294,36 @@ void DolphinView::emitSelectionChangedSignal()
     Q_EMIT selectionChanged(selectedItems());
 }
 
+void DolphinView::slotStatJobResult(KJob *job)
+{
+    int folderCount = 0;
+    int fileCount = 0;
+    KIO::filesize_t totalFileSize = 0;
+    bool countFileSize = true;
+
+    const auto entry =  static_cast<KIO::StatJob *>(job)->statResult();
+    if (entry.contains(KIO::UDSEntry::UDS_RECURSIVE_SIZE)) {
+        // We have a precomputed value.
+        totalFileSize = static_cast<KIO::filesize_t>(
+                                entry.numberValue(KIO::UDSEntry::UDS_RECURSIVE_SIZE));
+        countFileSize = false;
+    }
+
+    const int itemCount = m_model->count();
+    for (int i = 0; i < itemCount; ++i) {
+        const KFileItem item = m_model->fileItem(i);
+        if (item.isDir()) {
+            ++folderCount;
+        } else {
+            ++fileCount;
+            if (countFileSize) {
+                totalFileSize += item.size();
+            }
+        }
+    }
+    emitStatusBarText(folderCount, fileCount, totalFileSize, NoSelection);
+}
+
 void DolphinView::updateSortRole(const QByteArray& role)
 {
     ViewProperties props(viewPropertiesUrl());
@@ -1535,40 +1588,6 @@ void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
 #else
         Q_UNUSED(behavior)
 #endif
-}
-
-void DolphinView::calculateItemCount(int& fileCount,
-                                     int& folderCount,
-                                     KIO::filesize_t& totalFileSize) const
-{
-    const int itemCount = m_model->count();
-
-    bool countFileSize = true;
-
-    if (!m_model->rootItem().url().isValid()) {
-        return;
-    }
-
-    // In case we have a precomputed value
-    const auto job = KIO::statDetails(m_model->rootItem().url(), KIO::StatJob::SourceSide, KIO::StatRecursiveSize, KIO::HideProgressInfo);
-    job->exec();
-    const auto entry =  job->statResult();
-    if (entry.contains(KIO::UDSEntry::UDS_RECURSIVE_SIZE)) {
-        totalFileSize = static_cast<KIO::filesize_t>(entry.numberValue(KIO::UDSEntry::UDS_RECURSIVE_SIZE));
-        countFileSize = false;
-    }
-
-    for (int i = 0; i < itemCount; ++i) {
-        const KFileItem item = m_model->fileItem(i);
-        if (item.isDir()) {
-            ++folderCount;
-        } else {
-            ++fileCount;
-            if (countFileSize) {
-                totalFileSize += item.size();
-            }
-        }
-    }
 }
 
 void DolphinView::slotTwoClicksRenamingTimerTimeout()
