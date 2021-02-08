@@ -372,29 +372,12 @@ void KItemListView::setGeometry(const QRectF& rect)
                                          m_itemSize.height());
             m_layouter->setItemSize(dynamicItemSize);
         }
-
-        // Triggering a synchronous layout is fine from a performance point of view,
-        // as with dynamic item sizes no moving animation must be done.
-        m_layouter->setSize(newSize);
-        doLayout(NoAnimation);
-    } else {
-        const bool animate = !changesItemGridLayout(newSize,
-                                                    m_layouter->itemSize(),
-                                                    m_layouter->itemMargin());
-        m_layouter->setSize(newSize);
-
-        if (animate) {
-            // Trigger an asynchronous relayout with m_layoutTimer to prevent
-            // performance bottlenecks. If the timer is exceeded, an animated layout
-            // will be triggered.
-            if (!m_layoutTimer->isActive()) {
-                m_layoutTimer->start();
-            }
-        } else {
-            m_layoutTimer->stop();
-            doLayout(NoAnimation);
-        }
     }
+
+    m_layouter->setSize(newSize);
+    // We don't animate the moving of the items here because
+    // it would look like the items are slow to find their position.
+    doLayout(NoAnimation);
 }
 
 qreal KItemListView::verticalPageStep() const
@@ -1840,9 +1823,6 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     // prevents a "move animation mess" when inserting several ranges in parallel.
                     applyNewPos = !moveWidget(widget, newPos);
                 }
-            } else if (!itemsRemoved && !itemsInserted && !wasHidden) {
-                // The size of the view might have been changed. Animate the moving of the position.
-                applyNewPos = !moveWidget(widget, newPos);
             }
         } else {
             m_animation->stop(widget);
