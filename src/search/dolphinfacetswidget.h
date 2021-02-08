@@ -48,13 +48,13 @@ public:
 
     void setFacetType(const QString& type);
 
-signals:
+Q_SIGNALS:
     void facetChanged();
 
 protected:
     void changeEvent(QEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void updateTagsMenu();
     void updateTagsMenuItems(const QUrl&, const KFileItemList& items);
 

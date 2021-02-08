@@ -34,7 +34,7 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     void restoreDefaults() override;
 
-private slots:
+private Q_SLOTS:
     void slotSettingsChanged();
     void updateInitialViewOptions();
     void selectHomeUrl();

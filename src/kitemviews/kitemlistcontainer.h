@@ -51,7 +51,7 @@ protected:
     void scrollContentsBy(int dx, int dy) override;
     void wheelEvent(QWheelEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotViewChanged(KItemListView* current, KItemListView* previous);

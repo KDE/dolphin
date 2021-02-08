@@ -26,10 +26,10 @@ public:
     explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = nullptr, KActionCollection* actions = {});
     ~DolphinSettingsDialog() override;
 
-signals:
+Q_SIGNALS:
     void settingsChanged();
 
-private slots:
+private Q_SLOTS:
     /** Enables the Apply button. */
     void enableApply();
     void applySettings();

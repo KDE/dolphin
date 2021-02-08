@@ -45,10 +45,10 @@ public:
 protected:
     void closeEvent(QCloseEvent* event) override;
 
-public slots:
+public Q_SLOTS:
     void reject() override;
 
-private slots:
+private Q_SLOTS:
     void updateProgress();
     void applyViewProperties();
 

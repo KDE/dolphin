@@ -159,7 +159,7 @@ public:
     void setScanDirectories(bool enabled);
     bool scanDirectories() const;
 
-private slots:
+private Q_SLOTS:
     void slotItemsInserted(const KItemRangeList& itemRanges);
     void slotItemsRemoved(const KItemRangeList& itemRanges);
     void slotItemsMoved(const KItemRange& itemRange, const QList<int> &movedToIndexes);

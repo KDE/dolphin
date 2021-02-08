@@ -26,7 +26,7 @@ public:
     explicit KFileItemModelDirLister(QObject* parent = nullptr);
     ~KFileItemModelDirLister() override;
 
-signals:
+Q_SIGNALS:
     /** Is emitted whenever an error has occurred. */
     void errorMessage(const QString& msg);
 

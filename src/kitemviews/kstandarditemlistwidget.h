@@ -177,10 +177,10 @@ protected:
         QStaticText staticText;
     };
 
-public slots:
+public Q_SLOTS:
     void finishRoleEditing();
 
-private slots:
+private Q_SLOTS:
     void slotCutItemsChanged();
     void slotRoleEditingCanceled(const QByteArray& role, const QVariant& value);
     void slotRoleEditingFinished(const QByteArray& role, const QVariant& value);

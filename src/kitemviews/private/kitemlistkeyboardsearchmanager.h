@@ -48,12 +48,12 @@ public:
     void cancelSearch();
     bool shouldClearSearchIfInputTimeReached();
 
-public slots:
+public Q_SLOTS:
 
     void slotCurrentChanged(int current, int previous);
     void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the current item should be changed corresponding
      * to \a text.

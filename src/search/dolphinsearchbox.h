@@ -93,7 +93,7 @@ protected:
     void keyReleaseEvent(QKeyEvent* event) override;
     bool eventFilter(QObject* obj, QEvent* event) override;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted when a searching should be triggered.
      */
@@ -118,7 +118,7 @@ signals:
     void activated();
     void focusViewRequest();
 
-private slots:
+private Q_SLOTS:
     void emitSearchRequest();
     void emitCloseRequest();
     void slotConfigurationChanged();

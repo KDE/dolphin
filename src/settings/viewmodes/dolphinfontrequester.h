@@ -43,11 +43,11 @@ public:
     void setCustomFont(const QFont& font);
     QFont customFont() const;
 
-signals:
+Q_SIGNALS:
     /** Is emitted, if the font has been changed. */
     void changed();
 
-private slots:
+private Q_SLOTS:
     void openFontDialog();
     void changeMode(int index);
 

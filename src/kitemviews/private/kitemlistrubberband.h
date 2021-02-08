@@ -33,7 +33,7 @@ public:
     void setActive(bool active);
     bool isActive() const;
 
-signals:
+Q_SIGNALS:
     void activationChanged(bool active);
     void startPositionChanged(const QPointF& current, const QPointF& previous);
     void endPositionChanged(const QPointF& current, const QPointF& previous);

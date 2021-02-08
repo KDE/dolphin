@@ -185,7 +185,7 @@ public:
      */
     static QList<RoleInfo> rolesInformation();
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the loading of a directory has been started. It is
      * assured that a signal directoryLoadingCompleted() will be send after
@@ -250,7 +250,7 @@ protected:
     void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true) override;
     void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Resorts all items dependent on the set sortRole(), sortOrder()
      * and foldersFirst() settings.

@@ -39,7 +39,7 @@ public:
 protected:
     void showEvent(QShowEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Loads locally installed services.
      */

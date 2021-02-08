@@ -38,7 +38,7 @@ public:
      */
     void scanDirectory(const QString& path);
 
-signals:
+Q_SIGNALS:
     /**
      * Signals that the directory \a path contains \a count items of size \a
      * Size calculation depends on parameter DetailsModeSettings::recursiveDirectorySizeLimit
@@ -47,7 +47,7 @@ signals:
 
     void requestDirectoryContentsCount(const QString& path, KDirectoryContentsCounterWorker::Options options);
 
-private slots:
+private Q_SLOTS:
     void slotResult(const QString& path, int count, long size);
     void slotDirWatchDirty(const QString& path);
     void slotItemsRemoved();

@@ -28,10 +28,10 @@ public:
     explicit InformationPanel(QWidget* parent = nullptr);
     ~InformationPanel() override;
 
-signals:
+Q_SIGNALS:
     void urlActivated(const QUrl& url);
 
-public slots:
+public Q_SLOTS:
     /**
      * This is invoked to inform the panel that the user has selected a new
      * set of items.
@@ -59,7 +59,7 @@ protected:
     /** @see QWidget::contextMenuEvent() */
     void contextMenuEvent(QContextMenuEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Shows the information for the item of the URL which has been provided by
      * InformationPanel::requestDelayedItemInfo() and provides default actions.

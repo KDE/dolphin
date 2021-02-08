@@ -18,7 +18,7 @@ class DolphinSearchBoxTest : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void testBalooSearchParsing_data();
     void testBalooSearchParsing();
 };

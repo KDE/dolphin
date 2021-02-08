@@ -37,7 +37,7 @@ public:
     explicit PlacesItemSignalHandler(PlacesItem* item, QObject* parent = nullptr);
     ~PlacesItemSignalHandler() override;
 
-public slots:
+public Q_SLOTS:
     /**
      * Calls PlacesItem::onAccessibilityChanged()
      */
@@ -47,7 +47,7 @@ public slots:
 
     void onTrashEmptinessChanged(bool isTrashEmpty);
 
-signals:
+Q_SIGNALS:
     void tearDownExternallyRequested(const QString& udi);
 
 private:

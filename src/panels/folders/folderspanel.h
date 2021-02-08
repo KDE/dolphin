@@ -40,7 +40,7 @@ public:
 
     void rename(const KFileItem& item);
 
-signals:
+Q_SIGNALS:
     void folderActivated(const QUrl& url);
     void folderMiddleClicked(const QUrl& url);
     void errorMessage(const QString& error);
@@ -55,7 +55,7 @@ protected:
     /** @see QWidget::keyPressEvent() */
     void keyPressEvent(QKeyEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotItemActivated(int index);
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);

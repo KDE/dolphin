@@ -68,20 +68,20 @@ public:
      */
     static MountPointObserver* observerForUrl(const QUrl& url);
 
-signals:
+Q_SIGNALS:
     /**
      * This signal is emitted when the size has been retrieved.
      */
     void spaceInfoChanged(quint64 size, quint64 available);
 
-public slots:
+public Q_SLOTS:
     /**
      * If this slot is invoked, MountPointObserver starts a new driveSize job
      * to get the drive's size.
      */
     void update();
 
-private slots:
+private Q_SLOTS:
     void freeSpaceResult(KIO::Job* job, KIO::filesize_t size, KIO::filesize_t available);
 
 private:

@@ -175,7 +175,7 @@ public:
      */
     QString caption() const;
 
-public slots:
+public Q_SLOTS:
     /**
      * Sets the current active URL, where all actions are applied. The
      * URL navigator is synchronized with this URL. The signals
@@ -198,7 +198,7 @@ public slots:
      */
     void setSearchModeEnabled(bool enabled);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted whenever the filter bar has changed its visibility state.
      */
@@ -215,7 +215,7 @@ signals:
      */
     void writeStateChanged(bool isFolderWritable);
 
-private slots:
+private Q_SLOTS:
     /**
      * Updates the number of items (= number of files + number of
      * directories) in the statusbar. If files are selected, the number

@@ -42,7 +42,7 @@ protected:
     void hideEvent(QHideEvent* event) override;
     void mousePressEvent(QMouseEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotValuesChanged();
 
 private:

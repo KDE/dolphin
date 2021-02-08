@@ -126,7 +126,7 @@ public:
 
     bool processEvent(QEvent* event, const QTransform& transform);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if exactly one item has been activated by e.g. a mouse-click
      * or by pressing Return/Enter.
@@ -217,10 +217,10 @@ signals:
     void decreaseZoom();
     void swipeUp();
 
-public slots:
+public Q_SLOTS:
     void slotStateChanged(QScroller::State newState);
 
-private slots:
+private Q_SLOTS:
     void slotViewScrollOffsetChanged(qreal current, qreal previous);
 
     /**

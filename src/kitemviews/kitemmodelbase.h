@@ -183,7 +183,7 @@ public:
      * @return Parent directory of the items that are shown
      */
     virtual QUrl directory() const;
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if one or more items have been inserted. Each item-range consists
      * of:

@@ -42,13 +42,13 @@ public:
      */
     static CountResult subItemsCount(const QString& path, Options options);
 
-signals:
+Q_SIGNALS:
     /**
      * Signals that the directory \a path contains \a count items and optionally the size of its content.
      */
     void result(const QString& path, int count, long size);
 
-public slots:
+public Q_SLOTS:
     /**
      * Requests the number of items inside the directory \a path using the
      * options \a options. The result is announced via the signal \a result.

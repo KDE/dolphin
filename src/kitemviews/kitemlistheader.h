@@ -58,7 +58,7 @@ public:
      */
     qreal preferredColumnWidth(const QByteArray& role) const;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the width of a column has been adjusted by the user with the mouse
      * (no signal is emitted if KItemListHeader::setColumnWidth() is invoked).

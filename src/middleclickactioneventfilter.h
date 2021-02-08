@@ -25,7 +25,7 @@ public:
     explicit MiddleClickActionEventFilter(QObject *parent);
     ~MiddleClickActionEventFilter() override;
 
-signals:
+Q_SIGNALS:
     void actionMiddleClicked(QAction *action);
 
 protected:

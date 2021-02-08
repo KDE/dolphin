@@ -33,7 +33,7 @@ public:
 
     bool eventFilter(QObject* watched, QEvent* event) override;
 
-signals:
+Q_SIGNALS:
     void roleEditingFinished(const QByteArray& role, const QVariant& value);
     void roleEditingCanceled(const QByteArray& role, const QVariant& value);
 
@@ -41,7 +41,7 @@ protected:
     bool event(QEvent* event) override;
     void keyPressEvent(QKeyEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Increases the size of the editor in case if there is not
      * enough room for the text.

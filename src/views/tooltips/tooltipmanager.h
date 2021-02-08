@@ -50,14 +50,14 @@ public:
      */
     void hideToolTip(const HideBehavior behavior = HideBehavior::Later);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted when the user clicks a tag or a link
      * in the metadata widget.
      */
     void urlActivated(const QUrl& url);
 
-private slots:
+private Q_SLOTS:
     void startContentRetrieval();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);
     void previewFailed();

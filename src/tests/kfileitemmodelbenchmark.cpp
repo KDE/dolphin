@@ -43,7 +43,7 @@ class KFileItemModelBenchmark : public QObject
 public:
     KFileItemModelBenchmark();
 
-private slots:
+private Q_SLOTS:
     void insertAndRemoveManyItems_data();
     void insertAndRemoveManyItems();
 

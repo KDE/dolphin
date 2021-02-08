@@ -46,7 +46,7 @@ public:
     void setItems(const KFileItemList& items);
     KFileItemList items() const;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted after the meta data has been received for the items
      * set by DolphinFileMetaDataWidget::setItems().

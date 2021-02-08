@@ -33,7 +33,7 @@ public:
 
     bool eventFilter(QObject *obj, QEvent *event) override;
 
-signals:
+Q_SIGNALS:
     void placeActivated(const QUrl& url);
     void placeMiddleClicked(const QUrl& url);
     void errorMessage(const QString& error);
@@ -46,12 +46,12 @@ protected:
     bool urlChanged() override;
     void showEvent(QShowEvent* event) override;
 
-public slots:
+public Q_SLOTS:
     void readSettings() override;
     void showHiddenEntries(bool shown);
     int hiddenListCount();
 
-private slots:
+private Q_SLOTS:
     void slotItemActivated(int index);
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);

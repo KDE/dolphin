@@ -35,10 +35,10 @@ public:
                                    const QStyleOptionViewItem& option,
                                    const QPersistentModelIndex& index) const override;
 
-signals:
+Q_SIGNALS:
     void requestServiceConfiguration(const QModelIndex& index);
 
-private slots:
+private Q_SLOTS:
     void slotCheckBoxClicked(bool checked);
     void slotConfigureButtonClicked();
 };

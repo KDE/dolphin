@@ -63,7 +63,7 @@ public:
 
     KItemModelBase* model() const;
 
-signals:
+Q_SIGNALS:
     void currentChanged(int current, int previous);
     void selectionChanged(const KItemSet& current, const KItemSet& previous);
 

@@ -50,7 +50,7 @@ public:
 
     QList<QAction*> actions(const KFileItemList& items) const;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if an information message with the content \a msg
      * should be shown.
@@ -69,7 +69,7 @@ signals:
      */
     void operationCompletedMessage(const QString& msg);
 
-private slots:
+private Q_SLOTS:
     /**
      * Invokes verifyDirectory() with a small delay. If delayedDirectoryVerification()
      * is invoked before the delay has been exceeded, the delay will be reset. This

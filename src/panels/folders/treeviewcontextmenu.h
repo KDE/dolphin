@@ -38,7 +38,7 @@ public:
     /** Opens the context menu modal. */
     void open(const QPoint& pos);
 
-private slots:
+private Q_SLOTS:
     /** Cuts the item m_fileItem. */
     void cut();
 

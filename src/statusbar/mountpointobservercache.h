@@ -28,7 +28,7 @@ public:
      */
     MountPointObserver* observerForUrl(const QUrl& url);
 
-private slots:
+private Q_SLOTS:
     /**
      * Removes the given \a observer from the cache.
      */

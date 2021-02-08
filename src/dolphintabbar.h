@@ -16,7 +16,7 @@ class DolphinTabBar : public QTabBar
 public:
     explicit DolphinTabBar(QWidget* parent);
 
-signals:
+Q_SIGNALS:
     void openNewActivatedTab(int index);
     void tabDropEvent(int index, QDropEvent* event);
     void tabDetachRequested(int index);
@@ -35,7 +35,7 @@ protected:
      */
     void contextMenuEvent(QContextMenuEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotAutoActivationTimeout();
 
 private:

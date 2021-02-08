@@ -39,10 +39,10 @@ public:
     void applySettings();
     void restoreDefaultSettings();
 
-signals:
+Q_SIGNALS:
     void changed();
 
-private slots:
+private Q_SLOTS:
 
     void slotDefaultSliderMoved(int value);
     void slotPreviewSliderMoved(int value);

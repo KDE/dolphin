@@ -72,10 +72,10 @@ public:
      */
     bool isStarted(QGraphicsWidget* widget) const;
 
-signals:
+Q_SIGNALS:
     void finished(QGraphicsWidget* widget, KItemListViewAnimation::AnimationType type);
 
-private slots:
+private Q_SLOTS:
     void slotFinished();
 
 private:

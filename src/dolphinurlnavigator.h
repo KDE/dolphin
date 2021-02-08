@@ -76,7 +76,7 @@ public:
      */
     void setPlaceholderText(const QString &text);
 
-public slots:
+public Q_SLOTS:
     /**
      * Switches to "breadcrumb" mode if the editable mode is not set to be
      * preferred in the Dolphin settings.

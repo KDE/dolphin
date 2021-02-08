@@ -27,16 +27,16 @@ public:
 
     void setUrl(const QUrl& url);
 
-public slots:
+public Q_SLOTS:
     void update();
 
-signals:
+Q_SIGNALS:
     /**
      * This signal is emitted when the size or available space changes.
      */
     void valuesChanged();
 
-private slots:
+private Q_SLOTS:
     void spaceInfoChanged(quint64 size, quint64 available);
 
 private:

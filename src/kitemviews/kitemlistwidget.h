@@ -173,7 +173,7 @@ public:
      */
     virtual QPixmap createDragPixmap(const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 
-signals:
+Q_SIGNALS:
     void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
@@ -198,7 +198,7 @@ protected:
 
     const KItemListWidgetInformant* informant() const;
 
-private slots:
+private Q_SLOTS:
     void slotHoverAnimationFinished();
 
 private:

@@ -29,7 +29,7 @@ public:
     void attach(const DolphinNewFileMenu* menu);
     void detach(const DolphinNewFileMenu* menu);
 
-signals:
+Q_SIGNALS:
     void itemCreated(const QUrl& url);
     void errorMessage(const QString& error);
 

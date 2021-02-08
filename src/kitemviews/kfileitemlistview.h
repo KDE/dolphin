@@ -94,11 +94,11 @@ protected:
     void onTransactionEnd() override;
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;
 
-protected slots:
+protected Q_SLOTS:
     void slotItemsRemoved(const KItemRangeList& itemRanges) override;
     void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous) override;
 
-private slots:
+private Q_SLOTS:
     void triggerVisibleIndexRangeUpdate();
     void updateVisibleIndexRange();
 

@@ -28,10 +28,10 @@ public:
     DolphinNewFileMenu(KActionCollection* collection, QObject* parent);
     ~DolphinNewFileMenu() override;
 
-signals:
+Q_SIGNALS:
     void errorMessage(const QString& error);
 
-protected slots:
+protected Q_SLOTS:
     /** @see KNewFileMenu::slotResult() */
     void slotResult(KJob* job) override;
 };

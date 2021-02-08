@@ -125,7 +125,7 @@ public:
     bool isGroupHidden(KFilePlacesModel::GroupType type) const;
     void setGroupHidden(KFilePlacesModel::GroupType type, bool hidden);
 
-signals:
+Q_SIGNALS:
     void errorMessage(const QString& message);
     void storageSetupDone(int index, bool success);
     void storageTearDownRequested(const QString& mountPath);
@@ -137,7 +137,7 @@ protected:
     void onItemRemoved(int index, KStandardItem* removedItem) override;
     void onItemChanged(int index, const QSet<QByteArray>& changedRoles) override;
 
-private slots:
+private Q_SLOTS:
     void slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData);
     void slotStorageSetupDone(Solid::ErrorType error, const QVariant& errorData, const QString& udi);
 

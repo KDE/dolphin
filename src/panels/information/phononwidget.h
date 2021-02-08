@@ -48,7 +48,7 @@ class PhononWidget : public QWidget
         void setAutoPlay(bool autoPlay);
         bool eventFilter(QObject *object, QEvent *event) override;
 
-    signals:
+    Q_SIGNALS:
         /**
          * Is emitted whenever the video-state
          * has changed: If true is returned, a video
@@ -59,14 +59,14 @@ class PhononWidget : public QWidget
          */
         void hasVideoChanged(bool hasVideo);
 
-    public slots:
+    public Q_SLOTS:
         void play();
 
     protected:
         void showEvent(QShowEvent *event) override;
         void hideEvent(QHideEvent *event) override;
 
-    private slots:
+    private Q_SLOTS:
         void stateChanged(Phonon::State newstate);
         void stop();
         void finished();

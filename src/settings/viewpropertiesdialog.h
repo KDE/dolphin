@@ -36,10 +36,10 @@ public:
     explicit ViewPropertiesDialog(DolphinView* dolphinView);
     ~ViewPropertiesDialog() override;
 
-public slots:
+public Q_SLOTS:
     void accept() override;
 
-private slots:
+private Q_SLOTS:
     void slotApply();
     void slotViewModeChanged(int index);
     void slotSortingChanged(int index);
@@ -51,7 +51,7 @@ private slots:
     void slotItemChanged(QListWidgetItem *item);
     void markAsDirty(bool isDirty);
 
-signals:
+Q_SIGNALS:
     void isDirtyChanged(bool isDirty);
 
 private:

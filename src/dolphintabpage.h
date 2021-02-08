@@ -149,12 +149,12 @@ public:
      */
     void setActive(bool active);
 
-signals:
+Q_SIGNALS:
     void activeViewChanged(DolphinViewContainer* viewContainer);
     void activeViewUrlChanged(const QUrl& url);
     void splitterMoved(int pos, int index);
 
-private slots:
+private Q_SLOTS:
     /**
      * Deletes all zombie viewContainers that were used for the animation
      * and resets the minimum size of the others to a sane value.

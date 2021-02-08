@@ -51,7 +51,7 @@ public:
     ~ApplyViewPropsJob() override;
     int progress() const;
 
-private slots:
+private Q_SLOTS:
     void slotResult(KJob* job) override;
     void slotEntries(KIO::Job*, const KIO::UDSEntryList&);
 

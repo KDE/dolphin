@@ -79,12 +79,12 @@ public:
      */
     void updateSpaceInfo();
 
-public slots:
+public Q_SLOTS:
     void setText(const QString& text);
     void setUrl(const QUrl& url);
     void setZoomLevel(int zoomLevel);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the stop-button has been pressed during showing a progress.
      */
@@ -95,7 +95,7 @@ signals:
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void showZoomSliderToolTip(int zoomLevel);
     void updateProgressInfo();
 

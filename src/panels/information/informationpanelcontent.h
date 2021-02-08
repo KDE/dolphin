@@ -76,12 +76,12 @@ public:
      */
     void setPreviewAutoPlay(bool autoPlay);
 
-signals:
+Q_SIGNALS:
     void urlActivated( const QUrl& url );
     void configurationFinished();
     void contextMenuRequested(const QPoint& pos);
 
-public slots:
+public Q_SLOTS:
     /**
      * Is invoked after the file meta data configuration dialog has been
      * closed and refreshes the displayed meta data by the panel.
@@ -94,7 +94,7 @@ protected:
 
     bool event(QEvent * event) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Is invoked if no preview is available for the item. In this
      * case the icon will be shown.

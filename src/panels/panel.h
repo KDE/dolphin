@@ -38,7 +38,7 @@ public:
 
     QSize sizeHint() const override;
 
-public slots:
+public Q_SLOTS:
     /**
      * This is invoked every time the folder being displayed in the
      * active Dolphin view changes.

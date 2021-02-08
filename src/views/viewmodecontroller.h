@@ -61,14 +61,14 @@ public:
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
 
-public slots:
+public Q_SLOTS:
     /**
      * Sets the URL to \a url and emits the signals cancelPreviews() and
      * urlChanged() if \a url is different for the current URL.
      */
     void setUrl(const QUrl& url);
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the URL has been changed by ViewModeController::setUrl().
      */

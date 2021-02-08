@@ -270,7 +270,7 @@ public:
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
-signals:
+Q_SIGNALS:
     void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void scrollOffsetChanged(qreal current, qreal previous);
     void maximumScrollOffsetChanged(qreal current, qreal previous);
@@ -378,7 +378,7 @@ protected:
     virtual void updateFont();
     virtual void updatePalette();
 
-protected slots:
+protected Q_SLOTS:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
     virtual void slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
@@ -392,7 +392,7 @@ protected slots:
     virtual void slotCurrentChanged(int current, int previous);
     virtual void slotSelectionChanged(const KItemSet& current, const KItemSet& previous);
 
-private slots:
+private Q_SLOTS:
     void slotAnimationFinished(QGraphicsWidget* widget,
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();

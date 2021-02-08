@@ -15,7 +15,7 @@ class KItemRangeTest : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void testFromSortedContainer_data();
     void testFromSortedContainer();
 };

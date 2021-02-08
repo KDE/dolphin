@@ -35,7 +35,7 @@ public:
      */
     void selectAll();
 
-public slots:
+public Q_SLOTS:
     /** Clears the input field. */
     void clear();
     /** Clears the input field if the "lock button" is disabled. */
@@ -43,7 +43,7 @@ public slots:
     /** The input field is cleared also if the "lock button" is released. */
     void slotToggleLockButton(bool checked);
 
-signals:
+Q_SIGNALS:
     /**
      * Signal that reports the name filter has been
      * changed to \a nameFilter.

@@ -54,7 +54,7 @@ public:
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the width of a visible role has been adjusted by the user with the mouse
      * (no signal is emitted if KItemListHeader::setVisibleRoleWidth() is invoked).
@@ -100,7 +100,7 @@ protected:
     void hoverLeaveEvent(QGraphicsSceneHoverEvent* event) override;
     void hoverMoveEvent(QGraphicsSceneHoverEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 

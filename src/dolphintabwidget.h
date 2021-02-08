@@ -65,7 +65,7 @@ public:
      */
     bool isUrlOpen(const QUrl& url) const;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted when the active view has been changed, by changing the current
      * tab or by activating another view when split view is enabled in the current
@@ -90,7 +90,7 @@ signals:
      */
     void currentUrlChanged(const QUrl& url);
 
-public slots:
+public Q_SLOTS:
     /**
      * Opens a new view with the current URL that is part of a tab and activates
      * the tab.
@@ -167,7 +167,7 @@ public slots:
     /** Moves all selected items to the inactive view. */
     void moveToInactiveSplitView();
 
-private slots:
+private Q_SLOTS:
     /**
      * Opens the tab with the index \a index in a new Dolphin instance and closes
      * this tab.

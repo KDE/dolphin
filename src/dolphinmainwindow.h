@@ -111,7 +111,7 @@ public:
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
 
-public slots:
+public Q_SLOTS:
     /**
      * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
      * 2 directories are collected within one tab.
@@ -174,7 +174,7 @@ public slots:
      */
     void openNewTab(const QUrl& url);
 
-signals:
+Q_SIGNALS:
     /**
      * Is sent if the selection of the currently active view has
      * been changed.
@@ -216,7 +216,7 @@ protected:
     /** Handles QWhatsThisClickedEvent and passes all others on. */
     bool eventFilter(QObject*, QEvent*) override;
 
-protected slots:
+protected Q_SLOTS:
     /**
      * Calls the base method KXmlGuiWindow::saveNewToolbarConfig().
      * Is also used to set toolbar constraints and UrlNavigator position
@@ -224,7 +224,7 @@ protected slots:
      */
     void saveNewToolbarConfig() override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Refreshes the views of the main window by recreating them according to
      * the given Dolphin settings.

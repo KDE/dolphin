@@ -28,7 +28,7 @@ public:
     static KIO::Job* empty(QWidget *window);
     static bool isEmpty();
 
-signals:
+Q_SIGNALS:
     void emptinessChanged(bool isEmpty);
 
 private:

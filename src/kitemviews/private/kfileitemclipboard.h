@@ -29,13 +29,13 @@ public:
 
     QList<QUrl> cutItems() const;
 
-signals:
+Q_SIGNALS:
     void cutItemsChanged();
 
 protected:
     ~KFileItemClipboard() override;
 
-private slots:
+private Q_SLOTS:
     void updateCutItems();
 
 private:

@@ -32,7 +32,7 @@ public:
      */
     virtual void restoreDefaults() = 0;
 
-signals:
+Q_SIGNALS:
     /** Is emitted if a setting has been changed. */
     void changed();
 };

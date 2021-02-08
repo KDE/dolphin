@@ -11,7 +11,7 @@ class DragAndDropHelperTest : public QObject
 {
     Q_OBJECT
 
-private slots:
+private Q_SLOTS:
     void testUrlListMatchesUrl_data();
     void testUrlListMatchesUrl();
 };

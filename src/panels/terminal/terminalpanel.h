@@ -48,11 +48,11 @@ public:
     bool hasProgramRunning() const;
     QString runningProgramName() const;
 
-public slots:
+public Q_SLOTS:
     void terminalExited();
     void dockVisibilityChanged();
 
-signals:
+Q_SIGNALS:
     void hideTerminalPanel();
 
     /**
@@ -65,7 +65,7 @@ protected:
 
     void showEvent(QShowEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     void slotMostLocalUrlResult(KJob* job);
     void slotKonsolePartCurrentDirectoryChanged(const QString& dir);
 

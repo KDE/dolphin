@@ -30,7 +30,7 @@ class DolphinUrlNavigatorsController : public QObject
 public:
     DolphinUrlNavigatorsController() = delete;
 
-public slots:
+public Q_SLOTS:
     /**
      * Refreshes all DolphinUrlNavigators to get synchronized with the
      * Dolphin settings if they were changed.
@@ -57,7 +57,7 @@ private:
      */
     static void unregisterDolphinUrlNavigator(DolphinUrlNavigator *dolphinUrlNavigator);
 
-private slots:
+private Q_SLOTS:
     /**
      * Sets the completion mode for all DolphinUrlNavigators and saves it in settings.
      */

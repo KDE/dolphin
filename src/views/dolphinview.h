@@ -315,7 +315,7 @@ public:
      */
     void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
-public slots:
+public Q_SLOTS:
     /**
      * Changes the directory to \a url. If the current directory is equal to
      * \a url, nothing will be done (use DolphinView::reload() instead).
@@ -409,7 +409,7 @@ public slots:
     /** Activates the view if the item list container gets focus. */
     bool eventFilter(QObject* watched, QEvent* event) override;
 
-signals:
+Q_SIGNALS:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
      */
@@ -600,7 +600,7 @@ protected:
     void hideEvent(QHideEvent* event) override;
     bool event(QEvent* event) override;
 
-private slots:
+private Q_SLOTS:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
      * and emits the 'activated' signal if it is not already active.
