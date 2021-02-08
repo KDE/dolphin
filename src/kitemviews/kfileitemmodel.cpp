@@ -23,10 +23,10 @@
 #include <QMimeDatabase>
 #include <QTimer>
 #include <QWidget>
-#include <QMutex>
+#include <QRecursiveMutex>
 #include <QIcon>
 
-Q_GLOBAL_STATIC_WITH_ARGS(QMutex, s_collatorMutex, (QMutex::Recursive))
+Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
 
 // #define KFILEITEMMODEL_DEBUG
 
