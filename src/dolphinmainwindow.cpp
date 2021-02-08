@@ -1036,7 +1036,7 @@ void DolphinMainWindow::openTerminal()
     const QUrl url = m_activeViewContainer->url();
 
     if (url.isLocalFile()) {
-        KToolInvocation::invokeTerminal(QString(), url.toLocalFile());
+        KToolInvocation::invokeTerminal(QString(), {}, url.toLocalFile());
         return;
     }
 
@@ -1050,14 +1050,14 @@ void DolphinMainWindow::openTerminal()
                 statUrl = job->mostLocalUrl();
             }
 
-            KToolInvocation::invokeTerminal(QString(), statUrl.isLocalFile() ? statUrl.toLocalFile() : QDir::homePath());
+            KToolInvocation::invokeTerminal(QString(), {}, statUrl.isLocalFile() ? statUrl.toLocalFile() : QDir::homePath());
         });
 
         return;
     }
 
     // Nothing worked, just use $HOME
-    KToolInvocation::invokeTerminal(QString(), QDir::homePath());
+    KToolInvocation::invokeTerminal(QString(), {}, QDir::homePath());
 }
 
 void DolphinMainWindow::editSettings()

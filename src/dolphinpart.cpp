@@ -570,7 +570,7 @@ QString DolphinPart::localFilePathOrHome() const
 
 void DolphinPart::slotOpenTerminal()
 {
-    KToolInvocation::invokeTerminal(QString(), localFilePathOrHome());
+    KToolInvocation::invokeTerminal(QString(), {}, localFilePathOrHome());
 }
 
 void DolphinPart::slotFindFile()
