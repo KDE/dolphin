@@ -272,6 +272,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
         const bool visible = showZoomSliderAction->isChecked();
         GeneralSettings::setShowZoomSlider(visible);
         m_zoomSlider->setVisible(visible);
+        m_zoomLabel->setVisible(visible);
     } else if (action == showSpaceInfoAction) {
         const bool visible = showSpaceInfoAction->isChecked();
         GeneralSettings::setShowSpaceInfo(visible);
