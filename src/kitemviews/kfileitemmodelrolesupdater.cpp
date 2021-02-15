@@ -1160,7 +1160,9 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
     const int count = m_model->count();
 
     QList<int> result;
-    result.reserve(ResolveAllItemsLimit);
+    result.reserve(qMin(count, (m_lastVisibleIndex - m_firstVisibleIndex + 1) +
+                               ResolveAllItemsLimit +
+                               (2 * m_maximumVisibleItems)));
 
     // Add visible items.
     for (int i = m_firstVisibleIndex; i <= m_lastVisibleIndex; ++i) {
