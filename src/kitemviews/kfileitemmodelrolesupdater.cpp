@@ -957,15 +957,17 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     visibleChangedIndexes.reserve(m_changedItems.size());
     invisibleChangedIndexes.reserve(m_changedItems.size());
 
-    // Iterate over a const copy because items are deleted within the loop
-    const auto changedItems = m_changedItems;
-    for (const KFileItem &item : changedItems) {
+    auto oldsize = m_changedItems.size();
+    auto changedItemsIt = m_changedItems.begin();
+    while (changedItemsIt != m_changedItems.end()) {
+        const auto& item = *changedItemsIt;
         const int index = m_model->index(item);
 
         if (index < 0) {
-            m_changedItems.remove(item);
+            changedItemsIt = m_changedItems.erase(changedItemsIt);
             continue;
         }
+        ++changedItemsIt;
 
         if (index >= m_firstVisibleIndex && index <= m_lastVisibleIndex) {
             visibleChangedIndexes.append(index);
