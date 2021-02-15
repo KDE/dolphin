@@ -954,6 +954,8 @@ void KFileItemModelRolesUpdater::updateChangedItems()
 
     QList<int> visibleChangedIndexes;
     QList<int> invisibleChangedIndexes;
+    visibleChangedIndexes.reserve(m_changedItems.size());
+    invisibleChangedIndexes.reserve(m_changedItems.size());
 
     // Iterate over a const copy because items are deleted within the loop
     const auto changedItems = m_changedItems;
