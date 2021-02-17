@@ -957,7 +957,6 @@ void KFileItemModelRolesUpdater::updateChangedItems()
     visibleChangedIndexes.reserve(m_changedItems.size());
     invisibleChangedIndexes.reserve(m_changedItems.size());
 
-    auto oldsize = m_changedItems.size();
     auto changedItemsIt = m_changedItems.begin();
     while (changedItemsIt != m_changedItems.end()) {
         const auto& item = *changedItemsIt;
