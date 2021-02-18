@@ -30,10 +30,9 @@ ecm_add_test(kfileitemmodeltest.cpp testdir.cpp
 TEST_NAME kfileitemmodeltest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
-# KFileItemModelBenchmark
-ecm_add_test(kfileitemmodelbenchmark.cpp testdir.cpp
-TEST_NAME kfileitemmodelbenchmark
-LINK_LIBRARIES  dolphinprivate Qt5::Test)
+# KFileItemModelBenchmark, not run automatically with `ctest` or `make test`
+add_executable(kfileitemmodelbenchmark kfileitemmodelbenchmark.cpp testdir.cpp)
+target_link_libraries(kfileitemmodelbenchmark dolphinprivate Qt5::Test)
 
 # KItemListKeyboardSearchManagerTest
 ecm_add_test(kitemlistkeyboardsearchmanagertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
