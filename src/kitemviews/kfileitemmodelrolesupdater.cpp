@@ -782,7 +782,11 @@ void KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived(const QStrin
                 data.insert("isExpandable", count > 0);
             }
 
+            disconnect(m_model, &KFileItemModel::itemsChanged,
+                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
             m_model->setData(index, data);
+            connect(m_model, &KFileItemModel::itemsChanged,
+                       this,    &KFileItemModelRolesUpdater::slotItemsChanged);
         }
     }
 }
