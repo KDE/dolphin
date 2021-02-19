@@ -10,7 +10,9 @@
 
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KConfigGroup>
 #include <KJobWidgets>
+#include <KSharedConfig>
 #include <KToolTipWidget>
 #include <KIconLoader>
 
@@ -132,7 +134,8 @@ void ToolTipManager::startContentRetrieval()
     // Request a preview of the item
     m_fileMetaDataWidget->setPreview(QPixmap());
 
-    QStringList plugins = KIO::PreviewJob::availablePlugins();
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
+    const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item,
                                                QSize(256, 256),
                                                &plugins);

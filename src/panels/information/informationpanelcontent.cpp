@@ -8,11 +8,13 @@
 
 #include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
+#include <KConfigGroup>
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KSeparator>
+#include <KSharedConfig>
 #include <KStringHandler>
 #include <QPainterPath>
 
@@ -184,7 +186,8 @@ void InformationPanelContent::refreshPixmapView()
     // can be shown within a short timeframe.
     m_outdatedPreviewTimer->start();
 
-    QStringList plugins = KIO::PreviewJob::availablePlugins();
+    const KConfigGroup globalConfig(KSharedConfig::openConfig(), "PreviewSettings");
+    const QStringList plugins = globalConfig.readEntry("Plugins", KIO::PreviewJob::defaultPlugins());
     m_previewJob = new KIO::PreviewJob(KFileItemList() << m_item,
                                        QSize(m_preview->width(), m_preview->height()),
                                        &plugins);
