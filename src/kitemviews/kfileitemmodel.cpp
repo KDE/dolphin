@@ -1719,7 +1719,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         }
     }
 
-    if (m_sortDirsFirst || m_sortRole == SizeRole) {
+    if (m_sortDirsFirst) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -1768,44 +1768,50 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
 
     case SizeRole: {
-        if (itemA.isDir()) {
-            // See "if (m_sortFoldersFirst || m_sortRole == SizeRole)" in KFileItemModel::lessThan():
-            Q_ASSERT(itemB.isDir());
-
-            QVariant valueA, valueB;
-            if (DetailsModeSettings::directorySizeCount()) {
-                valueA = a->values.value("count");
-                valueB = b->values.value("count");
-            } else {
-                // use dir size then
-                valueA = a->values.value("size");
-                valueB = b->values.value("size");
-            }
-            if (valueA.isNull() && valueB.isNull()) {
-                result = 0;
-            } else if (valueA.isNull()) {
-                result = -1;
-            } else if (valueB.isNull()) {
-                result = +1;
-            } else {
-                if (valueA.toLongLong() < valueB.toLongLong()) {
-                    return -1;
-                } else {
+        if (DetailsModeSettings::directorySizeCount() && (itemA.isDir() || itemB.isDir())) {
+            // folders first then
+            if (itemA.isDir() && itemB.isDir()) {
+                auto valueA = a->values.value("count");
+                auto valueB = b->values.value("count");
+                if (valueA.isNull()) {
+                    if (valueB.isNull()) {
+                        return 0;
+                    } else {
+                        return -1;
+                    }
+                } else if (valueB.isNull()) {
                     return +1;
+                } else {
+                    if (valueA.toLongLong() < valueB.toLongLong()) {
+                        return -1;
+                    } else {
+                        return +1;
+                    }
                 }
-            }
-        } else {
-            // See "if (m_sortFoldersFirst || m_sortRole == SizeRole)" in KFileItemModel::lessThan():
-            Q_ASSERT(!itemB.isDir());
-            const KIO::filesize_t sizeA = itemA.size();
-            const KIO::filesize_t sizeB = itemB.size();
-            if (sizeA > sizeB) {
-                result = +1;
-            } else if (sizeA < sizeB) {
-                result = -1;
+            } else if (itemA.isDir()) {
+                return 1;
             } else {
-                result = 0;
+                return -1;
             }
+        }
+        KIO::filesize_t sizeA = 0;
+        if (itemA.isDir()) {
+            sizeA = a->values.value("size").toULongLong();
+        } else {
+            sizeA = itemA.size();
+        }
+        KIO::filesize_t sizeB = 0;
+        if (itemB.isDir()) {
+            sizeB = b->values.value("size").toULongLong();
+        } else {
+            sizeB = itemB.size();
+        }
+        if (sizeA > sizeB) {
+            result = +1;
+        } else if (sizeA < sizeB) {
+            result = -1;
+        } else {
+            result = 0;
         }
         break;
     }
