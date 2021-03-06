@@ -8,11 +8,16 @@
 
 #include <KLocalizedString>
 #include <KIO/Job>
+#include <kio_version.h>
 
 KFileItemModelDirLister::KFileItemModelDirLister(QObject* parent) :
     KDirLister(parent)
 {
+#if KIO_VERSION < QT_VERSION_CHECK(5, 82, 0)
     setAutoErrorHandlingEnabled(false, nullptr);
+#else
+    setAutoErrorHandlingEnabled(false);
+#endif
 }
 
 KFileItemModelDirLister::~KFileItemModelDirLister()
