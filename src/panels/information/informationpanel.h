@@ -97,12 +97,6 @@ private:
     void cancelRequest();
 
     /**
-     * Shows the meta information for the current shown item inside
-     * a label.
-     */
-    void showMetaInfo();
-
-    /**
      * Returns true, if \a url is equal to the shown URL m_shownUrl.
      */
     bool isEqualToShownUrl(const QUrl& url) const;

@@ -96,12 +96,6 @@ public:
     void insertNavigatorsWidget(DolphinNavigatorsWidgetAction *navigatorsWidget);
 
     /**
-     * Notify the connected DolphinNavigatorsWidgetAction of geometry changes which it
-     * needs for visual alignment.
-     */
-    void resizeNavigators() const;
-
-    /**
      * Marks the items indicated by \p urls to get selected after the
      * directory DolphinView::url() has been loaded. Note that nothing
      * gets selected if no loading of a directory has been triggered
