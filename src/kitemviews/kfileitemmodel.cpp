@@ -2026,16 +2026,24 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
         }
 
         const KFileItem& item = m_itemData.at(i)->item;
-        const KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
+        KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
-            newGroupValue = i18nc("@title:group Size", "Folders");
-        } else if (fileSize < 5 * 1024 * 1024) {
-            newGroupValue = i18nc("@title:group Size", "Small");
-        } else if (fileSize < 10 * 1024 * 1024) {
-            newGroupValue = i18nc("@title:group Size", "Medium");
-        } else {
-            newGroupValue = i18nc("@title:group Size", "Big");
+            if (DetailsModeSettings::directorySizeCount() || m_sortDirsFirst) {
+                newGroupValue = i18nc("@title:group Size", "Folders");
+            } else {
+                fileSize = m_itemData.at(i)->values.value("size").toULongLong();
+            }
+        }
+
+        if (newGroupValue.isEmpty()) {
+            if (fileSize < 5 * 1024 * 1024) { // < 5 MB
+                newGroupValue = i18nc("@title:group Size", "Small");
+            } else if (fileSize < 10 * 1024 * 1024) { // < 10 MB
+                newGroupValue = i18nc("@title:group Size", "Medium");
+            } else {
+                newGroupValue = i18nc("@title:group Size", "Big");
+            }
         }
 
         if (newGroupValue != groupValue) {
