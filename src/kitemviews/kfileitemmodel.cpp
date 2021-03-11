@@ -1719,7 +1719,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         }
     }
 
-    if (m_sortDirsFirst) {
+    if (m_sortDirsFirst || (DetailsModeSettings::directorySizeCount() && m_sortRole == SizeRole)) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -1768,30 +1768,25 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
 
     case SizeRole: {
-        if (DetailsModeSettings::directorySizeCount() && (itemA.isDir() || itemB.isDir())) {
+        if (DetailsModeSettings::directorySizeCount() && itemA.isDir()) {
             // folders first then
-            if (itemA.isDir() && itemB.isDir()) {
-                auto valueA = a->values.value("count");
-                auto valueB = b->values.value("count");
-                if (valueA.isNull()) {
-                    if (valueB.isNull()) {
-                        return 0;
-                    } else {
-                        return -1;
-                    }
-                } else if (valueB.isNull()) {
-                    return +1;
+            // items A and B are folders thanks to lessThan checks
+            auto valueA = a->values.value("count");
+            auto valueB = b->values.value("count");
+            if (valueA.isNull()) {
+                if (valueB.isNull()) {
+                    return 0;
                 } else {
-                    if (valueA.toLongLong() < valueB.toLongLong()) {
-                        return -1;
-                    } else {
-                        return +1;
-                    }
+                    return -1;
                 }
-            } else if (itemA.isDir()) {
-                return 1;
+            } else if (valueB.isNull()) {
+                return +1;
             } else {
-                return -1;
+                if (valueA.toLongLong() < valueB.toLongLong()) {
+                    return -1;
+                } else {
+                    return +1;
+                }
             }
         }
         KIO::filesize_t sizeA = 0;
