@@ -1554,6 +1554,11 @@ be accessed with toolbar buttons or with items in the menu of the
 folder.</action></para>
 <para>You will find an explanation of all available objects in &konqueror;'s handbook in the chapter
 <ulink url="help:/konqueror/making.html">Create New</ulink>.</para>
+<note>
+    <para>
+        It is possible to create your own <guisubmenu>Create New...</guisubmenu> submenu items. Use files from <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates">KIO source repository</ulink> as a reference and put the resulting <filename role="extension">.desktop</filename> file into the <filename role="directory">.local/share/templates</filename> in your home directory (the address can be determined using the <userinput>kf5-config --path templates</userinput> command in &konsole;), then restart &dolphin;.
+    </para>
+</note>
 </listitem>
 </varlistentry>
 
