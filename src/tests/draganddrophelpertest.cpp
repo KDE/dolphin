@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
 
+#include <QStandardPaths>
 #include <QTest>
 #include <views/draganddrophelper.h>
 
@@ -12,9 +13,15 @@ class DragAndDropHelperTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testUrlListMatchesUrl_data();
     void testUrlListMatchesUrl();
 };
+
+void DragAndDropHelperTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void DragAndDropHelperTest::testUrlListMatchesUrl_data()
 {

@@ -7,6 +7,7 @@
 
 #include <QTest>
 #include <QSignalSpy>
+#include <QStandardPaths>
 
 #include <random>
 
@@ -44,6 +45,7 @@ public:
     KFileItemModelBenchmark();
 
 private Q_SLOTS:
+    void initTestCase();
     void insertAndRemoveManyItems_data();
     void insertAndRemoveManyItems();
 
@@ -53,6 +55,11 @@ private:
 
 KFileItemModelBenchmark::KFileItemModelBenchmark()
 {
+}
+
+void KFileItemModelBenchmark::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
 }
 
 void KFileItemModelBenchmark::insertAndRemoveManyItems_data()

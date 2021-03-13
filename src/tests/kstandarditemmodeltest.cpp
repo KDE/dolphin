@@ -10,6 +10,7 @@
 #include "kitemviews/kstandarditem.h"
 #include "kitemviews/kstandarditemmodel.h"
 
+#include <QStandardPaths>
 #include <QTest>
 
 class KStandardItemModelTest : public QObject
@@ -17,6 +18,7 @@ class KStandardItemModelTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
 
@@ -29,6 +31,11 @@ private:
 private:
     KStandardItemModel* m_model;
 };
+
+void KStandardItemModelTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KStandardItemModelTest::init()
 {

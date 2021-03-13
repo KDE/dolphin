@@ -12,12 +12,14 @@
 #include <QGraphicsView>
 #include <QTest>
 #include <QSignalSpy>
+#include <QStandardPaths>
 
 class KFileItemListViewTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
     void testGroupedItemChanges();
@@ -28,6 +30,11 @@ private:
     TestDir* m_testDir;
     QGraphicsView* m_graphicsView;
 };
+
+void KFileItemListViewTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KFileItemListViewTest::init()
 {

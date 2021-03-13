@@ -8,12 +8,14 @@
 
 #include <QTest>
 #include <QSignalSpy>
+#include <QStandardPaths>
 
 class KItemListKeyboardSearchManagerTest : public QObject
 {
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
 
     void testBasicKeyboardSearch();
@@ -24,6 +26,11 @@ private Q_SLOTS:
 private:
     KItemListKeyboardSearchManager m_keyboardSearchManager;
 };
+
+void KItemListKeyboardSearchManagerTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KItemListKeyboardSearchManagerTest::init()
 {

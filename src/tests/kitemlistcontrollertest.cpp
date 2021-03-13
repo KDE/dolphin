@@ -16,6 +16,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QSignalSpy>
 #include <QProxyStyle>
+#include <QStandardPaths>
 
 /**
  * \class KItemListControllerTestStyle is a proxy style for testing the
@@ -103,6 +104,7 @@ private:
  */
 void KItemListControllerTest::initTestCase()
 {
+    QStandardPaths::setTestModeEnabled(true);
     qRegisterMetaType<KItemSet>("KItemSet");
 
     m_testDir = new TestDir();

@@ -6,6 +6,7 @@
 
 #include "kitemviews/kitemrange.h"
 
+#include <QStandardPaths>
 #include <QTest>
 
 Q_DECLARE_METATYPE(QVector<int>)
@@ -16,9 +17,15 @@ class KItemRangeTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testFromSortedContainer_data();
     void testFromSortedContainer();
 };
+
+void KItemRangeTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KItemRangeTest::testFromSortedContainer_data()
 {

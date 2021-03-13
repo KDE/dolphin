@@ -6,6 +6,7 @@
 
 #include "search/dolphinsearchbox.h"
 
+#include <QStandardPaths>
 #include <QTest>
 
 class DolphinSearchBoxTest : public QObject
@@ -13,6 +14,7 @@ class DolphinSearchBoxTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
 
@@ -21,6 +23,11 @@ private Q_SLOTS:
 private:
     DolphinSearchBox* m_searchBox;
 };
+
+void DolphinSearchBoxTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void DolphinSearchBoxTest::init()
 {

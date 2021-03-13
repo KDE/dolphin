@@ -6,6 +6,7 @@
 
 #include "kitemviews/kitemset.h"
 
+#include <QStandardPaths>
 #include <QTest>
 
 Q_DECLARE_METATYPE(KItemRangeList)
@@ -110,6 +111,8 @@ private:
 
 void KItemSetTest::initTestCase()
 {
+    QStandardPaths::setTestModeEnabled(true);
+
     m_testCases.insert("empty", KItemRangeList());
     m_testCases.insert("[0]", KItemRangeList() << KItemRange(0, 1));
     m_testCases.insert("[1]", KItemRangeList() << KItemRange(1, 1));

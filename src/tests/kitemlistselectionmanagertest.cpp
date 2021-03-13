@@ -10,6 +10,7 @@
 
 #include <QTest>
 #include <QSignalSpy>
+#include <QStandardPaths>
 
 class DummyModel : public KItemModelBase
 {
@@ -52,6 +53,7 @@ class KItemListSelectionManagerTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
 
@@ -75,6 +77,11 @@ private:
     KItemListSelectionManager* m_selectionManager;
     DummyModel* m_model;
 };
+
+void KItemListSelectionManagerTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KItemListSelectionManagerTest::init()
 {

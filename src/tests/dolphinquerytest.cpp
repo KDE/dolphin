@@ -11,6 +11,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QStringList>
+#include <QStandardPaths>
 #include <QUrl>
 #include <QUrlQuery>
 
@@ -19,6 +20,7 @@ class DolphinSearchBoxTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void testBalooSearchParsing_data();
     void testBalooSearchParsing();
 };
@@ -43,6 +45,11 @@ QUrl balooQueryUrl(const QString& searchString)
     searchUrl.setQuery(urlQuery);
 
     return searchUrl;
+}
+
+void DolphinSearchBoxTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
 }
 
 /**

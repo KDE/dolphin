@@ -8,6 +8,7 @@
 #include <QRandomGenerator>
 #include <QTest>
 #include <QSignalSpy>
+#include <QStandardPaths>
 #include <QTimer>
 #include <QMimeData>
 
@@ -47,6 +48,7 @@ class KFileItemModelTest : public QObject
 
 private Q_SLOTS:
     void init();
+    void initTestCase();
     void cleanup();
 
     void testDefaultRoles();
@@ -92,6 +94,11 @@ private:
     KFileItemModel* m_model;
     TestDir* m_testDir;
 };
+
+void KFileItemModelTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void KFileItemModelTest::init()
 {

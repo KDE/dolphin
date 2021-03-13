@@ -15,6 +15,7 @@ class ViewPropertiesTest : public QObject
     Q_OBJECT
 
 private Q_SLOTS:
+    void initTestCase();
     void init();
     void cleanup();
 
@@ -25,6 +26,11 @@ private:
     bool m_globalViewProps;
     TestDir* m_testDir;
 };
+
+void ViewPropertiesTest::initTestCase()
+{
+    QStandardPaths::setTestModeEnabled(true);
+}
 
 void ViewPropertiesTest::init()
 {
