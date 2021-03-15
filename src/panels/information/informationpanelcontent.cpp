@@ -98,6 +98,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel->setTextFormat(Qt::PlainText);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    m_nameLabel->setTextInteractionFlags(Qt::TextSelectableByMouse);
 
     const bool previewsShown = InformationPanelSettings::previewsShown();
     m_preview->setVisible(previewsShown);
