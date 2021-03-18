@@ -186,14 +186,20 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
 {
     Q_ASSERT(dirs.size() > 0);
 
+    bool somethingWasAlreadyOpen = false;
+
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
         const QPair<int, bool> indexInfo = indexByUrl(primaryUrl);
         const int index = indexInfo.first;
         const bool isInPrimaryView = indexInfo.second;
+
+        // When the user asks for a URL that's already open, activate it instead
+        // of opening a second copy
         if (index >= 0) {
-            setCurrentIndex(index);
+            somethingWasAlreadyOpen = true;
+            activateTab(index);
             const auto tabPage = tabPageAt(index);
             if (isInPrimaryView) {
                 tabPage->primaryViewContainer()->setActive(true);
@@ -204,13 +210,19 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
             // Required for updateViewState() call in openFiles() to work as expected
             // If there is a selection, updateViewState() calls are effectively a no-op
             tabPage->activeViewContainer()->view()->clearSelection();
-            continue;
-        }
-        if (splitView && (it != dirs.constEnd())) {
+        } else if (splitView) {
             const QUrl& secondaryUrl = *(it++);
-            openNewActivatedTab(primaryUrl, secondaryUrl);
+            if (somethingWasAlreadyOpen) {
+                openNewTab(primaryUrl, secondaryUrl);
+            } else {
+                openNewActivatedTab(primaryUrl, secondaryUrl);
+            }
         } else {
-            openNewActivatedTab(primaryUrl);
+            if (somethingWasAlreadyOpen) {
+                openNewTab(primaryUrl);
+            } else {
+                openNewActivatedTab(primaryUrl);
+            }
         }
     }
 }
