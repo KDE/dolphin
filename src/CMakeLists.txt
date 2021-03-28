@@ -333,12 +333,11 @@ set(dolphin_SRCS
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
 ecm_add_app_icon(dolphin_SRCS ICONS ${ICONS_SRCS})
 
-kf5_add_kdeinit_executable(dolphin ${dolphin_SRCS})
+add_executable(dolphin ${dolphin_SRCS})
 
-
-target_link_libraries(kdeinit_dolphin PUBLIC
-    dolphinprivate
+target_link_libraries(dolphin
     PRIVATE
+    dolphinprivate
     dolphinstatic
     KF5::Crash
 )
@@ -346,13 +345,12 @@ target_link_libraries(kdeinit_dolphin PUBLIC
 include(DbusInterfaceMacros)
 
 generate_and_install_dbus_interface(
-    kdeinit_dolphin
+    dolphin
     dbusinterface.h
     org.freedesktop.FileManager1.xml
     OPTIONS -a
 )
 
-install(TARGETS kdeinit_dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################

@@ -37,7 +37,7 @@
 #endif
 #include <iostream>
 
-extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
+int main(int argc, char **argv)
 {
 #ifndef Q_OS_WIN
     // Prohibit using sudo or kdesu (but allow using the root user directly)
