@@ -210,7 +210,7 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
             // Required for updateViewState() call in openFiles() to work as expected
             // If there is a selection, updateViewState() calls are effectively a no-op
             tabPage->activeViewContainer()->view()->clearSelection();
-        } else if (splitView) {
+        } else if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
             if (somethingWasAlreadyOpen) {
                 openNewTab(primaryUrl, secondaryUrl);
