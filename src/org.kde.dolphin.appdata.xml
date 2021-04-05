@@ -238,7 +238,7 @@
     <p xml:lang="x-test">xxDolphin also comes with an integrated terminal that allows you to run commands on the current folder. You can extend the capabilities of Dolphin even further with powerful plugins to adapt it to your workflow. You can use the git integration plugin to interact with git repositories, or the Nextcloud plugin to synchronize your files online, and much more.xx</p>
     <p xml:lang="zh-CN">Dolphin 还整合了命令行终端，可以在当前文件夹中执行命令行指令。您还可以通过插件来进一步增强 Dolphin 的功能，适应您的使用习惯。例如您可以使用 git 整合插件来与 git 源代码仓库进行交互，或者使用 Nextcloud 插件来在线同步文件等。</p>
   </description>
-  <url type="homepage">https://kde.org/applications/en/dolphin</url>
+  <url type="homepage">https://apps.kde.org/dolphin</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=dolphin</url>
   <url type="help">https://docs.kde.org/?application=dolphin</url>
   <url type="donation">https://www.kde.org/community/donations/?app=dolphin&amp;source=appdata</url>
