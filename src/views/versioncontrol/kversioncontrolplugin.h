@@ -23,14 +23,15 @@ class KFileItem;
  * steps are required (in the example below it is assumed that a plugin for
  * Subversion will be written):
  *
- * - Create a fileviewsvnplugin.desktop file with the following content:
+ * - Create a fileviewsvnplugin.json file with the following content:
  *   <code>
- *   [Desktop Entry]
- *   Type=Service
- *   Name=Subversion
- *   X-KDE-ServiceTypes=FileViewVersionControlPlugin
- *   MimeType=text/plain;
- *   X-KDE-Library=fileviewsvnplugin
+ *   {
+ *      "KPlugin": {
+ *          "Description": "The svn plugin",
+ *          "Name": "Svn"
+ *      }
+ *   }
+
  *   </code>
  *
  * - Create a class FileViewSvnPlugin derived from KVersionControlPlugin and
@@ -45,15 +46,13 @@ class KFileItem;
  *   <code>
  *   #include <KPluginFactory>
  *   #include <KPluginLoader>
- *   K_PLUGIN_FACTORY(FileViewSvnPluginFactory, registerPlugin<FileViewSvnPlugin>();)
- *   K_EXPORT_PLUGIN(FileViewSvnPluginFactory("fileviewsvnplugin"))
+ *   K_PLUGIN_CLASS_WITH_JSON(FileViewSvnPlugin, "fileviewsvnplugin.json")
  *   </code>
  *
  * - Add the following lines to your CMakeLists.txt file:
  *   <code>
- *   kde4_add_plugin(fileviewsvnplugin fileviewsvnplugin.cpp)
- *   target_link_libraries(fileviewsvnplugin konq)
- *   install(FILES fileviewsvnplugin.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+ *   kcoreaddons_add_plugin(fileviewsvnplugin SOURCES fileviewsvnplugin.cpp INSTALL_NAMESPACE "dolphin/vcs")
+ *   target_link_libraries(fileviewsvnplugin DolphinVcs)
  *   </code>
  *
  * General implementation notes:

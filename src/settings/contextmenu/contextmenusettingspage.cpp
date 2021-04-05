@@ -304,9 +304,24 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
     const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
     // Create a checkbox for each available version control plugin
+    QSet<QString> loadedPlugins;
+
+    const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("dolphin/vcs"));
+    for (const auto &plugin : plugins) {
+        const QString pluginName = plugin.name();
+        addRow(QStringLiteral("code-class"),
+               pluginName,
+               VersionControlServicePrefix + pluginName,
+               enabledPlugins.contains(pluginName));
+        loadedPlugins += pluginName;
+    }
+
     const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
     for (const auto &plugin : pluginServices) {
         const QString pluginName = plugin->name();
+        if (loadedPlugins.contains(pluginName)) {
+            continue;
+        }
         addRow(QStringLiteral("code-class"),
                pluginName,
                VersionControlServicePrefix + pluginName,
