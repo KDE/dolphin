@@ -321,12 +321,15 @@ void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
+    bool showStatusBar = visible;
     bool showSpaceInfo = visible;
     bool showZoomSlider = visible;
     if (visible) {
+        showStatusBar = GeneralSettings::showStatusBar();
         showSpaceInfo = GeneralSettings::showSpaceInfo();
         showZoomSlider = GeneralSettings::showZoomSlider();
     }
+    setVisible(showStatusBar);
     m_spaceInfo->setShown(showSpaceInfo);
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);

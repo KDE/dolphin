@@ -29,8 +29,10 @@ public:
 
 private:
     void loadSettings();
+    void onShowStatusBarToggled();
 
 private:
+    QCheckBox* m_showStatusBar;
     QCheckBox* m_showZoomSlider;
     QCheckBox* m_showSpaceInfo;
 };
