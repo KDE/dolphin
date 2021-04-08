@@ -1364,7 +1364,7 @@ several levels deeper in the folder hierarchy.
 </sect2>
 
 <sect2 id="preferences-dialog-context-menu">
-<title>Context Menu</title>
+<title>Services</title>
 
 <para>
 This group offers a selection of services that can be shown in the
@@ -1373,15 +1373,15 @@ appears when clicking a file or folder with the &RMB;.
 </para>
 
 <screenshot>
-<screeninfo>Screenshot of the Context Menu settings in &dolphin;'s preferences dialog</screeninfo>
+<screeninfo>Screenshot of the Services Menu settings in &dolphin;'s preferences dialog</screeninfo>
 <mediaobject>
 <imageobject>
 <imagedata fileref="preferences-context-menu.png" format="PNG"/>
 </imageobject>
 <textobject>
-<phrase>Context Menu Settings.</phrase>
+<phrase>Services Settings.</phrase>
 </textobject>
-<caption><para>Context Menu Settings in &dolphin;'s Preferences Dialog.</para></caption>
+<caption><para>Services Settings in &dolphin;'s Preferences Dialog.</para></caption>
 </mediaobject>
 </screenshot>
 
@@ -1441,6 +1441,37 @@ Files which are older than a configurable number of days can be deleted automati
 The size of the trash can be limited to a configurable percentage of the disk
 size. If this limit is reached, a warning can be issued, or the oldest or
 largest files can be deleted automatically.
+</para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title>Trash</title>
+
+<para>
+This group contains settings which control your contributing information on the &dolphin; usage to its developers.
+
+<screenshot>
+<screeninfo>Screenshot of the User Feedback settings in &dolphin;'s preferences dialog</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase>User Feedback Settings.</phrase>
+</textobject>
+<caption><para>User Feedback Settings in &dolphin;'s Preferences Dialog.</para></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem><para>
+You can contribute some feedback on &dolphin; if you wish. Use sliders to configure your level of participation.
 </para></listitem>
 
 </itemizedlist>
