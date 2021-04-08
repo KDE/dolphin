@@ -14,7 +14,6 @@
 class DolphinMainWindow;
 class DolphinViewContainer;
 class KActionCollection;
-class KBookmarkManager;
 class KBookmarkMenu;
 class QMenu;
 

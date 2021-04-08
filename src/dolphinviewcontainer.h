@@ -28,7 +28,6 @@ namespace KActivities {
 class FilterBar;
 class KMessageWidget;
 class QUrl;
-class KUrlNavigator;
 class DolphinSearchBox;
 class DolphinStatusBar;
 

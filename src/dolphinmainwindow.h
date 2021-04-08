@@ -37,7 +37,6 @@ class KNewFileMenu;
 class KHelpMenu;
 class KToolBarPopupAction;
 class QToolButton;
-class QIcon;
 class PlacesPanel;
 class TerminalPanel;
 
