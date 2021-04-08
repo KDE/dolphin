@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2020-12-29</date>
-<releaseinfo>Applications 21.04</releaseinfo>
+<date>2021-04-08</date>
+<releaseinfo>Applications 21.08</releaseinfo>
 
 <abstract>
 <para>
@@ -1107,11 +1107,15 @@ the status bar is wide enough:
 <itemizedlist>
 
 <listitem><para>
-A <guilabel>zoom slider</guilabel> which can be used to change the icon size quickly.
+The <guilabel>Show status bar</guilabel> item can be used for toggling status bar visibility.
 </para></listitem>
 
 <listitem><para>
-A bar that shows how much space is free on the current drive.
+The <guilabel>Show zoom slider</guilabel> item allows switching visibility of the icon size widget.
+</para></listitem>
+
+<listitem><para>
+The <guilabel>Show space information</guilabel> item can be used to switch on and off a bar that shows how much space is free on the current drive.
 </para></listitem>
 
 </itemizedlist>
