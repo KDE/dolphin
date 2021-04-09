@@ -1750,13 +1750,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     const bool animate = (hint == Animation);
     for (int i = firstVisibleIndex; i <= lastVisibleIndex; ++i) {
         bool applyNewPos = true;
-        bool wasHidden = false;
 
         const QRectF itemBounds = m_layouter->itemRect(i);
         const QPointF newPos = itemBounds.topLeft();
         KItemListWidget* widget = m_visibleItems.value(i);
         if (!widget) {
-            wasHidden = true;
             if (!reusableItems.isEmpty()) {
                 // Reuse a KItemListWidget instance from an invisible item
                 const int oldIndex = reusableItems.takeLast();
