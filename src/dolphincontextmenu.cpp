@@ -33,6 +33,7 @@
 #include <KPluginMetaData>
 #include <KStandardAction>
 #include <KToolBar>
+#include <kio_version.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -222,6 +223,11 @@ void DolphinContextMenu::openItemContextMenu()
 
     KFileItemActions fileItemActions;
     fileItemActions.setParentWidget(m_mainWindow);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
+    connect(&fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
+        m_mainWindow->activeViewContainer()->showMessage(errorMessage, DolphinViewContainer::Error);
+    });
+#endif
     fileItemActions.setItemListProperties(selectedItemsProps);
 
     if (m_selectedItems.count() == 1) {
@@ -313,6 +319,11 @@ void DolphinContextMenu::openViewportContextMenu()
     const KFileItemListProperties baseUrlProperties(KFileItemList() << baseFileItem());
     KFileItemActions fileItemActions;
     fileItemActions.setParentWidget(m_mainWindow);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
+    connect(&fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
+        m_mainWindow->activeViewContainer()->showMessage(errorMessage, DolphinViewContainer::Error);
+    });
+#endif
     fileItemActions.setItemListProperties(baseUrlProperties);
 
     // Set up and insert 'Create New' menu
