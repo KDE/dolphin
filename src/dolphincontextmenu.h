@@ -9,6 +9,7 @@
 
 #include <KFileCopyToMenu>
 #include <KFileItem>
+#include <KFileItemActions>
 
 #include <QMenu>
 #include <QUrl>
@@ -57,7 +58,8 @@ public:
     DolphinContextMenu(DolphinMainWindow* parent,
                        const QPoint& pos,
                        const KFileItem& fileInfo,
-                       const QUrl& baseUrl);
+                       const QUrl& baseUrl,
+                       KFileItemActions *fileItemActions);
 
     ~DolphinContextMenu() override;
 
@@ -104,7 +106,7 @@ private:
     /**
      * Adds "Open With" actions
      */
-    void addOpenWithActions(KFileItemActions& fileItemActions);
+    void addOpenWithActions();
 
     /**
      * Adds custom actions e.g. like the "[x] Expandable Folders"-action
@@ -116,7 +118,7 @@ private:
     /**
      * Add services, custom actions, plugins and version control items to the menu
      */
-    void addAdditionalActions(KFileItemActions &fileItemActions, const KFileItemListProperties &props);
+    void addAdditionalActions(const KFileItemListProperties &props);
 
     struct Entry
     {
@@ -155,7 +157,8 @@ private:
     Command m_command;
 
     DolphinRemoveAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
-    void addDirectoryItemContextMenu(KFileItemActions &fileItemActions);
+    void addDirectoryItemContextMenu();
+    KFileItemActions *m_fileItemActions;
 
 };
 

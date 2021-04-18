@@ -65,6 +65,8 @@
 #include <KWindowSystem>
 #include <KXMLGUIFactory>
 
+#include <kio_version.h>
+
 #include <QApplication>
 #include <QClipboard>
 #include <QCloseEvent>
@@ -207,6 +209,13 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(KSycoca::self(), QOverload<>::of(&KSycoca::databaseChanged), this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
+
+    m_fileItemActions.setParentWidget(this);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
+    connect(&m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
+        showErrorMessage(errorMessage);
+    });
+#endif
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -1125,7 +1134,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
                                         const QUrl& url,
                                         const QList<QAction*>& customActions)
 {
-    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
+    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url, &m_fileItemActions);
     contextMenu.data()->setCustomActions(customActions);
     const DolphinContextMenu::Command command = contextMenu.data()->open();
 

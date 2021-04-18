@@ -11,6 +11,7 @@
 
 #include "dolphintabwidget.h"
 #include <config-baloo.h>
+#include <KFileItemActions>
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
 
@@ -671,6 +672,8 @@ private:
     KToolBarPopupAction* m_forwardAction;
 
     QMenu m_searchTools;
+    KFileItemActions m_fileItemActions;
+
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
