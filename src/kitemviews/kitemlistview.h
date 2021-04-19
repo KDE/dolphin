@@ -307,6 +307,12 @@ Q_SIGNALS:
     void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
     void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
+    /**
+     * Emitted once scrolling has finished, or immediately if no scrolling was necessary
+     * to get item in view in scrollToItem.
+     */
+    void scrollingStopped();
+
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void setItemSize(const QSizeF& size);

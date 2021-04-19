@@ -175,6 +175,9 @@ void KItemListSmoothScroller::slotAnimationStateChanged(QAbstractAnimation::Stat
     if (newState == QAbstractAnimation::Stopped && m_smoothScrolling && !m_scrollBarPressed) {
         m_smoothScrolling = false;
     }
+    if (newState == QAbstractAnimation::Stopped) {
+        Q_EMIT scrollingStopped();
+    }
 }
 
 void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)

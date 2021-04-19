@@ -11,12 +11,26 @@
 
 #include <KTextEdit>
 
+enum EditResultDirection{
+    EditDone,
+    EditNext,
+    EditPrevious,
+};
+Q_DECLARE_METATYPE(EditResultDirection)
+
+struct EditResult
+{
+    QString newName;
+    EditResultDirection direction;
+};
+Q_DECLARE_METATYPE(EditResult)
+
 /**
  * @brief Editor for renaming roles of a KItemListWidget.
  *
  * Provides signals when the editing got cancelled (e.g. by
  * pressing Escape or when losing the focus) or when the editing
- * got finished (e.g. by pressing Enter or Return).
+ * got finished (e.g. by pressing Enter, Tab or Return).
  *
  * The size automatically gets increased if the text does not fit.
  */
@@ -31,6 +45,7 @@ public:
     void setRole(const QByteArray& role);
     QByteArray role() const;
 
+    void setAllowUpDownKeyChainEdit(bool allowChainEdit);
     bool eventFilter(QObject* watched, QEvent* event) override;
 
 Q_SIGNALS:
@@ -53,11 +68,12 @@ private:
      * Emits the signal roleEditingFinished if m_blockFinishedSignal
      * is false.
      */
-    void emitRoleEditingFinished();
+    void emitRoleEditingFinished(EditResultDirection direction = EditDone);
 
 private:
     QByteArray m_role;
     bool m_blockFinishedSignal;
+    bool m_allowUpDownKeyChainEdit;
 };
 
 #endif

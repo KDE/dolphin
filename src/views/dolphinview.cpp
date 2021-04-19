@@ -18,6 +18,7 @@
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistheader.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/private/kitemlistroleeditor.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -674,12 +675,21 @@ void DolphinView::renameSelectedItems()
 
     if (items.count() == 1 && GeneralSettings::renameInline()) {
         const int index = m_model->index(items.first());
-        m_view->editRole(index, "text");
 
-        hideToolTip();
+        QMetaObject::Connection * const connection = new QMetaObject::Connection;
+        *connection = connect(m_view, &KItemListView::scrollingStopped, this, [=](){
+            QObject::disconnect(*connection);
+            delete connection;
 
-        connect(m_view, &DolphinItemListView::roleEditingFinished,
-                this, &DolphinView::slotRoleEditingFinished);
+            m_view->editRole(index, "text");
+
+            hideToolTip();
+
+            connect(m_view, &DolphinItemListView::roleEditingFinished,
+                    this, &DolphinView::slotRoleEditingFinished);
+        });
+        m_view->scrollToItem(index);
+
     } else {
         KIO::RenameFileDialog* dialog = new KIO::RenameFileDialog(items, this);
         connect(dialog, &KIO::RenameFileDialog::renamingFinished,
@@ -1736,13 +1746,15 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
     disconnect(m_view, &DolphinItemListView::roleEditingFinished,
                this, &DolphinView::slotRoleEditingFinished);
 
-    if (index < 0 || index >= m_model->count()) {
+    const KFileItemList items = selectedItems();
+    if (items.count() != 1) {
         return;
     }
 
     if (role == "text") {
-        const KFileItem oldItem = m_model->fileItem(index);
-        const QString newName = value.toString();
+        const KFileItem oldItem = items.first();
+        const EditResult retVal = value.value<EditResult>();
+        const QString newName = retVal.newName;
         if (!newName.isEmpty() && newName != oldItem.text() && newName != QLatin1Char('.') && newName != QLatin1String("..")) {
             const QUrl oldUrl = oldItem.url();
 
@@ -1773,14 +1785,14 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
 #endif
 
             const bool newNameExistsAlready = (m_model->index(newUrl) >= 0);
-            if (!newNameExistsAlready) {
+            if (!newNameExistsAlready && m_model->index(oldUrl) == index) {
                 // Only change the data in the model if no item with the new name
                 // is in the model yet. If there is an item with the new name
                 // already, calling KIO::CopyJob will open a dialog
                 // asking for a new name, and KFileItemModel will update the
                 // data when the dir lister signals that the file name has changed.
                 QHash<QByteArray, QVariant> data;
-                data.insert(role, value);
+                data.insert(role, retVal.newName);
                 m_model->setData(index, data);
             }
 
@@ -1796,6 +1808,13 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                 // in the model yet, see bug 328262.
                 connect(job, &KJob::result, this, &DolphinView::slotRenamingResult);
             }
+        }
+        if (retVal.direction != EditDone) {
+            const short indexShift = retVal.direction == EditNext ? 1 : -1;
+            m_container->controller()->selectionManager()->setSelected(index, 1, KItemListSelectionManager::Deselect);
+            m_container->controller()->selectionManager()->setSelected(index + indexShift, 1,
+                    KItemListSelectionManager::Select);
+            renameSelectedItems();
         }
     }
 }

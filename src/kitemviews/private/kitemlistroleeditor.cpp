@@ -40,6 +40,11 @@ QByteArray KItemListRoleEditor::role() const
     return m_role;
 }
 
+void KItemListRoleEditor::setAllowUpDownKeyChainEdit(bool allowChainEdit)
+{
+    m_allowUpDownKeyChainEdit = allowChainEdit;
+}
+
 bool KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
@@ -78,6 +83,20 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
         emitRoleEditingFinished();
         event->accept();
         return;
+    case Qt::Key_Tab:
+    case Qt::Key_Down:
+        if (m_allowUpDownKeyChainEdit || event->key() == Qt::Key_Tab) {
+            emitRoleEditingFinished(EditNext);
+            event->accept();
+            return;
+        }
+    case Qt::Key_Backtab:
+    case Qt::Key_Up:
+        if (m_allowUpDownKeyChainEdit || event->key() == Qt::Key_Backtab) {
+            emitRoleEditingFinished(EditPrevious);
+            event->accept();
+            return;
+        }
     case Qt::Key_Left:
     case Qt::Key_Right: {
         QTextCursor cursor = textCursor();
@@ -143,10 +162,13 @@ void KItemListRoleEditor::autoAdjustSize()
     }
 }
 
-void KItemListRoleEditor::emitRoleEditingFinished()
+void KItemListRoleEditor::emitRoleEditingFinished(EditResultDirection direction)
 {
+    QVariant ret;
+    ret.setValue(EditResult {KIO::encodeFileName(toPlainText()), direction});
+
     if (!m_blockFinishedSignal) {
-        Q_EMIT roleEditingFinished(m_role, KIO::encodeFileName(toPlainText()));
+        Q_EMIT roleEditingFinished(m_role, ret);
     }
 }
 

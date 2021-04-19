@@ -526,8 +526,11 @@ void KItemListView::scrollToItem(int index)
 
         if (newOffset != scrollOffset()) {
             Q_EMIT scrollTo(newOffset);
+            return;
         }
     }
+
+    Q_EMIT scrollingStopped();
 }
 
 void KItemListView::beginTransaction()
@@ -1602,16 +1605,16 @@ void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, c
 {
     disconnectRoleEditingSignals(index);
 
-    Q_EMIT roleEditingCanceled(index, role, value);
     m_editingRole = false;
+    Q_EMIT roleEditingCanceled(index, role, value);
 }
 
 void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
 {
     disconnectRoleEditingSignals(index);
 
-    Q_EMIT roleEditingFinished(index, role, value);
     m_editingRole = false;
+    Q_EMIT roleEditingFinished(index, role, value);
 }
 
 void KItemListView::setController(KItemListController* controller)

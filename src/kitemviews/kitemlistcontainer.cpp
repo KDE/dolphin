@@ -208,6 +208,8 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
         disconnect(previous, &KItemListView::maximumItemOffsetChanged,
                    this, &KItemListContainer::updateItemOffsetScrollBar);
         disconnect(previous, &KItemListView::scrollTo, this, &KItemListContainer::scrollTo);
+        disconnect(m_horizontalSmoothScroller, &KItemListSmoothScroller::scrollingStopped, previous, &KItemListView::scrollingStopped);
+        disconnect(m_verticalSmoothScroller, &KItemListSmoothScroller::scrollingStopped, previous, &KItemListView::scrollingStopped);
         m_horizontalSmoothScroller->setTargetObject(nullptr);
         m_verticalSmoothScroller->setTargetObject(nullptr);
     }
@@ -224,6 +226,9 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
         connect(current, &KItemListView::maximumItemOffsetChanged,
                 this, &KItemListContainer::updateItemOffsetScrollBar);
         connect(current, &KItemListView::scrollTo, this, &KItemListContainer::scrollTo);
+        connect(m_horizontalSmoothScroller, &KItemListSmoothScroller::scrollingStopped, current, &KItemListView::scrollingStopped);
+        connect(m_verticalSmoothScroller, &KItemListSmoothScroller::scrollingStopped, current, &KItemListView::scrollingStopped);
+
         m_horizontalSmoothScroller->setTargetObject(current);
         m_verticalSmoothScroller->setTargetObject(current);
         updateSmoothScrollers(current->scrollOrientation());

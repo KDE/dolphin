@@ -69,6 +69,11 @@ public:
      */
     void handleWheelEvent(QWheelEvent* event);
 
+Q_SIGNALS:
+    /**
+     * Emitted when the scrolling animation has finished
+     */
+    void scrollingStopped();
 protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
