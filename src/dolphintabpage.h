@@ -129,15 +129,6 @@ public:
     void restoreState(const QByteArray& state);
 
     /**
-     * Restores all tab related properties (urls, splitter layout, ...) from
-     * the given \a state.
-     *
-     * @deprecated The first tab state version has no version number, we keep
-     *             this method to restore old states (<= Dolphin 4.14.x).
-     */
-    Q_DECL_DEPRECATED void restoreStateV1(const QByteArray& state);
-
-    /**
      * Set whether the tab page is active
      *
      */

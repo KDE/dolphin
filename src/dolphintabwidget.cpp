@@ -87,15 +87,8 @@ void DolphinTabWidget::readProperties(const KConfigGroup& group)
         if (i >= count()) {
             openNewActivatedTab();
         }
-        if (group.hasKey("Tab Data " % QString::number(i))) {
-            // Tab state created with Dolphin > 4.14.x
-            const QByteArray state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
-            tabPageAt(i)->restoreState(state);
-        } else {
-            // Tab state created with Dolphin <= 4.14.x
-            const QByteArray state = group.readEntry("Tab " % QString::number(i), QByteArray());
-            tabPageAt(i)->restoreStateV1(state);
-        }
+        const QByteArray state = group.readEntry("Tab Data " % QString::number(i), QByteArray());
+        tabPageAt(i)->restoreState(state);
     }
 
     const int index = group.readEntry("Active Tab Index", 0);

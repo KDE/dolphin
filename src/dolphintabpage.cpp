@@ -328,48 +328,6 @@ void DolphinTabPage::restoreState(const QByteArray& state)
     m_splitter->restoreState(splitterState);
 }
 
-void DolphinTabPage::restoreStateV1(const QByteArray& state)
-{
-    if (state.isEmpty()) {
-        return;
-    }
-
-    QByteArray sd = state;
-    QDataStream stream(&sd, QIODevice::ReadOnly);
-
-    bool isSplitViewEnabled = false;
-    stream >> isSplitViewEnabled;
-    setSplitViewEnabled(isSplitViewEnabled, WithoutAnimation);
-
-    QUrl primaryUrl;
-    stream >> primaryUrl;
-    m_primaryViewContainer->setUrl(primaryUrl);
-    bool primaryUrlEditable;
-    stream >> primaryUrlEditable;
-    m_primaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(primaryUrlEditable);
-
-    if (isSplitViewEnabled) {
-        QUrl secondaryUrl;
-        stream >> secondaryUrl;
-        m_secondaryViewContainer->setUrl(secondaryUrl);
-        bool secondaryUrlEditable;
-        stream >> secondaryUrlEditable;
-        m_secondaryViewContainer->urlNavigatorInternalWithHistory()->setUrlEditable(secondaryUrlEditable);
-    }
-
-    stream >> m_primaryViewActive;
-    if (m_primaryViewActive) {
-        m_primaryViewContainer->setActive(true);
-    } else {
-        Q_ASSERT(m_splitViewEnabled);
-        m_secondaryViewContainer->setActive(true);
-    }
-
-    QByteArray splitterState;
-    stream >> splitterState;
-    m_splitter->restoreState(splitterState);
-}
-
 void DolphinTabPage::setActive(bool active)
 {
     if (active) {
