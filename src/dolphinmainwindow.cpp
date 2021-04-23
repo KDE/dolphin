@@ -178,8 +178,6 @@ DolphinMainWindow::DolphinMainWindow() :
 
     if (firstRun) {
         menuBar()->setVisible(false);
-        // Assure a proper default size if Dolphin runs the first time
-        resize(760, 550);
     }
 
     const bool showMenu = !menuBar()->isHidden();
@@ -2410,6 +2408,12 @@ bool DolphinMainWindow::eventFilter(QObject* obj, QEvent* event)
         return true;
     }
     return false;
+}
+
+// Set a sane initial window size
+QSize DolphinMainWindow::sizeHint() const
+{
+    return KXmlGuiWindow::sizeHint().expandedTo(QSize(760, 550));
 }
 
 void DolphinMainWindow::saveNewToolbarConfig()

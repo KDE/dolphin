@@ -225,6 +225,9 @@ protected:
     /** Handles QWhatsThisClickedEvent and passes all others on. */
     bool eventFilter(QObject*, QEvent*) override;
 
+    /** Sets a sane initial window size **/
+    QSize sizeHint() const override;
+
 protected Q_SLOTS:
     /**
      * Calls the base method KXmlGuiWindow::saveNewToolbarConfig().
