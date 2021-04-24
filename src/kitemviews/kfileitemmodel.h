@@ -245,6 +245,12 @@ Q_SIGNALS:
      */
     void urlIsFileError(const QUrl& url);
 
+    /**
+     * It is emitted for files when they change and
+     * for dirs when files are added or removed.
+     */
+    void fileItemsChanged(const KFileItemList &changedFileItems);
+
 protected:
     void onGroupedSortingChanged(bool current) override;
     void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true) override;

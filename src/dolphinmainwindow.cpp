@@ -24,7 +24,6 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placesitemmodel.h"
 #include "panels/places/placespanel.h"
-#include "panels/information/informationpanel.h"
 #include "panels/terminal/terminalpanel.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -1788,6 +1787,8 @@ void DolphinMainWindow::setupDockWidgets()
             infoPanel, &InformationPanel::setSelection);
     connect(this, &DolphinMainWindow::requestItemInfo,
             infoPanel, &InformationPanel::requestDelayedItemInfo);
+    connect(this, &DolphinMainWindow::fileItemsChanged,
+            infoPanel, &InformationPanel::slotFilesItemChanged);
 #endif
 
     // i18n: This is the last paragraph for the "What's This"-texts of all four panels.
@@ -2173,6 +2174,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::slotSelectionChanged);
     connect(view, &DolphinView::requestItemInfo,
             this, &DolphinMainWindow::requestItemInfo);
+    connect(view, &DolphinView::fileItemsChanged,
+            this, &DolphinMainWindow::fileItemsChanged);
     connect(view, &DolphinView::tabRequested,
             this, &DolphinMainWindow::openNewTab);
     connect(view, &DolphinView::requestContextMenu,

@@ -242,6 +242,7 @@ void InformationPanel::showItemInfo()
             connect(m_folderStatJob, &KIO::Job::result,
                     this, &InformationPanel::slotFolderStatFinished);
         } else {
+            m_shownUrl = item.url();
             m_content->showItem(item);
         }
     }
@@ -300,6 +301,15 @@ void InformationPanel::slotFilesAdded(const QString& directory)
         // the signal filesAdded("trash:/") will be emitted.
         KFileItem item(QUrl::fromUserInput(directory));
         requestDelayedItemInfo(item);
+    }
+}
+
+void InformationPanel::slotFilesItemChanged(const KFileItemList &changedFileItems)
+{
+    const auto item = changedFileItems.findByUrl(m_shownUrl);
+    if (!item.isNull()) {
+        m_fileItem = item;
+        showItemInfo();
     }
 }
 

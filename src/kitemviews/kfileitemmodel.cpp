@@ -1015,6 +1015,8 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
         // emitted during the maximum update interval.
         m_maximumUpdateIntervalTimer->start();
     }
+
+    Q_EMIT fileItemsChanged({KFileItem(directoryUrl)});
 }
 
 void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
@@ -1023,6 +1025,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
 
     QVector<int> indexesToRemove;
     indexesToRemove.reserve(items.count());
+    KFileItemList dirsChanged;
 
     for (const KFileItem& item : items) {
         const int indexForItem = index(item);
@@ -1035,6 +1038,11 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
                 delete it.value();
                 m_filteredItems.erase(it);
             }
+        }
+
+        QUrl parentUrl = item.url().adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash);
+        if (dirsChanged.findByUrl(parentUrl).isNull()) {
+            dirsChanged << KFileItem(parentUrl);
         }
     }
 
@@ -1063,6 +1071,8 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     const KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
     removeFilteredChildren(itemRanges);
     removeItems(itemRanges, DeleteItemData);
+
+    Q_EMIT fileItemsChanged(dirsChanged);
 }
 
 void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items)
@@ -1077,6 +1087,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     indexes.reserve(items.count());
 
     QSet<QByteArray> changedRoles;
+    KFileItemList changedFiles;
 
     QListIterator<QPair<KFileItem, KFileItem> > it(items);
     while (it.hasNext()) {
@@ -1102,6 +1113,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
 
             m_items.remove(oldItem.url());
             m_items.insert(newItem.url(), indexForItem);
+            changedFiles.append(newItem);
             indexes.append(indexForItem);
         } else {
             // Check if 'oldItem' is one of the filtered items.
@@ -1130,6 +1142,8 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     std::sort(indexes.begin(), indexes.end());
     const KItemRangeList itemRangeList = KItemRangeList::fromSortedContainer(indexes);
     emitItemsChangedAndTriggerResorting(itemRangeList, changedRoles);
+
+    Q_EMIT fileItemsChanged(changedFiles);
 }
 
 void KFileItemModel::slotClear()

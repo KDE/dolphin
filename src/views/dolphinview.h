@@ -593,6 +593,8 @@ Q_SIGNALS:
 
     void goUpRequested();
 
+    void fileItemsChanged(const KFileItemList &changedFileItems);
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent* event) override;

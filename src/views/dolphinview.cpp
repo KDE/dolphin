@@ -179,6 +179,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(m_model, &KFileItemModel::errorMessage,           this, &DolphinView::errorMessage);
     connect(m_model, &KFileItemModel::directoryRedirection, this, &DolphinView::slotDirectoryRedirection);
     connect(m_model, &KFileItemModel::urlIsFileError,            this, &DolphinView::urlIsFileError);
+    connect(m_model, &KFileItemModel::fileItemsChanged,            this, &DolphinView::fileItemsChanged);
 
     connect(this, &DolphinView::itemCountChanged,
             this, &DolphinView::updatePlaceholderLabel);

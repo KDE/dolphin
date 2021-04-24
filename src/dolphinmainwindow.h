@@ -15,6 +15,10 @@
 #include <KSortableList>
 #include <kxmlguiwindow.h>
 
+#ifdef HAVE_BALOO
+    #include "panels/information/informationpanel.h"
+#endif
+
 #include <QIcon>
 #include <QList>
 #include <QMenu>
@@ -191,6 +195,12 @@ Q_SIGNALS:
      * If item is null, no item information request is pending.
      */
     void requestItemInfo(const KFileItem& item);
+
+    /**
+     * It is emitted when in the current view, files are changed,
+     * or dirs have files/removed from them.
+     */
+    void fileItemsChanged(const KFileItemList &changedFileItems);
 
     /**
      * Is emitted if the settings have been changed.
@@ -656,7 +666,6 @@ private:
     QMetaObject::Connection m_updateHistoryConnection;
 
     QMenu m_searchTools;
-
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

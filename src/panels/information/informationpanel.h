@@ -46,6 +46,8 @@ public Q_SLOTS:
      */
     void requestDelayedItemInfo(const KFileItem& item);
 
+    void slotFilesItemChanged(const KFileItemList &changedFileItems);
+
 protected:
     /** @see Panel::urlChanged() */
     bool urlChanged() override;
