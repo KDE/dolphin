@@ -21,6 +21,8 @@
 #include <KServiceTypeTrader>
 #include <KDesktopFileActions>
 
+#include <kio_version.h>
+
 #include <QGridLayout>
 #include <QLabel>
 #include <QListWidget>
@@ -272,7 +274,8 @@ void ContextMenuSettingsPage::loadServices()
         }
     }
 
-    // Load service plugins that implement the KFileItemActionPlugin interface
+    // Load service plugins, this is deprecated in KIO 5.82
+#if KIO_VERSION < QT_VERSION_CHECK(6, 0, 0)
     const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("KFileItemAction/Plugin"));
     for (const KService::Ptr &service : pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
@@ -281,11 +284,10 @@ void ContextMenuSettingsPage::loadServices()
             addRow(service->icon(), service->name(), desktopEntryName, checked);
         }
     }
+#endif
 
     // Load JSON-based plugins that implement the KFileItemActionPlugin interface
-    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"), [](const KPluginMetaData& metaData) {
-        return metaData.serviceTypes().contains(QLatin1String("KFileItemAction/Plugin"));
-    });
+    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"));
 
     for (const auto &jsonMetadata : jsonPlugins) {
         const QString desktopEntryName = jsonMetadata.pluginId();
