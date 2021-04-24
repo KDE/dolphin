@@ -126,7 +126,7 @@ if(HAVE_BALOO)
     )
 endif()
 
-kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS GENERATE_MOC
+kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -277,17 +277,19 @@ if(HAVE_KUSERFEEDBACK)
     )
 endif()
 
-kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
+kconfig_add_kcfg_files(dolphinstatic_SRCS
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
-    settings/dolphin_generalsettings.kcfgc
     settings/dolphin_contextmenusettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
+)
+kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
+    settings/dolphin_generalsettings.kcfgc
 )
 
 qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
