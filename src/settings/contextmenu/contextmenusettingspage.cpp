@@ -122,6 +122,8 @@ bool ContextMenuSettingsPage::entryVisible(const QString& id)
         return ContextMenuSettings::showCopyLocation();
     } else if (id == "duplicate") {
         return ContextMenuSettings::showDuplicateHere();
+    } else if (id == "open_terminal") {
+        return ContextMenuSettings::showOpenTerminal();
     }
     return false;
 }
@@ -142,6 +144,8 @@ void ContextMenuSettingsPage::setEntryVisible(const QString& id, bool visible)
         ContextMenuSettings::setShowCopyLocation(visible);
     } else if (id == "duplicate") {
         ContextMenuSettings::setShowDuplicateHere(visible);
+    } else if (id == "open_terminal") {
+        ContextMenuSettings::setShowOpenTerminal(visible);
     }
 }
 

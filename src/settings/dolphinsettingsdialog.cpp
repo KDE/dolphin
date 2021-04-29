@@ -85,7 +85,8 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
         QStringLiteral("open_in_new_tab"),
         QStringLiteral("open_in_new_window"),
         QStringLiteral("copy_location"),
-        QStringLiteral("duplicate")
+        QStringLiteral("duplicate"),
+        QStringLiteral("open_terminal"),
     });
     KPageWidgetItem* contextMenuSettingsFrame = addPage(contextMenuSettingsPage,
                                                         i18nc("@title:group", "Context Menu"));

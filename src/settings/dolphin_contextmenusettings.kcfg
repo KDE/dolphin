@@ -38,5 +38,9 @@
             <label>Show 'Duplicate Here' in context menu.</label>
             <default>true</default>
         </entry>
+        <entry name="ShowOpenTerminal" type="Bool">
+            <label>Show 'Open Terminal' in context menu.</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>
