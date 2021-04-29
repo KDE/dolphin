@@ -468,9 +468,10 @@ private Q_SLOTS:
                          const QUrl& url,
                          const QList<QAction*>& customActions);
 
-    void updateControlMenu();
-    void updateToolBar();
-    void slotControlButtonDeleted();
+    /**
+     * Updates the menu that is by default at the right end of the toolbar.
+     */
+    void updateHamburgerMenu();
 
     /**
      * Is called if the user clicked an item in the Places Panel.
@@ -575,16 +576,6 @@ private:
     void updateViewActions();
     void updateGoActions();
 
-    void createControlButton();
-    void deleteControlButton();
-
-    /**
-     * Adds the action \p action to the menu \p menu in
-     * case if it has not added already to the toolbar.
-     * @return True if the action has been added to the menu.
-     */
-    bool addActionToMenu(QAction* action, QMenu* menu);
-
     /**
      * Connects the signals from the created DolphinView with
      * the DolphinViewContainer \a container with the corresponding slots of
@@ -624,6 +615,16 @@ private:
 
     /** Returns preferred search tool as configured in "More Search Tools" menu. */
     QPointer<QAction> preferredSearchTool();
+
+    /**
+     * Adds this action to the mainWindow's toolbar and saves the change
+     * in the users ui configuration file.
+     * This method is only needed for migration and should be removed once we can expect
+     * that pretty much all users have been migrated. Remove in 2026 because that's when
+     * even the most risk-averse distros will already have been forced to upgrade.
+     * @return true if successful. Otherwise false.
+     */
+    bool addHamburgerMenuToToolbar();
 
 private:
     /**

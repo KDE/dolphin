@@ -63,12 +63,14 @@
 #include <KUrlComboBox>
 #include <KUrlNavigator>
 #include <KWindowSystem>
+#include <KXMLGUIFactory>
 
 #include <QApplication>
 #include <QClipboard>
 #include <QCloseEvent>
 #include <QDesktopServices>
 #include <QDialog>
+#include <QDomDocument>
 #include <QFileInfo>
 #include <QLineEdit>
 #include <QMenuBar>
@@ -82,7 +84,7 @@
 namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running.
-    const int CurrentDolphinVersion = 200;
+    const int CurrentDolphinVersion = 201;
     // The maximum number of entries in the back/forward popup menu
     const int MaxNumberOfNavigationentries = 12;
     // The maximum number of "Activate Tab" shortcuts
@@ -183,8 +185,17 @@ DolphinMainWindow::DolphinMainWindow() :
     const bool showMenu = !menuBar()->isHidden();
     QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
-    if (!showMenu) {
-        createControlButton();
+
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(
+                                    KStandardAction::name(KStandardAction::HamburgerMenu)));
+    hamburgerMenu->setMenuBar(menuBar());
+    hamburgerMenu->setMenuBarAdvertised(false); // This line will soon be removed when the
+                                                // hamburger menu contents are re-arranged.
+    connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
+            this, &DolphinMainWindow::updateHamburgerMenu);
+    hamburgerMenu->hideActionsOf(toolBar());
+    if (GeneralSettings::version() < 201 && !toolBar()->actions().contains(hamburgerMenu)) {
+        addHamburgerMenuToToolbar();
     }
 
     updateAllowedToolbarAreas();
@@ -979,11 +990,6 @@ void DolphinMainWindow::toggleShowMenuBar()
 {
     const bool visible = menuBar()->isVisible();
     menuBar()->setVisible(!visible);
-    if (visible) {
-        createControlButton();
-    } else {
-        deleteControlButton();
-    }
 }
 
 QPointer<QAction> DolphinMainWindow::preferredSearchTool()
@@ -1150,87 +1156,67 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     }
 }
 
-void DolphinMainWindow::updateControlMenu()
+void DolphinMainWindow::updateHamburgerMenu()
 {
-    QMenu* menu = qobject_cast<QMenu*>(sender());
-    Q_ASSERT(menu);
-
-    // All actions get cleared by QMenu::clear(). This includes the sub-menus
-    // because 'menu' is their parent.
-    menu->clear();
-
     KActionCollection* ac = actionCollection();
+    auto hamburgerMenu = static_cast<KHamburgerMenu *>(
+                    ac->action(KStandardAction::name(KStandardAction::HamburgerMenu)));
+    auto menu = hamburgerMenu->menu();
+    if (!menu) {
+        menu = new QMenu(this);
+        hamburgerMenu->setMenu(menu);
+    } else {
+        menu->clear();
+    }
 
     menu->addMenu(m_newFileMenu->menu());
-    addActionToMenu(ac->action(QStringLiteral("file_new")), menu);
-    addActionToMenu(ac->action(QStringLiteral("new_tab")), menu);
-    addActionToMenu(ac->action(QStringLiteral("closed_tabs")), menu);
+    menu->addAction(ac->action(QStringLiteral("file_new")));
+    menu->addAction(ac->action(QStringLiteral("new_tab")));
+    menu->addAction(ac->action(QStringLiteral("closed_tabs")));
 
     menu->addSeparator();
 
     // Add "Edit" actions
-    bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
-                 addActionToMenu(ac->action(QString("copy_location")), menu) |
-                 addActionToMenu(ac->action(QStringLiteral("copy_to_inactive_split_view")), menu) |
-                 addActionToMenu(ac->action(QStringLiteral("move_to_inactive_split_view")), menu) |
-                 addActionToMenu(ac->action(KStandardAction::name(KStandardAction::SelectAll)), menu) |
-                 addActionToMenu(ac->action(QStringLiteral("invert_selection")), menu);
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
+    menu->addAction(ac->action(QString("copy_location")));
+    menu->addAction(ac->action(QStringLiteral("copy_to_inactive_split_view")));
+    menu->addAction(ac->action(QStringLiteral("move_to_inactive_split_view")));
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::SelectAll)));
+    menu->addAction(ac->action(QStringLiteral("invert_selection")));
 
-    if (added) {
-        menu->addSeparator();
-    }
+    menu->addSeparator();
 
     // Add "View" actions
     if (!GeneralSettings::showZoomSlider()) {
-        addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomIn)), menu);
-        addActionToMenu(ac->action(QStringLiteral("view_zoom_reset")), menu);
-        addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomOut)), menu);
+        menu->addAction(ac->action(KStandardAction::name(KStandardAction::ZoomIn)));
+        menu->addAction(ac->action(QStringLiteral("view_zoom_reset")));
+        menu->addAction(ac->action(KStandardAction::name(KStandardAction::ZoomOut)));
         menu->addSeparator();
     }
 
-    added = addActionToMenu(ac->action(QStringLiteral("show_preview")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("show_in_groups")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("show_hidden_files")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("additional_info")), menu) |
-            addActionToMenu(ac->action(QStringLiteral("view_properties")), menu);
+    menu->addAction(ac->action(QStringLiteral("show_preview")));
+    menu->addAction(ac->action(QStringLiteral("show_in_groups")));
+    menu->addAction(ac->action(QStringLiteral("show_hidden_files")));
+    menu->addAction(ac->action(QStringLiteral("additional_info")));
+    menu->addAction(ac->action(QStringLiteral("view_properties")));
 
-    if (added) {
-        menu->addSeparator();
-    }
+    menu->addSeparator();
 
     // Add a curated assortment of items from the "Tools" menu
-    addActionToMenu(ac->action(QStringLiteral("show_filter_bar")), menu);
-    addActionToMenu(ac->action(QStringLiteral("open_preferred_search_tool")), menu);
-    addActionToMenu(ac->action(QStringLiteral("open_terminal")), menu);
+    menu->addAction(ac->action(QStringLiteral("show_filter_bar")));
+    menu->addAction(ac->action(QStringLiteral("open_preferred_search_tool")));
+    menu->addAction(ac->action(QStringLiteral("open_terminal")));
 
     menu->addSeparator();
 
     // Add "Show Panels" menu
-    addActionToMenu(ac->action(QStringLiteral("panels")), menu);
+    menu->addAction(ac->action(QStringLiteral("panels")));
 
     // Add "Settings" menu entries
-    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::KeyBindings)), menu);
-    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)), menu);
-    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
-    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
-
-    // Add "Help" menu
-    auto helpMenu = m_helpMenu->menu();
-    helpMenu->setIcon(QIcon::fromTheme(QStringLiteral("system-help")));
-    menu->addMenu(helpMenu);
-}
-
-void DolphinMainWindow::updateToolBar()
-{
-    if (!menuBar()->isVisible()) {
-        createControlButton();
-    }
-}
-
-void DolphinMainWindow::slotControlButtonDeleted()
-{
-    m_controlButton = nullptr;
-    m_updateToolBarTimer->start();
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)));
 }
 
 void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
@@ -1354,6 +1340,8 @@ void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
 
 void DolphinMainWindow::setupActions()
 {
+    KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
+
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     QMenu* menu = m_newFileMenu->menu();
@@ -2077,65 +2065,6 @@ void DolphinMainWindow::updateGoActions()
     goUpAction->setEnabled(KIO::upUrl(currentUrl) != currentUrl);
 }
 
-void DolphinMainWindow::createControlButton()
-{
-    if (m_controlButton) {
-        return;
-    }
-    Q_ASSERT(!m_controlButton);
-
-    m_controlButton = new QToolButton(this);
-    m_controlButton->setAccessibleName(i18nc("@action:intoolbar", "Control"));
-    m_controlButton->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
-    m_controlButton->setToolTip(i18nc("@action", "Show menu"));
-    m_controlButton->setAttribute(Qt::WidgetAttribute::WA_CustomWhatsThis);
-    m_controlButton->setPopupMode(QToolButton::InstantPopup);
-
-    QMenu* controlMenu = new QMenu(m_controlButton);
-    connect(controlMenu, &QMenu::aboutToShow, this, &DolphinMainWindow::updateControlMenu);
-    controlMenu->installEventFilter(this);
-
-    m_controlButton->setMenu(controlMenu);
-
-    toolBar()->addWidget(m_controlButton);
-    connect(toolBar(), &KToolBar::iconSizeChanged,
-            m_controlButton, &QToolButton::setIconSize);
-
-    // The added widgets are owned by the toolbar and may get deleted when e.g. the toolbar
-    // gets edited. In this case we must add them again. The adding is done asynchronously by
-    // m_updateToolBarTimer.
-    connect(m_controlButton, &QToolButton::destroyed, this, &DolphinMainWindow::slotControlButtonDeleted);
-    m_updateToolBarTimer = new QTimer(this);
-    m_updateToolBarTimer->setInterval(500);
-    connect(m_updateToolBarTimer, &QTimer::timeout, this, &DolphinMainWindow::updateToolBar);
-}
-
-void DolphinMainWindow::deleteControlButton()
-{
-    delete m_controlButton;
-    m_controlButton = nullptr;
-
-    delete m_updateToolBarTimer;
-    m_updateToolBarTimer = nullptr;
-}
-
-bool DolphinMainWindow::addActionToMenu(QAction* action, QMenu* menu)
-{
-    Q_ASSERT(action);
-    Q_ASSERT(menu);
-
-    const KToolBar* toolBarWidget = toolBar();
-    const auto associatedWidgets = action->associatedWidgets();
-    for (const QWidget* widget : associatedWidgets) {
-        if (widget == toolBarWidget) {
-            return false;
-        }
-    }
-
-    menu->addAction(action);
-    return true;
-}
-
 void DolphinMainWindow::refreshViews()
 {
     m_tabWidget->refreshViews();
@@ -2437,6 +2366,29 @@ void DolphinMainWindow::setupWhatsThis()
     m_helpMenu->action(KHelpMenu::menuAboutKDE)->setWhatsThis(whatsThisAboutKDE);
 }
 
+bool DolphinMainWindow::addHamburgerMenuToToolbar()
+{
+    QDomDocument domDocument = KXMLGUIClient::domDocument();
+    if (domDocument.isNull()) {
+        return false;
+    }
+    QDomNode toolbar = domDocument.elementsByTagName(QStringLiteral("ToolBar")).at(0);
+    if (toolbar.isNull()) {
+        return false;
+    }
+
+    QDomElement hamburgerMenuElement = domDocument.createElement(QStringLiteral("Action"));
+    hamburgerMenuElement.setAttribute(QStringLiteral("name"), QStringLiteral("hamburger_menu"));
+    toolbar.appendChild(hamburgerMenuElement);
+
+    KXMLGUIFactory::saveConfigFile(domDocument, xmlFile());
+    reloadXML();
+    createGUI();
+    return true;
+    // Make sure to also remove the <KXMLGUIFactory> and <QDomDocument> include
+    // whenever this method is removed (maybe in the year ~2026).
+}
+
 bool DolphinMainWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::WhatsThisClicked) {
@@ -2471,6 +2423,8 @@ void DolphinMainWindow::saveNewToolbarConfig()
         m_tabWidget->currentTabPage()->insertNavigatorsWidget(navigators);
     }
     updateAllowedToolbarAreas();
+    (static_cast<KHamburgerMenu *>(actionCollection()->action(KStandardAction::name(
+                            KStandardAction::HamburgerMenu))))->hideActionsOf(toolBar());
 }
 
 void DolphinMainWindow::focusTerminalPanel()
