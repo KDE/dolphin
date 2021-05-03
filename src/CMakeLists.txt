@@ -34,7 +34,7 @@ target_link_libraries(
 )
 
 set_target_properties(dolphinvcs PROPERTIES
-    VERSION ${DOLPHINVCS_VERSION_STRING}
+    VERSION ${DOLPHINVCS_VERSION}
     SOVERSION ${DOLPHINVCS_SOVERSION}
     EXPORT_NAME DolphinVcs
 )
@@ -167,7 +167,7 @@ if(HAVE_BALOO)
 endif()
 
 set_target_properties(dolphinprivate PROPERTIES
-    VERSION ${DOLPHINPRIVATE_VERSION_STRING}
+    VERSION ${DOLPHINPRIVATE_VERSION}
     SOVERSION ${DOLPHINPRIVATE_SOVERSION}
 )
 
