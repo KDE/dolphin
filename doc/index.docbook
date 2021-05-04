@@ -853,7 +853,10 @@ bar. This provides a very comfortable way for
 the user to shrink the number of search results.</para>
 <para>To start a search select one or more file types (<guilabel>Documents</guilabel>, 
 <guilabel>Audio</guilabel>, <guilabel>Video</guilabel>, <guilabel>Images</guilabel>),
-  a time period and rating<!--FIXME readd when again implemented: and tag, if you have defined any.--></para>
+a time period, rating, and tag, if you have defined any via
+<userinput>tag:<replaceable>foo</replaceable></userinput> in the input box.</para>
+ 
+ <para>It is possible to clear selection using the <guibutton>Clear Selection</guibutton> button.</para>
 
 <para>Alternatively you can use these options in the <guilabel>Places</guilabel> panel 
 together with the <guilabel>Filter</guilabel> bar to find files using Baloo or limit 
@@ -862,11 +865,10 @@ the search to files matching the filter expression.</para>
 <para>Use the Save icon to save a search to the <guilabel>Search For</guilabel>
 section in the <guilabel>Places</guilabel> panel to quickly access it again in the future.
 </para>
-<!--FIXME 16.12
-https://git.reviewboard.kde.org/r/123883/
-Add prototype of a "More search tools..." button
--->
 
+<para>
+Use the <guilabel>More Search Tools</guilabel> drop-down list to select other search tools than Baloo.
+</para>
 </sect2>
 
 <sect2 id="mounting-storage-media">
