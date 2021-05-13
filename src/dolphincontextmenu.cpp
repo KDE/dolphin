@@ -22,6 +22,7 @@
 #include <KActionCollection>
 #include <KFileItemActions>
 #include <KFileItemListProperties>
+#include <KHamburgerMenu>
 #include <KIO/EmptyTrashJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>
@@ -64,6 +65,9 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_selectedItems = view->selectedItems();
 
     installEventFilter(this);
+
+    static_cast<KHamburgerMenu *>(m_mainWindow->actionCollection()->
+                action(QStringLiteral("hamburger_menu")))->addToMenu(this);
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -148,8 +152,6 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
-
-    addShowMenuBarAction();
 
     if (exec(m_pos) == emptyTrashAction) {
         Trash::empty(m_mainWindow);
@@ -361,8 +363,6 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
 
-    addShowMenuBarAction();
-
     exec(m_pos);
 }
 
@@ -420,16 +420,6 @@ void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties&
         }
         addAction(m_removeAction);
         m_removeAction->update();
-    }
-}
-
-void DolphinContextMenu::addShowMenuBarAction()
-{
-    const KActionCollection* ac = m_mainWindow->actionCollection();
-    QAction* showMenuBar = ac->action(KStandardAction::name(KStandardAction::ShowMenubar));
-    if (!m_mainWindow->menuBar()->isVisible() && !m_mainWindow->toolBar()->isVisible()) {
-        addSeparator();
-        addAction(showMenuBar);
     }
 }
 

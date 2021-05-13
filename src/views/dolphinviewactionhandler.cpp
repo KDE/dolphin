@@ -18,6 +18,7 @@
 #endif
 #include <KActionCollection>
 #include <KActionMenu>
+#include <KFileItemListProperties>
 #include <KLocalizedString>
 #include <KNewFileMenu>
 #include <KPropertiesDialog>
@@ -68,6 +69,9 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, &DolphinViewActionHandler::slotZoomLevelChanged);
     connect(view, &DolphinView::writeStateChanged,
             this, &DolphinViewActionHandler::slotWriteStateChanged);
+    connect(view, &DolphinView::selectionChanged,
+            this, &DolphinViewActionHandler::slotSelectionChanged);
+    slotSelectionChanged(m_currentView->selectedItems());
 }
 
 DolphinView* DolphinViewActionHandler::currentView()
@@ -155,6 +159,25 @@ void DolphinViewActionHandler::createActions()
     m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL | Qt::ALT | Qt::Key_C});
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
 
+    // This menu makes sure that users who don't know how to open a context menu and haven't
+    // figured out how to enable the menu bar can still perform basic file manipulation.
+    // This only works if they know how to select a file.
+    // The text when nothing is selected at least implies that a selection can /somehow/ be made.
+    // This menu is by default only used in the hamburger menu but created here so users can put
+    // it on their toolbar.
+    KActionMenu *basicActionsMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("basic_actions"), this);
+    // The text is set later depending on the selection in the currently active view.
+    basicActionsMenu->setPopupMode(QToolButton::InstantPopup);
+    basicActionsMenu->addAction(m_actionCollection->action(KStandardAction::name(KStandardAction::Cut)));
+    basicActionsMenu->addAction(m_actionCollection->action(KStandardAction::name(KStandardAction::Copy)));
+    basicActionsMenu->addAction(m_actionCollection->action(KStandardAction::name(KStandardAction::Paste)));
+    basicActionsMenu->addSeparator();
+    basicActionsMenu->addAction(m_actionCollection->action(KStandardAction::name(KStandardAction::RenameFile)));
+    basicActionsMenu->addAction(m_actionCollection->action(KStandardAction::name(KStandardAction::MoveToTrash)));
+    basicActionsMenu->addSeparator();
+    basicActionsMenu->addAction(m_actionCollection->action(QStringLiteral("properties")));
+    basicActionsMenu->addSeparator(); // We add one more separator because we sometimes add contextual
+                                      // actions in slotSelectionChanged() after the static ones above.
 
     // View menu
     KToggleAction* iconsAction = iconsModeAction();
@@ -207,6 +230,14 @@ void DolphinViewActionHandler::createActions()
                              &DolphinViewActionHandler::zoomOut,
                              m_actionCollection);
     zoomOutAction->setWhatsThis(i18nc("@info:whatsthis zoom out", "This reduces the icon size."));
+
+    KActionMenu* zoomMenu = m_actionCollection->add<KActionMenu>(QStringLiteral("zoom"));
+    zoomMenu->setText(i18nc("@action:inmenu menu of zoom actions", "Zoom"));
+    zoomMenu->setIcon(QIcon::fromTheme(QStringLiteral("zoom")));
+    zoomMenu->setPopupMode(QToolButton::InstantPopup);
+    zoomMenu->addAction(zoomInAction);
+    zoomMenu->addAction(zoomResetAction);
+    zoomMenu->addAction(zoomOutAction);
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>(QStringLiteral("show_preview"));
     showPreview->setText(i18nc("@action:intoolbar", "Show Previews"));
@@ -708,4 +739,70 @@ void DolphinViewActionHandler::slotProperties()
 void DolphinViewActionHandler::slotCopyPath()
 {
     m_currentView->copyPathToClipboard();
+}
+
+void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList& selection)
+{
+    QString basicActionsMenuText;
+    switch (selection.count()) {
+    case 0:
+        basicActionsMenuText =
+            i18nc("@action:inmenu menu with actions like copy, paste, rename. The user's selection is empty when this text is shown.",
+                  "Actions for Current View");
+        break;
+    case 1:
+        basicActionsMenuText =
+            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1 is the name of the singular selected file/folder.",
+                  "Actions for \"%1\"", selection.first().name());
+        break;
+    case 2:
+        basicActionsMenuText =
+            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are names of files/folders.",
+                  "Actions for \"%1\" and \"%2\"", selection.first().name(), selection.last().name());
+        break;
+    case 3:
+        basicActionsMenuText =
+            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 are names of files/folders.",
+                  "Actions for \"%1\", \"%2\" and \"%3\"",
+                  selection.first().name(), selection.at(1).name(), selection.last().name());
+        break;
+    default:
+        basicActionsMenuText = QString();
+        break;
+    }
+
+    // At some point the added clarity from the text starts being less important than the menu width.
+    if (basicActionsMenuText.isEmpty() || basicActionsMenuText.length() > 40) {
+        const KFileItemListProperties properties(selection);
+        if (properties.isFile()) {
+            basicActionsMenuText =
+                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
+                       "Actions for One Selected File", "Actions for %1 Selected Files", selection.count());
+        } else if (properties.isDirectory()) {
+            basicActionsMenuText =
+                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
+                       "Actions for One Selected Folder", "Actions for %1 Selected Folders", selection.count());
+        } else {
+            basicActionsMenuText =
+                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
+                       "Actions for One Selected Item", "Actions for %1 Selected Items", selection.count());
+        }
+    }
+
+    QAction *basicActionsMenu = m_actionCollection->action(QStringLiteral("basic_actions"));
+    basicActionsMenu->setText(basicActionsMenuText);
+
+    // Add or remove contextual actions
+    auto basicActionsMenuActions = basicActionsMenu->menu()->actions();
+    while (!basicActionsMenu->menu()->actions().constLast()->isSeparator()) {
+        basicActionsMenu->menu()->removeAction(basicActionsMenu->menu()->actions().last());
+    }
+    if (selection.count() == 1) {
+        if (selection.first().isLink()) {
+            basicActionsMenu->menu()->addAction(m_actionCollection->action(QStringLiteral("show_target")));
+        }
+        if (selection.first().isDir()) {
+            basicActionsMenu->menu()->addAction(m_actionCollection->action(QStringLiteral("add_to_places")));
+        }
+    }
 }

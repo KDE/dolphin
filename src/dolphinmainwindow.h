@@ -473,6 +473,11 @@ private Q_SLOTS:
 
     /**
      * Updates the menu that is by default at the right end of the toolbar.
+     *
+     * In true "simple by default" fashion, the menu only contains the most important
+     * and necessary actions to be able to use Dolphin. This is supposed to hold true even
+     * if the user does not know how to open a context menu. More advanced actions can be
+     * discovered through a sub-menu (@see KConfigWidgets::KHamburgerMenu::setMenuBarAdvertised()).
      */
     void updateHamburgerMenu();
 

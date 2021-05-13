@@ -19,6 +19,7 @@ class QAction;
 class QActionGroup;
 class DolphinView;
 class KActionCollection;
+class KFileItemList;
 
 /**
  * @short Handles all actions for DolphinView
@@ -210,6 +211,13 @@ private Q_SLOTS:
      * Copies the path of the first selected KFileItem into Clipboard.
      */
     void slotCopyPath();
+
+    /**
+     * Changes the name of the menu that contains basic actions like "Copy", "Rename", ...
+     * The name is changed to something like "Actions for 3 Selected Items" to be extra
+     * explicit of how these basic actions are used.
+     */
+    void slotSelectionChanged(const KFileItemList& selection);
 
 private:
     /**

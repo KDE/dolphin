@@ -187,8 +187,7 @@ DolphinMainWindow::DolphinMainWindow() :
     auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(
                                     KStandardAction::name(KStandardAction::HamburgerMenu)));
     hamburgerMenu->setMenuBar(menuBar());
-    hamburgerMenu->setMenuBarAdvertised(false); // This line will soon be removed when the
-                                                // hamburger menu contents are re-arranged.
+    hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
     connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
             this, &DolphinMainWindow::updateHamburgerMenu);
     hamburgerMenu->hideActionsOf(toolBar());
@@ -1163,58 +1162,81 @@ void DolphinMainWindow::updateHamburgerMenu()
     if (!menu) {
         menu = new QMenu(this);
         hamburgerMenu->setMenu(menu);
+        hamburgerMenu->hideActionsOf(ac->action(QStringLiteral("basic_actions"))->menu());
+        hamburgerMenu->hideActionsOf(ac->action(QStringLiteral("zoom"))->menu());
     } else {
         menu->clear();
     }
+    const QList<QAction *> toolbarActions = toolBar()->actions();
 
-    menu->addMenu(m_newFileMenu->menu());
-    menu->addAction(ac->action(QStringLiteral("file_new")));
-    menu->addAction(ac->action(QStringLiteral("new_tab")));
-    menu->addAction(ac->action(QStringLiteral("closed_tabs")));
-
-    menu->addSeparator();
-
-    // Add "Edit" actions
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
-    menu->addAction(ac->action(QString("copy_location")));
-    menu->addAction(ac->action(QStringLiteral("copy_to_inactive_split_view")));
-    menu->addAction(ac->action(QStringLiteral("move_to_inactive_split_view")));
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::SelectAll)));
-    menu->addAction(ac->action(QStringLiteral("invert_selection")));
-
-    menu->addSeparator();
-
-    // Add "View" actions
-    if (!GeneralSettings::showZoomSlider()) {
-        menu->addAction(ac->action(KStandardAction::name(KStandardAction::ZoomIn)));
-        menu->addAction(ac->action(QStringLiteral("view_zoom_reset")));
-        menu->addAction(ac->action(KStandardAction::name(KStandardAction::ZoomOut)));
+    if (!toolBar()->isVisible()) {
+        // If neither the menu bar nor the toolbar are visible, these actions should be available.
+        menu->addAction(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)));
+        menu->addAction(toolBarMenuAction());
         menu->addSeparator();
     }
 
-    menu->addAction(ac->action(QStringLiteral("show_preview")));
-    menu->addAction(ac->action(QStringLiteral("show_in_groups")));
+    // This group of actions (until the next separator) contains all the most basic actions
+    // necessary to use Dolphin effectively.
+    menu->addAction(ac->action(QStringLiteral("go_back")));
+    menu->addAction(ac->action(QStringLiteral("go_forward")));
+
+    menu->addMenu(m_newFileMenu->menu());
+    menu->addAction(ac->action(QStringLiteral("basic_actions")));
+    menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
+    if (!toolBar()->isVisible()
+        || (!toolbarActions.contains(ac->action(QStringLiteral("toggle_search")))
+            && !toolbarActions.contains(ac->action(QStringLiteral("open_preferred_search_tool"))))
+    ) {
+        menu->addAction(ac->action(KStandardAction::name(KStandardAction::Find)));
+        // This way a search action will only be added if none of the three available
+        // search actions is present on the toolbar.
+    }
+    if (!toolBar()->isVisible()
+        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_filter")))
+    ) {
+        menu->addAction(ac->action(QStringLiteral("show_filter_bar")));
+        // This way a filter action will only be added if none of the two available
+        // filter actions is present on the toolbar.
+    }
+    menu->addSeparator();
+
+    // The second group of actions (up until the next separator) contains actions for opening
+    // additional views to interact with the file system.
+    menu->addAction(ac->action(QStringLiteral("file_new")));
+    menu->addAction(ac->action(QStringLiteral("new_tab")));
+    if (ac->action(QStringLiteral("undo_close_tab"))->isEnabled()) {
+        menu->addAction(ac->action(QStringLiteral("closed_tabs")));
+    }
+    menu->addAction(ac->action(QStringLiteral("open_terminal")));
+    menu->addSeparator();
+
+    // The third group contains actions to change what one sees in the view
+    // and to change the more general UI.
+    if (!toolBar()->isVisible()
+        || (!toolbarActions.contains(ac->action(QStringLiteral("icons")))
+            && !toolbarActions.contains(ac->action(QStringLiteral("compact")))
+            && !toolbarActions.contains(ac->action(QStringLiteral("details")))
+            && !toolbarActions.contains(ac->action(QStringLiteral("view_mode"))))
+    ) {
+        menu->addAction(ac->action(QStringLiteral("view_mode")));
+    }
     menu->addAction(ac->action(QStringLiteral("show_hidden_files")));
     menu->addAction(ac->action(QStringLiteral("additional_info")));
-    menu->addAction(ac->action(QStringLiteral("view_properties")));
-
-    menu->addSeparator();
-
-    // Add a curated assortment of items from the "Tools" menu
-    menu->addAction(ac->action(QStringLiteral("show_filter_bar")));
-    menu->addAction(ac->action(QStringLiteral("open_preferred_search_tool")));
-    menu->addAction(ac->action(QStringLiteral("open_terminal")));
-
-    menu->addSeparator();
-
-    // Add "Show Panels" menu
+    if (!GeneralSettings::showStatusBar() || !GeneralSettings::showZoomSlider()) {
+        menu->addAction(ac->action(QStringLiteral("zoom")));
+    }
     menu->addAction(ac->action(QStringLiteral("panels")));
 
-    // Add "Settings" menu entries
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
-    menu->addAction(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)));
+    // The "Configure" menu is not added to the actionCollection() because there is hardly
+    // a good reason for users to put it on their toolbar.
+    auto configureMenu = menu->addMenu(QIcon::fromTheme(QStringLiteral("configure")),
+                            i18nc("@action:inmenu menu for configure actions", "Configure"));
+    configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
+    configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
+    configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
+    configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
+    hamburgerMenu->hideActionsOf(configureMenu);
 }
 
 void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
