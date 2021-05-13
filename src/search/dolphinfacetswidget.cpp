@@ -8,6 +8,7 @@
 #include "dolphinfacetswidget.h"
 
 #include <KLocalizedString>
+#include <KProtocolInfo>
 
 #include <QComboBox>
 #include <QDate>
@@ -257,7 +258,9 @@ void DolphinFacetsWidget::updateTagsSelector()
 void DolphinFacetsWidget::updateTagsMenu()
 {
     updateTagsMenuItems({}, {});
-    m_tagsLister.openUrl(QUrl(QStringLiteral("tags:/")), KCoreDirLister::OpenUrlFlag::Reload);
+    if (KProtocolInfo::isKnownProtocol(QStringLiteral("tags"))) {
+        m_tagsLister.openUrl(QUrl(QStringLiteral("tags:/")), KCoreDirLister::OpenUrlFlag::Reload);
+    }
 }
 
 void DolphinFacetsWidget::updateTagsMenuItems(const QUrl&, const KFileItemList& items)
