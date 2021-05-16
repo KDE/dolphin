@@ -298,7 +298,15 @@
       <caption xml:lang="x-test">xxFile management in Dolphinxx</caption>
       <caption xml:lang="zh-CN">用 Dolphin 进行文件管理</caption>
       <caption xml:lang="zh-TW">在 Dolphin 管理檔案</caption>
-      <image>https://kde.org/images/screenshots/dolphin.png</image>
+      <image>https://cdn.kde.org/screenshots/dolphin/dolphin.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Embedded Terminal in Dolphin</caption>
+      <image>https://cdn.kde.org/screenshots/dolphin/dolphin-terminal.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Dolphine let you configure your file manager exactly how you want</caption>
+      <image>https://cdn.kde.org/screenshots/dolphin/dolphin-settings.png</image>
     </screenshot>
   </screenshots>
   <project_group>KDE</project_group>
