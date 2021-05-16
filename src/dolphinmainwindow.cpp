@@ -1367,7 +1367,7 @@ void DolphinMainWindow::setupActions()
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     QMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-    menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     m_newFileMenu->setDelayed(false);
     connect(menu, &QMenu::aboutToShow,
             this, &DolphinMainWindow::updateNewMenu);

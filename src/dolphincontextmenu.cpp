@@ -211,7 +211,7 @@ void DolphinContextMenu::addDirectoryItemContextMenu(KFileItemActions &fileItemA
 
     QMenu* menu = newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-    menu->setIcon(QIcon::fromTheme(QStringLiteral("document-new")));
+    menu->setIcon(QIcon::fromTheme(QStringLiteral("list-add")));
     addMenu(menu);
 
     addSeparator();
