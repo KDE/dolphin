@@ -1274,6 +1274,7 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         // view and url navigator) and main window.
         oldViewContainer->disconnect(this);
         oldViewContainer->view()->disconnect(this);
+        oldViewContainer->urlNavigatorInternalWithHistory()->disconnect(this);
         auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
                           (actionCollection()->action(QStringLiteral("url_navigators")));
         navigators->primaryUrlNavigator()->disconnect(this);
@@ -2144,15 +2145,17 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(view, &DolphinView::goUpRequested,
             this, &DolphinMainWindow::goUp);
 
+    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::urlChanged,
+            this, &DolphinMainWindow::changeUrl);
+    connect(container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
+            this, &DolphinMainWindow::updateHistory);
+
     auto navigators = static_cast<DolphinNavigatorsWidgetAction *>
         (actionCollection()->action(QStringLiteral("url_navigators")));
-
     const KUrlNavigator *navigator = m_tabWidget->currentTabPage()->primaryViewActive() ?
                                      navigators->primaryUrlNavigator() :
                                      navigators->secondaryUrlNavigator();
 
-    connect(navigator, &KUrlNavigator::urlChanged,
-            this, &DolphinMainWindow::changeUrl);
     QAction *editableLocactionAction = actionCollection()->action(QStringLiteral("editable_location"));
     editableLocactionAction->setChecked(navigator->isUrlEditable());
     connect(navigator, &KUrlNavigator::editableStateChanged,
@@ -2160,10 +2163,6 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTab);
 
-    disconnect(m_updateHistoryConnection);
-    m_updateHistoryConnection = connect(
-            container->urlNavigatorInternalWithHistory(), &KUrlNavigator::historyChanged,
-            this, &DolphinMainWindow::updateHistory);
 }
 
 void DolphinMainWindow::updateSplitAction()
