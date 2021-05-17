@@ -62,9 +62,7 @@ TEST_NAME viewpropertiestest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 
 # DolphinMainWindowTest
-set(dolphinmainwindowtest_SRCS dolphinmainwindowtest.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc)
-
-ecm_add_test(${dolphinmainwindowtest_SRCS}
+ecm_add_test(dolphinmainwindowtest.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc
 TEST_NAME dolphinmainwindowtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 

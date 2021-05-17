@@ -21,11 +21,12 @@ remove_definitions(
 
 ##########################################
 
-set(dolphinvcs_LIB_SRCS
+add_library(dolphinvcs SHARED)
+
+target_sources(dolphinvcs PRIVATE
     views/versioncontrol/kversioncontrolplugin.cpp
 )
 
-add_library(dolphinvcs ${dolphinvcs_LIB_SRCS})
 generate_export_header(dolphinvcs BASE_NAME dolphinvcs)
 
 target_link_libraries(
@@ -55,7 +56,9 @@ install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/D
 
 ########### next target ###############
 
-set(dolphinprivate_LIB_SRCS
+add_library(dolphinprivate SHARED)
+
+target_sources(dolphinprivate PRIVATE
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
     kitemviews/kfileitemmodel.cpp
@@ -114,19 +117,23 @@ set(dolphinprivate_LIB_SRCS
     dolphinnewfilemenu.cpp
 )
 
-ecm_qt_declare_logging_category(dolphinprivate_LIB_SRCS HEADER dolphindebug.h IDENTIFIER DolphinDebug CATEGORY_NAME org.kde.dolphin
-    DESCRIPTION "dolphin" EXPORT DOLPHIN)
+ecm_qt_declare_logging_category(dolphinprivate
+    HEADER dolphindebug.h
+    IDENTIFIER DolphinDebug
+    CATEGORY_NAME org.kde.dolphin
+    DESCRIPTION "dolphin"
+    EXPORT DOLPHIN
+)
 
 if(HAVE_BALOO)
-    set(dolphinprivate_LIB_SRCS
-        ${dolphinprivate_LIB_SRCS}
+    target_sources(dolphinprivate PRIVATE
         views/tooltips/dolphinfilemetadatawidget.cpp
         views/tooltips/tooltipmanager.cpp
         kitemviews/private/kbaloorolesprovider.cpp
     )
 endif()
 
-kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS
+kconfig_add_kcfg_files(dolphinprivate
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
@@ -136,7 +143,6 @@ kconfig_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_versioncontrolsettings.kcfgc
 )
 
-add_library(dolphinprivate ${dolphinprivate_LIB_SRCS})
 generate_export_header(dolphinprivate BASE_NAME dolphin)
 
 target_link_libraries(
@@ -177,14 +183,16 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INS
 ##########################################
 configure_file(dolphinpart.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop @ONLY)
 
-set(dolphinpart_SRCS
-   dolphinpart.cpp
-   dolphinpart_ext.cpp
-   dolphindebug.cpp
-   dolphinpart.qrc
+add_library(dolphinpart MODULE)
+
+target_sources(dolphinpart PRIVATE
+    dolphinpart.cpp
+    dolphinpart_ext.cpp
+    dolphindebug.cpp
+
+    dolphinpart.qrc
 )
 
-add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 kcoreaddons_desktop_to_json(dolphinpart ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop)
 
 target_link_libraries(dolphinpart
@@ -197,7 +205,9 @@ install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_
 
 ##########################################
 
-set(dolphinstatic_SRCS
+add_library(dolphinstatic STATIC)
+
+target_sources(dolphinstatic PRIVATE
     dolphinbookmarkhandler.cpp
     dolphindockwidget.cpp
     dolphinmainwindow.cpp
@@ -258,8 +268,7 @@ set(dolphinstatic_SRCS
 )
 
 if(HAVE_BALOO)
-    set(dolphinstatic_SRCS
-        ${dolphinstatic_SRCS}
+    target_sources(dolphinstatic PRIVATE
         panels/information/informationpanel.cpp
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp
@@ -268,8 +277,7 @@ if(HAVE_BALOO)
 endif()
 
 if(HAVE_KUSERFEEDBACK)
-    set(dolphinstatic_SRCS
-        ${dolphinstatic_SRCS}
+    target_sources(dolphinstatic PRIVATE
         userfeedback/dolphinfeedbackprovider.cpp
         userfeedback/settingsdatasource.cpp
         userfeedback/placesdatasource.cpp
@@ -277,7 +285,7 @@ if(HAVE_KUSERFEEDBACK)
     )
 endif()
 
-kconfig_add_kcfg_files(dolphinstatic_SRCS
+kconfig_add_kcfg_files(dolphinstatic
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     panels/places/dolphin_placespanelsettings.kcfgc
@@ -288,16 +296,18 @@ kconfig_add_kcfg_files(dolphinstatic_SRCS
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
-kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
+kconfig_add_kcfg_files(dolphinstatic GENERATE_MOC
     settings/dolphin_generalsettings.kcfgc
 )
 
 qt5_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
-qt5_add_dbus_adaptor(dolphinstatic_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
-qt5_add_dbus_interface(dolphinstatic_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindowinterface)
-qt5_add_dbus_interface(dolphinstatic_SRCS panels/terminal/org.kde.KIOFuse.VFS.xml kiofuse_interface)
+qt5_add_dbus_adaptor(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
+qt5_add_dbus_interface(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindowinterface)
+qt5_add_dbus_interface(dolphin_dbus_SRCS panels/terminal/org.kde.KIOFuse.VFS.xml kiofuse_interface)
 
-add_library(dolphinstatic STATIC ${dolphinstatic_SRCS})
+target_sources(dolphinstatic PRIVATE
+    ${dolphin_dbus_SRCS}
+)
 
 target_include_directories(dolphinstatic SYSTEM PRIVATE ${PHONON_INCLUDES})
 target_link_libraries(dolphinstatic
@@ -324,16 +334,20 @@ if (HAVE_KUSERFEEDBACK)
     )
 endif()
 
-set(dolphin_SRCS
+add_executable(dolphin)
+
+target_sources(dolphin PRIVATE
     dbusinterface.cpp
     main.cpp
 )
 
 # Sets the icon on Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
-ecm_add_app_icon(dolphin_SRCS ICONS ${ICONS_SRCS})
-
-add_executable(dolphin ${dolphin_SRCS})
+ecm_add_app_icon(dolphin_APPICON_SRCS ICONS ${ICONS_SRCS})
+# ecm_add_app_icon 5.83 will take target as arg, use that once it is min req.
+target_sources(dolphin PRIVATE
+    ${dolphin_APPICON_SRCS}
+)
 
 target_link_libraries(dolphin
     PRIVATE
@@ -355,49 +369,48 @@ install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
-set(kcm_dolphinviewmodes_PART_SRCS
-    settings/kcm/kcmdolphinviewmodes.cpp
-    settings/viewmodes/dolphinfontrequester.cpp
-    settings/viewmodes/viewmodesettings.cpp
-    settings/viewmodes/viewsettingstab.cpp
-    views/zoomlevelinfo.cpp)
-
-set(kcm_dolphinnavigation_PART_SRCS
-    settings/kcm/kcmdolphinnavigation.cpp
-    settings/navigation/navigationsettingspage.cpp
-    settings/settingspagebase.cpp)
-
-set(kcm_dolphingeneral_PART_SRCS
-    settings/kcm/kcmdolphingeneral.cpp
-    settings/general/behaviorsettingspage.cpp
-    settings/general/previewssettingspage.cpp
-    settings/general/configurepreviewplugindialog.cpp
-    settings/general/confirmationssettingspage.cpp
-    settings/settingspagebase.cpp
-    settings/serviceitemdelegate.cpp
-    settings/servicemodel.cpp)
-
-kconfig_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
-    settings/dolphin_compactmodesettings.kcfgc
-    settings/dolphin_directoryviewpropertysettings.kcfgc
-    settings/dolphin_detailsmodesettings.kcfgc
-    settings/dolphin_iconsmodesettings.kcfgc
-    settings/dolphin_generalsettings.kcfgc
-    settings/dolphin_versioncontrolsettings.kcfgc
-)
-
-kconfig_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
-    settings/dolphin_generalsettings.kcfgc)
-
-kconfig_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
-    settings/dolphin_generalsettings.kcfgc)
-
-
 if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
-    add_library(kcm_dolphinviewmodes MODULE ${kcm_dolphinviewmodes_PART_SRCS})
-    add_library(kcm_dolphinnavigation MODULE ${kcm_dolphinnavigation_PART_SRCS})
-    add_library(kcm_dolphingeneral MODULE ${kcm_dolphingeneral_PART_SRCS})
+    add_library(kcm_dolphinviewmodes MODULE)
+    add_library(kcm_dolphinnavigation MODULE)
+    add_library(kcm_dolphingeneral MODULE)
+
+    target_sources(kcm_dolphinviewmodes PRIVATE
+        settings/kcm/kcmdolphinviewmodes.cpp
+        settings/viewmodes/dolphinfontrequester.cpp
+        settings/viewmodes/viewmodesettings.cpp
+        settings/viewmodes/viewsettingstab.cpp
+        views/zoomlevelinfo.cpp)
+
+    target_sources(kcm_dolphinnavigation PRIVATE
+        settings/kcm/kcmdolphinnavigation.cpp
+        settings/navigation/navigationsettingspage.cpp
+        settings/settingspagebase.cpp)
+
+    target_sources(kcm_dolphingeneral PRIVATE
+        settings/kcm/kcmdolphingeneral.cpp
+        settings/general/behaviorsettingspage.cpp
+        settings/general/previewssettingspage.cpp
+        settings/general/configurepreviewplugindialog.cpp
+        settings/general/confirmationssettingspage.cpp
+        settings/settingspagebase.cpp
+        settings/serviceitemdelegate.cpp
+        settings/servicemodel.cpp)
+
+    kconfig_add_kcfg_files(kcm_dolphinviewmodes
+        settings/dolphin_compactmodesettings.kcfgc
+        settings/dolphin_directoryviewpropertysettings.kcfgc
+        settings/dolphin_detailsmodesettings.kcfgc
+        settings/dolphin_iconsmodesettings.kcfgc
+        settings/dolphin_generalsettings.kcfgc
+        settings/dolphin_versioncontrolsettings.kcfgc
+    )
+
+    kconfig_add_kcfg_files(kcm_dolphinnavigation
+        settings/dolphin_generalsettings.kcfgc)
+
+    kconfig_add_kcfg_files(kcm_dolphingeneral
+        settings/dolphin_generalsettings.kcfgc)
 
     target_link_libraries(kcm_dolphinviewmodes dolphinprivate)
     target_link_libraries(kcm_dolphinnavigation dolphinprivate)
