@@ -307,10 +307,19 @@
     </screenshot>
     <screenshot type="default">
       <caption>Embedded Terminal in Dolphin</caption>
+      <caption xml:lang="ca">Terminal incrustat en el Dolphin</caption>
+      <caption xml:lang="de">Eingebettetes Terminal in Dolphin</caption>
+      <caption xml:lang="es">Terminal integrado en Dolphin</caption>
+      <caption xml:lang="ia">Terminal incorporate in Dolphin</caption>
+      <caption xml:lang="nl">Ingebedde terminal in Dolphin</caption>
+      <caption xml:lang="sv">Inbäddad terminal i Dolphin</caption>
+      <caption xml:lang="uk">Вбудований термінал у Dolphin</caption>
+      <caption xml:lang="x-test">xxEmbedded Terminal in Dolphinxx</caption>
       <image>https://cdn.kde.org/screenshots/dolphin/dolphin-terminal.png</image>
     </screenshot>
     <screenshot>
       <caption>Dolphin lets you configure your file manager exactly how you want</caption>
+      <caption xml:lang="uk">Ви можете налаштувати вашу програму для керування файлами Dolphin так, щоб вона працювала саме так, як ви цього хочете</caption>
       <image>https://cdn.kde.org/screenshots/dolphin/dolphin-settings.png</image>
     </screenshot>
   </screenshots>
