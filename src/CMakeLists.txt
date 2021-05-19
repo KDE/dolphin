@@ -181,9 +181,8 @@ set(dolphinpart_SRCS
    dolphinpart.cpp
    dolphinpart_ext.cpp
    dolphindebug.cpp
+   dolphinpart.qrc
 )
-
-qt5_add_resources(dolphinpart_SRCS dolphinpart.qrc)
 
 add_library(dolphinpart MODULE ${dolphinpart_SRCS})
 kcoreaddons_desktop_to_json(dolphinpart ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop)
@@ -255,6 +254,7 @@ set(dolphinstatic_SRCS
     views/zoomlevelinfo.cpp
     dolphindebug.cpp
     global.cpp
+    dolphin.qrc
 )
 
 if(HAVE_BALOO)
@@ -291,8 +291,6 @@ kconfig_add_kcfg_files(dolphinstatic_SRCS
 kconfig_add_kcfg_files(dolphinstatic_SRCS GENERATE_MOC
     settings/dolphin_generalsettings.kcfgc
 )
-
-qt5_add_resources(dolphinstatic_SRCS dolphin.qrc)
 
 qt5_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
 qt5_add_dbus_adaptor(dolphinstatic_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
