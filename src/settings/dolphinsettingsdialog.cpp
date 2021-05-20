@@ -99,9 +99,9 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
     trashSettingsPage = createTrashSettingsPage(this);
 #endif
     if (trashSettingsPage) {
-        KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
+        trashSettings = addPage(trashSettingsPage,
                                                      i18nc("@title:group", "Trash"));
-        trashSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("user-trash")));
+        trashSettings->setIcon(QIcon::fromTheme(QStringLiteral("user-trash")));
         connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
     }
 

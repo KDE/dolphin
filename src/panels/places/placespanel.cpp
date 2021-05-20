@@ -23,6 +23,7 @@
 #include "placesview.h"
 #include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
+#include "settings/dolphinsettingsdialog.h"
 
 #include <KFilePlaceEditDialog>
 #include <KFilePlacesModel>
@@ -181,6 +182,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     QMenu menu(this);
 
     QAction* emptyTrashAction = nullptr;
+    QAction* configureTrashAction = nullptr;
     QAction* editAction = nullptr;
     QAction* teardownAction = nullptr;
     QAction* ejectAction = nullptr;
@@ -200,7 +202,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     if (item->url().isLocalFile()) {
         propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
     }
-    if (!isDevice && !isTrash) {
+    if (!isDevice) {
         menu.addSeparator();
     }
     
@@ -236,6 +238,10 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
         }
     }
 
+    if (isTrash) {
+        configureTrashAction = menu.addAction(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash..."));
+    }
+
     if (!isDevice) {
         editAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-entry")), i18nc("@item:inmenu", "Edit..."));
     }
@@ -255,6 +261,11 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     if (action) {
         if (action == emptyTrashAction) {
             Trash::empty(this);
+        } else if (action == configureTrashAction) {
+            DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(item->url(), this);
+            settingsDialog->setCurrentPage(settingsDialog->trashSettings);
+            settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
+            settingsDialog->show();
         } else {
             // The index might have changed if devices were added/removed while
             // the context menu was open.

@@ -26,6 +26,8 @@ public:
     explicit DolphinSettingsDialog(const QUrl& url, QWidget* parent = nullptr, KActionCollection* actions = {});
     ~DolphinSettingsDialog() override;
 
+    KPageWidgetItem* trashSettings;
+
 Q_SIGNALS:
     void settingsChanged();
 
