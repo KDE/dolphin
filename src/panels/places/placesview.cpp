@@ -1,6 +1,5 @@
 /*
  * SPDX-FileCopyrightText: 2012 Frank Reininghaus <frank78ac@googlemail.com>
- * SPDX-FileCopyrightText: 2021 Harald Sitter <sitter@kde.org>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -12,10 +11,6 @@
 PlacesView::PlacesView(QGraphicsWidget* parent) :
     KStandardItemListView(parent)
 {
-    KItemListStyleOption option = styleOption();
-    option.padding = 4;
-    setStyleOption(option);
-
     const int iconSize = PlacesPanelSettings::iconSize();
     if (iconSize >= 0) {
         setIconSize(iconSize);
@@ -31,6 +26,7 @@ void PlacesView::setIconSize(int size)
 
         KItemListStyleOption option = styleOption();
         option.iconSize = size;
+        option.padding = 4;
         setStyleOption(option);
     }
 }
