@@ -4,11 +4,12 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <include>kiconloader.h</include>
     <kcfgfile name="dolphinrc"/>
     <group name="PlacesPanel">
         <entry name="IconSize" type="Int">
             <label>Size of icons in the Places Panel (-1 means "use the style's small size")</label>
-            <default>-1</default>
+            <default code="true">KIconLoader::SizeSmallMedium</default>
         </entry>
     </group>
 </kcfg>
