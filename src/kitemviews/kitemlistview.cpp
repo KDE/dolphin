@@ -2552,7 +2552,7 @@ void KItemListView::updateGroupHeaderHeight()
         groupHeaderHeight += 2 * m_styleOption.horizontalMargin;
         groupHeaderMargin = m_styleOption.horizontalMargin;
     } else if (m_itemSize.isEmpty()){
-        groupHeaderHeight += 2 * m_styleOption.padding;
+        groupHeaderHeight += 4 * m_styleOption.padding;
         groupHeaderMargin = m_styleOption.iconSize / 2;
     } else {
         groupHeaderHeight += 2 * m_styleOption.padding + m_styleOption.verticalMargin;
