@@ -297,27 +297,6 @@ void VersionControlObserver::initPlugins()
             }
         }
 
-        // Deprecated: load plugins using KService. This mechanism will be removed with KF6
-        const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
-        for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
-            if (loadedPlugins.contains((*it)->property("Name", QVariant::String).toString())) {
-                continue;
-            }
-            if (enabledPlugins.contains((*it)->name())) {
-                KPluginLoader pluginLoader(*(*it));
-                // Need to cast to int, because pluginVersion() returns -1 as
-                // an unsigned int for plugins without versions.
-                if (int(pluginLoader.pluginVersion()) < 2) {
-                    qCWarning(DolphinDebug) << "Can't load old plugin" << (*it)->name();
-                    continue;
-                }
-                KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>(this);
-                if (plugin) {
-                    m_plugins.append(plugin);
-                }
-            }
-        }
-
         for (auto &plugin : qAsConst(m_plugins)) {
             connect(plugin, &KVersionControlPlugin::itemVersionsChanged,
                 this, &VersionControlObserver::silentDirectoryVerification);
