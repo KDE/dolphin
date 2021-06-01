@@ -2113,7 +2113,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 if (daysDistance == 1) {
                     const KLocalizedString format = ki18nc("@title:group Date: "
                                                     "MMMM is full month name in current locale, and yyyy is "
-                                                    "full year number", "'Yesterday' (MMMM, yyyy)");
+                                                    "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a part of the text that should not be formatted as a date", "'Yesterday' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
                         newGroupValue = fileTime.toString(translatedFormat);
@@ -2128,7 +2128,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 } else if (daysDistance <= 7) {
                     newGroupValue = fileTime.toString(i18nc("@title:group Date: "
                         "The week day name: dddd, MMMM is full month name "
-                        "in current locale, and yyyy is full year number",
+                        "in current locale, and yyyy is full year number.",
                         "dddd (MMMM, yyyy)"));
                     newGroupValue = i18nc("Can be used to script translation of "
                         "\"dddd (MMMM, yyyy)\" with context @title:group Date",
@@ -2136,7 +2136,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 } else if (daysDistance <= 7 * 2) {
                     const KLocalizedString format = ki18nc("@title:group Date: "
                                                            "MMMM is full month name in current locale, and yyyy is "
-                                                           "full year number", "'One Week Ago' (MMMM, yyyy)");
+                                                           "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a part of the text that should not be formatted as a date", "'One Week Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
                         newGroupValue = fileTime.toString(translatedFormat);
@@ -2151,7 +2151,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 } else if (daysDistance <= 7 * 3) {
                     const KLocalizedString format = ki18nc("@title:group Date: "
                                                            "MMMM is full month name in current locale, and yyyy is "
-                                                           "full year number", "'Two Weeks Ago' (MMMM, yyyy)");
+                                                           "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a part of the text that should not be formatted as a date", "'Two Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
                         newGroupValue = fileTime.toString(translatedFormat);
@@ -2166,7 +2166,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 } else if (daysDistance <= 7 * 4) {
                     const KLocalizedString format = ki18nc("@title:group Date: "
                                                            "MMMM is full month name in current locale, and yyyy is "
-                                                           "full year number", "'Three Weeks Ago' (MMMM, yyyy)");
+                                                           "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a part of the text that should not be formatted as a date", "'Three Weeks Ago' (MMMM, yyyy)");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
                         newGroupValue = fileTime.toString(translatedFormat);
@@ -2181,7 +2181,7 @@ QList<QPair<int, QVariant> > KFileItemModel::timeRoleGroups(const std::function<
                 } else {
                     const KLocalizedString format = ki18nc("@title:group Date: "
                                                            "MMMM is full month name in current locale, and yyyy is "
-                                                           "full year number", "'Earlier on' MMMM, yyyy");
+                                                           "full year number. You must keep the ' don't use any fancy \" or « or similar. The ' is not shown to the user, it's there to mark a part of the text that should not be formatted as a date", "'Earlier on' MMMM, yyyy");
                     const QString translatedFormat = format.toString();
                     if (translatedFormat.count(QLatin1Char('\'')) == 2) {
                         newGroupValue = fileTime.toString(translatedFormat);
