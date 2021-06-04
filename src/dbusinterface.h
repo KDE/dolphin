@@ -20,6 +20,8 @@ public:
     Q_SCRIPTABLE void ShowItems(const QStringList& uriList, const QString& startUpId);
     Q_SCRIPTABLE void ShowItemProperties(const QStringList& uriList, const QString& startUpId);
 
+    Q_SCRIPTABLE void SortOrderForUrl(const QString &url, QString &role, QString &order);
+
     /**
      * Set whether this interface has been created by dolphin --daemon.
      */

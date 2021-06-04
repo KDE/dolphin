@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphindebug.h"
 #include "dolphinmainwindowinterface.h"
+#include "views/viewproperties.h"
 
 #include <KConfigWatcher>
 #include <KDialogJobUiDelegate>
@@ -138,6 +139,12 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     }
 
     return dolphinInterfaces;
+}
+
+QPair<QString, Qt::SortOrder> Dolphin::sortOrderForUrl(QUrl &url)
+{
+    ViewProperties globalProps(url);
+    return QPair<QString, Qt::SortOrder>(globalProps.sortRole(), globalProps.sortOrder());
 }
 
 double GlobalConfig::animationDurationFactor()

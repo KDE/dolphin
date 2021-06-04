@@ -59,6 +59,18 @@ void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString
     }
 }
 
+void DBusInterface::SortOrderForUrl(const QString &url, QString &role, QString &order)
+{
+    QUrl qurl(url);
+    auto sort = Dolphin::sortOrderForUrl(qurl);
+    role = sort.first;
+    if (sort.second == Qt::AscendingOrder) {
+        order = QStringLiteral("ascending");
+    } else {
+        order = QStringLiteral("descending");
+    }
+}
+
 void DBusInterface::setAsDaemon()
 {
     m_isDaemon = true;

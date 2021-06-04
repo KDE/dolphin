@@ -46,6 +46,8 @@ namespace Dolphin {
      */
     QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> dolphinGuiInstances(const QString& preferredService);
 
+    QPair<QString, Qt::SortOrder> sortOrderForUrl(QUrl &url);
+
     /**
      * TODO: Move this somewhere global to all KDE apps, not just Dolphin
      */
