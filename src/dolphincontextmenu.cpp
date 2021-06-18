@@ -63,7 +63,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
 
-    installEventFilter(this);
+    QApplication::instance()->installEventFilter(this);
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -112,28 +112,23 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     return m_command;
 }
 
-void DolphinContextMenu::childEvent(QChildEvent* event)
+bool DolphinContextMenu::eventFilter(QObject* object, QEvent* event)
 {
-    if(event->added()) {
-        event->child()->installEventFilter(this);
-    }
-    QMenu::childEvent(event);
-}
+    Q_UNUSED(object)
 
-bool DolphinContextMenu::eventFilter(QObject* dest, QEvent* event)
-{
     if(event->type() == QEvent::KeyPress || event->type() == QEvent::KeyRelease) {
         QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
-        if(m_removeAction && keyEvent->key() == Qt::Key_Shift) {
-            if(event->type() == QEvent::KeyPress) {
+
+        if (m_removeAction && keyEvent->key() == Qt::Key_Shift) {
+            if (event->type() == QEvent::KeyPress) {
                 m_removeAction->update(DolphinRemoveAction::ShiftState::Pressed);
             } else {
                 m_removeAction->update(DolphinRemoveAction::ShiftState::Released);
             }
-            return true;
         }
     }
-    return QMenu::eventFilter(dest, event);
+
+    return false;
 }
 
 void DolphinContextMenu::openTrashContextMenu()
