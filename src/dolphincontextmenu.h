@@ -74,8 +74,7 @@ public:
     Command open();
 
 protected:
-    void childEvent(QChildEvent* event) override;
-    bool eventFilter(QObject* dest, QEvent* event) override;
+    bool eventFilter(QObject* object, QEvent* event) override;
 
 private:
     void openTrashContextMenu();
