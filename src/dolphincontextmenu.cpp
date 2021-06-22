@@ -64,7 +64,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
 
-    installEventFilter(this);
+    QApplication::instance()->installEventFilter(this);
 
     static_cast<KHamburgerMenu *>(m_mainWindow->actionCollection()->
                 action(QStringLiteral("hamburger_menu")))->addToMenu(this);
