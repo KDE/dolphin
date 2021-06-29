@@ -88,7 +88,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_markFirstNewlySelectedItemAsCurrent(false),
     m_versionControlObserver(nullptr),
     m_twoClicksRenamingTimer(nullptr),
-    m_placeholderLabel(nullptr)
+    m_placeholderLabel(nullptr),
+    m_showLoadingPlaceholderTimer(nullptr)
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -125,6 +126,11 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     setFocusProxy(m_container);
     connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
     connect(m_container->verticalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
+
+    m_showLoadingPlaceholderTimer = new QTimer(this);
+    m_showLoadingPlaceholderTimer->setInterval(500);
+    m_showLoadingPlaceholderTimer->setSingleShot(true);
+    connect(m_showLoadingPlaceholderTimer, &QTimer::timeout, this, &DolphinView::showLoadingPlaceholder);
 
     // Show some placeholder text for empty folders
     // This is made using a heavily-modified QLabel rather than a KTitleWidget
@@ -2064,10 +2070,23 @@ void DolphinView::slotSwipeUp()
     Q_EMIT goUpRequested();
 }
 
+void DolphinView::showLoadingPlaceholder()
+{
+    m_placeholderLabel->setText(i18n("Loading..."));
+    m_placeholderLabel->setVisible(true);
+}
+
 void DolphinView::updatePlaceholderLabel()
 {
-    if (m_loading || itemsCount() > 0) {
+    m_showLoadingPlaceholderTimer->stop();
+    if (itemsCount() > 0) {
         m_placeholderLabel->setVisible(false);
+        return;
+    }
+
+    if (m_loading) {
+        m_placeholderLabel->setVisible(false);
+        m_showLoadingPlaceholderTimer->start();
         return;
     }
 
@@ -2085,7 +2104,7 @@ void DolphinView::updatePlaceholderLabel()
         m_placeholderLabel->setText(i18n("No shared folders found"));
     } else if (m_url.scheme() == QLatin1String("network")) {
         m_placeholderLabel->setText(i18n("No relevant network resources found"));
-    } else if (m_url.scheme() == QLatin1String("mtp")) {
+    } else if (m_url.scheme() == QLatin1String("mtp") && m_url.path() == QLatin1String("/")) {
         m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
     } else if (m_url.scheme() == QLatin1String("bluetooth")) {
         m_placeholderLabel->setText(i18n("No Bluetooth devices found"));

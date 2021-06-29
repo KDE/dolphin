@@ -839,6 +839,7 @@ private:
 
 private:
     void updatePalette();
+    void showLoadingPlaceholder();
 
     bool m_active;
     bool m_tabsForFiles;
@@ -878,6 +879,7 @@ private:
     QTimer* m_twoClicksRenamingTimer;
     QUrl m_twoClicksRenamingItemUrl;
     QLabel* m_placeholderLabel;
+    QTimer* m_showLoadingPlaceholderTimer;
 
     // For unit tests
     friend class TestBase;
