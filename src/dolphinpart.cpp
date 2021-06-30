@@ -201,9 +201,6 @@ void DolphinPart::createActions()
     createGoAction("go_network_folders", "folder-remote",
                    i18nc("@action:inmenu Go", "&Network Folders"), QStringLiteral("remote:/"),
                    goActionGroup);
-    createGoAction("go_settings", "preferences-system",
-                   i18nc("@action:inmenu Go", "Sett&ings"), QStringLiteral("settings:/"),
-                   goActionGroup);
     createGoAction("go_trash", "user-trash",
                    i18nc("@action:inmenu Go", "Trash"), QStringLiteral("trash:/"),
                    goActionGroup);
