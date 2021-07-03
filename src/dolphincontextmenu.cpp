@@ -31,7 +31,6 @@
 #include <KLocalizedString>
 #include <KNewFileMenu>
 #include <KPluginMetaData>
-#include <KService>
 #include <KStandardAction>
 #include <KToolBar>
 

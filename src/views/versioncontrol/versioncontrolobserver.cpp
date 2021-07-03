@@ -13,8 +13,7 @@
 #include "updateitemstatesthread.h"
 
 #include <KLocalizedString>
-#include <KService>
-#include <KServiceTypeTrader>
+#include <KPluginFactory>
 #include <KPluginLoader>
 #include <KPluginMetaData>
 
