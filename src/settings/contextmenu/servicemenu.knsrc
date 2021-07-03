@@ -1,8 +1,6 @@
 [KNewStuff2]
 ProvidersUrl=https://download.kde.org/ocs/providers.xml
 Categories=Dolphin Service Menus
-ChecksumPolicy=ifpossible
-SignaturePolicy=ifpossible
 TargetDir=servicemenu-download
 Uncompress=never
 InstallationCommand=servicemenuinstaller install %f
