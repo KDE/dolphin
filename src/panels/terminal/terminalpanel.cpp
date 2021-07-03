@@ -17,7 +17,6 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 #include <KProtocolInfo>
-#include <KService>
 #include <KShell>
 #include <kde_terminal_interface.h>
 
@@ -130,11 +129,8 @@ void TerminalPanel::showEvent(QShowEvent* event)
 
     if (!m_terminal) {
         m_clearTerminal = true;
-        KPluginFactory* factory = nullptr;
-        KService::Ptr service = KService::serviceByDesktopName(QStringLiteral("konsolepart"));
-        if (service) {
-            factory = KPluginLoader(service->library()).factory();
-        }
+        KPluginLoader loader(QStringLiteral("konsolepart"));
+        KPluginFactory* factory = loader.factory();
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : nullptr;
         if (m_konsolePart) {
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);
