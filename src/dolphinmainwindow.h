@@ -12,7 +12,6 @@
 #include "dolphintabwidget.h"
 #include <config-baloo.h>
 #include <kio/fileundomanager.h>
-#include <KSortableList>
 #include <kxmlguiwindow.h>
 
 #ifdef HAVE_BALOO
