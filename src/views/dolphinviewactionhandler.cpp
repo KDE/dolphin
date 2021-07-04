@@ -793,7 +793,6 @@ void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList& selecti
     basicActionsMenu->setText(basicActionsMenuText);
 
     // Add or remove contextual actions
-    auto basicActionsMenuActions = basicActionsMenu->menu()->actions();
     while (!basicActionsMenu->menu()->actions().constLast()->isSeparator()) {
         basicActionsMenu->menu()->removeAction(basicActionsMenu->menu()->actions().last());
     }
