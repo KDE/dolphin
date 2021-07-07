@@ -317,6 +317,7 @@
       <caption xml:lang="eu">Dolphinen txertatutako terminala</caption>
       <caption xml:lang="fi">Upotettu pääte Dolphinissa</caption>
       <caption xml:lang="fr">Terminal intégré dans Dolphin</caption>
+      <caption xml:lang="hu">Beágyazott terminál a Dolphinban</caption>
       <caption xml:lang="ia">Terminal incorporate in Dolphin</caption>
       <caption xml:lang="it">Terminale integrato in Dolphin</caption>
       <caption xml:lang="ko">Dolphin에 내장된 터미널</caption>
@@ -345,6 +346,7 @@
       <caption xml:lang="eu">Dolphinek zure fitxategi-kudeatzailea nahi duzun eran konfiguratzen uzten dizu</caption>
       <caption xml:lang="fi">Dolphinilla voit tehdä tiedostonhallintaa juuri kuten haluat</caption>
       <caption xml:lang="fr">Dolphin vous permet de configurer votre gestionnaire de fichiers, exactement comme vous le souhaitez.</caption>
+      <caption xml:lang="hu">A Dolphin lehetővé teszi, hogy úgy állítsa be a fájlkezelőkét, ahogyan szeretné</caption>
       <caption xml:lang="ia">Dolphin te permitte configurar tu gerente de file exactemente como tu lo vole</caption>
       <caption xml:lang="it">Dolphin ti consente di configurare il tuo gestore file esattamente come desideri</caption>
       <caption xml:lang="ko">Dolphin은 사용하고 싶은 대로 설정할 수 있습니다</caption>
