@@ -52,7 +52,6 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
 )
 
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
-    DocTools
     KCMUtils
     NewStuff
     CoreAddons
@@ -83,6 +82,7 @@ endif()
 
 find_package(KF5 ${KF5_MIN_VERSION} OPTIONAL_COMPONENTS
     Activities
+    DocTools
 )
 set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities libraries"
                        URL "https://www.kde.org"
