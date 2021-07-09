@@ -178,7 +178,12 @@ int main(int argc, char **argv)
 
     mainWindow->show();
 
-    KDBusService dolphinDBusService;
+    // Allow starting Dolphin on a system that is not running DBus:
+    KDBusService::StartupOptions serviceOptions = KDBusService::Multiple;
+    if (!QDBusConnection::sessionBus().isConnected()) {
+        serviceOptions |= KDBusService::NoExitOnFailure;
+    }
+    KDBusService dolphinDBusService(serviceOptions);
     DBusInterface interface;
 
     if (!app.isSessionRestored()) {
