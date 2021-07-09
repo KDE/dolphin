@@ -120,7 +120,8 @@ QVector<QPair<QSharedPointer<OrgKdeDolphinMainWindowInterface>, QStringList>> Do
     }
 
     // Look for dolphin instances among all available dbus services.
-    const QStringList dbusServices = QDBusConnection::sessionBus().interface()->registeredServiceNames().value();
+    QDBusConnectionInterface *sessionInterface = QDBusConnection::sessionBus().interface();
+    const QStringList dbusServices = sessionInterface ? sessionInterface->registeredServiceNames().value() : QStringList();
     // Don't match the service without trailing "-" (unique instance)
     const QString pattern = QStringLiteral("org.kde.dolphin-");
     // Don't match the pid without leading "-"

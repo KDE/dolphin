@@ -1543,7 +1543,8 @@ void DolphinMainWindow::setupActions()
     stashSplit->setToolTip(i18nc("@info", "Opens the stash virtual directory in a split window"));
     stashSplit->setIcon(QIcon::fromTheme(QStringLiteral("folder-stash")));
     stashSplit->setCheckable(false);
-    stashSplit->setVisible(QDBusConnection::sessionBus().interface()->isServiceRegistered(QStringLiteral("org.kde.kio.StashNotifier")));
+    QDBusConnectionInterface *sessionInterface = QDBusConnection::sessionBus().interface();
+    stashSplit->setVisible(sessionInterface && sessionInterface->isServiceRegistered(QStringLiteral("org.kde.kio.StashNotifier")));
     connect(stashSplit, &QAction::triggered, this, &DolphinMainWindow::toggleSplitStash);
 
     KStandardAction::redisplay(this, &DolphinMainWindow::reloadView, actionCollection());

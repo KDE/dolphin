@@ -20,8 +20,10 @@ DBusInterface::DBusInterface() :
 {
     QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/freedesktop/FileManager1"), this,
             QDBusConnection::ExportScriptableContents | QDBusConnection::ExportAdaptors);
-    QDBusConnection::sessionBus().interface()->registerService(QStringLiteral("org.freedesktop.FileManager1"),
-                                                               QDBusConnectionInterface::QueueService);
+    QDBusConnectionInterface *sessionInterface = QDBusConnection::sessionBus().interface();
+    if (sessionInterface) {
+        sessionInterface->registerService(QStringLiteral("org.freedesktop.FileManager1"), QDBusConnectionInterface::QueueService);
+    }
 }
 
 void DBusInterface::ShowFolders(const QStringList& uriList, const QString& startUpId)
