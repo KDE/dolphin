@@ -1798,17 +1798,25 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
             auto valueB = b->values.value("count");
             if (valueA.isNull()) {
                 if (valueB.isNull()) {
-                    return 0;
+                    result = 0;
+                    break;
                 } else {
-                    return -1;
+                    result = -1;
+                    break;
                 }
             } else if (valueB.isNull()) {
-                return +1;
+                result = +1;
+                break;
             } else {
                 if (valueA.toLongLong() < valueB.toLongLong()) {
-                    return -1;
+                    result = -1;
+                    break;
+                } else if (valueA.toLongLong() > valueB.toLongLong()) {
+                    result = +1;
+                    break;
                 } else {
-                    return +1;
+                    result = 0;
+                    break;
                 }
             }
         }
