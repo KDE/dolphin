@@ -7,10 +7,15 @@
 #include "placesview.h"
 
 #include "dolphin_placespanelsettings.h"
+#include "kitemviews/kitemlistheader.h"
+
+#include <QGraphicsSceneResizeEvent>
 
 PlacesView::PlacesView(QGraphicsWidget* parent) :
     KStandardItemListView(parent)
 {
+    header()->setAutomaticColumnResizing(false);
+
     const int iconSize = PlacesPanelSettings::iconSize();
     if (iconSize >= 0) {
         setIconSize(iconSize);
@@ -36,3 +41,9 @@ int PlacesView::iconSize() const
     return option.iconSize;
 }
 
+void PlacesView::resizeEvent(QGraphicsSceneResizeEvent *event)
+{
+    KStandardItemListView::resizeEvent(event);
+
+    header()->setColumnWidth(QByteArrayLiteral("text"), event->newSize().width());
+}
