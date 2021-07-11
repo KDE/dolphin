@@ -23,6 +23,9 @@ public:
 
     void setIconSize(int size);
     int iconSize() const;
+
+protected:
+    void resizeEvent(QGraphicsSceneResizeEvent *event) override;
 };
 
 #endif
