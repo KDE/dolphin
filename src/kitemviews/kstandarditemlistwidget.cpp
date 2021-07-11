@@ -226,8 +226,22 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
 void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
-    const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
-    logicalHeightHints.fill(height);
+
+    float zoomLevel = 1;
+    if (option.iconSize >= KIconLoader::SizeEnormous) {
+        zoomLevel = 2;
+    } else if (option.iconSize >= KIconLoader::SizeHuge) {
+        zoomLevel = 1.8;
+    } else if (option.iconSize >= KIconLoader::SizeLarge) {
+        zoomLevel = 1.6;
+    } else if (option.iconSize >= KIconLoader::SizeMedium) {
+        zoomLevel = 1.4;
+    } else if (option.iconSize >= KIconLoader::SizeSmallMedium) {
+        zoomLevel = 1.2;
+    }
+
+    const qreal contentHeight = qMax<qreal>(option.iconSize, zoomLevel * option.fontMetrics.height());
+    logicalHeightHints.fill(contentHeight + 2 * option.padding);
     logicalWidthHint = -1.0;
 }
 
