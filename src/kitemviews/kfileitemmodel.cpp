@@ -1791,6 +1791,11 @@ void KFileItemModel::sort(const QList<KFileItemModel::ItemData*>::iterator &begi
 
 int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const QCollator& collator) const
 {
+    // This function must never return 0, because that would break stable
+    // sorting, which leads to all kinds of bugs.
+    // See: https://bugs.kde.org/show_bug.cgi?id=433247
+    // If two items have equal sort values, let the fallbacks at the bottom of
+    // the function handle it.
     const KFileItem& itemA = a->item;
     const KFileItem& itemB = b->item;
 
@@ -1808,29 +1813,21 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
             auto valueA = a->values.value("count");
             auto valueB = b->values.value("count");
             if (valueA.isNull()) {
-                if (valueB.isNull()) {
-                    result = 0;
-                    break;
-                } else {
-                    result = -1;
-                    break;
+                if (!valueB.isNull()) {
+                    return -1;
                 }
             } else if (valueB.isNull()) {
-                result = +1;
-                break;
+                return +1;
             } else {
                 if (valueA.toLongLong() < valueB.toLongLong()) {
-                    result = -1;
-                    break;
+                    return -1;
                 } else if (valueA.toLongLong() > valueB.toLongLong()) {
-                    result = +1;
-                    break;
-                } else {
-                    result = 0;
-                    break;
+                    return +1;
                 }
             }
+            break;
         }
+
         KIO::filesize_t sizeA = 0;
         if (itemA.isDir()) {
             sizeA = a->values.value("size").toULongLong();
@@ -1843,12 +1840,10 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         } else {
             sizeB = itemB.size();
         }
-        if (sizeA > sizeB) {
-            result = +1;
-        } else if (sizeA < sizeB) {
-            result = -1;
-        } else {
-            result = 0;
+        if (sizeA < sizeB) {
+            return -1;
+        } else if (sizeA > sizeB) {
+            return +1;
         }
         break;
     }
@@ -1857,9 +1852,9 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
         const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_MODIFICATION_TIME, -1);
         if (dateTimeA < dateTimeB) {
-            result = -1;
+            return -1;
         } else if (dateTimeA > dateTimeB) {
-            result = +1;
+            return +1;
         }
         break;
     }
@@ -1868,9 +1863,9 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
         const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
         if (dateTimeA < dateTimeB) {
-            result = -1;
+            return -1;
         } else if (dateTimeA > dateTimeB) {
-            result = +1;
+            return +1;
         }
         break;
     }
@@ -1879,9 +1874,9 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         const QDateTime dateTimeA = a->values.value("deletiontime").toDateTime();
         const QDateTime dateTimeB = b->values.value("deletiontime").toDateTime();
         if (dateTimeA < dateTimeB) {
-            result = -1;
+            return -1;
         } else if (dateTimeA > dateTimeB) {
-            result = +1;
+            return +1;
         }
         break;
     }
@@ -1902,9 +1897,9 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         const QString roleValueA = a->values.value(role).toString();
         const QString roleValueB = b->values.value(role).toString();
         if (!roleValueA.isEmpty() && roleValueB.isEmpty()) {
-            result = -1;
+            return -1;
         } else if (roleValueA.isEmpty() && !roleValueB.isEmpty()) {
-            result = +1;
+            return +1;
         } else if (isRoleValueNatural(m_sortRole)) {
             result = stringCompare(roleValueA, roleValueB, collator);
         } else {
