@@ -6,8 +6,9 @@
 
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
-#include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
+
+#include <KDirLister>
 
 #include <QGraphicsView>
 #include <QTest>

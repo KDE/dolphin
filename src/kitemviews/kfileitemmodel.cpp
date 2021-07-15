@@ -11,10 +11,10 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphindebug.h"
-#include "private/kfileitemmodeldirlister.h"
 #include "private/kfileitemmodelsortalgorithm.h"
 
-#include <kio_version.h>
+#include <KDirLister>
+#include <KIO/Job>
 #include <KLocalizedString>
 #include <KUrlMimeData>
 
@@ -53,7 +53,8 @@ KFileItemModel::KFileItemModel(QObject* parent) :
 
     loadSortingSettings();
 
-    m_dirLister = new KFileItemModelDirLister(this);
+    m_dirLister = new KDirLister(this);
+    m_dirLister->setAutoErrorHandlingEnabled(false);
     m_dirLister->setDelayedMimeTypes(true);
 
     const QWidget* parentWidget = qobject_cast<QWidget*>(parent);
@@ -61,23 +62,17 @@ KFileItemModel::KFileItemModel(QObject* parent) :
         m_dirLister->setMainWindow(parentWidget->window());
     }
 
-    connect(m_dirLister, &KFileItemModelDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
+    connect(m_dirLister, &KCoreDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
     connect(m_dirLister, QOverload<>::of(&KCoreDirLister::canceled), this, &KFileItemModel::slotCanceled);
-    connect(m_dirLister, &KFileItemModelDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
-    connect(m_dirLister, &KFileItemModelDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
-    connect(m_dirLister, &KFileItemModelDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
+    connect(m_dirLister, &KCoreDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
+    connect(m_dirLister, &KCoreDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
+    connect(m_dirLister, &KCoreDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
     connect(m_dirLister, QOverload<>::of(&KCoreDirLister::clear), this, &KFileItemModel::slotClear);
-    connect(m_dirLister, &KFileItemModelDirLister::infoMessage, this, &KFileItemModel::infoMessage);
-    connect(m_dirLister, &KFileItemModelDirLister::errorMessage, this, &KFileItemModel::errorMessage);
-    connect(m_dirLister, &KFileItemModelDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
+    connect(m_dirLister, &KCoreDirLister::infoMessage, this, &KFileItemModel::infoMessage);
+    connect(m_dirLister, &KCoreDirLister::jobError, this, &KFileItemModel::slotListerError);
+    connect(m_dirLister, &KCoreDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
     connect(m_dirLister, QOverload<const QUrl&, const QUrl&>::of(&KCoreDirLister::redirection), this, &KFileItemModel::directoryRedirection);
-    connect(m_dirLister, &KFileItemModelDirLister::urlIsFileError, this, &KFileItemModel::urlIsFileError);
-
-#if KIO_VERSION < QT_VERSION_CHECK(5, 79, 0)
-    connect(m_dirLister, QOverload<const QUrl&>::of(&KCoreDirLister::completed), this, &KFileItemModel::slotCompleted);
-#else
     connect(m_dirLister, &KCoreDirLister::listingDirCompleted, this, &KFileItemModel::slotCompleted);
-#endif
 
     // Apply default roles that should be determined
     resetRoles();
@@ -2500,4 +2495,16 @@ bool KFileItemModel::isConsistent() const
     }
 
     return true;
+}
+
+void KFileItemModel::slotListerError(KIO::Job *job)
+{
+    if (job->error() == KIO::ERR_IS_FILE) {
+        if (auto *listJob = qobject_cast<KIO::ListJob *>(job)) {
+            Q_EMIT urlIsFileError(listJob->url());
+        }
+    } else {
+        const QString errorString = job->errorString();
+        Q_EMIT errorMessage(!errorString.isEmpty() ? errorString : i18nc("@info:status", "Unknown error."));
+    }
 }

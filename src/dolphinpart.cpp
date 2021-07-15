@@ -11,7 +11,6 @@
 #include "dolphinpart_ext.h"
 #include "dolphinremoveaction.h"
 #include "kitemviews/kfileitemmodel.h"
-#include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
 #include "views/dolphinview.h"
@@ -22,6 +21,7 @@
 #include <KAuthorized>
 #include <KConfigGroup>
 #include <KDialogJobUiDelegate>
+#include <KDirLister>
 #include <KFileItemListProperties>
 #include <KIconLoader>
 #include <KJobWidgets>

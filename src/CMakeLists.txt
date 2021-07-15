@@ -82,7 +82,6 @@ target_sources(dolphinprivate PRIVATE
     kitemviews/private/kdirectorycontentscounter.cpp
     kitemviews/private/kdirectorycontentscounterworker.cpp
     kitemviews/private/kfileitemclipboard.cpp
-    kitemviews/private/kfileitemmodeldirlister.cpp
     kitemviews/private/kfileitemmodelfilter.cpp
     kitemviews/private/kitemlistheaderwidget.cpp
     kitemviews/private/kitemlistkeyboardsearchmanager.cpp

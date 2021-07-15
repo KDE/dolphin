@@ -12,10 +12,10 @@
 #include <QTimer>
 #include <QMimeData>
 
+#include <KDirLister>
 #include <kio/job.h>
 
 #include "kitemviews/kfileitemmodel.h"
-#include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
 void myMessageOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)

@@ -20,8 +20,13 @@
 
 #include <functional>
 
-class KFileItemModelDirLister;
+class KDirLister;
+
 class QTimer;
+
+namespace KIO {
+    class Job;
+}
 
 /**
  * @brief KItemModelBase implementation for KFileItems.
@@ -270,6 +275,7 @@ private Q_SLOTS:
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
     void slotClear();
     void slotSortingChoiceChanged();
+    void slotListerError(KIO::Job *job);
 
     void dispatchPendingItemsToInsert();
 
@@ -458,7 +464,7 @@ private:
     bool isConsistent() const;
 
 private:
-    KFileItemModelDirLister* m_dirLister;
+    KDirLister *m_dirLister = nullptr;
 
     QCollator m_collator;
     bool m_naturalSorting;
