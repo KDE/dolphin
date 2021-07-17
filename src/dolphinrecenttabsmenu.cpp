@@ -66,7 +66,7 @@ void DolphinRecentTabsMenu::handleAction(QAction* action)
         // action and the separator
         QList<QAction*> actions = menu()->actions();
         const int count = actions.size();
-        for (int i = 2; i < count; ++i) {
+        for (int i = count - 1; i >= 2; i--) {
             removeAction(actions.at(i));
         }
         Q_EMIT closedTabsCountChanged(0);
