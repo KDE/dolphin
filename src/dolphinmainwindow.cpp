@@ -211,11 +211,9 @@ DolphinMainWindow::DolphinMainWindow() :
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     m_fileItemActions.setParentWidget(this);
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 82, 0)
     connect(&m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
         showErrorMessage(errorMessage);
     });
-#endif
 }
 
 DolphinMainWindow::~DolphinMainWindow()

@@ -22,11 +22,7 @@ Trash::Trash()
     // The trash icon must always be updated dependent on whether
     // the trash is empty or not. We use a KDirLister that automatically
     // watches for changes if the number of items has been changed.
-#if KIO_VERSION < QT_VERSION_CHECK(5, 82, 0)
-    m_trashDirLister->setAutoErrorHandlingEnabled(false, nullptr);
-#else
     m_trashDirLister->setAutoErrorHandlingEnabled(false);
-#endif
     m_trashDirLister->setDelayedMimeTypes(true);
     auto trashDirContentChanged = [this]() {
         bool isTrashEmpty = m_trashDirLister->items().isEmpty();
