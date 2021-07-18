@@ -51,6 +51,9 @@ public:
     void setSystemItem(bool isSystemItem);
     bool isSystemItem() const;
 
+    void setCapacityBarRecommended(bool recommended);
+    bool isCapacityBarRecommended() const;
+
     Solid::Device device() const;
 
     void setBookmark(const KBookmark& bookmark);
@@ -96,6 +99,7 @@ private:
     QPointer<Solid::PortableMediaPlayer> m_player;
     QPointer<PlacesItemSignalHandler> m_signalHandler;
     KBookmark m_bookmark;
+    bool m_capacityBarRecommended = false;
 
     friend class PlacesItemSignalHandler; // Calls onAccessibilityChanged()
 };

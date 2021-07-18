@@ -445,6 +445,7 @@ void PlacesItemModel::updateItem(PlacesItem *item, const QModelIndex &index)
     item->setGroup(index.data(KFilePlacesModel::GroupRole).toString());
     item->setIcon(index.data(KFilePlacesModel::IconNameRole).toString());
     item->setGroupHidden(index.data(KFilePlacesModel::GroupHiddenRole).toBool());
+    item->setCapacityBarRecommended(index.data(KFilePlacesModel::CapacityBarRecommendedRole).toBool());
 }
 
 void PlacesItemModel::slotStorageTearDownDone(Solid::ErrorType error, const QVariant& errorData)

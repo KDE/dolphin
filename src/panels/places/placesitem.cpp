@@ -108,6 +108,16 @@ bool PlacesItem::isSystemItem() const
     return dataValue("isSystemItem").toBool();
 }
 
+void PlacesItem::setCapacityBarRecommended(bool recommended)
+{
+    setDataValue("isCapacityBarRecommended", recommended);
+}
+
+bool PlacesItem::isCapacityBarRecommended() const
+{
+    return dataValue("isCapacityBarRecommended").toBool();
+}
+
 Solid::Device PlacesItem::device() const
 {
     return m_device;

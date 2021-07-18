@@ -41,18 +41,11 @@ QPalette::ColorRole PlacesItemListWidget::normalTextColorRole() const
 
 void PlacesItemListWidget::updateCapacityBar()
 {
-    const QString udi = data().value("udi").toString();
-    if (udi.isEmpty()) {
+    if (!data().value("isCapacityBarRecommended").toBool()) {
         resetCapacityBar();
         return;
     }
-    const Solid::Device device = Solid::Device(udi);
-    if (device.isDeviceInterface(Solid::DeviceInterface::NetworkShare)
-            || device.isDeviceInterface(Solid::DeviceInterface::OpticalDrive)
-            || device.isDeviceInterface(Solid::DeviceInterface::OpticalDisc)) {
-        resetCapacityBar();
-        return;
-    }
+
     const QUrl url = data().value("url").toUrl();
 
     if (url.isEmpty() || m_freeSpaceInfo.job || !m_freeSpaceInfo.lastUpdated.hasExpired()) {
