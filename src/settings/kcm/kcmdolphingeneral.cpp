@@ -17,7 +17,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-K_PLUGIN_FACTORY(KCMDolphinGeneralConfigFactory, registerPlugin<DolphinGeneralConfigModule>(QStringLiteral("dolphingeneral"));)
+K_PLUGIN_FACTORY(KCMDolphinGeneralConfigFactory, registerPlugin<DolphinGeneralConfigModule>();)
 
 DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget *parent, const QVariantList &args) :
     KCModule(parent, args),

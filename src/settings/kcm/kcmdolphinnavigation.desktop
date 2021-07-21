@@ -106,7 +106,6 @@ Type=Service
 X-KDE-ServiceTypes=KCModule
 
 X-KDE-Library=kcm_dolphinnavigation
-X-KDE-PluginKeyword=dolphinnavigation
 X-DocPath=dolphin/configuring-dolphin.html#preferences-dialog-navigation
 Name=Navigation
 Name[ar]=التّنقّل

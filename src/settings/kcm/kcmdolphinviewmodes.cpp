@@ -17,7 +17,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>(QStringLiteral("dolphinviewmodes"));)
+K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>();)
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget *parent, const QVariantList &args) :
     KCModule(parent, args),

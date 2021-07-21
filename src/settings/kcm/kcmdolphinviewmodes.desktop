@@ -104,7 +104,6 @@ Type=Service
 X-KDE-ServiceTypes=KCModule
 
 X-KDE-Library=kcm_dolphinviewmodes
-X-KDE-PluginKeyword=dolphinviewmodes
 X-DocPath=dolphin/configuring-dolphin.html#preferences-dialog-viewmodes
 Name=View Modes
 Name[ar]=أوضاع المنظور
