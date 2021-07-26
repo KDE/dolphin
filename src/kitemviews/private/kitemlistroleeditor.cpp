@@ -90,6 +90,7 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
             event->accept();
             return;
         }
+        break;
     case Qt::Key_Backtab:
     case Qt::Key_Up:
         if (m_allowUpDownKeyChainEdit || event->key() == Qt::Key_Backtab) {
@@ -97,6 +98,7 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
             event->accept();
             return;
         }
+        break;
     case Qt::Key_Left:
     case Qt::Key_Right: {
         QTextCursor cursor = textCursor();
