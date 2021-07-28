@@ -204,10 +204,6 @@ int main(int argc, char **argv)
                 if (startedWithURLs) {
                     mainWindow->openDirectories(urls, splitView);
                 }
-
-                // Now handle invalid locations in the set of active views to
-                // avoid issues like https://bugs.kde.org/show_bug.cgi?id=427619
-                mainWindow->setViewsWithInvalidPathsToHome();
             } else {
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
             }
