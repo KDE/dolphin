@@ -202,7 +202,11 @@ int main(int argc, char **argv)
                 // If the user passed any URLs to Dolphin, open those in the
                 // window after session-restoring it
                 if (startedWithURLs) {
-                    mainWindow->openDirectories(urls, splitView);
+                    if (openFiles) {
+                        mainWindow->openFiles(urls, splitView);
+                    } else {
+                        mainWindow->openDirectories(urls, splitView);
+                    }
                 }
             } else {
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
