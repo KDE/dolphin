@@ -47,6 +47,7 @@ DolphinNavigatorsWidgetAction::DolphinNavigatorsWidgetAction(QWidget *parent) :
 
 void DolphinNavigatorsWidgetAction::adjustSpacing()
 {
+    m_previousWindowWidth = parentWidget()->window()->width();
     auto viewGeometries = m_viewGeometriesHelper.viewGeometries();
     const int widthOfSplitterPrimary = viewGeometries.globalXOfPrimary + viewGeometries.widthOfPrimary - viewGeometries.globalXOfNavigatorsWidget;
     const QList<int> splitterSizes = {widthOfSplitterPrimary,
@@ -310,7 +311,17 @@ DolphinNavigatorsWidgetAction::ViewGeometriesHelper::ViewGeometriesHelper
 bool DolphinNavigatorsWidgetAction::ViewGeometriesHelper::eventFilter(QObject *watched, QEvent *event)
 {
     if (event->type() == QEvent::Resize) {
-        m_navigatorsWidgetAction->adjustSpacing();
+        if (m_navigatorsWidgetAction->parentWidget()->window()->width() != m_navigatorsWidgetAction->m_previousWindowWidth) {
+            // The window is being resized which means not all widgets have gotten their new sizes yet.
+            // Let's wait a bit so the sizes of the navigatorsWidget and the viewContainers have all
+            // had a chance to be updated.
+            m_navigatorsWidgetAction->m_adjustSpacingTimer->start();
+        } else {
+            m_navigatorsWidgetAction->adjustSpacing();
+            // We could always use the m_adjustSpacingTimer instead of calling adjustSpacing() directly
+            // here but then the navigatorsWidget doesn't fluently align with the viewContainers when
+            // the DolphinTabPage::m_expandViewAnimation is animating.
+        }
         return false;
     }
     return QObject::eventFilter(watched, event);
