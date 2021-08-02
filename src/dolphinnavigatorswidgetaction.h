@@ -216,6 +216,12 @@ private:
     };
 
     ViewGeometriesHelper m_viewGeometriesHelper;
+
+    /**
+     * Used to check if the window has been resized.
+     * @see ViewGeometriesHelper::eventFilter() for why this is needed.
+     */
+    int m_previousWindowWidth = -1;
 };
 
 #endif // DOLPHINNAVIGATORSWIDGETACTION_H

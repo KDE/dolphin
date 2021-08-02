@@ -105,12 +105,6 @@ public:
      */
     void setViewsToHomeIfMountPathOpen(const QString& mountPath);
 
-    /**
-     * Sets any of the window's view containers which are currently displaying
-     * invalid locations to the home path
-     */
-    void setViewsWithInvalidPathsToHome();
-
     bool isFoldersPanelEnabled() const;
     bool isInformationPanelEnabled() const;
 

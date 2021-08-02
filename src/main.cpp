@@ -210,12 +210,12 @@ int main(int argc, char **argv)
                 // If the user passed any URLs to Dolphin, open those in the
                 // window after session-restoring it
                 if (startedWithURLs) {
-                    mainWindow->openDirectories(urls, splitView);
+                    if (openFiles) {
+                        mainWindow->openFiles(urls, splitView);
+                    } else {
+                        mainWindow->openDirectories(urls, splitView);
+                    }
                 }
-
-                // Now handle invalid locations in the set of active views to
-                // avoid issues like https://bugs.kde.org/show_bug.cgi?id=427619
-                mainWindow->setViewsWithInvalidPathsToHome();
             } else {
                 qCWarning(DolphinDebug) << "Unknown class " << className << " in session saved data!";
             }
