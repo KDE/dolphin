@@ -60,9 +60,14 @@ Q_SIGNALS:
      */
     void focusViewRequest();
 
+    void hidden();
+    void shown();
+
 protected:
     void showEvent(QShowEvent* event) override;
+    void hideEvent(QHideEvent* event) override;
     void keyReleaseEvent(QKeyEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
 
 private:
     QLineEdit* m_filterInput;

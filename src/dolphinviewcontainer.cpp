@@ -178,6 +178,15 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(m_statusBar, &DolphinStatusBar::zoomLevelChanged,
             this, &DolphinViewContainer::slotStatusBarZoomLevelChanged);
 
+    connect(m_filterBar, &FilterBar::shown, this, [this] {
+        m_statusBar->setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::RightEdge));
+        m_statusBar->update();
+    });
+    connect(m_filterBar, &FilterBar::hidden, this, [this] {
+        m_statusBar->setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::TopEdge | Qt::RightEdge));
+        m_statusBar->update();
+    });
+
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
     m_statusBarTimer->setInterval(300);

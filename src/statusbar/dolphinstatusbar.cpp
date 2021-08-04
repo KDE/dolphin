@@ -24,6 +24,9 @@
 #include <QTextDocument>
 #include <QTimer>
 #include <QToolButton>
+#include <QStylePainter>
+#include <QStyle>
+#include <QStyleOptionFrame>
 
 namespace {
     const int UpdateDelay = 50;
@@ -124,6 +127,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     topLayout->addWidget(m_progressTextLabel);
     topLayout->addWidget(m_progressBar);
 
+    setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::TopEdge | Qt::RightEdge));
+    setContentsMargins(4, 0, 4, 0);
+
     setVisible(GeneralSettings::showStatusBar());
     setExtensionsVisible(true);
     setWhatsThis(xi18nc("@info:whatsthis Statusbar", "<para>This is "
@@ -139,6 +145,21 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
 
 DolphinStatusBar::~DolphinStatusBar()
 {
+}
+
+void DolphinStatusBar::paintEvent(QPaintEvent* event)
+{
+    Q_UNUSED(event)
+
+    QStylePainter painter(this);
+
+    QStyleOptionFrame option;
+    option.initFrom(this);
+    option.rect = rect();
+    option.state = QStyle::State_Sunken;
+    option.palette.setBrush(QPalette::Base, option.palette.brush(QPalette::Window));
+
+    painter.style()->drawPrimitive(QStyle::PE_Frame, &option, &painter, this);
 }
 
 void DolphinStatusBar::setText(const QString& text)

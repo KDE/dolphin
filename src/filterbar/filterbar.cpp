@@ -15,6 +15,8 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QToolButton>
+#include <QStylePainter>
+#include <QStyleOption>
 
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
@@ -27,6 +29,8 @@ FilterBar::FilterBar(QWidget* parent) :
     m_lockButton->setToolTip(i18nc("@info:tooltip", "Keep Filter When Changing Folders"));
     connect(m_lockButton, &QToolButton::toggled, this, &FilterBar::slotToggleLockButton);
 
+    setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::TopEdge | Qt::RightEdge));
+    setContentsMargins(0, 4, 0, 4);
 
     // Create filter editor
     m_filterInput = new QLineEdit(this);
@@ -97,6 +101,8 @@ void FilterBar::showEvent(QShowEvent* event)
     if (!event->spontaneous()) {
         m_filterInput->setFocus();
     }
+
+    Q_EMIT shown();
 }
 
 void FilterBar::keyReleaseEvent(QKeyEvent* event)
@@ -122,3 +128,24 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
     }
 }
 
+void FilterBar::paintEvent(QPaintEvent* event)
+{
+    Q_UNUSED(event)
+
+    QStylePainter painter(this);
+
+    QStyleOptionFrame option;
+    option.initFrom(this);
+    option.rect = rect();
+    option.state = QStyle::State_Sunken;
+    option.palette.setBrush(QPalette::Base, option.palette.brush(QPalette::Window));
+
+    painter.style()->drawPrimitive(QStyle::PE_Frame, &option, &painter, this);
+}
+
+void FilterBar::hideEvent(QHideEvent* event)
+{
+    Q_UNUSED(event)
+
+    Q_EMIT hidden();
+}
