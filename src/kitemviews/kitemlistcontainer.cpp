@@ -61,6 +61,8 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
     Q_ASSERT(controller);
     controller->setParent(this);
 
+    setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::RightEdge));
+
     QGraphicsView* graphicsView = new KItemListContainerViewport(new QGraphicsScene(this), this);
     setViewport(graphicsView);
 
