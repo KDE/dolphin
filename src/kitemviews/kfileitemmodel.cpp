@@ -34,7 +34,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(nullptr),
     m_sortDirsFirst(true),
-    m_sortHiddenLast(true),
+    m_sortHiddenLast(false),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
