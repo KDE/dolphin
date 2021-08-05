@@ -80,12 +80,6 @@ public:
     void setSortDirectoriesFirst(bool dirsFirst);
     bool sortDirectoriesFirst() const;
 
-    /**
-     * Sets a separate sorting with hidden files and folders last (true) or not (false).
-     */
-    void setSortHiddenLast(bool hiddenLast);
-    bool sortHiddenLast() const;
-
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
@@ -469,7 +463,6 @@ private:
     QCollator m_collator;
     bool m_naturalSorting;
     bool m_sortDirsFirst;
-    bool m_sortHiddenLast;
 
     RoleType m_sortRole;
     int m_sortingProgressPercent; // Value of directorySortingProgress() signal
