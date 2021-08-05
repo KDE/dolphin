@@ -34,6 +34,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(nullptr),
     m_sortDirsFirst(true),
+    m_sortHiddenLast(false),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
@@ -205,6 +206,19 @@ void KFileItemModel::setSortDirectoriesFirst(bool dirsFirst)
 bool KFileItemModel::sortDirectoriesFirst() const
 {
     return m_sortDirsFirst;
+}
+
+void KFileItemModel::setSortHiddenLast(bool hiddenLast)
+{
+    if (hiddenLast != m_sortHiddenLast) {
+        m_sortHiddenLast = hiddenLast;
+        resortAllItems();
+    }
+}
+
+bool KFileItemModel::sortHiddenLast() const
+{
+    return m_sortHiddenLast;
 }
 
 void KFileItemModel::setShowHiddenFiles(bool show)
@@ -1729,12 +1743,14 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
     }
 
     // Show hidden files and folders last
-    const bool isHiddenA = a->item.isHidden();
-    const bool isHiddenB = b->item.isHidden();
-    if (isHiddenA && !isHiddenB) {
-        return false;
-    } else if (!isHiddenA && isHiddenB) {
-        return true;
+    if (m_sortHiddenLast) {
+        const bool isHiddenA = a->item.isHidden();
+        const bool isHiddenB = b->item.isHidden();
+        if (isHiddenA && !isHiddenB) {
+            return false;
+        } else if (!isHiddenA && isHiddenB) {
+            return true;
+        }
     }
 
     if (m_sortDirsFirst || (DetailsModeSettings::directorySizeCount() && m_sortRole == SizeRole)) {

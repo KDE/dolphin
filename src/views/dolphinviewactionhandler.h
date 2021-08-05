@@ -137,6 +137,16 @@ private Q_SLOTS:
     void slotSortFoldersFirstChanged(bool foldersFirst);
 
     /**
+     * Switches between showing hidden files last or not.
+     */
+    void toggleSortHiddenLast();
+
+    /**
+     * Updates the state of the 'Sort Hidden Last' action.
+     */
+    void slotSortHiddenLastChanged(bool hiddenLast);
+
+    /**
      * Updates the state of the 'Sort by' actions.
      */
     void slotSortRoleChanged(const QByteArray& role);
