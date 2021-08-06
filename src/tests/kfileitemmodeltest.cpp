@@ -812,19 +812,6 @@ void KFileItemModelTest::testRemoveFilteredExpandedItems()
 
 void KFileItemModelTest::testSorting()
 {
-    // testDir structure is as follows
-    // ./
-    // ├─ a
-    // ├─ b
-    // ├─ c/
-    // │  ├─ c-2/
-    // │  │  ├─ c-3
-    // │  ├─ c-1
-    // ├─ d
-    // ├─ e
-    // ├─ .f
-    // ├─ .g/
-
     QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
     QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
     QVERIFY(itemsMovedSpy.isValid());
@@ -849,27 +836,17 @@ void KFileItemModelTest::testSorting()
     m_testDir->createFile("d", "The largest file in this directory", now.addDays(-1));
     m_testDir->createFile("e", "An even larger file", now.addDays(-4));
     m_testDir->createFile(".f");
-    m_testDir->createDir(".g");
 
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInsertedSpy.count(), 1);
-    KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 5));
 
     int index = m_model->index(QUrl(m_testDir->url().url() + "/c"));
     m_model->setExpanded(index, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInsertedSpy.count(), 1);
-    itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 2));
 
     index = m_model->index(QUrl(m_testDir->url().url() + "/c/c-2"));
     m_model->setExpanded(index, true);
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInsertedSpy.count(), 1);
-    itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(2, 1));
 
     // Default: Sort by Name, ascending
     QCOMPARE(m_model->sortRole(), QByteArray("text"));
@@ -965,36 +942,7 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
     QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
 
-    // 'Show Hidden Files' enabled
-    m_model->setShowHiddenFiles(true);
-    QVERIFY(m_model->showHiddenFiles());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "d" << "e" << "b" << "a" << ".g" << ".f");
-    QCOMPARE(itemsMovedSpy.count(), 0);
-    QCOMPARE(itemsInsertedSpy.count(), 1);
-    QCOMPARE(itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>(), KItemRangeList() << KItemRange(8, 2));
-
-    // Sort by Name
-    m_model->setSortRole("text");
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "e" << "d" << "b" << "a" << ".g" << ".f");
-    QCOMPARE(itemsMovedSpy.count(), 1);
-    QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 2));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 5 << 4);
-
-    // Sort ascending
-    m_model->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "c-2" << "c-3" << "c-1" << "a" << "b" << "d" << "e" << ".g" << ".f");
-    QCOMPARE(itemsMovedSpy.count(), 1);
-    QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(4, 4));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 7 << 6 << 5 << 4);
-
-    // 'Sort Folders First' disabled
-    m_model->setSortDirectoriesFirst(false);
-    QVERIFY(!m_model->sortDirectoriesFirst());
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "c-1" << "c-2" << "c-3" << "d" << "e" << ".f" << ".g");
-    QCOMPARE(itemsMovedSpy.count(), 1);
-    QCOMPARE(itemsMovedSpy.first().at(0).value<KItemRange>(), KItemRange(0, 10));
-    QCOMPARE(itemsMovedSpy.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 4 << 5 << 3 << 0 << 1 << 6 << 7 << 9 << 8);
-
+    // TODO: Sort by other roles; show/hide hidden files
 }
 
 void KFileItemModelTest::testIndexForKeyboardSearch()
@@ -1151,7 +1099,7 @@ void KFileItemModelTest::testRemoveHiddenItems()
     m_model->setShowHiddenFiles(true);
     m_model->loadDirectory(m_testDir->url());
     QVERIFY(itemsInsertedSpy.wait());
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "h" << "i" << ".a" << ".b" <<".f" << ".g");
+    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsRemovedSpy.count(), 0);
     KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
@@ -1162,14 +1110,14 @@ void KFileItemModelTest::testRemoveHiddenItems()
     QCOMPARE(itemsInsertedSpy.count(), 0);
     QCOMPARE(itemsRemovedSpy.count(), 1);
     itemRangeList = itemsRemovedSpy.takeFirst().at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(4, 4));
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 2) << KItemRange(4, 2));
 
     m_model->setShowHiddenFiles(true);
-    QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "h" << "i" << ".a" << ".b" <<".f" << ".g");
+    QCOMPARE(itemsInModel(), QStringList() << ".a" << ".b" << "c" << "d" <<".f" << ".g" << "h" << "i");
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsRemovedSpy.count(), 0);
     itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(4, 4));
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 2) << KItemRange(2, 2));
 
     m_model->clear();
     QCOMPARE(itemsInModel(), QStringList());
