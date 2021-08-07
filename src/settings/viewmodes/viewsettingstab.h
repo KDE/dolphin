@@ -7,8 +7,6 @@
 #ifndef VIEWSETTINGSTAB_H
 #define VIEWSETTINGSTAB_H
 
-#include "settings/viewmodes/viewmodesettings.h"
-
 #include <QWidget>
 
 class DolphinFontRequester;
@@ -49,8 +47,6 @@ private Q_SLOTS:
 private:
     void loadSettings();
     void showToolTip(QSlider* slider, int value);
-
-    ViewModeSettings::ViewMode viewMode() const;
 
 private:
     Mode m_mode;

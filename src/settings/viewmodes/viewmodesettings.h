@@ -7,7 +7,17 @@
 #ifndef VIEWMODESETTINGS_H
 #define VIEWMODESETTINGS_H
 
+#include "kitemviews/kstandarditemlistview.h"
+#include "viewsettingstab.h"
+#include "views/dolphinview.h"
+
 #include <QString>
+
+#include <variant>
+
+class CompactModeSettings;
+class DetailsModeSettings;
+class IconsModeSettings;
 
 /**
  * @short Helper class for accessing similar properties of IconsModeSettings,
@@ -16,26 +26,20 @@
 class ViewModeSettings
 {
 public:
-    enum ViewMode
-    {
-        IconsMode,
-        CompactMode,
-        DetailsMode
-    };
+    explicit ViewModeSettings(DolphinView::Mode mode);
+    explicit ViewModeSettings(ViewSettingsTab::Mode mode);
+    explicit ViewModeSettings(KStandardItemListView::ItemLayout itemLayout);
 
-    explicit ViewModeSettings(ViewMode mode);
-    virtual ~ViewModeSettings();
-
-    void setIconSize(int size) const;
+    void setIconSize(int iconSize);
     int iconSize() const;
 
-    void setPreviewSize(int size) const;
+    void setPreviewSize(int previewSize);
     int previewSize() const;
 
-    void setUseSystemFont(bool flag);
+    void setUseSystemFont(bool useSystemFont);
     bool useSystemFont() const;
 
-    void setFontFamily(const QString& fontFamily);
+    void setFontFamily(const QString &fontFamily);
     QString fontFamily() const;
 
     void setFontSize(qreal fontSize);
@@ -47,11 +51,13 @@ public:
     void setFontWeight(int fontWeight);
     int fontWeight() const;
 
+    void useDefaults(bool useDefaults);
+
     void readConfig();
     void save();
 
 private:
-    ViewMode m_mode;
+    std::variant<IconsModeSettings *, CompactModeSettings *, DetailsModeSettings *> m_viewModeSettingsVariant;
 };
 
 #endif

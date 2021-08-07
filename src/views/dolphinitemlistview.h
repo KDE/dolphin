@@ -9,7 +9,6 @@
 
 #include "dolphin_export.h"
 #include "kitemviews/kfileitemlistview.h"
-#include "settings/viewmodes/viewmodesettings.h"
 
 class KFileItemListView;
 
@@ -46,8 +45,6 @@ protected:
 
 private:
     void updateGridSize();
-
-    ViewModeSettings::ViewMode viewMode() const;
 
 private:
     int m_zoomLevel;

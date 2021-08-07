@@ -7,9 +7,6 @@
 
 #include "dolphinview.h"
 
-#include "dolphin_compactmodesettings.h"
-#include "dolphin_detailsmodesettings.h"
-#include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinitemlistview.h"
 #include "dolphinnewfilemenuobserver.h"
@@ -21,6 +18,7 @@
 #include "kitemviews/kitemlistheader.h"
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/private/kitemlistroleeditor.h"
+#include "settings/viewmodes/viewmodesettings.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -1532,28 +1530,10 @@ QUrl DolphinView::openItemAsFolderUrl(const KFileItem& item, const bool browseTh
 
 void DolphinView::resetZoomLevel()
 {
-    // TODO : Switch to using ViewModeSettings after MR #256 is merged
-    int defaultIconSize = KIconLoader::SizeSmall;
-    switch (m_mode) {
-    case IconsView:
-        IconsModeSettings::self()->useDefaults(true);
-        defaultIconSize = IconsModeSettings::iconSize();
-        IconsModeSettings::self()->useDefaults(false);
-        break;
-    case DetailsView:
-        DetailsModeSettings::self()->useDefaults(true);
-        defaultIconSize = DetailsModeSettings::iconSize();
-        DetailsModeSettings::self()->useDefaults(false);
-        break;
-    case CompactView:
-        CompactModeSettings::self()->useDefaults(true);
-        defaultIconSize = CompactModeSettings::iconSize();
-        CompactModeSettings::self()->useDefaults(false);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
-    }
+    ViewModeSettings settings{m_mode};
+    settings.useDefaults(true);
+    const int defaultIconSize = settings.iconSize();
+    settings.useDefaults(false);
 
     setZoomLevel(ZoomLevelInfo::zoomLevelForIconSize(QSize(defaultIconSize, defaultIconSize)));
 }

@@ -11,6 +11,7 @@
 #include "dolphin_iconsmodesettings.h"
 #include "dolphinfontrequester.h"
 #include "global.h"
+#include "settings/viewmodes/viewmodesettings.h"
 #include "views/zoomlevelinfo.h"
 
 #include <KLocalizedString>
@@ -206,7 +207,7 @@ void ViewSettingsTab::applySettings()
         break;
     }
 
-    ViewModeSettings settings(viewMode());
+    ViewModeSettings settings(m_mode);
 
     const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_defaultSizeSlider->value());
     const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_previewSizeSlider->value());
@@ -224,17 +225,10 @@ void ViewSettingsTab::applySettings()
 
 void ViewSettingsTab::restoreDefaultSettings()
 {
-    KConfigSkeleton* settings = nullptr;
-    switch (m_mode) {
-    case IconsMode:   settings = IconsModeSettings::self(); break;
-    case CompactMode: settings = CompactModeSettings::self(); break;
-    case DetailsMode: settings = DetailsModeSettings::self(); break;
-    default: Q_ASSERT(false); break;
-    }
-
-    settings->useDefaults(true);
+    ViewModeSettings settings(m_mode);
+    settings.useDefaults(true);
     loadSettings();
-    settings->useDefaults(false);
+    settings.useDefaults(false);
 }
 
 void ViewSettingsTab::loadSettings()
@@ -266,7 +260,7 @@ void ViewSettingsTab::loadSettings()
         break;
     }
 
-    const ViewModeSettings settings(viewMode());
+    const ViewModeSettings settings(m_mode);
 
     const QSize iconSize(settings.iconSize(), settings.iconSize());
     m_defaultSizeSlider->setValue(ZoomLevelInfo::zoomLevelForIconSize(iconSize));
@@ -284,23 +278,6 @@ void ViewSettingsTab::loadSettings()
     font.setPointSizeF(settings.fontSize());
     m_fontRequester->setCustomFont(font);
 }
-
-ViewModeSettings::ViewMode ViewSettingsTab::viewMode() const
-{
-    ViewModeSettings::ViewMode mode;
-
-    switch (m_mode) {
-    case ViewSettingsTab::IconsMode:   mode = ViewModeSettings::IconsMode; break;
-    case ViewSettingsTab::CompactMode: mode = ViewModeSettings::CompactMode; break;
-    case ViewSettingsTab::DetailsMode: mode = ViewModeSettings::DetailsMode; break;
-    default:                           mode = ViewModeSettings::IconsMode;
-                                       Q_ASSERT(false);
-                                       break;
-    }
-
-    return mode;
-}
-
 
 void ViewSettingsTab::slotDefaultSliderMoved(int value)
 {

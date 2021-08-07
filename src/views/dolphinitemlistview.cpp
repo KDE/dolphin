@@ -13,6 +13,7 @@
 #include "dolphinfileitemlistwidget.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontroller.h"
+#include "settings/viewmodes/viewmodesettings.h"
 #include "views/viewmodecontroller.h"
 #include "zoomlevelinfo.h"
 
@@ -47,7 +48,7 @@ void DolphinItemListView::setZoomLevel(int level)
 
     m_zoomLevel = level;
 
-    ViewModeSettings settings(viewMode());
+    ViewModeSettings settings(itemLayout());
     if (previewsShown()) {
         const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
         settings.setPreviewSize(previewSize);
@@ -66,7 +67,7 @@ int DolphinItemListView::zoomLevel() const
 
 void DolphinItemListView::readSettings()
 {
-    ViewModeSettings settings(viewMode());
+    ViewModeSettings settings(itemLayout());
     settings.readConfig();
 
     beginTransaction();
@@ -125,7 +126,7 @@ void DolphinItemListView::onVisibleRolesChanged(const QList<QByteArray>& current
 
 void DolphinItemListView::updateFont()
 {
-    const ViewModeSettings settings(viewMode());
+    const ViewModeSettings settings(itemLayout());
 
     if (settings.useSystemFont()) {
         KItemListView::updateFont();
@@ -145,7 +146,7 @@ void DolphinItemListView::updateFont()
 
 void DolphinItemListView::updateGridSize()
 {
-    const ViewModeSettings settings(viewMode());
+    const ViewModeSettings settings(itemLayout());
 
     // Calculate the size of the icon
     const int iconSize = previewsShown() ? settings.previewSize() : settings.iconSize();
@@ -221,20 +222,3 @@ void DolphinItemListView::updateGridSize()
     setItemSize(QSizeF(itemWidth, itemHeight));
     endTransaction();
 }
-
-ViewModeSettings::ViewMode DolphinItemListView::viewMode() const
-{
-    ViewModeSettings::ViewMode mode;
-
-    switch (itemLayout()) {
-    case KFileItemListView::IconsLayout:   mode = ViewModeSettings::IconsMode; break;
-    case KFileItemListView::CompactLayout: mode = ViewModeSettings::CompactMode; break;
-    case KFileItemListView::DetailsLayout: mode = ViewModeSettings::DetailsMode; break;
-    default:                               mode = ViewModeSettings::IconsMode;
-                                           Q_ASSERT(false);
-                                           break;
-    }
-
-    return mode;
-}
-

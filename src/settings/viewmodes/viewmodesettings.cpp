@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2011 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2021 Felix Ernst <fe.a.ernst@gmail.com>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -10,121 +11,154 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_iconsmodesettings.h"
 
-#define VIEWMODESETTINGS_SET_VALUE(mode, setValue, value) \
-    switch (mode) { \
-    case ViewModeSettings::IconsMode:   IconsModeSettings::setValue(value); break; \
-    case ViewModeSettings::CompactMode: CompactModeSettings::setValue(value); break; \
-    case ViewModeSettings::DetailsMode: DetailsModeSettings::setValue(value); break; \
-    default: Q_ASSERT(false); break; \
+ViewModeSettings::ViewModeSettings(DolphinView::Mode mode)
+{
+    switch (mode) {
+    case DolphinView::IconsView:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;
+    case DolphinView::CompactView:  m_viewModeSettingsVariant = CompactModeSettings::self(); return;
+    case DolphinView::DetailsView:  m_viewModeSettingsVariant = DetailsModeSettings::self(); return;
+    default:
+        Q_UNREACHABLE();
     }
-
-#define VIEWMODESETTINGS_RETURN_VALUE(mode, getValue, type) \
-    type value; \
-    switch (m_mode) { \
-    case IconsMode:   value = IconsModeSettings::getValue(); break; \
-    case CompactMode: value = CompactModeSettings::getValue(); break; \
-    case DetailsMode: value = DetailsModeSettings::getValue(); break; \
-    default:          value = IconsModeSettings::getValue(); \
-                      Q_ASSERT(false); \
-                      break; \
-    } \
-    return value
-
-ViewModeSettings::ViewModeSettings(ViewMode mode) :
-    m_mode(mode)
-{
 }
 
-ViewModeSettings::~ViewModeSettings()
+ViewModeSettings::ViewModeSettings(ViewSettingsTab::Mode mode)
 {
+    switch (mode) {
+    case ViewSettingsTab::IconsMode:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;
+    case ViewSettingsTab::CompactMode:  m_viewModeSettingsVariant = CompactModeSettings::self(); return;
+    case ViewSettingsTab::DetailsMode:  m_viewModeSettingsVariant = DetailsModeSettings::self(); return;
+    default:
+        Q_UNREACHABLE();
+    }
 }
 
-void ViewModeSettings::setIconSize(int size) const
+ViewModeSettings::ViewModeSettings(KStandardItemListView::ItemLayout itemLayout)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setIconSize, size);
+    switch (itemLayout) {
+    case KStandardItemListView::IconsLayout:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;
+    case KStandardItemListView::CompactLayout:  m_viewModeSettingsVariant = CompactModeSettings::self(); return;
+    case KStandardItemListView::DetailsLayout:  m_viewModeSettingsVariant = DetailsModeSettings::self(); return;
+    default:
+        Q_UNREACHABLE();
+    }
+}
+
+void ViewModeSettings::setIconSize(int iconSize)
+{
+    std::visit([iconSize](auto &&v) {
+        v->setIconSize(iconSize);
+    }, m_viewModeSettingsVariant);
 }
 
 int ViewModeSettings::iconSize() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, iconSize, int);
+    return std::visit([](auto &&v) {
+        return v->iconSize();
+    }, m_viewModeSettingsVariant);
 }
 
-void ViewModeSettings::setPreviewSize(int size) const
+void ViewModeSettings::setPreviewSize(int previewSize)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setPreviewSize, size);
+    std::visit([previewSize](auto &&v) {
+        v->setPreviewSize(previewSize);
+    }, m_viewModeSettingsVariant);
 }
 
 int ViewModeSettings::previewSize() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, previewSize, int);
+    return std::visit([](auto &&v) {
+        return v->previewSize();
+    }, m_viewModeSettingsVariant);
 }
 
-void ViewModeSettings::setUseSystemFont(bool flag)
+void ViewModeSettings::setUseSystemFont(bool useSystemFont)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setUseSystemFont, flag);
+    std::visit([useSystemFont](auto &&v) {
+        v->setUseSystemFont(useSystemFont);
+    }, m_viewModeSettingsVariant);
 }
 
 bool ViewModeSettings::useSystemFont() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, useSystemFont, bool);
+    return std::visit([](auto &&v) {
+        return v->useSystemFont();
+    }, m_viewModeSettingsVariant);
 }
 
-void ViewModeSettings::setFontFamily(const QString& fontFamily)
+void ViewModeSettings::setFontFamily(const QString &fontFamily)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setFontFamily, fontFamily);
+    std::visit([&fontFamily](auto &&v) {
+        v->setFontFamily(fontFamily);
+    }, m_viewModeSettingsVariant);
 }
 
 QString ViewModeSettings::fontFamily() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, fontFamily, QString);
+    return std::visit([](auto &&v) {
+        return v->fontFamily();
+    }, m_viewModeSettingsVariant);
 }
 
 void ViewModeSettings::setFontSize(qreal fontSize)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setFontSize, fontSize);
+    std::visit([fontSize](auto &&v) {
+        v->setFontSize(fontSize);
+    }, m_viewModeSettingsVariant);
 }
 
 qreal ViewModeSettings::fontSize() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, fontSize, qreal);
+    return std::visit([](auto &&v) {
+        return v->fontSize();
+    }, m_viewModeSettingsVariant);
 }
 
 void ViewModeSettings::setItalicFont(bool italic)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setItalicFont, italic);
+    std::visit([italic](auto &&v) {
+        v->setItalicFont(italic);
+    }, m_viewModeSettingsVariant);
 }
 
 bool ViewModeSettings::italicFont() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, italicFont, bool);
+    return std::visit([](auto &&v) {
+        return v->italicFont();
+    }, m_viewModeSettingsVariant);
 }
 
 void ViewModeSettings::setFontWeight(int fontWeight)
 {
-    VIEWMODESETTINGS_SET_VALUE(m_mode, setFontWeight, fontWeight);
+    std::visit([fontWeight](auto &&v) {
+        v->setFontWeight(fontWeight);
+    }, m_viewModeSettingsVariant);
 }
 
 int ViewModeSettings::fontWeight() const
 {
-    VIEWMODESETTINGS_RETURN_VALUE(m_mode, fontWeight, int);
+    return std::visit([](auto &&v) {
+        return v->fontWeight();
+    }, m_viewModeSettingsVariant);
+}
+
+void ViewModeSettings::useDefaults(bool useDefaults)
+{
+    std::visit([useDefaults](auto &&v) {
+        v->useDefaults(useDefaults);
+    }, m_viewModeSettingsVariant);
 }
 
 void ViewModeSettings::readConfig()
 {
-    switch (m_mode) {
-    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->load(); break;
-    case ViewModeSettings::CompactMode: CompactModeSettings::self()->load(); break;
-    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->load(); break;
-    default: Q_ASSERT(false); break;
-    }
+    std::visit([](auto &&v) {
+        v->load();
+    }, m_viewModeSettingsVariant);
 }
 
 void ViewModeSettings::save()
 {
-    switch (m_mode) {
-    case ViewModeSettings::IconsMode:   IconsModeSettings::self()->save(); break;
-    case ViewModeSettings::CompactMode: CompactModeSettings::self()->save(); break;
-    case ViewModeSettings::DetailsMode: DetailsModeSettings::self()->save(); break;
-    default: Q_ASSERT(false); break;
-    }
+    std::visit([](auto &&v) {
+        return v->save();
+    }, m_viewModeSettingsVariant);
 }
