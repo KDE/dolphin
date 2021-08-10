@@ -1688,8 +1688,13 @@ void DolphinMainWindow::setupActions()
     m_helpMenu = new KHelpMenu(nullptr);
     m_helpMenu->menu()->installEventFilter(this);
     // remove duplicate shortcuts
-    m_helpMenu->action(KHelpMenu::menuHelpContents)->setShortcut(QKeySequence());
-    m_helpMenu->action(KHelpMenu::menuWhatsThis)->setShortcut(QKeySequence());
+    auto removeHelpActionShortcut = [this](KHelpMenu::MenuId menuId) {
+        if (auto *action = m_helpMenu->action(menuId)) {
+            action->setShortcut(QKeySequence());
+        }
+    };
+    removeHelpActionShortcut(KHelpMenu::menuHelpContents);
+    removeHelpActionShortcut(KHelpMenu::menuWhatsThis);
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
@@ -2285,6 +2290,18 @@ void DolphinMainWindow::setupWhatsThis()
     // StandardAction separately because both are used in different locations.
     // m_helpMenu is only used for createControlButton() button.
 
+    auto setStandardActionWhatsThis = [this](KStandardAction::StandardAction actionId,
+                                             const QString &whatsThis) {
+        if (auto *action = actionCollection()->action(KStandardAction::name(actionId))) {
+            action->setWhatsThis(whatsThis);
+        }
+    };
+    auto setHelpActionWhatsThis = [this](KHelpMenu::MenuId menuId, const QString &whatsThis) {
+        if (auto *action = m_helpMenu->action(menuId)) {
+            action->setWhatsThis(whatsThis);
+        }
+    };
+
     // Links do not work within the Menubar so texts without links are provided there.
 
     // i18n: If the external link isn't available in your language you should
@@ -2295,13 +2312,12 @@ void DolphinMainWindow::setupWhatsThis()
     const QString whatsThisHelpContents = xi18nc("@info:whatsthis handbook",
         "<para>This opens the Handbook for this application. It provides "
         "explanations for every part of <emphasis>Dolphin</emphasis>.</para>");
-    actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents))
-        ->setWhatsThis(whatsThisHelpContents
+    setStandardActionWhatsThis(KStandardAction::HelpContents, whatsThisHelpContents
         + xi18nc("@info:whatsthis second half of handbook hb text without link",
         "<para>If you want more elaborate introductions to the "
         "different features of <emphasis>Dolphin</emphasis> "
         "go to the KDE UserBase Wiki.</para>"));
-    m_helpMenu->action(KHelpMenu::menuHelpContents)->setWhatsThis(whatsThisHelpContents
+    setHelpActionWhatsThis(KHelpMenu::menuHelpContents, whatsThisHelpContents
         + xi18nc("@info:whatsthis second half of handbook text with link",
         "<para>If you want more elaborate introductions to the "
         "different features of <emphasis>Dolphin</emphasis> "
@@ -2313,8 +2329,7 @@ void DolphinMainWindow::setupWhatsThis()
         "using right now! Click it, then click any component of this "
         "application to ask \"What's this?\" about it. The mouse cursor "
         "will change appearance if no help is available for a spot.</para>");
-    actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis))
-       ->setWhatsThis(whatsThisWhatsThis
+    setStandardActionWhatsThis(KStandardAction::WhatsThis, whatsThisWhatsThis
         + xi18nc("@info:whatsthis second half of whatsthis button text without link",
         "<para>There are two other ways to get help for this application: The "
         "<interface>Dolphin Handbook</interface> in the <interface>Help"
@@ -2322,7 +2337,7 @@ void DolphinMainWindow::setupWhatsThis()
         "article about <emphasis>File Management</emphasis> online."
         "</para><para>The \"What's this?\" help is "
         "missing in most other windows so don't get too used to this.</para>"));
-    m_helpMenu->action(KHelpMenu::menuWhatsThis)->setWhatsThis(whatsThisWhatsThis
+    setHelpActionWhatsThis(KHelpMenu::menuWhatsThis, whatsThisWhatsThis
         + xi18nc("@info:whatsthis second half of whatsthis button text with link",
         "<para>There are two other ways to get help: "
         "The <link url='help:/dolphin/index.html'>Dolphin Handbook</link> and "
@@ -2333,9 +2348,8 @@ void DolphinMainWindow::setupWhatsThis()
     const QString whatsThisReportBug = xi18nc("@info:whatsthis","<para>This opens a "
         "window that will guide you through reporting errors or flaws "
         "in this application or in other KDE software.</para>");
-    actionCollection()->action(KStandardAction::name(KStandardAction::ReportBug))
-       ->setWhatsThis(whatsThisReportBug);
-    m_helpMenu->action(KHelpMenu::menuReportBug)->setWhatsThis(whatsThisReportBug
+    setStandardActionWhatsThis(KStandardAction::ReportBug, whatsThisReportBug);
+    setHelpActionWhatsThis(KHelpMenu::menuReportBug, whatsThisReportBug
         + xi18nc("@info:whatsthis second half of reportbug text with link",
         "<para>High-quality bug reports are much appreciated. To learn "
         "how to make your bug report as effective as possible "
@@ -2352,33 +2366,30 @@ void DolphinMainWindow::setupWhatsThis()
         "require money like servers, contributor meetings, etc.</para>"
         "<para><emphasis>KDE e.V.</emphasis> is the non-profit "
         "organization behind the KDE community.</para>");
-    actionCollection()->action(KStandardAction::name(KStandardAction::Donate))
-       ->setWhatsThis(whatsThisDonate);
-    m_helpMenu->action(KHelpMenu::menuDonate)->setWhatsThis(whatsThisDonate);
+    setStandardActionWhatsThis(KStandardAction::Donate, whatsThisDonate);
+    setHelpActionWhatsThis(KHelpMenu::menuDonate, whatsThisDonate);
 
     const QString whatsThisSwitchLanguage = xi18nc("@info:whatsthis",
         "With this you can change the language this application uses."
         "<nl/>You can even set secondary languages which will be used "
         "if texts are not available in your preferred language.");
-    actionCollection()->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage))
-       ->setWhatsThis(whatsThisSwitchLanguage);
-    m_helpMenu->action(KHelpMenu::menuSwitchLanguage)->setWhatsThis(whatsThisSwitchLanguage);
+    setStandardActionWhatsThis(KStandardAction::SwitchApplicationLanguage,
+                               whatsThisSwitchLanguage);
+    setHelpActionWhatsThis(KHelpMenu::menuSwitchLanguage, whatsThisSwitchLanguage);
 
     const QString whatsThisAboutApp = xi18nc("@info:whatsthis","This opens a "
         "window that informs you about the version, license, "
         "used libraries and maintainers of this application.");
-    actionCollection()->action(KStandardAction::name(KStandardAction::AboutApp))
-       ->setWhatsThis(whatsThisAboutApp);
-    m_helpMenu->action(KHelpMenu::menuAboutApp)->setWhatsThis(whatsThisAboutApp);
+    setStandardActionWhatsThis(KStandardAction::AboutApp, whatsThisAboutApp);
+    setHelpActionWhatsThis(KHelpMenu::menuAboutApp, whatsThisAboutApp);
 
     const QString whatsThisAboutKDE = xi18nc("@info:whatsthis","This opens a "
         "window with information about <emphasis>KDE</emphasis>. "
         "The KDE community are the people behind this free software."
         "<nl/>If you like using this application but don't know "
         "about KDE or want to see a cute dragon have a look!");
-    actionCollection()->action(KStandardAction::name(KStandardAction::AboutKDE))
-       ->setWhatsThis(whatsThisAboutKDE);
-    m_helpMenu->action(KHelpMenu::menuAboutKDE)->setWhatsThis(whatsThisAboutKDE);
+    setStandardActionWhatsThis(KStandardAction::AboutKDE, whatsThisAboutKDE);
+    setHelpActionWhatsThis(KHelpMenu::menuAboutKDE, whatsThisAboutKDE);
 }
 
 bool DolphinMainWindow::addHamburgerMenuToToolbar()
