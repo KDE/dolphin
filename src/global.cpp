@@ -91,16 +91,14 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
             newUrls.append(url);
         }
     }
-    dolphinInterfaces.front().second << newUrls;
 
     for (const auto& interface: qAsConst(dolphinInterfaces)) {
-        if (!interface.second.isEmpty()) {
-            auto reply = openFiles ? interface.first->openFiles(interface.second, splitView) : interface.first->openDirectories(interface.second, splitView);
-            reply.waitForFinished();
-            if (!reply.isError()) {
-                interface.first->activateWindow();
-                attached = true;
-            }
+        auto reply = openFiles ? interface.first->openFiles(newUrls, splitView) : interface.first->openDirectories(newUrls, splitView);
+        reply.waitForFinished();
+        if (!reply.isError()) {
+            interface.first->activateWindow();
+            attached = true;
+            break;
         }
     }
     return attached;
