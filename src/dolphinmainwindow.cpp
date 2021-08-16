@@ -82,6 +82,7 @@
 #include <QTimer>
 #include <QToolButton>
 #include <QWhatsThisClickedEvent>
+#include <kwindowsystem.h>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
@@ -275,7 +276,15 @@ void DolphinMainWindow::activateWindow()
 {
     window()->setAttribute(Qt::WA_NativeWindow, true);
     KStartupInfo::setNewStartupId(window()->windowHandle(), KStartupInfo::startupId());
-    KWindowSystem::activateWindow(window()->effectiveWinId());
+    const quint32 launchedSerial = KWindowSystem::lastInputSerial(windowHandle());
+    KWindowSystem::requestXdgActivationToken(windowHandle(), KWindowSystem::lastInputSerial(windowHandle()), {});
+    connect(KWindowSystem::self(), &KWindowSystem::xdgActivationTokenArrived, this, [this, launchedSerial](quint32 serial, const QString &token) {
+        KWindowSystem::setCurrentXdgActivationToken(token);
+        KWindowSystem::activateWindow(window()->effectiveWinId());
+        windowHandle()->raise();
+        qWarning() << window()->winId()<<window()->effectiveWinId()<<window()->internalWinId();
+    });
+
 }
 
 void DolphinMainWindow::showCommand(CommandType command)
