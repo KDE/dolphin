@@ -15,6 +15,7 @@
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
+#include "kitemviews/private/kitemlistroleeditor.h"
 #include "treeviewcontextmenu.h"
 #include "views/draganddrophelper.h"
 
@@ -245,7 +246,8 @@ void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, co
 {
     if (role == "text") {
         const KFileItem item = m_model->fileItem(index);
-        const QString newName = value.toString();
+        const EditResult retVal = value.value<EditResult>();
+        const QString newName = retVal.newName;
         if (!newName.isEmpty() && newName != item.text() && newName != QLatin1Char('.') && newName != QLatin1String("..")) {
             const QUrl oldUrl = item.url();
             QUrl newUrl = oldUrl.adjusted(QUrl::RemoveFilename);
