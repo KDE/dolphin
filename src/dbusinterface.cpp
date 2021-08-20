@@ -9,6 +9,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KPropertiesDialog>
+#include <KWindowSystem>
 
 #include <QApplication>
 #include <QDBusConnection>
@@ -28,11 +29,11 @@ DBusInterface::DBusInterface() :
 
 void DBusInterface::ShowFolders(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (urls.isEmpty()) {
         return;
     }
+    KWindowSystem::setCurrentXdgActivationToken(startUpId);
     const auto serviceName = isDaemon() ? QString() : QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
     if(!Dolphin::attachToExistingInstance(urls, false, GeneralSettings::splitView(), serviceName)) {
         Dolphin::openNewWindow(urls);
@@ -41,11 +42,11 @@ void DBusInterface::ShowFolders(const QStringList& uriList, const QString& start
 
 void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (urls.isEmpty()) {
         return;
     }
+    KWindowSystem::setCurrentXdgActivationToken(startUpId);
     const auto serviceName = isDaemon() ? QString() : QStringLiteral("org.kde.dolphin-%1").arg(QCoreApplication::applicationPid());
     if(!Dolphin::attachToExistingInstance(urls, true, GeneralSettings::splitView(), serviceName)) {
         Dolphin::openNewWindow(urls, nullptr, Dolphin::OpenNewWindowFlag::Select);
@@ -54,9 +55,9 @@ void DBusInterface::ShowItems(const QStringList& uriList, const QString& startUp
 
 void DBusInterface::ShowItemProperties(const QStringList& uriList, const QString& startUpId)
 {
-    Q_UNUSED(startUpId)
     const QList<QUrl> urls = Dolphin::validateUris(uriList);
     if (!urls.isEmpty()) {
+        KWindowSystem::setCurrentXdgActivationToken(startUpId);
         KPropertiesDialog::showDialog(urls);
     }
 }

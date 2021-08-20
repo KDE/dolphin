@@ -62,8 +62,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
 {
     bool attached = false;
 
-    // TODO: once Wayland clients can raise or activate themselves remove check from conditional
-    if (KWindowSystem::isPlatformWayland() || inputUrls.isEmpty() || !GeneralSettings::openExternallyCalledFolderInNewTab()) {
+    if (inputUrls.isEmpty() || !GeneralSettings::openExternallyCalledFolderInNewTab()) {
         return false;
     }
 
