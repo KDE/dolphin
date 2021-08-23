@@ -99,7 +99,7 @@ Comment[tr]=Bu servis Dolphin gezintisini yapılandırmanızı sağlar.
 Comment[uk]=Ця служба надасть змогу налаштувати навігацію у Dolphin.
 Comment[vi]=Dịch vụ này cho phép cấu hình điều hướng Dolphin.
 Comment[x-test]=xxThis service allows configuration of the Dolphin navigation.xx
-Comment[zh_CN]=此服务允许您配置 Dolphin 的导航。
+Comment[zh_CN]=此服务用于配置 Dolphin 的导航功能。
 Comment[zh_TW]=此服務允許設定 Dolphin 的導覽。
 
 [Desktop Entry]
@@ -212,7 +212,7 @@ Comment[tr]=Dosya yöneticisi gezintisini yapılandır
 Comment[uk]=Налаштувати навігацію у менеджері файлів
 Comment[vi]=Cấu hình điều hướng trình quản lí tệp
 Comment[x-test]=xxConfigure file manager navigationxx
-Comment[zh_CN]=配置文件管理器导航
+Comment[zh_CN]=配置文件管理器导航功能
 Comment[zh_TW]=設定檔案管理員導覽
 X-KDE-Keywords=file manager
 X-KDE-Keywords[ar]=مدير ملفّات ملفات الملفّات الملفات
