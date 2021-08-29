@@ -57,11 +57,6 @@
             <default>true</default>
         </entry>
 
-        <entry name="SortHiddenLast" type="Bool" >
-            <label context="@label">Show hidden files and folders last</label>
-            <default>false</default>
-        </entry>
-
         <entry name="VisibleRoles" type="StringList">
             <label context="@label">Visible roles</label>
             <default></default>

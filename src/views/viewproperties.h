@@ -62,9 +62,6 @@ public:
     void setSortFoldersFirst(bool foldersFirst);
     bool sortFoldersFirst() const;
 
-    void setSortHiddenLast(bool hiddenLast);
-    bool sortHiddenLast() const;
-
     /**
      * Sets the additional information for the current set view-mode.
      * Note that the additional-info property is the only property where

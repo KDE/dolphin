@@ -34,7 +34,6 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("text", parent),
     m_dirLister(nullptr),
     m_sortDirsFirst(true),
-    m_sortHiddenLast(false),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
@@ -206,19 +205,6 @@ void KFileItemModel::setSortDirectoriesFirst(bool dirsFirst)
 bool KFileItemModel::sortDirectoriesFirst() const
 {
     return m_sortDirsFirst;
-}
-
-void KFileItemModel::setSortHiddenLast(bool hiddenLast)
-{
-    if (hiddenLast != m_sortHiddenLast) {
-        m_sortHiddenLast = hiddenLast;
-        resortAllItems();
-    }
-}
-
-bool KFileItemModel::sortHiddenLast() const
-{
-    return m_sortHiddenLast;
 }
 
 void KFileItemModel::setShowHiddenFiles(bool show)
@@ -1098,32 +1084,46 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     QSet<QByteArray> changedRoles;
     KFileItemList changedFiles;
 
+    // Contains the indexes of the currently visible items
+    // that should get hidden and hence moved to m_filteredItems.
+    QVector<int> newFilteredIndexes;
+
+    // Contains currently hidden items that should
+    // get visible and hence removed from m_filteredItems
+    QList<ItemData*> newVisibleItems;
+
     QListIterator<QPair<KFileItem, KFileItem> > it(items);
     while (it.hasNext()) {
         const QPair<KFileItem, KFileItem>& itemPair = it.next();
         const KFileItem& oldItem = itemPair.first;
         const KFileItem& newItem = itemPair.second;
         const int indexForItem = index(oldItem);
+        const bool newItemMatchesFilter = m_filter.matches(newItem);
         if (indexForItem >= 0) {
             m_itemData[indexForItem]->item = newItem;
 
             // Keep old values as long as possible if they could not retrieved synchronously yet.
             // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
-            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, m_itemData.at(indexForItem)->parent));
-            QHash<QByteArray, QVariant>& values = m_itemData[indexForItem]->values;
+            ItemData * const itemData = m_itemData.at(indexForItem);
+            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem, itemData->parent));
             while (it.hasNext()) {
                 it.next();
                 const QByteArray& role = it.key();
-                if (values.value(role) != it.value()) {
-                    values.insert(role, it.value());
+                if (itemData->values.value(role) != it.value()) {
+                    itemData->values.insert(role, it.value());
                     changedRoles.insert(role);
                 }
             }
 
             m_items.remove(oldItem.url());
-            m_items.insert(newItem.url(), indexForItem);
-            changedFiles.append(newItem);
-            indexes.append(indexForItem);
+            if (newItemMatchesFilter) {
+                m_items.insert(newItem.url(), indexForItem);
+                changedFiles.append(newItem);
+                indexes.append(indexForItem);
+            } else {
+                newFilteredIndexes.append(indexForItem);
+                m_filteredItems.insert(newItem, itemData);
+            }
         } else {
             // Check if 'oldItem' is one of the filtered items.
             QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(oldItem);
@@ -1136,10 +1136,21 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
                 itemData->values.clear();
 
                 m_filteredItems.erase(it);
-                m_filteredItems.insert(newItem, itemData);
+                if (newItemMatchesFilter) {
+                    newVisibleItems.append(itemData);
+                } else {
+                    m_filteredItems.insert(newItem, itemData);
+                }
             }
         }
     }
+
+    // Hide items, previously visible that should get hidden
+    const KItemRangeList removedRanges = KItemRangeList::fromSortedContainer(newFilteredIndexes);
+    removeItems(removedRanges, KeepItemData);
+
+    // Show previously hidden items that should get visible
+    insertItems(newVisibleItems);
 
     // If the changed items have been created recently, they might not be in m_items yet.
     // In that case, the list 'indexes' might be empty.
@@ -1739,17 +1750,6 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         while (a->parent != b->parent) {
             a = a->parent;
             b = b->parent;
-        }
-    }
-
-    // Show hidden files and folders last
-    if (m_sortHiddenLast) {
-        const bool isHiddenA = a->item.isHidden();
-        const bool isHiddenB = b->item.isHidden();
-        if (isHiddenA && !isHiddenB) {
-            return false;
-        } else if (!isHiddenA && isHiddenB) {
-            return true;
         }
     }
 
