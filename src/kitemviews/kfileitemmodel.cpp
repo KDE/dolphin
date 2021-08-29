@@ -1753,6 +1753,15 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b, const QColla
         }
     }
 
+    // Show hidden files and folders last
+    const bool isHiddenA = a->item.isHidden();
+    const bool isHiddenB = b->item.isHidden();
+    if (isHiddenA && !isHiddenB) {
+        return false;
+    } else if (!isHiddenA && isHiddenB) {
+        return true;
+    }
+
     if (m_sortDirsFirst || (DetailsModeSettings::directorySizeCount() && m_sortRole == SizeRole)) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
