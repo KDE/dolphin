@@ -12,7 +12,6 @@
 #include "global.h"
 
 #include <QVariantAnimation>
-#include <QSplitter>
 #include <QGridLayout>
 #include <QWidgetAction>
 #include <QStyle>
@@ -28,7 +27,7 @@ DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl,
     layout->setSpacing(0);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    m_splitter = new QSplitter(Qt::Horizontal, this);
+    m_splitter = new DolphinTabPageSplitter(Qt::Horizontal, this);
     m_splitter->setChildrenCollapsible(false);
     connect(m_splitter, &QSplitter::splitterMoved,
             this, &DolphinTabPage::splitterMoved);
@@ -504,4 +503,48 @@ void DolphinTabPage::startExpandViewAnimation(DolphinViewContainer *expandingCon
         m_expandViewAnimation->setEasingCurve(QEasingCurve::InCubic);
     }
     m_expandViewAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+DolphinTabPageSplitterHandle::DolphinTabPageSplitterHandle(Qt::Orientation orientation, QSplitter *parent)
+    : QSplitterHandle(orientation, parent)
+    , m_mouseReleaseWasReceived(false)
+{}
+
+bool DolphinTabPageSplitterHandle::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::MouseButtonPress:
+        m_mouseReleaseWasReceived = false;
+        break;
+    case QEvent::MouseButtonRelease:
+        if (m_mouseReleaseWasReceived) {
+            resetSplitterSizes();
+        }
+        m_mouseReleaseWasReceived = !m_mouseReleaseWasReceived;
+        break;
+    case QEvent::MouseButtonDblClick:
+        m_mouseReleaseWasReceived = false;
+        resetSplitterSizes();
+        break;
+    default:
+        break;
+    }
+
+    return QSplitterHandle::event(event);
+}
+
+void DolphinTabPageSplitterHandle::resetSplitterSizes()
+{
+    QList<int> splitterSizes = splitter()->sizes();
+    std::fill(splitterSizes.begin(), splitterSizes.end(), 0);
+    splitter()->setSizes(splitterSizes);
+}
+
+DolphinTabPageSplitter::DolphinTabPageSplitter(Qt::Orientation orientation, QWidget *parent)
+    : QSplitter(orientation, parent)
+{}
+
+QSplitterHandle* DolphinTabPageSplitter::createHandle()
+{
+    return new DolphinTabPageSplitterHandle(orientation(), this);
 }

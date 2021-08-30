@@ -11,12 +11,13 @@
 #include <QPointer>
 #include <QUrl>
 #include <QWidget>
+#include <QSplitter>
 
 class DolphinNavigatorsWidgetAction;
 class DolphinViewContainer;
-class QSplitter;
 class QVariantAnimation;
 class KFileItemList;
+class DolphinTabPageSplitter;
 
 enum Animated {
     WithAnimation,
@@ -185,7 +186,7 @@ private:
     void startExpandViewAnimation(DolphinViewContainer *expandingContainer);
 
 private:
-    QSplitter* m_splitter;
+    DolphinTabPageSplitter *m_splitter;
 
     QPointer<DolphinNavigatorsWidgetAction> m_navigatorsWidget;
     QPointer<DolphinViewContainer> m_primaryViewContainer;
@@ -197,6 +198,36 @@ private:
     bool m_primaryViewActive;
     bool m_splitViewEnabled;
     bool m_active;
+};
+
+class DolphinTabPageSplitterHandle : public QSplitterHandle
+{
+    Q_OBJECT
+
+public:
+    explicit DolphinTabPageSplitterHandle(Qt::Orientation orientation, QSplitter *parent);
+
+protected:
+    bool event(QEvent *event) override;
+
+private:
+    void resetSplitterSizes();
+
+    // Sometimes QSplitterHandle doesn't receive MouseButtonDblClick event.
+    // We can detect that MouseButtonDblClick event should have been
+    // received if we receive two MouseButtonRelease events in a row.
+    bool m_mouseReleaseWasReceived;
+};
+
+class DolphinTabPageSplitter : public QSplitter
+{
+    Q_OBJECT
+
+public:
+    explicit DolphinTabPageSplitter(Qt::Orientation orientation, QWidget *parent);
+
+protected:
+    QSplitterHandle* createHandle() override;
 };
 
 #endif // DOLPHIN_TAB_PAGE_H
