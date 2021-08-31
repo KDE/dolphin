@@ -32,7 +32,7 @@
 #include <KPluginFactory>
 #include <KIO/CommandLauncherJob>
 #include <KSharedConfig>
-#include <KToolInvocation>
+#include <KTerminalLauncherJob>
 
 #include <QActionGroup>
 #include <QApplication>
@@ -567,7 +567,9 @@ QString DolphinPart::localFilePathOrHome() const
 
 void DolphinPart::slotOpenTerminal()
 {
-    KToolInvocation::invokeTerminal(QString(), {}, localFilePathOrHome());
+    auto job = new KTerminalLauncherJob(QString());
+    job->setWorkingDirectory(localFilePathOrHome());
+    job->start();
 }
 
 void DolphinPart::slotFindFile()

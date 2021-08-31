@@ -56,10 +56,10 @@
 #include <KStandardAction>
 #include <KStartupInfo>
 #include <KSycoca>
+#include <KTerminalLauncherJob>
 #include <KToggleAction>
 #include <KToolBar>
 #include <KToolBarPopupAction>
-#include <KToolInvocation>
 #include <KUrlComboBox>
 #include <KUrlNavigator>
 #include <KWindowSystem>
@@ -1033,7 +1033,9 @@ void DolphinMainWindow::openTerminal()
     const QUrl url = m_activeViewContainer->url();
 
     if (url.isLocalFile()) {
-        KToolInvocation::invokeTerminal(QString(), {}, url.toLocalFile());
+        auto job = new KTerminalLauncherJob(QString());
+        job->setWorkingDirectory(url.toLocalFile());
+        job->start();
         return;
     }
 
@@ -1047,14 +1049,18 @@ void DolphinMainWindow::openTerminal()
                 statUrl = job->mostLocalUrl();
             }
 
-            KToolInvocation::invokeTerminal(QString(), {}, statUrl.isLocalFile() ? statUrl.toLocalFile() : QDir::homePath());
+            auto job = new KTerminalLauncherJob(QString());
+            job->setWorkingDirectory(statUrl.isLocalFile() ? statUrl.toLocalFile() : QDir::homePath());
+            job->start();
         });
 
         return;
     }
 
     // Nothing worked, just use $HOME
-    KToolInvocation::invokeTerminal(QString(), {}, QDir::homePath());
+    auto job = new KTerminalLauncherJob(QString());
+    job->setWorkingDirectory(QDir::homePath());
+    job->start();
 }
 
 void DolphinMainWindow::editSettings()
