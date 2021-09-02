@@ -13,7 +13,7 @@
 
 #include <QVBoxLayout>
 
-K_PLUGIN_FACTORY(KCMDolphinNavigationConfigFactory, registerPlugin<DolphinNavigationConfigModule>();)
+K_PLUGIN_CLASS_WITH_JSON(DolphinNavigationConfigModule, "kcmdolphinnavigation.json")
 
 DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget *parent, const QVariantList &args) :
     KCModule(parent, args),

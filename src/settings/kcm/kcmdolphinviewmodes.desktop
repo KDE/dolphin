@@ -109,7 +109,7 @@ Icon=preferences-desktop-icons
 Type=Service
 X-KDE-ServiceTypes=KCModule
 
-X-KDE-Library=kcm_dolphinviewmodes
+X-KDE-Library=dolphin/kcms/kcm_dolphinviewmodes
 X-DocPath=dolphin/configuring-dolphin.html#preferences-dialog-viewmodes
 Name=View Modes
 Name[ar]=أوضاع المنظور

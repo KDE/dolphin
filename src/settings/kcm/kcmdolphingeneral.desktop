@@ -111,7 +111,7 @@ Icon=system-file-manager
 Type=Service
 X-KDE-ServiceTypes=KCModule
 
-X-KDE-Library=kcm_dolphingeneral
+X-KDE-Library=dolphin/kcms/kcm_dolphingeneral
 X-DocPath=dolphin/configuring-dolphin.html#preferences-dialog
 # ctxt: Random file browsing settings.
 Name=General

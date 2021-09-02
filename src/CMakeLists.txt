@@ -370,9 +370,12 @@ install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
-    add_library(kcm_dolphinviewmodes MODULE)
-    add_library(kcm_dolphinnavigation MODULE)
-    add_library(kcm_dolphingeneral MODULE)
+    add_library(kcm_dolphinviewmodes)
+    kcoreaddons_desktop_to_json(kcm_dolphinviewmodes settings/kcm/kcmdolphinviewmodes.desktop)
+    add_library(kcm_dolphinnavigation)
+    kcoreaddons_desktop_to_json(kcm_dolphinnavigation settings/kcm/kcmdolphinnavigation.desktop)
+    add_library(kcm_dolphingeneral)
+    kcoreaddons_desktop_to_json(kcm_dolphingeneral settings/kcm/kcmdolphingeneral.desktop)
 
     target_sources(kcm_dolphinviewmodes PRIVATE
         settings/kcm/kcmdolphinviewmodes.cpp
@@ -420,9 +423,9 @@ if(NOT WIN32)
     install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
     install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
 
-    install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-    install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR} )
-    install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR} )
+    install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
+    install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
+    install(TARGETS kcm_dolphingeneral DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
 endif()
 
 if(NOT WIN32)
