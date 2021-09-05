@@ -234,7 +234,7 @@ QPushButton *DolphinNavigatorsWidgetAction::newEmptyTrashButton(const DolphinUrl
 {
     auto emptyTrashButton = new QPushButton(QIcon::fromTheme(QStringLiteral("user-trash")),
                                         i18nc("@action:button", "Empty Trash"), parent);
-    emptyTrashButton->setToolTip(QLatin1String("Empties Trash to create free space"));
+    emptyTrashButton->setToolTip(i18n("Empties Trash to create free space");
 
     emptyTrashButton->setFlat(true);
     connect(emptyTrashButton, &QPushButton::clicked,
