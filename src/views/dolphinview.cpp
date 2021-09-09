@@ -1611,12 +1611,13 @@ void DolphinView::updateViewState()
                     m_view->scrollToItem(currentIndex);
                     m_scrollToCurrentItem = false;
                 }
+                m_currentItemUrl = QUrl();
             } else {
                 selectionManager->setCurrentItem(0);
             }
+        } else {
+            m_currentItemUrl = QUrl();
         }
-
-        m_currentItemUrl = QUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
@@ -1651,8 +1652,10 @@ void DolphinView::updateViewState()
                 }
             }
 
-            selectionManager->beginAnchoredSelection(selectionManager->currentItem());
-            selectionManager->setSelectedItems(selectedItems);
+            if (!selectedItems.isEmpty()) {
+                selectionManager->beginAnchoredSelection(selectionManager->currentItem());
+                selectionManager->setSelectedItems(selectedItems);
+            }
         }
     }
 }
