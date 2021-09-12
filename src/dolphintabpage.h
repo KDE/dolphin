@@ -8,6 +8,8 @@
 #ifndef DOLPHIN_TAB_PAGE_H
 #define DOLPHIN_TAB_PAGE_H
 
+#include "global.h"
+
 #include <QPointer>
 #include <QUrl>
 #include <QWidget>
@@ -18,11 +20,6 @@ class DolphinViewContainer;
 class QVariantAnimation;
 class KFileItemList;
 class DolphinTabPageSplitter;
-
-enum Animated {
-    WithAnimation,
-    WithoutAnimation
-};
 
 class DolphinTabPage : public QWidget
 {

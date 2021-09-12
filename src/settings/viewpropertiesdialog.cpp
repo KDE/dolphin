@@ -395,7 +395,7 @@ void ViewPropertiesDialog::applyViewProperties()
         settings->save();
     }
 
-    m_dolphinView->setMode(m_viewProps->viewMode());
+    m_dolphinView->setViewMode(m_viewProps->viewMode());
     m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());

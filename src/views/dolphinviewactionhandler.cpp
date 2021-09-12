@@ -29,6 +29,8 @@
 #include <QMenu>
 #include <QPointer>
 
+#include <iostream>
+
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
     QObject(parent),
     m_actionCollection(collection),
@@ -72,6 +74,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, &DolphinViewActionHandler::slotZoomLevelChanged);
     connect(view, &DolphinView::writeStateChanged,
             this, &DolphinViewActionHandler::slotWriteStateChanged);
+    connect(view, &DolphinView::selectionModeRequested,
+            this, [this]() { Q_EMIT setSelectionMode(true); });
     connect(view, &DolphinView::selectionChanged,
             this, &DolphinViewActionHandler::slotSelectionChanged);
     slotSelectionChanged(m_currentView->selectedItems());
@@ -415,7 +419,7 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
 void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
 {
     const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
-    m_currentView->setMode(mode);
+    m_currentView->setViewMode(mode);
 
     QAction* viewModeMenu = m_actionCollection->action(QStringLiteral("view_mode"));
     viewModeMenu->setIcon(action->icon());
@@ -423,20 +427,34 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
 
 void DolphinViewActionHandler::slotRename()
 {
-    Q_EMIT actionBeingHandled();
-    m_currentView->renameSelectedItems();
+    if (m_currentView->selectedItemsCount() == 0) {
+        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::RenameContents);
+    } else {
+        Q_EMIT actionBeingHandled();
+        m_currentView->renameSelectedItems();
+    }
 }
 
 void DolphinViewActionHandler::slotTrashActivated()
 {
-    Q_EMIT actionBeingHandled();
-    m_currentView->trashSelectedItems();
+    if (m_currentView->selectedItemsCount() == 0) {
+        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::MoveToTrashContents);
+    } else {
+        Q_EMIT actionBeingHandled();
+        m_currentView->trashSelectedItems();
+        Q_EMIT setSelectionMode(false);
+    }
 }
 
 void DolphinViewActionHandler::slotDeleteItems()
 {
-    Q_EMIT actionBeingHandled();
-    m_currentView->deleteSelectedItems();
+    if (m_currentView->selectedItemsCount() == 0) {
+        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::DeleteContents);
+    } else {
+        Q_EMIT actionBeingHandled();
+        m_currentView->deleteSelectedItems();
+        Q_EMIT setSelectionMode(false);
+    }
 }
 
 void DolphinViewActionHandler::togglePreview(bool show)
@@ -455,7 +473,7 @@ void DolphinViewActionHandler::slotPreviewsShownChanged(bool shown)
 
 QString DolphinViewActionHandler::currentViewModeActionName() const
 {
-    switch (m_currentView->mode()) {
+    switch (m_currentView->viewMode()) {
     case DolphinView::IconsView:
         return QStringLiteral("icons");
     case DolphinView::DetailsView:
@@ -735,8 +753,13 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 
 void DolphinViewActionHandler::slotDuplicate()
 {
-    Q_EMIT actionBeingHandled();
-    m_currentView->duplicateSelectedItems();
+    if (m_currentView->selectedItemsCount() == 0) {
+        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::DuplicateContents);
+    } else {
+        Q_EMIT actionBeingHandled();
+        m_currentView->duplicateSelectedItems();
+        Q_EMIT setSelectionMode(false);
+    }
 }
 
 void DolphinViewActionHandler::slotProperties()
@@ -758,7 +781,12 @@ void DolphinViewActionHandler::slotProperties()
 
 void DolphinViewActionHandler::slotCopyPath()
 {
-    m_currentView->copyPathToClipboard();
+    if (m_currentView->selectedItemsCount() == 0) {
+        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::CopyLocationContents);
+    } else {
+        m_currentView->copyPathToClipboard();
+        Q_EMIT setSelectionMode(false);
+    }
 }
 
 void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList& selection)

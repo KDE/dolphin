@@ -209,6 +209,7 @@ target_sources(dolphinstatic PRIVATE
     dolphinurlnavigatorscontroller.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
+    kitemviews/kfileitemlisttostring.cpp
     panels/places/placespanel.cpp
     panels/panel.cpp
     panels/folders/foldersitemlistwidget.cpp
@@ -218,6 +219,10 @@ target_sources(dolphinstatic PRIVATE
     search/dolphinfacetswidget.cpp
     search/dolphinquery.cpp
     search/dolphinsearchbox.cpp
+    selectionmode/actionwithwidget.cpp
+    selectionmode/backgroundcolorhelper.cpp
+    selectionmode/selectionmodebottombar.cpp
+    selectionmode/selectionmodetopbar.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
     settings/general/confirmationssettingspage.cpp

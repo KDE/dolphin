@@ -10,6 +10,7 @@
 #define DOLPHINVIEWACTIONHANDLER_H
 
 #include "dolphin_export.h"
+#include "selectionmode/selectionmodebottombar.h"
 #include "views/dolphinview.h"
 
 #include <QObject>
@@ -82,6 +83,9 @@ Q_SIGNALS:
      * the method createDirectory of their KNewFileMenu instance.
      */
     void createDirectoryTriggered();
+
+    /** Used to request selection mode */
+    void setSelectionMode(bool enabled, SelectionModeBottomBar::Contents bottomBarContents = SelectionModeBottomBar::Contents::GeneralContents);
 
 private Q_SLOTS:
     /**

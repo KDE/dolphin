@@ -9,7 +9,6 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphinviewcontainer.h"
-#include "global.h"
 
 #include <QVariantAnimation>
 #include <QGridLayout>
@@ -152,6 +151,8 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
                 view->setDisabled(true);
                 startExpandViewAnimation(m_primaryViewContainer);
             }
+
+            m_primaryViewContainer->slotSplitTabDisabled();
         }
     }
 }

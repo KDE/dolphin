@@ -23,6 +23,8 @@
 #include <QUrl>
 #include <QWidget>
 
+#include <memory>
+
 typedef KIO::FileUndoManager::CommandType CommandType;
 class QVBoxLayout;
 class DolphinItemListView;
@@ -36,6 +38,7 @@ class ViewProperties;
 class QLabel;
 class QGraphicsSceneDragDropEvent;
 class QHelpEvent;
+class QProxyStyle;
 class QRegularExpression;
 
 /**
@@ -106,8 +109,11 @@ public:
      * (GeneralSettings::globalViewProps() returns false), then the
      * changed view mode will be stored automatically.
      */
-    void setMode(Mode mode);
-    Mode mode() const;
+    void setViewMode(Mode mode);
+    Mode viewMode() const;
+
+    void setSelectionMode(bool enabled);
+    bool selectionMode() const;
 
     /**
      * Turns on the file preview for the all files of the current directory,
@@ -600,6 +606,13 @@ Q_SIGNALS:
     void goForwardRequested();
 
     /**
+     * Is emitted when the selection mode is requested for the current view.
+     * This typically happens on press and hold.
+     * @see KItemListController::longPress()
+     */
+    void selectionModeRequested();
+
+    /**
      * Is emitted when the user wants to move the focus to another view.
      */
     void toggleActiveViewRequested();
@@ -915,6 +928,9 @@ private:
     QUrl m_twoClicksRenamingItemUrl;
     QLabel* m_placeholderLabel;
     QTimer* m_showLoadingPlaceholderTimer;
+
+    /// Used for selection mode. @see setSelectionMode()
+    std::unique_ptr<QProxyStyle> m_proxyStyle;
 
     // For unit tests
     friend class TestBase;

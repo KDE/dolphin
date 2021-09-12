@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphin" version="36">
+<gui name="dolphin" version="38">
     <MenuBar>
         <Menu name="file">
             <Action name="new_menu" />
@@ -31,6 +31,7 @@
             <Action name="show_filter_bar" />
             <Action name="edit_find" />
             <Separator />
+            <Action name="toggle_selection_mode" />
             <Action name="copy_to_inactive_split_view" />
             <Action name="move_to_inactive_split_view" />
             <Action name="edit_select_all" />
@@ -80,7 +81,6 @@
             <Action name="edit_undo" />
             <Action name="edit_redo" />
             <Action name="edit_cut" />
-            <Action name="edit_copy" />
             <Action name="renamefile" />
             <Action name="movetotrash" />
             <Action name="deletefile" />
@@ -92,23 +92,11 @@
     </State>
     <State name="has_selection" >
         <enable>
-            <Action name="edit_cut" />
-            <Action name="edit_copy" />
-            <Action name="renamefile" />
-            <Action name="duplicate" />
-            <Action name="movetotrash" />
-            <Action name="deletefile" />
             <Action name="invert_selection" />
         </enable>
     </State>
     <State name="has_no_selection" >
         <disable>
-            <Action name="edit_cut" />
-            <Action name="edit_copy" />
-            <Action name="renamefile" />
-            <Action name="duplicate" />
-            <Action name="movetotrash" />
-            <Action name="deletefile" />
             <Action name="delete_shortcut" />
             <Action name="invert_selection" />
         </disable>
@@ -125,6 +113,7 @@
         <Action name="split_view" />
         <Action name="split_stash" />
         <Action name="toggle_search" />
+        <Action name="toggle_selection_mode_with_popup" />
         <Action name="hamburger_menu" />
     </ToolBar>
     <ActionProperties scheme="Default">

@@ -126,6 +126,9 @@ public:
     void setSingleClickActivationEnforced(bool singleClick);
     bool singleClickActivationEnforced() const;
 
+    void setSelectionMode(bool enabled);
+    bool selectionMode() const;
+
     bool processEvent(QEvent* event, const QTransform& transform);
 
 Q_SIGNALS:
@@ -208,6 +211,14 @@ Q_SIGNALS:
      * Is emitted if the Escape key is pressed.
      */
     void escapePressed();
+
+    /**
+     * Is emitted if left click is pressed down for a long time without moving the cursor too much.
+     * Moving the cursor would either trigger an item drag if the click was initiated on top of an item
+     * or a selection rectangle if the click was not initiated on top of an item.
+     * So long press is only emitted if there wasn't a lot of cursor movement.
+     */
+    void selectionModeRequested();
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
@@ -325,6 +336,7 @@ private:
 
 private:
     bool m_singleClickActivationEnforced;
+    bool m_selectionMode;
     bool m_selectionTogglePressed;
     bool m_clearSelectionIfItemsAreNotDragged;
     bool m_isSwipeGesture;
@@ -344,6 +356,7 @@ private:
     QPointF m_pressedMousePos;
 
     QTimer* m_autoActivationTimer;
+    QTimer* m_longPressDetectionTimer;
 
     Qt::GestureType m_swipeGesture;
     Qt::GestureType m_twoFingerTapGesture;

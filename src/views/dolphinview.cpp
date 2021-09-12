@@ -20,6 +20,7 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/private/kitemlistroleeditor.h"
 #include "settings/viewmodes/viewmodesettings.h"
+#include "selectionmode/singleclickselectionproxystyle.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -172,6 +173,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
     connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
     connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
+    connect(controller, &KItemListController::selectionModeRequested, this, &DolphinView::selectionModeRequested);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -262,7 +264,7 @@ bool DolphinView::isActive() const
     return m_active;
 }
 
-void DolphinView::setMode(Mode mode)
+void DolphinView::setViewMode(Mode mode)
 {
     if (mode != m_mode) {
         ViewProperties props(viewPropertiesUrl());
@@ -276,10 +278,29 @@ void DolphinView::setMode(Mode mode)
     }
 }
 
-DolphinView::Mode DolphinView::mode() const
+DolphinView::Mode DolphinView::viewMode() const
 {
     return m_mode;
 }
+
+void DolphinView::setSelectionMode(const bool enabled)
+{
+    if (enabled) {
+        m_proxyStyle = std::make_unique<SingleClickSelectionProxyStyle>();
+        setStyle(m_proxyStyle.get());
+        m_view->setStyle(m_proxyStyle.get());
+    } else {
+        setStyle(QApplication::style());
+        m_view->setStyle(QApplication::style());
+    }
+    m_container->controller()->setSelectionMode(enabled);
+}
+
+bool DolphinView::selectionMode() const
+{
+    return m_container->controller()->selectionMode();
+}
+
 
 void DolphinView::setPreviewsShown(bool show)
 {

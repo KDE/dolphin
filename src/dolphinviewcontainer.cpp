@@ -12,11 +12,13 @@
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "search/dolphinsearchbox.h"
+#include "selectionmode/selectionmodetopbar.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 #include "dolphin_detailsmodesettings.h"
 
+#include <KActionCollection>
 #if HAVE_KACTIVITIES
 #include <KActivities/ResourceInstance>
 #endif
@@ -32,13 +34,27 @@
 #include <KUrlComboBox>
 
 #include <QDropEvent>
+#include <QGridLayout>
 #include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QMimeData>
 #include <QTimer>
 #include <QUrl>
-#include <QVBoxLayout>
 #include <QDesktopServices>
+
+#include <iostream>
+
+// An overview of the widgets contained by this ViewContainer
+struct LayoutStructure {
+    int searchBox               = 0;
+    int messageWidget           = 1;
+    int selectionModeTopBar     = 2;
+    int view                    = 3;
+    int selectionModeBottomBar  = 4;
+    int filterBar               = 5;
+    int statusBar               = 6;
+};
+constexpr LayoutStructure positionFor;
 
 DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     QWidget(parent),
@@ -48,8 +64,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_searchBox(nullptr),
     m_searchModeEnabled(false),
     m_messageWidget(nullptr),
+    m_selectionModeTopBar{nullptr},
     m_view(nullptr),
     m_filterBar(nullptr),
+    m_selectionModeBottomBar{nullptr},
     m_statusBar(nullptr),
     m_statusBarTimer(nullptr),
     m_statusBarTimestamp(),
@@ -60,7 +78,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 {
     hide();
 
-    m_topLayout = new QVBoxLayout(this);
+    m_topLayout = new QGridLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setContentsMargins(0, 0, 0, 0);
 
@@ -187,16 +205,16 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     connect(undoManager, &KIO::FileUndoManager::jobRecordingFinished,
             this, &DolphinViewContainer::delayedStatusBarUpdate);
 
-    m_topLayout->addWidget(m_searchBox);
-    m_topLayout->addWidget(m_messageWidget);
-    m_topLayout->addWidget(m_view);
-    m_topLayout->addWidget(m_filterBar);
-    m_topLayout->addWidget(m_statusBar);
+    m_topLayout->addWidget(m_searchBox, positionFor.searchBox, 0);
+    m_topLayout->addWidget(m_messageWidget, positionFor.messageWidget, 0);
+    m_topLayout->addWidget(m_view, positionFor.view, 0);
+    m_topLayout->addWidget(m_filterBar, positionFor.filterBar, 0);
+    m_topLayout->addWidget(m_statusBar, positionFor.statusBar, 0);
 
     setSearchModeEnabled(isSearchUrl(url));
 
     connect(DetailsModeSettings::self(), &KCoreConfigSkeleton::configChanged, this, [=]() {
-        if (view()->mode() == DolphinView::Mode::DetailsView) {
+        if (view()->viewMode() == DolphinView::Mode::DetailsView) {
             view()->reload();
         }
     });
@@ -356,6 +374,78 @@ void DolphinViewContainer::disconnectUrlNavigator()
     m_urlNavigatorVisualState = m_urlNavigatorConnected->visualState();
     m_urlNavigatorConnected = nullptr;
 }
+
+void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionModeBottomBar::Contents bottomBarContents)
+{
+    std::cout << "DolphinViewContainer::setSelectionModeEnabled(" << enabled << ", " << bottomBarContents << ")\n";
+    const bool wasEnabled = m_view->selectionMode();
+    m_view->setSelectionMode(enabled);
+
+    if (!enabled) {
+        Q_CHECK_PTR(m_selectionModeTopBar); // there is no point in disabling selectionMode when it wasn't even enabled once.
+        Q_CHECK_PTR(m_selectionModeBottomBar);
+        m_selectionModeTopBar->setVisible(false, WithAnimation);
+        m_selectionModeBottomBar->setVisible(false, WithAnimation);
+        if (wasEnabled) {
+            Q_EMIT selectionModeChanged(false);
+        }
+        return;
+    }
+
+    if (!m_selectionModeTopBar) {
+        // Changing the location will disable selection mode.
+        connect(m_urlNavigator.get(), &DolphinUrlNavigator::urlChanged, this, [this]() {
+            setSelectionModeEnabled(false);
+        });
+
+        m_selectionModeTopBar = new SelectionModeTopBar(this); // will be created hidden
+        connect(m_selectionModeTopBar, &SelectionModeTopBar::leaveSelectionModeRequested, this, [this]() {
+            setSelectionModeEnabled(false);
+        });
+        m_topLayout->addWidget(m_selectionModeTopBar, positionFor.selectionModeTopBar, 0);
+    }
+
+    if (!m_selectionModeBottomBar) {
+        m_selectionModeBottomBar = new SelectionModeBottomBar(actionCollection, this);
+        connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
+            m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
+        });
+        
+        connect(m_selectionModeBottomBar, &SelectionModeBottomBar::error, this, [this](const QString &errorMessage) {
+            showErrorMessage(errorMessage);
+        });
+        connect(m_selectionModeBottomBar, &SelectionModeBottomBar::leaveSelectionModeRequested, this, [this]() {
+            setSelectionModeEnabled(false);
+        });
+        m_topLayout->addWidget(m_selectionModeBottomBar, positionFor.selectionModeBottomBar, 0);
+    }
+    m_selectionModeBottomBar->resetContents(bottomBarContents);
+    if (bottomBarContents == SelectionModeBottomBar::GeneralContents) {
+        m_selectionModeBottomBar->slotSelectionChanged(m_view->selectedItems(), m_view->url());
+    }
+
+    if (!wasEnabled) {
+        m_selectionModeTopBar->setVisible(true, WithAnimation);
+        m_selectionModeBottomBar->setVisible(true, WithAnimation);
+        Q_EMIT selectionModeChanged(true);
+    }
+}
+
+bool DolphinViewContainer::isSelectionModeEnabled() const
+{
+    const bool isEnabled = m_view->selectionMode();
+    Q_ASSERT( !isEnabled // We cannot assert the invisibility of the bars because of the hide animation.
+          || ( isEnabled && m_selectionModeTopBar && m_selectionModeTopBar->isVisible() && m_selectionModeBottomBar && m_selectionModeBottomBar->isVisible()));
+    return isEnabled;
+}
+
+void DolphinViewContainer::slotSplitTabDisabled()
+{
+    if (m_selectionModeBottomBar) {
+        m_selectionModeBottomBar->slotSplitTabDisabled();
+    }
+}
+
 
 void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
 {

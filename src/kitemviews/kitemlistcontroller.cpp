@@ -27,12 +27,14 @@
 #include <QGraphicsSceneEvent>
 #include <QGraphicsView>
 #include <QMimeData>
+#include <QStyleHints>
 #include <QTimer>
 #include <QTouchEvent>
 
 KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),
     m_singleClickActivationEnforced(false),
+    m_selectionMode(false),
     m_selectionTogglePressed(false),
     m_clearSelectionIfItemsAreNotDragged(false),
     m_isSwipeGesture(false),
@@ -51,6 +53,7 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_pressedIndex(std::nullopt),
     m_pressedMousePos(),
     m_autoActivationTimer(nullptr),
+    m_longPressDetectionTimer(nullptr),
     m_swipeGesture(Qt::CustomGesture),
     m_twoFingerTapGesture(Qt::CustomGesture),
     m_oldSelection(),
@@ -68,6 +71,15 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(-1);
     connect(m_autoActivationTimer, &QTimer::timeout, this, &KItemListController::slotAutoActivationTimeout);
+
+    m_longPressDetectionTimer = new QTimer(this);
+    m_longPressDetectionTimer->setSingleShot(true);
+    m_longPressDetectionTimer->setInterval(QGuiApplication::styleHints()->mousePressAndHoldInterval());
+    connect(m_longPressDetectionTimer, &QTimer::timeout, this, [this]() {
+        if (!m_selectionMode) {
+            Q_EMIT selectionModeRequested();
+        }
+    });
 
     setModel(model);
     setView(view);
@@ -218,6 +230,16 @@ void KItemListController::setSingleClickActivationEnforced(bool singleClick)
 bool KItemListController::singleClickActivationEnforced() const
 {
     return m_singleClickActivationEnforced;
+}
+
+void KItemListController::setSelectionMode(bool enabled)
+{
+    m_selectionMode = enabled;
+}
+
+bool KItemListController::selectionMode() const
+{
+    return m_selectionMode;
 }
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
@@ -576,10 +598,14 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         return false;
     }
 
+    const QPointF pos = transform.map(event->pos());
+    if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
+        m_longPressDetectionTimer->stop();
+    }
+
     if (m_pressedIndex.has_value() && !m_view->rubberBand()->isActive()) {
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
-            const QPointF pos = transform.map(event->pos());
             if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
                 if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
                     // Always assure that the dragged item gets selected. Usually this is already
@@ -638,6 +664,8 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (m_view->m_tapAndHoldIndicator->isActive()) {
         m_view->m_tapAndHoldIndicator->setActive(false);
     }
+
+    m_longPressDetectionTimer->stop();
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (event->source() == Qt::MouseEventSynthesizedByQt && !rubberBand->isActive() && m_isTouchEvent) {
@@ -1247,7 +1275,7 @@ void KItemListController::slotRubberBandChanged()
         // been activated in case if no Shift- or Control-key are pressed
         const bool shiftOrControlPressed = QApplication::keyboardModifiers() & Qt::ShiftModifier ||
                                            QApplication::keyboardModifiers() & Qt::ControlModifier;
-        if (!shiftOrControlPressed) {
+        if (!shiftOrControlPressed && !m_selectionMode) {
             m_oldSelection.clear();
         }
     }
@@ -1296,7 +1324,7 @@ void KItemListController::slotRubberBandChanged()
         }
     } while (!selectionFinished);
 
-    if (QApplication::keyboardModifiers() & Qt::ControlModifier) {
+    if ((QApplication::keyboardModifiers() & Qt::ControlModifier) || m_selectionMode) {
         // If Control is pressed, the selection state of all items in the rubberband is toggled.
         // Therefore, the new selection contains:
         // 1. All previously selected items which are not inside the rubberband, and
@@ -1518,9 +1546,13 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     }
 
     const bool shiftPressed = modifiers & Qt::ShiftModifier;
-    const bool controlPressed = modifiers & Qt::ControlModifier;
+    const bool controlPressed = (modifiers & Qt::ControlModifier) || m_selectionMode;
     const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
+
+    if (leftClick) {
+        m_longPressDetectionTimer->start();
+    }
 
     // The previous selection is cleared if either
     // 1. The selection mode is SingleSelection, or
@@ -1565,7 +1597,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
                 return false;
             }
         }
-    } else if (pressedItemAlreadySelected && !shiftOrControlPressed && (buttons & Qt::LeftButton)) {
+    } else if (pressedItemAlreadySelected && !shiftOrControlPressed && leftClick) {
         // The user might want to start dragging multiple items, but if he clicks the item
         // in order to trigger it instead, the other selected items must be deselected.
         // However, we do not know yet what the user is going to do.

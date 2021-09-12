@@ -10,6 +10,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphintabwidget.h"
+#include "selectionmode/selectionmodebottombar.h"
 #include "config-dolphin.h"
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
@@ -313,6 +314,9 @@ private Q_SLOTS:
      */
     void updatePasteAction();
 
+    /** Calls DolphinViewContainer::setSelectionMode() for m_activeViewContainer. */
+    void slotSetSelectionMode(bool enabled, SelectionModeBottomBar::Contents bottomBarContents);
+
     /** Selects all items from the active view. */
     void selectAll();
 
@@ -333,6 +337,12 @@ private Q_SLOTS:
     /** Dedicated action to open the stash:/ ioslave in split view. */
     void toggleSplitStash();
 
+    /** Copies all selected items to the inactive view. */
+    void copyToInactiveSplitView();
+
+    /** Moves all selected items to the inactive view. */
+    void moveToInactiveSplitView();
+
     /** Reloads the currently active view. */
     void reloadView();
 
@@ -341,6 +351,8 @@ private Q_SLOTS:
 
     void enableStopAction();
     void disableStopAction();
+
+    void toggleSelectionMode();
 
     void showFilterBar();
     void toggleFilterBar();
