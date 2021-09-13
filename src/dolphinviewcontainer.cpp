@@ -196,6 +196,17 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
         }
     });
 
+    KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+    connect(placesModel, &KFilePlacesModel::dataChanged,
+            this, &DolphinViewContainer::slotPlacesModelChanged);
+    connect(placesModel, &KFilePlacesModel::rowsInserted,
+            this, &DolphinViewContainer::slotPlacesModelChanged);
+    connect(placesModel, &KFilePlacesModel::rowsRemoved,
+            this, &DolphinViewContainer::slotPlacesModelChanged);
+
+    connect(this, &DolphinViewContainer::searchModeEnabledChanged,
+            this, &DolphinViewContainer::captionChanged);
+
     // Initialize kactivities resource instance
 
 #ifdef HAVE_KACTIVITIES
@@ -789,6 +800,13 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
 void DolphinViewContainer::showErrorMessage(const QString& msg)
 {
     showMessage(msg, Error);
+}
+
+void DolphinViewContainer::slotPlacesModelChanged()
+{
+    if (!GeneralSettings::showFullPathInTitlebar() && !isSearchModeEnabled()) {
+        Q_EMIT captionChanged();
+    }
 }
 
 bool DolphinViewContainer::isSearchUrl(const QUrl& url) const
