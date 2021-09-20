@@ -31,6 +31,7 @@
   <name xml:lang="ko">Dolphin</name>
   <name xml:lang="lt">Dolphin</name>
   <name xml:lang="ml">ഡോൾഫിൻ</name>
+  <name xml:lang="my">လင်းပိုင်</name>
   <name xml:lang="nb">Dolphin</name>
   <name xml:lang="nds">Dolphin</name>
   <name xml:lang="nl">Dolphin</name>
@@ -83,6 +84,7 @@
   <summary xml:lang="ko">파일 관리자</summary>
   <summary xml:lang="lt">Failų tvarkytuvė</summary>
   <summary xml:lang="ml">ഫയല്‍ കാര്യസ്ഥന്‍</summary>
+  <summary xml:lang="my">ဖိုင်လ်မန်နေဂျာ</summary>
   <summary xml:lang="nb">Filbehandler</summary>
   <summary xml:lang="nds">Dateipleger</summary>
   <summary xml:lang="nl">Bestandsbeheerder</summary>
@@ -307,6 +309,7 @@
       <caption xml:lang="ko">Dolphin의 파일 관리</caption>
       <caption xml:lang="lt">Failų tvarkymas Dolphin programoje</caption>
       <caption xml:lang="ml">ഡോൾഫിനിലെ ഫയൽ കൈകാര്യം ചെയ്യൽ</caption>
+      <caption xml:lang="my">လင်းပိုင်တွင် ဖိုင်လ်စီမံမှု</caption>
       <caption xml:lang="nl">Bestandsbeheer in Dolphin</caption>
       <caption xml:lang="nn">Filhandsaming i Dolphin</caption>
       <caption xml:lang="pa">ਡਾਲਫਿਨ ਵਿੱਚ ਫਾਇਲ ਇੰਤਜ਼ਾਮ</caption>
@@ -346,6 +349,7 @@
       <caption xml:lang="it">Terminale integrato in Dolphin</caption>
       <caption xml:lang="ja">Dolphin の組み込みターミナル</caption>
       <caption xml:lang="ko">Dolphin에 내장된 터미널</caption>
+      <caption xml:lang="my">လင်းပိုင်တွင် မြှပ်သွင်း-တာမီနယ်</caption>
       <caption xml:lang="nl">Ingebedde terminal in Dolphin</caption>
       <caption xml:lang="pl">Osadzony terminal w Dolphinie</caption>
       <caption xml:lang="pt">Terminal Incorporado no Dolphin</caption>
@@ -379,6 +383,7 @@
       <caption xml:lang="it">Dolphin ti consente di configurare il tuo gestore file esattamente come desideri</caption>
       <caption xml:lang="ja">Dolphin では、ファイルマネージャを思いどおりに設定することができます。</caption>
       <caption xml:lang="ko">Dolphin은 사용하고 싶은 대로 설정할 수 있습니다</caption>
+      <caption xml:lang="my">လင်းပိုင်သည် ဖိုင်လ်မန်နေဂျာကို သင်ကြိုက်သလို ပြင်ဆင်ခွင့်ပေးထားသည်</caption>
       <caption xml:lang="nl">Dolphin laat u uw bestandsbeheerder exact configureren zoals u dat wilt</caption>
       <caption xml:lang="pl">Dolphin umożliwia ustawienie zarządzania plikami dokładnie tak, jak tego chcesz</caption>
       <caption xml:lang="pt">O Dolphin permite-lhe configurar o seu gestor de ficheiros exactamente como pretende</caption>
