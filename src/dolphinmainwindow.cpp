@@ -1011,7 +1011,11 @@ void DolphinMainWindow::updateOpenPreferredSearchToolAction()
     if (tool) {
         openPreferredSearchTool->setVisible(true);
         openPreferredSearchTool->setText(i18nc("@action:inmenu Tools", "Open %1", tool->text()));
-        openPreferredSearchTool->setIcon(tool->icon());
+        // Only override with the app icon if it is the default, i.e. the user hasn't configured one manually
+        // https://bugs.kde.org/show_bug.cgi?id=442815
+        if (openPreferredSearchTool->icon().name() == QLatin1String("search")) {
+            openPreferredSearchTool->setIcon(tool->icon());
+        }
     } else {
         openPreferredSearchTool->setVisible(false);
         // still visible in Shortcuts configuration window
