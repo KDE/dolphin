@@ -214,6 +214,9 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(&m_fileItemActions, &KFileItemActions::error, this, [this](const QString &errorMessage) {
         showErrorMessage(errorMessage);
     });
+
+    connect(GeneralSettings::self(), &GeneralSettings::splitViewChanged,
+            this, &DolphinMainWindow::slotSplitViewChanged);
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -435,6 +438,12 @@ void DolphinMainWindow::addToPlaces()
 void DolphinMainWindow::openNewTab(const QUrl& url)
 {
     m_tabWidget->openNewTab(url, QUrl());
+}
+
+void DolphinMainWindow::slotSplitViewChanged()
+{
+    m_tabWidget->currentTabPage()->setSplitViewEnabled(GeneralSettings::splitView(), WithAnimation);
+    updateSplitAction();
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -2101,11 +2110,6 @@ void DolphinMainWindow::refreshViews()
     m_tabWidget->refreshViews();
 
     if (GeneralSettings::modifiedStartupSettings()) {
-        // The startup settings have been changed by the user (see bug #254947).
-        // Synchronize the split-view setting with the active view:
-        const bool splitView = GeneralSettings::splitView();
-        m_tabWidget->currentTabPage()->setSplitViewEnabled(splitView, WithAnimation);
-        updateSplitAction();
         updateWindowTitle();
     }
 
