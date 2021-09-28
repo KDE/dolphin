@@ -171,6 +171,9 @@ public Q_SLOTS:
      */
     void openNewTab(const QUrl& url);
 
+    /** @see GeneralSettings::splitViewChanged() */
+    void slotSplitViewChanged();
+
 Q_SIGNALS:
     /**
      * Is sent if the selection of the currently active view has

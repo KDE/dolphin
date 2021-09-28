@@ -9,6 +9,7 @@
     <include>KCompletion</include>
     <kcfgfile name="dolphinrc"/>
     <signal name="sortingChoiceChanged" />
+    <signal name="splitViewChanged" />
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
@@ -49,6 +50,7 @@
         <entry name="SplitView" type="Bool">
             <label>Split the view into two panes</label>
             <default>false</default>
+            <emit signal="splitViewChanged" />
         </entry>
         <entry name="FilterBar" type="Bool">
             <label>Should the filter bar be shown</label>
