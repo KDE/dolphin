@@ -64,6 +64,7 @@
 #include <KUrlNavigator>
 #include <KWindowSystem>
 #include <KXMLGUIFactory>
+#include <kxmlgui_version.h>
 
 #include <kio_version.h>
 
@@ -121,6 +122,10 @@ DolphinMainWindow::DolphinMainWindow() :
 #endif
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
+
+#if KXMLGUI_VERSION >= QT_VERSION_CHECK(5, 88, 0)
+    setStateConfigGroup("State");
+#endif
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
