@@ -130,13 +130,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
     }
 #endif
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openStateConfig(), "SettingsDialog");
     KWindowConfig::restoreWindowSize(windowHandle(), dialogConfig);
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
-    KConfigGroup dialogConfig(KSharedConfig::openConfig(QStringLiteral("dolphinrc")), "SettingsDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openStateConfig(), "SettingsDialog");
     KWindowConfig::saveWindowSize(windowHandle(), dialogConfig);
 }
 
