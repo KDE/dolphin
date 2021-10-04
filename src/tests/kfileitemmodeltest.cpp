@@ -1226,11 +1226,16 @@ void KFileItemModelTest::collapseParentOfHiddenItems()
     QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 7); // 7 items: "a/", "a/b/", "a/b/c", "a/b/c/d/", "a/b/c/1", "a/b/1", "a/1"
 
-    // Set a name filter that matches nothing -> only the expanded folders remain.
+    // Set a name filter that matches nothing -> nothing should remain.
     m_model->setNameFilter("xyz");
     QCOMPARE(itemsRemovedSpy.count(), 1);
-    QCOMPARE(m_model->count(), 3);
-    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c");
+    QCOMPARE(m_model->count(), 0); //Everything is hidden
+    QCOMPARE(itemsInModel(), QStringList());
+
+    //Filter by the file names. Folder "d" will be hidden since it was collapsed
+    m_model->setNameFilter("1");
+    QCOMPARE(itemsRemovedSpy.count(), 1); // nothing was removed, itemsRemovedSpy count will remain the same:
+    QCOMPARE(m_model->count(), 6); // 6 items: "a/", "a/b/", "a/b/c", "a/b/c/1", "a/b/1", "a/1"
 
     // Collapse the folder "a/".
     m_model->setExpanded(0, false);
@@ -1238,9 +1243,11 @@ void KFileItemModelTest::collapseParentOfHiddenItems()
     QCOMPARE(m_model->count(), 1);
     QCOMPARE(itemsInModel(), QStringList() << "a");
 
-    // Remove the filter -> no files should appear (and we should not get a crash).
+    // Remove the filter -> "a" should still appear (and we should not get a crash).
     m_model->setNameFilter(QString());
+    QCOMPARE(itemsRemovedSpy.count(), 2); // nothing was removed, itemsRemovedSpy count will remain the same:
     QCOMPARE(m_model->count(), 1);
+    QCOMPARE(itemsInModel(), QStringList() << "a");
 }
 
 /**
@@ -1276,9 +1283,15 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 7); // 7 items: "a/", "a/b/", "a/b/c", "a/b/c/d/", "a/b/c/1", "a/b/1", "a/1"
 
-    // Set a name filter that matches nothing -> only the expanded folders remain.
+    // Set a name filter that matches nothing -> nothing should remain.
     m_model->setNameFilter("xyz");
     QCOMPARE(itemsRemovedSpy.count(), 1);
+    QCOMPARE(m_model->count(), 0);
+    QCOMPARE(itemsInModel(), QStringList());
+
+    // Filter by "c". Folder "b" will also be shown because it is its parent.
+    m_model->setNameFilter("c");
+    QCOMPARE(itemsRemovedSpy.count(), 1); // nothing was removed, itemsRemovedSpy count will remain the same:
     QCOMPARE(m_model->count(), 3);
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c");
 
@@ -1349,21 +1362,22 @@ void KFileItemModelTest::testGeneralParentChildRelationships()
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
 
-    m_model->slotItemsAdded(realChild1, KFileItemList() << KFileItem(QUrl("grandChild1"), QString(), KFileItem::Unknown));
-    m_model->slotCompleted();
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "realGrandChild2" << "child2");
-
     m_model->slotItemsAdded(realChild2, KFileItemList() << KFileItem(QUrl("grandChild2"), QString(), KFileItem::Unknown));
     m_model->slotCompleted();
     QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "grandChild1" << "realGrandChild1" << "child1" << "parent2" << "realChild2" << "grandChild2" << "realGrandChild2" << "child2");
 
-    // Set a name filter that matches nothing -> only expanded folders remain.
+    // Set a name filter that matches nothing -> nothing will remain.
     m_model->setNameFilter("xyz");
-    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2" << "realChild2");
+    QCOMPARE(itemsInModel(), QStringList());
     QCOMPARE(itemsRemovedSpy.count(), 1);
     QList<QVariant> arguments = itemsRemovedSpy.takeFirst();
     KItemRangeList itemRangeList = arguments.at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(2, 3) << KItemRange(7, 3));
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 10));
+
+    // Set a name filter that matches only "realChild". Their prarents should still show.
+    m_model->setNameFilter("realChild");
+    QCOMPARE(itemsInModel(), QStringList() << "parent1" << "realChild1" << "parent2" << "realChild2");
+    QCOMPARE(itemsRemovedSpy.count(), 0);  // nothing was removed, itemsRemovedSpy will not be called this time
 
     // Collapse "parent1".
     m_model->setExpanded(0, false);

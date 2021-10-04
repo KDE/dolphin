@@ -695,45 +695,87 @@ QStringList KFileItemModel::mimeTypeFilters() const
     return m_filter.mimeTypes();
 }
 
-
 void KFileItemModel::applyFilters()
 {
-    // Check which shown items from m_itemData must get
-    // hidden and hence moved to m_filteredItems.
-    QVector<int> newFilteredIndexes;
+    // ===STEP 1===
+    // Check which previously shown items from m_itemData must now get
+    // hidden and hence moved from m_itemData into m_filteredItems.
 
-    const int itemCount = m_itemData.count();
-    for (int index = 0; index < itemCount; ++index) {
-        ItemData* itemData = m_itemData.at(index);
+    QList<int> newFilteredIndexes; // This structure is good for prepending. We will want an ascending sorted Container at the end, this will do fine.
 
-        // Only filter non-expanded items as child items may never
-        // exist without a parent item
-        if (!itemData->values.value("isExpanded").toBool()) {
-            const KFileItem item = itemData->item;
-            if (!m_filter.matches(item)) {
-                newFilteredIndexes.append(index);
-                m_filteredItems.insert(item, itemData);
-            }
+    // This pointer will refer to the next confirmed shown item from the point of
+    // view of the current "itemData" in the upcoming "for" loop.
+    ItemData *itemShownBelow = nullptr;
+
+    // We will iterate backwards because it's convenient to know beforehand if the item just below is its child or not.
+    for (int index = m_itemData.count() - 1; index >= 0; --index) {
+        ItemData *itemData = m_itemData.at(index);
+
+        if (m_filter.matches(itemData->item)
+            || (itemShownBelow && itemShownBelow->parent == itemData && itemData->values.value("isExpanded").toBool())) {
+            // We could've entered here for two reasons:
+            // 1. This item passes the filter itself
+            // 2. This is an expanded folder that doesn't pass the filter but sees a filter-passing child just below
+
+            // So this item must remain shown.
+            // Lets register this item as the next shown item from the point of view of the next iteration of this for loop
+            itemShownBelow = itemData;
+        } else {
+            // We hide this item for now, however, for expanded folders this is not final:
+            // if after the next "for" loop we discover that its children must now be shown with the newly applied fliter, we shall re-insert it
+            newFilteredIndexes.prepend(index);
+            m_filteredItems.insert(itemData->item, itemData);
+            // indexShownBelow doesn't get updated since this item will be hidden
         }
     }
 
-    const KItemRangeList removedRanges = KItemRangeList::fromSortedContainer(newFilteredIndexes);
-    removeItems(removedRanges, KeepItemData);
+    // This will remove the newly filtered items from m_itemData
+    removeItems(KItemRangeList::fromSortedContainer(newFilteredIndexes), KeepItemData);
 
+    // ===STEP 2===
     // Check which hidden items from m_filteredItems should
-    // get visible again and hence removed from m_filteredItems.
-    QList<ItemData*> newVisibleItems;
+    // become visible again and hence moved from m_filteredItems back into m_itemData.
 
-    QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.begin();
+    QList<ItemData *> newVisibleItems;
+
+    QHash<KFileItem, ItemData *> ancestorsOfNewVisibleItems; // We will make sure these also become visible in step 3.
+
+    QHash<KFileItem, ItemData *>::iterator it = m_filteredItems.begin();
     while (it != m_filteredItems.end()) {
         if (m_filter.matches(it.key())) {
             newVisibleItems.append(it.value());
+
+            // If this is a child of an expanded folder, we must make sure that its whole parental chain will also be shown.
+            // We will go up through its parental chain until we either:
+            // 1 - reach the "root item" of the current view, i.e the currently opened folder on Dolphin. Their children have their ItemData::parent set to nullptr.
+            // or
+            // 2 - we reach an unfiltered parent or a previously discovered ancestor.
+            for (ItemData *parent = it.value()->parent; parent && !ancestorsOfNewVisibleItems.contains(parent->item) && m_filteredItems.contains(parent->item);
+                 parent = parent->parent) {
+                // We wish we could remove this parent from m_filteredItems right now, but we are iterating over it
+                // and it would mess up the iteration. We will mark it to be removed in step 3.
+                ancestorsOfNewVisibleItems.insert(parent->item, parent);
+            }
+
             it = m_filteredItems.erase(it);
         } else {
+            // Item remains filtered for now
+            // However, for expanded folders this is not final, we may discover later that it has unfiltered descendants.
             ++it;
         }
     }
 
+    // ===STEP 3===
+    // Handles the ancestorsOfNewVisibleItems.
+    // Now that we are done iterating through m_filteredItems we can safely move the ancestorsOfNewVisibleItems from m_filteredItems to newVisibleItems.
+    for (it = ancestorsOfNewVisibleItems.begin(); it != ancestorsOfNewVisibleItems.end(); it++) {
+        if (m_filteredItems.remove(it.key())) {
+            // m_filteredItems still contained this ancestor until now so we can be sure that we aren't adding a duplicate ancestor to newVisibleItems.
+            newVisibleItems.append(it.value());
+        }
+    }
+
+    // This will insert the newly discovered unfiltered items into m_itemData
     insertItems(newVisibleItems);
 }
 
