@@ -38,7 +38,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
     setMinimumSize(QSize(540, minSize.height()));
 
     setFaceType(List);
-    setWindowTitle(i18nc("@title:window", "Dolphin Preferences"));
+    setWindowTitle(i18nc("@title:window", "Configure"));
     QDialogButtonBox* box = new QDialogButtonBox(QDialogButtonBox::Ok
             | QDialogButtonBox::Apply | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults);
     box->button(QDialogButtonBox::Apply)->setEnabled(false);
