@@ -11,6 +11,7 @@
 #include "dolphin_contextmenusettings.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
+#include "global.h"
 
 #include <KDesktopFile>
 #include <KLocalizedString>
@@ -30,6 +31,7 @@
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
+#include <QApplication>
 
 namespace
 {
@@ -37,6 +39,8 @@ namespace
     const char VersionControlServicePrefix[] = "_version_control_";
     const char DeleteService[] = "_delete";
     const char CopyToMoveToService[] ="_copy_to_move_to";
+
+    bool laterSelected = false;
 }
 
 ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
@@ -192,11 +196,21 @@ void ContextMenuSettingsPage::applySettings()
         VersionControlSettings::setEnabledPlugins(enabledPlugins);
         VersionControlSettings::self()->save();
 
-        KMessageBox::information(window(),
-                                 i18nc("@info", "Dolphin must be restarted to apply the "
-                                                "updated version control systems settings."),
-                                 QString(), // default title
-                                 QStringLiteral("ShowVcsRestartInformation"));
+        if (!laterSelected) {
+            KMessageBox::ButtonCode promptRestart = KMessageBox::questionYesNo(window(),
+                                    i18nc("@info", "Dolphin must be restarted to apply the "
+                                                "updated version control system settings."),
+                                    i18nc("@info", "Restart now?"),
+                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
+                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later"))
+                        );
+            if (promptRestart == KMessageBox::ButtonCode::Yes) {
+                Dolphin::openNewWindow();
+                qApp->quit();
+            } else {
+                laterSelected = true;
+            }
+        }
     }
 }
 
