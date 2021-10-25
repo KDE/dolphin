@@ -31,7 +31,7 @@ public:
     explicit KStandardItem(KStandardItem* parent = nullptr);
     explicit KStandardItem(const QString& text, KStandardItem* parent = nullptr);
     KStandardItem(const QString& icon, const QString& text, KStandardItem* parent = nullptr);
-    virtual ~KStandardItem();
+    ~KStandardItem() override;
 
     /**
      * Sets the text for the "text"-role.

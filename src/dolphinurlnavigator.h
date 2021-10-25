@@ -36,7 +36,7 @@ public:
      */
     DolphinUrlNavigator(const QUrl &url, QWidget *parent = nullptr);
 
-    virtual ~DolphinUrlNavigator();
+    ~DolphinUrlNavigator() override;
 
     // TODO: Fix KUrlNavigator::sizeHint() instead.
     QSize sizeHint() const override;

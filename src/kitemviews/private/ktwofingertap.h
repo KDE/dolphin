@@ -20,7 +20,7 @@ class DOLPHIN_EXPORT KTwoFingerTap : public QGesture
     Q_PROPERTY(QPointF scenePos READ scenePos WRITE setScenePos)
 public:
     explicit KTwoFingerTap(QObject* parent = nullptr);
-    ~KTwoFingerTap();
+    ~KTwoFingerTap() override;
     QPointF pos() const;
     void setPos(QPointF pos);
     QPointF screenPos() const;
@@ -37,7 +37,7 @@ class DOLPHIN_EXPORT KTwoFingerTapRecognizer : public QGestureRecognizer
 {
 public:
     explicit KTwoFingerTapRecognizer();
-    ~KTwoFingerTapRecognizer();
+    ~KTwoFingerTapRecognizer() override;
     QGesture* create(QObject*) override; 
     Result recognize(QGesture*, QObject*, QEvent*) override;
 private:

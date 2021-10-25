@@ -35,7 +35,7 @@ private:
     KDirLister *m_trashDirLister;
 
     Trash();
-    ~Trash();
+    ~Trash() override;
 };
 
 #endif // DOLPHINTRASH_H

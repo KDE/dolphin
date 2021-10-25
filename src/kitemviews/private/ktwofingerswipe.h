@@ -21,7 +21,7 @@ class DOLPHIN_EXPORT KTwoFingerSwipe : public QGesture
     Q_PROPERTY(qreal swipeAngle READ swipeAngle WRITE setSwipeAngle)
 public:
     explicit KTwoFingerSwipe(QObject* parent = nullptr);
-    ~KTwoFingerSwipe();
+    ~KTwoFingerSwipe() override;
     QPointF pos() const;
     void setPos(QPointF pos);
     QPointF screenPos() const;
@@ -41,7 +41,7 @@ class DOLPHIN_EXPORT KTwoFingerSwipeRecognizer : public QGestureRecognizer
 {
 public:
     explicit KTwoFingerSwipeRecognizer();
-    ~KTwoFingerSwipeRecognizer();
+    ~KTwoFingerSwipeRecognizer() override;
     QGesture* create(QObject*) override;
     Result recognize(QGesture*, QObject*, QEvent*) override;
 private:
