@@ -55,6 +55,9 @@ ViewProperties::ViewProperties(const QUrl& url) :
     } else if (url.scheme() == QLatin1String("recentdocuments")) {
         m_filePath = destinationDir(QStringLiteral("recentdocuments"));
         useRecentDocumentsView = true;
+    } else if (url.scheme() == QLatin1String("recentlyused")) {
+        m_filePath = destinationDir(QStringLiteral("recentlyused"));
+        useRecentDocumentsView = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
 
