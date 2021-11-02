@@ -58,7 +58,6 @@
 #include <QMenu>
 #include <QMimeDatabase>
 #include <QPixmapCache>
-#include <QPointer>
 #include <QScrollBar>
 #include <QSize>
 #include <QTimer>

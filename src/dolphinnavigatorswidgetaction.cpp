@@ -21,7 +21,6 @@
 #include <QDomDocument>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QSplitter>
 #include <QToolBar>
 
 #include <limits>

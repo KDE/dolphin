@@ -30,7 +30,6 @@
 #include <KProtocolManager>
 #include <KShell>
 #include <KUrlComboBox>
-#include <KUrlNavigator>
 
 #include <QDropEvent>
 #include <QLoggingCategory>

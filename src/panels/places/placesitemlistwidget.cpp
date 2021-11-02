@@ -7,11 +7,9 @@
 #include "placesitemlistwidget.h"
 
 #include <QStyleOption>
-#include <QPainter>
 
 #include <KColorScheme>
 
-#include <KIO/FileSystemFreeSpaceJob>
 #include <Solid/Device>
 #include <Solid/NetworkShare>
 

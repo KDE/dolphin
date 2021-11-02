@@ -42,7 +42,6 @@
 #include <QMimeData>
 #include <QVBoxLayout>
 #include <QToolTip>
-#include <QTimer>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     Panel(parent),

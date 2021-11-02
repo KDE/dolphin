@@ -20,7 +20,6 @@
 #include "views/viewmodecontroller.h"
 
 #include <KActionCollection>
-#include <KFileItemActions>
 #include <KFileItemListProperties>
 #include <KHamburgerMenu>
 #include <KIO/EmptyTrashJob>
