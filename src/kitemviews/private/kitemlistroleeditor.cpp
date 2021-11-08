@@ -167,7 +167,7 @@ void KItemListRoleEditor::autoAdjustSize()
 void KItemListRoleEditor::emitRoleEditingFinished(EditResultDirection direction)
 {
     QVariant ret;
-    ret.setValue(EditResult {KIO::encodeFileName(toPlainText()), direction});
+    ret.setValue(EditResult {KIO::encodeFileName(toPlainText().replace('\n', ' ')), direction});
 
     if (!m_blockFinishedSignal) {
         Q_EMIT roleEditingFinished(m_role, ret);
