@@ -660,7 +660,7 @@ void DolphinViewContainer::slotItemsActivated(const KFileItemList& items)
     Q_ASSERT(items.count() >= 2);
 
     KFileItemActions fileItemActions(this);
-    fileItemActions.runPreferredApplications(items, QString());
+    fileItemActions.runPreferredApplications(items);
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
