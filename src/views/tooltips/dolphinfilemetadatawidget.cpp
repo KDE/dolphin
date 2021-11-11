@@ -66,7 +66,7 @@ DolphinFileMetaDataWidget::DolphinFileMetaDataWidget(QWidget* parent) :
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->addWidget(m_preview);
-    layout->addSpacing(layout->margin());
+    layout->addSpacing(layout->contentsMargins().left());
     layout->addLayout(textLayout);
 }
 
