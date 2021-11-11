@@ -275,7 +275,7 @@ void ContextMenuSettingsPage::loadServices()
     const KService::List entries = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
     for (const KService::Ptr &service : entries) {
         const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
-        const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(file, true);
+        const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
 
         const KDesktopFile desktopFile(file);
         const QString subMenuName = desktopFile.desktopGroup().readEntry("X-KDE-Submenu");
