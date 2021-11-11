@@ -307,7 +307,7 @@ void ContextMenuSettingsPage::loadServices()
 #endif
 
     // Load JSON-based plugins that implement the KFileItemActionPlugin interface
-    const auto jsonPlugins = KPluginLoader::findPlugins(QStringLiteral("kf5/kfileitemaction"));
+    const auto jsonPlugins = KPluginMetaData::findPlugins(QStringLiteral("kf5/kfileitemaction"));
 
     for (const auto &jsonMetadata : jsonPlugins) {
         const QString desktopEntryName = jsonMetadata.pluginId();
@@ -328,7 +328,7 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
     // Create a checkbox for each available version control plugin
     QSet<QString> loadedPlugins;
 
-    const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("dolphin/vcs"));
+    const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
     for (const auto &plugin : plugins) {
         const QString pluginName = plugin.name();
         addRow(QStringLiteral("code-class"),

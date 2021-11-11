@@ -14,7 +14,6 @@
 
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KPluginLoader>
 #include <KPluginMetaData>
 
 #include <QTimer>
@@ -280,15 +279,13 @@ void VersionControlObserver::initPlugins()
         // all fileview version control plugins and remember them in 'plugins'.
         const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
-        const QVector<KPluginMetaData> plugins = KPluginLoader::findPlugins(QStringLiteral("dolphin/vcs"));
+        const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
 
         QSet<QString> loadedPlugins;
 
         for (const auto &p : plugins) {
             if (enabledPlugins.contains(p.name())) {
-                KPluginLoader loader(p.fileName());
-                KPluginFactory *factory = loader.factory();
-                KVersionControlPlugin *plugin = factory->create<KVersionControlPlugin>();
+                auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p).plugin;
                 if (plugin) {
                     m_plugins.append(plugin);
                     loadedPlugins += p.name();

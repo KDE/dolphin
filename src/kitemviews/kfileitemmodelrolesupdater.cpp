@@ -18,7 +18,7 @@
 #include <KIconLoader>
 #include <KJobWidgets>
 #include <KOverlayIconPlugin>
-#include <KPluginLoader>
+#include <KPluginMetaData>
 #include <KSharedConfig>
 
 #ifdef HAVE_BALOO
@@ -30,6 +30,7 @@
 #include <QApplication>
 #include <QIcon>
 #include <QPainter>
+#include <QPluginLoader>
 #include <QElapsedTimer>
 #include <QTimer>
 
@@ -120,15 +121,16 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
             this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 
-    const auto plugins = KPluginLoader::instantiatePlugins(QStringLiteral("kf5/overlayicon"), nullptr, qApp);
-    for (QObject *it : plugins) {
-        auto plugin = qobject_cast<KOverlayIconPlugin*>(it);
+    const auto plugins = KPluginMetaData::findPlugins(QStringLiteral("kf5/overlayicon"));
+    for (const KPluginMetaData &data : plugins) {
+        auto instance = QPluginLoader(data.fileName()).instance();
+        auto plugin = qobject_cast<KOverlayIconPlugin *>(instance);
         if (plugin) {
             m_overlayIconsPlugin.append(plugin);
             connect(plugin, &KOverlayIconPlugin::overlaysChanged, this, &KFileItemModelRolesUpdater::slotOverlaysChanged);
         } else {
             // not our/valid plugin, so delete the created object
-            it->deleteLater();
+            delete instance;
         }
     }
 }

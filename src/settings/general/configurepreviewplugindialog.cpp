@@ -11,7 +11,7 @@
 #include <KIO/ThumbCreator>
 #include <KJobWidgets>
 #include <KLocalizedString>
-#include <KPluginLoader>
+#include <QPluginLoader>
 
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -25,7 +25,7 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
     QDialog(parent)
 {
     QSharedPointer<ThumbCreator> previewPlugin;
-    const QString pluginPath = KPluginLoader::findPlugin(desktopEntryName);
+    const QString pluginPath = QPluginLoader(desktopEntryName).fileName();
     if (!pluginPath.isEmpty()) {
         newCreator create = (newCreator)QLibrary::resolve(pluginPath, "new_creator");
         if (create) {

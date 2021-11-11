@@ -15,7 +15,6 @@
 #include <KMountPoint>
 #include <KParts/ReadOnlyPart>
 #include <KPluginFactory>
-#include <KPluginLoader>
 #include <KProtocolInfo>
 #include <KShell>
 #include <kde_terminal_interface.h>
@@ -129,8 +128,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
 
     if (!m_terminal) {
         m_clearTerminal = true;
-        KPluginLoader loader(QStringLiteral("konsolepart"));
-        KPluginFactory* factory = loader.factory();
+        KPluginFactory *factory = KPluginFactory::loadFactory(KPluginMetaData(QStringLiteral("konsolepart"))).plugin;
         m_konsolePart = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : nullptr;
         if (m_konsolePart) {
             connect(m_konsolePart, &KParts::ReadOnlyPart::destroyed, this, &TerminalPanel::terminalExited);

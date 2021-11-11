@@ -45,7 +45,6 @@ class KFileItem;
  * - Add the following lines at the top of fileviewsvnplugin.cpp:
  *   <code>
  *   #include <KPluginFactory>
- *   #include <KPluginLoader>
  *   K_PLUGIN_CLASS_WITH_JSON(FileViewSvnPlugin, "fileviewsvnplugin.json")
  *   </code>
  *
