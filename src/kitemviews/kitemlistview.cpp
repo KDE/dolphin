@@ -2237,7 +2237,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
     const int headerMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderMargin);
     for (const QByteArray& visibleRole : qAsConst(m_visibleRoles)) {
         const QString headerText = m_model->roleDescription(visibleRole);
-        const qreal headerWidth = fontMetrics.width(headerText) + gripMargin + headerMargin * 2;
+        const qreal headerWidth = fontMetrics.horizontalAdvance(headerText) + gripMargin + headerMargin * 2;
         widths.insert(visibleRole, headerWidth);
     }
 
