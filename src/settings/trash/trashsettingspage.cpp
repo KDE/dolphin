@@ -15,7 +15,7 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
 {
     QFormLayout* topLayout = new QFormLayout(this);
 
-    m_proxy = new KCModuleProxy(QStringLiteral("kcmtrash"));
+    m_proxy = new KCModuleProxy(KPluginMetaData(QStringLiteral("kcm_trash")));
     topLayout->addRow(m_proxy);
 
     loadSettings();
