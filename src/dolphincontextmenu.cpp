@@ -477,7 +477,7 @@ KFileItem DolphinContextMenu::baseFileItem()
 void DolphinContextMenu::addOpenWithActions()
 {
     // insert 'Open With...' action or sub menu
-    m_fileItemActions->addOpenWithActionsTo(this, QStringLiteral("DesktopEntryName != '%1'").arg(qApp->desktopFileName()));
+    m_fileItemActions->insertOpenWithActionsTo(nullptr, this, QStringList{qApp->desktopFileName()});
 }
 
 void DolphinContextMenu::addCustomActions()
