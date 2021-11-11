@@ -65,15 +65,15 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     }
 
     connect(m_dirLister, &KCoreDirLister::started, this, &KFileItemModel::directoryLoadingStarted);
-    connect(m_dirLister, QOverload<>::of(&KCoreDirLister::canceled), this, &KFileItemModel::slotCanceled);
+    connect(m_dirLister, &KCoreDirLister::canceled, this, &KFileItemModel::slotCanceled);
     connect(m_dirLister, &KCoreDirLister::itemsAdded, this, &KFileItemModel::slotItemsAdded);
     connect(m_dirLister, &KCoreDirLister::itemsDeleted, this, &KFileItemModel::slotItemsDeleted);
     connect(m_dirLister, &KCoreDirLister::refreshItems, this, &KFileItemModel::slotRefreshItems);
-    connect(m_dirLister, QOverload<>::of(&KCoreDirLister::clear), this, &KFileItemModel::slotClear);
+    connect(m_dirLister, &KCoreDirLister::clear, this, &KFileItemModel::slotClear);
     connect(m_dirLister, &KCoreDirLister::infoMessage, this, &KFileItemModel::infoMessage);
     connect(m_dirLister, &KCoreDirLister::jobError, this, &KFileItemModel::slotListerError);
     connect(m_dirLister, &KCoreDirLister::percent, this, &KFileItemModel::directoryLoadingProgress);
-    connect(m_dirLister, QOverload<const QUrl&, const QUrl&>::of(&KCoreDirLister::redirection), this, &KFileItemModel::directoryRedirection);
+    connect(m_dirLister, &KCoreDirLister::redirection, this, &KFileItemModel::directoryRedirection);
     connect(m_dirLister, &KCoreDirLister::listingDirCompleted, this, &KFileItemModel::slotCompleted);
 
     // Apply default roles that should be determined

@@ -133,7 +133,7 @@ DolphinMainWindow::DolphinMainWindow() :
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
 
-    connect(undoManager, QOverload<bool>::of(&KIO::FileUndoManager::undoAvailable),
+    connect(undoManager, &KIO::FileUndoManager::undoAvailable,
             this, &DolphinMainWindow::slotUndoAvailable);
     connect(undoManager, &KIO::FileUndoManager::undoTextChanged,
             this, &DolphinMainWindow::slotUndoTextChanged);
@@ -211,7 +211,7 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setupWhatsThis();
 
-    connect(KSycoca::self(), QOverload<>::of(&KSycoca::databaseChanged), this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
+    connect(KSycoca::self(), &KSycoca::databaseChanged, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 
     QTimer::singleShot(0, this, &DolphinMainWindow::updateOpenPreferredSearchToolAction);
 

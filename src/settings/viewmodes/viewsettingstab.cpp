@@ -112,7 +112,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         sortingModeGroup->addButton(m_sizeOfContents);
 
         m_recursiveDirectorySizeLimit = new QSpinBox();
-        connect(m_recursiveDirectorySizeLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, [this](int value) {
+        connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, [this](int value) {
             m_recursiveDirectorySizeLimit->setSuffix(i18np(" level deep", " levels deep", value));
         });
         m_recursiveDirectorySizeLimit->setRange(1, 20);
@@ -155,16 +155,16 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     switch (m_mode) {
     case IconsMode:
-        connect(m_widthBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
-        connect(m_maxLinesBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
+        connect(m_maxLinesBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         break;
     case CompactMode:
-        connect(m_widthBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ViewSettingsTab::changed);
+        connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
 #ifndef Q_OS_WIN
-        connect(m_recursiveDirectorySizeLimit, QOverload<int>::of(&QSpinBox::valueChanged), this, &ViewSettingsTab::changed);
+        connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &ViewSettingsTab::changed);
         connect(m_numberOfItems, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
         connect(m_sizeOfContents, &QRadioButton::toggled, this, [=]() {
             m_recursiveDirectorySizeLimit->setEnabled(m_sizeOfContents->isChecked());

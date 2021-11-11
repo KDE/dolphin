@@ -235,7 +235,7 @@ void DolphinFacetsWidget::initComboBox(QComboBox* combo)
     combo->setFrame(false);
     combo->setMinimumHeight(parentWidget()->height());
     combo->setCurrentIndex(0);
-    connect(combo, QOverload<int>::of(&QComboBox::activated), this, &DolphinFacetsWidget::facetChanged);
+    connect(combo, &QComboBox::activated, this, &DolphinFacetsWidget::facetChanged);
 }
 
 void DolphinFacetsWidget::updateTagsSelector()

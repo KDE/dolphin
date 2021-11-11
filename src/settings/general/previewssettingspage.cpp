@@ -94,8 +94,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     loadSettings();
 
     connect(m_listView, &QListView::clicked, this, &PreviewsSettingsPage::changed);
-    connect(m_localFileSizeBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
-    connect(m_remoteFileSizeBox, QOverload<int>::of(&QSpinBox::valueChanged), this, &PreviewsSettingsPage::changed);
+    connect(m_localFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
+    connect(m_remoteFileSizeBox, &QSpinBox::valueChanged, this, &PreviewsSettingsPage::changed);
 }
 
 PreviewsSettingsPage::~PreviewsSettingsPage()

@@ -68,7 +68,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
             this, &DolphinPart::slotErrorMessage);
 
-    connect(m_view, &DolphinView::directoryLoadingCompleted, this, QOverload<>::of(&KParts::ReadOnlyPart::completed));
+    connect(m_view, &DolphinView::directoryLoadingCompleted, this, &KParts::ReadOnlyPart::completed);
     connect(m_view, &DolphinView::directoryLoadingCompleted, this, &DolphinPart::updatePasteAction);
     connect(m_view, &DolphinView::directoryLoadingProgress, this, &DolphinPart::updateProgress);
     connect(m_view, &DolphinView::errorMessage, this, &DolphinPart::slotErrorMessage);
@@ -94,7 +94,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
     connect(m_view, &DolphinView::requestContextMenu,
             this, &DolphinPart::slotOpenContextMenu);
     connect(m_view, &DolphinView::selectionChanged,
-            m_extension, QOverload<const KFileItemList&>::of(&KParts::BrowserExtension::selectionInfo));
+            m_extension, &KParts::BrowserExtension::selectionInfo);
     connect(m_view, &DolphinView::selectionChanged,
             this, &DolphinPart::slotSelectionChanged);
     connect(m_view, &DolphinView::requestItemInfo,

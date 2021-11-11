@@ -28,7 +28,7 @@ Trash::Trash()
         bool isTrashEmpty = m_trashDirLister->items().isEmpty();
         Q_EMIT emptinessChanged(isTrashEmpty);
     };
-    connect(m_trashDirLister, QOverload<>::of(&KCoreDirLister::completed), this, trashDirContentChanged);
+    connect(m_trashDirLister, &KCoreDirLister::completed, this, trashDirContentChanged);
     connect(m_trashDirLister, &KDirLister::itemsDeleted, this, trashDirContentChanged);
     m_trashDirLister->openUrl(QUrl(QStringLiteral("trash:/")));
 }

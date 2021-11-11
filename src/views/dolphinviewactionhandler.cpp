@@ -213,7 +213,7 @@ void DolphinViewActionHandler::createActions()
     viewModeActions->addAction(compactAction);
     viewModeActions->addAction(detailsAction);
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
-    connect(viewModeActions, QOverload<QAction*>::of(&KSelectAction::triggered), this, &DolphinViewActionHandler::slotViewModeActionTriggered);
+    connect(viewModeActions, &KSelectAction::triggered, this, &DolphinViewActionHandler::slotViewModeActionTriggered);
 
     QAction* zoomInAction = KStandardAction::zoomIn(this,
                             &DolphinViewActionHandler::zoomIn,

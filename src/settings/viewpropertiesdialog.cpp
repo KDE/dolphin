@@ -150,11 +150,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     layout->addRow(QString(), m_showHiddenFiles);
     layout->addRow(QString(), m_sortHiddenLast);
 
-    connect(m_viewMode, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    connect(m_viewMode, &QComboBox::currentIndexChanged,
             this, &ViewPropertiesDialog::slotViewModeChanged);
-    connect(m_sorting, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    connect(m_sorting, &QComboBox::currentIndexChanged,
             this, &ViewPropertiesDialog::slotSortingChanged);
-    connect(m_sortOrder, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    connect(m_sortOrder, &QComboBox::currentIndexChanged,
             this, &ViewPropertiesDialog::slotSortOrderChanged);
     connect(m_sortFoldersFirst, &QCheckBox::clicked,
             this, &ViewPropertiesDialog::slotSortFoldersFirstChanged);
