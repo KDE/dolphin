@@ -90,7 +90,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
     });
     KPageWidgetItem* contextMenuSettingsFrame = addPage(contextMenuSettingsPage,
                                                         i18nc("@title:group", "Context Menu"));
-    contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("application-menu")));
+    contextMenuSettingsFrame->setIcon(QIcon::fromTheme(QStringLiteral("preferences-desktop-menu-edit")));
     connect(contextMenuSettingsPage, &ContextMenuSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
 
     // Trash
