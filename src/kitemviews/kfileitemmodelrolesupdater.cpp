@@ -1405,9 +1405,18 @@ QList<int> KFileItemModelRolesUpdater::indexesToResolve() const
                                (2 * m_maximumVisibleItems)));
 
     // Add visible items.
+    // Resolve files first, their previews are quicker.
+    QList<int> visibleDirs;
     for (int i = m_firstVisibleIndex; i <= m_lastVisibleIndex; ++i) {
-        result.append(i);
+        const KFileItem item = m_model->fileItem(i);
+        if (item.isDir()) {
+            visibleDirs.append(i);
+        } else {
+            result.append(i);
+        }
     }
+
+    result.append(visibleDirs);
 
     // We need a reasonable upper limit for number of items to resolve after
     // and before the visible range. m_maximumVisibleItems can be quite large
