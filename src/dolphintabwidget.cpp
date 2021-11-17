@@ -242,8 +242,18 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
         }
     }
 
+    bool shouldOpenDirs = true;
+    if (dirs.count() == 1) {
+        const QPair<int, bool> indexInfo = indexByUrl(dirs.constFirst());
+        if (indexInfo.second) {
+            shouldOpenDirs = false;
+        }
+    }
+
     const int oldTabCount = count();
-    openDirectories(dirs, splitView);
+    if (shouldOpenDirs) {
+        openDirectories(dirs, splitView);
+    }
     const int tabCount = count();
 
     // Select the files. Although the files can be split between several
@@ -251,9 +261,13 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
     // the DolphinView will just ignore invalid selections.
     for (int i = 0; i < tabCount; ++i) {
         DolphinTabPage* tabPage = tabPageAt(i);
+        bool refocusInFolder = !shouldOpenDirs && tabPage->primaryViewContainer()->url() == dirs.constFirst();
+        if (refocusInFolder) {
+            tabPage->activeViewContainer()->view()->clearSelection();
+        }
         tabPage->markUrlsAsSelected(files);
         tabPage->markUrlAsCurrent(files.first());
-        if (i < oldTabCount) {
+        if (i < oldTabCount || refocusInFolder) {
             // Force selection of file if directory was already open, BUG: 417230
             tabPage->activeViewContainer()->view()->updateViewState();
         }
