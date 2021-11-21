@@ -26,6 +26,6 @@ Dependencies:
     'frameworks/baloo': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kfilemetadata': '@stable'
-    'libraries/baloo-widgets': '@stable'
+    'libraries/baloo-widgets': '@same'
     'libraries/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
