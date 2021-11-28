@@ -25,6 +25,7 @@
 #include <QWidget>
 #include <QRecursiveMutex>
 #include <QIcon>
+#include <algorithm>
 
 Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
 
@@ -149,6 +150,18 @@ QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
         ItemData* data = m_itemData.at(index);
         if (data->values.isEmpty()) {
             data->values = retrieveData(data->item, data->parent);
+        } else if (data->values.count() <= 2 && data->values.value("isExpanded").toBool()) {
+            // Special case dealt by slotRefreshItems(), avoid losing the "isExpanded" and "expandedParentsCount" state when refreshing
+            // slotRefreshItems() makes sure folders keep the "isExpanded" and "expandedParentsCount" while clearing the remaining values
+            // so this special request of different behavior can be identified here.
+            bool hasExpandedParentsCount = false;
+            const int expandedParentsCount = data->values.value("expandedParentsCount").toInt(&hasExpandedParentsCount);
+
+            data->values = retrieveData(data->item, data->parent);
+            data->values.insert("isExpanded", true);
+            if (hasExpandedParentsCount) {
+                data->values.insert("expandedParentsCount", expandedParentsCount);
+            }
         }
 
         return data->values;
@@ -712,7 +725,7 @@ void KFileItemModel::applyFilters()
         ItemData *itemData = m_itemData.at(index);
 
         if (m_filter.matches(itemData->item)
-            || (itemShownBelow && itemShownBelow->parent == itemData && itemData->values.value("isExpanded").toBool())) {
+            || (itemShownBelow && itemShownBelow->parent == itemData)) {
             // We could've entered here for two reasons:
             // 1. This item passes the filter itself
             // 2. This is an expanded folder that doesn't pass the filter but sees a filter-passing child just below
@@ -1010,12 +1023,7 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
 {
     Q_ASSERT(!items.isEmpty());
 
-    QUrl parentUrl;
-    if (m_expandedDirs.contains(directoryUrl)) {
-        parentUrl = m_expandedDirs.value(directoryUrl);
-    } else {
-        parentUrl = directoryUrl.adjusted(QUrl::StripTrailingSlash);
-    }
+    const QUrl parentUrl = m_expandedDirs.value(directoryUrl, directoryUrl.adjusted(QUrl::StripTrailingSlash));
 
     if (m_requestRole[ExpandedParentsCountRole]) {
         // If the expanding of items is enabled, the call
@@ -1049,14 +1057,26 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
     if (!m_filter.hasSetFilters()) {
         m_pendingItemsToInsert.append(itemDataList);
     } else {
+        QSet<ItemData *> parentsToEnsureVisible;
+
         // The name or type filter is active. Hide filtered items
         // before inserting them into the model and remember
         // the filtered items in m_filteredItems.
         for (ItemData* itemData : itemDataList) {
             if (m_filter.matches(itemData->item)) {
                 m_pendingItemsToInsert.append(itemData);
+                if (itemData->parent) {
+                    parentsToEnsureVisible.insert(itemData->parent);
+                }
             } else {
                 m_filteredItems.insert(itemData->item, itemData);
+            }
+        }
+
+        // Entire parental chains must be shown
+        for (ItemData *parent : parentsToEnsureVisible) {
+            for (; parent && m_filteredItems.remove(parent->item); parent = parent->parent) {
+                m_pendingItemsToInsert.append(parent);
             }
         }
     }
@@ -1068,6 +1088,42 @@ void KFileItemModel::slotItemsAdded(const QUrl &directoryUrl, const KFileItemLis
     }
 
     Q_EMIT fileItemsChanged({KFileItem(directoryUrl)});
+}
+
+int KFileItemModel::filterChildlessParents(KItemRangeList &removedItemRanges, const QSet<ItemData *> &parentsToEnsureVisible)
+{
+    int filteredParentsCount = 0;
+    // The childless parents not yet removed will always be right above the start of a removed range.
+    // We iterate backwards to ensure the deepest folders are processed before their parents
+    for (int i = removedItemRanges.size() - 1; i >= 0; i--) {
+        KItemRange itemRange = removedItemRanges.at(i);
+        const ItemData *const firstInRange = m_itemData.at(itemRange.index);
+        ItemData *itemAbove = itemRange.index - 1 >= 0 ? m_itemData.at(itemRange.index - 1) : nullptr;
+        const ItemData *const itemBelow = itemRange.index + itemRange.count < m_itemData.count() ? m_itemData.at(itemRange.index + itemRange.count) : nullptr;
+
+        if (itemAbove && firstInRange->parent == itemAbove && !m_filter.matches(itemAbove->item) && (!itemBelow || itemBelow->parent != itemAbove)
+            && !parentsToEnsureVisible.contains(itemAbove)) {
+            // The item above exists, is the parent, doesn't pass the filter, does not belong to parentsToEnsureVisible
+            // and this deleted range covers all of its descendents, so none will be left.
+            m_filteredItems.insert(itemAbove->item, itemAbove);
+            // This range's starting index will be extended to include the parent above:
+            --itemRange.index;
+            ++itemRange.count;
+            ++filteredParentsCount;
+            KItemRange previousRange = i > 0 ? removedItemRanges.at(i - 1) : KItemRange();
+            // We must check if this caused the range to touch the previous range, if that's the case they shall be merged
+            if (i > 0 && previousRange.index + previousRange.count == itemRange.index) {
+                previousRange.count += itemRange.count;
+                removedItemRanges.replace(i - 1, previousRange);
+                removedItemRanges.removeAt(i);
+            } else {
+                removedItemRanges.replace(i, itemRange);
+                // We must revisit this range in the next iteration since its starting index changed
+                ++i;
+            }
+        }
+    }
+    return filteredParentsCount;
 }
 
 void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
@@ -1119,9 +1175,17 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         indexesToRemove = indexesToRemoveWithChildren;
     }
 
-    const KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
+    KItemRangeList itemRanges = KItemRangeList::fromSortedContainer(indexesToRemove);
     removeFilteredChildren(itemRanges);
-    removeItems(itemRanges, DeleteItemData);
+
+    // This call will update itemRanges to include the childless parents that have been filtered.
+    const int filteredParentsCount = filterChildlessParents(itemRanges);
+
+    // If any childless parents were filtered, then itemRanges got updated and now contains items that were really deleted
+    // mixed with expanded folders that are just being filtered out.
+    // If that's the case, we pass 'DeleteItemDataIfUnfiltered' as a hint
+    // so removeItems() will check m_filteredItems to differentiate which is which.
+    removeItems(itemRanges, filteredParentsCount > 0 ? DeleteItemDataIfUnfiltered : DeleteItemData);
 
     Q_EMIT fileItemsChanged(dirsChanged);
 }
@@ -1149,6 +1213,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     QList<ItemData*> newVisibleItems;
 
     QListIterator<QPair<KFileItem, KFileItem> > it(items);
+
     while (it.hasNext()) {
         const QPair<KFileItem, KFileItem>& itemPair = it.next();
         const KFileItem& oldItem = itemPair.first;
@@ -1172,8 +1237,14 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
             }
 
             m_items.remove(oldItem.url());
-            if (newItemMatchesFilter) {
-                m_items.insert(newItem.url(), indexForItem);
+            // We must maintain m_items consistent with m_itemData for now, this very loop is using it.
+            // We leave it to be cleared by removeItems() later, when m_itemData actually gets updated.
+            m_items.insert(newItem.url(), indexForItem);
+            if (newItemMatchesFilter
+                || (itemData->values.value("isExpanded").toBool()
+                    && (indexForItem + 1 < m_itemData.count() && m_itemData.at(indexForItem + 1)->parent == itemData))) {
+                // We are lenient with expanded folders that originally had visible children.
+                // If they become childless now they will be caught by filterChildlessParents()
                 changedFiles.append(newItem);
                 indexes.append(indexForItem);
             } else {
@@ -1184,12 +1255,23 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
             // Check if 'oldItem' is one of the filtered items.
             QHash<KFileItem, ItemData*>::iterator it = m_filteredItems.find(oldItem);
             if (it != m_filteredItems.end()) {
-                ItemData* itemData = it.value();
+                ItemData *const itemData = it.value();
                 itemData->item = newItem;
 
                 // The data stored in 'values' might have changed. Therefore, we clear
                 // 'values' and re-populate it the next time it is requested via data(int).
+                // Before clearing, we must remember if it was expanded and the expanded parents count,
+                // otherwise these states would be lost. The data() method will deal with this special case.
+                const bool isExpanded = itemData->values.value("isExpanded").toBool();
+                bool hasExpandedParentsCount = false;
+                const int expandedParentsCount = itemData->values.value("expandedParentsCount").toInt(&hasExpandedParentsCount);
                 itemData->values.clear();
+                if (isExpanded) {
+                    itemData->values.insert("isExpanded", true);
+                    if (hasExpandedParentsCount) {
+                        itemData->values.insert("expandedParentsCount", expandedParentsCount);
+                    }
+                }
 
                 m_filteredItems.erase(it);
                 if (newItemMatchesFilter) {
@@ -1201,12 +1283,44 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         }
     }
 
-    // Hide items, previously visible that should get hidden
-    const KItemRangeList removedRanges = KItemRangeList::fromSortedContainer(newFilteredIndexes);
+    std::sort(newFilteredIndexes.begin(), newFilteredIndexes.end());
+
+    // We must keep track of parents of new visible items since they must be shown no matter what
+    // They will be considered "immune" to filterChildlessParents()
+    QSet<ItemData *> parentsToEnsureVisible;
+
+    for (ItemData *item : newVisibleItems) {
+        for (ItemData *parent = item->parent; parent && !parentsToEnsureVisible.contains(parent); parent = parent->parent) {
+            parentsToEnsureVisible.insert(parent);
+        }
+    }
+    for (ItemData *parent : parentsToEnsureVisible) {
+        // We make sure they are all unfiltered.
+        if (m_filteredItems.remove(parent->item)) {
+            // If it is being unfiltered now, we mark it to be inserted by appending it to newVisibleItems
+            newVisibleItems.append(parent);
+            // It could be in newFilteredIndexes, we must remove it if it's there:
+            const int parentIndex = index(parent->item);
+            if (parentIndex >= 0) {
+                QVector<int>::iterator it = std::lower_bound(newFilteredIndexes.begin(), newFilteredIndexes.end(), parentIndex);
+                if (it != newFilteredIndexes.end() && *it == parentIndex) {
+                    newFilteredIndexes.erase(it);
+                }
+            }
+        }
+    }
+
+    KItemRangeList removedRanges = KItemRangeList::fromSortedContainer(newFilteredIndexes);
+
+    // This call will update itemRanges to include the childless parents that have been filtered.
+    filterChildlessParents(removedRanges, parentsToEnsureVisible);
+
     removeItems(removedRanges, KeepItemData);
 
     // Show previously hidden items that should get visible
     insertItems(newVisibleItems);
+
+    // Final step: we will emit 'itemsChanged' and 'fileItemsChanged' signals and trigger the asynchronous re-sorting logic.
 
     // If the changed items have been created recently, they might not be in m_items yet.
     // In that case, the list 'indexes' might be empty.
@@ -1214,8 +1328,21 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         return;
     }
 
+    if (newVisibleItems.count() > 0 || removedRanges.count() > 0) {
+        // The original indexes have changed and are now worthless since items were removed and/or inserted.
+        indexes.clear();
+        // m_items is not yet rebuilt at this point, so we use our own means to resolve the new indexes.
+        const QSet<const KFileItem> changedFilesSet(changedFiles.cbegin(), changedFiles.cend());
+        for (int i = 0; i < m_itemData.count(); i++) {
+            if (changedFilesSet.contains(m_itemData.at(i)->item)) {
+                indexes.append(i);
+            }
+        }
+    } else {
+        std::sort(indexes.begin(), indexes.end());
+    }
+
     // Extract the item-ranges out of the changed indexes
-    std::sort(indexes.begin(), indexes.end());
     const KItemRangeList itemRangeList = KItemRangeList::fromSortedContainer(indexes);
     emitItemsChangedAndTriggerResorting(itemRangeList, changedRoles);
 
@@ -1380,7 +1507,7 @@ void KFileItemModel::removeItems(const KItemRangeList& itemRanges, RemoveItemsBe
         removedItemsCount += range.count;
 
         for (int index = range.index; index < range.index + range.count; ++index) {
-            if (behavior == DeleteItemData) {
+            if (behavior == DeleteItemData || (behavior == DeleteItemDataIfUnfiltered && !m_filteredItems.contains(m_itemData.at(index)->item))) {
                 delete m_itemData.at(index);
             }
 
@@ -1424,8 +1551,9 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& 
         determineMimeTypes(items, 200);
     }
 
+    // We search for the parent in m_itemData and then in m_filteredItems if necessary
     const int parentIndex = index(parentUrl);
-    ItemData* parentItem = parentIndex < 0 ? nullptr : m_itemData.at(parentIndex);
+    ItemData *parentItem = parentIndex < 0 ? m_filteredItems.value(KFileItem(parentUrl), nullptr) : m_itemData.at(parentIndex);
 
     QList<ItemData*> itemDataList;
     itemDataList.reserve(items.count());

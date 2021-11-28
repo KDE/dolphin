@@ -309,7 +309,8 @@ private:
 
     enum RemoveItemsBehavior {
         KeepItemData,
-        DeleteItemData
+        DeleteItemData,
+        DeleteItemDataIfUnfiltered
     };
 
     void insertItems(QList<ItemData*>& items);
@@ -468,6 +469,15 @@ private:
      * Checks if the model's internal data structures are consistent.
      */
     bool isConsistent() const;
+
+    /**
+     * Filters out the expanded folders that don't pass the filter themselves and don't have any filter-passing children.
+     * Will update the removedItemRanges arguments to include the parents that have been filtered.
+     * @returns the number of parents that have been filtered.
+     * @param removedItemRanges The ranges of items being deleted/filtered, will get updated
+     * @param parentsToEnsureVisible Parents that must be visible no matter what due to being ancestors of newly visible items
+     */
+    int filterChildlessParents(KItemRangeList &removedItemRanges, const QSet<ItemData *> &parentsToEnsureVisible = QSet<ItemData *>());
 
 private:
     KDirLister *m_dirLister = nullptr;

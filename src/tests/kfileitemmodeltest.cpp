@@ -73,6 +73,10 @@ private Q_SLOTS:
     void testNameFilter();
     void testEmptyPath();
     void testRefreshExpandedItem();
+    void testAddItemToFilteredExpandedFolder();
+    void testDeleteItemsWithExpandedFolderWithFilter();
+    void testRefreshItemsWithFilter();
+    void testRefreshExpandedFolderWithFilter();
     void testRemoveHiddenItems();
     void collapseParentOfHiddenItems();
     void removeParentOfHiddenItems();
@@ -1144,6 +1148,219 @@ void KFileItemModelTest::testRefreshExpandedItem()
 }
 
 /**
+ * Verifies that adding an item to an expanded folder that's filtered makes the parental chain visible.
+ */
+void KFileItemModelTest::testAddItemToFilteredExpandedFolder()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy fileItemsChangedSpy(m_model, &KFileItemModel::fileItemsChanged);
+
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    m_testDir->createFile("a/b/file");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 1); // "a
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(itemsInsertedSpy.wait());   
+
+    // Expand "a/b/".
+    m_model->setExpanded(1, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/b/file"
+
+    const QUrl urlB = m_model->fileItem(1).url();
+
+    // Set a filter that matches ".txt" extension
+    m_model->setNameFilter("*.txt");
+    QCOMPARE(m_model->count(), 0); // Everything got hidden since we don't have a .txt file yet
+
+    m_model->slotItemsAdded(urlB, KFileItemList() << KFileItem(QUrl("a/b/newItem.txt")));
+    m_model->slotCompleted();
+
+    // Entire parental chain should now be shown
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/b/newItem.txt"
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "newItem.txt");
+
+    // Items should be indented in hierarchy
+    QCOMPARE(m_model->expandedParentsCount(0), 0);
+    QCOMPARE(m_model->expandedParentsCount(1), 1);
+    QCOMPARE(m_model->expandedParentsCount(2), 2);
+}
+
+/**
+ * Verifies that deleting the last filter-passing child from expanded folders
+ * makes the parental chain hidden.
+ */
+void KFileItemModelTest::testDeleteItemsWithExpandedFolderWithFilter()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+    
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    m_testDir->createFile("a/b/file");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 1); // "a
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(itemsInsertedSpy.wait());   
+
+    // Expand "a/b/".
+    m_model->setExpanded(1, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/b/file"
+
+    // Set a filter that matches "file" extension
+    m_model->setNameFilter("file");
+    QCOMPARE(m_model->count(), 3); // Everything is still shown
+
+    // Delete "file"
+    QCOMPARE(itemsRemovedSpy.count(), 0);
+    m_model->slotItemsDeleted(KFileItemList() << m_model->fileItem(2));
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+
+    // Entire parental chain should now be filtered
+    QCOMPARE(m_model->count(), 0);
+    QCOMPARE(m_model->m_filteredItems.size(), 2);
+}
+
+/**
+ * Verifies that the fileItemsChanged signal is raised with the correct index after renaming files with filter set.
+ * The rename operation will cause one item to be filtered out and another item to be reordered.
+ */
+void KFileItemModelTest::testRefreshItemsWithFilter()
+{
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+    QSignalSpy itemsChangedSpy(m_model, &KFileItemModel::itemsChanged);
+    QSignalSpy itemsMovedSpy(m_model, &KFileItemModel::itemsMoved);
+
+    // Creates three .txt files
+    m_testDir->createFiles({"b.txt", "c.txt", "d.txt"});
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QCOMPARE(m_model->count(), 3); // "b.txt", "c.txt", "d.txt"
+
+    // Set a filter that matches ".txt" extension
+    m_model->setNameFilter("*.txt");
+    QCOMPARE(m_model->count(), 3); // Still all items are shown
+    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "c.txt" << "d.txt");
+
+    // Objects used to rename
+    const KFileItem fileItemC_txt = m_model->fileItem(1);
+    KFileItem fileItemC_cfg = fileItemC_txt;
+    fileItemC_cfg.setUrl(QUrl("c.cfg"));
+
+    const KFileItem fileItemD_txt = m_model->fileItem(2);
+    KFileItem fileItemA_txt = fileItemD_txt;
+    fileItemA_txt.setUrl(QUrl("a.txt"));
+
+    // Rename "c.txt" to "c.cfg"; and rename "d.txt" to "a.txt"
+    QCOMPARE(itemsRemovedSpy.count(), 0);
+    QCOMPARE(itemsChangedSpy.count(), 0);
+    m_model->slotRefreshItems({qMakePair(fileItemC_txt, fileItemC_cfg), qMakePair(fileItemD_txt, fileItemA_txt)});
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+    QCOMPARE(itemsChangedSpy.count(), 1);
+    QCOMPARE(m_model->count(), 2); // Only "a.txt" and "b.txt". "c.cfg" got filtered out
+
+    QList<QVariant> arguments = itemsChangedSpy.takeLast();
+    KItemRangeList itemRangeList = arguments.at(0).value<KItemRangeList>();
+
+    // We started with the order "b.txt", "c.txt", "d.txt"
+    // "d.txt" started with index "2"
+    // "c.txt" got renamed and got filtered out
+    // "d.txt" index shifted from index "2" to "1"
+    // So we expect index "1" in this argument, meaning "d.txt" was renamed
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 1));
+
+    // Re-sorting is done asynchronously:
+    QCOMPARE(itemsInModel(), QStringList() << "b.txt" << "a.txt"); // Files should still be in the incorrect order
+    QVERIFY(itemsMovedSpy.wait());
+    QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "b.txt"); // Files were re-sorted and should now be in the correct order
+}
+
+
+/**
+ * Verifies that parental chains are hidden and shown as needed while their children get filtered/unfiltered due to renaming.
+ * Also verifies that the "isExpanded" and "expandedParentsCount" values are kept for expanded folders that get refreshed.
+ */
+void KFileItemModelTest::testRefreshExpandedFolderWithFilter() {
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    m_testDir->createFile("a/b/someFolder/someFile");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    QCOMPARE(m_model->count(), 1); // Only "a/"
+
+    // Expand "a/".
+    m_model->setExpanded(0, true);
+    QVERIFY(itemsInsertedSpy.wait());   
+
+    // Expand "a/b/".
+    m_model->setExpanded(1, true);
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // Expand "a/b/someFolder/".
+    m_model->setExpanded(2, true);
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 4); // 4 items: "a/", "a/b/", "a/b/someFolder", "a/b/someFolder/someFile"
+
+    // Set a filter that matches the expanded folder "someFolder"
+    m_model->setNameFilter("someFolder");
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/b/", "a/b/someFolder"
+
+    // Objects used to rename
+    const KFileItem fileItemA = m_model->fileItem(0);
+    KFileItem fileItemARenamed = fileItemA;
+    fileItemARenamed.setUrl(QUrl("a_renamed"));    
+
+    const KFileItem fileItemSomeFolder = m_model->fileItem(2);
+    KFileItem fileItemRenamedFolder = fileItemSomeFolder;
+    fileItemRenamedFolder.setUrl(QUrl("/a_renamed/b/renamedFolder"));
+
+    // Rename "a" to "a_renamed"
+    // This way we test if the algorithm is sane as to NOT hide "a_renamed" since it will have visible children
+    m_model->slotRefreshItems({qMakePair(fileItemA, fileItemARenamed)});
+    QCOMPARE(m_model->count(), 3); // Entire parental chain must still be shown
+    QCOMPARE(itemsInModel(), QStringList() << "a_renamed" << "b" << "someFolder");
+
+    // Rename "a_renamed" back to "a"; and "someFolder" to "renamedFolder"
+    m_model->slotRefreshItems({qMakePair(fileItemARenamed, fileItemA), qMakePair(fileItemSomeFolder, fileItemRenamedFolder)});
+    QCOMPARE(m_model->count(), 0); // Entire parental chain became hidden
+
+    // Rename "renamedFolder" back to "someFolder". Filter is passing again
+    m_model->slotRefreshItems({qMakePair(fileItemRenamedFolder, fileItemSomeFolder)});
+    QCOMPARE(m_model->count(), 3); // Entire parental chain is shown again
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "someFolder");
+
+    // slotRefreshItems() should preserve "isExpanded" and "expandedParentsCount" values explicitly in this case
+    QCOMPARE(m_model->m_itemData.at(2)->values.value("isExpanded").toBool(), true);
+    QCOMPARE(m_model->m_itemData.at(2)->values.value("expandedParentsCount"), 2);
+}
+
+/**
  * Verify that removing hidden files and folders from the model does not
  * result in a crash, see https://bugs.kde.org/show_bug.cgi?id=314046
  */
@@ -1298,8 +1515,7 @@ void KFileItemModelTest::removeParentOfHiddenItems()
     // Simulate the deletion of the directory "a/b/".
     m_model->slotItemsDeleted(KFileItemList() << m_model->fileItem(1));
     QCOMPARE(itemsRemovedSpy.count(), 2);
-    QCOMPARE(m_model->count(), 1);
-    QCOMPARE(itemsInModel(), QStringList() << "a");
+    QCOMPARE(m_model->count(), 0); // "a" will be filtered out since it doesn't pass the filter and doesn't have visible children
 
     // Remove the filter -> only the file "a/1" should appear.
     m_model->setNameFilter(QString());
