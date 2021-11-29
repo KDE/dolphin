@@ -157,7 +157,7 @@ void DolphinViewActionHandler::createActions()
                                           "This will copy the path of the first selected item into the clipboard."
                                 ));
 
-    copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
+    copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy-path")));
     m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL | Qt::ALT | Qt::Key_C});
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
 
