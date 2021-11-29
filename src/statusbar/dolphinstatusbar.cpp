@@ -124,6 +124,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     topLayout->addWidget(m_progressTextLabel);
     topLayout->addWidget(m_progressBar);
 
+    setVisible(GeneralSettings::showStatusBar());
     setExtensionsVisible(true);
     setWhatsThis(xi18nc("@info:whatsthis Statusbar", "<para>This is "
         "the <emphasis>Statusbar</emphasis>. It contains three elements "
@@ -245,6 +246,7 @@ int DolphinStatusBar::zoomLevel() const
 
 void DolphinStatusBar::readSettings()
 {
+    setVisible(GeneralSettings::showStatusBar());
     setExtensionsVisible(true);
 }
 
@@ -321,15 +323,13 @@ void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
-    bool showStatusBar = visible;
     bool showSpaceInfo = visible;
     bool showZoomSlider = visible;
     if (visible) {
-        showStatusBar = GeneralSettings::showStatusBar();
         showSpaceInfo = GeneralSettings::showSpaceInfo();
         showZoomSlider = GeneralSettings::showZoomSlider();
     }
-    setVisible(showStatusBar);
+
     m_spaceInfo->setShown(showSpaceInfo);
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);

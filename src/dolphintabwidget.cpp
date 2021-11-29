@@ -162,10 +162,17 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
             this, &DolphinTabWidget::activeViewChanged);
     connect(tabPage, &DolphinTabPage::activeViewUrlChanged,
             this, &DolphinTabWidget::tabUrlChanged);
+    connect(tabPage->activeViewContainer(), &DolphinViewContainer::captionChanged, this, [this, tabPage]() {
+        const int tabIndex = indexOf(tabPage);
+        Q_ASSERT(tabIndex >= 0);
+        tabBar()->setTabText(tabIndex, tabName(tabPage));
+    });
+
     int newTabIndex = -1;
     if (!GeneralSettings::openNewTabAfterLastTab()) {
         newTabIndex = currentIndex() + 1;
     }
+
     insertTab(newTabIndex, tabPage, QIcon() /* loaded in tabInserted */, tabName(tabPage));
 
     if (focusWidget) {

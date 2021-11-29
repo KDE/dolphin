@@ -223,6 +223,12 @@ Q_SIGNALS:
      */
     void writeStateChanged(bool isFolderWritable);
 
+    /**
+     * Is emitted when the Caption has been changed.
+     * @see DolphinViewContainer::caption()
+     */
+    void captionChanged();
+
 private Q_SLOTS:
     /**
      * Updates the number of items (= number of files + number of
@@ -348,6 +354,12 @@ private Q_SLOTS:
      * Slot that calls showMessage(msg, Error).
      */
     void showErrorMessage(const QString& msg);
+
+    /**
+     * Is invoked when a KFilePlacesModel has been changed
+     * @see DolphinPlacesModelSingleton::instance().placesModel()
+     */
+    void slotPlacesModelChanged();
 
 private:
     /**

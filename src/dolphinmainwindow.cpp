@@ -2134,6 +2134,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::slotWriteStateChanged);
     connect(container, &DolphinViewContainer::searchModeEnabledChanged,
             this, &DolphinMainWindow::updateSearchAction);
+    connect(container, &DolphinViewContainer::captionChanged,
+            this, &DolphinMainWindow::updateWindowTitle);
 
     const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
