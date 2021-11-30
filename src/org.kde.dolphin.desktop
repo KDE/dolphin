@@ -117,4 +117,5 @@ MimeType=inode/directory;
 InitialPreference=10
 X-DBUS-ServiceName=org.kde.dolphin
 X-KDE-Shortcuts=Meta+E
+X-KDE-Keywords=files,file management,file browsing,samba,network shares
 StartupWMClass=dolphin
