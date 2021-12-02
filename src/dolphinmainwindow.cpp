@@ -1480,7 +1480,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter..."));
-    showFilterBar->setToolTip(i18nc("@info:tooltip", "Toggle Filter Bar"));
+    showFilterBar->setToolTip(i18nc("@info:tooltip", "Show Filter Bar"));
     showFilterBar->setWhatsThis(xi18nc("@info:whatsthis", "This opens the "
         "<emphasis>Filter Bar</emphasis> at the bottom of the window.<nl/> "
         "There you can enter a text to filter the files and folders currently displayed. "
