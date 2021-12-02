@@ -361,6 +361,9 @@ private Q_SLOTS:
      */
     void slotPlacesModelChanged();
 
+    void slotHiddenFilesShownChanged(bool showHiddenFiles);
+    void slotSortHiddenLastChanged(bool hiddenLast);
+
 private:
     /**
      * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).

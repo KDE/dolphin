@@ -151,6 +151,10 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotUrlIsFileError);
     connect(m_view, &DolphinView::activated,
             this, &DolphinViewContainer::activate);
+    connect(m_view, &DolphinView::hiddenFilesShownChanged,
+            this, &DolphinViewContainer::slotHiddenFilesShownChanged);
+    connect(m_view, &DolphinView::sortHiddenLastChanged,
+            this, &DolphinViewContainer::slotSortHiddenLastChanged);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -309,6 +313,8 @@ void DolphinViewContainer::connectUrlNavigator(DolphinUrlNavigator *urlNavigator
     Q_CHECK_PTR(m_view);
 
     urlNavigator->setLocationUrl(m_view->url());
+    urlNavigator->setShowHiddenFolders(m_view->hiddenFilesShown());
+    urlNavigator->setSortHiddenFoldersLast(m_view->sortHiddenLast());
     if (m_urlNavigatorVisualState) {
         urlNavigator->setVisualState(*m_urlNavigatorVisualState.get());
         m_urlNavigatorVisualState.reset();
@@ -806,6 +812,20 @@ void DolphinViewContainer::slotPlacesModelChanged()
 {
     if (!GeneralSettings::showFullPathInTitlebar() && !isSearchModeEnabled()) {
         Q_EMIT captionChanged();
+    }
+}
+
+void DolphinViewContainer::slotHiddenFilesShownChanged(bool showHiddenFiles)
+{
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setShowHiddenFolders(showHiddenFiles);
+    }
+}
+
+void DolphinViewContainer::slotSortHiddenLastChanged(bool hiddenLast)
+{
+    if (m_urlNavigatorConnected) {
+        m_urlNavigatorConnected->setSortHiddenFoldersLast(hiddenLast);
     }
 }
 
