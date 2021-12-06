@@ -458,7 +458,7 @@ Q_SIGNALS:
     /** Is emitted if the 'grouped sorting' property has been changed. */
     void groupedSortingChanged(bool groupedSorting);
 
-    /** Is emmited in reaction to a requestStatusBarText() call.
+    /** Is emitted in reaction to a requestStatusBarText() call.
      * @see requestStatusBarText() */
     void statusBarTextChanged(QString statusBarText);
 

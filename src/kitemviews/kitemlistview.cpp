@@ -2241,7 +2241,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
         widths.insert(visibleRole, headerWidth);
     }
 
-    // Calculate the preferred column withs for each item and ignore values
+    // Calculate the preferred column widths for each item and ignore values
     // smaller than the width for showing the headline unclipped.
     const KItemListWidgetCreatorBase* creator = widgetCreator();
     int calculatedItemCount = 0;

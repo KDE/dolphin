@@ -520,7 +520,7 @@ void KFileItemModelTest::testExpandItems()
     // Test expanding subfolders in a folder with the items "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1".
     // Besides testing the basic item expansion functionality, the test makes sure that
     // KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& b)
-    // yields the correct result for "a/a/1" and "a/a-1/", whis is non-trivial because they share the
+    // yields the correct result for "a/a/1" and "a/a-1/", which is non-trivial because they share the
     // first three characters.
     QSet<QByteArray> originalModelRoles = m_model->roles();
     QSet<QByteArray> modelRoles = originalModelRoles;

@@ -597,7 +597,7 @@ private:
 
     /**
      * Resizes the column-widths of m_headerWidget based on the preferred widths
-     * and the vailable view-size.
+     * and the available view-size.
      */
     void applyAutomaticColumnWidths();
 
@@ -873,7 +873,7 @@ qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role
  * @brief Base class for creating KItemListGroupHeaders.
  *
  * It is recommended that applications simply use the KItemListGroupHeaderCreator-template class.
- * For a custom implementation the methods create() and recyle() must be reimplemented.
+ * For a custom implementation the methods create() and recycle() must be reimplemented.
  * The intention of the group-header creator is to prevent repetitive and expensive instantiations and
  * deletions of KItemListGroupHeaders by recycling existing header instances.
  */

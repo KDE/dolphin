@@ -46,7 +46,7 @@ public:
      *
      * @param enabled      If true, creates a secondary viewContainer in this tab.
      *                     Otherwise deletes it.
-     * @param animated     Decides wether the effects of this method call should
+     * @param animated     Decides whether the effects of this method call should
      *                     happen instantly or be transitioned to smoothly.
      * @param secondaryUrl If \p enabled is true, the new viewContainer will be opened at this
      *                     parameter. The default value will set the Url of the new viewContainer

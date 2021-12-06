@@ -55,7 +55,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
         const bool searchFromNextItem = (!m_isSearchRestarted && newSearch) || sameKey;
 
         // to remember not to searchFromNextItem if selection was deselected
-        // loosing keyboard search context basically
+        // losing keyboard search context basically
         m_isSearchRestarted = false;
 
         Q_EMIT changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);

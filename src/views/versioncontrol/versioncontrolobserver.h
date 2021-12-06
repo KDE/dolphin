@@ -95,7 +95,7 @@ private Q_SLOTS:
 
     /**
      * Is invoked if the thread m_updateItemStatesThread has been finished
-     * and applys the item states.
+     * and applies the item states.
      */
     void slotThreadFinished();
 

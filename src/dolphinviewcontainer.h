@@ -126,7 +126,7 @@ public:
     void connectUrlNavigator(DolphinUrlNavigator *urlNavigator);
 
     /**
-     * Disconnects the navigator that is currently controling the view.
+     * Disconnects the navigator that is currently controlling the view.
      * This method completely reverses connectUrlNavigator().
      */
     void disconnectUrlNavigator();

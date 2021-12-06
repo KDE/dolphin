@@ -41,7 +41,7 @@ public Q_SLOTS:
 
 private:
     /**
-     * @return wether the places selector of DolphinUrlNavigators should be visible.
+     * @return whether the places selector of DolphinUrlNavigators should be visible.
      */
     static bool placesSelectorVisible();
 

@@ -251,7 +251,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     case NoRoleOperation:
         if ((event->pos() - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
             // A role gets dragged by the user. Create a pixmap of the role that will get
-            // synchronized on each furter mouse-move-event with the mouse-position.
+            // synchronized on each further mouse-move-event with the mouse-position.
             m_roleOperation = MoveRoleOperation;
             const int roleIndex = roleIndexAt(m_pressedMousePos);
             m_movingRole.index = roleIndex;

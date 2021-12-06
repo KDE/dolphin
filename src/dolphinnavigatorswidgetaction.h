@@ -57,7 +57,7 @@ public:
      * This method should preferably only be called when:
      * - Split view is activated in the active tab
      * OR
-     * - A switch to a tab that is already in split view mode is occuring
+     * - A switch to a tab that is already in split view mode is occurring
      */
     void createSecondaryUrlNavigator();
 
@@ -92,7 +92,7 @@ protected:
      * this method always returns the same widget and reparents it.
      * You normally don't have to use this method directly because
      * QWidgetAction::requestWidget() is used to obtain the navigatorsWidget
-     * and to steal it from whereever it was prior.
+     * and to steal it from wherever it was prior.
      * @param parent the new parent of the navigatorsWidget.
      */
     QWidget *createWidget(QWidget *parent) override;
