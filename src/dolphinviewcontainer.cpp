@@ -656,8 +656,9 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
     }
 
     KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl());
-    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoWarningHandlingEnabled, this));
     job->setShowOpenOrExecuteDialog(true);
+    connect(job, &KIO::OpenUrlJob::finished, this, &DolphinViewContainer::slotOpenUrlFinished);
     job->start();
 }
 
@@ -826,6 +827,13 @@ void DolphinViewContainer::slotSortHiddenLastChanged(bool hiddenLast)
 {
     if (m_urlNavigatorConnected) {
         m_urlNavigatorConnected->setSortHiddenFoldersLast(hiddenLast);
+    }
+}
+
+void DolphinViewContainer::slotOpenUrlFinished(KJob *job)
+{
+    if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
+        showErrorMessage(job->errorString());
     }
 }
 

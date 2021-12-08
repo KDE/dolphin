@@ -364,6 +364,8 @@ private Q_SLOTS:
     void slotHiddenFilesShownChanged(bool showHiddenFiles);
     void slotSortHiddenLastChanged(bool hiddenLast);
 
+    void slotOpenUrlFinished(KJob* job);
+
 private:
     /**
      * @return True if the URL protocol is a search URL (e. g. baloosearch:// or filenamesearch://).
