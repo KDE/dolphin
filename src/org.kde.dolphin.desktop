@@ -128,6 +128,7 @@ Keywords[pt_BR]=arquivo;gerenciamento de arquivos;navegação de arquivos;samba;
 Keywords[sl]=datoteke;upravljanje z datotekami;brskanje po datotekah;samba;mrežni diski;Raziskovalec;Iskalec;
 Keywords[sv]=filer;filhantering;filbläddring;samba;delade nätverksresurser;Utforskare;Finder;
 Keywords[uk]=files;file management;file browsing;samba;network shares;Explorer;Finder;файли;керування файлами;навігація;самба;спільні ресурси;мережа;експлорер;провідник;файндер;
+Keywords[vi]=files;file management;file browsing;samba;network shares;Explorer;Finder;tệp;quản lí tệp;duyệt tệp;chia sẻ mạng;
 Keywords[x-test]=xxfilesxx;xxfile managementxx;xxfile browsingxx;xxsambaxx;xxnetwork sharesxx;xxExplorerxx;xxFinderxx;
 X-DBUS-ServiceName=org.kde.dolphin
 X-KDE-Shortcuts=Meta+E
