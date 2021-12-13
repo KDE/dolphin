@@ -146,8 +146,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
-
-    loadPlugins(this, this, componentName());
 }
 
 DolphinPart::~DolphinPart()
