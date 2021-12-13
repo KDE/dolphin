@@ -31,7 +31,7 @@ static void setTimeStamp(const QString& path, const QDateTime& mtime)
 {
 #ifdef Q_OS_UNIX
     struct utimbuf utbuf;
-    utbuf.actime = mtime.toTime_t();
+    utbuf.actime = mtime.toSecsSinceEpoch();
     utbuf.modtime = utbuf.actime;
     utime(QFile::encodeName(path), &utbuf);
 #elif defined(Q_OS_WIN)
