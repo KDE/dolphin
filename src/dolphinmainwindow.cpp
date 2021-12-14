@@ -647,14 +647,12 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 
 void DolphinMainWindow::updateNewMenu()
 {
-    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->hiddenFilesShown());
     m_newFileMenu->checkUpToDate();
     m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
 }
 
 void DolphinMainWindow::createDirectory()
 {
-    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->hiddenFilesShown());
     m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
     m_newFileMenu->createDirectory();
 }

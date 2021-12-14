@@ -197,7 +197,6 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     // set up 'Create New' menu
     DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
     newFileMenu->checkUpToDate();
     newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
@@ -315,7 +314,6 @@ void DolphinContextMenu::openViewportContextMenu()
 
     // Set up and insert 'Create New' menu
     KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
-    newFileMenu->setViewShowsHiddenFiles(view->hiddenFilesShown());
     newFileMenu->checkUpToDate();
     newFileMenu->setPopupFiles(QList<QUrl>() << m_baseUrl);
     addMenu(newFileMenu->menu());
