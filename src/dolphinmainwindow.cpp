@@ -661,12 +661,20 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 void DolphinMainWindow::updateNewMenu()
 {
     m_newFileMenu->checkUpToDate();
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
+    m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+#else
     m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
+#endif
 }
 
 void DolphinMainWindow::createDirectory()
 {
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
+    m_newFileMenu->setWorkingDirectory(activeViewContainer()->url());
+#else
     m_newFileMenu->setPopupFiles(QList<QUrl>() << activeViewContainer()->url());
+#endif
     m_newFileMenu->createDirectory();
 }
 
