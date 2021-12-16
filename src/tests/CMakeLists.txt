@@ -51,11 +51,6 @@ if (KF5Baloo_FOUND)
     LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 endif()
 
-# KStandardItemModelTest
-ecm_add_test(kstandarditemmodeltest.cpp
-TEST_NAME kstandarditemmodeltest
-LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
-
 # ViewPropertiesTest
 ecm_add_test(viewpropertiestest.cpp testdir.cpp
 TEST_NAME viewpropertiestest
