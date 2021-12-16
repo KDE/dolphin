@@ -17,7 +17,6 @@
 class KFileItemList;
 class PhononWidget;
 class PixmapViewer;
-class PlacesItemModel;
 class QPixmap;
 class QDialogButtonBox;
 class QString;
@@ -151,7 +150,6 @@ private:
     QLabel* m_configureLabel;
     QDialogButtonBox* m_configureButtons;
 
-    PlacesItemModel* m_placesItemModel;
     bool m_isVideo;
 };
 
