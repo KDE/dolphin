@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2008-2012 Peter Penz <peter.penz19@gmail.com>
+ * SPDX-FileCopyrightText: 2021 Kai Uwe Broulik <kde@broulik.de>
  *
  * Based on KFilePlacesView from kdelibs:
  * SPDX-FileCopyrightText: 2007 Kevin Ottens <ervin@kde.org>
@@ -10,476 +11,178 @@
 
 #include "placespanel.h"
 
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphin_generalsettings.h"
+#include "dolphin_placespanelsettings.h"
 #include "global.h"
-#include "kitemviews/kitemlistcontainer.h"
-#include "kitemviews/kitemlistcontroller.h"
-#include "kitemviews/kitemlistselectionmanager.h"
-#include "kitemviews/kstandarditem.h"
-#include "placesitem.h"
-#include "placesitemlistgroupheader.h"
-#include "placesitemlistwidget.h"
-#include "placesitemmodel.h"
-#include "placesview.h"
-#include "trash/dolphintrash.h"
 #include "views/draganddrophelper.h"
 #include "settings/dolphinsettingsdialog.h"
 
-#include <KFilePlaceEditDialog>
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
-#include <KIO/EmptyTrashJob>
 #include <KIO/Job>
-#include <KIconLoader>
+#include <KListOpenFilesJob>
 #include <KLocalizedString>
-#include <KMountPoint>
-#include <KPropertiesDialog>
 
-#include <QActionGroup>
-#include <QApplication>
-#include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
 #include <QMenu>
-#include <QMimeData>
-#include <QVBoxLayout>
-#include <QToolTip>
+#include <QShowEvent>
+#include <QTimer>
 
-PlacesPanel::PlacesPanel(QWidget* parent) :
-        Panel(parent),
-        m_controller(nullptr),
-        m_model(nullptr),
-        m_view(nullptr),
-        m_storageSetupFailedUrl(),
-        m_triggerStorageSetupModifier(),
-        m_itemDropEventIndex(-1),
-        m_itemDropEventMimeData(nullptr),
-        m_itemDropEvent(nullptr),
-        m_tooltipTimer()
+#include <Solid/StorageAccess>
+
+PlacesPanel::PlacesPanel(QWidget* parent)
+    : KFilePlacesView(parent)
 {
-    m_tooltipTimer.setInterval(500);
-    m_tooltipTimer.setSingleShot(true);
-    connect(&m_tooltipTimer, &QTimer::timeout, this, &PlacesPanel::slotShowTooltip);
+    setDropOnPlaceEnabled(true);
+    connect(this, &PlacesPanel::urlsDropped,
+            this, &PlacesPanel::slotUrlsDropped);
+
+    setAutoResizeItemsEnabled(false);
+
+    setTeardownFunction([this](const QModelIndex &index) {
+        slotTearDownRequested(index);
+    });
+
+    m_configureTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash…"));
+    m_configureTrashAction->setPriority(QAction::HighPriority);
+    connect(m_configureTrashAction, &QAction::triggered, this, &PlacesPanel::slotConfigureTrash);
+    addAction(m_configureTrashAction);
+
+    connect(this, &PlacesPanel::contextMenuAboutToShow, this, &PlacesPanel::slotContextMenuAboutToShow);
+
+    connect(this, &PlacesPanel::iconSizeChanged, this, [this](const QSize &newSize) {
+        int iconSize = qMin(newSize.width(), newSize.height());
+        if (iconSize == 0) {
+            // Don't store 0 size, let's keep -1 for default/small/automatic
+            iconSize = -1;
+        }
+        PlacesPanelSettings* settings = PlacesPanelSettings::self();
+        settings->setIconSize(iconSize);
+        settings->save();
+    });
 }
 
-PlacesPanel::~PlacesPanel()
+PlacesPanel::~PlacesPanel() = default;
+
+void PlacesPanel::setUrl(const QUrl &url)
 {
+    // KFilePlacesView::setUrl no-ops when no model is set but we only set it in showEvent()
+    // Remember the URL and set it in showEvent
+    m_url = url;
+    KFilePlacesView::setUrl(url);
+}
+
+QList<QAction*> PlacesPanel::customContextMenuActions() const
+{
+    return m_customContextMenuActions;
+}
+
+void PlacesPanel::setCustomContextMenuActions(const QList<QAction *> &actions)
+{
+    m_customContextMenuActions = actions;
 }
 
 void PlacesPanel::proceedWithTearDown()
 {
-    m_model->proceedWithTearDown();
-}
+    Q_ASSERT(m_deviceToTearDown);
 
-bool PlacesPanel::urlChanged()
-{
-    if (!url().isValid() || url().scheme().contains(QLatin1String("search"))) {
-        // Skip results shown by a search, as possible identical
-        // directory names are useless without parent-path information.
-        return false;
-    }
-
-    if (m_controller) {
-        selectItem();
-    }
-
-    return true;
+    connect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
+            this, &PlacesPanel::slotTearDownDone);
+    m_deviceToTearDown->teardown();
 }
 
 void PlacesPanel::readSettings()
 {
-    if (m_controller) {
-        const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
-        m_controller->setAutoActivationDelay(delay);
+    if (GeneralSettings::autoExpandFolders()) {
+        if (!m_dragActivationTimer) {
+            m_dragActivationTimer = new QTimer(this);
+            m_dragActivationTimer->setInterval(750);
+            m_dragActivationTimer->setSingleShot(true);
+            connect(m_dragActivationTimer, &QTimer::timeout,
+                    this, &PlacesPanel::slotDragActivationTimeout);
+        }
+    } else {
+        delete m_dragActivationTimer;
+        m_dragActivationTimer = nullptr;
+        m_pendingDragActivation = QPersistentModelIndex();
     }
+
+    const int iconSize = qMax(0, PlacesPanelSettings::iconSize());
+    setIconSize(QSize(iconSize, iconSize));
 }
 
 void PlacesPanel::showEvent(QShowEvent* event)
 {
-    if (event->spontaneous()) {
-        Panel::showEvent(event);
-        return;
-    }
-
-    if (!m_controller) {
-        // Postpone the creating of the controller to the first show event.
-        // This assures that no performance and memory overhead is given when the folders panel is not
-        // used at all and stays invisible.
-        m_model = new PlacesItemModel(this);
-        m_model->setGroupedSorting(true);
-        connect(m_model, &PlacesItemModel::errorMessage,
-                this, &PlacesPanel::errorMessage);
-        connect(m_model, &PlacesItemModel::storageTearDownRequested,
-                this, &PlacesPanel::storageTearDownRequested);
-        connect(m_model, &PlacesItemModel::storageTearDownExternallyRequested,
-                this, &PlacesPanel::storageTearDownExternallyRequested);
-        connect(m_model, &PlacesItemModel::storageTearDownSuccessful,
-                this, &PlacesPanel::storageTearDownSuccessful);
-
-        m_view = new PlacesView();
-        m_view->setWidgetCreator(new KItemListWidgetCreator<PlacesItemListWidget>());
-        m_view->setGroupHeaderCreator(new KItemListGroupHeaderCreator<PlacesItemListGroupHeader>());
-
-        installEventFilter(this);
-
-        m_controller = new KItemListController(m_model, m_view, this);
-        m_controller->setSelectionBehavior(KItemListController::SingleSelection);
-        m_controller->setSingleClickActivationEnforced(true);
-
+    if (!event->spontaneous() && !model()) {
         readSettings();
 
-        connect(m_controller, &KItemListController::itemActivated, this, &PlacesPanel::slotItemActivated);
-        connect(m_controller, &KItemListController::itemMiddleClicked, this, &PlacesPanel::slotItemMiddleClicked);
-        connect(m_controller, &KItemListController::itemContextMenuRequested, this, &PlacesPanel::slotItemContextMenuRequested);
-        connect(m_controller, &KItemListController::viewContextMenuRequested, this, &PlacesPanel::slotViewContextMenuRequested);
-        connect(m_controller, &KItemListController::itemDropEvent, this, &PlacesPanel::slotItemDropEvent);
-        connect(m_controller, &KItemListController::aboveItemDropEvent, this, &PlacesPanel::slotAboveItemDropEvent);
+        auto *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+        setModel(placesModel);
 
-        KItemListContainer* container = new KItemListContainer(m_controller, this);
-        container->setEnabledFrame(false);
+        connect(placesModel, &KFilePlacesModel::errorMessage, this, &PlacesPanel::errorMessage);
 
-        QVBoxLayout* layout = new QVBoxLayout(this);
-        layout->setContentsMargins(0, 0, 0, 0);
-        layout->addWidget(container);
+        connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
+        connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
 
-        selectItem();
+        for (int i = 0; i < model()->rowCount(); ++i) {
+            connectDeviceSignals(model()->index(i, 0, QModelIndex()));
+        }
+
+        setUrl(m_url);
     }
 
-    Panel::showEvent(event);
+    KFilePlacesView::showEvent(event);
 }
 
-bool PlacesPanel::eventFilter(QObject * /* obj */, QEvent *event)
+void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
 {
-    if (event->type() == QEvent::ToolTip) {
+    KFilePlacesView::dragMoveEvent(event);
 
-        QHelpEvent *hoverEvent = reinterpret_cast<QHelpEvent *>(event);
-
-        m_hoveredIndex = m_view->itemAt(hoverEvent->pos());
-        m_hoverPos = mapToGlobal(hoverEvent->pos());
-
-        m_tooltipTimer.start();
-        return true;
-    }
-    return false;
-}
-
-void PlacesPanel::slotItemActivated(int index)
-{
-    const auto modifiers = QGuiApplication::keyboardModifiers();
-    // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
-    if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
-        triggerItem(index, TriggerItemModifier::ToNewActiveTab);
-    } else if (modifiers & Qt::ControlModifier) {
-        triggerItem(index, TriggerItemModifier::ToNewTab);
-    } else if (modifiers & Qt::ShiftModifier) {
-        triggerItem(index, TriggerItemModifier::ToNewWindow);
-    } else {
-        triggerItem(index, TriggerItemModifier::None);
-    }
-}
-
-void PlacesPanel::slotItemMiddleClicked(int index)
-{
-    const auto modifiers = QGuiApplication::keyboardModifiers();
-    // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
-    if (modifiers & Qt::ShiftModifier) {
-        triggerItem(index, TriggerItemModifier::ToNewActiveTab);
-    } else {
-        triggerItem(index, TriggerItemModifier::ToNewTab);
-    }
-}
-
-void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
-{
-    PlacesItem* item = m_model->placesItem(index);
-    if (!item) {
+    if (!m_dragActivationTimer) {
         return;
     }
 
-    QMenu menu(this);
-
-    QAction* emptyTrashAction = nullptr;
-    QAction* configureTrashAction = nullptr;
-    QAction* editAction = nullptr;
-    QAction* teardownAction = nullptr;
-    QAction* ejectAction = nullptr;
-    QAction* mountAction = nullptr;
-
-    const bool isDevice = !item->udi().isEmpty();
-    const bool isTrash = (item->url().scheme() == QLatin1String("trash"));
-    if (isTrash) {
-        emptyTrashAction = menu.addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"));
-        emptyTrashAction->setEnabled(item->icon() == QLatin1String("user-trash-full"));
-        menu.addSeparator();
-    }
-
-    QAction* openInNewTabAction = menu.addAction(QIcon::fromTheme(QStringLiteral("tab-new")), i18nc("@item:inmenu", "Open in New Tab"));
-    QAction* openInNewWindowAction = menu.addAction(QIcon::fromTheme(QStringLiteral("window-new")), i18nc("@item:inmenu", "Open in New Window"));
-    QAction* propertiesAction = nullptr;
-    if (item->url().isLocalFile()) {
-        propertiesAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-properties")), i18nc("@action:inmenu", "Properties"));
-    }
-    if (!isDevice) {
-        menu.addSeparator();
-    }
-
-    if (isDevice) {
-        ejectAction = m_model->ejectAction(index);
-        if (ejectAction) {
-            ejectAction->setParent(&menu);
-            menu.addAction(ejectAction);
-        }
-
-        teardownAction = m_model->teardownAction(index);
-        if (teardownAction) {
-            // Disable teardown option for root and home partitions
-            bool teardownEnabled = item->url() != QUrl::fromLocalFile(QDir::rootPath());
-            if (teardownEnabled) {
-                KMountPoint::Ptr mountPoint = KMountPoint::currentMountPoints().findByPath(QDir::homePath());
-                if (mountPoint && item->url() == QUrl::fromLocalFile(mountPoint->mountPoint())) {
-                    teardownEnabled = false;
-                }
-            }
-            teardownAction->setEnabled(teardownEnabled);
-
-            teardownAction->setParent(&menu);
-            menu.addAction(teardownAction);
-        }
-
-        if (item->storageSetupNeeded()) {
-            mountAction = menu.addAction(QIcon::fromTheme(QStringLiteral("media-mount")), i18nc("@action:inmenu", "Mount"));
-        }
-
-        if (teardownAction || ejectAction || mountAction) {
-            menu.addSeparator();
-        }
-    }
-
-    if (isTrash) {
-        configureTrashAction = menu.addAction(QIcon::fromTheme(QStringLiteral("configure")), i18nc("@action:inmenu", "Configure Trash..."));
-    }
-
-    if (!isDevice) {
-        editAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-entry")), i18nc("@item:inmenu", "Edit..."));
-    }
-
-    QAction* removeAction = nullptr;
-    if (!isDevice && !item->isSystemItem()) {
-        removeAction = menu.addAction(QIcon::fromTheme(QStringLiteral("edit-delete")), i18nc("@item:inmenu", "Remove"));
-    }
-
-    QAction* hideAction = menu.addAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Hide"));
-    hideAction->setCheckable(true);
-    hideAction->setChecked(item->isHidden());
-
-    buildGroupContextMenu(&menu, index);
-
-    QAction* action = menu.exec(pos.toPoint());
-    if (action) {
-        if (action == emptyTrashAction) {
-            Trash::empty(this);
-        } else if (action == configureTrashAction) {
-            DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(item->url(), this);
-            settingsDialog->setCurrentPage(settingsDialog->trashSettings);
-            settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
-            settingsDialog->show();
-        } else {
-            // The index might have changed if devices were added/removed while
-            // the context menu was open.
-            index = m_model->index(item);
-            if (index < 0) {
-                // The item is not in the model any more, probably because it was an
-                // external device that has been removed while the context menu was open.
-                return;
-            }
-
-            if (action == editAction) {
-                editEntry(index);
-            } else if (action == removeAction) {
-                m_model->deleteItem(index);
-            } else if (action == hideAction) {
-                item->setHidden(hideAction->isChecked());
-                if (!m_model->hiddenCount()) {
-                    showHiddenEntries(false);
-                }
-            } else if (action == openInNewWindowAction) {
-                Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
-            } else if (action == openInNewTabAction) {
-                triggerItem(index, TriggerItemModifier::ToNewTab);
-            } else if (action == mountAction) {
-                m_model->requestStorageSetup(index);
-            } else if (action == teardownAction) {
-                m_model->requestTearDown(index);
-            } else if (action == ejectAction) {
-                m_model->requestEject(index);
-            } else if (action == propertiesAction) {
-                KPropertiesDialog* dialog = new KPropertiesDialog(item->url(), this);
-                dialog->setAttribute(Qt::WA_DeleteOnClose);
-                dialog->show();
-            }
-        }
-    }
-
-    selectItem();
-}
-
-void PlacesPanel::slotViewContextMenuRequested(const QPointF& pos)
-{
-    QMenu menu(this);
-
-    QAction* addAction = menu.addAction(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("@item:inmenu", "Add Entry..."));
-
-    QAction* showAllAction = menu.addAction(i18nc("@item:inmenu", "Show Hidden Places"));
-    showAllAction->setCheckable(true);
-    showAllAction->setChecked(m_model->hiddenItemsShown());
-    showAllAction->setIcon(QIcon::fromTheme(m_model->hiddenItemsShown() ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
-    showAllAction->setEnabled(m_model->hiddenCount());
-
-    buildGroupContextMenu(&menu, m_controller->indexCloseToMousePressedPosition());
-
-    QMenu* iconSizeSubMenu = new QMenu(i18nc("@item:inmenu", "Icon Size"), &menu);
-
-    struct IconSizeInfo
-    {
-        int size;
-        const char* context;
-        const char* text;
-    };
-
-    const int iconSizeCount = 4;
-    static const IconSizeInfo iconSizes[iconSizeCount] = {
-        {KIconLoader::SizeSmall,        I18NC_NOOP("Small icon size", "Small (%1x%2)")},
-        {KIconLoader::SizeSmallMedium,  I18NC_NOOP("Medium icon size", "Medium (%1x%2)")},
-        {KIconLoader::SizeMedium,       I18NC_NOOP("Large icon size", "Large (%1x%2)")},
-        {KIconLoader::SizeLarge,        I18NC_NOOP("Huge icon size", "Huge (%1x%2)")}
-    };
-
-    QHash<QAction*, int> iconSizeActionMap;
-    QActionGroup* iconSizeGroup = new QActionGroup(iconSizeSubMenu);
-
-    for (int i = 0; i < iconSizeCount; ++i) {
-        const int size = iconSizes[i].size;
-        const QString text = i18nc(iconSizes[i].context, iconSizes[i].text,
-                                   size, size);
-
-        QAction* action = iconSizeSubMenu->addAction(text);
-        iconSizeActionMap.insert(action, size);
-        action->setActionGroup(iconSizeGroup);
-        action->setCheckable(true);
-        action->setChecked(m_view->iconSize() == size);
-    }
-
-    menu.addMenu(iconSizeSubMenu);
-
-    menu.addSeparator();
-    const auto actions = customContextMenuActions();
-    for (QAction* action : actions) {
-        menu.addAction(action);
-    }
-
-    QAction* action = menu.exec(pos.toPoint());
-    if (action) {
-        if (action == addAction) {
-            addEntry();
-        } else if (action == showAllAction) {
-            showHiddenEntries(showAllAction->isChecked());
-        } else if (iconSizeActionMap.contains(action)) {
-            m_view->setIconSize(iconSizeActionMap.value(action));
-        }
-    }
-
-    selectItem();
-}
-
-QAction *PlacesPanel::buildGroupContextMenu(QMenu *menu, int index)
-{
-    if (index == -1) {
-        return nullptr;
-    }
-
-    KFilePlacesModel::GroupType groupType = m_model->groupType(index);
-    QAction *hideGroupAction = menu->addAction(QIcon::fromTheme(QStringLiteral("view-hidden")), i18nc("@item:inmenu", "Hide Section '%1'", m_model->item(index)->group()));
-    hideGroupAction->setCheckable(true);
-    hideGroupAction->setChecked(m_model->isGroupHidden(groupType));
-
-    connect(hideGroupAction, &QAction::triggered, this, [this, groupType, hideGroupAction]{
-        m_model->setGroupHidden(groupType, hideGroupAction->isChecked());
-        if (!m_model->hiddenCount()) {
-            showHiddenEntries(false);
-        }
-    });
-
-    return hideGroupAction;
-}
-
-void PlacesPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
-{
-    if (index < 0) {
+    const QModelIndex index = indexAt(event->pos());
+    if (!index.isValid()) {
         return;
     }
 
-    const PlacesItem* destItem = m_model->placesItem(index);
-
-    if (destItem->isSearchOrTimelineUrl()) {
-        return;
-    }
-
-    if (m_model->storageSetupNeeded(index)) {
-        connect(m_model, &PlacesItemModel::storageSetupDone,
-                this, &PlacesPanel::slotItemDropEventStorageSetupDone);
-
-        m_itemDropEventIndex = index;
-
-        // Make a full copy of the Mime-Data
-        m_itemDropEventMimeData = new QMimeData;
-        m_itemDropEventMimeData->setText(event->mimeData()->text());
-        m_itemDropEventMimeData->setHtml(event->mimeData()->html());
-        m_itemDropEventMimeData->setUrls(event->mimeData()->urls());
-        m_itemDropEventMimeData->setImageData(event->mimeData()->imageData());
-        m_itemDropEventMimeData->setColorData(event->mimeData()->colorData());
-
-        m_itemDropEvent = new QDropEvent(event->pos().toPoint(),
-                                         event->possibleActions(),
-                                         m_itemDropEventMimeData,
-                                         event->buttons(),
-                                         event->modifiers());
-
-        m_model->requestStorageSetup(index);
-        return;
-    }
-
-    QUrl destUrl = destItem->url();
-    QDropEvent dropEvent(event->pos().toPoint(),
-                         event->possibleActions(),
-                         event->mimeData(),
-                         event->buttons(),
-                         event->modifiers());
-
-    slotUrlsDropped(destUrl, &dropEvent, this);
-}
-
-void PlacesPanel::slotItemDropEventStorageSetupDone(int index, bool success)
-{
-    disconnect(m_model, &PlacesItemModel::storageSetupDone,
-               this, &PlacesPanel::slotItemDropEventStorageSetupDone);
-
-    if ((index == m_itemDropEventIndex) && m_itemDropEvent && m_itemDropEventMimeData) {
-        if (success) {
-            QUrl destUrl = m_model->placesItem(index)->url();
-            slotUrlsDropped(destUrl, m_itemDropEvent, this);
-        }
-
-        delete m_itemDropEventMimeData;
-        delete m_itemDropEvent;
-
-        m_itemDropEventIndex = -1;
-        m_itemDropEventMimeData = nullptr;
-        m_itemDropEvent = nullptr;
+    QPersistentModelIndex persistentIndex(index);
+    if (!m_pendingDragActivation.isValid() || m_pendingDragActivation != persistentIndex) {
+        m_pendingDragActivation = persistentIndex;
+        m_dragActivationTimer->start();
     }
 }
 
-void PlacesPanel::slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
+void PlacesPanel::dragLeaveEvent(QDragLeaveEvent *event)
 {
-    m_model->dropMimeDataBefore(index, event->mimeData());
+    KFilePlacesView::dragLeaveEvent(event);
+
+    if (m_dragActivationTimer) {
+        m_dragActivationTimer->stop();
+        m_pendingDragActivation = QPersistentModelIndex();
+    }
+}
+
+void PlacesPanel::slotConfigureTrash()
+{
+    const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
+
+    DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
+    settingsDialog->setCurrentPage(settingsDialog->trashSettings);
+    settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
+    settingsDialog->show();
+}
+
+void PlacesPanel::slotDragActivationTimeout()
+{
+    if (!m_pendingDragActivation.isValid()) {
+        return;
+    }
+
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+    Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(placesModel->url(m_pendingDragActivation)));
 }
 
 void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)
@@ -490,132 +193,121 @@ void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* 
     }
 }
 
-void PlacesPanel::slotStorageSetupDone(int index, bool success)
+void PlacesPanel::slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu)
 {
-    disconnect(m_model, &PlacesItemModel::storageSetupDone,
-               this, &PlacesPanel::slotStorageSetupDone);
+    Q_UNUSED(menu);
 
-    if (m_triggerStorageSetupModifier == TriggerItemModifier::None) {
-        return;
-    }
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+    const QUrl url = placesModel->url(index);
+    const Solid::Device device = placesModel->deviceForIndex(index);
 
-    if (success) {
-        Q_ASSERT(!m_model->storageSetupNeeded(index));
-        triggerItem(index, m_triggerStorageSetupModifier);
-        m_triggerStorageSetupModifier = TriggerItemModifier::None;
+    m_configureTrashAction->setVisible(url.scheme() == QLatin1String("trash"));
+
+    // show customContextMenuActions only on the view's context menu
+    if (!url.isValid() && !device.isValid()) {
+        addActions(m_customContextMenuActions);
     } else {
-        setUrl(m_storageSetupFailedUrl);
-        m_storageSetupFailedUrl = QUrl();
-    }
-}
-
-void PlacesPanel::slotShowTooltip()
-{
-    const QUrl url = m_model->data(m_hoveredIndex.value_or(-1)).value("url").value<QUrl>();
-    const QString text = url.toDisplayString(QUrl::PreferLocalFile);
-    QToolTip::showText(m_hoverPos, text);
-}
-
-void PlacesPanel::addEntry()
-{
-    const int index = m_controller->selectionManager()->currentItem();
-    const QUrl url = m_model->data(index).value("url").toUrl();
-    const QString text = url.fileName().isEmpty() ? url.toDisplayString(QUrl::PreferLocalFile) : url.fileName();
-
-    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, QString(), true, false, KIconLoader::SizeMedium, this);
-    if (dialog->exec() == QDialog::Accepted) {
-        const QString appName = dialog->applicationLocal() ? QCoreApplication::applicationName() : QString();
-        m_model->createPlacesItem(dialog->label(), dialog->url(), dialog->icon(), appName);
-    }
-
-    delete dialog;
-}
-
-void PlacesPanel::editEntry(int index)
-{
-    QHash<QByteArray, QVariant> data = m_model->data(index);
-    const QUrl url = data.value("url").toUrl();
-    const QString text = data.value("text").toString();
-    const QString iconName = data.value("iconName").toString();
-    const bool applicationLocal = !data.value("applicationName").toString().isEmpty();
-
-    QPointer<KFilePlaceEditDialog> dialog = new KFilePlaceEditDialog(true, url, text, iconName, true, applicationLocal, KIconLoader::SizeMedium, this);
-    if (dialog->exec() == QDialog::Accepted) {
-        PlacesItem* oldItem = m_model->placesItem(index);
-        if (oldItem) {
-            const QString appName = dialog->applicationLocal() ? QCoreApplication::applicationName() : QString();
-            oldItem->setApplicationName(appName);
-            oldItem->setText(dialog->label());
-            oldItem->setUrl(dialog->url());
-            oldItem->setIcon(dialog->icon());
-            m_model->refresh();
-        }
-    }
-
-    delete dialog;
-}
-
-void PlacesPanel::selectItem()
-{
-    const int index = m_model->closestItem(url());
-    KItemListSelectionManager* selectionManager = m_controller->selectionManager();
-    selectionManager->setCurrentItem(index);
-    selectionManager->clearSelection();
-
-    const QUrl closestUrl = m_model->url(index);
-    if (!closestUrl.path().isEmpty() && url() == closestUrl) {
-        selectionManager->setSelected(index);
-    }
-}
-
-void PlacesPanel::triggerItem(int index, TriggerItemModifier modifier)
-{
-    const PlacesItem* item = m_model->placesItem(index);
-    if (!item) {
-        return;
-    }
-
-    if (m_model->storageSetupNeeded(index)) {
-        m_triggerStorageSetupModifier = modifier;
-        m_storageSetupFailedUrl = url();
-
-        connect(m_model, &PlacesItemModel::storageSetupDone,
-                this, &PlacesPanel::slotStorageSetupDone);
-
-        m_model->requestStorageSetup(index);
-    } else {
-        m_triggerStorageSetupModifier = TriggerItemModifier::None;
-
-        const QUrl url = m_model->data(index).value("url").toUrl();
-        if (!url.isEmpty()) {
-            switch (modifier) {
-                case TriggerItemModifier::ToNewTab:
-                    Q_EMIT placeActivatedInNewTab(KFilePlacesModel::convertedUrl(url));
-                    break;
-                case TriggerItemModifier::ToNewActiveTab:
-                    Q_EMIT placeActivatedInNewActiveTab(KFilePlacesModel::convertedUrl(url));
-                    break;
-                case TriggerItemModifier::ToNewWindow:
-                    Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
-                    break;
-                case TriggerItemModifier::None:
-                    Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(url));
-                    break;
+        const auto actions = this->actions();
+        for (QAction *action : actions) {
+            if (m_customContextMenuActions.contains(action)) {
+                removeAction(action);
             }
         }
     }
 }
 
-void PlacesPanel::showHiddenEntries(bool shown)
+void PlacesPanel::slotTearDownRequested(const QModelIndex &index)
 {
-    m_model->setHiddenItemsShown(shown);
-    Q_EMIT showHiddenEntriesChanged(shown);
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+
+    Solid::StorageAccess *storageAccess = placesModel->deviceForIndex(index).as<Solid::StorageAccess>();
+    if (!storageAccess) {
+        return;
+    }
+
+    m_deviceToTearDown = storageAccess;
+
+    // disconnect the Solid::StorageAccess::teardownRequested
+    // to prevent emitting PlacesPanel::storageTearDownExternallyRequested
+    // after we have emitted PlacesPanel::storageTearDownRequested
+    disconnect(storageAccess, &Solid::StorageAccess::teardownRequested, this, &PlacesPanel::slotTearDownRequestedExternally);
+    Q_EMIT storageTearDownRequested(storageAccess->filePath());
 }
 
-int PlacesPanel::hiddenListCount()
+void PlacesPanel::slotTearDownRequestedExternally(const QString &udi)
 {
-    if(!m_model) {
-        return 0;
+    Q_UNUSED(udi);
+    auto *storageAccess = static_cast<Solid::StorageAccess*>(sender());
+
+    Q_EMIT storageTearDownExternallyRequested(storageAccess->filePath());
+}
+
+void PlacesPanel::slotTearDownDone(Solid::ErrorType error, const QVariant& errorData)
+{
+    if (error && errorData.isValid()) {
+        if (error == Solid::ErrorType::DeviceBusy) {
+            KListOpenFilesJob* listOpenFilesJob = new KListOpenFilesJob(m_deviceToTearDown->filePath());
+            connect(listOpenFilesJob, &KIO::Job::result, this, [this, listOpenFilesJob](KJob*) {
+                const KProcessList::KProcessInfoList blockingProcesses = listOpenFilesJob->processInfoList();
+                QString errorString;
+                if (blockingProcesses.isEmpty()) {
+                    errorString = i18n("One or more files on this device are open within an application.");
+                } else {
+                    QStringList blockingApps;
+                    for (const auto& process : blockingProcesses) {
+                        blockingApps << process.name();
+                    }
+                    blockingApps.removeDuplicates();
+                    errorString = xi18np("One or more files on this device are opened in application <application>\"%2\"</application>.",
+                            "One or more files on this device are opened in following applications: <application>%2</application>.",
+                            blockingApps.count(), blockingApps.join(i18nc("separator in list of apps blocking device unmount", ", ")));
+                }
+                Q_EMIT errorMessage(errorString);
+            });
+            listOpenFilesJob->start();
+        } else {
+            Q_EMIT errorMessage(errorData.toString());
+        }
+    } else {
+        // No error; it must have been unmounted successfully
+        Q_EMIT storageTearDownSuccessful();
     }
-    return m_model->hiddenCount();
+    disconnect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
+               this, &PlacesPanel::slotTearDownDone);
+    m_deviceToTearDown = nullptr;
+}
+
+void PlacesPanel::slotRowsInserted(const QModelIndex &parent, int first, int last)
+{
+    for (int i = first; i <= last; ++i) {
+        connectDeviceSignals(model()->index(first, 0, parent));
+    }
+}
+
+void PlacesPanel::slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last)
+{
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+
+    for (int i = first; i <= last; ++i) {
+        const QModelIndex index = placesModel->index(i, 0, parent);
+
+        Solid::StorageAccess *storageAccess = placesModel->deviceForIndex(index).as<Solid::StorageAccess>();
+        if (!storageAccess) {
+            continue;
+        }
+
+        disconnect(storageAccess, &Solid::StorageAccess::teardownRequested, this, nullptr);
+    }
+}
+
+void PlacesPanel::connectDeviceSignals(const QModelIndex &index)
+{
+    auto *placesModel = static_cast<KFilePlacesModel *>(model());
+
+    Solid::StorageAccess *storageAccess = placesModel->deviceForIndex(index).as<Solid::StorageAccess>();
+    if (!storageAccess) {
+        return;
+    }
+
+    connect(storageAccess, &Solid::StorageAccess::teardownRequested, this, &PlacesPanel::slotTearDownRequestedExternally);
 }

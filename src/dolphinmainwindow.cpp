@@ -17,12 +17,12 @@
 #include "dolphinnavigatorswidgetaction.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinrecenttabsmenu.h"
+#include "dolphinplacesmodelsingleton.h"
 #include "dolphinurlnavigatorscontroller.h"
 #include "dolphinviewcontainer.h"
 #include "dolphintabpage.h"
 #include "middleclickactioneventfilter.h"
 #include "panels/folders/folderspanel.h"
-#include "panels/places/placesitemmodel.h"
 #include "panels/places/placespanel.h"
 #include "panels/terminal/terminalpanel.h"
 #include "settings/dolphinsettingsdialog.h"
@@ -429,14 +429,13 @@ void DolphinMainWindow::addToPlaces()
         name = dirToAdd.name();
     }
     if (url.isValid()) {
-        PlacesItemModel model;
         QString icon;
         if (m_activeViewContainer->isSearchModeEnabled()) {
             icon = QStringLiteral("folder-saved-search-symbolic");
         } else {
             icon = KIO::iconNameForUrl(url);
         }
-        model.createPlacesItem(name, url, icon);
+        DolphinPlacesModelSingleton::instance().placesModel()->addPlace(name, url, icon);
     }
 }
 
@@ -1954,10 +1953,13 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
-    connect(m_placesPanel, &PlacesPanel::placeActivatedInNewTab,
+    connect(m_placesPanel, &PlacesPanel::tabRequested,
             this, &DolphinMainWindow::openNewTab);
-    connect(m_placesPanel, &PlacesPanel::placeActivatedInNewActiveTab,
+    connect(m_placesPanel, &PlacesPanel::activeTabRequested,
             this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(m_placesPanel, &PlacesPanel::newWindowRequested, this, [this](const QUrl &url) {
+        Dolphin::openNewWindow({url}, this);
+    });
     connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -1980,14 +1982,9 @@ void DolphinMainWindow::setupDockWidgets()
         "appear semi-transparent unless you uncheck their hide property."));
 
     connect(actionShowAllPlaces, &QAction::triggered, this, [actionShowAllPlaces, this](bool checked){
-        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
-        m_placesPanel->showHiddenEntries(checked);
+        m_placesPanel->setShowAll(checked);
     });
-
-    connect(m_placesPanel, &PlacesPanel::showHiddenEntriesChanged, this, [actionShowAllPlaces] (bool checked){
-        actionShowAllPlaces->setChecked(checked);
-        actionShowAllPlaces->setIcon(QIcon::fromTheme(checked ? QStringLiteral("view-visible") : QStringLiteral("view-hidden")));
-   });
+    connect(m_placesPanel, &PlacesPanel::allPlacesShownChanged, actionShowAllPlaces, &QAction::setChecked);
 
     actionCollection()->action(QStringLiteral("show_places_panel"))
         ->setWhatsThis(xi18nc("@info:whatsthis", "<para>This toggles the "
@@ -2025,7 +2022,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(lockLayoutAction);
 
     connect(panelsMenu->menu(), &QMenu::aboutToShow, this, [actionShowAllPlaces, this]{
-        actionShowAllPlaces->setEnabled(m_placesPanel->hiddenListCount());
+        actionShowAllPlaces->setEnabled(DolphinPlacesModelSingleton::instance().placesModel()->hiddenCount());
     });
 }
 

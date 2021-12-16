@@ -8,7 +8,7 @@
     <kcfgfile name="dolphinrc"/>
     <group name="PlacesPanel">
         <entry name="IconSize" type="Int">
-            <label>Size of icons in the Places Panel (-1 means "use the style's small size")</label>
+            <label>Size of icons in the Places Panel (-1 means "automatic")</label>
             <default code="true">KIconLoader::SizeSmallMedium</default>
         </entry>
     </group>

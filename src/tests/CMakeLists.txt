@@ -69,11 +69,6 @@ LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
 # DragAndDropHelperTest
 ecm_add_test(draganddrophelpertest.cpp LINK_LIBRARIES dolphinprivate Qt5::Test)
 
-# PlacesItemModelTest
-ecm_add_test(placesitemmodeltest.cpp
-TEST_NAME placesitemmodeltest
-LINK_LIBRARIES dolphinprivate dolphinstatic Qt5::Test)
-
 find_gem(test-unit)
 set_package_properties(Gem:test-unit PROPERTIES
     TYPE RECOMMENDED

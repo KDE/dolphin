@@ -1,6 +1,7 @@
 /*
  * SPDX-FileCopyrightText: 2008-2012 Peter Penz <peter.penz19@gmail.com>
  * SPDX-FileCopyrightText: 2010 Christian Muehlhaeuser <muesli@gmail.com>
+ * SPDX-FileCopyrightText: 2021 Kai Uwe Broulik <kde@broulik.de>
  *
  * SPDX-License-Identifier: GPL-2.0-or-later
  */
@@ -8,95 +9,78 @@
 #ifndef PLACESPANEL_H
 #define PLACESPANEL_H
 
-#include <optional>
-
 #include "panels/panel.h"
 
 #include <QUrl>
-#include <QTimer>
+#include <KFilePlacesView>
 
-class KItemListController;
-class PlacesItemModel;
-class PlacesView;
-class QGraphicsSceneDragDropEvent;
-class QMenu;
-class QMimeData;
+#include <Solid/SolidNamespace> // Solid::ErrorType
+
+class QTimer;
+namespace Solid
+{
+class StorageAccess;
+}
+
 /**
  * @brief Combines bookmarks and mounted devices as list.
  */
-class PlacesPanel : public Panel
+class PlacesPanel : public KFilePlacesView
 {
     Q_OBJECT
 
 public:
     explicit PlacesPanel(QWidget* parent);
     ~PlacesPanel() override;
+
+    void setUrl(const QUrl &url); // override
+
+    // for compatibility with Panel, actions that are shown
+    // on the view's context menu
+    QList<QAction*> customContextMenuActions() const;
+    void setCustomContextMenuActions(const QList<QAction*>& actions);
+
+    void requestTearDown();
     void proceedWithTearDown();
 
-    bool eventFilter(QObject *obj, QEvent *event) override;
+public Q_SLOTS:
+    void readSettings();
 
 Q_SIGNALS:
-    void placeActivated(const QUrl& url);
-    void placeActivatedInNewTab(const QUrl &url);
-    void placeActivatedInNewActiveTab(const QUrl &url);
     void errorMessage(const QString& error);
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
-    void showHiddenEntriesChanged(bool shown);
     void storageTearDownSuccessful();
 
 protected:
-    bool urlChanged() override;
     void showEvent(QShowEvent* event) override;
-
-public Q_SLOTS:
-    void readSettings() override;
-    void showHiddenEntries(bool shown);
-    int hiddenListCount();
+    void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
 
 private Q_SLOTS:
-    void slotItemActivated(int index);
-    void slotItemMiddleClicked(int index);
-    void slotItemContextMenuRequested(int index, const QPointF& pos);
-    void slotViewContextMenuRequested(const QPointF& pos);
-    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
-    void slotItemDropEventStorageSetupDone(int index, bool success);
-    void slotAboveItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void slotConfigureTrash();
+    void slotDragActivationTimeout();
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
-    void slotStorageSetupDone(int index, bool success);
-    void slotShowTooltip();
+    void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
+    void slotTearDownRequested(const QModelIndex &index);
+    void slotTearDownRequestedExternally(const QString &udi);
+    void slotTearDownDone(Solid::ErrorType error, const QVariant& errorData);
+    void slotRowsInserted(const QModelIndex &parent, int first, int last);
+    void slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
 
 private:
-    enum class TriggerItemModifier { None, ToNewTab, ToNewActiveTab, ToNewWindow };
+    void connectDeviceSignals(const QModelIndex &idx);
 
-private:
-    void addEntry();
-    void editEntry(int index);
+    QUrl m_url; // only used for initial setUrl
+    QList<QAction*> m_customContextMenuActions;
 
-    /**
-     * Selects the item that matches the URL set
-     * for the panel (see Panel::setUrl()).
-     */
-    void selectItem();
+    QTimer *m_dragActivationTimer = nullptr;
+    QPersistentModelIndex m_pendingDragActivation;
 
-    void triggerItem(int index, TriggerItemModifier modifier);
+    Solid::StorageAccess *m_deviceToTearDown = nullptr;
 
-    QAction* buildGroupContextMenu(QMenu* menu, int index);
-
-private:
-    KItemListController* m_controller;
-    PlacesItemModel* m_model;
-    PlacesView* m_view;
-
-    QUrl m_storageSetupFailedUrl;
-    TriggerItemModifier m_triggerStorageSetupModifier;
-
-    int m_itemDropEventIndex;
-    QMimeData* m_itemDropEventMimeData;
-    QDropEvent* m_itemDropEvent;
-    QTimer m_tooltipTimer;
-    std::optional<int> m_hoveredIndex;
-    QPoint m_hoverPos;
+    QAction *m_configureTrashAction;
+    QAction *m_lockPanelsAction;
 };
 
 #endif // PLACESPANEL_H

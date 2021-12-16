@@ -13,8 +13,6 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
-#include "panels/places/placesitem.h"
-#include "panels/places/placesitemmodel.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"

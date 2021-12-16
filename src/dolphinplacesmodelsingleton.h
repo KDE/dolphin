@@ -10,7 +10,33 @@
 #include <QString>
 #include <QScopedPointer>
 
-class KFilePlacesModel;
+#include <KFilePlacesModel>
+
+/**
+ * @brief Dolphin's special-cased KFilePlacesModel
+ *
+ * It returns the trash's icon based on whether
+ * it is full or not.
+ */
+class DolphinPlacesModel : public KFilePlacesModel
+{
+    Q_OBJECT
+
+public:
+    explicit DolphinPlacesModel(const QString &alternativeApplicationName, QObject *parent = nullptr);
+    ~DolphinPlacesModel() override;
+
+protected:
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+private Q_SLOTS:
+    void slotTrashEmptinessChanged(bool isEmpty);
+
+private:
+    bool isTrash(const QModelIndex &index) const;
+
+    bool m_isEmpty = false;
+};
 
 /**
  * @brief Provides a global KFilePlacesModel instance.
