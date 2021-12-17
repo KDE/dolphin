@@ -42,7 +42,8 @@ public:
 
 Q_SIGNALS:
     void folderActivated(const QUrl& url);
-    void folderMiddleClicked(const QUrl& url);
+    void folderInNewTab(const QUrl &url);
+    void folderInNewActiveTab(const QUrl &url);
     void errorMessage(const QString& error);
 
 protected:

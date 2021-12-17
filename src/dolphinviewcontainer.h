@@ -229,6 +229,16 @@ Q_SIGNALS:
      */
     void captionChanged();
 
+    /**
+     * Is emitted if a new tab should be opened in the background for the URL \a url.
+     */
+    void tabRequested(const QUrl &url);
+
+    /**
+     * Is emitted if a new tab should be opened for the URL \a url and set as active.
+     */
+    void activeTabRequested(const QUrl &url);
+
 private Q_SLOTS:
     /**
      * Updates the number of items (= number of files + number of
@@ -281,7 +291,7 @@ private Q_SLOTS:
      * directory is opened in the view. If the item is a file, the file
      * gets started by the corresponding application.
      */
-    void slotItemActivated(const KFileItem& item);
+    void slotItemActivated(const KFileItem &item);
 
     /**
      * Handles activation of multiple files. The files get started by

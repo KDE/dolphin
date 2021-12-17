@@ -425,13 +425,13 @@ Q_SIGNALS:
     /**
      * Is emitted when clicking on an item with the left mouse button.
      */
-    void itemActivated(const KFileItem& item);
+    void itemActivated(const KFileItem &item);
 
     /**
      * Is emitted when multiple items have been activated by e. g.
      * context menu open with.
      */
-    void itemsActivated(const KFileItemList& items);
+    void itemsActivated(const KFileItemList &items);
 
     /**
      * Is emitted if items have been added or deleted.
@@ -442,6 +442,16 @@ Q_SIGNALS:
      * Is emitted if a new tab should be opened for the URL \a url.
      */
     void tabRequested(const QUrl& url);
+
+    /**
+     * Is emitted if a new tab should be opened for the URL \a url and set as active.
+     */
+    void activeTabRequested(const QUrl &url);
+
+    /**
+     * Is emitted if a new window should be opened for the URL \a url.
+     */
+    void windowRequested(const QUrl &url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
@@ -619,7 +629,7 @@ private Q_SLOTS:
     void activate();
 
     void slotItemActivated(int index);
-    void slotItemsActivated(const KItemSet& indexes);
+    void slotItemsActivated(const KItemSet &indexes);
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);

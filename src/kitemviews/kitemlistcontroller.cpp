@@ -1583,14 +1583,10 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
 
                 Q_EMIT itemExpansionToggleClicked(index);
                 emitItemActivated = false;
-            } else if (shiftOrControlPressed) {
-                // The mouse click should only update the selection, not trigger the item
+            } else if (shiftOrControlPressed && m_selectionBehavior != SingleSelection) {
+                // The mouse click should only update the selection, not trigger the item, except when
+                // we are in single selection mode
                 emitItemActivated = false;
-                // When Ctrl-clicking an item when in single selection mode
-                // i.e. where Ctrl won't change the selection, pretend it was middle clicked
-                if (controlPressed && m_selectionBehavior == SingleSelection) {
-                    Q_EMIT itemMiddleClicked(index);
-                }
             } else if (!(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)) {
                 if (touch) {
                 emitItemActivated = true;

@@ -32,6 +32,7 @@
 #include <KUrlComboBox>
 
 #include <QDropEvent>
+#include <QGuiApplication>
 #include <QLoggingCategory>
 #include <QMimeData>
 #include <QTimer>
@@ -642,7 +643,7 @@ void DolphinViewContainer::slotUrlIsFileError(const QUrl& url)
     }
 }
 
-void DolphinViewContainer::slotItemActivated(const KFileItem& item)
+void DolphinViewContainer::slotItemActivated(const KFileItem &item)
 {
     // It is possible to activate items on inactive views by
     // drag & drop operations. Assure that activating an item always
@@ -651,7 +652,17 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
 
     const QUrl& url = DolphinView::openItemAsFolderUrl(item, GeneralSettings::browseThroughArchives());
     if (!url.isEmpty()) {
-        setUrl(url);
+        const auto modifiers = QGuiApplication::keyboardModifiers();
+        // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+        if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
+            Q_EMIT activeTabRequested(url);
+        } else if (modifiers & Qt::ControlModifier) {
+            Q_EMIT tabRequested(url);
+        } else if (modifiers & Qt::ShiftModifier) {
+            Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+        } else {
+            setUrl(url);
+        }
         return;
     }
 

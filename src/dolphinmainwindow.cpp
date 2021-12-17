@@ -445,6 +445,16 @@ void DolphinMainWindow::openNewTab(const QUrl& url)
     m_tabWidget->openNewTab(url, QUrl());
 }
 
+void DolphinMainWindow::openNewTabAndActivate(const QUrl &url)
+{
+    m_tabWidget->openNewActivatedTab(url, QUrl());
+}
+
+void DolphinMainWindow::openNewWindow(const QUrl &url)
+{
+    Dolphin::openNewWindow({url}, this);
+}
+
 void DolphinMainWindow::slotSplitViewChanged()
 {
     m_tabWidget->currentTabPage()->setSplitViewEnabled(GeneralSettings::splitView(), WithAnimation);
@@ -1859,8 +1869,10 @@ void DolphinMainWindow::setupDockWidgets()
             foldersPanel, &FoldersPanel::setUrl);
     connect(foldersPanel, &FoldersPanel::folderActivated,
             this, &DolphinMainWindow::changeUrl);
-    connect(foldersPanel, &FoldersPanel::folderMiddleClicked,
+    connect(foldersPanel, &FoldersPanel::folderInNewTab,
             this, &DolphinMainWindow::openNewTab);
+    connect(foldersPanel, &FoldersPanel::folderInNewActiveTab,
+            this, &DolphinMainWindow::openNewTabAndActivate);
     connect(foldersPanel, &FoldersPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
 
@@ -1942,8 +1954,10 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
-    connect(m_placesPanel, &PlacesPanel::placeMiddleClicked,
+    connect(m_placesPanel, &PlacesPanel::placeActivatedInNewTab,
             this, &DolphinMainWindow::openNewTab);
+    connect(m_placesPanel, &PlacesPanel::placeActivatedInNewActiveTab,
+            this, &DolphinMainWindow::openNewTabAndActivate);
     connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -2134,6 +2148,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::updateSearchAction);
     connect(container, &DolphinViewContainer::captionChanged,
             this, &DolphinMainWindow::updateWindowTitle);
+    connect(container, &DolphinViewContainer::tabRequested,
+            this, &DolphinMainWindow::openNewTab);
+    connect(container, &DolphinViewContainer::activeTabRequested,
+            this, &DolphinMainWindow::openNewTabAndActivate);
 
     const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
@@ -2147,6 +2165,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::fileItemsChanged);
     connect(view, &DolphinView::tabRequested,
             this, &DolphinMainWindow::openNewTab);
+    connect(view, &DolphinView::activeTabRequested,
+            this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(view, &DolphinView::windowRequested,
+            this, &DolphinMainWindow::openNewWindow);
     connect(view, &DolphinView::requestContextMenu,
             this, &DolphinMainWindow::openContextMenu);
     connect(view, &DolphinView::directoryLoadingStarted,
@@ -2181,6 +2203,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
             this, &DolphinMainWindow::openNewTab);
+    connect(navigator, &KUrlNavigator::activeTabRequested,
+            this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(navigator, &KUrlNavigator::newWindowRequested,
+            this, &DolphinMainWindow::openNewWindow);
 
 }
 

@@ -974,11 +974,13 @@ void DolphinView::slotItemActivated(int index)
     }
 }
 
-void DolphinView::slotItemsActivated(const KItemSet& indexes)
+void DolphinView::slotItemsActivated(const KItemSet &indexes)
 {
     Q_ASSERT(indexes.count() >= 2);
 
     abortTwoClicksRenaming();
+
+    const auto modifiers = QGuiApplication::keyboardModifiers();
 
     if (indexes.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
@@ -995,8 +997,15 @@ void DolphinView::slotItemsActivated(const KItemSet& indexes)
         KFileItem item = m_model->fileItem(index);
         const QUrl& url = openItemAsFolderUrl(item);
 
-        if (!url.isEmpty()) { // Open folders in new tabs
-            Q_EMIT tabRequested(url);
+        if (!url.isEmpty()) {
+            // Open folders in new tabs or in new windows depending on the modifier
+            // The ctrl+shift behavior is ignored because we are handling multiple items
+            // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+            if (modifiers & Qt::ShiftModifier && !(modifiers & Qt::ControlModifier)) {
+                Q_EMIT windowRequested(url);
+            } else {
+                Q_EMIT tabRequested(url);
+            }
         } else {
             items.append(item);
         }
@@ -1013,10 +1022,21 @@ void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem& item = m_model->fileItem(index);
     const QUrl& url = openItemAsFolderUrl(item);
+    const auto modifiers = QGuiApplication::keyboardModifiers();
     if (!url.isEmpty()) {
-        Q_EMIT tabRequested(url);
+        // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+        if (modifiers & Qt::ShiftModifier) {
+            Q_EMIT activeTabRequested(url);
+        } else {
+            Q_EMIT tabRequested(url);
+        }
     } else if (isTabsForFilesEnabled()) {
-        Q_EMIT tabRequested(item.url());
+        // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+        if (modifiers & Qt::ShiftModifier) {
+            Q_EMIT activeTabRequested(item.url());
+        } else {
+            Q_EMIT tabRequested(item.url());
+        }
     }
 }
 

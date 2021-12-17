@@ -171,6 +171,16 @@ public Q_SLOTS:
      */
     void openNewTab(const QUrl& url);
 
+    /**
+     * Opens a new tab  showing the URL \a url and activate it.
+     */
+    void openNewTabAndActivate(const QUrl &url);
+
+    /**
+     * Opens a new window showing the URL \a url.
+     */
+    void openNewWindow(const QUrl &url);
+
     /** @see GeneralSettings::splitViewChanged() */
     void slotSplitViewChanged();
 

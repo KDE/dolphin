@@ -36,6 +36,7 @@
 #include <KPropertiesDialog>
 
 #include <QActionGroup>
+#include <QApplication>
 #include <QGraphicsSceneDragDropEvent>
 #include <QIcon>
 #include <QMenu>
@@ -44,16 +45,16 @@
 #include <QToolTip>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
-    Panel(parent),
-    m_controller(nullptr),
-    m_model(nullptr),
-    m_view(nullptr),
-    m_storageSetupFailedUrl(),
-    m_triggerStorageSetupButton(),
-    m_itemDropEventIndex(-1),
-    m_itemDropEventMimeData(nullptr),
-    m_itemDropEvent(nullptr),
-    m_tooltipTimer()
+        Panel(parent),
+        m_controller(nullptr),
+        m_model(nullptr),
+        m_view(nullptr),
+        m_storageSetupFailedUrl(),
+        m_triggerStorageSetupModifier(),
+        m_itemDropEventIndex(-1),
+        m_itemDropEventMimeData(nullptr),
+        m_itemDropEvent(nullptr),
+        m_tooltipTimer()
 {
     m_tooltipTimer.setInterval(500);
     m_tooltipTimer.setSingleShot(true);
@@ -163,12 +164,28 @@ bool PlacesPanel::eventFilter(QObject * /* obj */, QEvent *event)
 
 void PlacesPanel::slotItemActivated(int index)
 {
-    triggerItem(index, Qt::LeftButton);
+    const auto modifiers = QGuiApplication::keyboardModifiers();
+    // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+    if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
+        triggerItem(index, TriggerItemModifier::ToNewActiveTab);
+    } else if (modifiers & Qt::ControlModifier) {
+        triggerItem(index, TriggerItemModifier::ToNewTab);
+    } else if (modifiers & Qt::ShiftModifier) {
+        triggerItem(index, TriggerItemModifier::ToNewWindow);
+    } else {
+        triggerItem(index, TriggerItemModifier::None);
+    }
 }
 
 void PlacesPanel::slotItemMiddleClicked(int index)
 {
-    triggerItem(index, Qt::MiddleButton);
+    const auto modifiers = QGuiApplication::keyboardModifiers();
+    // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
+    if (modifiers & Qt::ShiftModifier) {
+        triggerItem(index, TriggerItemModifier::ToNewActiveTab);
+    } else {
+        triggerItem(index, TriggerItemModifier::ToNewTab);
+    }
 }
 
 void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
@@ -287,9 +304,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
             } else if (action == openInNewWindowAction) {
                 Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(m_model->data(index).value("url").toUrl())}, this);
             } else if (action == openInNewTabAction) {
-                // TriggerItem does set up the storage first and then it will
-                // emit the slotItemMiddleClicked signal, because of Qt::MiddleButton.
-                triggerItem(index, Qt::MiddleButton);
+                triggerItem(index, TriggerItemModifier::ToNewTab);
             } else if (action == mountAction) {
                 m_model->requestStorageSetup(index);
             } else if (action == teardownAction) {
@@ -480,14 +495,14 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
     disconnect(m_model, &PlacesItemModel::storageSetupDone,
                this, &PlacesPanel::slotStorageSetupDone);
 
-    if (m_triggerStorageSetupButton == Qt::NoButton) {
+    if (m_triggerStorageSetupModifier == TriggerItemModifier::None) {
         return;
     }
 
     if (success) {
         Q_ASSERT(!m_model->storageSetupNeeded(index));
-        triggerItem(index, m_triggerStorageSetupButton);
-        m_triggerStorageSetupButton = Qt::NoButton;
+        triggerItem(index, m_triggerStorageSetupModifier);
+        m_triggerStorageSetupModifier = TriggerItemModifier::None;
     } else {
         setUrl(m_storageSetupFailedUrl);
         m_storageSetupFailedUrl = QUrl();
@@ -553,7 +568,7 @@ void PlacesPanel::selectItem()
     }
 }
 
-void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
+void PlacesPanel::triggerItem(int index, TriggerItemModifier modifier)
 {
     const PlacesItem* item = m_model->placesItem(index);
     if (!item) {
@@ -561,7 +576,7 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
     }
 
     if (m_model->storageSetupNeeded(index)) {
-        m_triggerStorageSetupButton = button;
+        m_triggerStorageSetupModifier = modifier;
         m_storageSetupFailedUrl = url();
 
         connect(m_model, &PlacesItemModel::storageSetupDone,
@@ -569,14 +584,23 @@ void PlacesPanel::triggerItem(int index, Qt::MouseButton button)
 
         m_model->requestStorageSetup(index);
     } else {
-        m_triggerStorageSetupButton = Qt::NoButton;
+        m_triggerStorageSetupModifier = TriggerItemModifier::None;
 
         const QUrl url = m_model->data(index).value("url").toUrl();
         if (!url.isEmpty()) {
-            if (button == Qt::MiddleButton) {
-                Q_EMIT placeMiddleClicked(KFilePlacesModel::convertedUrl(url));
-            } else {
-                Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(url));
+            switch (modifier) {
+                case TriggerItemModifier::ToNewTab:
+                    Q_EMIT placeActivatedInNewTab(KFilePlacesModel::convertedUrl(url));
+                    break;
+                case TriggerItemModifier::ToNewActiveTab:
+                    Q_EMIT placeActivatedInNewActiveTab(KFilePlacesModel::convertedUrl(url));
+                    break;
+                case TriggerItemModifier::ToNewWindow:
+                    Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+                    break;
+                case TriggerItemModifier::None:
+                    Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(url));
+                    break;
             }
         }
     }

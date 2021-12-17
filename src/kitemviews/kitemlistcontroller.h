@@ -137,7 +137,7 @@ Q_SIGNALS:
      * Is emitted if more than one item has been activated by pressing Return/Enter
      * when having a selection.
      */
-    void itemsActivated(const KItemSet& indexes);
+    void itemsActivated(const KItemSet &indexes);
 
     void itemMiddleClicked(int index);
 

@@ -35,7 +35,8 @@ public:
 
 Q_SIGNALS:
     void placeActivated(const QUrl& url);
-    void placeMiddleClicked(const QUrl& url);
+    void placeActivatedInNewTab(const QUrl &url);
+    void placeActivatedInNewActiveTab(const QUrl &url);
     void errorMessage(const QString& error);
     void storageTearDownRequested(const QString& mountPath);
     void storageTearDownExternallyRequested(const QString& mountPath);
@@ -64,6 +65,9 @@ private Q_SLOTS:
     void slotShowTooltip();
 
 private:
+    enum class TriggerItemModifier { None, ToNewTab, ToNewActiveTab, ToNewWindow };
+
+private:
     void addEntry();
     void editEntry(int index);
 
@@ -73,7 +77,7 @@ private:
      */
     void selectItem();
 
-    void triggerItem(int index, Qt::MouseButton button);
+    void triggerItem(int index, TriggerItemModifier modifier);
 
     QAction* buildGroupContextMenu(QMenu* menu, int index);
 
@@ -83,7 +87,7 @@ private:
     PlacesView* m_view;
 
     QUrl m_storageSetupFailedUrl;
-    Qt::MouseButton m_triggerStorageSetupButton;
+    TriggerItemModifier m_triggerStorageSetupModifier;
 
     int m_itemDropEventIndex;
     QMimeData* m_itemDropEventMimeData;
