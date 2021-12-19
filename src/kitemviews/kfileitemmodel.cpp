@@ -16,6 +16,7 @@
 #include <KDirLister>
 #include <KIO/Job>
 #include <KLocalizedString>
+#include <KLazyLocalizedString>
 #include <KUrlMimeData>
 
 #include <QElapsedTimer>
