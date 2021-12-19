@@ -12,6 +12,7 @@
 #include "kitemviews/private/kfileitemmodelfilter.h"
 
 #include <KFileItem>
+#include <KLazyLocalizedString>
 
 #include <QCollator>
 #include <QHash>
@@ -440,10 +441,8 @@ private:
     {
         const char* const role;
         const RoleType roleType;
-        const char* const roleTranslationContext;
-        const char* const roleTranslation;
-        const char* const groupTranslationContext;
-        const char* const groupTranslation;
+        const KLazyLocalizedString roleTranslation;
+        const KLazyLocalizedString groupTranslation;
         const bool requiresBaloo;
         const bool requiresIndexer;
     };

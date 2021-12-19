@@ -26,6 +26,7 @@
 #include <QRecursiveMutex>
 #include <QIcon>
 #include <algorithm>
+#include <klazylocalizedstring.h>
 
 Q_GLOBAL_STATIC(QRecursiveMutex, s_collatorMutex)
 
@@ -325,10 +326,10 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
         int count = 0;
         const RoleInfoMap* map = rolesInfoMap(count);
         for (int i = 0; i < count; ++i) {
-            if (!map[i].roleTranslation) {
+            if (map[i].roleTranslation.isEmpty()) {
                 continue;
             }
-            description.insert(map[i].role, i18nc(map[i].roleTranslationContext, map[i].roleTranslation));
+            description.insert(map[i].role, map[i].roleTranslation.toString());
         }
     }
 
@@ -828,9 +829,9 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
             if (map[i].roleType != NoRole) {
                 RoleInfo info;
                 info.role = map[i].role;
-                info.translation = i18nc(map[i].roleTranslationContext, map[i].roleTranslation);
-                if (map[i].groupTranslation) {
-                    info.group = i18nc(map[i].groupTranslationContext, map[i].groupTranslation);
+                info.translation = map[i].roleTranslation.toString();
+                if (!map[i].groupTranslation.isEmpty()) {
+                    info.group = map[i].groupTranslation.toString();
                 } else {
                     // For top level roles, groupTranslation is 0. We must make sure that
                     // info.group is an empty string then because the code that generates
@@ -2579,40 +2580,40 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
 const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
-    //  |         role           |        roleType        |                role translation                     |            group translation               | requires Baloo | requires indexer
-        { nullptr,               NoRole,                  nullptr, nullptr,                                     nullptr, nullptr,                            false,           false },
-        { "text",                NameRole,                I18NC_NOOP("@label", "Name"),                 nullptr, nullptr,                            false,           false },
-        { "size",                SizeRole,                I18NC_NOOP("@label", "Size"),                 nullptr, nullptr,                            false,           false },
-        { "modificationtime",    ModificationTimeRole,    I18NC_NOOP("@label", "Modified"),             nullptr, nullptr,                            false,           false },
-        { "creationtime",        CreationTimeRole,        I18NC_NOOP("@label", "Created"),              nullptr, nullptr,                            false,           false },
-        { "accesstime",          AccessTimeRole,          I18NC_NOOP("@label", "Accessed"),             nullptr, nullptr,                            false,           false },
-        { "type",                TypeRole,                I18NC_NOOP("@label", "Type"),                 nullptr, nullptr,                            false,           false },
-        { "rating",              RatingRole,              I18NC_NOOP("@label", "Rating"),               nullptr, nullptr,                            true,            false },
-        { "tags",                TagsRole,                I18NC_NOOP("@label", "Tags"),                 nullptr, nullptr,                            true,            false },
-        { "comment",             CommentRole,             I18NC_NOOP("@label", "Comment"),              nullptr, nullptr,                            true,            false },
-        { "title",               TitleRole,               I18NC_NOOP("@label", "Title"),                I18NC_NOOP("@label", "Document"),    true,            true  },
-        { "wordCount",           WordCountRole,           I18NC_NOOP("@label", "Word Count"),           I18NC_NOOP("@label", "Document"),    true,            true  },
-        { "lineCount",           LineCountRole,           I18NC_NOOP("@label", "Line Count"),           I18NC_NOOP("@label", "Document"),    true,            true  },
-        { "imageDateTime",       ImageDateTimeRole,       I18NC_NOOP("@label", "Date Photographed"),    I18NC_NOOP("@label", "Image"),       true,            true  },
-        { "width",               WidthRole,               I18NC_NOOP("@label", "Width"),                I18NC_NOOP("@label", "Image"),       true,            true  },
-        { "height",              HeightRole,              I18NC_NOOP("@label", "Height"),               I18NC_NOOP("@label", "Image"),       true,            true  },
-        { "orientation",         OrientationRole,         I18NC_NOOP("@label", "Orientation"),          I18NC_NOOP("@label", "Image"),       true,            true  },
-        { "artist",              ArtistRole,              I18NC_NOOP("@label", "Artist"),               I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "genre",               GenreRole,               I18NC_NOOP("@label", "Genre"),                I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "album",               AlbumRole,               I18NC_NOOP("@label", "Album"),                I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "duration",            DurationRole,            I18NC_NOOP("@label", "Duration"),             I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "bitrate",             BitrateRole,             I18NC_NOOP("@label", "Bitrate"),              I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "track",               TrackRole,               I18NC_NOOP("@label", "Track"),                I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "releaseYear",         ReleaseYearRole,         I18NC_NOOP("@label", "Release Year"),         I18NC_NOOP("@label", "Audio"),       true,            true  },
-        { "aspectRatio",         AspectRatioRole,         I18NC_NOOP("@label", "Aspect Ratio"),         I18NC_NOOP("@label", "Video"),       true,            true  },
-        { "frameRate",           FrameRateRole,           I18NC_NOOP("@label", "Frame Rate"),           I18NC_NOOP("@label", "Video"),       true,            true  },
-        { "path",                PathRole,                I18NC_NOOP("@label", "Path"),                 I18NC_NOOP("@label", "Other"),       false,           false },
-        { "deletiontime",        DeletionTimeRole,        I18NC_NOOP("@label", "Deletion Time"),        I18NC_NOOP("@label", "Other"),       false,           false },
-        { "destination",         DestinationRole,         I18NC_NOOP("@label", "Link Destination"),     I18NC_NOOP("@label", "Other"),       false,           false },
-        { "originUrl",           OriginUrlRole,           I18NC_NOOP("@label", "Downloaded From"),      I18NC_NOOP("@label", "Other"),       true,            false },
-        { "permissions",         PermissionsRole,         I18NC_NOOP("@label", "Permissions"),          I18NC_NOOP("@label", "Other"),       false,           false },
-        { "owner",               OwnerRole,               I18NC_NOOP("@label", "Owner"),                I18NC_NOOP("@label", "Other"),       false,           false },
-        { "group",               GroupRole,               I18NC_NOOP("@label", "User Group"),           I18NC_NOOP("@label", "Other"),       false,           false },
+    //  |         role           |        roleType        |                role translation         |         group translation                     | requires Baloo | requires indexer
+        { nullptr,               NoRole,                  KLazyLocalizedString(),                    KLazyLocalizedString(),                            false,           false },
+        { "text",                NameRole,                kli18nc("@label", "Name"),                 KLazyLocalizedString(),                            false,           false },
+        { "size",                SizeRole,                kli18nc("@label", "Size"),                 KLazyLocalizedString(),                            false,           false },
+        { "modificationtime",    ModificationTimeRole,    kli18nc("@label", "Modified"),             KLazyLocalizedString(),                            false,           false },
+        { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),                            false,           false },
+        { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),                            false,           false },
+        { "type",                TypeRole,                kli18nc("@label", "Type"),                 KLazyLocalizedString(),                            false,           false },
+        { "rating",              RatingRole,              kli18nc("@label", "Rating"),               KLazyLocalizedString(),                            true,            false },
+        { "tags",                TagsRole,                kli18nc("@label", "Tags"),                 KLazyLocalizedString(),                            true,            false },
+        { "comment",             CommentRole,             kli18nc("@label", "Comment"),              KLazyLocalizedString(),                            true,            false },
+        { "title",               TitleRole,               kli18nc("@label", "Title"),                kli18nc("@label", "Document"),                     true,            true  },
+        { "wordCount",           WordCountRole,           kli18nc("@label", "Word Count"),           kli18nc("@label", "Document"),                     true,            true  },
+        { "lineCount",           LineCountRole,           kli18nc("@label", "Line Count"),           kli18nc("@label", "Document"),                     true,            true  },
+        { "imageDateTime",       ImageDateTimeRole,       kli18nc("@label", "Date Photographed"),    kli18nc("@label", "Image"),                        true,            true  },
+        { "width",               WidthRole,               kli18nc("@label", "Width"),                kli18nc("@label", "Image"),                        true,            true  },
+        { "height",              HeightRole,              kli18nc("@label", "Height"),               kli18nc("@label", "Image"),                        true,            true  },
+        { "orientation",         OrientationRole,         kli18nc("@label", "Orientation"),          kli18nc("@label", "Image"),                        true,            true  },
+        { "artist",              ArtistRole,              kli18nc("@label", "Artist"),               kli18nc("@label", "Audio"),                        true,            true  },
+        { "genre",               GenreRole,               kli18nc("@label", "Genre"),                kli18nc("@label", "Audio"),                        true,            true  },
+        { "album",               AlbumRole,               kli18nc("@label", "Album"),                kli18nc("@label", "Audio"),                        true,            true  },
+        { "duration",            DurationRole,            kli18nc("@label", "Duration"),             kli18nc("@label", "Audio"),                        true,            true  },
+        { "bitrate",             BitrateRole,             kli18nc("@label", "Bitrate"),              kli18nc("@label", "Audio"),                        true,            true  },
+        { "track",               TrackRole,               kli18nc("@label", "Track"),                kli18nc("@label", "Audio"),                        true,            true  },
+        { "releaseYear",         ReleaseYearRole,         kli18nc("@label", "Release Year"),         kli18nc("@label", "Audio"),                        true,            true  },
+        { "aspectRatio",         AspectRatioRole,         kli18nc("@label", "Aspect Ratio"),         kli18nc("@label", "Video"),                        true,            true  },
+        { "frameRate",           FrameRateRole,           kli18nc("@label", "Frame Rate"),           kli18nc("@label", "Video"),                        true,            true  },
+        { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),                        false,           false },
+        { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),                        false,           false },
+        { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),                        false,           false },
+        { "originUrl",           OriginUrlRole,           kli18nc("@label", "Downloaded From"),      kli18nc("@label", "Other"),                        true,            false },
+        { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),                        false,           false },
+        { "owner",               OwnerRole,               kli18nc("@label", "Owner"),                kli18nc("@label", "Other"),                        false,           false },
+        { "group",               GroupRole,               kli18nc("@label", "User Group"),           kli18nc("@label", "Other"),                        false,           false },
     };
 
     count = sizeof(rolesInfoMap) / sizeof(RoleInfoMap);
