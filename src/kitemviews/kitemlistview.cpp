@@ -458,7 +458,7 @@ int KItemListView::lastVisibleIndex() const
     return m_layouter->lastVisibleIndex();
 }
 
-void KItemListView::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint) const
+void KItemListView::calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint) const
 {
     widgetCreator()->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, this);
 }
@@ -493,6 +493,11 @@ QRectF KItemListView::itemContextRect(int index) const
     }
 
     return contextRect;
+}
+
+bool KItemListView::isElided(int index) const
+{
+    return m_sizeHintResolver->isElided(index);
 }
 
 void KItemListView::scrollToItem(int index)

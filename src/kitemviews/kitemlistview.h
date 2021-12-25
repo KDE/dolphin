@@ -189,7 +189,7 @@ public:
      * @note the logical height (width) is actually the
      * width (height) if the scroll orientation is Qt::Vertical!
      */
-    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint) const;
+    void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -220,6 +220,12 @@ public:
      *         be returned for fully invisible items.
      */
     QRectF itemContextRect(int index) const;
+
+    /**
+     * @return Whether or not the name of the file has been elided. At present this will
+     *         only ever be true when in icons view.
+     */
+    bool isElided(int index) const;
 
     /**
      * Scrolls to the item with the index \a index so that the item
@@ -383,6 +389,8 @@ protected:
 
     virtual void updateFont();
     virtual void updatePalette();
+
+    KItemListSizeHintResolver* m_sizeHintResolver;
 
 protected Q_SLOTS:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
@@ -723,7 +731,6 @@ private:
     QHash<int, Cell> m_visibleCells;
 
     int m_scrollBarExtent;
-    KItemListSizeHintResolver* m_sizeHintResolver;
     KItemListViewLayouter* m_layouter;
     KItemListViewAnimation* m_animation;
 
@@ -803,7 +810,7 @@ public:
 
     virtual void recycle(KItemListWidget* widget);
 
-    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -822,7 +829,7 @@ public:
 
     KItemListWidget* create(KItemListView* view) override;
 
-    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
+    void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
 
     qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
@@ -856,7 +863,7 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 }
 
 template<class T>
-void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KItemListWidgetCreator<T>::calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     return m_informant->calculateItemSizeHints(logicalHeightHints, logicalWidthHint, view);
 }

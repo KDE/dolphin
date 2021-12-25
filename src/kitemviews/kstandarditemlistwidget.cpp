@@ -36,7 +36,7 @@ KStandardItemListWidgetInformant::~KStandardItemListWidgetInformant()
 {
 }
 
-void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     switch (static_cast<const KStandardItemListView*>(view)->itemLayout()) {
     case KStandardItemListView::IconsLayout:
@@ -121,7 +121,7 @@ QFont KStandardItemListWidgetInformant::customizedFontForLinks(const QFont& base
     return baseFont;
 }
 
-void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
     const QFont& normalFont = option.font;
@@ -138,7 +138,7 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
     for (int index = 0; index < logicalHeightHints.count(); ++index) {
-        if (logicalHeightHints.at(index) > 0.0) {
+        if (logicalHeightHints.at(index).first > 0.0) {
             continue;
         }
 
@@ -146,7 +146,7 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         const QFont& font = itemIsLink(index, view) ? linkFont : normalFont;
 
         const QString& text = KStringHandler::preProcessWrap(itemText(index, view));
-
+        
         // Calculate the number of lines required for wrapping the name
         qreal textHeight = 0;
         QTextLayout layout(text, font);
@@ -154,6 +154,7 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         layout.beginLayout();
         QTextLine line;
         int lineCount = 0;
+        bool isElided = false;
         while ((line = layout.createLine()).isValid()) {
             line.setLineWidth(maxWidth);
             line.naturalTextWidth();
@@ -161,6 +162,7 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
 
             ++lineCount;
             if (lineCount == option.maxTextLines) {
+                isElided = layout.createLine().isValid();
                 break;
             }
         }
@@ -169,13 +171,14 @@ void KStandardItemListWidgetInformant::calculateIconsLayoutItemSizeHints(QVector
         // Add one line for each additional information
         textHeight += additionalRolesSpacing;
 
-        logicalHeightHints[index] = textHeight + spacingAndIconHeight;
+        logicalHeightHints[index].first = textHeight + spacingAndIconHeight;
+        logicalHeightHints[index].second = isElided;
     }
 
     logicalWidthHint = itemWidth;
 }
 
-void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
     const QFontMetrics& normalFontMetrics = option.fontMetrics;
@@ -190,7 +193,7 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
     const QFontMetrics linkFontMetrics(customizedFontForLinks(option.font));
 
     for (int index = 0; index < logicalHeightHints.count(); ++index) {
-        if (logicalHeightHints.at(index) > 0.0) {
+        if (logicalHeightHints.at(index).first > 0.0) {
             continue;
         }
 
@@ -217,13 +220,13 @@ void KStandardItemListWidgetInformant::calculateCompactLayoutItemSizeHints(QVect
             width = maxWidth;
         }
 
-        logicalHeightHints[index] = width;
+        logicalHeightHints[index].first = width;
     }
 
     logicalWidthHint = height;
 }
 
-void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
+void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const
 {
     const KItemListStyleOption& option = view->styleOption();
 
@@ -241,7 +244,7 @@ void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVect
     }
 
     const qreal contentHeight = qMax<qreal>(option.iconSize, zoomLevel * option.fontMetrics.height());
-    logicalHeightHints.fill(contentHeight + 2 * option.padding);
+    logicalHeightHints.fill(std::make_pair(contentHeight + 2 * option.padding, false));
     logicalWidthHint = -1.0;
 }
 

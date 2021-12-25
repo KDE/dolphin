@@ -862,6 +862,8 @@ private:
 
     void updatePlaceholderLabel();
 
+    void tryShowNameToolTip(QEvent* event);
+
 private:
     void updatePalette();
     void showLoadingPlaceholder();

@@ -23,12 +23,13 @@ class DOLPHIN_EXPORT KStandardItemListWidgetInformant : public KItemListWidgetIn
 public:
     KStandardItemListWidgetInformant();
     ~KStandardItemListWidgetInformant() override;
-
-    void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
+    
+    void calculateItemSizeHints(QVector<std::pair<qreal /* height */, bool /* isElided */>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const override;
 
     qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,
                                            const KItemListView* view) const override;
+
 protected:
     /**
      * @return The value of the "text" role. The default implementation returns
@@ -59,9 +60,9 @@ protected:
     */
     virtual QFont customizedFontForLinks(const QFont& baseFont) const;
 
-    void calculateIconsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
-    void calculateCompactLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
-    void calculateDetailsLayoutItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
+    void calculateIconsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
+    void calculateCompactLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
+    void calculateDetailsLayoutItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const;
 
     friend class KStandardItemListWidget; // Accesses roleText()
 };

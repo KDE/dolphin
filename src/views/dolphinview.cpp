@@ -59,6 +59,7 @@
 #include <QScrollBar>
 #include <QSize>
 #include <QTimer>
+#include <QToolTip>
 #include <QVBoxLayout>
 
 DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
@@ -918,6 +919,11 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         if (watched == m_view) {
             m_dragging = false;
         }
+        break;
+
+    case QEvent::ToolTip:
+        tryShowNameToolTip(event);
+
     default:
         break;
     }
@@ -1637,13 +1643,15 @@ void DolphinView::updateViewState()
 
 void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
 {
-#ifdef HAVE_BALOO
     if (GeneralSettings::showToolTips()) {
+#ifdef HAVE_BALOO
         m_toolTipManager->hideToolTip(behavior);
-    }
 #else
         Q_UNUSED(behavior)
 #endif
+    } else if (m_mode == DolphinView::IconsView) {
+       QToolTip::hideText();
+    }
 }
 
 void DolphinView::slotTwoClicksRenamingTimerTimeout()
@@ -2157,4 +2165,26 @@ void DolphinView::updatePlaceholderLabel()
     }
 
     m_placeholderLabel->setVisible(true);
+}
+
+void DolphinView::tryShowNameToolTip(QEvent* event)
+{
+    if (!GeneralSettings::showToolTips() && m_mode == DolphinView::IconsView) {
+        QHelpEvent *hoverEvent = reinterpret_cast<QHelpEvent *>(event);
+        const int index = m_view->itemAt(hoverEvent->pos());
+
+        if (index == -1) {
+            return;
+        }
+
+        // Check whether the filename has been elided
+        const bool isElided = m_view->isElided(index);
+
+        if(isElided) {
+            const KFileItem item = m_model->fileItem(index);
+            const QString text = item.text();
+            const QPoint pos = mapToGlobal(hoverEvent->pos());
+            QToolTip::showText(pos, text);
+        }
+    }
 }

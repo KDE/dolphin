@@ -35,7 +35,7 @@ public:
     KItemListWidgetInformant();
     virtual ~KItemListWidgetInformant();
 
-    virtual void calculateItemSizeHints(QVector<qreal>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
+    virtual void calculateItemSizeHints(QVector<std::pair<qreal, bool>>& logicalHeightHints, qreal& logicalWidthHint, const KItemListView* view) const = 0;
 
     virtual qreal preferredRoleColumnWidth(const QByteArray& role,
                                            int index,

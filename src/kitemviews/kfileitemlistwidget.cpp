@@ -109,7 +109,6 @@ QFont KFileItemListWidgetInformant::customizedFontForLinks(const QFont& baseFont
     return font;
 }
 
-
 KFileItemListWidget::KFileItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent) :
     KStandardItemListWidget(informant, parent)
 {

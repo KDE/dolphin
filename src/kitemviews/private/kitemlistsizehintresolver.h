@@ -25,6 +25,7 @@ public:
     virtual ~KItemListSizeHintResolver();
     QSizeF minSizeHint();
     QSizeF sizeHint(int index);
+    bool isElided(int index);
 
     void itemsInserted(const KItemRangeList& itemRanges);
     void itemsRemoved(const KItemRangeList& itemRanges);
@@ -36,7 +37,7 @@ public:
 
 private:
     const KItemListView* m_itemListView;
-    mutable QVector<qreal> m_logicalHeightHintCache;
+    mutable QVector<std::pair<qreal /* height */, bool /* isElided */>> m_logicalHeightHintCache;
     mutable qreal m_logicalWidthHint;
     mutable qreal m_minHeightHint;
     bool m_needsResolving;
