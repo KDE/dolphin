@@ -58,7 +58,7 @@ public:
     QVariant dataValue(const QByteArray& role) const;
 
     void setData(const QHash<QByteArray, QVariant>& values);
-    QHash<QByteArray, QVariant> data() const;
+    const QHash<QByteArray, QVariant> &data() const { return m_data; }
 
 protected:
     virtual void onDataValueChanged(const QByteArray& role,

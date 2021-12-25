@@ -106,11 +106,6 @@ void KStandardItem::setData(const QHash<QByteArray, QVariant>& values)
     onDataChanged(values, previous);
 }
 
-QHash<QByteArray, QVariant> KStandardItem::data() const
-{
-    return m_data;
-}
-
 void KStandardItem::onDataValueChanged(const QByteArray& role,
                                        const QVariant& current,
                                        const QVariant& previous)

@@ -59,8 +59,8 @@ void KStandardItemModel::changeItem(int index, KStandardItem* item)
     QSet<QByteArray> changedRoles;
 
     KStandardItem* oldItem = m_items[index];
-    const QHash<QByteArray, QVariant> oldData = oldItem->data();
-    const QHash<QByteArray, QVariant> newData = item->data();
+    const QHash<QByteArray, QVariant> &oldData = oldItem->data();
+    const QHash<QByteArray, QVariant> &newData = item->data();
 
     // Determine which roles have been changed
     QHashIterator<QByteArray, QVariant> it(oldData);
