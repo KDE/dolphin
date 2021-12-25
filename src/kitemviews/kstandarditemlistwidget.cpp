@@ -909,7 +909,7 @@ void KStandardItemListWidget::triggerCacheRefreshing()
 
     refreshCache();
 
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
     m_isExpandable = m_supportsItemExpanding && values["isExpandable"].toBool();
     m_isHidden = isHidden();
     m_customizedFont = customizedFont(styleOption().font);
@@ -927,7 +927,7 @@ void KStandardItemListWidget::triggerCacheRefreshing()
 void KStandardItemListWidget::updateExpansionArea()
 {
     if (m_supportsItemExpanding) {
-        const QHash<QByteArray, QVariant> values = data();
+        const QHash<QByteArray, QVariant> &values = data();
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
         if (expandedParentsCount >= 0) {
             const KItemListStyleOption& option = styleOption();
@@ -956,7 +956,7 @@ void KStandardItemListWidget::updatePixmapCache()
     const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : option.iconSize;
     const int maxIconHeight = option.iconSize;
 
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
 
     bool updatePixmap = (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight);
     if (!updatePixmap && m_dirtyContent) {
@@ -1192,7 +1192,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
     //  Additional role 1
     //  Additional role 2
 
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
 
     const KItemListStyleOption& option = styleOption();
     const qreal padding = option.padding;
@@ -1315,7 +1315,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
     // | Icon |  Additional role 1
     // +------+  Additional role 2
 
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
 
     const KItemListStyleOption& option = styleOption();
     const qreal widgetHeight = size().height();
@@ -1361,7 +1361,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     m_textRect = QRectF();
 
     const KItemListStyleOption& option = styleOption();
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
 
     const qreal widgetHeight = size().height();
     const int scaledIconSize = widgetHeight - 2 * option.padding;

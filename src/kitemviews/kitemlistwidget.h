@@ -61,7 +61,7 @@ public:
     int index() const;
 
     void setData(const QHash<QByteArray, QVariant>& data, const QSet<QByteArray>& roles = QSet<QByteArray>());
-    QHash<QByteArray, QVariant> data() const;
+    const QHash<QByteArray, QVariant> &data() const { return m_data; }
 
     /**
      * Draws the hover-rectangle if the item is hovered. Overwrite this method

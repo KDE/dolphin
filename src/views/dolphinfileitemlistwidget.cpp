@@ -23,7 +23,7 @@ DolphinFileItemListWidget::~DolphinFileItemListWidget()
 void DolphinFileItemListWidget::refreshCache()
 {
     QColor color;
-    const QHash<QByteArray, QVariant> values = data();
+    const QHash<QByteArray, QVariant> &values = data();
     if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding
         // to its version state.
