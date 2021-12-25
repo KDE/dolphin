@@ -57,11 +57,6 @@ void KItemListGroupHeader::setData(const QVariant& data)
     }
 }
 
-QVariant KItemListGroupHeader::data() const
-{
-    return m_data;
-}
-
 void KItemListGroupHeader::setStyleOption(const KItemListStyleOption& option)
 {
     if (m_styleOption == option) {

@@ -35,7 +35,7 @@ public:
     QByteArray role() const;
 
     void setData(const QVariant& data);
-    QVariant data() const;
+    const QVariant &data() const { return m_data; }
 
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
