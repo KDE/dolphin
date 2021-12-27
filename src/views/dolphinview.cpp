@@ -2171,17 +2171,17 @@ void DolphinView::tryShowNameToolTip(QEvent* event)
 {
     if (!GeneralSettings::showToolTips() && m_mode == DolphinView::IconsView) {
         QHelpEvent *hoverEvent = reinterpret_cast<QHelpEvent *>(event);
-        const int index = m_view->itemAt(hoverEvent->pos());
+        const std::optional<int> index = m_view->itemAt(hoverEvent->pos());
 
-        if (index == -1) {
+        if (!index.has_value()) {
             return;
         }
 
         // Check whether the filename has been elided
-        const bool isElided = m_view->isElided(index);
+        const bool isElided = m_view->isElided(index.value());
 
         if(isElided) {
-            const KFileItem item = m_model->fileItem(index);
+            const KFileItem item = m_model->fileItem(index.value());
             const QString text = item.text();
             const QPoint pos = mapToGlobal(hoverEvent->pos());
             QToolTip::showText(pos, text);

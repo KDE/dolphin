@@ -5,7 +5,6 @@
  */
 
 #ifndef QT_NO_ACCESSIBILITY
-
 #include "kitemlistviewaccessible.h"
 
 #include "kitemlistcontainer.h"
@@ -202,8 +201,8 @@ QAccessible::State KItemListViewAccessible::state() const
 QAccessibleInterface* KItemListViewAccessible::childAt(int x, int y) const
 {
     const QPointF point = QPointF(x, y);
-    int itemIndex = view()->itemAt(view()->mapFromScene(point));
-    return child(itemIndex);
+    const std::optional<int> itemIndex = view()->itemAt(view()->mapFromScene(point));
+    return child(itemIndex.value_or(-1));
 }
 
 QAccessibleInterface* KItemListViewAccessible::parent() const

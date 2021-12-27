@@ -46,7 +46,7 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_view(nullptr),
     m_selectionManager(new KItemListSelectionManager(this)),
     m_keyboardManager(new KItemListKeyboardSearchManager(this)),
-    m_pressedIndex(-1),
+    m_pressedIndex(std::nullopt),
     m_pressedMousePos(),
     m_autoActivationTimer(nullptr),
     m_swipeGesture(Qt::CustomGesture),
@@ -574,16 +574,16 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         return false;
     }
 
-    if (m_pressedIndex >= 0) {
+    if (m_pressedIndex.has_value()) {
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
             const QPointF pos = transform.map(event->pos());
             if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
-                if (!m_selectionManager->isSelected(m_pressedIndex)) {
+                if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
                     // Always assure that the dragged item gets selected. Usually this is already
                     // done on the mouse-press event, but when using the selection-toggle on a
                     // selected item the dragged item is not selected yet.
-                    m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+                    m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
                 } else {
                     // A selected item has been clicked to drag all selected items
                     // -> the selection should not be cleared when the mouse button is released.
@@ -599,12 +599,12 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
             QPointF endPos = transform.map(event->pos());
 
             // Update the current item.
-            const int newCurrent = m_view->itemAt(endPos);
-            if (newCurrent >= 0) {
+            const std::optional<int> newCurrent = m_view->itemAt(endPos);
+            if (newCurrent.has_value()) {
                 // It's expected that the new current index is also the new anchor (bug 163451).
                 m_selectionManager->endAnchoredSelection();
-                m_selectionManager->setCurrentItem(newCurrent);
-                m_selectionManager->beginAnchoredSelection(newCurrent);
+                m_selectionManager->setCurrentItem(newCurrent.value());
+                m_selectionManager->beginAnchoredSelection(newCurrent.value());
             }
 
             if (m_view->scrollOrientation() == Qt::Vertical) {
@@ -642,7 +642,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         return false;
     }
 
-    Q_EMIT mouseButtonReleased(m_pressedIndex, event->buttons());
+    Q_EMIT mouseButtonReleased(m_pressedIndex.value_or(-1), event->buttons());
 
     return onRelease(transform.map(event->pos()), event->modifiers(), event->button(), false);
 }
@@ -650,21 +650,21 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
     const QPointF pos = transform.map(event->pos());
-    const int index = m_view->itemAt(pos);
+    const std::optional<int> index = m_view->itemAt(pos);
 
     // Expand item if desired - See Bug 295573
     if (m_mouseDoubleClickAction != ActivateItemOnly) {
-        if (m_view && m_model && m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
-            const bool expanded = m_model->isExpanded(index);
-            m_model->setExpanded(index, !expanded);
+        if (m_view && m_model && m_view->supportsItemExpanding() && m_model->isExpandable(index.value_or(-1))) {
+            const bool expanded = m_model->isExpanded(index.value());
+            m_model->setExpanded(index.value(), !expanded);
         }
     }
 
     if (event->button() & Qt::RightButton) {
         m_selectionManager->clearSelection();
-        if (index >= 0) {
-            m_selectionManager->setSelected(index);
-            Q_EMIT itemContextMenuRequested(index, event->screenPos());
+        if (index.has_value()) {
+            m_selectionManager->setSelected(index.value());
+            Q_EMIT itemContextMenuRequested(index.value(), event->screenPos());
         } else {
             const QRectF headerBounds = m_view->headerBoundaries();
             if (headerBounds.contains(event->pos())) {
@@ -678,9 +678,9 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
 
     bool emitItemActivated = !(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) &&
                              (event->button() & Qt::LeftButton) &&
-                             index >= 0 && index < m_model->count();
+                             index.has_value() && index.value() < m_model->count();
     if (emitItemActivated) {
-        Q_EMIT itemActivated(index);
+        Q_EMIT itemActivated(index.value());
     }
     return false;
 }
@@ -805,7 +805,7 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
         Q_EMIT aboveItemDropEvent(dropAboveIndex, event);
     } else if (!event->mimeData()->hasFormat(m_model->blacklistItemDropEventMimeType())) {
         // Something has been dropped on an item or on an empty part of the view.
-        Q_EMIT itemDropEvent(m_view->itemAt(pos), event);
+        Q_EMIT itemDropEvent(m_view->itemAt(pos).value_or(-1), event);
     }
 
     QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropEnd);
@@ -998,10 +998,10 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
         m_pressedMousePos = transform.map(event->mapToGraphicsScene(tap->position()));
         m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
-        if (m_pressedIndex >= 0 && !m_selectionManager->isSelected(m_pressedIndex)) {
+        if (m_pressedIndex.has_value() && !m_selectionManager->isSelected(m_pressedIndex.value())) {
             m_selectionManager->clearSelection();
-            m_selectionManager->setSelected(m_pressedIndex);
-        } else if (m_pressedIndex == -1) {
+            m_selectionManager->setSelected(m_pressedIndex.value());
+        } else if (!m_pressedIndex.has_value()) {
             m_selectionManager->clearSelection();
             startRubberBand();
         }
@@ -1064,9 +1064,9 @@ void KItemListController::swipeTriggered(QGestureEvent* event, const QTransform&
         Q_EMIT scrollerStop();
 
         if (swipe->swipeAngle() <= 20 || swipe->swipeAngle() >= 340) {
-            Q_EMIT mouseButtonPressed(m_pressedIndex, Qt::BackButton);
+            Q_EMIT mouseButtonPressed(m_pressedIndex.value_or(-1), Qt::BackButton);
         } else if (swipe->swipeAngle() <= 200 && swipe->swipeAngle() >= 160) {
-            Q_EMIT mouseButtonPressed(m_pressedIndex, Qt::ForwardButton);
+            Q_EMIT mouseButtonPressed(m_pressedIndex.value_or(-1), Qt::ForwardButton);
         } else if (swipe->swipeAngle() <= 110 && swipe->swipeAngle() >= 60) {
             Q_EMIT swipeUp();
         }
@@ -1085,7 +1085,7 @@ void KItemListController::twoFingerTapTriggered(QGestureEvent* event, const QTra
     if (twoTap->state() == Qt::GestureStarted) {
         m_pressedMousePos = transform.map(twoTap->pos());
         m_pressedIndex = m_view->itemAt(m_pressedMousePos);
-        if (m_pressedIndex >= 0) {
+        if (m_pressedIndex.has_value()) {
             onPress(twoTap->screenPos().toPoint(), twoTap->pos().toPoint(), Qt::ControlModifier, Qt::LeftButton);
             onRelease(transform.map(twoTap->pos()), Qt::ControlModifier, Qt::LeftButton, false);
         }
@@ -1419,7 +1419,7 @@ void KItemListController::updateExtendedSelectionRegion()
 
 bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons)
 {
-    Q_EMIT mouseButtonPressed(m_pressedIndex, buttons);
+    Q_EMIT mouseButtonPressed(m_pressedIndex.value_or(-1), buttons);
 
     if (buttons & (Qt::BackButton | Qt::ForwardButton)) {
         // Do not select items when clicking the back/forward buttons, see
@@ -1427,21 +1427,21 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         return true;
     }
 
-    if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
+    if (m_view->isAboveExpansionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
-        m_selectionManager->setCurrentItem(m_pressedIndex);
-        m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+        m_selectionManager->setCurrentItem(m_pressedIndex.value());
+        m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
         return true;
     }
 
-    m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
+    m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos);
     if (m_selectionTogglePressed) {
-        m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+        m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
         // The previous anchored selection has been finished already in
         // KItemListSelectionManager::setSelected(). We can safely change
         // the current item and start a new anchored selection now.
-        m_selectionManager->setCurrentItem(m_pressedIndex);
-        m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+        m_selectionManager->setCurrentItem(m_pressedIndex.value());
+        m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
         return true;
     }
 
@@ -1456,7 +1456,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     //       - start dragging multiple items, or
     //       - open the context menu and perform an action for all selected items.
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
-    const bool pressedItemAlreadySelected = m_pressedIndex >= 0 && m_selectionManager->isSelected(m_pressedIndex);
+    const bool pressedItemAlreadySelected = m_pressedIndex.has_value() && m_selectionManager->isSelected(m_pressedIndex.value());
     const bool clearSelection = m_selectionBehavior == SingleSelection ||
                                 (!shiftOrControlPressed && !pressedItemAlreadySelected);
     if (clearSelection) {
@@ -1469,8 +1469,8 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         //    clear the selection in mouseReleaseEvent(), unless the items are dragged.
         m_clearSelectionIfItemsAreNotDragged = true;
 
-        if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex, m_pressedMousePos)) {
-            Q_EMIT selectedItemTextPressed(m_pressedIndex);
+        if (m_selectionManager->selectedItems().count() == 1 && m_view->isAboveText(m_pressedIndex.value_or(-1), m_pressedMousePos)) {
+            Q_EMIT selectedItemTextPressed(m_pressedIndex.value_or(-1));
         }
     }
 
@@ -1489,25 +1489,25 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         }
     }
 
-    if (m_pressedIndex >= 0) {
-        m_selectionManager->setCurrentItem(m_pressedIndex);
+    if (m_pressedIndex.has_value()) {
+        m_selectionManager->setCurrentItem(m_pressedIndex.value());
 
         switch (m_selectionBehavior) {
         case NoSelection:
             break;
 
         case SingleSelection:
-            m_selectionManager->setSelected(m_pressedIndex);
+            m_selectionManager->setSelected(m_pressedIndex.value());
             break;
 
         case MultiSelection:
             if (controlPressed && !shiftPressed) {
-                m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
-                m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+                m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
-                m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
-                m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+                m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
+                m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
             }
             break;
 
@@ -1517,7 +1517,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         }
 
         if (buttons & Qt::RightButton) {
-            Q_EMIT itemContextMenuRequested(m_pressedIndex, screenPos);
+            Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
         }
 
         return true;
@@ -1538,14 +1538,14 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
 bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifiers modifiers, const Qt::MouseButtons buttons, bool touch)
 {
-    const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
+    const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex.value_or(-1), m_pressedMousePos);
     if (isAboveSelectionToggle) {
         m_selectionTogglePressed = false;
         return true;
     }
 
     if (!isAboveSelectionToggle && m_selectionTogglePressed) {
-        m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+        m_selectionManager->setSelected(m_pressedIndex.value_or(-1), 1, KItemListSelectionManager::Toggle);
         m_selectionTogglePressed = false;
         return true;
     }
@@ -1562,26 +1562,26 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
         m_view->setAutoScroll(false);
     }
 
-    const int index = m_view->itemAt(pos);
+    const std::optional<int> index = m_view->itemAt(pos);
 
-    if (index >= 0 && index == m_pressedIndex) {
+    if (index.has_value() && index == m_pressedIndex) {
         // The release event is done above the same item as the press event
 
         if (m_clearSelectionIfItemsAreNotDragged) {
             // A selected item has been clicked, but no drag operation has been started
             // -> clear the rest of the selection.
             m_selectionManager->clearSelection();
-            m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
-            m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+            m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
+            m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
         }
 
         if (buttons & Qt::LeftButton) {
             bool emitItemActivated = true;
-            if (m_view->isAboveExpansionToggle(index, pos)) {
-                const bool expanded = m_model->isExpanded(index);
-                m_model->setExpanded(index, !expanded);
+            if (m_view->isAboveExpansionToggle(index.value(), pos)) {
+                const bool expanded = m_model->isExpanded(index.value());
+                m_model->setExpanded(index.value(), !expanded);
 
-                Q_EMIT itemExpansionToggleClicked(index);
+                Q_EMIT itemExpansionToggleClicked(index.value());
                 emitItemActivated = false;
             } else if (shiftOrControlPressed && m_selectionBehavior != SingleSelection) {
                 // The mouse click should only update the selection, not trigger the item, except when
@@ -1595,15 +1595,15 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
                 }
             }
             if (emitItemActivated) {
-                Q_EMIT itemActivated(index);
+                Q_EMIT itemActivated(index.value());
             }
         } else if (buttons & Qt::MiddleButton) {
-            Q_EMIT itemMiddleClicked(index);
+            Q_EMIT itemMiddleClicked(index.value());
         }
     }
 
     m_pressedMousePos = QPointF();
-    m_pressedIndex = -1;
+    m_pressedIndex = std::nullopt;
     m_clearSelectionIfItemsAreNotDragged = false;
     return false;
 }

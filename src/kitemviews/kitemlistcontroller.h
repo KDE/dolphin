@@ -9,6 +9,8 @@
 #ifndef KITEMLISTCONTROLLER_H
 #define KITEMLISTCONTROLLER_H
 
+#include <optional>
+
 #include "dolphin_export.h"
 #include "kitemset.h"
 
@@ -329,7 +331,7 @@ private:
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;
     KItemListKeyboardSearchManager* m_keyboardManager;
-    int m_pressedIndex;
+    std::optional<int> m_pressedIndex;
     QPointF m_pressedMousePos;
 
     QTimer* m_autoActivationTimer;

@@ -221,7 +221,7 @@ void PlacesPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
     if (!isDevice) {
         menu.addSeparator();
     }
-    
+
     if (isDevice) {
         ejectAction = m_model->ejectAction(index);
         if (ejectAction) {
@@ -511,7 +511,7 @@ void PlacesPanel::slotStorageSetupDone(int index, bool success)
 
 void PlacesPanel::slotShowTooltip()
 {
-    const QUrl url = m_model->data(m_hoveredIndex).value("url").value<QUrl>();
+    const QUrl url = m_model->data(m_hoveredIndex.value_or(-1)).value("url").value<QUrl>();
     const QString text = url.toDisplayString(QUrl::PreferLocalFile);
     QToolTip::showText(m_hoverPos, text);
 }

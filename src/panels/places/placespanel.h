@@ -8,6 +8,8 @@
 #ifndef PLACESPANEL_H
 #define PLACESPANEL_H
 
+#include <optional>
+
 #include "panels/panel.h"
 
 #include <QUrl>
@@ -93,7 +95,7 @@ private:
     QMimeData* m_itemDropEventMimeData;
     QDropEvent* m_itemDropEvent;
     QTimer m_tooltipTimer;
-    int m_hoveredIndex;
+    std::optional<int> m_hoveredIndex;
     QPoint m_hoverPos;
 };
 

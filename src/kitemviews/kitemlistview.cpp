@@ -389,7 +389,7 @@ qreal KItemListView::verticalPageStep() const
     return size().height() - headerHeight;
 }
 
-int KItemListView::itemAt(const QPointF& pos) const
+std::optional<int> KItemListView::itemAt(const QPointF& pos) const
 {
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
@@ -402,7 +402,7 @@ int KItemListView::itemAt(const QPointF& pos) const
         }
     }
 
-    return -1;
+    return std::nullopt;
 }
 
 bool KItemListView::isAboveSelectionToggle(int index, const QPointF& pos) const

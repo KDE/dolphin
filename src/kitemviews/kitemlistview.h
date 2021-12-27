@@ -9,6 +9,8 @@
 #ifndef KITEMLISTVIEW_H
 #define KITEMLISTVIEW_H
 
+#include <optional>
+
 #include "dolphin_export.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistwidget.h"
@@ -160,10 +162,10 @@ public:
      * @return Index of the item that is below the point \a pos.
      *         The position is relative to the upper right of
      *         the visible area. Only (at least partly) visible
-     *         items are considered. -1 is returned if no item is
-     *         below the position.
+     *         items are considered. std::nullopt is returned if
+     *         no item is below the position.
      */
-    int itemAt(const QPointF& pos) const;
+    std::optional<int> itemAt(const QPointF& pos) const;
     bool isAboveSelectionToggle(int index, const QPointF& pos) const;
     bool isAboveExpansionToggle(int index, const QPointF& pos) const;
     bool isAboveText(int index, const QPointF& pos) const;
