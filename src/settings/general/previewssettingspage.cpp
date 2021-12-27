@@ -168,17 +168,17 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 {
     QAbstractItemModel* model = m_listView->model();
 
-    const KService::List plugins = KServiceTypeTrader::self()->query(QStringLiteral("ThumbCreator"));
-    for (const KService::Ptr& service : plugins) {
-        const bool configurable = service->property(QStringLiteral("Configurable"), QVariant::Bool).toBool();
-        const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
+    const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
+    for (const KPluginMetaData &plugin : plugins) {
+        const bool configurable = plugin.value(QStringLiteral("Configurable"), false);
+        const bool show = m_enabledPreviewPlugins.contains(plugin.pluginId());
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
         model->setData(index, show, Qt::CheckStateRole);
         model->setData(index, configurable, ServiceModel::ConfigurableRole);
-        model->setData(index, service->name(), Qt::DisplayRole);
-        model->setData(index, service->desktopEntryName(), ServiceModel::DesktopEntryNameRole);
+        model->setData(index, plugin.name(), Qt::DisplayRole);
+        model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
     }
 
     model->sort(Qt::DisplayRole);
