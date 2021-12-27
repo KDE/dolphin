@@ -338,18 +338,6 @@ void ContextMenuSettingsPage::loadVersionControlSystems()
         loadedPlugins += pluginName;
     }
 
-    const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("FileViewVersionControlPlugin"));
-    for (const auto &plugin : pluginServices) {
-        const QString pluginName = plugin->name();
-        if (loadedPlugins.contains(pluginName)) {
-            continue;
-        }
-        addRow(QStringLiteral("code-class"),
-               pluginName,
-               VersionControlServicePrefix + pluginName,
-               enabledPlugins.contains(pluginName));
-    }
-
     m_sortModel->sort(Qt::DisplayRole);
 }
 
