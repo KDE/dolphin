@@ -9,6 +9,8 @@
 #include "kitemlistsizehintresolver.h"
 #include "kitemviews/kitemmodelbase.h"
 
+#include <QScopeGuard>
+
 // #define KITEMLISTVIEWLAYOUTER_DEBUG
 
 KItemListViewLayouter::KItemListViewLayouter(KItemListSizeHintResolver* sizeHintResolver, QObject* parent) :
@@ -343,170 +345,173 @@ void KItemListViewLayouter::markAsDirty()
 
 void KItemListViewLayouter::doLayout()
 {
-    if (m_dirty) {
-#ifdef KITEMLISTVIEWLAYOUTER_DEBUG
-        QElapsedTimer timer;
-        timer.start();
-#endif
-        m_visibleIndexesDirty = true;
+    // we always want to update visible indexes after performing a layout
+    auto qsg = qScopeGuard([this] { updateVisibleIndexes(); });
 
-        QSizeF itemSize = m_itemSize;
-        QSizeF itemMargin = m_itemMargin;
-        QSizeF size = m_size;
-
-        const bool grouped = createGroupHeaders();
-
-        const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
-        if (horizontalScrolling) {
-            // Flip everything so that the layout logically can work like having
-            // a vertical scrolling
-            itemSize.transpose();
-            itemMargin.transpose();
-            size.transpose();
-
-            if (grouped) {
-                // In the horizontal scrolling case all groups are aligned
-                // at the top, which decreases the available height. For the
-                // flipped data this means that the width must be decreased.
-                size.rwidth() -= m_groupHeaderHeight;
-            }
-        }
-
-        m_columnWidth = itemSize.width() + itemMargin.width();
-        const qreal widthForColumns = size.width() - itemMargin.width();
-        m_columnCount = qMax(1, int(widthForColumns / m_columnWidth));
-        m_xPosInc = itemMargin.width();
-
-        const int itemCount = m_model->count();
-        if (itemCount > m_columnCount && m_columnWidth >= 32) {
-            // Apply the unused width equally to each column
-            const qreal unusedWidth = widthForColumns - m_columnCount * m_columnWidth;
-            if (unusedWidth > 0) {
-                const qreal columnInc = unusedWidth / (m_columnCount + 1);
-                m_columnWidth += columnInc;
-                m_xPosInc += columnInc;
-            }
-        }
-
-        m_itemInfos.resize(itemCount);
-
-        // Calculate the offset of each column, i.e., the x-coordinate where the column starts.
-        m_columnOffsets.resize(m_columnCount);
-        qreal currentOffset = m_xPosInc;
-
-        if (grouped && horizontalScrolling) {
-            // All group headers will always be aligned on the top and not
-            // flipped like the other properties.
-            currentOffset += m_groupHeaderHeight;
-        }
-
-        for (int column = 0; column < m_columnCount; ++column) {
-            m_columnOffsets[column] = currentOffset;
-            currentOffset += m_columnWidth;
-        }
-
-        // Prepare the QVector which stores the y-coordinate for each new row.
-        int numberOfRows = (itemCount + m_columnCount - 1) / m_columnCount;
-        if (grouped && m_columnCount > 1) {
-            // In the worst case, a new row will be started for every group.
-            // We could calculate the exact number of rows now to prevent that we reserve
-            // too much memory, but the code required to do that might need much more
-            // memory than it would save in the average case.
-            numberOfRows += m_groupItemIndexes.count();
-        }
-        m_rowOffsets.resize(numberOfRows);
-
-        qreal y = m_headerHeight + itemMargin.height();
-        int row = 0;
-
-        int index = 0;
-        while (index < itemCount) {
-            qreal maxItemHeight = itemSize.height();
-
-            if (grouped) {
-                if (m_groupItemIndexes.contains(index)) {
-                    // The item is the first item of a group.
-                    // Increase the y-position to provide space
-                    // for the group header.
-                    if (index > 0) {
-                        // Only add a margin if there has been added another
-                        // group already before
-                        y += m_groupHeaderMargin;
-                    } else if (!horizontalScrolling) {
-                        // The first group header should be aligned on top
-                        y -= itemMargin.height();
-                    }
-
-                    if (!horizontalScrolling) {
-                        y += m_groupHeaderHeight;
-                    }
-                }
-            }
-
-            m_rowOffsets[row] = y;
-
-            int column = 0;
-            while (index < itemCount && column < m_columnCount) {
-                qreal requiredItemHeight = itemSize.height();
-                const QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
-                const qreal sizeHintHeight = sizeHint.height();
-                if (sizeHintHeight > requiredItemHeight) {
-                    requiredItemHeight = sizeHintHeight;
-                }
-
-                ItemInfo& itemInfo = m_itemInfos[index];
-                itemInfo.column = column;
-                itemInfo.row = row;
-
-                if (grouped && horizontalScrolling) {
-                    // When grouping is enabled in the horizontal mode, the header alignment
-                    // looks like this:
-                    //   Header-1 Header-2 Header-3
-                    //   Item 1   Item 4   Item 7
-                    //   Item 2   Item 5   Item 8
-                    //   Item 3   Item 6   Item 9
-                    // In this case 'requiredItemHeight' represents the column-width. We don't
-                    // check the content of the header in the layouter to determine the required
-                    // width, hence assure that at least a minimal width of 15 characters is given
-                    // (in average a character requires the halve width of the font height).
-                    //
-                    // TODO: Let the group headers provide a minimum width and respect this width here
-                    const qreal headerWidth = minimumGroupHeaderWidth();
-                    if (requiredItemHeight < headerWidth) {
-                        requiredItemHeight = headerWidth;
-                    }
-                }
-
-                maxItemHeight = qMax(maxItemHeight, requiredItemHeight);
-                ++index;
-                ++column;
-
-                if (grouped && m_groupItemIndexes.contains(index)) {
-                    // The item represents the first index of a group
-                    // and must aligned in the first column
-                    break;
-                }
-            }
-
-            y += maxItemHeight + itemMargin.height();
-            ++row;
-        }
-
-        if (itemCount > 0) {
-            m_maximumScrollOffset = y;
-            m_maximumItemOffset = m_columnCount * m_columnWidth;
-        } else {
-            m_maximumScrollOffset = 0;
-            m_maximumItemOffset = 0;
-        }
-
-#ifdef KITEMLISTVIEWLAYOUTER_DEBUG
-        qCDebug(DolphinDebug) << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
-#endif
-        m_dirty = false;
+    if (!m_dirty) {
+        return;
     }
 
-    updateVisibleIndexes();
+#ifdef KITEMLISTVIEWLAYOUTER_DEBUG
+    QElapsedTimer timer;
+    timer.start();
+#endif
+    m_visibleIndexesDirty = true;
+
+    QSizeF itemSize = m_itemSize;
+    QSizeF itemMargin = m_itemMargin;
+    QSizeF size = m_size;
+
+    const bool grouped = createGroupHeaders();
+
+    const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
+    if (horizontalScrolling) {
+        // Flip everything so that the layout logically can work like having
+        // a vertical scrolling
+        itemSize.transpose();
+        itemMargin.transpose();
+        size.transpose();
+
+        if (grouped) {
+            // In the horizontal scrolling case all groups are aligned
+            // at the top, which decreases the available height. For the
+            // flipped data this means that the width must be decreased.
+            size.rwidth() -= m_groupHeaderHeight;
+        }
+    }
+
+    m_columnWidth = itemSize.width() + itemMargin.width();
+    const qreal widthForColumns = size.width() - itemMargin.width();
+    m_columnCount = qMax(1, int(widthForColumns / m_columnWidth));
+    m_xPosInc = itemMargin.width();
+
+    const int itemCount = m_model->count();
+    if (itemCount > m_columnCount && m_columnWidth >= 32) {
+        // Apply the unused width equally to each column
+        const qreal unusedWidth = widthForColumns - m_columnCount * m_columnWidth;
+        if (unusedWidth > 0) {
+            const qreal columnInc = unusedWidth / (m_columnCount + 1);
+            m_columnWidth += columnInc;
+            m_xPosInc += columnInc;
+        }
+    }
+
+    m_itemInfos.resize(itemCount);
+
+    // Calculate the offset of each column, i.e., the x-coordinate where the column starts.
+    m_columnOffsets.resize(m_columnCount);
+    qreal currentOffset = m_xPosInc;
+
+    if (grouped && horizontalScrolling) {
+        // All group headers will always be aligned on the top and not
+        // flipped like the other properties.
+        currentOffset += m_groupHeaderHeight;
+    }
+
+    for (int column = 0; column < m_columnCount; ++column) {
+        m_columnOffsets[column] = currentOffset;
+        currentOffset += m_columnWidth;
+    }
+
+    // Prepare the QVector which stores the y-coordinate for each new row.
+    int numberOfRows = (itemCount + m_columnCount - 1) / m_columnCount;
+    if (grouped && m_columnCount > 1) {
+        // In the worst case, a new row will be started for every group.
+        // We could calculate the exact number of rows now to prevent that we reserve
+        // too much memory, but the code required to do that might need much more
+        // memory than it would save in the average case.
+        numberOfRows += m_groupItemIndexes.count();
+    }
+    m_rowOffsets.resize(numberOfRows);
+
+    qreal y = m_headerHeight + itemMargin.height();
+    int row = 0;
+
+    int index = 0;
+    while (index < itemCount) {
+        qreal maxItemHeight = itemSize.height();
+
+        if (grouped) {
+            if (m_groupItemIndexes.contains(index)) {
+                // The item is the first item of a group.
+                // Increase the y-position to provide space
+                // for the group header.
+                if (index > 0) {
+                    // Only add a margin if there has been added another
+                    // group already before
+                    y += m_groupHeaderMargin;
+                } else if (!horizontalScrolling) {
+                    // The first group header should be aligned on top
+                    y -= itemMargin.height();
+                }
+
+                if (!horizontalScrolling) {
+                    y += m_groupHeaderHeight;
+                }
+            }
+        }
+
+        m_rowOffsets[row] = y;
+
+        int column = 0;
+        while (index < itemCount && column < m_columnCount) {
+            qreal requiredItemHeight = itemSize.height();
+            const QSizeF sizeHint = m_sizeHintResolver->sizeHint(index);
+            const qreal sizeHintHeight = sizeHint.height();
+            if (sizeHintHeight > requiredItemHeight) {
+                requiredItemHeight = sizeHintHeight;
+            }
+
+            ItemInfo& itemInfo = m_itemInfos[index];
+            itemInfo.column = column;
+            itemInfo.row = row;
+
+            if (grouped && horizontalScrolling) {
+                // When grouping is enabled in the horizontal mode, the header alignment
+                // looks like this:
+                //   Header-1 Header-2 Header-3
+                //   Item 1   Item 4   Item 7
+                //   Item 2   Item 5   Item 8
+                //   Item 3   Item 6   Item 9
+                // In this case 'requiredItemHeight' represents the column-width. We don't
+                // check the content of the header in the layouter to determine the required
+                // width, hence assure that at least a minimal width of 15 characters is given
+                // (in average a character requires the halve width of the font height).
+                //
+                // TODO: Let the group headers provide a minimum width and respect this width here
+                const qreal headerWidth = minimumGroupHeaderWidth();
+                if (requiredItemHeight < headerWidth) {
+                    requiredItemHeight = headerWidth;
+                }
+            }
+
+            maxItemHeight = qMax(maxItemHeight, requiredItemHeight);
+            ++index;
+            ++column;
+
+            if (grouped && m_groupItemIndexes.contains(index)) {
+                // The item represents the first index of a group
+                // and must aligned in the first column
+                break;
+            }
+        }
+
+        y += maxItemHeight + itemMargin.height();
+        ++row;
+    }
+
+    if (itemCount > 0) {
+        m_maximumScrollOffset = y;
+        m_maximumItemOffset = m_columnCount * m_columnWidth;
+    } else {
+        m_maximumScrollOffset = 0;
+        m_maximumItemOffset = 0;
+    }
+
+#ifdef KITEMLISTVIEWLAYOUTER_DEBUG
+    qCDebug(DolphinDebug) << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
+#endif
+    m_dirty = false;
 }
 
 void KItemListViewLayouter::updateVisibleIndexes()
