@@ -11,7 +11,7 @@
 
 KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     QObject(parent),
-    m_currentItem(-1),
+    m_currentItem(std::nullopt),
     m_anchorItem(std::nullopt),
     m_selectedItems(),
     m_isAnchoredSelectionActive(false),
@@ -25,17 +25,17 @@ KItemListSelectionManager::~KItemListSelectionManager()
 
 void KItemListSelectionManager::setCurrentItem(int current)
 {
-    const int previous = m_currentItem;
+    const std::optional<int> previous = m_currentItem;
     const KItemSet previousSelection = selectedItems();
 
     if (m_model && current >= 0 && current < m_model->count()) {
         m_currentItem = current;
     } else {
-        m_currentItem = -1;
+        m_currentItem = std::nullopt;
     }
 
     if (m_currentItem != previous) {
-        Q_EMIT currentChanged(m_currentItem, previous);
+        Q_EMIT currentChanged(m_currentItem.value_or(-1), previous.value_or(-1));
 
         if (m_isAnchoredSelectionActive) {
             const KItemSet selection = selectedItems();
@@ -48,7 +48,7 @@ void KItemListSelectionManager::setCurrentItem(int current)
 
 int KItemListSelectionManager::currentItem() const
 {
-    return m_currentItem;
+    return m_currentItem.value_or(-1);
 }
 
 void KItemListSelectionManager::setSelectedItems(const KItemSet& items)
@@ -66,9 +66,9 @@ KItemSet KItemListSelectionManager::selectedItems() const
 
     if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
         Q_ASSERT(m_anchorItem.has_value());
-        Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem.value(), m_currentItem);
-        const int to = qMax(m_anchorItem.value(), m_currentItem);
+        Q_ASSERT(m_currentItem.has_value());
+        const int from = qMin(m_anchorItem, m_currentItem).value();
+        const int to = qMax(m_anchorItem, m_currentItem).value();
 
         for (int index = from; index <= to; ++index) {
             selectedItems.insert(index);
@@ -86,9 +86,9 @@ bool KItemListSelectionManager::isSelected(int index) const
 
     if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
         Q_ASSERT(m_anchorItem.has_value());
-        Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem.value(), m_currentItem);
-        const int to = qMax(m_anchorItem.value(), m_currentItem);
+        Q_ASSERT(m_currentItem.has_value());
+        const int from = qMin(m_anchorItem, m_currentItem).value();
+        const int to = qMax(m_anchorItem, m_currentItem).value();
 
         if (from <= index && index <= to) {
             return true;
@@ -181,9 +181,9 @@ void KItemListSelectionManager::endAnchoredSelection()
 {
     if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
         Q_ASSERT(m_anchorItem.has_value());
-        Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem.value(), m_currentItem);
-        const int to = qMax(m_anchorItem.value(), m_currentItem);
+        Q_ASSERT(m_currentItem.has_value());
+        const int from = qMin(m_anchorItem, m_currentItem).value();
+        const int to = qMax(m_anchorItem, m_currentItem).value();
 
         for (int index = from; index <= to; ++index) {
             m_selectedItems.insert(index);
@@ -217,10 +217,10 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
     const KItemSet previousSelection = selectedItems();
 
     // Update the current item
-    if (m_currentItem < 0) {
+    if (!m_currentItem.has_value()) {
         setCurrentItem(0);
     } else {
-        const int previousCurrent = m_currentItem;
+        const std::optional<int> previousCurrent = m_currentItem;
         int inc = 0;
         for (const KItemRange& itemRange : itemRanges) {
             if (m_currentItem < itemRange.index) {
@@ -230,11 +230,11 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         }
         // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
         // emit it only once in this function -> change the current item manually and emit currentChanged
-        m_currentItem += inc;
+        m_currentItem = m_currentItem.value() + inc;
         if (m_currentItem >= m_model->count()) {
-            m_currentItem = -1;
+            m_currentItem = std::nullopt;
         }
-        Q_EMIT currentChanged(m_currentItem, previousCurrent);
+        Q_EMIT currentChanged(m_currentItem.value_or(-1), previousCurrent.value_or(-1));
     }
 
     // Update the anchor item
@@ -278,17 +278,17 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 {
     // Store the current selection (needed in the selectionChanged() signal)
     const KItemSet previousSelection = selectedItems();
-    const int previousCurrent = m_currentItem;
+    const std::optional<int> previousCurrent = m_currentItem;
 
     // Update the current item
-    m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges, DiscardRemovedIndex).value_or(-1);
+    m_currentItem = indexAfterRangesRemoving(m_currentItem.value_or(-1), itemRanges, DiscardRemovedIndex);
     if (m_currentItem != previousCurrent) {
-        Q_EMIT currentChanged(m_currentItem, previousCurrent);
-        if (m_currentItem < 0) {
+        Q_EMIT currentChanged(m_currentItem.value_or(-1), previousCurrent.value_or(-1));
+        if (!m_currentItem.has_value()) {
             // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
             // emit it only once in this function -> change the current item manually and emit currentChanged
-            m_currentItem = indexAfterRangesRemoving(previousCurrent, itemRanges, AdjustRemovedIndex).value_or(-1);
-            Q_EMIT currentChanged(m_currentItem, -1);
+            m_currentItem = indexAfterRangesRemoving(previousCurrent.value_or(-1), itemRanges, AdjustRemovedIndex);
+            Q_EMIT currentChanged(m_currentItem.value_or(-1), -1);
         }
     }
 
@@ -318,7 +318,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         Q_EMIT selectionChanged(selection, previousSelection);
     }
 
-    Q_ASSERT(m_currentItem < m_model->count());
+    Q_ASSERT(m_currentItem.value_or(-1) < m_model->count());
     Q_ASSERT(m_anchorItem.value_or(-1) < m_model->count());
 }
 
@@ -336,8 +336,8 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     endAnchoredSelection();
 
     // Update the current item
-    if (m_currentItem >= itemRange.index && m_currentItem < itemRange.index + itemRange.count) {
-        const int previousCurrentItem = m_currentItem;
+    if (m_currentItem.value_or(-1) >= itemRange.index && m_currentItem.value_or(-1) < itemRange.index + itemRange.count) {
+        const int previousCurrentItem = m_currentItem.value();
         const int newCurrentItem = movedToIndexes.at(previousCurrentItem - itemRange.index);
 
         // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
@@ -348,7 +348,7 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
 
     // Start a new anchored selection.
     if (wasInAnchoredSelection) {
-        beginAnchoredSelection(m_currentItem);
+        beginAnchoredSelection(m_currentItem.value());
     }
 
     // Update the selections

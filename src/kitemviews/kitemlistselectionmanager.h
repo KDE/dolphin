@@ -82,7 +82,7 @@ private:
     std::optional<int> indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges, const RangesRemovingBehaviour behaviour) const;
 
 private:
-    int m_currentItem;
+    std::optional<int> m_currentItem;
     std::optional<int> m_anchorItem;
     KItemSet m_selectedItems;
     bool m_isAnchoredSelectionActive;
