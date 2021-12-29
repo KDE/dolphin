@@ -9,6 +9,8 @@
 #ifndef KITEMMODELBASE_H
 #define KITEMMODELBASE_H
 
+#include <optional>
+
 #include "dolphin_export.h"
 #include "kitemviews/kitemrange.h"
 #include "kitemviews/kitemset.h"

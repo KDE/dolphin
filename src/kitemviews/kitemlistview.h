@@ -9,8 +9,6 @@
 #ifndef KITEMLISTVIEW_H
 #define KITEMLISTVIEW_H
 
-#include <optional>
-
 #include "dolphin_export.h"
 #include "kitemviews/kitemliststyleoption.h"
 #include "kitemviews/kitemlistwidget.h"
