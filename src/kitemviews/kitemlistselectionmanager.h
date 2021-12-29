@@ -76,9 +76,10 @@ private:
 
     /**
      * Helper method for itemsRemoved. Returns the changed index after removing
-     * the given range. If the index is part of the range, -1 will be returned.
+     * the given range. If the index is part of the range, std::nullopt will be
+     * returned.
      */
-    int indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges, const RangesRemovingBehaviour behaviour) const;
+    std::optional<int> indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges, const RangesRemovingBehaviour behaviour) const;
 
 private:
     int m_currentItem;

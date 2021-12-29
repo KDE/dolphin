@@ -281,20 +281,20 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     const int previousCurrent = m_currentItem;
 
     // Update the current item
-    m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges, DiscardRemovedIndex);
+    m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges, DiscardRemovedIndex).value_or(-1);
     if (m_currentItem != previousCurrent) {
         Q_EMIT currentChanged(m_currentItem, previousCurrent);
         if (m_currentItem < 0) {
             // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
             // emit it only once in this function -> change the current item manually and emit currentChanged
-            m_currentItem = indexAfterRangesRemoving(previousCurrent, itemRanges, AdjustRemovedIndex);
+            m_currentItem = indexAfterRangesRemoving(previousCurrent, itemRanges, AdjustRemovedIndex).value_or(-1);
             Q_EMIT currentChanged(m_currentItem, -1);
         }
     }
 
     // Update the anchor item
     if (m_anchorItem >= 0) {
-        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges, DiscardRemovedIndex);
+        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges, DiscardRemovedIndex).value_or(-1);
         if (m_anchorItem < 0) {
             m_isAnchoredSelectionActive = false;
         }
@@ -306,9 +306,9 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         m_selectedItems.clear();
 
         for (int oldIndex : previous) {
-            const int index = indexAfterRangesRemoving(oldIndex, itemRanges, DiscardRemovedIndex);
-            if (index >= 0)  {
-                m_selectedItems.insert(index);
+            const std::optional<int> index = indexAfterRangesRemoving(oldIndex, itemRanges, DiscardRemovedIndex);
+            if (index.has_value())  {
+                m_selectedItems.insert(index.value());
             }
         }
     }
@@ -372,8 +372,8 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     }
 }
 
-int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges,
-                                                        const RangesRemovingBehaviour behaviour) const
+std::optional<int> KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges,
+                                                                       const RangesRemovingBehaviour behaviour) const
 {
     int dec = 0;
     for (const KItemRange& itemRange : itemRanges) {
@@ -387,7 +387,7 @@ int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRa
         if (index < firstIndexAfterRange) {
             // The index is part of the removed range
             if (behaviour == DiscardRemovedIndex) {
-                return -1;
+                return std::nullopt;
             } else {
                 // Use the first item after the range as new index
                 index = firstIndexAfterRange;
@@ -395,6 +395,13 @@ int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRa
             }
         }
     }
-    return qBound(-1, index - dec, m_model->count() - 1);
+
+    const int indexAfter = std::clamp(index - dec, -1, m_model->count() - 1);
+
+    if (indexAfter < 0) {
+        return std::nullopt;
+    }
+
+    return indexAfter;
 }
 
