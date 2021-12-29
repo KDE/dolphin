@@ -1,5 +1,5 @@
 [KNewStuff3]
-ProvidersUrl=https://download.kde.org/ocs/providers.xml
+ProvidersUrl=https://autoconfig.kde.org/ocs/providers.xml
 Categories=Dolphin Service Menus
 TargetDir=servicemenu-download
 Uncompress=never
