@@ -83,7 +83,7 @@ private:
 
 private:
     int m_currentItem;
-    int m_anchorItem;
+    std::optional<int> m_anchorItem;
     KItemSet m_selectedItems;
     bool m_isAnchoredSelectionActive;
 

@@ -12,7 +12,7 @@
 KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     QObject(parent),
     m_currentItem(-1),
-    m_anchorItem(-1),
+    m_anchorItem(std::nullopt),
     m_selectedItems(),
     m_isAnchoredSelectionActive(false),
     m_model(nullptr)
@@ -65,10 +65,10 @@ KItemSet KItemListSelectionManager::selectedItems() const
     KItemSet selectedItems = m_selectedItems;
 
     if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
-        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_anchorItem.has_value());
         Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem, m_currentItem);
-        const int to = qMax(m_anchorItem, m_currentItem);
+        const int from = qMin(m_anchorItem.value(), m_currentItem);
+        const int to = qMax(m_anchorItem.value(), m_currentItem);
 
         for (int index = from; index <= to; ++index) {
             selectedItems.insert(index);
@@ -85,10 +85,10 @@ bool KItemListSelectionManager::isSelected(int index) const
     }
 
     if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
-        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_anchorItem.has_value());
         Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem, m_currentItem);
-        const int to = qMax(m_anchorItem, m_currentItem);
+        const int from = qMin(m_anchorItem.value(), m_currentItem);
+        const int to = qMax(m_anchorItem.value(), m_currentItem);
 
         if (from <= index && index <= to) {
             return true;
@@ -180,10 +180,10 @@ void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 void KItemListSelectionManager::endAnchoredSelection()
 {
     if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
-        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_anchorItem.has_value());
         Q_ASSERT(m_currentItem >= 0);
-        const int from = qMin(m_anchorItem, m_currentItem);
-        const int to = qMax(m_anchorItem, m_currentItem);
+        const int from = qMin(m_anchorItem.value(), m_currentItem);
+        const int to = qMax(m_anchorItem.value(), m_currentItem);
 
         for (int index = from; index <= to; ++index) {
             m_selectedItems.insert(index);
@@ -238,7 +238,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
     }
 
     // Update the anchor item
-    if (m_anchorItem < 0) {
+    if (!m_anchorItem.has_value()) {
         m_anchorItem = 0;
     } else {
         int inc = 0;
@@ -248,7 +248,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
             }
             inc += itemRange.count;
         }
-        m_anchorItem += inc;
+        m_anchorItem = m_anchorItem.value() + inc;
     }
 
     // Update the selections
@@ -293,9 +293,9 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     }
 
     // Update the anchor item
-    if (m_anchorItem >= 0) {
-        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges, DiscardRemovedIndex).value_or(-1);
-        if (m_anchorItem < 0) {
+    if (m_anchorItem.has_value()) {
+        m_anchorItem = indexAfterRangesRemoving(m_anchorItem.value(), itemRanges, DiscardRemovedIndex);
+        if (!m_anchorItem.has_value()) {
             m_isAnchoredSelectionActive = false;
         }
     }
@@ -319,7 +319,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     }
 
     Q_ASSERT(m_currentItem < m_model->count());
-    Q_ASSERT(m_anchorItem < m_model->count());
+    Q_ASSERT(m_anchorItem.value_or(-1) < m_model->count());
 }
 
 void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
