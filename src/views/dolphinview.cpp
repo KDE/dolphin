@@ -1490,9 +1490,9 @@ void DolphinView::saveState(QDataStream& stream)
     stream << quint32(1); // View state version
 
     // Save the current item that has the keyboard focus
-    const int currentIndex = m_container->controller()->selectionManager()->currentItem();
-    if (currentIndex != -1) {
-        KFileItem item = m_model->fileItem(currentIndex);
+    const std::optional<int> currentIndex = m_container->controller()->selectionManager()->currentItem();
+    if (currentIndex.has_value()) {
+        KFileItem item = m_model->fileItem(currentIndex.value());
         Q_ASSERT(!item.isNull()); // If the current index is valid a item must exist
         QUrl currentItemUrl = item.url();
         stream << currentItemUrl;
@@ -1651,7 +1651,7 @@ void DolphinView::updateViewState()
                 }
             }
 
-            selectionManager->beginAnchoredSelection(selectionManager->currentItem());
+            selectionManager->beginAnchoredSelection(selectionManager->currentItem().value_or(-1));
             selectionManager->setSelectedItems(selectedItems);
         }
     }
@@ -1676,7 +1676,7 @@ void DolphinView::slotTwoClicksRenamingTimerTimeout()
 
     // verify that only one item is selected
     if (selectionManager->selectedItems().count() == 1) {
-        const int index = selectionManager->currentItem();
+        const int index = selectionManager->currentItem().value_or(-1);
         const QUrl fileItemUrl = m_model->fileItem(index).url();
 
         // check if the selected item was the same item that started the twoClicksRenaming

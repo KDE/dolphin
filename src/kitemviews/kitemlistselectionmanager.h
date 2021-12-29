@@ -40,7 +40,7 @@ public:
     ~KItemListSelectionManager() override;
 
     void setCurrentItem(int current);
-    int currentItem() const;
+    std::optional<int> currentItem() const;
 
     void setSelectedItems(const KItemSet& items);
     KItemSet selectedItems() const;

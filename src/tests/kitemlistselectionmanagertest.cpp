@@ -457,7 +457,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
     m_selectionManager->beginAnchoredSelection(anchor);
     m_selectionManager->setCurrentItem(current);
     QCOMPARE(m_selectionManager->m_anchorItem.value_or(-1), anchor);
-    QCOMPARE(m_selectionManager->currentItem(), current);
+    QCOMPARE(m_selectionManager->currentItem().value_or(-1), current);
 
     verifySelectionChange(spySelectionChanged, expectedSelection, initialSelection);
 

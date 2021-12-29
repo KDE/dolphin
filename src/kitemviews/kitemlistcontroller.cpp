@@ -220,7 +220,7 @@ bool KItemListController::singleClickActivationEnforced() const
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
-    int index = m_selectionManager->currentItem();
+    int index = m_selectionManager->currentItem().value_or(-1);
     int key = event->key();
 
     // Handle the expanding/collapsing of items
@@ -261,7 +261,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     const bool selectSingleItem = m_selectionBehavior != NoSelection && itemCount == 1 && navigationPressed;
 
     if (selectSingleItem) {
-        const int current = m_selectionManager->currentItem();
+        const int current = m_selectionManager->currentItem().value_or(-1);
         m_selectionManager->setSelected(current);
         return true;
     }
@@ -388,7 +388,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         const KItemSet selectedItems = m_selectionManager->selectedItems();
         int index = -1;
         if (selectedItems.count() >= 2) {
-            const int currentItemIndex = m_selectionManager->currentItem();
+            const int currentItemIndex = m_selectionManager->currentItem().value_or(-1);
             index = selectedItems.contains(currentItemIndex)
                     ? currentItemIndex : selectedItems.first();
         } else if (selectedItems.count() == 1) {
@@ -423,7 +423,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
                 break;
             } else {
                 // Select the current item if it is not selected yet.
-                const int current = m_selectionManager->currentItem();
+                const int current = m_selectionManager->currentItem().value_or(-1);
                 if (!m_selectionManager->isSelected(current)) {
                     m_selectionManager->setSelected(current);
                     break;
@@ -438,7 +438,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         return false;
     }
 
-    if (m_selectionManager->currentItem() != index) {
+    if (m_selectionManager->currentItem().value_or(-1) != index) {
         switch (m_selectionBehavior) {
         case NoSelection:
             m_selectionManager->setCurrentItem(index);
@@ -482,7 +482,7 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
     }
     int index;
     if (searchFromNextItem) {
-        const int currentIndex = m_selectionManager->currentItem();
+        const int currentIndex = m_selectionManager->currentItem().value_or(-1);
         index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
     } else {
         index = m_model->indexForKeyboardSearch(text, 0);
@@ -1366,7 +1366,7 @@ void KItemListController::updateKeyboardAnchor()
                              m_keyboardAnchorIndex < m_model->count() &&
                              keyboardAnchorPos(m_keyboardAnchorIndex) == m_keyboardAnchorPos;
     if (!validAnchor) {
-        const int index = m_selectionManager->currentItem();
+        const int index = m_selectionManager->currentItem().value_or(-1);
         m_keyboardAnchorIndex = index;
         m_keyboardAnchorPos = keyboardAnchorPos(index);
     }

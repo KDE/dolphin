@@ -46,9 +46,9 @@ void KItemListSelectionManager::setCurrentItem(int current)
     }
 }
 
-int KItemListSelectionManager::currentItem() const
+std::optional<int> KItemListSelectionManager::currentItem() const
 {
-    return m_currentItem.value_or(-1);
+    return m_currentItem;
 }
 
 void KItemListSelectionManager::setSelectedItems(const KItemSet& items)
