@@ -44,10 +44,16 @@ int main(int argc, char **argv)
     // Prohibit using sudo or kdesu (but allow using the root user directly)
     if (getuid() == 0) {
         if (!qEnvironmentVariableIsEmpty("SUDO_USER")) {
-            std::cout << "Executing Dolphin with sudo is not possible due to unfixable security vulnerabilities." << std::endl;
+            std::cout << "Running Dolphin with sudo can cause bugs and expose you to security vulnerabilities. "
+                         "Instead use Dolphin normally and you will be prompted for elevated privileges when "
+                         "performing file operations that require them."
+                      << std::endl;
             return EXIT_FAILURE;
         } else if (!qEnvironmentVariableIsEmpty("KDESU_USER")) {
-            std::cout << "Executing Dolphin with kdesu is not possible due to unfixable security vulnerabilities." << std::endl;
+            std::cout << "Running Dolphin with kdesu can cause bugs and expose you to security vulnerabilities. "
+                         "Instead use Dolphin normally and you will be prompted for elevated privileges when "
+                         "performing file operations that require them."
+                      << std::endl;
             return EXIT_FAILURE;
         }
     }
