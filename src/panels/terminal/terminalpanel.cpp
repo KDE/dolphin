@@ -6,6 +6,7 @@
 
 #include "terminalpanel.h"
 
+#include <KActionCollection>
 #include <KIO/DesktopExecParser>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
@@ -98,6 +99,14 @@ void TerminalPanel::dockVisibilityChanged()
 QString TerminalPanel::runningProgramName() const
 {
     return m_terminal ? m_terminal->foregroundProcessName() : QString();
+}
+
+KActionCollection* TerminalPanel::actionCollection() {
+    // m_temrinal is the only reference reset to nullptr in case the terminal is closed again
+    if (m_terminal && m_konsolePart) {
+        return m_konsolePart->actionCollection();
+    }
+    return nullptr;
 }
 
 bool TerminalPanel::hasProgramRunning() const

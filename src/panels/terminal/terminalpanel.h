@@ -9,6 +9,7 @@
 
 #include "panels/panel.h"
 #include "kiofuse_interface.h"
+#include <KActionCollection>
 
 #include <QQueue>
 
@@ -47,6 +48,7 @@ public:
     bool terminalHasFocus() const;
     bool hasProgramRunning() const;
     QString runningProgramName() const;
+    KActionCollection* actionCollection();
 
 public Q_SLOTS:
     void terminalExited();

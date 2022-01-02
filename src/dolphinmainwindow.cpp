@@ -53,6 +53,7 @@
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KShell>
+#include <KShortcutsDialog>
 #include <KStandardAction>
 #include <KStartupInfo>
 #include <KSycoca>
@@ -1261,7 +1262,7 @@ void DolphinMainWindow::updateHamburgerMenu()
     auto configureMenu = menu->addMenu(QIcon::fromTheme(QStringLiteral("configure")),
                             i18nc("@action:inmenu menu for configure actions", "Configure"));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
-    configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
+    configureMenu->addAction(KStandardAction::keyBindings(this, SLOT(slotKeyBindings()), ac));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
     configureMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
     hamburgerMenu->hideActionsOf(configureMenu);
@@ -1374,6 +1375,19 @@ void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mo
         m_tearDownFromPlacesRequested = false;
         m_terminalPanel->goHome();
     }
+}
+
+void DolphinMainWindow::slotKeyBindings()
+{
+    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    dialog.addCollection(actionCollection());
+    if (m_terminalPanel) {
+        KActionCollection* konsolePartActionCollection = m_terminalPanel->actionCollection();
+        if (konsolePartActionCollection) {
+            dialog.addCollection(konsolePartActionCollection, QStringLiteral("KonsolePart"));
+        }
+    }
+    dialog.configure();
 }
 
 void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
@@ -2312,7 +2326,7 @@ void DolphinMainWindow::setupWhatsThis()
         "</emphasis> that covers the basics.</para>"));
 
     // Settings menu
-    actionCollection()->action(KStandardAction::name(KStandardAction::KeyBindings))
+    KStandardAction::keyBindings(this, SLOT(slotKeyBindings()), actionCollection())
         ->setWhatsThis(xi18nc("@info:whatsthis","<para>This opens a window "
         "that lists the <emphasis>keyboard shortcuts</emphasis>.<nl/>"
         "There you can set up key combinations to trigger an action when "
