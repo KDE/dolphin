@@ -14,13 +14,14 @@
 #include "global.h"
 
 #include <KDesktopFile>
+#include <KDesktopFileActions>
+#include <KFileUtils>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KNS3/Button>
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
-#include <KDesktopFileActions>
 
 #include <kio_version.h>
 
@@ -272,9 +273,13 @@ void ContextMenuSettingsPage::loadServices()
     const KConfigGroup showGroup = config.group("Show");
 
     // Load generic services
-    const KService::List entries = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
-    for (const KService::Ptr &service : entries) {
-        const QString file = QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
+    const auto locations = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("kio/servicemenus"), QStandardPaths::LocateDirectory);
+    QStringList files = KFileUtils::findAllUniqueFiles(locations);
+    const KService::List services = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
+    for (const KService::Ptr &service : services) {
+        files << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
+    }
+    for (const auto &file : qAsConst(files)) {
         const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
 
         const KDesktopFile desktopFile(file);
