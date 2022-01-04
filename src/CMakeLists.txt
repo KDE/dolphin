@@ -340,6 +340,10 @@ target_sources(dolphin PRIVATE
     main.cpp
 )
 
+if(FLATPAK)
+    target_compile_definitions(dolphin PRIVATE FLATPAK)
+endif()
+
 # Sets the icon on Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
 ecm_add_app_icon(dolphin_APPICON_SRCS ICONS ${ICONS_SRCS})
