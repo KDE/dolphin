@@ -14,6 +14,8 @@
 
 #include <KDirLister>
 #include <kio/job.h>
+#include <KIO/kio_version.h>
+
 
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
@@ -90,6 +92,7 @@ private Q_SLOTS:
     void testCollapseFolderWhileLoading();
     void testCreateMimeData();
     void testDeleteFileMoreThanOnce();
+    void testInsertAfterExpand();
 
 private:
     QStringList itemsInModel() const;
@@ -2029,6 +2032,96 @@ void KFileItemModelTest::testDeleteFileMoreThanOnce()
 
     QVERIFY(m_model->isConsistent());
     QCOMPARE(itemsInModel(), QStringList() << "a.txt" << "c.txt" << "d.txt");
+}
+
+void KFileItemModelTest::testInsertAfterExpand()
+{
+    m_model->m_dirLister->setAutoUpdate(true);
+
+    QSignalSpy itemsInsertedSpy(m_model, &KFileItemModel::itemsInserted);
+    QVERIFY(itemsInsertedSpy.isValid());
+    QSignalSpy itemsRemovedSpy(m_model, &KFileItemModel::itemsRemoved);
+    QVERIFY(itemsRemovedSpy.isValid());
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
+    QVERIFY(loadingCompletedSpy.isValid());
+
+    // Test expanding subfolders in a folder with the items "a/", "a/a/"
+    QSet<QByteArray> originalModelRoles = m_model->roles();
+    QSet<QByteArray> modelRoles = originalModelRoles;
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
+    m_model->setRoles(modelRoles);
+
+    m_testDir->createFile("a/b/1");
+
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(itemsInsertedSpy.wait());
+
+    // So far, the model contains only "a/"
+    QCOMPARE(m_model->count(), 1);
+    QVERIFY(m_model->isExpandable(0));
+    QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(m_model->expandedDirectories().empty());
+
+    QCOMPARE(itemsInsertedSpy.count(), 1);
+    {
+        KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
+        QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 1)); // 1 new item "a/" with index 0
+        QCOMPARE(m_model->expandedParentsCount(0), 0);
+
+    }
+    itemsInsertedSpy.clear();
+
+    // Expand the folder "a/" -> "a/b" become visible
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->count(), 2); // 3 items: "a/", "a/a/"
+    QCOMPARE(m_model->expandedDirectories(), {QUrl::fromLocalFile(m_testDir->path() + "/a")});
+
+    QCOMPARE(itemsInsertedSpy.count(), 1);
+    {
+        KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
+        QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 1)); // 1 new item "a/b" with index 1
+        QCOMPARE(m_model->expandedParentsCount(1), 1);
+
+    }
+    itemsInsertedSpy.clear();
+
+    // Expand "a/b" -> "a/b/1" becomes visible
+    m_model->setExpanded(1, true);
+    QVERIFY(itemsInsertedSpy.wait());
+    QCOMPARE(m_model->expandedDirectories(), QSet({QUrl::fromLocalFile(m_testDir->path() + "/a"),
+        QUrl::fromLocalFile(m_testDir->path() + "/a/b")}));
+
+    QCOMPARE(itemsInsertedSpy.count(), 1);
+    {
+        KItemRangeList itemRangeList = itemsInsertedSpy.takeFirst().at(0).value<KItemRangeList>();
+        QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(2, 1)); // 1 new item "a/b/1" with index 2
+        QCOMPARE(m_model->expandedParentsCount(2), 2);
+    }
+    itemsInsertedSpy.clear();
+
+    // Collapse "a" whilst leaving "b" expanded
+    m_model->setExpanded(0, false);
+
+    // Insert additional files into "a/b/"
+    m_testDir->createFile("a/b/2");
+    #if KIO_VERSION < QT_VERSION_CHECK(5, 92, 0)
+        QEXPECT_FAIL("", "Requires new API from frameworks", Abort);
+    #endif
+
+    QVERIFY(!itemsInsertedSpy.wait(5000));
+
+    QCOMPARE(itemsInModel(), {"a"});
+
+    m_model->setExpanded(0, true);;
+    QTRY_COMPARE(itemsInModel(), QStringList({"a", "b", "1", "2"}));
+
+    QCOMPARE(m_model->expandedParentsCount(0), 0); // a
+    QCOMPARE(m_model->expandedParentsCount(1), 1); // a/b
+    QCOMPARE(m_model->expandedParentsCount(2), 2); // a/b/1
+    QCOMPARE(m_model->expandedParentsCount(3), 2) ;// a/b/2
+
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
