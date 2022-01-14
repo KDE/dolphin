@@ -1,5 +1,5 @@
 macro (generate_and_install_dbus_interface main_project_target header_file output_xml_file)
-    qt5_generate_dbus_interface(
+    qt_generate_dbus_interface(
         ${header_file}
         ${output_xml_file}
     )

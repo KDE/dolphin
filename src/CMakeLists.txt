@@ -31,7 +31,7 @@ generate_export_header(dolphinvcs BASE_NAME dolphinvcs)
 
 target_link_libraries(
     dolphinvcs PUBLIC
-    Qt5::Widgets
+    Qt${QT_MAJOR_VERSION}::Widgets
 )
 
 set_target_properties(dolphinvcs PROPERTIES
@@ -50,7 +50,7 @@ ecm_generate_headers(dolphinvcs_LIB_HEADERS
 
 install(TARGETS dolphinvcs EXPORT DolphinVcsTargets ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
-install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPES5DIR})
+install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${KDE_INSTALL_KSERVICETYPESDIR})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinvcs_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 install(FILES ${dolphinvcs_LIB_HEADERS} DESTINATION "${KDE_INSTALL_INCLUDEDIR}/Dolphin" COMPONENT Devel)
 
@@ -145,8 +145,8 @@ generate_export_header(dolphinprivate BASE_NAME dolphin)
 target_link_libraries(
     dolphinprivate PUBLIC
     dolphinvcs
-    Qt5::Concurrent
-    Qt5::Gui
+    Qt${QT_MAJOR_VERSION}::Concurrent
+    Qt${QT_MAJOR_VERSION}::Gui
     KF5::I18n
     KF5::IconThemes
     KF5::KIOCore
@@ -198,7 +198,7 @@ target_link_libraries(dolphinpart
 
 install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
 
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
 
 ##########################################
 
@@ -291,10 +291,10 @@ kconfig_add_kcfg_files(dolphinstatic GENERATE_MOC
     settings/dolphin_generalsettings.kcfgc
 )
 
-qt5_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
-qt5_add_dbus_adaptor(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
-qt5_add_dbus_interface(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindowinterface)
-qt5_add_dbus_interface(dolphin_dbus_SRCS panels/terminal/org.kde.KIOFuse.VFS.xml kiofuse_interface)
+qt_generate_dbus_interface(${CMAKE_CURRENT_SOURCE_DIR}/dolphinmainwindow.h org.kde.DolphinMainWindow.xml)
+qt_add_dbus_adaptor(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindow.h DolphinMainWindow)
+qt_add_dbus_interface(dolphin_dbus_SRCS ${CMAKE_CURRENT_BINARY_DIR}/org.kde.DolphinMainWindow.xml dolphinmainwindowinterface)
+qt_add_dbus_interface(dolphin_dbus_SRCS panels/terminal/org.kde.KIOFuse.VFS.xml kiofuse_interface)
 
 target_sources(dolphinstatic PRIVATE
     ${dolphin_dbus_SRCS}
@@ -415,9 +415,9 @@ if(NOT WIN32)
     target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
     install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-    install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-    install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
-    install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICES5DIR} )
+    install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
+    install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
+    install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
 
     install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
     install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
@@ -449,6 +449,5 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 
 if(BUILD_TESTING)
-    find_package(Qt5Test ${QT_MIN_VERSION} CONFIG REQUIRED)
     add_subdirectory(tests)
 endif()

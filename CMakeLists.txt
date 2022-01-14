@@ -42,7 +42,7 @@ ecm_setup_version("5.0.0" VARIABLE_PREFIX DOLPHINPRIVATE
                   SOVERSION 5
 )
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     Core
     Concurrent
     Widgets
@@ -89,7 +89,7 @@ set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities librari
                        PURPOSE "For tracking which folders are frequently accessed on a Plasma desktop"
                       )
 
-find_package(Phonon4Qt5 CONFIG REQUIRED)
+find_package(Phonon4Qt${QT_MAJOR_VERSION} CONFIG REQUIRED)
 
 find_package(PackageKitQt5)
 set_package_properties(PackageKitQt5
@@ -192,7 +192,7 @@ else()
     )
 endif()
 
-ecm_install_configured_files(INPUT plasma-dolphin.service.in DESTINATION ${SYSTEMD_USER_UNIT_INSTALL_DIR})
+ecm_install_configured_files(INPUT plasma-dolphin.service.in DESTINATION ${KDE_INSTALL_SYSTEMDUSERUNITDIR})
 
 ecm_qt_install_logging_categories(
         EXPORT DOLPHIN
