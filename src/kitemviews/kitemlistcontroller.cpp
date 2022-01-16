@@ -574,7 +574,7 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         return false;
     }
 
-    if (m_pressedIndex.has_value()) {
+    if (m_pressedIndex.has_value() && !m_view->rubberBand()->isActive()) {
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
             const QPointF pos = transform.map(event->pos());
@@ -828,27 +828,76 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
         return false;
     }
 
-    KItemListWidget* oldHoveredWidget = hoveredWidget();
-    const QPointF pos = transform.map(event->pos());
-    KItemListWidget* newHoveredWidget = widgetForPos(pos);
+    // We identify the widget whose expansionArea had been hovered before this hoverMoveEvent() triggered.
+    // we can't use hoveredWidget() here (it handles the icon+text rect, not the expansion rect)
+    // like hoveredWidget(), we find the hovered widget for the expansion rect
+    const auto visibleItemListWidgets = m_view->visibleItemListWidgets();
+    const auto oldHoveredExpansionWidgetIterator = std::find_if(visibleItemListWidgets.begin(), visibleItemListWidgets.end(), [](auto &widget) {
+        return widget->expansionAreaHovered();
+    });
+    const auto oldHoveredExpansionWidget = oldHoveredExpansionWidgetIterator == visibleItemListWidgets.end() ?
+                                           std::nullopt : std::make_optional(*oldHoveredExpansionWidgetIterator);
 
-    if (oldHoveredWidget != newHoveredWidget) {
-        if (oldHoveredWidget) {
+    const auto unhoverOldHoveredWidget = [&]() {
+        if (auto oldHoveredWidget = hoveredWidget(); oldHoveredWidget) {
+            // handle the text+icon one
             oldHoveredWidget->setHovered(false);
             Q_EMIT itemUnhovered(oldHoveredWidget->index());
         }
+    };
 
-        if (newHoveredWidget) {
-            newHoveredWidget->setHovered(true);
-            const QPointF mappedPos = newHoveredWidget->mapFromItem(m_view, pos);
-            newHoveredWidget->setHoverPosition(mappedPos);
-            Q_EMIT itemHovered(newHoveredWidget->index());
+    const auto unhoverOldExpansionWidget = [&]() {
+        if (oldHoveredExpansionWidget) {
+            // then the expansion toggle
+            (*oldHoveredExpansionWidget)->setExpansionAreaHovered(false);
         }
-    } else if (oldHoveredWidget) {
-        const QPointF mappedPos = oldHoveredWidget->mapFromItem(m_view, pos);
-        oldHoveredWidget->setHoverPosition(mappedPos);
-    }
+    };
 
+    const QPointF pos = transform.map(event->pos());
+    if (KItemListWidget *newHoveredWidget = widgetForPos(pos); newHoveredWidget) {
+        // something got hovered, work out which part and set hover for the appropriate widget
+        const auto mappedPos = newHoveredWidget->mapFromItem(m_view, pos);
+        const bool isOnExpansionToggle = newHoveredWidget->expansionToggleRect().contains(mappedPos);
+
+        if (isOnExpansionToggle) {
+            // make sure we unhover the old one first if old!=new
+            if (oldHoveredExpansionWidget && *oldHoveredExpansionWidget != newHoveredWidget) {
+                (*oldHoveredExpansionWidget)->setExpansionAreaHovered(false);
+            }
+            // we also unhover any old icon+text hovers, in case the mouse movement from icon+text to expansion toggle is too fast (i.e. newHoveredWidget is never null between the transition)
+            unhoverOldHoveredWidget();
+
+
+            newHoveredWidget->setExpansionAreaHovered(true);
+        } else {
+            // make sure we unhover the old one first if old!=new
+            if (auto oldHoveredWidget = hoveredWidget(); oldHoveredWidget && oldHoveredWidget != newHoveredWidget) {
+                oldHoveredWidget->setHovered(false);
+                Q_EMIT itemUnhovered(oldHoveredWidget->index());
+            }
+            // we also unhover any old expansion toggle hovers, in case the mouse movement from expansion toggle to icon+text is too fast (i.e. newHoveredWidget is never null between the transition)
+            unhoverOldExpansionWidget();
+
+            const bool isOverIconAndText = newHoveredWidget->iconRect().contains(mappedPos) || newHoveredWidget->textRect().contains(mappedPos);
+            const bool hasMultipleSelection = m_selectionManager->selectedItems().count() > 1;
+
+            if (hasMultipleSelection && !isOverIconAndText) {
+                // In case we have multiple selections, clicking on any row will deselect the selection.
+                // So, as a visual cue for signalling that clicking anywhere won't select, but clear current highlights,
+                // we disable hover of the *row*(i.e. blank space to the right of the icon+text)
+
+                // (no-op in this branch for masked hover)
+            } else {
+                newHoveredWidget->setHovered(true);
+                newHoveredWidget->setHoverPosition(mappedPos);
+                Q_EMIT itemHovered(newHoveredWidget->index());
+            }
+        }
+    } else {
+        // unhover any currently hovered expansion and text+icon widgets
+        unhoverOldHoveredWidget();
+        unhoverOldExpansionWidget();
+    }
     return false;
 }
 
@@ -1303,10 +1352,7 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
     const auto widgets = m_view->visibleItemListWidgets();
     for (KItemListWidget* widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
-
-        const bool hovered = widget->contains(mappedPos) &&
-                             !widget->expansionToggleRect().contains(mappedPos);
-        if (hovered) {
+        if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
             return widget;
         }
     }
@@ -1447,6 +1493,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
     const bool shiftPressed = modifiers & Qt::ShiftModifier;
     const bool controlPressed = modifiers & Qt::ControlModifier;
+    const bool rightClick = buttons & Qt::RightButton;
 
     // The previous selection is cleared if either
     // 1. The selection mode is SingleSelection, or
@@ -1459,8 +1506,32 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     const bool pressedItemAlreadySelected = m_pressedIndex.has_value() && m_selectionManager->isSelected(m_pressedIndex.value());
     const bool clearSelection = m_selectionBehavior == SingleSelection ||
                                 (!shiftOrControlPressed && !pressedItemAlreadySelected);
+
+
+    // When this method returns false, a rubberBand selection is created using KItemListController::startRubberBand via the caller.
     if (clearSelection) {
+        const int selectedItemsCount = m_selectionManager->selectedItems().count();
         m_selectionManager->clearSelection();
+        // clear and bail when we got an existing multi-selection
+        if (selectedItemsCount  > 1 && m_pressedIndex.has_value()) {
+            const auto row = m_view->m_visibleItems.value(m_pressedIndex.value());
+            const auto mappedPos = row->mapFromItem(m_view, pos);
+            if (pressedItemAlreadySelected || row->iconRect().contains(mappedPos) || row->textRect().contains(mappedPos)) {
+                // we are indeed inside the text/icon rect, keep m_pressedIndex what it is
+                // and short-circuit for single-click activation (it will then propagate to onRelease and activate the item)
+                // or we just keep going for double-click activation
+                if (m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) {
+                    return true; // event handled, don't create rubber band
+                }
+            } else {
+                // we're not inside the text/icon rect, as we've already cleared the selection
+                // we can just stop here and make sure handlers down the line (i.e. onRelease) don't activate
+                m_pressedIndex.reset();
+                // we don't stop event propagation and proceed to create a rubber band and let onRelease
+                // decide (based on m_pressedIndex) whether we're in a drag (drag => new rubber band, click => don't select the item)
+                return false;
+            }
+        }
     } else if (pressedItemAlreadySelected && !shiftOrControlPressed && (buttons & Qt::LeftButton)) {
         // The user might want to start dragging multiple items, but if he clicks the item
         // in order to trigger it instead, the other selected items must be deselected.
@@ -1479,7 +1550,14 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         m_selectionManager->endAnchoredSelection();
     }
 
-    if (buttons & Qt::RightButton) {
+    if (rightClick) {
+
+        // Do header hit check and short circuit before commencing any state changing effects
+        if (m_view->headerBoundaries().contains(pos)) {
+            Q_EMIT headerContextMenuRequested(screenPos);
+            return true;
+        }
+
         // Stop rubber band from persisting after right-clicks
         KItemListRubberBand* rubberBand = m_view->rubberBand();
         if (rubberBand->isActive()) {
@@ -1491,6 +1569,17 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
     if (m_pressedIndex.has_value()) {
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
+        const auto row = m_view->m_visibleItems.value(m_pressedIndex.value()); // anything outside of row.contains() will be the empty region of the row rect
+        const bool hitTargetIsRowEmptyRegion = !row->contains(row->mapFromItem(m_view, pos));
+        // again, when this method returns false, a rubberBand selection is created as the event is not consumed;
+        // createRubberBand here tells us whether to return true or false.
+        bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
+
+        if (rightClick && hitTargetIsRowEmptyRegion) {
+            // we got a right click outside the text rect, default to action on the current url and not the pressed item
+            Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
+            return true;
+        }
 
         switch (m_selectionBehavior) {
         case NoSelection:
@@ -1504,6 +1593,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
             if (controlPressed && !shiftPressed) {
                 m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+                createRubberBand = false; // multi selection, don't propagate any further
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
                 m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
@@ -1516,20 +1606,16 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
             break;
         }
 
-        if (buttons & Qt::RightButton) {
+        if (rightClick) {
             Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
         }
-
-        return true;
+        return !createRubberBand;
     }
 
-    if (buttons & Qt::RightButton) {
-        const QRectF headerBounds = m_view->headerBoundaries();
-        if (headerBounds.contains(pos)) {
-            Q_EMIT headerContextMenuRequested(screenPos);
-        } else {
-            Q_EMIT viewContextMenuRequested(screenPos);
-        }
+    if (rightClick) {
+        // header right click handling would have been done before this so just normal context
+        // menu here is fine
+        Q_EMIT viewContextMenuRequested(screenPos);
         return true;
     }
 
@@ -1554,15 +1640,34 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
     const bool shiftOrControlPressed = modifiers & Qt::ShiftModifier ||
                                        controlPressed;
 
+    const std::optional<int> index = m_view->itemAt(pos);
+
     KItemListRubberBand* rubberBand = m_view->rubberBand();
+    bool rubberBandRelease = false;
     if (rubberBand->isActive()) {
         disconnect(rubberBand, &KItemListRubberBand::endPositionChanged, this, &KItemListController::slotRubberBandChanged);
         rubberBand->setActive(false);
         m_oldSelection.clear();
         m_view->setAutoScroll(false);
+        rubberBandRelease = true;
+        // We check for actual rubber band drag here: if delta between start and end is less than drag threshold,
+        // then we have a single click on one of the rows
+        if ((rubberBand->endPosition() - rubberBand->startPosition()).manhattanLength() < QApplication::startDragDistance()) {
+            rubberBandRelease = false; // since we're only selecting, unmark rubber band release flag
+            // m_pressedIndex will have no value if we came from a multi-selection clearing onPress
+            // in that case, we don't select anything
+            if (index.has_value() && m_pressedIndex.has_value()) {
+                if (controlPressed && m_selectionBehavior == MultiSelection) {
+                    m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                } else {
+                    m_selectionManager->setSelected(index.value());
+                }
+                if (!m_selectionManager->isAnchoredSelectionActive()) {
+                    m_selectionManager->beginAnchoredSelection(index.value());
+                }
+            }
+        }
     }
-
-    const std::optional<int> index = m_view->itemAt(pos);
 
     if (index.has_value() && index == m_pressedIndex) {
         // The release event is done above the same item as the press event
@@ -1587,11 +1692,13 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
                 // The mouse click should only update the selection, not trigger the item, except when
                 // we are in single selection mode
                 emitItemActivated = false;
-            } else if (!(m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced)) {
-                if (touch) {
-                emitItemActivated = true;
+            } else {
+                const bool singleClickActivation = m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced;
+                if (!singleClickActivation) {
+                    emitItemActivated = touch;
                 } else {
-                emitItemActivated = false;
+                    // activate on single click only if we didn't come from a rubber band release
+                    emitItemActivated = !rubberBandRelease;
                 }
             }
             if (emitItemActivated) {

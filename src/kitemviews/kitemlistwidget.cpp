@@ -34,6 +34,7 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsI
     m_selected(false),
     m_current(false),
     m_hovered(false),
+    m_expansionAreaHovered(false),
     m_alternateBackground(false),
     m_enabledSelectionToggle(false),
     m_data(),
@@ -180,6 +181,18 @@ qreal KItemListWidget::columnWidth(const QByteArray& role) const
     return m_columnWidths.value(role);
 }
 
+qreal KItemListWidget::leadingPadding() const {
+    return m_leadingPadding;
+}
+
+void KItemListWidget::setLeadingPadding(qreal width) {
+    if (m_leadingPadding != width){
+        m_leadingPadding = width;
+        leadingPaddingChanged(width);
+        update();
+    }
+}
+
 void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
 {
     if (m_styleOption == option) {
@@ -278,6 +291,20 @@ void KItemListWidget::setHovered(bool hovered)
 bool KItemListWidget::isHovered() const
 {
     return m_hovered;
+}
+
+void KItemListWidget::setExpansionAreaHovered(bool hovered)
+{
+    if (hovered == m_expansionAreaHovered) {
+        return;
+    }
+    m_expansionAreaHovered = hovered;
+    update();
+}
+
+bool KItemListWidget::expansionAreaHovered() const
+{
+    return m_expansionAreaHovered;
 }
 
 void KItemListWidget::setHoverPosition(const QPointF& pos)
@@ -414,6 +441,11 @@ void KItemListWidget::columnWidthChanged(const QByteArray& role,
     Q_UNUSED(role)
     Q_UNUSED(current)
     Q_UNUSED(previous)
+}
+
+void KItemListWidget::leadingPaddingChanged(qreal width)
+{
+    Q_UNUSED(width)
 }
 
 void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,

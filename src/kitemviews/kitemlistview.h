@@ -205,6 +205,12 @@ public:
     void setSupportsItemExpanding(bool supportsExpanding);
     bool supportsItemExpanding() const;
 
+    void setHighlightEntireRow(bool highlightEntireRow);
+    bool highlightEntireRow() const;
+
+    void setAlternateBackgrounds(bool alternate);
+    bool alternateBackgrounds() const;
+
     /**
      * @return The rectangle of the item relative to the top/left of
      *         the currently visible area (see KItemListView::offset()).
@@ -374,6 +380,7 @@ protected:
     virtual void onScrollOffsetChanged(qreal current, qreal previous);
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void onHighlightEntireRowChanged(bool highlightEntireRow);
     virtual void onSupportsItemExpandingChanged(bool supportsExpanding);
 
     virtual void onTransactionBegin();
@@ -425,6 +432,8 @@ private Q_SLOTS:
     void slotHeaderColumnWidthChanged(const QByteArray& role,
                                       qreal currentWidth,
                                       qreal previousWidth);
+
+    void slotLeadingPaddingChanged(qreal width);
 
     /**
      * Is invoked if a column has been moved by the user. Applies
@@ -707,6 +716,8 @@ private:
 private:
     bool m_enabledSelectionToggles;
     bool m_grouped;
+    bool m_highlightEntireRow;
+    bool m_alternateBackgrounds;
     bool m_supportsItemExpanding;
     bool m_editingRole;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()

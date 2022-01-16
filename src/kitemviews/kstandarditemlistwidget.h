@@ -88,6 +88,9 @@ public:
     void setLayout(Layout layout);
     Layout layout() const;
 
+    void setHighlightEntireRow(bool highlightEntireRow);
+    bool highlightEntireRow() const;
+
     void setSupportsItemExpanding(bool supportsItemExpanding);
     bool supportsItemExpanding() const;
 
@@ -168,6 +171,7 @@ protected:
     void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>()) override;
     void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
     void columnWidthChanged(const QByteArray& role, qreal current, qreal previous) override;
+    void leadingPaddingChanged(qreal width) override;
     void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
     void hoveredChanged(bool hovered) override;
     void selectedChanged(bool selected) override;
@@ -241,6 +245,7 @@ private:
     QFont m_customizedFont;
     QFontMetrics m_customizedFontMetrics;
     bool m_isExpandable;
+    bool m_highlightEntireRow;
     bool m_supportsItemExpanding;
 
     bool m_dirtyLayout;
@@ -252,6 +257,7 @@ private:
     QPixmap m_pixmap;
     QSize m_scaledPixmapSize; //Size of the pixmap in device independent pixels
 
+    qreal m_columnWidthSum;
     QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
     QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
 

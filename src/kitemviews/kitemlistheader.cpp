@@ -61,6 +61,20 @@ qreal KItemListHeader::preferredColumnWidth(const QByteArray& role) const
     return m_headerWidget->preferredColumnWidth(role);
 }
 
+void KItemListHeader::setLeadingPadding(qreal width){
+    if (m_headerWidget->leadingPadding() != width) {
+        m_headerWidget->setLeadingPadding(width);
+        if (m_headerWidget->automaticColumnResizing()) {
+            m_view->applyAutomaticColumnWidths();
+        }
+        m_view->doLayout(KItemListView::NoAnimation);
+    }
+}
+
+qreal KItemListHeader::leadingPadding() const{
+    return m_headerWidget->leadingPadding();
+}
+
 KItemListHeader::KItemListHeader(KItemListView* listView) :
     QObject(listView),
     m_view(listView)
@@ -72,5 +86,7 @@ KItemListHeader::KItemListHeader(KItemListView* listView) :
             this, &KItemListHeader::columnWidthChanged);
     connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished,
             this, &KItemListHeader::columnWidthChangeFinished);
+    connect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
+            this, &KItemListHeader::leadingPaddingChanged);
 }
 

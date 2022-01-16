@@ -18,6 +18,7 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     m_automaticColumnResizing(true),
     m_model(nullptr),
     m_offset(0),
+    m_leadingPadding(0),
     m_columns(),
     m_columnWidths(),
     m_preferredColumnWidths(),
@@ -134,6 +135,20 @@ qreal KItemListHeaderWidget::offset() const
     return m_offset;
 }
 
+void KItemListHeaderWidget::setLeadingPadding(qreal width)
+{
+    if (m_leadingPadding != width) {
+        m_leadingPadding = width;
+        leadingPaddingChanged(width);
+        update();
+    }
+}
+
+qreal KItemListHeaderWidget::leadingPadding() const
+{
+    return m_leadingPadding;
+}
+
 qreal KItemListHeaderWidget::minimumColumnWidth() const
 {
     QFontMetricsF fontMetrics(font());
@@ -153,7 +168,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
     painter->setFont(font());
     painter->setPen(palette().text().color());
 
-    qreal x = -m_offset;
+    qreal x = -m_offset + m_leadingPadding;
     int orderIndex = 0;
     for (const QByteArray& role : qAsConst(m_columns)) {
         const qreal roleWidth = m_columnWidths.value(role);
@@ -172,10 +187,14 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
 void KItemListHeaderWidget::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     if (event->button() & Qt::LeftButton) {
-        updatePressedRoleIndex(event->pos());
         m_pressedMousePos = event->pos();
-        m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
-                          ResizeRoleOperation : NoRoleOperation;
+        if (isAbovePaddingGrip(m_pressedMousePos, PaddingGrip::Leading)) {
+            m_roleOperation = ResizeLeadingColumnOperation;
+        } else {
+            updatePressedRoleIndex(event->pos());
+            m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
+                              ResizeRoleOperation : NoRoleOperation;
+        }
         event->accept();
     } else {
         event->ignore();
@@ -263,7 +282,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             } else {
                 m_movingRole.pixmap = createRolePixmap(roleIndex);
 
-                qreal roleX = -m_offset;
+                qreal roleX = -m_offset + m_leadingPadding;
                 for (int i = 0; i < roleIndex; ++i) {
                     const QByteArray role = m_columns[i];
                     roleX += m_columnWidths.value(role);
@@ -288,6 +307,20 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
         update();
 
         Q_EMIT columnWidthChanged(pressedRole, currentWidth, previousWidth);
+        break;
+    }
+
+    case ResizeLeadingColumnOperation: {
+        qreal currentWidth = m_leadingPadding;
+        currentWidth += event->pos().x() - event->lastPos().x();
+        currentWidth = qMax(0.0, currentWidth);
+
+        m_leadingPadding = currentWidth;
+
+        update();
+
+        Q_EMIT leadingPaddingChanged(currentWidth);
+
         break;
     }
 
@@ -355,7 +388,9 @@ void KItemListHeaderWidget::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
 
     const QPointF& pos = event->pos();
     updateHoveredRoleIndex(pos);
-    if (m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) {
+    if ((m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) ||
+            isAbovePaddingGrip(pos, PaddingGrip::Leading) ||
+        isAbovePaddingGrip(pos, PaddingGrip::Trailing)) {
         setCursor(Qt::SplitHCursor);
     } else {
         unsetCursor();
@@ -404,19 +439,39 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
                                 QStyleOptionHeader::SortDown : QStyleOptionHeader::SortUp;
     }
     option.rect = rect.toRect();
+    option.orientation = Qt::Horizontal;
+    option.selectedPosition = QStyleOptionHeader::NotAdjacent;
+    option.text = m_model->roleDescription(role);
 
-    bool paintBackgroundForEmptyArea = false;
+    // First we paint any potential empty (padding) space on left and/or right of this role's column.
+    const auto paintPadding = [&](int section, const QRectF &rect, const QStyleOptionHeader::SectionPosition &pos){
+        QStyleOptionHeader padding;
+        padding.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
+        padding.section = section;
+        padding.sortIndicator = QStyleOptionHeader::None;
+        padding.rect = rect.toRect();
+        padding.position = pos;
+        padding.text = QString();
+        style()->drawControl(QStyle::CE_Header, &padding, painter, widget);
+    };
 
     if (m_columns.count() == 1) {
-        option.position = QStyleOptionHeader::OnlyOneSection;
+        option.position = QStyleOptionHeader::Middle;
+        paintPadding(0, QRectF(0.0, 0.0, rect.left(), rect.height()), QStyleOptionHeader::Beginning);
+        paintPadding(1, QRectF(rect.left(), 0.0, size().width() - rect.left(), rect.height()), QStyleOptionHeader::End);
     } else if (orderIndex == 0) {
-        option.position = QStyleOptionHeader::Beginning;
+        // Paint the header for the first column; check if there is some empty space to the left which needs to be filled.
+        if (rect.left() > 0) {
+            option.position = QStyleOptionHeader::Middle;
+            paintPadding(0,QRectF(0.0, 0.0, rect.left(), rect.height()), QStyleOptionHeader::Beginning);
+        } else {
+            option.position = QStyleOptionHeader::Beginning;
+        }
     } else if (orderIndex == m_columns.count() - 1) {
-        // We are just painting the header for the last column. Check if there
-        // is some empty space to the right which needs to be filled.
+        // Paint the header for the last column; check if there is some empty space to the right which needs to be filled.
         if (rect.right() < size().width()) {
             option.position = QStyleOptionHeader::Middle;
-            paintBackgroundForEmptyArea = true;
+            paintPadding(m_columns.count(), QRectF(rect.left(), 0.0, size().width() - rect.left(), rect.height()), QStyleOptionHeader::End);
         } else {
             option.position = QStyleOptionHeader::End;
         }
@@ -424,25 +479,7 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
         option.position = QStyleOptionHeader::Middle;
     }
 
-    option.orientation = Qt::Horizontal;
-    option.selectedPosition = QStyleOptionHeader::NotAdjacent;
-    option.text = m_model->roleDescription(role);
-
     style()->drawControl(QStyle::CE_Header, &option, painter, widget);
-
-    if (paintBackgroundForEmptyArea) {
-        option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
-        option.section = m_columns.count();
-        option.sortIndicator = QStyleOptionHeader::None;
-
-        qreal backgroundRectX = rect.x() + rect.width();
-        QRectF backgroundRect(backgroundRectX, 0.0, size().width() - backgroundRectX, rect.height());
-        option.rect = backgroundRect.toRect();
-        option.position = QStyleOptionHeader::End;
-        option.text = QString();
-
-        style()->drawControl(QStyle::CE_Header, &option, painter, widget);
-    }
 }
 
 void KItemListHeaderWidget::updatePressedRoleIndex(const QPointF& pos)
@@ -467,7 +504,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
 {
     int index = -1;
 
-    qreal x = -m_offset;
+    qreal x = -m_offset + m_leadingPadding;
     for (const QByteArray& role : qAsConst(m_columns)) {
         ++index;
         x += m_columnWidths.value(role);
@@ -481,7 +518,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
 
 bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
 {
-    qreal x = -m_offset;
+    qreal x = -m_offset + m_leadingPadding;
     for (int i = 0; i <= roleIndex; ++i) {
         const QByteArray role = m_columns[i];
         x += m_columnWidths.value(role);
@@ -489,6 +526,27 @@ bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) c
 
     const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     return pos.x() >= (x - grip) && pos.x() <= x;
+}
+
+bool KItemListHeaderWidget::isAbovePaddingGrip(const QPointF& pos, PaddingGrip paddingGrip) const
+{
+    const qreal lx = -m_offset + m_leadingPadding;
+    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+
+    switch (paddingGrip) {
+    case Leading:
+        return pos.x() >= (lx - grip) && pos.x() <= lx;
+    case Trailing:
+    {
+        qreal rx = lx;
+        for (const QByteArray& role : qAsConst(m_columns)) {
+            rx += m_columnWidths.value(role);
+        }
+        return pos.x() >= (rx - grip) && pos.x() <= rx;
+    }
+    default:
+        return false;
+    }
 }
 
 QPixmap KItemListHeaderWidget::createRolePixmap(int roleIndex) const
@@ -522,7 +580,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
     const int movingRight = movingLeft + movingWidth - 1;
 
     int targetIndex = 0;
-    qreal targetLeft = -m_offset;
+    qreal targetLeft = -m_offset + m_leadingPadding;
     while (targetIndex < m_columns.count()) {
         const QByteArray role = m_columns[targetIndex];
         const qreal targetWidth = m_columnWidths.value(role);
@@ -548,7 +606,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
 
 qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
 {
-    qreal x = -m_offset;
+    qreal x = -m_offset + m_leadingPadding;
     for (const QByteArray& visibleRole : qAsConst(m_columns)) {
         if (visibleRole == role) {
             return x;

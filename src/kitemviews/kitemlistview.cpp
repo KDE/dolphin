@@ -397,7 +397,7 @@ std::optional<int> KItemListView::itemAt(const QPointF& pos) const
 
         const KItemListWidget* widget = it.value();
         const QPointF mappedPos = widget->mapFromItem(this, pos);
-        if (widget->contains(mappedPos)) {
+        if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
             return it.key();
         }
     }
@@ -475,6 +475,32 @@ void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
 bool KItemListView::supportsItemExpanding() const
 {
     return m_supportsItemExpanding;
+}
+
+void KItemListView::setHighlightEntireRow(bool highlightEntireRow)
+{
+    if (m_highlightEntireRow != highlightEntireRow) {
+        m_highlightEntireRow = highlightEntireRow;
+        onHighlightEntireRowChanged(highlightEntireRow);
+    }
+}
+
+bool KItemListView::highlightEntireRow() const
+{
+    return m_highlightEntireRow;
+}
+
+void KItemListView::setAlternateBackgrounds(bool alternate)
+{
+    if (m_alternateBackgrounds != alternate) {
+        m_alternateBackgrounds = alternate;
+        updateAlternateBackgrounds();
+    }
+}
+
+bool KItemListView::alternateBackgrounds() const
+{
+    return m_alternateBackgrounds;
 }
 
 QRectF KItemListView::itemRect(int index) const
@@ -581,6 +607,8 @@ void KItemListView::setHeaderVisible(bool visible)
 
         connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
                 this, &KItemListView::slotHeaderColumnWidthChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
+                this, &KItemListView::slotLeadingPaddingChanged);
         connect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
                 this, &KItemListView::slotHeaderColumnMoved);
         connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
@@ -593,6 +621,8 @@ void KItemListView::setHeaderVisible(bool visible)
     } else if (!visible && m_headerWidget->isVisible()) {
         disconnect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
                    this, &KItemListView::slotHeaderColumnWidthChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
+                this, &KItemListView::slotLeadingPaddingChanged);
         disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
                    this, &KItemListView::slotHeaderColumnMoved);
         disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
@@ -753,7 +783,7 @@ void KItemListView::setItemSize(const QSizeF& size)
                                                 size,
                                                 m_layouter->itemMargin());
 
-    const bool alternateBackgroundsChanged = (m_visibleRoles.count() > 1) &&
+    const bool alternateBackgroundsChanged = m_alternateBackgrounds &&
                                              (( m_itemSize.isEmpty() && !size.isEmpty()) ||
                                               (!m_itemSize.isEmpty() && size.isEmpty()));
 
@@ -927,6 +957,11 @@ void KItemListView::onStyleOptionChanged(const KItemListStyleOption& current, co
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)
+}
+
+void KItemListView::onHighlightEntireRowChanged(bool highlightEntireRow)
+{
+    Q_UNUSED(highlightEntireRow)
 }
 
 void KItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
@@ -1517,6 +1552,16 @@ void KItemListView::slotHeaderColumnWidthChanged(const QByteArray& role,
     Q_UNUSED(previousWidth)
 
     m_headerWidget->setAutomaticColumnResizing(false);
+    applyColumnWidthsFromHeader();
+    doLayout(NoAnimation);
+}
+
+void KItemListView::slotLeadingPaddingChanged(qreal width)
+{
+    Q_UNUSED(width)
+    if (m_headerWidget->automaticColumnResizing()) {
+        applyAutomaticColumnWidths();
+    }
     applyColumnWidthsFromHeader();
     doLayout(NoAnimation);
 }
@@ -2225,7 +2270,7 @@ void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
 
 bool KItemListView::useAlternateBackgrounds() const
 {
-    return m_itemSize.isEmpty() && m_visibleRoles.count() > 1;
+    return m_alternateBackgrounds && m_itemSize.isEmpty();
 }
 
 QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
@@ -2283,7 +2328,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 void KItemListView::applyColumnWidthsFromHeader()
 {
     // Apply the new size to the layouter
-    const qreal requiredWidth = columnWidthsSum();
+    const qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding();
     const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
                                  m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
@@ -2301,6 +2346,7 @@ void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
     for (const QByteArray& role : qAsConst(m_visibleRoles)) {
         widget->setColumnWidth(role, m_headerWidget->columnWidth(role));
     }
+    widget->setLeadingPadding(m_headerWidget->leadingPadding());
 }
 
 void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges)
@@ -2378,7 +2424,7 @@ void KItemListView::applyAutomaticColumnWidths()
     qreal firstColumnWidth = m_headerWidget->columnWidth(firstRole);
     QSizeF dynamicItemSize = m_itemSize;
 
-    qreal requiredWidth = columnWidthsSum();
+    qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding();
     const qreal availableWidth = size().width();
     if (requiredWidth < availableWidth) {
         // Stretch the first column to use the whole remaining width

@@ -80,6 +80,9 @@ public:
     void setColumnWidth(const QByteArray& role, qreal width);
     qreal columnWidth(const QByteArray& role) const;
 
+    void setLeadingPadding(qreal width);
+    qreal leadingPadding() const;
+
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
 
@@ -93,6 +96,9 @@ public:
 
     void setHovered(bool hovered);
     bool isHovered() const;
+
+    void setExpansionAreaHovered(bool hover);
+    bool expansionAreaHovered() const;
 
     void setHoverPosition(const QPointF& pos);
 
@@ -182,6 +188,7 @@ protected:
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);
+    virtual void leadingPaddingChanged(qreal width);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
@@ -190,6 +197,7 @@ protected:
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;
+    void clearHoverCache();
 
     /**
      * Called when the user starts hovering this item.
@@ -225,7 +233,6 @@ private Q_SLOTS:
 private:
     void initializeSelectionToggle();
     void setHoverOpacity(qreal opacity);
-    void clearHoverCache();
     void drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState);
 
 private:
@@ -236,11 +243,13 @@ private:
     bool m_selected;
     bool m_current;
     bool m_hovered;
+    bool m_expansionAreaHovered;
     bool m_alternateBackground;
     bool m_enabledSelectionToggle;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;
+    qreal m_leadingPadding;
     KItemListStyleOption m_styleOption;
     QBitArray m_siblingsInfo;
 

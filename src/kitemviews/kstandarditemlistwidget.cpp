@@ -264,6 +264,7 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     m_pixmapPos(),
     m_pixmap(),
     m_scaledPixmapSize(),
+    m_columnWidthSum(),
     m_iconRect(),
     m_hoverPixmap(),
     m_textRect(),
@@ -305,6 +306,18 @@ void KStandardItemListWidget::setLayout(Layout layout)
 KStandardItemListWidget::Layout KStandardItemListWidget::layout() const
 {
     return m_layout;
+}
+
+void KStandardItemListWidget::setHighlightEntireRow(bool highlightEntireRow) {
+    if (m_highlightEntireRow != highlightEntireRow) {
+        m_highlightEntireRow = highlightEntireRow;
+        m_dirtyLayout = true;
+        update();
+    }
+}
+
+bool KStandardItemListWidget::highlightEntireRow() const {
+    return m_highlightEntireRow;
 }
 
 void KStandardItemListWidget::setSupportsItemExpanding(bool supportsItemExpanding)
@@ -508,7 +521,11 @@ QRectF KStandardItemListWidget::selectionRect() const
     case DetailsLayout: {
         const int padding = styleOption().padding;
         QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
-        return adjustedIconRect | m_textRect;
+        QRectF result = adjustedIconRect | m_textRect;
+        if (m_highlightEntireRow) {
+            result.setRight(m_columnWidthSum + leadingPadding());
+        }
+        return result;
     }
 
     default:
@@ -725,6 +742,11 @@ void KStandardItemListWidget::columnWidthChanged(const QByteArray& role,
     m_dirtyLayout = true;
 }
 
+void KStandardItemListWidget::leadingPaddingChanged(qreal padding) {
+    Q_UNUSED(padding)
+    m_dirtyLayout = true;
+}
+
 void KStandardItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
                                              const KItemListStyleOption& previous)
 {
@@ -917,10 +939,13 @@ void KStandardItemListWidget::triggerCacheRefreshing()
     m_isHidden = isHidden();
     m_customizedFont = customizedFont(styleOption().font);
     m_customizedFontMetrics = QFontMetrics(m_customizedFont);
+    m_columnWidthSum = std::accumulate(m_sortedVisibleRoles.begin(), m_sortedVisibleRoles.end(),
+                                       qreal(), [this](qreal sum, const auto &role){ return sum + columnWidth(role); });
 
     updateExpansionArea();
     updateTextsCache();
     updatePixmapCache();
+    clearHoverCache();
 
     m_dirtyLayout = false;
     m_dirtyContent = false;
@@ -938,7 +963,8 @@ void KStandardItemListWidget::updateExpansionArea()
             const qreal inc = (widgetHeight - option.iconSize) / 2;
             const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
-            m_expansionArea = QRectF(x, y, option.iconSize, option.iconSize);
+            const qreal xPadding = m_highlightEntireRow ? leadingPadding() : 0;
+            m_expansionArea = QRectF(xPadding + x, y, option.iconSize, option.iconSize);
             return;
         }
     }
@@ -1375,7 +1401,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     if (m_supportsItemExpanding) {
         firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
     } else {
-        firstColumnInc += option.padding;
+        firstColumnInc += option.padding + leadingPadding();
     }
 
     qreal x = firstColumnInc;
@@ -1391,7 +1417,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         const bool isTextRole = (role == "text");
         if (isTextRole) {
-            availableTextWidth -= firstColumnInc;
+            availableTextWidth -= firstColumnInc - leadingPadding();
         }
 
         if (requiredWidth > availableTextWidth) {
@@ -1413,7 +1439,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
-            x -= firstColumnInc;
+            x -= firstColumnInc - leadingPadding();
         } else if (isRoleRightAligned(role)) {
             textInfo->pos.rx() += roleWidth - requiredWidth - columnWidthInc;
         }
@@ -1425,8 +1451,11 @@ void KStandardItemListWidget::updateAdditionalInfoTextColor()
     QColor c1;
     if (m_customTextColor.isValid()) {
         c1 = m_customTextColor;
-    } else if (isSelected() && m_layout != DetailsLayout) {
-        c1 = styleOption().palette.highlightedText().color();
+    } else if (isSelected()) {
+        // The detail text colour needs to match the main text (HighlightedText) for the same level
+        // of readability. We short circuit early here to avoid interpolating with another colour.
+        m_additionalInfoTextColor = styleOption().palette.color(QPalette::HighlightedText);
+        return;
     } else {
         c1 = styleOption().palette.text().color();
     }
@@ -1465,15 +1494,15 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
     const int x = (m_expansionArea.left() + m_expansionArea.right() - siblingSize) / 2;
     QRect siblingRect(x, 0, siblingSize, siblingSize);
 
-    QStyleOption option;
-    option.palette.setColor(QPalette::Text, option.palette.color(normalTextColorRole()));
     bool isItemSibling = true;
 
     const QBitArray siblings = siblingsInformation();
+    QStyleOption option;
+    const auto normalColor = option.palette.color(normalTextColorRole());
+    const auto highlightColor = option.palette.color(expansionAreaHovered() ? QPalette::Highlight : normalTextColorRole());
     for (int i = siblings.count() - 1; i >= 0; --i) {
         option.rect = siblingRect;
         option.state = siblings.at(i) ? QStyle::State_Sibling : QStyle::State_None;
-
         if (isItemSibling) {
             option.state |= QStyle::State_Item;
             if (m_isExpandable) {
@@ -1482,7 +1511,10 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
             if (data().value("isExpanded").toBool()) {
                 option.state |= QStyle::State_Open;
             }
+            option.palette.setColor(QPalette::Text, highlightColor);
             isItemSibling = false;
+        } else {
+            option.palette.setColor(QPalette::Text, normalColor);
         }
 
         style()->drawPrimitive(QStyle::PE_IndicatorBranch, &option, painter);

@@ -50,6 +50,9 @@ public:
     void setOffset(qreal offset);
     qreal offset() const;
 
+    void setLeadingPadding(qreal width);
+    qreal leadingPadding() const;
+
     qreal minimumColumnWidth() const;
 
     void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
@@ -62,6 +65,8 @@ Q_SIGNALS:
     void columnWidthChanged(const QByteArray& role,
                             qreal currentWidth,
                             qreal previousWidth);
+
+    void leadingPaddingChanged(qreal width);
 
     /**
      * Is emitted if the user has released the mouse button after adjusting the
@@ -105,6 +110,13 @@ private Q_SLOTS:
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
+
+    enum PaddingGrip
+    {
+        Leading,
+        Trailing,
+    };
+
     void paintRole(QPainter* painter,
                    const QByteArray& role,
                    const QRectF& rect,
@@ -115,6 +127,7 @@ private:
     void updateHoveredRoleIndex(const QPointF& pos);
     int roleIndexAt(const QPointF& pos) const;
     bool isAboveRoleGrip(const QPointF& pos, int roleIndex) const;
+    bool isAbovePaddingGrip(const QPointF& pos, PaddingGrip paddingGrip) const;
 
     /**
      * Creates a pixmap of the role with the index \a roleIndex that is shown
@@ -138,12 +151,14 @@ private:
     {
         NoRoleOperation,
         ResizeRoleOperation,
+        ResizeLeadingColumnOperation,
         MoveRoleOperation
     };
 
     bool m_automaticColumnResizing;
     KItemModelBase* m_model;
     qreal m_offset;
+    qreal m_leadingPadding;
     QList<QByteArray> m_columns;
     QHash<QByteArray, qreal> m_columnWidths;
     QHash<QByteArray, qreal> m_preferredColumnWidths;

@@ -73,6 +73,7 @@ void DolphinItemListView::readSettings()
     beginTransaction();
 
     setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    setHighlightEntireRow(DetailsModeSettings::leadingPadding());
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(itemLayout()));
 
     updateFont();

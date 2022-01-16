@@ -8,6 +8,7 @@
 #include "dolphinview.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphinitemlistview.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "draganddrophelper.h"
@@ -201,6 +202,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
             this, &DolphinView::slotRoleEditingCanceled);
     connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished,
             this, &DolphinView::slotHeaderColumnWidthChangeFinished);
+    connect(m_view->header(), &KItemListHeader::leadingPaddingChanged,
+            this, &DolphinView::slotLeadingPaddingWidthChanged);
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
@@ -1117,6 +1120,10 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     QActionGroup* widthsGroup = new QActionGroup(menu);
     const bool autoColumnWidths = props.headerColumnWidths().isEmpty();
 
+    QAction* toggleLeadingPaddingAction = menu->addAction(i18nc("@action:inmenu", "Leading Column Padding"));
+    toggleLeadingPaddingAction->setCheckable(true);
+    toggleLeadingPaddingAction->setChecked(view->header()->leadingPadding() > 0);
+
     QAction* autoAdjustWidthsAction = menu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
     autoAdjustWidthsAction->setCheckable(true);
     autoAdjustWidthsAction->setChecked(autoColumnWidths);
@@ -1147,6 +1154,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             }
             props.setHeaderColumnWidths(columnWidths);
             header->setAutomaticColumnResizing(false);
+        } else if (action == toggleLeadingPaddingAction) {
+            header->setLeadingPadding(toggleLeadingPaddingAction->isChecked() ? 20 : 0);
         } else {
             // Show or hide the selected role
             const QByteArray selectedRole = action->data().toByteArray();
@@ -1197,6 +1206,13 @@ void DolphinView::slotHeaderColumnWidthChangeFinished(const QByteArray& role, qr
     columnWidths[roleIndex] = current;
 
     props.setHeaderColumnWidths(columnWidths);
+}
+
+void DolphinView::slotLeadingPaddingWidthChanged(qreal width)
+{
+    ViewProperties props(viewPropertiesUrl());
+    DetailsModeSettings::setLeadingPadding(int(width));
+    m_view->writeSettings();
 }
 
 void DolphinView::slotItemHovered(int index)
@@ -1992,6 +2008,7 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
         } else {
             header->setAutomaticColumnResizing(true);
         }
+        header->setLeadingPadding(DetailsModeSettings::leadingPadding());
     }
 
     m_view->endTransaction();

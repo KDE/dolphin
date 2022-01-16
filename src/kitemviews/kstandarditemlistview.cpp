@@ -17,6 +17,7 @@ KStandardItemListView::KStandardItemListView(QGraphicsWidget* parent) :
     setAcceptDrops(true);
     setScrollOrientation(Qt::Vertical);
     setVisibleRoles({"text"});
+    setAlternateBackgrounds(true);
 }
 
 KStandardItemListView::~KStandardItemListView()
@@ -34,6 +35,8 @@ void KStandardItemListView::setItemLayout(ItemLayout layout)
     const ItemLayout previous = m_itemLayout;
     m_itemLayout = layout;
 
+    // keep the leading padding option unchanged here
+    setHighlightEntireRow(layout == DetailsLayout);
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(layout));
     setScrollOrientation(layout == CompactLayout ? Qt::Horizontal : Qt::Vertical);
 
@@ -69,6 +72,7 @@ void KStandardItemListView::initializeItemListWidget(KItemListWidget* item)
     default:            Q_ASSERT(false); break;
     }
 
+    standardItemListWidget->setHighlightEntireRow(highlightEntireRow());
     standardItemListWidget->setSupportsItemExpanding(supportsItemExpanding());
 }
 
