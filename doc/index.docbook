@@ -70,8 +70,8 @@
 
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2021-04-08</date>
-<releaseinfo>Applications 21.08</releaseinfo>
+<date>2022-01-17</date>
+<releaseinfo>Applications 22.04</releaseinfo>
 
 <abstract>
 <para>
@@ -349,9 +349,10 @@ as a detailed list which contains the name, size and last modification time of
 each item. Additional columns can be added by clicking a column header with the
 &RMB;.
 </para>
-<para>In the context menu of the header line you can choose between custom or automatic 
-column width. Automatic width adjusts the width of all columns once to display the longest 
-item in the column completely, except for the <guilabel>Name</guilabel> column where 
+<para>In the context menu of the header line, you can add or remove the padding from the
+leading column by chacking or unchecking the respective menu item and choose between a custom
+or automatic column width. Automatic width adjusts the width of all columns once to display the
+longest item in the column completely, except for the <guilabel>Name</guilabel> column where 
 the extension is replaced by <quote>...</quote> 
 </para>
 <para>The order of columns can be changed by drag and drop of column headers, except for
