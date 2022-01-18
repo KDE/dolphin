@@ -418,4 +418,5 @@
     <release version="21.08.3" date="2021-11-04"/>
     <release version="21.08.2" date="2021-10-07"/>
   </releases>
+  <content_rating type="oars-1.1"/>
 </component>
