@@ -71,7 +71,7 @@
 <legalnotice>&FDLNotice;</legalnotice>
 
 <date>2022-01-17</date>
-<releaseinfo>Applications 22.04</releaseinfo>
+<releaseinfo>KDE Gear 22.04</releaseinfo>
 
 <abstract>
 <para>
@@ -350,7 +350,7 @@ each item. Additional columns can be added by clicking a column header with the
 &RMB;.
 </para>
 <para>In the context menu of the header line, you can add or remove the padding from the
-leading column by chacking or unchecking the respective menu item and choose between a custom
+leading column by checking or unchecking the respective menu item and choose between a custom
 or automatic column width. Automatic width adjusts the width of all columns once to display the
 longest item in the column completely, except for the <guilabel>Name</guilabel> column where 
 the extension is replaced by <quote>...</quote> 
