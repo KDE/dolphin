@@ -17,8 +17,7 @@ KStandardItemListGroupHeader::KStandardItemListGroupHeader(QGraphicsWidget* pare
     m_text(),
     m_pixmap()
 {
-    m_text.setTextFormat(Qt::PlainText);
-    m_text.setPerformanceHint(QStaticText::AggressiveCaching);
+
 }
 
 KStandardItemListGroupHeader::~KStandardItemListGroupHeader()
@@ -37,7 +36,7 @@ void KStandardItemListGroupHeader::paintRole(QPainter* painter, const QRectF& ro
 {
     if (m_pixmap.isNull()) {
         painter->setPen(color);
-        painter->drawStaticText(roleBounds.topLeft(), m_text);
+        painter->drawText(roleBounds, 0, m_text);
     } else {
         painter->drawPixmap(roleBounds.topLeft(), m_pixmap);
     }
@@ -55,7 +54,11 @@ void KStandardItemListGroupHeader::paintSeparator(QPainter* painter, const QColo
     if (scrollOrientation() == Qt::Horizontal) {
         painter->drawLine(0, 0, 0, size().height() - 1);
     } else {
-        painter->drawLine(0, 0, size().width() - 1, 0);
+        if (layoutDirection() == Qt::LeftToRight) {
+            painter->drawLine(0, 0, size().width() - 1, 0);
+        } else {
+            painter->drawLine(1, 0, size().width(), 0);
+        }
     }
 }
 
@@ -75,7 +78,7 @@ void KStandardItemListGroupHeader::dataChanged(const QVariant& current, const QV
 
 void KStandardItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
-    QGraphicsWidget::resizeEvent(event);
+    KItemListGroupHeader::resizeEvent(event);
     m_dirtyCache = true;
 }
 
@@ -87,7 +90,7 @@ void KStandardItemListGroupHeader::updateCache()
     const qreal maxWidth = size().width() - 4 * styleOption().padding;
 
     if (role() == "rating") {
-        m_text.setText(QString());
+        m_text = QString();
 
         const qreal height = styleOption().fontMetrics.ascent();
         const QSizeF pixmapSize(qMin(height * 5, maxWidth), height);
@@ -104,7 +107,7 @@ void KStandardItemListGroupHeader::updateCache()
 
         QFontMetricsF fontMetrics(font());
         const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, maxWidth);
-        m_text.setText(text);
+        m_text = text;
     }
 }
 

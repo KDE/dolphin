@@ -420,6 +420,12 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
     // The following code is based on the code from QHeaderView::paintSection().
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
     QStyleOptionHeader option;
+    option.direction = widget->layoutDirection();
+    option.textAlignment =
+        widget->layoutDirection() == Qt::LeftToRight
+            ? Qt::AlignLeft
+            : Qt::AlignRight;
+
     option.section = orderIndex;
     option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
     if (isEnabled()) {

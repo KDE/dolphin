@@ -94,6 +94,7 @@ protected:
 
 private:
     void updateCache();
+    void updateSize();
 
     static QColor mixedColor(const QColor& c1, const QColor& c2, int c1Percent = 50);
 

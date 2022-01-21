@@ -161,6 +161,7 @@ void KItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
     if (event->oldSize().height() != event->newSize().height()) {
         m_dirtyCache = true;
     }
+    updateSize();
 }
 
 void KItemListGroupHeader::updateCache()
@@ -174,6 +175,13 @@ void KItemListGroupHeader::updateCache()
     m_separatorColor = mixedColor(c1, c2, 10);
     m_roleColor = mixedColor(c1, c2, 60);
 
+    updateSize();
+
+    m_dirtyCache = false;
+}
+
+void KItemListGroupHeader::updateSize()
+{
     const int padding = qMax(1, m_styleOption.padding);
     const int horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
 
@@ -187,7 +195,7 @@ void KItemListGroupHeader::updateCache()
                           size().width() - 2 * padding - horizontalMargin,
                           roleHeight);
 
-    m_dirtyCache = false;
+    update();
 }
 
 QColor KItemListGroupHeader::mixedColor(const QColor& c1, const QColor& c2, int c1Percent)

@@ -35,7 +35,7 @@ private:
 
 private:
     bool m_dirtyCache;
-    QStaticText m_text;
+    QString m_text;
     QPixmap m_pixmap;
 };
 #endif
