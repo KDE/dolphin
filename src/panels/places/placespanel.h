@@ -56,6 +56,7 @@ protected:
     void showEvent(QShowEvent* event) override;
     void dragMoveEvent(QDragMoveEvent *event) override;
     void dragLeaveEvent(QDragLeaveEvent *event) override;
+    void dropEvent(QDropEvent *event) override;
 
 private Q_SLOTS:
     void slotConfigureTrash();

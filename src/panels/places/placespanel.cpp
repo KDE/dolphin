@@ -165,6 +165,16 @@ void PlacesPanel::dragLeaveEvent(QDragLeaveEvent *event)
     }
 }
 
+void PlacesPanel::dropEvent(QDropEvent *event)
+{
+    KFilePlacesView::dropEvent(event);
+
+    if (m_dragActivationTimer) {
+        m_dragActivationTimer->stop();
+        m_pendingDragActivation = QPersistentModelIndex();
+    }
+}
+
 void PlacesPanel::slotConfigureTrash()
 {
     const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
