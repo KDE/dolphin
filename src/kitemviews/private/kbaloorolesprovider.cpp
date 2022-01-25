@@ -13,6 +13,7 @@
 
 #include <QCollator>
 #include <QDebug>
+#include <QSize>
 #include <QTime>
 
 namespace {
@@ -117,6 +118,18 @@ QHash<QByteArray, QVariant> KBalooRolesProvider::roleValues(const Baloo::File& f
         rangeBegin = rangeEnd;
     }
 
+    if (roles.contains("dimensions")) {
+        bool widthOk = false;
+        bool heightOk = false;
+
+        const int width = propMap.value(KFileMetaData::Property::Width).toInt(&widthOk);
+        const int height = propMap.value(KFileMetaData::Property::Height).toInt(&heightOk);
+
+        if (widthOk && heightOk && width >= 0 && height >= 0) {
+            values.insert("dimensions", QSize(width, height));
+        }
+    }
+
     KFileMetaData::UserMetaData::Attributes attributes;
     if (roles.contains("tags")) {
         attributes |= KFileMetaData::UserMetaData::Tags;
@@ -160,6 +173,7 @@ KBalooRolesProvider::KBalooRolesProvider()
     for (const auto& role : propertyRoleMap()) {
         m_roles.insert(role);
     }
+    m_roles.insert("dimensions");
 
     // Display roles provided by UserMetaData
     m_roles.insert(QByteArrayLiteral("tags"));

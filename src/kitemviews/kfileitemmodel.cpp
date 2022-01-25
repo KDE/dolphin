@@ -2089,6 +2089,19 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
     }
 
+   case DimensionsRole: {
+        const QByteArray role = roleForType(m_sortRole);
+        const QSize dimensionsA = a->values.value(role).toSize();
+        const QSize dimensionsB = b->values.value(role).toSize();
+
+        if (dimensionsA.width() == dimensionsB.width()) {
+            result = dimensionsA.height() - dimensionsB.height();
+        } else {
+            result = dimensionsA.width() - dimensionsB.width();
+        }
+        break;
+    }
+
     default: {
         const QByteArray role = roleForType(m_sortRole);
         const QString roleValueA = a->values.value(role).toString();
@@ -2596,6 +2609,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "wordCount",           WordCountRole,           kli18nc("@label", "Word Count"),           kli18nc("@label", "Document"),                     true,            true  },
         { "lineCount",           LineCountRole,           kli18nc("@label", "Line Count"),           kli18nc("@label", "Document"),                     true,            true  },
         { "imageDateTime",       ImageDateTimeRole,       kli18nc("@label", "Date Photographed"),    kli18nc("@label", "Image"),                        true,            true  },
+        { "dimensions",          DimensionsRole,          kli18nc("@label width x height", "Dimensions"), kli18nc("@label", "Image"),                   true,            true  },
         { "width",               WidthRole,               kli18nc("@label", "Width"),                kli18nc("@label", "Image"),                        true,            true  },
         { "height",              HeightRole,              kli18nc("@label", "Height"),               kli18nc("@label", "Image"),                        true,            true  },
         { "orientation",         OrientationRole,         kli18nc("@label", "Orientation"),          kli18nc("@label", "Image"),                        true,            true  },

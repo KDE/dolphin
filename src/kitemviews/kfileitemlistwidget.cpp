@@ -94,6 +94,11 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray& role,
         if (dateTime.isValid()) {
             text = formatDate(dateTime);
         }
+    } else if (role == "dimensions") {
+        const auto dimensions = roleValue.toSize();
+        if (dimensions.isValid()) {
+            text = i18nc("width x height", "%1 x %2", dimensions.width(), dimensions.height());
+        }
     } else {
         text = KStandardItemListWidgetInformant::roleText(role, values);
     }
