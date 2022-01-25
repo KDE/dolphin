@@ -7,12 +7,13 @@
 #ifndef TERMINALPANEL_H
 #define TERMINALPANEL_H
 
-#include "panels/panel.h"
 #include "kiofuse_interface.h"
+#include "panels/panel.h"
 
 #include <QQueue>
 
 class TerminalInterface;
+class KActionCollection;
 class KMessageWidget;
 class QVBoxLayout;
 class QWidget;
@@ -47,6 +48,7 @@ public:
     bool terminalHasFocus() const;
     bool hasProgramRunning() const;
     QString runningProgramName() const;
+    KActionCollection *actionCollection();
 
 public Q_SLOTS:
     void terminalExited();

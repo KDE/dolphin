@@ -6,6 +6,7 @@
 
 #include "terminalpanel.h"
 
+#include <KActionCollection>
 #include <KIO/DesktopExecParser>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>
@@ -17,6 +18,8 @@
 #include <KPluginFactory>
 #include <KProtocolInfo>
 #include <KShell>
+#include <KXMLGUIBuilder>
+#include <KXMLGUIFactory>
 #include <kde_terminal_interface.h>
 
 #include <QAction>
@@ -100,6 +103,21 @@ QString TerminalPanel::runningProgramName() const
     return m_terminal ? m_terminal->foregroundProcessName() : QString();
 }
 
+KActionCollection *TerminalPanel::actionCollection()
+{
+    // m_terminal is the only reference reset to nullptr in case the terminal is
+    // closed again
+    if (m_terminal && m_konsolePart && m_terminalWidget) {
+        const auto guiClients = m_konsolePart->childClients();
+        for (auto *client : guiClients) {
+            if (client->actionCollection()->associatedWidgets().contains(m_terminalWidget)) {
+                return client->actionCollection();
+            }
+        }
+    }
+    return nullptr;
+}
+
 bool TerminalPanel::hasProgramRunning() const
 {
     return m_terminal && (m_terminal->foregroundProcessId() != -1);
@@ -139,6 +157,23 @@ void TerminalPanel::showEvent(QShowEvent* event)
                 m_layout->removeWidget(m_konsolePartMissingMessage);
             }
             m_terminal = qobject_cast<TerminalInterface*>(m_konsolePart);
+
+            // needed to collect the correct KonsolePart actionCollection
+            // namely the one of the single inner terminal and not the outer KonsolePart
+            if (!m_konsolePart->factory() && m_terminalWidget) {
+                if (!m_konsolePart->clientBuilder()) {
+                    m_konsolePart->setClientBuilder(new KXMLGUIBuilder(m_terminalWidget));
+                }
+
+                auto factory = new KXMLGUIFactory(m_konsolePart->clientBuilder(), this);
+                factory->addClient(m_konsolePart);
+
+                // Prevents the KXMLGui warning about removing the client
+                connect(m_terminalWidget, &QObject::destroyed, this, [factory, this] {
+                    factory->removeClient(m_konsolePart);
+                });
+            }
+
         } else if (!m_konsolePartMissingMessage) {
             const auto konsoleInstallUrl = QUrl("appstream://org.kde.konsole.desktop");
             const auto konsoleNotInstalledText = i18n("Terminal cannot be shown because Konsole is not installed. "

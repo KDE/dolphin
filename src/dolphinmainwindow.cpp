@@ -53,6 +53,7 @@
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KShell>
+#include <KShortcutsDialog>
 #include <KStandardAction>
 #include <KStartupInfo>
 #include <KSycoca>
@@ -170,7 +171,7 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setupDockWidgets();
 
-    setupGUI(Keys | Save | Create | ToolBar);
+    setupGUI(Save | Create | ToolBar);
     stateChanged(QStringLiteral("new_file"));
 
     QClipboard* clipboard = QApplication::clipboard();
@@ -1372,6 +1373,19 @@ void DolphinMainWindow::slotStorageTearDownExternallyRequested(const QString& mo
     }
 }
 
+void DolphinMainWindow::slotKeyBindings()
+{
+    KShortcutsDialog dialog(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
+    dialog.addCollection(actionCollection());
+    if (m_terminalPanel) {
+        KActionCollection *konsolePartActionCollection = m_terminalPanel->actionCollection();
+        if (konsolePartActionCollection) {
+            dialog.addCollection(konsolePartActionCollection, QStringLiteral("KonsolePart"));
+        }
+    }
+    dialog.configure();
+}
+
 void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
 {
     const QVector<DolphinViewContainer*> theViewContainers = viewContainers();
@@ -1709,6 +1723,7 @@ void DolphinMainWindow::setupActions()
             "contain mostly the same commands and configuration options."));
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
+    KStandardAction::keyBindings(this, &DolphinMainWindow::slotKeyBindings, actionCollection());
     KStandardAction::preferences(this, &DolphinMainWindow::editSettings, actionCollection());
 
     // setup 'Help' menu for the m_controlButton. The other one is set up in the base class.

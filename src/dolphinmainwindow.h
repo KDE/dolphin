@@ -576,6 +576,12 @@ private Q_SLOTS:
       * to go to.
       */
     void slotGoForward(QAction* action);
+
+    /**
+     * Is called when configuring the keyboard shortcuts
+     */
+    void slotKeyBindings();
+
 private:
     /**
      * Sets up the various menus and actions and connects them.
