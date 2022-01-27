@@ -2166,7 +2166,13 @@ void DolphinView::updatePlaceholderLabel()
     } else if (m_url.scheme() == QLatin1String("trash") && m_url.path() == QLatin1String("/")) {
         m_placeholderLabel->setText(i18n("Trash is empty"));
     } else if (m_url.scheme() == QLatin1String("tags")) {
-        m_placeholderLabel->setText(i18n("No tags"));
+        if (m_url.path() == QLatin1Char('/')) {
+            m_placeholderLabel->setText(i18n("No tags"));
+        } else {
+            const QString tagName = m_url.path().mid(1); // Remove leading /
+            m_placeholderLabel->setText(i18n("No files tagged with \"%1\"", tagName));
+        }
+
     } else if (m_url.scheme() == QLatin1String("recentlyused")) {
         m_placeholderLabel->setText(i18n("No recently used items"));
     } else if (m_url.scheme() == QLatin1String("smb")) {
