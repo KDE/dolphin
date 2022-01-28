@@ -20,9 +20,37 @@ DolphinPlacesModel::DolphinPlacesModel(const QString &alternativeApplicationName
 
 DolphinPlacesModel::~DolphinPlacesModel() = default;
 
+bool DolphinPlacesModel::panelsLocked() const
+{
+    return m_panelsLocked;
+}
+
+void DolphinPlacesModel::setPanelsLocked(bool locked)
+{
+    if (m_panelsLocked == locked) {
+        return;
+    }
+
+    m_panelsLocked = locked;
+
+    if (rowCount() > 0) {
+        int lastPlace = rowCount() - 1;
+
+        for (int i = 0; i < rowCount(); ++i) {
+            if (KFilePlacesModel::groupType(index(i, 0)) != KFilePlacesModel::PlacesType) {
+                lastPlace = i - 1;
+                break;
+            }
+        }
+
+        Q_EMIT dataChanged(index(0, 0), index(lastPlace, 0), {KFilePlacesModel::GroupRole});
+    }
+}
+
 QVariant DolphinPlacesModel::data(const QModelIndex &index, int role) const
 {
-    if (role == Qt::DecorationRole) {
+    switch (role) {
+    case Qt::DecorationRole:
         if (isTrash(index)) {
             if (m_isEmpty) {
                 return QIcon::fromTheme(QStringLiteral("user-trash"));
@@ -30,6 +58,18 @@ QVariant DolphinPlacesModel::data(const QModelIndex &index, int role) const
                 return QIcon::fromTheme(QStringLiteral("user-trash-full"));
             }
         }
+        break;
+    case KFilePlacesModel::GroupRole: {
+        // When panels are unlocked, avoid a double "Places" heading,
+        // one from the panel title bar, one from the places view section.
+        if (!m_panelsLocked) {
+            const auto groupType = KFilePlacesModel::groupType(index);
+            if (groupType == KFilePlacesModel::PlacesType) {
+                return QString();
+            }
+        }
+        break;
+    }
     }
 
     return KFilePlacesModel::data(index, role);

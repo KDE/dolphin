@@ -26,6 +26,9 @@ public:
     explicit DolphinPlacesModel(const QString &alternativeApplicationName, QObject *parent = nullptr);
     ~DolphinPlacesModel() override;
 
+    bool panelsLocked() const;
+    void setPanelsLocked(bool locked);
+
 protected:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
@@ -36,6 +39,7 @@ private:
     bool isTrash(const QModelIndex &index) const;
 
     bool m_isEmpty = false;
+    bool m_panelsLocked = true; // common-case, panels are locked
 };
 
 /**

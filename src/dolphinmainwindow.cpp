@@ -912,6 +912,8 @@ void DolphinMainWindow::togglePanelLockState()
         }
     }
 
+    DolphinPlacesModelSingleton::instance().placesModel()->setPanelsLocked(newLockState);
+
     GeneralSettings::setLockPanels(newLockState);
 }
 
@@ -1813,6 +1815,8 @@ void DolphinMainWindow::setupActions()
 void DolphinMainWindow::setupDockWidgets()
 {
     const bool lock = GeneralSettings::lockPanels();
+
+    DolphinPlacesModelSingleton::instance().placesModel()->setPanelsLocked(lock);
 
     KDualAction* lockLayoutAction = actionCollection()->add<KDualAction>(QStringLiteral("lock_panels"));
     lockLayoutAction->setActiveText(i18nc("@action:inmenu Panels", "Unlock Panels"));
