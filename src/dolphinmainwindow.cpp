@@ -1177,6 +1177,16 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     }
 }
 
+QMenu *DolphinMainWindow::createPopupMenu()
+{
+    QMenu *menu = KXmlGuiWindow::createPopupMenu();
+
+    menu->addSeparator();
+    menu->addAction(actionCollection()->action(QStringLiteral("lock_panels")));
+
+    return menu;
+}
+
 void DolphinMainWindow::updateHamburgerMenu()
 {
     KActionCollection* ac = actionCollection();

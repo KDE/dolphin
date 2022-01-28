@@ -96,6 +96,12 @@ public:
     KNewFileMenu* newFileMenu() const;
 
     /**
+     * Augments Qt's build-in QMainWindow context menu to add
+     * Dolphin-specific actions, such as "unlock panels".
+     */
+    QMenu *createPopupMenu() override;
+
+    /**
      * Switch the window's view containers' locations to display the home path
      * for any which are currently displaying a location corresponding to or
      * within mountPath.
