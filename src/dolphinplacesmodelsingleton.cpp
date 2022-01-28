@@ -70,7 +70,7 @@ DolphinPlacesModelSingleton &DolphinPlacesModelSingleton::instance()
     return s_self;
 }
 
-KFilePlacesModel *DolphinPlacesModelSingleton::placesModel() const
+DolphinPlacesModel *DolphinPlacesModelSingleton::placesModel() const
 {
     return m_placesModel.data();
 }

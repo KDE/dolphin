@@ -47,7 +47,7 @@ class DolphinPlacesModelSingleton
 public:
     static DolphinPlacesModelSingleton& instance();
 
-    KFilePlacesModel *placesModel() const;
+    DolphinPlacesModel *placesModel() const;
     /** A suffix to the application-name of the stored bookmarks is
      added, which is only read by PlacesItemModel. */
     static QString applicationNameSuffix();
@@ -58,7 +58,7 @@ public:
 private:
     DolphinPlacesModelSingleton();
 
-    QScopedPointer<KFilePlacesModel> m_placesModel;
+    QScopedPointer<DolphinPlacesModel> m_placesModel;
 };
 
 #endif // DOLPHINPLACESMODELSINGLETON_H
