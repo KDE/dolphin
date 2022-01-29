@@ -230,7 +230,7 @@ void KStandardItemListWidgetInformant::calculateDetailsLayoutItemSizeHints(QVect
 {
     const KItemListStyleOption& option = view->styleOption();
     const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
-    logicalHeightHints.fill(height);
+    logicalHeightHints.fill(std::make_pair(height, false));
     logicalWidthHint = -1.0;
 }
 
