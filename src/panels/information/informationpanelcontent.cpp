@@ -385,22 +385,25 @@ void InformationPanelContent::showPreview(const KFileItem& item,
     KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
 
     if (m_isVideo) {
-        // adds a play arrow
+        // adds a play arrow overlay
+
+        auto maxDim = qMax(p.width(), p.height());
+        auto arrowSize = qMax(PLAY_ARROW_SIZE, maxDim / 8);
 
         // compute relative pixel positions
-        const int zeroX = static_cast<int>((p.width() / 2 - PLAY_ARROW_SIZE / 2) / pixmap.devicePixelRatio());
-        const int zeroY = static_cast<int>((p.height() / 2 - PLAY_ARROW_SIZE / 2) / pixmap.devicePixelRatio());
+        const int zeroX = static_cast<int>((p.width() / 2 - arrowSize / 2) / pixmap.devicePixelRatio());
+        const int zeroY = static_cast<int>((p.height() / 2 - arrowSize / 2) / pixmap.devicePixelRatio());
 
         QPolygon arrow;
         arrow << QPoint(zeroX, zeroY);
-        arrow << QPoint(zeroX, zeroY + PLAY_ARROW_SIZE);
-        arrow << QPoint(zeroX + PLAY_ARROW_SIZE, zeroY + PLAY_ARROW_SIZE / 2);
+        arrow << QPoint(zeroX, zeroY + arrowSize);
+        arrow << QPoint(zeroX + arrowSize, zeroY + arrowSize / 2);
 
         QPainterPath path;
         path.addPolygon(arrow);
 
-        QLinearGradient gradient(QPointF(zeroX, zeroY),
-                                 QPointF(zeroX + PLAY_ARROW_SIZE,zeroY + PLAY_ARROW_SIZE));
+        QLinearGradient gradient(QPointF(zeroX, zeroY + arrowSize / 2),
+                                 QPointF(zeroX + arrowSize, zeroY + arrowSize / 2));
 
         QColor whiteColor = Qt::white;
         QColor blackColor = Qt::black;
