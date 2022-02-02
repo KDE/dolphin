@@ -122,6 +122,8 @@ void PlacesPanel::showEvent(QShowEvent* event)
 
         connect(placesModel, &KFilePlacesModel::errorMessage, this, &PlacesPanel::errorMessage);
 
+        connect(placesModel, &KFilePlacesModel::setupDone, this, &PlacesPanel::slotSetupDone);
+
         connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
         connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
 
@@ -192,6 +194,10 @@ void PlacesPanel::slotDragActivationTimeout()
     }
 
     auto *placesModel = static_cast<KFilePlacesModel *>(model());
+    if (placesModel->setupNeeded(m_pendingDragActivation)) {
+        placesModel->requestSetup(m_pendingDragActivation);
+        return;
+    }
     Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(placesModel->url(m_pendingDragActivation)));
 }
 
@@ -223,6 +229,18 @@ void PlacesPanel::slotContextMenuAboutToShow(const QModelIndex &index, QMenu *me
                 removeAction(action);
             }
         }
+    }
+}
+
+void PlacesPanel::slotSetupDone(const QModelIndex &index, bool success)
+{
+    if (!success) {
+        return;
+    }
+
+    if (m_pendingDragActivation.isValid() && index == m_pendingDragActivation) {
+        auto *placesModel = static_cast<KFilePlacesModel *>(model());
+        Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(placesModel->url(m_pendingDragActivation)));
     }
 }
 

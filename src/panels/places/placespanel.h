@@ -63,6 +63,7 @@ private Q_SLOTS:
     void slotDragActivationTimeout();
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
     void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
+    void slotSetupDone(const QModelIndex &index, bool success);
     void slotTearDownRequested(const QModelIndex &index);
     void slotTearDownRequestedExternally(const QString &udi);
     void slotTearDownDone(Solid::ErrorType error, const QVariant& errorData);
