@@ -187,7 +187,7 @@ void InformationPanelContent::refreshPixmapView()
                                        QSize(m_preview->width(), m_preview->height()),
                                        &plugins);
     m_previewJob->setScaleType(KIO::PreviewJob::Unscaled);
-    m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile());
+    m_previewJob->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (m_previewJob->uiDelegate()) {
         KJobWidgets::setWindow(m_previewJob, this);
     }

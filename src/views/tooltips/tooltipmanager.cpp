@@ -139,7 +139,7 @@ void ToolTipManager::startContentRetrieval()
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item,
                                                QSize(256, 256),
                                                &plugins);
-    job->setIgnoreMaximumSize(m_item.isLocalFile());
+    job->setIgnoreMaximumSize(m_item.isLocalFile() && !m_item.isSlow());
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }

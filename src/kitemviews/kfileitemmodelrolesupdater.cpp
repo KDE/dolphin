@@ -1026,7 +1026,7 @@ void KFileItemModelRolesUpdater::startPreviewJob()
 
     KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
 
-    job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && m_localFileSizePreviewLimit <= 0);
+    job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && !itemSubSet.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
@@ -1135,7 +1135,7 @@ void KFileItemModelRolesUpdater::loadNextHoverSequencePreview()
     KIO::PreviewJob* job = new KIO::PreviewJob({m_hoverSequenceItem}, cacheSize, &m_enabledPlugins);
 
     job->setSequenceIndex(loadSeqIdx);
-    job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && m_localFileSizePreviewLimit <= 0);
+    job->setIgnoreMaximumSize(m_hoverSequenceItem.isLocalFile() && !m_hoverSequenceItem.isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
