@@ -95,17 +95,9 @@ void PlacesPanel::proceedWithTearDown()
 void PlacesPanel::readSettings()
 {
     if (GeneralSettings::autoExpandFolders()) {
-        if (!m_dragActivationTimer) {
-            m_dragActivationTimer = new QTimer(this);
-            m_dragActivationTimer->setInterval(750);
-            m_dragActivationTimer->setSingleShot(true);
-            connect(m_dragActivationTimer, &QTimer::timeout,
-                    this, &PlacesPanel::slotDragActivationTimeout);
-        }
+        setDragAutoActivationDelay(750);
     } else {
-        delete m_dragActivationTimer;
-        m_dragActivationTimer = nullptr;
-        m_pendingDragActivation = QPersistentModelIndex();
+        setDragAutoActivationDelay(0);
     }
 
     const int iconSize = qMax(0, PlacesPanelSettings::iconSize());
@@ -135,46 +127,6 @@ void PlacesPanel::showEvent(QShowEvent* event)
     KFilePlacesView::showEvent(event);
 }
 
-void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
-{
-    KFilePlacesView::dragMoveEvent(event);
-
-    if (!m_dragActivationTimer) {
-        return;
-    }
-
-    const QModelIndex index = indexAt(event->pos());
-    if (!index.isValid()) {
-        return;
-    }
-
-    QPersistentModelIndex persistentIndex(index);
-    if (!m_pendingDragActivation.isValid() || m_pendingDragActivation != persistentIndex) {
-        m_pendingDragActivation = persistentIndex;
-        m_dragActivationTimer->start();
-    }
-}
-
-void PlacesPanel::dragLeaveEvent(QDragLeaveEvent *event)
-{
-    KFilePlacesView::dragLeaveEvent(event);
-
-    if (m_dragActivationTimer) {
-        m_dragActivationTimer->stop();
-        m_pendingDragActivation = QPersistentModelIndex();
-    }
-}
-
-void PlacesPanel::dropEvent(QDropEvent *event)
-{
-    KFilePlacesView::dropEvent(event);
-
-    if (m_dragActivationTimer) {
-        m_dragActivationTimer->stop();
-        m_pendingDragActivation = QPersistentModelIndex();
-    }
-}
-
 void PlacesPanel::slotConfigureTrash()
 {
     const QUrl url = currentIndex().data(KFilePlacesModel::UrlRole).toUrl();
@@ -183,16 +135,6 @@ void PlacesPanel::slotConfigureTrash()
     settingsDialog->setCurrentPage(settingsDialog->trashSettings);
     settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
     settingsDialog->show();
-}
-
-void PlacesPanel::slotDragActivationTimeout()
-{
-    if (!m_pendingDragActivation.isValid()) {
-        return;
-    }
-
-    auto *placesModel = static_cast<KFilePlacesModel *>(model());
-    Q_EMIT placeActivated(KFilePlacesModel::convertedUrl(placesModel->url(m_pendingDragActivation)));
 }
 
 void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent)

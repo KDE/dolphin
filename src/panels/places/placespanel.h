@@ -54,13 +54,9 @@ Q_SIGNALS:
 
 protected:
     void showEvent(QShowEvent* event) override;
-    void dragMoveEvent(QDragMoveEvent *event) override;
-    void dragLeaveEvent(QDragLeaveEvent *event) override;
-    void dropEvent(QDropEvent *event) override;
 
 private Q_SLOTS:
     void slotConfigureTrash();
-    void slotDragActivationTimeout();
     void slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* parent);
     void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
     void slotTearDownRequested(const QModelIndex &index);
@@ -74,9 +70,6 @@ private:
 
     QUrl m_url; // only used for initial setUrl
     QList<QAction*> m_customContextMenuActions;
-
-    QTimer *m_dragActivationTimer = nullptr;
-    QPersistentModelIndex m_pendingDragActivation;
 
     Solid::StorageAccess *m_deviceToTearDown = nullptr;
 
