@@ -649,7 +649,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
         return;
     }
 
-    KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl());
+    KIO::OpenUrlJob *job = new KIO::OpenUrlJob(item.targetUrl(), item.mimetype());
     job->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
     job->setShowOpenOrExecuteDialog(true);
     job->start();
