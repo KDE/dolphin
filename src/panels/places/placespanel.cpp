@@ -23,9 +23,11 @@
 #include <KIO/Job>
 #include <KListOpenFilesJob>
 #include <KLocalizedString>
+#include <KProtocolManager>
 
 #include <QIcon>
 #include <QMenu>
+#include <QMimeData>
 #include <QShowEvent>
 #include <QTimer>
 
@@ -125,6 +127,36 @@ void PlacesPanel::showEvent(QShowEvent* event)
     }
 
     KFilePlacesView::showEvent(event);
+}
+
+static bool isInternalDrag(const QMimeData *mimeData)
+{
+    const auto formats = mimeData->formats();
+    for (const auto &format : formats) {
+        // from KFilePlacesModel::_k_internalMimetype
+        if (format.startsWith(QLatin1String("application/x-kfileplacesmodel-"))) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void PlacesPanel::dragMoveEvent(QDragMoveEvent *event)
+{
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        auto *placesModel = static_cast<KFilePlacesModel *>(model());
+
+        // Reject drag ontop of a non-writable protocol
+        // We don't know whether we're dropping inbetween or ontop of a place
+        // so still allow internal drag events so that re-arranging still works.
+        const QUrl url = placesModel->url(index);
+        if (url.isValid() && !isInternalDrag(event->mimeData()) && !KProtocolManager::supportsWriting(url)) {
+            event->setDropAction(Qt::IgnoreAction);
+        }
+    }
+
+    KFilePlacesView::dragMoveEvent(event);
 }
 
 void PlacesPanel::slotConfigureTrash()

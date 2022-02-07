@@ -54,6 +54,7 @@ Q_SIGNALS:
 
 protected:
     void showEvent(QShowEvent* event) override;
+    void dragMoveEvent(QDragMoveEvent *event) override;
 
 private Q_SLOTS:
     void slotConfigureTrash();
