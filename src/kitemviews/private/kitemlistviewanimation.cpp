@@ -146,7 +146,15 @@ void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, 
         break;
     }
 
+    case IconResizeAnimation: {
+        propertyAnim = new QPropertyAnimation(widget, QByteArrayLiteral("iconSize"));
+        propertyAnim->setDuration(animationDuration);
+        propertyAnim->setEndValue(endValue);
+        break;
+    }
+
     default:
+        Q_UNREACHABLE();
         break;
     }
 

@@ -53,6 +53,8 @@ class DOLPHIN_EXPORT KItemListWidget : public QGraphicsWidget
 {
     Q_OBJECT
 
+    Q_PROPERTY(int iconSize READ iconSize WRITE setIconSize)
+
 public:
     KItemListWidget(KItemListWidgetInformant* informant, QGraphicsItem* parent);
     ~KItemListWidget() override;
@@ -129,6 +131,13 @@ public:
     QByteArray editedRole() const;
 
     /**
+     * Contains the actual icon size used to draw the icon.
+     * Also used during icon resizing animation.
+     */
+    void setIconSize(int iconSize);
+    int iconSize() const;
+
+    /**
      * @return True if \a point is inside KItemListWidget::hoverRect(),
      *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
@@ -196,6 +205,7 @@ protected:
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void iconSizeChanged(int current, int previous);
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;
     void clearHoverCache();
 
@@ -263,6 +273,7 @@ private:
     KItemListSelectionToggle* m_selectionToggle;
 
     QByteArray m_editedRole;
+    int m_iconSize;
 };
 
 inline const KItemListWidgetInformant* KItemListWidget::informant() const

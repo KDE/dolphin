@@ -32,7 +32,9 @@ public:
         MovingAnimation,
         CreateAnimation,
         DeleteAnimation,
-        ResizeAnimation
+        ResizeAnimation,
+        IconResizeAnimation,
+        AnimationTypeCount
     };
 
     explicit KItemListViewAnimation(QObject* parent = nullptr);
@@ -79,8 +81,6 @@ private Q_SLOTS:
     void slotFinished();
 
 private:
-    enum { AnimationTypeCount = 4 };
-
     Qt::Orientation m_scrollOrientation;
     qreal m_scrollOffset;
     QHash<QGraphicsWidget*, QPropertyAnimation*> m_animation[AnimationTypeCount];

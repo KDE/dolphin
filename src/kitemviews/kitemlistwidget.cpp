@@ -47,7 +47,8 @@ KItemListWidget::KItemListWidget(KItemListWidgetInformant* informant, QGraphicsI
     m_hoverAnimation(nullptr),
     m_hoverSequenceIndex(0),
     m_selectionToggle(nullptr),
-    m_editedRole()
+    m_editedRole(),
+    m_iconSize(-1)
 {
     connect(&m_hoverSequenceTimer, &QTimer::timeout, this, &KItemListWidget::slotHoverSequenceTimerTimeout);
 }
@@ -368,6 +369,20 @@ QByteArray KItemListWidget::editedRole() const
     return m_editedRole;
 }
 
+void KItemListWidget::setIconSize(int iconSize)
+{
+    if (m_iconSize != iconSize) {
+        const int previousIconSize = m_iconSize;
+        m_iconSize = iconSize;
+        iconSizeChanged(iconSize, previousIconSize);
+    }
+}
+
+int KItemListWidget::iconSize() const
+{
+    return m_iconSize;
+}
+
 bool KItemListWidget::contains(const QPointF& point) const
 {
     if (!QGraphicsWidget::contains(point)) {
@@ -451,8 +466,12 @@ void KItemListWidget::leadingPaddingChanged(qreal width)
 void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
                                          const KItemListStyleOption& previous)
 {
-    Q_UNUSED(current)
     Q_UNUSED(previous)
+
+    // set the initial value of m_iconSize if not set
+    if (m_iconSize == -1) {
+        m_iconSize = current.iconSize;
+    }
 }
 
 void KItemListWidget::currentChanged(bool current)
@@ -482,6 +501,12 @@ void KItemListWidget::siblingsInformationChanged(const QBitArray& current, const
 }
 
 void KItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(current)
+    Q_UNUSED(previous)
+}
+
+void KItemListWidget::iconSizeChanged(int current, int previous)
 {
     Q_UNUSED(current)
     Q_UNUSED(previous)

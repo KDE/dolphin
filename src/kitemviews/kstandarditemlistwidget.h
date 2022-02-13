@@ -177,6 +177,7 @@ protected:
     void selectedChanged(bool selected) override;
     void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous) override;
     void editedRoleChanged(const QByteArray& current, const QByteArray& previous) override;
+    void iconSizeChanged(int current, int previous) override;
     void resizeEvent(QGraphicsSceneResizeEvent* event) override;
     void showEvent(QShowEvent* event) override;
     void hideEvent(QHideEvent* event) override;

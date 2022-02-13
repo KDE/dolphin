@@ -1462,8 +1462,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
     KItemListWidget* itemListWidget = qobject_cast<KItemListWidget*>(widget);
     Q_ASSERT(itemListWidget);
 
-    switch (type) {
-    case KItemListViewAnimation::DeleteAnimation: {
+    if (type == KItemListViewAnimation::DeleteAnimation) {
         // As we recycle the widget in this case it is important to assure that no
         // other animation has been started. This is a convention in KItemListView and
         // not a requirement defined by KItemListViewAnimation.
@@ -1474,22 +1473,13 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
         // been finished.
         recycleGroupHeaderForWidget(itemListWidget);
         widgetCreator()->recycle(itemListWidget);
-        break;
-    }
-
-    case KItemListViewAnimation::CreateAnimation:
-    case KItemListViewAnimation::MovingAnimation:
-    case KItemListViewAnimation::ResizeAnimation: {
+    } else {
         const int index = itemListWidget->index();
         const bool invisible = (index < m_layouter->firstVisibleIndex()) ||
                                (index > m_layouter->lastVisibleIndex());
         if (invisible && !m_animation->isStarted(itemListWidget)) {
             recycleWidget(itemListWidget);
         }
-        break;
-    }
-
-    default: break;
     }
 }
 
@@ -1901,6 +1891,15 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 m_animation->start(widget, KItemListViewAnimation::ResizeAnimation, itemBounds.size());
             } else {
                 widget->resize(itemBounds.size());
+            }
+        }
+
+        const int newIconSize = widget->styleOption().iconSize;
+        if (widget->iconSize() != newIconSize) {
+            if (animate) {
+                m_animation->start(widget, KItemListViewAnimation::IconResizeAnimation, newIconSize);
+            } else {
+                widget->setIconSize(newIconSize);
             }
         }
 
