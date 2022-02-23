@@ -15,7 +15,7 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-class DolphinSearchBoxTest : public QObject
+class DolphinQueryTest : public QObject
 {
     Q_OBJECT
 
@@ -47,7 +47,7 @@ QUrl balooQueryUrl(const QString& searchString)
     return searchUrl;
 }
 
-void DolphinSearchBoxTest::initTestCase()
+void DolphinQueryTest::initTestCase()
 {
     QStandardPaths::setTestModeEnabled(true);
 }
@@ -55,7 +55,7 @@ void DolphinSearchBoxTest::initTestCase()
 /**
  * Defines the parameters for the test cases in testBalooSearchParsing()
  */
-void DolphinSearchBoxTest::testBalooSearchParsing_data()
+void DolphinQueryTest::testBalooSearchParsing_data()
 {
 
     QTest::addColumn<QUrl>("searchUrl");
@@ -160,7 +160,7 @@ void DolphinSearchBoxTest::testBalooSearchParsing_data()
  * properly handled by the searchbox, and only "user" or filename terms are added to the
  * text bar of the searchbox.
  */
-void DolphinSearchBoxTest::testBalooSearchParsing()
+void DolphinQueryTest::testBalooSearchParsing()
 {
     QFETCH(QUrl, searchUrl);
     QFETCH(QString, expectedText);
@@ -190,6 +190,6 @@ void DolphinSearchBoxTest::testBalooSearchParsing()
     QCOMPARE(query.hasFileName(), hasFileName);
 }
 
-QTEST_MAIN(DolphinSearchBoxTest)
+QTEST_MAIN(DolphinQueryTest)
 
 #include "dolphinquerytest.moc"
