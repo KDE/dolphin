@@ -1319,7 +1319,11 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
         textInfo->staticText.setTextWidth(maxWidth);
 
         const QRectF textRect(padding + (maxWidth - requiredWidth) / 2, y, requiredWidth, lineSpacing);
-        m_textRect |= textRect;
+
+        // Ignore empty roles. Avoids a text rect taller than the area that actually contains text.
+        if (!textRect.isEmpty()) {
+            m_textRect |= textRect;
+        }
 
         y += lineSpacing;
     }
