@@ -403,7 +403,7 @@ void KStandardItemListWidget::paint(QPainter* painter, const QStyleOptionGraphic
         QPointF pos = ratingTextInfo->pos;
         const Qt::Alignment align = ratingTextInfo->staticText.textOption().alignment();
         if (align & Qt::AlignHCenter) {
-            pos.rx() += (size().width() - m_rating.width()) / 2 - 2;
+            pos.rx() += (size().width() - m_rating.width() / m_rating.devicePixelRatioF()) / 2 - 2;
         }
         painter->drawPixmap(pos, m_rating);
     }
@@ -1277,7 +1277,7 @@ void KStandardItemListWidget::updateIconsLayoutTextCache()
                 requiredWidth = m_customizedFontMetrics.horizontalAdvance(elidedText);
             } else if (role == "rating") {
                 // Use the width of the rating pixmap, because the rating text is empty.
-                requiredWidth = m_rating.width();
+                requiredWidth = m_rating.width() / m_rating.devicePixelRatioF();
             }
         }
         layout.endLayout();
