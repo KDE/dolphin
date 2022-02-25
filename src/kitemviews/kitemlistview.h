@@ -418,7 +418,6 @@ protected Q_SLOTS:
 private Q_SLOTS:
     void slotAnimationFinished(QGraphicsWidget* widget,
                                KItemListViewAnimation::AnimationType type);
-    void slotLayoutTimerFinished();
 
     void slotRubberBandPosChanged();
     void slotRubberBandActivationChanged(bool active);
@@ -747,7 +746,6 @@ private:
     KItemListViewLayouter* m_layouter;
     KItemListViewAnimation* m_animation;
 
-    QTimer* m_layoutTimer; // Triggers an asynchronous doLayout() call.
     qreal m_oldScrollOffset;
     qreal m_oldMaximumScrollOffset;
     qreal m_oldItemOffset;

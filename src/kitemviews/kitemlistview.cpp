@@ -80,7 +80,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_sizeHintResolver(nullptr),
     m_layouter(nullptr),
     m_animation(nullptr),
-    m_layoutTimer(nullptr),
     m_oldScrollOffset(0),
     m_oldMaximumScrollOffset(0),
     m_oldItemOffset(0),
@@ -106,11 +105,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_animation = new KItemListViewAnimation(this);
     connect(m_animation, &KItemListViewAnimation::finished,
             this, &KItemListView::slotAnimationFinished);
-
-    m_layoutTimer = new QTimer(this);
-    m_layoutTimer->setInterval(300);
-    m_layoutTimer->setSingleShot(true);
-    connect(m_layoutTimer, &QTimer::timeout, this, &KItemListView::slotLayoutTimerFinished);
 
     m_rubberBand = new KItemListRubberBand(this);
     connect(m_rubberBand, &KItemListRubberBand::activationChanged, this, &KItemListView::slotRubberBandActivationChanged);
@@ -1335,10 +1329,6 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         if (updateSizeHints) {
             m_sizeHintResolver->itemsChanged(index, count, roles);
             m_layouter->markAsDirty();
-
-            if (!m_layoutTimer->isActive()) {
-                m_layoutTimer->start();
-            }
         }
 
         // Apply the changed roles to the visible item-widgets
@@ -1362,6 +1352,8 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         ev.setLastRow(itemRange.index + itemRange.count);
         QAccessible::updateAccessibility(&ev);
     }
+
+    doLayout(NoAnimation);
 }
 
 void KItemListView::slotGroupsChanged()
@@ -1481,12 +1473,6 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
             recycleWidget(itemListWidget);
         }
     }
-}
-
-void KItemListView::slotLayoutTimerFinished()
-{
-    m_layouter->setSize(geometry().size());
-    doLayout(Animation);
 }
 
 void KItemListView::slotRubberBandPosChanged()
@@ -1746,10 +1732,6 @@ KItemListRubberBand* KItemListView::rubberBand() const
 
 void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int changedCount)
 {
-    if (m_layoutTimer->isActive()) {
-        m_layoutTimer->stop();
-    }
-
     if (m_activeTransactions > 0) {
         if (hint == NoAnimation) {
             // As soon as at least one property change should be done without animation,
