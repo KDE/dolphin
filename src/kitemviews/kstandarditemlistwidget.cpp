@@ -1107,7 +1107,7 @@ void KStandardItemListWidget::updatePixmapCache()
                 0;
 
         m_pixmapPos.setX(layoutDirection() == Qt::LeftToRight
-            ? x - iPadding - width + expansionOffset
+            ? x - iPadding - width
             : size().width() - iPadding - width - expansionOffset);
 
         // Derive icon's vertical center from the center of the text frame, including
