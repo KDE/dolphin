@@ -23,7 +23,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget *parent, cons
     KCModule(parent, args),
     m_tabs()
 {
-    setButtons(KCModule::Default | KCModule::Help);
+    setButtons(KCModule::Default | KCModule::Help | KCModule::Apply);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setContentsMargins(0, 0, 0, 0);
