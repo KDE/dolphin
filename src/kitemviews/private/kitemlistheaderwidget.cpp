@@ -417,12 +417,14 @@ void KItemListHeaderWidget::paintRole(QPainter* painter,
                                       int orderIndex,
                                       QWidget* widget) const
 {
+    const auto direction = widget ? widget->layoutDirection() : qApp->layoutDirection();
+
     // The following code is based on the code from QHeaderView::paintSection().
     // SPDX-FileCopyrightText: 2011 Nokia Corporation and/or its subsidiary(-ies).
     QStyleOptionHeader option;
-    option.direction = widget->layoutDirection();
+    option.direction = direction;
     option.textAlignment =
-        widget->layoutDirection() == Qt::LeftToRight
+        direction == Qt::LeftToRight
             ? Qt::AlignLeft
             : Qt::AlignRight;
 
