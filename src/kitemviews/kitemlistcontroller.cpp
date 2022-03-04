@@ -1521,6 +1521,12 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
                 // and short-circuit for single-click activation (it will then propagate to onRelease and activate the item)
                 // or we just keep going for double-click activation
                 if (m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced) {
+                    if (!pressedItemAlreadySelected) {
+                        // An unselected item was clicked directly while deselecting multiple other items so we select it.
+                        m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                        m_selectionManager->setCurrentItem(m_pressedIndex.value());
+                        m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+                    }
                     return true; // event handled, don't create rubber band
                 }
             } else {
