@@ -25,6 +25,9 @@
 #include <QStyleOption>
 #include <QTimer>
 #include <QToolButton>
+#include <QStylePainter>
+#include <QStyle>
+#include <QStyleOptionFrame>
 
 namespace
 {
