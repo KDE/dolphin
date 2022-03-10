@@ -285,7 +285,7 @@ void VersionControlObserver::initPlugins()
 
         for (const auto &p : plugins) {
             if (enabledPlugins.contains(p.name())) {
-                auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p).plugin;
+                auto plugin = KPluginFactory::instantiatePlugin<KVersionControlPlugin>(p, parent()).plugin;
                 if (plugin) {
                     m_plugins.append(plugin);
                     loadedPlugins += p.name();
