@@ -94,6 +94,7 @@ Q_SIGNALS:
 
 protected:
     void contextMenuEvent(QContextMenuEvent* event) override;
+    void paintEvent(QPaintEvent* event) override;
 
 private Q_SLOTS:
     void showZoomSliderToolTip(int zoomLevel);
