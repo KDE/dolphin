@@ -149,6 +149,8 @@ DolphinStatusBar::~DolphinStatusBar()
 
 void DolphinStatusBar::paintEvent(QPaintEvent* event)
 {
+    Q_UNUSED(event)
+
     QStylePainter painter(this);
 
     QStyleOptionFrame option;
