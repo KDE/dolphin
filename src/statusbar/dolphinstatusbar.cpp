@@ -128,6 +128,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     topLayout->addWidget(m_progressBar);
 
     setProperty("_breeze_borders_sides", QVariant::fromValue(Qt::LeftEdge | Qt::TopEdge | Qt::RightEdge));
+    setContentsMargins(4, 0, 4, 0);
 
     setVisible(GeneralSettings::showStatusBar());
     setExtensionsVisible(true);
