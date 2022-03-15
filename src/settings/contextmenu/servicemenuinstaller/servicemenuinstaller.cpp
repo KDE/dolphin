@@ -50,7 +50,7 @@ Q_NORETURN void fail(const QString &str)
 QString getServiceMenusDir()
 {
     const QString dataLocation = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
-    return QDir(dataLocation).absoluteFilePath("kservices5/ServiceMenus");
+    return QDir(dataLocation).absoluteFilePath("kio/servicemenus");
 }
 
 #ifdef HAVE_PACKAGEKIT
@@ -300,6 +300,8 @@ bool cmdInstall(const QString &archive, QString &errorText)
             errorText = i18n("Failed to copy .desktop file %1 to %2: %3", archive, dest, source.errorString());
             return false;
         }
+        QFile destFile(dest);
+        destFile.setPermissions(destFile.permissions() | QFile::ExeOwner);
     } else {
         if (binaryPackages->contains(QMimeDatabase().mimeTypeForFile(archive).name())) {
             packageKit(PackageOperation::Install, archive);
