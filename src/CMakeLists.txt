@@ -307,7 +307,7 @@ target_link_libraries(dolphinstatic
     KF5::KCMUtils
     KF5::DBusAddons
     KF5::Notifications
-    Phonon::phonon4qt5
+    Phonon::phonon4qt${QT_MAJOR_VERSION}
 )
 
 if (HAVE_KACTIVITIES)

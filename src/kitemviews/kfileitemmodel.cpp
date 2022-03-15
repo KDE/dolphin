@@ -15,7 +15,7 @@
 
 #include <KDirLister>
 #include <KIO/Job>
-#include <KIO/kio_version.h>
+#include <kio_version.h>
 #include <KLocalizedString>
 #include <KLazyLocalizedString>
 #include <KUrlMimeData>

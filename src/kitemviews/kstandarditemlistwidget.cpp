@@ -1211,7 +1211,11 @@ QString KStandardItemListWidget::elideRightKeepExtension(const QString &text, in
             QString ret = m_customizedFontMetrics.elidedText(text.chopped(extensionLength),
                                                              Qt::ElideRight,
                                                              elidingWidth - extensionWidth);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
             ret.append(text.rightRef(extensionLength));
+#else
+            ret.append(QStringView(text).right(extensionLength));
+#endif
             return ret;
         }
     }

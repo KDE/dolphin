@@ -69,7 +69,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WindowSystem
 )
 
-find_package(KUserFeedback 1.0.0)
+find_package(KUserFeedback 1.2.0)
 set_package_properties(KUserFeedback
         PROPERTIES TYPE OPTIONAL
         PURPOSE "Used for submission of telemetry data"
@@ -91,13 +91,13 @@ set_package_properties(KF5Activities PROPERTIES DESCRIPTION "KActivities librari
 
 find_package(Phonon4Qt${QT_MAJOR_VERSION} CONFIG REQUIRED)
 
-find_package(PackageKitQt5)
-set_package_properties(PackageKitQt5
+find_package(PackageKitQt${QT_MAJOR_VERSION})
+set_package_properties(PackageKitQt${QT_MAJOR_VERSION}
         PROPERTIES DESCRIPTION "Software Manager integration"
         TYPE OPTIONAL
         PURPOSE "Used in the service menu installer"
         )
-if(PackageKitQt5_FOUND)
+if(PackageKitQt${QT_MAJOR_VERSION}_FOUND)
     set(HAVE_PACKAGEKIT TRUE)
 endif()
 

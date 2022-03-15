@@ -11,7 +11,7 @@
 #include <QWidget>
 
 #include <KIO/EmptyTrashJob>
-#include <KIOWidgets/KDirLister>
+#include <KDirLister>
 
 class Trash: public QObject
 {
