@@ -653,6 +653,9 @@ private:
      */
     bool addHamburgerMenuToToolbar();
 
+    /** Creates an action representing an item in the URL navigator history */
+    static QAction *urlNavigatorHistoryAction(const KUrlNavigator *urlNavigator, int historyIndex, QObject *parent = nullptr);
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This

@@ -749,13 +749,45 @@ void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
     }
 }
 
+QAction *DolphinMainWindow::urlNavigatorHistoryAction(const KUrlNavigator *urlNavigator, int historyIndex, QObject *parent)
+{
+    const QUrl url = urlNavigator->locationUrl(historyIndex);
+
+    QString text = url.toDisplayString(QUrl::PreferLocalFile);
+
+    if (!urlNavigator->showFullPath()) {
+        const KFilePlacesModel *placesModel = DolphinPlacesModelSingleton::instance().placesModel();
+
+        const QModelIndex closestIdx = placesModel->closestItem(url);
+        if (closestIdx.isValid()) {
+            const QUrl placeUrl = placesModel->url(closestIdx);
+
+            text = placesModel->text(closestIdx);
+
+            QString pathInsidePlace = url.path().mid(placeUrl.path().length());
+
+            if (!pathInsidePlace.isEmpty() && !pathInsidePlace.startsWith(QLatin1Char('/'))) {
+                pathInsidePlace.prepend(QLatin1Char('/'));
+            }
+
+            if (pathInsidePlace != QLatin1Char('/')) {
+                text.append(pathInsidePlace);
+            }
+        }
+    }
+
+    QAction *action = new QAction(QIcon::fromTheme(KIO::iconNameForUrl(url)), text, parent);
+    action->setData(historyIndex);
+    return action;
+}
+
 void DolphinMainWindow::slotAboutToShowBackPopupMenu()
 {
     const KUrlNavigator *urlNavigator = m_activeViewContainer->urlNavigatorInternalWithHistory();
     int entries = 0;
     m_backAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() + 1; i < urlNavigator->historySize() && entries < MaxNumberOfNavigationentries; ++i, ++entries) {
-        QAction* action = new QAction(urlNavigator->locationUrl(i).toDisplayString(QUrl::PreferLocalFile), m_backAction->menu());
+        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, m_backAction->menu());
         action->setData(i);
         m_backAction->menu()->addAction(action);
     }
@@ -784,7 +816,7 @@ void DolphinMainWindow::slotAboutToShowForwardPopupMenu()
     int entries = 0;
     m_forwardAction->menu()->clear();
     for (int i = urlNavigator->historyIndex() - 1; i >= 0 && entries < MaxNumberOfNavigationentries; --i, ++entries) {
-        QAction* action = new QAction(urlNavigator->locationUrl(i).toDisplayString(QUrl::PreferLocalFile), m_forwardAction->menu());
+        QAction *action = urlNavigatorHistoryAction(urlNavigator, i, m_forwardAction->menu());
         action->setData(i);
         m_forwardAction->menu()->addAction(action);
     }
