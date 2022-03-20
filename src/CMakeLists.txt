@@ -338,11 +338,7 @@ endif()
 
 # Sets the icon on Windows and OSX
 file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/icons/*system-file-manager.png")
-ecm_add_app_icon(dolphin_APPICON_SRCS ICONS ${ICONS_SRCS})
-# ecm_add_app_icon 5.83 will take target as arg, use that once it is min req.
-target_sources(dolphin PRIVATE
-    ${dolphin_APPICON_SRCS}
-)
+ecm_add_app_icon(dolphin ICONS ${ICONS_SRCS})
 
 target_link_libraries(dolphin
     PRIVATE
