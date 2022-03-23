@@ -92,8 +92,6 @@ target_sources(dolphinprivate PRIVATE
     kitemviews/private/kitemlistviewanimation.cpp
     kitemviews/private/kitemlistviewlayouter.cpp
     kitemviews/private/kpixmapmodifier.cpp
-    kitemviews/private/ktwofingerswipe.cpp
-    kitemviews/private/ktwofingertap.cpp
     settings/applyviewpropsjob.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp
@@ -159,6 +157,7 @@ target_link_libraries(
     KF5::NewStuff
     KF5::Parts
     KF5::WindowSystem
+    KF5::WidgetsAddons
 )
 
 if(HAVE_BALOO)

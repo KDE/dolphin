@@ -13,9 +13,10 @@
 #include "kitemlistview.h"
 #include "private/kitemlistkeyboardsearchmanager.h"
 #include "private/kitemlistrubberband.h"
-#include "private/ktwofingerswipe.h"
-#include "private/ktwofingertap.h"
 #include "views/draganddrophelper.h"
+
+#include <KTwoFingerSwipe>
+#include <KTwoFingerTap>
 
 #include <QAccessible>
 #include <QApplication>
