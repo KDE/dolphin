@@ -8,6 +8,7 @@
 #include "dolphinviewactionhandler.h"
 
 #include "dolphindebug.h"
+#include "kitemviews/kfileitemlisttostring.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
@@ -763,49 +764,25 @@ void DolphinViewActionHandler::slotCopyPath()
 void DolphinViewActionHandler::slotSelectionChanged(const KFileItemList& selection)
 {
     QString basicActionsMenuText;
-    switch (selection.count()) {
-    case 0:
+    if (selection.isEmpty()) {
         basicActionsMenuText =
             i18nc("@action:inmenu menu with actions like copy, paste, rename. The user's selection is empty when this text is shown.",
                   "Actions for Current View");
-        break;
-    case 1:
-        basicActionsMenuText =
-            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1 is the name of the singular selected file/folder.",
-                  "Actions for \"%1\"", selection.first().name());
-        break;
-    case 2:
-        basicActionsMenuText =
-            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are names of files/folders.",
-                  "Actions for \"%1\" and \"%2\"", selection.first().name(), selection.last().name());
-        break;
-    case 3:
-        basicActionsMenuText =
-            i18nc("@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 are names of files/folders.",
-                  "Actions for \"%1\", \"%2\" and \"%3\"",
-                  selection.first().name(), selection.at(1).name(), selection.last().name());
-        break;
-    default:
-        basicActionsMenuText = QString();
-        break;
+    } else {
+        QFontMetrics fontMetrics = QMenu().fontMetrics();
+        // i18n: @action:inmenu menu with actions like copy, paste, rename.
+        // %1 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        basicActionsMenuText = i18n("Actions for %1", fileItemListToString(selection, fontMetrics.averageCharWidth() * 40, fontMetrics, ItemsState::Selected));
     }
 
-    // At some point the added clarity from the text starts being less important than the menu width.
-    if (basicActionsMenuText.isEmpty() || basicActionsMenuText.length() > 40) {
+    if (basicActionsMenuText == QStringLiteral("NULL")) {
         const KFileItemListProperties properties(selection);
-        if (properties.isFile()) {
-            basicActionsMenuText =
-                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
-                       "Actions for One Selected File", "Actions for %1 Selected Files", selection.count());
-        } else if (properties.isDirectory()) {
-            basicActionsMenuText =
-                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
-                       "Actions for One Selected Folder", "Actions for %1 Selected Folders", selection.count());
-        } else {
-            basicActionsMenuText =
-                i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
-                       "Actions for One Selected Item", "Actions for %1 Selected Items", selection.count());
-        }
+        basicActionsMenuText =
+            i18ncp("@action:inmenu menu with actions like copy, paste, rename. %1 is the amount of selected files/folders.",
+                    "Actions for One Selected Item", "Actions for %1 Selected Items", selection.count());
     }
 
     QAction *basicActionsMenu = m_actionCollection->action(QStringLiteral("basic_actions"));

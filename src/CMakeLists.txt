@@ -61,6 +61,7 @@ add_library(dolphinprivate SHARED)
 target_sources(dolphinprivate PRIVATE
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
+    kitemviews/kfileitemlisttostring.cpp
     kitemviews/kfileitemmodel.cpp
     kitemviews/kfileitemmodelrolesupdater.cpp
     kitemviews/kitemlistcontainer.cpp
