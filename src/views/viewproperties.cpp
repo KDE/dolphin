@@ -37,7 +37,8 @@ ViewProperties::ViewProperties(const QUrl& url) :
 {
     GeneralSettings* settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps() || url.isEmpty();
-    bool useDetailsViewWithPath = false;
+    bool useSearchView = false;
+    bool useTrashView = false;
     bool useRecentDocumentsView = false;
     bool useDownloadsView = false;
 
@@ -48,15 +49,18 @@ ViewProperties::ViewProperties(const QUrl& url) :
         m_filePath = destinationDir(QStringLiteral("global"));
     } else if (url.scheme().contains(QLatin1String("search"))) {
         m_filePath = destinationDir(QStringLiteral("search/")) + directoryHashForUrl(url);
-        useDetailsViewWithPath = true;
+        useSearchView = true;
     } else if (url.scheme() == QLatin1String("trash")) {
         m_filePath = destinationDir(QStringLiteral("trash"));
-        useDetailsViewWithPath = true;
+        useTrashView = true;
     } else if (url.scheme() == QLatin1String("recentdocuments")) {
         m_filePath = destinationDir(QStringLiteral("recentdocuments"));
         useRecentDocumentsView = true;
     } else if (url.scheme() == QLatin1String("recentlyused")) {
         m_filePath = destinationDir(QStringLiteral("recentlyused"));
+        useRecentDocumentsView = true;
+    } else if (url.scheme() == QLatin1String("timeline")) {
+        m_filePath = destinationDir(QStringLiteral("timeline"));
         useRecentDocumentsView = true;
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
@@ -93,23 +97,40 @@ ViewProperties::ViewProperties(const QUrl& url) :
 
     // If the .directory file does not exist or the timestamp is too old,
     // use default values instead.
-    const bool useDefaultProps = (!useGlobalViewProps || useDetailsViewWithPath) &&
+    const bool useDefaultProps = (!useGlobalViewProps || useSearchView || useTrashView || useRecentDocumentsView || useDownloadsView) &&
                                  (!QFile::exists(file) ||
                                   (m_node->timestamp() < settings->viewPropsTimestamp()));
     if (useDefaultProps) {
-        if (useDetailsViewWithPath) {
+        if (useSearchView) {
+            const QString path = url.path();
+
+            if (path == QLatin1String("/images")) {
+                setViewMode(DolphinView::IconsView);
+                setPreviewsShown(true);
+                setVisibleRoles({"text", "dimensions", "imageDateTime"});
+            } else if (path == QLatin1String("/audio")) {
+                setViewMode(DolphinView::DetailsView);
+                setVisibleRoles({"text", "artist", "album", "duration"});
+            } else if (path == QLatin1String("/videos")) {
+                setViewMode(DolphinView::IconsView);
+                setPreviewsShown(true);
+                setVisibleRoles({"text"});
+            } else {
+                setViewMode(DolphinView::DetailsView);
+                setVisibleRoles({"text", "path", "modificationtime"});
+            }
+        } else if (useTrashView) {
             setViewMode(DolphinView::DetailsView);
-            setVisibleRoles({"path"});
+            setVisibleRoles({"text", "path", "deletiontime"});
         } else if (useRecentDocumentsView || useDownloadsView) {
             setSortRole(QByteArrayLiteral("modificationtime"));
             setSortOrder(Qt::DescendingOrder);
+            setSortFoldersFirst(false);
+            setGroupedSorting(true);
 
             if (useRecentDocumentsView) {
                 setViewMode(DolphinView::DetailsView);
-                setVisibleRoles({QByteArrayLiteral("path")});
-            } else if (useDownloadsView) {
-                setSortFoldersFirst(false);
-                setGroupedSorting(true);
+                setVisibleRoles({"text", "path", "modificationtime"});
             }
         } else {
             // The global view-properties act as default for directories without
