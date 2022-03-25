@@ -430,7 +430,7 @@ QString ViewProperties::viewModePrefix() const
 
 void ViewProperties::convertAdditionalInfo()
 {
-    QStringList visibleRoles;
+    QStringList visibleRoles = m_node->visibleRoles();
 
     const QStringList additionalInfo = m_node->additionalInfo();
     if (!additionalInfo.isEmpty()) {
@@ -438,7 +438,7 @@ void ViewProperties::convertAdditionalInfo()
         // to Icons_size, Details_date, ... where the suffix just represents
         // the internal role. One special-case must be handled: "LinkDestination"
         // has been used for "destination".
-        visibleRoles.reserve(additionalInfo.count());
+        visibleRoles.reserve(visibleRoles.count() + additionalInfo.count());
         for (const QString& info : additionalInfo) {
             QString visibleRole = info;
             int index = visibleRole.indexOf('_');
@@ -450,7 +450,9 @@ void ViewProperties::convertAdditionalInfo()
                     visibleRole[index] = visibleRole[index].toLower();
                 }
             }
-            visibleRoles.append(visibleRole);
+            if (!visibleRoles.contains(visibleRole)) {
+                visibleRoles.append(visibleRole);
+            }
         }
     }
 
