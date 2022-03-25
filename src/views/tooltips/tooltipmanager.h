@@ -77,7 +77,7 @@ private:
     QWindow* m_transientParent;
 
     QScopedPointer<KToolTipWidget> m_tooltipWidget;
-    QScopedPointer<DolphinFileMetaDataWidget> m_fileMetaDataWidget;
+    DolphinFileMetaDataWidget *m_fileMetaDataWidget;
 
     bool m_toolTipRequested;
     bool m_metaDataRequested;
