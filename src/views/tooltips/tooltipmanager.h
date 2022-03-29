@@ -77,7 +77,12 @@ private:
     QWindow* m_transientParent;
 
     QScopedPointer<KToolTipWidget> m_tooltipWidget;
-    DolphinFileMetaDataWidget *m_fileMetaDataWidget;
+    DolphinFileMetaDataWidget *m_fileMetaDataWidget = nullptr;
+
+    /// Whether ownership of the metadata widget was transferred
+    /// over to the KToolTipWidget (i.e. we should not delete it
+    /// anymore)
+    bool m_fileMetaDatWidgetOwnershipTransferred = false;
 
     bool m_toolTipRequested;
     bool m_metaDataRequested;

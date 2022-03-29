@@ -38,7 +38,6 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_showToolTipTimer(nullptr),
     m_contentRetrievalTimer(nullptr),
     m_transientParent(nullptr),
-    m_fileMetaDataWidget(nullptr),
     m_toolTipRequested(false),
     m_metaDataRequested(false),
     m_appliedWaitCursor(false),
@@ -61,17 +60,13 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     connect(m_contentRetrievalTimer, &QTimer::timeout, this, &ToolTipManager::startContentRetrieval);
 
     Q_ASSERT(m_contentRetrievalTimer->interval() < m_showToolTipTimer->interval());
-
-    // Only start the retrieving of the content, when the mouse has been over this
-    // item for 200 milliseconds. This prevents a lot of useless preview jobs and
-    // meta data retrieval, when passing rapidly over a lot of items.
-    m_fileMetaDataWidget = new DolphinFileMetaDataWidget(parent);
-    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::metaDataRequestFinished, this, &ToolTipManager::slotMetaDataRequestFinished);
-    connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::urlActivated, this, &ToolTipManager::urlActivated);
 }
 
 ToolTipManager::~ToolTipManager()
 {
+    if (!m_fileMetaDatWidgetOwnershipTransferred) {
+        delete m_fileMetaDataWidget;
+    }
 }
 
 void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, QWindow *transientParent)
@@ -84,6 +79,15 @@ void ToolTipManager::showToolTip(const KFileItem& item, const QRectF& itemRect, 
     m_item = item;
 
     m_transientParent = transientParent;
+
+    // Only start the retrieving of the content, when the mouse has been over this
+    // item for 200 milliseconds. This prevents a lot of useless preview jobs and
+    // meta data retrieval, when passing rapidly over a lot of items.
+    if (!m_fileMetaDataWidget) {
+        m_fileMetaDataWidget = new DolphinFileMetaDataWidget();
+        connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::metaDataRequestFinished, this, &ToolTipManager::slotMetaDataRequestFinished);
+        connect(m_fileMetaDataWidget, &DolphinFileMetaDataWidget::urlActivated, this, &ToolTipManager::urlActivated);
+    }
 
     m_contentRetrievalTimer->start();
     m_showToolTipTimer->start();
@@ -219,6 +223,9 @@ void ToolTipManager::showToolTip()
         m_tooltipWidget.reset(new KToolTipWidget());
     }
     m_tooltipWidget->showBelow(m_itemRect, m_fileMetaDataWidget, m_transientParent);
+    // At this point KToolTipWidget adopted our parent-less metadata widget.
+    m_fileMetaDatWidgetOwnershipTransferred = true;
+
     m_toolTipRequested = false;
 }
 
