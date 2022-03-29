@@ -24,6 +24,7 @@
 #include <QGuiApplication>
 #include <QPixmapCache>
 #include <QStyleOption>
+#include <qnamespace.h>
 
 // #define KSTANDARDITEMLISTWIDGET_DEBUG
 
@@ -1419,7 +1420,11 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
     qreal firstColumnOffset = iconSize();
     if (m_supportsItemExpanding) {
-        firstColumnOffset += (m_expansionArea.width() + widgetHeight) / 2;
+        if (layoutDirection() == Qt::LeftToRight) {
+            firstColumnOffset += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
+        } else {
+            firstColumnOffset += (m_expansionArea.width() + widgetHeight) / 2;
+        }
     } else {
         firstColumnOffset += option.padding + leadingPadding();
     }
@@ -1523,7 +1528,9 @@ void KStandardItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixma
 void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
 {
     const int siblingSize = size().height();
-    const int x = (m_expansionArea.width() - siblingSize) / 2;
+    const int x = layoutDirection() == Qt::LeftToRight ?
+        ((m_expansionArea.left() + m_expansionArea.right() - siblingSize) / 2) :
+        ((m_expansionArea.width() - siblingSize) / 2);
 
     const QHash<QByteArray, QVariant> values = data();
     const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
