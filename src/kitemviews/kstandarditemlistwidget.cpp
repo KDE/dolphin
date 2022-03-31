@@ -538,11 +538,9 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
 
     const QRectF widgetIconRect = iconRect();
     const int widgetIconSize = iconSize();
-    int toggleSize = KIconLoader::SizeSmall;
-    if (widgetIconSize >= KIconLoader::SizeEnormous) {
-        toggleSize = KIconLoader::SizeMedium;
-    } else if (widgetIconSize >= KIconLoader::SizeLarge) {
-        toggleSize = KIconLoader::SizeSmallMedium;
+    int toggleSize = widgetIconSize;
+    if (toggleSize > KIconLoader::SizeLarge) {
+        toggleSize = KIconLoader::SizeLarge;
     }
 
     QPointF pos = widgetIconRect.topLeft();
@@ -1001,7 +999,7 @@ void KStandardItemListWidget::updateExpansionArea()
             const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
             const qreal xPadding = m_highlightEntireRow ? sidePadding() : 0;
-            m_expansionArea = QRectF(xPadding + x, y, widgetIconSize, widgetIconSize);
+            m_expansionArea = QRectF(xPadding + x, y, widgetIconSize / 2, widgetIconSize);
             return;
         }
     }
