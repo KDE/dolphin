@@ -45,7 +45,7 @@ QVariant PlacesDataSource::data()
             auto storageAccess = device.as<Solid::StorageAccess>();
             if (storageAccess) {
                 auto mountPoint = KMountPoint::currentMountPoints().findByPath(storageAccess->filePath());
-                if (!mountPoint->mountedFrom().startsWith(QLatin1String("kdeconnect@"))) {
+                if (mountPoint && !mountPoint->mountedFrom().startsWith(QLatin1String("kdeconnect@"))) {
                     hasSSHFS = true;
                     continue;
                 }
