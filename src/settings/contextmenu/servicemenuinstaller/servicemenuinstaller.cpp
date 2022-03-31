@@ -204,7 +204,7 @@ QString findRecursive(const QString &dir, const QString &basename)
 {
     QDirIterator it(dir, QStringList{basename}, QDir::Files, QDirIterator::Subdirectories);
     while (it.hasNext()) {
-        return QFileInfo(it.next()).canonicalFilePath();
+        return QFileInfo(it.next()).absoluteFilePath();
     }
 
     return QString();
