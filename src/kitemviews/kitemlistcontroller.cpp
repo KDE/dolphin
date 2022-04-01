@@ -871,7 +871,8 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
             newHoveredWidget->setExpansionAreaHovered(true);
         } else {
             // make sure we unhover the old one first if old!=new
-            if (auto oldHoveredWidget = hoveredWidget(); oldHoveredWidget && oldHoveredWidget != newHoveredWidget) {
+            auto oldHoveredWidget = hoveredWidget();
+            if (oldHoveredWidget && oldHoveredWidget != newHoveredWidget) {
                 oldHoveredWidget->setHovered(false);
                 Q_EMIT itemUnhovered(oldHoveredWidget->index());
             }
@@ -888,9 +889,11 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
 
                 // (no-op in this branch for masked hover)
             } else {
-                newHoveredWidget->setHovered(true);
                 newHoveredWidget->setHoverPosition(mappedPos);
-                Q_EMIT itemHovered(newHoveredWidget->index());
+                if (oldHoveredWidget != newHoveredWidget) {
+                    newHoveredWidget->setHovered(true);
+                    Q_EMIT itemHovered(newHoveredWidget->index());
+                }
             }
         }
     } else {
