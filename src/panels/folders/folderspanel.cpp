@@ -205,7 +205,7 @@ void FoldersPanel::slotItemActivated(int index)
     }
 }
 
-void FoldersPanel::slotItemMiddleClicked(int index)
+void FoldersPanel::slotItemMiddleClicked(int index) // TODO
 {
     const KFileItem item = m_model->fileItem(index);
     if (!item.isNull()) {

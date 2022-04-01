@@ -203,7 +203,7 @@ DolphinMainWindow::DolphinMainWindow() :
 
     updateAllowedToolbarAreas();
 
-    // enable middle-click on back/forward/up to open in a new tab
+    // enable middle-click on back/forward/up to open in a new window
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotToolBarActionMiddleClicked);
     toolBar()->installEventFilter(middleClickEventFilter);
@@ -750,16 +750,16 @@ void DolphinMainWindow::slotDirectoryLoadingCompleted()
     updatePasteAction();
 }
 
-void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
+void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action) // TODO
 {
     if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Back))) {
-        goBackInNewTab();
+        goBackInNewWindow();
     } else if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Forward))) {
-        goForwardInNewTab();
+        goForwardInNewWindow();
     } else if (action == actionCollection()->action(QStringLiteral("go_up"))) {
-        goUpInNewTab();
+        goUpInNewWindow();
     } else if (action == actionCollection()->action(QStringLiteral("go_home"))) {
-        goHomeInNewTab();
+        goHomeInNewWindow();
     }
 }
 
@@ -820,7 +820,7 @@ void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
 {
     if (action) {
         const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
-        openNewTab(urlNavigator->locationUrl(action->data().value<int>()));
+        openNewWindow(urlNavigator->locationUrl(action->data().value<int>()));
     }
 }
 
@@ -1020,6 +1020,31 @@ void DolphinMainWindow::goUpInNewTab()
 void DolphinMainWindow::goHomeInNewTab()
 {
     openNewTab(Dolphin::homeUrl());
+}
+
+void DolphinMainWindow::goBackInNewWindow()
+{
+    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const int index = urlNavigator->historyIndex() + 1;
+    openNewWindow(urlNavigator->locationUrl(index));
+}
+
+void DolphinMainWindow::goForwardInNewWindow()
+{
+    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const int index = urlNavigator->historyIndex() - 1;
+    openNewWindow(urlNavigator->locationUrl(index));
+}
+
+void DolphinMainWindow::goUpInNewWindow()
+{
+    const QUrl currentUrl = activeViewContainer()->urlNavigator()->locationUrl();
+    openNewWindow(KIO::upUrl(currentUrl));
+}
+
+void DolphinMainWindow::goHomeInNewWindow()
+{
+    openNewWindow(Dolphin::homeUrl());
 }
 
 void DolphinMainWindow::compareFiles()
@@ -1737,7 +1762,7 @@ void DolphinMainWindow::setupActions()
     actionCollection()->addAction(m_forwardAction->objectName(), m_forwardAction);
     actionCollection()->setDefaultShortcuts(m_forwardAction, m_forwardAction->shortcuts());
 
-    // enable middle-click to open in a new tab
+    // enable middle-click to open in a new window
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotBackForwardActionMiddleClicked);
     m_backAction->menu()->installEventFilter(middleClickEventFilter);
