@@ -123,14 +123,11 @@ private Q_SLOTS:
      * @pos           Position in screen coordinates.
      * @item          File item context. If item is null, the context menu
      *                should be applied to \a url.
+     * @selectedItems The selected items for which the context menu
+     *                is opened. This list generally includes \a item.
      * @url           URL which contains \a item.
-     * @customActions Actions that should be added to the context menu,
-     *                if the file item is null.
      */
-    void slotOpenContextMenu(const QPoint& pos,
-                             const KFileItem& item,
-                             const QUrl& url,
-                             const QList<QAction*>& customActions);
+    void slotOpenContextMenu(const QPoint &pos, const KFileItem &_item, const KFileItemList &selectedItems, const QUrl &);
 
     /**
      * Informs the host that we are opening \a url (e.g. after a redirection

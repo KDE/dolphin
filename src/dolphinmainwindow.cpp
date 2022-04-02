@@ -1178,32 +1178,11 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::openContextMenu(const QPoint& pos,
                                         const KFileItem& item,
-                                        const QUrl& url,
-                                        const QList<QAction*>& customActions)
+                                        const KFileItemList &selectedItems,
+                                        const QUrl& url)
 {
-    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url, &m_fileItemActions);
-    contextMenu.data()->setCustomActions(customActions);
-    const DolphinContextMenu::Command command = contextMenu.data()->open();
-
-    switch (command) {
-    case DolphinContextMenu::OpenParentFolder:
-        changeUrl(KIO::upUrl(item.url()));
-        m_activeViewContainer->view()->markUrlsAsSelected({item.url()});
-        m_activeViewContainer->view()->markUrlAsCurrent(item.url());
-        break;
-
-    case DolphinContextMenu::OpenParentFolderInNewWindow:
-        Dolphin::openNewWindow({item.url()}, this, Dolphin::OpenNewWindowFlag::Select);
-        break;
-
-    case DolphinContextMenu::OpenParentFolderInNewTab:
-        openNewTab(KIO::upUrl(item.url()));
-        break;
-
-    case DolphinContextMenu::None:
-    default:
-        break;
-    }
+    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, selectedItems, url, &m_fileItemActions);
+    contextMenu.data()->exec(pos);
 
     // Delete the menu, unless it has been deleted in its own nested event loop already.
     if (contextMenu) {

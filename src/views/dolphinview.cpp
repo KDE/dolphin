@@ -1058,12 +1058,12 @@ void DolphinView::slotItemContextMenuRequested(int index, const QPointF& pos)
     }
 
     const KFileItem item = m_model->fileItem(index);
-    Q_EMIT requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
+    Q_EMIT requestContextMenu(pos.toPoint(), item, selectedItems(), url());
 }
 
 void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
 {
-    Q_EMIT requestContextMenu(pos.toPoint(), KFileItem(), url(), QList<QAction*>());
+    Q_EMIT requestContextMenu(pos.toPoint(), KFileItem(), selectedItems(), url());
 }
 
 void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)

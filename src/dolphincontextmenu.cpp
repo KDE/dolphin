@@ -13,6 +13,7 @@
 #include "dolphinplacesmodelsingleton.h"
 #include "dolphinremoveaction.h"
 #include "dolphinviewcontainer.h"
+#include "global.h"
 #include "trash/dolphintrash.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
@@ -38,34 +39,25 @@
 #include <QMimeDatabase>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
-                                       const QPoint& pos,
                                        const KFileItem& fileInfo,
+                                       const KFileItemList &selectedItems,
                                        const QUrl& baseUrl,
                                        KFileItemActions *fileItemActions) :
     QMenu(parent),
-    m_pos(pos),
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
     m_baseFileItem(nullptr),
-    m_selectedItems(),
+    m_selectedItems(selectedItems),
     m_selectedItemsProperties(nullptr),
     m_context(NoContext),
     m_copyToMenu(parent),
-    m_customActions(),
-    m_command(None),
     m_removeAction(nullptr),
     m_fileItemActions(fileItemActions)
 {
-    // The context menu either accesses the URLs of the selected items
-    // or the items itself. To increase the performance both lists are cached.
-    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    m_selectedItems = view->selectedItems();
-
     QApplication::instance()->installEventFilter(this);
 
-    static_cast<KHamburgerMenu *>(m_mainWindow->actionCollection()->
-                action(QStringLiteral("hamburger_menu")))->addToMenu(this);
+    addAllActions();
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -76,13 +68,11 @@ DolphinContextMenu::~DolphinContextMenu()
     m_selectedItemsProperties = nullptr;
 }
 
-void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
+void DolphinContextMenu::addAllActions()
 {
-    m_customActions = actions;
-}
+    static_cast<KHamburgerMenu *>(m_mainWindow->actionCollection()->
+                action(QStringLiteral("hamburger_menu")))->addToMenu(this);
 
-DolphinContextMenu::Command DolphinContextMenu::open()
-{
     // get the context information
     const auto scheme = m_baseUrl.scheme();
     if (scheme == QLatin1String("trash")) {
@@ -101,17 +91,15 @@ DolphinContextMenu::Command DolphinContextMenu::open()
     // open the corresponding popup for the context
     if (m_context & TrashContext) {
         if (m_context & ItemContext) {
-            openTrashItemContextMenu();
+            addTrashItemContextMenu();
         } else {
-            openTrashContextMenu();
+            addTrashContextMenu();
         }
     } else if (m_context & ItemContext) {
-        openItemContextMenu();
+        addItemContextMenu();
     } else {
-        openViewportContextMenu();
+        addViewportContextMenu();
     }
-
-    return m_command;
 }
 
 bool DolphinContextMenu::eventFilter(QObject* object, QEvent* event)
@@ -133,39 +121,25 @@ bool DolphinContextMenu::eventFilter(QObject* object, QEvent* event)
     return false;
 }
 
-void DolphinContextMenu::openTrashContextMenu()
+void DolphinContextMenu::addTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    QAction* emptyTrashAction = new QAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"), this);
+    QAction *emptyTrashAction = addAction(QIcon::fromTheme(QStringLiteral("trash-empty")), i18nc("@action:inmenu", "Empty Trash"), [this](){
+        Trash::empty(m_mainWindow);
+    });
     emptyTrashAction->setEnabled(!Trash::isEmpty());
-    addAction(emptyTrashAction);
-
-    addCustomActions();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
-
-    if (exec(m_pos) == emptyTrashAction) {
-        Trash::empty(m_mainWindow);
-    }
 }
 
-void DolphinContextMenu::openTrashItemContextMenu()
+void DolphinContextMenu::addTrashItemContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
     Q_ASSERT(m_context & ItemContext);
 
-    QAction* restoreAction = new QAction(QIcon::fromTheme("restoration"), i18nc("@action:inmenu", "Restore"), m_mainWindow);
-    addAction(restoreAction);
-
-    QAction* deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
-    addAction(deleteAction);
-
-    QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
-    addAction(propertiesAction);
-
-    if (exec(m_pos) == restoreAction) {
+    addAction(QIcon::fromTheme("restoration"), i18nc("@action:inmenu", "Restore"), [this](){
         QList<QUrl> selectedUrls;
         selectedUrls.reserve(m_selectedItems.count());
         for (const KFileItem &item : qAsConst(m_selectedItems)) {
@@ -175,7 +149,13 @@ void DolphinContextMenu::openTrashItemContextMenu()
         KIO::RestoreJob *job = KIO::restoreFromTrash(selectedUrls);
         KJobWidgets::setWindow(job, m_mainWindow);
         job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-    }
+    });
+
+    QAction* deleteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::DeleteFile));
+    addAction(deleteAction);
+
+    QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
+    addAction(propertiesAction);
 }
 
 void DolphinContextMenu::addDirectoryItemContextMenu()
@@ -194,7 +174,6 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
 
     // set up 'Create New' menu
     DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
-    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     newFileMenu->checkUpToDate();
     newFileMenu->setPopupFiles(QList<QUrl>() << m_fileInfo.url());
     newFileMenu->setEnabled(selectedItemsProps.supportsWriting());
@@ -209,15 +188,11 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
     addSeparator();
 }
 
-void DolphinContextMenu::openItemContextMenu()
+void DolphinContextMenu::addItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
 
-    QAction* openParentAction = nullptr;
-    QAction* openParentInNewWindowAction = nullptr;
-    QAction* openParentInNewTabAction = nullptr;
     const KFileItemListProperties& selectedItemsProps = selectedItemsProperties();
-
 
     m_fileItemActions->setItemListProperties(selectedItemsProps);
 
@@ -228,23 +203,28 @@ void DolphinContextMenu::openItemContextMenu()
         } else if (m_context & TimelineContext || m_context & SearchContext) {
             addOpenWithActions();
 
-            openParentAction = new QAction(QIcon::fromTheme(QStringLiteral("document-open-folder")),
+            addAction(QIcon::fromTheme(QStringLiteral("document-open-folder")),
                                            i18nc("@action:inmenu",
                                                  "Open Path"),
-                                           this);
-            addAction(openParentAction);
+                                           [this](){
+                m_mainWindow->changeUrl(KIO::upUrl(m_fileInfo.url()));
+                m_mainWindow->activeViewContainer()->view()->markUrlsAsSelected({m_fileInfo.url()});
+                m_mainWindow->activeViewContainer()->view()->markUrlAsCurrent(m_fileInfo.url());
+            });
 
-            openParentInNewWindowAction = new QAction(QIcon::fromTheme(QStringLiteral("window-new")),
+            addAction(QIcon::fromTheme(QStringLiteral("window-new")),
                                                     i18nc("@action:inmenu",
                                                           "Open Path in New Window"),
-                                                    this);
-            addAction(openParentInNewWindowAction);
+                                                    [this](){
+                Dolphin::openNewWindow({m_fileInfo.url()}, m_mainWindow, Dolphin::OpenNewWindowFlag::Select);
+            });
 
-            openParentInNewTabAction = new QAction(QIcon::fromTheme(QStringLiteral("tab-new")),
+            addAction(QIcon::fromTheme(QStringLiteral("tab-new")),
                                                    i18nc("@action:inmenu",
                                                          "Open Path in New Tab"),
-                                                   this);
-            addAction(openParentInNewTabAction);
+                                                   [this](){
+                m_mainWindow->openNewTab(KIO::upUrl(m_fileInfo.url()));
+            });
 
             addSeparator();
         } else {
@@ -290,23 +270,10 @@ void DolphinContextMenu::openItemContextMenu()
     addSeparator();
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
-
-    QAction* activatedAction = exec(m_pos);
-    if (activatedAction) {
-        if (activatedAction == openParentAction) {
-            m_command = OpenParentFolder;
-        } else if (activatedAction == openParentInNewWindowAction) {
-            m_command = OpenParentFolderInNewWindow;
-        } else if (activatedAction == openParentInNewTabAction) {
-            m_command = OpenParentFolderInNewTab;
-        }
-    }
 }
 
-void DolphinContextMenu::openViewportContextMenu()
+void DolphinContextMenu::addViewportContextMenu()
 {
-    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-
     const KFileItemListProperties baseUrlProperties(KFileItemList() << baseFileItem());
     m_fileItemActions->setItemListProperties(baseUrlProperties);
 
@@ -344,14 +311,11 @@ void DolphinContextMenu::openViewportContextMenu()
     }
 
     addAdditionalActions(baseUrlProperties);
-    addCustomActions();
 
     addSeparator();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action(QStringLiteral("properties"));
     addAction(propertiesAction);
-
-    exec(m_pos);
 }
 
 void DolphinContextMenu::insertDefaultItemActions(const KFileItemListProperties& properties)
@@ -474,11 +438,6 @@ void DolphinContextMenu::addOpenWithActions()
 {
     // insert 'Open With...' action or sub menu
     m_fileItemActions->insertOpenWithActionsTo(nullptr, this, QStringList{qApp->desktopFileName()});
-}
-
-void DolphinContextMenu::addCustomActions()
-{
-    addActions(m_customActions);
 }
 
 void DolphinContextMenu::addAdditionalActions(const KFileItemListProperties &props)

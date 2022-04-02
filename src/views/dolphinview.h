@@ -510,13 +510,12 @@ Q_SIGNALS:
     /**
      * Is emitted if a context menu is requested for the item \a item,
      * which is part of \a url. If the item is null, the context menu
-     * for the URL should be shown and the custom actions \a customActions
-     * will be added.
+     * for the URL should be shown.
      */
     void requestContextMenu(const QPoint& pos,
                             const KFileItem& item,
-                            const QUrl& url,
-                            const QList<QAction*>& customActions);
+                            const KFileItemList &selectedItems,
+                            const QUrl& url);
 
     /**
      * Is emitted if an information message with the content \a msg

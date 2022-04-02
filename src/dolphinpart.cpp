@@ -385,8 +385,8 @@ void DolphinPart::createNewWindow(const QUrl& url)
 
 void DolphinPart::slotOpenContextMenu(const QPoint& pos,
                                       const KFileItem& _item,
-                                      const QUrl &,
-                                      const QList<QAction*>& customActions)
+                                      const KFileItemList &selectedItems,
+                                      const QUrl &)
 {
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
                                                       | KParts::BrowserExtension::ShowProperties
@@ -402,13 +402,11 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
             item.setUrl(url()); // ensure we use the view url, not the canonical path (#213799)
     }
 
-    // TODO: We should change the signature of the slots (and signals) for being able
-    //       to tell for which items we want a popup.
     KFileItemList items;
-    if (m_view->selectedItems().isEmpty()) {
+    if (selectedItems.isEmpty()) {
         items.append(item);
     } else {
-        items = m_view->selectedItems();
+        items = selectedItems;
     }
 
     KFileItemListProperties capabilities(items);
@@ -416,7 +414,6 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
     editActions += m_view->versionControlActions(m_view->selectedItems());
-    editActions += customActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
         const bool supportsMoving = capabilities.supportsMoving();

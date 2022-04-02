@@ -37,60 +37,42 @@ class DolphinContextMenu : public QMenu
     Q_OBJECT
 
 public:
-    enum Command
-    {
-        None,
-        OpenParentFolder,
-        OpenParentFolderInNewWindow,
-        OpenParentFolderInNewTab
-    };
-
     /**
      * @parent        Pointer to the main window the context menu
      *                belongs to.
-     * @pos           Position in screen coordinates.
      * @fileInfo      Pointer to the file item the context menu
      *                is applied. If 0 is passed, the context menu
      *                is above the viewport.
+     * @selectedItems The selected items for which the context menu
+     *                is opened. This list generally includes \a fileInfo.
      * @baseUrl       Base URL of the viewport where the context menu
      *                should be opened.
      */
     DolphinContextMenu(DolphinMainWindow* parent,
-                       const QPoint& pos,
                        const KFileItem& fileInfo,
+                       const KFileItemList &selectedItems,
                        const QUrl& baseUrl,
                        KFileItemActions *fileItemActions);
 
     ~DolphinContextMenu() override;
 
-    void setCustomActions(const QList<QAction*>& actions);
-
-    /**
-     * Opens the context menu model and returns the requested
-     * command, that should be triggered by the caller. If
-     * Command::None has been returned, either the context-menu
-     * had been closed without executing an action or an
-     * already available action from the main-window has been
-     * executed.
-     */
-    Command open();
-
 protected:
     bool eventFilter(QObject* object, QEvent* event) override;
 
 private:
-    void openTrashContextMenu();
-    void openTrashItemContextMenu();
-    void openItemContextMenu();
-    void openViewportContextMenu();
+    /**
+     * Adds all the actions and menus to this menu based on all given information.
+     * This method calls the other helper methods for adding actions
+     * based on the context given in the constructor.
+     */
+    void addAllActions();
+
+    void addTrashContextMenu();
+    void addTrashItemContextMenu();
+    void addItemContextMenu();
+    void addViewportContextMenu();
 
     void insertDefaultItemActions(const KFileItemListProperties&);
-
-    /**
-     * Adds the "Show menubar" action to the menu if the
-     * menubar is hidden.
-     */
-    void addShowMenuBarAction();
 
     bool placeExists(const QUrl& url) const;
 
@@ -109,17 +91,11 @@ private:
     void addOpenWithActions();
 
     /**
-     * Adds custom actions e.g. like the "[x] Expandable Folders"-action
-     * provided in the details view.
-     */
-    void addCustomActions();
-
-private:
-    /**
      * Add services, custom actions, plugins and version control items to the menu
      */
     void addAdditionalActions(const KFileItemListProperties &props);
 
+private:
     struct Entry
     {
         int type;
@@ -139,7 +115,6 @@ private:
         SearchContext = 8,
     };
 
-    QPoint m_pos;
     DolphinMainWindow* m_mainWindow;
 
     KFileItem m_fileInfo;
@@ -152,9 +127,6 @@ private:
 
     int m_context;
     KFileCopyToMenu m_copyToMenu;
-    QList<QAction*> m_customActions;
-
-    Command m_command;
 
     DolphinRemoveAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
     void addDirectoryItemContextMenu();
