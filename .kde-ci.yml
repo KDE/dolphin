@@ -23,9 +23,13 @@ Dependencies:
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kactivities': '@stable'
     'frameworks/kdoctools': '@stable'
-    'frameworks/baloo': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kfilemetadata': '@stable'
-    'libraries/baloo-widgets': '@same'
     'libraries/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
+
+- 'on': ['Linux', 'FreeBSD']
+  'require':
+    'frameworks/baloo': '@stable'
+    'libraries/baloo-widgets': '@same'
+
