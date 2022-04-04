@@ -954,11 +954,8 @@ void KStandardItemListWidget::updateExpansionArea()
         if (expandedParentsCount >= 0) {
             const int widgetIconSize = iconSize();
             const qreal widgetHeight = size().height();
-            const qreal inc = (widgetHeight - iconSize()) / 2;
-            const qreal x =
-                layoutDirection() == Qt::LeftToRight
-                    ? expandedParentsCount * widgetHeight + inc
-                    : size().width() - iconSize() - (expandedParentsCount * widgetHeight + inc);
+            const qreal inc = (widgetHeight - widgetIconSize) / 2;
+            const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
             const qreal xPadding = m_highlightEntireRow ? leadingPadding() : 0;
             m_expansionArea = QRectF(xPadding + x, y, widgetIconSize, widgetIconSize);
@@ -1095,20 +1092,8 @@ void KStandardItemListWidget::updatePixmapCache()
     } else {
         // Center horizontally and vertically within the icon-area
         const TextInfo* textInfo = m_textInfo.value("text");
-        const auto width = (scaledIconSize + m_scaledPixmapSize.width()) / 2.0;
-        const auto iPadding = 2.0 * padding;
-        const auto x = textInfo->pos.x();
-
-        const QHash<QByteArray, QVariant> values = data();
-        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        const int expansionOffset =
-            (m_layout == DetailsLayout) ?
-                size().height() + size().height() * expandedParentsCount :
-                0;
-
-        m_pixmapPos.setX(layoutDirection() == Qt::LeftToRight
-            ? x - iPadding - width
-            : size().width() - iPadding - width - expansionOffset);
+        m_pixmapPos.setX(textInfo->pos.x() - 2.0 * padding
+                      - (scaledIconSize + m_scaledPixmapSize.width()) / 2.0);
 
         // Derive icon's vertical center from the center of the text frame, including
         // any necessary adjustment if the font's midline is offset from the frame center
@@ -1380,11 +1365,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
             textInfo->staticText.setText(elidedText);
         }
 
-        if (layoutDirection() == Qt::LeftToRight) {
-            textInfo->pos = QPointF(x, y);
-        } else {
-            textInfo->pos = QPointF(x - size().height(), y);
-        }
+        textInfo->pos = QPointF(x, y);
         textInfo->staticText.setTextWidth(maxWidth);
 
         maximumRequiredTextWidth = qMax(maximumRequiredTextWidth, requiredWidth);
@@ -1392,11 +1373,7 @@ void KStandardItemListWidget::updateCompactLayoutTextCache()
         y += lineSpacing;
     }
 
-    if (layoutDirection() == Qt::LeftToRight) {
-        m_textRect = QRectF(x - option.padding, 0, maximumRequiredTextWidth + 2 * option.padding, widgetHeight);
-    } else {
-        m_textRect = QRectF(x - option.padding - size().height(), 0, maximumRequiredTextWidth + 2 * option.padding, widgetHeight);
-    }
+    m_textRect = QRectF(x - option.padding, 0, maximumRequiredTextWidth + 2 * option.padding, widgetHeight);
 }
 
 void KStandardItemListWidget::updateDetailsLayoutTextCache()
@@ -1416,15 +1393,14 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     const int fontHeight = m_customizedFontMetrics.height();
 
     const qreal columnWidthInc = columnPadding(option);
-
-    qreal firstColumnOffset = iconSize();
+    qreal firstColumnInc = iconSize();
     if (m_supportsItemExpanding) {
-        firstColumnOffset += (m_expansionArea.width() + widgetHeight) / 2;
+        firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
     } else {
-        firstColumnOffset += option.padding + leadingPadding();
+        firstColumnInc += option.padding + leadingPadding();
     }
 
-    qreal x = firstColumnOffset;
+    qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
     for (const QByteArray& role : qAsConst(m_sortedVisibleRoles)) {
@@ -1435,13 +1411,9 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
         const qreal roleWidth = columnWidth(role);
         qreal availableTextWidth = roleWidth - columnWidthInc;
 
-        const QHash<QByteArray, QVariant> values = data();
-        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        const int expansionOffset = size().height() * expandedParentsCount;
-
         const bool isTextRole = (role == "text");
         if (isTextRole) {
-            availableTextWidth -= firstColumnOffset - leadingPadding();
+            availableTextWidth -= firstColumnInc - leadingPadding();
         }
 
         if (requiredWidth > availableTextWidth) {
@@ -1451,15 +1423,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
-        textInfo->pos = QPointF(x - (layoutDirection() == Qt::LeftToRight ? 0 : firstColumnOffset), y);
-        if (layoutDirection() == Qt::LeftToRight) {
-            textInfo->pos.rx() += columnWidthInc/2 + expansionOffset;
-        } else {
-            textInfo->pos.rx() -= expansionOffset;
-            if (textInfo->pos.x() < iconSize()) {
-                textInfo->pos.rx() = iconSize();
-            }
-        }
+        textInfo->pos = QPointF(x + columnWidthInc / 2, y);
         x += roleWidth;
 
         if (isTextRole) {
@@ -1471,7 +1435,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
-            x -= firstColumnOffset - leadingPadding();
+            x -= firstColumnInc - leadingPadding();
         } else if (isRoleRightAligned(role)) {
             textInfo->pos.rx() += roleWidth - requiredWidth - columnWidthInc;
         }
@@ -1523,22 +1487,13 @@ void KStandardItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixma
 void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
 {
     const int siblingSize = size().height();
-    const int x = (m_expansionArea.width() - siblingSize) / 2;
-
-    const QHash<QByteArray, QVariant> values = data();
-    const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-    const int expansionOffset = siblingSize * expandedParentsCount;
-
-    QRect siblingRect(
-        layoutDirection() == Qt::LeftToRight
-            ? x + expansionOffset
-            : size().width() - x - siblingSize - expansionOffset, 0, siblingSize, siblingSize);
+    const int x = (m_expansionArea.left() + m_expansionArea.right() - siblingSize) / 2;
+    QRect siblingRect(x, 0, siblingSize, siblingSize);
 
     bool isItemSibling = true;
 
     const QBitArray siblings = siblingsInformation();
     QStyleOption option;
-    option.direction = layoutDirection();
     const auto normalColor = option.palette.color(normalTextColorRole());
     const auto highlightColor = option.palette.color(expansionAreaHovered() ? QPalette::Highlight : normalTextColorRole());
     for (int i = siblings.count() - 1; i >= 0; --i) {
@@ -1560,11 +1515,7 @@ void KStandardItemListWidget::drawSiblingsInformation(QPainter* painter)
 
         style()->drawPrimitive(QStyle::PE_IndicatorBranch, &option, painter);
 
-        if (layoutDirection() == Qt::LeftToRight) {
-            siblingRect.translate(-siblingRect.width(), 0);
-        } else {
-            siblingRect.translate(siblingRect.width(), 0);
-        }
+        siblingRect.translate(-siblingRect.width(), 0);
     }
 }
 
