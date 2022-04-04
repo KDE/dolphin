@@ -1600,9 +1600,20 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
         case MultiSelection:
             if (controlPressed && !shiftPressed) {
-                m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
-                m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
-                createRubberBand = false; // multi selection, don't propagate any further
+                // A mouse button press is happening on an item while control is pressed. This either means a user wants to:
+                // - toggle the selection of item(s) or
+                // - they want to begin a drag on the item(s) to copy them.
+                // We rule out the latter, if the item is not clicked directly and was unselected previously.
+                const auto row = m_view->m_visibleItems.value(m_pressedIndex.value());
+                const auto mappedPos = row->mapFromItem(m_view, pos);
+                if (!row->iconRect().contains(mappedPos) && !row->textRect().contains(mappedPos) && !pressedItemAlreadySelected) {
+                    createRubberBand = true;
+                } else {
+                    m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Toggle);
+                    m_selectionManager->beginAnchoredSelection(m_pressedIndex.value());
+                    createRubberBand = false; // multi selection, don't propagate any further
+                    // This will be the start of an item drag-to-copy operation if the user now moves the mouse before releasing the mouse button.
+                }
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
                 m_selectionManager->setSelected(m_pressedIndex.value(), 1, KItemListSelectionManager::Select);
