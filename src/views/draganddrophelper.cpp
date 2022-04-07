@@ -35,10 +35,9 @@ bool DragAndDropHelper::urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& d
 KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
 {
     const QMimeData* mimeData = event->mimeData();
-    if (mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-service")) &&
-        mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-path"))) {
-        const QString remoteDBusClient = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-service"));
-        const QString remoteDBusPath = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-path"));
+    if (isArkDndMimeType(mimeData)) {
+        const QString remoteDBusClient = mimeData->data(arkDndServiceMimeType());
+        const QString remoteDBusPath = mimeData->data(arkDndPathMimeType());
 
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
                                                               QStringLiteral("org.kde.ark.DndExtract"), QStringLiteral("extractSelectedFilesTo"));
@@ -63,3 +62,8 @@ void DragAndDropHelper::clearUrlListMatchesUrlCache()
     DragAndDropHelper::m_urlListMatchesUrlCache.clear();
 }
 
+bool DragAndDropHelper::isArkDndMimeType(const QMimeData *mimeData)
+{
+    return mimeData->hasFormat(arkDndServiceMimeType())
+            && mimeData->hasFormat(arkDndPathMimeType());
+}
