@@ -35,25 +35,15 @@ bool DragAndDropHelper::urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& d
 KIO::DropJob* DragAndDropHelper::dropUrls(const QUrl& destUrl, QDropEvent* event, QWidget* window)
 {
     const QMimeData* mimeData = event->mimeData();
-    if (mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-service")) &&
-        mimeData->hasFormat(QStringLiteral("application/x-kde-ark-dndextract-path"))) {
-        const QString remoteDBusClient = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-service"));
-        const QString remoteDBusPath = mimeData->data(QStringLiteral("application/x-kde-ark-dndextract-path"));
 
-        QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, remoteDBusPath,
-                                                              QStringLiteral("org.kde.ark.DndExtract"), QStringLiteral("extractSelectedFilesTo"));
-        message.setArguments({destUrl.toDisplayString(QUrl::PreferLocalFile)});
-        QDBusConnection::sessionBus().call(message);
-    } else {
-        if (urlListMatchesUrl(event->mimeData()->urls(), destUrl)) {
-            return nullptr;
-        }
-
-        // Drop into a directory or a desktop-file
-        KIO::DropJob *job = KIO::drop(event, destUrl);
-        KJobWidgets::setWindow(job, window);
-        return job;
+    if (urlListMatchesUrl(event->mimeData()->urls(), destUrl)) {
+        return nullptr;
     }
+
+    // Drop into a directory or a desktop-file
+    KIO::DropJob *job = KIO::drop(event, destUrl);
+    KJobWidgets::setWindow(job, window);
+    return job;
 
     return nullptr;
 }
