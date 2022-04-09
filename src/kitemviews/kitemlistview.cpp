@@ -2405,7 +2405,9 @@ void KItemListView::applyAutomaticColumnWidths()
     qreal firstColumnWidth = m_headerWidget->columnWidth(firstRole);
     QSizeF dynamicItemSize = m_itemSize;
 
-    qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding();
+    qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding()
+        + m_headerWidget->leadingPadding(); // Adding the padding a second time so we have the same padding symmetrically on both sides of the view.
+        // This improves UX, looks better and increases the chances of users figuring out that the padding area can be used for deselecting and dropping files.
     const qreal availableWidth = size().width();
     if (requiredWidth < availableWidth) {
         // Stretch the first column to use the whole remaining width
