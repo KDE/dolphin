@@ -203,7 +203,7 @@ DolphinMainWindow::DolphinMainWindow() :
 
     updateAllowedToolbarAreas();
 
-    // enable middle-click on back/forward/up to open in a new window
+    // enable middle-click on back/forward/up to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotToolBarActionMiddleClicked);
     toolBar()->installEventFilter(middleClickEventFilter);
@@ -750,7 +750,7 @@ void DolphinMainWindow::slotDirectoryLoadingCompleted()
     updatePasteAction();
 }
 
-void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action) // TODO
+void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
 {
     if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Back))) {
         goBackInNewWindow();
@@ -1762,7 +1762,7 @@ void DolphinMainWindow::setupActions()
     actionCollection()->addAction(m_forwardAction->objectName(), m_forwardAction);
     actionCollection()->setDefaultShortcuts(m_forwardAction, m_forwardAction->shortcuts());
 
-    // enable middle-click to open in a new window
+    // enable middle-click to open in a new tab
     auto *middleClickEventFilter = new MiddleClickActionEventFilter(this);
     connect(middleClickEventFilter, &MiddleClickActionEventFilter::actionMiddleClicked, this, &DolphinMainWindow::slotBackForwardActionMiddleClicked);
     m_backAction->menu()->installEventFilter(middleClickEventFilter);

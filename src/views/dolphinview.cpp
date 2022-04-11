@@ -1032,7 +1032,7 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
     }
 }
 
-void DolphinView::slotItemMiddleClicked(int index) // TODO
+void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem& item = m_model->fileItem(index);
     const QUrl& url = openItemAsFolderUrl(item);
