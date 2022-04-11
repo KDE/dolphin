@@ -534,8 +534,8 @@ QRectF KStandardItemListWidget::selectionToggleRect() const
 
     const int widgetIconSize = iconSize();
     int toggleSize = widgetIconSize;
-    if (toggleSize > KIconLoader::SizeHuge) {
-        toggleSize = KIconLoader::SizeHuge;
+    if (toggleSize > KIconLoader::SizeLarge) {
+        toggleSize = KIconLoader::SizeLarge;
     }
 
     QPointF pos = iconRect().topLeft();

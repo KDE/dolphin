@@ -1040,16 +1040,16 @@ void DolphinView::slotItemMiddleClicked(int index) // TODO
     if (!url.isEmpty()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
-            Q_EMIT tabRequested(url);
+            Q_EMIT activeTabRequested(url);
         } else {
-            Q_EMIT windowRequested(url);
+            Q_EMIT tabRequested(url);
         }
     } else if (isTabsForFilesEnabled()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
             Q_EMIT activeTabRequested(item.url());
         } else {
-            Q_EMIT windowRequested(item.url());
+            Q_EMIT tabRequested(item.url());
         }
     }
 }
