@@ -11,9 +11,11 @@
 #include "dolphin_export.h"
 
 #include <QList>
+#include <QString>
 #include <QUrl>
 
 class QDropEvent;
+class QMimeData;
 class QWidget;
 namespace KIO { class DropJob; }
 
@@ -41,6 +43,13 @@ public:
      * @return True if destUrl is contained in the urls parameter.
      */
     static bool urlListMatchesUrl(const QList<QUrl>& urls, const QUrl& destUrl);
+
+    /**
+     * @return True if mimeData contains Ark's drag and drop mime types.
+     */
+    static bool isArkDndMimeType(const QMimeData *mimeData);
+    static QString arkDndServiceMimeType() { return QStringLiteral("application/x-kde-ark-dndextract-service"); }
+    static QString arkDndPathMimeType() { return QStringLiteral("application/x-kde-ark-dndextract-path"); }
 
     /**
      * clear the internal cache.

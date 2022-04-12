@@ -29,6 +29,9 @@ public:
     bool panelsLocked() const;
     void setPanelsLocked(bool locked);
 
+    QStringList mimeTypes() const override;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+
 protected:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 

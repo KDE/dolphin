@@ -6,11 +6,13 @@
 
 #include "dolphinplacesmodelsingleton.h"
 #include "trash/dolphintrash.h"
+#include "views/draganddrophelper.h"
 
 #include <KAboutData>
 #include <KFilePlacesModel>
 
 #include <QIcon>
+#include <QMimeData>
 
 DolphinPlacesModel::DolphinPlacesModel(const QString &alternativeApplicationName, QObject *parent)
     : KFilePlacesModel(alternativeApplicationName, parent)
@@ -45,6 +47,25 @@ void DolphinPlacesModel::setPanelsLocked(bool locked)
 
         Q_EMIT dataChanged(index(0, 0), index(lastPlace, 0), {KFilePlacesModel::GroupRole});
     }
+}
+
+QStringList DolphinPlacesModel::mimeTypes() const
+{
+    QStringList types = KFilePlacesModel::mimeTypes();
+    types << DragAndDropHelper::arkDndServiceMimeType()
+          << DragAndDropHelper::arkDndPathMimeType();
+    return types;
+}
+
+bool DolphinPlacesModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent)
+{
+    // We make the view accept the drag by returning them from mimeTypes()
+    // but the drop should be handled exclusively by PlacesPanel::slotUrlsDropped
+    if (DragAndDropHelper::isArkDndMimeType(data)) {
+        return false;
+    }
+
+    return KFilePlacesModel::dropMimeData(data, action, row, column, parent);
 }
 
 QVariant DolphinPlacesModel::data(const QModelIndex &index, int role) const
