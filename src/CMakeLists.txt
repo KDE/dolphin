@@ -178,7 +178,7 @@ install(TARGETS dolphinprivate ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} LIBRARY NAMEL
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphin_export.h DESTINATION ${KDE_INSTALL_INCLUDEDIR} COMPONENT Devel)
 
 ##########################################
-configure_file(dolphinpart.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop @ONLY)
+configure_file(dolphinpart.json.in ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.json @ONLY)
 
 add_library(dolphinpart MODULE)
 
@@ -190,15 +190,11 @@ target_sources(dolphinpart PRIVATE
     dolphinpart.qrc
 )
 
-kcoreaddons_desktop_to_json(dolphinpart ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop)
-
 target_link_libraries(dolphinpart
     dolphinprivate
 )
 
 install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
 
 ##########################################
 
@@ -363,11 +359,8 @@ install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
     add_library(kcm_dolphinviewmodes)
-    kcoreaddons_desktop_to_json(kcm_dolphinviewmodes settings/kcm/kcmdolphinviewmodes.desktop)
     add_library(kcm_dolphinnavigation)
-    kcoreaddons_desktop_to_json(kcm_dolphinnavigation settings/kcm/kcmdolphinnavigation.desktop)
     add_library(kcm_dolphingeneral)
-    kcoreaddons_desktop_to_json(kcm_dolphingeneral settings/kcm/kcmdolphingeneral.desktop)
 
     target_sources(kcm_dolphinviewmodes PRIVATE
         settings/kcm/kcmdolphinviewmodes.cpp
@@ -411,9 +404,6 @@ if(NOT WIN32)
     target_link_libraries(kcm_dolphingeneral dolphinprivate)
 
     install( FILES org.kde.dolphin.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-    install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
-    install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
-    install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR} )
 
     install(TARGETS kcm_dolphinviewmodes DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
     install(TARGETS kcm_dolphinnavigation DESTINATION ${KDE_INSTALL_PLUGINDIR}/dolphin/kcms )
