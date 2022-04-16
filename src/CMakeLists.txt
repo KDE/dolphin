@@ -358,9 +358,9 @@ install(TARGETS dolphin ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 if(NOT WIN32)
     # The settings are still accessible from the hamburger menu
-    add_library(kcm_dolphinviewmodes)
-    add_library(kcm_dolphinnavigation)
-    add_library(kcm_dolphingeneral)
+    add_library(kcm_dolphinviewmodes MODULE)
+    add_library(kcm_dolphinnavigation MODULE)
+    add_library(kcm_dolphingeneral MODULE)
 
     target_sources(kcm_dolphinviewmodes PRIVATE
         settings/kcm/kcmdolphinviewmodes.cpp
