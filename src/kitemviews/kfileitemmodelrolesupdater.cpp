@@ -28,6 +28,7 @@
 #endif
 
 #include <QApplication>
+#include <QFileInfo>
 #include <QIcon>
 #include <QPainter>
 #include <QPluginLoader>
@@ -1335,6 +1336,10 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
         } else if (getSizeRole) {
             data.insert("size", -1); // -1 indicates an unknown number of items
         }
+    }
+
+    if (m_roles.contains("extension")) {
+        data.insert("extension", QFileInfo(item.name()).suffix());
     }
 
     if (m_roles.contains("type")) {

@@ -290,7 +290,7 @@ private:
     enum RoleType {
         // User visible roles:
         NoRole, NameRole, SizeRole, ModificationTimeRole, CreationTimeRole, AccessTimeRole, PermissionsRole, OwnerRole,
-        GroupRole, TypeRole, DestinationRole, PathRole, DeletionTimeRole,
+        GroupRole, TypeRole, ExtensionRole, DestinationRole, PathRole, DeletionTimeRole,
         // User visible roles available with Baloo:
         CommentRole, TagsRole, RatingRole, DimensionsRole, WidthRole, HeightRole, ImageDateTimeRole, OrientationRole,
         WordCountRole, TitleRole, AuthorRole, LineCountRole, ArtistRole, GenreRole, AlbumRole, DurationRole, TrackRole, ReleaseYearRole,
@@ -527,6 +527,7 @@ private:
 inline bool KFileItemModel::isRoleValueNatural(RoleType roleType)
 {
     return (roleType == TypeRole ||
+            roleType == ExtensionRole ||
             roleType == TagsRole ||
             roleType == CommentRole ||
             roleType == TitleRole ||

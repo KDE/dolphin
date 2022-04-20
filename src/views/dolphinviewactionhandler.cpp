@@ -664,7 +664,7 @@ void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
     QAction* descending = m_actionCollection->action(QStringLiteral("descending"));
     QAction* ascending = m_actionCollection->action(QStringLiteral("ascending"));
 
-    if (role == "text" || role == "type" || role == "tags" || role == "comment") {
+    if (role == "text" || role == "type" || role == "extension" || role == "tags" || role == "comment") {
         descending->setText(i18nc("Sort descending", "Z-A"));
         ascending->setText(i18nc("Sort ascending", "A-Z"));
     } else if (role == "size") {

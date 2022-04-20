@@ -1580,6 +1580,7 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const QUrl& 
 void KFileItemModel::prepareItemsForSorting(QList<ItemData*>& itemDataList)
 {
     switch (m_sortRole) {
+    case ExtensionRole:
     case PermissionsRole:
     case OwnerRole:
     case GroupRole:
@@ -1799,6 +1800,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
 
     if (m_requestRole[NameRole]) {
         data.insert(sharedValue("text"), item.text());
+    }
+
+    if (m_requestRole[ExtensionRole]) {
+        data.insert(sharedValue("extension"), QFileInfo(item.name()).suffix());
     }
 
     if (m_requestRole[SizeRole] && !isDir) {
@@ -2609,6 +2614,7 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
         { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),                            false,           false },
         { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),                            false,           false },
         { "type",                TypeRole,                kli18nc("@label", "Type"),                 KLazyLocalizedString(),                            false,           false },
+        { "extension",           ExtensionRole,           kli18nc("@label", "Extension"),            KLazyLocalizedString(),                            false,           false },
         { "rating",              RatingRole,              kli18nc("@label", "Rating"),               KLazyLocalizedString(),                            true,            false },
         { "tags",                TagsRole,                kli18nc("@label", "Tags"),                 KLazyLocalizedString(),                            true,            false },
         { "comment",             CommentRole,             kli18nc("@label", "Comment"),              KLazyLocalizedString(),                            true,            false },
