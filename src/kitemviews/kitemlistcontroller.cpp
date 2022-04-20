@@ -1497,6 +1497,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
 
     const bool shiftPressed = modifiers & Qt::ShiftModifier;
     const bool controlPressed = modifiers & Qt::ControlModifier;
+    const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
 
     // The previous selection is cleared if either
@@ -1600,8 +1601,8 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
             break;
 
         case MultiSelection:
-            if (controlPressed && !shiftPressed) {
-                // A mouse button press is happening on an item while control is pressed. This either means a user wants to:
+            if (controlPressed && !shiftPressed && leftClick) {
+                // A left mouse button press is happening on an item while control is pressed. This either means a user wants to:
                 // - toggle the selection of item(s) or
                 // - they want to begin a drag on the item(s) to copy them.
                 // We rule out the latter, if the item is not clicked directly and was unselected previously.
