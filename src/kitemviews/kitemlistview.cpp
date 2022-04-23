@@ -1858,6 +1858,8 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         Q_ASSERT(widget->index() == i);
         widget->setVisible(true);
 
+        bool animateIconResizing = animate;
+
         if (widget->size() != itemBounds.size()) {
             // Resize the widget for the item to the changed size.
             if (animate) {
@@ -1874,11 +1876,13 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             } else {
                 widget->resize(itemBounds.size());
             }
+        } else {
+            animateIconResizing = false;
         }
 
         const int newIconSize = widget->styleOption().iconSize;
         if (widget->iconSize() != newIconSize) {
-            if (animate) {
+            if (animateIconResizing) {
                 m_animation->start(widget, KItemListViewAnimation::IconResizeAnimation, newIconSize);
             } else {
                 widget->setIconSize(newIconSize);
