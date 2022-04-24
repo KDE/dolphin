@@ -286,7 +286,7 @@ DolphinView::Mode DolphinView::viewMode() const
 void DolphinView::setSelectionMode(const bool enabled)
 {
     if (enabled) {
-        m_proxyStyle = std::make_unique<SingleClickSelectionProxyStyle>();
+        m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
         setStyle(m_proxyStyle.get());
         m_view->setStyle(m_proxyStyle.get());
     } else {

@@ -9,7 +9,7 @@
 
 #include "config-dolphin.h"
 #include "dolphinurlnavigator.h"
-#include "selectionmode/selectionmodebottombar.h"
+#include "selectionmode/bottombar.h"
 #include "views/dolphinview.h"
 
 #include <KFileItem>
@@ -33,7 +33,9 @@ class QGridLayout;
 class QUrl;
 class DolphinSearchBox;
 class DolphinStatusBar;
-class SelectionModeTopBar;
+namespace SelectionMode {
+    class TopBar;
+}
 
 /**
  * @short Represents a view for the directory content
@@ -135,7 +137,7 @@ public:
      */
     void disconnectUrlNavigator();
 
-    void setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection = nullptr, SelectionModeBottomBar::Contents bottomBarContents = SelectionModeBottomBar::Contents::GeneralContents);
+    void setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection = nullptr, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
     bool isSelectionModeEnabled() const;
 
     /**
@@ -429,14 +431,14 @@ private:
     KMessageWidget* m_messageWidget;
 
     /// A bar shown at the top of the view to signify that selection mode is currently active.
-    SelectionModeTopBar *m_selectionModeTopBar;
+    SelectionMode::TopBar *m_selectionModeTopBar;
 
     DolphinView* m_view;
 
     FilterBar* m_filterBar;
 
     /// A bar shown at the bottom of the view whose contents depend on what the user is currently doing.
-    SelectionModeBottomBar *m_selectionModeBottomBar;
+    SelectionMode::BottomBar *m_selectionModeBottomBar;
 
     DolphinStatusBar* m_statusBar;
     QTimer* m_statusBarTimer;            // Triggers a delayed update

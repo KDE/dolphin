@@ -5,7 +5,7 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#include "selectionmodetopbar.h"
+#include "topbar.h"
 
 #include "backgroundcolorhelper.h"
 
@@ -22,7 +22,9 @@
 #include <QStyle>
 #include <QtGlobal>
 
-SelectionModeTopBar::SelectionModeTopBar(QWidget *parent) :
+using namespace SelectionMode;
+
+TopBar::TopBar(QWidget *parent) :
     QWidget{parent}
 {
     // Showing of this widget is normally animated. We hide it for now and make it small.
@@ -68,7 +70,7 @@ SelectionModeTopBar::SelectionModeTopBar(QWidget *parent) :
     m_closeButton->setAccessibleName(m_closeButton->toolTip());
     m_closeButton->setFlat(true);
     connect(m_closeButton, &QAbstractButton::pressed,
-            this, &SelectionModeTopBar::leaveSelectionModeRequested);
+            this, &TopBar::leaveSelectionModeRequested);
 
     QHBoxLayout *layout = new QHBoxLayout(contentsContainer);
     auto contentsMargins = layout->contentsMargins();
@@ -83,7 +85,7 @@ SelectionModeTopBar::SelectionModeTopBar(QWidget *parent) :
     layout->addWidget(m_closeButton);
 }
 
-void SelectionModeTopBar::setVisible(bool visible, Animated animated)
+void TopBar::setVisible(bool visible, Animated animated)
 {
     Q_ASSERT_X(animated == WithAnimation, "SelectionModeTopBar::setVisible", "This wasn't implemented.");
 
@@ -109,12 +111,12 @@ void SelectionModeTopBar::setVisible(bool visible, Animated animated)
     m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void SelectionModeTopBar::resizeEvent(QResizeEvent */* resizeEvent */)
+void TopBar::resizeEvent(QResizeEvent */* resizeEvent */)
 {
     updateLabelString();
 }
 
-void SelectionModeTopBar::updateLabelString()
+void TopBar::updateLabelString()
 {
     QFontMetrics fontMetrics = m_label->fontMetrics();
     if (fontMetrics.horizontalAdvance(m_fullLabelString) + m_closeButton->sizeHint().width() + style()->pixelMetric(QStyle::PM_LayoutLeftMargin) * 2 + style()->pixelMetric(QStyle::PM_LayoutRightMargin) * 2 < width()) {

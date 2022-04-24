@@ -110,7 +110,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent,
     connect(m_view, &DolphinView::itemCountChanged, this, &DolphinPart::updateStatusBar);
     connect(m_view,  &DolphinView::selectionChanged, this, &DolphinPart::updateStatusBar);
 
-    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
+    m_actionHandler = new DolphinViewActionHandler(actionCollection(), nullptr, this);
     m_actionHandler->setCurrentView(m_view);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinPart::createDirectory);
 

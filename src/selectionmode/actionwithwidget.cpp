@@ -12,6 +12,8 @@
 #include <QPushButton>
 #include <QToolButton>
 
+using namespace SelectionMode;
+
 ActionWithWidget::ActionWithWidget(QAction *action) :
     m_action{action}
 {   }
@@ -40,7 +42,7 @@ QWidget *ActionWithWidget::newWidget(QWidget *parent)
     return m_widget;
 }
 
-QAbstractButton *newButtonForAction(QAction *action, QWidget *parent)
+QAbstractButton *SelectionMode::newButtonForAction(QAction *action, QWidget *parent)
 {
     Q_CHECK_PTR(action);
     Q_ASSERT(!action->isSeparator());
@@ -62,7 +64,7 @@ QAbstractButton *newButtonForAction(QAction *action, QWidget *parent)
     return toolButton;
 }
 
-void copyActionDataToButton(QAbstractButton *button, QAction *action)
+void SelectionMode::copyActionDataToButton(QAbstractButton *button, QAction *action)
 {
     button->setText(action->text());
     button->setIcon(action->icon());

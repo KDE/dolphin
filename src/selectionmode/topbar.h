@@ -21,15 +21,18 @@ class QPushButton;
 class QResizeEvent;
 class QShowEvent;
 
+namespace SelectionMode
+{
+
 /**
- * @todo write docs
+ * @brief A bar appearing at the top of the view when in selection mode to make users aware of the selection mode state of the application.
  */
-class SelectionModeTopBar : public QWidget
+class TopBar : public QWidget
 {
     Q_OBJECT
 
 public:
-    SelectionModeTopBar(QWidget *parent);
+    TopBar(QWidget *parent);
 
     /**
      * Plays a show or hide animation while changing visibility.
@@ -62,5 +65,7 @@ private:
 
     QPointer<QPropertyAnimation> m_heightAnimation;
 };
+
+}
 
 #endif // SELECTIONMODETOPBAR_H

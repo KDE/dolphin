@@ -14,6 +14,9 @@
 
 class QAbstractButton;
 
+namespace SelectionMode
+{
+
 /**
  * @brief Small wrapper/helper class that contains an action and its widget.
  *
@@ -82,5 +85,7 @@ QAbstractButton *newButtonForAction(QAction *action, QWidget *parent);
  * these buttons belong to one ViewContainer.
  */
 void copyActionDataToButton(QAbstractButton *button, QAction *action);
+
+}
 
 #endif // ACTIONWITHWIDGET_H

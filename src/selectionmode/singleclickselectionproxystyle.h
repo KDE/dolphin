@@ -10,8 +10,13 @@
 
 #include <QProxyStyle>
 
+namespace SelectionMode
+{
+
 /**
- * @todo write docs
+ * @brief A simple proxy style to temporarily make single click select and not activate
+ *
+ * @see QProxyStyle
  */
 class SingleClickSelectionProxyStyle : public QProxyStyle
 {
@@ -25,5 +30,7 @@ public:
         return QProxyStyle::styleHint(hint, option, widget, returnData);
     }
 };
+
+}
 
 #endif // SINGLECLICKSELECTIONPROXYSTYLE_H

@@ -15,6 +15,9 @@
 
 class QWidget;
 
+namespace SelectionMode
+{
+
 /**
  * @brief A Singleton class for managing the colors of selection mode widgets.
  */
@@ -41,5 +44,7 @@ private:
 
     static BackgroundColorHelper *s_instance;
 };
+
+}
 
 #endif // BACKGROUNDCOLORHELPER_H

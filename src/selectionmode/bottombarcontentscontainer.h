@@ -5,89 +5,58 @@
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
 
-#ifndef SELECTIONMODEBOTTOMBAR_H
-#define SELECTIONMODEBOTTOMBAR_H
+#ifndef BOTTOMBARCONTENTSCONTAINER_H
+#define BOTTOMBARCONTENTSCONTAINER_H
 
 #include "actionwithwidget.h"
-#include "global.h"
+#include "bottombar.h"
 
-#include <QAction>
 #include <QPointer>
-#include <QPropertyAnimation>
+#include <QToolButton>
 #include <QWidget>
-
-#include <memory>
 
 class DolphinContextMenu;
 class KActionCollection;
 class KFileItemActions;
 class KFileItemList;
-class QAbstractButton;
-class QAction;
-class QFontMetrics;
 class QHBoxLayout;
 class QLabel;
-class QPushButton;
-class QResizeEvent;
-class QToolButton;
 class QUrl;
 
+namespace SelectionMode
+{
+
 /**
- * A bar mainly used in selection mode that serves various purposes depending on what the user is currently trying to do.
+ * @brief An internal widget of BottomBar that controls the visible contents/widgets on it.
  *
- * The Contents enum below gives a rough idea about the different states this bar might have.
- * The bar is notified of various changes that make changing or updating the content worthwhile.
+ * This class should only be interacted with from the BottomBar class.
+ * @see BottomBar
  */
-class SelectionModeBottomBar : public QWidget
+class BottomBarContentsContainer : public QWidget
 {
     Q_OBJECT
 
 public:
-    /** The different contents this bar can have. */
-    enum Contents{
-        CopyContents,
-        CopyLocationContents,
-        CopyToOtherViewContents,
-        CutContents,
-        DeleteContents,
-        DuplicateContents,
-        GeneralContents,
-        MoveToOtherViewContents,
-        MoveToTrashContents,
-        PasteContents,
-        RenameContents
-    };
-
     /**
-     * Default constructor
+     * @param actionCollection the collection where the actions for the contents are retrieved from
+     * @param parent           the parent widget. Typically a ScrollView within the BottomBar
      */
-    explicit SelectionModeBottomBar(KActionCollection *actionCollection, QWidget *parent);
+    explicit BottomBarContentsContainer(KActionCollection *actionCollection, QWidget *parent);
 
-    /**
-     * Plays a show or hide animation while changing visibility.
-     * Therefore, if this method is used to hide this widget, the actual hiding will be postponed until the animation finished.
-     *
-     * This bar might also not show itself when setVisible(true), when context menu actions are supposed to be shown
-     * for the selected items but no items have been selected yet. In that case it will only show itself once items were selected.
-     * @see QWidget::setVisible()
-     */
-    void setVisible(bool visible, Animated animated);
-    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget.
-
-    void resetContents(Contents contents);
-    inline Contents contents() const
+    void resetContents(BottomBar::Contents contents);
+    inline BottomBar::Contents contents() const
     {
         return m_contents;
     };
 
-    /** @returns a width of 1 to make sure that this bar never causes side panels to shrink. */
-    QSize sizeHint() const override;
+    inline bool hasSomethingToShow() {
+        return contents() != BottomBar::GeneralContents || m_internalContextMenu;
+    }
+
+    void updateForNewWidth();
 
 public Q_SLOTS:
     void slotSelectionChanged(const KFileItemList &selection, const QUrl &baseUrl);
-
-    /** Used to notify the m_selectionModeBottomBar that there is no other ViewContainer in the tab. */
-    void slotSplitTabDisabled();
 
 Q_SIGNALS:
     /**
@@ -95,23 +64,15 @@ Q_SIGNALS:
      */
     void error(const QString &errorMessage);
 
+    /**
+     * Sometimes the contents see no reason to be visible and request the bar to be hidden instead which emits this signal.
+     * This can later change e.g. because the user selected items. Then this signal is used to request showing of the bar.
+     */
+    void barVisibilityChangeRequested(bool visible);
+
     void leaveSelectionModeRequested();
 
-protected:
-    /** Is installed on an internal widget to make sure that the height of the bar is adjusted to its contents. */
-    bool eventFilter(QObject *watched, QEvent *event) override;
-
-    /** Adapts the way the contents of this bar are displayed based on the available width. */
-    void resizeEvent(QResizeEvent *resizeEvent) override;
-
 private:
-    /**
-     * Identical to SelectionModeBottomBar::setVisible() but doesn't change m_allowedToBeVisible.
-     * @see SelectionModeBottomBar::setVisible()
-     * @see m_allowedToBeVisible
-     */
-    void setVisibleInternal(bool visible, Animated animated);
-
     void addCopyContents();
     void addCopyLocationContents();
     void addCopyToOtherViewContents();
@@ -179,20 +140,15 @@ private:
     /// The actionCollection from which the actions for this bar are retrieved.
     KActionCollection *m_actionCollection;
     /// Describes the current contents of the bar.
-    Contents m_contents;
+    BottomBar::Contents m_contents;
     /** The layout all the buttons and labels are added to.
      * Do not confuse this with layout() because we do have a QScrollView in between this widget and m_layout. */
     QHBoxLayout *m_layout;
-
-    /** Remembers if this bar was setVisible(true) or setVisible(false) the last time.
-     * This is necessary because this bar might have been setVisible(true) but there is no reason to show the bar currently so it was kept hidden.
-     * @see SelectionModeBottomBar::setVisible() */
-    bool m_allowedToBeVisible = false;
-    /// @see SelectionModeBottomBar::setVisible()
-    QPointer<QPropertyAnimation> m_heightAnimation;
 
     /// The info label used for some of the BarContents. Is hidden for narrow widths.
     QPointer<QLabel> m_explanatoryLabel;
 };
 
-#endif // SELECTIONMODEBOTTOMBAR_H
+}
+
+#endif // BOTTOMBARCONTENTSCONTAINER_H

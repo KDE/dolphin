@@ -10,7 +10,7 @@
 #define DOLPHINVIEWACTIONHANDLER_H
 
 #include "dolphin_export.h"
-#include "selectionmode/selectionmodebottombar.h"
+#include "selectionmode/bottombar.h"
 #include "views/dolphinview.h"
 
 #include <QObject>
@@ -21,6 +21,9 @@ class QActionGroup;
 class DolphinView;
 class KActionCollection;
 class KFileItemList;
+namespace SelectionMode {
+    class ActionTextHelper;
+}
 
 /**
  * @short Handles all actions for DolphinView
@@ -41,7 +44,7 @@ class DOLPHIN_EXPORT DolphinViewActionHandler : public QObject
     Q_OBJECT
 
 public:
-    explicit DolphinViewActionHandler(KActionCollection* collection, QObject* parent);
+    explicit DolphinViewActionHandler(KActionCollection* collection, SelectionMode::ActionTextHelper* actionTextHelper, QObject* parent);
 
     /**
      * Sets the view that this action handler should work on.
@@ -85,7 +88,7 @@ Q_SIGNALS:
     void createDirectoryTriggered();
 
     /** Used to request selection mode */
-    void setSelectionMode(bool enabled, SelectionModeBottomBar::Contents bottomBarContents = SelectionModeBottomBar::Contents::GeneralContents);
+    void setSelectionMode(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
 
 private Q_SLOTS:
     /**
@@ -238,7 +241,7 @@ private:
      * Create all the actions.
      * This is called only once (by the constructor)
      */
-    void createActions();
+    void createActions(SelectionMode::ActionTextHelper *actionTextHelper);
 
     /**
      * Creates an action-group out of all roles from KFileItemModel.

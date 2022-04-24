@@ -10,6 +10,7 @@
 #include "dolphindebug.h"
 #include "kitemviews/kfileitemlisttostring.h"
 #include "kitemviews/kfileitemmodel.h"
+#include "selectionmode/actiontexthelper.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
 #include "kconfig_version.h"
@@ -29,7 +30,7 @@
 #include <QMenu>
 #include <QPointer>
 
-DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
+DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, SelectionMode::ActionTextHelper* actionTextHelper, QObject* parent) :
     QObject(parent),
     m_actionCollection(collection),
     m_currentView(nullptr),
@@ -37,7 +38,7 @@ DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection
     m_visibleRoles()
 {
     Q_ASSERT(m_actionCollection);
-    createActions();
+    createActions(actionTextHelper);
 }
 
 void DolphinViewActionHandler::setCurrentView(DolphinView* view)
@@ -84,7 +85,7 @@ DolphinView* DolphinViewActionHandler::currentView()
     return m_currentView;
 }
 
-void DolphinViewActionHandler::createActions()
+void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *actionTextHelper)
 {
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewFileMenu takes care of the GUI stuff.
@@ -163,6 +164,13 @@ void DolphinViewActionHandler::createActions()
     copyPathAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy-path")));
     m_actionCollection->setDefaultShortcuts(copyPathAction, {Qt::CTRL | Qt::ALT | Qt::Key_C});
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
+
+    if (actionTextHelper) {
+        actionTextHelper->registerTextWhenNothingIsSelected(trashAction, i18nc("@action:inmenu File", "Move to Trash…"));
+        actionTextHelper->registerTextWhenNothingIsSelected(deleteAction, i18nc("@action:inmenu File", "Delete…"));
+        actionTextHelper->registerTextWhenNothingIsSelected(duplicateAction, i18nc("@action:inmenu File", "Duplicate Here…"));
+        actionTextHelper->registerTextWhenNothingIsSelected(copyPathAction, i18nc("@action:incontextmenu", "Copy Location…"));
+    }
 
     // This menu makes sure that users who don't know how to open a context menu and haven't
     // figured out how to enable the menu bar can still perform basic file manipulation.
@@ -426,7 +434,7 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
 void DolphinViewActionHandler::slotRename()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::RenameContents);
+        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::RenameContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->renameSelectedItems();
@@ -436,7 +444,7 @@ void DolphinViewActionHandler::slotRename()
 void DolphinViewActionHandler::slotTrashActivated()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::MoveToTrashContents);
+        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::MoveToTrashContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->trashSelectedItems();
@@ -447,7 +455,7 @@ void DolphinViewActionHandler::slotTrashActivated()
 void DolphinViewActionHandler::slotDeleteItems()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::DeleteContents);
+        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::DeleteContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->deleteSelectedItems();
@@ -752,7 +760,7 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 void DolphinViewActionHandler::slotDuplicate()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::DuplicateContents);
+        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::DuplicateContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->duplicateSelectedItems();
@@ -780,7 +788,7 @@ void DolphinViewActionHandler::slotProperties()
 void DolphinViewActionHandler::slotCopyPath()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionModeBottomBar::Contents::CopyLocationContents);
+        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::CopyLocationContents);
     } else {
         m_currentView->copyPathToClipboard();
         Q_EMIT setSelectionMode(false);

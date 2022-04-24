@@ -10,7 +10,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphintabwidget.h"
-#include "selectionmode/selectionmodebottombar.h"
+#include "selectionmode/bottombar.h"
 #include "config-dolphin.h"
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
@@ -47,6 +47,9 @@ class TerminalPanel;
 
 namespace KIO {
     class OpenUrlJob;
+}
+namespace SelectionMode {
+    class ActionTextHelper;
 }
 
 /**
@@ -315,7 +318,7 @@ private Q_SLOTS:
     void updatePasteAction();
 
     /** Calls DolphinViewContainer::setSelectionMode() for m_activeViewContainer. */
-    void slotSetSelectionMode(bool enabled, SelectionModeBottomBar::Contents bottomBarContents);
+    void slotSetSelectionMode(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents);
 
     /** Selects all items from the active view. */
     void selectAll();
@@ -705,6 +708,7 @@ private:
     DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
     DolphinBookmarkHandler* m_bookmarkHandler;
+    SelectionMode::ActionTextHelper* m_actionTextHelper;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QToolButton* m_controlButton;

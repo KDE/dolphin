@@ -12,7 +12,7 @@
 #include "filterbar/filterbar.h"
 #include "global.h"
 #include "search/dolphinsearchbox.h"
-#include "selectionmode/selectionmodetopbar.h"
+#include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
@@ -373,7 +373,7 @@ void DolphinViewContainer::disconnectUrlNavigator()
     m_urlNavigatorConnected = nullptr;
 }
 
-void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionModeBottomBar::Contents bottomBarContents)
+void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionMode::BottomBar::Contents bottomBarContents)
 {
     const bool wasEnabled = m_view->selectionMode();
     m_view->setSelectionMode(enabled);
@@ -395,28 +395,28 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
             setSelectionModeEnabled(false);
         });
 
-        m_selectionModeTopBar = new SelectionModeTopBar(this); // will be created hidden
-        connect(m_selectionModeTopBar, &SelectionModeTopBar::leaveSelectionModeRequested, this, [this]() {
+        m_selectionModeTopBar = new SelectionMode::TopBar(this); // will be created hidden
+        connect(m_selectionModeTopBar, &SelectionMode::TopBar::leaveSelectionModeRequested, this, [this]() {
             setSelectionModeEnabled(false);
         });
         m_topLayout->addWidget(m_selectionModeTopBar, positionFor.selectionModeTopBar, 0);
     }
 
     if (!m_selectionModeBottomBar) {
-        m_selectionModeBottomBar = new SelectionModeBottomBar(actionCollection, this);
+        m_selectionModeBottomBar = new SelectionMode::BottomBar(actionCollection, this);
         connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
             m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
         });
-        connect(m_selectionModeBottomBar, &SelectionModeBottomBar::error, this, [this](const QString &errorMessage) {
+        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::error, this, [this](const QString &errorMessage) {
             showErrorMessage(errorMessage);
         });
-        connect(m_selectionModeBottomBar, &SelectionModeBottomBar::leaveSelectionModeRequested, this, [this]() {
+        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::leaveSelectionModeRequested, this, [this]() {
             setSelectionModeEnabled(false);
         });
         m_topLayout->addWidget(m_selectionModeBottomBar, positionFor.selectionModeBottomBar, 0);
     }
     m_selectionModeBottomBar->resetContents(bottomBarContents);
-    if (bottomBarContents == SelectionModeBottomBar::GeneralContents) {
+    if (bottomBarContents == SelectionMode::BottomBar::GeneralContents) {
         m_selectionModeBottomBar->slotSelectionChanged(m_view->selectedItems(), m_view->url());
     }
 
@@ -433,12 +433,12 @@ bool DolphinViewContainer::isSelectionModeEnabled() const
     Q_ASSERT((!isEnabled
               // We can't assert that the bars are invisible only because the selection mode is disabled because the hide animation might still be playing.
               && (!m_selectionModeBottomBar || !m_selectionModeBottomBar->isEnabled() ||
-                  !m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionModeBottomBar::PasteContents))
+                  !m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::PasteContents))
           || ( isEnabled
               && m_selectionModeTopBar && m_selectionModeTopBar->isVisible()
               // The bottom bar is either visible or was hidden because it has nothing to show in GeneralContents mode e.g. because no items are selected.
               && m_selectionModeBottomBar
-              && (m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionModeBottomBar::GeneralContents)));
+              && (m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionMode::BottomBar::GeneralContents)));
     return isEnabled;
 }
 

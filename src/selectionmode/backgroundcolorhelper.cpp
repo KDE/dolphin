@@ -14,6 +14,8 @@
 #include <QtGlobal>
 #include <QWidget>
 
+using namespace SelectionMode;
+
 BackgroundColorHelper *BackgroundColorHelper::instance()
 {
     if (!s_instance) {
