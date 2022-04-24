@@ -1,6 +1,6 @@
 /*
     This file is part of the KDE project
-    SPDX-FileCopyrightText: 2022 Felix Ernst <fe.a.ernst@gmail.com>
+    SPDX-FileCopyrightText: 2022 Felix Ernst <felixernst@zohomail.eu>
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
@@ -66,6 +66,9 @@ public:
     /**
      * Plays a show or hide animation while changing visibility.
      * Therefore, if this method is used to hide this widget, the actual hiding will be postponed until the animation finished.
+     *
+     * This bar might also not show itself when setVisible(true), when context menu actions are supposed to be shown
+     * for the selected items but no items have been selected yet. In that case it will only show itself once items were selected.
      * @see QWidget::setVisible()
      */
     void setVisible(bool visible, Animated animated);
@@ -77,6 +80,7 @@ public:
         return m_contents;
     };
 
+    /** @returns a width of 1 to make sure that this bar never causes side panels to shrink. */
     QSize sizeHint() const override;
 
 public Q_SLOTS:
@@ -96,9 +100,18 @@ Q_SIGNALS:
 protected:
     /** Is installed on an internal widget to make sure that the height of the bar is adjusted to its contents. */
     bool eventFilter(QObject *watched, QEvent *event) override;
+
+    /** Adapts the way the contents of this bar are displayed based on the available width. */
     void resizeEvent(QResizeEvent *resizeEvent) override;
 
 private:
+    /**
+     * Identical to SelectionModeBottomBar::setVisible() but doesn't change m_allowedToBeVisible.
+     * @see SelectionModeBottomBar::setVisible()
+     * @see m_allowedToBeVisible
+     */
+    void setVisibleInternal(bool visible, Animated animated);
+
     void addCopyContents();
     void addCopyLocationContents();
     void addCopyToOtherViewContents();
@@ -171,6 +184,10 @@ private:
      * Do not confuse this with layout() because we do have a QScrollView in between this widget and m_layout. */
     QHBoxLayout *m_layout;
 
+    /** Remembers if this bar was setVisible(true) or setVisible(false) the last time.
+     * This is necessary because this bar might have been setVisible(true) but there is no reason to show the bar currently so it was kept hidden.
+     * @see SelectionModeBottomBar::setVisible() */
+    bool m_allowedToBeVisible = false;
     /// @see SelectionModeBottomBar::setVisible()
     QPointer<QPropertyAnimation> m_heightAnimation;
 

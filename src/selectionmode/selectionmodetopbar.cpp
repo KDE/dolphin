@@ -1,6 +1,6 @@
 /*
     This file is part of the KDE project
-    SPDX-FileCopyrightText: 2022 Felix Ernst <fe.a.ernst@gmail.com>
+    SPDX-FileCopyrightText: 2022 Felix Ernst <felixernst@zohomail.eu>
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
@@ -21,9 +21,6 @@
 #include <QScrollArea>
 #include <QStyle>
 #include <QtGlobal>
-
-#include <type_traits>
-#include <iostream>
 
 SelectionModeTopBar::SelectionModeTopBar(QWidget *parent) :
     QWidget{parent}
@@ -90,29 +87,26 @@ void SelectionModeTopBar::setVisible(bool visible, Animated animated)
 {
     Q_ASSERT_X(animated == WithAnimation, "SelectionModeTopBar::setVisible", "This wasn't implemented.");
 
-    if (!m_heightAnimation) {
-        m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
+    if (m_heightAnimation) {
+        m_heightAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
     }
-    disconnect(m_heightAnimation, &QAbstractAnimation::finished,
-               this, &QWidget::hide);
+    m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
     m_heightAnimation->setDuration(2 *
             style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) *
             GlobalConfig::animationDurationFactor());
 
+    m_heightAnimation->setStartValue(height());
+    m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
     if (visible) {
         show();
-        m_heightAnimation->setStartValue(0);
         m_heightAnimation->setEndValue(m_preferredHeight);
-        m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
     } else {
-        m_heightAnimation->setStartValue(height());
         m_heightAnimation->setEndValue(0);
-        m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
         connect(m_heightAnimation, &QAbstractAnimation::finished,
                 this, &QWidget::hide);
     }
 
-    m_heightAnimation->start();
+    m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 void SelectionModeTopBar::resizeEvent(QResizeEvent */* resizeEvent */)

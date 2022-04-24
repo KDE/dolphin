@@ -83,8 +83,6 @@
 #include <QToolButton>
 #include <QWhatsThisClickedEvent>
 
-#include <iostream>
-
 namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running, so as to migrate
@@ -126,7 +124,7 @@ DolphinMainWindow::DolphinMainWindow() :
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
 
-    //setStateConfigGroup("State"); // TODO: Don't leave this as a comment.
+    setStateConfigGroup("State");
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
@@ -195,7 +193,6 @@ DolphinMainWindow::DolphinMainWindow() :
 
     auto hamburgerMenu = static_cast<KHamburgerMenu *>(actionCollection()->action(
                                     KStandardAction::name(KStandardAction::HamburgerMenu)));
-    hamburgerMenu->icon();
     hamburgerMenu->setMenuBar(menuBar());
     hamburgerMenu->setShowMenuBarAction(showMenuBarAction);
     connect(hamburgerMenu, &KHamburgerMenu::aboutToShowMenu,
@@ -1331,7 +1328,7 @@ void DolphinMainWindow::updateHamburgerMenu()
 
     menu->addMenu(m_newFileMenu->menu());
     if (!toolBar()->isVisible()
-        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_selection_mode_with_popup")))
+        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_selection_mode_tool_bar")))
     ) {
         menu->addAction(ac->action(QStringLiteral("toggle_selection_mode")));
     }
@@ -1676,10 +1673,10 @@ void DolphinMainWindow::setupActions()
     // So in a way "Select" here is used to mean both "Select files" and also "Select what to do" but mostly the first.
     // The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
     toggleSelectionModeAction->setIconText(i18nc("@action:intoolbar", "Select"));
-    toggleSelectionModeAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>This application doesn't know which files or folders should be acted on, "
-        "unless they are <emphasis>selected</emphasis> first. Press this to toggle the <emphasis>Selection Mode</emphasis> which makes selecting and deselecting as "
-        "easy as pressing an item once.</para><para>While in this mode, a quick access bar at the bottom shows all the available actions for the current "
-        "selection of items.</para>"));
+    toggleSelectionModeAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>This application only knows which files or folders should be acted on if they are"
+        " <emphasis>selected</emphasis> first. Press this to toggle a <emphasis>Selection Mode</emphasis> which makes selecting and deselecting as easy as "
+        "pressing an item once.</para><para>While in this mode, a quick access bar at the bottom shows available actions for the currently selected items."
+        "</para>"));
     toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
     toggleSelectionModeAction->setCheckable(true);
     actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
@@ -1690,7 +1687,7 @@ void DolphinMainWindow::setupActions()
     auto *toggleSelectionModeToolBarAction = new KToolBarPopupAction(toggleSelectionModeAction->icon(), toggleSelectionModeAction->iconText(), actionCollection());
     toggleSelectionModeToolBarAction->setToolTip(toggleSelectionModeAction->text());
     toggleSelectionModeToolBarAction->setWhatsThis(toggleSelectionModeAction->whatsThis());
-    actionCollection()->addAction(QStringLiteral("toggle_selection_mode_with_popup"), toggleSelectionModeToolBarAction);
+    actionCollection()->addAction(QStringLiteral("toggle_selection_mode_tool_bar"), toggleSelectionModeToolBarAction);
     toggleSelectionModeToolBarAction->setCheckable(true);
     toggleSelectionModeToolBarAction->setPopupMode(QToolButton::DelayedPopup);
     connect(toggleSelectionModeToolBarAction, &QAction::triggered, toggleSelectionModeAction, &QAction::trigger);

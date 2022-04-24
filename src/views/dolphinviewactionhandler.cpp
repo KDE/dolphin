@@ -29,8 +29,6 @@
 #include <QMenu>
 #include <QPointer>
 
-#include <iostream>
-
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
     QObject(parent),
     m_actionCollection(collection),

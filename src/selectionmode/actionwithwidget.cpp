@@ -1,6 +1,6 @@
 /*
     This file is part of the KDE project
-    SPDX-FileCopyrightText: 2022 Felix Ernst <fe.a.ernst@gmail.com>
+    SPDX-FileCopyrightText: 2022 Felix Ernst <felixernst@zohomail.eu>
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */

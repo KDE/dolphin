@@ -1546,7 +1546,8 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     }
 
     const bool shiftPressed = modifiers & Qt::ShiftModifier;
-    const bool controlPressed = (modifiers & Qt::ControlModifier) || m_selectionMode;
+    const bool controlPressed = (modifiers & Qt::ControlModifier) || m_selectionMode; // Keeping selectionMode similar to pressing control will hopefully
+                                                                                      // simplify the overall logic and possibilities both for users and devs.
     const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
 

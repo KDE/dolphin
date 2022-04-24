@@ -113,7 +113,6 @@
         <Action name="split_view" />
         <Action name="split_stash" />
         <Action name="toggle_search" />
-        <Action name="toggle_selection_mode_with_popup" />
         <Action name="hamburger_menu" />
     </ToolBar>
     <ActionProperties scheme="Default">

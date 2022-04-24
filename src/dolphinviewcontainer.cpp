@@ -42,8 +42,6 @@
 #include <QUrl>
 #include <QDesktopServices>
 
-#include <iostream>
-
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
     int searchBox               = 0;
@@ -377,7 +375,6 @@ void DolphinViewContainer::disconnectUrlNavigator()
 
 void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionModeBottomBar::Contents bottomBarContents)
 {
-    std::cout << "DolphinViewContainer::setSelectionModeEnabled(" << enabled << ", " << bottomBarContents << ")\n";
     const bool wasEnabled = m_view->selectionMode();
     m_view->setSelectionMode(enabled);
 
@@ -410,7 +407,6 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         connect(m_view, &DolphinView::selectionChanged, this, [this](const KFileItemList &selection) {
             m_selectionModeBottomBar->slotSelectionChanged(selection, m_view->url());
         });
-        
         connect(m_selectionModeBottomBar, &SelectionModeBottomBar::error, this, [this](const QString &errorMessage) {
             showErrorMessage(errorMessage);
         });
@@ -434,8 +430,15 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
 bool DolphinViewContainer::isSelectionModeEnabled() const
 {
     const bool isEnabled = m_view->selectionMode();
-    Q_ASSERT( !isEnabled // We cannot assert the invisibility of the bars because of the hide animation.
-          || ( isEnabled && m_selectionModeTopBar && m_selectionModeTopBar->isVisible() && m_selectionModeBottomBar && m_selectionModeBottomBar->isVisible()));
+    Q_ASSERT((!isEnabled
+              // We can't assert that the bars are invisible only because the selection mode is disabled because the hide animation might still be playing.
+              && (!m_selectionModeBottomBar || !m_selectionModeBottomBar->isEnabled() ||
+                  !m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionModeBottomBar::PasteContents))
+          || ( isEnabled
+              && m_selectionModeTopBar && m_selectionModeTopBar->isVisible()
+              // The bottom bar is either visible or was hidden because it has nothing to show in GeneralContents mode e.g. because no items are selected.
+              && m_selectionModeBottomBar
+              && (m_selectionModeBottomBar->isVisible() || m_selectionModeBottomBar->contents() == SelectionModeBottomBar::GeneralContents)));
     return isEnabled;
 }
 

@@ -1,6 +1,6 @@
 /*
     This file is part of the KDE project
-    SPDX-FileCopyrightText: 2022 Felix Ernst <fe.a.ernst@gmail.com>
+    SPDX-FileCopyrightText: 2022 Felix Ernst <felixernst@zohomail.eu>
 
     SPDX-License-Identifier: LGPL-2.1-only OR LGPL-3.0-only OR LicenseRef-KDE-Accepted-LGPL
 */
@@ -37,7 +37,7 @@
 #include <QVBoxLayout>
 
 #include <unordered_set>
-#include <iostream>
+
 SelectionModeBottomBar::SelectionModeBottomBar(KActionCollection *actionCollection, QWidget *parent) :
     QWidget{parent},
     m_actionCollection{actionCollection}
@@ -73,44 +73,50 @@ SelectionModeBottomBar::SelectionModeBottomBar(KActionCollection *actionCollecti
 
 void SelectionModeBottomBar::setVisible(bool visible, Animated animated)
 {
-    Q_ASSERT_X(animated == WithAnimation, "SelectionModeBottomBar::setVisible", "This wasn't implemented.");
+    m_allowedToBeVisible = visible;
+    setVisibleInternal(visible, animated);
+}
 
+void SelectionModeBottomBar::setVisibleInternal(bool visible, Animated animated)
+{
+    Q_ASSERT_X(animated == WithAnimation, "SelectionModeBottomBar::setVisible", "This wasn't implemented.");
     if (!visible && m_contents == PasteContents) {
         return; // The bar with PasteContents should not be hidden or users might not know how to paste what they just copied.
                 // Set m_contents to anything else to circumvent this prevention mechanism.
     }
-
-    if (!m_heightAnimation) {
-        m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
+    if (visible && m_contents == GeneralContents && !m_internalContextMenu) {
+        return; // There is nothing on the bar that we want to show. We keep it invisible and only show it when the selection or the contents change.
     }
-    disconnect(m_heightAnimation, &QAbstractAnimation::finished,
-               this, nullptr);
+
+    setEnabled(visible);
+    if (m_heightAnimation) {
+        m_heightAnimation->stop(); // deletes because of QAbstractAnimation::DeleteWhenStopped.
+    }
+    m_heightAnimation = new QPropertyAnimation(this, "maximumHeight");
     m_heightAnimation->setDuration(2 *
             style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) *
             GlobalConfig::animationDurationFactor());
 
+    m_heightAnimation->setStartValue(height());
+    m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
     if (visible) {
         show();
-        m_heightAnimation->setStartValue(0);
         m_heightAnimation->setEndValue(sizeHint().height());
-        m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
         connect(m_heightAnimation, &QAbstractAnimation::finished,
                 this, [this](){ setMaximumHeight(sizeHint().height()); });
     } else {
-        m_heightAnimation->setStartValue(height());
         m_heightAnimation->setEndValue(0);
-        m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
         connect(m_heightAnimation, &QAbstractAnimation::finished,
                 this, &QWidget::hide);
     }
 
-    m_heightAnimation->start();
+    m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 QSize SelectionModeBottomBar::sizeHint() const
 {
-    // 1 as width because this widget should never be the reason the DolphinViewContainer is made wider.
     return QSize{1, m_layout->parentWidget()->sizeHint().height()};
+    // 1 as width because this widget should never be the reason the DolphinViewContainer is made wider.
 }
 
 void SelectionModeBottomBar::slotSelectionChanged(const KFileItemList &selection, const QUrl &baseUrl)
@@ -118,10 +124,20 @@ void SelectionModeBottomBar::slotSelectionChanged(const KFileItemList &selection
     if (m_contents == GeneralContents) {
         auto contextActions = contextActionsFor(selection, baseUrl);
         m_generalBarActions.clear();
-        for (auto i = contextActions.begin(); i != contextActions.end(); ++i) {
-            m_generalBarActions.emplace_back(ActionWithWidget{*i});
+        if (contextActions.empty()) {
+            if (isVisibleTo(parentWidget())) {
+                setVisibleInternal(false, WithAnimation);
+            }
+        } else {
+            for (auto i = contextActions.begin(); i != contextActions.end(); ++i) {
+                m_generalBarActions.emplace_back(ActionWithWidget{*i});
+            }
+            resetContents(GeneralContents);
+
+            if (m_allowedToBeVisible) {
+                setVisibleInternal(true, WithAnimation);
+            }
         }
-        resetContents(GeneralContents);
     }
     updateMainActionButton(selection);
 }
@@ -148,27 +164,41 @@ void SelectionModeBottomBar::resetContents(SelectionModeBottomBar::Contents cont
     m_contents = contents;
     switch (contents) {
     case CopyContents:
-        return addCopyContents();
+        addCopyContents();
+        break;
     case CopyLocationContents:
-        return addCopyLocationContents();
+        addCopyLocationContents();
+        break;
     case CopyToOtherViewContents:
-        return addCopyToOtherViewContents();
+        addCopyToOtherViewContents();
+        break;
     case CutContents:
-        return addCutContents();
+        addCutContents();
+        break;
     case DeleteContents:
-        return addDeleteContents();
+        addDeleteContents();
+        break;
     case DuplicateContents:
-        return addDuplicateContents();
+        addDuplicateContents();
+        break;
     case GeneralContents:
-        return addGeneralContents();
+        addGeneralContents();
+        break;
     case PasteContents:
-        return addPasteContents();
+        addPasteContents();
+        break;
     case MoveToOtherViewContents:
-        return addMoveToOtherViewContents();
+        addMoveToOtherViewContents();
+        break;
     case MoveToTrashContents:
-        return addMoveToTrashContents();
+        addMoveToTrashContents();
+        break;
     case RenameContents:
         return addRenameContents();
+    }
+
+    if (m_allowedToBeVisible) {
+        setVisibleInternal(true, WithAnimation);
     }
 }
 
@@ -179,7 +209,12 @@ bool SelectionModeBottomBar::eventFilter(QObject *watched, QEvent *event)
     switch (event->type()) {
     case QEvent::ChildAdded:
     case QEvent::ChildRemoved:
-        QTimer::singleShot(0, this, [this](){ setMaximumHeight(sizeHint().height()); });
+        QTimer::singleShot(0, this, [this]() {
+            // The necessary height might have changed because of the added/removed child so we change the height manually.
+            if (isVisibleTo(parentWidget()) && isEnabled() && (!m_heightAnimation || m_heightAnimation->state() != QAbstractAnimation::Running)) {
+                setMaximumHeight(sizeHint().height());
+            }
+        });
         // Fall through.
     default:
         return false;
@@ -205,14 +240,12 @@ void SelectionModeBottomBar::resizeEvent(QResizeEvent *resizeEvent)
                 i->widget()->setVisible(false);
 
                 // Add the action to the overflow.
-                std::cout << "An Action is added to the m_overflowButton because of a resize: " << qPrintable(i->action()->text()) << "\n";
                 auto overflowMenu = m_overflowButton->menu();
                 if (overflowMenu->actions().isEmpty()) {
                     overflowMenu->addAction(i->action());
                 } else {
                     overflowMenu->insertAction(overflowMenu->actions().at(0), i->action());
                 }
-                std::cout << "The number of actions in the menu is now " << m_overflowButton->menu()->actions().count() << "\n.";
                 m_overflowButton->setVisible(true);
                 if (unusedSpace() >= 0) {
                     break; // All widgets fit now.
@@ -236,10 +269,8 @@ void SelectionModeBottomBar::resizeEvent(QResizeEvent *resizeEvent)
                 i->widget()->setVisible(true);
 
                 // Remove the action from the overflow.
-                std::cout << "An Action is removed from the m_overflowButton because of a resize: " << qPrintable(i->action()->text()) << "\n";
                 auto overflowMenu = m_overflowButton->menu();
                 overflowMenu->removeAction(i->action());
-                std::cout << "The number of actions in the menu is now " << m_overflowButton->menu()->actions().count() << "\n.";
                 if (overflowMenu->isEmpty()) {
                     m_overflowButton->setVisible(false);
                 }
@@ -423,10 +454,8 @@ void SelectionModeBottomBar::addGeneralContents()
                 m_layout->insertWidget(m_layout->count() - 1, i->widget()); // Insert before m_overflowButton
             }
             if (unusedSpace() < i->widget()->sizeHint().width()) {
-                std::cout << "The " << unusedSpace() << " is smaller than the button->sizeHint().width() of " << i->widget()->sizeHint().width() << " plus the m_layout->spacing() of " << m_layout->spacing() << " so the action " << qPrintable(i->action()->text()) << " doesn't get its own button.\n";
                 break; // The bar is too full already. We keep it invisible.
             } else {
-                std::cout << "The " << unusedSpace() << " is bigger than the button->sizeHint().width() of " << i->widget()->sizeHint().width() << " plus the m_layout->spacing() of " << m_layout->spacing() << " so the action " << qPrintable(i->action()->text()) << " was added as its own button/widget.\n";
                 i->widget()->setVisible(true);
             }
         }
@@ -560,46 +589,51 @@ void SelectionModeBottomBar::emptyBarContents()
 
 std::vector<QAction *> SelectionModeBottomBar::contextActionsFor(const KFileItemList& selectedItems, const QUrl& baseUrl)
 {
+    if (selectedItems.isEmpty()) {
+        // There are no contextual actions to show for these items.
+        // We might even want to hide this bar in this case. To make this clear, we reset m_internalContextMenu.
+        m_internalContextMenu.release()->deleteLater();
+        return std::vector<QAction *>{};
+    }
+
     std::vector<QAction *> contextActions;
+
+    // We always want to show the most important actions at the beginning
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::Copy)));
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::Cut)));
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::RenameFile)));
     contextActions.emplace_back(m_actionCollection->action(KStandardAction::name(KStandardAction::MoveToTrash)));
 
-    if (!selectedItems.isEmpty()) {
-        // We are going to add the actions from the right-click context menu for the selected items.
-        auto *dolphinMainWindow = qobject_cast<DolphinMainWindow *>(window());
-        Q_CHECK_PTR(dolphinMainWindow);
-        if (!m_fileItemActions) {
-            m_fileItemActions = new KFileItemActions(this);
-            m_fileItemActions->setParentWidget(dolphinMainWindow);
-            connect(m_fileItemActions, &KFileItemActions::error, this, &SelectionModeBottomBar::error);
+    // We are going to add the actions from the right-click context menu for the selected items.
+    auto *dolphinMainWindow = qobject_cast<DolphinMainWindow *>(window());
+    Q_CHECK_PTR(dolphinMainWindow);
+    if (!m_fileItemActions) {
+        m_fileItemActions = new KFileItemActions(this);
+        m_fileItemActions->setParentWidget(dolphinMainWindow);
+        connect(m_fileItemActions, &KFileItemActions::error, this, &SelectionModeBottomBar::error);
+    }
+    m_internalContextMenu = std::make_unique<DolphinContextMenu>(dolphinMainWindow, selectedItems.constFirst(), selectedItems, baseUrl, m_fileItemActions);
+    auto internalContextMenuActions = m_internalContextMenu->actions();
+
+    // There are some actions which we wouldn't want to add. We remember them in the actionsThatShouldntBeAdded set.
+    // We don't want to add the four basic actions again which were already added to the top.
+    std::unordered_set<QAction *> actionsThatShouldntBeAdded{contextActions.begin(), contextActions.end()};
+    // "Delete" isn't really necessary to add because we have "Move to Trash" already. It is also more dangerous so let's exclude it.
+    actionsThatShouldntBeAdded.insert(m_actionCollection->action(KStandardAction::name(KStandardAction::DeleteFile)));
+
+    // KHamburgerMenu would only be visible if there is no menu available anywhere on the user interface. This might be useful for recovery from
+    // such a situation in theory but a bar with context dependent actions doesn't really seem like the right place for it.
+    Q_ASSERT(internalContextMenuActions.first()->icon().name() == m_actionCollection->action(KStandardAction::name(KStandardAction::HamburgerMenu))->icon().name());
+    internalContextMenuActions.removeFirst();
+
+    for (auto it = internalContextMenuActions.constBegin(); it != internalContextMenuActions.constEnd(); ++it) {
+        if (actionsThatShouldntBeAdded.count(*it)) {
+            continue; // Skip this action.
         }
-        m_internalContextMenu = std::make_unique<DolphinContextMenu>(dolphinMainWindow, selectedItems.constFirst(), selectedItems, baseUrl, m_fileItemActions);
-        auto internalContextMenuActions = m_internalContextMenu->actions();
-
-        // There are some actions which we wouldn't want to add. We remember them in the actionsThatShouldntBeAdded set.
-        // We don't want to add the four basic actions again which were already added to the top.
-        std::unordered_set<QAction *> actionsThatShouldntBeAdded{contextActions.begin(), contextActions.end()};
-        // "Delete" isn't really necessary to add because we have "Move to Trash" already. It is also more dangerous so let's exclude it.
-        actionsThatShouldntBeAdded.insert(m_actionCollection->action(KStandardAction::name(KStandardAction::DeleteFile)));
-        // "Open Terminal" isn't really context dependent and can therefore be opened from elsewhere instead.
-        actionsThatShouldntBeAdded.insert(m_actionCollection->action(QStringLiteral("open_terminal")));
-
-        // KHamburgerMenu would only be visible if there is no menu available anywhere on the user interface. This might be useful for recovery from
-        // such a situation in theory but a bar with context dependent actions doesn't really seem like the right place for it.
-        Q_ASSERT(internalContextMenuActions.first()->icon().name() == m_actionCollection->action(KStandardAction::name(KStandardAction::HamburgerMenu))->icon().name());
-        internalContextMenuActions.removeFirst();
-
-        for (auto it = internalContextMenuActions.constBegin(); it != internalContextMenuActions.constEnd(); ++it) {
-            if (actionsThatShouldntBeAdded.count(*it)) {
-                continue; // Skip this action.
-            }
-            if (!qobject_cast<DolphinRemoveAction *>(*it)) { // We already have a "Move to Trash" action so we don't want a DolphinRemoveAction.
-                // We filter duplicate separators here so we won't have to deal with them later.
-                if (!contextActions.back()->isSeparator() || !(*it)->isSeparator()) {
-                    contextActions.emplace_back((*it));
-                }
+        if (!qobject_cast<DolphinRemoveAction *>(*it)) { // We already have a "Move to Trash" action so we don't want a DolphinRemoveAction.
+            // We filter duplicate separators here so we won't have to deal with them later.
+            if (!contextActions.back()->isSeparator() || !(*it)->isSeparator()) {
+                contextActions.emplace_back((*it));
             }
         }
     }
@@ -612,21 +646,13 @@ int SelectionModeBottomBar::unusedSpace() const
     if (m_overflowButton) {
         sumOfPreferredWidths += m_overflowButton->sizeHint().width();
     }
-    std::cout << "These layout items should have sane width: ";
     for (int i = 0; i < m_layout->count(); ++i) {
         auto widget = m_layout->itemAt(i)->widget();
         if (widget && !widget->isVisibleTo(widget->parentWidget())) {
             continue; // We don't count invisible widgets.
         }
-        std::cout << m_layout->itemAt(i)->sizeHint().width() << ", ";
-        if (m_layout->itemAt(i)->sizeHint().width() == 0) {
-            // One of the items reports an invalid width. We can't work with this so we report an unused space of 0 which should lead to as few changes to the
-            // layout as possible until the next resize event happens at a later point in time.
-            //return 0;
-        }
         sumOfPreferredWidths += m_layout->itemAt(i)->sizeHint().width() + m_layout->spacing();
     }
-    std::cout << "leads to unusedSpace = " << width() << " - " << sumOfPreferredWidths - 20 << " = " << width() - sumOfPreferredWidths - 20 << "\n";
     return width() - sumOfPreferredWidths - 20; // We consider all space used when there are only 20 pixels left
                                                 // so there is some room to breath and not too much wonkyness while resizing.
 }
@@ -636,7 +662,6 @@ void SelectionModeBottomBar::updateExplanatoryLabelVisibility()
     if (!m_explanatoryLabel) {
         return;
     }
-    std::cout << "label minimumSizeHint compared to width() :" << m_explanatoryLabel->sizeHint().width() << "/" << m_explanatoryLabel->width() << "; unusedSpace: " << unusedSpace() << "\n";
     if (m_explanatoryLabel->isVisible()) {
         m_explanatoryLabel->setVisible(unusedSpace() > 0);
     } else {
@@ -660,17 +685,17 @@ void SelectionModeBottomBar::updateMainActionButton(const KFileItemList& selecti
     switch (m_contents) {
     case CopyContents:
         buttonText = i18ncp("@action A more elaborate and clearly worded version of the Copy action",
-                            "Copy %2 to the Clipboard", "Copy %2 to the Clipboard", selection.count(), 
+                            "Copy %2 to the Clipboard", "Copy %2 to the Clipboard", selection.count(),
                             fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case CopyLocationContents:
         buttonText = i18ncp("@action A more elaborate and clearly worded version of the Copy Location action",
-                            "Copy the Location of %2 to the Clipboard", "Copy the Location of %2 to the Clipboard", selection.count(), 
+                            "Copy the Location of %2 to the Clipboard", "Copy the Location of %2 to the Clipboard", selection.count(),
                             fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case CutContents:
         buttonText = i18ncp("@action A more elaborate and clearly worded version of the Cut action",
-                            "Cut %2 to the Clipboard", "Cut %2 to the Clipboard", selection.count(), 
+                            "Cut %2 to the Clipboard", "Cut %2 to the Clipboard", selection.count(),
                             fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case DeleteContents:
