@@ -22,10 +22,13 @@ void ActionTextHelper::registerTextWhenNothingIsSelected(QAction *action, QStrin
 void ActionTextHelper::textsWhenNothingIsSelectedEnabled(bool enabled)
 {
     for (auto i = m_registeredActionTextChanges.begin(); i != m_registeredActionTextChanges.end(); ++i) {
-        if (!i->action) {
+        while (!i->action) {
             i = m_registeredActionTextChanges.erase(i);
-            continue;
+            if (i == m_registeredActionTextChanges.end()) {
+                break;
+            }
         }
+
         if (enabled && i->textStateOfRegisteredText == TextWhenNothingIsSelected) {
             QString textWhenSomethingIsSelected = i->action->text();
             i->action->setText(i->registeredText);

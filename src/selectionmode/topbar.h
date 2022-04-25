@@ -40,15 +40,17 @@ public:
      * @see QWidget::setVisible()
      */
     void setVisible(bool visible, Animated animated);
-    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget.
 
 Q_SIGNALS:
     void leaveSelectionModeRequested();
 
 protected:
-    void resizeEvent(QResizeEvent */* resizeEvent */) override;
+    /** Calls updateLabelString() */
+    void resizeEvent(QResizeEvent *resizeEvent) override;
 
 private:
+    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget so we can still use it privately.
+
     /** Decides whether the m_fullLabelString or m_shortLabelString should be used based on available width. */
     void updateLabelString();
 

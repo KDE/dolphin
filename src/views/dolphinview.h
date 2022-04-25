@@ -112,6 +112,9 @@ public:
     void setViewMode(Mode mode);
     Mode viewMode() const;
 
+    /**
+     * Enables or disables a mode for quick and easy selection of items.
+     */
     void setSelectionMode(bool enabled);
     bool selectionMode() const;
 

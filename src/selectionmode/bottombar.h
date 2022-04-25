@@ -15,8 +15,6 @@
 #include <QPropertyAnimation>
 #include <QWidget>
 
-#include <memory>
-
 class KActionCollection;
 class KFileItemList;
 class QAction;
@@ -30,7 +28,7 @@ namespace SelectionMode
     class BottomBarContentsContainer;
 
 /**
- * A bar used in selection mode that serves various purposes depending on what the user is currently trying to do.
+ * @brief A bar used in selection mode that serves various purposes depending on what the user is currently trying to do.
  *
  * The Contents enum below gives a rough idea about the different states this bar might have.
  * The bar is notified of various changes that make changing or updating the content worthwhile.
@@ -43,7 +41,7 @@ class BottomBar : public QWidget
 
 public:
     /** The different contents this bar can have. */
-    enum Contents{
+    enum Contents {
         CopyContents,
         CopyLocationContents,
         CopyToOtherViewContents,
@@ -69,11 +67,20 @@ public:
      *
      * This bar might also not show itself when setVisible(true), when context menu actions are supposed to be shown
      * for the selected items but no items have been selected yet. In that case it will only show itself once items were selected.
+     *
+     * This bar might also ignore a setVisible(false) call, if it has PasteContents because that bar is supposed to stay visible
+     * even outside of selection mode.
+     *
+     * @param visible   Whether this bar is supposed to be visible long term
+     * @param animated  Whether this should be animated. The animation is skipped if the users' settings are configured that way.
+     *
      * @see QWidget::setVisible()
      */
     void setVisible(bool visible, Animated animated);
-    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget.
 
+    /**
+     * Changes the contents of the bar to @p contents.
+     */
     void resetContents(Contents contents);
     Contents contents() const;
 
@@ -81,6 +88,7 @@ public:
     QSize sizeHint() const override;
 
 public Q_SLOTS:
+    /** Adapts the contents based on the selection in the related view. */
     void slotSelectionChanged(const KFileItemList &selection, const QUrl &baseUrl);
 
     /** Used to notify the m_selectionModeBottomBar that there is no other ViewContainer in the tab. */
@@ -102,6 +110,8 @@ protected:
     void resizeEvent(QResizeEvent *resizeEvent) override;
 
 private:
+    using QWidget::setVisible; // Makes sure that the setVisible() declaration above doesn't hide the one from QWidget so we can still use it privately.
+
     /**
      * Identical to SelectionModeBottomBar::setVisible() but doesn't change m_allowedToBeVisible.
      * @see SelectionModeBottomBar::setVisible()
@@ -119,7 +129,7 @@ private:
      * This is necessary because this bar might have been setVisible(true) but there is no reason to show the bar currently so it was kept hidden.
      * @see SelectionModeBottomBar::setVisible() */
     bool m_allowedToBeVisible = false;
-    /// @see SelectionModeBottomBar::setVisible()
+    /** @see SelectionModeBottomBar::setVisible() */
     QPointer<QPropertyAnimation> m_heightAnimation;
 };
 

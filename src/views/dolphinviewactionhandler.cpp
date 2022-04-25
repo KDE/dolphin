@@ -166,6 +166,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
     connect(copyPathAction, &QAction::triggered, this, &DolphinViewActionHandler::slotCopyPath);
 
     if (actionTextHelper) {
+        // The "…" at the end make clear that they won't trigger their respective actions directly.
         actionTextHelper->registerTextWhenNothingIsSelected(trashAction, i18nc("@action:inmenu File", "Move to Trash…"));
         actionTextHelper->registerTextWhenNothingIsSelected(deleteAction, i18nc("@action:inmenu File", "Delete…"));
         actionTextHelper->registerTextWhenNothingIsSelected(duplicateAction, i18nc("@action:inmenu File", "Duplicate Here…"));
@@ -438,6 +439,7 @@ void DolphinViewActionHandler::slotRename()
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->renameSelectedItems();
+        // We don't exit selectionMode here because users might want to rename more items.
     }
 }
 

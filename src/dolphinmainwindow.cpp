@@ -125,7 +125,7 @@ DolphinMainWindow::DolphinMainWindow() :
     setComponentName(QStringLiteral("dolphin"), QGuiApplication::applicationDisplayName());
     setObjectName(QStringLiteral("Dolphin#"));
 
-   // setStateConfigGroup("State");
+    setStateConfigGroup("State");
 
     connect(&DolphinNewFileMenuObserver::instance(), &DolphinNewFileMenuObserver::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
@@ -1675,8 +1675,7 @@ void DolphinMainWindow::setupActions()
     QAction *toggleSelectionModeAction = actionCollection()->addAction(QStringLiteral("toggle_selection_mode"));
     // i18n: This action toggles a selection mode.
     toggleSelectionModeAction->setText(i18nc("@action:inmenu", "Select Files and Folders"));
-    // i18n: Opens a selection mode for selecting files/folders and later selecting an action that acts on them.
-    // So in a way "Select" here is used to mean both "Select files" and also "Select what to do" but mostly the first.
+    // i18n: Opens a selection mode for selecting files/folders.
     // The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
     toggleSelectionModeAction->setIconText(i18nc("@action:intoolbar", "Select"));
     toggleSelectionModeAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>This application only knows which files or folders should be acted on if they are"

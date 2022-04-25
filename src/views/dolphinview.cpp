@@ -301,7 +301,6 @@ bool DolphinView::selectionMode() const
     return m_container->controller()->selectionMode();
 }
 
-
 void DolphinView::setPreviewsShown(bool show)
 {
     if (previewsShown() == show) {

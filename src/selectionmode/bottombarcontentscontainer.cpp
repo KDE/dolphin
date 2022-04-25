@@ -69,8 +69,10 @@ void BottomBarContentsContainer::resetContents(BottomBar::Contents contents)
     }
 }
 
-void BottomBarContentsContainer::updateForNewWidth()
+void BottomBarContentsContainer::adaptToNewBarWidth(int newBarWidth)
 {
+    m_barWidth = newBarWidth;
+
     if (m_contents == BottomBar::GeneralContents) {
         Q_ASSERT(m_overflowButton);
         if (unusedSpace() < 0) {
@@ -94,7 +96,7 @@ void BottomBarContentsContainer::updateForNewWidth()
                 }
             }
         } else {
-            // We have some unusedSpace(). Let's check if we can maybe add more of the contextual action's widgets.
+            // We have some unusedSpace(). Let's check if we can maybe add more of the contextual actions' widgets.
             for (auto i = m_generalBarActions.begin(); i != m_generalBarActions.end(); ++i) {
                 if (i->isWidgetVisible()) {
                     continue;
@@ -130,6 +132,7 @@ void BottomBarContentsContainer::slotSelectionChanged(const KFileItemList &selec
         auto contextActions = contextActionsFor(selection, baseUrl);
         m_generalBarActions.clear();
         if (contextActions.empty()) {
+            // We have nothing to show
             Q_ASSERT(qobject_cast<BottomBar *>(parentWidget()->parentWidget()->parentWidget()));
             if (isVisibleTo(parentWidget()->parentWidget()->parentWidget()->parentWidget())) { // is the bar visible
                 Q_EMIT barVisibilityChangeRequested(false);
@@ -162,7 +165,7 @@ void BottomBarContentsContainer::addCopyContents()
     // We claim to have PasteContents already so triggering the copy action next won't instantly hide the bottom bar.
     connect(copyButton, &QAbstractButton::clicked, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
-            m_contents = BottomBar::Contents::PasteContents;
+            m_contents = BottomBar::Contents::PasteContents; // prevents hiding
         }
     });
     // Connect the copy action as a second step.
@@ -232,7 +235,7 @@ void BottomBarContentsContainer::addCutContents()
     // We claim to have PasteContents already so triggering the cut action next won't instantly hide the bottom bar.
     connect(cutButton, &QAbstractButton::clicked, [this]() {
         if (GeneralSettings::showPasteBarAfterCopying()) {
-            m_contents = BottomBar::Contents::PasteContents;
+            m_contents = BottomBar::Contents::PasteContents; // prevents hiding
         }
     });
     // Connect the cut action as a second step.
@@ -400,9 +403,9 @@ void BottomBarContentsContainer::addPasteContents()
     vBoxLayout->addWidget(pasteButton);
 
     auto *dismissButton = new QToolButton(this);
-    dismissButton->setText(i18nc("@action Dismisses a bar explaining how to use the Paste action", "Dismiss this Reminder"));
+    dismissButton->setText(i18nc("@action Dismisses a bar explaining how to use the Paste action", "Dismiss This Reminder"));
     connect(dismissButton, &QAbstractButton::clicked, this, actuallyLeaveSelectionMode);
-    auto *dontRemindAgainAction = new QAction(i18nc("@action Dismisses an explanatory area and never shows it again", "Don't remind me again"), this);
+    auto *dontRemindAgainAction = new QAction(i18nc("@action Dismisses an explanatory area and never shows it again", "Don't Remind Me Again"), this);
     connect(dontRemindAgainAction, &QAction::triggered, this, []() {
         GeneralSettings::setShowPasteBarAfterCopying(false);
     });
@@ -516,9 +519,7 @@ int BottomBarContentsContainer::unusedSpace() const
         }
         sumOfPreferredWidths += m_layout->itemAt(i)->sizeHint().width() + m_layout->spacing();
     }
-    Q_ASSERT(qobject_cast<BottomBar *>(parentWidget()->parentWidget()->parentWidget()));
-    const int totalBarWidth = parentWidget()->parentWidget()->parentWidget()->width();
-    return totalBarWidth - sumOfPreferredWidths - 20; // We consider all space used when there are only 20 pixels left
+    return m_barWidth - sumOfPreferredWidths - 20; // We consider all space used when there are only 20 pixels left
                                                       // so there is some room to breath and not too much wonkyness while resizing.
 }
 
@@ -535,7 +536,7 @@ void BottomBarContentsContainer::updateExplanatoryLabelVisibility()
     }
 }
 
-void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& selection)
+void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& selectedItems)
 {
     if (!m_mainAction.widget()) {
         return;
@@ -543,45 +544,69 @@ void BottomBarContentsContainer::updateMainActionButton(const KFileItemList& sel
     Q_ASSERT(qobject_cast<QAbstractButton *>(m_mainAction.widget()));
 
     // Users are nudged towards selecting items by having the button disabled when nothing is selected.
-    m_mainAction.widget()->setEnabled(selection.count() > 0 && m_mainAction.action()->isEnabled());
+    m_mainAction.widget()->setEnabled(selectedItems.count() > 0 && m_mainAction.action()->isEnabled());
     QFontMetrics fontMetrics = m_mainAction.widget()->fontMetrics();
 
     QString buttonText;
     switch (m_contents) {
     case BottomBar::CopyContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Copy action",
-                            "Copy %2 to the Clipboard", "Copy %2 to the Clipboard", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Copy action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Copy %2 to the Clipboard", "Copy %2 to the Clipboard", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // All these long lines can not be broken up with line breaks becaue the i18n call should be completely
+        // in the line following the "i18n:" comment without any line breaks within the i18n call
+        // or the comment might not be correctly extracted. See: https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1
         break;
     case BottomBar::CopyLocationContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Copy Location action",
-                            "Copy the Location of %2 to the Clipboard", "Copy the Location of %2 to the Clipboard", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Copy Location action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Copy the Location of %2 to the Clipboard", "Copy the Location of %2 to the Clipboard", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case BottomBar::CutContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Cut action",
-                            "Cut %2 to the Clipboard", "Cut %2 to the Clipboard", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Cut action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Cut %2 to the Clipboard", "Cut %2 to the Clipboard", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case BottomBar::DeleteContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Delete action",
-                            "Permanently Delete %2", "Permanently Delete %2", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Delete action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Permanently Delete %2", "Permanently Delete %2", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case BottomBar::DuplicateContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Duplicate action",
-                            "Duplicate %2", "Duplicate %2", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Duplicate action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Duplicate %2", "Duplicate %2", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case BottomBar::MoveToTrashContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Trash action",
-                            "Move %2 to the Trash", "Move %2 to the Trash", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Trash action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Move %2 to the Trash", "Move %2 to the Trash", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     case BottomBar::RenameContents:
-        buttonText = i18ncp("@action A more elaborate and clearly worded version of the Rename action",
-                            "Rename %2", "Rename %2", selection.count(),
-                            fileItemListToString(selection, fontMetrics.averageCharWidth() * 20, fontMetrics));
+        // i18n: A more elaborate and clearly worded version of the Rename action
+        // %2 is a textual representation of the currently selected files or folders. This can be the name of
+        // the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+        // If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+        // and a fallback will be used.
+        buttonText = i18ncp("@action", "Rename %2", "Rename %2", selectedItems.count(), fileItemListToString(selectedItems, fontMetrics.averageCharWidth() * 20, fontMetrics));
         break;
     default:
         return;

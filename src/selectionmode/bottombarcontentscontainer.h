@@ -43,6 +43,9 @@ public:
      */
     explicit BottomBarContentsContainer(KActionCollection *actionCollection, QWidget *parent);
 
+    /**
+     * @param contents The kind of contents that should be contained instead.
+     */
     void resetContents(BottomBar::Contents contents);
     inline BottomBar::Contents contents() const
     {
@@ -53,9 +56,14 @@ public:
         return contents() != BottomBar::GeneralContents || m_internalContextMenu;
     }
 
-    void updateForNewWidth();
+    /**
+     * Is called when the BottomBar resizes to let this ContentsContainer know that it should adapt its contents to the new width.
+     * Adapting is done by showing or hiding labels or buttons.
+     */
+    void adaptToNewBarWidth(int newBarWidth);
 
 public Q_SLOTS:
+    /** Adapts the contents based on the selection in the related view. */
     void slotSelectionChanged(const KFileItemList &selection, const QUrl &baseUrl);
 
 Q_SIGNALS:
@@ -65,8 +73,8 @@ Q_SIGNALS:
     void error(const QString &errorMessage);
 
     /**
-     * Sometimes the contents see no reason to be visible and request the bar to be hidden instead which emits this signal.
-     * This can later change e.g. because the user selected items. Then this signal is used to request showing of the bar.
+     * When it does not make sense to show any specific contents, this signal is emitted and the receiver hides the bar.
+     * Later it might sense to show it again e.g. because the user selected items. Then this signal is used to request showing of the bar.
      */
     void barVisibilityChangeRequested(bool visible);
 
@@ -90,15 +98,15 @@ private:
     void addRenameContents();
 
     /**
-     * Deletes all visible widgets and layouts from the bar.
+     * Deletes every child layout and child widget of this container.
      */
     void emptyBarContents();
 
     /**
-     * @returns A vector containing contextual actions for the given \a selection in the \a baseUrl.
+     * @returns A vector containing contextual actions for the given \a selectedItems in the \a baseUrl.
      * Cut, Copy, Rename and MoveToTrash are always added. Any further contextual actions depend on
-     * \a selection and \a baseUrl. \a selection and \a baseUrl can be empty/default constructed if
-     * no item- or view-specific actions should be added aside from Cut, Copy, Rename, MoveToTrash.
+     * \a selectedItems and \a baseUrl.
+     * If there are no \a selectedItems, an empty vector is returned and m_internalContextMenu is deleted.
      * @param selectedItems The selected items for which contextual actions should be displayed.
      * @param baseUrl       Base URL of the viewport the contextual actions apply to.
      */
@@ -107,7 +115,7 @@ private:
     /**
      * @returns the amount of pixels that can be spared to add more widgets. A negative value might
      * be returned which signifies that some widgets should be hidden or removed from this bar to
-     * make sure that this SelectionModeBottomBar won't stretch the width of its parent.
+     * make sure that this BottomBarContentsContainer can fully fit on the BottomBar.
      */
     int unusedSpace() const;
 
@@ -118,12 +126,12 @@ private:
     void updateExplanatoryLabelVisibility();
 
     /**
-     * Changes the text and enabled state of the main action button
-     * based on the amount of currently selected items and the state of the current m_mainAction.
+     * Changes the text and enabled state of the main action button based on the amount of currently
+     * selected items and the state of the current m_mainAction.
      * The current main action depends on the current barContents.
-     * @param selection the currently selected fileItems.
+     * @param selectedItems the currently selected fileItems.
      */
-    void updateMainActionButton(const KFileItemList &selection);
+    void updateMainActionButton(const KFileItemList &selectedItems);
 
 private:
     /// All the actions that should be available from this bar when in general mode.
@@ -141,11 +149,12 @@ private:
     KActionCollection *m_actionCollection;
     /// Describes the current contents of the bar.
     BottomBar::Contents m_contents;
-    /** The layout all the buttons and labels are added to.
-     * Do not confuse this with layout() because we do have a QScrollView in between this widget and m_layout. */
+    /// The main layout of this ContentsContainer that all the buttons and labels are added to.
     QHBoxLayout *m_layout;
 
-    /// The info label used for some of the BarContents. Is hidden for narrow widths.
+    /// Caches the totalBarWidth as set in adaptToNewWidth(newBarWidth). */
+    int m_barWidth = 0;
+    /// The info label used for some of the Contents. Is hidden for narrow widths.
     QPointer<QLabel> m_explanatoryLabel;
 };
 

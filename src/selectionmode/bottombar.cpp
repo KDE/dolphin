@@ -11,11 +11,6 @@
 #include "backgroundcolorhelper.h"
 #include "global.h"
 
-#include <KActionCollection>
-#include <KFileItem>
-#include <KFileItemListProperties>
-#include <KStandardAction>
-
 #include <QGridLayout>
 #include <QResizeEvent>
 #include <QScrollArea>
@@ -87,7 +82,6 @@ void BottomBar::setVisibleInternal(bool visible, Animated animated)
     m_heightAnimation->setDuration(2 *
             style()->styleHint(QStyle::SH_Widget_Animation_Duration, nullptr, this) *
             GlobalConfig::animationDurationFactor());
-
     m_heightAnimation->setStartValue(height());
     m_heightAnimation->setEasingCurve(QEasingCurve::OutCubic);
     if (visible) {
@@ -166,7 +160,7 @@ void BottomBar::resizeEvent(QResizeEvent *resizeEvent)
         return QWidget::resizeEvent(resizeEvent);
     }
 
-    m_contentsContainer->updateForNewWidth();
+    m_contentsContainer->adaptToNewBarWidth(width());
 
     return QWidget::resizeEvent(resizeEvent);
 }

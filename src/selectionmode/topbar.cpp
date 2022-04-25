@@ -42,7 +42,7 @@ TopBar::TopBar(QWidget *parent) :
     fillParentLayout->setContentsMargins(0, 0, 0, 0);
 
     // Put the contents into a QScrollArea. This prevents increasing the view width
-    // in case that not enough width for the contents is available. (this trick is also used in selectionmodebottombar.cpp.)
+    // in case that not enough width for the contents is available. (this trick is also used in bottombar.cpp.)
     auto scrollArea = new QScrollArea(this);
     fillParentLayout->addWidget(scrollArea);
     scrollArea->setFrameShape(QFrame::NoFrame);
@@ -111,9 +111,10 @@ void TopBar::setVisible(bool visible, Animated animated)
     m_heightAnimation->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void TopBar::resizeEvent(QResizeEvent */* resizeEvent */)
+void TopBar::resizeEvent(QResizeEvent *resizeEvent)
 {
     updateLabelString();
+    return QWidget::resizeEvent(resizeEvent);
 }
 
 void TopBar::updateLabelString()

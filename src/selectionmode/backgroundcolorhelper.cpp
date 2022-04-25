@@ -54,9 +54,11 @@ void BackgroundColorHelper::slotPaletteChanged()
 {
     updateBackgroundColor();
     for (auto i = m_colorControlledWidgets.begin(); i != m_colorControlledWidgets.end(); ++i) {
-        if (!*i) {
+        while (!*i) {
             i = m_colorControlledWidgets.erase(i);
-            continue;
+            if (i == m_colorControlledWidgets.end()) {
+                break;
+            }
         }
         setBackgroundColorForWidget(*i, m_backgroundColor);
     }
@@ -83,7 +85,8 @@ void BackgroundColorHelper::updateBackgroundColor()
     }
 
     m_backgroundColor = QColor::fromHsv(newHue,
-                                        // Saturation should be closer to the active color because otherwise the selection mode color might overpower it.
+                                        // Saturation should be closer to the saturation of the active color
+                                        // because otherwise the selection mode color might overpower it.
                                         .7 * activeBackgroundColor.saturation() + .3 * positiveBackgroundColor.saturation(),
                                         (activeBackgroundColor.value() + positiveBackgroundColor.value()) / 2,
                                         (activeBackgroundColor.alpha() + positiveBackgroundColor.alpha()) / 2);

@@ -28,20 +28,30 @@ public:
 
     /**
      * Changes the background color of @p widget to a distinct color scheme matching color which makes it clear that the widget belongs to the selection mode.
+     * The background color of @p widget will from now on be updated automatically when the palette of the application changes.
      */
     void controlBackgroundColor(QWidget *widget);
 
 private:
     BackgroundColorHelper();
 
+    /**
+     * Called when the palette of the application changes.
+     * Triggers updateBackgroundColor() and the updates the background color of m_colorControlledWidgets.
+     * @see updateBackgroundColor
+     */
     void slotPaletteChanged();
 
+    /** Calculates a new m_colorControlledWidgets based on the current colour scheme of the application. */
     void updateBackgroundColor();
 
 private:
+    /// The widgets who have given up control over the background color to BackgroundColorHelper.
     std::vector<QPointer<QWidget>> m_colorControlledWidgets;
+    /// The color to be used for the widgets' backgrounds.
     QColor m_backgroundColor;
 
+    /// Singleton object
     static BackgroundColorHelper *s_instance;
 };
 

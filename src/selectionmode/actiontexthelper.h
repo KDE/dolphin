@@ -17,6 +17,11 @@ namespace SelectionMode
 
 /**
  * @brief Helps changing the texts of actions depending on the current selection.
+ *
+ * This is useful for actions that directly trigger a change when there is a selection and do something
+ * different when nothing is selected. For example should the copy action read "Copy" when items are
+ * selected but when no items are selected it can read "Copy…" since triggering it will enter selection
+ * mode and ask users to select the files they want to copy first.
  */
 class ActionTextHelper : QObject
 {
@@ -25,7 +30,7 @@ public:
 
     /**
      * Changes the text of \a action to \a text whenever textsWhenNothingIsSelectedEnabled(true) is called.
-     * The texts can be changed back by calling textsWhenNothingIsSelectedEnabled(false) is called.
+     * The texts can be changed back by calling textsWhenNothingIsSelectedEnabled(false).
      * @see textsWhenNothingIsSelectedEnabled()
      */
     void registerTextWhenNothingIsSelected(QAction *action, QString registeredText);

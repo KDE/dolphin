@@ -21,6 +21,9 @@ namespace SelectionMode
  * @brief Small wrapper/helper class that contains an action and its widget.
  *
  * This class takes neither the responsibility for deleting its action() nor its widget().
+ *
+ * This class is only used from BottomBarContentsContainer currently.
+ * @see BottomBarContentsContainer
  */
 class ActionWithWidget
 {
@@ -28,9 +31,9 @@ public:
     ActionWithWidget(QAction *action);
 
     /**
-     * Connect @p action and @p button using copyActionDataToButton() and the
-     * wraps the two together in the ActionWithWidget object.
-     * ActionWithWidget doesn't take any ownership.
+     * Connect @p action and @p button using copyActionDataToButton() and
+     * wraps the two together in a ActionWithWidget object.
+     * ActionWithWidget doesn't take any ownership over the parameters.
      *
      * @see copyActionDataToButton()
      *
@@ -38,7 +41,7 @@ public:
      */
     ActionWithWidget(QAction *action, QAbstractButton *button);
 
-    /** @returns the action of this object. Crashes if that action has been deleted elsewhere in the meantime. */
+    /** @returns the action of this object. */
     inline QAction *action() {
         Q_CHECK_PTR(m_action);
         return m_action;
@@ -69,7 +72,7 @@ private:
 
 /**
  * A small helper method.
- * @return a button with the correct styling for the general mode of the SelectionModeBottomBar which can be added to its layout.
+ * @return a button with the correct styling for the general mode of the BottomBarContentsContainer which can be added to its layout.
  */
 QAbstractButton *newButtonForAction(QAction *action, QWidget *parent);
 
