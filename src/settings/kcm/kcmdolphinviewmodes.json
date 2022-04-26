@@ -1,6 +1,13 @@
 {
     "KPlugin": {
         "Description": "Configure file manager view modes",
+        "Description[ca@valencia]": "Configura els modes de vista del gestor de fitxers",
+        "Description[ca]": "Configura els modes de vista del gestor de fitxers",
+        "Description[es]": "Configurar los modos de vistas del gestor de archivos",
+        "Description[nl]": "Bestandsbeheerderweergavemodussen configureren",
+        "Description[tr]": "Dosya yöneticisi görünüm kiplerini yapılandır",
+        "Description[uk]": "Налаштувати режими перегляду менеджера файлів",
+        "Description[x-test]": "xxConfigure file manager view modesxx",
         "Icon": "preferences-desktop-icons",
         "Name": "View Modes",
         "Name[ar]": "أوضاع المنظور",

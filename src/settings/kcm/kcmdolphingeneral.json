@@ -1,8 +1,22 @@
 {
     "KPlugin": {
         "Description": "Configure general file manager settings",
+        "Description[ca@valencia]": "Configura les opcions generals del gestor de fitxers",
+        "Description[ca]": "Configura les opcions generals del gestor de fitxers",
+        "Description[es]": "Configurar las preferencias generales del gestor de archivos",
+        "Description[nl]": "Algemene bestandsbeheerderinstellingen configureren",
+        "Description[tr]": "Genel dosya yöneticisi ayarlarını yapılandır",
+        "Description[uk]": "Налаштувати загальні параметри менеджера файлів",
+        "Description[x-test]": "xxConfigure general file manager settingsxx",
         "Icon": "system-file-manager",
         "Name": "General",
+        "Name[ca@valencia]": "General",
+        "Name[ca]": "General",
+        "Name[es]": "General",
+        "Name[nl]": "Algemeen",
+        "Name[tr]": "Genel",
+        "Name[uk]": "Загальне",
+        "Name[x-test]": "xxGeneralxx",
         "ServiceTypes": [
             "KCModule"
         ]

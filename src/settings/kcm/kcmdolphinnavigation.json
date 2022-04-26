@@ -1,6 +1,13 @@
 {
     "KPlugin": {
         "Description": "Configure file manager navigation",
+        "Description[ca@valencia]": "Configura la navegació del gestor de fitxers",
+        "Description[ca]": "Configura la navegació del gestor de fitxers",
+        "Description[es]": "Configurar la navegación del gestor de archivos",
+        "Description[nl]": "Bestandsbeheerdernavigatie configureren",
+        "Description[tr]": "Dosya yöneticisi dolaşımını yapılandır",
+        "Description[uk]": "Налаштувати навігацію у менеджері файлів",
+        "Description[x-test]": "xxConfigure file manager navigationxx",
         "Icon": "preferences-desktop-navigation",
         "Name": "Navigation",
         "Name[ar]": "التّنقّل",
