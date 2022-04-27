@@ -234,7 +234,9 @@ void TerminalPanel::changeDir(const QUrl& url)
 
 void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHistory)
 {
-    if (dir == m_konsolePartCurrentDirectory) {
+    if (dir == m_konsolePartCurrentDirectory   // We are already there
+        && m_sendCdToTerminalHistory.isEmpty() // …and that is not because the terminal couldn't keep up
+    ) {
         m_clearTerminal = false;
         return;
     }
@@ -252,14 +254,14 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
     }
 #endif
 
-    m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
-
     // We want to ignore the currentDirectoryChanged(QString) signal, which we will receive after
     // the directory change, because this directory change is not caused by a "cd" command that the
     // user entered in the panel. Therefore, we have to remember 'dir'. Note that it could also be
     // a symbolic link -> remember the 'canonical' path.
     if (addToHistory == HistoryPolicy::AddToHistory)
         m_sendCdToTerminalHistory.enqueue(QDir(dir).canonicalPath());
+
+    m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
 
     if (m_clearTerminal) {
         m_terminal->sendInput(QStringLiteral(" clear\n"));
