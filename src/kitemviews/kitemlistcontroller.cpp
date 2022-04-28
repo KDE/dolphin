@@ -77,7 +77,7 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_longPressDetectionTimer->setInterval(QGuiApplication::styleHints()->mousePressAndHoldInterval());
     connect(m_longPressDetectionTimer, &QTimer::timeout, this, [this]() {
         if (!m_selectionMode) {
-            Q_EMIT selectionModeRequested();
+            Q_EMIT selectionModeChangeRequested(true);
         }
     });
 
@@ -232,7 +232,7 @@ bool KItemListController::singleClickActivationEnforced() const
     return m_singleClickActivationEnforced;
 }
 
-void KItemListController::setSelectionMode(bool enabled)
+void KItemListController::setSelectionModeEnabled(bool enabled)
 {
     m_selectionMode = enabled;
 }
@@ -430,6 +430,9 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     case Qt::Key_Escape:
+        if (m_selectionMode && m_selectionManager->selectedItems().count() < 1) {
+            Q_EMIT selectionModeChangeRequested(false);
+        }
         if (m_selectionBehavior != SingleSelection) {
             m_selectionManager->clearSelection();
         }

@@ -115,7 +115,7 @@ public:
     /**
      * Enables or disables a mode for quick and easy selection of items.
      */
-    void setSelectionMode(bool enabled);
+    void setSelectionModeEnabled(bool enabled);
     bool selectionMode() const;
 
     /**
@@ -609,11 +609,11 @@ Q_SIGNALS:
     void goForwardRequested();
 
     /**
-     * Is emitted when the selection mode is requested for the current view.
-     * This typically happens on press and hold.
-     * @see KItemListController::longPress()
+     * Used to request either entering or leaving of selection mode
+     * Entering is typically requested on press and hold.
+     * Leaving by pressing Escape when no item is selected.
      */
-    void selectionModeRequested();
+    void selectionModeChangeRequested(bool enabled);
 
     /**
      * Is emitted when the user wants to move the focus to another view.

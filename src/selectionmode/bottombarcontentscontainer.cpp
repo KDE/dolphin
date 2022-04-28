@@ -158,7 +158,7 @@ void BottomBarContentsContainer::addCopyContents()
 
     // i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Copying"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *copyButton = new QPushButton(this);
@@ -176,7 +176,7 @@ void BottomBarContentsContainer::addCopyContents()
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
                 // it instantly deletes the button and then the other slots won't be called.
         }
-        Q_EMIT leaveSelectionModeRequested();
+        Q_EMIT selectionModeLeavingRequested();
     });
     updateMainActionButton(KFileItemList());
     m_layout->addWidget(copyButton);
@@ -191,7 +191,7 @@ void BottomBarContentsContainer::addCopyLocationContents()
 
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Copying"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *copyLocationButton = new QPushButton(this);
@@ -210,7 +210,7 @@ void BottomBarContentsContainer::addCopyToOtherViewContents()
 
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Copying"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *copyToOtherViewButton = new QPushButton(this);
@@ -228,7 +228,7 @@ void BottomBarContentsContainer::addCutContents()
 
     // i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Cutting"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *cutButton = new QPushButton(this);
@@ -246,7 +246,7 @@ void BottomBarContentsContainer::addCutContents()
             resetContents(BottomBar::Contents::PasteContents); // resetContents() needs to be connected last because
                 // it instantly deletes the button and then the other slots won't be called.
         }
-        Q_EMIT leaveSelectionModeRequested();
+        Q_EMIT selectionModeLeavingRequested();
     });
     updateMainActionButton(KFileItemList());
     m_layout->addWidget(cutButton);
@@ -261,7 +261,7 @@ void BottomBarContentsContainer::addDeleteContents()
 
     // i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *deleteButton = new QPushButton(this);
@@ -279,7 +279,7 @@ void BottomBarContentsContainer::addDuplicateContents()
 
     // i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Duplicating"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *duplicateButton = new QPushButton(this);
@@ -349,7 +349,7 @@ void BottomBarContentsContainer::addMoveToOtherViewContents()
 
     // i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort Moving"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *moveToOtherViewButton = new QPushButton(this);
@@ -367,7 +367,7 @@ void BottomBarContentsContainer::addMoveToTrashContents()
 
     // i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Abort"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *moveToTrashButton = new QPushButton(this);
@@ -393,7 +393,7 @@ void BottomBarContentsContainer::addPasteContents()
      * So we first have to claim that we have different contents before requesting to leave selection mode. */
     auto actuallyLeaveSelectionMode = [this]() {
         m_contents = BottomBar::Contents::CopyLocationContents;
-        Q_EMIT leaveSelectionModeRequested();
+        Q_EMIT selectionModeLeavingRequested();
     };
 
     auto *pasteButton = new QPushButton(this);
@@ -428,7 +428,7 @@ void BottomBarContentsContainer::addRenameContents()
 
     // i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
     auto *cancelButton = new QPushButton(i18nc("@action:button", "Stop Renaming"), this);
-    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::leaveSelectionModeRequested);
+    connect(cancelButton, &QAbstractButton::clicked, this, &BottomBarContentsContainer::selectionModeLeavingRequested);
     m_layout->addWidget(cancelButton);
 
     auto *renameButton = new QPushButton(this);

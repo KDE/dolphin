@@ -52,7 +52,7 @@ BottomBar::BottomBar(KActionCollection *actionCollection, QWidget *parent) :
         }
         setVisibleInternal(visible, WithAnimation);
     });
-    connect(m_contentsContainer, &BottomBarContentsContainer::leaveSelectionModeRequested, this, &BottomBar::leaveSelectionModeRequested);
+    connect(m_contentsContainer, &BottomBarContentsContainer::selectionModeLeavingRequested, this, &BottomBar::selectionModeLeavingRequested);
 
     BackgroundColorHelper::instance()->controlBackgroundColor(this);
 }
@@ -114,7 +114,7 @@ void BottomBar::slotSplitTabDisabled()
     switch (contents()) {
     case CopyToOtherViewContents:
     case MoveToOtherViewContents:
-        Q_EMIT leaveSelectionModeRequested();
+        Q_EMIT selectionModeLeavingRequested();
     default:
         return;
     }

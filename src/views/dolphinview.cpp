@@ -173,7 +173,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
     connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
     connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
-    connect(controller, &KItemListController::selectionModeRequested, this, &DolphinView::selectionModeRequested);
+    connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -283,7 +283,7 @@ DolphinView::Mode DolphinView::viewMode() const
     return m_mode;
 }
 
-void DolphinView::setSelectionMode(const bool enabled)
+void DolphinView::setSelectionModeEnabled(const bool enabled)
 {
     if (enabled) {
         m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
@@ -293,7 +293,7 @@ void DolphinView::setSelectionMode(const bool enabled)
         setStyle(QApplication::style());
         m_view->setStyle(QApplication::style());
     }
-    m_container->controller()->setSelectionMode(enabled);
+    m_container->controller()->setSelectionModeEnabled(enabled);
 }
 
 bool DolphinView::selectionMode() const

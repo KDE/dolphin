@@ -42,7 +42,7 @@ public:
     void setVisible(bool visible, Animated animated);
 
 Q_SIGNALS:
-    void leaveSelectionModeRequested();
+    void selectionModeLeavingRequested();
 
 protected:
     /** Calls updateLabelString() */

@@ -376,7 +376,7 @@ void DolphinViewContainer::disconnectUrlNavigator()
 void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection, SelectionMode::BottomBar::Contents bottomBarContents)
 {
     const bool wasEnabled = m_view->selectionMode();
-    m_view->setSelectionMode(enabled);
+    m_view->setSelectionModeEnabled(enabled);
 
     if (!enabled) {
         Q_CHECK_PTR(m_selectionModeTopBar); // there is no point in disabling selectionMode when it wasn't even enabled once.
@@ -396,7 +396,7 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         });
 
         m_selectionModeTopBar = new SelectionMode::TopBar(this); // will be created hidden
-        connect(m_selectionModeTopBar, &SelectionMode::TopBar::leaveSelectionModeRequested, this, [this]() {
+        connect(m_selectionModeTopBar, &SelectionMode::TopBar::selectionModeLeavingRequested, this, [this]() {
             setSelectionModeEnabled(false);
         });
         m_topLayout->addWidget(m_selectionModeTopBar, positionFor.selectionModeTopBar, 0);
@@ -410,7 +410,7 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
         connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::error, this, [this](const QString &errorMessage) {
             showErrorMessage(errorMessage);
         });
-        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::leaveSelectionModeRequested, this, [this]() {
+        connect(m_selectionModeBottomBar, &SelectionMode::BottomBar::selectionModeLeavingRequested, this, [this]() {
             setSelectionModeEnabled(false);
         });
         m_topLayout->addWidget(m_selectionModeBottomBar, positionFor.selectionModeBottomBar, 0);

@@ -78,7 +78,7 @@ Q_SIGNALS:
      */
     void barVisibilityChangeRequested(bool visible);
 
-    void leaveSelectionModeRequested();
+    void selectionModeLeavingRequested();
 
 private:
     void addCopyContents();

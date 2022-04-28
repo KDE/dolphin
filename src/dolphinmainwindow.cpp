@@ -167,7 +167,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), m_actionTextHelper, this);
     connect(m_actionHandler, &DolphinViewActionHandler::actionBeingHandled, this, &DolphinMainWindow::clearStatusBar);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
-    connect(m_actionHandler, &DolphinViewActionHandler::setSelectionMode, this, &DolphinMainWindow::slotSetSelectionMode);
+    connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged,

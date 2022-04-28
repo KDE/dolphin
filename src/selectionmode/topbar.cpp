@@ -70,7 +70,7 @@ TopBar::TopBar(QWidget *parent) :
     m_closeButton->setAccessibleName(m_closeButton->toolTip());
     m_closeButton->setFlat(true);
     connect(m_closeButton, &QAbstractButton::pressed,
-            this, &TopBar::leaveSelectionModeRequested);
+            this, &TopBar::selectionModeLeavingRequested);
 
     QHBoxLayout *layout = new QHBoxLayout(contentsContainer);
     auto contentsMargins = layout->contentsMargins();

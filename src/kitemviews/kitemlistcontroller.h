@@ -126,7 +126,11 @@ public:
     void setSingleClickActivationEnforced(bool singleClick);
     bool singleClickActivationEnforced() const;
 
-    void setSelectionMode(bool enabled);
+    /**
+     * Setting the selection mode to enabled will make selecting and deselecting easier by acting
+     * kind of similar to when the Control Key is held down.
+     */
+    void setSelectionModeEnabled(bool enabled);
     bool selectionMode() const;
 
     bool processEvent(QEvent* event, const QTransform& transform);
@@ -213,12 +217,15 @@ Q_SIGNALS:
     void escapePressed();
 
     /**
-     * Is emitted if left click is pressed down for a long time without moving the cursor too much.
+     * Used to request either entering or leaving of selection mode
+     * Leaving is requested by pressing Escape when no item is selected.
+     *
+     * Entering is requested if left click is pressed down for a long time without moving the cursor too much.
      * Moving the cursor would either trigger an item drag if the click was initiated on top of an item
      * or a selection rectangle if the click was not initiated on top of an item.
      * So long press is only emitted if there wasn't a lot of cursor movement.
      */
-    void selectionModeRequested();
+    void selectionModeChangeRequested(bool enabled);
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);

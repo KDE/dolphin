@@ -73,8 +73,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, &DolphinViewActionHandler::slotZoomLevelChanged);
     connect(view, &DolphinView::writeStateChanged,
             this, &DolphinViewActionHandler::slotWriteStateChanged);
-    connect(view, &DolphinView::selectionModeRequested,
-            this, [this]() { Q_EMIT setSelectionMode(true); });
+    connect(view, &DolphinView::selectionModeChangeRequested,
+            this, [this](bool enabled) { Q_EMIT selectionModeChangeTriggered(enabled); });
     connect(view, &DolphinView::selectionChanged,
             this, &DolphinViewActionHandler::slotSelectionChanged);
     slotSelectionChanged(m_currentView->selectedItems());
@@ -435,7 +435,7 @@ void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
 void DolphinViewActionHandler::slotRename()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::RenameContents);
+        Q_EMIT selectionModeChangeTriggered(true, SelectionMode::BottomBar::Contents::RenameContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->renameSelectedItems();
@@ -446,22 +446,22 @@ void DolphinViewActionHandler::slotRename()
 void DolphinViewActionHandler::slotTrashActivated()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::MoveToTrashContents);
+        Q_EMIT selectionModeChangeTriggered(true, SelectionMode::BottomBar::Contents::MoveToTrashContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->trashSelectedItems();
-        Q_EMIT setSelectionMode(false);
+        Q_EMIT selectionModeChangeTriggered(false);
     }
 }
 
 void DolphinViewActionHandler::slotDeleteItems()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::DeleteContents);
+        Q_EMIT selectionModeChangeTriggered(true, SelectionMode::BottomBar::Contents::DeleteContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->deleteSelectedItems();
-        Q_EMIT setSelectionMode(false);
+        Q_EMIT selectionModeChangeTriggered(false);
     }
 }
 
@@ -762,11 +762,11 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 void DolphinViewActionHandler::slotDuplicate()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::DuplicateContents);
+        Q_EMIT selectionModeChangeTriggered(true, SelectionMode::BottomBar::Contents::DuplicateContents);
     } else {
         Q_EMIT actionBeingHandled();
         m_currentView->duplicateSelectedItems();
-        Q_EMIT setSelectionMode(false);
+        Q_EMIT selectionModeChangeTriggered(false);
     }
 }
 
@@ -790,10 +790,10 @@ void DolphinViewActionHandler::slotProperties()
 void DolphinViewActionHandler::slotCopyPath()
 {
     if (m_currentView->selectedItemsCount() == 0) {
-        Q_EMIT setSelectionMode(true, SelectionMode::BottomBar::Contents::CopyLocationContents);
+        Q_EMIT selectionModeChangeTriggered(true, SelectionMode::BottomBar::Contents::CopyLocationContents);
     } else {
         m_currentView->copyPathToClipboard();
-        Q_EMIT setSelectionMode(false);
+        Q_EMIT selectionModeChangeTriggered(false);
     }
 }
 

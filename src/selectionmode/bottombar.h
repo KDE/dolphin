@@ -100,7 +100,7 @@ Q_SIGNALS:
      */
     void error(const QString &errorMessage);
 
-    void leaveSelectionModeRequested();
+    void selectionModeLeavingRequested();
 
 protected:
     /** Is installed on an internal widget to make sure that the height of the bar is adjusted to its contents. */

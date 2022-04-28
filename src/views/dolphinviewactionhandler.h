@@ -87,8 +87,8 @@ Q_SIGNALS:
      */
     void createDirectoryTriggered();
 
-    /** Used to request selection mode */
-    void setSelectionMode(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
+    /** Used to request either entering or leaving of selection mode */
+    void selectionModeChangeTriggered(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
 
 private Q_SLOTS:
     /**

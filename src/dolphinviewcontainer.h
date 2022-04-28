@@ -137,7 +137,20 @@ public:
      */
     void disconnectUrlNavigator();
 
+    /**
+     * Sets a selection mode that is useful for quick and easy selecting or deselecting of files.
+     * This method is the central authority about enabling or disabling selection mode:
+     * All other classes that want to enable or disable selection mode should trigger a call of this method.
+     *
+     * This method sets the selection mode for the view of this viewContainer and sets the visibility of the
+     * selection mode top and bottom bar which also belong to this viewContainer.
+     *
+     * @param enabled           Whether to enable or disable selection mode.
+     * @param actionCollection  The collection of actions from which the actions on the bottom bar are retrieved.
+     * @param bottomBarContents The contents the bar is supposed to show after this call.
+     */
     void setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection = nullptr, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
+    /** @see setSelectionModeEnabled() */
     bool isSelectionModeEnabled() const;
 
     /**
