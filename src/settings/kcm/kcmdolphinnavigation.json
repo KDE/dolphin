@@ -1,6 +1,7 @@
 {
     "KPlugin": {
         "Description": "Configure file manager navigation",
+        "Description[ar]": "اضبط التّنقّل في مدير الملفّات",
         "Description[ca@valencia]": "Configura la navegació del gestor de fitxers",
         "Description[ca]": "Configura la navegació del gestor de fitxers",
         "Description[es]": "Configurar la navegación del gestor de archivos",
