@@ -1783,7 +1783,7 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
             } else {
                 const bool singleClickActivation = m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced;
                 if (!singleClickActivation) {
-                    emitItemActivated = touch;
+                    emitItemActivated = touch && !m_selectionMode;
                 } else {
                     // activate on single click only if we didn't come from a rubber band release
                     emitItemActivated = !rubberBandRelease;
