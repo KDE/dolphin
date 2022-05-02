@@ -399,6 +399,12 @@ private Q_SLOTS:
     /** Opens a terminal window for the current location. */
     void openTerminal();
 
+    /** Opens terminal windows for the selected items' locations. */
+    void openTerminalHere();
+
+    /** Opens a terminal window for the URL. */
+    void openTerminalJob(const QUrl& url);
+
     /** Focus a Terminal Panel. */
     void focusTerminalPanel();
 

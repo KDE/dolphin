@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE gui SYSTEM "kpartgui.dtd">
-<gui name="dolphinpart" version="15" translationDomain="dolphin">
+<gui name="dolphinpart" version="16" translationDomain="dolphin">
  <MenuBar>
   <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
@@ -40,6 +40,7 @@
   </Menu>
   <Menu name="tools"><text context="@title:menu">Tools</text>
     <Action name="open_terminal"/>
+    <Action name="open_terminal_here"/>
     <Action name="focus_terminal_panel"/>
     <Action name="find_file" />
     <Action name="show_filter_bar" />

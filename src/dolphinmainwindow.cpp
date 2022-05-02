@@ -1087,8 +1087,45 @@ void DolphinMainWindow::openPreferredSearchTool()
 
 void DolphinMainWindow::openTerminal()
 {
-    const QUrl url = m_activeViewContainer->url();
+    openTerminalJob(m_activeViewContainer->url());
+}
 
+void DolphinMainWindow::openTerminalHere()
+{
+    QList<QUrl> urls = {};
+
+    for (const KFileItem& item : m_activeViewContainer->view()->selectedItems()) {
+        QUrl url = item.url();
+        if (item.isFile()) {
+            url.setPath(QFileInfo(url.path()).absolutePath());
+        }
+        if (!urls.contains(url)) {
+            urls << url;
+        }
+    }
+
+    // No items are selected. Open a terminal window for the current location.
+    if (urls.count() == 0) {
+        openTerminal();
+        return;
+    }
+
+    if (urls.count() > 5) {
+        QString question = i18np("Are you sure you want to open 1 terminal window?",
+                                 "Are you sure you want to open %1 terminal windows?", urls.count());
+        const int answer = KMessageBox::warningYesNo(this, question);
+        if (answer != KMessageBox::Yes) {
+            return;
+        }
+    }
+
+    for (const QUrl& url : urls) {
+        openTerminalJob(url);
+    }
+}
+
+void DolphinMainWindow::openTerminalJob(const QUrl& url)
+{
     if (url.isLocalFile()) {
         auto job = new KTerminalLauncherJob(QString());
         job->setWorkingDirectory(url.toLocalFile());
@@ -1720,6 +1757,16 @@ void DolphinMainWindow::setupActions()
         openTerminal->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
         actionCollection()->setDefaultShortcut(openTerminal, Qt::SHIFT | Qt::Key_F4);
         connect(openTerminal, &QAction::triggered, this, &DolphinMainWindow::openTerminal);
+
+        QAction* openTerminalHere = actionCollection()->addAction(QStringLiteral("open_terminal_here"));
+        // i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
+        openTerminalHere->setText(i18nc("@action:inmenu Tools", "Open Terminal Here"));
+        openTerminalHere->setWhatsThis(xi18nc("@info:whatsthis",
+            "<para>This opens <emphasis>terminal</emphasis> applications for the selected items' locations.</para>"
+            "<para>To learn more about terminals use the help in the terminal application.</para>"));
+        openTerminalHere->setIcon(QIcon::fromTheme(QStringLiteral("utilities-terminal")));
+        actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
+        connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
 
 #ifdef HAVE_TERMINAL
         QAction* focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
