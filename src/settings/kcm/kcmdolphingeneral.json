@@ -2,6 +2,7 @@
     "KPlugin": {
         "Description": "Configure general file manager settings",
         "Description[ar]": "اضبط إعدادات مدير الملفّات العامّة",
+        "Description[az]": "Əsas fayl meneceri ayarlarını tənzimləyin",
         "Description[ca@valencia]": "Configura les opcions generals del gestor de fitxers",
         "Description[ca]": "Configura les opcions generals del gestor de fitxers",
         "Description[es]": "Configurar las preferencias generales del gestor de archivos",
@@ -19,6 +20,7 @@
         "Icon": "system-file-manager",
         "Name": "General",
         "Name[ar]": "عامّ",
+        "Name[az]": "Əsas",
         "Name[ca@valencia]": "General",
         "Name[ca]": "General",
         "Name[es]": "General",
