@@ -162,6 +162,7 @@ void TreeViewContextMenu::populateMimeData(QMimeData* mimeData, bool cut)
     bool dummy;
     mostLocalUrls.append(m_fileItem.mostLocalUrl(&dummy));
     KIO::setClipboardDataCut(mimeData, cut);
+    KUrlMimeData::exportUrlsToPortal(mimeData);
     KUrlMimeData::setUrls(kdeUrls, mostLocalUrls, mimeData);
 }
 

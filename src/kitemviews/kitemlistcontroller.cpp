@@ -17,6 +17,7 @@
 
 #include <KTwoFingerSwipe>
 #include <KTwoFingerTap>
+#include <KUrlMimeData>
 
 #include <QAccessible>
 #include <QApplication>
@@ -1318,10 +1319,11 @@ void KItemListController::startDragging()
         return;
     }
 
-    QMimeData* data = m_model->createMimeData(selectedItems);
+    QMimeData *data = m_model->createMimeData(selectedItems);
     if (!data) {
         return;
     }
+    KUrlMimeData::exportUrlsToPortal(data);
 
     // The created drag object will be owned and deleted
     // by QApplication::activeWindow().
