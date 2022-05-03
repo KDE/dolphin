@@ -15,6 +15,7 @@
         "Description[ta]": "பொதுவான கோப்பு மேலாளி அமைப்புகளை அமையுங்கள்",
         "Description[tr]": "Genel dosya yöneticisi ayarlarını yapılandır",
         "Description[uk]": "Налаштувати загальні параметри менеджера файлів",
+        "Description[vi]": "Cấu hình các thiết lập chung cho trình quản lí tệp",
         "Description[x-test]": "xxConfigure general file manager settingsxx",
         "Description[zh_CN]": "配置文件管理器常规设置",
         "Icon": "system-file-manager",
@@ -33,6 +34,7 @@
         "Name[ta]": "பொதுவானவை",
         "Name[tr]": "Genel",
         "Name[uk]": "Загальне",
+        "Name[vi]": "Chung",
         "Name[x-test]": "xxGeneralxx",
         "Name[zh_CN]": "常规",
         "ServiceTypes": [

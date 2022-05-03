@@ -15,6 +15,7 @@
         "Description[ta]": "கோப்பு உலாவியில் உலாவலை அமையுங்கள்",
         "Description[tr]": "Dosya yöneticisi dolaşımını yapılandır",
         "Description[uk]": "Налаштувати навігацію у менеджері файлів",
+        "Description[vi]": "Cấu hình điều hướng trình quản lí tệp",
         "Description[x-test]": "xxConfigure file manager navigationxx",
         "Description[zh_CN]": "配置文件管理器导航功能",
         "Icon": "preferences-desktop-navigation",
