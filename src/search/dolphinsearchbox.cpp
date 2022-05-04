@@ -440,7 +440,7 @@ void DolphinSearchBox::init()
     m_optionsScrollArea->setWidgetResizable(true);
 
     m_topLayout = new QVBoxLayout(this);
-    m_topLayout->setContentsMargins(0, 0, 0, 0);
+    m_topLayout->setContentsMargins(0, Dolphin::LAYOUT_SPACING_SMALL, 0, 0);
     m_topLayout->setSpacing(Dolphin::LAYOUT_SPACING_SMALL);
     m_topLayout->addLayout(searchInputLayout);
     m_topLayout->addWidget(m_optionsScrollArea);
