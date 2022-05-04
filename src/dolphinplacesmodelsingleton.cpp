@@ -9,7 +9,6 @@
 #include "views/draganddrophelper.h"
 
 #include <KAboutData>
-#include <KFilePlacesModel>
 
 #include <QIcon>
 #include <QMimeData>

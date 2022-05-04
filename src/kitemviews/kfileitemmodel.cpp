@@ -17,7 +17,6 @@
 #include <KIO/Job>
 #include <kio_version.h>
 #include <KLocalizedString>
-#include <KLazyLocalizedString>
 #include <KUrlMimeData>
 
 #include <QElapsedTimer>
