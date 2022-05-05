@@ -34,7 +34,8 @@ ViewModeSettings::ViewModeSettings()
 
             QFont font;
             font.setFamily(family);
-            font.setWeight(group.readEntry<int>("FontWeight", QFont::Normal));
+            const int weight = group.readEntry<int>("FontWeight", QFont::Normal);
+            font.setWeight(static_cast<QFont::Weight>(weight));
             font.setItalic(group.readEntry("ItalicFont", false));
             removeEntries(group);
 
