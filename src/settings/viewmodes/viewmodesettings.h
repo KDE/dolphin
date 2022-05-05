@@ -39,17 +39,8 @@ public:
     void setUseSystemFont(bool useSystemFont);
     bool useSystemFont() const;
 
-    void setFontFamily(const QString &fontFamily);
-    QString fontFamily() const;
-
-    void setFontSize(qreal fontSize);
-    qreal fontSize() const;
-
-    void setItalicFont(bool italic);
-    bool italicFont() const;
-
-    void setFontWeight(int fontWeight);
-    int fontWeight() const;
+    void setViewFont(const QFont &font);
+    QFont viewFont() const;
 
     void useDefaults(bool useDefaults);
 

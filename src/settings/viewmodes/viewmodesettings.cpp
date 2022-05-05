@@ -86,59 +86,17 @@ bool ViewModeSettings::useSystemFont() const
     }, m_viewModeSettingsVariant);
 }
 
-void ViewModeSettings::setFontFamily(const QString &fontFamily)
+void ViewModeSettings::setViewFont(const QFont &font)
 {
-    std::visit([&fontFamily](auto &&v) {
-        v->setFontFamily(fontFamily);
+    std::visit([&font](auto &&v) {
+        v->setViewFont(font);
     }, m_viewModeSettingsVariant);
 }
 
-QString ViewModeSettings::fontFamily() const
+QFont ViewModeSettings::viewFont() const
 {
     return std::visit([](auto &&v) {
-        return v->fontFamily();
-    }, m_viewModeSettingsVariant);
-}
-
-void ViewModeSettings::setFontSize(qreal fontSize)
-{
-    std::visit([fontSize](auto &&v) {
-        v->setFontSize(fontSize);
-    }, m_viewModeSettingsVariant);
-}
-
-qreal ViewModeSettings::fontSize() const
-{
-    return std::visit([](auto &&v) {
-        return v->fontSize();
-    }, m_viewModeSettingsVariant);
-}
-
-void ViewModeSettings::setItalicFont(bool italic)
-{
-    std::visit([italic](auto &&v) {
-        v->setItalicFont(italic);
-    }, m_viewModeSettingsVariant);
-}
-
-bool ViewModeSettings::italicFont() const
-{
-    return std::visit([](auto &&v) {
-        return v->italicFont();
-    }, m_viewModeSettingsVariant);
-}
-
-void ViewModeSettings::setFontWeight(int fontWeight)
-{
-    std::visit([fontWeight](auto &&v) {
-        v->setFontWeight(fontWeight);
-    }, m_viewModeSettingsVariant);
-}
-
-int ViewModeSettings::fontWeight() const
-{
-    return std::visit([](auto &&v) {
-        return v->fontWeight();
+        return v->viewFont();
     }, m_viewModeSettingsVariant);
 }
 
