@@ -45,9 +45,12 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView = new QListView(this);
     QScroller::grabGesture(m_listView->viewport(), QScroller::TouchGesture);
 
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
     connect(delegate, &ServiceItemDelegate::requestServiceConfiguration,
             this, &PreviewsSettingsPage::configureService);
+    m_listView->setItemDelegate(delegate);
+#endif
 
     ServiceModel* serviceModel = new ServiceModel(this);
     QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
@@ -56,7 +59,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
 
     m_listView->setModel(proxyModel);
-    m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     m_listView->setUniformItemSizes(true);
 
@@ -153,6 +155,7 @@ void PreviewsSettingsPage::showEvent(QShowEvent* event)
     SettingsPageBase::showEvent(event);
 }
 
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
 void PreviewsSettingsPage::configureService(const QModelIndex& index)
 {
     const QAbstractItemModel* model = index.model();
@@ -163,6 +166,7 @@ void PreviewsSettingsPage::configureService(const QModelIndex& index)
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
 }
+#endif
 
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
@@ -170,15 +174,18 @@ void PreviewsSettingsPage::loadPreviewPlugins()
 
     const QVector<KPluginMetaData> plugins = KIO::PreviewJob::availableThumbnailerPlugins();
     for (const KPluginMetaData &plugin : plugins) {
-        const bool configurable = plugin.value(QStringLiteral("Configurable"), false);
         const bool show = m_enabledPreviewPlugins.contains(plugin.pluginId());
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
         model->setData(index, show, Qt::CheckStateRole);
-        model->setData(index, configurable, ServiceModel::ConfigurableRole);
         model->setData(index, plugin.name(), Qt::DisplayRole);
         model->setData(index, plugin.pluginId(), ServiceModel::DesktopEntryNameRole);
+
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
+        const bool configurable = plugin.value(QStringLiteral("Configurable"), false);
+        model->setData(index, configurable, ServiceModel::ConfigurableRole);
+#endif
     }
 
     model->sort(Qt::DisplayRole);

@@ -7,6 +7,9 @@
 #ifndef PREVIEWSSETTINGSPAGE_H
 #define PREVIEWSSETTINGSPAGE_H
 
+
+#include <kiowidgets_export.h>
+
 #include "settings/settingspagebase.h"
 
 class QSpinBox;
@@ -38,7 +41,9 @@ protected:
     void showEvent(QShowEvent* event) override;
 
 private Q_SLOTS:
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
     void configureService(const QModelIndex& index);
+#endif
 
 private:
     void loadPreviewPlugins();

@@ -6,6 +6,8 @@
 
 #include "configurepreviewplugindialog.h"
 
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
+
 #include <KIO/DeleteJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/ThumbCreator>
@@ -67,3 +69,5 @@ ConfigurePreviewPluginDialog::ConfigurePreviewPluginDialog(const QString& plugin
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     okButton->setDefault(true);
 }
+
+#endif // KIO_VERSION

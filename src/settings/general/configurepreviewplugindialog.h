@@ -7,6 +7,11 @@
 #ifndef CONFIGUREPREVIEWPLUGINDIALOG_H
 #define CONFIGUREPREVIEWPLUGINDIALOG_H
 
+#include <QtGlobal>
+#include <kiowidgets_export.h>
+
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 87)
+
 #include <QDialog>
 
 /**
@@ -29,5 +34,6 @@ public:
                                  QWidget* parent);
     ~ConfigurePreviewPluginDialog() override = default;
 };
+#endif // KIOWIDGETS_BUILD_DEPRECATED_SINCE
 
 #endif
