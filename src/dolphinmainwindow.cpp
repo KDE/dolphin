@@ -86,8 +86,10 @@
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
-    // an updated version of Dolphin is running.
-    const int CurrentDolphinVersion = 201;
+    // an updated version of Dolphin is running, so as to migrate
+    // removed/renamed ...etc config entries; increment it in such
+    // cases
+    const int CurrentDolphinVersion = 202;
     // The maximum number of entries in the back/forward popup menu
     const int MaxNumberOfNavigationentries = 12;
     // The maximum number of "Activate Tab" shortcuts
