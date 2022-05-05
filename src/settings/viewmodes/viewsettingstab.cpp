@@ -215,10 +215,7 @@ void ViewSettingsTab::applySettings()
     settings.setPreviewSize(previewSize);
 
     settings.setUseSystemFont(useSystemFont);
-    settings.setFontFamily(font.family());
-    settings.setFontSize(font.pointSizeF());
-    settings.setItalicFont(font.italic());
-    settings.setFontWeight(font.weight());
+    settings.setViewFont(font);
 
     settings.save();
 }
@@ -272,10 +269,7 @@ void ViewSettingsTab::loadSettings()
                              ? DolphinFontRequester::SystemFont
                              : DolphinFontRequester::CustomFont);
 
-    QFont font(settings.fontFamily(), qRound(settings.fontSize()));
-    font.setItalic(settings.italicFont());
-    font.setWeight(settings.fontWeight());
-    font.setPointSizeF(settings.fontSize());
+    QFont font(settings.viewFont());
     m_fontRequester->setCustomFont(font);
 }
 

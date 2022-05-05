@@ -132,10 +132,7 @@ void DolphinItemListView::updateFont()
     if (settings.useSystemFont()) {
         KItemListView::updateFont();
     } else {
-        QFont font(settings.fontFamily(), qRound(settings.fontSize()));
-        font.setItalic(settings.italicFont());
-        font.setWeight(settings.fontWeight());
-        font.setPointSizeF(settings.fontSize());
+        QFont font(settings.viewFont());
 
         KItemListStyleOption option = styleOption();
         option.font = font;

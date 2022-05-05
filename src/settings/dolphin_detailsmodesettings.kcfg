@@ -8,25 +8,12 @@
     <include>QFontDatabase</include>
     <kcfgfile name="dolphinrc"/>
     <group name="DetailsMode">
-        <entry name="FontFamily" type="String">
-            <label>Font family</label>
-            <default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont).family()</default>
+        <entry name="ViewFont" type="Font">
+            <default code="true">QFont()</default>
         </entry>
         <entry name="UseSystemFont" type="Bool">
             <label>Use system font</label>
             <default>true</default>
-        </entry>
-        <entry name="FontSize" type="Double">
-            <label>Font size</label>
-            <default code="true">QFontDatabase::systemFont(QFontDatabase::GeneralFont).pointSizeF()</default>
-        </entry>
-        <entry name="ItalicFont" type="Bool">
-            <label>Italic</label>
-            <default>false</default>
-        </entry>
-        <entry name="FontWeight" type="Int">
-            <label>Font weight</label>
-            <default>0</default>
         </entry>
         <entry name="IconSize" type="Int">
             <label>Icon size</label>
