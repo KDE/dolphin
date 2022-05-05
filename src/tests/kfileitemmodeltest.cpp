@@ -14,7 +14,7 @@
 
 #include <KDirLister>
 #include <kio/job.h>
-#include <KIO/kio_version.h>
+#include <kio_version.h>
 
 
 #include "kitemviews/kfileitemmodel.h"
@@ -2076,7 +2076,7 @@ void KFileItemModelTest::testInsertAfterExpand()
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(itemsInsertedSpy.wait());
     QCOMPARE(m_model->count(), 2); // 3 items: "a/", "a/a/"
-    QCOMPARE(m_model->expandedDirectories(), {QUrl::fromLocalFile(m_testDir->path() + "/a")});
+    QCOMPARE(m_model->expandedDirectories(), QSet<QUrl>({QUrl::fromLocalFile(m_testDir->path() + "/a")}));
 
     QCOMPARE(itemsInsertedSpy.count(), 1);
     {
