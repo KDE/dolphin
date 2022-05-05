@@ -21,9 +21,12 @@
 #include <KCrash>
 #include <KDBusService>
 #include <KLocalizedString>
-#include <Kdelibs4ConfigMigrator>
 #include <KConfigGui>
 #include <KIO/PreviewJob>
+
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <Kdelibs4ConfigMigrator>
+#endif
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -72,10 +75,12 @@ int main(int argc, char **argv)
 
     KCrash::initialize();
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     Kdelibs4ConfigMigrator migrate(QStringLiteral("dolphin"));
     migrate.setConfigFiles(QStringList() << QStringLiteral("dolphinrc"));
     migrate.setUiFiles(QStringList() << QStringLiteral("dolphinpart.rc") << QStringLiteral("dolphinui.rc"));
     migrate.migrate();
+#endif
 
     KLocalizedString::setApplicationDomain("dolphin");
 
