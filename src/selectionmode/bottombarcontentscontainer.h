@@ -12,7 +12,7 @@
 #include "bottombar.h"
 
 #include <QPointer>
-#include <QToolButton>
+#include <QPushButton>
 #include <QWidget>
 
 class DolphinContextMenu;
@@ -144,7 +144,7 @@ private:
     /// @see updateMainActionButtonText
     ActionWithWidget m_mainAction = ActionWithWidget(nullptr);
     /// The button containing all the actions that don't currently fit into the bar.
-    QPointer<QToolButton> m_overflowButton;
+    QPointer<QPushButton> m_overflowButton;
     /// The actionCollection from which the actions for this bar are retrieved.
     KActionCollection *m_actionCollection;
     /// Describes the current contents of the bar.

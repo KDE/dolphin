@@ -66,8 +66,7 @@ TopBar::TopBar(QWidget *parent) :
     BackgroundColorHelper::instance()->controlBackgroundColor(m_label);
 
     m_closeButton = new QPushButton(QIcon::fromTheme(QStringLiteral("window-close-symbolic")), "", contentsContainer);
-    m_closeButton->setToolTip(i18nc("@action:button", "Exit Selection Mode"));
-    m_closeButton->setAccessibleName(m_closeButton->toolTip());
+    m_closeButton->setText(i18nc("@action:button", "Exit Selection Mode"));
     m_closeButton->setFlat(true);
     connect(m_closeButton, &QAbstractButton::pressed,
             this, &TopBar::selectionModeLeavingRequested);
