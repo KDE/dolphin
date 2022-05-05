@@ -32,7 +32,7 @@
             <default>true</default>
         </entry>
         <entry name="Version" type="Int">
-            <label>Internal version of Dolphin, containing 3 digits for major, minor, bugfix</label>
+            <label>Internal config version of Dolphin, mainly Used to determine whether an updated version of Dolphin is running, so as to migrate config entries that were removed/renamed ...etc</label>
             <default>0</default>
         </entry>
         <entry name="ModifiedStartupSettings" type="Bool">

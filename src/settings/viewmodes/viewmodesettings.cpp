@@ -11,7 +11,43 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_iconsmodesettings.h"
 
+#include "dolphin_generalsettings.h"
+
+ViewModeSettings::ViewModeSettings()
+{
+    auto removeEntries = [](KConfigGroup &group) {
+        group.deleteEntry("FontFamily");
+        group.deleteEntry("FontWeight");
+        group.deleteEntry("ItalicFont");
+    };
+
+    KSharedConfig::Ptr config = KSharedConfig::openConfig();
+    // Migrate old config entries
+    if (GeneralSettings::version() < 202) {
+        for (const char *groupName : {"CompactMode", "DetailsMode", "IconsMode"}) {
+            KConfigGroup group = config->group(groupName);
+            const QString family = group.readEntry("FontFamily", QString{});
+            if (family.isEmpty()) {
+                removeEntries(group);
+                continue;
+            }
+
+            QFont font;
+            font.setFamily(family);
+            font.setWeight(group.readEntry<int>("FontWeight", QFont::Normal));
+            font.setItalic(group.readEntry("ItalicFont", false));
+            removeEntries(group);
+
+            // Write the new config entry
+            group.writeEntry("ViewFont", font);
+        }
+
+        config->sync();
+    }
+}
+
 ViewModeSettings::ViewModeSettings(DolphinView::Mode mode)
+    : ViewModeSettings()
 {
     switch (mode) {
     case DolphinView::IconsView:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;
@@ -23,6 +59,7 @@ ViewModeSettings::ViewModeSettings(DolphinView::Mode mode)
 }
 
 ViewModeSettings::ViewModeSettings(ViewSettingsTab::Mode mode)
+    : ViewModeSettings()
 {
     switch (mode) {
     case ViewSettingsTab::IconsMode:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;
@@ -34,6 +71,7 @@ ViewModeSettings::ViewModeSettings(ViewSettingsTab::Mode mode)
 }
 
 ViewModeSettings::ViewModeSettings(KStandardItemListView::ItemLayout itemLayout)
+    : ViewModeSettings()
 {
     switch (itemLayout) {
     case KStandardItemListView::IconsLayout:    m_viewModeSettingsVariant = IconsModeSettings::self();   return;

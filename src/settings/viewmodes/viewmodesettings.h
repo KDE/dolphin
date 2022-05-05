@@ -48,6 +48,8 @@ public:
     void save();
 
 private:
+    explicit ViewModeSettings();
+
     std::variant<IconsModeSettings *, CompactModeSettings *, DetailsModeSettings *> m_viewModeSettingsVariant;
 };
 
