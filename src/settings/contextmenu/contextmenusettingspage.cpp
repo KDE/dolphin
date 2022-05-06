@@ -22,6 +22,7 @@
 #include <KService>
 #include <KServiceTypeTrader>
 #include <kio_version.h>
+#include <kiocore_export.h>
 
 #include <QtGlobal>
 #include <knewstuff_version.h>
@@ -308,7 +309,7 @@ void ContextMenuSettingsPage::loadServices()
     }
 
     // Load service plugins, this is deprecated in KIO 5.82
-#if KIO_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#if KIOCORE_BUILD_DEPRECATED_SINCE(5, 82)
     const KService::List pluginServices = KServiceTypeTrader::self()->query(QStringLiteral("KFileItemAction/Plugin"));
     for (const KService::Ptr &service : pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
