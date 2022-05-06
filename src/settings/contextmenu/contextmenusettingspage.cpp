@@ -84,6 +84,10 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, &QListView::clicked, this, &ContextMenuSettingsPage::changed);
 
+    topLayout->addWidget(label);
+    topLayout->addWidget(m_searchLineEdit);
+    topLayout->addWidget(m_listView);
+
 #ifndef Q_OS_WIN
     auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                   QStringLiteral("servicemenu.knsrc"),
@@ -94,13 +98,6 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
                loadServices();
            }
     });
-
-#endif
-
-    topLayout->addWidget(label);
-    topLayout->addWidget(m_searchLineEdit);
-    topLayout->addWidget(m_listView);
-#ifndef Q_OS_WIN
     topLayout->addWidget(downloadButton);
 #endif
 
