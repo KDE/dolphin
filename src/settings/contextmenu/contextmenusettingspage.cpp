@@ -18,12 +18,18 @@
 #include <KFileUtils>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KNS3/Button>
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
-
 #include <kio_version.h>
+
+#include <QtGlobal>
+#include <knewstuff_version.h>
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+#include <KNSWidgets/Button>
+#else
+#include <KNS3/Button>
+#endif
 
 #include <QGridLayout>
 #include <QLabel>
@@ -89,17 +95,22 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     topLayout->addWidget(m_listView);
 
 #ifndef Q_OS_WIN
-    auto *downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
-                                                  QStringLiteral("servicemenu.knsrc"),
-                                                  this);
-    connect(downloadButton, &KNS3::Button::dialogFinished, this, [this](const KNS3::Entry::List &changedEntries) {
+#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
+    using NewStuffButton = KNSWidgets::Button;
+#else
+    using NewStuffButton = KNS3::Button;
+#endif // KNEWSTUFF_VERSION
+    auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services..."),
+                                              QStringLiteral("servicemenu.knsrc"),
+                                              this);
+    connect(downloadButton, &NewStuffButton::dialogFinished, this, [this](const auto &changedEntries) {
            if (!changedEntries.isEmpty()) {
                m_serviceModel->clear();
                loadServices();
            }
     });
     topLayout->addWidget(downloadButton);
-#endif
+#endif // Q_OS_WIN
 
     m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
     std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());

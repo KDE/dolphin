@@ -155,6 +155,7 @@ target_link_libraries(
     KF5::TextWidgets
     KF5::ConfigCore
     KF5::NewStuff
+    KF5::NewStuffWidgets    # KNSWidgets::Button
     KF5::Parts
     KF5::WindowSystem
     KF5::WidgetsAddons
