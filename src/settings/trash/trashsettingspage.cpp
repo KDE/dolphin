@@ -7,6 +7,7 @@
 #include "trashsettingspage.h"
 
 #include <KCModuleProxy>
+#include <KPluginMetaData>
 
 #include <QFormLayout>
 
