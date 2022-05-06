@@ -23,6 +23,7 @@
 #include <KServiceTypeTrader>
 #include <kio_version.h>
 #include <kiocore_export.h>
+#include <kservice_export.h>
 
 #include <QtGlobal>
 #include <knewstuff_version.h>
@@ -284,10 +285,14 @@ void ContextMenuSettingsPage::loadServices()
     // Load generic services
     const auto locations = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, QStringLiteral("kio/servicemenus"), QStandardPaths::LocateDirectory);
     QStringList files = KFileUtils::findAllUniqueFiles(locations);
+
+#if KIOWIDGETS_BUILD_DEPRECATED_SINCE(5, 90)
     const KService::List services = KServiceTypeTrader::self()->query(QStringLiteral("KonqPopupMenu/Plugin"));
     for (const KService::Ptr &service : services) {
         files << QStandardPaths::locate(QStandardPaths::GenericDataLocation, "kservices5/" % service->entryPath());
     }
+#endif
+
     for (const auto &file : qAsConst(files)) {
         const QList<KServiceAction> serviceActions = KDesktopFileActions::userDefinedServices(KService(file), true);
 
