@@ -10,6 +10,6 @@ target_link_libraries(servicemenuinstaller PRIVATE
 )
 
 if(HAVE_PACKAGEKIT)
-    target_link_libraries(servicemenuinstaller PRIVATE PK::packagekitqt5)
+    target_link_libraries(servicemenuinstaller PRIVATE PK::packagekitqt${QT_MAJOR_VERSION})
 endif()
 install(TARGETS servicemenuinstaller ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
