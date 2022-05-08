@@ -13,7 +13,7 @@
 #include "dolphinquery.h"
 
 #include <KLocalizedString>
-#include <KNS3/KMoreToolsMenuFactory>
+#include <KMoreToolsMenuFactory>
 #include <KSeparator>
 #include <config-baloo.h>
 #ifdef HAVE_BALOO

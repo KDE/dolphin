@@ -9,7 +9,7 @@
 #include "spaceinfoobserver.h"
 
 #include <KLocalizedString>
-#include <KNS3/KMoreToolsMenuFactory>
+#include <KMoreToolsMenuFactory>
 
 #include <QMouseEvent>
 

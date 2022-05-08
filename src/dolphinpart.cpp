@@ -16,21 +16,21 @@
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 
-#include <KPluginMetaData>
 #include <KActionCollection>
 #include <KAuthorized>
 #include <KConfigGroup>
 #include <KDialogJobUiDelegate>
 #include <KDirLister>
 #include <KFileItemListProperties>
+#include <KIO/CommandLauncherJob>
 #include <KIconLoader>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeEditor>
-#include <KNS3/KMoreToolsMenuFactory>
+#include <KMoreToolsMenuFactory>
 #include <KPluginFactory>
-#include <KIO/CommandLauncherJob>
+#include <KPluginMetaData>
 #include <KSharedConfig>
 #include <KTerminalLauncherJob>
 

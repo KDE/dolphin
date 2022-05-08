@@ -49,7 +49,7 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KNS3/KMoreToolsMenuFactory>
+#include <KMoreToolsMenuFactory>
 #include <KProtocolInfo>
 #include <KProtocolManager>
 #include <KShell>
