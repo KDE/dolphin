@@ -77,7 +77,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_visibleItems(),
     m_visibleGroups(),
     m_visibleCells(),
-    m_sizeHintResolver(nullptr),
     m_layouter(nullptr),
     m_animation(nullptr),
     m_oldScrollOffset(0),
@@ -93,7 +92,8 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_header(nullptr),
     m_headerWidget(nullptr),
     m_indicatorAnimation(nullptr),
-    m_dropIndicator()
+    m_dropIndicator(),
+    m_sizeHintResolver(nullptr)
 {
     setAcceptHoverEvents(true);
     setAcceptTouchEvents(true);

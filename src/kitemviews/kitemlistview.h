@@ -399,8 +399,6 @@ protected:
     virtual void updateFont();
     virtual void updatePalette();
 
-    KItemListSizeHintResolver* m_sizeHintResolver;
-
 protected Q_SLOTS:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
@@ -773,6 +771,8 @@ private:
     QRectF m_dropIndicator;
 
     QList<QVariantAnimation*> m_rubberBandAnimations;
+
+    KItemListSizeHintResolver* m_sizeHintResolver;
 
     friend class KItemListContainer; // Accesses scrollBarRequired()
     friend class KItemListHeader;    // Accesses m_headerWidget
