@@ -479,7 +479,7 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
         line.setLineWidth(m_nameLabel->width());
-        wrappedText += processedText.midRef(line.textStart(), line.textLength());
+        wrappedText += QStringView(processedText).mid(line.textStart(), line.textLength());
 
         line = textLayout.createLine();
         if (line.isValid()) {
