@@ -17,7 +17,6 @@
 #include <KIconLoader>
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QIcon>
 #include <QLayout>
 #include <QStyle>
