@@ -379,13 +379,14 @@ void DolphinViewContainer::setSelectionModeEnabled(bool enabled, KActionCollecti
     m_view->setSelectionModeEnabled(enabled);
 
     if (!enabled) {
+        if (!wasEnabled) {
+            return; // nothing to do here
+        }
         Q_CHECK_PTR(m_selectionModeTopBar); // there is no point in disabling selectionMode when it wasn't even enabled once.
         Q_CHECK_PTR(m_selectionModeBottomBar);
         m_selectionModeTopBar->setVisible(false, WithAnimation);
         m_selectionModeBottomBar->setVisible(false, WithAnimation);
-        if (wasEnabled) {
-            Q_EMIT selectionModeChanged(false);
-        }
+        Q_EMIT selectionModeChanged(false);
         return;
     }
 

@@ -291,9 +291,9 @@ void BottomBarContentsContainer::addDuplicateContents()
 void BottomBarContentsContainer::addGeneralContents()
 {
     if (!m_overflowButton) {
-        // i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons.
+        // i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
         // The small button opens a menu that contains the actions that didn't fit on the bar.
-        m_overflowButton = new QPushButton{QIcon::fromTheme(QStringLiteral("view-more-symbolic")), i18nc("@action", "More"), this};
+        m_overflowButton = new QPushButton{QIcon::fromTheme(QStringLiteral("view-more-symbolic")), i18nc("@action keep short", "More"), this};
         m_overflowButton->setMenu(new QMenu{m_overflowButton});
         m_overflowButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::MinimumExpanding); // Makes sure it has the same height as the labeled buttons.
         m_layout->addWidget(m_overflowButton);

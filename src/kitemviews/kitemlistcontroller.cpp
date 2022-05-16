@@ -430,10 +430,9 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     case Qt::Key_Escape:
-        if (m_selectionMode && m_selectionManager->selectedItems().count() < 1) {
+        if (m_selectionMode) {
             Q_EMIT selectionModeChangeRequested(false);
-        }
-        if (m_selectionBehavior != SingleSelection) {
+        } else if (m_selectionBehavior != SingleSelection) {
             m_selectionManager->clearSelection();
         }
         m_keyboardManager->cancelSearch();
