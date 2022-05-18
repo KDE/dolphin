@@ -114,6 +114,7 @@ void StatusBarSpaceInfo::slotValuesChanged()
     const int percentUsed = qRound(100.0 * qreal(used) / qreal(size));
 
     setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(available)));
+    setToolTip(i18nc("tooltip:status Free disk space", "%1 free out of %2 (%3% used)", KIO::convertSize(available), KIO::convertSize(size), percentUsed));
     setUpdatesEnabled(false);
     setValue(percentUsed);
     setUpdatesEnabled(true);
