@@ -42,7 +42,7 @@ DolphinTabWidget::DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidg
 
     setTabBar(tabBar);
     setDocumentMode(true);
-    setElideMode(Qt::ElideRight);
+    setElideMode(Qt::ElideMiddle);
     setUsesScrollButtons(true);
 }
 
