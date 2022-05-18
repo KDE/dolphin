@@ -214,7 +214,7 @@ private:
 
     QRectF roleEditingRect(const QByteArray &role) const;
 
-    QString elideRightKeepExtension(const QString &text, int elidingWidth) const;
+    QString elideMiddleKeepExtension(const QString &text, int elidingWidth) const;
 
     /**
      * Closes the role editor and returns the focus back
