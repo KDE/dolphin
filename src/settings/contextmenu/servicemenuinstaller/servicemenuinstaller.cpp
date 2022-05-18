@@ -335,7 +335,7 @@ bool cmdInstall(const QString &archive, QString &errorText)
 
         // If "install-it" is missing, try "install"
         QString installerPath;
-        const QStringList basenames2 = {"installKDE4.sh", "installKDE4", "install.sh", "install"};
+        const QStringList basenames2 = {"installKDE4.sh", "installKDE4", "install.sh", "install*.sh"};
         for (const auto &basename : basenames2) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
