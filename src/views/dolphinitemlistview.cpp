@@ -65,6 +65,19 @@ int DolphinItemListView::zoomLevel() const
     return m_zoomLevel;
 }
 
+void DolphinItemListView::setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled selectionTogglesEnabled)
+{
+    m_selectionTogglesEnabled = selectionTogglesEnabled;
+    switch (m_selectionTogglesEnabled) {
+    case True:
+        return setEnabledSelectionToggles(true);
+    case False:
+        return setEnabledSelectionToggles(false);
+    case FollowSetting:
+        return setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    }
+}
+
 void DolphinItemListView::readSettings()
 {
     ViewModeSettings settings(itemLayout());
@@ -72,7 +85,7 @@ void DolphinItemListView::readSettings()
 
     beginTransaction();
 
-    setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    setEnabledSelectionToggles(m_selectionTogglesEnabled);
     setHighlightEntireRow(DetailsModeSettings::sidePadding());
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(itemLayout()));
 

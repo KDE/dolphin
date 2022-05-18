@@ -111,7 +111,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 
     m_model = new KFileItemModel(this);
     m_view = new DolphinItemListView();
-    m_view->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     m_view->setVisibleRoles({"text"});
     applyModeToView();
 
@@ -289,9 +289,11 @@ void DolphinView::setSelectionModeEnabled(const bool enabled)
         m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
         setStyle(m_proxyStyle.get());
         m_view->setStyle(m_proxyStyle.get());
+        m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::False);
     } else {
         setStyle(QApplication::style());
         m_view->setStyle(QApplication::style());
+        m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     }
     m_container->controller()->setSelectionModeEnabled(enabled);
 }
