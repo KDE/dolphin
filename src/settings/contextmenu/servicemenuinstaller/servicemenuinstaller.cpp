@@ -379,7 +379,7 @@ bool cmdUninstall(const QString &archive, QString &errorText)
 
         // Try "deinstall" first
         QString deinstallPath;
-        const QStringList basenames1 = {"uninstall.sh", "uninstal", "deinstall.sh", "deinstall"};
+        const QStringList basenames1 = {"uninstall.sh", "uninstall", "deinstall.sh", "deinstall"};
         for (const auto &basename : basenames1) {
             const auto path = findRecursive(dir, basename);
             if (!path.isEmpty()) {
