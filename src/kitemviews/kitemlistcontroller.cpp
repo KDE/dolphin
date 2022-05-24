@@ -1577,6 +1577,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     }
 
     if (m_pressedIndex.has_value()) {
+        // The hover highlight area of an item is being pressed.
         m_selectionManager->setCurrentItem(m_pressedIndex.value());
         const auto row = m_view->m_visibleItems.value(m_pressedIndex.value()); // anything outside of row.contains() will be the empty region of the row rect
         const bool hitTargetIsRowEmptyRegion = !row->contains(row->mapFromItem(m_view, pos));
@@ -1585,8 +1586,14 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
         bool createRubberBand = (hitTargetIsRowEmptyRegion && m_selectionManager->selectedItems().isEmpty());
 
         if (rightClick && hitTargetIsRowEmptyRegion) {
-            // we got a right click outside the text rect, default to action on the current url and not the pressed item
-            Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
+            // We have a right click outside the icon and text rect but within the hover highlight area
+            // but it is unclear if this means that a selection rectangle for an item was clicked or the background of the view.
+            if (m_selectionManager->selectedItems().contains(m_pressedIndex.value())) {
+                // The selection rectangle for an item was clicked
+                Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
+            } else {
+                Q_EMIT viewContextMenuRequested(screenPos);
+            }
             return true;
         }
 
