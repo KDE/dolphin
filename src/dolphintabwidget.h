@@ -60,10 +60,16 @@ public:
     void refreshViews();
 
     /**
-     * @return Whether any of the tab pages contains @p url in their primary
-     * or secondary view.
+     * @return Whether any of the tab pages has @p url opened
+     * in their primary or secondary view.
      */
     bool isUrlOpen(const QUrl& url) const;
+
+    /**
+     * @return Whether any of the tab pages has @p url or it's parent opened
+     * in their primary or secondary view.
+     */
+    bool isUrlOrParentOpen(const QUrl& url) const;
 
 Q_SIGNALS:
     /**
@@ -110,11 +116,12 @@ public Q_SLOTS:
     void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl());
 
     /**
-     * Opens each directory in \p dirs in a separate tab. If \a splitView is set,
-     * 2 directories are collected within one tab.
+     * Opens each directory in \p dirs in a separate tab unless it is already open.
+     * If \a splitView is set, 2 directories are collected within one tab.
+     * If \a skipChildUrls is set, do not open a directory if it's parent is already open.
      * \pre \a dirs must contain at least one url.
      */
-    void openDirectories(const QList<QUrl>& dirs, bool splitView);
+    void openDirectories(const QList<QUrl>& dirs, bool splitView, bool skipChildUrls = false);
 
     /**
      * Opens the directories which contain the files \p files and selects all files.
@@ -205,15 +212,21 @@ private:
      */
     QString tabName(DolphinTabPage* tabPage) const;
 
+    enum ChildUrlBehavior {
+        ReturnIndexForOpenedUrlOnly,
+        ReturnIndexForOpenedParentAlso
+    };
+
     /**
      * @param url The URL that we would like
-     * @return a QPair with first containing the index of the tab with the
-     * desired URL or -1 if not found. Second says true if URL is in primary
-     * view container, false otherwise. False means the URL is in the secondary
-     * view container, unless first == -1. In that case the value of second
-     * is meaningless.
+     * @param childUrlBehavior Whether a tab with opened parent of the URL can be returned too
+     * @return a QPair with:
+     * First containing the index of the tab with the desired URL or -1 if not found.
+     * Second says true if URL is in primary view container, false otherwise.
+     * False means the URL is in the secondary view container, unless first == -1.
+     * In that case the value of second is meaningless.
      */
-    QPair<int, bool> indexByUrl(const QUrl& url) const;
+    QPair<int, bool> indexByUrl(const QUrl& url, ChildUrlBehavior childUrlBehavior = ReturnIndexForOpenedUrlOnly) const;
 
 private:
     QPointer<DolphinTabPage> m_lastViewedTab;

@@ -117,6 +117,11 @@ bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
     return indexByUrl(url).first >= 0;
 }
 
+bool DolphinTabWidget::isUrlOrParentOpen(const QUrl &url) const
+{
+    return indexByUrl(url, ReturnIndexForOpenedParentAlso).first >= 0;
+}
+
 void DolphinTabWidget::openNewActivatedTab()
 {
     std::unique_ptr<DolphinUrlNavigator::VisualState> oldNavigatorState;
@@ -182,7 +187,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
+void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView, bool skipChildUrls)
 {
     Q_ASSERT(dirs.size() > 0);
 
@@ -191,12 +196,12 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
-        const QPair<int, bool> indexInfo = indexByUrl(primaryUrl);
+        const QPair<int, bool> indexInfo = indexByUrl(primaryUrl, skipChildUrls ? ReturnIndexForOpenedParentAlso : ReturnIndexForOpenedUrlOnly);
         const int index = indexInfo.first;
         const bool isInPrimaryView = indexInfo.second;
 
-        // When the user asks for a URL that's already open, activate it instead
-        // of opening a second copy
+        // When the user asks for a URL that's already open (or it's parent is open if skipChildUrls is set),
+        // activate it instead of opening a new tab
         if (index >= 0) {
             somethingWasAlreadyOpen = true;
             activateTab(index);
@@ -243,7 +248,7 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
     }
 
     const int oldTabCount = count();
-    openDirectories(dirs, splitView);
+    openDirectories(dirs, splitView, true);
     const int tabCount = count();
 
     // Select the files. Although the files can be split between several
@@ -475,17 +480,29 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     return name.replace('&', QLatin1String("&&"));
 }
 
-QPair<int, bool> DolphinTabWidget::indexByUrl(const QUrl& url) const
+QPair<int, bool> DolphinTabWidget::indexByUrl(const QUrl& url, ChildUrlBehavior childUrlBehavior) const
 {
-    for (int i = 0; i < count(); i++) {
+    int i = currentIndex();
+    if (i < 0) {
+        return qMakePair(-1, false);
+    }
+    // loop over the tabs starting from the current one
+    do {
         const auto tabPage = tabPageAt(i);
-        if (url == tabPage->primaryViewContainer()->url()) {
+        if (tabPage->primaryViewContainer()->url() == url ||
+                childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->primaryViewContainer()->url().isParentOf(url)) {
             return qMakePair(i, true);
         }
 
-        if (tabPage->splitViewEnabled() && url == tabPage->secondaryViewContainer()->url()) {
+        if (tabPage->splitViewEnabled() &&
+                (url == tabPage->secondaryViewContainer()->url() ||
+                 childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->secondaryViewContainer()->url().isParentOf(url))) {
             return qMakePair(i, false);
         }
+
+        i = (i + 1) % count();
     }
+    while (i != currentIndex());
+
     return qMakePair(-1, false);
 }

@@ -285,6 +285,11 @@ void DolphinMainWindow::activateWindow()
     KWindowSystem::activateWindow(window()->effectiveWinId());
 }
 
+bool DolphinMainWindow::isActiveWindow()
+{
+    return window()->isActiveWindow();
+}
+
 void DolphinMainWindow::showCommand(CommandType command)
 {
     DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
@@ -2627,3 +2632,7 @@ bool DolphinMainWindow::isUrlOpen(const QString &url)
     return m_tabWidget->isUrlOpen(QUrl::fromUserInput(url));
 }
 
+bool DolphinMainWindow::isUrlOrParentOpen(const QString &url)
+{
+    return m_tabWidget->isUrlOrParentOpen(QUrl::fromUserInput(url));
+}

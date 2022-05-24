@@ -71,33 +71,55 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         return false;
     }
 
-    QStringList newUrls;
+    int activeWindowIndex = -1;
+    for (const auto& interface: qAsConst(dolphinInterfaces)) {
+        ++activeWindowIndex;
 
-    // check to see if any instances already have any of the given URLs open
+        auto isActiveWindowReply = interface.first->isActiveWindow();
+        isActiveWindowReply.waitForFinished();
+        if (!isActiveWindowReply.isError() && isActiveWindowReply.value()) {
+            break;
+        }
+    }
+
+    // check to see if any instances already have any of the given URLs or their parents open
     const auto urls = QUrl::toStringList(inputUrls);
     for (const QString& url : urls) {
         bool urlFound = false;
-        for (auto& interface: dolphinInterfaces) {
-            auto isUrlOpenReply = interface.first->isUrlOpen(url);
+
+        // looping through the windows starting from the active one
+        int i = activeWindowIndex;
+        do {
+            auto &interface = dolphinInterfaces[i];
+
+            auto isUrlOpenReply = openFiles ? interface.first->isUrlOrParentOpen(url) : interface.first->isUrlOpen(url);
             isUrlOpenReply.waitForFinished();
             if (!isUrlOpenReply.isError() && isUrlOpenReply.value()) {
                 interface.second.append(url);
                 urlFound = true;
                 break;
             }
+
+            i = (i + 1) % dolphinInterfaces.size();
         }
+        while (i != activeWindowIndex);
+
         if (!urlFound) {
-            newUrls.append(url);
+            dolphinInterfaces[activeWindowIndex].second.append(url);
         }
     }
 
     for (const auto& interface: qAsConst(dolphinInterfaces)) {
-        auto reply = openFiles ? interface.first->openFiles(newUrls, splitView) : interface.first->openDirectories(newUrls, splitView);
+        if (interface.second.isEmpty()) {
+            continue;
+        }
+        auto reply = openFiles ?
+                    interface.first->openFiles(interface.second, splitView) :
+                    interface.first->openDirectories(interface.second, splitView);
         reply.waitForFinished();
         if (!reply.isError()) {
             interface.first->activateWindow();
             attached = true;
-            break;
         }
     }
     return attached;

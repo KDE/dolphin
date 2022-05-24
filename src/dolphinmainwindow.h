@@ -138,6 +138,8 @@ public Q_SLOTS:
      */
     void activateWindow();
 
+    bool isActiveWindow();
+
     /**
      * Determines if a URL is open in any tab.
      * @note Use of QString instead of QUrl is required to be callable via DBus.
@@ -146,6 +148,15 @@ public Q_SLOTS:
      * @returns true if url is currently open in a tab, false otherwise.
      */
     bool isUrlOpen(const QString &url);
+
+    /**
+     * Determines if a URL or it's parent is open in any tab.
+     * @note Use of QString instead of QUrl is required to be callable via DBus.
+     *
+     * @param url URL to look for
+     * @returns true if url or it's parent is currently open in a tab, false otherwise.
+     */
+    bool isUrlOrParentOpen(const QString &url);
 
 
     /**
