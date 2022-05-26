@@ -363,7 +363,6 @@ private:
     QPointF m_pressedMousePos;
 
     QTimer* m_autoActivationTimer;
-    QTimer* m_longPressDetectionTimer;
 
     Qt::GestureType m_swipeGesture;
     Qt::GestureType m_twoFingerTapGesture;

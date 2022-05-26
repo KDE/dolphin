@@ -53,7 +53,6 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_pressedIndex(std::nullopt),
     m_pressedMousePos(),
     m_autoActivationTimer(nullptr),
-    m_longPressDetectionTimer(nullptr),
     m_swipeGesture(Qt::CustomGesture),
     m_twoFingerTapGesture(Qt::CustomGesture),
     m_oldSelection(),
@@ -71,15 +70,6 @@ KItemListController::KItemListController(KItemModelBase* model, KItemListView* v
     m_autoActivationTimer->setSingleShot(true);
     m_autoActivationTimer->setInterval(-1);
     connect(m_autoActivationTimer, &QTimer::timeout, this, &KItemListController::slotAutoActivationTimeout);
-
-    m_longPressDetectionTimer = new QTimer(this);
-    m_longPressDetectionTimer->setSingleShot(true);
-    m_longPressDetectionTimer->setInterval(QGuiApplication::styleHints()->mousePressAndHoldInterval());
-    connect(m_longPressDetectionTimer, &QTimer::timeout, this, [this]() {
-        if (!m_selectionMode) {
-            Q_EMIT selectionModeChangeRequested(true);
-        }
-    });
 
     setModel(model);
     setView(view);
@@ -601,9 +591,6 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
     }
 
     const QPointF pos = transform.map(event->pos());
-    if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
-        m_longPressDetectionTimer->stop();
-    }
 
     if (m_pressedIndex.has_value() && !m_view->rubberBand()->isActive()) {
         // Check whether a dragging should be started
@@ -666,8 +653,6 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (m_view->m_tapAndHoldIndicator->isActive()) {
         m_view->m_tapAndHoldIndicator->setActive(false);
     }
-
-    m_longPressDetectionTimer->stop();
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (event->source() == Qt::MouseEventSynthesizedByQt && !rubberBand->isActive() && m_isTouchEvent) {
@@ -1075,6 +1060,7 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
 
     //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
     if (!m_isTouchEvent) {
+        Q_EMIT selectionModeChangeRequested(true);
         return;
     }
 
@@ -1552,10 +1538,6 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
                                                                                       // simplify the overall logic and possibilities both for users and devs.
     const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
-
-    if (leftClick) {
-        m_longPressDetectionTimer->start();
-    }
 
     // The previous selection is cleared if either
     // 1. The selection mode is SingleSelection, or
