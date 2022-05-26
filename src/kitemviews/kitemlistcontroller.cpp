@@ -1594,6 +1594,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
                 // The selection rectangle for an item was clicked
                 Q_EMIT itemContextMenuRequested(m_pressedIndex.value(), screenPos);
             } else {
+                row->setHovered(false); // Removes the hover highlight so the context menu doesn't look like it applies to the row.
                 Q_EMIT viewContextMenuRequested(screenPos);
             }
             return true;
