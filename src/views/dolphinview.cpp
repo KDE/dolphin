@@ -202,8 +202,8 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
             this, &DolphinView::slotRoleEditingCanceled);
     connect(m_view->header(), &KItemListHeader::columnWidthChangeFinished,
             this, &DolphinView::slotHeaderColumnWidthChangeFinished);
-    connect(m_view->header(), &KItemListHeader::leadingPaddingChanged,
-            this, &DolphinView::slotLeadingPaddingWidthChanged);
+    connect(m_view->header(), &KItemListHeader::sidePaddingChanged,
+            this, &DolphinView::slotSidePaddingWidthChanged);
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
@@ -1120,9 +1120,9 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     QActionGroup* widthsGroup = new QActionGroup(menu);
     const bool autoColumnWidths = props.headerColumnWidths().isEmpty();
 
-    QAction* toggleLeadingPaddingAction = menu->addAction(i18nc("@action:inmenu", "Leading Column Padding"));
-    toggleLeadingPaddingAction->setCheckable(true);
-    toggleLeadingPaddingAction->setChecked(view->header()->leadingPadding() > 0);
+    QAction* toggleSidePaddingAction = menu->addAction(i18nc("@action:inmenu", "Side Padding"));
+    toggleSidePaddingAction->setCheckable(true);
+    toggleSidePaddingAction->setChecked(view->header()->sidePadding() > 0);
 
     QAction* autoAdjustWidthsAction = menu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
     autoAdjustWidthsAction->setCheckable(true);
@@ -1154,8 +1154,8 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             }
             props.setHeaderColumnWidths(columnWidths);
             header->setAutomaticColumnResizing(false);
-        } else if (action == toggleLeadingPaddingAction) {
-            header->setLeadingPadding(toggleLeadingPaddingAction->isChecked() ? 20 : 0);
+        } else if (action == toggleSidePaddingAction) {
+            header->setSidePadding(toggleSidePaddingAction->isChecked() ? 20 : 0);
         } else {
             // Show or hide the selected role
             const QByteArray selectedRole = action->data().toByteArray();
@@ -1208,10 +1208,10 @@ void DolphinView::slotHeaderColumnWidthChangeFinished(const QByteArray& role, qr
     props.setHeaderColumnWidths(columnWidths);
 }
 
-void DolphinView::slotLeadingPaddingWidthChanged(qreal width)
+void DolphinView::slotSidePaddingWidthChanged(qreal width)
 {
     ViewProperties props(viewPropertiesUrl());
-    DetailsModeSettings::setLeadingPadding(int(width));
+    DetailsModeSettings::setSidePadding(int(width));
     m_view->writeSettings();
 }
 
@@ -2011,7 +2011,7 @@ void DolphinView::applyViewProperties(const ViewProperties& props)
         } else {
             header->setAutomaticColumnResizing(true);
         }
-        header->setLeadingPadding(DetailsModeSettings::leadingPadding());
+        header->setSidePadding(DetailsModeSettings::sidePadding());
     }
 
     m_view->endTransaction();

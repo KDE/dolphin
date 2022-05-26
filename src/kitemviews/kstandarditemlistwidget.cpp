@@ -509,7 +509,7 @@ QRectF KStandardItemListWidget::selectionRect() const
         QRectF adjustedIconRect = iconRect().adjusted(-padding, -padding, padding, padding);
         QRectF result = adjustedIconRect | m_textRect;
         if (m_highlightEntireRow) {
-            result.setRight(m_columnWidthSum + leadingPadding());
+            result.setRight(m_columnWidthSum + sidePadding());
         }
         return result;
     }
@@ -727,7 +727,7 @@ void KStandardItemListWidget::columnWidthChanged(const QByteArray& role,
     m_dirtyLayout = true;
 }
 
-void KStandardItemListWidget::leadingPaddingChanged(qreal padding) {
+void KStandardItemListWidget::sidePaddingChanged(qreal padding) {
     Q_UNUSED(padding)
     m_dirtyLayout = true;
 }
@@ -957,7 +957,7 @@ void KStandardItemListWidget::updateExpansionArea()
             const qreal inc = (widgetHeight - widgetIconSize) / 2;
             const qreal x = expandedParentsCount * widgetHeight + inc;
             const qreal y = inc;
-            const qreal xPadding = m_highlightEntireRow ? leadingPadding() : 0;
+            const qreal xPadding = m_highlightEntireRow ? sidePadding() : 0;
             m_expansionArea = QRectF(xPadding + x, y, widgetIconSize, widgetIconSize);
             return;
         }
@@ -1397,7 +1397,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
     if (m_supportsItemExpanding) {
         firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
     } else {
-        firstColumnInc += option.padding + leadingPadding();
+        firstColumnInc += option.padding + sidePadding();
     }
 
     qreal x = firstColumnInc;
@@ -1413,7 +1413,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
         const bool isTextRole = (role == "text");
         if (isTextRole) {
-            availableTextWidth -= firstColumnInc - leadingPadding();
+            availableTextWidth -= firstColumnInc - sidePadding();
         }
 
         if (requiredWidth > availableTextWidth) {
@@ -1435,7 +1435,7 @@ void KStandardItemListWidget::updateDetailsLayoutTextCache()
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
-            x -= firstColumnInc - leadingPadding();
+            x -= firstColumnInc - sidePadding();
         } else if (isRoleRightAligned(role)) {
             textInfo->pos.rx() += roleWidth - requiredWidth - columnWidthInc;
         }

@@ -434,6 +434,9 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KDE_INSTALL_KCFGDIR} )
 
+install( FILES settings/dolphin_detailsmodesettings.upd
+         DESTINATION ${KDE_INSTALL_KCONFUPDATEDIR} )
+
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()

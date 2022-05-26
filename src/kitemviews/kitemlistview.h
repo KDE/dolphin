@@ -430,7 +430,7 @@ private Q_SLOTS:
                                       qreal currentWidth,
                                       qreal previousWidth);
 
-    void slotLeadingPaddingChanged(qreal width);
+    void slotSidePaddingChanged(qreal width);
 
     /**
      * Is invoked if a column has been moved by the user. Applies

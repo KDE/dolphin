@@ -601,8 +601,8 @@ void KItemListView::setHeaderVisible(bool visible)
 
         connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
                 this, &KItemListView::slotHeaderColumnWidthChanged);
-        connect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
-                this, &KItemListView::slotLeadingPaddingChanged);
+        connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
+                this, &KItemListView::slotSidePaddingChanged);
         connect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
                 this, &KItemListView::slotHeaderColumnMoved);
         connect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
@@ -615,8 +615,8 @@ void KItemListView::setHeaderVisible(bool visible)
     } else if (!visible && m_headerWidget->isVisible()) {
         disconnect(m_headerWidget, &KItemListHeaderWidget::columnWidthChanged,
                    this, &KItemListView::slotHeaderColumnWidthChanged);
-        disconnect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
-                this, &KItemListView::slotLeadingPaddingChanged);
+        disconnect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
+                this, &KItemListView::slotSidePaddingChanged);
         disconnect(m_headerWidget, &KItemListHeaderWidget::columnMoved,
                    this, &KItemListView::slotHeaderColumnMoved);
         disconnect(m_headerWidget, &KItemListHeaderWidget::sortOrderChanged,
@@ -1532,7 +1532,7 @@ void KItemListView::slotHeaderColumnWidthChanged(const QByteArray& role,
     doLayout(NoAnimation);
 }
 
-void KItemListView::slotLeadingPaddingChanged(qreal width)
+void KItemListView::slotSidePaddingChanged(qreal width)
 {
     Q_UNUSED(width)
     if (m_headerWidget->automaticColumnResizing()) {
@@ -2313,7 +2313,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 void KItemListView::applyColumnWidthsFromHeader()
 {
     // Apply the new size to the layouter
-    const qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding();
+    const qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding();
     const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
                                  m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
@@ -2331,7 +2331,7 @@ void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
     for (const QByteArray& role : qAsConst(m_visibleRoles)) {
         widget->setColumnWidth(role, m_headerWidget->columnWidth(role));
     }
-    widget->setLeadingPadding(m_headerWidget->leadingPadding());
+    widget->setSidePadding(m_headerWidget->sidePadding());
 }
 
 void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges)
@@ -2409,8 +2409,8 @@ void KItemListView::applyAutomaticColumnWidths()
     qreal firstColumnWidth = m_headerWidget->columnWidth(firstRole);
     QSizeF dynamicItemSize = m_itemSize;
 
-    qreal requiredWidth = columnWidthsSum() + m_headerWidget->leadingPadding()
-        + m_headerWidget->leadingPadding(); // Adding the padding a second time so we have the same padding symmetrically on both sides of the view.
+    qreal requiredWidth = columnWidthsSum() + m_headerWidget->sidePadding()
+        + m_headerWidget->sidePadding(); // Adding the padding a second time so we have the same padding symmetrically on both sides of the view.
         // This improves UX, looks better and increases the chances of users figuring out that the padding area can be used for deselecting and dropping files.
     const qreal availableWidth = size().width();
     if (requiredWidth < availableWidth) {

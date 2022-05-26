@@ -182,14 +182,14 @@ qreal KItemListWidget::columnWidth(const QByteArray& role) const
     return m_columnWidths.value(role);
 }
 
-qreal KItemListWidget::leadingPadding() const {
-    return m_leadingPadding;
+qreal KItemListWidget::sidePadding() const {
+    return m_sidePadding;
 }
 
-void KItemListWidget::setLeadingPadding(qreal width) {
-    if (m_leadingPadding != width){
-        m_leadingPadding = width;
-        leadingPaddingChanged(width);
+void KItemListWidget::setSidePadding(qreal width) {
+    if (m_sidePadding != width){
+        m_sidePadding = width;
+        sidePaddingChanged(width);
         update();
     }
 }
@@ -458,7 +458,7 @@ void KItemListWidget::columnWidthChanged(const QByteArray& role,
     Q_UNUSED(previous)
 }
 
-void KItemListWidget::leadingPaddingChanged(qreal width)
+void KItemListWidget::sidePaddingChanged(qreal width)
 {
     Q_UNUSED(width)
 }

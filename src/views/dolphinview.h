@@ -634,7 +634,7 @@ private Q_SLOTS:
     void slotViewContextMenuRequested(const QPointF& pos);
     void slotHeaderContextMenuRequested(const QPointF& pos);
     void slotHeaderColumnWidthChangeFinished(const QByteArray& role, qreal current);
-    void slotLeadingPaddingWidthChanged(qreal width);
+    void slotSidePaddingWidthChanged(qreal width);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);

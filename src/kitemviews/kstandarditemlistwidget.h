@@ -171,7 +171,7 @@ protected:
     void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>()) override;
     void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous) override;
     void columnWidthChanged(const QByteArray& role, qreal current, qreal previous) override;
-    void leadingPaddingChanged(qreal width) override;
+    void sidePaddingChanged(qreal width) override;
     void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous) override;
     void hoveredChanged(bool hovered) override;
     void selectedChanged(bool selected) override;

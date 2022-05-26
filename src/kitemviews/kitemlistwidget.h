@@ -82,8 +82,8 @@ public:
     void setColumnWidth(const QByteArray& role, qreal width);
     qreal columnWidth(const QByteArray& role) const;
 
-    void setLeadingPadding(qreal width);
-    qreal leadingPadding() const;
+    void setSidePadding(qreal width);
+    qreal sidePadding() const;
 
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
@@ -197,7 +197,7 @@ protected:
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);
-    virtual void leadingPaddingChanged(qreal width);
+    virtual void sidePaddingChanged(qreal width);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
@@ -259,7 +259,7 @@ private:
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_columnWidths;
-    qreal m_leadingPadding;
+    qreal m_sidePadding;
     KItemListStyleOption m_styleOption;
     QBitArray m_siblingsInfo;
 

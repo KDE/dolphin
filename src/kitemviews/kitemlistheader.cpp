@@ -61,9 +61,9 @@ qreal KItemListHeader::preferredColumnWidth(const QByteArray& role) const
     return m_headerWidget->preferredColumnWidth(role);
 }
 
-void KItemListHeader::setLeadingPadding(qreal width){
-    if (m_headerWidget->leadingPadding() != width) {
-        m_headerWidget->setLeadingPadding(width);
+void KItemListHeader::setSidePadding(qreal width){
+    if (m_headerWidget->sidePadding() != width) {
+        m_headerWidget->setSidePadding(width);
         if (m_headerWidget->automaticColumnResizing()) {
             m_view->applyAutomaticColumnWidths();
         }
@@ -71,8 +71,8 @@ void KItemListHeader::setLeadingPadding(qreal width){
     }
 }
 
-qreal KItemListHeader::leadingPadding() const{
-    return m_headerWidget->leadingPadding();
+qreal KItemListHeader::sidePadding() const{
+    return m_headerWidget->sidePadding();
 }
 
 KItemListHeader::KItemListHeader(KItemListView* listView) :
@@ -86,7 +86,7 @@ KItemListHeader::KItemListHeader(KItemListView* listView) :
             this, &KItemListHeader::columnWidthChanged);
     connect(m_headerWidget, &KItemListHeaderWidget::columnWidthChangeFinished,
             this, &KItemListHeader::columnWidthChangeFinished);
-    connect(m_headerWidget, &KItemListHeaderWidget::leadingPaddingChanged,
-            this, &KItemListHeader::leadingPaddingChanged);
+    connect(m_headerWidget, &KItemListHeaderWidget::sidePaddingChanged,
+            this, &KItemListHeader::sidePaddingChanged);
 }
 

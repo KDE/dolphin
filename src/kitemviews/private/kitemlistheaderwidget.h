@@ -50,8 +50,8 @@ public:
     void setOffset(qreal offset);
     qreal offset() const;
 
-    void setLeadingPadding(qreal width);
-    qreal leadingPadding() const;
+    void setSidePadding(qreal width);
+    qreal sidePadding() const;
 
     qreal minimumColumnWidth() const;
 
@@ -66,7 +66,7 @@ Q_SIGNALS:
                             qreal currentWidth,
                             qreal previousWidth);
 
-    void leadingPaddingChanged(qreal width);
+    void sidePaddingChanged(qreal width);
 
     /**
      * Is emitted if the user has released the mouse button after adjusting the
@@ -151,14 +151,14 @@ private:
     {
         NoRoleOperation,
         ResizeRoleOperation,
-        ResizeLeadingColumnOperation,
+        ResizePaddingColumnOperation,
         MoveRoleOperation
     };
 
     bool m_automaticColumnResizing;
     KItemModelBase* m_model;
     qreal m_offset;
-    qreal m_leadingPadding;
+    qreal m_sidePadding;
     QList<QByteArray> m_columns;
     QHash<QByteArray, qreal> m_columnWidths;
     QHash<QByteArray, qreal> m_preferredColumnWidths;

@@ -62,11 +62,11 @@ public:
      * Sets the width of the column *before* the first column.
      * This is intended to facilitate an empty region for deselection in the main viewport.
      */
-    void setLeadingPadding(qreal width);
-    qreal leadingPadding() const;
+    void setSidePadding(qreal width);
+    qreal sidePadding() const;
 
 Q_SIGNALS:
-    void leadingPaddingChanged(qreal width);
+    void sidePaddingChanged(qreal width);
 
     /**
      * Is emitted if the width of a column has been adjusted by the user with the mouse
