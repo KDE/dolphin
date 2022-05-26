@@ -1104,7 +1104,16 @@ void KStandardItemListWidget::updatePixmapCache()
 
     }
 
-    m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
+    if (m_layout == IconsLayout) {
+        m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
+    } else {
+        const qreal widthOffset = widgetIconSize - m_scaledPixmapSize.width();
+        const qreal heightOffset = widgetIconSize - m_scaledPixmapSize.height();
+        const QPointF squareIconPos(m_pixmapPos.x() - 0.5 * widthOffset,
+                                    m_pixmapPos.y() - 0.5 * heightOffset);
+        const QSizeF squareIconSize(widgetIconSize, widgetIconSize);
+        m_iconRect = QRectF(squareIconPos, squareIconSize);
+    }
 
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
