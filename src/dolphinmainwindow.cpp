@@ -1095,7 +1095,7 @@ void DolphinMainWindow::openTerminalHere()
     QList<QUrl> urls = {};
 
     for (const KFileItem& item : m_activeViewContainer->view()->selectedItems()) {
-        QUrl url = item.url();
+        QUrl url = item.targetUrl();
         if (item.isFile()) {
             url.setPath(QFileInfo(url.path()).absolutePath());
         }
