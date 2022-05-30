@@ -2067,6 +2067,17 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b, const 
         break;
     }
 
+    case AccessTimeRole: {
+        const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_ACCESS_TIME, -1);
+        const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_ACCESS_TIME, -1);
+        if (dateTimeA < dateTimeB) {
+            return -1;
+        } else if (dateTimeA > dateTimeB) {
+            return +1;
+        }
+        break;
+    }
+
     case CreationTimeRole: {
         const long long dateTimeA = itemA.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
         const long long dateTimeB = itemB.entry().numberValue(KIO::UDSEntry::UDS_CREATION_TIME, -1);
