@@ -26,12 +26,7 @@
 #include <kservice_export.h>
 
 #include <QtGlobal>
-#include <knewstuff_version.h>
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
 #include <KNSWidgets/Button>
-#else
-#include <KNS3/Button>
-#endif
 
 #include <QGridLayout>
 #include <QLabel>
@@ -97,11 +92,7 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     topLayout->addWidget(m_listView);
 
 #ifndef Q_OS_WIN
-#if KNEWSTUFF_VERSION >= QT_VERSION_CHECK(5, 91, 0)
     using NewStuffButton = KNSWidgets::Button;
-#else
-    using NewStuffButton = KNS3::Button;
-#endif // KNEWSTUFF_VERSION
     auto *downloadButton = new NewStuffButton(i18nc("@action:button", "Download New Services..."),
                                               QStringLiteral("servicemenu.knsrc"),
                                               this);
