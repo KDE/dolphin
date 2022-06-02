@@ -81,15 +81,9 @@ void DolphinFileMetaDataWidget::setPreview(const QPixmap& pixmap)
 
 QPixmap DolphinFileMetaDataWidget::preview() const
 {
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
-    if (m_preview->pixmap()) {
-        return *m_preview->pixmap();
-    }
-#else
     if (!m_preview->pixmap(Qt::ReturnByValue).isNull()) {
         return m_preview->pixmap(Qt::ReturnByValue);
     }
-#endif
 
     return QPixmap();
 }
