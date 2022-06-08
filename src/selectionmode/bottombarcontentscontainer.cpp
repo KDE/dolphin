@@ -498,6 +498,21 @@ std::vector<QAction *> BottomBarContentsContainer::contextActionsFor(const KFile
             }
         }
     }
+
+    auto separator = new QAction(m_internalContextMenu.get());
+    separator->setSeparator(true);
+    contextActions.emplace_back(separator);
+
+    // Add "Invert Selection" and "Select All" at the very end for better usability while in selection mode.
+    // Design-wise this decision is slightly questionable because the other actions in the bar apply to the selected items while
+    // the "select" actions apply to the view instead but we decided that there are more benefits than drawbacks to this.
+    auto invertSelectionAction = m_actionCollection->action(QStringLiteral("invert_selection"));
+    Q_ASSERT(invertSelectionAction && !internalContextMenuActions.contains(invertSelectionAction));
+    contextActions.emplace_back(invertSelectionAction);
+    auto selectAllAction = m_actionCollection->action(KStandardAction::name(KStandardAction::SelectAll));
+    Q_ASSERT(selectAllAction && !internalContextMenuActions.contains(selectAllAction));
+    contextActions.emplace_back(selectAllAction);
+
     return contextActions;
 }
 
