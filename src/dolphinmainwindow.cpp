@@ -41,7 +41,6 @@
 #include <KConfigGui>
 #include <KDualAction>
 #include <KFileItemListProperties>
-#include <KHelpMenu>
 #include <KIO/CommandLauncherJob>
 #include <KIO/JobUiDelegate>
 #include <KIO/OpenFileManagerWindowJob>
@@ -82,7 +81,6 @@
 #include <QStandardPaths>
 #include <QTimer>
 #include <QToolButton>
-#include <QWhatsThisClickedEvent>
 
 namespace {
     // Used for GeneralSettings::version() to determine whether
@@ -99,15 +97,12 @@ namespace {
 DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(nullptr),
     m_newFileMenu(nullptr),
-    m_helpMenu(nullptr),
     m_tabWidget(nullptr),
     m_activeViewContainer(nullptr),
     m_actionHandler(nullptr),
     m_remoteEncoding(nullptr),
     m_settingsDialog(),
     m_bookmarkHandler(nullptr),
-    m_controlButton(nullptr),
-    m_updateToolBarTimer(nullptr),
     m_lastHandleUrlOpenJob(nullptr),
     m_terminalPanel(nullptr),
     m_placesPanel(nullptr),
@@ -1527,7 +1522,7 @@ void DolphinMainWindow::setViewsToHomeIfMountPathOpen(const QString& mountPath)
 
 void DolphinMainWindow::setupActions()
 {
-    KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
+    auto hamburgerMenuAction = KStandardAction::hamburgerMenu(nullptr, nullptr, actionCollection());
 
     // setup 'File' menu
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
@@ -1891,9 +1886,12 @@ void DolphinMainWindow::setupActions()
     // setup 'Settings' menu
     KToggleAction* showMenuBar = KStandardAction::showMenubar(nullptr, nullptr, actionCollection());
     showMenuBar->setWhatsThis(xi18nc("@info:whatsthis",
-            "This switches between having a <emphasis>Menubar</emphasis> "
-            "and having a <interface>Control</interface> button. Both "
-            "contain mostly the same commands and configuration options."));
+            "<para>This switches between having a <emphasis>Menubar</emphasis> "
+            "and having a <interface>%1</interface> button. Both "
+            "contain mostly the same actions and configuration options.</para>"
+            "<para>The Menubar takes up more space but allows for fast and organised access to all "
+            "actions an application has to offer.</para><para>The <interface>%1</interface> button "
+            "is simpler and small which makes triggering advanced actions more time consuming.</para>", hamburgerMenuAction->text().replace('&', "")));
     connect(showMenuBar, &KToggleAction::triggered,                   // Fixes #286822
             this, &DolphinMainWindow::toggleShowMenuBar, Qt::QueuedConnection);
 
@@ -1907,18 +1905,6 @@ void DolphinMainWindow::setupActions()
 
     KStandardAction::keyBindings(this, &DolphinMainWindow::slotKeyBindings, actionCollection());
     KStandardAction::preferences(this, &DolphinMainWindow::editSettings, actionCollection());
-
-    // setup 'Help' menu for the m_controlButton. The other one is set up in the base class.
-    m_helpMenu = new KHelpMenu(nullptr);
-    m_helpMenu->menu()->installEventFilter(this);
-    // remove duplicate shortcuts
-    auto removeHelpActionShortcut = [this](KHelpMenu::MenuId menuId) {
-        if (auto *action = m_helpMenu->action(menuId)) {
-            action->setShortcut(QKeySequence());
-        }
-    };
-    removeHelpActionShortcut(KHelpMenu::menuHelpContents);
-    removeHelpActionShortcut(KHelpMenu::menuWhatsThis);
 
     // not in menu actions
     QList<QKeySequence> nextTabKeys = KStandardShortcut::tabNext();
@@ -2029,7 +2015,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     // i18n: This is the last paragraph for the "What's This"-texts of all four panels.
     const QString panelWhatsThis = xi18nc("@info:whatsthis", "<para>To show or "
-        "hide panels like this go to <interface>Control|Panels</interface> "
+        "hide panels like this go to <interface>Menu|Panels</interface> "
         "or <interface>View|Panels</interface>.</para>");
 #if HAVE_BALOO
     actionCollection()->action(QStringLiteral("show_information_panel"))
@@ -2492,16 +2478,16 @@ void DolphinMainWindow::setupWhatsThis()
         "configuration options. Left-click on any of the menus on this "
         "bar to see its contents.</para><para>The Menubar can be hidden "
         "by unchecking <interface>Settings|Show Menubar</interface>. Then "
-        "most of its contents become available through a <interface>Control"
+        "most of its contents become available through a <interface>Menu"
         "</interface> button on the <emphasis>Toolbar</emphasis>.</para>"));
     toolBar()->setWhatsThis(xi18nc("@info:whatsthis", "<para>This is the "
         "<emphasis>Toolbar</emphasis>. It allows quick access to "
         "frequently used actions.</para><para>It is highly customizable. "
-        "All items you see in the <interface>Control</interface> menu or "
+        "All items you see in the <interface>Menu</interface> or "
         "in the <interface>Menubar</interface> can be placed on the "
         "Toolbar. Just right-click on it and select <interface>Configure "
-        "Toolbars…</interface> or find this action in the <interface>"
-        "Control</interface> or <interface>Settings</interface> menu."
+        "Toolbars…</interface> or find this action within the <interface>"
+        "menu</interface>."
         "</para><para>The location of the bar and the style of its "
         "buttons can also be changed in the right-click menu. Right-click "
         "a button if you want to show or hide its text.</para>"));
@@ -2530,8 +2516,7 @@ void DolphinMainWindow::setupWhatsThis()
     actionCollection()->action(KStandardAction::name(KStandardAction::ConfigureToolbars))
         ->setWhatsThis(xi18nc("@info:whatsthis","<para>This opens a window in which "
         "you can change which buttons appear on the <emphasis>Toolbar</emphasis>.</para>"
-        "<para>All items you see in the <interface>Control</interface> menu "
-        "or in the <interface>Menubar</interface> can also be placed on the Toolbar.</para>"));
+        "<para>All items you see in the <interface>Menu</interface> can also be placed on the Toolbar.</para>"));
     actionCollection()->action(KStandardAction::name(KStandardAction::Preferences))
         ->setWhatsThis(xi18nc("@info:whatsthis","This opens a window where you can "
         "change a multitude of settings for this application. For an explanation "
@@ -2539,77 +2524,38 @@ void DolphinMainWindow::setupWhatsThis()
         "</emphasis> in <interface>Help|Dolphin Handbook</interface>."));
 
     // Help menu
-    // The whatsthis has to be set for the m_helpMenu and for the
-    // StandardAction separately because both are used in different locations.
-    // m_helpMenu is only used for createControlButton() button.
 
-    auto setStandardActionWhatsThis = [this](KStandardAction::StandardAction actionId,
-                                             const QString &whatsThis) {
-        if (auto *action = actionCollection()->action(KStandardAction::name(actionId))) {
-            action->setWhatsThis(whatsThis);
-        }
-    };
-    auto setHelpActionWhatsThis = [this](KHelpMenu::MenuId menuId, const QString &whatsThis) {
-        if (auto *action = m_helpMenu->action(menuId)) {
-            action->setWhatsThis(whatsThis);
-        }
-    };
-
-    // Links do not work within the Menubar so texts without links are provided there.
-
-    // i18n: If the external link isn't available in your language you should
-    // probably state the external link language at least in brackets to not
+    // i18n: If the external link isn't available in your language it might make
+    // sense to state the external link's language in brackets to not
     // frustrate the user. If there are multiple languages that the user might
     // know with a reasonable chance you might want to have 2 external links.
-    // The same is in my opinion true for every external link you translate.
-    const QString whatsThisHelpContents = xi18nc("@info:whatsthis handbook",
-        "<para>This opens the Handbook for this application. It provides "
-        "explanations for every part of <emphasis>Dolphin</emphasis>.</para>");
-    setStandardActionWhatsThis(KStandardAction::HelpContents, whatsThisHelpContents
-        + xi18nc("@info:whatsthis second half of handbook hb text without link",
-        "<para>If you want more elaborate introductions to the "
-        "different features of <emphasis>Dolphin</emphasis> "
-        "go to the KDE UserBase Wiki.</para>"));
-    setHelpActionWhatsThis(KHelpMenu::menuHelpContents, whatsThisHelpContents
-        + xi18nc("@info:whatsthis second half of handbook text with link",
-        "<para>If you want more elaborate introductions to the "
-        "different features of <emphasis>Dolphin</emphasis> "
-        "<link url='https://userbase.kde.org/Dolphin/File_Management'>click here</link>. "
-        "It will open the dedicated page in the KDE UserBase Wiki.</para>"));
+    // The same might be true for any external link you translate.
+    actionCollection()->action(KStandardAction::name(KStandardAction::HelpContents))->setWhatsThis(xi18nc("@info:whatsthis handbook", "<para>This opens the Handbook for this application. It provides explanations for every part of <emphasis>Dolphin</emphasis>.</para><para>If you want more elaborate introductions to the different features of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"));
+    // (The i18n call should be completely in the line following the i18n: comment without any line breaks within the i18n call or the comment might not be correctly extracted. See: https://commits.kde.org/kxmlgui/a31135046e1b3335b5d7bbbe6aa9a883ce3284c1 )
 
-    const QString whatsThisWhatsThis = xi18nc("@info:whatsthis whatsthis button",
+    actionCollection()->action(KStandardAction::name(KStandardAction::WhatsThis))->setWhatsThis(
+        xi18nc("@info:whatsthis whatsthis button",
         "<para>This is the button that invokes the help feature you are "
         "using right now! Click it, then click any component of this "
         "application to ask \"What's this?\" about it. The mouse cursor "
-        "will change appearance if no help is available for a spot.</para>");
-    setStandardActionWhatsThis(KStandardAction::WhatsThis, whatsThisWhatsThis
-        + xi18nc("@info:whatsthis second half of whatsthis button text without link",
-        "<para>There are two other ways to get help for this application: The "
-        "<interface>Dolphin Handbook</interface> in the <interface>Help"
-        "</interface> menu and the <emphasis>KDE UserBase Wiki</emphasis> "
-        "article about <emphasis>File Management</emphasis> online."
-        "</para><para>The \"What's this?\" help is "
-        "missing in most other windows so don't get too used to this.</para>"));
-    setHelpActionWhatsThis(KHelpMenu::menuWhatsThis, whatsThisWhatsThis
-        + xi18nc("@info:whatsthis second half of whatsthis button text with link",
+        "will change appearance if no help is available for a spot.</para>"
         "<para>There are two other ways to get help: "
         "The <link url='help:/dolphin/index.html'>Dolphin Handbook</link> and "
         "the <link url='https://userbase.kde.org/Dolphin/File_Management'>KDE "
         "UserBase Wiki</link>.</para><para>The \"What's this?\" help is "
         "missing in most other windows so don't get too used to this.</para>"));
 
-    const QString whatsThisReportBug = xi18nc("@info:whatsthis","<para>This opens a "
+    actionCollection()->action(KStandardAction::name(KStandardAction::ReportBug))->setWhatsThis(
+        xi18nc("@info:whatsthis","<para>This opens a "
         "window that will guide you through reporting errors or flaws "
-        "in this application or in other KDE software.</para>");
-    setStandardActionWhatsThis(KStandardAction::ReportBug, whatsThisReportBug);
-    setHelpActionWhatsThis(KHelpMenu::menuReportBug, whatsThisReportBug
-        + xi18nc("@info:whatsthis second half of reportbug text with link",
+        "in this application or in other KDE software.</para>"
         "<para>High-quality bug reports are much appreciated. To learn "
         "how to make your bug report as effective as possible "
         "<link url='https://community.kde.org/Get_Involved/Bug_Reporting'>"
         "click here</link>.</para>"));
 
-    const QString whatsThisDonate = xi18nc("@info:whatsthis","<para>This opens a "
+    actionCollection()->action(KStandardAction::name(KStandardAction::Donate))->setWhatsThis(
+        xi18nc("@info:whatsthis", "<para>This opens a "
         "<emphasis>web page</emphasis> where you can donate to "
         "support the continued work on this application and many "
         "other projects by the <emphasis>KDE</emphasis> community.</para>"
@@ -2618,31 +2564,25 @@ void DolphinMainWindow::setupWhatsThis()
         "free therefore your donation is needed to cover things that "
         "require money like servers, contributor meetings, etc.</para>"
         "<para><emphasis>KDE e.V.</emphasis> is the non-profit "
-        "organization behind the KDE community.</para>");
-    setStandardActionWhatsThis(KStandardAction::Donate, whatsThisDonate);
-    setHelpActionWhatsThis(KHelpMenu::menuDonate, whatsThisDonate);
+        "organization behind the KDE community.</para>"));
 
-    const QString whatsThisSwitchLanguage = xi18nc("@info:whatsthis",
+    actionCollection()->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage))->setWhatsThis(
+        xi18nc("@info:whatsthis",
         "With this you can change the language this application uses."
         "<nl/>You can even set secondary languages which will be used "
-        "if texts are not available in your preferred language.");
-    setStandardActionWhatsThis(KStandardAction::SwitchApplicationLanguage,
-                               whatsThisSwitchLanguage);
-    setHelpActionWhatsThis(KHelpMenu::menuSwitchLanguage, whatsThisSwitchLanguage);
+        "if texts are not available in your preferred language."));
 
-    const QString whatsThisAboutApp = xi18nc("@info:whatsthis","This opens a "
+    actionCollection()->action(KStandardAction::name(KStandardAction::AboutApp))->setWhatsThis(
+        xi18nc("@info:whatsthis","This opens a "
         "window that informs you about the version, license, "
-        "used libraries and maintainers of this application.");
-    setStandardActionWhatsThis(KStandardAction::AboutApp, whatsThisAboutApp);
-    setHelpActionWhatsThis(KHelpMenu::menuAboutApp, whatsThisAboutApp);
+        "used libraries and maintainers of this application."));
 
-    const QString whatsThisAboutKDE = xi18nc("@info:whatsthis","This opens a "
+    actionCollection()->action(KStandardAction::name(KStandardAction::AboutKDE))->setWhatsThis(
+        xi18nc("@info:whatsthis","This opens a "
         "window with information about <emphasis>KDE</emphasis>. "
         "The KDE community are the people behind this free software."
         "<nl/>If you like using this application but don't know "
-        "about KDE or want to see a cute dragon have a look!");
-    setStandardActionWhatsThis(KStandardAction::AboutKDE, whatsThisAboutKDE);
-    setHelpActionWhatsThis(KHelpMenu::menuAboutKDE, whatsThisAboutKDE);
+        "about KDE or want to see a cute dragon have a look!"));
 }
 
 bool DolphinMainWindow::addHamburgerMenuToToolbar()
@@ -2666,29 +2606,6 @@ bool DolphinMainWindow::addHamburgerMenuToToolbar()
     return true;
     // Make sure to also remove the <KXMLGUIFactory> and <QDomDocument> include
     // whenever this method is removed (maybe in the year ~2026).
-}
-
-bool DolphinMainWindow::event(QEvent *event)
-{
-    if (event->type() == QEvent::WhatsThisClicked) {
-        event->accept();
-        QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
-        QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
-        return true;
-    }
-    return KXmlGuiWindow::event(event);
-}
-
-bool DolphinMainWindow::eventFilter(QObject* obj, QEvent* event)
-{
-    Q_UNUSED(obj)
-    if (event->type() == QEvent::WhatsThisClicked) {
-        event->accept();
-        QWhatsThisClickedEvent* whatsThisEvent = dynamic_cast<QWhatsThisClickedEvent*>(event);
-        QDesktopServices::openUrl(QUrl(whatsThisEvent->href()));
-        return true;
-    }
-    return false;
 }
 
 // Set a sane initial window size
