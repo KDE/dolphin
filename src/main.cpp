@@ -88,10 +88,16 @@ int main(int argc, char **argv)
     KAboutData aboutData(QStringLiteral("dolphin"), i18n("Dolphin"), QStringLiteral(DOLPHIN_VERSION_STRING),
                          i18nc("@title", "File Manager"),
                          KAboutLicense::GPL,
-                         i18nc("@info:credit", "(C) 2006-2018 Peter Penz, Frank Reininghaus, Emmanuel Pescosta and Elvis Angelaccio"));
+                         i18nc("@info:credit", "(C) 2006-2022 The Dolphin Developers"));
     aboutData.setHomepage(QStringLiteral("https://kde.org/applications/system/org.kde.dolphin"));
+    aboutData.addAuthor(i18nc("@info:credit", "Felix Ernst"),
+                        i18nc("@info:credit", "Maintainer (since 2021) and developer"),
+                        QStringLiteral("felixernst@kde.org"));
+    aboutData.addAuthor(i18nc("@info:credit", "Méven Car"),
+                        i18nc("@info:credit", "Maintainer (since 2021) and developer (since 2019)"),
+                        QStringLiteral("meven@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Elvis Angelaccio"),
-                        i18nc("@info:credit", "Maintainer (since 2018) and developer"),
+                        i18nc("@info:credit", "Maintainer (2018-2021) and developer"),
                         QStringLiteral("elvis.angelaccio@kde.org"));
     aboutData.addAuthor(i18nc("@info:credit", "Emmanuel Pescosta"),
                         i18nc("@info:credit", "Maintainer (2014-2018) and developer"),
