@@ -195,7 +195,7 @@ target_link_libraries(dolphinpart
     dolphinprivate
 )
 
-install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf5/parts)
+install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
 
 ##########################################
 

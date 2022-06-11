@@ -122,7 +122,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     connect(m_directoryContentsCounter, &KDirectoryContentsCounter::result,
             this,                       &KFileItemModelRolesUpdater::slotDirectoryContentsCountReceived);
 
-    const auto plugins = KPluginMetaData::findPlugins(QStringLiteral("kf5/overlayicon"));
+    const auto plugins = KPluginMetaData::findPlugins(QStringLiteral("kf" QT_STRINGIFY(QT_VERSION_MAJOR)) + QStringLiteral("/overlayicon"));
     for (const KPluginMetaData &data : plugins) {
         auto instance = QPluginLoader(data.fileName()).instance();
         auto plugin = qobject_cast<KOverlayIconPlugin *>(instance);
