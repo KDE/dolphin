@@ -13,7 +13,7 @@
 #include "dolphinmainwindow.h"
 #include "global.h"
 #include "config-dolphin.h"
-#ifdef HAVE_KUSERFEEDBACK
+#if HAVE_KUSERFEEDBACK
 #include "userfeedback/dolphinfeedbackprovider.h"
 #endif
 
@@ -238,7 +238,7 @@ int main(int argc, char **argv)
         }
     }
 
-#ifdef HAVE_KUSERFEEDBACK
+#if HAVE_KUSERFEEDBACK
     auto feedbackProvider = DolphinFeedbackProvider::instance();
     Q_UNUSED(feedbackProvider)
 #endif

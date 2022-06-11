@@ -29,7 +29,7 @@ enum PackageOperation {
     Uninstall
 };
 
-#ifdef HAVE_PACKAGEKIT
+#if HAVE_PACKAGEKIT
 #include <PackageKit/Daemon>
 #include <PackageKit/Details>
 #include <PackageKit/Transaction>
@@ -53,7 +53,7 @@ QString getServiceMenusDir()
     return QDir(dataLocation).absoluteFilePath("kio/servicemenus");
 }
 
-#ifdef HAVE_PACKAGEKIT
+#if HAVE_PACKAGEKIT
 void packageKitInstall(const QString &fileName)
 {
     PackageKit::Transaction *transaction = PackageKit::Daemon::installFile(fileName, PackageKit::Transaction::TransactionFlagNone);
@@ -111,7 +111,7 @@ void packageKitUninstall(const QString &fileName)
 
 Q_NORETURN void packageKit(PackageOperation operation, const QString &fileName)
 {
-#ifdef HAVE_PACKAGEKIT
+#if HAVE_PACKAGEKIT
     QFileInfo fileInfo(fileName);
     if (!fileInfo.exists()) {
         fail(i18n("The file does not exist!"));

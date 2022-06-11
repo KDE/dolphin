@@ -30,7 +30,7 @@ namespace KIO {
     class PreviewJob;
 }
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     namespace Baloo
     {
         class FileMonitor;
@@ -416,7 +416,7 @@ private:
 
     QList<KOverlayIconPlugin*> m_overlayIconsPlugin;
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     Baloo::FileMonitor* m_balooFileMonitor;
     Baloo::IndexerConfig m_balooConfig;
 #endif

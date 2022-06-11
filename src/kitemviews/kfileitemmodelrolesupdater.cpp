@@ -21,7 +21,7 @@
 #include <KPluginMetaData>
 #include <KSharedConfig>
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
 #include "private/kbaloorolesprovider.h"
 #include <Baloo/File>
 #include <Baloo/FileMonitor>
@@ -83,7 +83,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_recentlyChangedItems(),
     m_changedItems(),
     m_directoryContentsCounter(nullptr)
-  #ifdef HAVE_BALOO
+  #if HAVE_BALOO
    , m_balooFileMonitor(nullptr)
   #endif
 {
@@ -114,7 +114,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvableRoles.insert("size");
     m_resolvableRoles.insert("type");
     m_resolvableRoles.insert("isExpandable");
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     m_resolvableRoles += KBalooRolesProvider::instance().roles();
 #endif
 
@@ -267,7 +267,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
     if (m_roles != roles) {
         m_roles = roles;
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
         // Check whether there is at least one role that must be resolved
         // with the help of Baloo. If this is the case, a (quite expensive)
         // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
@@ -397,7 +397,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 
     const bool allItemsRemoved = (m_model->count() == 0);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     if (m_balooFileMonitor) {
         // Don't let the FileWatcher watch for removed items
         if (allItemsRemoved) {
@@ -826,7 +826,7 @@ void KFileItemModelRolesUpdater::resolveRecentlyChangedItems()
 
 void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     const KFileItem item = m_model->fileItem(QUrl::fromLocalFile(file));
 
     if (item.isNull()) {
@@ -842,7 +842,7 @@ void KFileItemModelRolesUpdater::applyChangedBalooRoles(const QString& file)
 
 void KFileItemModelRolesUpdater::applyChangedBalooRolesForItem(const KFileItem &item)
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     Baloo::File file(item.localPath());
     file.load();
 
@@ -1352,7 +1352,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
     data.insert("iconOverlays", overlays);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     if (m_balooFileMonitor) {
         m_balooFileMonitor->addFile(item.localPath());
         applyChangedBalooRolesForItem(item);

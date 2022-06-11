@@ -25,7 +25,7 @@
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #endif
 #include <KColorScheme>
@@ -209,7 +209,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
             this, &DolphinView::slotSelectionChanged);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     m_toolTipManager = new ToolTipManager(this);
     connect(m_toolTipManager, &ToolTipManager::urlActivated, this, &DolphinView::urlActivated);
 #endif
@@ -1076,7 +1076,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     const QList<QByteArray> visibleRolesSet = view->visibleRoles();
 
     bool indexingEnabled = false;
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     Baloo::IndexerConfig config;
     indexingEnabled = config.fileIndexingEnabled();
 #endif
@@ -1224,7 +1224,7 @@ void DolphinView::slotItemHovered(int index)
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
         auto nativeParent = nativeParentWidget();
         if (nativeParent) {
             m_toolTipManager->showToolTip(item, itemRect, nativeParent->windowHandle());
@@ -1666,7 +1666,7 @@ void DolphinView::updateViewState()
 void DolphinView::hideToolTip(const ToolTipManager::HideBehavior behavior)
 {
     if (GeneralSettings::showToolTips()) {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
         m_toolTipManager->hideToolTip(behavior);
 #else
         Q_UNUSED(behavior)

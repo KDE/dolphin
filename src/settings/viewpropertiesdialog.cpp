@@ -19,7 +19,7 @@
 #include <KMessageBox>
 #include <KWindowConfig>
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     #include <Baloo/IndexerConfig>
 #endif
 
@@ -108,7 +108,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
         // Add checkboxes
         bool indexingEnabled = false;
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
         Baloo::IndexerConfig config;
         indexingEnabled = config.fileIndexingEnabled();
 #endif

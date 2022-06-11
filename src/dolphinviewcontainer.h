@@ -19,7 +19,7 @@
 #include <QPushButton>
 #include <QWidget>
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
 namespace KActivities {
     class ResourceInstance;
 }
@@ -428,7 +428,7 @@ private:
      */
     std::unique_ptr<DolphinUrlNavigator::VisualState> m_urlNavigatorVisualState;
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
 private:
     KActivities::ResourceInstance * m_activityResourceInstance;
 #endif

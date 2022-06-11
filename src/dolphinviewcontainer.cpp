@@ -17,7 +17,7 @@
 #include "views/viewproperties.h"
 #include "dolphin_detailsmodesettings.h"
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
 #include <KActivities/ResourceInstance>
 #endif
 #include <KFileItemActions>
@@ -54,7 +54,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     m_statusBarTimer(nullptr),
     m_statusBarTimestamp(),
     m_autoGrabFocus(true)
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
     , m_activityResourceInstance(nullptr)
 #endif
 {
@@ -214,7 +214,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
 
     // Initialize kactivities resource instance
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
     m_activityResourceInstance = new KActivities::ResourceInstance(window()->winId(), url);
     m_activityResourceInstance->setParent(this);
 #endif
@@ -237,7 +237,7 @@ void DolphinViewContainer::setActive(bool active)
     }
     m_view->setActive(active);
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
     if (active) {
         m_activityResourceInstance->notifyFocusedIn();
     } else {
@@ -530,7 +530,7 @@ void DolphinViewContainer::setUrl(const QUrl& newUrl)
         m_urlNavigator->setLocationUrl(newUrl);
     }
 
-#ifdef HAVE_KACTIVITIES
+#if HAVE_KACTIVITIES
     m_activityResourceInstance->setUri(newUrl);
 #endif
 }

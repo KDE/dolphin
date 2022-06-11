@@ -37,7 +37,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmEmptyTrash(nullptr),
     m_confirmDelete(nullptr),
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram(nullptr),
 #endif
 
@@ -61,7 +61,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for confirmation in Dolphin when",
                                                        "Closing windows with multiple tabs"), this);
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram = new QCheckBox(i18nc("@option:check Ask for confirmation when",
                                                        "Closing windows with a program running in the Terminal panel"), this);
 #endif
@@ -83,7 +83,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     topLayout->addWidget(confirmLabelDolphin);
     topLayout->addWidget(m_confirmClosingMultipleTabs);
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     topLayout->addWidget(m_confirmClosingTerminalRunningProgram);
 #endif
 
@@ -100,7 +100,7 @@ ConfirmationsSettingsPage::ConfirmationsSettingsPage(QWidget* parent) :
     connect(m_confirmScriptExecution, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &ConfirmationsSettingsPage::changed);
     connect(m_confirmClosingMultipleTabs, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     connect(m_confirmClosingTerminalRunningProgram, &QCheckBox::toggled, this, &ConfirmationsSettingsPage::changed);
 #endif
 }
@@ -135,7 +135,7 @@ void ConfirmationsSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     settings->setConfirmClosingTerminalRunningProgram(m_confirmClosingTerminalRunningProgram->isChecked());
 #endif
 
@@ -175,7 +175,7 @@ void ConfirmationsSettingsPage::loadSettings()
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     m_confirmClosingTerminalRunningProgram->setChecked(GeneralSettings::confirmClosingTerminalRunningProgram());
 #endif
 }

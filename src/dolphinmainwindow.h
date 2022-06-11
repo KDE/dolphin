@@ -15,7 +15,7 @@
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     #include "panels/information/informationpanel.h"
 #endif
 

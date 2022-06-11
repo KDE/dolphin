@@ -9,12 +9,12 @@
 #include <QRegularExpression>
 
 #include <config-dolphin.h>
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
 #include <Baloo/Query>
 #endif
 
 namespace {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     /** Checks if a given term in the Baloo::Query::searchString() is a special search term
      * @return: the specific search token of the term, or an empty QString() if none is found
      */
@@ -99,7 +99,7 @@ bool DolphinQuery::supportsScheme(const QString& urlScheme)
 
 void DolphinQuery::parseBalooQuery()
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     const Baloo::Query query = Baloo::Query::fromSearchUrl(m_searchUrl);
 
     m_includeFolder = query.includeFolder();

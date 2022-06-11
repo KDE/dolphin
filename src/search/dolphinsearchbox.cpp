@@ -16,7 +16,7 @@
 #include <KMoreToolsMenuFactory>
 #include <KSeparator>
 #include <config-dolphin.h>
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
 #include <Baloo/Query>
 #include <Baloo/IndexerConfig>
 #endif
@@ -464,7 +464,7 @@ QString DolphinSearchBox::queryTitle(const QString& text) const
 
 QUrl DolphinSearchBox::balooUrlForSearching() const
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     const QString text = m_searchInput->text();
 
     Baloo::Query query;
@@ -534,7 +534,7 @@ void DolphinSearchBox::updateFacetsVisible()
 
 bool DolphinSearchBox::isIndexingEnabled() const
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     const Baloo::IndexerConfig searchInfo;
     return searchInfo.fileIndexingEnabled() && !searchPath().isEmpty() && searchInfo.shouldBeIndexed(searchPath().toLocalFile());
 #else

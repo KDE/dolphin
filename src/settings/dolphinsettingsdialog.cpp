@@ -15,7 +15,7 @@
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
 #include "config-dolphin.h"
-#ifdef HAVE_KUSERFEEDBACK
+#if HAVE_KUSERFEEDBACK
 #include "userfeedback/dolphinfeedbackprovider.h"
 #include "userfeedback/userfeedbacksettingspage.h"
 #endif
@@ -105,7 +105,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
         connect(trashSettingsPage, &TrashSettingsPage::changed, this, &DolphinSettingsDialog::enableApply);
     }
 
-#ifdef HAVE_KUSERFEEDBACK
+#if HAVE_KUSERFEEDBACK
     // User Feedback
     UserFeedbackSettingsPage* feedbackSettingsPage = nullptr;
     if (DolphinFeedbackProvider::instance()->isEnabled()) {
@@ -124,7 +124,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const QUrl& url, QWidget* parent, K
     if (trashSettingsPage) {
         m_pages.append(trashSettingsPage);
     }
-#ifdef HAVE_KUSERFEEDBACK
+#if HAVE_KUSERFEEDBACK
     if (feedbackSettingsPage) {
         m_pages.append(feedbackSettingsPage);
     }

@@ -14,7 +14,7 @@
 #include "views/zoomlevelinfo.h"
 #include "kconfig_version.h"
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
 #include <Baloo/IndexerConfig>
 #endif
 #include <KActionCollection>
@@ -355,7 +355,7 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     QActionGroup* groupMenuGroup = nullptr;
 
     bool indexingEnabled = false;
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     Baloo::IndexerConfig config;
     indexingEnabled = config.fileIndexingEnabled();
 #endif

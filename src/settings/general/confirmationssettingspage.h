@@ -37,7 +37,7 @@ private:
     QCheckBox* m_confirmEmptyTrash;
     QCheckBox* m_confirmDelete;
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     QCheckBox* m_confirmClosingTerminalRunningProgram;
 #endif
 

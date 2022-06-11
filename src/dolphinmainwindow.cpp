@@ -267,7 +267,7 @@ bool DolphinMainWindow::isFoldersPanelEnabled() const
 
 bool DolphinMainWindow::isInformationPanelEnabled() const
 {
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     return actionCollection()->action(QStringLiteral("show_information_panel"))->isChecked();
 #else
     return false;
@@ -1770,7 +1770,7 @@ void DolphinMainWindow::setupActions()
         actionCollection()->setDefaultShortcut(openTerminalHere, Qt::SHIFT | Qt::ALT | Qt::Key_F4);
         connect(openTerminalHere, &QAction::triggered, this, &DolphinMainWindow::openTerminalHere);
 
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
         QAction* focusTerminalPanel = actionCollection()->addAction(QStringLiteral("focus_terminal_panel"));
         focusTerminalPanel->setText(i18nc("@action:inmenu Tools", "Focus Terminal Panel"));
         focusTerminalPanel->setIcon(QIcon::fromTheme(QStringLiteral("swap-panels")));
@@ -1897,7 +1897,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setObjectName(QStringLiteral("infoDock"));
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     InformationPanel* infoPanel = new InformationPanel(infoDock);
     infoPanel->setCustomContextMenuActions({lockLayoutAction});
     connect(infoPanel, &InformationPanel::urlActivated, this, &DolphinMainWindow::handleUrl);
@@ -1921,7 +1921,7 @@ void DolphinMainWindow::setupDockWidgets()
     const QString panelWhatsThis = xi18nc("@info:whatsthis", "<para>To show or "
         "hide panels like this go to <interface>Control|Panels</interface> "
         "or <interface>View|Panels</interface>.</para>");
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     actionCollection()->action(QStringLiteral("show_information_panel"))
         ->setWhatsThis(xi18nc("@info:whatsthis", "<para> This toggles the "
         "<emphasis>information</emphasis> panel at the right side of the "
@@ -1973,7 +1973,7 @@ void DolphinMainWindow::setupDockWidgets()
         "This allows quick switching between any folders.</para>") + panelWhatsThis);
 
     // Setup "Terminal"
-#ifdef HAVE_TERMINAL
+#if HAVE_TERMINAL
     if (KAuthorized::authorize(QStringLiteral("shell_access"))) {
         DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
         terminalDock->setLocked(lock);
@@ -2098,7 +2098,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->setPopupMode(QToolButton::InstantPopup);
     const KActionCollection* ac = actionCollection();
     panelsMenu->addAction(ac->action(QStringLiteral("show_places_panel")));
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     panelsMenu->addAction(ac->action(QStringLiteral("show_information_panel")));
 #endif
     panelsMenu->addAction(ac->action(QStringLiteral("show_folders_panel")));

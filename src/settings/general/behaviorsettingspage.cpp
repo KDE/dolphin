@@ -65,7 +65,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     // 'Show tooltips'
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"));
     topLayout->addRow(i18nc("@title:group", "Miscellaneous: "), m_showToolTips);
@@ -73,7 +73,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
 
     // 'Show selection marker'
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"));
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     topLayout->addRow(QString(), m_showSelectionToggle);
 #else
     topLayout->addRow(i18nc("@title:group", "Miscellaneous: "), m_showSelectionToggle);
@@ -96,7 +96,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
 
     connect(m_localViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
     connect(m_globalViewProps, &QRadioButton::toggled, this, &BehaviorSettingsPage::changed);
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     connect(m_showToolTips, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
 #endif
     connect(m_showSelectionToggle, &QCheckBox::toggled, this, &BehaviorSettingsPage::changed);
@@ -119,7 +119,7 @@ void BehaviorSettingsPage::applySettings()
 
     const bool useGlobalViewProps = m_globalViewProps->isChecked();
     settings->setGlobalViewProps(useGlobalViewProps);
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     settings->setShowToolTips(m_showToolTips->isChecked());
 #endif
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
@@ -153,7 +153,7 @@ void BehaviorSettingsPage::loadSettings()
     m_localViewProps->setChecked(!useGlobalViewProps);
     m_globalViewProps->setChecked(useGlobalViewProps);
 
-#ifdef HAVE_BALOO
+#if HAVE_BALOO
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
 #endif
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
