@@ -1,14 +1,6 @@
 include(ECMAddAppIcon)
 
-configure_file(config-baloo.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-baloo.h)
-
-configure_file(config-kactivities.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kactivities.h)
-
-configure_file(config-packagekit.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-packagekit.h)
-
-configure_file(config-terminal.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-terminal.h)
-
-configure_file(config-kuserfeedback.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kuserfeedback.h)
+configure_file(config-dolphin.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-dolphin.h)
 
 add_definitions(
     -DTRANSLATION_DOMAIN=\"dolphin\"

@@ -8,7 +8,7 @@
 
 #include <QRegularExpression>
 
-#include <config-baloo.h>
+#include <config-dolphin.h>
 #ifdef HAVE_BALOO
 #include <Baloo/Query>
 #endif

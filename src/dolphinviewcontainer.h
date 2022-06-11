@@ -7,7 +7,7 @@
 #ifndef DOLPHINVIEWCONTAINER_H
 #define DOLPHINVIEWCONTAINER_H
 
-#include "config-kactivities.h"
+#include "config-dolphin.h"
 #include "dolphinurlnavigator.h"
 #include "views/dolphinview.h"
 

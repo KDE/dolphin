@@ -14,7 +14,7 @@
 #include "startup/startupsettingspage.h"
 #include "trash/trashsettingspage.h"
 #include "viewmodes/viewsettingspage.h"
-#include "config-kuserfeedback.h"
+#include "config-dolphin.h"
 #ifdef HAVE_KUSERFEEDBACK
 #include "userfeedback/dolphinfeedbackprovider.h"
 #include "userfeedback/userfeedbacksettingspage.h"

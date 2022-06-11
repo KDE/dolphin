@@ -9,7 +9,7 @@
 #ifndef DOLPHINFILEMETADATAWIDGET_H
 #define DOLPHINFILEMETADATAWIDGET_H
 
-#include <config-baloo.h>
+#include <config-dolphin.h>
 
 #include <QWidget>
 

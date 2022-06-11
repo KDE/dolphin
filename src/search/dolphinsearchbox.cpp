@@ -15,7 +15,7 @@
 #include <KLocalizedString>
 #include <KMoreToolsMenuFactory>
 #include <KSeparator>
-#include <config-baloo.h>
+#include <config-dolphin.h>
 #ifdef HAVE_BALOO
 #include <Baloo/Query>
 #include <Baloo/IndexerConfig>

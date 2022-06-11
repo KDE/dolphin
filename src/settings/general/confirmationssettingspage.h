@@ -6,7 +6,7 @@
 #ifndef CONFIRMATIONSSETTINGSPAGE_H
 #define CONFIRMATIONSSETTINGSPAGE_H
 
-#include "config-terminal.h"
+#include "config-dolphin.h"
 #include "settings/settingspagebase.h"
 
 class QCheckBox;

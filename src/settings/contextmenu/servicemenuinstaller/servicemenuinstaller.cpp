@@ -17,7 +17,7 @@
 #include <KLocalizedString>
 #include <KShell>
 
-#include "../../../config-packagekit.h"
+#include "../../../config-dolphin.h"
 
 Q_GLOBAL_STATIC_WITH_ARGS(QStringList, binaryPackages, ({QLatin1String("application/vnd.debian.binary-package"),
                                                         QLatin1String("application/x-rpm"),

@@ -8,7 +8,7 @@
 #define INFORMATIONPANELCONTENT_H
 
 #include <KFileItem>
-#include <config-baloo.h>
+#include <config-dolphin.h>
 
 #include <QPointer>
 #include <QUrl>

@@ -13,7 +13,7 @@
 #include <list>
 
 #include <KFileItem>
-#include <config-baloo.h>
+#include <config-dolphin.h>
 
 #include <QObject>
 #include <QSet>
