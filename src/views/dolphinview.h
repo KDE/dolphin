@@ -14,7 +14,7 @@
 
 #include <KFileItem>
 #include <KIO/Job>
-#include <config-dolphin.h>
+#include "config-dolphin.h"
 #include <kio/fileundomanager.h>
 #include <kparts/part.h>
 

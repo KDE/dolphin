@@ -10,7 +10,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphintabwidget.h"
-#include <config-dolphin.h>
+#include "config-dolphin.h"
 #include <KFileItemActions>
 #include <kio/fileundomanager.h>
 #include <kxmlguiwindow.h>
