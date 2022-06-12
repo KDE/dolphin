@@ -1225,7 +1225,10 @@ void DolphinView::slotItemHovered(int index)
         itemRect.moveTo(pos);
 
 #ifdef HAVE_BALOO
-        m_toolTipManager->showToolTip(item, itemRect, nativeParentWidget()->windowHandle());
+        auto nativeParent = nativeParentWidget();
+        if (nativeParent) {
+            m_toolTipManager->showToolTip(item, itemRect, nativeParent->windowHandle());
+        }
 #endif
     }
 
