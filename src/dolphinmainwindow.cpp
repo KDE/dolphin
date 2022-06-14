@@ -2622,8 +2622,8 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
     }
 }
 
-bool DolphinMainWindow::isUrlOpen(const QString& url)
+bool DolphinMainWindow::isUrlOpen(const QString &url)
 {
-    return m_tabWidget->isUrlOpen(QUrl::fromUserInput((url)));
+    return m_tabWidget->isUrlOpen(QUrl::fromUserInput(url));
 }
 
