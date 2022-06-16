@@ -254,6 +254,15 @@ private:
     KItemListWidget* widgetForPos(const QPointF& pos) const;
 
     /**
+     * @return Widget that should receive a drop event if an item is dropped at \a pos. 0 is returned
+     *         if no widget should receive a drop event at the position.
+     *
+     * While widgetForPos() returns a widget if \a pos is anywhere inside the hover highlight area of the widget,
+     * widgetForDropPos() only returns a widget if \a pos is directly above the widget (widget->contains(pos) == true).
+     */
+    KItemListWidget* widgetForDropPos(const QPointF& pos) const;
+
+    /**
      * Updates m_keyboardAnchorIndex and m_keyboardAnchorPos. If no anchor is
      * set, it will be adjusted to the current item. If it is set it will be
      * checked whether it is still valid, otherwise it will be reset to the

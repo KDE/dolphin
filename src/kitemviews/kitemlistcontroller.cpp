@@ -724,7 +724,7 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
     KItemListWidget* oldHoveredWidget = hoveredWidget();
 
     const QPointF pos = transform.map(event->pos());
-    KItemListWidget* newHoveredWidget = widgetForPos(pos);
+    KItemListWidget* newHoveredWidget = widgetForDropPos(pos);
 
     if (oldHoveredWidget != newHoveredWidget) {
         m_autoActivationTimer->stop();
@@ -806,7 +806,12 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
         Q_EMIT aboveItemDropEvent(dropAboveIndex, event);
     } else if (!event->mimeData()->hasFormat(m_model->blacklistItemDropEventMimeType())) {
         // Something has been dropped on an item or on an empty part of the view.
-        Q_EMIT itemDropEvent(m_view->itemAt(pos).value_or(-1), event);
+        const KItemListWidget *receivingWidget = widgetForDropPos(pos);
+        if (receivingWidget) {
+            Q_EMIT itemDropEvent(receivingWidget->index(), event);
+        } else {
+            Q_EMIT itemDropEvent(-1, event);
+        }
     }
 
     QAccessibleEvent accessibilityEvent(view(), QAccessible::DragDropEnd);
@@ -1357,6 +1362,21 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
     for (KItemListWidget* widget : widgets) {
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
         if (widget->contains(mappedPos) || widget->selectionRect().contains(mappedPos)) {
+            return widget;
+        }
+    }
+
+    return nullptr;
+}
+
+KItemListWidget* KItemListController::widgetForDropPos(const QPointF& pos) const
+{
+    Q_ASSERT(m_view);
+
+    const auto widgets = m_view->visibleItemListWidgets();
+    for (KItemListWidget* widget : widgets) {
+        const QPointF mappedPos = widget->mapFromItem(m_view, pos);
+        if (widget->contains(mappedPos)) {
             return widget;
         }
     }
