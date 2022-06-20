@@ -9,7 +9,6 @@
 #include "dolphinmainwindow.h"
 
 #include "dolphinmainwindowadaptor.h"
-#include "config-dolphin.h"
 #include "global.h"
 #include "dolphinbookmarkhandler.h"
 #include "dolphindockwidget.h"
