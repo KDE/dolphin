@@ -140,7 +140,7 @@ else()
     set(HAVE_TERMINAL TRUE)
 endif()
 
-ecm_set_disabled_deprecation_versions(SHOW_DEPRECATIONS
+ecm_set_disabled_deprecation_versions(
     QT 5.15
     KF 5.90
     KSERVICE 5.89 # We use KServiceTypeTrader in a compat code path
