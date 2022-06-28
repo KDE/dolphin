@@ -19,7 +19,7 @@ DolphinRecentTabsMenu::DolphinRecentTabsMenu(QObject* parent) :
     setEnabled(false);
 
     m_clearListAction = new QAction(i18n("Empty Recently Closed Tabs"), this);
-    m_clearListAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-list")));
+    m_clearListAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-clear-history")));
     addAction(m_clearListAction);
 
     addSeparator();
