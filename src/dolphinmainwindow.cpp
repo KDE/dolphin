@@ -1119,7 +1119,10 @@ void DolphinMainWindow::openTerminalHere()
     if (urls.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 terminal window?",
                                  "Are you sure you want to open %1 terminal windows?", urls.count());
-        const int answer = KMessageBox::warningYesNo(this, question);
+        const int answer = KMessageBox::warningYesNo(this, question, {},
+                                                     KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()),
+                                                              QStringLiteral("utilities-terminal")),
+                                                     KStandardGuiItem::cancel());
         if (answer != KMessageBox::Yes) {
             return;
         }
