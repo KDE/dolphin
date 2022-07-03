@@ -995,7 +995,10 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
 
     if (indexes.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
-        const int answer = KMessageBox::warningYesNo(this, question);
+        const int answer = KMessageBox::warningYesNo(this, question, {},
+                                                     KGuiItem(i18ncp("@action:button", "Open %1 Item", "Open %1 Items", indexes.count()),
+                                                              QStringLiteral("document-open")),
+                                                     KStandardGuiItem::cancel());
         if (answer != KMessageBox::Yes) {
             return;
         }
