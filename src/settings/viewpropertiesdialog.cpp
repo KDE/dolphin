@@ -348,7 +348,9 @@ void ViewPropertiesDialog::applyViewProperties()
     const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
-        if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
+        if (KMessageBox::questionYesNo(this, text, {},
+                                       KStandardGuiItem::cont(),
+                                       KStandardGuiItem::cancel()) == KMessageBox::No) {
             return;
         }
 
@@ -380,7 +382,9 @@ void ViewPropertiesDialog::applyViewProperties()
 
     if (applyToAllFolders) {
         const QString text(i18nc("@info", "The view properties of all folders will be changed. Do you want to continue?"));
-        if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
+        if (KMessageBox::questionYesNo(this, text, {},
+                                       KStandardGuiItem::cont(),
+                                       KStandardGuiItem::cancel()) == KMessageBox::No) {
             return;
         }
 
