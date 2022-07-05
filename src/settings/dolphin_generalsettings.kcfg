@@ -10,6 +10,9 @@
     <kcfgfile name="dolphinrc"/>
     <signal name="sortingChoiceChanged" />
     <signal name="splitViewChanged" />
+    <signal name="showStatusBarChanged">
+        <argument type="Bool">showStatusBar</argument>
+    </signal>
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label>Should the URL be editable for the user</label>
@@ -106,6 +109,7 @@
         <entry name="ShowStatusBar" type="Bool">
             <label>Show the statusbar</label>
             <default>true</default>
+            <emit signal="showStatusBarChanged" />
         </entry>
         <entry name="ShowZoomSlider" type="Bool">
             <label>Show zoom slider in the statusbar</label>
