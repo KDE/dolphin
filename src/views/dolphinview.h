@@ -35,6 +35,7 @@ class VersionControlObserver;
 class ViewProperties;
 class QLabel;
 class QGraphicsSceneDragDropEvent;
+class QHelpEvent;
 class QRegularExpression;
 
 /**
@@ -862,7 +863,7 @@ private:
 
     void updatePlaceholderLabel();
 
-    void tryShowNameToolTip(QEvent* event);
+    void tryShowNameToolTip(QHelpEvent* event);
 
 private:
     void updatePalette();

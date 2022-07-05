@@ -925,7 +925,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         break;
 
     case QEvent::ToolTip:
-        tryShowNameToolTip(event);
+        tryShowNameToolTip(static_cast<QHelpEvent*>(event));
 
     default:
         break;
@@ -2196,11 +2196,10 @@ void DolphinView::updatePlaceholderLabel()
     m_placeholderLabel->setVisible(true);
 }
 
-void DolphinView::tryShowNameToolTip(QEvent* event)
+void DolphinView::tryShowNameToolTip(QHelpEvent* event)
 {
     if (!GeneralSettings::showToolTips() && m_mode == DolphinView::IconsView) {
-        QHelpEvent *hoverEvent = reinterpret_cast<QHelpEvent *>(event);
-        const std::optional<int> index = m_view->itemAt(hoverEvent->pos());
+        const std::optional<int> index = m_view->itemAt(event->pos());
 
         if (!index.has_value()) {
             return;
@@ -2212,7 +2211,7 @@ void DolphinView::tryShowNameToolTip(QEvent* event)
         if(isElided) {
             const KFileItem item = m_model->fileItem(index.value());
             const QString text = item.text();
-            const QPoint pos = mapToGlobal(hoverEvent->pos());
+            const QPoint pos = mapToGlobal(event->pos());
             QToolTip::showText(pos, text);
         }
     }
