@@ -875,7 +875,14 @@ private:
     bool m_isFolderWritable;
     bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
                      // tooltip may be shown when hovering an item.
-    bool m_loading;
+
+    enum class LoadingState {
+        Idle,
+        Loading,
+        Canceled,
+        Completed
+    };
+    LoadingState m_loadingState = LoadingState::Idle;
 
     QUrl m_url;
     QString m_viewPropertiesContext;

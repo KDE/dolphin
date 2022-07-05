@@ -70,7 +70,6 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_assureVisibleCurrentIndex(false),
     m_isFolderWritable(true),
     m_dragging(false),
-    m_loading(false),
     m_url(url),
     m_viewPropertiesContext(),
     m_mode(DolphinView::IconsView),
@@ -1728,7 +1727,7 @@ void DolphinView::slotRenamingResult(KJob* job)
 
 void DolphinView::slotDirectoryLoadingStarted()
 {
-    m_loading = true;
+    m_loadingState = LoadingState::Loading;
     updatePlaceholderLabel();
 
     // Disable the writestate temporary until it can be determined in a fast way
@@ -1743,7 +1742,7 @@ void DolphinView::slotDirectoryLoadingStarted()
 
 void DolphinView::slotDirectoryLoadingCompleted()
 {
-    m_loading = false;
+    m_loadingState = LoadingState::Completed;
 
     // Update the view-state. This has to be done asynchronously
     // because the view might not be in its final state yet.
@@ -1760,7 +1759,7 @@ void DolphinView::slotDirectoryLoadingCompleted()
 
 void DolphinView::slotDirectoryLoadingCanceled()
 {
-    m_loading = false;
+    m_loadingState = LoadingState::Canceled;
 
     updatePlaceholderLabel();
 
@@ -2159,13 +2158,15 @@ void DolphinView::updatePlaceholderLabel()
         return;
     }
 
-    if (m_loading) {
+    if (m_loadingState == LoadingState::Loading) {
         m_placeholderLabel->setVisible(false);
         m_showLoadingPlaceholderTimer->start();
         return;
     }
 
-    if (!nameFilter().isEmpty()) {
+    if (m_loadingState == LoadingState::Canceled) {
+        m_placeholderLabel->setText(i18n("Loading canceled"));
+    } else if (!nameFilter().isEmpty()) {
         m_placeholderLabel->setText(i18n("No items matching the filter"));
     } else if (m_url.scheme() == QLatin1String("baloosearch") || m_url.scheme() == QLatin1String("filenamesearch")) {
         m_placeholderLabel->setText(i18n("No items matching the search"));
