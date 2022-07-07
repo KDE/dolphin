@@ -57,7 +57,7 @@ TEST_NAME viewpropertiestest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt${QT_MAJOR_VERSION}::Test)
 
 # DolphinMainWindowTest
-ecm_add_test(dolphinmainwindowtest.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc
+ecm_add_test(dolphinmainwindowtest.cpp testdir.cpp ${CMAKE_SOURCE_DIR}/src/dolphin.qrc
 TEST_NAME dolphinmainwindowtest
 LINK_LIBRARIES dolphinprivate dolphinstatic Qt${QT_MAJOR_VERSION}::Test)
 

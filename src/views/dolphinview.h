@@ -919,6 +919,7 @@ private:
     // For unit tests
     friend class TestBase;
     friend class DolphinDetailsViewTest;
+    friend class DolphinMainWindowTest;
     friend class DolphinPart;                   // Accesses m_model
 };
 

@@ -9,9 +9,12 @@
 #include "dolphintabpage.h"
 #include "dolphintabwidget.h"
 #include "dolphinviewcontainer.h"
+#include "kitemviews/kitemlistcontainer.h"
+#include "testdir.h"
 
 #include <KActionCollection>
 
+#include <QScopedPointer>
 #include <QSignalSpy>
 #include <QStandardPaths>
 #include <QTest>
@@ -33,7 +36,9 @@ private Q_SLOTS:
     void testNewFileMenuEnabled();
     void testWindowTitle_data();
     void testWindowTitle();
-
+    void testPlacesPanelWidthResistance();
+    void testGoActions();
+    void cleanupTestCase();
 
 
 private:
@@ -263,6 +268,154 @@ void DolphinMainWindowTest::testWindowTitle()
     QFETCH(QString, expectedWindowTitle);
     QCOMPARE(m_mainWindow->windowTitle(), expectedWindowTitle);
 }
+
+/**
+ * The places panel will resize itself if any of the other widgets requires too much horizontal space
+ * but a user never wants the size of the places panel to change unless they resized it themselves explicitly.
+ */
+void DolphinMainWindowTest::testPlacesPanelWidthResistance()
+{
+    m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+
+    QWidget *placesPanel = reinterpret_cast<QWidget *>(m_mainWindow->m_placesPanel);
+    QVERIFY2(QTest::qWaitFor([&](){ return placesPanel && placesPanel->isVisible() && placesPanel->width() > 0; }, 5000), "The test couldn't be initialised properly. The places panel should be visible.");
+    QTest::qWait(100);
+    const int initialPlacesPanelWidth = placesPanel->width();
+
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger(); // enable split view (starts animation)
+    QTest::qWait(300); // wait for animation
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_filter_bar"))->trigger();
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Find))->trigger();
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+#if HAVE_BALOO
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_information_panel"))->setChecked(true); // toggle visible
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+#endif
+
+#if HAVE_TERMINAL
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_terminal_panel"))->setChecked(true); // toggle visible
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+#endif
+
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->trigger(); // disable split view (starts animation)
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+#if HAVE_BALOO
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_information_panel"))->trigger(); // toggle invisible
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+#endif
+
+#if HAVE_TERMINAL
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_terminal_panel"))->trigger(); // toggle invisible
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+#endif
+
+    m_mainWindow->showMaximized();
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+    QTest::qWait(300); // wait for split view closing animation
+    QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+}
+
+void DolphinMainWindowTest::testGoActions()
+{
+    QScopedPointer<TestDir> testDir{new TestDir()};
+    testDir->createDir("a");
+    testDir->createDir("b");
+    testDir->createDir("c");
+    QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
+    m_mainWindow->openDirectories({ childDirUrl }, false); // Open "b" dir
+    m_mainWindow->show();
+    QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
+    QVERIFY(m_mainWindow->isVisible());
+    QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
+
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Up))->trigger();
+    /**
+     * Now, after going "up" in the file hierarchy (to "testDir"), the folder one has emerged from ("b") should have keyboard focus.
+     * This is especially important when a user wants to peek into multiple folders in quick succession.
+     */
+    QSignalSpy spyDirectoryLoadingCompleted(m_mainWindow->m_activeViewContainer->view(), &DolphinView::directoryLoadingCompleted);
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QVERIFY(QTest::qWaitFor([&](){ return !m_mainWindow->actionCollection()->action(QStringLiteral("stop"))->isEnabled(); })); // "Stop" command should be disabled because it finished loading
+    QTest::qWait(500); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
+    const QUrl parentDirUrl = m_mainWindow->activeViewContainer()->url();
+    QVERIFY(parentDirUrl != childDirUrl);
+
+    // The item we just emerged from should now have keyboard focus but this doesn't necessarily mean that it is selected.
+    // To test if it has keyboard focus, we press "Down" to select "c" below and then "Up" so the folder "b" we just emerged from is actually selected.
+    m_mainWindow->actionCollection()->action(QStringLiteral("compact"))->trigger();
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Down, Qt::NoModifier);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Up, Qt::NoModifier);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 1);
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::NoModifier);
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
+    QVERIFY(m_mainWindow->isUrlOpen(childDirUrl.toString()));
+
+    // Go back to the parent folder
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QTest::qWait(100); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
+    QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
+
+    // Open a new tab for the "b" child dir and verify that this doesn't interfere with anything.
+    QTest::keyClick(m_mainWindow->activeViewContainer()->view()->m_container, Qt::Key::Key_Enter, Qt::ControlModifier); // Open new inactive tab
+    QVERIFY(m_mainWindow->m_tabWidget->count() == 2);
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
+    QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
+    QVERIFY(!m_mainWindow->actionCollection()->action(QStringLiteral("undo_close_tab"))->isEnabled());
+
+    // Go forward to the child folder.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // There was no action in this view yet that would warrant a selection.
+
+    // Go back to the parent folder.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->trigger();
+    QVERIFY(spyDirectoryLoadingCompleted.wait());
+    QTest::qWait(100); // Somehow the item we emerged from doesn't have keyboard focus yet if we don't wait a split second.
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), parentDirUrl);
+    QVERIFY(m_mainWindow->isUrlOpen(parentDirUrl.toString()));
+
+    // Close current tab and see if the "go" actions are correctly disabled in the remaining tab that was never active until now and shows the "b" dir
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Close))->trigger(); // Close current tab
+    QVERIFY(m_mainWindow->m_tabWidget->count() == 1);
+    QCOMPARE(m_mainWindow->activeViewContainer()->url(), childDirUrl);
+    QCOMPARE(m_mainWindow->m_activeViewContainer->view()->selectedItems().count(), 0); // There was no action in this tab yet that would warrant a selection.
+    QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Back))->isEnabled());
+    QVERIFY(!m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Forward))->isEnabled());
+    QVERIFY(m_mainWindow->actionCollection()->action(QStringLiteral("undo_close_tab"))->isEnabled());
+}
+
+void DolphinMainWindowTest::cleanupTestCase()
+{
+    m_mainWindow->showNormal();
+    m_mainWindow->actionCollection()->action(QStringLiteral("split_view"))->setChecked(false); // disable split view (starts animation)
+
+#if HAVE_BALOO
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_information_panel"))->setChecked(false); // hide panel
+#endif
+
+#if HAVE_TERMINAL
+    m_mainWindow->actionCollection()->action(QStringLiteral("show_terminal_panel"))->setChecked(false); // hide panel
+#endif
+
+    // Quit Dolphin to save the hiding of panels and make sure that normal Quit doesn't crash.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Quit))->trigger();
+}
+
 
 QTEST_MAIN(DolphinMainWindowTest)
 

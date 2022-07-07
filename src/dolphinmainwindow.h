@@ -710,6 +710,7 @@ private:
     QMenu m_searchTools;
     KFileItemActions m_fileItemActions;
 
+    friend class DolphinMainWindowTest;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
