@@ -330,6 +330,8 @@ void DolphinMainWindowTest::testGoActions()
     QScopedPointer<TestDir> testDir{new TestDir()};
     testDir->createDir("a");
     testDir->createDir("b");
+    testDir->createDir("b/b-1");
+    testDir->createFile("b/b-2");
     testDir->createDir("c");
     QUrl childDirUrl(QDir::cleanPath(testDir->url().toString() + "/b"));
     m_mainWindow->openDirectories({ childDirUrl }, false); // Open "b" dir
