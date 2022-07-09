@@ -123,6 +123,7 @@ Keywords[az]=fayllar;fayl idarəetməsi;fayl bələdçisi;smaba:şəbəkədə pa
 Keywords[bg]=файлове;управление на файлове;преглед на файлове;samba;мрежове споделяния;Explorer;Търсене на файлове;
 Keywords[ca]=fitxers;gestió de fitxers;explorar fitxers;samba;comparticions de xarxa;explorador;cercador;
 Keywords[ca@valencia]=fitxers;gestió de fitxers;explorar fitxers;samba;comparticions de xarxa;explorador;buscador;
+Keywords[cs]=soubory;správa souborů;prohlížení souborů;samba;síťová úložiště;Explorer;Finder;
 Keywords[de]=Dateien;Dateiverwaltung;Netzwerkfreigaben
 Keywords[en_GB]=files;file management;file browsing;samba;network shares;Explorer;Finder;
 Keywords[es]=archivos;gestión de archivos;administración de archivos;exploración de archivos;samba;recursos compartidos de red;gestor de archivos;administrador de archivos;explorador;buscador;
