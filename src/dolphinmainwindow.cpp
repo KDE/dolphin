@@ -499,17 +499,20 @@ void DolphinMainWindow::openInNewWindow()
 
 void DolphinMainWindow::showTarget()
 {
-    const auto link = m_activeViewContainer->view()->selectedItems().at(0);
-    const auto linkLocationDir = QFileInfo(link.localPath()).absoluteDir();
-    auto linkDestination = link.linkDest();
-    if (QFileInfo(linkDestination).isRelative()) {
-        linkDestination = linkLocationDir.filePath(linkDestination);
-    }
-    if (QFileInfo::exists(linkDestination)) {
-        KIO::highlightInFileManager({QUrl::fromLocalFile(linkDestination).adjusted(QUrl::StripTrailingSlash)});
-    } else {
-        m_activeViewContainer->showMessage(xi18nc("@info", "Could not access <filename>%1</filename>.", linkDestination), DolphinViewContainer::Warning);
-    }
+    const KFileItem link = m_activeViewContainer->view()->selectedItems().at(0);
+    const QUrl destinationUrl = link.url().resolved(QUrl(link.linkDest()));
+
+    auto job = KIO::statDetails(destinationUrl, KIO::StatJob::SourceSide, KIO::StatNoDetails);
+
+    connect(job, &KJob::finished, this, [this, destinationUrl](KJob *job) {
+        KIO::StatJob *statJob = static_cast<KIO::StatJob *>(job);
+
+        if (statJob->error()) {
+            m_activeViewContainer->showMessage(job->errorString(), DolphinViewContainer::Error);
+        } else {
+            KIO::highlightInFileManager({destinationUrl});
+        }
+    });
 }
 
 void DolphinMainWindow::showEvent(QShowEvent *event)
