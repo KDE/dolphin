@@ -37,6 +37,7 @@
 #include <QMimeData>
 #include <QTimer>
 #include <QUrl>
+#include <QUrlQuery>
 #include <QVBoxLayout>
 #include <QDesktopServices>
 
@@ -484,6 +485,14 @@ QString DolphinViewContainer::captionWindowTitle() const
 
 QString DolphinViewContainer::caption() const
 {
+    if (url().path().isEmpty() || url().path() == QLatin1Char('/')) {
+        QUrlQuery query(url());
+        const QString title = query.queryItemValue(QStringLiteral("title"));
+        if (!title.isEmpty()) {
+            return title;
+        }
+    }
+
     if (isSearchModeEnabled()) {
         if (currentSearchText().isEmpty()){
             return i18n("Search");
