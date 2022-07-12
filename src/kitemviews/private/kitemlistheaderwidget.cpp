@@ -33,6 +33,8 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     m_movingRole.index = -1;
 
     setAcceptHoverEvents(true);
+    // TODO update when font changes at runtime
+    setFont(QApplication::font("QHeaderView"));
 }
 
 KItemListHeaderWidget::~KItemListHeaderWidget()
