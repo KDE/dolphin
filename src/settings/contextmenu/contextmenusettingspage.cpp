@@ -7,7 +7,6 @@
 #include "contextmenusettingspage.h"
 
 #include "dolphin_generalsettings.h"
-#include "dolphin_versioncontrolsettings.h"
 #include "dolphin_contextmenusettings.h"
 #include "settings/serviceitemdelegate.h"
 #include "settings/servicemodel.h"
@@ -17,7 +16,6 @@
 #include <KDesktopFileActions>
 #include <KFileUtils>
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <KPluginMetaData>
 #include <KService>
 #include <KServiceTypeTrader>
@@ -35,16 +33,12 @@
 #include <QShowEvent>
 #include <QSortFilterProxyModel>
 #include <QLineEdit>
-#include <QApplication>
 
 namespace
 {
     const bool ShowDeleteDefault = false;
-    const char VersionControlServicePrefix[] = "_version_control_";
     const char DeleteService[] = "_delete";
     const char CopyToMoveToService[] ="_copy_to_move_to";
-
-    bool laterSelected = false;
 }
 
 ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
@@ -55,7 +49,6 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     m_serviceModel(nullptr),
     m_sortModel(nullptr),
     m_listView(nullptr),
-    m_enabledVcsPlugins(),
     m_actions(actions),
     m_actionIds(actionIds)
 {
@@ -104,9 +97,6 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent,
     });
     topLayout->addWidget(downloadButton);
 #endif // Q_OS_WIN
-
-    m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
-    std::sort(m_enabledVcsPlugins.begin(), m_enabledVcsPlugins.end());
 }
 
 ContextMenuSettingsPage::~ContextMenuSettingsPage() {
@@ -164,19 +154,13 @@ void ContextMenuSettingsPage::applySettings()
     KConfig config(QStringLiteral("kservicemenurc"), KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
 
-    QStringList enabledPlugins;
-
     const QAbstractItemModel *model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
         const bool checked = model->data(index, Qt::CheckStateRole).toBool();
 
-        if (service.startsWith(VersionControlServicePrefix)) {
-            if (checked) {
-                enabledPlugins.append(model->data(index, Qt::DisplayRole).toString());
-            }
-        } else if (service == QLatin1String(DeleteService)) {
+        if (service == QLatin1String(DeleteService)) {
             KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::NoGlobals);
             KConfigGroup configGroup(globalConfig, "KDE");
             configGroup.writeEntry("ShowDeleteCommand", checked);
@@ -193,27 +177,6 @@ void ContextMenuSettingsPage::applySettings()
     }
 
     showGroup.sync();
-
-    if (m_enabledVcsPlugins != enabledPlugins) {
-        VersionControlSettings::setEnabledPlugins(enabledPlugins);
-        VersionControlSettings::self()->save();
-
-        if (!laterSelected) {
-            KMessageBox::ButtonCode promptRestart = KMessageBox::questionYesNo(window(),
-                                    i18nc("@info", "Dolphin must be restarted to apply the "
-                                                "updated version control system settings."),
-                                    i18nc("@info", "Restart now?"),
-                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
-                                    KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later"))
-                        );
-            if (promptRestart == KMessageBox::ButtonCode::Yes) {
-                Dolphin::openNewWindow();
-                qApp->quit();
-            } else {
-                laterSelected = true;
-            }
-        }
-    }
 }
 
 void ContextMenuSettingsPage::restoreDefaults()
@@ -223,8 +186,7 @@ void ContextMenuSettingsPage::restoreDefaults()
         const QModelIndex index = model->index(i, 0);
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
 
-        const bool checked = !service.startsWith(VersionControlServicePrefix)
-                             && service != QLatin1String(DeleteService)
+        const bool checked = service != QLatin1String(DeleteService)
                              && service != QLatin1String(CopyToMoveToService);
         model->setData(index, checked, Qt::CheckStateRole);
     }
@@ -234,8 +196,6 @@ void ContextMenuSettingsPage::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
         loadServices();
-
-        loadVersionControlSystems();
 
         // Add "Show 'Delete' command" as service
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig(QStringLiteral("kdeglobals"), KConfig::IncludeGlobals);
@@ -329,26 +289,6 @@ void ContextMenuSettingsPage::loadServices()
 
     m_sortModel->sort(Qt::DisplayRole);
     m_searchLineEdit->setFocus(Qt::OtherFocusReason);
-}
-
-void ContextMenuSettingsPage::loadVersionControlSystems()
-{
-    const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
-
-    // Create a checkbox for each available version control plugin
-    QSet<QString> loadedPlugins;
-
-    const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));
-    for (const auto &plugin : plugins) {
-        const QString pluginName = plugin.name();
-        addRow(QStringLiteral("code-class"),
-               pluginName,
-               VersionControlServicePrefix + pluginName,
-               enabledPlugins.contains(pluginName));
-        loadedPlugins += pluginName;
-    }
-
-    m_sortModel->sort(Qt::DisplayRole);
 }
 
 bool ContextMenuSettingsPage::isInServicesList(const QString &service) const

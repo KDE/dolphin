@@ -233,6 +233,7 @@ target_sources(dolphinstatic PRIVATE
     settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
+    settings/viewmodes/vcssettingstab.cpp
     settings/viewmodes/viewsettingspage.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp

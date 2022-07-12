@@ -8,7 +8,10 @@
 
 #include "settings/settingspagebase.h"
 
+class VcsSettingsTab;
 class ViewSettingsTab;
+class QShowEvent;
+class QTabWidget;
 class QWidget;
 
 /**
@@ -31,8 +34,14 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     void restoreDefaults() override;
 
+protected:
+    void showEvent(QShowEvent* event) override;
+
 private:
+    QTabWidget *m_tabWidget;
     QList<ViewSettingsTab*> m_tabs;
+    VcsSettingsTab* m_vcsTab = nullptr;
+    bool m_vcsLoaded = false;
 };
 
 #endif
