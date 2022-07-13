@@ -433,3 +433,8 @@ install( FILES settings/dolphin_detailsmodesettings.upd
 if(BUILD_TESTING)
     add_subdirectory(tests)
 endif()
+
+
+# only for Konqueror compat
+configure_file(dolphinpart.desktop.in ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/dolphinpart.desktop DESTINATION ${KDE_INSTALL_KSERVICESDIR})
