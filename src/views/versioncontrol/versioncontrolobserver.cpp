@@ -275,8 +275,8 @@ int VersionControlObserver::createItemStatesList(QMap<QString, QVector<ItemState
 void VersionControlObserver::initPlugins()
 {
     if (!m_pluginsInitialized) {
-        // No searching for plugins has been done yet. Query the KServiceTypeTrader for
-        // all fileview version control plugins and remember them in 'plugins'.
+        // No searching for plugins has been done yet. Query all fileview version control
+        // plugins and remember them in 'plugins'.
         const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
         const QVector<KPluginMetaData> plugins = KPluginMetaData::findPlugins(QStringLiteral("dolphin/vcs"));

@@ -131,7 +131,7 @@ public:
      * Per default all plugins enabled in the KConfigGroup "PreviewSettings"
      * are used.
      *
-     * For a list of available plugins, call KServiceTypeTrader::self()->query("ThumbCreator").
+     * For a list of available plugins, call KIO::PreviewJob::availableThumbnailerPlugins().
      *
      * @see enabledPlugins
      */
