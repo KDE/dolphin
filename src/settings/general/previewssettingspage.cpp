@@ -14,7 +14,6 @@
 #include <KIO/PreviewJob>
 #include <KLocalizedString>
 #include <KPluginMetaData>
-#include <KServiceTypeTrader>
 
 #include <QHBoxLayout>
 #include <QLabel>
