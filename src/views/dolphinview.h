@@ -30,6 +30,7 @@ class KFileItemModel;
 class KItemListContainer;
 class KItemModelBase;
 class KItemSet;
+class KItemListController;
 class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
@@ -915,6 +916,8 @@ private:
     QUrl m_twoClicksRenamingItemUrl;
     QLabel* m_placeholderLabel;
     QTimer* m_showLoadingPlaceholderTimer;
+
+    KItemListController *m_controller;
 
     // For unit tests
     friend class TestBase;

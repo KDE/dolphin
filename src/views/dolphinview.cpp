@@ -114,15 +114,15 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     m_view->setVisibleRoles({"text"});
     applyModeToView();
 
-    KItemListController* controller = new KItemListController(m_model, m_view, this);
+    m_controller = new KItemListController(m_model, m_view, this);
     const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
-    controller->setAutoActivationDelay(delay);
+    m_controller->setAutoActivationDelay(delay);
 
     // The EnlargeSmallPreviews setting can only be changed after the model
     // has been set in the view by KItemListController.
     m_view->setEnlargeSmallPreviews(GeneralSettings::enlargeSmallPreviews());
 
-    m_container = new KItemListContainer(controller, this);
+    m_container = new KItemListContainer(m_controller, this);
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
     connect(m_container->horizontalScrollBar(), &QScrollBar::valueChanged, this, [=] { hideToolTip(); });
@@ -155,23 +155,23 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     centeringLayout->addWidget(m_placeholderLabel);
     centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
 
-    controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
-    connect(controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
-    connect(controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked);
-    connect(controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested);
-    connect(controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested);
-    connect(controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
-    connect(controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
-    connect(controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
-    connect(controller, &KItemListController::itemUnhovered, this, &DolphinView::slotItemUnhovered);
-    connect(controller, &KItemListController::itemDropEvent, this, &DolphinView::slotItemDropEvent);
-    connect(controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
-    connect(controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
-    connect(controller, &KItemListController::selectedItemTextPressed, this, &DolphinView::slotSelectedItemTextPressed);
-    connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
-    connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
-    connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
+    m_controller->setSelectionBehavior(KItemListController::MultiSelection);
+    connect(m_controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
+    connect(m_controller, &KItemListController::itemsActivated, this, &DolphinView::slotItemsActivated);
+    connect(m_controller, &KItemListController::itemMiddleClicked, this, &DolphinView::slotItemMiddleClicked);
+    connect(m_controller, &KItemListController::itemContextMenuRequested, this, &DolphinView::slotItemContextMenuRequested);
+    connect(m_controller, &KItemListController::viewContextMenuRequested, this, &DolphinView::slotViewContextMenuRequested);
+    connect(m_controller, &KItemListController::headerContextMenuRequested, this, &DolphinView::slotHeaderContextMenuRequested);
+    connect(m_controller, &KItemListController::mouseButtonPressed, this, &DolphinView::slotMouseButtonPressed);
+    connect(m_controller, &KItemListController::itemHovered, this, &DolphinView::slotItemHovered);
+    connect(m_controller, &KItemListController::itemUnhovered, this, &DolphinView::slotItemUnhovered);
+    connect(m_controller, &KItemListController::itemDropEvent, this, &DolphinView::slotItemDropEvent);
+    connect(m_controller, &KItemListController::escapePressed, this, &DolphinView::stopLoading);
+    connect(m_controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
+    connect(m_controller, &KItemListController::selectedItemTextPressed, this, &DolphinView::slotSelectedItemTextPressed);
+    connect(m_controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
+    connect(m_controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
+    connect(m_controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -205,7 +205,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(m_view->header(), &KItemListHeader::sidePaddingChanged,
             this, &DolphinView::slotSidePaddingWidthChanged);
 
-    KItemListSelectionManager* selectionManager = controller->selectionManager();
+    KItemListSelectionManager* selectionManager = m_controller->selectionManager();
     connect(selectionManager, &KItemListSelectionManager::selectionChanged,
             this, &DolphinView::slotSelectionChanged);
 
@@ -233,6 +233,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 
 DolphinView::~DolphinView()
 {
+    disconnect(m_controller, &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 }
 
 QUrl DolphinView::url() const
