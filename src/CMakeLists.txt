@@ -187,6 +187,7 @@ target_link_libraries(dolphinpart
 )
 
 install(TARGETS dolphinpart DESTINATION ${KDE_INSTALL_PLUGINDIR}/kf${QT_MAJOR_VERSION}/parts)
+install(FILES dolphinpartactions.desktop DESTINATION "${KDE_INSTALL_DATADIR}/dolphin/")
 
 ##########################################
 
