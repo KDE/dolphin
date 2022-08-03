@@ -490,13 +490,17 @@ QPair<int, bool> DolphinTabWidget::indexByUrl(const QUrl& url, ChildUrlBehavior 
     do {
         const auto tabPage = tabPageAt(i);
         if (tabPage->primaryViewContainer()->url() == url ||
-                childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->primaryViewContainer()->url().isParentOf(url)) {
+                (tabPage->primaryViewContainer()->view()->mode() == DolphinView::DetailsView &&
+                childUrlBehavior == ReturnIndexForOpenedParentAlso &&
+                tabPage->primaryViewContainer()->url().isParentOf(url) )) {
             return qMakePair(i, true);
         }
 
         if (tabPage->splitViewEnabled() &&
                 (url == tabPage->secondaryViewContainer()->url() ||
-                 childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->secondaryViewContainer()->url().isParentOf(url))) {
+                     (tabPage->secondaryViewContainer()->view()->mode() == DolphinView::DetailsView &&
+                     childUrlBehavior == ReturnIndexForOpenedParentAlso &&
+                     tabPage->secondaryViewContainer()->url().isParentOf(url) ))) {
             return qMakePair(i, false);
         }
 

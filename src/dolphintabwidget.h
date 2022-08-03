@@ -219,7 +219,7 @@ private:
 
     /**
      * @param url The URL that we would like
-     * @param childUrlBehavior Whether a tab with opened parent of the URL can be returned too
+     * @param childUrlBehavior Whether a DetailsView tab with opened parent of the URL can be returned too
      * @return a QPair with:
      * First containing the index of the tab with the desired URL or -1 if not found.
      * Second says true if URL is in primary view container, false otherwise.
