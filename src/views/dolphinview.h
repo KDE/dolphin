@@ -162,6 +162,8 @@ public:
      * directory DolphinView::url() has been loaded. Note that nothing
      * gets selected if no loading of a directory has been triggered
      * by DolphinView::setUrl() or DolphinView::reload().
+     * If view supports expanded items, all sub-folders toward \p urls
+     * will be expanded, if needed.
      */
     void markUrlsAsSelected(const QList<QUrl> &urls);
 

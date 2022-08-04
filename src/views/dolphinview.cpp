@@ -387,6 +387,11 @@ int DolphinView::selectedItemsCount() const
 void DolphinView::markUrlsAsSelected(const QList<QUrl>& urls)
 {
     m_selectedUrls = urls;
+    if (m_view->supportsItemExpanding()) {
+        for (const auto &url : urls) {
+            m_model->expandParentDirectories(url);
+        }
+    }
 }
 
 void DolphinView::markUrlAsCurrent(const QUrl &url)
