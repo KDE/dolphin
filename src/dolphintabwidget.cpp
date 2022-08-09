@@ -114,12 +114,12 @@ void DolphinTabWidget::refreshViews()
 
 bool DolphinTabWidget::isUrlOpen(const QUrl &url) const
 {
-    return indexByUrl(url).first >= 0;
+    return viewOpenAtDirectory(url).has_value();
 }
 
-bool DolphinTabWidget::isUrlOrParentOpen(const QUrl &url) const
+bool DolphinTabWidget::isItemVisibleInAnyView(const QUrl &urlOfItem) const
 {
-    return indexByUrl(url, ReturnIndexForOpenedParentAlso).first >= 0;
+    return viewShowingItem(urlOfItem).has_value();
 }
 
 void DolphinTabWidget::openNewActivatedTab()
@@ -195,7 +195,7 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
     }
 }
 
-void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView, bool skipChildUrls)
+void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
 {
     Q_ASSERT(dirs.size() > 0);
 
@@ -204,25 +204,19 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView, 
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
-        const QPair<int, bool> indexInfo = indexByUrl(primaryUrl, skipChildUrls ? ReturnIndexForOpenedParentAlso : ReturnIndexForOpenedUrlOnly);
-        const int index = indexInfo.first;
-        const bool isInPrimaryView = indexInfo.second;
+        const std::optional<ViewIndex> alreadyOpenDirectory = viewOpenAtDirectory(primaryUrl);
 
-        // When the user asks for a URL that's already open (or it's parent is open if skipChildUrls is set),
+        // When the user asks for a URL that's already open,
         // activate it instead of opening a new tab
-        if (index >= 0) {
+        if (alreadyOpenDirectory.has_value()) {
             somethingWasAlreadyOpen = true;
-            activateTab(index);
-            const auto tabPage = tabPageAt(index);
-            if (isInPrimaryView) {
+            activateTab(alreadyOpenDirectory->tabIndex);
+            const auto tabPage = tabPageAt(alreadyOpenDirectory->tabIndex);
+            if (alreadyOpenDirectory->isInPrimaryView) {
                 tabPage->primaryViewContainer()->setActive(true);
             } else {
                 tabPage->secondaryViewContainer()->setActive(true);
             }
-            // BUG: 417230
-            // Required for updateViewState() call in openFiles() to work as expected
-            // If there is a selection, updateViewState() calls are effectively a no-op
-            tabPage->activeViewContainer()->view()->clearSelection();
         } else if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
             if (somethingWasAlreadyOpen) {
@@ -244,19 +238,40 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
 {
     Q_ASSERT(files.size() > 0);
 
-    // Get all distinct directories from 'files' and open a tab
-    // for each directory. If the "split view" option is enabled, two
-    // directories are shown inside one tab (see openDirectories()).
-    QList<QUrl> dirs;
-    for (const QUrl& url : files) {
-        const QUrl dir(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
-        if (!dirs.contains(dir)) {
-            dirs.append(dir);
+    // Get all distinct directories from 'files'.
+    QList<QUrl> dirsThatNeedToBeOpened;
+    QList<QUrl> dirsThatWereAlreadyOpen;
+    for (const QUrl& file : files) {
+        const QUrl dir(file.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
+        if (dirsThatNeedToBeOpened.contains(dir) || dirsThatWereAlreadyOpen.contains(dir)) {
+            continue;
+        }
+
+        // The selecting of files that we do later will not work in views that already have items selected.
+        // So we check if dir is already open and clear the selection if it is. BUG: 417230
+        // We also make sure the view will be activated.
+        auto viewIndex = viewShowingItem(file);
+        if (viewIndex.has_value()) {
+            activateTab(viewIndex->tabIndex);
+            if (viewIndex->isInPrimaryView) {
+                tabPageAt(viewIndex->tabIndex)->primaryViewContainer()->view()->clearSelection();
+                tabPageAt(viewIndex->tabIndex)->primaryViewContainer()->setActive(true);
+            } else {
+                tabPageAt(viewIndex->tabIndex)->secondaryViewContainer()->view()->clearSelection();
+                tabPageAt(viewIndex->tabIndex)->secondaryViewContainer()->setActive(true);
+            }
+            dirsThatWereAlreadyOpen.append(dir);
+        } else {
+            dirsThatNeedToBeOpened.append(dir);
         }
     }
 
     const int oldTabCount = count();
-    openDirectories(dirs, splitView, true);
+    // Open a tab for each directory. If the "split view" option is enabled,
+    // two directories are shown inside one tab (see openDirectories()).
+    if (dirsThatNeedToBeOpened.size() > 0) {
+        openDirectories(dirsThatNeedToBeOpened, splitView);
+    }
     const int tabCount = count();
 
     // Select the files. Although the files can be split between several
@@ -499,29 +514,70 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     return name.replace('&', QLatin1String("&&"));
 }
 
-QPair<int, bool> DolphinTabWidget::indexByUrl(const QUrl& url, ChildUrlBehavior childUrlBehavior) const
+const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewOpenAtDirectory(const QUrl& directory) const
 {
     int i = currentIndex();
     if (i < 0) {
-        return qMakePair(-1, false);
+        return std::nullopt;
     }
     // loop over the tabs starting from the current one
     do {
         const auto tabPage = tabPageAt(i);
-        if (tabPage->primaryViewContainer()->url() == url ||
-                (childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->primaryViewContainer()->url().isParentOf(url))) {
-            return qMakePair(i, true);
+        if (tabPage->primaryViewContainer()->url() == directory) {
+            return std::optional(ViewIndex{i, true});
         }
 
-        if (tabPage->splitViewEnabled() &&
-                (url == tabPage->secondaryViewContainer()->url() ||
-                 (childUrlBehavior == ReturnIndexForOpenedParentAlso && tabPage->secondaryViewContainer()->url().isParentOf(url)))) {
-            return qMakePair(i, false);
+        if (tabPage->splitViewEnabled() && tabPage->secondaryViewContainer()->url() == directory) {
+            return std::optional(ViewIndex{i, false});
         }
 
         i = (i + 1) % count();
     }
     while (i != currentIndex());
 
-    return qMakePair(-1, false);
+    return std::nullopt;
+}
+
+const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewShowingItem(const QUrl& item) const
+{
+    // The item might not be loaded yet even though it exists. So instead
+    // we check if the folder containing the item is showing its contents.
+    const QUrl dirContainingItem(item.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash));
+
+    // The dirContainingItem is either open directly or expanded in a tree-style view mode.
+    // Is dirContainingitem the base url of a view?
+    auto viewOpenAtContainingDirectory = viewOpenAtDirectory(dirContainingItem);
+    if (viewOpenAtContainingDirectory.has_value()) {
+        return viewOpenAtContainingDirectory;
+    }
+
+    // Is dirContainingItem expanded in some tree-style view?
+    // The rest of this method is about figuring this out.
+
+    int i = currentIndex();
+    if (i < 0) {
+        return std::nullopt;
+    }
+    // loop over the tabs starting from the current one
+    do {
+        const auto tabPage = tabPageAt(i);
+        if (tabPage->primaryViewContainer()->url().isParentOf(item)) {
+            const KFileItem fileItemContainingItem = tabPage->primaryViewContainer()->view()->items().findByUrl(dirContainingItem);
+            if (!fileItemContainingItem.isNull() && tabPage->primaryViewContainer()->view()->isExpanded(fileItemContainingItem)) {
+                return std::optional(ViewIndex{i, true});
+            }
+        }
+
+        if (tabPage->splitViewEnabled() && tabPage->secondaryViewContainer()->url().isParentOf(item)) {
+            const KFileItem fileItemContainingItem = tabPage->secondaryViewContainer()->view()->items().findByUrl(dirContainingItem);
+            if (!fileItemContainingItem.isNull() && tabPage->secondaryViewContainer()->view()->isExpanded(fileItemContainingItem)) {
+                return std::optional(ViewIndex{i, false});
+            }
+        }
+
+        i = (i + 1) % count();
+    }
+    while (i != currentIndex());
+
+    return std::nullopt;
 }

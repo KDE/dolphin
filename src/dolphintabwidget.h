@@ -13,6 +13,8 @@
 #include <QTabWidget>
 #include <QUrl>
 
+#include <optional>
+
 class DolphinViewContainer;
 class KConfigGroup;
 
@@ -75,10 +77,10 @@ public:
     bool isUrlOpen(const QUrl& url) const;
 
     /**
-     * @return Whether any of the tab pages has @p url or it's parent opened
-     * in their primary or secondary view.
+     * @return Whether the item with @p url can be found in any view only by switching
+     * between already open tabs and scrolling in their primary or secondary view.
      */
-    bool isUrlOrParentOpen(const QUrl& url) const;
+    bool isItemVisibleInAnyView(const QUrl& urlOfItem) const;
 
 Q_SIGNALS:
     /**
@@ -127,10 +129,9 @@ public Q_SLOTS:
     /**
      * Opens each directory in \p dirs in a separate tab unless it is already open.
      * If \a splitView is set, 2 directories are collected within one tab.
-     * If \a skipChildUrls is set, do not open a directory if it's parent is already open.
      * \pre \a dirs must contain at least one url.
      */
-    void openDirectories(const QList<QUrl>& dirs, bool splitView, bool skipChildUrls = false);
+    void openDirectories(const QList<QUrl>& dirs, bool splitView);
 
     /**
      * Opens the directories which contain the files \p files and selects all files.
@@ -221,21 +222,27 @@ private:
      */
     QString tabName(DolphinTabPage* tabPage) const;
 
-    enum ChildUrlBehavior {
-        ReturnIndexForOpenedUrlOnly,
-        ReturnIndexForOpenedParentAlso
+    struct ViewIndex {
+        const int tabIndex;
+        const bool isInPrimaryView;
     };
+    /**
+     * Get the position of the view within this widget that is open at @p directory.
+     * @param directory The URL of the directory we want to find.
+     * @return a small struct containing the tab index of the view and whether it is
+     * in the primary view. A std::nullopt is returned if there is no view open for @p directory.
+     */
+    const std::optional<const ViewIndex> viewOpenAtDirectory(const QUrl& directory) const;
 
     /**
-     * @param url The URL that we would like
-     * @param childUrlBehavior Whether a tab with opened parent of the URL can be returned too
-     * @return a QPair with:
-     * First containing the index of the tab with the desired URL or -1 if not found.
-     * Second says true if URL is in primary view container, false otherwise.
-     * False means the URL is in the secondary view container, unless first == -1.
-     * In that case the value of second is meaningless.
+     * Get the position of the view within this widget that has @p item in the view.
+     * This means that the item can be seen by the user in that view when scrolled to the right position.
+     * If the view has folders expanded and @p item is one of them, the view will also be returned.
+     * @param item The URL of the item we want to find.
+     * @return a small struct containing the tab index of the view and whether it is
+     * in the primary view. A std::nullopt is returned if there is no view open that has @p item visible anywhere.
      */
-    QPair<int, bool> indexByUrl(const QUrl& url, ChildUrlBehavior childUrlBehavior = ReturnIndexForOpenedUrlOnly) const;
+    const std::optional<const ViewIndex> viewShowingItem(const QUrl& item) const;
 
 private:
     QPointer<DolphinTabPage> m_lastViewedTab;

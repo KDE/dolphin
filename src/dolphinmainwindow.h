@@ -153,13 +153,11 @@ public Q_SLOTS:
     bool isUrlOpen(const QString &url);
 
     /**
-     * Determines if a URL or it's parent is open in any tab.
+     * @return Whether the item with @p url can be found in any view only by switching
+     * between already open tabs and scrolling in their primary or secondary view.
      * @note Use of QString instead of QUrl is required to be callable via DBus.
-     *
-     * @param url URL to look for
-     * @returns true if url or it's parent is currently open in a tab, false otherwise.
      */
-    bool isUrlOrParentOpen(const QString &url);
+    bool isItemVisibleInAnyView(const QString &urlOfItem);
 
 
     /**

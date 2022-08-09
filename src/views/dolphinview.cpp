@@ -1490,6 +1490,16 @@ bool DolphinView::itemsExpandable() const
     return m_mode == DetailsView;
 }
 
+bool DolphinView::isExpanded(const KFileItem& item) const
+{
+    Q_ASSERT(item.isDir());
+    Q_ASSERT(items().contains(item));
+    if (!itemsExpandable()) {
+        return false;
+    }
+    return m_model->isExpanded(m_model->index(item));
+}
+
 void DolphinView::restoreState(QDataStream& stream)
 {
     // Read the version number of the view state and check if the version is supported.

@@ -90,7 +90,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         do {
             auto &interface = dolphinInterfaces[i];
 
-            auto isUrlOpenReply = openFiles ? interface.first->isUrlOrParentOpen(url) : interface.first->isUrlOpen(url);
+            auto isUrlOpenReply = openFiles ? interface.first->isItemVisibleInAnyView(url) : interface.first->isUrlOpen(url);
             isUrlOpenReply.waitForFinished();
             if (!isUrlOpenReply.isError() && isUrlOpenReply.value()) {
                 interface.second.append(url);

@@ -2680,7 +2680,7 @@ bool DolphinMainWindow::isUrlOpen(const QString &url)
     return m_tabWidget->isUrlOpen(QUrl::fromUserInput(url));
 }
 
-bool DolphinMainWindow::isUrlOrParentOpen(const QString &url)
+bool DolphinMainWindow::isItemVisibleInAnyView(const QString &urlOfItem)
 {
-    return m_tabWidget->isUrlOrParentOpen(QUrl::fromUserInput(url));
+    return m_tabWidget->isItemVisibleInAnyView(QUrl::fromUserInput(urlOfItem));
 }

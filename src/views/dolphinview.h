@@ -292,6 +292,13 @@ public:
     bool itemsExpandable() const;
 
     /**
+     * @returns true if the @p item is one of the items() of this view and
+     * is currently expanded. false otherwise.
+     * Only directories in view modes that allow expanding can ever be expanded.
+     */
+    bool isExpanded(const KFileItem &item) const;
+
+    /**
      * Restores the view state (current item, contents position, details view expansion state)
      */
     void restoreState(QDataStream& stream);
