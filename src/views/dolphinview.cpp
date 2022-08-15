@@ -45,7 +45,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProtocolManager>
-#include <KUrlMimeData>
 
 #include <QAbstractItemView>
 #include <QActionGroup>
@@ -758,14 +757,12 @@ void DolphinView::cutSelectedItemsToClipboard()
 {
     QMimeData* mimeData = selectionMimeData();
     KIO::setClipboardDataCut(mimeData, true);
-    KUrlMimeData::exportUrlsToPortal(mimeData);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinView::copySelectedItemsToClipboard()
 {
-    QMimeData *mimeData = selectionMimeData();
-    KUrlMimeData::exportUrlsToPortal(mimeData);
+    QMimeData* mimeData = selectionMimeData();
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
