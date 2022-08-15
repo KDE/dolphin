@@ -1350,7 +1350,9 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     for (KOverlayIconPlugin *it : qAsConst(m_overlayIconsPlugin)) {
         overlays.append(it->getOverlays(item.url()));
     }
-    data.insert("iconOverlays", overlays);
+    if (!overlays.isEmpty()) {
+        data.insert("iconOverlays", overlays);
+    }
 
 #if HAVE_BALOO
     if (m_balooFileMonitor) {
