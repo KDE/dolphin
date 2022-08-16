@@ -333,6 +333,17 @@ void KItemListWidget::setEnabledSelectionToggle(bool enable)
 {
     if (m_enabledSelectionToggle != enable) {
         m_enabledSelectionToggle = enable;
+
+        // We want the change to take effect immediately.
+        if (m_enabledSelectionToggle) {
+            if (m_hovered) {
+                initializeSelectionToggle();
+            }
+        } else if (m_selectionToggle) {
+            m_selectionToggle->deleteLater();
+            m_selectionToggle = nullptr;
+        }
+
         update();
     }
 }

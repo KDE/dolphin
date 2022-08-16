@@ -83,6 +83,10 @@
             <label>Show selection toggle</label>
             <default>true</default>
         </entry>
+        <entry name="ShowPasteBarAfterCopying" type="Bool">
+            <label>Show a bar for easy pasting after a cut or copy was done using the selection mode bottom bar.</label>
+            <default>true</default>
+        </entry>
         <entry name="UseTabForSwitchingSplitView" type="Bool">
             <label>Use tab for switching between right and left split</label>
             <default>false</default>

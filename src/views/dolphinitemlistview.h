@@ -30,6 +30,18 @@ public:
     void setZoomLevel(int level);
     int zoomLevel() const;
 
+    enum SelectionTogglesEnabled {
+        True,
+        False,
+        FollowSetting
+    };
+    /**
+     * Sets whether the items in this view should show a small selection toggle area on mouse hover.
+     * The default for this view is to follow the "showSelectionToggle" setting but this method can
+     * be used to ignore that setting and force a different value.
+     */
+    void setEnabledSelectionToggles(SelectionTogglesEnabled selectionTogglesEnabled);
+
     void readSettings();
     void writeSettings();
 
@@ -45,6 +57,10 @@ protected:
 
 private:
     void updateGridSize();
+
+    using KItemListView::setEnabledSelectionToggles; // Makes sure that the setEnabledSelectionToggles() declaration above doesn't hide
+                                                     // the one from the base class so we can still use it privately.
+    SelectionTogglesEnabled m_selectionTogglesEnabled = FollowSetting;
 
 private:
     int m_zoomLevel;

@@ -24,6 +24,7 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/terminal/terminalpanel.h"
+#include "selectionmode/actiontexthelper.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
@@ -160,11 +161,13 @@ DolphinMainWindow::DolphinMainWindow() :
             this, &DolphinMainWindow::updateWindowTitle);
     setCentralWidget(m_tabWidget);
 
+    m_actionTextHelper = new SelectionMode::ActionTextHelper(this);
     setupActions();
 
-    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
+    m_actionHandler = new DolphinViewActionHandler(actionCollection(), m_actionTextHelper, this);
     connect(m_actionHandler, &DolphinViewActionHandler::actionBeingHandled, this, &DolphinMainWindow::clearStatusBar);
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
+    connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -713,12 +716,22 @@ void DolphinMainWindow::undo()
 
 void DolphinMainWindow::cut()
 {
-    m_activeViewContainer->view()->cutSelectedItemsToClipboard();
+    if (m_activeViewContainer->view()->selectedItems().isEmpty()) {
+        m_activeViewContainer->setSelectionModeEnabled(true, actionCollection(), SelectionMode::BottomBar::Contents::CutContents);
+    } else {
+        m_activeViewContainer->view()->cutSelectedItemsToClipboard();
+        m_activeViewContainer->setSelectionModeEnabled(false);
+    }
 }
 
 void DolphinMainWindow::copy()
 {
-    m_activeViewContainer->view()->copySelectedItemsToClipboard();
+    if (m_activeViewContainer->view()->selectedItems().isEmpty()) {
+        m_activeViewContainer->setSelectionModeEnabled(true, actionCollection(), SelectionMode::BottomBar::Contents::CopyContents);
+    } else {
+        m_activeViewContainer->view()->copySelectedItemsToClipboard();
+        m_activeViewContainer->setSelectionModeEnabled(false);
+    }
 }
 
 void DolphinMainWindow::paste()
@@ -845,6 +858,11 @@ void DolphinMainWindow::slotGoForward(QAction* action)
     }
 }
 
+void DolphinMainWindow::slotSetSelectionMode(bool enabled, SelectionMode::BottomBar::Contents bottomBarContents)
+{
+    m_activeViewContainer->setSelectionModeEnabled(enabled, actionCollection(), bottomBarContents);
+}
+
 void DolphinMainWindow::selectAll()
 {
     clearStatusBar();
@@ -884,6 +902,26 @@ void DolphinMainWindow::toggleSplitStash()
     tabPage->setSplitViewEnabled(true, WithAnimation, QUrl("stash:/"));
 }
 
+void DolphinMainWindow::copyToInactiveSplitView()
+{
+    if (m_activeViewContainer->view()->selectedItems().isEmpty()) {
+        m_activeViewContainer->setSelectionModeEnabled(true, actionCollection(), SelectionMode::BottomBar::Contents::CopyToOtherViewContents);
+    } else {
+        m_tabWidget->copyToInactiveSplitView();
+        m_activeViewContainer->setSelectionModeEnabled(false);
+    }
+}
+
+void DolphinMainWindow::moveToInactiveSplitView()
+{
+    if (m_activeViewContainer->view()->selectedItems().isEmpty()) {
+        m_activeViewContainer->setSelectionModeEnabled(true, actionCollection(), SelectionMode::BottomBar::Contents::MoveToOtherViewContents);
+    } else {
+        m_tabWidget->moveToInactiveSplitView();
+        m_activeViewContainer->setSelectionModeEnabled(false);
+    }
+}
+
 void DolphinMainWindow::reloadView()
 {
     clearStatusBar();
@@ -904,6 +942,14 @@ void DolphinMainWindow::enableStopAction()
 void DolphinMainWindow::disableStopAction()
 {
     actionCollection()->action(QStringLiteral("stop"))->setEnabled(false);
+}
+
+void DolphinMainWindow::toggleSelectionMode()
+{
+    const bool checked = !m_activeViewContainer->isSelectionModeEnabled();
+
+    m_activeViewContainer->setSelectionModeEnabled(checked, actionCollection(), SelectionMode::BottomBar::Contents::GeneralContents);
+    actionCollection()->action(QStringLiteral("toggle_selection_mode"))->setChecked(checked);
 }
 
 void DolphinMainWindow::showFilterBar()
@@ -1308,6 +1354,11 @@ void DolphinMainWindow::updateHamburgerMenu()
     menu->addAction(ac->action(QStringLiteral("go_forward")));
 
     menu->addMenu(m_newFileMenu->menu());
+    if (!toolBar()->isVisible()
+        || !toolbarActions.contains(ac->action(QStringLiteral("toggle_selection_mode_tool_bar")))
+    ) {
+        menu->addAction(ac->action(QStringLiteral("toggle_selection_mode")));
+    }
     menu->addAction(ac->action(QStringLiteral("basic_actions")));
     menu->addAction(ac->action(KStandardAction::name(KStandardAction::Undo)));
     if (!toolBar()->isVisible()
@@ -1560,12 +1611,14 @@ void DolphinMainWindow::setupActions()
         "next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
         "<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>");
     QAction* cutAction = KStandardAction::cut(this, &DolphinMainWindow::cut, actionCollection());
+    m_actionTextHelper->registerTextWhenNothingIsSelected(cutAction, i18nc("@action", "Cut…"));
     cutAction->setWhatsThis(xi18nc("@info:whatsthis cut", "This copies the items "
         "in your current selection to the <emphasis>clipboard</emphasis>.<nl/>"
         "Use the <emphasis>Paste</emphasis> action afterwards to copy them from "
         "the clipboard to a new location. The items will be removed from their "
         "initial location.") + cutCopyPastePara);
     QAction* copyAction = KStandardAction::copy(this, &DolphinMainWindow::copy, actionCollection());
+    m_actionTextHelper->registerTextWhenNothingIsSelected(copyAction, i18nc("@action", "Copy…"));
     copyAction->setWhatsThis(xi18nc("@info:whatsthis copy", "This copies the "
         "items in your current selection to the <emphasis>clipboard</emphasis>."
         "<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy them "
@@ -1582,21 +1635,23 @@ void DolphinMainWindow::setupActions()
 
     QAction* copyToOtherViewAction = actionCollection()->addAction(QStringLiteral("copy_to_inactive_split_view"));
     copyToOtherViewAction->setText(i18nc("@action:inmenu", "Copy to Inactive Split View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(copyToOtherViewAction, i18nc("@action:inmenu", "Copy to Inactive Split View…"));
     copyToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Copy", "This copies the selected items from "
         "the <emphasis>active</emphasis> view to the inactive split view."));
     copyToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-copy")));
     copyToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Copy to Inactive Split View"));
     actionCollection()->setDefaultShortcut(copyToOtherViewAction, Qt::SHIFT | Qt::Key_F5 );
-    connect(copyToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::copyToInactiveSplitView);
+    connect(copyToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::copyToInactiveSplitView);
 
     QAction* moveToOtherViewAction = actionCollection()->addAction(QStringLiteral("move_to_inactive_split_view"));
     moveToOtherViewAction->setText(i18nc("@action:inmenu", "Move to Inactive Split View"));
+    m_actionTextHelper->registerTextWhenNothingIsSelected(moveToOtherViewAction, i18nc("@action:inmenu", "Move to Inactive Split View…"));
     moveToOtherViewAction->setWhatsThis(xi18nc("@info:whatsthis Move", "This moves the selected items from "
         "the <emphasis>active</emphasis> view to the inactive split view."));
     moveToOtherViewAction->setIcon(QIcon::fromTheme(QStringLiteral("edit-cut")));
     moveToOtherViewAction->setIconText(i18nc("@action:inmenu Edit", "Move to Inactive Split View"));
     actionCollection()->setDefaultShortcut(moveToOtherViewAction, Qt::SHIFT | Qt::Key_F6 );
-    connect(moveToOtherViewAction, &QAction::triggered, m_tabWidget, &DolphinTabWidget::moveToInactiveSplitView);
+    connect(moveToOtherViewAction, &QAction::triggered, this, &DolphinMainWindow::moveToInactiveSplitView);
 
     QAction* showFilterBar = actionCollection()->addAction(QStringLiteral("show_filter_bar"));
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Filter..."));
@@ -1642,6 +1697,32 @@ void DolphinMainWindow::setupActions()
     toggleSearchAction->setWhatsThis(searchAction->whatsThis());
     toggleSearchAction->setCheckable(true);
 
+    QAction *toggleSelectionModeAction = actionCollection()->addAction(QStringLiteral("toggle_selection_mode"));
+    // i18n: This action toggles a selection mode.
+    toggleSelectionModeAction->setText(i18nc("@action:inmenu", "Select Files and Folders"));
+    // i18n: Opens a selection mode for selecting files/folders.
+    // The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
+    toggleSelectionModeAction->setIconText(i18nc("@action:intoolbar", "Select"));
+    toggleSelectionModeAction->setWhatsThis(xi18nc("@info:whatsthis", "<para>This application only knows which files or folders should be acted on if they are"
+        " <emphasis>selected</emphasis> first. Press this to toggle a <emphasis>Selection Mode</emphasis> which makes selecting and deselecting as easy as "
+        "pressing an item once.</para><para>While in this mode, a quick access bar at the bottom shows available actions for the currently selected items."
+        "</para>"));
+    toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
+    toggleSelectionModeAction->setCheckable(true);
+    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
+    connect(toggleSelectionModeAction, &QAction::triggered, this, &DolphinMainWindow::toggleSelectionMode);
+
+    // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
+    // with the selectAllAction and invertSelectionAction.
+    auto *toggleSelectionModeToolBarAction = new KToolBarPopupAction(toggleSelectionModeAction->icon(), toggleSelectionModeAction->iconText(), actionCollection());
+    toggleSelectionModeToolBarAction->setToolTip(toggleSelectionModeAction->text());
+    toggleSelectionModeToolBarAction->setWhatsThis(toggleSelectionModeAction->whatsThis());
+    actionCollection()->addAction(QStringLiteral("toggle_selection_mode_tool_bar"), toggleSelectionModeToolBarAction);
+    toggleSelectionModeToolBarAction->setCheckable(true);
+    toggleSelectionModeToolBarAction->setPopupMode(QToolButton::DelayedPopup);
+    connect(toggleSelectionModeToolBarAction, &QAction::triggered, toggleSelectionModeAction, &QAction::trigger);
+    connect(toggleSelectionModeAction, &QAction::toggled, toggleSelectionModeToolBarAction, &QAction::setChecked);
+
     QAction* selectAllAction = KStandardAction::selectAll(this, &DolphinMainWindow::selectAll, actionCollection());
     selectAllAction->setWhatsThis(xi18nc("@info:whatsthis", "This selects all "
         "files and folders in the current location."));
@@ -1653,6 +1734,11 @@ void DolphinMainWindow::setupActions()
     invertSelection->setIcon(QIcon::fromTheme(QStringLiteral("edit-select-invert")));
     actionCollection()->setDefaultShortcut(invertSelection, Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, &QAction::triggered, this, &DolphinMainWindow::invertSelection);
+
+    QMenu *toggleSelectionModeActionMenu = new QMenu(this);
+    toggleSelectionModeActionMenu->addAction(selectAllAction);
+    toggleSelectionModeActionMenu->addAction(invertSelection);
+    toggleSelectionModeToolBarAction->setMenu(toggleSelectionModeActionMenu);
 
     // setup 'View' menu
     // (note that most of it is set up in DolphinViewActionHandler)
@@ -2168,7 +2254,12 @@ void DolphinMainWindow::updateFileAndEditActions()
     const KActionCollection* col = actionCollection();
     KFileItemListProperties capabilitiesSource(list);
 
-    QAction* addToPlacesAction = col->action(QStringLiteral("add_to_places"));
+    QAction* renameAction            = col->action(KStandardAction::name(KStandardAction::RenameFile));
+    QAction* moveToTrashAction       = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
+    QAction* deleteAction            = col->action(KStandardAction::name(KStandardAction::DeleteFile));
+    QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
+    QAction* duplicateAction         = col->action(QStringLiteral("duplicate")); // see DolphinViewActionHandler
+    QAction* addToPlacesAction       = col->action(QStringLiteral("add_to_places"));
     QAction* copyToOtherViewAction   = col->action(QStringLiteral("copy_to_inactive_split_view"));
     QAction* moveToOtherViewAction   = col->action(QStringLiteral("move_to_inactive_split_view"));
     QAction* copyLocation            = col->action(QString("copy_location"));
@@ -2176,42 +2267,28 @@ void DolphinMainWindow::updateFileAndEditActions()
     if (list.isEmpty()) {
         stateChanged(QStringLiteral("has_no_selection"));
 
+        // All actions that need a selection to function can be enabled because they should trigger selection mode.
+        renameAction->setEnabled(true);
+        moveToTrashAction->setEnabled(true);
+        deleteAction->setEnabled(true);
+        cutAction->setEnabled(true);
+        duplicateAction->setEnabled(true);
         addToPlacesAction->setEnabled(true);
-        copyToOtherViewAction->setEnabled(false);
-        moveToOtherViewAction->setEnabled(false);
-        copyLocation->setEnabled(false);
+        copyLocation->setEnabled(true);
+        // Them triggering selection mode and not directly acting on selected items is signified by adding "…" to their text.
+        m_actionTextHelper->textsWhenNothingIsSelectedEnabled(true);
+
     } else {
+        m_actionTextHelper->textsWhenNothingIsSelectedEnabled(false);
         stateChanged(QStringLiteral("has_selection"));
 
-        QAction* renameAction            = col->action(KStandardAction::name(KStandardAction::RenameFile));
-        QAction* moveToTrashAction       = col->action(KStandardAction::name(KStandardAction::MoveToTrash));
-        QAction* deleteAction            = col->action(KStandardAction::name(KStandardAction::DeleteFile));
-        QAction* cutAction               = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action(QStringLiteral("delete_shortcut")); // see DolphinViewActionHandler
         QAction* showTarget              = col->action(QStringLiteral("show_target"));
-        QAction* duplicateAction         = col->action(QStringLiteral("duplicate")); // see DolphinViewActionHandler
 
         if (list.length() == 1 && list.first().isDir()) {
             addToPlacesAction->setEnabled(true);
         } else {
             addToPlacesAction->setEnabled(false);
-        }
-
-        if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
-            DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
-            KFileItem capabilitiesDestination;
-
-            if (tabPage->primaryViewActive()) {
-                capabilitiesDestination = tabPage->secondaryViewContainer()->url();
-            } else {
-                capabilitiesDestination = tabPage->primaryViewContainer()->url();
-            }
-
-            copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
-            moveToOtherViewAction->setEnabled(capabilitiesSource.supportsMoving() && capabilitiesDestination.isWritable());
-        } else {
-            copyToOtherViewAction->setEnabled(false);
-            moveToOtherViewAction->setEnabled(false);
         }
 
         const bool enableMoveToTrash = capabilitiesSource.isLocal() && capabilitiesSource.supportsMoving();
@@ -2225,11 +2302,35 @@ void DolphinMainWindow::updateFileAndEditActions()
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
         duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
     }
+
+    if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
+        DolphinTabPage* tabPage = m_tabWidget->currentTabPage();
+        KFileItem capabilitiesDestination;
+
+        if (tabPage->primaryViewActive()) {
+            capabilitiesDestination = tabPage->secondaryViewContainer()->url();
+        } else {
+            capabilitiesDestination = tabPage->primaryViewContainer()->url();
+        }
+
+        copyToOtherViewAction->setEnabled(capabilitiesDestination.isWritable());
+        moveToOtherViewAction->setEnabled((list.isEmpty() || capabilitiesSource.supportsMoving()) && capabilitiesDestination.isWritable());
+    } else {
+        copyToOtherViewAction->setEnabled(false);
+        moveToOtherViewAction->setEnabled(false);
+    }
 }
 
 void DolphinMainWindow::updateViewActions()
 {
     m_actionHandler->updateViewActions();
+
+    QAction *toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));
+    disconnect(nullptr, &DolphinViewContainer::selectionModeChanged,
+               toggleSelectionModeAction, &QAction::setChecked);
+    toggleSelectionModeAction->setChecked(m_activeViewContainer->isSelectionModeEnabled());
+    connect(m_activeViewContainer, &DolphinViewContainer::selectionModeChanged,
+            toggleSelectionModeAction, &QAction::setChecked);
 
     QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());

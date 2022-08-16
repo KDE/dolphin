@@ -20,6 +20,7 @@
 #include "kitemviews/kitemlistselectionmanager.h"
 #include "kitemviews/private/kitemlistroleeditor.h"
 #include "settings/viewmodes/viewmodesettings.h"
+#include "selectionmode/singleclickselectionproxystyle.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -110,7 +111,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 
     m_model = new KFileItemModel(this);
     m_view = new DolphinItemListView();
-    m_view->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
     m_view->setVisibleRoles({"text"});
     applyModeToView();
 
@@ -172,6 +173,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     connect(controller, &KItemListController::increaseZoom, this, &DolphinView::slotIncreaseZoom);
     connect(controller, &KItemListController::decreaseZoom, this, &DolphinView::slotDecreaseZoom);
     connect(controller, &KItemListController::swipeUp, this, &DolphinView::slotSwipeUp);
+    connect(controller, &KItemListController::selectionModeChangeRequested, this, &DolphinView::selectionModeChangeRequested);
 
     connect(m_model, &KFileItemModel::directoryLoadingStarted,       this, &DolphinView::slotDirectoryLoadingStarted);
     connect(m_model, &KFileItemModel::directoryLoadingCompleted,     this, &DolphinView::slotDirectoryLoadingCompleted);
@@ -262,7 +264,7 @@ bool DolphinView::isActive() const
     return m_active;
 }
 
-void DolphinView::setMode(Mode mode)
+void DolphinView::setViewMode(Mode mode)
 {
     if (mode != m_mode) {
         ViewProperties props(viewPropertiesUrl());
@@ -276,9 +278,29 @@ void DolphinView::setMode(Mode mode)
     }
 }
 
-DolphinView::Mode DolphinView::mode() const
+DolphinView::Mode DolphinView::viewMode() const
 {
     return m_mode;
+}
+
+void DolphinView::setSelectionModeEnabled(const bool enabled)
+{
+    if (enabled) {
+        m_proxyStyle = std::make_unique<SelectionMode::SingleClickSelectionProxyStyle>();
+        setStyle(m_proxyStyle.get());
+        m_view->setStyle(m_proxyStyle.get());
+        m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::False);
+    } else {
+        setStyle(QApplication::style());
+        m_view->setStyle(QApplication::style());
+        m_view->setEnabledSelectionToggles(DolphinItemListView::SelectionTogglesEnabled::FollowSetting);
+    }
+    m_container->controller()->setSelectionModeEnabled(enabled);
+}
+
+bool DolphinView::selectionMode() const
+{
+    return m_container->controller()->selectionMode();
 }
 
 void DolphinView::setPreviewsShown(bool show)

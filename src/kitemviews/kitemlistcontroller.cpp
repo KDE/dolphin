@@ -27,12 +27,14 @@
 #include <QGraphicsSceneEvent>
 #include <QGraphicsView>
 #include <QMimeData>
+#include <QStyleHints>
 #include <QTimer>
 #include <QTouchEvent>
 
 KItemListController::KItemListController(KItemModelBase* model, KItemListView* view, QObject* parent) :
     QObject(parent),
     m_singleClickActivationEnforced(false),
+    m_selectionMode(false),
     m_selectionTogglePressed(false),
     m_clearSelectionIfItemsAreNotDragged(false),
     m_isSwipeGesture(false),
@@ -218,6 +220,16 @@ void KItemListController::setSingleClickActivationEnforced(bool singleClick)
 bool KItemListController::singleClickActivationEnforced() const
 {
     return m_singleClickActivationEnforced;
+}
+
+void KItemListController::setSelectionModeEnabled(bool enabled)
+{
+    m_selectionMode = enabled;
+}
+
+bool KItemListController::selectionMode() const
+{
+    return m_selectionMode;
 }
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
@@ -408,7 +420,9 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     case Qt::Key_Escape:
-        if (m_selectionBehavior != SingleSelection) {
+        if (m_selectionMode) {
+            Q_EMIT selectionModeChangeRequested(false);
+        } else if (m_selectionBehavior != SingleSelection) {
             m_selectionManager->clearSelection();
         }
         m_keyboardManager->cancelSearch();
@@ -576,10 +590,11 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         return false;
     }
 
+    const QPointF pos = transform.map(event->pos());
+
     if (m_pressedIndex.has_value() && !m_view->rubberBand()->isActive()) {
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
-            const QPointF pos = transform.map(event->pos());
             if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
                 if (!m_selectionManager->isSelected(m_pressedIndex.value())) {
                     // Always assure that the dragged item gets selected. Usually this is already
@@ -1045,6 +1060,7 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
 
     //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
     if (!m_isTouchEvent) {
+        Q_EMIT selectionModeChangeRequested(true);
         return;
     }
 
@@ -1247,7 +1263,7 @@ void KItemListController::slotRubberBandChanged()
         // been activated in case if no Shift- or Control-key are pressed
         const bool shiftOrControlPressed = QApplication::keyboardModifiers() & Qt::ShiftModifier ||
                                            QApplication::keyboardModifiers() & Qt::ControlModifier;
-        if (!shiftOrControlPressed) {
+        if (!shiftOrControlPressed && !m_selectionMode) {
             m_oldSelection.clear();
         }
     }
@@ -1296,7 +1312,7 @@ void KItemListController::slotRubberBandChanged()
         }
     } while (!selectionFinished);
 
-    if (QApplication::keyboardModifiers() & Qt::ControlModifier) {
+    if ((QApplication::keyboardModifiers() & Qt::ControlModifier) || m_selectionMode) {
         // If Control is pressed, the selection state of all items in the rubberband is toggled.
         // Therefore, the new selection contains:
         // 1. All previously selected items which are not inside the rubberband, and
@@ -1518,7 +1534,8 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
     }
 
     const bool shiftPressed = modifiers & Qt::ShiftModifier;
-    const bool controlPressed = modifiers & Qt::ControlModifier;
+    const bool controlPressed = (modifiers & Qt::ControlModifier) || m_selectionMode; // Keeping selectionMode similar to pressing control will hopefully
+                                                                                      // simplify the overall logic and possibilities both for users and devs.
     const bool leftClick = buttons & Qt::LeftButton;
     const bool rightClick = buttons & Qt::RightButton;
 
@@ -1565,7 +1582,7 @@ bool KItemListController::onPress(const QPoint& screenPos, const QPointF& pos, c
                 return false;
             }
         }
-    } else if (pressedItemAlreadySelected && !shiftOrControlPressed && (buttons & Qt::LeftButton)) {
+    } else if (pressedItemAlreadySelected && !shiftOrControlPressed && leftClick) {
         // The user might want to start dragging multiple items, but if he clicks the item
         // in order to trigger it instead, the other selected items must be deselected.
         // However, we do not know yet what the user is going to do.
@@ -1747,7 +1764,7 @@ bool KItemListController::onRelease(const QPointF& pos, const Qt::KeyboardModifi
             } else {
                 const bool singleClickActivation = m_view->style()->styleHint(QStyle::SH_ItemView_ActivateItemOnSingleClick) || m_singleClickActivationEnforced;
                 if (!singleClickActivation) {
-                    emitItemActivated = touch;
+                    emitItemActivated = touch && !m_selectionMode;
                 } else {
                     // activate on single click only if we didn't come from a rubber band release
                     emitItemActivated = !rubberBandRelease;

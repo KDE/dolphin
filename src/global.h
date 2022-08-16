@@ -55,6 +55,11 @@ namespace Dolphin {
     const int LAYOUT_SPACING_SMALL = 2;
 }
 
+enum Animated {
+    WithAnimation,
+    WithoutAnimation
+};
+
 class GlobalConfig : public QObject
 {
     Q_OBJECT

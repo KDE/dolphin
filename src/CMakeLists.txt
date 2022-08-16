@@ -87,6 +87,7 @@ target_sources(dolphinprivate PRIVATE
     settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
+    selectionmode/actiontexthelper.cpp
     views/dolphinfileitemlistwidget.cpp
     views/dolphinitemlistview.cpp
     views/dolphinnewfilemenuobserver.cpp
@@ -209,6 +210,7 @@ target_sources(dolphinstatic PRIVATE
     dolphinurlnavigatorscontroller.cpp
     trash/dolphintrash.cpp
     filterbar/filterbar.cpp
+    kitemviews/kfileitemlisttostring.cpp
     panels/places/placespanel.cpp
     panels/panel.cpp
     panels/folders/foldersitemlistwidget.cpp
@@ -218,6 +220,12 @@ target_sources(dolphinstatic PRIVATE
     search/dolphinfacetswidget.cpp
     search/dolphinquery.cpp
     search/dolphinsearchbox.cpp
+    selectionmode/actiontexthelper.cpp
+    selectionmode/actionwithwidget.cpp
+    selectionmode/backgroundcolorhelper.cpp
+    selectionmode/bottombar.cpp
+    selectionmode/bottombarcontentscontainer.cpp
+    selectionmode/topbar.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
     settings/general/confirmationssettingspage.cpp

@@ -9,6 +9,7 @@
 
 #include "config-dolphin.h"
 #include "dolphinurlnavigator.h"
+#include "selectionmode/bottombar.h"
 #include "views/dolphinview.h"
 
 #include <KFileItem>
@@ -27,9 +28,14 @@ namespace KActivities {
 
 class FilterBar;
 class KMessageWidget;
+class QAction;
+class QGridLayout;
 class QUrl;
 class DolphinSearchBox;
 class DolphinStatusBar;
+namespace SelectionMode {
+    class TopBar;
+}
 
 /**
  * @short Represents a view for the directory content
@@ -132,6 +138,22 @@ public:
     void disconnectUrlNavigator();
 
     /**
+     * Sets a selection mode that is useful for quick and easy selecting or deselecting of files.
+     * This method is the central authority about enabling or disabling selection mode:
+     * All other classes that want to enable or disable selection mode should trigger a call of this method.
+     *
+     * This method sets the selection mode for the view of this viewContainer and sets the visibility of the
+     * selection mode top and bottom bar which also belong to this viewContainer.
+     *
+     * @param enabled           Whether to enable or disable selection mode.
+     * @param actionCollection  The collection of actions from which the actions on the bottom bar are retrieved.
+     * @param bottomBarContents The contents the bar is supposed to show after this call.
+     */
+    void setSelectionModeEnabled(bool enabled, KActionCollection *actionCollection = nullptr, SelectionMode::BottomBar::Contents bottomBarContents = SelectionMode::BottomBar::Contents::GeneralContents);
+    /** @see setSelectionModeEnabled() */
+    bool isSelectionModeEnabled() const;
+
+    /**
      * Shows the message \msg with the given type non-modal above
      * the view-content.
      */
@@ -206,6 +228,9 @@ public Q_SLOTS:
      */
     void setSearchModeEnabled(bool enabled);
 
+    /** Used to notify the m_selectionModeBottomBar that there is no other ViewContainer in the tab. */
+    void slotSplitTabDisabled();
+
 Q_SIGNALS:
     /**
      * Is emitted whenever the filter bar has changed its visibility state.
@@ -215,6 +240,8 @@ Q_SIGNALS:
      * Is emitted whenever the search mode has changed its state.
      */
     void searchModeEnabledChanged(bool enabled);
+
+    void selectionModeChanged(bool enabled);
 
     /**
      * Is emitted when the write state of the folder has been changed. The application
@@ -395,7 +422,7 @@ private:
     void tryRestoreViewState();
 
 private:
-    QVBoxLayout* m_topLayout;
+    QGridLayout *m_topLayout;
 
     /**
      * The internal UrlNavigator which is never visible to the user.
@@ -410,13 +437,21 @@ private:
      * Otherwise it's one of the UrlNavigators visible in the toolbar.
      */
     QPointer<DolphinUrlNavigator> m_urlNavigatorConnected;
+
     DolphinSearchBox* m_searchBox;
     bool m_searchModeEnabled;
+
     KMessageWidget* m_messageWidget;
+
+    /// A bar shown at the top of the view to signify that selection mode is currently active.
+    SelectionMode::TopBar *m_selectionModeTopBar;
 
     DolphinView* m_view;
 
     FilterBar* m_filterBar;
+
+    /// A bar shown at the bottom of the view whose contents depend on what the user is currently doing.
+    SelectionMode::BottomBar *m_selectionModeBottomBar;
 
     DolphinStatusBar* m_statusBar;
     QTimer* m_statusBarTimer;            // Triggers a delayed update
