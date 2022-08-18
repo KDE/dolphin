@@ -1801,7 +1801,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item, 
         data.insert(sharedValue("text"), item.text());
     }
 
-    if (m_requestRole[ExtensionRole]) {
+    if (m_requestRole[ExtensionRole] && !isDir) {
         data.insert(sharedValue("extension"), QFileInfo(item.name()).suffix());
     }
 
