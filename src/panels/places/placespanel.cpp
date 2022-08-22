@@ -229,7 +229,9 @@ void PlacesPanel::slotTearDownRequestedExternally(const QString &udi)
 void PlacesPanel::slotTearDownDone(Solid::ErrorType error, const QVariant& errorData)
 {
     if (error && errorData.isValid()) {
-        if (error == Solid::ErrorType::DeviceBusy) {
+        if (error == Solid::ErrorType::UserCanceled) {
+            // No need to tell the user what they just did.
+        } else if (error == Solid::ErrorType::DeviceBusy) {
             KListOpenFilesJob* listOpenFilesJob = new KListOpenFilesJob(m_deviceToTearDown->filePath());
             connect(listOpenFilesJob, &KIO::Job::result, this, [this, listOpenFilesJob](KJob*) {
                 const KProcessList::KProcessInfoList blockingProcesses = listOpenFilesJob->processInfoList();
