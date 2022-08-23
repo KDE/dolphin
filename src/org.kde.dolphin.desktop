@@ -114,7 +114,6 @@ GenericName[vi]=Trình quản lí tệp
 GenericName[x-test]=xxFile Managerxx
 GenericName[zh_CN]=文件管理器
 GenericName[zh_TW]=檔案管理員
-Terminal=false
 MimeType=inode/directory;
 InitialPreference=10
 Keywords=files;file management;file browsing;samba;network shares;Explorer;Finder;
