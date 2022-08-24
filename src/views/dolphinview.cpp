@@ -1367,7 +1367,7 @@ void DolphinView::slotItemCreated(const QUrl& url)
 
 void DolphinView::slotJobResult(KJob *job)
 {
-    if (job->error()) {
+    if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
     }
     if (!m_selectedUrls.isEmpty()) {
