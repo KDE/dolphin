@@ -24,7 +24,7 @@ DolphinNewFileMenu::~DolphinNewFileMenu()
 
 void DolphinNewFileMenu::slotResult(KJob* job)
 {
-    if (job->error()) {
+    if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
     } else {
         KNewFileMenu::slotResult(job);

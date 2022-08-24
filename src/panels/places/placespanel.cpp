@@ -173,7 +173,11 @@ void PlacesPanel::slotUrlsDropped(const QUrl& dest, QDropEvent* event, QWidget* 
 {
     KIO::DropJob *job = DragAndDropHelper::dropUrls(dest, event, parent);
     if (job) {
-        connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) Q_EMIT errorMessage(job->errorString()); });
+        connect(job, &KIO::DropJob::result, this, [this](KJob *job) {
+            if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
+                Q_EMIT errorMessage(job->errorString());
+            }
+        });
     }
 }
 
