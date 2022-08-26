@@ -226,6 +226,21 @@ private:
         const int tabIndex;
         const bool isInPrimaryView;
     };
+
+    /**
+     * Getter for a view container.
+     * @param viewIndex specifies the tab and the view within that tab.
+     * @return the view container specified in @p viewIndex or nullptr if it doesn't exist.
+     */
+    DolphinViewContainer *viewContainerAt(ViewIndex viewIndex) const;
+
+    /**
+     * Makes the view container specified in @p viewIndex become the active view container within this tab widget.
+     * @param viewIndex Specifies the tab to activate and the view container within the tab to activate.
+     * @return the freshly activated view container or nullptr if there is no view container at @p viewIndex.
+     */
+    DolphinViewContainer *activateViewContainerAt(ViewIndex viewIndex);
+
     /**
      * Get the position of the view within this widget that is open at @p directory.
      * @param directory The URL of the directory we want to find.

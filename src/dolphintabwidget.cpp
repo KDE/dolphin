@@ -210,13 +210,7 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
         // activate it instead of opening a new tab
         if (alreadyOpenDirectory.has_value()) {
             somethingWasAlreadyOpen = true;
-            activateTab(alreadyOpenDirectory->tabIndex);
-            const auto tabPage = tabPageAt(alreadyOpenDirectory->tabIndex);
-            if (alreadyOpenDirectory->isInPrimaryView) {
-                tabPage->primaryViewContainer()->setActive(true);
-            } else {
-                tabPage->secondaryViewContainer()->setActive(true);
-            }
+            activateViewContainerAt(alreadyOpenDirectory.value());
         } else if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
             if (somethingWasAlreadyOpen) {
@@ -252,14 +246,8 @@ void DolphinTabWidget::openFiles(const QList<QUrl>& files, bool splitView)
         // We also make sure the view will be activated.
         auto viewIndex = viewShowingItem(file);
         if (viewIndex.has_value()) {
-            activateTab(viewIndex->tabIndex);
-            if (viewIndex->isInPrimaryView) {
-                tabPageAt(viewIndex->tabIndex)->primaryViewContainer()->view()->clearSelection();
-                tabPageAt(viewIndex->tabIndex)->primaryViewContainer()->setActive(true);
-            } else {
-                tabPageAt(viewIndex->tabIndex)->secondaryViewContainer()->view()->clearSelection();
-                tabPageAt(viewIndex->tabIndex)->secondaryViewContainer()->setActive(true);
-            }
+            viewContainerAt(viewIndex.value())->view()->clearSelection();
+            activateViewContainerAt(viewIndex.value());
             dirsThatWereAlreadyOpen.append(dir);
         } else {
             dirsThatNeedToBeOpened.append(dir);
@@ -512,6 +500,26 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
     return name.replace('&', QLatin1String("&&"));
+}
+
+DolphinViewContainer *DolphinTabWidget::viewContainerAt(DolphinTabWidget::ViewIndex viewIndex) const
+{
+    const auto tabPage = tabPageAt(viewIndex.tabIndex);
+    if (!tabPage) {
+        return nullptr;
+    }
+    return viewIndex.isInPrimaryView ? tabPage->primaryViewContainer() : tabPage->secondaryViewContainer();
+}
+
+DolphinViewContainer *DolphinTabWidget::activateViewContainerAt(DolphinTabWidget::ViewIndex viewIndex)
+{
+    activateTab(viewIndex.tabIndex);
+    auto viewContainer = viewContainerAt(viewIndex);
+    if (!viewContainer) {
+        return nullptr;
+    }
+    viewContainer->setActive(true);
+    return viewContainer;
 }
 
 const std::optional<const DolphinTabWidget::ViewIndex> DolphinTabWidget::viewOpenAtDirectory(const QUrl& directory) const
