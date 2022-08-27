@@ -1060,7 +1060,6 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
 
     //the Qt TabAndHold gesture is triggerable with a mouse click, we don't want this
     if (!m_isTouchEvent) {
-        Q_EMIT selectionModeChangeRequested(true);
         return;
     }
 
