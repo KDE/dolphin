@@ -251,10 +251,10 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
     if (addToHistory == HistoryPolicy::AddToHistory)
         m_sendCdToTerminalHistory.enqueue(QDir(dir).canonicalPath());
 
-    m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\n');
+    m_terminal->sendInput(" cd " + KShell::quoteArg(dir) + '\r');
 
     if (m_clearTerminal) {
-        m_terminal->sendInput(QStringLiteral(" clear\n"));
+        m_terminal->sendInput(QStringLiteral(" clear\r"));
         m_clearTerminal = false;
     }
 }
