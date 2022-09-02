@@ -1197,7 +1197,7 @@ for details about the two modes.
 </para></listitem>
 
 <listitem><para>
-<guilabel>Open new folders in tabs</guilabel> controls whether &dolphin; should open a new folder in a new tab of the current instance when called externally. If not enabled, the new folders will be opened in new instances of &dolphin;. By default this option is enabled.
+<guilabel>Open new folders</guilabel> controls whether folders opened by middle-click or from outside &dolphin; should open in a new tab of the current window or in a new window.
 </para></listitem>
 
 <listitem><para>

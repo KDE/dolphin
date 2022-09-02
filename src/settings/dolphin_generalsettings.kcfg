@@ -32,7 +32,7 @@
         </entry>
         <entry name="OpenExternallyCalledFolderInNewTab" type="Bool">
             <label>Should an externally called folder open in a new tab in an existing Dolphin instance</label>
-            <default>true</default>
+            <default>false</default>
         </entry>
         <entry name="Version" type="Int">
             <label>Internal config version of Dolphin, mainly Used to determine whether an updated version of Dolphin is running, so as to migrate config entries that were removed/renamed ...etc</label>
@@ -58,6 +58,10 @@
         <entry name="FilterBar" type="Bool">
             <label>Should the filter bar be shown</label>
             <default>false</default>
+        </entry>
+        <entry name="OpenFolderInNewTab" type="Bool">
+            <label>Should an externally called or middle-clicked folder open in a new tab in an existing Dolphin instance</label>
+            <default>true</default>
         </entry>
         <entry name="GlobalViewProps" type="Bool">
             <label>Should the view properties be used for all folders</label>

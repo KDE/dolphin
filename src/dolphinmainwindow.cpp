@@ -761,13 +761,13 @@ void DolphinMainWindow::slotDirectoryLoadingCompleted()
 void DolphinMainWindow::slotToolBarActionMiddleClicked(QAction *action)
 {
     if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Back))) {
-        goBackInNewTab();
+        goBackInNewWindow();
     } else if (action == actionCollection()->action(KStandardAction::name(KStandardAction::Forward))) {
-        goForwardInNewTab();
+        goForwardInNewWindow();
     } else if (action == actionCollection()->action(QStringLiteral("go_up"))) {
-        goUpInNewTab();
+        goUpInNewWindow();
     } else if (action == actionCollection()->action(QStringLiteral("go_home"))) {
-        goHomeInNewTab();
+        goHomeInNewWindow();
     }
 }
 
@@ -828,7 +828,7 @@ void DolphinMainWindow::slotBackForwardActionMiddleClicked(QAction* action)
 {
     if (action) {
         const KUrlNavigator *urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
-        openNewTab(urlNavigator->locationUrl(action->data().value<int>()));
+        openNewWindow(urlNavigator->locationUrl(action->data().value<int>()));
     }
 }
 
@@ -1061,6 +1061,31 @@ void DolphinMainWindow::goUpInNewTab()
 void DolphinMainWindow::goHomeInNewTab()
 {
     openNewTab(Dolphin::homeUrl());
+}
+
+void DolphinMainWindow::goBackInNewWindow()
+{
+    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const int index = urlNavigator->historyIndex() + 1;
+    openNewWindow(urlNavigator->locationUrl(index));
+}
+
+void DolphinMainWindow::goForwardInNewWindow()
+{
+    const KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigatorInternalWithHistory();
+    const int index = urlNavigator->historyIndex() - 1;
+    openNewWindow(urlNavigator->locationUrl(index));
+}
+
+void DolphinMainWindow::goUpInNewWindow()
+{
+    const QUrl currentUrl = activeViewContainer()->urlNavigator()->locationUrl();
+    openNewWindow(KIO::upUrl(currentUrl));
+}
+
+void DolphinMainWindow::goHomeInNewWindow()
+{
+    openNewWindow(Dolphin::homeUrl());
 }
 
 void DolphinMainWindow::compareFiles()
@@ -2135,13 +2160,13 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(m_placesPanel, &PlacesPanel::placeActivated,
             this, &DolphinMainWindow::slotPlaceActivated);
-    connect(m_placesPanel, &PlacesPanel::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(m_placesPanel, &PlacesPanel::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
-    connect(m_placesPanel, &PlacesPanel::newWindowRequested, this, [this](const QUrl &url) {
+    connect(m_placesPanel, &PlacesPanel::tabRequested, this, [this](const QUrl &url) {
         Dolphin::openNewWindow({url}, this);
     });
+    connect(m_placesPanel, &PlacesPanel::activeTabRequested,
+            this, &DolphinMainWindow::openNewTabAndActivate);
+    connect(m_placesPanel, &PlacesPanel::newWindowRequested,
+            this, &DolphinMainWindow::openNewTab);
     connect(m_placesPanel, &PlacesPanel::errorMessage,
             this, &DolphinMainWindow::showErrorMessage);
     connect(this, &DolphinMainWindow::urlChanged,
@@ -2343,7 +2368,7 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(container, &DolphinViewContainer::captionChanged,
             this, &DolphinMainWindow::updateWindowTitle);
     connect(container, &DolphinViewContainer::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
+            this, &DolphinMainWindow::openNewWindow);
     connect(container, &DolphinViewContainer::activeTabRequested,
             this, &DolphinMainWindow::openNewTabAndActivate);
 
@@ -2358,11 +2383,11 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(view, &DolphinView::fileItemsChanged,
             this, &DolphinMainWindow::fileItemsChanged);
     connect(view, &DolphinView::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
+            this, &DolphinMainWindow::openNewWindow);
     connect(view, &DolphinView::activeTabRequested,
             this, &DolphinMainWindow::openNewTabAndActivate);
     connect(view, &DolphinView::windowRequested,
-            this, &DolphinMainWindow::openNewWindow);
+            this, &DolphinMainWindow::openNewTab);
     connect(view, &DolphinView::requestContextMenu,
             this, &DolphinMainWindow::openContextMenu);
     connect(view, &DolphinView::directoryLoadingStarted,
@@ -2396,11 +2421,11 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
     connect(navigator, &KUrlNavigator::editableStateChanged,
             this, &DolphinMainWindow::slotEditableStateChanged);
     connect(navigator, &KUrlNavigator::tabRequested,
-            this, &DolphinMainWindow::openNewTab);
-    connect(navigator, &KUrlNavigator::activeTabRequested,
-            this, &DolphinMainWindow::openNewTabAndActivate);
-    connect(navigator, &KUrlNavigator::newWindowRequested,
             this, &DolphinMainWindow::openNewWindow);
+    connect(navigator, &KUrlNavigator::activeTabRequested,
+            this, &DolphinMainWindow::openNewActivatedTab);
+    connect(navigator, &KUrlNavigator::newWindowRequested,
+            this, &DolphinMainWindow::openNewTab);
 
 }
 

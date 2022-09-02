@@ -16,6 +16,7 @@
 #include <QFormLayout>
 #include <QRadioButton>
 #include <QSpacerItem>
+#include <qradiobutton.h>
 
 BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
@@ -32,7 +33,6 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
 {
     QFormLayout* topLayout = new QFormLayout(this);
 
-
     // View properties
     m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common display style for all folders"));
     m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember display style for each folder"));
@@ -44,9 +44,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const QUrl& url, QWidget* parent) :
     topLayout->addRow(i18nc("@title:group", "View: "), m_globalViewProps);
     topLayout->addRow(QString(), m_localViewProps);
 
-
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
-
 
     // Sorting properties
     m_naturalSorting = new QRadioButton(i18nc("option:radio", "Natural"));
@@ -149,6 +147,7 @@ void BehaviorSettingsPage::restoreDefaults()
 
 void BehaviorSettingsPage::loadSettings()
 {
+
     const bool useGlobalViewProps = GeneralSettings::globalViewProps();
     m_localViewProps->setChecked(!useGlobalViewProps);
     m_globalViewProps->setChecked(useGlobalViewProps);

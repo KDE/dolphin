@@ -37,8 +37,7 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     m_editableUrl(nullptr),
     m_showFullPath(nullptr),
     m_filterBar(nullptr),
-    m_showFullPathInTitlebar(nullptr),
-    m_openExternallyCalledFolderInNewTab(nullptr)
+    m_showFullPathInTitlebar(nullptr)
 {
     QFormLayout* topLayout = new QFormLayout(this);
 
@@ -106,8 +105,6 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
 
     topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
-    m_openExternallyCalledFolderInNewTab = new QCheckBox(i18nc("@option:check Startup Settings", "Open new folders in tabs"));
-    topLayout->addRow(i18nc("@label:checkbox", "General:"), m_openExternallyCalledFolderInNewTab);
     m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"));
     topLayout->addRow(QString(), m_showFullPath);
     m_showFullPathInTitlebar = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path in title bar"));
@@ -124,8 +121,6 @@ StartupSettingsPage::StartupSettingsPage(const QUrl& url, QWidget* parent) :
     connect(m_splitView,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_editableUrl,  &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_filterBar,    &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
-
-    connect(m_openExternallyCalledFolderInNewTab, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPath, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
     connect(m_showFullPathInTitlebar, &QCheckBox::toggled, this, &StartupSettingsPage::slotSettingsChanged);
 }
@@ -164,7 +159,6 @@ void StartupSettingsPage::applySettings()
     settings->setSplitView(m_splitView->isChecked());
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
-    settings->setOpenExternallyCalledFolderInNewTab(m_openExternallyCalledFolderInNewTab->isChecked());
     settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setShowFullPathInTitlebar(m_showFullPathInTitlebar->isChecked());
     settings->save();
@@ -227,7 +221,6 @@ void StartupSettingsPage::loadSettings()
     m_showFullPath->setChecked(GeneralSettings::showFullPath());
     m_filterBar->setChecked(GeneralSettings::filterBar());
     m_showFullPathInTitlebar->setChecked(GeneralSettings::showFullPathInTitlebar());
-    m_openExternallyCalledFolderInNewTab->setChecked(GeneralSettings::openExternallyCalledFolderInNewTab());
 }
 
 void StartupSettingsPage::showSetDefaultDirectoryError()
