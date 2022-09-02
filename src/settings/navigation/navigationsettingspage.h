@@ -32,6 +32,8 @@ private:
     void loadSettings();
 
 private:
+    QRadioButton* m_openFolderInNewTab;
+    QRadioButton* m_openFolderInNewWindow;
     QCheckBox* m_openArchivesAsFolder;
     QCheckBox* m_autoExpandFolders;
     QRadioButton* m_openNewTabAfterLastTab;

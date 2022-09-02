@@ -59,6 +59,10 @@
             <label>Should the filter bar be shown</label>
             <default>false</default>
         </entry>
+        <entry name="OpenFolderInNewTab" type="Bool">
+            <label>Should an externally called or middle-clicked folder open in a new tab in an existing Dolphin instance</label>
+            <default>true</default>
+        </entry>
         <entry name="GlobalViewProps" type="Bool">
             <label>Should the view properties be used for all folders</label>
             <default>true</default>
