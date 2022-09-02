@@ -401,6 +401,18 @@ private Q_SLOTS:
     /** * Open the home URL in a new tab. */
     void goHomeInNewTab();
 
+    /** Open the previous URL in the URL history in a new window. */
+    void goBackInNewWindow();
+
+    /** Open the next URL in the URL history in a new window. */
+    void goForwardInNewWindow();
+
+    /** Open the URL one hierarchy above the current URL in a new window. */
+    void goUpInNewWindow();
+
+    /** * Open the home URL in a new window. */
+    void goHomeInNewWindow();
+
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
 

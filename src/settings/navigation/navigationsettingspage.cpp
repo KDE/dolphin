@@ -19,12 +19,27 @@
 
 NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
+    m_openFolderInNewTab(nullptr),
+    m_openFolderInNewWindow(nullptr),
     m_openArchivesAsFolder(nullptr),
     m_autoExpandFolders(nullptr),
     m_openNewTabAfterLastTab(nullptr),
     m_openNewTabAfterCurrentTab(nullptr)
 {
     QFormLayout* topLayout = new QFormLayout(this);
+
+    // External call/middle click behavior
+    m_openFolderInNewTab = new QRadioButton(i18nc("@option:radio", "In new tabs"));
+    m_openFolderInNewWindow = new QRadioButton(i18nc("@option:radio", "In new windows"));
+
+    QButtonGroup* newFolderGroup = new QButtonGroup(this);
+    newFolderGroup->addButton(m_openFolderInNewTab);
+    newFolderGroup->addButton(m_openFolderInNewWindow);
+
+    topLayout->addRow(i18nc("@title:group", "Open new folders: "), m_openFolderInNewTab);
+    topLayout->addRow(QString(), m_openFolderInNewWindow);
+
+    topLayout->addItem(new QSpacerItem(0, Dolphin::VERTICAL_SPACER_HEIGHT, QSizePolicy::Fixed, QSizePolicy::Fixed));
 
     // Tabs properties
     m_openNewTabAfterCurrentTab = new QRadioButton(i18nc("option:radio", "After current tab"));
@@ -44,10 +59,12 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_openArchivesAsFolder, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
-    connect(m_autoExpandFolders, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_openFolderInNewTab, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_openFolderInNewWindow, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
     connect(m_openNewTabAfterCurrentTab, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
     connect(m_openNewTabAfterLastTab, &QRadioButton::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_openArchivesAsFolder, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
+    connect(m_autoExpandFolders, &QCheckBox::toggled, this, &NavigationSettingsPage::changed);
 }
 
 NavigationSettingsPage::~NavigationSettingsPage()
@@ -57,9 +74,10 @@ NavigationSettingsPage::~NavigationSettingsPage()
 void NavigationSettingsPage::applySettings()
 {
     GeneralSettings* settings = GeneralSettings::self();
+    settings->setOpenFolderInNewTab(m_openFolderInNewTab->isChecked());    
+    settings->setOpenNewTabAfterLastTab(m_openNewTabAfterLastTab->isChecked());
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
-    settings->setOpenNewTabAfterLastTab(m_openNewTabAfterLastTab->isChecked());
 
     settings->save();
 }
@@ -74,6 +92,8 @@ void NavigationSettingsPage::restoreDefaults()
 
 void NavigationSettingsPage::loadSettings()
 {
+    m_openFolderInNewTab->setChecked(GeneralSettings::openFolderInNewTab());
+    m_openFolderInNewWindow->setChecked(!m_openFolderInNewTab->isChecked());
     m_openArchivesAsFolder->setChecked(GeneralSettings::browseThroughArchives());
     m_autoExpandFolders->setChecked(GeneralSettings::autoExpandFolders());
     m_openNewTabAfterLastTab->setChecked(GeneralSettings::openNewTabAfterLastTab());
