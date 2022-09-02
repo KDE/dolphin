@@ -349,8 +349,8 @@ as a detailed list which contains the name, size and last modification time of
 each item. Additional columns can be added by clicking a column header with the
 &RMB;.
 </para>
-<para>In the context menu of the header line, you can add or remove side padding
-by checking or unchecking the respective menu item and choose between a custom
+<para>In the context menu of the header line, you can add or remove the padding from the
+leading column by checking or unchecking the respective menu item and choose between a custom
 or automatic column width. Automatic width adjusts the width of all columns once to display the
 longest item in the column completely, except for the <guilabel>Name</guilabel> column where 
 the extension is replaced by <quote>...</quote> 
@@ -1456,7 +1456,7 @@ largest files can be deleted automatically.
 </sect2>
 
 <sect2 id="preferences-user-feedback">
-<title>User Feedback</title>
+<title>Trash</title>
 
 <para>
 This group contains settings which control your contributing information on the &dolphin; usage to its developers.

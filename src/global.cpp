@@ -65,7 +65,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl> &inputUrls,
 {
     bool attached = false;
 
-    if (inputUrls.isEmpty()) {
+    if (inputUrls.isEmpty() || !GeneralSettings::openFolderInNewTab()) {
         return false;
     }
 
