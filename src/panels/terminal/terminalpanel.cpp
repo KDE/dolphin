@@ -239,18 +239,10 @@ void TerminalPanel::sendCdToTerminal(const QString& dir, HistoryPolicy addToHist
         return;
     }
 
-#ifndef Q_OS_WIN
-    if (!m_clearTerminal) {
-        // The TerminalV2 interface does not provide a way to delete the
-        // current line before sending a new input. This is mandatory,
-        // otherwise sending a 'cd x' to a existing 'rm -rf *' might
-        // result in data loss. As workaround SIGINT is sent.
-        const int processId = m_terminal->terminalProcessId();
-        if (processId > 0) {
-            kill(processId, SIGINT);
-        }
-    }
-#endif
+    // Send prior Ctrl-E, Ctrl-U to ensure the line is empty. This is
+    // mandatory, otherwise sending a 'cd x\n' to a prompt with 'rm -rf *'
+    // would result in data loss.
+    m_terminal->sendInput(QStringLiteral("\x05\x15"));
 
     // We want to ignore the currentDirectoryChanged(QString) signal, which we will receive after
     // the directory change, because this directory change is not caused by a "cd" command that the
