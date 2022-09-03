@@ -27,6 +27,7 @@
   <name xml:lang="hu">Dolphin</name>
   <name xml:lang="ia">Dolphin</name>
   <name xml:lang="id">Dolphin</name>
+  <name xml:lang="is">Dolphin</name>
   <name xml:lang="it">Dolphin</name>
   <name xml:lang="ja">Dolphin</name>
   <name xml:lang="ko">Dolphin</name>
@@ -81,6 +82,7 @@
   <summary xml:lang="hu">Fájlkezelő</summary>
   <summary xml:lang="ia">Gerente de File</summary>
   <summary xml:lang="id">Pengelola File</summary>
+  <summary xml:lang="is">Skráastjóri</summary>
   <summary xml:lang="it">Gestore file</summary>
   <summary xml:lang="ja">ファイルマネージャ</summary>
   <summary xml:lang="ko">파일 관리자</summary>
@@ -322,6 +324,7 @@
       <caption xml:lang="hu">Fájlkezelés a Dolphinban</caption>
       <caption xml:lang="ia">Gerente de file in Dolphin</caption>
       <caption xml:lang="id">Pengelolaan file di Dolphin</caption>
+      <caption xml:lang="is">Skráastjórnun með Dolphin</caption>
       <caption xml:lang="it">Gestione dei file in Dolphin</caption>
       <caption xml:lang="ja">Dolphin でのファイル管理</caption>
       <caption xml:lang="ko">Dolphin의 파일 관리</caption>
@@ -367,6 +370,7 @@
       <caption xml:lang="hu">Beágyazott terminál a Dolphinban</caption>
       <caption xml:lang="ia">Terminal incorporate in Dolphin</caption>
       <caption xml:lang="id">Terminal Tersemat di Dolphin</caption>
+      <caption xml:lang="is">Ívafinn skjáhermir í Dolphin</caption>
       <caption xml:lang="it">Terminale integrato in Dolphin</caption>
       <caption xml:lang="ja">Dolphin の組み込みターミナル</caption>
       <caption xml:lang="ko">Dolphin에 내장된 터미널</caption>
