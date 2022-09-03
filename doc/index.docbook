@@ -1453,7 +1453,7 @@ largest files can be deleted automatically.
 </sect2>
 
 <sect2 id="preferences-user-feedback">
-<title>Trash</title>
+<title>User Feedback</title>
 
 <para>
 This group contains settings which control your contributing information on the &dolphin; usage to its developers.
