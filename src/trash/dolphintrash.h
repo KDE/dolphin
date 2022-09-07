@@ -25,7 +25,7 @@ public:
     Trash& operator=(Trash &&) = delete;
 
     static Trash& instance();
-    static KIO::Job* empty(QWidget *window);
+    static void empty(QWidget *window);
     static bool isEmpty();
 
 Q_SIGNALS:
