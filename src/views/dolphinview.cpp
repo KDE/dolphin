@@ -49,6 +49,11 @@
 
 #include <kwidgetsaddons_version.h>
 
+#include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+#include <KIO/DeleteOrTrashJob>
+#endif
+
 #include <QAbstractItemView>
 #include <QActionGroup>
 #include <QApplication>
@@ -753,6 +758,13 @@ void DolphinView::renameSelectedItems()
 void DolphinView::trashSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
+
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    using Iface = KIO::AskUserActionInterface;
+    auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Trash, Iface::DefaultConfirmation, this);
+    connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
+    trashJob->start();
+#else
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(window());
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Trash, KIO::JobUiDelegate::DefaultConfirmation)) {
@@ -762,12 +774,19 @@ void DolphinView::trashSelectedItems()
         connect(job, &KIO::Job::result,
                 this, &DolphinView::slotTrashFileFinished);
     }
+#endif
 }
 
 void DolphinView::deleteSelectedItems()
 {
     const QList<QUrl> list = simplifiedSelectedUrls();
 
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    using Iface = KIO::AskUserActionInterface;
+    auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
+    connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
+    trashJob->start();
+#else
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(window());
     if (uiDelegate.askDeleteConfirmation(list, KIO::JobUiDelegate::Delete, KIO::JobUiDelegate::DefaultConfirmation)) {
@@ -776,6 +795,7 @@ void DolphinView::deleteSelectedItems()
         connect(job, &KIO::Job::result,
                 this, &DolphinView::slotDeleteFileFinished);
     }
+#endif
 }
 
 void DolphinView::cutSelectedItemsToClipboard()
