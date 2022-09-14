@@ -1339,7 +1339,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 
     if (m_roles.contains("extension")) {
-        data.insert("extension", QFileInfo(item.name()).suffix());
+        data.insert("extension", QFileInfo(item.name()).baseName().isEmpty() ? QFileInfo(item.name()).suffix() : "hidden item");
     }
 
     if (m_roles.contains("type")) {
