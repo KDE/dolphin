@@ -255,7 +255,11 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
 
         KIO::DropJob *job = DragAndDropHelper::dropUrls(destItem.mostLocalUrl(), &dropEvent, this);
         if (job) {
-            connect(job, &KIO::DropJob::result, this, [this](KJob *job) { if (job->error()) Q_EMIT errorMessage(job->errorString()); });
+            connect(job, &KIO::DropJob::result, this, [this](KJob *job) {
+                if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
+                    Q_EMIT errorMessage(job->errorString());
+                }
+            });
         }
     }
 }

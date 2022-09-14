@@ -138,7 +138,7 @@ private:
     // a directory has been changed.
     QUrl m_invalidUrlCandidate;
 
-    KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
+    KFileItem m_hoveredItem;
     KFileItemList m_selection;
 
     KIO::Job* m_folderStatJob;

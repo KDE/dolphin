@@ -33,7 +33,7 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_shownUrl(),
     m_urlCandidate(),
     m_invalidUrlCandidate(),
-    m_fileItem(),
+    m_hoveredItem(),
     m_selection(),
     m_folderStatJob(nullptr),
     m_content(nullptr)
@@ -47,7 +47,6 @@ InformationPanel::~InformationPanel()
 void InformationPanel::setSelection(const KFileItemList& selection)
 {
     m_selection = selection;
-    m_fileItem = KFileItem();
 
     if (!isVisible()) {
         return;
@@ -70,7 +69,7 @@ void InformationPanel::setSelection(const KFileItemList& selection)
 
 void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
 {
-    if (!isVisible() || (item.isNull() && m_fileItem.isNull())) {
+    if (!isVisible()) {
         return;
     }
 
@@ -80,21 +79,15 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
         return;
     }
 
+    if (item.isNull()) {
+        m_hoveredItem = KFileItem();
+        return;
+    }
+
     cancelRequest();
 
-    if (item.isNull()) {
-        // The cursor is above the viewport. If files are selected,
-        // show information regarding the selection.
-        if (!m_selection.isEmpty()) {
-            m_fileItem = KFileItem();
-            m_infoTimer->start();
-        }
-    } else if (item.url().isValid() && !isEqualToShownUrl(item.url())) {
-        // The cursor is above an item that is not shown currently
-        m_urlCandidate = item.url();
-        m_fileItem = item;
-        m_infoTimer->start();
-    }
+    m_hoveredItem = item;
+    m_infoTimer->start();
 }
 
 bool InformationPanel::urlChanged()
@@ -112,7 +105,6 @@ bool InformationPanel::urlChanged()
 
     if (!isEqualToShownUrl(url())) {
         m_shownUrl = url();
-        m_fileItem = KFileItem();
 
         // Update the content with a delay. This gives
         // the directory lister the chance to show the content
@@ -219,34 +211,36 @@ void InformationPanel::showItemInfo()
     }
 
     cancelRequest();
+    //qDebug() << "showItemInfo" << m_fileItem;
 
-    if (m_fileItem.isNull() && (m_selection.count() > 1)) {
+    if (m_hoveredItem.isNull() && (m_selection.count() > 1)) {
         // The information for a selection of items should be shown
         m_content->showItems(m_selection);
     } else {
         // The information for exactly one item should be shown
         KFileItem item;
-        if (!m_fileItem.isNull()) {
-            item = m_fileItem;
+        if (!m_hoveredItem.isNull()) {
+            item = m_hoveredItem;
         } else if (!m_selection.isEmpty()) {
             Q_ASSERT(m_selection.count() == 1);
             item = m_selection.first();
         }
 
-        if (item.isNull()) {
-            // No item is hovered and no selection has been done: provide
-            // an item for the currently shown directory.
-            m_shownUrl = url();
-            m_folderStatJob = KIO::statDetails(url(), KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatRecursiveSize, KIO::HideProgressInfo);
-            if (m_folderStatJob->uiDelegate()) {
-                KJobWidgets::setWindow(m_folderStatJob, this);
-            }
-            connect(m_folderStatJob, &KIO::Job::result,
-                    this, &InformationPanel::slotFolderStatFinished);
-        } else {
+        if (!item.isNull()) {
             m_shownUrl = item.url();
             m_content->showItem(item);
+            return;
         }
+
+        // No item is hovered and no selection has been done: provide
+        // an item for the currently shown directory.
+        m_shownUrl = url();
+        m_folderStatJob = KIO::statDetails(m_shownUrl, KIO::StatJob::SourceSide, KIO::StatDefaultDetails | KIO::StatRecursiveSize, KIO::HideProgressInfo);
+        if (m_folderStatJob->uiDelegate()) {
+            KJobWidgets::setWindow(m_folderStatJob, this);
+        }
+        connect(m_folderStatJob, &KIO::Job::result,
+                this, &InformationPanel::slotFolderStatFinished);
     }
 }
 
@@ -273,23 +267,24 @@ void InformationPanel::reset()
         // the content to show the directory URL.
         m_selection.clear();
         m_shownUrl = url();
-        m_fileItem = KFileItem();
         showItemInfo();
     }
 }
 
 void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
-    if (m_shownUrl == QUrl::fromUserInput(source)) {
-        m_shownUrl = QUrl::fromUserInput(dest);
-        m_fileItem = KFileItem(m_shownUrl);
+    auto sourceUrl = QUrl::fromUserInput(source);
+    if (m_shownUrl == sourceUrl) {
+        auto destUrl = QUrl::fromUserInput(dest);
 
-        if ((m_selection.count() == 1) && (m_selection[0].url() == QUrl::fromLocalFile(source))) {
-            m_selection[0] = m_fileItem;
+        if ((m_selection.count() == 1) && (m_selection[0].url() == sourceUrl)) {
+            m_selection[0] = KFileItem(destUrl);
             // Implementation note: Updating the selection is only required if exactly one
             // item is selected, as the name of the item is shown. If this should change
             // in future: Before parsing the whole selection take care to test possible
             // performance bottlenecks when renaming several hundreds of files.
+        } else {
+            m_hoveredItem = KFileItem(destUrl);
         }
 
         showItemInfo();
@@ -301,8 +296,7 @@ void InformationPanel::slotFilesAdded(const QString& directory)
     if (m_shownUrl == QUrl::fromUserInput(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
         // the signal filesAdded("trash:/") will be emitted.
-        KFileItem item(QUrl::fromUserInput(directory));
-        requestDelayedItemInfo(item);
+        requestDelayedItemInfo(KFileItem());
     }
 }
 
@@ -310,7 +304,6 @@ void InformationPanel::slotFilesItemChanged(const KFileItemList &changedFileItem
 {
     const auto item = changedFileItems.findByUrl(m_shownUrl);
     if (!item.isNull()) {
-        m_fileItem = item;
         showItemInfo();
     }
 }
@@ -339,10 +332,7 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
 
 void InformationPanel::slotEnteredDirectory(const QString& directory)
 {
-    if (m_shownUrl == QUrl::fromUserInput(directory)) {
-        KFileItem item(QUrl::fromUserInput(directory));
-        requestDelayedItemInfo(item);
-    }
+    Q_UNUSED(directory)
 }
 
 void InformationPanel::slotLeftDirectory(const QString& directory)

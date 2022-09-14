@@ -39,7 +39,6 @@ class KFileItem;
 class KFileItemList;
 class KJob;
 class KNewFileMenu;
-class KHelpMenu;
 class KToolBarPopupAction;
 class QToolButton;
 class PlacesPanel;
@@ -247,11 +246,6 @@ protected:
 
     /** @see KMainWindow::readProperties() */
     void readProperties(const KConfigGroup& group) override;
-
-    /** Handles QWhatsThisClickedEvent and passes all others on. */
-    bool event(QEvent* event) override;
-    /** Handles QWhatsThisClickedEvent and passes all others on. */
-    bool eventFilter(QObject*, QEvent*) override;
 
     /** Sets a sane initial window size **/
     QSize sizeHint() const override;
@@ -712,7 +706,6 @@ private:
     };
 
     KNewFileMenu* m_newFileMenu;
-    KHelpMenu* m_helpMenu;
     DolphinTabWidget* m_tabWidget;
     DolphinViewContainer* m_activeViewContainer;
 
@@ -721,10 +714,6 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
     DolphinBookmarkHandler* m_bookmarkHandler;
     SelectionMode::ActionTextHelper* m_actionTextHelper;
-
-    // Members for the toolbar menu that is shown when the menubar is hidden:
-    QToolButton* m_controlButton;
-    QTimer* m_updateToolBarTimer;
 
     KIO::OpenUrlJob *m_lastHandleUrlOpenJob;
 
