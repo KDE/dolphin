@@ -68,7 +68,7 @@ TopBar::TopBar(QWidget *parent) :
     m_closeButton = new QPushButton(QIcon::fromTheme(QStringLiteral("window-close-symbolic")), "", contentsContainer);
     m_closeButton->setText(i18nc("@action:button", "Exit Selection Mode"));
     m_closeButton->setFlat(true);
-    connect(m_closeButton, &QAbstractButton::pressed,
+    connect(m_closeButton, &QAbstractButton::clicked,
             this, &TopBar::selectionModeLeavingRequested);
 
     QHBoxLayout *layout = new QHBoxLayout(contentsContainer);
