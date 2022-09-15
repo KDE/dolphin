@@ -1433,6 +1433,10 @@ void DolphinMainWindow::activeViewChanged(DolphinViewContainer* viewContainer)
         // except the requestItemInfo so that on hover the information panel can still be updated
         connect(oldViewContainer->view(), &DolphinView::requestItemInfo,
                 this, &DolphinMainWindow::requestItemInfo);
+
+        // Disconnect other slots.
+        disconnect(nullptr, &DolphinViewContainer::selectionModeChanged,
+                   actionCollection()->action(QStringLiteral("toggle_selection_mode")), &QAction::setChecked);
     }
 
     connectViewSignals(viewContainer);
@@ -2286,13 +2290,6 @@ void DolphinMainWindow::updateViewActions()
 {
     m_actionHandler->updateViewActions();
 
-    QAction *toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));
-    disconnect(nullptr, &DolphinViewContainer::selectionModeChanged,
-               toggleSelectionModeAction, &QAction::setChecked);
-    toggleSelectionModeAction->setChecked(m_activeViewContainer->isSelectionModeEnabled());
-    connect(m_activeViewContainer, &DolphinViewContainer::selectionModeChanged,
-            toggleSelectionModeAction, &QAction::setChecked);
-
     QAction* toggleFilterBarAction = actionCollection()->action(QStringLiteral("toggle_filter"));
     toggleFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
@@ -2349,6 +2346,12 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 
     const QAction* toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
+
+    // Make the toggled state of the selection mode actions visually follow the selection mode state of the view.
+    auto toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));
+    toggleSelectionModeAction->setChecked(m_activeViewContainer->isSelectionModeEnabled());
+    connect(m_activeViewContainer, &DolphinViewContainer::selectionModeChanged,
+            toggleSelectionModeAction, &QAction::setChecked);
 
     const DolphinView* view = container->view();
     connect(view, &DolphinView::selectionChanged,
