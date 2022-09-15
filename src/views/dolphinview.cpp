@@ -235,6 +235,7 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
 
 DolphinView::~DolphinView()
 {
+    disconnect(m_container->controller(), &KItemListController::modelChanged, this, &DolphinView::slotModelChanged);
 }
 
 QUrl DolphinView::url() const
