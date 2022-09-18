@@ -2265,7 +2265,7 @@ void DolphinMainWindow::updateFileAndEditActions()
         cutAction->setEnabled(capabilitiesSource.supportsMoving());
         copyLocation->setEnabled(list.length() == 1);
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
-        duplicateAction->setEnabled(capabilitiesSource.supportsWriting());
+        duplicateAction->setEnabled(capabilitiesSource.supportsReading());
     }
 
     if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
