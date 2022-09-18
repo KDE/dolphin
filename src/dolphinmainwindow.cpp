@@ -2257,15 +2257,16 @@ void DolphinMainWindow::updateFileAndEditActions()
         }
 
         const bool enableMoveToTrash = capabilitiesSource.isLocal() && capabilitiesSource.supportsMoving();
+        const KFileItem rootItem = m_activeViewContainer->view()->rootItem();
 
-        renameAction->setEnabled(capabilitiesSource.supportsMoving());
+        renameAction->setEnabled(capabilitiesSource.supportsMoving() && rootItem.isWritable());
         moveToTrashAction->setEnabled(enableMoveToTrash);
-        deleteAction->setEnabled(capabilitiesSource.supportsDeleting());
+        deleteAction->setEnabled(capabilitiesSource.supportsDeleting() && rootItem.isWritable());
         deleteWithTrashShortcut->setEnabled(capabilitiesSource.supportsDeleting() && !enableMoveToTrash);
-        cutAction->setEnabled(capabilitiesSource.supportsMoving());
+        cutAction->setEnabled(capabilitiesSource.supportsMoving() && rootItem.isWritable());
         copyLocation->setEnabled(list.length() == 1);
         showTarget->setEnabled(list.length() == 1 && list.at(0).isLink());
-        duplicateAction->setEnabled(capabilitiesSource.supportsReading());
+        duplicateAction->setEnabled(capabilitiesSource.supportsReading() && rootItem.isWritable());
     }
 
     if (m_tabWidget->currentTabPage()->splitViewEnabled()) {
