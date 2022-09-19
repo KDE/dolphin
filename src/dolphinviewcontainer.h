@@ -205,6 +205,21 @@ public:
     void disableUrlNavigatorSelectionRequests();
     void enableUrlNavigatorSelectionRequests();
 
+    /**
+    * Opens a middle-clicked folder in a new tab or window according to the preferred option in the user configuration.
+    */
+    void openTabOrWindow(const QUrl url);
+
+    /**
+    * Opens a middle-clicked folder in a new window or tab according to the non-preferred option in the user configuration.
+    */
+    void openWindowOrTab(const QUrl url);
+
+    /**
+    * Opens a middle-clicked folder in a new tab and activates it.
+    */
+    void openActiveTab(const QUrl url);
+
 public Q_SLOTS:
     /**
      * Sets the current active URL, where all actions are applied. The

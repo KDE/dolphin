@@ -900,6 +900,26 @@ void DolphinView::abortTwoClicksRenaming()
     m_twoClicksRenamingTimer->stop();
 }
 
+void DolphinView::openTabOrWindow(const QUrl url) {
+    if (GeneralSettings::openFolderInNewTab()) {
+        Q_EMIT tabRequested(url);
+    } else {
+        Q_EMIT windowRequested(url);
+    }
+}
+
+void DolphinView::openWindowOrTab(const QUrl url) {
+    if (GeneralSettings::openFolderInNewTab()) {
+        Q_EMIT windowRequested(url);
+    } else {
+        Q_EMIT tabRequested(url);
+    }
+}
+
+void DolphinView::openActiveTab(const QUrl url) {
+    Q_EMIT activeTabRequested(url);
+}
+
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
@@ -1038,9 +1058,9 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
             // The ctrl+shift behavior is ignored because we are handling multiple items
             // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
             if (modifiers & Qt::ShiftModifier && !(modifiers & Qt::ControlModifier)) {
-                Q_EMIT windowRequested(url);
+                openWindowOrTab(url);
             } else {
-                Q_EMIT tabRequested(url);
+                openTabOrWindow(url);
             }
         } else {
             items.append(item);
@@ -1062,16 +1082,16 @@ void DolphinView::slotItemMiddleClicked(int index)
     if (!url.isEmpty()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
-            Q_EMIT activeTabRequested(url);
+            openActiveTab(url);
         } else {
-            Q_EMIT tabRequested(url);
+            openTabOrWindow(url);
         }
     } else if (isTabsForFilesEnabled()) {
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ShiftModifier) {
-            Q_EMIT activeTabRequested(item.url());
+            openActiveTab(item.url());
         } else {
-            Q_EMIT tabRequested(item.url());
+            openTabOrWindow(item.url());
         }
     }
 }

@@ -329,6 +329,21 @@ public:
      */
     void hideToolTip(const ToolTipManager::HideBehavior behavior = ToolTipManager::HideBehavior::Later);
 
+    /**
+    * Opens a middle-clicked folder in a new tab or window according to the preferred option in the user configuration.
+    */
+    void openTabOrWindow(const QUrl url);
+
+    /**
+    * Opens a middle-clicked folder in a new window or tab according to the non-preferred option in the user configuration.
+    */
+    void openWindowOrTab(const QUrl url);
+
+    /**
+    * Opens a middle-clicked folder in a new tab and activates it.
+    */
+    void openActiveTab(const QUrl url);
+
 public Q_SLOTS:
     /**
      * Changes the directory to \a url. If the current directory is equal to

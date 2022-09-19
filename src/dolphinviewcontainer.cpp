@@ -749,11 +749,11 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
-            Q_EMIT activeTabRequested(url);
+            openActiveTab(url);
         } else if (modifiers & Qt::ControlModifier) {
-            Q_EMIT tabRequested(url);
+            openTabOrWindow(url);
         } else if (modifiers & Qt::ShiftModifier) {
-            Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+            openWindowOrTab(url);
         } else {
             setUrl(url);
         }
@@ -876,6 +876,26 @@ void DolphinViewContainer::redirect(const QUrl& oldUrl, const QUrl& newUrl)
     setSearchModeEnabled(isSearchUrl(newUrl));
 
     m_urlNavigator->blockSignals(block);
+}
+
+void DolphinViewContainer::openTabOrWindow(const QUrl url) {
+    if (GeneralSettings::openFolderInNewTab()) {
+        Q_EMIT tabRequested(url);
+    } else {
+        Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+    }
+}
+
+void DolphinViewContainer::openWindowOrTab(const QUrl url) {
+    if (GeneralSettings::openFolderInNewTab()) {
+        Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+    } else {
+        Q_EMIT tabRequested(url);
+    }
+}
+
+void DolphinViewContainer::openActiveTab(const QUrl url) {
+    Q_EMIT activeTabRequested(url);
 }
 
 void DolphinViewContainer::requestFocus()
