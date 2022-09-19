@@ -749,7 +749,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem &item)
         const auto modifiers = QGuiApplication::keyboardModifiers();
         // keep in sync with KUrlNavigator::slotNavigatorButtonClicked
         if (modifiers & Qt::ControlModifier && modifiers & Qt::ShiftModifier) {
-            Dolphin::openNewWindow({KFilePlacesModel::convertedUrl(url)}, this);
+            Q_EMIT activeTabRequested(url);
         } else if (modifiers & Qt::ControlModifier) {
             Q_EMIT tabRequested(url);
         } else if (modifiers & Qt::ShiftModifier) {

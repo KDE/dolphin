@@ -201,6 +201,11 @@ public Q_SLOTS:
      */
     void openNewWindow(const QUrl &url);
 
+    /**
+     * Opens a new tab or window (according to user preferences) showing the URL \a url.
+     */
+    void openNewTabOrWindow(const QUrl &url);
+
     /** @see GeneralSettings::splitViewChanged() */
     void slotSplitViewChanged();
 
@@ -389,29 +394,17 @@ private Q_SLOTS:
     /** Changes the location to the home URL. */
     void goHome();
 
-    /** Open the previous URL in the URL history in a new tab. */
-    void goBackInNewTab();
+    /** Open the previous URL in the URL history in a new tab or window. */
+    void goBackInNewTabOrWindow();
 
-    /** Open the next URL in the URL history in a new tab. */
-    void goForwardInNewTab();
+    /** Open the next URL in the URL history in a new tab or window. */
+    void goForwardInNewTabOrWindow();
 
-    /** Open the URL one hierarchy above the current URL in a new tab. */
-    void goUpInNewTab();
+    /** Open the URL one hierarchy above the current URL in a new tab or window. */
+    void goUpInNewTabOrWindow();
 
-    /** * Open the home URL in a new tab. */
-    void goHomeInNewTab();
-
-    /** Open the previous URL in the URL history in a new window. */
-    void goBackInNewWindow();
-
-    /** Open the next URL in the URL history in a new window. */
-    void goForwardInNewWindow();
-
-    /** Open the URL one hierarchy above the current URL in a new window. */
-    void goUpInNewWindow();
-
-    /** * Open the home URL in a new window. */
-    void goHomeInNewWindow();
+    /** * Open the home URL in a new tab or window. */
+    void goHomeInNewTabOrWindow();
 
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
