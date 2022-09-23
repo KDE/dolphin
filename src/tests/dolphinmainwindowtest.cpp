@@ -277,6 +277,7 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
 {
     m_mainWindow->openDirectories({ QUrl::fromLocalFile(QDir::homePath()) }, false);
     m_mainWindow->show();
+    m_mainWindow->resize(800, m_mainWindow->height()); // make sure the size is sufficient so a places panel resize shouldn't be necessary.
     QVERIFY(QTest::qWaitForWindowExposed(m_mainWindow.data()));
     QVERIFY(m_mainWindow->isVisible());
 
@@ -291,6 +292,16 @@ void DolphinMainWindowTest::testPlacesPanelWidthResistance()
 
     m_mainWindow->actionCollection()->action(QStringLiteral("show_filter_bar"))->trigger();
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+
+    // Make all selection mode bars appear and test for each that this doesn't affect the places panel's width.
+    // One of the bottom bars (SelectionMode::BottomBar::GeneralContents) only shows up when at least one item is selected so we do that before we begin iterating.
+    m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::SelectAll))->trigger();
+    for (int selectionModeStates = SelectionMode::BottomBar::CopyContents; selectionModeStates != SelectionMode::BottomBar::RenameContents; selectionModeStates++) {
+        const auto contents = static_cast<SelectionMode::BottomBar::Contents>(selectionModeStates);
+        m_mainWindow->slotSetSelectionMode(true, contents);
+        QTest::qWait(20); // give time for a paint/resize
+        QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
+    }
 
     m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Find))->trigger();
     QCOMPARE(placesPanel->width(), initialPlacesPanelWidth);
