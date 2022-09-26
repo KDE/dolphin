@@ -11,7 +11,6 @@
 
 #include <QGuiApplication>
 #include <QPalette>
-#include <QtGlobal>
 #include <QWidget>
 
 using namespace SelectionMode;

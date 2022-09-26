@@ -11,7 +11,6 @@
 #include "kdirectorycontentscounterworker.h"
 
 #include <QSet>
-#include <QHash>
 
 class KDirWatch;
 class KFileItemModel;

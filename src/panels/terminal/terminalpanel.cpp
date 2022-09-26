@@ -9,7 +9,6 @@
 #include <KActionCollection>
 #include <KIO/DesktopExecParser>
 #include <KIO/Job>
-#include <KIO/JobUiDelegate>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageWidget>
@@ -25,7 +24,6 @@
 #include <QAction>
 #include <QDesktopServices>
 #include <QDir>
-#include <QLabel>
 #include <QShowEvent>
 #include <QTimer>
 #include <QVBoxLayout>

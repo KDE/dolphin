@@ -21,7 +21,6 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
 #include <QGraphicsView>
-#include <QGuiApplication>
 #include <QPixmapCache>
 #include <QStyleOption>
 

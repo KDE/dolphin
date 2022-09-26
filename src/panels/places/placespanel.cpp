@@ -29,7 +29,6 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QShowEvent>
-#include <QTimer>
 
 #include <Solid/StorageAccess>
 

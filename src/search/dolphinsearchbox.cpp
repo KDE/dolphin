@@ -27,7 +27,6 @@
 #include <QHBoxLayout>
 #include <QIcon>
 #include <QKeyEvent>
-#include <QLabel>
 #include <QLineEdit>
 #include <QScrollArea>
 #include <QShowEvent>

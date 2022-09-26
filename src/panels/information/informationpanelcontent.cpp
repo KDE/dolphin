@@ -6,7 +6,6 @@
 
 #include "informationpanelcontent.h"
 
-#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KConfigGroup>
 #include <KIconEffect>
@@ -19,6 +18,7 @@
 #include <QPainterPath>
 
 #include <QIcon>
+#include <QStyle>
 #include <QTextDocument>
 
 #include <Baloo/FileMetaDataWidget>
@@ -26,19 +26,17 @@
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
 
-#include <QLabel>
 #include <QDialogButtonBox>
+#include <QGesture>
+#include <QLabel>
+#include <QLinearGradient>
+#include <QPainter>
+#include <QPolygon>
 #include <QScrollArea>
+#include <QScroller>
 #include <QTextLayout>
 #include <QTimer>
 #include <QVBoxLayout>
-#include <QScroller>
-#include <QStyle>
-#include <QPainter>
-#include <QBitmap>
-#include <QLinearGradient>
-#include <QPolygon>
-#include <QGesture>
 
 #include "dolphin_informationpanelsettings.h"
 #include "phononwidget.h"

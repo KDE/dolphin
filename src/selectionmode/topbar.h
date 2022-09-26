@@ -12,7 +12,6 @@
 
 #include <QPointer>
 #include <QPropertyAnimation>
-#include <QStyle>
 #include <QWidget>
 
 class QHideEvent;

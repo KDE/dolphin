@@ -21,7 +21,6 @@
 #include <QMenu>
 #include <QProgressBar>
 #include <QSlider>
-#include <QTextDocument>
 #include <QTimer>
 #include <QToolButton>
 

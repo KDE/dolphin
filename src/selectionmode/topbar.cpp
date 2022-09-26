@@ -15,12 +15,10 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPalette>
 #include <QPropertyAnimation>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QStyle>
-#include <QtGlobal>
 
 using namespace SelectionMode;
 

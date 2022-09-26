@@ -13,7 +13,6 @@
 
 #include <KConfig>
 #include <KConfigGroup>
-#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KIconLoader>
 #include <KJobWidgets>
@@ -28,11 +27,10 @@
 #endif
 
 #include <QApplication>
+#include <QElapsedTimer>
 #include <QFileInfo>
-#include <QIcon>
 #include <QPainter>
 #include <QPluginLoader>
-#include <QElapsedTimer>
 #include <QTimer>
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG

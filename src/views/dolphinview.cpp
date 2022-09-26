@@ -40,7 +40,6 @@
 #include <KIO/JobUiDelegate>
 #include <KIO/Paste>
 #include <KIO/PasteJob>
-#include <KIO/PreviewJob>
 #include <KIO/RenameFileDialog>
 #include <KJobWidgets>
 #include <KLocalizedString>

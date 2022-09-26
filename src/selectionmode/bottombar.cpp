@@ -15,7 +15,6 @@
 #include <QResizeEvent>
 #include <QScrollArea>
 #include <QStyle>
-#include <QtGlobal>
 #include <QTimer>
 
 using namespace SelectionMode;

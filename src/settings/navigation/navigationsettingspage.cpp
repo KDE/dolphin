@@ -15,7 +15,6 @@
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QRadioButton>
-#include <QVBoxLayout>
 
 NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),

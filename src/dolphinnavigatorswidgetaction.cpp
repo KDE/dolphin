@@ -12,13 +12,10 @@
 #include <KLocalizedString>
 #include <KNotificationJobUiDelegate>
 #include <KService>
-#include <KXMLGUIFactory>
-#include <KXmlGuiWindow>
 
 #include <KIO/ApplicationLauncherJob>
 
 #include <QApplication>
-#include <QDomDocument>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QToolBar>

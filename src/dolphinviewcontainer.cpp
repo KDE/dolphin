@@ -24,23 +24,19 @@
 #endif
 #include <KFileItemActions>
 #include <KFilePlacesModel>
-#include <KIO/PreviewJob>
-#include <KIO/OpenUrlJob>
 #include <KIO/JobUiDelegate>
+#include <KIO/OpenUrlJob>
 #include <KLocalizedString>
 #include <KMessageWidget>
 #include <KProtocolManager>
 #include <KShell>
-#include <KUrlComboBox>
 
+#include <QDesktopServices>
 #include <QDropEvent>
 #include <QGridLayout>
 #include <QGuiApplication>
-#include <QLoggingCategory>
-#include <QMimeData>
 #include <QTimer>
 #include <QUrl>
-#include <QDesktopServices>
 
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {

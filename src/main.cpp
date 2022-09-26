@@ -31,8 +31,6 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDBusConnection>
-#include <QDBusInterface>
-#include <QDBusAbstractInterface>
 #include <QDBusConnectionInterface>
 #include <QSessionManager>
 

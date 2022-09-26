@@ -8,7 +8,6 @@
 
 #include "dolphinfilemetadatawidget.h"
 
-#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KConfigGroup>
 #include <KJobWidgets>
@@ -17,8 +16,6 @@
 #include <KIconLoader>
 
 #include <QApplication>
-#include <QIcon>
-#include <QLayout>
 #include <QStyle>
 #include <QTimer>
 #include <QWindow>

@@ -11,6 +11,7 @@
 #include <KLocalizedString>
 #include <KMoreToolsMenuFactory>
 
+#include <KIO/Global>
 #include <QMouseEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :

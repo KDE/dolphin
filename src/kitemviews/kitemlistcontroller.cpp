@@ -27,7 +27,6 @@
 #include <QGraphicsSceneEvent>
 #include <QGraphicsView>
 #include <QMimeData>
-#include <QStyleHints>
 #include <QTimer>
 #include <QTouchEvent>
 

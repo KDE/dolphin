@@ -8,10 +8,9 @@
 
 #include "informationpanelcontent.h"
 
-#include <KIO/Job>
-#include <KIO/JobUiDelegate>
-#include <KJobWidgets>
 #include <KDirNotify>
+#include <KIO/Job>
+#include <KJobWidgets>
 #include <KLocalizedString>
 
 #include <Baloo/FileMetaDataWidget>

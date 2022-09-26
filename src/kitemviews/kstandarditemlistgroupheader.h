@@ -11,7 +11,6 @@
 #include "kitemviews/kitemlistgroupheader.h"
 
 #include <QPixmap>
-#include <QStaticText>
 
 class DOLPHIN_EXPORT KStandardItemListGroupHeader : public KItemListGroupHeader
 {

@@ -12,9 +12,7 @@
 #include <KFileMetaData/UserMetaData>
 
 #include <QCollator>
-#include <QDebug>
 #include <QSize>
-#include <QTime>
 
 namespace {
     QString tagsFromValues(const QStringList& values)

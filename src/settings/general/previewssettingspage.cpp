@@ -18,7 +18,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QListView>
-#include <QPainter>
 #include <QScroller>
 #include <QShowEvent>
 #include <QSortFilterProxyModel>

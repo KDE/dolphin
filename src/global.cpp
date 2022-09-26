@@ -15,10 +15,8 @@
 #include <KDialogJobUiDelegate>
 #include <KIO/ApplicationLauncherJob>
 #include <KService>
-#include <KWindowSystem>
 
 #include <QApplication>
-#include <QIcon>
 
 QList<QUrl> Dolphin::validateUris(const QStringList& uriList)
 {

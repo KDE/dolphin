@@ -11,8 +11,6 @@
 #include "viewsettingstab.h"
 #include "views/dolphinview.h"
 
-#include <QString>
-
 #include <variant>
 
 class CompactModeSettings;

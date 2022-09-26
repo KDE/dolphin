@@ -18,14 +18,13 @@
 #include <KFormat>
 
 #include <QApplication>
+#include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
-#include <QHelpEvent>
 #include <QFormLayout>
-#include <QSpinBox>
+#include <QHelpEvent>
 #include <QRadioButton>
-#include <QButtonGroup>
-#include <QLabel>
+#include <QSpinBox>
 
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),

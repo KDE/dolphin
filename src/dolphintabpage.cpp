@@ -10,10 +10,9 @@
 #include "dolphin_generalsettings.h"
 #include "dolphinviewcontainer.h"
 
-#include <QVariantAnimation>
 #include <QGridLayout>
-#include <QWidgetAction>
 #include <QStyle>
+#include <QVariantAnimation>
 
 DolphinTabPage::DolphinTabPage(const QUrl &primaryUrl, const QUrl &secondaryUrl, QWidget* parent) :
     QWidget(parent),

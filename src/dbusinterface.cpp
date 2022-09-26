@@ -11,9 +11,7 @@
 #include <KPropertiesDialog>
 #include <KWindowSystem>
 
-#include <QApplication>
 #include <QDBusConnection>
-#include <QDBusInterface>
 #include <QDBusConnectionInterface>
 
 DBusInterface::DBusInterface() :

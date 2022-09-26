@@ -10,7 +10,6 @@
 #include "global.h"
 #include <KActionCollection>
 #include <KBookmarkMenu>
-#include <KIO/Global>
 #include <QDebug>
 #include <QDir>
 #include <QStandardPaths>

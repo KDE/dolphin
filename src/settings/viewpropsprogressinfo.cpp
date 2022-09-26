@@ -9,7 +9,6 @@
 #include "applyviewpropsjob.h"
 #include "views/viewproperties.h"
 
-#include <KConfigGroup>
 #include <KLocalizedString>
 
 #include <QDialogButtonBox>

@@ -28,16 +28,12 @@
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KNewFileMenu>
-#include <KPluginMetaData>
 #include <KStandardAction>
-#include <KToolBar>
 #include <kio_version.h>
 
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
-#include <QMenuBar>
-#include <QMimeDatabase>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,
