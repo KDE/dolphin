@@ -37,6 +37,7 @@
 #include <QGuiApplication>
 #include <QTimer>
 #include <QUrl>
+#include <QRegularExpression>
 
 // An overview of the widgets contained by this ViewContainer
 struct LayoutStructure {
