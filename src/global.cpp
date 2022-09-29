@@ -62,7 +62,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
 {
     bool attached = false;
 
-    if (inputUrls.isEmpty() || !GeneralSettings::openExternallyCalledFolderInNewTab()) {
+    if (inputUrls.isEmpty()) {
         return false;
     }
 
@@ -83,19 +83,20 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
     }
 
     // check to see if any instances already have any of the given URLs or their parents open
-    const auto urls = QUrl::toStringList(inputUrls);
-    for (const QString& url : urls) {
+    QList<QUrl> newWindowURLs;
+    for (const QUrl& url : inputUrls) {
         bool urlFound = false;
+        const QString urlString = url.toString();
 
         // looping through the windows starting from the active one
         int i = activeWindowIndex;
         do {
             auto &interface = dolphinInterfaces[i];
 
-            auto isUrlOpenReply = openFiles ? interface.first->isUrlOrParentOpen(url) : interface.first->isUrlOpen(url);
+            auto isUrlOpenReply = openFiles ? interface.first->isUrlOrParentOpen(urlString) : interface.first->isUrlOpen(urlString);
             isUrlOpenReply.waitForFinished();
             if (!isUrlOpenReply.isError() && isUrlOpenReply.value()) {
-                interface.second.append(url);
+                interface.second.append(urlString);
                 urlFound = true;
                 break;
             }
@@ -105,7 +106,11 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
         while (i != activeWindowIndex);
 
         if (!urlFound) {
-            dolphinInterfaces[activeWindowIndex].second.append(url);
+            if (GeneralSettings::openExternallyCalledFolderInNewTab()) {
+                dolphinInterfaces[activeWindowIndex].second.append(urlString);
+            } else {
+                newWindowURLs.append(url);
+            }
         }
     }
 
@@ -122,6 +127,14 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
             attached = true;
         }
     }
+    if (attached && !newWindowURLs.isEmpty()) {
+        if (openFiles) {
+            openNewWindow(newWindowURLs, nullptr, Dolphin::OpenNewWindowFlag::Select);
+        } else {
+            openNewWindow(newWindowURLs);
+        }
+    }
+
     return attached;
 }
 
