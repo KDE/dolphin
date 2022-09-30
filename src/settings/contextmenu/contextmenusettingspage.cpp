@@ -24,6 +24,7 @@
 #include <kio_version.h>
 #include <kiocore_export.h>
 #include <kservice_export.h>
+#include <kwidgetsaddons_version.h>
 
 #include <QtGlobal>
 #include <KNSWidgets/Button>
@@ -199,14 +200,22 @@ void ContextMenuSettingsPage::applySettings()
         VersionControlSettings::self()->save();
 
         if (!laterSelected) {
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+            KMessageBox::ButtonCode promptRestart = KMessageBox::questionTwoActions(window(),
+#else
             KMessageBox::ButtonCode promptRestart = KMessageBox::questionYesNo(window(),
+#endif
                                     i18nc("@info", "Dolphin must be restarted to apply the "
                                                 "updated version control system settings."),
                                     i18nc("@info", "Restart now?"),
                                     KGuiItem(QApplication::translate("KStandardGuiItem", "&Restart"), QStringLiteral("dialog-restart")),
                                     KGuiItem(QApplication::translate("KStandardGuiItem", "&Later"), QStringLiteral("dialog-later"))
                         );
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+            if (promptRestart == KMessageBox::ButtonCode::PrimaryAction) {
+#else
             if (promptRestart == KMessageBox::ButtonCode::Yes) {
+#endif
                 Dolphin::openNewWindow();
                 qApp->quit();
             } else {

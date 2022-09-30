@@ -47,6 +47,8 @@
 #include <KProtocolManager>
 #include <KUrlMimeData>
 
+#include <kwidgetsaddons_version.h>
+
 #include <QAbstractItemView>
 #include <QActionGroup>
 #include <QApplication>
@@ -1017,11 +1019,19 @@ void DolphinView::slotItemsActivated(const KItemSet &indexes)
 
     if (indexes.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 item?", "Are you sure you want to open %1 items?", indexes.count());
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        const int answer = KMessageBox::warningTwoActions(this, question, {},
+#else
         const int answer = KMessageBox::warningYesNo(this, question, {},
+#endif
                                                      KGuiItem(i18ncp("@action:button", "Open %1 Item", "Open %1 Items", indexes.count()),
                                                               QStringLiteral("document-open")),
                                                      KStandardGuiItem::cancel());
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        if (answer != KMessageBox::PrimaryAction) {
+#else
         if (answer != KMessageBox::Yes) {
+#endif
             return;
         }
     }
@@ -1879,7 +1889,11 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                 KGuiItem yesGuiItem(KStandardGuiItem::yes());
                 yesGuiItem.setText(i18nc("@action:button", "Rename and Hide"));
 
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+                const auto code = KMessageBox::questionTwoActions(this,
+#else
                 const auto code = KMessageBox::questionYesNo(this,
+#endif
                                                              oldItem.isFile() ? i18n("Adding a dot to the beginning of this file's name will hide it from view.\n"
                                                                                      "Do you still want to rename it?")
                                                                               : i18n("Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -1890,7 +1904,11 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
                                                              QStringLiteral("ConfirmHide")
                                                             );
 
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+                if (code == KMessageBox::SecondaryAction) {
+#else
                 if (code == KMessageBox::No) {
+#endif
                    return;
                 }
             }

@@ -18,6 +18,8 @@
 #include <KMessageBox>
 #include <KWindowConfig>
 
+#include <kwidgetsaddons_version.h>
+
 #if HAVE_BALOO
     #include <Baloo/IndexerConfig>
 #endif
@@ -347,9 +349,15 @@ void ViewPropertiesDialog::applyViewProperties()
     const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        if (KMessageBox::questionTwoActions(this, text, {},
+                                            KStandardGuiItem::cont(),
+                                            KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+#else
         if (KMessageBox::questionYesNo(this, text, {},
                                        KStandardGuiItem::cont(),
                                        KStandardGuiItem::cancel()) == KMessageBox::No) {
+#endif
             return;
         }
 
@@ -381,9 +389,15 @@ void ViewPropertiesDialog::applyViewProperties()
 
     if (applyToAllFolders) {
         const QString text(i18nc("@info", "The view properties of all folders will be changed. Do you want to continue?"));
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        if (KMessageBox::questionTwoActions(this, text, {},
+                                            KStandardGuiItem::cont(),
+                                            KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
+#else
         if (KMessageBox::questionYesNo(this, text, {},
                                        KStandardGuiItem::cont(),
                                        KStandardGuiItem::cancel()) == KMessageBox::No) {
+#endif
             return;
         }
 

@@ -70,6 +70,7 @@
 #include <KWindowSystem>
 #include <KXMLGUIFactory>
 
+#include <kwidgetsaddons_version.h>
 #include <kio_version.h>
 
 #include <QApplication>
@@ -1177,11 +1178,19 @@ void DolphinMainWindow::openTerminalHere()
     if (urls.count() > 5) {
         QString question = i18np("Are you sure you want to open 1 terminal window?",
                                  "Are you sure you want to open %1 terminal windows?", urls.count());
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        const int answer = KMessageBox::warningTwoActions(this, question, {},
+#else
         const int answer = KMessageBox::warningYesNo(this, question, {},
+#endif
                                                      KGuiItem(i18ncp("@action:button", "Open %1 Terminal", "Open %1 Terminals", urls.count()),
                                                               QStringLiteral("utilities-terminal")),
                                                      KStandardGuiItem::cancel());
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        if (answer != KMessageBox::PrimaryAction) {
+#else
         if (answer != KMessageBox::Yes) {
+#endif
             return;
         }
     }
