@@ -393,6 +393,17 @@ void DolphinTabWidget::tabDropEvent(int index, QDropEvent* event)
     if (index >= 0) {
         DolphinView* view = tabPageAt(index)->activeViewContainer()->view();
         view->dropUrls(view->url(), event, view);
+    } else {
+        const auto urls = event->mimeData()->urls();
+
+        for (const QUrl &url : urls) {
+            auto *job = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatDetail::StatBasic, KIO::JobFlag::HideProgressInfo);
+            connect(job, &KJob::result, this, [this, job]() {
+                if (!job->error() && job->statResult().isDir()) {
+                    openNewTab(job->url(), QUrl(), NewTabPosition::AtEnd);
+                }
+            });
+        }
     }
 }
 

@@ -36,13 +36,7 @@ void DolphinTabBar::dragEnterEvent(QDragEnterEvent* event)
     const int index = tabAt(event->pos());
 
     if (mimeData->hasUrls()) {
-        if (index >= 0) {
-            event->acceptProposedAction();
-        } else {
-            event->setDropAction(Qt::IgnoreAction);
-            // Still need to accept it to receive dragMoveEvent
-            event->accept();
-        }
+        event->acceptProposedAction();
         updateAutoActivationTimer(index);
     }
 
@@ -62,11 +56,6 @@ void DolphinTabBar::dragMoveEvent(QDragMoveEvent* event)
     const int index = tabAt(event->pos());
 
     if (mimeData->hasUrls()) {
-        if (index >= 0) {
-            event->acceptProposedAction();
-        } else {
-            event->setDropAction(Qt::IgnoreAction);
-        }
         updateAutoActivationTimer(index);
     }
 
@@ -81,7 +70,7 @@ void DolphinTabBar::dropEvent(QDropEvent* event)
     const QMimeData* mimeData = event->mimeData();
     const int index = tabAt(event->pos());
 
-    if (index >= 0 && mimeData->hasUrls()) {
+    if (mimeData->hasUrls()) {
         Q_EMIT tabDropEvent(index, event);
     }
 
