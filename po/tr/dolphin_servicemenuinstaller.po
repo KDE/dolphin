@@ -1,0 +1,148 @@
+#
+# Translators:
+# Volkan Gezer <volkangezer@gmail.com>, 2020
+# Emir SARI <emir_sari@icloud.com>, 2022
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin-plugins\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"PO-Revision-Date: 2022-02-22 13:05+0100\n"
+"Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
+"Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Lokalize 20.08.2\n"
+
+#: servicemenuinstaller.cpp:44
+#, kde-format
+msgid "Dolphin service menu installation failed"
+msgstr "Dolphin hizmeti menü kurulumu başarısız oldu"
+
+#: servicemenuinstaller.cpp:72
+#, kde-format
+msgid "Failed to install \"%1\", exited with status \"%2\""
+msgstr "\"%1\" yüklenemedi, \"%2\" durumu ile çıktı"
+
+#: servicemenuinstaller.cpp:104
+#, kde-format
+msgid "Failed to uninstall \"%1\", exited with status \"%2\""
+msgstr "\"%1\" kaldırılamadı, \"%2\" durumu ile çıktı"
+
+#: servicemenuinstaller.cpp:117
+#, kde-format
+msgid "The file does not exist!"
+msgstr "Dosya yok!"
+
+#: servicemenuinstaller.cpp:126
+#, kde-format
+msgid "Unknown error when installing package"
+msgstr "Paketi yüklerken bilinmeyen hata"
+
+#: servicemenuinstaller.cpp:181
+#, kde-format
+msgid "Unsupported archive type %1: %2"
+msgstr "Desteklenmeyen arşiv türü %1:%2"
+
+#: servicemenuinstaller.cpp:190
+#, kde-format
+msgid "Failed to run uncompressor command for %1"
+msgstr "%1 için sıkıştırmayı açma komutu çalıştırılamadı"
+
+#: servicemenuinstaller.cpp:195
+#, kde-format
+msgid "Process did not finish in reasonable time: %1 %2"
+msgstr "İşlem makul sürede tamamlanmadı: %1 %2"
+
+#: servicemenuinstaller.cpp:199
+#, kde-format
+msgid "Failed to uncompress %1"
+msgstr "%1 sıkıştırması açılamadı"
+
+#: servicemenuinstaller.cpp:232
+#, kde-format
+msgid "Failed to run installer script %1"
+msgstr "%1 kur komut dosyası çalıştırılamadı"
+
+#: servicemenuinstaller.cpp:255
+#, kde-format
+msgid "Failed to set permissions on %1: %2"
+msgstr "%1:%2 için izinler ayarlanamadı"
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "%2 = comma separated list of arguments"
+msgid "Installer script %1 failed, tried arguments \"%2\"."
+msgstr "%1 kur komut dosyası başarısız oldu, \"%2\" argümanları denendi."
+
+#: servicemenuinstaller.cpp:286
+#, kde-format
+msgid "Failed to create path %1"
+msgstr "%1 yolu oluşturulamadı"
+
+#: servicemenuinstaller.cpp:300
+#, kde-format
+msgid "Failed to copy .desktop file %1 to %2: %3"
+msgstr ".desktop dosyası %1 %2 konumuna kopyalanamadı: %3"
+
+#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#, kde-format
+msgid "Failed to remove directory %1"
+msgstr "%1 dizini kaldırılamadı"
+
+#: servicemenuinstaller.cpp:318
+#, kde-format
+msgid "Failed to create directory %1"
+msgstr "%1 dizini oluşturulamadı"
+
+#: servicemenuinstaller.cpp:357
+#, kde-format
+msgid "Failed to find an installation script in %1"
+msgstr "%1 içinde bir kur komut dosyası bulunamadı"
+
+#: servicemenuinstaller.cpp:371
+#, kde-format
+msgid "Failed to remove .desktop file %1: %2"
+msgstr ".desktop dosyası %1 kaldırılamadı: %2"
+
+#: servicemenuinstaller.cpp:416
+#, kde-format
+msgid "Failed to find an uninstallation script in %1"
+msgstr "%1 içinde bir kaldırma komut dosyası bulunamadı"
+
+#: servicemenuinstaller.cpp:435
+#, kde-format
+msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr "Yürütülecek komut: Kur veya kurulumu kaldır."
+
+#: servicemenuinstaller.cpp:436
+#, kde-format
+msgctxt "@info:shell"
+msgid "Path to archive."
+msgstr "Arşiv yolu."
+
+#: servicemenuinstaller.cpp:441
+#, kde-format
+msgid "Command is required."
+msgstr "Komut gerekli."
+
+#: servicemenuinstaller.cpp:444
+#, kde-format
+msgid "Path to archive is required."
+msgstr "Arşiv yolu gerekli."
+
+#: servicemenuinstaller.cpp:460
+#, kde-format
+msgid "Unsupported command %1"
+msgstr "Desteklenmeyen komut %1"

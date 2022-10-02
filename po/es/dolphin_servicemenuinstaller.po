@@ -1,0 +1,150 @@
+# Spanish translations for dolphin_servicemenuinstaller.po package.
+# Copyright (C) 2019 This file is copyright:
+# This file is distributed under the same license as the dolphin package.
+#
+# Automatically generated, 2019.
+# Eloy Cuadra <ecuadra@eloihr.net>, 2019, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin_servicemenuinstaller\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"PO-Revision-Date: 2020-05-09 15:44+0200\n"
+"Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
+"Language-Team: Spanish <kde-l10n-es@kde.org>\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 20.04.0\n"
+
+#: servicemenuinstaller.cpp:44
+#, kde-format
+msgid "Dolphin service menu installation failed"
+msgstr "La instalación del menú de servicio de Dolphin ha fallado"
+
+#: servicemenuinstaller.cpp:72
+#, kde-format
+msgid "Failed to install \"%1\", exited with status \"%2\""
+msgstr "No se ha podido instalar «%1». Terminado con el estado «%2»."
+
+#: servicemenuinstaller.cpp:104
+#, kde-format
+msgid "Failed to uninstall \"%1\", exited with status \"%2\""
+msgstr "No se ha podido desinstalar «%1». Terminado con el estado «%2»."
+
+#: servicemenuinstaller.cpp:117
+#, kde-format
+msgid "The file does not exist!"
+msgstr "El archivo no existe"
+
+#: servicemenuinstaller.cpp:126
+#, kde-format
+msgid "Unknown error when installing package"
+msgstr "Ha ocurrido un error desconocido al desinstalar el paquete"
+
+#: servicemenuinstaller.cpp:181
+#, kde-format
+msgid "Unsupported archive type %1: %2"
+msgstr "Tipo de archivo comprimido no permitido %1: %2"
+
+#: servicemenuinstaller.cpp:190
+#, kde-format
+msgid "Failed to run uncompressor command for %1"
+msgstr "No se ha podido ejecutar la orden de descompresión para %1"
+
+#: servicemenuinstaller.cpp:195
+#, kde-format
+msgid "Process did not finish in reasonable time: %1 %2"
+msgstr "El proceso no ha terminado en un tiempo razonable: %1 %2"
+
+#: servicemenuinstaller.cpp:199
+#, kde-format
+msgid "Failed to uncompress %1"
+msgstr "No se ha podido descomprimir %1"
+
+#: servicemenuinstaller.cpp:232
+#, kde-format
+msgid "Failed to run installer script %1"
+msgstr "No se ha podido ejecutar el script del instalador %1"
+
+#: servicemenuinstaller.cpp:255
+#, kde-format
+msgid "Failed to set permissions on %1: %2"
+msgstr "No se han podido definir los permisos en %1: %2"
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "%2 = comma separated list of arguments"
+msgid "Installer script %1 failed, tried arguments \"%2\"."
+msgstr ""
+"El script de instalación %1 ha fallado; se han usado los argumentos «%2»."
+
+#: servicemenuinstaller.cpp:286
+#, kde-format
+msgid "Failed to create path %1"
+msgstr "No se ha podido crear la ruta %1"
+
+#: servicemenuinstaller.cpp:300
+#, kde-format
+msgid "Failed to copy .desktop file %1 to %2: %3"
+msgstr "No se ha podido copiar el archivo .desktop %1 en %2: %3"
+
+#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#, kde-format
+msgid "Failed to remove directory %1"
+msgstr "No se ha podido eliminar el directorio %1"
+
+#: servicemenuinstaller.cpp:318
+#, kde-format
+msgid "Failed to create directory %1"
+msgstr "No se ha podido crear el directorio %1"
+
+#: servicemenuinstaller.cpp:357
+#, kde-format
+msgid "Failed to find an installation script in %1"
+msgstr "No se ha podido encontrar un script de instalación en %1"
+
+#: servicemenuinstaller.cpp:371
+#, kde-format
+msgid "Failed to remove .desktop file %1: %2"
+msgstr "No se ha podido eliminar el archivo .desktop %1: %2"
+
+#: servicemenuinstaller.cpp:416
+#, kde-format
+msgid "Failed to find an uninstallation script in %1"
+msgstr "No se ha podido encontrar un script de desinstalación en %1"
+
+#: servicemenuinstaller.cpp:435
+#, kde-format
+msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr "Orden a ejecutar: instalar o desinstalar."
+
+#: servicemenuinstaller.cpp:436
+#, kde-format
+msgctxt "@info:shell"
+msgid "Path to archive."
+msgstr "Ruta al archivo comprimido."
+
+#: servicemenuinstaller.cpp:441
+#, kde-format
+msgid "Command is required."
+msgstr "Se necesita la orden."
+
+#: servicemenuinstaller.cpp:444
+#, kde-format
+msgid "Path to archive is required."
+msgstr "Se necesita la ruta al archivo comprimido."
+
+#: servicemenuinstaller.cpp:460
+#, kde-format
+msgid "Unsupported command %1"
+msgstr "La orden %1 no está permitida"

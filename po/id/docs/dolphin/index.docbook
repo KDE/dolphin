@@ -1,0 +1,3143 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Indonesian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Buku Petunjuk &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Wantoyo</firstname
+><surname
+></surname
+><affiliation
+><address
+><email
+>wantoyek@gmail.com</email
+></address
+></affiliation
+><contrib
+>Terjemahan</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>30-09-2019</date>
+<releaseinfo
+>Aplikasi 19.12</releaseinfo>
+
+<abstract>
+<para
+>&dolphin; adalah pengelola file baku oleh &kde;, disesain dengan fokus utama pada kegunaan. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>Filemanager</keyword>
+<keyword
+>file</keyword>
+<keyword
+>pengelolaan</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Pengenalan</title>
+
+<para
+>&dolphin; adalah pengelola file baku &plasma; Ini bertujuan untuk meningkatkan kegunaan di tingkat antarmuka pengguna. &dolphin; berfokus hanya pada menjadi pengelola file sedangkan &konqueror;, yang merupakan pengelola file &kde; di &kde; 3 dan masih dapat digunakan untuk mengelola file, yang mana adalah sebuah penampil universal untuk banyak tipe file. </para>
+
+<para
+>Pendekatan desain ini memungkinkan para pengembang untuk berkonsentrasi pada pengoptimalan antarmuka pengguna untuk tugas khusus pengelolaan file. </para>
+
+<para
+>Silakan laporkan masalah atau permintaan fitur ke penulis &dolphin; melalui dialog laporan bug. Ini dapat diakses baik dari tombol <guibutton
+>Kendali</guibutton
+> di sebelah kanan bilah-alat dalam mode baku tanpa bilah-menu; atau dari menu <menuchoice
+><guimenu
+>Bantuan</guimenu
+> <guimenuitem
+>Laporkan Bug...</guimenuitem
+> </menuchoice
+> pada aplikasi, jika bilah-menu ditampilkan. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Menggunakan &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>Antarmuka Pengguna &dolphin;</title>
+
+<para
+>Sebuah cuplikan di bawah ini menampilkan antarmuka pengguna baku &dolphin;: </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan antarmuka pengguna baku &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Antarmuka pengguna baku &dolphin;</phrase>
+</textobject>
+<caption
+><para
+>Antarmuka pengguna baku &dolphin;</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Elemen antarmuka pengguna baku adalah: <itemizedlist>
+
+<listitem
+><para
+>Bilah-alat, yang dapat digunakan untuk akses cepat ke aksi yang sering digunakan. Bilah-alat dapat dikustomisasi dengan mengekliknya dengan &RMB; dan memilih <menuchoice
+><guimenuitem
+> Konfigurasikan Bilah Alat...</guimenuitem
+></menuchoice
+> dari menu konteks, dengan <guimenuitem
+>Konfigurasikan Bilah Alat ... </guimenuitem
+> dari tombol <guibutton
+>Kendali</guibutton
+> di sebelah kanan bilah alat atau melalui <menuchoice
+><guimenu
+>Pengaturan</guimenu
+> <guimenuitem
+>Konfigurasikan Bilah Alat... </guimenuitem
+></menuchoice
+> dari menu utama. </para>
+<screenshot>
+<screeninfo
+>Sebuah cuplikan bilah-alat &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah-alat baku.</phrase>
+</textobject>
+<caption>
+<para
+>Item bilah-alat di mana ikon cukup untuk mengetahui perintah yang tidak memiliki teks di samping ikon. Ini dapat diubah oleh &RMB; klik dan pilih teks item di bawah <guilabel
+>Tampilkan Teks</guilabel
+>. Tombol <guibutton
+>Kendali</guibutton
+> di sisi kanan bilah-alat hanya ditampilkan jika bilah-menu disembunyikan. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>Bilah lokasi, yang selalu mendisplaikan alur ke folder saat ini. Ini bisa dialihkan antara dua mode yang berbeda, lihat <link linkend="location-bar"
+>bagian pada bilah lokasi</link
+> untuk perincian. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>Tampilan</link
+>, yang menampilkan semua file dan folder di dalam folder saat ini. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="places-panel"
+>Panel  <guilabel
+>Tempat</guilabel
+></link
+>, yang menyediakan akses cepat untuk memarkahi lokasi dan disk atau media lain. </para>
+<para
+>Jika pencarian desktop dan pengindeksan file telah difungsikan di dalam modul <guilabel
+>Pencarian Desktop</guilabel
+> di dalam &systemsettings; si panel menyediakan item <guilabel
+>Barusan</guilabel
+> dan memungkinkan kamu untuk mencari <guilabel
+>Documen</guilabel
+>, <guilabel
+>Citra</guilabel
+>, <guilabel
+>File Audio</guilabel
+> dan <guilabel
+>Video</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Si bilah status. Ini menampilkan nama, ukuran dan tipe file yang saat ini dilayangi oleh mouse, atau jumlah dan ukuran file yang dipilih. Di sebelah kanan, ada bilah geser zoom yang memungkinkanmu untuk menyesuaikan ukuran ikon dalam tampilan. </para
+></listitem>
+
+<listitem
+><para
+>Si bilah-menu (secara baku disembunyikan), yang menyediakan akses ke semua perintah dan opsi konfigurasi. Lihat <link linkend="commands-menubar"
+>Referensi Perintah</link
+> untuk daftar semua menu perintah. Bilah-menu bisa dijungkit dengan <guimenuitem
+>Tampilkan Bilah Menu</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) dari menu <guimenu
+>Pengaturan</guimenu
+> atau tombol <guibutton
+>Kendali</guibutton
+>. </para>
+<para
+>Jika bilah-menu telah disembunyikan, semua aksinya maka tersedia dari tombol <guibutton
+>Kendali</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>Sebagai tambahan panel <guilabel
+>Informasi</guilabel
+>, <guilabel
+>Folder</guilabel
+> dan <guilabel
+>Terminal</guilabel
+> secara baku adalah disembunyikan, untuk informasi selebihnya lihat <link linkend="panels"
+><guilabel
+>Panel</guilabel
+>.</link
+> </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>Tampilan &dolphin;</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Menggunakan Tampilan</title>
+
+<para
+>Si tampilan menampilkan semua file dan folder dalam folder saat ini. Item-item tersebut bisa diakses atau dimanipulasi dengan cara yang berbeda: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Sebuah file atau folder bisa dibuka dengan mengekliknya menggunakan &LMB; (atau mengeklik ganda, jika <guilabel
+>Klik ganda untuk membuka file dan folder</guilabel
+> telah difungsikan dalam &systemsettings; di dalam modul <menuchoice
+><guimenu
+>Perangkat Input</guimenu
+> <guimenuitem
+>Mouse</guimenuitem
+></menuchoice
+>. </para
+></listitem>
+
+<listitem
+><para
+>Mengeklik item apa pun atau area putih di sekitar item dengan &RMB; membukakan sebuah menu konteks yang menyediakan akses untuk aksi yang sering digunakan untuk masing-masing item atau folder saat ini. </para
+></listitem>
+
+<listitem
+><para
+>Jika &LMB; ditekan pada sebuah item, tetapi tidak segera dilepas, item tersebut bisa diseret dan diletakkan di folder lain dalam tampilan saat ini atau di tampilan &dolphin; lainnya (di window &dolphin; lainnya atau di window yang sama jika tampilan terbelah, lihat di bawah) untuk memindahkan atau menyalinnya atau menciptakan tautan simbolis. Item-item bahkan bisa diletakkan di aplikasi lain untuk membukanya di aplikasi itu. </para
+></listitem>
+
+</itemizedlist>
+<para
+>&dolphin; mengingat histori folder yang dikunjungi. Untuk menavigasi mundur atau maju di dalam histori, tombol-tombol yang sesuai di dalam bilah-alat bisa digunakan: </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan bilah-alat &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Tombol Mundur dan Maju di dalam bilah-alat.</phrase>
+</textobject>
+<caption>
+<para
+>Tombol <guibutton
+>Mundur</guibutton
+> dan <guibutton
+>Maju</guibutton
+> di dalam bilah-alat bisa digunakan untuk menavigasi di dalam histori. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Jika kamu klik dengan &MMB; si item di dalam histori dibuka di sebuah tab baru dengan menjaga tab saat ini dengan kontennya. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Penampilan Tampilan &dolphin;</title>
+
+<para
+>Si bilah-alat berisi tombol-tombol untuk mengendalikan penampilan dari tampilan: </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan bilah-alat &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Tombol-tombol di dalam bilah-alat sebagai kendali penampilan dari tampilan.</phrase>
+</textobject>
+<caption
+><para
+>Tombol-tombol di dalam bilah-alat sebagai kendali penampilan dari tampilan. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Semua pengaturan yang dibahas di bawah dan opsi lain yang terkait, &eg; pengurutan file dalam folder saat ini, juga bisa dimodifikasi di menu  <guimenu
+>Tampilan</guimenu
+> dan di <link linkend="view-properties-dialog"
+>dialog Properti Tampilan</link
+>. Secara baku, pengaturan ini diingat untuk setiap folder secara terpisah. Perilaku ini bisa diubah di bagian <link linkend="preferences-dialog-general"
+><quote
+>Umum</quote
+></link
+> pada pengaturan. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Mode Tampilan</title>
+
+<para
+>Tiga tombol pertama dalam cuplikan di atas  beralih antara mode tampilan &dolphin;. <itemizedlist>
+
+<listitem
+><para
+>Di dalam tampilan <guibutton
+>Ikon</guibutton
+>, secara baku, file-file akan disuguhkan dengan sebuah ikon yang memvisualkan tipe file, dan ikon folder akan ditampilkan untuk subfolder. Nama-nama folder dan file, dan item-item yang difungsikan di <menuchoice
+><guimenu
+>Tampilan</guimenu
+><guisubmenu
+>Informasi Tambahan</guisubmenu
+></menuchoice
+>, yang didisplaikan di bawah ikon. </para
+></listitem>
+
+<listitem
+><para
+>Tampilan <guilabel
+>Ringkas</guilabel
+> menampilkan konten folder sebagai ikon dengan nama lain dan item-item difungsikan di <menuchoice
+><guimenu
+>Tampilan</guimenu
+><guisubmenu
+>Informasi Tambahan</guisubmenu
+></menuchoice
+> di bawah nama. Item-item dikelompokkan dalam kolom yang mirip ke <guilabel
+>Urutkan Tampilan</guilabel
+> di dialog file &kde;. </para
+></listitem>
+
+<listitem
+><para
+>Dalam tampilan <guibutton
+>Perincian</guibutton
+>, konten folder akan didisplaikan sebagai daftar terperinci yang berisi nama, ukuran dan waktu dimodifikasi terakhir pada setiap item. Kolom tambahan bisa ditambahkan dengan mengeklik sebuah header kolom dengan &RMB;. </para>
+<para
+>Dalam menu konteks baris header kamu bisa memilih antara kustom atau lebar kolom otomatis. Lebar otomatis menyesuaikan lebar semua kolomnya untuk mendisplaikan item yang lebih lebar di dalam kolom keseluruhan, kecuali untuk kolom <guilabel
+>Nama</guilabel
+> yang mana ekstensi diganti oleh <quote
+>...</quote
+> </para>
+<para
+>Urutan kolom bisa diubah dengan cara seret dan letakkan pada header kolom, kecuali untuk header <guilabel
+>Nama</guilabel
+> yang mana selalu kolom pertama di dalam tampilan ini. </para>
+<para
+>Tampilan perincian memungkinkanmu untuk menampilkan folder saat ini di dalam gaya model hierarki jika <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>Folder dapat dibentangkan</guilabel
+></link
+> telah difungsikan: Setiap subfolder pada folder saat ini bisa <quote
+>dibentangkan</quote
+> atau <quote
+>diciutkan</quote
+> dengan mengeklik pada ikon <guiicon
+>
+></guiicon
+> atau <guiicon
+>v</guiicon
+> di sebelahnya.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Tampilan Terkelompok</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Tampilan Terkelompok</phrase>
+</textobject>
+<caption
+><para
+>Semua mode tampilan mendukung pengelompokan dengan tipe urutan yang dipilih di  <menuchoice
+><guimenu
+>Tampilan</guimenu
+><guisubmenu
+>Urutkan berdasarkan</guisubmenu
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Informasi di dalam Tampilan</title>
+<para
+>Dalam semua mode tampilan &dolphin; sekurang-kurangnya menampilkan sebuah ikon dan nama untuk setiap item. Menggunakan <guisubmenu
+>Informasi Tambahan</guisubmenu
+> di dalam menu  <guimenu
+>Tampilan</guimenu
+> atau menu konteks pada header mode  <guilabel
+>Perincian</guilabel
+>, kamu bisa memilih informasi selebihnya untuk setiap item untuk ditampilkan: </para>
+
+<para
+><guimenuitem
+>Ukuran</guimenuitem
+>, <guimenuitem
+>Tanggal</guimenuitem
+>, <guimenuitem
+>Tipe</guimenuitem
+>, <guimenuitem
+>Peringkat</guimenuitem
+>, <guimenuitem
+>Tag</guimenuitem
+> atau <guimenuitem
+>Komentar</guimenuitem
+>. </para>
+
+<para
+>Bergantung pada tipe file, selain itu, pengurutan kriteria bisa dipilih: <simplelist>
+  <member
+><guimenuitem
+>Dokumen</guimenuitem
+>: Jumlah kata dan baris</member>
+  <member
+><guimenuitem
+>Citra</guimenuitem
+>: Ukuran dan orientasi</member>
+  <member
+><guimenuitem
+>Audio</guimenuitem
+>: Artis, album, durasi dan trek</member>
+</simplelist>
+</para>
+
+<para
+>Submenu <guisubmenu
+>Lainnya</guisubmenu
+> memungkinkanmu untuk memilih <guimenuitem
+>Alur</guimenuitem
+>, <guimenuitem
+>Tujuan Tautan</guimenuitem
+>, <guimenuitem
+>Disalin Dari</guimenuitem
+>, <guimenuitem
+>Perizinan</guimenuitem
+>, <guimenuitem
+>Pemilik</guimenuitem
+> atau <guimenuitem
+>Grup Pengguna</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Pratinjau</title>
+
+<para
+>Jika <guibutton
+>Pratinjau</guibutton
+> difungsikan, ikon-ikon adalah berdasarkan pada file atau konten folder sebenarnya; &eg; citra pratinjau yang diperkecil dari citra yang ditampilkan. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Belah</title>
+
+<para
+>Jika <guibutton
+>Belah</guibutton
+> diklik, dua tampilan akan ditampilkan sehingga bisa menampilkan konten folder yang berbeda. Ini bisa dengan nyaman memindah atau menyalin file-file. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Memilih Item-item di dalam Tampilan</title>
+
+<para
+>Ada bermacam cara untuk memilih item dalam tampilan. Salahsatu kelompok item yang dipilih, semua aksi, sepertihalnya <menuchoice
+><guimenuitem
+>Potong</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Salin</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Pindah ke Sesampahan</guimenuitem
+></menuchoice
+>, dan operasi seret dan letakkan, memengaruhi semua item yang dipilih. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Memilih Item Menggunakan Mouse</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Kamu bisa menekan &LMB; di suatu tempat di dalam tampilan dan menggambar persegi di sekitar kelompok item sebelum melepas tombol. Ini akan memilih semua item di dalam persegi dan membersihkan pemilihan sebelumnya. Jika tuts &Shift; ditekan selagi proses pemilihan, pemilihan sebelumnya dipertahankan. </para
+></listitem>
+
+<listitem
+><para
+>Jika tuts &Ctrl; ditekan selagi item diklik dengan &LMB;, kadaan pemilihan item ini dijungkit. Jika tuts &Ctrl; ditekan selagi persegi digambar disekitar kelompok item sebagaimana dijelaskan di atas, keadaan pemilihan semua item di dalam persegi akan dijungkit. </para
+></listitem>
+
+<listitem
+><para
+>Jika tuts &Shift; ditekan selagi item diklik dengan &LMB;, semua item antara item saat ini sebelumnya dan item yang diklik akan dipilih. </para
+></listitem>
+
+<listitem
+><para
+>Jika <guilabel
+>Tampilkan penanda pemilihan</guilabel
+> difungsikan di dalam tab <link linkend="preferences-dialog-general-behavior"
+><quote
+>Perilaku</quote
+> pada bagian <guilabel
+>Umum</guilabel
+> pada pengaturan </link
+>, sebuah tombol kecil <guiicon
+>+</guiicon
+> atau <guiicon
+>-</guiicon
+> muncul di sebelah pojok kiri atas pada item yang barusan dilayangi dengan mouse yang melintas. Mengeklik tanda ini memilih atau takmemilih, masing-masing item. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Memilih Item Menggunakan Keyboard</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Jika tuts panah, <keycap
+>Page Up</keycap
+>, <keycap
+>Page Down</keycap
+>, <keycap
+>Home</keycap
+>, atau <keycap
+>End</keycap
+> ditekan, item saat ini yang baru akan dipilih, dan pemilihan dibersihkan. </para
+></listitem>
+
+<listitem
+><para
+>Jika tuts &Ctrl; ditahan selagi salahsatu tuts di atas ditekan, sisa pemilihan takdiubah. </para
+></listitem>
+
+<listitem
+><para
+>Jika tuts &Shift; ditahan selagi salahsatu tuts di atas telah ditekan, semua item antara item saat ini yang sebelumnya dan item saat ini yang baru akan dipilih. </para
+></listitem>
+
+<listitem
+><para
+>Jika <keycombo action="simul"
+>&Ctrl;<keysym
+>Space</keysym
+></keycombo
+> ditekan, keadaan pemilihan pada item saat ini akan dijungkit. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> memilih semua item-item di dalam tampilan. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> keadaan pemilihan semua item di dalam tampilan. </para
+></listitem>
+
+<listitem
+><para
+>Pilih sebuah file atau folder dengan mengetik beberapa awalan huruf dari namanya dan awalan item yang cocok akan dipilih. Untuk membersihkan pemilihan dan membatalkan pencarian keyboard tekan &Esc; atau tunggu kurang lebih 1 detik. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Bilah Lokasi</title>
+
+<para
+>Si bilah lokasi, yang bisa ditemukan di bagian atas tampilan &dolphin;, mendisplaikan alur ke folder saat ini. Si bilah lokasi memiliki dua mode. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Mode Bread Crumb</title>
+
+<para
+>Dalam mode <quote
+>bread crumb</quote
+>, yang sebagai bakunya, setiap nama folder di dalam alur ke folder saat ini adalah sebuah tombol yang bisa diklik untuk secara cepat membuka folder tersebut. Lebih dari itu, mengeklik tanda <quote
+>&gt;</quote
+> sebelah kanan folder membukakan sebuah menu yang memungkinkanmu untuk membuka secara cepat subfolder si folder tersebut. </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan dari bilah lokasi dalam mode bread crumb</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah lokasi dalam mode bread crumb.</phrase>
+</textobject>
+<caption
+><para
+>Bilah lokasi dalam mode bread crumb.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Mode Dapatdiedit</title>
+
+<para
+>Ketika dalam mode bread crumb, klik di area abu-abu di sebelah kanan alur dengan &LMB; mengalihkan bilah lokasi ke mode <quote
+>dapatdiedit</quote
+>, yang mana alur dapat diedit menggunakan keyboard. Untuk beralih kembali ke mode bread crumb, klik tanda centang di sebelah kanan bilah lokasi dengan &LMB;. </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan dari bilah lokasi dalam mode dapatdiedit</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah lokasi dalam mode dapatdiedit.</phrase>
+</textobject>
+<caption
+><para
+>Bilah lokasi dalam mode dapatdiedit.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Menggunakan Kioslaves</title>
+
+<para
+>Jika bilah lokasi telah kosong dalam mode dapat-diedit, kotak tarik turun muncul di depan bilah yang mencantumkan semua kioslaves yang tersedia di sistem kamu. Kioslaves adalah program yang dibangun ke dalam &kde; yang menambahkan dukungan untuk banyak protokol yang berbeda untuk &dolphin; dan aplikasi &kde; lainnya.</para
+> 
+
+<para
+>Contohnya dengan <quote
+>fish</quote
+> kioslqve &dolphin; bisa digunakan untuk mengelola file dan folder pada sebuah host jarak jauh yang dapat diakses via <acronym
+>SSH</acronym
+>. Untuk melakukan ini kamu harus ketik <userinput
+>fish://username@remotehost</userinput
+> ke dalam bilah lokasi. Pengelolaan file jarak jauh yang mirip bisa dilakukan pada host jarak jauh yang dapat diakses via protokol webdav atau &FTP;, NFS, SFTP, dan SMB (CIFS).</para>
+
+<para
+>Ini juga mungkin untuk menggunakan daftar tarik-turun kioslave untuk mengakses &systemsettings;, sesampahan, program lainnya, dan perangkat yang dilampirkan ke komputermu. Lihat daftar tarik-turun untuk daftar penuh pada kemampuan yang tersedia dari kioslave pada sistemmu. </para>
+<screenshot>
+<screeninfo
+>Sebuah cuplikan dari daftar kioslave</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah lokasi menampilkan daftar kioslave yang tersedia.</phrase>
+</textobject>
+<caption
+><para
+>Daftar kioslave yang tersedia.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Tempat dan Konteks</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Jika panel <guilabel
+>Tempat</guilabel
+> disembunyikan, dalam kedua mode sebuah ikon tambahan di depan alur akan didisplaikan. Ikon ini bisa diklik dengan &LMB; untuk membuka sebuah menu yang menawarkan akses cepat untuk <quote
+>tempat</quote
+> dan media penyimpanan. Lihat <link linkend="places-panel"
+>bagian tentang Panel Tempat</link
+> untuk lebih terperinci. </para>
+
+<screenshot>
+<screeninfo
+>Bilah lokasi dengan ikon Tempat</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah lokasi dengan ikon Tempat</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Menu konteks pada bilah lokasi menawarkan aksi untuk beralih antara mode-mode serta salin dan tempel alur menggunakan papan-klip. Centang opsi yang terakhir di menu konteks untuk mendisplaikan antara pemulaian alur penuh dengan folder root pada file sistem atau untuk mendisplaikan pemulaian alur dengan entri tempat saat ini. </para>
+
+<screenshot>
+<screeninfo
+>Bilah lokasi menu konteks</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Bilah lokasi menu konteks</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Panel</title>
+
+<para
+>&dolphin; memungkinkan sejumlah panel untuk ditempatkan di samping tampilan. Hal itu bisa difungsikan di <menuchoice
+><guimenu
+>Tampilan</guimenu
+><guisubmenu
+>Tampilkan Panel</guisubmenu
+></menuchoice
+>. Dengan melepas-kunci panel kemudian mengeklik dan menyeret judul panel, si panel bisa dipindah ke posisi yang berbeda, bahkan di sisiluar window. </para>
+
+<sect2 id="places-panel">
+<title
+>Tempat</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>Panel <guilabel
+>Tempat</guilabel
+> secara bakunya adalah berlokasi di sebelah kiri window. Panel <guilabel
+>Tempat</guilabel
+> menampilkan lokasi apa pun markah yang kamu miliki. Ini juga menampilkan disk atau media apa pun yang dilampirkan ke komputer, item-item yang diakses barusan dan memungkinkanmu untuk mencari tipe file tertentu. Urutan entri-entri tersebut bisa diubah dengan cara seret dan letakkan. </para>
+
+<para
+>Cara termudah untuk menambahkan folder ke panel <guilabel
+>Tempat</guilabel
+> adalah dengan menyeret dan meletakkannya di panel. Selain itu, kamu bisa mengeklik di dalam panel dengan &RMB; dan pilih <menuchoice
+> <guimenuitem
+>Tambah Entri...</guimenuitem
+></menuchoice
+> dari menu konteks. Prosedur pertama membuat markah lebar sistem, prosedur kedua dapat digunakan untuk menambahkan alur saat ini dari bilah lokasi atau folder atau perangkat yang diinginkan. Sebuah dialog membuka di mana label, lokasi, dan ikon dapatdiedit dan penggunaan entri ini dapat dibatasi untuk &dolphin;. </para>
+
+<para
+>Sebuah klik &RMB; membuka menu konteks untuk mengedit, menambahkan, menyembunyikan, atau menghapus entri dan mengubah ukuran ikon ke salahsatu nilai yang ditentukan atau kunci/lepas-kunci si panel. </para>
+<para
+>Menu konteks memiliki sebuah aksi untuk membuka entri di tab baru. Perangkat bisa dilepaskait menggunakan menu konteks. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Informasi</title>
+
+<para
+>Panel <guilabel
+>Informasi</guilabel
+> menampilkan informasi tambahan tentang item yang dipilih atau tentang folder saat ini atau file yang saat ini dilayangi dengan mouse, termasuk ukuran, tipe, dan tanggal modifikasi terakhir. Ini juga menampilkan pratinjau besar dari item yang dipilih dan memungkinkanmu untuk menetapkan peringkat, tag, dan komentar untuk itu. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Folder</title>
+
+<para
+>Panel <guilabel
+>Folder</guilabel
+> menampilkan struktur tampilan hierarki sistem file. Ini hanya menampilkan folder. Mengklik folder dengan tombol &LMB; maka membuka folder ini di tampilan &dolphin;. </para>
+<para
+>Gunakan <guilabel
+>Batas untuk Direktori Beranda</guilabel
+> untuk nenyembunyikan semua folder dari tampilan hierarki kecuali <guilabel
+>Beranda</guilabel
+>mu. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Panel ini berisi terminal. Terminal akan terbuka di folder yang saat ini ditampilkan di tampilan &dolphin;. Mengubah folder di tampilan &dolphin; yang aktif akan memperbarui folder kerja terminal. Mengubah direktori di terminal akan memperbarui folder kerja di tampilan &dolphin;. Terminal hanya bekerja dengan media lokal. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Tips Cepat</title>
+
+<para
+>Berikut ini adalah sejumlah tips untuk menghemat waktu ketika menggunakan &dolphin;. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Pemarkahan Cepat</title>
+
+<para
+>Untuk secara cepat menciptakan sebuah markah di dalam panel <guilabel
+>Tempat</guilabel
+> untuk folder saat ini, klik &RMB; di ruang kerja dan klik <menuchoice
+><guimenuitem
+>Tambahkan ke Tempat</guimenuitem
+></menuchoice
+> di dalam menu konteks. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Menemukan File dan Pencarian di dalam File</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>&dolphin; memiliki kemampuan pencarian file dan konten di dalam file. Jika <keycombo action="simul"
+> &Ctrl;<keycap
+>F</keycap
+></keycombo
+> ditekan atau <menuchoice
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Cari...</guimenuitem
+> </menuchoice
+> digunakan, bilah <guilabel
+>Cari</guilabel
+> akan membuka pengesetan yang siap untuk mencari file terhadap folder saat ini dan sub-folder apa pun. Mulai mengetik ke dalam kotak input cari dan pencarian segera dimulai. <screenshot>
+<screeninfo
+>Cari file-file dan konten di dalam file</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Cari file-file dan konten di dalam file</phrase>
+</textobject>
+<caption
+><para
+>&dolphin; mencari file-file dan konten di dalam file.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Pencarian adalah tidak sensitif huruf, dan tidak perlu seputar wildcards (<userinput
+>*foo*</userinput
+> dan <userinput
+>foo</userinput
+> adalah setara), tapi kamu bisa menggunakan wildcards di sisi pencarian istilah. <userinput
+>*</userinput
+> akan cocok dengan nol dan karakter selebihnya, <userinput
+>?</userinput
+> hanyalah satu karakter tunggal.</para>
+<para
+>Fitur ini bisa digunakan dengan menjalankan layanan Baloo; tanpa layanan tersebut KIOSlave diluncurkan untuk menyediakan hasil pencarian.</para>
+<para
+>Opsi dari <guilabel
+>Di Mana-mana</guilabel
+> dengan layanan Baloo yang diaktifkan akan mencari di semua folder yang diindeks, tanpa Baloo opsi ini memulai pencarian dari folder <replaceable
+>Beranda</replaceable
+> pengguna.</para>
+<screenshot>
+<screeninfo
+>Mencari dengan Opsi Selebihnya</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Mencari dengan Opsi Selebihnya</phrase>
+</textobject>
+<caption
+><para
+>Mencari di &dolphin; dengan Opsi Selebihnya.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Gunakan tombol <guilabel
+>Opsi Selebihnya</guilabel
+> untuk meluaskan bilah <guilabel
+>Cari</guilabel
+>. Ini menyediakan cara yang nyaman untuk pengguna untuk menciutkan sejumlah hasil pencarian.</para>
+<para
+>Untuk memulai pencarian pilihlah satu atau lebih tipe file (<guilabel
+>Dokumen</guilabel
+>, <guilabel
+>Audio</guilabel
+>, <guilabel
+>Video</guilabel
+>, <guilabel
+>Citras</guilabel
+>), sebuah periode waktu dan peringkat</para>
+
+<para
+>Selain itu kamu bisa menggunakan opsi tersebut di dalam panel <guilabel
+>Tempat</guilabel
+> bersama dengan bilah <guilabel
+>Filter</guilabel
+> untuk menemukan file menggunakan Baloo atau batas pencarian untuk file-file yang sesuai ekspresi flter.</para>
+
+<para
+>Gunakan ikon Simpan untuk menyimpan pencarian ke bagian <guilabel
+>Pencarian Untuk</guilabel
+> di dalam panel <guilabel
+>Tempat</guilabel
+> untuk secara cepat mengaksesnya kembali di kemudian nanti. </para>
+<!--FIXME 16.12
+https://git.reviewboard.kde.org/r/123883/
+Add prototype of a "More search tools..." button
+-->
+
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Pengaitan Media Penyimpanan</title>
+
+<para
+>Sebuah cara cepat untuk mengaitkan Media Penyimpanan adalah dengan mengeklik pada perangkat di dalam panel <guilabel
+>Tempat</guilabel
+>. Ini akan mengaitkan dan membuka perangkat di &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Aksi Urungkan</title>
+
+<para
+>&dolphin; mampu untuk mengurungkan perubahan yang kamu perbuat kepada file. Contohnya jika kamu memindahkan file ke Sesampahan, &dolphin; bisa mengurungkan ini dan pindah kembali ke lokasi aslinya. Untuk mengurungkan aksi, tekan <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> atau pilih <menuchoice
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Urungkan: (nama aksi)</guimenuitem
+> </menuchoice
+> di dalam menu, &eg; <guimenuitem
+>Urungkan: Ubah nama</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Pengubahan-nama Seabrek File</title>
+<para
+>&dolphin; mampu mengubah nama sejumlah file di waktu yang sama. Setiap file akan nemiliki nama file yang ditentukan, termasuk nomor, &eg;, Citra1.jpg, Citra2.jpg, Citra3.jpg. Ini bisa berguna, &eg;, untuk pengambilan gambar dengan kamera digital. </para>
+<!--double click-->
+<para
+>Jika kamu ingin mengubah-nama seabrek file, pertama pilihlah file yang mau diubahnamanya. Ini bisa dilakukan dengan menekan &LMB; dan menggambar sebuah persegi di sekitar file yang mau diubahnamanya sebelum melepaskannya, atau dengan menahan &Ctrl; dan mengeklik setiap file yang mau diubahnamanya (lihat <link linkend="selection"
+>Memilih Item di dalam Tampilan</link
+> untuk lebih terperinci pada pemilihan item). Kemudian buka dialog ubah-nama-seabrek dengan menekan <keycap
+>F2</keycap
+> atau via menu File: <menuchoice
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Ubah nama...</guimenuitem
+> </menuchoice
+> </para>
+
+<para
+>Kemudian masukkan nama yang kamu ingin berikan kepada file. Karakter # mestinya muncul dengan sebuah nama. Maka file akan diubahnamanya, yang mana karakter <userinput
+>#</userinput
+> digantikan dengan nomor berurutan yang berbeda untuk setiap file. </para>
+
+<para
+>Jika semua ekstensi file dalam pilihanmu berbeda, nama semua file bisa diubah tanpa menggunakan placeholder <userinput
+>#</userinput
+> sembari menjaga ekstensi file. Ini berguna, &eg; untuk mengganti nama file video  dan semua file subtitle yang terkait, yang memiliki nama file yang sama, tetapi ekstensinya berbeda. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Membandingkan Sebuah File atau Folder yang Dipilih</title>
+
+<para
+>Jika aplikasi &kompare; telah terinstal, kamu bisa menggunakannya untuk melihat perbedaan antara dua file atau folder. </para>
+
+<para
+>Pertama pilih dua file atau folder yang mau dibandingkan. Kemudian luncurkan aplikasi &kompare; via menu Peralatan: <menuchoice
+> <guimenu
+>Peralatan</guimenu
+> <guimenuitem
+>Bandingkan File</guimenuitem
+> </menuchoice
+>. Maka &kompare; akan terbuka menampilkan perbedaan antara file atau folder. </para>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Memfilter File</title>
+
+<para
+>&dolphin; mampu memfilter file, &ie; hanya menampilkan item-item dalam tampilan yang namanya berisi teks yang diberikan. Umpamanya, jika kamu hanya ingin menampilkan file <acronym
+>MP3</acronym
+> dalam folder, kamu bisa memfilter untuk <quote
+>.mp3 </quote
+>. Maka akan memfilter semua file yang namanya tidak mengandung <quote
+>.mp3</quote
+>. </para>
+
+<para
+>Untuk memfilter file-file, pertama fungsikan bilah filter, antara menekan <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> atau via menu: <menuchoice
+> <guimenu
+>Peralatan</guimenu
+> <guimenuitem
+>Tampilkan Bilah Filter</guimenuitem
+> </menuchoice
+>. Kemudian kamu bisa memasukkan teks yang mau difilter pada bilah filter. Bilah filter bisa dinonfungsikan antara menekan &Esc;, atau dengan klik &LMB; pada ikon <guiicon
+>Sembunyikan Bilah Filter</guiicon
+>. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Mengkonfigurasi &dolphin;</title>
+
+<para
+>&dolphin; membedakan dua macam pengaturan yang berbeda: <itemizedlist>
+
+<listitem
+><para
+>Pengaturan yang mempengaruhi perilaku umum &dolphin;. Hal itu bisa dikonfigurasi menggunakan <link linkend="preferences-dialog"
+>Dialog Preferensi</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Pengaturan yang menentukan bagaimana konten folder yang didisplaikan di &dolphin;. Pengaturan tersebut disebut <link linkend="view-properties"
+>Properti Tampilan</link
+> dan bisa dikendalikan dengan tombol bilah-alat, via menu <guimenu
+>Tampilan</guimenu
+>, dan dengan <link linkend="view-properties-dialog"
+>Dialog Properti Tampilan</link
+>. Dalam konfigurasi baku, properti tampilan diingat untuk setiap folder, tetapi &dolphin; juga bisa dikonfigurasi menggunakan properti tampilan pada umumnya untuk semua folder di <link linkend="preferences-dialog-general-behavior"
+>bagian <quote
+>Umum</quote
+> pada pengaturan</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>Dialog Preferensi &dolphin;</title>
+<para
+>Dialog Preferensi adalah dibuka via <menuchoice
+><guimenu
+>Pengaturan</guimenu
+> <guimenuitem
+>Konfigurasikan &dolphin;...</guimenuitem
+></menuchoice
+> yang bisa diakses dengan mengeklik ikon yang sesuai di sebelah kiri pada dialog. </para>
+
+<para
+>Semua pengaturan kecuali untuk halaman guilabel <guilabel
+>Pemulaian</guilabel
+> dan tab <guilabel
+>Bilah Status</guilabel
+> di halaman <guilabel
+>Umum</guilabel
+> yang dibagikan dengan &konqueror; dalam mode pengelola file. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Umum</title>
+
+<para
+>Kelompok ini berisi pengaturan yang mengendalikan perilaku umum si &dolphin;. Kelompok dibagi ke dalam empat subkelompok yang bisa diakses menggunakan bilah tab di atas. <screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Umum dalam dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Umum.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Umum dalam Dialog Preferensi @&dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Tab Perilaku</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>Di dalam bagian <guilabel
+>Tampilan</guilabel
+>, kamu bisa mengkonfigurasi apakah <link linkend="view-properties"
+> properti tampilan</link
+> telah disimpan untuk setiap folder atau jika properti tampilan pada umumnya telah digunakan untuk semua folder. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mode Pengurutan</guilabel
+> mengendalikan bagaimana item-item diurutkan di dalam tampilan. Jika <guilabel
+>Pengurutan natural</guilabel
+> telah tercentang, mengurutkan  tiga contoh urutan yang akan menjadi <orderedlist
+> <listitem
+><para
+>File1,</para
+></listitem
+> <listitem
+><para
+>File2,</para
+></listitem
+> <listitem
+><para
+>File10.</para
+></listitem
+> </orderedlist
+> Jika opsi ini dinonfungsikan, alfabet normal mengurutkan sensitif huruf atau tidak sensitif huruf akan digunakan, yang mengarah ke urutan <orderedlist>
+<listitem
+><para
+>File1,</para
+></listitem>
+<listitem
+><para
+>File10,</para
+></listitem>
+<listitem
+><para
+>File2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Ketika melayang melintasi file atau folder dengan mouse, maka sebuah window kecil dengan informasi yang relevan akan ditampilkan jika <guilabel
+>Tampilkan tips-alat</guilabel
+> telah difungsikan. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Tampilkan penanda pemilihan</guilabel
+> menampilkan sebuah tombol kecil <guibutton
+>+</guibutton
+> atau <guibutton
+>-</guibutton
+> di bagian atas ikon item jika item dilayang dilintasi dengan mouse. Hal itu bisa digunakan untuk memilih atau tak memilih item. </para
+></listitem>
+
+<listitem
+><para
+>Fungsikan <guilabel
+>Ubah-nama dalam-baris</guilabel
+> untuk menggunakan mode ini jika hanya satu item yang saat ini dipilih. Jika opsi ini telah dinonfungsikan atau beberapa item telah dipilih, sebuah dialog akan didisplaikan untuk mengubah nama. </para
+></listitem>
+
+<listitem
+><para
+>Memfungsikan <guilabel
+>Beralih antara panel belah dengan tuts tab</guilabel
+> memungkinkan untuk beralih tampilan belah dengan tuts &Tab;. </para
+></listitem>
+
+<listitem
+><para
+>Nonfungsikan <guilabel
+>Matikan tampilan belah menutup panel yang aktif</guilabel
+> untuk menutup panel yang tidak aktif ketika kamu mematikan mode tampilan belah, &eg; menekan <keycap
+>F3</keycap
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Tab Pratinjau</title>
+
+<para
+>Dalam tab ini, kamu bisa mengkonfigurasi pratinjau tipe file mana yang mau ditampilkan. Lebih dari itu, ukuran maksimum file jarak jauh yang menghasilkan pratinjau bisa dipilih. </para>
+<para
+>Jika pratinjau folder telah difungsikan, pratinjau beberapa file dalam folder akan ditampilkan dalam sebuah ikon folder. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Tab Konfirmasi</title>
+<para
+>Dalam pertanyaan untuk bagian konfirmasi, kamu bisa memfungsikan dialog peringatan yang ditampilkan sebelum aksi membahayakan secara potensial. </para>
+<para
+>Ini juga memungkinkan untuk memilih aksi baku <guilabel
+>Ketika pembukaan sebuah file executable</guilabel
+>. Ada tiga opsi, bernama <guimenuitem
+>Selalu tanyakan</guimenuitem
+>, <guimenuitem
+>Buka di aplikasi</guimenuitem
+>, dan <guimenuitem
+>Jalankan skrip</guimenuitem
+>. </para>
+<warning
+><para
+>Konfirmasi pengaturan untuk <guilabel
+>Memindah file atau folder ke sesampahan</guilabel
+> dan <guilabel
+>Menghapus file atau folder</guilabel
+> mempengaruhi operasi file di  &dolphin;, &konqueror;, <application
+>Gwenview</application
+> dan semua aplikasi &kde; menggunakan dialog file &kde; baku, yang mana <guilabel
+>Menutup window Dolphin dengan tab yang banyak</guilabel
+> adalah sebuah pengaturan khas &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Tab Bilah Status</title>
+
+<para
+>Dalam tab ini, beberapa item tambahan bisa difungsikan untuk bilah status, asalkan bilah status cukup lebar: <itemizedlist>
+
+<listitem
+><para
+>Sebuah <guilabel
+>penggeser zoom</guilabel
+> yang bisa digunakan untuk mengubah ukuran ikon secara cepat. </para
+></listitem>
+
+<listitem
+><para
+>Sebuah bilah yang menampilkan seberapa ruang bebas pada drive saat ini. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Pemulaian</title>
+
+<para
+>Kelompok ini berisi pengaturan yang mengendalikan penampilan &dolphin; saat pemulaian. <screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Pemulaian dalam dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Pemulaian.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Pemulaian dalam Dialog Preferensi &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Folder <guilabel
+>Mulai di</guilabel
+> adalah folder yang dibuka saat pemulaian. Lokasi folder dapat dimasukkan secara langsung atau dipilih dalam dialog yang bisa dibuka dengan mengeklik tombol yang menampilkan sebuah ikon <quote
+>folder</quote
+>. Lebih dari itu, lokasi saat ini atau lokasi baku (yang mana adalah folder beranda pengguna) bisa digunakan sebagai folder pemulaian dengan mengeklik tombol yang sesuai. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mode tampilan belah</guilabel
+> mengendalikan apakah <link linkend="dolphin-view"
+>tampilan &dolphin;</link
+> dibelah atau tidak saat pemulaian. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Bilah lokasi dapatdiedit</guilabel
+> mengendalikan apakah bilah lokasi dalam keadaan mode dapatdiedit saat pemulaian. Jika tidak, mode bread crumb pada bilah lokasi akan digunakan. Lihat <link linkend="location-bar"
+>bagian tentang bilah lokasi</link
+> untuk perincian tentang kedua mode. </para
+></listitem>
+
+<listitem
+><para
+>Jika <guilabel
+>Tampilkan alur lengkap di dalam bilah lokasi</guilabel
+> difungsikan, alur lengkap  dari lokasi saat ini ditampilkan dalam mode bread crumb pada bilah lokasi. Jika tidak, versi alur yang lebih pendek akan ditampilkan jika itu dimulai dengan alur dari salah satu tempat di panel <guilabel
+>Tempat</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Tampilkan bilah filter</guilabel
+> mengendalikan apakah bilah filter ditampilkan atau tidak saat pemulaian. Lihat <link linkend="filter-files"
+>bagian pada bilah filter</link
+> untuk perincian. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Tampilkan alur lengkap di bilah judul</guilabel
+> membuatnya mudah untuk membedakan antara file atau folder dengan nama yang sama di folder yang berbeda. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Buka folder baru di tab</guilabel
+> mengendalikan apakah &dolphin; seharusnya membuka folder baru di tab baru pada instansi saat ini ketika secara eksternal dipanggil. Jika tidak difungsikan, folder baru akan dibuka di instansi baru pada &dolphin;. Secara bakunya opsi ini adalah difungsikan. </para
+></listitem>
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Mode Tampilan</title>
+
+<para
+>Kelompok ini berisi pengaturan yang mengendalikan perilaku mode tampilan &dolphin;. Ketiga mode tampilan (Ikon, Ringkas, Perincian) yang dapatdiakses via bilah tab di atas. <screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Tampilan Ikon di dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Mode Tampilan.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Mode Tampilan di Dialog Preferensi &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Pengesetan pada umumnya untuk mode tampilan</title>
+
+<para
+>Semua ketiga mode tampilan tersebut memiliki beberapa pengaturan pada umumnya: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Penggeser sebagai kendali ukuran ikon. Ukuran <guilabel
+>Baku</guilabel
+> atau <guilabel
+>Pratinjau</guilabel
+> akan digunakan jika masing-masing pratinjau adalah difungsikan atau dinonfungsikan. Ingat bahwa ukuran ikon bisa diubah secara mudah dengan penggeser zoom di dalam bilah status jika opsi yang sesuai telah difungsikan di dalam <link linkend="preferences-dialog-general-statusbar"
+>bagian <quote
+>Umum</quote
+> pada pengaturan</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Sebuah pengaturan untuk font yang digunakan di mode tampilan: antara font sistem atau font kustom bisa digunakan. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Pengesetan lain di bagian <guilabel
+>Teks</guilabel
+> yang diterapkan untuk satu-satunya mode tampilan yang dibahas di bawah ini. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Ikon</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Lebar</guilabel
+> mengendalikan minimum lebar yang ditentukan untuk teks pada item file. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Baris maksimum</guilabel
+> berarti jumlah maksimum baris teks di bawah ikon. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Ringkas</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Lebar maksimum</guilabel
+> mengendalikan lebar maksimum yang ditentukan untuk teks pada item file. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Perincian</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Folder dapatdiperluas</guilabel
+> menentukan apakah folder memiliki subfolder yang didisplaikan dalam tampilan hierarki, yang mana sub item dapat diperluas dengan &LMB; mengeklik ikon <guiicon
+>&gt;</guiicon
+> dan diperciut dengan mengklik ikon <guiicon
+>v</guiicon
+>. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Navigasi</title>
+
+<para
+>Kelompok ini berisi pengaturan yang mengendalikan bagaimana menavigasi dalam struktur folder dan dalam pekerjaan arsip. <screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Navigasi dalam dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Navigasi.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Navigasi dalam Dialog Preferensi &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Opsi untuk membuka item-item yang dengan klik mouse tunggal atau ganda pada sebuah pengaturan sistem lebar dan bisa diubah di &systemsettings; di modul <menuchoice
+><guimenu
+>Perangkat Input</guimenu
+> <guimenuitem
+>Mouse</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Arsip akan dibuka dalam &dolphin;, dan bukan dalam sebuah aplikasi eksternal, jika <guilabel
+>Buka Arsip sebagai folder</guilabel
+> adalah difungsikan. </para
+></listitem>
+
+<listitem
+><para
+>Jika <guilabel
+>Buka folder selagi operasi seret</guilabel
+> difungsikan, penyeretan item dengan mouse dan melayang melintasi folder dengannya untuk waktu yang singkat akan membuka folder tersebut. Ini memungkinkanmu untuk memindah atau menyalin item secara cepat kepada folder yang telah beberapa tingkat kedalaman di dalam hierarki folder. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-services">
+<title
+>Layanan</title>
+
+<para
+>Kelompok ini menawarkan sebuah pemilihan layanan yang bisa ditampilkan di dalam submenu <guisubmenu
+>Aksi</guisubmenu
+> pada menu konteks &dolphin; yang muncul ketika mengeklik file atau folder dengan &RMB;. </para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Layanan di dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-services.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Layanan.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Layanan di Dialog Preferensi &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Menggunakan <guibutton
+>Unduh Layanan Baru</guibutton
+> kamu bisa mengambil layanan tambahan untuk menu konteks. </para>
+<para
+>Jika kamu telah menginstal plugin &dolphin; untuk <guilabel
+>Bazaar</guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> atau <guilabel
+>Subversion</guilabel
+> dari modul kdesdk, layanan tersebut akan  ditampilkan dalam daftar. Jika plugin tersebut difungsikan dan kamu memasukkan folder yang di bawah kontrol versi, status versi (diubah secara lokal, terbarukan &etc;) ditandai dengan ikon dan kamu memiliki entri tambahan di menu konteks seperti komit, perbarui, tambah, hapus &etc; </para>
+<para
+>Di dalam daftar layanan kamu juga bisa memilih apakah perintah <guimenuitem
+>Hapus</guimenuitem
+>, <guimenuitem
+>Salin Ke</guimenuitem
+>, dan <guimenuitem
+>Pindah Ke</guimenuitem
+> ditampilkan di menu konteks. </para>
+<para
+>&dolphin; harus dimulai-ulang untuk mengaktifkan perubahan pada beberapa pengaturan tersebut. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Sesampahan</title>
+
+<para
+>Kelompok ini berisi pengaturan yang mengendalikan perilaku terhadap sesampahan. <screenshot>
+<screeninfo
+>Sebuah cuplikan dari pengaturan Sesampahan di dialog preferensi &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Pengaturan Sesampahan.</phrase>
+</textobject>
+<caption
+><para
+>Pengaturan Sesampahan di Dialog Preferensi &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>File-file yang sudah lama lebih dari beberapa hari dapatdikonfigurasi bisa dihapus secara otomatis. </para
+></listitem>
+
+<listitem
+><para
+>Ukuran terhadap sesampahan bisa dibatasi untuk sebuah persentase yang dapatdikonfigurasi terhadap ukuran disk. Jika batasan ini tercapai, sebuah peringatan bisa dikabarkan, atau file yang terlalu lama atau yang terlalu besar bisa dihapus secara otomatis. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Properti Tampilan Folder</title>
+
+<para
+>Pengesetan berikut ini mengendalikan bagaimana konten folder akan ditampilkan di dalam tampilan &dolphin;, dan secara baku akan disimpan pada basis tiap folder: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Mode tampilan (Ikon, Ringkas, Perincian) </para
+></listitem>
+
+<listitem
+><para
+>Pengurutan atas item-item, yang telah ditentukan oleh pengurut urutan (naik, turun (ascending, descending)) dan atribut (sepertihalnya nama, ukuran, ...) yang item-item akan diurutkan oleh </para
+></listitem>
+
+<listitem
+><para
+>Mengurutkan folder-folder dan file-file &ndash; apakah folder ditampilkan dulu atau tidak? </para
+></listitem>
+
+<listitem
+><para
+>Pratinjau &ndash; apakah ia ditampilkan alih-alih ikon (berdasarkan pada pengaturan yang dibuat di tab   <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Pratinjau</guilabel
+> pada pengaturan Umum &dolphin;</link
+>) atau tidak? </para
+></listitem>
+
+<listitem
+><para
+>Apakah item-item ditampilkan berkelompok di tampilan? </para
+></listitem>
+
+<listitem
+><para
+>Apakah file yang disembunyikan ditampilkan? </para
+></listitem>
+
+<listitem
+><para
+>Apakah informasi tambahan (selain nama) akan ditampilkan di dalam tampilan Ikon atau Perincian? </para
+></listitem>
+
+</itemizedlist>
+<para
+>Properti tampilan bisa dikonfigurasi di dalam  menu <menuchoice
+><guimenu
+>Tampilan</guimenu
+></menuchoice
+>, beberapa (sepertihalnya mode tampilan) bisa diubah menggunakan tombol bilah alat. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>Dialog Properti Tampilan</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Sebuah cuplikan dari dialog Properti Tampilan</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Dialog Properti Tampilan.</phrase>
+</textobject>
+<caption
+><para
+>Dialog Properti Tampilan.</para
+></caption>
+</mediaobject>
+</screenshot
+>Dialog <guilabel
+>Properti Tampilan</guilabel
+> bisa digunakan untuk dengan cepat mengubah beberapa properti tampilan sekaligus. Ini dilakukan untuk folder saat ini, bagi folder saat ini termasuk semua subfolder, atau bahkan untuk semua folder, tergantung pada pilihan yang dibuat di bagian <guilabel
+>Terapkan untuk</guilabel
+>. </para>
+
+<para
+>Jika <guilabel
+>Gunakan sebagai pengaturan tampilan baku</guilabel
+> difungsikan, properti tampilan yang dipilih juga akan digunakan untuk semua folder yang belum memiliki properti tampilan yang dikustomisasi. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Referensi Perintah</title>
+<para
+>Secara baku, bilah menu tidak ditampilkan. Semua aksi yang dijelaskan di sini bisa diakses dengan tombol bilah alat atau dengan item dalam menu tombol bilah alat <guibutton
+>Kendali</guibutton
+>.</para>
+
+<sect1 id="commands-menubar">
+<title
+>Bilah Menu di Window Utama &dolphin;</title>
+
+<sect2>
+<title
+>Menu File</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+> <guisubmenu
+>Ciptakan Baru</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menciptakan sebuah objek baru (sepertihalnya folder atau file teks) di dalam folder saat ini.</action
+></para>
+<para
+>Kamu akan menemukan sebuah penjelasan dari semua objek yang tersedia di buku petunjuk &konqueror; di bab <ulink url="help:/konqueror/making.html"
+>Ciptakan Baru</ulink
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Window Baru</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan sebuah window &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Tab Baru</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan sebuah tab baru.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Tutup Tab</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menutupkan tab saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Urungkan tutup tab</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan-ulang tab yang ditutup terakhir kali.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Ubah nama</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan nama salahsatu item yang dipilih saat ini. Membukakan <link linkend="batch-rename"
+>dialog ubah-nama seabrek</link
+> jika beberapa item dipilih.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Pindah ke Sesampahan</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memindahkan item(-item) yang dipilih saat ini ke sesampahan.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Hapus</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menghapuskan secara permanen item(-item) yang dipilih saat ini. Item-item tidak dipindah ke sesampahan dan tidak dapat dikembalikan.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+> <guimenuitem
+>Tampilkan Target</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Aksi ini menyoroti sebuah tautan target di dalam window &dolphin; baru. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Return</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Properti</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menampilkan dialog properti untuk item(-item) yang dipilih saat ini.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Berhenti</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memberhentikan &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menu Edit</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Urungkan</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengurungkan aksi terakhir yang dilakukan oleh &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Potong</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memotongkan item(-item) yang dipilih saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Salin</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menyalinkan item(-item) yang dipilih saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Tempel Konten Papan-klip...</guimenuitem
+></menuchoice
+> atau <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Tempel satu File</guimenuitem
+></menuchoice
+> atau <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Tempel satu Folder</guimenuitem
+></menuchoice
+> atau <menuchoice
+><guimenu
+>Edit</guimenu
+><guimenuitem
+>Tempel x Item</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menempelkan item yang saat ini disalin/dipotong ke folder saat ini. Jika papan-klip tidak berisi file atau folder, konten papan-klip (seperti teks atau data gambar) akan disisipkan ke file baru. Nama file ini harus dimasukkan dalam dialog. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Cari...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan bilah cari. Masukkan istilah pencarian ke dalam kotak edit dan pilih untuk mencari nama file atau konten file mulai dari folder saat ini atau di mana-mana.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Pilih Semua</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memilihkan semua file dan folder dalam folder saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Pemilihan Kebalikan</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memilihkan semua item yang takdipilih dan membatalkan pilihan semua item yang dipilih dalam folder saat ini. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menu Tampilan</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Zoom Perbesar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Meningkatkan ukuran ikon dalam tampilan.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Zoom Perkecil</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengurangi ukuran ikon dalam tampilan.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Set-ulang Zoom</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengeset-ulang ukuran ikon di dalam tampilan ke baku.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Mode Tampilan</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan mode tampilan untuk  <guimenuitem
+>Ikon</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Ringkas</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) atau <guimenuitem
+>Perincian</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Urutkan Berdasarkan</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan apakah item-item akan diurutkan</action
+> berdasarkan <guimenuitem
+>Nama</guimenuitem
+> atau kriteria lain yang diterangjelaskan di <link linkend="dolphin-view-information"
+>Informasi dalam Tampilan</link
+>.</para>
+<para
+><guimenuitem
+>Urut turun</guimenuitem
+> membalikkan urutan. <guimenuitem
+>Folder Dulu</guimenuitem
+> mengurutkan folder sebelum file. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Tampilkan Informasi Tambahan</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mendisplaikan informasi tambahan</action
+> yang diterangjelaskan di <link linkend="dolphin-view-information"
+>Informasi di dalam Tampilan</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Tampilkan Pratinjau</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mendisplaikan pratinjau simbolik dari konten file </action
+> di dalam mode tampilan yang berbeda.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Tampilkan dalam Kelompok</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Displai</action
+> konten dari folder saat ini yang dikelompokkan oleh opsi yang dipilih dalam <guimenuitem
+>Urutkan Berdasarkan</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Tampilkan File Tersembunyi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menampilkan semua file yang tersembunyi dan sub-folder serta folder saat ini.</action
+>Ada sebuah pintasan alternatif <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+> untuk aksi ini.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Belah</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memfungsikan dan menonfungsikan mode tampilan belah.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Muat-ulang</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memuatulangkan folder saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Hentikan</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menghentikan pemuatan/pembacaan konten-konten folder saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Tampilkan Panel</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memfungsikan dan menonfungsikan</action
+> <link linkend="panels"
+>panel</link
+> yang berbeda: <guimenuitem
+>Tempat</guimenuitem
+> (<keycap
+>F9</keycap
+>), <guimenuitem
+>Informasi</guimenuitem
+> (<keycap
+>F11</keycap
+>), <guimenuitem
+>Folder</guimenuitem
+> (<keycap
+>F7</keycap
+>), <guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+>F4</keycap
+>). Dengan <guimenuitem
+>Kunci Panel</guimenuitem
+> header panel dengan keterangan dan dua tombol yang disembunyikan untuk menghemat ruang dan panel-panel yang dapat diabadikan, dengan <guimenuitem
+>Lepas-kunci Panel</guimenuitem
+> header akan terlihat dan panel bisa dipindah ke kanan atau kiri atau bahkan ke sisi luar window utama. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Bilah Lokasi</guisubmenu
+> <guimenuitem
+>Lokasi Dapatdiedit</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan bilah lokasi antara dua mode; <link linkend="location-bar-bread-crumb"
+>mode bread crumb</link
+> dan <link linkend="location-bar-editable"
+>mode dapatdiedit</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tampilan</guimenu
+> <guisubmenu
+>Bilah Lokasi</guisubmenu
+> <guimenuitem
+>Ganti Lokasi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengalihkan bilah lokasi ke <link linkend="location-bar-editable"
+>mode dapatdiedit</link
+>, jika diperlukan, dan memilih lokasi sedemikian rupa sehingga bisa diganti selekasnya. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tampilan</guimenu
+> <guimenuitem
+>Sesuaikan Properti Tampilan...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan <link linkend="view-properties-dialog"
+>Dialog Properti Tampilan</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menu Menuju</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Up</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Menuju</guimenu
+> <guimenuitem
+>Naik</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan folder di atasnya folder saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Left</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Menuju</guimenu
+> <guimenuitem
+>Mundur</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan ke folder yang ditampilkan sebelumnya.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Right</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Menuju</guimenu
+> <guimenuitem
+>Maju</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Urungkan</action
+> sebuah aksi <quote
+>Menuju Mundur</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Menuju</guimenu
+> <guimenuitem
+>Beranda</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mengubahkan ke folder beranda pengguna, &eg; /home/Budi/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Menuju</guimenu
+> <guisubmenu
+>Tab-tab Yang Ditutup Barusan</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Menampilkan sebuah daftar tab-tab yang ditutup barusan yang bisa dibuka kembali.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menu Peralatan</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Peralatan</guimenu
+> <guimenuitem
+>Tampilkan Bilah Filter</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memfungsikan dan menonfungsikan <link linkend="filter-files"
+>bilah filter</link
+>.</action
+> Kamu juga bisa menggunakan  alternatif pintasan <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+> untuk aksi ini.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Peralatan</guimenu
+> <guimenuitem
+>Buka Terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membukakan &konsole; keberadaan folder saat ini.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Peralatan</guimenu
+> <guimenuitem
+>Bandingkan File</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Membandingkan file atau folder yang dipilih saat ini dengan &kompare;. Aksi ini hanya difungsikan jika dua file atau folder telah terpilih.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Peralatan</guimenu
+> <guisubmenu
+>Pilih Charset Jarak Jauh</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Memungkinkan kamu untuk memilih aksara (charset) yang digunakan dengan koneksi jarak jauh secara manual.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Pengaturan dan Menu Bantuan</title
+> 
+<para
+>&dolphin; memiliki item-item <guimenu
+>Pengaturan</guimenu
+> &kde; pada umumnya dan menu  <guimenu
+>Bantuan</guimenu
+>, untuk informasi selebihnya bacalah bagian tentang <ulink url="help:/fundamentals/ui.html#menus-settings"
+>Menu Pengaturan</ulink
+> dan <ulink url="help:/fundamentals/ui.html#menus-help"
+>Menu Bantuan</ulink
+> pada asas &kde; Fundamentals. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Beraneka Pertanyaan</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Apakah &dolphin; sebagai penggantinya &konqueror;?</para>
+</question>
+<answer>
+<para
+>&dolphin; tidak dimaksudkan untuk menjadi pesaing untuk &konqueror;: &konqueror; bertindak sebagai penampil universal yang dapat menampilkan halaman &HTML;, dokumen teks, folder, dan banyak lagi lainnya, sedangkan &dolphin; berfokus hanya menjadi pengelola file. Pendekatan ini memungkinkan optimalisasi antarmuka pengguna untuk tugas pengelolaan file. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Apakah aku bisa terlibat dengan pengembangan &dolphin;?</para>
+</question>
+<answer>
+<para
+>Cara termudah untuk terlibat dengan &dolphin; adalah dengan berabonemen milis pengembang <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> dan letakkan email ke milis pengembang. Kirim email tentang apa yang bisa kamu lakukan, berapa banyak waktu yang bisa kamu curahkan &etc;, pengembang akan memberi tahu kamu apa yang bisa kamu lakukan dalam projek. Jika kamu ingin berkontribusi pada dokumentasi, silakan email ke milis <ulink url="mailto:kde-doc-english@kde.org"
+>Tim Dokumentasi &kde;</ulink
+>.  </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Apakah aku bisa mengajukan laporan bug?</para>
+</question>
+<answer>
+<para
+>Channel resmi untuk mengajukan laporan bug adalah via sistem pelacakan bug &kde;. Pelacak bug &kde; bisa ditemukan di <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Apakah aku bisa mengajukan permintaan fitur?</para>
+</question>
+<answer>
+<para
+>Channel resmi untuk mengajukan permintaan fitur adalah via sistem pelacakan bug &kde;. Pelacak bug &kde; bisa ditemukan di <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Penghargaan dan Lisensi</title>
+
+<para
+>&dolphin; </para>
+<para
+>Hakcipta program 2006&ndash;2014 Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> dan Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Para Kontributor: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Hakcipta dokumentasi 2005 Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>Hakcipta dokumentasi 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
+<para
+>Hakcipta dokumentasi 2006 Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>Hakcipta dokumentasi 2009 Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Wantoyo<email
+>wantoyek@gmail.com</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

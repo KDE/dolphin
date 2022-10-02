@@ -1,0 +1,3359 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Swedish "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Handbok &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+> <firstname
+>Stefan</firstname
+> <surname
+>Asserhäll</surname
+> <affiliation
+><address
+><email
+>stefan.asserhall@bredband.net</email
+></address
+></affiliation
+> <contrib
+>Översättare</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2022-01-17</date>
+<releaseinfo
+>KDE Gear 22.04</releaseinfo>
+
+<abstract>
+<para
+>&dolphin; är den normala filhanterare av &kde; konstruerad med huvudsakligt fokus på användbarhet. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>Filhanterare</keyword>
+<keyword
+>fil</keyword>
+<keyword
+>hantering</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inledning</title>
+
+<para
+>&dolphin; är den normala filhanterare i &plasma; med målet att förbättra användbarheten på användargränssnittets nivå. &dolphin; fokuserar bara på att vara en filhanterare, medan &konqueror;, som var &kde;:s normala filhanterar i &kde; 3 och fortfarande kan användas för filhantering, är ett generellt visningsprogram för många filtyper. </para>
+
+<para
+>This design approach allows the developers to concentrate on optimizing the user interface for the specific task of file management. </para>
+
+<para
+>Rapportera gärna eventuella problem eller önskemål om funktioner till &dolphin;s upphovsman via dialogrutan för felrapportering. Den kan antingen kommas åt via knappen <guibutton
+>Styrning</guibutton
+> till höger om verktygsraden i standardläget utan menyrad, eller från menyn <menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Rapportera fel...</guimenuitem
+></menuchoice
+> i programmet, om menyraden visas. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Använda &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>&dolphin;s användargränssnitt</title>
+
+<para
+>Skärmbilden nedan visar &dolphin;s normala användargränssnitt: </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av &dolphin;s normala användargränssnitt</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>&dolphin;s normala användargränssnitt.</phrase>
+</textobject>
+<caption
+><para
+>&dolphin;s normala användargränssnitt.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Delarna i det normala användargränssnittet är: <itemizedlist>
+
+<listitem
+><para
+>Verktygsraden, som kan användas för snabb åtkomst av ofta använda åtgärder. Den kan anpassas genom att klicka med höger musknapp och välja <menuchoice
+><guimenuitem
+>Anpassa verktygsrader...</guimenuitem
+></menuchoice
+> i den sammanhangsberoende menyn, med <guimenuitem
+>Anpassa verktygsrader...</guimenuitem
+> från knappen <guibutton
+>Styrning</guibutton
+> till höger om verktygsraden eller via <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa verktygsrader...</guimenuitem
+></menuchoice
+> i huvudmenyn. </para>
+<screenshot>
+<screeninfo
+>Skärmbild av &dolphin;s verktygsrad</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Standardverktygsraden.</phrase>
+</textobject>
+<caption>
+<para
+>Objekt i verktygsraden där ikonen är tillräcklig för att känna igen kommandot har inte text intill ikonerna. Det kan ändras genom att högerklicka och välja objektets text under <guilabel
+>Visa text</guilabel
+>. Knappen <guibutton
+>Styrning</guibutton
+> på höger sida om verktygsraden visas bara om menyraden är dold. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>Platsraden, som visar alltid sökvägen till arbetskatalogen. Den kan ändras mellan två olika lägen, se <link linkend="location-bar"
+>avsnittet om platsraden</link
+> för detaljinformation. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>Vyn</link
+>, som visar alla filer och kataloger i arbetskatalogen. </para
+></listitem>
+
+<listitem
+><para
+>Panelen <link linkend="places-panel"
+><guilabel
+>Platser</guilabel
+></link
+>, som tillhandahåller snabb åtkomst till platser med bokmärken och andra medier. </para>
+<para
+>Om skrivbordssökning och filindexering är aktiverade i modulen <guilabel
+>Skrivbordssökning</guilabel
+> i systeminställningarna, tillhandahåller panelen alternativet <guilabel
+>Senaste</guilabel
+> och låter dig söka efter <guilabel
+>Dokument</guilabel
+>, <guilabel
+>Bilder</guilabel
+>, <guilabel
+>Ljudfiler</guilabel
+> och <guilabel
+>Videor</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Statusraden. Den visar namn, storlek och typ för filen som musen för närvarande hålls över, eller antal och storlek hos filerna som är markerade. Till höger finns ett zoomreglage som låter dig justera ikonernas storlek i vyn. </para
+></listitem>
+
+<listitem
+><para
+>Menyraden (normalt dold), som ger tillgång till alla kommandon och inställningsalternativ. Se <link linkend="commands-menubar"
+>kommandoreferensen</link
+> för en lista över alla menyalternativ. Menyraden kan växlas med <guimenuitem
+>Visa menyrad</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) i menyn <guimenu
+>Inställningar</guimenu
+> eller knappen <guibutton
+>Styrning</guibutton
+>. </para>
+<para
+>Om menyraden är dold är alla dess åtgärder tillgängliga från knappen <guibutton
+>Styrning</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>De ytterligare panelerna <guilabel
+>Information</guilabel
+>, <guilabel
+>Kataloger</guilabel
+> och <guilabel
+>Terminal</guilabel
+> är normalt dolda. För mer information, se <link linkend="panels"
+><guilabel
+>Paneler</guilabel
+></link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>&dolphin;s vy</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Använda vyn</title>
+
+<para
+>Vyn visar alla filer och kataloger i arbetskatalogen. Objekten kan kommas åt och hanteras på olika sätt: </para>
+<itemizedlist>
+
+<listitem
+><para
+>En fil eller katalog kan öppnas genom att klicka med vänster musknapp (eller dubbelklicka, om <guilabel
+>Öppna genom att dubbelklicka istället</guilabel
+> är aktiverat under <menuchoice
+><guimenu
+>Arbetsyta</guimenu
+><guimenuitem
+>Allmänt beteende</guimenuitem
+></menuchoice
+> i systeminställningarna). </para
+></listitem>
+
+<listitem
+><para
+>Genom att klicka på något objekt eller det vita området omkring objekt med höger musknapp visas en sammanhangsberoende meny som ger tillgång till många vanliga åtgärder antingen för objektet eller för arbetskatalogen. </para
+></listitem>
+
+<listitem
+><para
+>Om vänsterknappen hålls nere på ett objekt, men inte släpps omedelbart, kan objektet dras och släppas på en annan katalog i den aktuella vyn eller i en annan &dolphin;-vy (i ett annat &dolphin;-fönster eller i samma fönster om vyn är delad, se nedan) för att flytta det, kopiera det eller skapa en symbolisk länk. Objekt kan till och med släppas på ett annat program för att öppna dem i det programmet. </para
+></listitem>
+
+</itemizedlist>
+<para
+>&dolphin; kommer ihåg tidigare besökta kataloger. För att gå bakåt eller framåt i historiken kan motsvarande knappar i verktygsraden användas: </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av &dolphin;s verktygsrad</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Knapparna Framåt och Bakåt i verktygsraden.</phrase>
+</textobject>
+<caption>
+<para
+>Knapparna <guibutton
+>Bakåt</guibutton
+> och <guibutton
+>Framåt</guibutton
+> i verktygsraden kan användas för att navigera i historiken. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Om du klickar med musens mittenknapp öppnas objektet i historiken under en ny flik, och behåller sålunda den aktuella fliken och dess innehåll. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>&dolphin;s vyutseende</title>
+
+<para
+>Verktygsraden innehåller knappar för att styra vyns utseende: </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av &dolphin;s verktygsrad</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Knapparna i verktygsraden som styr vyns utseende.</phrase>
+</textobject>
+<caption
+><para
+>Knapparna i verktygsraden som styr vyns utseende. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Alla inställningar som diskuteras nedan och andra alternativ, som t.ex. rör sortering av filerna i arbetskatalogen, kan också ändras i menyn <guimenu
+>Visa</guimenu
+> och i dialogrutan <link linkend="view-properties-dialog"
+>Visningsstil</link
+>. Normalt blir inställningarna separat ihågkomna för varje katalog. Detta beteende kan ändras på sidan <link linkend="preferences-dialog-general"
+><quote
+>Allmänt</quote
+></link
+> i inställningarna. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Visningslägen</title>
+
+<para
+>De första tre knapparna i skärmbilden ovan byter mellan &dolphin;s visningslägen. <itemizedlist>
+
+<listitem
+><para
+>Med visningsläget <guibutton
+>Ikoner</guibutton
+>, som normalt används, representeras filer av en ikon som åskådliggör filtypen, och en katalogikon visas för underkataloger. Katalogernas och filernas namn, samt objekten aktiverade med <menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Ytterligare information</guisubmenu
+></menuchoice
+>, visas under ikonerna. </para
+></listitem>
+
+<listitem
+><para
+>Visningsläget <guilabel
+>Kompakt</guilabel
+> visar kataloginnehållet som ikoner med namnet intill, samt objekten aktiverade med <menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Ytterligare information</guisubmenu
+></menuchoice
+> under namnet. Objekten är grupperade i kolumner som liknar <guilabel
+>Kort format</guilabel
+> i &kde;:s fildialogruta. </para
+></listitem>
+
+<listitem
+><para
+>Med visningsläget <guibutton
+>Detaljer</guibutton
+>, visas katalogens innehåll som en detaljerad lista som innehåller namn, storlek och senaste ändringstid för varje objekt. Ytterligare kolumner kan läggas till genom att klicka på en kolumnrubrik med höger musknapp. </para>
+<para
+>I rubrikradens sammanhangsberoende meny kan du lägga till eller ta bort sidovaddering genom att markera eller avmarkera respektive menyalternativ och välja mellan en egen eller automatisk kolumnbredd. Automatisk bredd justerar bredden på alla kolumner en gång för att fullständigt visa det längsta objektet i kolumnen, förutom kolumnen <guilabel
+>Namn</guilabel
+> där ändelsen ersätts av <quote
+>...</quote
+>. </para>
+<para
+>Kolumnernas ordning kan ändras om genom att dra och släppa kolumnrubriker, utom för rubriken <guilabel
+>Namn</guilabel
+> som alltid är den första kolumnen i den här vyn. </para>
+<para
+>Detaljvisningen låter arbetskatalogen visas på ett trädliknande sätt om <link linkend="preferences-dialog-viewmodes-details"
+><guilabel
+>Expanderbara kataloger</guilabel
+></link
+> är aktiverat. Varje underkatalog till arbetskatalogen kan <quote
+>expanderas</quote
+> eller <quote
+>dras ihop</quote
+> genom att klicka på ikonen <guiicon
+>
+></guiicon
+> eller <guiicon
+>v</guiicon
+> intill den.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Grupperad visning</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Grupperad visning</phrase>
+</textobject>
+<caption
+><para
+>Alla visningslägen stöder gruppering enligt sorteringstypen som väljes med <menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Sortera enligt</guimenuitem
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Information i vyn</title>
+<para
+>&dolphin; visar minst en ikon och ett namn för varje objekt i alla visningslägen. Genom att använda <guisubmenu
+>Ytterligare information</guisubmenu
+> i menyn <guimenu
+>Visa</guimenu
+> eller den sammanhangsberoende menyn i rubriken med läget <guilabel
+>Detaljer</guilabel
+>, kan du välja mer information att visa för varje objekt. </para>
+
+<para
+><guimenuitem
+>Storlek</guimenuitem
+>, <guimenuitem
+>Datum</guimenuitem
+>, <guimenuitem
+>Typ</guimenuitem
+>, <guimenuitem
+>Betyg</guimenuitem
+>, <guimenuitem
+>Etiketter</guimenuitem
+> eller <guimenuitem
+>Kommentar</guimenuitem
+>. </para>
+
+<para
+>Beroende på filtyp kan dessutom sorteringsbegrepp väljas: <simplelist>
+  <member
+><guimenuitem
+>Dokument</guimenuitem
+>: Antal ord och rader</member>
+  <member
+><guimenuitem
+>Bild</guimenuitem
+>: Storlek och orientering</member>
+  <member
+><guimenuitem
+>Ljud</guimenuitem
+>: Artist, album, längd och spår</member>
+</simplelist>
+</para>
+
+<para
+>Undermenyn <guisubmenu
+>Övriga</guisubmenu
+> gör det möjligt att välja <guimenuitem
+>Sökväg</guimenuitem
+>, <guimenuitem
+>Länkmål</guimenuitem
+>, <guimenuitem
+>Kopierad från</guimenuitem
+>, <guimenuitem
+>Skydd</guimenuitem
+>, <guimenuitem
+>Ägare</guimenuitem
+> eller <guimenuitem
+>Användargrupp</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Förhandsgranskning</title>
+
+<para
+>Om <guibutton
+>Granska</guibutton
+> är aktiverat, är ikonerna baserade på själva innehållet i filen eller katalogen För bilder visas t.ex. en skalad förhandsgranskning av bilden. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Dela</title>
+
+<para
+>Om <guibutton
+>Dela</guibutton
+> klickas, visas två vyer som kan innehålla olika kataloger. Det kan vara bekvämt för att flytta eller kopiera filer. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Markera objekt i vyn</title>
+
+<para
+>Det finns flera sätt att markera objekt i vyn. När en grupp av objekt väl är markerade, påverkar alla åtgärder, såsom <menuchoice
+><guimenuitem
+>Klipp ut</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Kopiera</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Flytta till papperskorg</guimenuitem
+></menuchoice
+>, samt drag och släpp, alla markerade objekt. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Markera objekt genom att använda musen</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Du kan klicka med vänster musknapp någonstans i vyn och dra en rektangel omkring en grupp av objekt innan knappen släpps. Det markerar alla objekt i rektangeln och föregående markering försvinner. Om &Shift;-tangenten hålls nere under markeringsprocessen, behålls den föregående markeringen. </para
+></listitem>
+
+<listitem
+><para
+>Om &Ctrl;-tangenten hålls nere när ett objekt klickas med vänster musknapp, ändras objektets markeringstillstånd. Om &Ctrl;-tangenten hålls nere medan en rektangel ritas omkring en grupp av objekt, som beskrivs ovan, ändras markeringstillståndet för alla objekt i rektangeln. </para
+></listitem>
+
+<listitem
+><para
+>Om &Shift;-tangenten hålls nere medan ett objekt klickas med vänster musknapp, markeras alla objekt mellan det tidigare aktuella objektet och det klickade objektet. </para
+></listitem>
+
+<listitem
+><para
+>Om <guilabel
+>Visa markeringsverktyg</guilabel
+> är aktiverad under fliken <link linkend="preferences-dialog-general-behavior"
+><quote
+>Beteende</quote
+> på sidan <guilabel
+>Allmänt</guilabel
+> i inställningarna</link
+>, visas en liten knapp med <guiicon
+>+</guiicon
+> eller <guiicon
+>-</guiicon
+> i övre vänstra hörnet av objektet som musen för närvarande hålls över. Genom att klicka på tecknet markeras eller avmarkeras objektet. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Markera objekt genom att använda tangentbordet</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Om en piltangent, <keycap
+>Page Up</keycap
+>, <keycap
+>Page Down</keycap
+>, <keycap
+>Home</keycap
+> eller <keycap
+>End</keycap
+> trycks ner, markeras det nya aktuella objektet, och den tidigare markeringen försvinner. </para
+></listitem>
+
+<listitem
+><para
+>Om &Ctrl;-tangenten hålls nere medan någon av ovanstående tangenter trycks ner, förblir markeringen oförändrad. </para
+></listitem>
+
+<listitem
+><para
+>Om &Shift;-tangenten hålls nere medan någon av ovanstående tangenter trycks ner, markeras alla objekt mellan det föregående aktuella objektet och det nya. </para
+></listitem>
+
+<listitem
+><para
+>Om <keycombo action="simul"
+>&Ctrl;<keysym
+>Mellanslag</keysym
+></keycombo
+> trycks ner, ändras markeringstillstånd för aktuellt objekt. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> markerar alla objekt i vyn. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> inverterar markeringstillståndet för alla objekt i vyn. </para
+></listitem>
+
+<listitem
+><para
+>Markera en fil eller katalog genom att skriva några av de första bokstäverna så markeras det först objektet som passar in. För att avlägsna markeringen och avbryta tangentbordssökningen tryck på Esc eller vänta längre än tidsgränsen 1 sekund. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Platsraden</title>
+
+<para
+>Platsraden, som finns ovanför &dolphin;s vy, visar sökvägen till arbetskatalogen. Platsraden har två lägen: </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Länkstig</title>
+
+<para
+>Med <quote
+>länkstig</quote
+>, vilket är normalläget, är varje katalognamn i sökvägen till arbetskatalogen en knapp som kan klickas för att snabbt öppna den katalogen. Dessutom, genom att klicka på tecknet <quote
+>&gt;</quote
+> till höger om en katalog öppnas en meny som låter dig snabbt öppna en underkatalog till den katalogen. </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av platsraden med länkstig</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Platsraden med länkstig</phrase>
+</textobject>
+<caption
+><para
+>Platsraden med länkstig</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Redigerbart läge</title>
+
+<para
+>Ett klick med vänster musknapp i det gråa området till höger om sökvägen i länkstigen, ändrar platsraden till det <quote
+>redigerbara</quote
+> läget, där sökvägen kan redigeras med tangentbordet. Klicka på bocken till höger i platsraden med vänster musknapp för att byta tillbaka till länkstig. </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av platsraden i redigerbart läge</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Skärmbild av platsraden i redigerbart läge</phrase>
+</textobject>
+<caption
+><para
+>Skärmbild av platsraden i redigerbart läge</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Använda I/O-slavar</title>
+
+<para
+>Om platsraden är tom i redigerbart läge, visas en kombinationsruta framför raden som listar alla tillgängliga I/O-slavar på systemet. I/O-slavar är program inbyggda i &kde; som lägger till stöd för många olika protokoll i &dolphin; och andra &kde;-program.</para
+> 
+
+<para
+>Exempelvis med I/O-slaven <quote
+>fish</quote
+> kan &dolphin; användas för att hantera filer och kataloger på en fjärrdator som är tillgänglig via <acronym
+>SSH</acronym
+>. För att göra det skulle du skriva <userinput
+>fish://användarnamn@fjärrdator</userinput
+> i platsraden. Liknande fjärrhantering av filer kan göras på fjärrdatorer tillgängliga via protokollen &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) eller webdav.</para>
+
+<para
+>Det är också möjligt att använda kombinationsrutan med I/O-slavar för att komma åt systeminställningarna, teckensnitt, papperskorgen, samt andra program och enheter anslutna till datorn. Se kombinationsrutan för en fullständig lista med funktioner tillgängliga via I/O-slavar på systemet. </para>
+<screenshot>
+<screeninfo
+>Skärmbild av listan över I/O-slavar</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Platsrad som visar listan över tillgängliga I/O-slavar</phrase>
+</textobject>
+<caption
+><para
+>Lista över tillgängliga I/O-slavar</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Platser och sammanhang</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Om panelen <guilabel
+>Platser</guilabel
+> är dold visas ytterligare en ikon framför sökvägen i båda fallen. Ikonen kan klickas med vänster musknapp för att visa en meny som erbjuder snabb åtkomst till <quote
+>platser</quote
+> och lagringsmedier. Se <link linkend="places-panel"
+>avsnittet om panelen Platser</link
+> för detaljinformation. </para>
+
+<screenshot>
+<screeninfo
+>Platsraden med platsikonen</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Platsraden med platsikonen</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Den sammanhangsberoende menyn i platsraden erbjuder åtgärder för att byta mellan lägen och kopiera sökvägen med användning av klippbordet. Markera det sista alternativet i den sammanhangsberoende menyn för att antingen visa hela sökvägen med början på filsystemets rotkatalog eller visa sökvägen med början på nuvarande plats. </para>
+
+<screenshot>
+<screeninfo
+>Platsradens sammanhangsberoende meny</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Platsradens sammanhangsberoende meny</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Paneler</title>
+
+<para
+>&dolphin; tillåter att ett antal paneler placeras intill vyn. De kan aktiveras med <menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Visa paneler</guisubmenu
+></menuchoice
+>. Genom att låsa upp panelerna och klicka på och dra panelens namnlist kan den flyttas till en annan plats, till och med utanför fönstret. </para>
+
+<sect2 id="places-panel">
+<title
+>Platser</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>Panelen <guilabel
+>Platser</guilabel
+> hittas normalt till vänster i fönstret. <guilabel
+>Platser</guilabel
+> visar alla ställen där du har lagt till ett bokmärke. Den visar också alla hårddiskar och media anslutna till datorn och senast använda objekt, samt låter dig söka efter vissa typer av filer. Ordningen av alternativen kan ändras genom att dra och släppa dem. </para>
+
+<para
+>Det enklaste sättet att lägga till en katalog i panelen <guilabel
+>Platser</guilabel
+> är att dra och släppa den i panelen. Dessutom kan du klicka inne i panelen med höger musknapp och välja <menuchoice
+><guimenuitem
+>Lägg till post...</guimenuitem
+></menuchoice
+> i den sammanhangsberoende menyn. Den första metoden skapar ett systemomfattande bokmärke, medan den andra kan användas för att lägga till aktuell sökväg i platsraden eller vilken katalog eller enhet som önskas. En dialogruta visas där beteckning, plats och ikon kan redigeras, och användning av posten kan begränsas till att gälla &dolphin;. </para>
+
+<para
+>Ett högerklick visar den sammanhangsberoende menyn för att redigera, lägga till, dölja eller ta bort poster, ändra ikonstorleken till något av de fördefinierade värdena, samt låsa eller låsa upp panelerna. </para>
+<para
+>Den sammanhangsberoende menyn har ett alternativ för att öppna posten under en ny flik. Enheter kan avmonteras genom att använda den sammanhangsberoende menyn. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Information</title>
+
+<para
+>Panelen <guilabel
+>Information</guilabel
+> visar utökad information om de markerade objekten, eller om den katalog eller fil som musen hålls över, inklusive storlek, typ och datum för senaste ändring. Den tillhandahåller också en stor förhandsgranskning av det valda objektet, och låter dig tilldela ett betyg, etiketter och kommentarer till det. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Kataloger</title>
+
+<para
+>Panelen <guilabel
+>Kataloger</guilabel
+> visar en trädstrukturvy av filsystemet. Den visar bara kataloger. Genom att klicka på en katalog med vänster musknapp, visas katalogen i &dolphin;s vy. </para>
+<para
+>Använd  <guilabel
+>Begränsa till hemkatalog</guilabel
+> för att dölja alla kataloger från trädvyn utan din egen <guilabel
+>Home</guilabel
+>. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Panelen innehåller en terminal. Terminalen öppnas med den katalog som för närvarande visas i &dolphin;s vy. Ändras katalog i &dolphin;s aktiva vy, uppdateras terminalens arbetskatalog. Att byta katalog i terminalen uppdaterar arbetskatalogen i &dolphin;s vy. Terminalen fungerar bara med lokala medier. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Snabbtips</title>
+
+<para
+>Det följande är ett antal tips för att spara tid när &dolphin; används. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Snabba bokmärken</title>
+
+<para
+>För att snabbt skapa ett bokmärke i panelen <guilabel
+>Platser</guilabel
+> för arbetskatalogen, högerklicka i vyn och klicka på <menuchoice
+><guimenuitem
+>Lägg till i Platser</guimenuitem
+></menuchoice
+> i den sammanhangsberoende menyn. </para>
+
+<note>
+    <para
+>Synlighet för motsvarande menyalternativ kan ändras med <link linkend="preferences-dialog-context-menu"
+>inställningar av &dolphin;s sammanhangsberoende meny</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Filtrera filer</title>
+
+<para
+>&dolphin; klarar av att filtrera filer, dvs. bara visa de objekt i vyn vars namn innehåller en given text. Om du till exempel bara vill visa <acronym
+>MP3</acronym
+>-filer i en katalog, skulle du kunna filtrera med <quote
+>.mp3</quote
+>. Det skulle då filtrera bort alla filer som inte har <quote
+>.mp3</quote
+> i namnet. </para>
+
+<para
+>För att filtrera filer, måste först filterraden aktiveras, antingen genom att trycka på <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+> </keycombo
+> eller via menyn: <menuchoice
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Filter...</guimenuitem
+> </menuchoice
+>. Därefter kan du antingen skriva in texten att filtrera i filterraden. Filterraden kan inaktiveras genom att antingen trycka på &Esc;, eller med ett högerklick på ikonen <guiicon
+>Dölj filterrad</guiicon
+>. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Leta rätt på filer och sökning i filer</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>&dolphin; klarar av att söka efter filer och efter innehåll i filer. Genom att trycka på <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> eller använda menyn <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Sök...</guimenuitem
+></menuchoice
+>, visas sökraden redo att söka efter filer i arbetskatalogen och eventuella underkataloger. Börja skriva i sökrutan så startar sökningen omedelbart. <screenshot>
+<screeninfo
+>Sök efter filer och deras innehåll</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Sök efter filer och deras innehåll</phrase>
+</textobject>
+<caption
+><para
+>Sökning i &dolphin; efter filer och deras innehåll.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Sökningen beror inte på skiftläge, och kräver inte omgivande jokertecken (<userinput
+>*exempel*</userinput
+> och <userinput
+>exempel</userinput
+> är likvärdiga), men det går att använda jokertecken inne i sökbegreppet. <userinput
+>*</userinput
+> matchar noll eller flera tecken, <userinput
+>?</userinput
+> matchar endast ett tecken.</para>
+<para
+>Funktionen kan användas med aktiva Baloo-tjänster. Utan dessa tjänster startas en I/O-slav för att tillhandahålla sökresultaten.</para>
+<para
+>Alternativet <guilabel
+>Överallt</guilabel
+> söker i alla indexerade kataloger med aktiva Baloo-tjänster. Utan Baloo startar alternativet sökningen i användarens hemkatalog.</para>
+<screenshot>
+<screeninfo
+>Sökning med Fler alternativ</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Sökning med Fler alternativ</phrase>
+</textobject>
+<caption
+><para
+>Sökning i &dolphin; med Fler alternativ.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Använd knappen <guilabel
+>Fler alternativ</guilabel
+> för att utöka sökraden. Det erbjuder ett mycket bekvämt sätt för användaren att minska antalet sökresultat.</para>
+<para
+>För att påbörja en sökning, markera en eller flera filtyper (<guilabel
+>Dokument</guilabel
+>, <guilabel
+>Ljud</guilabel
+>, <guilabel
+>Video</guilabel
+>, <guilabel
+>Bilder</guilabel
+>), en tidsperiod, betyg, och etikett om du har definierat någon via <userinput
+>etikett:<replaceable
+>exempel</replaceable
+></userinput
+> i inmatningsrutan.</para>
+ 
+ <para
+>Det är möjligt att rensa markeringen genom att använda knappen <guibutton
+>Rensa markering</guibutton
+>.</para>
+
+<para
+>Annars kan alternativen användas i panelen <guilabel
+>Platser</guilabel
+> tillsammans med filterraden för att söka efter filer med Baloo, eller begränsa sökningen till filer som motsvarar filteruttrycket.</para>
+
+<para
+>Använd ikonen Spara för att spara en sökning i sektionen <guilabel
+>Sök efter</guilabel
+> i panelen <guilabel
+>Platser</guilabel
+> för att snabbt komma åt den i framtiden. </para>
+
+<para
+>Använd kombinationslistan <guilabel
+>Fler sökverktyg</guilabel
+> för att välja andra sökverktyg än Baloo. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Montera lagringsmedia</title>
+
+<para
+>Ett snabbt sätt att montera lagringsmedia är att klicka på enheten i panelen <guilabel
+>Platser</guilabel
+>. Det monterar och öppnar enheten i &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Ångra åtgärder</title>
+
+<para
+>&dolphin; klarar av att ångra ändringar du har gjort av filer. Om du till exempel flyttade en fil till papperskorgen kan &dolphin; ångra det och flytta tillbaka filen till den ursprungliga platsen. Tryck på <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> eller välj <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Ångra (alternativnamn)</guimenuitem
+></menuchoice
+> i menyn, t.ex. <guimenuitem
+>Ångra: Byt namn</guimenuitem
+>, för att ångra en åtgärd. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Byta namn på en mängd filer</title>
+<para
+>&dolphin; klarar av att byta namn på ett antal filer samtidigt. Varje fil får angivet filnamn, inklusive ett tal, t.ex. bild1.jpg, bild2.jpg, bild3.jpg. Det kan t.ex. vara användbart för fotografier tagna med en digitalkamera. </para>
+<!--double click-->
+<para
+>Om du vill byta namn på flera filer, markera först filerna som ska bytas namn på. Det kan göras genom att hålla nere vänster musknapp och rita en rektangel över filerna som ska bytas namn på, eller genom att hålla nere &Ctrl; och klicka på varje fil som ska bytas namn på (se <link linkend="selection"
+>Markera objekt i vyn</link
+> för mer information om markering av objekt). Öppna därefter dialogrutan för namnbyte av flera filer genom att trycka på <keycap
+>F2</keycap
+> eller med menyn <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Byt namn...</guimenuitem
+></menuchoice
+> </para>
+
+<para
+>Ange därefter namnet du vill ge filerna. Tecknet # måste också ingå i namnet. Filernas namn ändras därefter, och tecknet <userinput
+>#</userinput
+> ersätts av olika nummer för varje fil. </para>
+
+<para
+>Om alla filändelser i markeringen är olika, kan namnet på alla filer ändras utan att använda platsmarkören <userinput
+>#</userinput
+> medan filändelserna bevaras. Det är t.ex. användbart för att byta namn på en videofil och alla tillhörande textningsfiler, som har samma filnamn men olika filändelser. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Jämföra en markering av filer eller kataloger</title>
+
+<para
+>Om programmet &kompare; är installerat, kan du använda det för att se skillnaderna mellan två filer eller kataloger. </para>
+
+<para
+>Markera först de två filerna eller katalogerna som ska jämföras. Starta därefter programmet &kompare; via verktygsmenyn: <menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Jämför filer</guimenuitem
+></menuchoice
+>. &kompare; startas då och visar skillnaden mellan filerna eller katalogerna. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Anpassa &dolphin;</title>
+
+<para
+>&dolphin; skiljer på två olika sorters inställningar: <itemizedlist>
+
+<listitem
+><para
+>Inställningar som påverkar det allmänna beteendet hos &dolphin;. De kan ställas in med <link linkend="preferences-dialog"
+>inställningsdialogrutan</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Inställningar som bestämmer hur innehållet i en katalog visas i &dolphin;. Inställningarna kallas <link linkend="view-properties"
+>visningsstilar</link
+> och kan styras med knappar i verktygsraden, via menyn <guimenu
+>Visa</guimenu
+> och med dialogrutan <link linkend="view-properties-dialog"
+>Visningsstil</link
+>. I den normala inställningen använder alla kataloger samma visningsstil, men &dolphin; kan också ställas in att komma ihåg varje katalogs visningsstil separat på sidan <link linkend="preferences-dialog-general-behavior"
+><quote
+>Allmänt</quote
+> i inställningarna</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>&dolphin;s inställningsdialogruta</title>
+<para
+>Inställningsdialogrutan öppnas via <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa &dolphin;...</guimenuitem
+></menuchoice
+> i menyraden i &dolphin;s huvudfönster. Inställningarna är uppdelade i flera sidor, som kan kommas åt genom att klicka på motsvarande ikon till vänster i dialogrutan. </para>
+
+<para
+>Alla inställningar utom sidan <guilabel
+>Start</guilabel
+> och fliken <guilabel
+>Statusrad</guilabel
+> på sidan <guilabel
+>Allmänt</guilabel
+> delas med &konqueror; i filhanteringsläge. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Allmänt</title>
+
+<para
+>Den här sidan innehåller inställningar som styr det allmänna beteendet hos &dolphin;. Sidan är ytterligare uppdelad i fyra undergrupper, som kan kommas åt med flikraden längst upp. <screenshot>
+<screeninfo
+>Skärmbild av Allmänna inställningar i &dolphin;s inställningsdialogruta.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Allmänna inställningar.</phrase>
+</textobject>
+<caption
+><para
+>Allmänna inställningar i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Fliken Beteende</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>I delen <guilabel
+>Visning</guilabel
+>, kan du ställa in om <link linkend="view-properties"
+>visningsstil</link
+> delas mellan alla kataloger, eller om katalogerna kommer ihåg sina egna individuella visningsstilar. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sorteringsmetod</guilabel
+> bestämmer hur objekt sorteras i vyn. Om <guilabel
+>Naturlig sortering</guilabel
+> är aktiverat, blir sorteringsordningen för de tre exempelfilerna <orderedlist
+> <listitem
+><para
+>Fil1,</para
+></listitem
+> <listitem
+><para
+>Fil2,</para
+></listitem
+> <listitem
+><para
+>Fil10.</para
+></listitem
+> </orderedlist
+> Om alternativet är inaktiverat, används den normala skiftlägeskänsliga alfabetiska sorteringen, vilket ger sorteringsordningen <orderedlist>
+<listitem
+><para
+>Fil1,</para
+></listitem>
+<listitem
+><para
+>Fil10,</para
+></listitem>
+<listitem
+><para
+>Fil2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>När musen hålls över en fil eller katalog, visas ett litet fönster med relevant information, om <guilabel
+>Visa verktygstips</guilabel
+> är aktiverat. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Visa markeringsverktyg</guilabel
+> visar en liten knapp med <guibutton
+>+</guibutton
+> eller <guibutton
+>-</guibutton
+> ovanför ikonen för ett objekt om musen hålls över objektet. De kan användas för att markera eller avmarkera objektet. </para
+></listitem>
+
+<listitem
+><para
+>Aktivera <guilabel
+>Byt namn på plats</guilabel
+> för att använda denna metod om bara ett objekt för närvarande är markerat. Om alternativet är inaktiverat eller flera objekt är markerade, visas en dialogruta för att byta namn. </para
+></listitem>
+
+<listitem
+><para
+>Att aktivera <guilabel
+>Byt mellan delade rutor med tabulatortangent</guilabel
+> gör det möjligt att byta mellan delade vyer med tabulatortangenten. </para
+></listitem>
+
+<listitem
+><para
+>Inaktivera <guilabel
+>Avstängning av delad visning stänger aktiv ruta</guilabel
+> för att stänga den inaktiva rutan när den delade visningen stängs av, t.ex. genom att trycka på <keycap
+>F3</keycap
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Fliken Förhandsgranskningar</title>
+
+<para
+>Under den här fliken kan du ställa in för vilka filtyper som förhandsgranskningar visas. Dessutom kan man välja den maximala filstorleken för lokala och fjärrfiler då förhandsgranskningar skapas. </para>
+<para
+>Om förhandsgranskningar är aktiverade för kataloger, visas förhandsgranskningar av vissa filer i katalogen inne i katalogens ikon. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Bekräftelseflik</title>
+<para
+>I delen för att fråga efter bekräftelse, kan du aktivera varningsdialogrutor som visas innan potentiellt skadliga åtgärder. </para>
+<para
+>Det är också möjligt att välja standardåtgärd <guilabel
+>När en körbar fil öppnas</guilabel
+>. Det finns tre alternativ, närmare bestämt <guimenuitem
+>Fråga alltid</guimenuitem
+>, <guimenuitem
+>Öppna i program</guimenuitem
+> och <guimenuitem
+>Kör skript</guimenuitem
+>. </para>
+<warning
+><para
+>Bekräftelseinställningarna för <guilabel
+>Flyttar filer eller kataloger till papperskorgen</guilabel
+> och <guilabel
+>Tar bort filer eller kataloger</guilabel
+> påverkar filåtgärder i &dolphin;, &konqueror;, &gwenview; och alla &kde;-program som använder den vanliga fildialogrutan i &kde;, medan <guilabel
+>Stänger Dolphin-fönster med flera flikar</guilabel
+> är en inställning specifik för &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Fliken Statusrad</title>
+
+<para
+>Under den här fliken kan några ytterligare objekt aktiveras i statusraden, under förutsättning att den är bred nog. <itemizedlist>
+
+<listitem
+><para
+>Alternativet <guilabel
+>Visa statusrad</guilabel
+> kan användas för att ändra statusradens synlighet. </para
+></listitem>
+
+<listitem
+><para
+>Alternativet <guilabel
+>Visa zoomreglage</guilabel
+> gör det möjligt att ändra synlighet på ikonstorlekskomponenten. </para
+></listitem>
+
+<listitem
+><para
+>Alternativet <guilabel
+>Visa utrymmesinformation</guilabel
+> kan användas för att sätta på och stänga av en rad som visar hur mycket utrymme som är ledigt på den aktuella disken. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Start</title>
+
+<para
+>Den här sidan innehåller inställningar som bestämmer utseendet hos &dolphin; efter start. <screenshot>
+<screeninfo
+>Skärmbild av startinställningarna i &dolphin;s inställningsdialogruta</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Startinställningar.</phrase>
+</textobject>
+<caption
+><para
+>Startinställningar i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Alternativet <guilabel
+>Visa vid start</guilabel
+> gör det möjligt att välja katalogen som visas vid start. </para>
+<para
+>Om alternativet <guimenuitem
+>Katalog-, flik- och fönstertillstånd från förra gången</guimenuitem
+> är markerat så </para>
+<itemizedlist>
+    <listitem>
+        <para
+>Återställer &dolphin; sessionen efter start från det grafiska användargränssnittet eller kommandoraden utan någon webbadress</para>
+    </listitem>
+    <listitem>
+        <para
+>Återställer sessionen normalt efter omstart med &dolphin; öppet när systemet är igång igen</para>
+    </listitem>
+    <listitem>
+        <para
+>När &dolphin; startas med webbadresser, öppnas fönstret för att visa dessa webbadresser istället för att återställa sessionen</para>
+    </listitem>
+    <listitem>
+        <para
+>När &dolphin; redan kör och ett nytt fönster öppnas, visar det nya fönstret en enda flik med samma webbadress som visades i den tidigare öppnade instansen av &dolphin;</para>
+    </listitem>
+</itemizedlist>
+<para
+>Katalogens plats kan också matas in direkt, eller väljas i en dialogruta som kan öppnas genom att klicka på knappen som visar en <quote
+>katalogikon</quote
+>. Dessutom kan nuvarande plats eller standardplats (vilket är användarens hemkatalog) användas som hemkatalog genom att klicka på motsvarande knapp. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Börja i delat visningsläge</guilabel
+> bestämmer om <link linkend="dolphin-view"
+>&dolphin;s vy</link
+> är delat vid start eller inte för nya fönster. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Visa filterrad</guilabel
+> bestämmer om filterraden visas vid start eller inte. Se <link linkend="filter-files"
+>avsnittet om filterraden</link
+> för detaljinformation. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Gör platsrad redigerbar</guilabel
+> bestämmer om platsraden är i redigerbart läge vid start. Annars används länkstigen i platsraden. Se <link linkend="location-bar"
+>avsnittet om platsraden</link
+> för detaljinformation om de båda lägena. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Öppna nya kataloger under flikar</guilabel
+> bestämmer om &dolphin; ska öppna en ny katalog under en ny flik i den aktuella instansen om externt anropad. Om det inte är aktiverat öppnas de nya katalogerna i nya instanser av &dolphin;. Normalt är alternativet aktiverat. </para
+></listitem>
+
+<listitem
+><para
+>Om <guilabel
+>Visa fullständig sökväg i platsraden</guilabel
+> är aktiverad, visas fullständig sökväg för arbetskatalogen i platsradens länkstig. Annars visas en förkortad version av sökvägen om den börjar med en av platserna i panelen <guilabel
+>Platser</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Visa fullständig sökväg i namnlisten</guilabel
+> gör det enkelt att skilja på filer eller kataloger med samma namn i olika kataloger. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Visningslägen</title>
+
+<para
+>Den här sidan innehåller inställningar som styr beteendet hos &dolphin;s visningslägen. De tre visningslägena (Ikoner, Kompakt och Detaljer) kan kommas åt via flikraden längst upp. <screenshot>
+<screeninfo
+>Skärmbild av ikonvyinställningarna i &dolphin;s inställningsdialogruta</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Inställningar av visninglägen</phrase>
+</textobject>
+<caption
+><para
+>Inställningar av visninglägen i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Gemensamma inställningar för alla visningslägen</title>
+
+<para
+>Alla tre visningslägen har vissa gemensamma inställningar: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Skjutreglage som bestämmer ikonernas storlek. Storleken <guilabel
+>Standard</guilabel
+> används om förhandsgranskningar är inaktiverade, annars används <guilabel
+>Granskning</guilabel
+>. Observera att ikonstorleken enkelt kan ändras med zoomreglaget i statusraden om motsvarande alternativ är aktiverat på sidan <link linkend="preferences-dialog-general-statusbar"
+><quote
+>Allmänt</quote
+> i inställningarna</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>En inställning av teckensnittet som används i visningsläget: antingen systemteckensnittet eller ett eget teckensnitt kan väljas. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Övriga inställningar under <guilabel
+>Text</guilabel
+> som bara gäller ett visningsläge beskrivs nedan. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Ikoner</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Bredd</guilabel
+> bestämmer den maximala bredden som är reserverad för ett filobjekts text. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Maximalt antal rader</guilabel
+> betyder maximalt antal textrader under ikonen. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Kompakt</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Maximal bredd</guilabel
+> bestämmer den maximala bredden som är reserverad för ett filobjekts text. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Detaljer</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Expanderbara kataloger</guilabel
+> bestämmer om några kataloger som har underkataloger visas som ett träd där delobjekten kan expanderas genom att klicka på knappen <guibutton
+>&lt;</guibutton
+> eller dras ihop genom att klicka på ikonen <guibutton
+>v</guibutton
+>. </para>
+<para
+><guilabel
+>Visning av katalogstorlek</guilabel
+> gör det möjligt att definiera egenskapen att använda när kataloger sorteras enligt storlek. Det är möjligt att sortera kataloger enligt <guilabel
+>Antal objekt</guilabel
+> eller <guilabel
+>Innehållsstorlek</guilabel
+> och välja en gräns för antal rekursiva nivåer (kan vara användbart för att begränsa onödiga iterationer i djupa katalogstrukturer eller för långsamma filsystem). </para>
+<para
+>Alternativet <guilabel
+>Datumstil</guilabel
+> kan användas för att anpassa metoden som datum visas med i &dolphin;. Det går att välja mellan<guilabel
+>Relativ</guilabel
+> (t.ex. <quote
+>I går, 15:00</quote
+>) eller <guilabel
+>Absolut</guilabel
+> (t.ex. <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Navigering</title>
+
+<para
+>Den här delen innehåller inställningar som bestämmer hur navigering i katalogstrukturen och i arkiv fungerar. <screenshot>
+<screeninfo
+>Skärmbild av Navigeringsinställningar i &dolphin;s inställningsdialogruta.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Navigeringsinställningar.</phrase>
+</textobject>
+<caption
+><para
+>Navigeringsinställningar i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Alternativet att öppna objekt med ett enkelt eller dubbelt musklick är en systemomfattande inställning och kan ändras i systeminställningarna med modulen <menuchoice
+><guimenu
+>Arbetsyta</guimenu
+> <guimenuitem
+>Allmänt beteende</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Arkiv öppnas inne i &dolphin; och inte i ett externt program, om <guilabel
+>Öppna arkiv som katalog</guilabel
+> är aktiverat. </para
+></listitem>
+
+<listitem
+><para
+>Om <guilabel
+>Öppna kataloger vid dragåtgärder</guilabel
+> är aktiverat, öppnas en katalog när ett objekt dras med musen och den hålls över katalogen en kort stund. Det låter dig att snabbt flytta eller kopiera objekt till kataloger som är flera nivåer djupare i kataloghierarkin. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>Tjänster</title>
+
+<para
+>Den här sidan erbjuder ett urval av tjänster som kan visas i undermenyn <guisubmenu
+>Åtgärder</guisubmenu
+> i &dolphin;s sammanhangsberoende meny, som visas vid ett klick med höger musknapp på en fil eller katalog. </para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av inställningar av tjänstmenyer i &dolphin;s inställningsdialogruta</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Inställningar av tjänster.</phrase>
+</textobject>
+<caption
+><para
+>Inställningar av tjänster i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Genom att använda <guibutton
+>Ladda ner nya tjänster</guibutton
+> kan du hämta ytterligare tjänster för den sammanhangsberoende menyn. </para>
+<para
+>Om du har installerat &dolphin;s insticksprogram för <guilabel
+>Bazaar</guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> eller <guilabel
+>Subversion</guilabel
+> från modulen kdesdk, visas dessa tjänster i listan. Om insticksprogrammen är aktiverade och du går till en katalog som använder versionskontroll, anges versionsstatus (lokalt ändrad, uppdaterad, etc.) med ikoner och det finns ytterligare alternativ i den sammanhangsberoende menyn, som checka in, uppdatera, lägg till, ta bort, etc. </para>
+<para
+>I tjänstlistan kan du också välja om kommandona <guimenuitem
+>Kopiera till</guimenuitem
+>, <guimenuitem
+>Flytta till</guimenuitem
+>, <guimenuitem
+>Lägg till i Platser</guimenuitem
+>, <guimenuitem
+>Sortera enligt</guimenuitem
+>, <guimenuitem
+>Visningsläge</guimenuitem
+>, <guimenuitem
+>Öppna under ny flik</guimenuitem
+>, <guimenuitem
+>Öppna i nytt fönster</guimenuitem
+>, <guimenuitem
+>Kopiera plats</guimenuitem
+> och <guimenuitem
+>Duplicera här</guimenuitem
+> visas i den sammanhangsberoende menyn. </para>
+<para
+>&dolphin; måste startas om för att aktivera ändringar för vissa av dessa inställningar. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Papperskorg</title>
+
+<para
+>Den här sidan innehåller inställningar som styr papperskorgens beteende. <screenshot>
+<screeninfo
+>Skärmbild av inställningar av papperskorg i &dolphin;s inställningsdialogruta.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Inställningar av papperskorg.</phrase>
+</textobject>
+<caption
+><para
+>Inställningar av papperskorg i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Filer som är äldre än ett inställningsbart antal dagar kan tas bort automatiskt. </para
+></listitem>
+
+<listitem
+><para
+>Papperskorgens storlek kan begränsas till ett inställningsbart procentandel av diskstorleken. Om gränsen nås, kan en varning utfärdas, eller så kan den äldsta eller största filen tas bort automatiskt. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>Användaråterkoppling</title>
+
+<para
+>Den här delen innehåller inställningar som bestämmer hur du bidrar med information om användning av &dolphin; till utvecklarna. <screenshot>
+<screeninfo
+>Skärmbild av inställningarna för användaråterkoppling i &dolphin;s inställningsdialogruta</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Inställningar av användaråterkoppling.</phrase>
+</textobject>
+<caption
+><para
+>Inställningar av användaråterkoppling i &dolphin;s inställningsdialogruta.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Du kan bidra med en del återkoppling om &dolphin; om du så önskar. Använd skjutreglagen för att ställa in din deltagarnivå. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Visningsstil för kataloger</title>
+
+<para
+>Följande inställningar bestämmer hur innehållet i en katalog visas i &dolphin;s vyer, och lagras normalt baserat på varje katalog: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Visningsläge (Ikoner, Kompakt, Detaljer) </para
+></listitem>
+
+<listitem
+><para
+>Sorteringen av objekt, som bestäms av sorteringsordningen (stigande, fallande) och egenskapen (såsom namn, storlek, ...) som objekten sorteras enligt </para
+></listitem>
+
+<listitem
+><para
+>Sortering av kataloger och filer: Visas kataloger först eller inte? </para
+></listitem>
+
+<listitem
+><para
+>Visas förhandsgranskningar istället för ikoner eller inte (baserat på inställningarna som görs i under fliken <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Förhandsgranskningar</guilabel
+>i &dolphin;s allmänna inställningar</link
+>)? </para
+></listitem>
+
+<listitem
+><para
+>Visas objekt med grupper i vyerna? </para
+></listitem>
+
+<listitem
+><para
+>Visas dolda filer? </para
+></listitem>
+
+<listitem
+><para
+>Vilken ytterligare information (förutom namnet) visas med vyerna Ikoner eller Detaljer? </para
+></listitem>
+
+</itemizedlist>
+<para
+>Visningsstilen kan ställas in i menyn <menuchoice
+><guimenu
+>Visa</guimenu
+></menuchoice
+>, och vissa (som visningsläge) kan också ändras med knappar i verktygsraden. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>Dialogrutan med visningsstil.</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Skärmbild av dialogrutan med visningsstil</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Dialogrutan med visningsstil.</phrase>
+</textobject>
+<caption
+><para
+>Dialogrutan med visningsstil.</para
+></caption>
+</mediaobject>
+</screenshot
+>Dialogrutan <guilabel
+>Visningsstil</guilabel
+> kan användas för att snabbt ändra visningsstil för många kataloger på en gång. Det görs för arbetskatalogen, inklusive alla underkataloger, eller till och med för alla kataloger, beroende på valet som görs under sektionen <guilabel
+>Verkställ för</guilabel
+>. </para>
+
+<para
+>Om <guilabel
+>Använd som standardvisningsinställningar</guilabel
+> aktiveras, används också valda visningsegenskaper för alla kataloger som ännu inte har anpassade visningsegenskaper. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Kommandoreferens</title>
+<para
+>Normalt visas inte menyraden. Alla åtgärder som beskrivs här kan antingen kommas åt med knappar i verktygsraden eller med alternativ i menyn som visas med verktygsknappen <guibutton
+>Styrning</guibutton
+>.</para>
+
+<sect1 id="commands-menubar">
+<title
+>Menyraden i &dolphin;s huvudfönster</title>
+
+<sect2>
+<title
+>Menyn Arkiv</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guisubmenu
+>Skapa ny</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Skapar ett nytt objekt (såsom en katalog eller en textfil) i arbetskatalogen.</action
+></para>
+<para
+>Du hittar en förklaring av alla tillgängliga objekt i &konqueror;s handbok i kapitlet <ulink url="help:/konqueror/making.html"
+>Skapa ny</ulink
+>.</para>
+<note>
+    <para
+>Det är möjligt att skapa egna <guisubmenu
+>Skapa ny...</guisubmenu
+> undermenyalternativ. Använd filer från <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>KDE:s källkodsarkiv</ulink
+> som referens, och lägg den resulterande <filename role="extension"
+>.desktop</filename
+>-filen i <filename role="directory"
+>.local/share/templates</filename
+> i din hemkatalog (adressen kan bestämmas genom att använda kommandot <userinput
+>kf5-config --path templates</userinput
+> i terminalen), och starta sedan om &dolphin;. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Nytt fönster</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar ett nytt fönster i &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Ny flik</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar en ny flik.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Stäng flik</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Stänger aktuell flik.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Arkiv</guimenu
+><guimenuitem
+>Ångra stäng flik</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppna senast stängda flik igen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Byt namn</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Byter namn på ett objekt som är markerat på plats. Öppnar <link linkend="batch-rename"
+>dialogrutan för namnbyte i bakgrunden</link
+> om flera objekt är markerade.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Flytta till papperskorg</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Flyttar objekten som för närvarande är markerade till papperskorgen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Ta bort</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Tar bort objekten som för närvarande är markerade permanent. Objekten flyttas inte till papperskorgen och kan inte återställas.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Visa mål</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Åtgärden markerar ett länkmål i ett nytt &dolphin;-fönster. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Duplicera här</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Skapar dubbletter av markerad objekt och lägger till <replaceable
+> kopia</replaceable
+> sist i deras namn.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Retur</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Egenskaper</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar egenskapsdialogrutan för de objekt som för närvarande är markerade.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Avsluta</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Avslutar &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menyn Redigera</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Ångra</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ångrar den senaste åtgärden som &dolphin; utförde.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Klipp ut</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Klipper ut objekten som för närvarande är markerade.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Kopiera</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Kopierar objekten som för närvarande är markerade.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Klistra in klippbordets innehåll...</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Klistra in en fil</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Klistra in en katalog</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Klistra in x objekt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Klistrar in objekten som för närvarande är kopierade eller urklippta i arbetskatalogen. Om klippbordet inte innehåller filer eller kataloger, klistras klippbordets innehåll (såsom text eller bilddata) in i en ny fil. Filens namn måste skrivas in i en dialogruta. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Kopiera till inaktiv delad vy</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Kopierar objekten som för närvarande är markerade från den aktiva delade vyn till den inaktiva.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Flytta till inaktiv delad vy</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Flyttar objekten som för närvarande är markerade från den aktiva delade vyn till den inaktiva delade vyn. Det är inaktiverat om den aktuella användaren inte har skrivrättigheter för de markerade objekten.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Filter...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Aktiverar och inaktiverar <link linkend="filter-files"
+>filterraden</link
+>.</action
+> Du kan också använda den alternativa genvägen för åtgärden <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Sök...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar sökraden. Skriv in ett sökbegrepp i redigeringsrutan och välj att söka efter filnamn eller innehållet i filer med början i arbetskatalogen eller överallt.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Markera alla</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Markerar alla filer och kataloger i arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Invertera markering</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Markerar alla omarkerade objekt och avmarkerar alla markerade objekt i arbetskatalogen. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menyn Visa</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma in</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ökar storleken hos ikoner i vyn.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Zooma ut</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Minskar storleken hos ikoner i vyn.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Nollställ zoomnivå</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Nollställer zoomnivån för ikonerna i vyn till standardvärdet.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Visningsläge</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ändrar visningsläget till <guimenuitem
+>Ikoner</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Kompakt</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) eller <guimenuitem
+>Detaljer</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Sortera enligt</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ändrar om objekt sorteras</action
+> enligt <guimenuitem
+>Namn</guimenuitem
+> eller andra begrepp som beskrivs under <link linkend="dolphin-view-information"
+>Information i vyn</link
+>.</para>
+<para
+><guimenuitem
+>Fallande</guimenuitem
+> vänder på sorteringsordningen, medan <guimenuitem
+>Kataloger först</guimenuitem
+> sorterar kataloger innan filer. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Visa ytterligare information</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar ytterligare information</action
+> som beskrivs under <link linkend="dolphin-view-information"
+>Information i vyn</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Visa förhandsgranskning</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar en symbolisk förhandsgranskning av filens innehåll</action
+> i de olika visningslägena.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Visa i grupper</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar</action
+> innehållet i arbetskatalogen grupperat enligt alternativet valt med <guimenuitem
+>Sortera enligt</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Visa dolda filer</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar alla dolda filer och underkataloger i arbetskatalogen</action
+>. Det finns en alternativ genväg för åtgärden, <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Dela</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Aktiverar och inaktiverar det delade visningsläget.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guimenuitem
+>Uppdatera</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Laddar om arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Stoppa</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Stoppar laddning eller läsning av innehållet i arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guisubmenu
+>Visa paneler</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Aktiverar och inaktiverar</action
+> de olika <link linkend="panels"
+>panelerna</link
+>: <guimenuitem
+>Platser</guimenuitem
+> (<keycap
+>F9</keycap
+>), <guimenuitem
+>Information</guimenuitem
+> (<keycap
+>F11</keycap
+>), <guimenuitem
+>Kataloger</guimenuitem
+> (<keycap
+>F7</keycap
+>), <guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+>F4</keycap
+>). Panelens namnlist med rubrik och två knappar kan döljas med <guimenuitem
+>Lås paneler</guimenuitem
+> för att spara plats och skydda från ändringar. Med <guimenuitem
+>Lås upp paneler</guimenuitem
+> är rubriken synlig och panelen kan flyttas till höger eller vänster, eller till och med utanför huvudfönstret. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guisubmenu
+>Platsrad</guisubmenu
+> <guimenuitem
+>Redigerbar plats</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ändrar platsraden mellan de två lägena: <link linkend="location-bar-bread-crumb"
+>länkstig</link
+> och <link linkend="location-bar-editable"
+>redigerbart läge</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visa</guimenu
+> <guisubmenu
+>Platsrad</guisubmenu
+> <guimenuitem
+>Ersätt plats</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Byter platsraden till <link linkend="location-bar-editable"
+>redigerbart läge</link
+>, om det behövs, och markerar platsen så att den snabbt kan ersättas. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visa</guimenu
+> <guimenuitem
+>Justera visningsstil...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar dialogrutan <link linkend="view-properties-dialog"
+>Visningsstil</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menyn Gå</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Upp</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gå</guimenu
+> <guimenuitem
+>Uppåt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Går till katalogen ovanför arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Vänster</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gå</guimenu
+> <guimenuitem
+>Bakåt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Går till katalogen som tidigare visades.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Höger</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gå</guimenu
+> <guimenuitem
+>Framåt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ångrar</action
+> åtgärden <quote
+>Bakåt</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Gå</guimenu
+> <guimenuitem
+>Hem</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Byter till användarens hemkatalog, t.ex. /home/Peter/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Gå</guimenu
+> <guisubmenu
+>Senaste stängda flikar</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Visar en lista med flikar som senast stängdes, som kan öppnas igen.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menyn Verktyg</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Öppna terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar &kfind; inne i arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Öppna föredraget sökverktyg</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Öppnar föredraget sökverktyg inne i arbetskatalogen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guimenuitem
+>Jämför filer</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Jämför filerna eller katalogerna som för närvarande är markerade med &kompare;. Åtgärden är bara aktiverad om två filer eller kataloger är markerade.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Verktyg</guimenu
+> <guisubmenu
+>Välj fjärrteckenuppsättning</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Låter dig välja teckenuppsättning använd av en fjärranslutning för hand.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Menyn Inställningar och menyn Hjälp</title
+> 
+<para
+>&dolphin; har de vanliga menyalternativen i &kde;, <guimenu
+>Inställningar</guimenu
+> och <guimenu
+>Hjälp</guimenu
+>. För mer information läs avsnitten om <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Menyn Inställningar</ulink
+> och <ulink url="help:/fundamentals/menus.html#menus-help"
+>Menyn Hjälp</ulink
+> i &kde;:s grunder. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Diverse frågor</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Har &dolphin; ersatt &konqueror;?</para>
+</question>
+<answer>
+<para
+>&dolphin; är inte avsedd som en konkurrent till &konqueror;. &konqueror; fungerar som ett universellt visningsprogram som kan visa &HTML;-sidor, textdokument, kataloger med mera, medan &dolphin; fokuserar på att bara vara en filhanterare. Detta tillvägagångssätt gör det möjligt att optimera användargränssnittet för uppgiften att hantera filer. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hur kan jag delta i utvecklingen av &dolphin;?</para>
+</question>
+<answer>
+<para
+>Det enklaste sättet att bli delaktig i &dolphin; är att prenumerera på utvecklarnas e-postlista <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> och skicka e-post till utvecklarna om vad du kan göra, hur mycket tid du kan lägga ner, etc., låter utvecklarna dig veta vad du kan göra i projektet. Om du vill bidra till dokumentationen, skicka då e-post till <ulink url="mailto:kde-doc-english@kde.org"
+>&kde; dokumentationsgruppens lista</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hur kan man skicka in felrapporter?</para>
+</question>
+<answer>
+<para
+>Den officiella kanalen för att skicka in felrapporter är via &kde;:s felrapporteringssystem. &kde;:s felrapporteringssystem finns på <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hur kan man skicka in önskemål om funktioner?</para>
+</question>
+<answer>
+<para
+>Den officiella kanalen för att skicka in önskemål om funktioner är via &kde;:s felrapporteringssystem. &kde;:s felrapporteringssystem finns på <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Tack till och licens</title>
+
+<para
+>&dolphin; </para>
+<para
+>Program copyright 2006&ndash;2014 Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> och Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Bidragsgivare: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Dokumentation copyright 2005 Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>Dokumentation copyright 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
+<para
+>Dokumentation copyright 2006 Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>Dokumentation copyright 2009 Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

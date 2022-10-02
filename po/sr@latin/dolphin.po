@@ -1,0 +1,4558 @@
+# Translation of dolphin.po into Serbian.
+# Chusslove Illich <caslav.ilic@gmx.net>, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017.
+# Dalibor Djuric <daliborddjuric@gmail.com>, 2009, 2010, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2020-06-10 02:25+0200\n"
+"PO-Revision-Date: 2017-12-17 18:00+0100\n"
+"Last-Translator: Chusslove Illich <caslav.ilic@gmx.net>\n"
+"Language-Team: Serbian <kde-i18n-sr@kde.org>\n"
+"Language: sr@latin\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
+"%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Accelerator-Marker: &\n"
+"X-Text-Markup: kde4\n"
+"X-Environment: kde\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Časlav Ilić"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "caslav.ilic@gmx.net"
+
+#: dolphincontextmenu.cpp:148 panels/places/placespanel.cpp:179
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Empty Trash"
+msgstr "Isprazni smeće"
+
+#: dolphincontextmenu.cpp:169
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Restore"
+msgstr "Vrati"
+
+# Без „…нови“ јер се реченица прелива на ставке подменија.
+#: dolphincontextmenu.cpp:214 dolphinmainwindow.cpp:1292
+#, kde-format
+msgctxt "@title:menu Create new folder, file, link, etc."
+msgid "Create New"
+msgstr "Napravi"
+
+#: dolphincontextmenu.cpp:243
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Path"
+msgstr "Otvori putanju"
+
+#: dolphincontextmenu.cpp:249
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Path in New Window"
+msgstr "Otvori putanju u novom prozoru"
+
+#: dolphincontextmenu.cpp:255
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Path in New Tab"
+msgstr "Otvori putanju u novom jezičku"
+
+#: dolphinmainwindow.cpp:260
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully copied."
+msgstr "Uspešno kopirano."
+
+#: dolphinmainwindow.cpp:263
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully moved."
+msgstr "Uspešno premešteno."
+
+#: dolphinmainwindow.cpp:266
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully linked."
+msgstr "Uspešno povezano."
+
+#: dolphinmainwindow.cpp:269
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully moved to trash."
+msgstr "Uspešno premešteno u smeće."
+
+#: dolphinmainwindow.cpp:272
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully renamed."
+msgstr "Uspešno preimenovano."
+
+#: dolphinmainwindow.cpp:276
+#, kde-format
+msgctxt "@info:status"
+msgid "Created folder."
+msgstr "Fascikla napravljena."
+
+#: dolphinmainwindow.cpp:349
+#, kde-format
+msgctxt "@info"
+msgid "Go back"
+msgstr "Idi nazad"
+
+#: dolphinmainwindow.cpp:350
+#, kde-format
+msgctxt "@info:whatsthis go back"
+msgid "Return to the previously viewed folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:356
+#, kde-format
+msgctxt "@info"
+msgid "Go forward"
+msgstr "Idi napred"
+
+#: dolphinmainwindow.cpp:358
+#, kde-kuit-format
+msgctxt "@info:whatsthis go forward"
+msgid "This undoes a <interface>Go|Back</interface> action."
+msgstr ""
+
+#: dolphinmainwindow.cpp:468
+#, fuzzy, kde-kuit-format
+#| msgctxt "@label:textbox"
+#| msgid "Rename the item <filename>%1</filename> to:"
+msgctxt "@info"
+msgid "Could not access <filename>%1</filename>."
+msgstr "Preimenuj <filename>%1</filename> u:"
+
+#: dolphinmainwindow.cpp:498 dolphinmainwindow.cpp:542
+#, kde-format
+msgctxt "@title:window"
+msgid "Confirmation"
+msgstr "Potvrda"
+
+#: dolphinmainwindow.cpp:501
+#, kde-format
+msgctxt "@action:button 'Quit Dolphin' button"
+msgid "&Quit %1"
+msgstr ""
+
+#: dolphinmainwindow.cpp:502
+#, kde-format
+msgid "C&lose Current Tab"
+msgstr "Zatvori &tekući jezičak"
+
+#: dolphinmainwindow.cpp:511
+#, kde-format
+msgid ""
+"You have multiple tabs open in this window, are you sure you want to quit?"
+msgstr "Ovaj prozor sadrži više jezičaka, želite li zaista da napustite?"
+
+#: dolphinmainwindow.cpp:513 dolphinmainwindow.cpp:565
+#, kde-format
+msgid "Do not ask again"
+msgstr "Ne pitaj više"
+
+#: dolphinmainwindow.cpp:553
+#, kde-format
+msgid "Show &Terminal Panel"
+msgstr ""
+
+#: dolphinmainwindow.cpp:563
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have multiple tabs open in this window, are you sure you want to quit?"
+msgid ""
+"The program '%1' is still running in the Terminal panel. Are you sure you "
+"want to quit?"
+msgstr "Ovaj prozor sadrži više jezičaka, želite li zaista da napustite?"
+
+#: dolphinmainwindow.cpp:997
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open Path"
+msgctxt "@action:inmenu Tools"
+msgid "Open %1"
+msgstr "Otvori putanju"
+
+#: dolphinmainwindow.cpp:1002 dolphinmainwindow.cpp:1556
+#, fuzzy, kde-format
+#| msgid "More Search Tools"
+msgctxt "@action:inmenu Tools"
+msgid "Open Preferred Search Tool"
+msgstr "Više alatki za pretragu"
+
+#: dolphinmainwindow.cpp:1299
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "New &Window"
+msgstr "Novi &prozor"
+
+#: dolphinmainwindow.cpp:1300
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open Path in New Window"
+msgctxt "@info"
+msgid "Open a new Dolphin window"
+msgstr "Otvori putanju u novom prozoru"
+
+#: dolphinmainwindow.cpp:1301
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a new window just like this one with the current location and "
+"view.<nl/>You can drag and drop items between windows."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1308
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "New Tab"
+msgstr "Novi jezičak"
+
+#: dolphinmainwindow.cpp:1309
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a new <emphasis>Tab</emphasis> with the current location and view."
+"<nl/>A tab is an additional view within this window. You can drag and drop "
+"items between tabs."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1318
+#, kde-format
+msgctxt "@action:inmenu Add current folder to places"
+msgid "Add to Places"
+msgstr "Dodaj u Mesta"
+
+#: dolphinmainwindow.cpp:1319
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "This adds the selected folder to the Places panel."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1324
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Close Tab"
+msgstr "Zatvori jezičak"
+
+#: dolphinmainwindow.cpp:1325
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This closes the currently viewed tab. If no more tabs are left this window "
+"will close instead."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1330
+#, kde-format
+msgctxt "@info:whatsthis quit"
+msgid "This closes this window."
+msgstr ""
+
+#. i18n: This will be the last paragraph for the whatsthis for all three:
+#. Cut, Copy and Paste
+#: dolphinmainwindow.cpp:1339
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para><emphasis>Cut, Copy</emphasis> and <emphasis>Paste</emphasis> work "
+"between many applications and are among the most used commands. That's why "
+"their <emphasis>keyboard shortcuts</emphasis> are prominently placed right "
+"next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
+"<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1346
+#, kde-kuit-format
+msgctxt "@info:whatsthis cut"
+msgid ""
+"This copies the items in your current selection to the <emphasis>clipboard</"
+"emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
+"them from the clipboard to a new location. The items will be removed from "
+"their initial location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1352
+#, kde-kuit-format
+msgctxt "@info:whatsthis copy"
+msgid ""
+"This copies the items in your current selection to the <emphasis>clipboard</"
+"emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
+"them from the clipboard to a new location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1360
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Paste"
+msgstr "Nalepi"
+
+#: dolphinmainwindow.cpp:1361
+#, kde-kuit-format
+msgctxt "@info:whatsthis paste"
+msgid ""
+"This copies the items from your <emphasis>clipboard</emphasis> to the "
+"currently viewed folder.<nl/>If the items were added to the clipboard by the "
+"<emphasis>Cut</emphasis> action they are removed from their old location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1367
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Copy to inactive split view"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1368
+#, kde-kuit-format
+msgctxt "@info:whatsthis Copy"
+msgid ""
+"This copies the selected items from the <emphasis>active</emphasis> view to "
+"the inactive split view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1371
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Copy to inactive split view"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1376
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Move to inactive split view"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1377
+#, kde-kuit-format
+msgctxt "@info:whatsthis Move"
+msgid ""
+"This moves the selected items from the <emphasis>active</emphasis> view to "
+"the inactive split view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1380
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Move to inactive split view"
+msgstr ""
+
+# >! @info:progress
+#: dolphinmainwindow.cpp:1385 search/dolphinsearchbox.cpp:349
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
+msgid "Search..."
+msgstr "Tražim..."
+
+#: dolphinmainwindow.cpp:1386
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@info:tooltip"
+msgid "Search for files and folders"
+msgstr "Pregled fajlova i fascikli"
+
+#: dolphinmainwindow.cpp:1387
+#, kde-kuit-format
+msgctxt "@info:whatsthis find"
+msgid ""
+"<para>This helps you find files and folders by opening a <emphasis>find bar</"
+"emphasis>. There you can enter search terms and specify settings to find the "
+"objects you are looking for.</para><para>Use this help again on the find bar "
+"so we can have a look at it while the settings are explained.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1398
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Toggle Search Bar"
+msgstr ""
+
+# >> @title:window
+#: dolphinmainwindow.cpp:1399
+#, fuzzy, kde-format
+#| msgid "Search"
+msgctxt "@action:intoolbar"
+msgid "Search"
+msgstr "Pretraga"
+
+#: dolphinmainwindow.cpp:1406
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "This selects all files and folders in the current location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1410 dolphinpart.cpp:193
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Invert Selection"
+msgstr "Izvrni izbor"
+
+#: dolphinmainwindow.cpp:1411
+#, kde-kuit-format
+msgctxt "@info:whatsthis invert"
+msgid ""
+"This selects all objects that you have currently <emphasis>not</emphasis> "
+"selected instead."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1421
+#, kde-kuit-format
+msgctxt "@info:whatsthis find"
+msgid ""
+"<para>This splits the folder view below into two autonomous views.</"
+"para><para>This way you can see two locations at once and move items between "
+"them quickly.</para>Click this again afterwards to recombine the views."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1430
+#, kde-format
+msgctxt "@action:intoolbar Stash"
+msgid "Stash"
+msgstr "Spremi"
+
+#: dolphinmainwindow.cpp:1431
+#, kde-format
+msgctxt "@info"
+msgid "Opens the stash virtual directory in a split window"
+msgstr "Otvara virtuelnu fasciklu za spremanje u podeljenom prozoru."
+
+#: dolphinmainwindow.cpp:1440
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Stop"
+msgstr "Zaustavi"
+
+#: dolphinmainwindow.cpp:1441
+#, kde-format
+msgctxt "@info"
+msgid "Stop loading"
+msgstr "Zaustavi učitavanje"
+
+#: dolphinmainwindow.cpp:1442
+#, kde-format
+msgctxt "@info"
+msgid "This stops the loading of the contents of the current folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1447
+#, kde-format
+msgctxt "@action:inmenu Navigation Bar"
+msgid "Editable Location"
+msgstr "Urediva lokacija"
+
+#: dolphinmainwindow.cpp:1449
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This toggles the <emphasis>Location Bar</emphasis> to be editable so you can "
+"directly enter a location you want to go to.<nl/>You can also switch to "
+"editing by clicking to the right of the location and switch back by "
+"confirming the edited location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1457
+#, kde-format
+msgctxt "@action:inmenu Navigation Bar"
+msgid "Replace Location"
+msgstr "Zameni lokaciju"
+
+#: dolphinmainwindow.cpp:1462
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches to editing the location and selects it so you can quickly "
+"enter a different location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1495
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Undo close tab"
+msgstr "Opozovi zatvaranje jezička"
+
+#: dolphinmainwindow.cpp:1497
+#, kde-format
+msgctxt "@info:whatsthis undo close tab"
+msgid "This returns you to the previously closed tab."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1504
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This undoes the last change you made to files or folders.<nl/>Such changes "
+"include <interface>creating, renaming</interface> and <interface>moving</"
+"interface> them to a different location or to the <filename>Trash</"
+"filename>. <nl/>Changes that can't be undone will ask for your confirmation."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1533
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Go to your <filename>Home</filename> folder.<nl/>Every user account has "
+"their own <filename>Home</filename> that contains their data including "
+"folders that contain personal application data."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1540
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Show Filter Bar"
+msgstr "Filterska traka"
+
+#: dolphinmainwindow.cpp:1541
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
+"<nl/> There you can enter a text to filter the files and folders currently "
+"displayed. Only those that contain the text in their name will be kept in "
+"view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1550
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Compare Files"
+msgstr "Uporedi fajlove"
+
+#: dolphinmainwindow.cpp:1558
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a preferred search tool for the viewed location.</"
+"para><para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</"
+"para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1567
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Open Terminal"
+msgstr "Otvori terminal"
+
+#: dolphinmainwindow.cpp:1569
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
+"location.</para><para>To learn more about terminals use the help in the "
+"terminal application.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1576 dolphinmainwindow.cpp:2355
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Focus Terminal Panel"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1584
+#, kde-format
+msgctxt "@title:menu"
+msgid "&Bookmarks"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1594
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having a <emphasis>Menubar</emphasis> and having a "
+"<interface>Control</interface> button. Both contain mostly the same commands "
+"and configuration options."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1617
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Activate Next Tab"
+msgctxt "@action:inmenu"
+msgid "Activate Tab %1"
+msgstr "Na sledeći jezičak"
+
+#: dolphinmainwindow.cpp:1628
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Activate Next Tab"
+msgctxt "@action:inmenu"
+msgid "Activate Last Tab"
+msgstr "Na sledeći jezičak"
+
+#: dolphinmainwindow.cpp:1634
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Next Tab"
+msgstr "Sledeći jezičak"
+
+#: dolphinmainwindow.cpp:1635
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Activate Next Tab"
+msgstr "Na sledeći jezičak"
+
+#: dolphinmainwindow.cpp:1641
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Previous Tab"
+msgstr "Prethodni jezičak"
+
+#: dolphinmainwindow.cpp:1642
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Activate Previous Tab"
+msgstr "Na prethodni jezičak"
+
+#: dolphinmainwindow.cpp:1649
+#, fuzzy, kde-format
+#| msgid "Show facets widget"
+msgctxt "@action:inmenu"
+msgid "Show Target"
+msgstr "Prikaži vidžet aspekata"
+
+#: dolphinmainwindow.cpp:1655
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Tab"
+msgstr "Otvori u novom jezičku"
+
+#: dolphinmainwindow.cpp:1660
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Tabs"
+msgstr "Otvori u novim jezičcima"
+
+#: dolphinmainwindow.cpp:1665
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Window"
+msgstr "Otvori u novom prozoru"
+
+#: dolphinmainwindow.cpp:1675
+#, kde-format
+msgctxt "@action:inmenu Panels"
+msgid "Unlock Panels"
+msgstr "Otključaj panele"
+
+#: dolphinmainwindow.cpp:1677
+#, kde-format
+msgctxt "@action:inmenu Panels"
+msgid "Lock Panels"
+msgstr "Zaključaj panele"
+
+#: dolphinmainwindow.cpp:1679
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having panels <emphasis>locked</emphasis> or "
+"<emphasis>unlocked</emphasis>.<nl/>Unlocked panels can be dragged to the "
+"other side of the window and have a close button.<nl/>Locked panels are "
+"embedded more cleanly."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1688
+#, kde-format
+msgctxt "@title:window"
+msgid "Information"
+msgstr "Podaci"
+
+#. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
+#: dolphinmainwindow.cpp:1712
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>To show or hide panels like this go to <interface>Control|Panels</"
+"interface> or <interface>View|Panels</interface>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1717
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para> This toggles the <emphasis>information</emphasis> panel at the right "
+"side of the window.</para><para>The panel provides in-depth information "
+"about the items your mouse is hovering over or about the selected items. "
+"Otherwise it informs you about the currently viewed folder.<nl/>For single "
+"items a preview of their contents is provided.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1724
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This panel provides in-depth information about the items your mouse is "
+"hovering over or about the selected items. Otherwise it informs you about "
+"the currently viewed folder.<nl/>For single items a preview of their "
+"contents is provided.</para><para>You can configure which and how details "
+"are given here by right-clicking.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1732
+#, kde-format
+msgctxt "@title:window"
+msgid "Folders"
+msgstr "Fascikle"
+
+#: dolphinmainwindow.cpp:1754
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This toggles the <emphasis>folders</emphasis> panel at the left side of the "
+"window.<nl/><nl/>It shows the folders of the <emphasis>file system</"
+"emphasis> in a <emphasis>tree view</emphasis>."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1758
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This panel shows the folders of the <emphasis>file system</emphasis> "
+"in a <emphasis>tree view</emphasis>.</para><para>Click a folder to go there. "
+"Click the arrow to the left of a folder to see its subfolders. This allows "
+"quick switching between any folders.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1767
+#, kde-format
+msgctxt "@title:window Shell terminal"
+msgid "Terminal"
+msgstr "Terminal"
+
+#: dolphinmainwindow.cpp:1793
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
+"the window.<nl/>The location in the terminal will always match the folder "
+"view so you can navigate using either.</para><para>The terminal panel is not "
+"needed for basic computer usage but can be useful for advanced tasks. To "
+"learn more about terminals use the help in a standalone terminal application "
+"like Konsole.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1800
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
+"normal terminal but will match the location of the folder view so you can "
+"navigate using either.</para><para>The terminal panel is not needed for "
+"basic computer usage but can be useful for advanced tasks. To learn more "
+"about terminals use the help in a standalone terminal application like "
+"Konsole.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1816
+#, kde-format
+msgctxt "@title:window"
+msgid "Places"
+msgstr "Mesta"
+
+#: dolphinmainwindow.cpp:1847 panels/places/placespanel.cpp:293
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show Hidden Files"
+msgctxt "@item:inmenu"
+msgid "Show Hidden Places"
+msgstr "Skriveni fajlovi"
+
+#: dolphinmainwindow.cpp:1850
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This displays all places in the places panel that have been hidden. They "
+"will appear semi-transparent unless you uncheck their hide property."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1865
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This toggles the <emphasis>places</emphasis> panel at the left side of "
+"the window.</para><para>It allows you to go to locations you have bookmarked "
+"and to access disk or media attached to the computer or to the network. It "
+"also contains sections to find recently saved files or files of a certain "
+"type.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1871
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Places</emphasis> panel. It allows you to go to "
+"locations you have bookmarked and to access disk or media attached to the "
+"computer or to the network. It also contains sections to find recently saved "
+"files or files of a certain type.</para><para>Click on an entry to go there. "
+"Click with the right mouse button instead to open any entry in a new tab or "
+"new window.</para><para>New entries can be added by dragging folders onto "
+"this panel. Right-click any section or entry to hide it. Right-click an "
+"empty space on this panel and select <interface>Show Hidden Places</"
+"interface> to display it again.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1884
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Panels"
+#| msgid "Lock Panels"
+msgctxt "@action:inmenu View"
+msgid "Show Panels"
+msgstr "Zaključaj panele"
+
+#: dolphinmainwindow.cpp:1989
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>Go to the folder that contains the currently viewed one.</"
+"para><para>All files and folders are organized in a hierarchical "
+"<emphasis>file system</emphasis>. At the top of this hierarchy is a "
+"directory that contains all data connected to this computer—the "
+"<emphasis>root directory</emphasis>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2006
+#, fuzzy, kde-format
+#| msgctxt "@action"
+#| msgid "Control"
+msgctxt "@action:intoolbar"
+msgid "Control"
+msgstr "Upravljanje"
+
+#: dolphinmainwindow.cpp:2008
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show in groups"
+msgctxt "@action"
+msgid "Show menu"
+msgstr "Prikazuj po grupama"
+
+#: dolphinmainwindow.cpp:2128
+#, kde-format
+msgctxt "@action:intoolbar Close left view"
+msgid "Close"
+msgstr "Zatvori"
+
+#: dolphinmainwindow.cpp:2129
+#, kde-format
+msgctxt "@info"
+msgid "Close left view"
+msgstr "Zatvori levi prikaz"
+
+#: dolphinmainwindow.cpp:2132
+#, kde-format
+msgctxt "@action:intoolbar Close right view"
+msgid "Close"
+msgstr "Zatvori"
+
+#: dolphinmainwindow.cpp:2133
+#, kde-format
+msgctxt "@info"
+msgid "Close right view"
+msgstr "Zatvori desni prikaz"
+
+#: dolphinmainwindow.cpp:2137
+#, kde-format
+msgctxt "@action:intoolbar Split view"
+msgid "Split"
+msgstr "Podeli"
+
+#: dolphinmainwindow.cpp:2138
+#, kde-format
+msgctxt "@info"
+msgid "Split view"
+msgstr "Podeli prikaz"
+
+#: dolphinmainwindow.cpp:2175
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
+"commands and configuration options. Left-click on any of the menus on this "
+"bar to see its contents.</para><para>The Menubar can be hidden by unchecking "
+"<interface>Settings|Show Menubar</interface>. Then most of its contents "
+"become available through a <interface>Control</interface> button on the "
+"<emphasis>Toolbar</emphasis>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2182
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
+"frequently used actions.</para><para>It is highly customizable. All items "
+"you see in the <interface>Control</interface> menu or in the "
+"<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
+"click on it and select <interface>Configure Toolbars…</interface> or find "
+"this action in the <interface>Control</interface> or <interface>Settings</"
+"interface> menu.</para><para>The location of the bar and the style of its "
+"buttons can also be changed in the right-click menu. Right-click a button if "
+"you want to show or hide its text.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2194
+#, kde-kuit-format
+msgctxt "@info:whatsthis main view"
+msgid ""
+"<para>Here you can see the <emphasis>folders</emphasis> and <emphasis>files</"
+"emphasis> that are at the location described in the <interface>Location Bar</"
+"interface> above. This area is the central part of this application where "
+"you navigate to the files you want to use.</para><para>For an elaborate and "
+"general introduction to this application <link url='https://userbase.kde.org/"
+"Dolphin/File_Management#Introduction_to_Dolphin'>click here</link>. This "
+"will open an introductory article from the <emphasis>KDE UserBase Wiki</"
+"emphasis>.</para><para>For brief explanations of all the features of this "
+"<emphasis>view</emphasis> <link url='help:/dolphin/dolphin-view.html'>click "
+"here</link> instead. This will open a page from the <emphasis>Handbook</"
+"emphasis> that covers the basics.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2210
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window that lists the <emphasis>keyboard shortcuts</"
+"emphasis>.<nl/>There you can set up key combinations to trigger an action "
+"when they are pressed simultaneously. All commands in this application can "
+"be triggered this way.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2216
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window in which you can change which buttons appear on "
+"the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
+"<interface>Control</interface> menu or in the <interface>Menubar</interface> "
+"can also be placed on the Toolbar.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2221
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window where you can change a multitude of settings for this "
+"application. For an explanation of the various settings go to the chapter "
+"<emphasis>Configuring Dolphin</emphasis> in <interface>Help|Dolphin "
+"Handbook</interface>."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2239
+#, kde-kuit-format
+msgctxt "@info:whatsthis handbook"
+msgid ""
+"<para>This opens the Handbook for this application. It provides explanations "
+"for every part of <emphasis>Dolphin</emphasis>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2244
+#, kde-kuit-format
+msgctxt "@info:whatsthis second half of handbook hb text without link"
+msgid ""
+"<para>If you want more elaborate introductions to the different features of "
+"<emphasis>Dolphin</emphasis> go to the KDE UserBase Wiki.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2249
+#, kde-kuit-format
+msgctxt "@info:whatsthis second half of handbook text with link"
+msgid ""
+"<para>If you want more elaborate introductions to the different features of "
+"<emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/"
+"File_Management'>click here</link>. It will open the dedicated page in the "
+"KDE UserBase Wiki.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2255
+#, kde-kuit-format
+msgctxt "@info:whatsthis whatsthis button"
+msgid ""
+"<para>This is the button that invokes the help feature you are using right "
+"now! Click it, then click any component of this application to ask \"What's "
+"this?\" about it. The mouse cursor will change appearance if no help is "
+"available for a spot.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2262
+#, kde-kuit-format
+msgctxt "@info:whatsthis second half of whatsthis button text without link"
+msgid ""
+"<para>There are two other ways to get help for this application: The "
+"<interface>Dolphin Handbook</interface> in the <interface>Help</interface> "
+"menu and the <emphasis>KDE UserBase Wiki</emphasis> article about "
+"<emphasis>File Management</emphasis> online.</para><para>The \"What's this?"
+"\" help is missing in most other windows so don't get too used to this.</"
+"para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2270
+#, kde-kuit-format
+msgctxt "@info:whatsthis second half of whatsthis button text with link"
+msgid ""
+"<para>There are two other ways to get help: The <link url='help:/dolphin/"
+"index.html'>Dolphin Handbook</link> and the <link url='https://userbase.kde."
+"org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>The "
+"\"What's this?\" help is missing in most other windows so don't get too used "
+"to this.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2276
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window that will guide you through reporting errors or "
+"flaws in this application or in other KDE software.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2283
+#, kde-kuit-format
+msgctxt "@info:whatsthis second half of reportbug text with link"
+msgid ""
+"<para>High-quality bug reports are much appreciated. To learn how to make "
+"your bug report as effective as possible <link url='https://community.kde."
+"org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2288
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a <emphasis>web page</emphasis> where you can donate to "
+"support the continued work on this application and many other projects by "
+"the <emphasis>KDE</emphasis> community.</para><para>Donating is the easiest "
+"and fastest way to efficiently support KDE and its projects. KDE projects "
+"are available for free therefore your donation is needed to cover things "
+"that require money like servers, contributor meetings, etc.</"
+"para><para><emphasis>KDE e.V.</emphasis> is the non-profit organization "
+"behind the KDE community.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2303
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"With this you can change the language this application uses.<nl/>You can "
+"even set secondary languages which will be used if texts are not available "
+"in your preferred language."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2310
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window that informs you about the version, license, used "
+"libraries and maintainers of this application."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2317
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window with information about <emphasis>KDE</emphasis>. The KDE "
+"community are the people behind this free software.<nl/>If you like using "
+"this application but don't know about KDE or want to see a cute dragon have "
+"a look!"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2358 dolphinmainwindow.cpp:2362
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Defocus Terminal Panel"
+msgstr ""
+
+#: dolphinpart.cpp:174
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "&Edit File Type..."
+msgstr "&Uredi tip fajla..."
+
+#: dolphinpart.cpp:178
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Select Items Matching..."
+msgstr "Izaberi poklapanjem..."
+
+#: dolphinpart.cpp:183
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Unselect Items Matching..."
+msgstr "Poništi izbor poklapanjem..."
+
+#: dolphinpart.cpp:189
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Unselect All"
+msgstr "Poništi sav izbor"
+
+#: dolphinpart.cpp:206
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "App&lications"
+msgstr "&Programi"
+
+#: dolphinpart.cpp:209
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "&Network Folders"
+msgstr "&Mrežne fascikle"
+
+#: dolphinpart.cpp:212
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "Sett&ings"
+msgstr "P&ostavke"
+
+#: dolphinpart.cpp:215
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "Trash"
+msgstr "Smeće"
+
+#: dolphinpart.cpp:218
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "Autostart"
+msgstr "Samopokretanje"
+
+#: dolphinpart.cpp:223
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Find File..."
+msgstr "Nađi fajl..."
+
+#: dolphinpart.cpp:229
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Open &Terminal"
+msgstr "Otvori &terminal"
+
+#: dolphinpart.cpp:299
+#, kde-format
+msgctxt "@title"
+msgid "Dolphin Part"
+msgstr "Dolphin deo"
+
+#: dolphinpart.cpp:493
+#, kde-format
+msgctxt "@title:window"
+msgid "Select"
+msgstr "Izbor"
+
+#: dolphinpart.cpp:494
+#, kde-format
+msgid "Select all items matching this pattern:"
+msgstr "Izaberi stavke poklopljene obrascem:"
+
+#: dolphinpart.cpp:500
+#, kde-format
+msgctxt "@title:window"
+msgid "Unselect"
+msgstr "Poništavanje izbora"
+
+#: dolphinpart.cpp:501
+#, kde-format
+msgid "Unselect all items matching this pattern:"
+msgstr "Poništi izbor stavki poklopljenih obrascem:"
+
+#. i18n: ectx: Menu (edit)
+#: dolphinpart.rc:4
+#, kde-format
+msgid "&Edit"
+msgstr "&Uređivanje"
+
+#. i18n: ectx: Menu (selection)
+#: dolphinpart.rc:14
+#, kde-format
+msgctxt "@title:menu"
+msgid "Selection"
+msgstr "Izbor"
+
+#. i18n: ectx: Menu (view)
+#: dolphinpart.rc:23
+#, kde-format
+msgid "&View"
+msgstr "&Prikaz"
+
+#. i18n: ectx: Menu (go)
+#: dolphinpart.rc:32
+#, kde-format
+msgid "&Go"
+msgstr "&Kretanje"
+
+#. i18n: ectx: Menu (tools)
+#: dolphinpart.rc:40
+#, kde-format
+msgctxt "@title:menu"
+msgid "Tools"
+msgstr "Alatke"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: dolphinpart.rc:49
+#, kde-format
+msgctxt "@title:menu"
+msgid "Dolphin Toolbar"
+msgstr "Dolphinova traka"
+
+#: dolphinrecenttabsmenu.cpp:29
+#, kde-format
+msgid "Recently Closed Tabs"
+msgstr "Nedavno zatvoreni jezičci"
+
+#: dolphinrecenttabsmenu.cpp:34
+#, kde-format
+msgid "Empty Recently Closed Tabs"
+msgstr "Isprazni nedavno zatvorene jezičke"
+
+#: dolphintabbar.cpp:141
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "New Tab"
+msgstr "Novi jezičak"
+
+#: dolphintabbar.cpp:142
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Detach Tab"
+msgstr "Otkači jezičak"
+
+#: dolphintabbar.cpp:143
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Other Tabs"
+msgstr "Zatvori druge jezičke"
+
+#: dolphintabbar.cpp:144
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tab"
+msgstr "Zatvori jezičak"
+
+#. i18n: ectx: Menu (location_bar)
+#: dolphinui.rc:47
+#, kde-format
+msgctxt "@title:menu"
+msgid "Location Bar"
+msgstr "Traka lokacije"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: dolphinui.rc:106
+#, kde-format
+msgctxt "@title:menu"
+msgid "Main Toolbar"
+msgstr "Glavna traka"
+
+#: dolphinviewcontainer.cpp:87
+#, kde-kuit-format
+msgctxt "@info:whatsthis location bar"
+msgid ""
+"<para>This line describes the location of the files and folders displayed "
+"below.</para><para>The name of the currently viewed folder can be read at "
+"the very right. To the left of it is the name of the folder that contains "
+"it. The whole line is called the <emphasis>path</emphasis> to the current "
+"location because following these folders from left to right leads here.</"
+"para><para>The path is displayed on the <emphasis>location bar</emphasis> "
+"which is more powerful than one would expect. To learn more about the basic "
+"and advanced features of the location bar <link url='help:/dolphin/location-"
+"bar.html'>click here</link>. This will open the dedicated page in the "
+"Handbook.</para>"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Empty Trash"
+msgctxt "@action:button"
+msgid "Empty Trash"
+msgstr "Isprazni smeće"
+
+#: dolphinviewcontainer.cpp:126
+#, kde-kuit-format
+msgctxt "@info:whatsthis findbar"
+msgid ""
+"<para>This helps you find files and folders. Enter a <emphasis>search term</"
+"emphasis> and specify search settings with the buttons at the bottom:"
+"<list><item>Filename/Content: Does the item you are looking for contain the "
+"search terms within its filename or its contents?<nl/>The contents of "
+"images, audio files and videos will not be searched.</item><item>From Here/"
+"Everywhere: Do you want to search in this folder and its sub-folders or "
+"everywhere?</item><item>More Options: Click this to search by media type, "
+"access time or rating.</item><item>More Search Tools: Install other means to "
+"find an item.</item></list></para>"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:146
+#, kde-format
+msgid "Running Dolphin as root can be dangerous. Please be careful."
+msgstr ""
+
+#: dolphinviewcontainer.cpp:440 search/dolphinsearchbox.cpp:305
+#, kde-format
+msgid "Search for %1 in %2"
+msgstr "Potraži %1 u %2"
+
+# >> @title:window
+#: dolphinviewcontainer.cpp:476
+#, kde-format
+msgid "Search"
+msgstr "Pretraga"
+
+# >> @title:window
+#: dolphinviewcontainer.cpp:478
+#, kde-format
+msgid "Search for %1"
+msgstr "Pretraga za %1"
+
+#: dolphinviewcontainer.cpp:564
+#, kde-format
+msgctxt "@info:progress"
+msgid "Loading folder..."
+msgstr "Učitavam fasciklu..."
+
+#: dolphinviewcontainer.cpp:572
+#, kde-format
+msgctxt "@info:progress"
+msgid "Sorting..."
+msgstr "Ređam..."
+
+# >! @info:progress
+#: dolphinviewcontainer.cpp:583
+#, kde-format
+msgctxt "@info"
+msgid "Searching..."
+msgstr "Tražim..."
+
+#: dolphinviewcontainer.cpp:604
+#, kde-format
+msgctxt "@info:status"
+msgid "No items found."
+msgstr "Ništa nije nađeno."
+
+#: dolphinviewcontainer.cpp:711
+#, kde-format
+msgctxt "@info:status"
+msgid "Dolphin does not support web pages, the web browser has been launched"
+msgstr "Dolphin ne podržava veb stranice, pokrećem veb pregledač"
+
+#: dolphinviewcontainer.cpp:715
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
+msgctxt "@info:status"
+msgid ""
+"Protocol not supported by Dolphin, default application has been launched"
+msgstr "Dolphin ne podržava protokol, pokrećem K‑osvajač"
+
+#: dolphinviewcontainer.cpp:722
+#, kde-format
+msgctxt "@info:status"
+msgid "Invalid protocol"
+msgstr "Loš protokol"
+
+#: filterbar/filterbar.cpp:40
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Keep Filter When Changing Folders"
+msgstr "Zadrži filter pri promeni fascikli"
+
+#: filterbar/filterbar.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
+msgid "Filter..."
+msgstr "Filter:"
+
+#: filterbar/filterbar.cpp:57
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Hide Filter Bar"
+msgstr "Sakrij filtersku traku"
+
+#: kitemviews/kfileitemlistwidget.cpp:73 kitemviews/kfileitemlistwidget.cpp:81
+#, kde-format
+msgctxt "@item:intable"
+msgid "Unknown"
+msgstr "nepoznato"
+
+#: kitemviews/kfileitemlistwidget.cpp:77
+#, kde-format
+msgctxt "@item:intable"
+msgid "%1 item"
+msgid_plural "%1 items"
+msgstr[0] "%1 stavka"
+msgstr[1] "%1 stavke"
+msgstr[2] "%1 stavki"
+msgstr[3] "%1 stavka"
+
+#: kitemviews/kfileitemmodel.cpp:1971
+#, kde-format
+msgctxt "@title:group Groups that start with a digit"
+msgid "0 - 9"
+msgstr "0–9"
+
+#: kitemviews/kfileitemmodel.cpp:1973
+#, kde-format
+msgctxt "@title:group"
+msgid "Others"
+msgstr "Drugo"
+
+#: kitemviews/kfileitemmodel.cpp:2004
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Folders"
+msgstr "Fascikle"
+
+#: kitemviews/kfileitemmodel.cpp:2006
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Small"
+msgstr "Malo"
+
+#: kitemviews/kfileitemmodel.cpp:2008
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Medium"
+msgstr "Srednje"
+
+#: kitemviews/kfileitemmodel.cpp:2010
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Big"
+msgstr "Veliko"
+
+#: kitemviews/kfileitemmodel.cpp:2055
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Today"
+msgstr "Danas"
+
+#: kitemviews/kfileitemmodel.cpp:2056
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Yesterday"
+msgstr "Juče"
+
+#: kitemviews/kfileitemmodel.cpp:2059
+#, kde-format
+msgctxt "@title:group Date: The week day name: dddd"
+msgid "dddd"
+msgstr "dddd"
+
+#: kitemviews/kfileitemmodel.cpp:2061
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"dddd\"with context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2065
+#, kde-format
+msgctxt "@title:group Date"
+msgid "One Week Ago"
+msgstr "Sedmica pre"
+
+#: kitemviews/kfileitemmodel.cpp:2068
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Two Weeks Ago"
+msgstr "Druga sedmica pre"
+
+#: kitemviews/kfileitemmodel.cpp:2071
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Three Weeks Ago"
+msgstr "Treća sedmica pre"
+
+#: kitemviews/kfileitemmodel.cpp:2075
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Earlier this Month"
+msgstr "Ranije ovog meseca"
+
+#: kitemviews/kfileitemmodel.cpp:2088
+#, kde-format
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number"
+msgid "'Yesterday' (MMMM, yyyy)"
+msgstr "'Juče' (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2094
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2104
+#, kde-format
+msgctxt ""
+"@title:group Date: The week day name: dddd, MMMM is full month name in "
+"current locale, and yyyy is full year number"
+msgid "dddd (MMMM, yyyy)"
+msgstr "dddd (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2107
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
+"@title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2111
+#, kde-format
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number"
+msgid "'One Week Ago' (MMMM, yyyy)"
+msgstr "'Sedmica pre' (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2117
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2126
+#, kde-format
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number"
+msgid "'Two Weeks Ago' (MMMM, yyyy)"
+msgstr "'Druga sedmica pre' (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2132
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2141
+#, kde-format
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number"
+msgid "'Three Weeks Ago' (MMMM, yyyy)"
+msgstr "'Treća sedmica pre' (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2147
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2156
+#, kde-format
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number"
+msgid "'Earlier on' MMMM, yyyy"
+msgstr "'Ranije' (MMMM yyyy.)"
+
+#: kitemviews/kfileitemmodel.cpp:2162
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "%1"
+
+#: kitemviews/kfileitemmodel.cpp:2172
+#, kde-format
+msgctxt ""
+"@title:group The month and year: MMMM is full month name in current locale, "
+"and yyyy is full year number"
+msgid "MMMM, yyyy"
+msgstr "MMMM yyyy."
+
+#: kitemviews/kfileitemmodel.cpp:2175
+#, kde-format
+msgctxt ""
+"Can be used to script translation of \"MMMM, yyyy\" with context @title:"
+"group Date"
+msgid "%1"
+msgstr "%1"
+
+# >> @item:intext Access permission, concatenated
+#: kitemviews/kfileitemmodel.cpp:2214 kitemviews/kfileitemmodel.cpp:2227
+#: kitemviews/kfileitemmodel.cpp:2240
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Read, "
+msgstr "čitanje, "
+
+# >> @item:intext Access permission, concatenated
+#: kitemviews/kfileitemmodel.cpp:2217 kitemviews/kfileitemmodel.cpp:2230
+#: kitemviews/kfileitemmodel.cpp:2243
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Write, "
+msgstr "pisanje, "
+
+# >> @item:intext Access permission, concatenated
+#: kitemviews/kfileitemmodel.cpp:2220 kitemviews/kfileitemmodel.cpp:2233
+#: kitemviews/kfileitemmodel.cpp:2246
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Execute, "
+msgstr "izvršavanje, "
+
+# >> @item:intext Access permission, concatenated
+#: kitemviews/kfileitemmodel.cpp:2222 kitemviews/kfileitemmodel.cpp:2235
+#: kitemviews/kfileitemmodel.cpp:2248
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Forbidden"
+msgstr "zabranjeno"
+
+#: kitemviews/kfileitemmodel.cpp:2250
+#, kde-format
+msgctxt "@title:group Files and folders by permissions"
+msgid "User: %1 | Group: %2 | Others: %3"
+msgstr "Korisnik: %1 | grupa: %2 | ostali: %3"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2339
+#, kde-format
+msgctxt "@label"
+msgid "Name"
+msgstr ""
+"ime|/|$[svojstva naredbeno 'detalji:\n"
+"ime' spiskovno 'dopunski detalji: ime']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2340
+#, kde-format
+msgctxt "@label"
+msgid "Size"
+msgstr ""
+"veličina|/|$[svojstva naredbeno 'detalji:\n"
+"veličina' spiskovno 'dopunski detalji: veličina']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2341
+#, kde-format
+msgctxt "@label"
+msgid "Modified"
+msgstr ""
+"izmenjeno|/|$[svojstva naredbeno 'detalji:\n"
+"izmenjeno' spiskovno 'dopunski detalji: izmenjeno']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2342
+#, kde-format
+msgctxt "@label"
+msgid "Created"
+msgstr ""
+"stvoreno|/|$[svojstva naredbeno 'detalji:\n"
+"stvoreno' spiskovno 'dopunski detalji: stvoreno']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2343
+#, kde-format
+msgctxt "@label"
+msgid "Accessed"
+msgstr ""
+"pristupljeno|/|$[svojstva naredbeno 'detalji:\n"
+"pristupljeno' spiskovno 'dopunski detalji: pristupljeno']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2344
+#, kde-format
+msgctxt "@label"
+msgid "Type"
+msgstr ""
+"tip|/|$[svojstva naredbeno 'detalji:\n"
+"tip' spiskovno 'dopunski detalji: tip']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2345
+#, kde-format
+msgctxt "@label"
+msgid "Rating"
+msgstr ""
+"ocena|/|$[svojstva naredbeno 'detalji:\n"
+"ocena' spiskovno 'dopunski detalji: ocena']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2346
+#, kde-format
+msgctxt "@label"
+msgid "Tags"
+msgstr ""
+"oznake|/|$[svojstva naredbeno 'detalji:\n"
+"oznake' spiskovno 'dopunski detalji: oznake']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2347
+#, kde-format
+msgctxt "@label"
+msgid "Comment"
+msgstr ""
+"komentar|/|$[svojstva naredbeno 'detalji:\n"
+"komentar' spiskovno 'dopunski detalji: komentar']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2348
+#, kde-format
+msgctxt "@label"
+msgid "Title"
+msgstr ""
+"naslov|/|$[svojstva naredbeno 'detalji:\n"
+"naslov' spiskovno 'dopunski detalji: naslov']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2348 kitemviews/kfileitemmodel.cpp:2349
+#: kitemviews/kfileitemmodel.cpp:2350
+#, kde-format
+msgctxt "@label"
+msgid "Document"
+msgstr ""
+"dokument|/|$[svojstva naredbeno 'detalji:\n"
+"dokument' spiskovno 'dopunski detalji: dokument']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2349
+#, kde-format
+msgctxt "@label"
+msgid "Word Count"
+msgstr ""
+"broj reči|/|$[svojstva naredbeno 'detalji:\n"
+"broj reči' spiskovno 'dopunski detalji: broj reči']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2350
+#, kde-format
+msgctxt "@label"
+msgid "Line Count"
+msgstr ""
+"broj redova|/|$[svojstva naredbeno 'detalji:\n"
+"broj redova' spiskovno 'dopunski detalji: broj redova']"
+
+#: kitemviews/kfileitemmodel.cpp:2351
+#, kde-format
+msgctxt "@label"
+msgid "Date Photographed"
+msgstr ""
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2351 kitemviews/kfileitemmodel.cpp:2352
+#: kitemviews/kfileitemmodel.cpp:2353 kitemviews/kfileitemmodel.cpp:2354
+#, kde-format
+msgctxt "@label"
+msgid "Image"
+msgstr ""
+"slika|/|$[svojstva naredbeno 'detalji:\n"
+"slika' spiskovno 'dopunski detalji: slika']"
+
+#: kitemviews/kfileitemmodel.cpp:2352
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Width:"
+msgctxt "@label"
+msgid "Width"
+msgstr "Širina:"
+
+#: kitemviews/kfileitemmodel.cpp:2353
+#, kde-format
+msgctxt "@label"
+msgid "Height"
+msgstr ""
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2354
+#, kde-format
+msgctxt "@label"
+msgid "Orientation"
+msgstr ""
+"orijentacija|/|$[svojstva naredbeno 'detalji:\n"
+"orijentacija' spiskovno 'dopunski detalji: orijentacija']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2355
+#, kde-format
+msgctxt "@label"
+msgid "Artist"
+msgstr ""
+"izvođač|/|$[svojstva naredbeno 'detalji:\n"
+"izvođač' spiskovno 'dopunski detalji: izvođač']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2355 kitemviews/kfileitemmodel.cpp:2356
+#: kitemviews/kfileitemmodel.cpp:2357 kitemviews/kfileitemmodel.cpp:2358
+#: kitemviews/kfileitemmodel.cpp:2359 kitemviews/kfileitemmodel.cpp:2360
+#: kitemviews/kfileitemmodel.cpp:2361
+#, kde-format
+msgctxt "@label"
+msgid "Audio"
+msgstr ""
+"audio|/|$[svojstva naredbeno 'detalji:\n"
+"audio' spiskovno 'dopunski detalji: audio']"
+
+#: kitemviews/kfileitemmodel.cpp:2356
+#, kde-format
+msgctxt "@label"
+msgid "Genre"
+msgstr ""
+"žanr|/|$[svojstva naredbeno 'detalji:\n"
+"žanr' spiskovno 'dopunski detalji: žanr']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2357
+#, kde-format
+msgctxt "@label"
+msgid "Album"
+msgstr ""
+"album|/|$[svojstva naredbeno 'detalji:\n"
+"album' spiskovno 'dopunski detalji: album']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2358
+#, kde-format
+msgctxt "@label"
+msgid "Duration"
+msgstr ""
+"trajanje|/|$[svojstva naredbeno 'detalji:\n"
+"trajanje' spiskovno 'dopunski detalji: trajanje']"
+
+#: kitemviews/kfileitemmodel.cpp:2359
+#, kde-format
+msgctxt "@label"
+msgid "Bitrate"
+msgstr ""
+"bitski protok|/|$[svojstva naredbeno 'detalji:\n"
+"bitski protok' spiskovno 'dopunski detalji: bitski protok']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2360
+#, kde-format
+msgctxt "@label"
+msgid "Track"
+msgstr ""
+"numera|/|$[svojstva naredbeno 'detalji:\n"
+"numera' spiskovno 'dopunski detalji: numera']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2361
+#, kde-format
+msgctxt "@label"
+msgid "Release Year"
+msgstr ""
+"godina izdanja|/|$[svojstva naredbeno 'detalji:\n"
+"godina izdanja' spiskovno 'dopunski detalji: godina izdanja']"
+
+#: kitemviews/kfileitemmodel.cpp:2362
+#, kde-format
+msgctxt "@label"
+msgid "Aspect Ratio"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2362 kitemviews/kfileitemmodel.cpp:2363
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@label"
+msgid "Video"
+msgstr "Video fajlovi"
+
+#: kitemviews/kfileitemmodel.cpp:2363
+#, kde-format
+msgctxt "@label"
+msgid "Frame Rate"
+msgstr ""
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2364
+#, kde-format
+msgctxt "@label"
+msgid "Path"
+msgstr ""
+"putanja|/|$[svojstva naredbeno 'detalji:\n"
+"putanja' spiskovno 'dopunski detalji: putanja']"
+
+#: kitemviews/kfileitemmodel.cpp:2364 kitemviews/kfileitemmodel.cpp:2365
+#: kitemviews/kfileitemmodel.cpp:2366 kitemviews/kfileitemmodel.cpp:2367
+#: kitemviews/kfileitemmodel.cpp:2368 kitemviews/kfileitemmodel.cpp:2369
+#: kitemviews/kfileitemmodel.cpp:2370
+#, kde-format
+msgctxt "@label"
+msgid "Other"
+msgstr ""
+"drugo|/|$[svojstva naredbeno 'detalji:\n"
+"drugo' spiskovno 'dopunski detalji: drugo']"
+
+#: kitemviews/kfileitemmodel.cpp:2365
+#, kde-format
+msgctxt "@label"
+msgid "Deletion Time"
+msgstr ""
+"vreme brisanja|/|$[svojstva naredbeno 'detalji:\n"
+"vreme brisanja' spiskovno 'dopunski detalji: vreme brisanja']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2366
+#, kde-format
+msgctxt "@label"
+msgid "Link Destination"
+msgstr ""
+"odredište veze|/|$[svojstva naredbeno 'detalji:\n"
+"odredište veze' spiskovno 'dopunski detalji: odredište veze']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2367
+#, kde-format
+msgctxt "@label"
+msgid "Downloaded From"
+msgstr ""
+"preuzeto sa|/|$[svojstva naredbeno 'detalji:\n"
+"preuzeto sa' spiskovno 'dopunski detalji: preuzeto sa']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2368
+#, kde-format
+msgctxt "@label"
+msgid "Permissions"
+msgstr ""
+"dozvole|/|$[svojstva naredbeno 'detalji:\n"
+"dozvole' spiskovno 'dopunski detalji: dozvole']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2369
+#, kde-format
+msgctxt "@label"
+msgid "Owner"
+msgstr ""
+"vlasnik|/|$[svojstva naredbeno 'detalji:\n"
+"vlasnik' spiskovno 'dopunski detalji: vlasnik']"
+
+# >> @item
+#: kitemviews/kfileitemmodel.cpp:2370
+#, kde-format
+msgctxt "@label"
+msgid "User Group"
+msgstr ""
+"korisnička grupa|/|$[svojstva naredbeno 'detalji:\n"
+"korisnička grupa' spiskovno 'dopunski detalji: korisnička grupa']"
+
+#: kitemviews/private/kfileitemmodeldirlister.cpp:42
+#, kde-format
+msgctxt "@info:status"
+msgid "Unknown error."
+msgstr "Nepoznata greška."
+
+#: main.cpp:81
+#, kde-format
+msgid "Dolphin"
+msgstr "Dolphin"
+
+#: main.cpp:82
+#, kde-format
+msgctxt "@title"
+msgid "File Manager"
+msgstr "Menadžer fajlova"
+
+#: main.cpp:84
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "(C) 2006-2016 Peter Penz, Frank Reininghaus, and Emmanuel Pescosta"
+msgctxt "@info:credit"
+msgid ""
+"(C) 2006-2018 Peter Penz, Frank Reininghaus, Emmanuel Pescosta and Elvis "
+"Angelaccio"
+msgstr "© 2006–2016, Peter Penc, Frank Rajninghaus, Emanuel Peskosta"
+
+#: main.cpp:86
+#, kde-format
+msgctxt "@info:credit"
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: main.cpp:87
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2014) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (since 2018) and developer"
+msgstr "održavalac (od 2014.) i programer"
+
+#: main.cpp:89
+#, kde-format
+msgctxt "@info:credit"
+msgid "Emmanuel Pescosta"
+msgstr "Emanuel Peskosta"
+
+#: main.cpp:90
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (2012-2014) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2014-2018) and developer"
+msgstr "održavalac (2012. do 2014.) i programer"
+
+#: main.cpp:92
+#, kde-format
+msgctxt "@info:credit"
+msgid "Frank Reininghaus"
+msgstr "Frank Rajninghaus"
+
+#: main.cpp:93
+#, kde-format
+msgctxt "@info:credit"
+msgid "Maintainer (2012-2014) and developer"
+msgstr "održavalac (2012. do 2014.) i programer"
+
+#: main.cpp:95
+#, kde-format
+msgctxt "@info:credit"
+msgid "Peter Penz"
+msgstr "Peter Penc"
+
+#: main.cpp:96
+#, kde-format
+msgctxt "@info:credit"
+msgid "Maintainer and developer (2006-2012)"
+msgstr "održavalac (2006. do 2012.) i programer"
+
+#: main.cpp:98
+#, kde-format
+msgctxt "@info:credit"
+msgid "Sebastian Trüg"
+msgstr "Sebastijan Trig"
+
+#: main.cpp:99 main.cpp:102 main.cpp:105 main.cpp:108 main.cpp:111 main.cpp:114
+#: main.cpp:117
+#, kde-format
+msgctxt "@info:credit"
+msgid "Developer"
+msgstr "programer"
+
+#: main.cpp:101
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David For"
+
+#: main.cpp:104
+#, kde-format
+msgctxt "@info:credit"
+msgid "Aaron J. Seigo"
+msgstr "Aron Dž. Sajgo"
+
+#: main.cpp:107
+#, kde-format
+msgctxt "@info:credit"
+msgid "Rafael Fernández López"
+msgstr "Rafel Fernandez Lopez"
+
+#: main.cpp:110
+#, kde-format
+msgctxt "@info:credit"
+msgid "Kevin Ottens"
+msgstr "Kevin Otens"
+
+#: main.cpp:113
+#, kde-format
+msgctxt "@info:credit"
+msgid "Holger Freyther"
+msgstr "Holger Frajter"
+
+#: main.cpp:116
+#, kde-format
+msgctxt "@info:credit"
+msgid "Max Blazejak"
+msgstr "Maks Blacejak"
+
+#: main.cpp:119
+#, kde-format
+msgctxt "@info:credit"
+msgid "Michael Austin"
+msgstr "Majkl Ostin"
+
+#: main.cpp:120
+#, kde-format
+msgctxt "@info:credit"
+msgid "Documentation"
+msgstr "dokumentacija"
+
+#: main.cpp:129
+#, kde-format
+msgctxt "@info:shell"
+msgid "The files and folders passed as arguments will be selected."
+msgstr "Fajlovi i fascikle prosleđeni kao argumenti biće izabrani."
+
+#: main.cpp:131
+#, kde-format
+msgctxt "@info:shell"
+msgid "Dolphin will get started with a split view."
+msgstr "Dolphin će početi sa podeljenim prikazom."
+
+#: main.cpp:132
+#, kde-format
+msgctxt "@info:shell"
+msgid "Dolphin will explicitly open in a new window."
+msgstr ""
+
+#: main.cpp:133
+#, kde-format
+msgctxt "@info:shell"
+msgid "Start Dolphin Daemon (only required for DBus Interface)"
+msgstr "Pokreni demon Dolphina (potrebno samo za D‑Bus sučelje)"
+
+#: main.cpp:134
+#, kde-format
+msgctxt "@info:shell"
+msgid "Document to open"
+msgstr "Dokument za otvaranje"
+
+#. i18n: ectx: label, entry (HiddenFilesShown), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:10
+#, kde-format
+msgid "Hidden files shown"
+msgstr "Skriveni fajlovi prikazani"
+
+#. i18n: ectx: label, entry (LimitFoldersPanelToHome), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:14
+#, kde-format
+msgid "Limit folders panel to home directory if inside home"
+msgstr "Ograniči panel fascikli na domaće kada unutar domaćeg"
+
+#. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:18
+#, kde-format
+msgid "Automatic scrolling"
+msgstr "Automatsko klizanje"
+
+#: panels/folders/treeviewcontextmenu.cpp:66
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Cut"
+msgstr "Iseci"
+
+#: panels/folders/treeviewcontextmenu.cpp:70
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Copy"
+msgstr "Kopiraj"
+
+#: panels/folders/treeviewcontextmenu.cpp:86
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename..."
+msgstr "Preimenuj..."
+
+#: panels/folders/treeviewcontextmenu.cpp:100
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Move to Trash"
+msgstr "Premesti u smeće"
+
+#: panels/folders/treeviewcontextmenu.cpp:110
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Delete"
+msgstr "Obriši"
+
+#: panels/folders/treeviewcontextmenu.cpp:120
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Hidden Files"
+msgstr "Skriveni fajlovi"
+
+#: panels/folders/treeviewcontextmenu.cpp:130
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Limit to Home Directory"
+msgstr "Ograniči na domaću fasciklu"
+
+#: panels/folders/treeviewcontextmenu.cpp:139
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Automatic Scrolling"
+msgstr "Automatsko klizanje"
+
+#: panels/folders/treeviewcontextmenu.cpp:149 panels/places/placespanel.cpp:188
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Properties"
+msgstr "Svojstva"
+
+#. i18n: ectx: label, entry (previewsShown), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:10
+#, kde-format
+msgid "Previews shown"
+msgstr "Pregledi prikazani"
+
+#. i18n: ectx: label, entry (previewsAutoPlay), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:14
+#, kde-format
+msgid "Auto-Play media files"
+msgstr ""
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, kde-format
+msgid "Date display format"
+msgstr ""
+
+#: panels/information/informationpanel.cpp:174
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Preview"
+msgstr "Pregled"
+
+#: panels/information/informationpanel.cpp:179
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Auto-Play media files"
+msgstr ""
+
+#: panels/information/informationpanel.cpp:184
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure..."
+msgstr "Podesi..."
+
+#: panels/information/informationpanel.cpp:190
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Condensed Date"
+msgstr ""
+
+#: panels/information/informationpanelcontent.cpp:123
+#, kde-format
+msgctxt "@label::textbox"
+msgid "Select which data should be shown:"
+msgstr "Podaci koje želite u prikazu:"
+
+#: panels/information/informationpanelcontent.cpp:315
+#, kde-format
+msgctxt "@label"
+msgid "%1 item selected"
+msgid_plural "%1 items selected"
+msgstr[0] "%1 stavka izabrana"
+msgstr[1] "%1 stavke izabrane"
+msgstr[2] "%1 stavki izabrano"
+msgstr[3] "1 stavka izabrana"
+
+#: panels/information/phononwidget.cpp:167
+#, kde-format
+msgid "play"
+msgstr "Pusti"
+
+#: panels/information/phononwidget.cpp:173
+#, kde-format
+msgid "pause"
+msgstr ""
+
+#. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
+#: panels/places/dolphin_placespanelsettings.kcfg:10
+#, kde-format
+msgid ""
+"Size of icons in the Places Panel (-1 means \"use the style's small size\")"
+msgstr "Veličina ikonica u panelu mesta (-1 za najmanju veličinu prema stilu)"
+
+# >> @action
+#: panels/places/placesitemmodel.cpp:190
+#, kde-format
+msgctxt "@item"
+msgid "Eject"
+msgstr "Izbaci"
+
+# >> @action
+#: panels/places/placesitemmodel.cpp:225
+#, kde-format
+msgctxt "@item"
+msgid "Release"
+msgstr "Otpusti"
+
+# >> @action
+#: panels/places/placesitemmodel.cpp:227
+#, kde-format
+msgctxt "@item"
+msgid "Safely Remove"
+msgstr "Bezbedno ukloni"
+
+# >> @action
+#: panels/places/placesitemmodel.cpp:230
+#, kde-format
+msgctxt "@item"
+msgid "Unmount"
+msgstr "Demontiraj"
+
+#: panels/places/placesitemmodel.cpp:252
+#, kde-format
+msgctxt "@info"
+msgid "The device '%1' is not a disk and cannot be ejected."
+msgstr "Uređaj „%1“ nije disk i ne može da se izbaci."
+
+#: panels/places/placesitemmodel.cpp:472
+#, kde-format
+msgid "One or more files on this device are open within an application."
+msgstr ""
+
+#: panels/places/placesitemmodel.cpp:479
+#, kde-kuit-format
+msgid ""
+"One or more files on this device are opened in application <application>"
+"\"%2\"</application>."
+msgid_plural ""
+"One or more files on this device are opened in following applications: "
+"<application>%2</application>."
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: panels/places/placesitemmodel.cpp:481
+#, kde-format
+msgctxt "separator in list of apps blocking device unmount"
+msgid ", "
+msgstr ""
+
+#: panels/places/placesitemmodel.cpp:509
+#, kde-format
+msgctxt "@info"
+msgid "An error occurred while accessing '%1', the system responded: %2"
+msgstr "Greška u pristupanju „%1“, sistem odgovara: %2"
+
+#: panels/places/placesitemmodel.cpp:513
+#, kde-format
+msgctxt "@info"
+msgid "An error occurred while accessing '%1'"
+msgstr "Greška u pristupanju „%1“."
+
+# >> @action:inmenu
+#: panels/places/placespanel.cpp:184
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Open in New Tab"
+msgstr "Otvori u novom jezičku"
+
+# >> @action:inmenu
+#: panels/places/placespanel.cpp:185
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Open in New Window"
+msgstr "Otvori u novom prozoru"
+
+# >> @action
+#: panels/places/placespanel.cpp:218
+#, fuzzy, kde-format
+#| msgctxt "@item"
+#| msgid "Unmount"
+msgctxt "@action:inmenu"
+msgid "Mount"
+msgstr "Demontiraj"
+
+# >> @action:inmenu
+#: panels/places/placespanel.cpp:227
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Edit..."
+msgstr "Uredi..."
+
+# >> @action:inmenu
+#: panels/places/placespanel.cpp:232
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Remove"
+msgstr "Ukloni"
+
+# >> @action:inmenu
+#: panels/places/placespanel.cpp:235
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Hide"
+msgstr "Sakrij"
+
+#: panels/places/placespanel.cpp:291
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Add Entry..."
+msgstr "Dodaj stavku..."
+
+#: panels/places/placespanel.cpp:301
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Icon Size"
+msgstr "Veličina ikonica"
+
+#: panels/places/placespanel.cpp:312
+#, kde-format
+msgctxt "Small icon size"
+msgid "Small (%1x%2)"
+msgstr "male (%1×%2)"
+
+#: panels/places/placespanel.cpp:313
+#, kde-format
+msgctxt "Medium icon size"
+msgid "Medium (%1x%2)"
+msgstr "srednje (%1×%2)"
+
+#: panels/places/placespanel.cpp:314
+#, kde-format
+msgctxt "Large icon size"
+msgid "Large (%1x%2)"
+msgstr "velike (%1×%2)"
+
+#: panels/places/placespanel.cpp:315
+#, kde-format
+msgctxt "Huge icon size"
+msgid "Huge (%1x%2)"
+msgstr "ogromne (%1×%2)"
+
+#: panels/places/placespanel.cpp:361
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "Hide Section '%1'"
+msgstr "Sakrij odeljak „%1“"
+
+#: panels/terminal/terminalpanel.cpp:163
+#, kde-format
+msgid ""
+"Terminal cannot be shown because Konsole is not installed. Please install it "
+"and then reopen the panel."
+msgstr ""
+
+#: panels/terminal/terminalpanel.cpp:169
+#, kde-format
+msgid "Install Konsole"
+msgstr ""
+
+#. i18n: ectx: label, entry (Location), group (Search)
+#: search/dolphin_searchsettings.kcfg:10
+#, kde-format
+msgid "Location"
+msgstr "Lokacija"
+
+#. i18n: ectx: label, entry (What), group (Search)
+#: search/dolphin_searchsettings.kcfg:14
+#, kde-format
+msgid "What"
+msgstr "Šta"
+
+# >> @item
+#: search/dolphinfacetswidget.cpp:41
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Type"
+msgctxt "@item:inlistbox"
+msgid "Any Type"
+msgstr ""
+"tip|/|$[svojstva naredbeno 'detalji:\n"
+"tip' spiskovno 'dopunski detalji: tip']"
+
+#: search/dolphinfacetswidget.cpp:42
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Folders"
+msgctxt "@item:inlistbox"
+msgid "Folders"
+msgstr "Fascikle"
+
+#: search/dolphinfacetswidget.cpp:43
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Documents"
+msgctxt "@item:inlistbox"
+msgid "Documents"
+msgstr "Dokumenti"
+
+#: search/dolphinfacetswidget.cpp:44
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Images"
+msgctxt "@item:inlistbox"
+msgid "Images"
+msgstr "Slike"
+
+#: search/dolphinfacetswidget.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Audio Files"
+msgctxt "@item:inlistbox"
+msgid "Audio Files"
+msgstr "Audio fajlovi"
+
+#: search/dolphinfacetswidget.cpp:46
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@item:inlistbox"
+msgid "Videos"
+msgstr "Video fajlovi"
+
+#: search/dolphinfacetswidget.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Any Rating"
+msgctxt "@item:inlistbox"
+msgid "Any Date"
+msgstr "Bilo koja ocena"
+
+#: search/dolphinfacetswidget.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "@title:group Date"
+#| msgid "Today"
+msgctxt "@item:inlistbox"
+msgid "Today"
+msgstr "Danas"
+
+#: search/dolphinfacetswidget.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@title:group Date"
+#| msgid "Yesterday"
+msgctxt "@item:inlistbox"
+msgid "Yesterday"
+msgstr "Juče"
+
+#: search/dolphinfacetswidget.cpp:55
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Week"
+msgctxt "@item:inlistbox"
+msgid "This Week"
+msgstr "Ove sedmice"
+
+#: search/dolphinfacetswidget.cpp:56
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Month"
+msgctxt "@item:inlistbox"
+msgid "This Month"
+msgstr "Ovog meseca"
+
+#: search/dolphinfacetswidget.cpp:57
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Year"
+msgctxt "@item:inlistbox"
+msgid "This Year"
+msgstr "Ove godine"
+
+#: search/dolphinfacetswidget.cpp:61
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Any Rating"
+msgctxt "@item:inlistbox"
+msgid "Any Rating"
+msgstr "Bilo koja ocena"
+
+#: search/dolphinfacetswidget.cpp:62
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "1 or more"
+msgctxt "@item:inlistbox"
+msgid "1 or more"
+msgstr "1 i veća"
+
+#: search/dolphinfacetswidget.cpp:63
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "2 or more"
+msgctxt "@item:inlistbox"
+msgid "2 or more"
+msgstr "2 i veća"
+
+#: search/dolphinfacetswidget.cpp:64
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "3 or more"
+msgctxt "@item:inlistbox"
+msgid "3 or more"
+msgstr "3 i veća"
+
+#: search/dolphinfacetswidget.cpp:65
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "4 or more"
+msgctxt "@item:inlistbox"
+msgid "4 or more"
+msgstr "4 i veća"
+
+#: search/dolphinfacetswidget.cpp:66
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Highest Rating"
+msgctxt "@item:inlistbox"
+msgid "Highest Rating"
+msgstr "Najveća ocena"
+
+#: search/dolphinfacetswidget.cpp:248
+#, kde-format
+msgctxt "String list separator"
+msgid ", "
+msgstr ""
+
+#: search/dolphinfacetswidget.cpp:250
+#, fuzzy, kde-format
+#| msgctxt "@item:inmenu"
+#| msgid "%1: %2"
+msgctxt "@action:button %2 is a list of tags"
+msgid "Tag: %2"
+msgid_plural "Tags: %2"
+msgstr[0] "%1: %2"
+msgstr[1] "%1: %2"
+msgstr[2] "%1: %2"
+msgstr[3] "%1: %2"
+
+# >> @item
+#: search/dolphinfacetswidget.cpp:252
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Tags"
+msgctxt "@action:button"
+msgid "Add Tags"
+msgstr ""
+"oznake|/|$[svojstva naredbeno 'detalji:\n"
+"oznake' spiskovno 'dopunski detalji: oznake']"
+
+#: search/dolphinsearchbox.cpp:114
+#, kde-format
+msgctxt "action:button"
+msgid "From Here (%1)"
+msgstr "Odavde (%1)"
+
+#: search/dolphinsearchbox.cpp:115
+#, kde-format
+msgctxt "action:button"
+msgid "Limit search to '%1' and its subfolders"
+msgstr ""
+
+#: search/dolphinsearchbox.cpp:362
+#, kde-format
+msgctxt "action:button"
+msgid "Save this search to quickly access it again in the future"
+msgstr "Sačuvaj ovu pretragu radi brzog pristupa ubuduće"
+
+# rewrite-msgid: /Quit/Stop/
+#: search/dolphinsearchbox.cpp:371
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Quit searching"
+msgstr "Prekini traženje"
+
+#: search/dolphinsearchbox.cpp:382
+#, kde-format
+msgctxt "action:button"
+msgid "Filename"
+msgstr "Ime fajla"
+
+#: search/dolphinsearchbox.cpp:386
+#, kde-format
+msgctxt "action:button"
+msgid "Content"
+msgstr "Sadržaj"
+
+#: search/dolphinsearchbox.cpp:397
+#, kde-format
+msgctxt "action:button"
+msgid "From Here"
+msgstr "Odavde"
+
+#: search/dolphinsearchbox.cpp:401
+#, fuzzy, kde-format
+#| msgctxt "EMAIL OF TRANSLATORS"
+#| msgid "Your emails"
+msgctxt "action:button"
+msgid "Your files"
+msgstr "caslav.ilic@gmx.net"
+
+#: search/dolphinsearchbox.cpp:402
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Limit to Home Directory"
+msgctxt "action:button"
+msgid "Search in your home directory"
+msgstr "Ograniči na domaću fasciklu"
+
+#: search/dolphinsearchbox.cpp:416
+#, kde-format
+msgid "More Search Tools"
+msgstr "Više alatki za pretragu"
+
+#: search/dolphinsearchbox.cpp:479
+#, kde-format
+msgctxt ""
+"@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
+"user entered."
+msgid "Query Results from '%1'"
+msgstr "Rezultati upita za „%1“"
+
+#. i18n: ectx: label, entry (UseSystemFont), group (CompactMode)
+#. i18n: ectx: label, entry (UseSystemFont), group (DetailsMode)
+#. i18n: ectx: label, entry (UseSystemFont), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:12
+#: settings/dolphin_detailsmodesettings.kcfg:16
+#: settings/dolphin_iconsmodesettings.kcfg:12
+#, kde-format
+msgid "Use system font"
+msgstr "Koristi sistemski font"
+
+#. i18n: ectx: label, entry (FontFamily), group (CompactMode)
+#. i18n: ectx: label, entry (FontFamily), group (DetailsMode)
+#. i18n: ectx: label, entry (FontFamily), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:16
+#: settings/dolphin_detailsmodesettings.kcfg:12
+#: settings/dolphin_iconsmodesettings.kcfg:16
+#, kde-format
+msgid "Font family"
+msgstr "Porodica fontova"
+
+#. i18n: ectx: label, entry (FontSize), group (CompactMode)
+#. i18n: ectx: label, entry (FontSize), group (DetailsMode)
+#. i18n: ectx: label, entry (FontSize), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:20
+#: settings/dolphin_detailsmodesettings.kcfg:20
+#: settings/dolphin_iconsmodesettings.kcfg:20
+#, kde-format
+msgid "Font size"
+msgstr "Veličina fonta"
+
+#. i18n: ectx: label, entry (ItalicFont), group (CompactMode)
+#. i18n: ectx: label, entry (ItalicFont), group (DetailsMode)
+#. i18n: ectx: label, entry (ItalicFont), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:24
+#: settings/dolphin_detailsmodesettings.kcfg:24
+#: settings/dolphin_iconsmodesettings.kcfg:24
+#, kde-format
+msgid "Italic"
+msgstr "Kurzivno"
+
+#. i18n: ectx: label, entry (FontWeight), group (CompactMode)
+#. i18n: ectx: label, entry (FontWeight), group (DetailsMode)
+#. i18n: ectx: label, entry (FontWeight), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:28
+#: settings/dolphin_detailsmodesettings.kcfg:28
+#: settings/dolphin_iconsmodesettings.kcfg:28
+#, kde-format
+msgid "Font weight"
+msgstr "Debljina fonta"
+
+#. i18n: ectx: label, entry (IconSize), group (CompactMode)
+#. i18n: ectx: label, entry (IconSize), group (DetailsMode)
+#. i18n: ectx: label, entry (IconSize), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:32
+#: settings/dolphin_detailsmodesettings.kcfg:32
+#: settings/dolphin_iconsmodesettings.kcfg:32
+#, kde-format
+msgid "Icon size"
+msgstr "Veličina ikonica"
+
+#. i18n: ectx: label, entry (PreviewSize), group (CompactMode)
+#. i18n: ectx: label, entry (PreviewSize), group (DetailsMode)
+#. i18n: ectx: label, entry (PreviewSize), group (IconsMode)
+#: settings/dolphin_compactmodesettings.kcfg:36
+#: settings/dolphin_detailsmodesettings.kcfg:36
+#: settings/dolphin_iconsmodesettings.kcfg:36
+#, kde-format
+msgid "Preview size"
+msgstr "Veličina pregleda"
+
+#. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
+#: settings/dolphin_compactmodesettings.kcfg:40
+#, kde-format
+msgid "Maximum text width index (0 means unlimited)"
+msgstr "Indeks najveće širine teksta (0 za neograničeno)"
+
+#. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:40
+#, kde-format
+msgid "Position of columns"
+msgstr "Položaj kolona"
+
+#. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:44
+#, kde-format
+msgid "Expandable folders"
+msgstr "Proširive fascikle"
+
+#. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:48
+#, kde-format
+msgid "Whether or not content count is used as directory size"
+msgstr ""
+
+#. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:52
+#, kde-format
+msgid "Recursive directory size limit"
+msgstr ""
+
+#. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:11
+#, kde-format
+msgctxt "@label"
+msgid "Hidden files shown"
+msgstr "Skriveni fajlovi prikazani"
+
+#. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:12
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled hidden files, such as those starting with a '.', "
+"will be shown in the file view."
+msgstr ""
+"Kada je ova opcija uključena, biće prikazani i skriveni fajlovi, poput onih "
+"čija imena počinju tačkom."
+
+#. i18n: ectx: label, entry (Version), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:19
+#, kde-format
+msgctxt "@label"
+msgid "Version"
+msgstr "Verzija"
+
+#. i18n: ectx: whatsthis, entry (Version), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:20
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "This option defines the used version of the view properties."
+msgstr "Ova opcija određuje verziju svojstava prikaza koja se koristi."
+
+#. i18n: ectx: label, entry (ViewMode), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:25
+#, kde-format
+msgctxt "@label"
+msgid "View Mode"
+msgstr "Način prikaza"
+
+#. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:26
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option controls the style of the view. Currently supported values "
+"include icons (0), details (1) and column (2) views."
+msgstr ""
+"Ova opcija određuje stil prikaza. Trenutno su podržani prikazi ikonica (0), "
+"detalja (1) i kolona (2)."
+
+#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:31
+#, kde-format
+msgctxt "@label"
+msgid "Previews shown"
+msgstr "Pregledi prikazani"
+
+#. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled, a preview of the file content is shown as an "
+"icon."
+msgstr ""
+"Kada je ova opcija uključena, prikazuje se pregled sadržaja fajla kao "
+"ikonica."
+
+#. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:37
+#, kde-format
+msgctxt "@label"
+msgid "Grouped Sorting"
+msgstr "Ređanje po grupama"
+
+#. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:38
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled, the sorted items are categorized into groups."
+msgstr ""
+"Kada je ova opcija uključena, poređane stavke raspoređuju se po grupama."
+
+#. i18n: ectx: label, entry (SortRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:43
+#, kde-format
+msgctxt "@label"
+msgid "Sort files by"
+msgstr "Ređanje fajlova prema"
+
+#. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:44
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option defines which attribute (text, size, date, etc.) sorting is "
+"performed on."
+msgstr ""
+"Ova opcija određuje prema kojim se atributima ređaju fajlovi (tekst, "
+"veličina, datum, itd.)."
+
+#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:49
+#, kde-format
+msgctxt "@label"
+msgid "Order in which to sort files"
+msgstr "Redosled ređanja fajlova"
+
+#. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#, kde-format
+msgctxt "@label"
+msgid "Show folders first when sorting files and folders"
+msgstr "Prvo fascikle pri ređanju fajlova i fascikli"
+
+#. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:61
+#, kde-format
+msgctxt "@label"
+msgid "Visible roles"
+msgstr "Vidljive uloge"
+
+#. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:66
+#, kde-format
+msgctxt "@label"
+msgid "Header column widths"
+msgstr "Širine kolona zaglavlja"
+
+#. i18n: ectx: label, entry (Timestamp), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:71
+#, kde-format
+msgctxt "@label"
+msgid "Properties last changed"
+msgstr "Poslednja izmena svojstava"
+
+#. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:72
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "The last time these properties were changed by the user."
+msgstr "Poslednji put kada je korisnik izmenio ova svojstva."
+
+#. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#, kde-format
+msgctxt "@label"
+msgid "Additional Information"
+msgstr "Dopunski podaci"
+
+#. i18n: ectx: label, entry (EditableUrl), group (General)
+#: settings/dolphin_generalsettings.kcfg:14
+#, kde-format
+msgid "Should the URL be editable for the user"
+msgstr "Može li korisnik da uređuje URL‑ove"
+
+#. i18n: ectx: label, entry (UrlCompletionMode), group (General)
+#: settings/dolphin_generalsettings.kcfg:18
+#, kde-format
+msgid "Text completion mode of the URL Navigator"
+msgstr "Režim dopune teksta u URL navigatoru"
+
+#. i18n: ectx: label, entry (ShowFullPath), group (General)
+#: settings/dolphin_generalsettings.kcfg:22
+#, kde-format
+msgid "Should the full path be shown inside the location bar"
+msgstr "Treba li prikazati celu putanju u traci lokacije"
+
+#. i18n: ectx: label, entry (ShowFullPathInTitlebar), group (General)
+#: settings/dolphin_generalsettings.kcfg:26
+#, kde-format
+msgid "Should the full path be shown in the title bar"
+msgstr "Treba li prikazati celu putanju u naslovnoj traci"
+
+#. i18n: ectx: label, entry (OpenExternallyCalledFolderInNewTab), group (General)
+#: settings/dolphin_generalsettings.kcfg:30
+#, kde-format
+msgid ""
+"Should an externally called folder open in a new tab in an existing Dolphin "
+"instance"
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: settings/dolphin_generalsettings.kcfg:34
+#, kde-format
+msgid ""
+"Internal version of Dolphin, containing 3 digits for major, minor, bugfix"
+msgstr "Unutrašnja verzija Dolphina, sadrži 3 cifre: veliku, malu i popravnu"
+
+#. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
+#: settings/dolphin_generalsettings.kcfg:38
+#, kde-format
+msgid ""
+"Have the startup settings been modified (internal setting not shown in the "
+"UI)"
+msgstr ""
+"Da li su postavke pokretanja izmenjene (unutrašnja postavka, ne vidi se u "
+"sučelju)"
+
+#. i18n: ectx: label, entry (HomeUrl), group (General)
+#: settings/dolphin_generalsettings.kcfg:42
+#, kde-format
+msgid "Home URL"
+msgstr "Domaći URL"
+
+#. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
+#: settings/dolphin_generalsettings.kcfg:46
+#, kde-format
+msgid "Remember open folders and tabs"
+msgstr ""
+
+#. i18n: ectx: label, entry (SplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:50
+#, kde-format
+msgid "Split the view into two panes"
+msgstr "Podela prikaza na dva panela"
+
+#. i18n: ectx: label, entry (FilterBar), group (General)
+#: settings/dolphin_generalsettings.kcfg:54
+#, kde-format
+msgid "Should the filter bar be shown"
+msgstr "Da li prikazati filtersku traku"
+
+#. i18n: ectx: label, entry (GlobalViewProps), group (General)
+#: settings/dolphin_generalsettings.kcfg:58
+#, kde-format
+msgid "Should the view properties be used for all folders"
+msgstr "Da li koristiti svojstva prikaza za sve fascikle"
+
+#. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
+#: settings/dolphin_generalsettings.kcfg:62
+#, kde-format
+msgid "Browse through archives"
+msgstr "Pregledaj kroz arhive"
+
+#. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
+#: settings/dolphin_generalsettings.kcfg:66
+#, kde-format
+msgid "Ask for confirmation when closing windows with multiple tabs."
+msgstr "Traži potvrdu pri zatvaranju prozora sa više jezičaka"
+
+#. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
+#: settings/dolphin_generalsettings.kcfg:70
+#, fuzzy, kde-format
+#| msgid "Ask for confirmation when closing windows with multiple tabs."
+msgid ""
+"Ask for confirmation when closing windows with a program that is still "
+"running in the Terminal panel."
+msgstr "Traži potvrdu pri zatvaranju prozora sa više jezičaka"
+
+#. i18n: ectx: label, entry (RenameInline), group (General)
+#: settings/dolphin_generalsettings.kcfg:74
+#, kde-format
+msgid "Rename inline"
+msgstr "Utkano preimenovanje"
+
+#. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
+#: settings/dolphin_generalsettings.kcfg:78
+#, kde-format
+msgid "Show selection toggle"
+msgstr "Izvrtač izbora"
+
+# rewrite-msgid: /split/split view/
+# skip-rule: t-tab
+#. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:82
+#, kde-format
+msgid "Use tab for switching between right and left split"
+msgstr "Tab prebacuje levo–desno u podeljenom prikazu"
+
+#. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:86
+#, kde-format
+msgid "Close active pane when toggling off split view"
+msgstr ""
+
+#. i18n: ectx: label, entry (ShowToolTips), group (General)
+#: settings/dolphin_generalsettings.kcfg:90
+#, kde-format
+msgid "Show tooltips"
+msgstr "Oblačići"
+
+#. i18n: ectx: label, entry (ShowCopyMoveMenu), group (General)
+#: settings/dolphin_generalsettings.kcfg:94
+#, kde-format
+msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgstr "Naredbe kopiranja i premeštanja u kontekstnom meniju"
+
+#. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
+#: settings/dolphin_generalsettings.kcfg:98
+#, kde-format
+msgid "Timestamp since when the view properties are valid"
+msgstr "Vremenska oznaka od koje su svojstva prikaza važeća"
+
+#. i18n: ectx: label, entry (AutoExpandFolders), group (General)
+#: settings/dolphin_generalsettings.kcfg:101
+#, kde-format
+msgid "Use auto-expanding folders for all view types"
+msgstr "Samošireće fascikle za sve tipove prikaza"
+
+#. i18n: ectx: label, entry (ShowZoomSlider), group (General)
+#: settings/dolphin_generalsettings.kcfg:105
+#, kde-format
+msgid "Show zoom slider in the statusbar"
+msgstr "Klizač uveličanja u traci stanja"
+
+#. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
+#: settings/dolphin_generalsettings.kcfg:109
+#, kde-format
+msgid "Show the space information in the statusbar"
+msgstr "Podaci o prostoru u traci stanja"
+
+#. i18n: ectx: label, entry (LockPanels), group (General)
+#: settings/dolphin_generalsettings.kcfg:113
+#, kde-format
+msgid "Lock the layout of the panels"
+msgstr "Zaključaj raspored panela"
+
+#. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
+#: settings/dolphin_generalsettings.kcfg:117
+#, kde-format
+msgid "Enlarge Small Previews"
+msgstr "Uvećaj male preglede"
+
+#. i18n: ectx: label, entry (SortingChoice), group (General)
+#: settings/dolphin_generalsettings.kcfg:126
+#, kde-format
+msgid ""
+"Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
+"items"
+msgstr ""
+"Izaberite ređanje stavki: prirodno, sa razlikovanjem ili bez razlikovanja "
+"veličine slova."
+
+#. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:40
+#, kde-format
+msgid "Text width index"
+msgstr "Indeks širine teksta"
+
+#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:44
+#, kde-format
+msgid "Maximum textlines (0 means unlimited)"
+msgstr "Najviše redova teksta (0 za neograničeno)"
+
+#. i18n: ectx: label, entry (enabledPlugins), group (VersionControl)
+#: settings/dolphin_versioncontrolsettings.kcfg:10
+#, kde-format
+msgid "Enabled plugins"
+msgstr "Uključeni priključci"
+
+#: settings/dolphinsettingsdialog.cpp:50
+#, kde-format
+msgctxt "@title:window"
+msgid "Dolphin Preferences"
+msgstr "Dolphinove postavke"
+
+#: settings/dolphinsettingsdialog.cpp:64
+#, kde-format
+msgctxt "@title:group General settings"
+msgid "General"
+msgstr "Opšte"
+
+#: settings/dolphinsettingsdialog.cpp:71
+#, kde-format
+msgctxt "@title:group"
+msgid "Startup"
+msgstr "Pokretanje"
+
+#: settings/dolphinsettingsdialog.cpp:78
+#, kde-format
+msgctxt "@title:group"
+msgid "View Modes"
+msgstr "Načini prikaza"
+
+#: settings/dolphinsettingsdialog.cpp:85
+#, kde-format
+msgctxt "@title:group"
+msgid "Navigation"
+msgstr "Navigacija"
+
+#: settings/dolphinsettingsdialog.cpp:92
+#, kde-format
+msgctxt "@title:group"
+msgid "Services"
+msgstr "Servisi"
+
+#: settings/dolphinsettingsdialog.cpp:100
+#, kde-format
+msgctxt "@title:group"
+msgid "Trash"
+msgstr "Smeće"
+
+#: settings/dolphinsettingsdialog.cpp:164
+#, kde-format
+msgid ""
+"You have unsaved changes. Do you want to apply the changes or discard them?"
+msgstr ""
+
+#: settings/dolphinsettingsdialog.cpp:165
+#, kde-format
+msgid "Warning"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@option:radio"
+#| msgid "Use common properties for all folders"
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Koristi zajednička svojstva za sve fascikle"
+
+#: settings/general/behaviorsettingspage.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "@option:radio"
+#| msgid "Remember properties for each folder"
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Upamti svojstva za svaku fasciklu"
+
+#: settings/general/behaviorsettingspage.cpp:53
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "View"
+msgctxt "@title:group"
+msgid "View: "
+msgstr "Prikaz"
+
+#: settings/general/behaviorsettingspage.cpp:66
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Natural sorting"
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Prirodno ređanje"
+
+#: settings/general/behaviorsettingspage.cpp:67
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Alphabetical sorting, case insensitive"
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr "Alfabetsko ređanje, bez razlikovanja veličine slova"
+
+#: settings/general/behaviorsettingspage.cpp:68
+#, fuzzy, kde-format
+#| msgctxt "option:radio"
+#| msgid "Alphabetical sorting, case sensitive"
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr "Alfabetsko ređanje, sa razlikovanjem veličine slova"
+
+#: settings/general/behaviorsettingspage.cpp:74
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Sorting Mode"
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Režim ređanja"
+
+#: settings/general/behaviorsettingspage.cpp:84
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Oblačići"
+
+#: settings/general/behaviorsettingspage.cpp:85
+#: settings/general/behaviorsettingspage.cpp:93
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr ""
+
+# >> @option:check
+#: settings/general/behaviorsettingspage.cpp:89
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Obeleživač izbora"
+
+# >! @option:check
+#: settings/general/behaviorsettingspage.cpp:97
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Utkano preimenovanje"
+
+#: settings/general/behaviorsettingspage.cpp:101
+#, kde-format
+msgctxt "option:check"
+msgid "Switch between split views panes with tab key"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:105
+#, kde-format
+msgctxt "option:check"
+msgid "Turning off split view closes active pane"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:107
+#, kde-format
+msgid "When deactivated, turning off split view will close the inactive pane"
+msgstr ""
+
+# >> %1 is a plugin name
+#: settings/general/configurepreviewplugindialog.cpp:49
+#, kde-format
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Podešavanje pregleda za %1|/|Podešavanje pregleda za $[aku %1]"
+
+#: settings/general/confirmationssettingspage.cpp:61
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Traži potvrdu u svim KDE programima pri:"
+
+#: settings/general/confirmationssettingspage.cpp:65
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "premeštanju fajlova ili fascikli u smeće"
+
+#: settings/general/confirmationssettingspage.cpp:67
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Empty Trash"
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Isprazni smeće"
+
+#: settings/general/confirmationssettingspage.cpp:69
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "brisanju fajlova ili fascikli"
+
+#: settings/general/confirmationssettingspage.cpp:71
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation when:"
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Traži potvrdu pri:"
+
+#: settings/general/confirmationssettingspage.cpp:75
+#, fuzzy, kde-format
+#| msgctxt "@option:check Ask for confirmation when"
+#| msgid "Closing Dolphin windows with multiple tabs"
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "zatvaranju prozora Dolphina sa više jezičaka"
+
+#: settings/general/confirmationssettingspage.cpp:79
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:83
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:88
+#, kde-format
+msgid "Always ask"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:88
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Go"
+#| msgid "App&lications"
+msgid "Open in application"
+msgstr "&Programi"
+
+#: settings/general/confirmationssettingspage.cpp:88
+#, kde-format
+msgid "Run script"
+msgstr ""
+
+#: settings/general/generalsettingspage.cpp:44
+#: settings/kcm/kcmdolphingeneral.cpp:49
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Ponašanje"
+
+#: settings/general/generalsettingspage.cpp:49
+#: settings/kcm/kcmdolphingeneral.cpp:54
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Pregledi"
+
+#: settings/general/generalsettingspage.cpp:54
+#: settings/kcm/kcmdolphingeneral.cpp:59
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Potvrde"
+
+#: settings/general/generalsettingspage.cpp:59
+#, kde-format
+msgctxt "@title:tab Status Bar settings"
+msgid "Status Bar"
+msgstr "Traka stanja"
+
+#: settings/general/previewssettingspage.cpp:55
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Show previews for:"
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Prikaz pregleda za:"
+
+#: settings/general/previewssettingspage.cpp:73
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Skip previews for remote files above:"
+msgid "Skip previews for local files above:"
+msgstr "Bez pregleda za udaljene fajlove preko:"
+
+#: settings/general/previewssettingspage.cpp:86
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Bez pregleda za udaljene fajlove preko:"
+
+#: settings/general/statusbarsettingspage.cpp:34
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Klizač uveličanja"
+
+#: settings/general/statusbarsettingspage.cpp:35
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Podaci o prostoru"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:49
+#: settings/viewmodes/viewsettingspage.cpp:42
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Ikonice"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:54
+#: settings/viewmodes/viewsettingspage.cpp:47
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Sažeto"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:59
+#: settings/viewmodes/viewsettingspage.cpp:52
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Detalji"
+
+#: settings/navigation/navigationsettingspage.cpp:40
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Otvaraj arhive kao fascikle"
+
+#: settings/navigation/navigationsettingspage.cpp:43
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Otvaraj fascikle pri prevlačenjima"
+
+#: settings/services/servicessettingspage.cpp:62
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Select which services should be shown in the context menu:"
+msgstr "Izaberite koje servise želite u kontekstnom meniju:"
+
+# >! @info:progress
+#: settings/services/servicessettingspage.cpp:66
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Searching..."
+msgctxt "@label:textbox"
+msgid "Search..."
+msgstr "Tražim..."
+
+#: settings/services/servicessettingspage.cpp:85
+#, kde-format
+msgctxt "@action:button"
+msgid "Download New Services..."
+msgstr "Preuzmi nove servise..."
+
+# rewrite-msgid: /updated/modified/
+#: settings/services/servicessettingspage.cpp:142
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin must be restarted to apply the updated version control systems "
+"settings."
+msgstr ""
+"Dolphin mora biti ponovo pokrenut da bi se primenile izmenjene postavke "
+"sistema za upravljanje verzijama."
+
+# rewrite-msgid: /$/command/
+#: settings/services/servicessettingspage.cpp:174
+#, kde-format
+msgctxt "@option:check"
+msgid "Delete"
+msgstr "Naredba brisanja"
+
+#: settings/services/servicessettingspage.cpp:180
+#, kde-format
+msgctxt "@option:check"
+msgid "'Copy To' and 'Move To' commands"
+msgstr "Naredbe kopiranja i premeštanja"
+
+#: settings/services/servicessettingspage.cpp:212
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "%1: %2"
+msgstr "%1: %2"
+
+#: settings/startup/startupsettingspage.cpp:57
+#, kde-format
+msgctxt "@option:radio Startup Settings"
+msgid "Folders, tabs, and window state from last time"
+msgstr ""
+
+#: settings/startup/startupsettingspage.cpp:80
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Izaberi domaću lokaciju"
+
+#: settings/startup/startupsettingspage.cpp:90
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Tekuća lokacija"
+
+#: settings/startup/startupsettingspage.cpp:94
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Podrazumevana lokacija"
+
+#: settings/startup/startupsettingspage.cpp:106
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show in groups"
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "Prikazuj po grupama"
+
+#: settings/startup/startupsettingspage.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Split view mode"
+msgctxt "@option:check Startup Settings"
+msgid "Begin in split view mode"
+msgstr "Podeljeni prikaz"
+
+#: settings/startup/startupsettingspage.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgid "New windows:"
+msgstr "Novi &prozor"
+
+#: settings/startup/startupsettingspage.cpp:114
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show filter bar"
+msgstr "Filterska traka"
+
+#: settings/startup/startupsettingspage.cpp:116
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Editable location bar"
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Traka lokacije se može uređivati"
+
+#: settings/startup/startupsettingspage.cpp:121
+#, fuzzy, kde-format
+#| msgctxt "option:check"
+#| msgid "Open folders during drag operations"
+msgctxt "@option:check Startup Settings"
+msgid "Open new folders in tabs"
+msgstr "Otvaraj fascikle pri prevlačenjima"
+
+#: settings/startup/startupsettingspage.cpp:122
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@label:checkbox"
+msgid "General:"
+msgstr "Opšte"
+
+#: settings/startup/startupsettingspage.cpp:123
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Puna putanja u traci lokacije"
+
+#: settings/startup/startupsettingspage.cpp:125
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Puna putanja u naslovnoj traci"
+
+#: settings/startup/startupsettingspage.cpp:158
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The location for the home folder is invalid or does not exist, it will not "
+"be applied."
+msgstr ""
+"Lokacija domaće fascikle nije pravilna ili ne postoji, te se neće primeniti."
+
+#: settings/viewmodes/dolphinfontrequester.cpp:41
+#, kde-format
+msgctxt "@item:inlistbox Font"
+msgid "System Font"
+msgstr "sistemski font"
+
+#: settings/viewmodes/dolphinfontrequester.cpp:42
+#, kde-format
+msgctxt "@item:inlistbox Font"
+msgid "Custom Font"
+msgstr "poseban font"
+
+#: settings/viewmodes/dolphinfontrequester.cpp:46
+#, kde-format
+msgctxt "@action:button Choose font"
+msgid "Choose..."
+msgstr "Izaberi..."
+
+# >> @label:listbox Default icon size
+#: settings/viewmodes/viewsettingstab.cpp:64
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Default:"
+msgctxt "@label:listbox"
+msgid "Default icon size:"
+msgstr "Podrazumevana:"
+
+#: settings/viewmodes/viewsettingstab.cpp:72
+#, fuzzy, kde-format
+#| msgid "Preview size"
+msgctxt "@label:listbox"
+msgid "Preview icon size:"
+msgstr "Veličina pregleda"
+
+#: settings/viewmodes/viewsettingstab.cpp:80
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Label:"
+msgctxt "@label:listbox"
+msgid "Label font:"
+msgstr "Etiketa:"
+
+#: settings/viewmodes/viewsettingstab.cpp:85
+#, fuzzy, kde-format
+#| msgctxt "@title:group Size"
+#| msgid "Small"
+msgctxt "@item:inlistbox Label width"
+msgid "Small"
+msgstr "Malo"
+
+#: settings/viewmodes/viewsettingstab.cpp:86
+#, fuzzy, kde-format
+#| msgctxt "@title:group Size"
+#| msgid "Medium"
+msgctxt "@item:inlistbox Label width"
+msgid "Medium"
+msgstr "Srednje"
+
+#: settings/viewmodes/viewsettingstab.cpp:87
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Text width"
+#| msgid "Large"
+msgctxt "@item:inlistbox Label width"
+msgid "Large"
+msgstr "širok"
+
+#: settings/viewmodes/viewsettingstab.cpp:88
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Text width"
+#| msgid "Huge"
+msgctxt "@item:inlistbox Label width"
+msgid "Huge"
+msgstr "ogroman"
+
+#: settings/viewmodes/viewsettingstab.cpp:89
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Label:"
+msgctxt "@label:listbox"
+msgid "Label width:"
+msgstr "Etiketa:"
+
+#: settings/viewmodes/viewsettingstab.cpp:92
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "Unlimited"
+msgstr "neograničeno"
+
+#: settings/viewmodes/viewsettingstab.cpp:93
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "1"
+msgstr "1"
+
+#: settings/viewmodes/viewsettingstab.cpp:94
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "2"
+msgstr "2"
+
+#: settings/viewmodes/viewsettingstab.cpp:95
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "3"
+msgstr "3"
+
+#: settings/viewmodes/viewsettingstab.cpp:96
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "4"
+msgstr "4"
+
+#: settings/viewmodes/viewsettingstab.cpp:97
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "5"
+msgstr "5"
+
+#: settings/viewmodes/viewsettingstab.cpp:98
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Maximum lines:"
+msgstr "Najviše redova:"
+
+#: settings/viewmodes/viewsettingstab.cpp:103
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Unlimited"
+msgstr "neograničena"
+
+#: settings/viewmodes/viewsettingstab.cpp:104
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Small"
+msgstr "mala"
+
+#: settings/viewmodes/viewsettingstab.cpp:105
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Medium"
+msgstr "srednja"
+
+#: settings/viewmodes/viewsettingstab.cpp:106
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Large"
+msgstr "velika"
+
+#: settings/viewmodes/viewsettingstab.cpp:107
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Maximum width:"
+msgstr "Najveća širina:"
+
+#: settings/viewmodes/viewsettingstab.cpp:111
+#, fuzzy, kde-format
+#| msgid "Expandable folders"
+msgctxt "@option:check"
+msgid "Expandable"
+msgstr "Proširive fascikle"
+
+#: settings/viewmodes/viewsettingstab.cpp:112
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Folders"
+msgctxt "@label:checkbox"
+msgid "Folders:"
+msgstr "Fascikle"
+
+#: settings/viewmodes/viewsettingstab.cpp:116
+#, kde-format
+msgctxt "option:radio"
+msgid "Number of items"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:117
+#, kde-format
+msgctxt "option:radio"
+msgid "Size of contents, up to "
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:125
+#, kde-format
+msgid " level deep"
+msgid_plural " levels deep"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: settings/viewmodes/viewsettingstab.cpp:134
+#, kde-format
+msgctxt "@title:group"
+msgid "Folder size displays:"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:302
+#: statusbar/dolphinstatusbar.cpp:326
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Size: 1 pixel"
+msgid_plural "Size: %1 pixels"
+msgstr[0] "Veličina: %1 piksel"
+msgstr[1] "Veličina: %1 piksela"
+msgstr[2] "Veličina: %1 piksela"
+msgstr[3] "Veličina: 1 piksel"
+
+#: settings/viewpropertiesdialog.cpp:71
+#, kde-format
+msgctxt "@title:window"
+msgid "View Display Style"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:84
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Icons"
+msgstr "ikonice"
+
+#: settings/viewpropertiesdialog.cpp:85
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Compact"
+msgstr "sažeto"
+
+#: settings/viewpropertiesdialog.cpp:86
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Details"
+msgstr "detalji"
+
+#: settings/viewpropertiesdialog.cpp:89
+#, kde-format
+msgctxt "@item:inlistbox Sort"
+msgid "Ascending"
+msgstr "rastuće"
+
+#: settings/viewpropertiesdialog.cpp:90
+#, kde-format
+msgctxt "@item:inlistbox Sort"
+msgid "Descending"
+msgstr "opadajuće|/|$[svojstva spiskovno 'poređaj opadajuće']"
+
+#: settings/viewpropertiesdialog.cpp:98
+#, kde-format
+msgctxt "@option:check"
+msgid "Show folders first"
+msgstr "prvo fascikle"
+
+#: settings/viewpropertiesdialog.cpp:99
+#, kde-format
+msgctxt "@option:check"
+msgid "Show preview"
+msgstr "Prikazuj pregled"
+
+#: settings/viewpropertiesdialog.cpp:100
+#, kde-format
+msgctxt "@option:check"
+msgid "Show in groups"
+msgstr "Prikazuj po grupama"
+
+#: settings/viewpropertiesdialog.cpp:101
+#, kde-format
+msgctxt "@option:check"
+msgid "Show hidden files"
+msgstr "Prikazuj skrivene fajlove"
+
+#: settings/viewpropertiesdialog.cpp:104
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Additional Information"
+msgctxt "@title:group"
+msgid "Additional Information"
+msgstr "Dopunski podaci"
+
+#: settings/viewpropertiesdialog.cpp:144
+#, kde-format
+msgid "Choose what to see on each file or folder:"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:156
+#, kde-format
+msgctxt "@label:listbox"
+msgid "View mode:"
+msgstr "Način prikaza:"
+
+#: settings/viewpropertiesdialog.cpp:157
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Sorting:"
+msgstr "Ređanje:"
+
+#: settings/viewpropertiesdialog.cpp:161
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "View Properties"
+msgid "View options:"
+msgstr "Svojstva prikaza"
+
+#: settings/viewpropertiesdialog.cpp:186
+#, kde-format
+msgctxt "@option:radio Apply View Properties To"
+msgid "Current folder"
+msgstr "tekuću fasciklu"
+
+#: settings/viewpropertiesdialog.cpp:189
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Apply View Properties To"
+#| msgid "Current folder including all sub-folders"
+msgctxt "@option:radio Apply View Properties To"
+msgid "Current folder and sub-folders"
+msgstr "tekuću fasciklu sa svim potfasciklama"
+
+#: settings/viewpropertiesdialog.cpp:191
+#, kde-format
+msgctxt "@option:radio Apply View Properties To"
+msgid "All folders"
+msgstr "sve fascikle"
+
+#: settings/viewpropertiesdialog.cpp:200
+#, kde-format
+msgctxt "@title:group"
+msgid "Apply to:"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:205
+#, kde-format
+msgctxt "@option:check"
+msgid "Use as default view settings"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:354
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The view properties of all sub-folders will be changed. Do you want to "
+"continue?"
+msgstr ""
+"Svojstva prikaza biće izmenjena za sve potfascikle. Želite li da nastavite?"
+
+#: settings/viewpropertiesdialog.cpp:386
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The view properties of all folders will be changed. Do you want to continue?"
+msgstr ""
+"Svojstva prikaza biće izmenjena za sve fascikle. Želite li da nastavite?"
+
+#: settings/viewpropsprogressinfo.cpp:50
+#, kde-format
+msgctxt "@title:window"
+msgid "Applying View Properties"
+msgstr "Primena svojstava prikaza"
+
+#: settings/viewpropsprogressinfo.cpp:63 settings/viewpropsprogressinfo.cpp:127
+#, kde-format
+msgctxt "@info:progress"
+msgid "Counting folders: %1"
+msgstr "Brojim fascikle: %1"
+
+#: settings/viewpropsprogressinfo.cpp:143
+#, kde-format
+msgctxt "@info:progress"
+msgid "Folders: %1"
+msgstr "Fascikli: %1"
+
+#: statusbar/dolphinstatusbar.cpp:66
+#, kde-format
+msgid "Zoom"
+msgstr "Uveličanje"
+
+#: statusbar/dolphinstatusbar.cpp:67
+#, kde-format
+msgctxt "Description for zoom-slider (accessibility)"
+msgid "Sets the size of the file icons."
+msgstr "Postavlja veličinu ikonica fajlova."
+
+#: statusbar/dolphinstatusbar.cpp:81
+#, kde-format
+msgid "Stop"
+msgstr "Zaustavi"
+
+#: statusbar/dolphinstatusbar.cpp:83
+#, kde-format
+msgctxt "@tooltip"
+msgid "Stop loading"
+msgstr "Zaustavi učitavanje"
+
+#: statusbar/dolphinstatusbar.cpp:136
+#, kde-kuit-format
+msgctxt "@info:whatsthis Statusbar"
+msgid ""
+"<para>This is the <emphasis>Statusbar</emphasis>. It contains three elements "
+"by default (left to right):<list><item>A <emphasis>text field</emphasis> "
+"that displays the size of selected items. If only one item is selected the "
+"name and type is shown as well.</item><item>A <emphasis>zoom slider</"
+"emphasis> that allows you to adjust the size of the icons in the view.</"
+"item><item><emphasis>Space information</emphasis> about the current storage "
+"device.</item></list></para>"
+msgstr ""
+
+#: statusbar/dolphinstatusbar.cpp:270
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Zoom Slider"
+msgstr "Klizač uveličanja"
+
+#: statusbar/dolphinstatusbar.cpp:274
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Space Information"
+msgstr "Podaci o prostoru"
+
+#: statusbar/statusbarspaceinfo.cpp:130
+#, kde-format
+msgctxt "@info:status Free disk space"
+msgid "%1 free"
+msgstr "%1 slobodno"
+
+#: trash/dolphintrash.cpp:70
+#, kde-format
+msgid "Trash Emptied"
+msgstr ""
+
+#: trash/dolphintrash.cpp:71
+#, kde-format
+msgid "The Trash was emptied."
+msgstr ""
+
+# >> @title:menu
+#: views/dolphinremoteencoding.cpp:51
+#, kde-format
+msgid "Select Remote Charset"
+msgstr "Udaljeno kodiranje"
+
+#: views/dolphinremoteencoding.cpp:115
+#, kde-format
+msgid "Reload"
+msgstr "Učitaj ponovo"
+
+# >> @item:inmenu Select Remote Charset
+#: views/dolphinremoteencoding.cpp:116
+#, kde-format
+msgid "Default"
+msgstr "podrazumevano"
+
+#: views/dolphinview.cpp:539
+#, kde-format
+msgctxt "@info:status"
+msgid "1 Folder selected"
+msgid_plural "%1 Folders selected"
+msgstr[0] "%1 izabrana fascikla"
+msgstr[1] "%1 izabrane fascikle"
+msgstr[2] "%1 izabranih fascikli"
+msgstr[3] "1 izabrana fascikla"
+
+#: views/dolphinview.cpp:540
+#, kde-format
+msgctxt "@info:status"
+msgid "1 File selected"
+msgid_plural "%1 Files selected"
+msgstr[0] "%1 izabran fajl"
+msgstr[1] "%1 izabrana fajla"
+msgstr[2] "%1 izabranih fajlova"
+msgstr[3] "1 izabran fajl"
+
+#: views/dolphinview.cpp:544
+#, kde-format
+msgctxt "@info:status"
+msgid "1 Folder"
+msgid_plural "%1 Folders"
+msgstr[0] "%1 fascikla"
+msgstr[1] "%1 fascikle"
+msgstr[2] "%1 fascikli"
+msgstr[3] "%1 fascikla"
+
+#: views/dolphinview.cpp:545
+#, kde-format
+msgctxt "@info:status"
+msgid "1 File"
+msgid_plural "%1 Files"
+msgstr[0] "%1 fajl"
+msgstr[1] "%1 fajla"
+msgstr[2] "%1 fajlova"
+msgstr[3] "%1 fajl"
+
+#: views/dolphinview.cpp:549
+#, kde-format
+msgctxt "@info:status folders, files (size)"
+msgid "%1, %2 (%3)"
+msgstr "%1, %2 (%3)"
+
+#: views/dolphinview.cpp:553
+#, kde-format
+msgctxt "@info:status files (size)"
+msgid "%1 (%2)"
+msgstr "%1 (%2)"
+
+#: views/dolphinview.cpp:559
+#, kde-format
+msgctxt "@info:status"
+msgid "0 Folders, 0 Files"
+msgstr "0 fascikli, 0 fajlova"
+
+#: views/dolphinview.cpp:752 views/dolphinview.cpp:761
+#, kde-format
+msgctxt "<filename> copy"
+msgid "%1 copy"
+msgstr ""
+
+#: views/dolphinview.cpp:913
+#, kde-format
+msgid "Are you sure you want to open 1 item?"
+msgid_plural "Are you sure you want to open %1 items?"
+msgstr[0] "Želite li zaista da otvorite %1 stavku?"
+msgstr[1] "Želite li zaista da otvorite %1 stavke?"
+msgstr[2] "Želite li zaista da otvorite %1 stavki?"
+msgstr[3] "Želite li zaista da otvorite ovu stavku?"
+
+#: views/dolphinview.cpp:1023
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Automatic Column Widths"
+msgstr "Automatske širine kolona"
+
+#: views/dolphinview.cpp:1028
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Custom Column Widths"
+msgstr "Posebne širine kolona"
+
+#: views/dolphinview.cpp:1570
+#, kde-format
+msgctxt "@info:status"
+msgid "Trash operation completed."
+msgstr "Postupak nad smećem dovršen."
+
+#: views/dolphinview.cpp:1579
+#, kde-format
+msgctxt "@info:status"
+msgid "Delete operation completed."
+msgstr "Brisanje dovršeno."
+
+#: views/dolphinview.cpp:1695
+#, fuzzy, kde-format
+#| msgid "Rename inline"
+msgctxt "@action:button"
+msgid "Rename and Hide"
+msgstr "Utkano preimenovanje"
+
+#: views/dolphinview.cpp:1698
+#, kde-format
+msgid ""
+"Adding a dot to the beginning of this file's name will hide it from view.\n"
+"Do you still want to rename it?"
+msgstr ""
+
+#: views/dolphinview.cpp:1700
+#, kde-format
+msgid ""
+"Adding a dot to the beginning of this folder's name will hide it from view.\n"
+"Do you still want to rename it?"
+msgstr ""
+
+#: views/dolphinview.cpp:1702
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Hidden Files"
+msgid "Hide this File?"
+msgstr "Skriveni fajlovi"
+
+#: views/dolphinview.cpp:1702
+#, kde-format
+msgid "Hide this Folder?"
+msgstr ""
+
+#: views/dolphinview.cpp:1747
+#, kde-format
+msgctxt "@info:status"
+msgid "The location is empty."
+msgstr "Lokacija je prazna."
+
+#: views/dolphinview.cpp:1749
+#, kde-format
+msgctxt "@info:status"
+msgid "The location '%1' is invalid."
+msgstr "Lokacija ‘%1’ nije pravilna."
+
+#: views/dolphinviewactionhandler.cpp:94
+#, kde-format
+msgctxt "@action"
+msgid "Create Folder..."
+msgstr "Napravi fasciklu..."
+
+#: views/dolphinviewactionhandler.cpp:103
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This renames the items in your current selection.<nl/>Renaming multiple "
+"items at once amounts to their new names differing only in a number."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:113
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This moves the items in your current selection to the <filename>Trash</"
+"filename>.<nl/>The trash is a temporary storage where items can be deleted "
+"from if disk space is needed."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:124
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This deletes the items in your current selection completely. They can not be "
+"recovered by normal means."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:134
+#, kde-format
+msgctxt "@action \"Move to Trash\" for non-local files, etc."
+msgid "Delete (using shortcut for Trash)"
+msgstr "Obriši (prečicom za smeće)"
+
+#: views/dolphinviewactionhandler.cpp:140
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Duplicate Here"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:148
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Properties"
+msgstr "Svojstva"
+
+#: views/dolphinviewactionhandler.cpp:150
+#, kde-kuit-format
+msgctxt "@info:whatsthis properties"
+msgid ""
+"This shows a complete list of properties of the currently selected items in "
+"a new window.<nl/>If nothing is selected the window will be about the "
+"currently viewed folder instead.<nl/>You can configure advanced options "
+"there like managing read- and write-permissions."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:165
+#, kde-kuit-format
+msgctxt "@info:whatsthis Icons view mode"
+msgid ""
+"<para>This switches to a view mode that focuses on the folder and file "
+"icons. This mode makes it easy to distinguish folders from files and to "
+"detect items with distinctive <emphasis>file types</emphasis>.</para><para> "
+"This mode is handy to browse through pictures when the <interface>Preview</"
+"interface> option is enabled.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:172
+#, kde-kuit-format
+msgctxt "@info:whatsthis Compact view mode"
+msgid ""
+"<para>This switches to a compact view mode that lists the folders and files "
+"in columns with the names beside the icons.</para><para>This helps to keep "
+"the overview in folders with many items.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:176
+#, kde-kuit-format
+msgctxt "@info:whatsthis Details view mode"
+msgid ""
+"<para>This switches to a list view mode that focuses on folder and file "
+"details.</para><para>Click on a detail in the column header to sort the "
+"items by it. Click again to sort the other way around. To select which "
+"details should be displayed click the header with the right mouse button.</"
+"para><para>You can view the contents of a folder without leaving the current "
+"location by clicking to the left of it. This way you can view the contents "
+"of multiple folders in the same list.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:186
+#, kde-format
+msgctxt "@action:intoolbar"
+msgid "View Mode"
+msgstr "Način prikaza"
+
+#: views/dolphinviewactionhandler.cpp:196
+#, kde-format
+msgctxt "@info:whatsthis zoom in"
+msgid "This increases the icon size."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:199
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Reset Zoom Level"
+msgstr ""
+
+# >> @item:inmenu Select Remote Charset
+#: views/dolphinviewactionhandler.cpp:200
+#, fuzzy, kde-format
+#| msgid "Default"
+msgid "Zoom To Default"
+msgstr "podrazumevano"
+
+#: views/dolphinviewactionhandler.cpp:201
+#, kde-format
+msgctxt "@info:whatsthis zoom reset"
+msgid "This resets the icon size to default."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:209
+#, kde-format
+msgctxt "@info:whatsthis zoom out"
+msgid "This reduces the icon size."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:212
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgctxt "@action:intoolbar"
+msgid "Show Previews"
+msgstr "Prikazuj pregled"
+
+#: views/dolphinviewactionhandler.cpp:213
+#, kde-format
+msgctxt "@info"
+msgid "Show preview of files and folders"
+msgstr "Pregled fajlova i fascikli"
+
+#: views/dolphinviewactionhandler.cpp:214
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this is enabled, the icons are based on the actual file or folder "
+"contents.<nl/>For example the icons of images become scaled down versions of "
+"the images."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:222
+#, kde-format
+msgctxt "@action:inmenu Sort"
+msgid "Folders First"
+msgstr "prvo fascikle|/|$[svojstva spiskovno 'poređaj prvo fascikle']"
+
+#: views/dolphinviewactionhandler.cpp:230
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Sort By"
+msgstr "Poređaj po"
+
+#: views/dolphinviewactionhandler.cpp:263
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Additional Information"
+msgctxt "@action:inmenu View"
+msgid "Show Additional Information"
+msgstr "Dopunski podaci"
+
+#: views/dolphinviewactionhandler.cpp:273
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show in Groups"
+msgstr "Po grupama"
+
+#: views/dolphinviewactionhandler.cpp:274
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "This groups files and folders by their first letter."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:278
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show Hidden Files"
+msgctxt "@action:inmenu View"
+msgid "Show Hidden Files"
+msgstr "Skriveni fajlovi"
+
+#: views/dolphinviewactionhandler.cpp:279
+#, kde-format
+msgctxt "@info"
+msgid "Visibility of hidden files and folders"
+msgstr "Vidljivost skrivenih fajlova i fascikli"
+
+#: views/dolphinviewactionhandler.cpp:280
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled <emphasis>hidden</emphasis> files and folders are "
+"visible. They will be displayed semi-transparent.</para><para>Hidden items "
+"only differ from other ones in that their name starts with a \".\". In "
+"general there is no need for users to access them which is why they are "
+"hidden.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Properties..."
+msgctxt "@action:inmenu View"
+msgid "Adjust View Display Style..."
+msgstr "Podesi svojstva prikaza..."
+
+#: views/dolphinviewactionhandler.cpp:292
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window in which all folder view properties can be adjusted."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:577
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Icons"
+msgstr ""
+"ikonice|/|$[svojstva naredbeno 'ikonice' spiskovno 'prikaz u ikonicama']"
+
+#: views/dolphinviewactionhandler.cpp:578
+#, kde-format
+msgctxt "@info"
+msgid "Icons view mode"
+msgstr "Režim prikaza ikonica"
+
+#: views/dolphinviewactionhandler.cpp:588
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Compact"
+msgstr "sažeto|/|$[svojstva naredbeno 'sažeto' spiskovno 'prikaz sažeto']"
+
+#: views/dolphinviewactionhandler.cpp:589
+#, kde-format
+msgctxt "@info"
+msgid "Compact view mode"
+msgstr "Sažeti režim prikaza"
+
+#: views/dolphinviewactionhandler.cpp:599
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Details"
+msgstr ""
+"detalji|/|$[svojstva naredbeno 'detalji' spiskovno 'prikaz u detaljima']"
+
+#: views/dolphinviewactionhandler.cpp:600
+#, kde-format
+msgctxt "@info"
+msgid "Details view mode"
+msgstr "Režim prikaza detalja"
+
+#: views/dolphinviewactionhandler.cpp:623
+#, kde-format
+msgctxt "Sort descending"
+msgid "Z-A"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:624
+#, kde-format
+msgctxt "Sort ascending"
+msgid "A-Z"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:626
+#, kde-format
+msgctxt "Sort descending"
+msgid "Largest first"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:627
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort ascending"
+msgid "Smallest first"
+msgstr "prvo fascikle"
+
+#: views/dolphinviewactionhandler.cpp:629
+#, kde-format
+msgctxt "Sort descending"
+msgid "Newest first"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:630
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "Sort ascending"
+msgid "Oldest first"
+msgstr "prvo fascikle|/|$[svojstva spiskovno 'poređaj prvo fascikle']"
+
+#: views/dolphinviewactionhandler.cpp:632
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Highest Rating"
+msgctxt "Sort descending"
+msgid "Highest first"
+msgstr "Najveća ocena"
+
+#: views/dolphinviewactionhandler.cpp:633
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort ascending"
+msgid "Lowest first"
+msgstr "prvo fascikle"
+
+#: views/dolphinviewactionhandler.cpp:635
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "Descending"
+msgctxt "Sort descending"
+msgid "Descending"
+msgstr "opadajuće|/|$[svojstva spiskovno 'poređaj opadajuće']"
+
+#: views/dolphinviewactionhandler.cpp:636
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "Ascending"
+msgctxt "Sort ascending"
+msgid "Ascending"
+msgstr "rastuće"
+
+#: views/versioncontrol/versioncontrolobserver.cpp:242
+#, kde-format
+msgctxt "@info:status"
+msgid "Updating version information..."
+msgstr "Ažuriram verzione podatke..."

@@ -1,0 +1,7027 @@
+# Translation of dolphin.po to Low Saxon
+#
+# Copyright (C) 2007 This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+# Sönke Dibbern <s_dibbern@web.de>, 2007, 2008, 2009, 2014.
+# Manfred Wiese <m.j.wiese@web.de>, 2008, 2009, 2010, 2011, 2012.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-27 00:48+0000\n"
+"PO-Revision-Date: 2014-09-18 23:13+0200\n"
+"Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
+"Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
+"Language: nds\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Lokalize 1.4\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Sönke Dibbern, Manfred Wiese"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "s_dibbern@web.de, m.j.wiese@web.de"
+
+#: dolphincontextmenu.cpp:125
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Empty Trash"
+msgstr "Affalltünn leddig maken"
+
+#: dolphincontextmenu.cpp:139
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Restore"
+msgstr "Wedderherstellen"
+
+#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1534
+#, kde-format
+msgctxt "@title:menu Create new folder, file, link, etc."
+msgid "Create New"
+msgstr "Nieg opstellen"
+
+#: dolphincontextmenu.cpp:209
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Open With"
+msgctxt "@action:inmenu"
+msgid "Open Path"
+msgstr "Opmaken"
+
+#: dolphincontextmenu.cpp:218
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Path in New Window"
+msgstr "Padd as nieg Finster opmaken"
+
+#: dolphincontextmenu.cpp:225
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open Path in New Tab"
+msgstr "Padd as nieg Paneel opmaken"
+
+#: dolphinmainwindow.cpp:296
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully copied."
+msgstr "Mit Spood kopeert."
+
+#: dolphinmainwindow.cpp:299
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully moved."
+msgstr "Datei mit Spood verschaven."
+
+#: dolphinmainwindow.cpp:302
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully linked."
+msgstr "Link mit Spood opstellt."
+
+#: dolphinmainwindow.cpp:305
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully moved to trash."
+msgstr "Mit Spood na Affalltünn verschaven."
+
+#: dolphinmainwindow.cpp:308
+#, kde-format
+msgctxt "@info:status"
+msgid "Successfully renamed."
+msgstr "Mit Spood ümnöömt."
+
+#: dolphinmainwindow.cpp:312
+#, kde-format
+msgctxt "@info:status"
+msgid "Created folder."
+msgstr "Orner opstellt."
+
+#: dolphinmainwindow.cpp:385
+#, kde-format
+msgctxt "@info"
+msgid "Go back"
+msgstr "Torüch gahn"
+
+#: dolphinmainwindow.cpp:386
+#, kde-format
+msgctxt "@info:whatsthis go back"
+msgid "Return to the previously viewed folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:392
+#, kde-format
+msgctxt "@info"
+msgid "Go forward"
+msgstr "Vörut gahn"
+
+#: dolphinmainwindow.cpp:394
+#, kde-kuit-format
+msgctxt "@info:whatsthis go forward"
+msgid "This undoes a <interface>Go|Back</interface> action."
+msgstr ""
+
+#: dolphinmainwindow.cpp:513
+#, fuzzy, kde-kuit-format
+#| msgctxt "@info:status"
+#| msgid "Access denied. Could not write to <filename>%1</filename>"
+msgctxt "@info"
+msgid "Could not access <filename>%1</filename>."
+msgstr "Togriep torüchwiest. <filename>%1</filename> lett sik nich schrieven."
+
+#: dolphinmainwindow.cpp:546 dolphinmainwindow.cpp:590
+#, kde-format
+msgctxt "@title:window"
+msgid "Confirmation"
+msgstr "Nafraag"
+
+#: dolphinmainwindow.cpp:549
+#, kde-format
+msgctxt "@action:button 'Quit Dolphin' button"
+msgid "&Quit %1"
+msgstr ""
+
+#: dolphinmainwindow.cpp:550
+#, kde-format
+msgid "C&lose Current Tab"
+msgstr "Aktuell Paneel &tomaken"
+
+#: dolphinmainwindow.cpp:559
+#, kde-format
+msgid ""
+"You have multiple tabs open in this window, are you sure you want to quit?"
+msgstr ""
+"Du hest en Reeg Paneels in dit Finster apen. Wullt Du dat Programm redig "
+"utmaken?"
+
+#: dolphinmainwindow.cpp:561 dolphinmainwindow.cpp:613
+#, kde-format
+msgid "Do not ask again"
+msgstr "Nich nochmaal fragen"
+
+#: dolphinmainwindow.cpp:601
+#, kde-format
+msgid "Show &Terminal Panel"
+msgstr ""
+
+#: dolphinmainwindow.cpp:611
+#, fuzzy, kde-format
+#| msgid ""
+#| "You have multiple tabs open in this window, are you sure you want to quit?"
+msgid ""
+"The program '%1' is still running in the Terminal panel. Are you sure you "
+"want to quit?"
+msgstr ""
+"Du hest en Reeg Paneels in dit Finster apen. Wullt Du dat Programm redig "
+"utmaken?"
+
+#: dolphinmainwindow.cpp:1121
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Open With"
+msgctxt "@action:inmenu Tools"
+msgid "Open %1"
+msgstr "Opmaken"
+
+#: dolphinmainwindow.cpp:1130 dolphinmainwindow.cpp:1845
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Search Toolbar"
+msgctxt "@action:inmenu Tools"
+msgid "Open Preferred Search Tool"
+msgstr "Söök-Warktüüchbalken"
+
+#: dolphinmainwindow.cpp:1169
+#, fuzzy, kde-format
+#| msgid "Are you sure you want to open 1 item?"
+#| msgid_plural "Are you sure you want to open %1 items?"
+msgid "Are you sure you want to open 1 terminal window?"
+msgid_plural "Are you sure you want to open %1 terminal windows?"
+msgstr[0] "Wullt Du 1 Indrag redig opmaken?"
+msgstr[1] "Wullt Du %1 Indrääg redig opmaken?"
+
+#: dolphinmainwindow.cpp:1172
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Open Terminal"
+msgctxt "@action:button"
+msgid "Open %1 Terminal"
+msgid_plural "Open %1 Terminals"
+msgstr[0] "Konsool opmaken"
+msgstr[1] "Konsool opmaken"
+
+#: dolphinmainwindow.cpp:1382
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
+msgctxt "@action:inmenu menu for configure actions"
+msgid "Configure"
+msgstr "Instellen..."
+
+#: dolphinmainwindow.cpp:1541
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "New &Window"
+msgstr "Nieg &Finster"
+
+#: dolphinmainwindow.cpp:1542
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open Path in New Window"
+msgctxt "@info"
+msgid "Open a new Dolphin window"
+msgstr "Padd as nieg Finster opmaken"
+
+#: dolphinmainwindow.cpp:1543
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a new window just like this one with the current location and "
+"view.<nl/>You can drag and drop items between windows."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1550
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "New Tab"
+msgstr "Nieg Paneel"
+
+#: dolphinmainwindow.cpp:1551
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a new <emphasis>Tab</emphasis> with the current location and view."
+"<nl/>A tab is an additional view within this window. You can drag and drop "
+"items between tabs."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1560
+#, kde-format
+msgctxt "@action:inmenu Add current folder to places"
+msgid "Add to Places"
+msgstr "De Stedenlist tofögen"
+
+#: dolphinmainwindow.cpp:1561
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "This adds the selected folder to the Places panel."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1566
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Close Tab"
+msgstr "Paneel tomaken"
+
+#: dolphinmainwindow.cpp:1567
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This closes the currently viewed tab. If no more tabs are left this window "
+"will close instead."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1572
+#, kde-format
+msgctxt "@info:whatsthis quit"
+msgid "This closes this window."
+msgstr ""
+
+#. i18n: This will be the last paragraph for the whatsthis for all three:
+#. Cut, Copy and Paste
+#: dolphinmainwindow.cpp:1581
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para><emphasis>Cut, Copy</emphasis> and <emphasis>Paste</emphasis> work "
+"between many applications and are among the most used commands. That's why "
+"their <emphasis>keyboard shortcuts</emphasis> are prominently placed right "
+"next to each other on the keyboard: <shortcut>Ctrl+X</shortcut>, "
+"<shortcut>Ctrl+C</shortcut> and <shortcut>Ctrl+V</shortcut>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1588
+#, kde-format
+msgctxt "@action"
+msgid "Cut…"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1589
+#, kde-kuit-format
+msgctxt "@info:whatsthis cut"
+msgid ""
+"This copies the items in your current selection to the <emphasis>clipboard</"
+"emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
+"them from the clipboard to a new location. The items will be removed from "
+"their initial location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1595
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Copy"
+msgctxt "@action"
+msgid "Copy…"
+msgstr "Koperen"
+
+#: dolphinmainwindow.cpp:1596
+#, kde-kuit-format
+msgctxt "@info:whatsthis copy"
+msgid ""
+"This copies the items in your current selection to the <emphasis>clipboard</"
+"emphasis>.<nl/>Use the <emphasis>Paste</emphasis> action afterwards to copy "
+"them from the clipboard to a new location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1604
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Paste"
+msgstr "Infögen"
+
+#: dolphinmainwindow.cpp:1605
+#, kde-kuit-format
+msgctxt "@info:whatsthis paste"
+msgid ""
+"This copies the items from your <emphasis>clipboard</emphasis> to the "
+"currently viewed folder.<nl/>If the items were added to the clipboard by the "
+"<emphasis>Cut</emphasis> action they are removed from their old location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1611
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Copy to Inactive Split View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1612
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Copy to Inactive Split View…"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1613
+#, kde-kuit-format
+msgctxt "@info:whatsthis Copy"
+msgid ""
+"This copies the selected items from the <emphasis>active</emphasis> view to "
+"the inactive split view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1616
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Copy to Inactive Split View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1621
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Move to Inactive Split View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1622
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Move to Inactive Split View…"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1623
+#, kde-kuit-format
+msgctxt "@info:whatsthis Move"
+msgid ""
+"This moves the selected items from the <emphasis>active</emphasis> view to "
+"the inactive split view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1626
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Move to Inactive Split View"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1631
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Filter"
+msgctxt "@action:inmenu Tools"
+msgid "Filter..."
+msgstr "Filter"
+
+#: dolphinmainwindow.cpp:1632
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Filter Bar"
+msgctxt "@info:tooltip"
+msgid "Show Filter Bar"
+msgstr "Filterbalken wiesen"
+
+#: dolphinmainwindow.cpp:1633
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens the <emphasis>Filter Bar</emphasis> at the bottom of the window."
+"<nl/> There you can enter a text to filter the files and folders currently "
+"displayed. Only those that contain the text in their name will be kept in "
+"view."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1645
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Search Bar"
+msgctxt "@action:inmenu"
+msgid "Toggle Filter Bar"
+msgstr "Söökbalken wiesen"
+
+#: dolphinmainwindow.cpp:1646
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Filter:"
+msgctxt "@action:intoolbar"
+msgid "Filter"
+msgstr "Filter:"
+
+#: dolphinmainwindow.cpp:1654 search/dolphinsearchbox.cpp:332
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Search..."
+msgid "Search..."
+msgstr "Söken..."
+
+#: dolphinmainwindow.cpp:1655
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@info:tooltip"
+msgid "Search for files and folders"
+msgstr "Vöransichten vun Dateien un Ornern wiesen"
+
+#: dolphinmainwindow.cpp:1656
+#, kde-kuit-format
+msgctxt "@info:whatsthis find"
+msgid ""
+"<para>This helps you find files and folders by opening a <emphasis>find bar</"
+"emphasis>. There you can enter search terms and specify settings to find the "
+"objects you are looking for.</para><para>Use this help again on the find bar "
+"so we can have a look at it while the settings are explained.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1667
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Show Search Bar"
+msgctxt "@action:inmenu"
+msgid "Toggle Search Bar"
+msgstr "Söökbalken wiesen"
+
+#: dolphinmainwindow.cpp:1668
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Search"
+msgctxt "@action:intoolbar"
+msgid "Search"
+msgstr "Söken"
+
+#. i18n: This action toggles a selection mode.
+#: dolphinmainwindow.cpp:1676
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@action:inmenu"
+msgid "Select Files and Folders"
+msgstr "Vöransichten vun Dateien un Ornern wiesen"
+
+#. i18n: Opens a selection mode for selecting files/folders.
+#. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
+#: dolphinmainwindow.cpp:1679
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Select"
+msgctxt "@action:intoolbar"
+msgid "Select"
+msgstr "Utsöken"
+
+#: dolphinmainwindow.cpp:1680
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This application only knows which files or folders should be acted on "
+"if they are <emphasis>selected</emphasis> first. Press this to toggle a "
+"<emphasis>Selection Mode</emphasis> which makes selecting and deselecting as "
+"easy as pressing an item once.</para><para>While in this mode, a quick "
+"access bar at the bottom shows available actions for the currently selected "
+"items.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1701
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid "This selects all files and folders in the current location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1705 dolphinpart.cpp:185
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Invert Selection"
+msgstr "Köör ümdreihen"
+
+#: dolphinmainwindow.cpp:1706
+#, kde-kuit-format
+msgctxt "@info:whatsthis invert"
+msgid ""
+"This selects all objects that you have currently <emphasis>not</emphasis> "
+"selected instead."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1721
+#, kde-kuit-format
+msgctxt "@info:whatsthis find"
+msgid ""
+"<para>This splits the folder view below into two autonomous views.</"
+"para><para>This way you can see two locations at once and move items between "
+"them quickly.</para>Click this again afterwards to recombine the views."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1730
+#, kde-format
+msgctxt "@action:intoolbar Stash"
+msgid "Stash"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1731
+#, kde-format
+msgctxt "@info"
+msgid "Opens the stash virtual directory in a split window"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1741
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Stop"
+msgstr "Anhollen"
+
+#: dolphinmainwindow.cpp:1742
+#, kde-format
+msgctxt "@info"
+msgid "Stop loading"
+msgstr "Laden anhollen"
+
+#: dolphinmainwindow.cpp:1743
+#, kde-format
+msgctxt "@info"
+msgid "This stops the loading of the contents of the current folder."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1748
+#, kde-format
+msgctxt "@action:inmenu Navigation Bar"
+msgid "Editable Location"
+msgstr "Steed-Ingaavfeld"
+
+#: dolphinmainwindow.cpp:1750
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This toggles the <emphasis>Location Bar</emphasis> to be editable so you can "
+"directly enter a location you want to go to.<nl/>You can also switch to "
+"editing by clicking to the right of the location and switch back by "
+"confirming the edited location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1758
+#, kde-format
+msgctxt "@action:inmenu Navigation Bar"
+msgid "Replace Location"
+msgstr "Steed utwesseln"
+
+#: dolphinmainwindow.cpp:1763
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches to editing the location and selects it so you can quickly "
+"enter a different location."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1795
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Undo close tab"
+msgstr "Paneel tomaken torüchnehmen"
+
+#: dolphinmainwindow.cpp:1797
+#, kde-format
+msgctxt "@info:whatsthis undo close tab"
+msgid "This returns you to the previously closed tab."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1804
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This undoes the last change you made to files or folders.<nl/>Such changes "
+"include <interface>creating, renaming</interface> and <interface>moving</"
+"interface> them to a different location or to the <filename>Trash</"
+"filename>. <nl/>Changes that can't be undone will ask for your confirmation."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1832
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"Go to your <filename>Home</filename> folder.<nl/>Every user account has "
+"their own <filename>Home</filename> that contains their data including "
+"folders that contain personal application data."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1839
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Compare Files"
+msgstr "Dateien verglieken"
+
+#: dolphinmainwindow.cpp:1847
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a preferred search tool for the viewed location.</"
+"para><para>Use <emphasis>More Search Tools</emphasis> menu to configure it.</"
+"para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1855
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Open Terminal"
+msgstr "Konsool opmaken"
+
+#: dolphinmainwindow.cpp:1857
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a <emphasis>terminal</emphasis> application for the viewed "
+"location.</para><para>To learn more about terminals use the help in the "
+"terminal application.</para>"
+msgstr ""
+
+#. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
+#: dolphinmainwindow.cpp:1865
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Tools"
+#| msgid "Open Terminal"
+msgctxt "@action:inmenu Tools"
+msgid "Open Terminal Here"
+msgstr "Konsool opmaken"
+
+#: dolphinmainwindow.cpp:1867
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens <emphasis>terminal</emphasis> applications for the selected "
+"items' locations.</para><para>To learn more about terminals use the help in "
+"the terminal application.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1875 dolphinmainwindow.cpp:2640
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Focus Terminal Panel"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1883
+#, kde-format
+msgctxt "@title:menu"
+msgid "&Bookmarks"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1893
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This switches between having a <emphasis>Menubar</emphasis> and having "
+"a <interface>%1</interface> button. Both contain mostly the same actions and "
+"configuration options.</para><para>The Menubar takes up more space but "
+"allows for fast and organised access to all actions an application has to "
+"offer.</para><para>The <interface>%1</interface> button is simpler and small "
+"which makes triggering advanced actions more time consuming.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:1922
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Activate Next Tab"
+msgctxt "@action:inmenu"
+msgid "Activate Tab %1"
+msgstr "Nakamen Paneel anmaken"
+
+#: dolphinmainwindow.cpp:1933
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Activate Next Tab"
+msgctxt "@action:inmenu"
+msgid "Activate Last Tab"
+msgstr "Nakamen Paneel anmaken"
+
+#: dolphinmainwindow.cpp:1939
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Next Tab"
+msgstr "Nakamen Paneel"
+
+#: dolphinmainwindow.cpp:1940
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Activate Next Tab"
+msgstr "Nakamen Paneel anmaken"
+
+#: dolphinmainwindow.cpp:1946
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Previous Tab"
+msgstr "Verleden Paneel"
+
+#: dolphinmainwindow.cpp:1947
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Activate Previous Tab"
+msgstr "Verleden Paneel anmaken"
+
+#: dolphinmainwindow.cpp:1954
+#, fuzzy, kde-format
+#| msgid "Show tags"
+msgctxt "@action:inmenu"
+msgid "Show Target"
+msgstr "Slötelwöör wiesen"
+
+#: dolphinmainwindow.cpp:1960
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Tab"
+msgstr "As Paneel opmaken"
+
+#: dolphinmainwindow.cpp:1965
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Tabs"
+msgstr "Binnen nieg Paneels opmaken"
+
+#: dolphinmainwindow.cpp:1970
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Open in New Window"
+msgstr "As nieg Finster opmaken"
+
+#: dolphinmainwindow.cpp:1982
+#, kde-format
+msgctxt "@action:inmenu Panels"
+msgid "Unlock Panels"
+msgstr "Paneels opsluten"
+
+#: dolphinmainwindow.cpp:1984
+#, kde-format
+msgctxt "@action:inmenu Panels"
+msgid "Lock Panels"
+msgstr "Paneels afsluten"
+
+#: dolphinmainwindow.cpp:1986
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This switches between having panels <emphasis>locked</emphasis> or "
+"<emphasis>unlocked</emphasis>.<nl/>Unlocked panels can be dragged to the "
+"other side of the window and have a close button.<nl/>Locked panels are "
+"embedded more cleanly."
+msgstr ""
+
+#: dolphinmainwindow.cpp:1995
+#, kde-format
+msgctxt "@title:window"
+msgid "Information"
+msgstr "Informatschonen"
+
+#. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
+#: dolphinmainwindow.cpp:2021
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>To show or hide panels like this go to <interface>Menu|Panels</"
+"interface> or <interface>View|Panels</interface>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2026
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para> This toggles the <emphasis>information</emphasis> panel at the right "
+"side of the window.</para><para>The panel provides in-depth information "
+"about the items your mouse is hovering over or about the selected items. "
+"Otherwise it informs you about the currently viewed folder.<nl/>For single "
+"items a preview of their contents is provided.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2033
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This panel provides in-depth information about the items your mouse is "
+"hovering over or about the selected items. Otherwise it informs you about "
+"the currently viewed folder.<nl/>For single items a preview of their "
+"contents is provided.</para><para>You can configure which and how details "
+"are given here by right-clicking.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2041
+#, kde-format
+msgctxt "@title:window"
+msgid "Folders"
+msgstr "Ornern"
+
+#: dolphinmainwindow.cpp:2065
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This toggles the <emphasis>folders</emphasis> panel at the left side of the "
+"window.<nl/><nl/>It shows the folders of the <emphasis>file system</"
+"emphasis> in a <emphasis>tree view</emphasis>."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2069
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This panel shows the folders of the <emphasis>file system</emphasis> "
+"in a <emphasis>tree view</emphasis>.</para><para>Click a folder to go there. "
+"Click the arrow to the left of a folder to see its subfolders. This allows "
+"quick switching between any folders.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2078
+#, kde-format
+msgctxt "@title:window Shell terminal"
+msgid "Terminal"
+msgstr "Konsool"
+
+#: dolphinmainwindow.cpp:2104
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This toggles the <emphasis>terminal</emphasis> panel at the bottom of "
+"the window.<nl/>The location in the terminal will always match the folder "
+"view so you can navigate using either.</para><para>The terminal panel is not "
+"needed for basic computer usage but can be useful for advanced tasks. To "
+"learn more about terminals use the help in a standalone terminal application "
+"like Konsole.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2111
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>terminal</emphasis> panel. It behaves like a "
+"normal terminal but will match the location of the folder view so you can "
+"navigate using either.</para><para>The terminal panel is not needed for "
+"basic computer usage but can be useful for advanced tasks. To learn more "
+"about terminals use the help in a standalone terminal application like "
+"Konsole.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2127
+#, kde-format
+msgctxt "@title:window"
+msgid "Places"
+msgstr "Steden"
+
+#: dolphinmainwindow.cpp:2163
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show Hidden Files"
+msgctxt "@item:inmenu"
+msgid "Show Hidden Places"
+msgstr "Versteken Dateien wiesen"
+
+#: dolphinmainwindow.cpp:2166
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This displays all places in the places panel that have been hidden. They "
+"will appear semi-transparent unless you uncheck their hide property."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2176
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This toggles the <emphasis>places</emphasis> panel at the left side of "
+"the window.</para><para>It allows you to go to locations you have bookmarked "
+"and to access disk or media attached to the computer or to the network. It "
+"also contains sections to find recently saved files or files of a certain "
+"type.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2182
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Places</emphasis> panel. It allows you to go to "
+"locations you have bookmarked and to access disk or media attached to the "
+"computer or to the network. It also contains sections to find recently saved "
+"files or files of a certain type.</para><para>Click on an entry to go there. "
+"Click with the right mouse button instead to open any entry in a new tab or "
+"new window.</para><para>New entries can be added by dragging folders onto "
+"this panel. Right-click any section or entry to hide it. Right-click an "
+"empty space on this panel and select <interface>Show Hidden Places</"
+"interface> to display it again.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2195
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Panels"
+#| msgid "Lock Panels"
+msgctxt "@action:inmenu View"
+msgid "Show Panels"
+msgstr "Paneels afsluten"
+
+#: dolphinmainwindow.cpp:2307
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>Go to the folder that contains the currently viewed one.</"
+"para><para>All files and folders are organized in a hierarchical "
+"<emphasis>file system</emphasis>. At the top of this hierarchy is a "
+"directory that contains all data connected to this computer—the "
+"<emphasis>root directory</emphasis>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2416
+#, kde-format
+msgctxt "@action:intoolbar Close left view"
+msgid "Close"
+msgstr "Tomaken"
+
+#: dolphinmainwindow.cpp:2417
+#, kde-format
+msgctxt "@info"
+msgid "Close left view"
+msgstr "Ansicht links tomaken"
+
+#: dolphinmainwindow.cpp:2420
+#, kde-format
+msgctxt "@action:intoolbar Close right view"
+msgid "Close"
+msgstr "Tomaken"
+
+#: dolphinmainwindow.cpp:2421
+#, kde-format
+msgctxt "@info"
+msgid "Close right view"
+msgstr "Ansicht rechts tomaken"
+
+#: dolphinmainwindow.cpp:2425
+#, kde-format
+msgctxt "@action:intoolbar Split view"
+msgid "Split"
+msgstr "Opdelen"
+
+#: dolphinmainwindow.cpp:2426
+#, kde-format
+msgctxt "@info"
+msgid "Split view"
+msgstr "Ansicht delen"
+
+#: dolphinmainwindow.cpp:2479
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
+"commands and configuration options. Left-click on any of the menus on this "
+"bar to see its contents.</para><para>The Menubar can be hidden by unchecking "
+"<interface>Settings|Show Menubar</interface>. Then most of its contents "
+"become available through a <interface>Menu</interface> button on the "
+"<emphasis>Toolbar</emphasis>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2486
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
+"frequently used actions.</para><para>It is highly customizable. All items "
+"you see in the <interface>Menu</interface> or in the <interface>Menubar</"
+"interface> can be placed on the Toolbar. Just right-click on it and select "
+"<interface>Configure Toolbars…</interface> or find this action within the "
+"<interface>menu</interface>.</para><para>The location of the bar and the "
+"style of its buttons can also be changed in the right-click menu. Right-"
+"click a button if you want to show or hide its text.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2498
+#, kde-kuit-format
+msgctxt "@info:whatsthis main view"
+msgid ""
+"<para>Here you can see the <emphasis>folders</emphasis> and <emphasis>files</"
+"emphasis> that are at the location described in the <interface>Location Bar</"
+"interface> above. This area is the central part of this application where "
+"you navigate to the files you want to use.</para><para>For an elaborate and "
+"general introduction to this application <link url='https://userbase.kde.org/"
+"Dolphin/File_Management#Introduction_to_Dolphin'>click here</link>. This "
+"will open an introductory article from the <emphasis>KDE UserBase Wiki</"
+"emphasis>.</para><para>For brief explanations of all the features of this "
+"<emphasis>view</emphasis> <link url='help:/dolphin/dolphin-view.html'>click "
+"here</link> instead. This will open a page from the <emphasis>Handbook</"
+"emphasis> that covers the basics.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2514
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window that lists the <emphasis>keyboard shortcuts</"
+"emphasis>.<nl/>There you can set up key combinations to trigger an action "
+"when they are pressed simultaneously. All commands in this application can "
+"be triggered this way.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2520
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window in which you can change which buttons appear on "
+"the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
+"<interface>Menu</interface> can also be placed on the Toolbar.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2524
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window where you can change a multitude of settings for this "
+"application. For an explanation of the various settings go to the chapter "
+"<emphasis>Configuring Dolphin</emphasis> in <interface>Help|Dolphin "
+"Handbook</interface>."
+msgstr ""
+
+#. i18n: If the external link isn't available in your language it might make
+#. sense to state the external link's language in brackets to not
+#. frustrate the user. If there are multiple languages that the user might
+#. know with a reasonable chance you might want to have 2 external links.
+#. The same might be true for any external link you translate.
+#: dolphinmainwindow.cpp:2536
+#, kde-kuit-format
+msgctxt "@info:whatsthis handbook"
+msgid ""
+"<para>This opens the Handbook for this application. It provides explanations "
+"for every part of <emphasis>Dolphin</emphasis>.</para><para>If you want more "
+"elaborate introductions to the different features of <emphasis>Dolphin</"
+"emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
+"here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2541
+#, kde-kuit-format
+msgctxt "@info:whatsthis whatsthis button"
+msgid ""
+"<para>This is the button that invokes the help feature you are using right "
+"now! Click it, then click any component of this application to ask \"What's "
+"this?\" about it. The mouse cursor will change appearance if no help is "
+"available for a spot.</para><para>There are two other ways to get help: The "
+"<link url='help:/dolphin/index.html'>Dolphin Handbook</link> and the <link "
+"url='https://userbase.kde.org/Dolphin/File_Management'>KDE UserBase Wiki</"
+"link>.</para><para>The \"What's this?\" help is missing in most other "
+"windows so don't get too used to this.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2552
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a window that will guide you through reporting errors or "
+"flaws in this application or in other KDE software.</para><para>High-quality "
+"bug reports are much appreciated. To learn how to make your bug report as "
+"effective as possible <link url='https://community.kde.org/Get_Involved/"
+"Bug_Reporting'>click here</link>.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2561
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>This opens a <emphasis>web page</emphasis> where you can donate to "
+"support the continued work on this application and many other projects by "
+"the <emphasis>KDE</emphasis> community.</para><para>Donating is the easiest "
+"and fastest way to efficiently support KDE and its projects. KDE projects "
+"are available for free therefore your donation is needed to cover things "
+"that require money like servers, contributor meetings, etc.</"
+"para><para><emphasis>KDE e.V.</emphasis> is the non-profit organization "
+"behind the KDE community.</para>"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2574
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"With this you can change the language this application uses.<nl/>You can "
+"even set secondary languages which will be used if texts are not available "
+"in your preferred language."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2579
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window that informs you about the version, license, used "
+"libraries and maintainers of this application."
+msgstr ""
+
+#: dolphinmainwindow.cpp:2584
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window with information about <emphasis>KDE</emphasis>. The KDE "
+"community are the people behind this free software.<nl/>If you like using "
+"this application but don't know about KDE or want to see a cute dragon have "
+"a look!"
+msgstr ""
+
+#: dolphinmainwindow.cpp:2643 dolphinmainwindow.cpp:2647
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Defocus Terminal Panel"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:205
+#, kde-format
+msgid "Enter server URL (e.g. smb://[ip address])"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:232
+#, kde-format
+msgctxt "@action:button"
+msgid "Empty Trash"
+msgstr "Leddig maken"
+
+#: dolphinnavigatorswidgetaction.cpp:233
+#, kde-format
+msgid "Empties Trash to create free space"
+msgstr ""
+
+#: dolphinnavigatorswidgetaction.cpp:260
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Go"
+#| msgid "&Network Folders"
+msgctxt "@action:button"
+msgid "Add Network Folder"
+msgstr "&Nettwarkornern"
+
+#: dolphinnavigatorswidgetaction.cpp:295
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Location Bar"
+msgctxt "@action:inmenu"
+msgid "Location Bar"
+msgid_plural "Location Bars"
+msgstr[0] "Steedbalken"
+msgstr[1] "Steedbalken"
+
+#: dolphinpart.cpp:166
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "&Edit File Type..."
+msgstr "Dateityp &bewerken..."
+
+#: dolphinpart.cpp:170
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Select Items Matching..."
+msgstr "Passen Indrääg utsöken..."
+
+#: dolphinpart.cpp:175
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Unselect Items Matching..."
+msgstr "Passen Indrääg afkören..."
+
+#: dolphinpart.cpp:181
+#, kde-format
+msgctxt "@action:inmenu Edit"
+msgid "Unselect All"
+msgstr "All afkören..."
+
+#: dolphinpart.cpp:198
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "App&lications"
+msgstr "&Programmen"
+
+#: dolphinpart.cpp:201
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "&Network Folders"
+msgstr "&Nettwarkornern"
+
+#: dolphinpart.cpp:204
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "Trash"
+msgstr "Affalltünn"
+
+#: dolphinpart.cpp:207
+#, kde-format
+msgctxt "@action:inmenu Go"
+msgid "Autostart"
+msgstr "Autostart"
+
+#: dolphinpart.cpp:212
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Find File..."
+msgstr "Datei söken..."
+
+#: dolphinpart.cpp:218
+#, kde-format
+msgctxt "@action:inmenu Tools"
+msgid "Open &Terminal"
+msgstr "&Konsool opmaken"
+
+#: dolphinpart.cpp:487
+#, kde-format
+msgctxt "@title:window"
+msgid "Select"
+msgstr "Utsöken"
+
+#: dolphinpart.cpp:488
+#, kde-format
+msgid "Select all items matching this pattern:"
+msgstr "All Indrääg utsöken, op de dit Muster passt:"
+
+#: dolphinpart.cpp:494
+#, kde-format
+msgctxt "@title:window"
+msgid "Unselect"
+msgstr "Afkören"
+
+#: dolphinpart.cpp:495
+#, kde-format
+msgid "Unselect all items matching this pattern:"
+msgstr "All Indrääg afkören, op de dit Muster passt:"
+
+#. i18n: ectx: Menu (edit)
+#: dolphinpart.rc:5
+#, kde-format
+msgid "&Edit"
+msgstr "&Bewerken"
+
+#. i18n: ectx: Menu (selection)
+#: dolphinpart.rc:15
+#, kde-format
+msgctxt "@title:menu"
+msgid "Selection"
+msgstr "Köör"
+
+#. i18n: ectx: Menu (view)
+#: dolphinpart.rc:24
+#, kde-format
+msgid "&View"
+msgstr "&Ansicht"
+
+#. i18n: ectx: Menu (go)
+#: dolphinpart.rc:33
+#, kde-format
+msgid "&Go"
+msgstr "&Gahn na"
+
+#. i18n: ectx: Menu (tools)
+#: dolphinpart.rc:41
+#, kde-format
+msgctxt "@title:menu"
+msgid "Tools"
+msgstr "Warktüüch"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: dolphinpart.rc:51
+#, kde-format
+msgctxt "@title:menu"
+msgid "Dolphin Toolbar"
+msgstr "Dolphin-Warktüüchbalken"
+
+#: dolphinrecenttabsmenu.cpp:16
+#, kde-format
+msgid "Recently Closed Tabs"
+msgstr "Tolest tomaakt Paneels"
+
+#: dolphinrecenttabsmenu.cpp:21
+#, kde-format
+msgid "Empty Recently Closed Tabs"
+msgstr "Tolest tomaakt Paneels leddig maken"
+
+#: dolphintabbar.cpp:139
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "New Tab"
+msgstr "Nieg Paneel"
+
+#: dolphintabbar.cpp:140
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Detach Tab"
+msgstr "Paneel aflösen"
+
+#: dolphintabbar.cpp:141
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Other Tabs"
+msgstr "Anner Paneels tomaken"
+
+#: dolphintabbar.cpp:142
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Close Tab"
+msgstr "Paneel tomaken"
+
+#. i18n: ectx: Menu (location_bar)
+#: dolphinui.rc:59
+#, kde-format
+msgctxt "@title:menu"
+msgid "Location Bar"
+msgstr "Steedbalken"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: dolphinui.rc:105
+#, kde-format
+msgctxt "@title:menu"
+msgid "Main Toolbar"
+msgstr "Hööftbalken"
+
+#: dolphinurlnavigator.cpp:36
+#, kde-kuit-format
+msgctxt "@info:whatsthis location bar"
+msgid ""
+"<para>This describes the location of the files and folders displayed below.</"
+"para><para>The name of the currently viewed folder can be read at the very "
+"right. To the left of it is the name of the folder that contains it. The "
+"whole line is called the <emphasis>path</emphasis> to the current location "
+"because following these folders from left to right leads here.</"
+"para><para>This interactive path is more powerful than one would expect. To "
+"learn more about the basic and advanced features of the location bar <link "
+"url='help:/dolphin/location-bar.html'>click here</link>. This will open the "
+"dedicated page in the Handbook.</para>"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:87
+#, kde-kuit-format
+msgctxt "@info:whatsthis findbar"
+msgid ""
+"<para>This helps you find files and folders. Enter a <emphasis>search term</"
+"emphasis> and specify search settings with the buttons at the bottom:"
+"<list><item>Filename/Content: Does the item you are looking for contain the "
+"search terms within its filename or its contents?<nl/>The contents of "
+"images, audio files and videos will not be searched.</item><item>From Here/"
+"Everywhere: Do you want to search in this folder and its sub-folders or "
+"everywhere?</item><item>More Options: Click this to search by media type, "
+"access time or rating.</item><item>More Search Tools: Install other means to "
+"find an item.</item></list></para>"
+msgstr ""
+
+#: dolphinviewcontainer.cpp:107
+#, kde-format
+msgid "Running Dolphin as root can be dangerous. Please be careful."
+msgstr ""
+
+#: dolphinviewcontainer.cpp:544 search/dolphinsearchbox.cpp:290
+#, fuzzy, kde-format
+#| msgctxt "@item"
+#| msgid "Search For"
+msgid "Search for %1 in %2"
+msgstr "Söken na"
+
+#: dolphinviewcontainer.cpp:580
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Search"
+msgid "Search"
+msgstr "Söken"
+
+#: dolphinviewcontainer.cpp:582
+#, fuzzy, kde-format
+#| msgctxt "@item"
+#| msgid "Search For"
+msgid "Search for %1"
+msgstr "Söken na"
+
+#: dolphinviewcontainer.cpp:666
+#, kde-format
+msgctxt "@info:progress"
+msgid "Loading folder..."
+msgstr "Orner warrt laadt..."
+
+#: dolphinviewcontainer.cpp:674
+#, kde-format
+msgctxt "@info:progress"
+msgid "Sorting..."
+msgstr "Bi to sorteren…"
+
+#: dolphinviewcontainer.cpp:685
+#, kde-format
+msgctxt "@info"
+msgid "Searching..."
+msgstr "Bi to söken..."
+
+#: dolphinviewcontainer.cpp:706
+#, kde-format
+msgctxt "@info:status"
+msgid "No items found."
+msgstr "Nix funnen."
+
+#: dolphinviewcontainer.cpp:828
+#, kde-format
+msgctxt "@info:status"
+msgid "Dolphin does not support web pages, the web browser has been launched"
+msgstr "Dolphin ünnerstütt Nettsieden nich, Konqueror warrt opropen"
+
+#: dolphinviewcontainer.cpp:832
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Protocol not supported by Dolphin, Konqueror has been launched"
+msgctxt "@info:status"
+msgid ""
+"Protocol not supported by Dolphin, default application has been launched"
+msgstr "Dolphin ünnerstütt dat Protokoll nich, Konqueror warrt opropen"
+
+#: dolphinviewcontainer.cpp:839
+#, kde-format
+msgctxt "@info:status"
+msgid "Invalid protocol"
+msgstr "Leeg Protokoll"
+
+#: filterbar/filterbar.cpp:26
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Keep Filter When Changing Folders"
+msgstr "Filter bi't Wesseln vun den Orner wohren"
+
+#: filterbar/filterbar.cpp:34
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Filter"
+msgid "Filter..."
+msgstr "Filter"
+
+#: filterbar/filterbar.cpp:43
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Hide Filter Bar"
+msgstr "Filterbalken versteken"
+
+#: kitemviews/kfileitemlisttostring.cpp:23
+#, kde-format
+msgctxt "Textual representation of a file. %1 is the name of the file/folder."
+msgid "\"%1\""
+msgstr ""
+
+#: kitemviews/kfileitemlisttostring.cpp:27
+#, kde-format
+msgctxt ""
+"Textual representation of two files. %1 and %2 are names of files/folders."
+msgid "\"%1\" and \"%2\""
+msgstr ""
+
+#: kitemviews/kfileitemlisttostring.cpp:31
+#, kde-format
+msgctxt ""
+"Textual representation of three files. %1, %2 and %3 are names of files/"
+"folders."
+msgid "\"%1\", \"%2\" and \"%3\""
+msgstr ""
+
+#: kitemviews/kfileitemlisttostring.cpp:36
+#, kde-format
+msgctxt ""
+"Textual representation of four files. %1, %2, %3 and %4 are names of files/"
+"folders."
+msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
+msgstr ""
+
+#: kitemviews/kfileitemlisttostring.cpp:41
+#, kde-format
+msgctxt ""
+"Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
+"files/folders."
+msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
+msgstr ""
+
+#: kitemviews/kfileitemlisttostring.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Invert Selection"
+msgctxt "Textual representation of selected files. %1 is the number of files."
+msgid "One Selected File"
+msgid_plural "%1 Selected Files"
+msgstr[0] "Köör ümdreihen"
+msgstr[1] "Köör ümdreihen"
+
+#: kitemviews/kfileitemlisttostring.cpp:61
+#, kde-format
+msgctxt ""
+"Textual representation of selected folders. %1 is the number of folders."
+msgid "One Selected Folder"
+msgid_plural "%1 Selected Folders"
+msgstr[0] ""
+msgstr[1] ""
+
+#: kitemviews/kfileitemlisttostring.cpp:64
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Select Item"
+msgctxt ""
+"Textual representation of selected fileitems. %1 is the number of files/"
+"folders."
+msgid "One Selected Item"
+msgid_plural "%1 Selected Items"
+msgstr[0] "Indrag utsöken"
+msgstr[1] "Indrag utsöken"
+
+#: kitemviews/kfileitemlisttostring.cpp:74
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Paste One File"
+msgctxt "Textual representation of files. %1 is the number of files."
+msgid "One File"
+msgid_plural "%1 Files"
+msgstr[0] "Een Datei infögen"
+msgstr[1] "Een Datei infögen"
+
+#: kitemviews/kfileitemlisttostring.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "1 Folder"
+#| msgid_plural "%1 Folders"
+msgctxt "Textual representation of folders. %1 is the number of folders."
+msgid "One Folder"
+msgid_plural "%1 Folders"
+msgstr[0] "1 Orner"
+msgstr[1] "%1 Ornern"
+
+#: kitemviews/kfileitemlisttostring.cpp:80
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Rename Item"
+msgctxt ""
+"Textual representation of fileitems. %1 is the number of files/folders."
+msgid "One Item"
+msgid_plural "%1 Items"
+msgstr[0] "Indrag ümnömen"
+msgstr[1] "Indrag ümnömen"
+
+#: kitemviews/kfileitemlistwidget.cpp:74
+#, kde-format
+msgctxt "@item:intable"
+msgid "%1 item"
+msgid_plural "%1 items"
+msgstr[0] "%1 Indrag"
+msgstr[1] "%1 Indrääg"
+
+#: kitemviews/kfileitemlistwidget.cpp:100
+#, kde-format
+msgctxt "width × height"
+msgid "%1 × %2"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2245
+#, kde-format
+msgctxt "@title:group Groups that start with a digit"
+msgid "0 - 9"
+msgstr "0 - 9"
+
+#: kitemviews/kfileitemmodel.cpp:2247
+#, kde-format
+msgctxt "@title:group"
+msgid "Others"
+msgstr "Anner"
+
+#: kitemviews/kfileitemmodel.cpp:2279
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Folders"
+msgstr "Ornern"
+
+#: kitemviews/kfileitemmodel.cpp:2287
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Small"
+msgstr "Lütt"
+
+#: kitemviews/kfileitemmodel.cpp:2289
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Medium"
+msgstr "Normaal"
+
+#: kitemviews/kfileitemmodel.cpp:2291
+#, kde-format
+msgctxt "@title:group Size"
+msgid "Big"
+msgstr "Groot"
+
+#: kitemviews/kfileitemmodel.cpp:2337
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Today"
+msgstr "Vundaag"
+
+#: kitemviews/kfileitemmodel.cpp:2338
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Yesterday"
+msgstr "Güstern"
+
+#: kitemviews/kfileitemmodel.cpp:2341
+#, kde-format
+msgctxt "@title:group Date: The week day name: dddd"
+msgid "dddd"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2343
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"dddd\"with context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2347
+#, kde-format
+msgctxt "@title:group Date"
+msgid "One Week Ago"
+msgstr "Vör een Week"
+
+#: kitemviews/kfileitemmodel.cpp:2350
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Two Weeks Ago"
+msgstr "Vör twee Weken"
+
+#: kitemviews/kfileitemmodel.cpp:2353
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Three Weeks Ago"
+msgstr "Vör dree Weken"
+
+#: kitemviews/kfileitemmodel.cpp:2357
+#, kde-format
+msgctxt "@title:group Date"
+msgid "Earlier this Month"
+msgstr "Fröher dissen Maand"
+
+#: kitemviews/kfileitemmodel.cpp:2370
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "Yesterday (%B, %Y)"
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number. You must keep the ' don't use any fancy \" or « or "
+"similar. The ' is not shown to the user, it's there to mark a part of the "
+"text that should not be formatted as a date"
+msgid "'Yesterday' (MMMM, yyyy)"
+msgstr "Güstern (%B %Y)"
+
+#: kitemviews/kfileitemmodel.cpp:2376
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"'Yesterday' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2386
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "Yesterday (%B, %Y)"
+msgctxt ""
+"@title:group Date: The week day name: dddd, MMMM is full month name in "
+"current locale, and yyyy is full year number."
+msgid "dddd (MMMM, yyyy)"
+msgstr "Güstern (%B %Y)"
+
+#: kitemviews/kfileitemmodel.cpp:2389
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"dddd (MMMM, yyyy)\" with context "
+"@title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2393
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "One Week Ago (%B, %Y)"
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number. You must keep the ' don't use any fancy \" or « or "
+"similar. The ' is not shown to the user, it's there to mark a part of the "
+"text that should not be formatted as a date"
+msgid "'One Week Ago' (MMMM, yyyy)"
+msgstr "Vör een Week (%B %Y)"
+
+#: kitemviews/kfileitemmodel.cpp:2399
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"'One Week Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2408
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "Two Weeks Ago (%B, %Y)"
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number. You must keep the ' don't use any fancy \" or « or "
+"similar. The ' is not shown to the user, it's there to mark a part of the "
+"text that should not be formatted as a date"
+msgid "'Two Weeks Ago' (MMMM, yyyy)"
+msgstr "Vör twee Weken (%B %Y)"
+
+#: kitemviews/kfileitemmodel.cpp:2414
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"'Two Weeks Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2423
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "Three Weeks Ago (%B, %Y)"
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number. You must keep the ' don't use any fancy \" or « or "
+"similar. The ' is not shown to the user, it's there to mark a part of the "
+"text that should not be formatted as a date"
+msgid "'Three Weeks Ago' (MMMM, yyyy)"
+msgstr "Vör dree Weken (%B %Y)"
+
+#: kitemviews/kfileitemmodel.cpp:2429
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"'Three Weeks Ago' (MMMM, yyyy)\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2438
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@title:group Date: %B is full month name in current locale, and %Y is "
+#| "full year number"
+#| msgid "Earlier on %B, %Y"
+msgctxt ""
+"@title:group Date: MMMM is full month name in current locale, and yyyy is "
+"full year number. You must keep the ' don't use any fancy \" or « or "
+"similar. The ' is not shown to the user, it's there to mark a part of the "
+"text that should not be formatted as a date"
+msgid "'Earlier on' MMMM, yyyy"
+msgstr "Fröher binnen %B %Y"
+
+#: kitemviews/kfileitemmodel.cpp:2444
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"'Earlier on' MMMM, yyyy\" with "
+"context @title:group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2454
+#, kde-format
+msgctxt ""
+"@title:group The month and year: MMMM is full month name in current locale, "
+"and yyyy is full year number"
+msgid "MMMM, yyyy"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2457
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Maximum lines"
+#| msgid "1"
+msgctxt ""
+"Can be used to script translation of \"MMMM, yyyy\" with context @title:"
+"group Date"
+msgid "%1"
+msgstr "1"
+
+#: kitemviews/kfileitemmodel.cpp:2496 kitemviews/kfileitemmodel.cpp:2509
+#: kitemviews/kfileitemmodel.cpp:2522
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Read, "
+msgstr "Lesen, "
+
+#: kitemviews/kfileitemmodel.cpp:2499 kitemviews/kfileitemmodel.cpp:2512
+#: kitemviews/kfileitemmodel.cpp:2525
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Write, "
+msgstr "Schrieven, "
+
+#: kitemviews/kfileitemmodel.cpp:2502 kitemviews/kfileitemmodel.cpp:2515
+#: kitemviews/kfileitemmodel.cpp:2528
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Execute, "
+msgstr "Utföhren, "
+
+#: kitemviews/kfileitemmodel.cpp:2504 kitemviews/kfileitemmodel.cpp:2517
+#: kitemviews/kfileitemmodel.cpp:2530
+#, kde-format
+msgctxt "@item:intext Access permission, concatenated"
+msgid "Forbidden"
+msgstr "Verbaden"
+
+#: kitemviews/kfileitemmodel.cpp:2532
+#, kde-format
+msgctxt "@title:group Files and folders by permissions"
+msgid "User: %1 | Group: %2 | Others: %3"
+msgstr "Bruker: %1 | Koppel: %2 | Anner: %3"
+
+#: kitemviews/kfileitemmodel.cpp:2621
+msgctxt "@label"
+msgid "Name"
+msgstr "Naam"
+
+#: kitemviews/kfileitemmodel.cpp:2622
+msgctxt "@label"
+msgid "Size"
+msgstr "Grött"
+
+#: kitemviews/kfileitemmodel.cpp:2623
+msgctxt "@label"
+msgid "Modified"
+msgstr "Ännert"
+
+#: kitemviews/kfileitemmodel.cpp:2624
+#, fuzzy
+#| msgctxt "@label creation date"
+#| msgid "Created"
+msgctxt "@label"
+msgid "Created"
+msgstr "Opstellt"
+
+#: kitemviews/kfileitemmodel.cpp:2625
+msgctxt "@label"
+msgid "Accessed"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2626
+msgctxt "@label"
+msgid "Type"
+msgstr "Typ"
+
+#: kitemviews/kfileitemmodel.cpp:2627
+msgctxt "@label"
+msgid "Rating"
+msgstr "Beweerten"
+
+#: kitemviews/kfileitemmodel.cpp:2628
+msgctxt "@label"
+msgid "Tags"
+msgstr "Slötelwöör"
+
+#: kitemviews/kfileitemmodel.cpp:2629
+msgctxt "@label"
+msgid "Comment"
+msgstr "Kommentar"
+
+#: kitemviews/kfileitemmodel.cpp:2630
+#, fuzzy
+#| msgctxt "@label music title"
+#| msgid "Title"
+msgctxt "@label"
+msgid "Title"
+msgstr "Titel"
+
+#: kitemviews/kfileitemmodel.cpp:2630 kitemviews/kfileitemmodel.cpp:2631
+#: kitemviews/kfileitemmodel.cpp:2632 kitemviews/kfileitemmodel.cpp:2633
+msgctxt "@label"
+msgid "Document"
+msgstr "Dokment"
+
+#: kitemviews/kfileitemmodel.cpp:2631
+msgctxt "@label"
+msgid "Author"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2632
+msgctxt "@label"
+msgid "Word Count"
+msgstr "Wöörtall"
+
+#: kitemviews/kfileitemmodel.cpp:2633
+msgctxt "@label"
+msgid "Line Count"
+msgstr "Regentall"
+
+#: kitemviews/kfileitemmodel.cpp:2634
+msgctxt "@label"
+msgid "Date Photographed"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2634 kitemviews/kfileitemmodel.cpp:2635
+#: kitemviews/kfileitemmodel.cpp:2636 kitemviews/kfileitemmodel.cpp:2637
+#: kitemviews/kfileitemmodel.cpp:2638
+msgctxt "@label"
+msgid "Image"
+msgstr "Bild"
+
+#: kitemviews/kfileitemmodel.cpp:2635
+msgctxt "@label width x height"
+msgid "Dimensions"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2636
+#, fuzzy
+#| msgctxt "@label:listbox"
+#| msgid "Width:"
+msgctxt "@label"
+msgid "Width"
+msgstr "Breed:"
+
+#: kitemviews/kfileitemmodel.cpp:2637
+msgctxt "@label"
+msgid "Height"
+msgstr "Hööchde"
+
+#: kitemviews/kfileitemmodel.cpp:2638
+msgctxt "@label"
+msgid "Orientation"
+msgstr "Utrichten"
+
+#: kitemviews/kfileitemmodel.cpp:2639
+msgctxt "@label"
+msgid "Artist"
+msgstr "Künstler"
+
+#: kitemviews/kfileitemmodel.cpp:2639 kitemviews/kfileitemmodel.cpp:2640
+#: kitemviews/kfileitemmodel.cpp:2641 kitemviews/kfileitemmodel.cpp:2642
+#: kitemviews/kfileitemmodel.cpp:2643 kitemviews/kfileitemmodel.cpp:2644
+#: kitemviews/kfileitemmodel.cpp:2645
+msgctxt "@label"
+msgid "Audio"
+msgstr "Klang"
+
+#: kitemviews/kfileitemmodel.cpp:2640
+#, fuzzy
+#| msgctxt "@label music genre"
+#| msgid "Genre"
+msgctxt "@label"
+msgid "Genre"
+msgstr "Musikoort"
+
+#: kitemviews/kfileitemmodel.cpp:2641
+msgctxt "@label"
+msgid "Album"
+msgstr "Album"
+
+#: kitemviews/kfileitemmodel.cpp:2642
+msgctxt "@label"
+msgid "Duration"
+msgstr "Afspeelduer"
+
+#: kitemviews/kfileitemmodel.cpp:2643
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Average Bitrate"
+msgctxt "@label"
+msgid "Bitrate"
+msgstr "Dörsnittlich Bitwedderhalen"
+
+#: kitemviews/kfileitemmodel.cpp:2644
+msgctxt "@label"
+msgid "Track"
+msgstr "Stück"
+
+#: kitemviews/kfileitemmodel.cpp:2645
+#, fuzzy
+#| msgctxt "@item"
+#| msgid "Release '%1'"
+msgctxt "@label"
+msgid "Release Year"
+msgstr "%1 freegeven"
+
+#: kitemviews/kfileitemmodel.cpp:2646
+msgctxt "@label"
+msgid "Aspect Ratio"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2646 kitemviews/kfileitemmodel.cpp:2647
+#, fuzzy
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@label"
+msgid "Video"
+msgstr "Filmdateien"
+
+#: kitemviews/kfileitemmodel.cpp:2647
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Sample Rate"
+msgctxt "@label"
+msgid "Frame Rate"
+msgstr "Aftast-Wedderhalen"
+
+#: kitemviews/kfileitemmodel.cpp:2648
+msgctxt "@label"
+msgid "Path"
+msgstr "Padd"
+
+#: kitemviews/kfileitemmodel.cpp:2648 kitemviews/kfileitemmodel.cpp:2649
+#: kitemviews/kfileitemmodel.cpp:2650 kitemviews/kfileitemmodel.cpp:2651
+#: kitemviews/kfileitemmodel.cpp:2652 kitemviews/kfileitemmodel.cpp:2653
+#: kitemviews/kfileitemmodel.cpp:2654 kitemviews/kfileitemmodel.cpp:2655
+msgctxt "@label"
+msgid "Other"
+msgstr "Anner"
+
+#: kitemviews/kfileitemmodel.cpp:2649
+msgctxt "@label"
+msgid "File Extension"
+msgstr ""
+
+#: kitemviews/kfileitemmodel.cpp:2650
+#, fuzzy
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "@label"
+msgid "Deletion Time"
+msgstr "Köör"
+
+#: kitemviews/kfileitemmodel.cpp:2651
+msgctxt "@label"
+msgid "Link Destination"
+msgstr "Link-Teel"
+
+#: kitemviews/kfileitemmodel.cpp:2652
+#, fuzzy
+#| msgctxt "@label"
+#| msgid "Copied From"
+msgctxt "@label"
+msgid "Downloaded From"
+msgstr "Kopeert vun"
+
+#: kitemviews/kfileitemmodel.cpp:2653
+msgctxt "@label"
+msgid "Permissions"
+msgstr "Verlöven"
+
+#: kitemviews/kfileitemmodel.cpp:2654
+msgctxt "@label"
+msgid "Owner"
+msgstr "Eegner"
+
+#: kitemviews/kfileitemmodel.cpp:2655
+msgctxt "@label"
+msgid "User Group"
+msgstr "Brukerkoppel"
+
+#: kitemviews/kfileitemmodel.cpp:2754
+#, kde-format
+msgctxt "@info:status"
+msgid "Unknown error."
+msgstr "Nich begäng Fehler."
+
+#: main.cpp:86
+#, fuzzy, kde-format
+#| msgctxt "@title"
+#| msgid "Dolphin"
+msgid "Dolphin"
+msgstr "Dolphin"
+
+#: main.cpp:87
+#, kde-format
+msgctxt "@title"
+msgid "File Manager"
+msgstr "Dateipleger"
+
+#: main.cpp:89
+#, kde-format
+msgctxt "@info:credit"
+msgid "(C) 2006-2022 The Dolphin Developers"
+msgstr ""
+
+#: main.cpp:91
+#, kde-format
+msgctxt "@info:credit"
+msgid "Felix Ernst"
+msgstr ""
+
+#: main.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2012) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (since 2021) and developer"
+msgstr "Pleger (siet 2012) un Schriever"
+
+#: main.cpp:94
+#, kde-format
+msgctxt "@info:credit"
+msgid "Méven Car"
+msgstr ""
+
+#: main.cpp:95
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2012) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (since 2021) and developer (since 2019)"
+msgstr "Pleger (siet 2012) un Schriever"
+
+#: main.cpp:97
+#, kde-format
+msgctxt "@info:credit"
+msgid "Elvis Angelaccio"
+msgstr ""
+
+#: main.cpp:98
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2012) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2018-2021) and developer"
+msgstr "Pleger (siet 2012) un Schriever"
+
+#: main.cpp:100
+#, kde-format
+msgctxt "@info:credit"
+msgid "Emmanuel Pescosta"
+msgstr "Emmanuel Pescosta"
+
+#: main.cpp:101
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2012) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2014-2018) and developer"
+msgstr "Pleger (siet 2012) un Schriever"
+
+#: main.cpp:103
+#, kde-format
+msgctxt "@info:credit"
+msgid "Frank Reininghaus"
+msgstr "Frank Reininghaus"
+
+#: main.cpp:104
+#, fuzzy, kde-format
+#| msgctxt "@info:credit"
+#| msgid "Maintainer (since 2012) and developer"
+msgctxt "@info:credit"
+msgid "Maintainer (2012-2014) and developer"
+msgstr "Pleger (siet 2012) un Schriever"
+
+#: main.cpp:106
+#, kde-format
+msgctxt "@info:credit"
+msgid "Peter Penz"
+msgstr "Peter Penz"
+
+#: main.cpp:107
+#, kde-format
+msgctxt "@info:credit"
+msgid "Maintainer and developer (2006-2012)"
+msgstr "Pleger un Schriever (2006-2012)"
+
+#: main.cpp:109
+#, kde-format
+msgctxt "@info:credit"
+msgid "Sebastian Trüg"
+msgstr "Sebastian Trüg"
+
+#: main.cpp:110 main.cpp:113 main.cpp:116 main.cpp:119 main.cpp:122
+#: main.cpp:125 main.cpp:128
+#, kde-format
+msgctxt "@info:credit"
+msgid "Developer"
+msgstr "Schriever"
+
+#: main.cpp:112
+#, kde-format
+msgctxt "@info:credit"
+msgid "David Faure"
+msgstr "David Faure"
+
+#: main.cpp:115
+#, kde-format
+msgctxt "@info:credit"
+msgid "Aaron J. Seigo"
+msgstr "Aaron J. Seigo"
+
+#: main.cpp:118
+#, kde-format
+msgctxt "@info:credit"
+msgid "Rafael Fernández López"
+msgstr "Rafael Fernández López"
+
+#: main.cpp:121
+#, kde-format
+msgctxt "@info:credit"
+msgid "Kevin Ottens"
+msgstr "Kevin Ottens"
+
+#: main.cpp:124
+#, kde-format
+msgctxt "@info:credit"
+msgid "Holger Freyther"
+msgstr "Holger Freyther"
+
+#: main.cpp:127
+#, kde-format
+msgctxt "@info:credit"
+msgid "Max Blazejak"
+msgstr "Max Blazejak"
+
+#: main.cpp:130
+#, kde-format
+msgctxt "@info:credit"
+msgid "Michael Austin"
+msgstr "Michael Austin"
+
+#: main.cpp:131
+#, kde-format
+msgctxt "@info:credit"
+msgid "Documentation"
+msgstr "Dokmentatschoon"
+
+#: main.cpp:140
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "The files and directories passed as arguments will be selected."
+msgctxt "@info:shell"
+msgid "The files and folders passed as arguments will be selected."
+msgstr "De Dateien un Ornern, de as Argumenten övergeven wöörn, warrt köört."
+
+#: main.cpp:142
+#, kde-format
+msgctxt "@info:shell"
+msgid "Dolphin will get started with a split view."
+msgstr "Dolphin warrt mit en deelt Ansicht start"
+
+#: main.cpp:143
+#, kde-format
+msgctxt "@info:shell"
+msgid "Dolphin will explicitly open in a new window."
+msgstr ""
+
+#: main.cpp:144
+#, kde-format
+msgctxt "@info:shell"
+msgid "Start Dolphin Daemon (only required for DBus Interface)"
+msgstr ""
+
+#: main.cpp:145
+#, kde-format
+msgctxt "@info:shell"
+msgid "Document to open"
+msgstr "Dokment, dat Du opmaken wullt"
+
+#. i18n: ectx: label, entry (HiddenFilesShown), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:10
+#, kde-format
+msgid "Hidden files shown"
+msgstr "Versteken Dateien wiest"
+
+#. i18n: ectx: label, entry (LimitFoldersPanelToHome), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:14
+#, kde-format
+msgid "Limit folders panel to home directory if inside home"
+msgstr ""
+
+#. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
+#: panels/folders/dolphin_folderspanelsettings.kcfg:18
+#, kde-format
+msgid "Automatic scrolling"
+msgstr "Automaatsch Rullen"
+
+#: panels/folders/treeviewcontextmenu.cpp:53
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Cut"
+msgstr "Knippen"
+
+#: panels/folders/treeviewcontextmenu.cpp:57
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Copy"
+msgstr "Koperen"
+
+#: panels/folders/treeviewcontextmenu.cpp:73
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Rename..."
+msgstr "Ümnömen..."
+
+#: panels/folders/treeviewcontextmenu.cpp:87
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Move to Trash"
+msgstr "Na Affalltünn"
+
+#: panels/folders/treeviewcontextmenu.cpp:97
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Delete"
+msgstr "Wegdoon"
+
+#: panels/folders/treeviewcontextmenu.cpp:107
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Hidden Files"
+msgstr "Versteken Dateien wiesen"
+
+#: panels/folders/treeviewcontextmenu.cpp:117
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Limit to Home Directory"
+msgstr ""
+
+#: panels/folders/treeviewcontextmenu.cpp:126
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Automatic Scrolling"
+msgstr "Automaatsch Rullen"
+
+#: panels/folders/treeviewcontextmenu.cpp:136
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Properties"
+msgstr "Egenschappen"
+
+#. i18n: ectx: label, entry (previewsShown), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:10
+#, kde-format
+msgid "Previews shown"
+msgstr "Vöransichten wiest"
+
+#. i18n: ectx: label, entry (previewsAutoPlay), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:14
+#, kde-format
+msgid "Auto-Play media files"
+msgstr ""
+
+#. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
+#: panels/information/dolphin_informationpanelsettings.kcfg:18
+#, kde-format
+msgid "Date display format"
+msgstr ""
+
+#: panels/information/informationpanel.cpp:153
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Preview"
+msgstr "Vöransicht"
+
+#: panels/information/informationpanel.cpp:158
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Auto-Play media files"
+msgstr ""
+
+#: panels/information/informationpanel.cpp:163
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Configure..."
+msgstr "Instellen..."
+
+#: panels/information/informationpanel.cpp:169
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Condensed Date"
+msgstr ""
+
+#: panels/information/informationpanelcontent.cpp:109
+#, kde-format
+msgctxt "@label::textbox"
+msgid "Select which data should be shown:"
+msgstr "De Daten utsöken, de Du wiesen wullt:"
+
+#: panels/information/informationpanelcontent.cpp:303
+#, kde-format
+msgctxt "@label"
+msgid "%1 item selected"
+msgid_plural "%1 items selected"
+msgstr[0] "%1 Indrag utsöcht"
+msgstr[1] "%1 Indrääg utsöcht"
+
+#: panels/information/phononwidget.cpp:153
+#, kde-format
+msgid "play"
+msgstr "Afspelen"
+
+#: panels/information/phononwidget.cpp:159
+#, kde-format
+msgid "pause"
+msgstr ""
+
+#. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
+#: panels/places/dolphin_placespanelsettings.kcfg:11
+#, fuzzy, kde-format
+#| msgid ""
+#| "Size of icons in the Places Panel (-1 means \"use the style's small size"
+#| "\")"
+msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
+msgstr ""
+"Grött vun de Lüttbiller binnen dat Steden-Paneel (-1 meent dat Muster sien "
+"lütte Grött)"
+
+#: panels/places/placespanel.cpp:48
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
+msgctxt "@action:inmenu"
+msgid "Configure Trash…"
+msgstr "Instellen..."
+
+#: panels/places/placespanel.cpp:243
+#, kde-format
+msgid "One or more files on this device are open within an application."
+msgstr ""
+
+#: panels/places/placespanel.cpp:250
+#, kde-kuit-format
+msgid ""
+"One or more files on this device are opened in application <application>"
+"\"%2\"</application>."
+msgid_plural ""
+"One or more files on this device are opened in following applications: "
+"<application>%2</application>."
+msgstr[0] ""
+msgstr[1] ""
+
+#: panels/places/placespanel.cpp:252
+#, fuzzy, kde-format
+#| msgctxt "@info:status separator between 2 status infos"
+#| msgid ", "
+msgctxt "separator in list of apps blocking device unmount"
+msgid ", "
+msgstr ", "
+
+#: panels/terminal/terminalpanel.cpp:177
+#, kde-format
+msgid ""
+"Terminal cannot be shown because Konsole is not installed. Please install it "
+"and then reopen the panel."
+msgstr ""
+
+#: panels/terminal/terminalpanel.cpp:183
+#, kde-format
+msgid "Install Konsole"
+msgstr ""
+
+#. i18n: ectx: label, entry (Location), group (Search)
+#: search/dolphin_searchsettings.kcfg:10
+#, kde-format
+msgid "Location"
+msgstr "Steed"
+
+#. i18n: ectx: label, entry (What), group (Search)
+#: search/dolphin_searchsettings.kcfg:14
+#, kde-format
+msgid "What"
+msgstr "Wat"
+
+#: search/dolphinfacetswidget.cpp:29
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "By Type"
+msgctxt "@item:inlistbox"
+msgid "Any Type"
+msgstr "Na Typ"
+
+#: search/dolphinfacetswidget.cpp:30
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Folders"
+msgctxt "@item:inlistbox"
+msgid "Folders"
+msgstr "Ornern"
+
+#: search/dolphinfacetswidget.cpp:31
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Documents"
+msgctxt "@item:inlistbox"
+msgid "Documents"
+msgstr "Dokmenten"
+
+#: search/dolphinfacetswidget.cpp:32
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Images"
+msgctxt "@item:inlistbox"
+msgid "Images"
+msgstr "Biller"
+
+#: search/dolphinfacetswidget.cpp:33
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Audio Files"
+msgctxt "@item:inlistbox"
+msgid "Audio Files"
+msgstr "Klangdateien"
+
+#: search/dolphinfacetswidget.cpp:34
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Videos"
+msgctxt "@item:inlistbox"
+msgid "Videos"
+msgstr "Filmdateien"
+
+#: search/dolphinfacetswidget.cpp:40
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "By Date"
+msgctxt "@item:inlistbox"
+msgid "Any Date"
+msgstr "Na Datum"
+
+#: search/dolphinfacetswidget.cpp:41
+#, fuzzy, kde-format
+#| msgctxt "@title:group Date"
+#| msgid "Today"
+msgctxt "@item:inlistbox"
+msgid "Today"
+msgstr "Vundaag"
+
+#: search/dolphinfacetswidget.cpp:42
+#, fuzzy, kde-format
+#| msgctxt "@title:group Date"
+#| msgid "Yesterday"
+msgctxt "@item:inlistbox"
+msgid "Yesterday"
+msgstr "Güstern"
+
+#: search/dolphinfacetswidget.cpp:43
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Week"
+msgctxt "@item:inlistbox"
+msgid "This Week"
+msgstr "Disse Week"
+
+#: search/dolphinfacetswidget.cpp:44
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Month"
+msgctxt "@item:inlistbox"
+msgid "This Month"
+msgstr "Dissen Maand"
+
+#: search/dolphinfacetswidget.cpp:45
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "This Year"
+msgctxt "@item:inlistbox"
+msgid "This Year"
+msgstr "Dit Johr"
+
+#: search/dolphinfacetswidget.cpp:49
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Any Rating"
+msgctxt "@item:inlistbox"
+msgid "Any Rating"
+msgstr "All Beweerten"
+
+#: search/dolphinfacetswidget.cpp:50
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "1 or more"
+msgctxt "@item:inlistbox"
+msgid "1 or more"
+msgstr "1 oder höger"
+
+#: search/dolphinfacetswidget.cpp:51
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "2 or more"
+msgctxt "@item:inlistbox"
+msgid "2 or more"
+msgstr "2 oder höger"
+
+#: search/dolphinfacetswidget.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "3 or more"
+msgctxt "@item:inlistbox"
+msgid "3 or more"
+msgstr "3 oder höger"
+
+#: search/dolphinfacetswidget.cpp:53
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "4 or more"
+msgctxt "@item:inlistbox"
+msgid "4 or more"
+msgstr "4 oder höger"
+
+#: search/dolphinfacetswidget.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Highest Rating"
+msgctxt "@item:inlistbox"
+msgid "Highest Rating"
+msgstr "Hööchstbeweerten"
+
+#: search/dolphinfacetswidget.cpp:57
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Edit"
+#| msgid "Invert Selection"
+msgctxt "@action:inmenu"
+msgid "Clear Selection"
+msgstr "Köör ümdreihen"
+
+#: search/dolphinfacetswidget.cpp:247
+#, fuzzy, kde-format
+#| msgctxt "@info:status separator between 2 status infos"
+#| msgid ", "
+msgctxt "String list separator"
+msgid ", "
+msgstr ", "
+
+#: search/dolphinfacetswidget.cpp:249
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Tag:"
+msgctxt "@action:button %2 is a list of tags"
+msgid "Tag: %2"
+msgid_plural "Tags: %2"
+msgstr[0] "Slötelwoort:"
+msgstr[1] "Slötelwoort:"
+
+#: search/dolphinfacetswidget.cpp:251
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Add Tags"
+msgctxt "@action:button"
+msgid "Add Tags"
+msgstr "Slötelwöör tofögen"
+
+#: search/dolphinsearchbox.cpp:100
+#, kde-format
+msgctxt "action:button"
+msgid "From Here (%1)"
+msgstr "Vun hier af (%1)"
+
+#: search/dolphinsearchbox.cpp:101
+#, kde-format
+msgctxt "action:button"
+msgid "Limit search to '%1' and its subfolders"
+msgstr ""
+
+#: search/dolphinsearchbox.cpp:345
+#, kde-format
+msgctxt "action:button"
+msgid "Save this search to quickly access it again in the future"
+msgstr ""
+
+#: search/dolphinsearchbox.cpp:354
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Quit searching"
+msgstr "Söök utmaken"
+
+#: search/dolphinsearchbox.cpp:365
+#, kde-format
+msgctxt "action:button"
+msgid "Filename"
+msgstr "Dateinaam"
+
+#: search/dolphinsearchbox.cpp:369
+#, kde-format
+msgctxt "action:button"
+msgid "Content"
+msgstr "Inholt"
+
+#: search/dolphinsearchbox.cpp:380
+#, kde-format
+msgctxt "action:button"
+msgid "From Here"
+msgstr "Vun hier af"
+
+#: search/dolphinsearchbox.cpp:384
+#, fuzzy, kde-format
+#| msgctxt "EMAIL OF TRANSLATORS"
+#| msgid "Your emails"
+msgctxt "action:button"
+msgid "Your files"
+msgstr "s_dibbern@web.de, m.j.wiese@web.de"
+
+#: search/dolphinsearchbox.cpp:385
+#, kde-format
+msgctxt "action:button"
+msgid "Search in your home directory"
+msgstr ""
+
+#: search/dolphinsearchbox.cpp:399
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Search Toolbar"
+msgid "More Search Tools"
+msgstr "Söök-Warktüüchbalken"
+
+#: search/dolphinsearchbox.cpp:461
+#, kde-format
+msgctxt ""
+"@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the "
+"user entered."
+msgid "Query Results from '%1'"
+msgstr "Resultaten för de Söök na \"%1\""
+
+#: selectionmode/bottombarcontentscontainer.cpp:154
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "The files and directories passed as arguments will be selected."
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be copied."
+msgstr "De Dateien un Ornern, de as Argumenten övergeven wöörn, warrt köört."
+
+#. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
+#. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:160
+#: selectionmode/bottombarcontentscontainer.cpp:193
+#: selectionmode/bottombarcontentscontainer.cpp:212
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel Copying"
+msgstr "Afbreken"
+
+#: selectionmode/bottombarcontentscontainer.cpp:187
+#, kde-format
+msgctxt "@info explaining the next step in a process"
+msgid "Select one file or folder whose location should be copied."
+msgstr ""
+
+#. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
+#: selectionmode/bottombarcontentscontainer.cpp:206
+#, kde-format
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be copied over."
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:224
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be cut."
+msgstr "Vöransichten vun Dateien un Ornern wiesen"
+
+#. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:230
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel Cutting"
+msgstr "Afbreken"
+
+#: selectionmode/bottombarcontentscontainer.cpp:257
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "The files and directories passed as arguments will be selected."
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be permanently deleted."
+msgstr "De Dateien un Ornern, de as Argumenten övergeven wöörn, warrt köört."
+
+#. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
+#. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:263
+#: selectionmode/bottombarcontentscontainer.cpp:364
+#, kde-format
+msgctxt "@action:button"
+msgid "Cancel"
+msgstr "Afbreken"
+
+#: selectionmode/bottombarcontentscontainer.cpp:275
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "The files and directories passed as arguments will be selected."
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be duplicated here."
+msgstr "De Dateien un Ornern, de as Argumenten övergeven wöörn, warrt köört."
+
+#. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:281
+#, fuzzy, kde-format
+#| msgctxt "@item::intable"
+#| msgid "Conflicting"
+msgctxt "@action:button"
+msgid "Cancel Duplicating"
+msgstr "Mit Konflikt"
+
+#. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
+#. The small button opens a menu that contains the actions that didn't fit on the bar.
+#: selectionmode/bottombarcontentscontainer.cpp:296
+#, kde-format
+msgctxt "@action keep short"
+msgid "More"
+msgstr ""
+
+#. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
+#: selectionmode/bottombarcontentscontainer.cpp:340
+#, kde-format
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be moved over."
+msgstr ""
+
+#. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:346
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "Cancel"
+msgctxt "@action:button"
+msgid "Cancel Moving"
+msgstr "Afbreken"
+
+#: selectionmode/bottombarcontentscontainer.cpp:358
+#, kde-format
+msgctxt "@info explaining the next step in a process"
+msgid "Select the files and folders that should be moved to the Trash."
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:376
+#, kde-kuit-format
+msgid ""
+"<para>The selected files and folders were added to the Clipboard. Now the "
+"<emphasis>Paste</emphasis> action can be used to transfer them from the "
+"Clipboard to any other location. They can even be transferred to other "
+"applications by using their respective <emphasis>Paste</emphasis> actions.</"
+"para>"
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:396
+#, kde-format
+msgctxt ""
+"@action A more elaborate and clearly worded version of the Paste action"
+msgid "Paste from Clipboard"
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:401
+#, kde-format
+msgctxt "@action Dismisses a bar explaining how to use the Paste action"
+msgid "Dismiss This Reminder"
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:403
+#, kde-format
+msgctxt "@action Dismisses an explanatory area and never shows it again"
+msgid "Don't Remind Me Again"
+msgstr ""
+
+#: selectionmode/bottombarcontentscontainer.cpp:419
+#, kde-format
+msgctxt "@info explains the next step in a process"
+msgid ""
+"Select the file or folder that should be renamed.\n"
+"Bulk renaming is possible when multiple items are selected."
+msgstr ""
+
+#. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
+#: selectionmode/bottombarcontentscontainer.cpp:425
+#, kde-format
+msgctxt "@action:button"
+msgid "Cancel Renaming"
+msgstr ""
+
+#. i18n: A more elaborate and clearly worded version of the Copy action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:568
+#, kde-format
+msgctxt "@action"
+msgid "Copy %2 to the Clipboard"
+msgid_plural "Copy %2 to the Clipboard"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: A more elaborate and clearly worded version of the Copy Location action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:579
+#, kde-format
+msgctxt "@action"
+msgid "Copy the Location of %2 to the Clipboard"
+msgid_plural "Copy the Location of %2 to the Clipboard"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: A more elaborate and clearly worded version of the Cut action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:587
+#, kde-format
+msgctxt "@action"
+msgid "Cut %2 to the Clipboard"
+msgid_plural "Cut %2 to the Clipboard"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: A more elaborate and clearly worded version of the Delete action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:595
+#, kde-format
+msgctxt "@action"
+msgid "Permanently Delete %2"
+msgid_plural "Permanently Delete %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: A more elaborate and clearly worded version of the Duplicate action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:603
+#, kde-format
+msgctxt "@action"
+msgid "Duplicate %2"
+msgid_plural "Duplicate %2"
+msgstr[0] ""
+msgstr[1] ""
+
+#. i18n: A more elaborate and clearly worded version of the Trash action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:611
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Move to Trash"
+msgctxt "@action"
+msgid "Move %2 to the Trash"
+msgid_plural "Move %2 to the Trash"
+msgstr[0] "Na Affalltünn"
+msgstr[1] "Na Affalltünn"
+
+#. i18n: A more elaborate and clearly worded version of the Rename action
+#. %2 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: selectionmode/bottombarcontentscontainer.cpp:619
+#, fuzzy, kde-format
+#| msgctxt "@action:button"
+#| msgid "&Rename"
+msgctxt "@action"
+msgid "Rename %2"
+msgid_plural "Rename %2"
+msgstr[0] "Ü&mnömen"
+msgstr[1] "Ü&mnömen"
+
+#: selectionmode/topbar.cpp:33
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<title>Selection Mode</title><para>Select files or folders to manage or "
+"manipulate them.<list><item>Press on a file or folder to select it.</"
+"item><item>Press on an already selected file or folder to deselect it.</"
+"item><item>Pressing an empty area does <emphasis>not</emphasis> clear the "
+"selection.</item><item>Selection rectangles (created by dragging from an "
+"empty area) invert the selection status of items within.</item></list></"
+"para><para>The available action buttons at the bottom change depending on "
+"the current selection.</para>"
+msgstr ""
+
+#: selectionmode/topbar.cpp:59
+#, kde-format
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode: Click on files or folders to select or deselect them."
+msgstr ""
+
+#: selectionmode/topbar.cpp:61
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "@info label above the view explaining the state"
+msgid "Selection Mode"
+msgstr "Köör"
+
+#: selectionmode/topbar.cpp:67
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Selection"
+msgctxt "@action:button"
+msgid "Exit Selection Mode"
+msgstr "Köör"
+
+#: settings/contextmenu/contextmenusettingspage.cpp:65
+#, kde-format
+msgctxt "@label:textbox"
+msgid "Select which services should be shown in the context menu:"
+msgstr "De Deensten utsöken, de Du binnen dat Rechtsklickmenü wiesen wullt:"
+
+#: settings/contextmenu/contextmenusettingspage.cpp:69
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Search..."
+msgctxt "@label:textbox"
+msgid "Search..."
+msgstr "Söken..."
+
+#: settings/contextmenu/contextmenusettingspage.cpp:96
+#, kde-format
+msgctxt "@action:button"
+msgid "Download New Services..."
+msgstr "Nieg Deensten daalladen..."
+
+#: settings/contextmenu/contextmenusettingspage.cpp:203
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid ""
+#| "Dolphin must be restarted to apply the updated version control systems "
+#| "settings."
+msgctxt "@info"
+msgid ""
+"Dolphin must be restarted to apply the updated version control system "
+"settings."
+msgstr ""
+"Du muttst Dolphin nieg starten, wenn Du de opfrischt Instellen för dat "
+"Verschoonkuntrull-Systeem bruken wullt."
+
+#: settings/contextmenu/contextmenusettingspage.cpp:205
+#, kde-format
+msgctxt "@info"
+msgid "Restart now?"
+msgstr ""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:244
+#, kde-format
+msgctxt "@option:check"
+msgid "Delete"
+msgstr "Wegdoon"
+
+#: settings/contextmenu/contextmenusettingspage.cpp:250
+#, kde-format
+msgctxt "@option:check"
+msgid "'Copy To' and 'Move To' commands"
+msgstr "Befehlen \"Koperen na\" un \"Verschuven na\""
+
+#: settings/contextmenu/contextmenusettingspage.cpp:300
+#, kde-format
+msgctxt "@item:inmenu"
+msgid "%1: %2"
+msgstr "%1: %2"
+
+#. i18n: ectx: label, entry (UseSystemFont), group (IconsMode)
+#. i18n: ectx: label, entry (UseSystemFont), group (DetailsMode)
+#. i18n: ectx: label, entry (UseSystemFont), group (CompactMode)
+#: settings/dolphin_compactmodesettings.kcfg:12
+#: settings/dolphin_detailsmodesettings.kcfg:15
+#: settings/dolphin_iconsmodesettings.kcfg:12
+#, kde-format
+msgid "Use system font"
+msgstr "Systeem-Schriftoort bruken"
+
+#. i18n: ectx: label, entry (IconSize), group (IconsMode)
+#. i18n: ectx: label, entry (IconSize), group (DetailsMode)
+#. i18n: ectx: label, entry (IconSize), group (CompactMode)
+#: settings/dolphin_compactmodesettings.kcfg:19
+#: settings/dolphin_detailsmodesettings.kcfg:19
+#: settings/dolphin_iconsmodesettings.kcfg:19
+#, kde-format
+msgid "Icon size"
+msgstr "Lüttbildgrött"
+
+#. i18n: ectx: label, entry (PreviewSize), group (IconsMode)
+#. i18n: ectx: label, entry (PreviewSize), group (DetailsMode)
+#. i18n: ectx: label, entry (PreviewSize), group (CompactMode)
+#: settings/dolphin_compactmodesettings.kcfg:23
+#: settings/dolphin_detailsmodesettings.kcfg:23
+#: settings/dolphin_iconsmodesettings.kcfg:23
+#, kde-format
+msgid "Preview size"
+msgstr "Vöransichtgrött"
+
+#. i18n: ectx: label, entry (MaximumTextWidthIndex), group (CompactMode)
+#: settings/dolphin_compactmodesettings.kcfg:27
+#, kde-format
+msgid "Maximum text width index (0 means unlimited)"
+msgstr "Hööchst Textbreed (0 bedüüdt nich ingrenzt)"
+
+#. i18n: ectx: label, entry (ShowCopyMoveMenu), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:10
+#, kde-format
+msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowAddToPlaces), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:14
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'Add to Places' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowSortBy), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:18
+#, kde-format
+msgid "Show 'Sort By' in context menu."
+msgstr ""
+
+#. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:22
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'View Mode' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:26
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:30
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'Open in New Window' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:34
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'Copy Location' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:38
+#, kde-format
+msgid "Show 'Duplicate Here' in context menu."
+msgstr ""
+
+#. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
+#: settings/dolphin_contextmenusettings.kcfg:42
+#, fuzzy, kde-format
+#| msgid "Show 'Copy To' and 'Move To' commands in context menu"
+msgid "Show 'Open Terminal' in context menu."
+msgstr ""
+"Befehlen \"Koperen na\" un \"Verschuven na\" binnen Rechtsklickmenü wiesen"
+
+#. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:27
+#, kde-format
+msgid "Position of columns"
+msgstr "Striepensteed"
+
+#. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:31
+#, kde-format
+msgid "Side Padding"
+msgstr ""
+
+#. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:35
+#, kde-format
+msgid "Expandable folders"
+msgstr "Ornern laat sik utfoolden"
+
+#. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:39
+#, kde-format
+msgid "Whether or not content count is used as directory size"
+msgstr ""
+
+#. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:43
+#, kde-format
+msgid "Recursive directory size limit"
+msgstr ""
+
+#. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:47
+#, kde-format
+msgid "if true we use short relative dates, if not short dates"
+msgstr ""
+
+#. i18n: ectx: label, entry (HiddenFilesShown), group (Settings)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:11
+#, kde-format
+msgctxt "@label"
+msgid "Hidden files shown"
+msgstr "Versteken Dateien wiest"
+
+#. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:12
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled hidden files, such as those starting with a '.', "
+"will be shown in the file view."
+msgstr ""
+"Is dit anmaakt, warrt versteken Dateien (dat sünd de, de mit en \".\" "
+"anfangt) binnen de Dateiansicht wiest."
+
+#. i18n: ectx: label, entry (Version), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:19
+#, kde-format
+msgctxt "@label"
+msgid "Version"
+msgstr "Verschoon"
+
+#. i18n: ectx: whatsthis, entry (Version), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:20
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "This option defines the used version of the view properties."
+msgstr ""
+"Disse Optschoon leggt de bruukt Verschoon vun de Ansichtegenschappen fast."
+
+#. i18n: ectx: label, entry (ViewMode), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:25
+#, kde-format
+msgctxt "@label"
+msgid "View Mode"
+msgstr "Ansichttyp"
+
+#. i18n: ectx: whatsthis, entry (ViewMode), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:26
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option controls the style of the view. Currently supported values "
+"include icons (0), details (1) and column (2) views."
+msgstr ""
+"Mit disse Optschoon kannst Du dat Utsehn vun de Ansicht fastleggen. Opstunns "
+"gifft dat de Weerten Lüttbiller (0), Enkelheiten (1) un Striepen (2)."
+
+#. i18n: ectx: label, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:31
+#, kde-format
+msgctxt "@label"
+msgid "Previews shown"
+msgstr "Vöransichten wiest"
+
+#. i18n: ectx: whatsthis, entry (PreviewsShown), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:32
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled, a preview of the file content is shown as an "
+"icon."
+msgstr ""
+"Is dit anmaakt, warrt en Vöransicht vun den Dateiinholt as Lüttbild wiest."
+
+#. i18n: ectx: label, entry (GroupedSorting), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:37
+#, kde-format
+msgctxt "@label"
+msgid "Grouped Sorting"
+msgstr "Na Koppel sorteren"
+
+#. i18n: ectx: whatsthis, entry (GroupedSorting), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:38
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this option is enabled, the sorted items are categorized into groups."
+msgstr "Is dit anmaakt, warrt de sorteerten Indrääg na Koppeln ornt."
+
+#. i18n: ectx: label, entry (SortRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:43
+#, kde-format
+msgctxt "@label"
+msgid "Sort files by"
+msgstr "Dateien sorteren na"
+
+#. i18n: ectx: whatsthis, entry (SortRole), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:44
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This option defines which attribute (text, size, date, etc.) sorting is "
+"performed on."
+msgstr ""
+"Disse Optschoon gifft dat Attribut an (Text, Grött, Datum, usw.), na dat "
+"sorteert warrt."
+
+#. i18n: ectx: label, entry (SortOrder), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:49
+#, kde-format
+msgctxt "@label"
+msgid "Order in which to sort files"
+msgstr "Sorteerreeg"
+
+#. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:56
+#, kde-format
+msgctxt "@label"
+msgid "Show folders first when sorting files and folders"
+msgstr "Bi't Sorteren vun Dateien un Ornern de Ornern na vörn schuven"
+
+#. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:61
+#, fuzzy, kde-format
+#| msgctxt "@info"
+#| msgid "Show preview of files and folders"
+msgctxt "@label"
+msgid "Show hidden files and folders last"
+msgstr "Vöransichten vun Dateien un Ornern wiesen"
+
+#. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:66
+#, kde-format
+msgctxt "@label"
+msgid "Visible roles"
+msgstr "Sichtbor Rullen"
+
+#. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:71
+#, kde-format
+msgctxt "@label"
+msgid "Header column widths"
+msgstr "Koppbreed"
+
+#. i18n: ectx: label, entry (Timestamp), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:76
+#, kde-format
+msgctxt "@label"
+msgid "Properties last changed"
+msgstr "Tolest ännert Egenschappen"
+
+#. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:77
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "The last time these properties were changed by the user."
+msgstr "De Tiet, wannehr en Bruker disse Egenschappen tolest ännert hett"
+
+#. i18n: ectx: label, entry (AdditionalInfo), group (Dolphin)
+#: settings/dolphin_directoryviewpropertysettings.kcfg:82
+#, kde-format
+msgctxt "@label"
+msgid "Additional Information"
+msgstr "Bito-Informatschonen"
+
+#. i18n: ectx: label, entry (EditableUrl), group (General)
+#: settings/dolphin_generalsettings.kcfg:18
+#, kde-format
+msgid "Should the URL be editable for the user"
+msgstr "Fastleggen, wat de Bruker de URL bewerken dörv"
+
+#. i18n: ectx: label, entry (UrlCompletionMode), group (General)
+#: settings/dolphin_generalsettings.kcfg:22
+#, kde-format
+msgid "Text completion mode of the URL Navigator"
+msgstr "Den URL-Navigator sien Textkompletteer-Bedrief"
+
+#. i18n: ectx: label, entry (ShowFullPath), group (General)
+#: settings/dolphin_generalsettings.kcfg:26
+#, kde-format
+msgid "Should the full path be shown inside the location bar"
+msgstr "Binnen den Steedbalken den helen Padd wiesen"
+
+#. i18n: ectx: label, entry (ShowFullPathInTitlebar), group (General)
+#: settings/dolphin_generalsettings.kcfg:30
+#, fuzzy, kde-format
+#| msgid "Should the full path be shown inside the location bar"
+msgid "Should the full path be shown in the title bar"
+msgstr "Binnen den Steedbalken den helen Padd wiesen"
+
+#. i18n: ectx: label, entry (OpenExternallyCalledFolderInNewTab), group (General)
+#: settings/dolphin_generalsettings.kcfg:34
+#, kde-format
+msgid ""
+"Should an externally called folder open in a new tab in an existing Dolphin "
+"instance"
+msgstr ""
+
+#. i18n: ectx: label, entry (Version), group (General)
+#: settings/dolphin_generalsettings.kcfg:38
+#, kde-format
+msgid ""
+"Internal config version of Dolphin, mainly Used to determine whether an "
+"updated version of Dolphin is running, so as to migrate config entries that "
+"were removed/renamed ...etc"
+msgstr ""
+
+#. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
+#: settings/dolphin_generalsettings.kcfg:42
+#, kde-format
+msgid ""
+"Have the startup settings been modified (internal setting not shown in the "
+"UI)"
+msgstr ""
+"Gifft an, wat de Startinstellen ännert wöörn (intern Instellen, nich binnen "
+"de Böversiet wiest)"
+
+#. i18n: ectx: label, entry (HomeUrl), group (General)
+#: settings/dolphin_generalsettings.kcfg:46
+#, kde-format
+msgid "Home URL"
+msgstr "Tohuus-URL"
+
+#. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
+#: settings/dolphin_generalsettings.kcfg:50
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open Parent Folder in New Tab"
+msgid "Remember open folders and tabs"
+msgstr "Böverorner as nieg Paneel opmaken"
+
+#. i18n: ectx: label, entry (SplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:54
+#, kde-format
+msgid "Split the view into two panes"
+msgstr "De Ansicht in twee Delen opspleten"
+
+#. i18n: ectx: label, entry (FilterBar), group (General)
+#: settings/dolphin_generalsettings.kcfg:59
+#, kde-format
+msgid "Should the filter bar be shown"
+msgstr "Leggt fast, wat de Filterbalken wiest warrt"
+
+#. i18n: ectx: label, entry (GlobalViewProps), group (General)
+#: settings/dolphin_generalsettings.kcfg:63
+#, fuzzy, kde-format
+#| msgid "Should the view properties be used for all directories"
+msgid "Should the view properties be used for all folders"
+msgstr "Leggt fast, wat de Ansichtegenschappen för all Ornern bruukt warrt"
+
+#. i18n: ectx: label, entry (BrowseThroughArchives), group (General)
+#: settings/dolphin_generalsettings.kcfg:67
+#, kde-format
+msgid "Browse through archives"
+msgstr "Archiven dörkieken"
+
+#. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
+#: settings/dolphin_generalsettings.kcfg:71
+#, kde-format
+msgid "Ask for confirmation when closing windows with multiple tabs."
+msgstr "Nafragen, wenn Finstern mit mehr as een Paneel tomaakt warrt"
+
+#. i18n: ectx: label, entry (ConfirmClosingTerminalRunningProgram), group (General)
+#: settings/dolphin_generalsettings.kcfg:75
+#, fuzzy, kde-format
+#| msgid "Ask for confirmation when closing windows with multiple tabs."
+msgid ""
+"Ask for confirmation when closing windows with a program that is still "
+"running in the Terminal panel."
+msgstr "Nafragen, wenn Finstern mit mehr as een Paneel tomaakt warrt"
+
+#. i18n: ectx: label, entry (RenameInline), group (General)
+#: settings/dolphin_generalsettings.kcfg:79
+#, kde-format
+msgid "Rename inline"
+msgstr "Direktemang ümnömen"
+
+#. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
+#: settings/dolphin_generalsettings.kcfg:83
+#, kde-format
+msgid "Show selection toggle"
+msgstr "Köörhevel wiesen"
+
+#. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
+#: settings/dolphin_generalsettings.kcfg:87
+#, kde-format
+msgid ""
+"Show a bar for easy pasting after a cut or copy was done using the selection "
+"mode bottom bar."
+msgstr ""
+
+#. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:91
+#, kde-format
+msgid "Use tab for switching between right and left split"
+msgstr ""
+
+#. i18n: ectx: label, entry (CloseActiveSplitView), group (General)
+#: settings/dolphin_generalsettings.kcfg:95
+#, kde-format
+msgid "Close active pane when toggling off split view"
+msgstr ""
+
+#. i18n: ectx: label, entry (OpenNewTabAfterLastTab), group (General)
+#: settings/dolphin_generalsettings.kcfg:99
+#, kde-format
+msgid "New tab will be open after last one"
+msgstr ""
+
+#. i18n: ectx: label, entry (ShowToolTips), group (General)
+#: settings/dolphin_generalsettings.kcfg:103
+#, kde-format
+msgid "Show tooltips"
+msgstr "Kortinfos wiesen"
+
+#. i18n: ectx: label, entry (ViewPropsTimestamp), group (General)
+#: settings/dolphin_generalsettings.kcfg:107
+#, kde-format
+msgid "Timestamp since when the view properties are valid"
+msgstr "Tietmark, vun wenn af de Ansichtegenschappen gellt"
+
+#. i18n: ectx: label, entry (AutoExpandFolders), group (General)
+#: settings/dolphin_generalsettings.kcfg:110
+#, kde-format
+msgid "Use auto-expanding folders for all view types"
+msgstr "Bi all Ansichttypen Ornern automaatsch utfoolden"
+
+#. i18n: ectx: label, entry (ShowStatusBar), group (General)
+#: settings/dolphin_generalsettings.kcfg:114
+#, fuzzy, kde-format
+#| msgid "Show zoom slider in the statusbar"
+msgid "Show the statusbar"
+msgstr "Ansichtgrött-Schuver op Statusbalken wiesen"
+
+#. i18n: ectx: label, entry (ShowZoomSlider), group (General)
+#: settings/dolphin_generalsettings.kcfg:119
+#, kde-format
+msgid "Show zoom slider in the statusbar"
+msgstr "Ansichtgrött-Schuver op Statusbalken wiesen"
+
+#. i18n: ectx: label, entry (ShowSpaceInfo), group (General)
+#: settings/dolphin_generalsettings.kcfg:123
+#, kde-format
+msgid "Show the space information in the statusbar"
+msgstr "Freeruum-Info op Statusbalken wiesen"
+
+#. i18n: ectx: label, entry (LockPanels), group (General)
+#: settings/dolphin_generalsettings.kcfg:127
+#, kde-format
+msgid "Lock the layout of the panels"
+msgstr "Dat Paneelutsehn afsluten"
+
+#. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
+#: settings/dolphin_generalsettings.kcfg:131
+#, kde-format
+msgid "Enlarge Small Previews"
+msgstr "Lütte Vöransichten grötter maken"
+
+#. i18n: ectx: label, entry (SortingChoice), group (General)
+#: settings/dolphin_generalsettings.kcfg:140
+#, kde-format
+msgid ""
+"Choose Natural, Case Sensitive, or Case Insensitive order of sorting the "
+"items"
+msgstr ""
+
+#. i18n: ectx: label, entry (TextWidthIndex), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:27
+#, kde-format
+msgid "Text width index"
+msgstr "Textbreed Index"
+
+#. i18n: ectx: label, entry (MaximumTextLines), group (IconsMode)
+#: settings/dolphin_iconsmodesettings.kcfg:31
+#, kde-format
+msgid "Maximum textlines (0 means unlimited)"
+msgstr "Hööchsttall Textregen (0 bedüüdt nich ingrenzt)"
+
+#. i18n: ectx: label, entry (enabledPlugins), group (VersionControl)
+#: settings/dolphin_versioncontrolsettings.kcfg:10
+#, kde-format
+msgid "Enabled plugins"
+msgstr "Anmaakt Modulen"
+
+#: settings/dolphinsettingsdialog.cpp:41
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Configure..."
+msgctxt "@title:window"
+msgid "Configure"
+msgstr "Instellen..."
+
+#: settings/dolphinsettingsdialog.cpp:55
+#, kde-format
+msgctxt "@title:group General settings"
+msgid "General"
+msgstr "Allgemeen"
+
+#: settings/dolphinsettingsdialog.cpp:62
+#, kde-format
+msgctxt "@title:group"
+msgid "Startup"
+msgstr "Start"
+
+#: settings/dolphinsettingsdialog.cpp:69
+#, kde-format
+msgctxt "@title:group"
+msgid "View Modes"
+msgstr "Ansichten"
+
+#: settings/dolphinsettingsdialog.cpp:76
+#, kde-format
+msgctxt "@title:group"
+msgid "Navigation"
+msgstr "Navigeren"
+
+#: settings/dolphinsettingsdialog.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Context Menu settings"
+#| msgid "Context Menu"
+msgctxt "@title:group"
+msgid "Context Menu"
+msgstr "Rechtsklickmenü"
+
+#: settings/dolphinsettingsdialog.cpp:103
+#, kde-format
+msgctxt "@title:group"
+msgid "Trash"
+msgstr "Affalltünn"
+
+#: settings/dolphinsettingsdialog.cpp:113
+#, kde-format
+msgctxt "@title:group"
+msgid "User Feedback"
+msgstr ""
+
+#: settings/dolphinsettingsdialog.cpp:183
+#, kde-format
+msgid ""
+"You have unsaved changes. Do you want to apply the changes or discard them?"
+msgstr ""
+
+#: settings/dolphinsettingsdialog.cpp:184
+#, kde-format
+msgid "Warning"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:37
+#, fuzzy, kde-format
+#| msgctxt "@option:radio"
+#| msgid "Use common properties for all folders"
+msgctxt "@option:radio"
+msgid "Use common display style for all folders"
+msgstr "Gemeen Egenschappen för all Ornern bruken"
+
+#: settings/general/behaviorsettingspage.cpp:38
+#, fuzzy, kde-format
+#| msgctxt "@option:radio"
+#| msgid "Remember properties for each folder"
+msgctxt "@option:radio"
+msgid "Remember display style for each folder"
+msgstr "Egenschappen för elk Orner wohren"
+
+#: settings/general/behaviorsettingspage.cpp:39
+#, kde-format
+msgctxt "@info"
+msgid ""
+"Dolphin will create a hidden .directory file in each folder you change view "
+"properties for."
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:44
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "View"
+msgctxt "@title:group"
+msgid "View: "
+msgstr "Ansicht"
+
+#: settings/general/behaviorsettingspage.cpp:52
+#, fuzzy, kde-format
+#| msgctxt "option:check"
+#| msgid "Natural sorting of items"
+msgctxt "option:radio"
+msgid "Natural"
+msgstr "Tallen sorteren"
+
+#: settings/general/behaviorsettingspage.cpp:53
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case insensitive"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:54
+#, kde-format
+msgctxt "option:radio"
+msgid "Alphabetical, case sensitive"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:60
+#, fuzzy, kde-format
+#| msgctxt "@label EXIF"
+#| msgid "Metering Mode"
+msgctxt "@title:group"
+msgid "Sorting mode: "
+msgstr "Meetmetood"
+
+#: settings/general/behaviorsettingspage.cpp:70
+#, kde-format
+msgctxt "@option:check"
+msgid "Show tooltips"
+msgstr "Kortinformatschonen wiesen"
+
+#: settings/general/behaviorsettingspage.cpp:71
+#: settings/general/behaviorsettingspage.cpp:79
+#, kde-format
+msgctxt "@title:group"
+msgid "Miscellaneous: "
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:75
+#, kde-format
+msgctxt "@option:check"
+msgid "Show selection marker"
+msgstr "Köörmark wiesen"
+
+#: settings/general/behaviorsettingspage.cpp:83
+#, kde-format
+msgctxt "option:check"
+msgid "Rename inline"
+msgstr "Direktemang ümnömen"
+
+#: settings/general/behaviorsettingspage.cpp:87
+#, kde-format
+msgctxt "option:check"
+msgid "Switch between split views panes with tab key"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:91
+#, kde-format
+msgctxt "option:check"
+msgid "Turning off split view closes active pane"
+msgstr ""
+
+#: settings/general/behaviorsettingspage.cpp:93
+#, kde-format
+msgid "When deactivated, turning off split view will close the inactive pane"
+msgstr ""
+
+#: settings/general/configurepreviewplugindialog.cpp:38
+#, kde-format
+msgctxt "@title:window"
+msgid "Configure Preview for %1"
+msgstr "Vöransicht för %1 instellen"
+
+#: settings/general/confirmationssettingspage.cpp:48
+#, kde-format
+msgctxt "@title:group"
+msgid "Ask for confirmation in all KDE applications when:"
+msgstr "Binnen all KDE-Programmen nafragen bi't:"
+
+#: settings/general/confirmationssettingspage.cpp:52
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Moving files or folders to trash"
+msgstr "Verschuven vun Dateien oder Ornern na de Affalltünn"
+
+#: settings/general/confirmationssettingspage.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Empty Trash"
+msgctxt "@option:check Ask for confirmation when"
+msgid "Emptying trash"
+msgstr "Affalltünn leddig maken"
+
+#: settings/general/confirmationssettingspage.cpp:56
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Deleting files or folders"
+msgstr "Wegdoon vun Dateien oder Ornern"
+
+#: settings/general/confirmationssettingspage.cpp:58
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Ask for confirmation when:"
+msgctxt "@title:group"
+msgid "Ask for confirmation in Dolphin when:"
+msgstr "Nafragen bi't:"
+
+#: settings/general/confirmationssettingspage.cpp:62
+#, fuzzy, kde-format
+#| msgctxt "@option:check Ask for confirmation when"
+#| msgid "Closing Dolphin windows with multiple tabs"
+msgctxt "@option:check Ask for confirmation in Dolphin when"
+msgid "Closing windows with multiple tabs"
+msgstr "Tomaken vun Dolphin-Finstern mit mehr as een Paneel"
+
+#: settings/general/confirmationssettingspage.cpp:66
+#, kde-format
+msgctxt "@option:check Ask for confirmation when"
+msgid "Closing windows with a program running in the Terminal panel"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:70
+#, kde-format
+msgctxt "@title:group"
+msgid "When opening an executable file:"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:75
+#, kde-format
+msgid "Always ask"
+msgstr ""
+
+#: settings/general/confirmationssettingspage.cpp:75
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Go"
+#| msgid "App&lications"
+msgid "Open in application"
+msgstr "&Programmen"
+
+#: settings/general/confirmationssettingspage.cpp:75
+#, kde-format
+msgid "Run script"
+msgstr ""
+
+#: settings/general/generalsettingspage.cpp:30
+#: settings/kcm/kcmdolphingeneral.cpp:35
+#, kde-format
+msgctxt "@title:tab Behavior settings"
+msgid "Behavior"
+msgstr "Bedregen"
+
+#: settings/general/generalsettingspage.cpp:35
+#: settings/kcm/kcmdolphingeneral.cpp:40
+#, kde-format
+msgctxt "@title:tab Previews settings"
+msgid "Previews"
+msgstr "Vöransichten"
+
+#: settings/general/generalsettingspage.cpp:40
+#: settings/kcm/kcmdolphingeneral.cpp:45
+#, kde-format
+msgctxt "@title:tab Confirmations settings"
+msgid "Confirmations"
+msgstr "Beglöven"
+
+#: settings/general/generalsettingspage.cpp:45
+#, kde-format
+msgctxt "@title:tab Status Bar settings"
+msgid "Status Bar"
+msgstr "Statusbalken"
+
+#: settings/general/previewssettingspage.cpp:42
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Show previews for:"
+msgctxt "@title:group"
+msgid "Show previews in the view for:"
+msgstr "Vöransicht wiesen för:"
+
+#: settings/general/previewssettingspage.cpp:64
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Skip previews for remote files above:"
+msgid "Skip previews for local files above:"
+msgstr "Keen Vöransicht vun feern Dateien grötter as:"
+
+#: settings/general/previewssettingspage.cpp:68
+#: settings/general/previewssettingspage.cpp:81
+#, kde-format
+msgctxt "Mebibytes; used as a suffix in a spinbox showing e.g. '3 MiB'"
+msgid " MiB"
+msgstr ""
+
+#: settings/general/previewssettingspage.cpp:70
+#, kde-format
+msgid "No limit"
+msgstr ""
+
+#: settings/general/previewssettingspage.cpp:77
+#, kde-format
+msgctxt "@label"
+msgid "Skip previews for remote files above:"
+msgstr "Keen Vöransicht vun feern Dateien grötter as:"
+
+#: settings/general/previewssettingspage.cpp:83
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show preview"
+msgid "No previews"
+msgstr "Vöransicht wiesen"
+
+#: settings/general/statusbarsettingspage.cpp:22
+#, fuzzy, kde-format
+#| msgctxt "@title:tab Status Bar settings"
+#| msgid "Status Bar"
+msgctxt "@option:check"
+msgid "Show status bar"
+msgstr "Statusbalken"
+
+#: settings/general/statusbarsettingspage.cpp:23
+#, kde-format
+msgctxt "@option:check"
+msgid "Show zoom slider"
+msgstr "Ansichtgrött-Schuver wiesen"
+
+#: settings/general/statusbarsettingspage.cpp:24
+#, kde-format
+msgctxt "@option:check"
+msgid "Show space information"
+msgstr "Freeruum-Info wiesen"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:35
+#: settings/viewmodes/viewsettingspage.cpp:28
+#, kde-format
+msgctxt "@title:tab"
+msgid "Icons"
+msgstr "Lüttbiller"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:40
+#: settings/viewmodes/viewsettingspage.cpp:33
+#, kde-format
+msgctxt "@title:tab"
+msgid "Compact"
+msgstr "Drang"
+
+#: settings/kcm/kcmdolphinviewmodes.cpp:45
+#: settings/viewmodes/viewsettingspage.cpp:38
+#, kde-format
+msgctxt "@title:tab"
+msgid "Details"
+msgstr "Enkelheiten"
+
+#: settings/navigation/navigationsettingspage.cpp:29
+#, fuzzy, kde-format
+#| msgid "C&lose Current Tab"
+msgctxt "option:radio"
+msgid "After current tab"
+msgstr "Aktuell Paneel &tomaken"
+
+#: settings/navigation/navigationsettingspage.cpp:30
+#, kde-format
+msgctxt "option:radio"
+msgid "At end of tab bar"
+msgstr ""
+
+#: settings/navigation/navigationsettingspage.cpp:34
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open in New Tabs"
+msgctxt "@title:group"
+msgid "Open new tabs: "
+msgstr "Binnen nieg Paneels opmaken"
+
+#: settings/navigation/navigationsettingspage.cpp:39
+#, kde-format
+msgctxt "@option:check"
+msgid "Open archives as folder"
+msgstr "Archiven as Orner opmaken"
+
+#: settings/navigation/navigationsettingspage.cpp:40
+#, kde-format
+msgctxt "option:check"
+msgid "Open folders during drag operations"
+msgstr "Ornern bi't Trecken opmaken"
+
+#: settings/navigation/navigationsettingspage.cpp:41
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@title:group"
+msgid "General: "
+msgstr "Allgemeen"
+
+#: settings/startup/startupsettingspage.cpp:45
+#, kde-format
+msgctxt "@option:radio Startup Settings"
+msgid "Folders, tabs, and window state from last time"
+msgstr ""
+
+#: settings/startup/startupsettingspage.cpp:68
+#, kde-format
+msgctxt "@action:button"
+msgid "Select Home Location"
+msgstr "Tohuussteed utsöken"
+
+#: settings/startup/startupsettingspage.cpp:78
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Current Location"
+msgstr "Aktuell Orner"
+
+#: settings/startup/startupsettingspage.cpp:82
+#, kde-format
+msgctxt "@action:button"
+msgid "Use Default Location"
+msgstr "Standardorner"
+
+#: settings/startup/startupsettingspage.cpp:94
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show in groups"
+msgctxt "@label:textbox"
+msgid "Show on startup:"
+msgstr "As Koppeln wiesen"
+
+#: settings/startup/startupsettingspage.cpp:100
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Split view mode"
+msgctxt "@option:check Startup Settings"
+msgid "Begin in split view mode"
+msgstr "Ansicht delen"
+
+#: settings/startup/startupsettingspage.cpp:101
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "New &Window"
+msgid "New windows:"
+msgstr "Nieg &Finster"
+
+#: settings/startup/startupsettingspage.cpp:102
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show filter bar"
+msgstr "Filterbalken wiesen"
+
+#: settings/startup/startupsettingspage.cpp:104
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Editable location bar"
+msgctxt "@option:check Startup Settings"
+msgid "Make location bar editable"
+msgstr "Steedbalken lett sik bewerken"
+
+#: settings/startup/startupsettingspage.cpp:109
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Open Parent Folder in New Tab"
+msgctxt "@option:check Startup Settings"
+msgid "Open new folders in tabs"
+msgstr "Böverorner as nieg Paneel opmaken"
+
+#: settings/startup/startupsettingspage.cpp:110
+#, fuzzy, kde-format
+#| msgctxt "@title:group General settings"
+#| msgid "General"
+msgctxt "@label:checkbox"
+msgid "General:"
+msgstr "Allgemeen"
+
+#: settings/startup/startupsettingspage.cpp:111
+#, kde-format
+msgctxt "@option:check Startup Settings"
+msgid "Show full path inside location bar"
+msgstr "Heel Padd binnen Steedbalken wiesen"
+
+#: settings/startup/startupsettingspage.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@option:check Startup Settings"
+#| msgid "Show full path inside location bar"
+msgctxt "@option:check Startup Settings"
+msgid "Show full path in title bar"
+msgstr "Heel Padd binnen Steedbalken wiesen"
+
+#: settings/startup/startupsettingspage.cpp:235
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The location for the home folder is invalid or does not exist, it will not "
+"be applied."
+msgstr ""
+"De Steed för den Tohuusorner is leeg oder dat gifft ehr nich, se warrt nich "
+"bruukt."
+
+#: settings/viewmodes/dolphinfontrequester.cpp:28
+#, kde-format
+msgctxt "@item:inlistbox Font"
+msgid "System Font"
+msgstr "Systeem-Schriftoort"
+
+#: settings/viewmodes/dolphinfontrequester.cpp:29
+#, kde-format
+msgctxt "@item:inlistbox Font"
+msgid "Custom Font"
+msgstr "Egen Schriftoort"
+
+#: settings/viewmodes/dolphinfontrequester.cpp:33
+#, kde-format
+msgctxt "@action:button Choose font"
+msgid "Choose..."
+msgstr "Utsöken..."
+
+#: settings/viewmodes/viewsettingstab.cpp:54
+#, fuzzy, kde-format
+#| msgctxt "@label:listbox"
+#| msgid "Default:"
+msgctxt "@label:listbox"
+msgid "Default icon size:"
+msgstr "Standard:"
+
+#: settings/viewmodes/viewsettingstab.cpp:62
+#, fuzzy, kde-format
+#| msgid "Preview size"
+msgctxt "@label:listbox"
+msgid "Preview icon size:"
+msgstr "Vöransichtgrött"
+
+#: settings/viewmodes/viewsettingstab.cpp:70
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Label:"
+msgctxt "@label:listbox"
+msgid "Label font:"
+msgstr "Beteker:"
+
+#: settings/viewmodes/viewsettingstab.cpp:75
+#, fuzzy, kde-format
+#| msgctxt "@title:group Size"
+#| msgid "Small"
+msgctxt "@item:inlistbox Label width"
+msgid "Small"
+msgstr "Lütt"
+
+#: settings/viewmodes/viewsettingstab.cpp:76
+#, fuzzy, kde-format
+#| msgctxt "@title:group Size"
+#| msgid "Medium"
+msgctxt "@item:inlistbox Label width"
+msgid "Medium"
+msgstr "Normaal"
+
+#: settings/viewmodes/viewsettingstab.cpp:77
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Text width"
+#| msgid "Large"
+msgctxt "@item:inlistbox Label width"
+msgid "Large"
+msgstr "Breed"
+
+#: settings/viewmodes/viewsettingstab.cpp:78
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Text width"
+#| msgid "Huge"
+msgctxt "@item:inlistbox Label width"
+msgid "Huge"
+msgstr "Groot"
+
+#: settings/viewmodes/viewsettingstab.cpp:79
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Label:"
+msgctxt "@label:listbox"
+msgid "Label width:"
+msgstr "Beteker:"
+
+#: settings/viewmodes/viewsettingstab.cpp:82
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "Unlimited"
+msgstr "Ahn Grenz"
+
+#: settings/viewmodes/viewsettingstab.cpp:83
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "1"
+msgstr "1"
+
+#: settings/viewmodes/viewsettingstab.cpp:84
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "2"
+msgstr "2"
+
+#: settings/viewmodes/viewsettingstab.cpp:85
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "3"
+msgstr "3"
+
+#: settings/viewmodes/viewsettingstab.cpp:86
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "4"
+msgstr "4"
+
+#: settings/viewmodes/viewsettingstab.cpp:87
+#, kde-format
+msgctxt "@item:inlistbox Maximum lines"
+msgid "5"
+msgstr "5"
+
+#: settings/viewmodes/viewsettingstab.cpp:88
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Maximum lines:"
+msgstr "Hööchsttall vun Regen:"
+
+#: settings/viewmodes/viewsettingstab.cpp:93
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Unlimited"
+msgstr "Ahn Grenz"
+
+#: settings/viewmodes/viewsettingstab.cpp:94
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Small"
+msgstr "Lütt"
+
+#: settings/viewmodes/viewsettingstab.cpp:95
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Medium"
+msgstr "Normaal"
+
+#: settings/viewmodes/viewsettingstab.cpp:96
+#, kde-format
+msgctxt "@item:inlistbox Maximum width"
+msgid "Large"
+msgstr "Groot"
+
+#: settings/viewmodes/viewsettingstab.cpp:97
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Maximum width:"
+msgstr "Gröttst Breed:"
+
+#: settings/viewmodes/viewsettingstab.cpp:101
+#, fuzzy, kde-format
+#| msgid "Expandable folders"
+msgctxt "@option:check"
+msgid "Expandable"
+msgstr "Ornern laat sik utfoolden"
+
+#: settings/viewmodes/viewsettingstab.cpp:102
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Folders"
+msgctxt "@label:checkbox"
+msgid "Folders:"
+msgstr "Ornern"
+
+#: settings/viewmodes/viewsettingstab.cpp:106
+#, fuzzy, kde-format
+#| msgctxt "@label:textbox"
+#| msgid "Number of lines:"
+msgctxt "option:radio"
+msgid "Number of items"
+msgstr "Regentall:"
+
+#: settings/viewmodes/viewsettingstab.cpp:107
+#, kde-format
+msgctxt "option:radio"
+msgid "Size of contents, up to "
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:115
+#, kde-format
+msgid " level deep"
+msgid_plural " levels deep"
+msgstr[0] ""
+msgstr[1] ""
+
+#: settings/viewmodes/viewsettingstab.cpp:124
+#, kde-format
+msgctxt "@title:group"
+msgid "Folder size displays:"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:133
+#, kde-format
+msgctxt "option:radio as in relative date"
+msgid "Relative (e.g. '%1')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:136
+#, kde-format
+msgctxt "option:radio as in absolute date"
+msgid "Absolute (e.g. '%1')"
+msgstr ""
+
+#: settings/viewmodes/viewsettingstab.cpp:143
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Date:"
+msgctxt "@title:group"
+msgid "Date style:"
+msgstr "Datum:"
+
+#: settings/viewmodes/viewsettingstab.cpp:288
+#: statusbar/dolphinstatusbar.cpp:320
+#, kde-format
+msgctxt "@info:tooltip"
+msgid "Size: 1 pixel"
+msgid_plural "Size: %1 pixels"
+msgstr[0] "Grött: 1 Pixel"
+msgstr[1] "Grött: %1 Pixels"
+
+#: settings/viewpropertiesdialog.cpp:59
+#, kde-format
+msgctxt "@title:window"
+msgid "View Display Style"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:71
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Icons"
+msgstr "Lüttbiller"
+
+#: settings/viewpropertiesdialog.cpp:72
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Compact"
+msgstr "Drang"
+
+#: settings/viewpropertiesdialog.cpp:73
+#, kde-format
+msgctxt "@item:inlistbox"
+msgid "Details"
+msgstr "Enkelheiten"
+
+#: settings/viewpropertiesdialog.cpp:76
+#, kde-format
+msgctxt "@item:inlistbox Sort"
+msgid "Ascending"
+msgstr "Opwarts"
+
+#: settings/viewpropertiesdialog.cpp:77
+#, kde-format
+msgctxt "@item:inlistbox Sort"
+msgid "Descending"
+msgstr "Daalwarts"
+
+#: settings/viewpropertiesdialog.cpp:85
+#, kde-format
+msgctxt "@option:check"
+msgid "Show folders first"
+msgstr "Ornern toeerst wiesen"
+
+#: settings/viewpropertiesdialog.cpp:86
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show hidden files"
+msgctxt "@option:check"
+msgid "Show hidden files last"
+msgstr "Versteken Dateien wiesen"
+
+#: settings/viewpropertiesdialog.cpp:87
+#, kde-format
+msgctxt "@option:check"
+msgid "Show preview"
+msgstr "Vöransicht wiesen"
+
+#: settings/viewpropertiesdialog.cpp:88
+#, kde-format
+msgctxt "@option:check"
+msgid "Show in groups"
+msgstr "As Koppeln wiesen"
+
+#: settings/viewpropertiesdialog.cpp:89
+#, kde-format
+msgctxt "@option:check"
+msgid "Show hidden files"
+msgstr "Versteken Dateien wiesen"
+
+#: settings/viewpropertiesdialog.cpp:92
+#, fuzzy, kde-format
+#| msgctxt "@label"
+#| msgid "Additional Information"
+msgctxt "@title:group"
+msgid "Additional Information"
+msgstr "Bito-Informatschonen"
+
+#: settings/viewpropertiesdialog.cpp:132
+#, kde-format
+msgid "Choose what to see on each file or folder:"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:142
+#, kde-format
+msgctxt "@label:listbox"
+msgid "View mode:"
+msgstr "Ansichttyp:"
+
+#: settings/viewpropertiesdialog.cpp:143
+#, kde-format
+msgctxt "@label:listbox"
+msgid "Sorting:"
+msgstr "Sorteren:"
+
+#: settings/viewpropertiesdialog.cpp:147
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "View Properties"
+msgid "View options:"
+msgstr "Ansichtegenschappen"
+
+#: settings/viewpropertiesdialog.cpp:175
+#, kde-format
+msgctxt "@option:radio Apply View Properties To"
+msgid "Current folder"
+msgstr "Aktuell Orner"
+
+#: settings/viewpropertiesdialog.cpp:178
+#, fuzzy, kde-format
+#| msgctxt "@option:radio Apply View Properties To"
+#| msgid "Current folder including all sub-folders"
+msgctxt "@option:radio Apply View Properties To"
+msgid "Current folder and sub-folders"
+msgstr "Aktuell Orner un all sien Ünnerornern"
+
+#: settings/viewpropertiesdialog.cpp:180
+#, kde-format
+msgctxt "@option:radio Apply View Properties To"
+msgid "All folders"
+msgstr "All Ornern"
+
+#: settings/viewpropertiesdialog.cpp:189
+#, kde-format
+msgctxt "@title:group"
+msgid "Apply to:"
+msgstr ""
+
+#: settings/viewpropertiesdialog.cpp:194
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Use as default for new folders"
+msgctxt "@option:check"
+msgid "Use as default view settings"
+msgstr "As Vörinstellen för nieg Ornern bruken"
+
+#: settings/viewpropertiesdialog.cpp:350
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The view properties of all sub-folders will be changed. Do you want to "
+"continue?"
+msgstr ""
+"Dit ännert de Ansichtegenschappen vun all Ünnerornern. Wullt Du dat redig?"
+
+#: settings/viewpropertiesdialog.cpp:384
+#, kde-format
+msgctxt "@info"
+msgid ""
+"The view properties of all folders will be changed. Do you want to continue?"
+msgstr "Dit ännert de Ansichtegenschappen vun all Ornern. Wullt Du dat redig?"
+
+#: settings/viewpropsprogressinfo.cpp:35
+#, kde-format
+msgctxt "@title:window"
+msgid "Applying View Properties"
+msgstr "Ansichtegenschappen bruken"
+
+#: settings/viewpropsprogressinfo.cpp:47 settings/viewpropsprogressinfo.cpp:111
+#, kde-format
+msgctxt "@info:progress"
+msgid "Counting folders: %1"
+msgstr "Ornern warrt tellt: %1"
+
+#: settings/viewpropsprogressinfo.cpp:127
+#, kde-format
+msgctxt "@info:progress"
+msgid "Folders: %1"
+msgstr "Ornern: %1"
+
+#: statusbar/dolphinstatusbar.cpp:52
+#, fuzzy, kde-format
+#| msgid "Zoom"
+msgctxt "Used as a noun, i.e. 'Here is the zoom level:'"
+msgid "Zoom:"
+msgstr "Ansichtgrött"
+
+#: statusbar/dolphinstatusbar.cpp:56
+#, kde-format
+msgid "Zoom"
+msgstr "Ansichtgrött"
+
+#: statusbar/dolphinstatusbar.cpp:57
+#, kde-format
+msgctxt "Description for zoom-slider (accessibility)"
+msgid "Sets the size of the file icons."
+msgstr "De Grött vun de Datei-Lüttbiller fastleggen"
+
+#: statusbar/dolphinstatusbar.cpp:71
+#, kde-format
+msgid "Stop"
+msgstr "Anhollen"
+
+#: statusbar/dolphinstatusbar.cpp:73
+#, kde-format
+msgctxt "@tooltip"
+msgid "Stop loading"
+msgstr "Laden anhollen"
+
+#: statusbar/dolphinstatusbar.cpp:128
+#, kde-kuit-format
+msgctxt "@info:whatsthis Statusbar"
+msgid ""
+"<para>This is the <emphasis>Statusbar</emphasis>. It contains three elements "
+"by default (left to right):<list><item>A <emphasis>text field</emphasis> "
+"that displays the size of selected items. If only one item is selected the "
+"name and type is shown as well.</item><item>A <emphasis>zoom slider</"
+"emphasis> that allows you to adjust the size of the icons in the view.</"
+"item><item><emphasis>Space information</emphasis> about the current storage "
+"device.</item></list></para>"
+msgstr ""
+
+#: statusbar/dolphinstatusbar.cpp:263
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Zoom Slider"
+msgstr "Ansichtgrött-Schuver wiesen"
+
+#: statusbar/dolphinstatusbar.cpp:267
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Show Space Information"
+msgstr "Freeruum-Info wiesen"
+
+#: statusbar/statusbarspaceinfo.cpp:117
+#, kde-format
+msgctxt "@info:status Free disk space"
+msgid "%1 free"
+msgstr "%1 free"
+
+#: statusbar/statusbarspaceinfo.cpp:118
+#, kde-format
+msgctxt "tooltip:status Free disk space"
+msgid "%1 free out of %2 (%3% used)"
+msgstr ""
+
+#: trash/dolphintrash.cpp:58
+#, kde-format
+msgid "Trash Emptied"
+msgstr ""
+
+#: trash/dolphintrash.cpp:59
+#, kde-format
+msgid "The Trash was emptied."
+msgstr ""
+
+#: userfeedback/placesdatasource.cpp:24
+#, fuzzy, kde-format
+#| msgctxt "@title:window"
+#| msgid "Places"
+msgctxt "name of kuserfeedback data source provided by dolphin"
+msgid "Places"
+msgstr "Steden"
+
+#: userfeedback/placesdatasource.cpp:30
+#, kde-format
+msgctxt "description of kuserfeedback data source provided by dolphin"
+msgid "Count of available Network Shares"
+msgstr ""
+
+#: userfeedback/settingsdatasource.cpp:23
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Go"
+#| msgid "Sett&ings"
+msgctxt "name of kuserfeedback data source provided by dolphin"
+msgid "Settings"
+msgstr "&Instellen"
+
+#: userfeedback/settingsdatasource.cpp:28
+#, kde-format
+msgctxt "description of kuserfeedback data source provided by dolphin"
+msgid "A subset of Dolphin settings."
+msgstr ""
+
+#: views/dolphinremoteencoding.cpp:38
+#, kde-format
+msgid "Select Remote Charset"
+msgstr "Feern Tekensett utsöken"
+
+#: views/dolphinremoteencoding.cpp:93
+#, kde-format
+msgid "Default"
+msgstr "Standard"
+
+#: views/dolphinremoteencoding.cpp:102
+#, kde-format
+msgid "Reload"
+msgstr "Nieg laden"
+
+#: views/dolphinview.cpp:630
+#, kde-format
+msgctxt "@info:status"
+msgid "1 Folder selected"
+msgid_plural "%1 Folders selected"
+msgstr[0] "%1 Orner utsöcht"
+msgstr[1] "%1 Ornern utsöcht"
+
+#: views/dolphinview.cpp:631
+#, kde-format
+msgctxt "@info:status"
+msgid "1 File selected"
+msgid_plural "%1 Files selected"
+msgstr[0] "%1 Datei utsöcht"
+msgstr[1] "%1 Dateien utsöcht"
+
+#: views/dolphinview.cpp:633
+#, kde-format
+msgctxt "@info:status"
+msgid "1 Folder"
+msgid_plural "%1 Folders"
+msgstr[0] "1 Orner"
+msgstr[1] "%1 Ornern"
+
+#: views/dolphinview.cpp:634
+#, kde-format
+msgctxt "@info:status"
+msgid "1 File"
+msgid_plural "%1 Files"
+msgstr[0] "1 Datei"
+msgstr[1] "%1 Dateien"
+
+#: views/dolphinview.cpp:638
+#, kde-format
+msgctxt "@info:status folders, files (size)"
+msgid "%1, %2 (%3)"
+msgstr "%1, %2 (%3)"
+
+#: views/dolphinview.cpp:642
+#, kde-format
+msgctxt "@info:status files (size)"
+msgid "%1 (%2)"
+msgstr "%1 (%2)"
+
+#: views/dolphinview.cpp:648
+#, kde-format
+msgctxt "@info:status"
+msgid "0 Folders, 0 Files"
+msgstr "0 Ornern, 0 Dateien"
+
+#: views/dolphinview.cpp:851 views/dolphinview.cpp:860
+#, kde-format
+msgctxt "<filename> copy"
+msgid "%1 copy"
+msgstr ""
+
+#: views/dolphinview.cpp:1019
+#, kde-format
+msgid "Are you sure you want to open 1 item?"
+msgid_plural "Are you sure you want to open %1 items?"
+msgstr[0] "Wullt Du 1 Indrag redig opmaken?"
+msgstr[1] "Wullt Du %1 Indrääg redig opmaken?"
+
+#: views/dolphinview.cpp:1021
+#, fuzzy, kde-format
+#| msgctxt "@title:menu"
+#| msgid "Open With"
+msgctxt "@action:button"
+msgid "Open %1 Item"
+msgid_plural "Open %1 Items"
+msgstr[0] "Opmaken"
+msgstr[1] "Opmaken"
+
+#: views/dolphinview.cpp:1150
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Side Padding"
+msgstr ""
+
+#: views/dolphinview.cpp:1154
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Automatic Column Widths"
+msgstr "Automaatsch Striepbreden"
+
+#: views/dolphinview.cpp:1159
+#, kde-format
+msgctxt "@action:inmenu"
+msgid "Custom Column Widths"
+msgstr "Egen Striepbreden"
+
+#: views/dolphinview.cpp:1725
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "Move to trash operation completed."
+msgctxt "@info:status"
+msgid "Trash operation completed."
+msgstr "Verschuven na Affalltünn afslaten."
+
+#: views/dolphinview.cpp:1734
+#, kde-format
+msgctxt "@info:status"
+msgid "Delete operation completed."
+msgstr "Wegdoon afslaten."
+
+#: views/dolphinview.cpp:1870
+#, fuzzy, kde-format
+#| msgid "Rename inline"
+msgctxt "@action:button"
+msgid "Rename and Hide"
+msgstr "Direktemang ümnömen"
+
+#: views/dolphinview.cpp:1873
+#, kde-format
+msgid ""
+"Adding a dot to the beginning of this file's name will hide it from view.\n"
+"Do you still want to rename it?"
+msgstr ""
+
+#: views/dolphinview.cpp:1875
+#, kde-format
+msgid ""
+"Adding a dot to the beginning of this folder's name will hide it from view.\n"
+"Do you still want to rename it?"
+msgstr ""
+
+#: views/dolphinview.cpp:1877
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Show Hidden Files"
+msgid "Hide this File?"
+msgstr "Versteken Dateien wiesen"
+
+#: views/dolphinview.cpp:1877
+#, fuzzy, kde-format
+#| msgctxt "@title:group"
+#| msgid "Home Folder"
+msgid "Hide this Folder?"
+msgstr "Tohuusorner"
+
+#: views/dolphinview.cpp:1929
+#, kde-format
+msgctxt "@info:status"
+msgid "The location is empty."
+msgstr "De Steed is leddig."
+
+#: views/dolphinview.cpp:1931
+#, kde-format
+msgctxt "@info:status"
+msgid "The location '%1' is invalid."
+msgstr "De Steed \"%1\" is leeg."
+
+#: views/dolphinview.cpp:2177
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
+msgid "Loading..."
+msgstr "Orner warrt laadt..."
+
+#: views/dolphinview.cpp:2196
+#, fuzzy, kde-format
+#| msgctxt "@info:progress"
+#| msgid "Loading folder..."
+msgid "Loading canceled"
+msgstr "Orner warrt laadt..."
+
+#: views/dolphinview.cpp:2198
+#, fuzzy, kde-format
+#| msgid "Select all items matching this pattern:"
+msgid "No items matching the filter"
+msgstr "All Indrääg utsöken, op de dit Muster passt:"
+
+#: views/dolphinview.cpp:2200
+#, fuzzy, kde-format
+#| msgid "Select all items matching this pattern:"
+msgid "No items matching the search"
+msgstr "All Indrääg utsöken, op de dit Muster passt:"
+
+#: views/dolphinview.cpp:2202
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "The location is empty."
+msgid "Trash is empty"
+msgstr "De Steed is leddig."
+
+#: views/dolphinview.cpp:2205
+#, kde-format
+msgid "No tags"
+msgstr ""
+
+#: views/dolphinview.cpp:2208
+#, kde-format
+msgid "No files tagged with \"%1\""
+msgstr ""
+
+#: views/dolphinview.cpp:2212
+#, fuzzy, kde-format
+#| msgid "Recently Closed Tabs"
+msgid "No recently used items"
+msgstr "Tolest tomaakt Paneels"
+
+#: views/dolphinview.cpp:2214
+#, kde-format
+msgid "No shared folders found"
+msgstr ""
+
+#: views/dolphinview.cpp:2216
+#, kde-format
+msgid "No relevant network resources found"
+msgstr ""
+
+#: views/dolphinview.cpp:2218
+#, kde-format
+msgid "No MTP-compatible devices found"
+msgstr ""
+
+#: views/dolphinview.cpp:2220
+#, kde-format
+msgid "No Bluetooth devices found"
+msgstr ""
+
+#: views/dolphinview.cpp:2222
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgid "Folder is empty"
+msgstr "Ornern toeerst"
+
+#: views/dolphinviewactionhandler.cpp:93
+#, kde-format
+msgctxt "@action"
+msgid "Create Folder..."
+msgstr "Orner opstellen..."
+
+#: views/dolphinviewactionhandler.cpp:102
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This renames the items in your current selection.<nl/>Renaming multiple "
+"items at once amounts to their new names differing only in a number."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:112
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This moves the items in your current selection to the <filename>Trash</"
+"filename>.<nl/>The trash is a temporary storage where items can be deleted "
+"from if disk space is needed."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:123
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This deletes the items in your current selection completely. They can not be "
+"recovered by normal means."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:133
+#, kde-format
+msgctxt "@action \"Move to Trash\" for non-local files, etc."
+msgid "Delete (using shortcut for Trash)"
+msgstr "Wegdoon (bruukt Affalltünn-Tastkombinatschoon)"
+
+#: views/dolphinviewactionhandler.cpp:139
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Duplicate Here"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:147
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Properties"
+msgstr "Egenschappen"
+
+#: views/dolphinviewactionhandler.cpp:149
+#, kde-kuit-format
+msgctxt "@info:whatsthis properties"
+msgid ""
+"This shows a complete list of properties of the currently selected items in "
+"a new window.<nl/>If nothing is selected the window will be about the "
+"currently viewed folder instead.<nl/>You can configure advanced options "
+"there like managing read- and write-permissions."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:159
+#, fuzzy, kde-format
+#| msgid "Location"
+msgctxt "@action:incontextmenu"
+msgid "Copy Location"
+msgstr "Steed"
+
+#: views/dolphinviewactionhandler.cpp:161
+#, kde-format
+msgctxt "@info:whatsthis copy_location"
+msgid "This will copy the path of the first selected item into the clipboard."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:170
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "Move to Trash"
+msgctxt "@action:inmenu File"
+msgid "Move to Trash…"
+msgstr "Na Affalltünn"
+
+#: views/dolphinviewactionhandler.cpp:171
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu File"
+#| msgid "Delete"
+msgctxt "@action:inmenu File"
+msgid "Delete…"
+msgstr "Wegdoon"
+
+#: views/dolphinviewactionhandler.cpp:172
+#, kde-format
+msgctxt "@action:inmenu File"
+msgid "Duplicate Here…"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:173
+#, fuzzy, kde-format
+#| msgid "Location"
+msgctxt "@action:incontextmenu"
+msgid "Copy Location…"
+msgstr "Steed"
+
+#: views/dolphinviewactionhandler.cpp:202
+#, kde-kuit-format
+msgctxt "@info:whatsthis Icons view mode"
+msgid ""
+"<para>This switches to a view mode that focuses on the folder and file "
+"icons. This mode makes it easy to distinguish folders from files and to "
+"detect items with distinctive <emphasis>file types</emphasis>.</para><para> "
+"This mode is handy to browse through pictures when the <interface>Preview</"
+"interface> option is enabled.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:209
+#, kde-kuit-format
+msgctxt "@info:whatsthis Compact view mode"
+msgid ""
+"<para>This switches to a compact view mode that lists the folders and files "
+"in columns with the names beside the icons.</para><para>This helps to keep "
+"the overview in folders with many items.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:213
+#, kde-kuit-format
+msgctxt "@info:whatsthis Details view mode"
+msgid ""
+"<para>This switches to a list view mode that focuses on folder and file "
+"details.</para><para>Click on a detail in the column header to sort the "
+"items by it. Click again to sort the other way around. To select which "
+"details should be displayed click the header with the right mouse button.</"
+"para><para>You can view the contents of a folder without leaving the current "
+"location by clicking to the left of it. This way you can view the contents "
+"of multiple folders in the same list.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:223
+#, kde-format
+msgctxt "@action:intoolbar"
+msgid "View Mode"
+msgstr "Ansichten"
+
+#: views/dolphinviewactionhandler.cpp:233
+#, kde-format
+msgctxt "@info:whatsthis zoom in"
+msgid "This increases the icon size."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:236
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Reset Zoom Level"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:237
+#, fuzzy, kde-format
+#| msgid "Default"
+msgid "Zoom To Default"
+msgstr "Standard"
+
+#: views/dolphinviewactionhandler.cpp:238
+#, kde-format
+msgctxt "@info:whatsthis zoom reset"
+msgid "This resets the icon size to default."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:246
+#, kde-format
+msgctxt "@info:whatsthis zoom out"
+msgid "This reduces the icon size."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:249
+#, fuzzy, kde-format
+#| msgid "Zoom"
+msgctxt "@action:inmenu menu of zoom actions"
+msgid "Zoom"
+msgstr "Ansichtgrött"
+
+#: views/dolphinviewactionhandler.cpp:257
+#, fuzzy, kde-format
+#| msgid "Show preview"
+msgctxt "@action:intoolbar"
+msgid "Show Previews"
+msgstr "Vöransicht wiesen"
+
+#: views/dolphinviewactionhandler.cpp:258
+#, kde-format
+msgctxt "@info"
+msgid "Show preview of files and folders"
+msgstr "Vöransichten vun Dateien un Ornern wiesen"
+
+#: views/dolphinviewactionhandler.cpp:259
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"When this is enabled, the icons are based on the actual file or folder "
+"contents.<nl/>For example the icons of images become scaled down versions of "
+"the images."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:267
+#, kde-format
+msgctxt "@action:inmenu Sort"
+msgid "Folders First"
+msgstr "Ornern toeerst"
+
+#: views/dolphinviewactionhandler.cpp:271
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Show Hidden Files"
+msgctxt "@action:inmenu Sort"
+msgid "Hidden Files Last"
+msgstr "Versteken Dateien wiesen"
+
+#: views/dolphinviewactionhandler.cpp:279
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Sort By"
+msgstr "Sorteren na"
+
+#: views/dolphinviewactionhandler.cpp:314
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Additional Information"
+msgctxt "@action:inmenu View"
+msgid "Show Additional Information"
+msgstr "Bito-Informatschonen"
+
+#: views/dolphinviewactionhandler.cpp:325
+#, kde-format
+msgctxt "@action:inmenu View"
+msgid "Show in Groups"
+msgstr "As Koppeln"
+
+#: views/dolphinviewactionhandler.cpp:326
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid "This groups files and folders by their first letter."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:331
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu"
+#| msgid "Show Hidden Files"
+msgctxt "@action:inmenu View"
+msgid "Show Hidden Files"
+msgstr "Versteken Dateien wiesen"
+
+#: views/dolphinviewactionhandler.cpp:332
+#, kde-kuit-format
+msgctxt "@info:whatsthis"
+msgid ""
+"<para>When this is enabled <emphasis>hidden</emphasis> files and folders are "
+"visible. They will be displayed semi-transparent.</para><para>Hidden items "
+"only differ from other ones in that their name starts with a \".\". In "
+"general there is no need for users to access them which is why they are "
+"hidden.</para>"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:342
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu View"
+#| msgid "Adjust View Properties..."
+msgctxt "@action:inmenu View"
+msgid "Adjust View Display Style..."
+msgstr "Ansicht topassen..."
+
+#: views/dolphinviewactionhandler.cpp:344
+#, kde-format
+msgctxt "@info:whatsthis"
+msgid ""
+"This opens a window in which all folder view properties can be adjusted."
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:648
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Icons"
+msgstr "Lüttbiller"
+
+#: views/dolphinviewactionhandler.cpp:649
+#, kde-format
+msgctxt "@info"
+msgid "Icons view mode"
+msgstr "Lüttbildansicht"
+
+#: views/dolphinviewactionhandler.cpp:659
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Compact"
+msgstr "Drang"
+
+#: views/dolphinviewactionhandler.cpp:660
+#, kde-format
+msgctxt "@info"
+msgid "Compact view mode"
+msgstr "Drang Ansicht"
+
+#: views/dolphinviewactionhandler.cpp:670
+#, kde-format
+msgctxt "@action:inmenu View Mode"
+msgid "Details"
+msgstr "Enkelheiten"
+
+#: views/dolphinviewactionhandler.cpp:671
+#, kde-format
+msgctxt "@info"
+msgid "Details view mode"
+msgstr "Enkelheiten-Ansicht"
+
+#: views/dolphinviewactionhandler.cpp:694
+#, kde-format
+msgctxt "Sort descending"
+msgid "Z-A"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:695
+#, kde-format
+msgctxt "Sort ascending"
+msgid "A-Z"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:697
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort descending"
+msgid "Largest First"
+msgstr "Ornern toeerst wiesen"
+
+#: views/dolphinviewactionhandler.cpp:698
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort ascending"
+msgid "Smallest First"
+msgstr "Ornern toeerst wiesen"
+
+#: views/dolphinviewactionhandler.cpp:700
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort descending"
+msgid "Newest First"
+msgstr "Ornern toeerst wiesen"
+
+#: views/dolphinviewactionhandler.cpp:701
+#, fuzzy, kde-format
+#| msgctxt "@action:inmenu Sort"
+#| msgid "Folders First"
+msgctxt "Sort ascending"
+msgid "Oldest First"
+msgstr "Ornern toeerst"
+
+#: views/dolphinviewactionhandler.cpp:703
+#, fuzzy, kde-format
+#| msgctxt "@option:option"
+#| msgid "Highest Rating"
+msgctxt "Sort descending"
+msgid "Highest First"
+msgstr "Hööchstbeweerten"
+
+#: views/dolphinviewactionhandler.cpp:704
+#, fuzzy, kde-format
+#| msgctxt "@option:check"
+#| msgid "Show folders first"
+msgctxt "Sort ascending"
+msgid "Lowest First"
+msgstr "Ornern toeerst wiesen"
+
+#: views/dolphinviewactionhandler.cpp:706
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "Descending"
+msgctxt "Sort descending"
+msgid "Descending"
+msgstr "Daalwarts"
+
+#: views/dolphinviewactionhandler.cpp:707
+#, fuzzy, kde-format
+#| msgctxt "@item:inlistbox Sort"
+#| msgid "Ascending"
+msgctxt "Sort ascending"
+msgid "Ascending"
+msgstr "Opwarts"
+
+#: views/dolphinviewactionhandler.cpp:806
+#, kde-format
+msgctxt ""
+"@action:inmenu menu with actions like copy, paste, rename. The user's "
+"selection is empty when this text is shown."
+msgid "Actions for Current View"
+msgstr ""
+
+#. i18n: @action:inmenu menu with actions like copy, paste, rename.
+#. %1 is a textual representation of the currently selected files or folders. This can be the name of
+#. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
+#. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
+#. and a fallback will be used.
+#: views/dolphinviewactionhandler.cpp:814
+#, kde-format
+msgid "Actions for %1"
+msgstr ""
+
+#: views/dolphinviewactionhandler.cpp:821
+#, kde-format
+msgctxt ""
+"@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
+"of selected files/folders."
+msgid "Actions for One Selected Item"
+msgid_plural "Actions for %1 Selected Items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: views/versioncontrol/versioncontrolobserver.cpp:228
+#, kde-format
+msgctxt "@info:status"
+msgid "Updating version information..."
+msgstr "Verschoon-Informatschonen warrt opfrischt..."
+
+#, fuzzy
+#~| msgctxt "@info:credit"
+#~| msgid "(C) 2006-2014 Peter Penz and Frank Reininghaus"
+#~ msgctxt "@info:credit"
+#~ msgid ""
+#~ "(C) 2006-2018 Peter Penz, Frank Reininghaus, Emmanuel Pescosta and Elvis "
+#~ "Angelaccio"
+#~ msgstr "© 2006-2014: Peter Penz un Frank Reininghaus"
+
+#~ msgid "Font family"
+#~ msgstr "Schriftfamilie"
+
+#~ msgid "Font size"
+#~ msgstr "Schriftgrött"
+
+#~ msgid "Italic"
+#~ msgstr "Kursiev"
+
+#~ msgid "Font weight"
+#~ msgstr "Schriftdickde"
+
+#~ msgid ""
+#~ "Internal version of Dolphin, containing 3 digits for major, minor, bugfix"
+#~ msgstr ""
+#~ "Intern Verschoon vun Dolphin, bargt dree Tallen för Hööft-, Ünner- un "
+#~ "Fehlerrichten-Verschoon"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Eject '%1'"
+#~ msgctxt "@item"
+#~ msgid "Eject"
+#~ msgstr "%1 rutfohren"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Release '%1'"
+#~ msgctxt "@item"
+#~ msgid "Release"
+#~ msgstr "%1 freegeven"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Safely Remove '%1'"
+#~ msgctxt "@item"
+#~ msgid "Safely Remove"
+#~ msgstr "%1 seker afkoppeln"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Unmount '%1'"
+#~ msgctxt "@item"
+#~ msgid "Unmount"
+#~ msgstr "%1 afhangen"
+
+#~ msgctxt "@info"
+#~ msgid "The device '%1' is not a disk and cannot be ejected."
+#~ msgstr "De Reedschap \"%1\" is keen Schiev un lett sik nich rutföhren"
+
+#~ msgctxt "@info"
+#~ msgid "An error occurred while accessing '%1', the system responded: %2"
+#~ msgstr "Dat geev en Fehler bi't Togriepen op \"%1\". Dat Systeem anter: %2"
+
+#~ msgctxt "@info"
+#~ msgid "An error occurred while accessing '%1'"
+#~ msgstr "Dat geev en Fehler bi't Togriepen op \"%1\""
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Open in New Tab"
+#~ msgctxt "@item:inmenu"
+#~ msgid "Open in New Tab"
+#~ msgstr "As Paneel opmaken"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Open in New Window"
+#~ msgctxt "@item:inmenu"
+#~ msgid "Open in New Window"
+#~ msgstr "As nieg Finster opmaken"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Unmount '%1'"
+#~ msgctxt "@action:inmenu"
+#~ msgid "Mount"
+#~ msgstr "%1 afhangen"
+
+#, fuzzy
+#~| msgctxt "@item:inmenu"
+#~| msgid "Edit '%1'..."
+#~ msgctxt "@item:inmenu"
+#~ msgid "Edit..."
+#~ msgstr "\"%1\" bewerken…"
+
+#, fuzzy
+#~| msgctxt "@item:inmenu"
+#~| msgid "Remove '%1'"
+#~ msgctxt "@item:inmenu"
+#~ msgid "Remove"
+#~ msgstr "\"%1\" wegmaken"
+
+#, fuzzy
+#~| msgctxt "@item:inmenu"
+#~| msgid "Hide '%1'"
+#~ msgctxt "@item:inmenu"
+#~ msgid "Hide"
+#~ msgstr "\"%1\" versteken"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "Add Entry..."
+#~ msgstr "Indrag tofögen..."
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "Icon Size"
+#~ msgstr "Lüttbildgrött"
+
+#~ msgctxt "Small icon size"
+#~ msgid "Small (%1x%2)"
+#~ msgstr "Lütt (%1x%2)"
+
+#~ msgctxt "Medium icon size"
+#~ msgid "Medium (%1x%2)"
+#~ msgstr "Middel (%1x%2)"
+
+#~ msgctxt "Large icon size"
+#~ msgid "Large (%1x%2)"
+#~ msgstr "Groot (%1x%2)"
+
+#~ msgctxt "Huge icon size"
+#~ msgid "Huge (%1x%2)"
+#~ msgstr "Gröttst (%1x%2)"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu Tools"
+#~| msgid "Show Search Bar"
+#~ msgctxt "@info:tooltip"
+#~ msgid "Toggle Filter Bar"
+#~ msgstr "Söökbalken wiesen"
+
+#~ msgctxt "@title:window"
+#~ msgid "Dolphin Preferences"
+#~ msgstr "Dolphin instellen"
+
+#~ msgctxt "@action:inmenu Go"
+#~ msgid "Sett&ings"
+#~ msgstr "&Instellen"
+
+#, fuzzy
+#~| msgctxt "@action"
+#~| msgid "Control"
+#~ msgctxt "@action:intoolbar"
+#~ msgid "Control"
+#~ msgstr "Stüern"
+
+#, fuzzy
+#~| msgid "Show comment"
+#~ msgctxt "@action"
+#~ msgid "Show menu"
+#~ msgstr "Kommentar wiesen"
+
+#~ msgctxt "@title:group"
+#~ msgid "Services"
+#~ msgstr "Deensten"
+
+#~ msgctxt "@title"
+#~ msgid "Dolphin Part"
+#~ msgstr "Dolphin-Komponent"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Navigation"
+#~ msgctxt "@action:inmenu"
+#~ msgid "Url Navigator"
+#~ msgid_plural "Url Navigators"
+#~ msgstr[0] "Navigeren"
+#~ msgstr[1] "Navigeren"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Unknown"
+#~ msgstr "Nich begäng"
+
+#, fuzzy
+#~| msgctxt "@option:check Mouse Settings"
+#~| msgid "Single-click to open files and folders"
+#~ msgctxt "@info"
+#~ msgid "Visibility of hidden files and folders"
+#~ msgstr "Dateien oder Ornern mit Eenfachklick opmaken"
+
+#~ msgctxt "@info:status"
+#~ msgid "Unknown size"
+#~ msgstr "Grött nich begäng"
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Startup"
+#~ msgctxt "@label:textbox"
+#~ msgid "Start in:"
+#~ msgstr "Start"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu Add current folder to places"
+#~| msgid "Add to Places"
+#~ msgctxt "@action:inmenu Add current folder to places"
+#~ msgid "Add '%1' to Places"
+#~ msgstr "De Stedenlist tofögen"
+
+#~ msgctxt "@title:window"
+#~ msgid "Rename Items"
+#~ msgstr "Indrääg ümnömen"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Rename the item <filename>%1</filename> to:"
+#~ msgstr "<filename>%1</filename> ümnömen to:"
+
+#~ msgctxt "@info:status"
+#~ msgid "New name #"
+#~ msgstr "Nieg Naam #"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Rename the %1 selected item to:"
+#~ msgid_plural "Rename the %1 selected items to:"
+#~ msgstr[0] "Den %1 utsöchten Indrag ümnömen to:"
+#~ msgstr[1] "De %1 utsöchten Indrääg ümnömen to:"
+
+#~ msgctxt "@info"
+#~ msgid "# will be replaced by ascending numbers starting with:"
+#~ msgstr "För \"#\" warrt opstiegen Tallen insett. Anfungen warrt mit:"
+
+#~ msgctxt "@title:window"
+#~ msgid "View Properties"
+#~ msgstr "Ansichtegenschappen"
+
+#~ msgid "Show facets widget"
+#~ msgstr "Ingrenzpaneel wiesen"
+
+#, fuzzy
+#~| msgctxt "action:button"
+#~| msgid "Fewer Options"
+#~ msgctxt "@action:button"
+#~ msgid "Fewer Options"
+#~ msgstr "Weniger Optschonen"
+
+#, fuzzy
+#~| msgctxt "action:button"
+#~| msgid "More Options"
+#~ msgctxt "@action:button"
+#~ msgid "More Options"
+#~ msgstr "Mehr Optschonen"
+
+#~ msgctxt "@option:check"
+#~ msgid "Any"
+#~ msgstr "All"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Folders"
+#~ msgctxt "@option:check"
+#~ msgid "Folders"
+#~ msgstr "Ornern"
+
+#~ msgctxt "@option:option"
+#~ msgid "Anytime"
+#~ msgstr "Jichtenswann"
+
+#~ msgctxt "@option:option"
+#~ msgid "Today"
+#~ msgstr "Vundaag"
+
+#~ msgctxt "@option:option"
+#~ msgid "Yesterday"
+#~ msgstr "Güstern"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Go"
+#~ msgstr "Jumpen"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Tools"
+#~ msgstr "Warktüüch"
+
+#~ msgctxt "@action:inmenu View"
+#~ msgid "Panels"
+#~ msgstr "Paneels"
+
+#~ msgctxt "@action:intoolbar"
+#~ msgid "Preview"
+#~ msgstr "Vöransichten"
+
+#~ msgid "stop"
+#~ msgstr "Anhollen"
+
+#~ msgctxt "@action:inmenu Add selected folder to places"
+#~ msgid "Add to Places"
+#~ msgstr "De Stedenlist tofögen"
+
+#~ msgctxt "@action:inmenu Sort"
+#~ msgid "Descending"
+#~ msgstr "Daalwarts"
+
+#~ msgctxt "@title:window"
+#~ msgid "Configure Shown Data"
+#~ msgstr "Wiest Daten fastleggen"
+
+#~ msgctxt "@label::textbox"
+#~ msgid "Select which data should be shown in the information panel:"
+#~ msgstr "De Daten utsöken, de Du binnen dat Infopaneel wiesen wullt:"
+
+#~ msgctxt "action:button"
+#~ msgid "Everywhere"
+#~ msgstr "Överall"
+
+#~ msgctxt "@item:intable Image orientation"
+#~ msgid "Unchanged"
+#~ msgstr "Nich ännert"
+
+#~ msgctxt "@item:intable Image orientation"
+#~ msgid "Horizontally flipped"
+#~ msgstr "Kimmrecht ümdreiht"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "180° rotated"
+#~ msgstr "180° dreiht"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "Vertically flipped"
+#~ msgstr "Pielrecht ümdreiht"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "Transposed"
+#~ msgstr "Transponeert"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "90° rotated"
+#~ msgstr "90° dreiht"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "Transversed"
+#~ msgstr "Transverseert"
+
+#~ msgctxt "@item:intable image orientation"
+#~ msgid "270° rotated"
+#~ msgstr "270° dreiht"
+
+#~ msgctxt "@label"
+#~ msgid "Label:"
+#~ msgstr "Beteker:"
+
+#~ msgid "Enter descriptive label here"
+#~ msgstr "Hier en beschrieven Beteker ingeven"
+
+#~ msgctxt "@label"
+#~ msgid "Location:"
+#~ msgstr "Steed:"
+
+#~ msgctxt "@label"
+#~ msgid "Choose an icon:"
+#~ msgstr "Bitte en Lüttbild utsöken:"
+
+#~ msgid "&Only show when using this application (%1)"
+#~ msgstr "Bloots för &dit Programm (%1) wiesen"
+
+#~ msgctxt "@title:window"
+#~ msgid "Add Places Entry"
+#~ msgstr "Steed-Indrag tofögen"
+
+#~ msgctxt "@title:window"
+#~ msgid "Edit Places Entry"
+#~ msgstr "Steed-Indrag bewerken"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "Show All Entries"
+#~ msgstr "All Indrääg wiesen"
+
+#~ msgctxt "@title:group"
+#~ msgid "Properties"
+#~ msgstr "Egenschappen"
+
+#, fuzzy
+#~| msgctxt "@title:window"
+#~| msgid "Additional Information"
+#~ msgctxt "@title:group"
+#~ msgid "Additional Information Shown"
+#~ msgstr "Informatschonen bito"
+
+#~ msgctxt "@title:group"
+#~ msgid "Apply View Properties To"
+#~ msgstr "Ansichtegenschappen bruken för"
+
+#~ msgctxt "@option:check"
+#~ msgid "Use these view properties as default"
+#~ msgstr "Disse Ansichtegenschappen as Standard bruken"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Location:"
+#~ msgstr "Steed:"
+
+#~ msgctxt "@title:group"
+#~ msgid "Icon Size"
+#~ msgstr "Lüttbildgrött"
+
+#~ msgctxt "@label:listbox"
+#~ msgid "Preview:"
+#~ msgstr "Vöransicht:"
+
+#~ msgctxt "@title:group"
+#~ msgid "Text"
+#~ msgstr "Text"
+
+#~ msgctxt "@label:listbox"
+#~ msgid "Font:"
+#~ msgstr "Schriftoort:"
+
+#~ msgctxt "@label:listbox"
+#~ msgid "Width:"
+#~ msgstr "Breed:"
+
+#~ msgctxt "@item:inlistbox Text width"
+#~ msgid "Small"
+#~ msgstr "Small"
+
+#~ msgctxt "@item:inlistbox Text width"
+#~ msgid "Medium"
+#~ msgstr "Normaal"
+
+#~ msgctxt "@option:check"
+#~ msgid "Expandable folders"
+#~ msgstr "Ornern laat sik utfoolden"
+
+#~ msgctxt "@label"
+#~ msgid "Select which additional information should be shown:"
+#~ msgstr "De Bito-Informatschonen utsöken, de Du wiesen wullt:"
+
+#~ msgctxt "@action:button"
+#~ msgid "Additional Information"
+#~ msgstr "Bito-Informatschonen"
+
+#~ msgctxt "@action:inmenu Edit"
+#~ msgid "Select All"
+#~ msgstr "All utsöken"
+
+#~ msgctxt "@action:inmenu View"
+#~ msgid "Reload"
+#~ msgstr "Nieg laden"
+
+#~ msgctxt "@label"
+#~ msgid "Image Size"
+#~ msgstr "Bildgrött"
+
+#~ msgctxt "@item"
+#~ msgid "Places"
+#~ msgstr "Steden"
+
+#~ msgctxt "@item"
+#~ msgid "Recently Saved"
+#~ msgstr "Tolest sekert"
+
+#~ msgctxt "@item"
+#~ msgid "Search For"
+#~ msgstr "Söken na"
+
+#~ msgctxt "@item"
+#~ msgid "Devices"
+#~ msgstr "Reedschappen"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Home"
+#~ msgstr "Tohuusorner"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Network"
+#~ msgstr "Nettwark"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Root"
+#~ msgstr "Wörtelorner"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Trash"
+#~ msgstr "Affalltünn"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Today"
+#~ msgstr "Vundaag"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Yesterday"
+#~ msgstr "Güstern"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "This Month"
+#~ msgstr "Dissen Maand"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Last Month"
+#~ msgstr "Verleden Maand"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Documents"
+#~ msgstr "Dokmenten"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Images"
+#~ msgstr "Biller"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Audio Files"
+#~ msgstr "Klangdateien"
+
+#~ msgctxt "KFile System Bookmarks"
+#~ msgid "Videos"
+#~ msgstr "Filmdateien"
+
+#, fuzzy
+#~| msgctxt "@action:inmenu"
+#~| msgid "Empty Trash"
+#~ msgid "Empty Search"
+#~ msgstr "Affalltünn leddig maken"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Delete"
+#~ msgstr "&Wegmaken"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Move to Trash"
+#~ msgstr "Na &Affalltünn"
+
+#~ msgctxt "@action:inmenu File"
+#~ msgid "Rename..."
+#~ msgstr "Ümnömen..."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Help"
+#~ msgstr "Hülp"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "Open '%1' in New Tab"
+#~ msgstr "\"%1\" as nieg Paneel opmaken"
+
+#~ msgctxt "@label"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "option:check"
+#~ msgid "Natural sorting of items"
+#~ msgstr "Tallen sorteren"
+
+#, fuzzy
+#~| msgctxt "@option:radio Apply View Properties To"
+#~| msgid "Current folder"
+#~ msgctxt "@action:inmenu %1 service name"
+#~ msgid "%1 - current folder"
+#~ msgstr "Aktuell Orner"
+
+#, fuzzy
+#~| msgctxt "@option:radio Apply View Properties To"
+#~| msgid "Current folder"
+#~ msgctxt "@action:inmenu %1 service name"
+#~ msgid "%1 - current device"
+#~ msgstr "Aktuell Orner"
+
+#, fuzzy
+#~| msgctxt "@item"
+#~| msgid "Devices"
+#~ msgctxt "@action:inmenu %1 service name"
+#~ msgid "%1 - all devices"
+#~ msgstr "Reedschappen"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Paste Into Folder"
+#~ msgstr "Na Orner infögen"
+
+#~ msgctxt "@title:group The week day name: %A"
+#~ msgid "%A"
+#~ msgstr "%A"
+
+#~ msgctxt ""
+#~ "@title:group The week day name: %A, %B is full month name in current "
+#~ "locale, and %Y is full year number"
+#~ msgid "%A (%B, %Y)"
+#~ msgstr "%A (%B %Y)"
+
+#~ msgctxt ""
+#~ "@title:group The month and year: %B is full month name in current locale, "
+#~ "and %Y is full year number"
+#~ msgid "%B, %Y"
+#~ msgstr "%B %Y"
+
+#~ msgctxt "@info"
+#~ msgid "Do you really want to empty the Trash? All items will be deleted."
+#~ msgstr ""
+#~ "Wullt Du de Affalltünn redig leddig maken? All Indrääg warrt wegdaan."
+
+#~ msgctxt "@title:group"
+#~ msgid "Mouse"
+#~ msgstr "Muus"
+
+#~ msgctxt "@option:check Mouse Settings"
+#~ msgid "Double-click to open files and folders"
+#~ msgstr "Dateien oder Ornern mit Dubbelklick opmaken"
+
+#~ msgctxt "@info:status"
+#~ msgid "A folder cannot be dropped into itself"
+#~ msgstr "Du kannst en Orner nich na sik sülven trecken"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Paste"
+#~ msgstr "Infögen"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Find:"
+#~ msgstr "Söken:"
+
+#~ msgctxt "@info:status"
+#~ msgid "Update of version information failed."
+#~ msgstr "Opfrischen vun de Verschoon-Informatschonen is fehlslaan."
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Copy Text"
+#~ msgstr "Text koperen"
+
+#~ msgctxt "@info:status"
+#~ msgid "<filename>%1</filename> selected"
+#~ msgstr "<filename>%1</filename> utsöcht"
+
+#~ msgctxt "@title:group Date"
+#~ msgid "Last Week"
+#~ msgstr "Verleden Week"
+
+#~ msgctxt ""
+#~ "@title:group Date: %B is full month name in current locale, and %Y is "
+#~ "full year number"
+#~ msgid "Last Week (%B, %Y)"
+#~ msgstr "Verleden Week (%B %Y)"
+
+#~ msgid "Zoom slider"
+#~ msgstr "Ansichtgrött-Schuver"
+
+#~ msgctxt "@item Recently Accessed"
+#~ msgid "Today"
+#~ msgstr "Vundaag"
+
+#~ msgctxt "@item Recently Accessed"
+#~ msgid "Yesterday"
+#~ msgstr "Güstern"
+
+#~ msgctxt "@label"
+#~ msgid "Trash"
+#~ msgstr "Affalltünn"
+
+#, fuzzy
+#~| msgctxt "@label:slider"
+#~| msgid "Maximum file size:"
+#~ msgctxt "@option:option"
+#~ msgid "Maximum Rating"
+#~ msgstr "Hööchst Dateigrött:"
+
+#~ msgctxt "option:check Refers to a filter on image size"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "option:check Refers to a filter on image size"
+#~ msgid "Medium"
+#~ msgstr "Normaal"
+
+#~ msgctxt "option:check Refers to a filter on image size"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Copy Information Message"
+#~ msgstr "Informatschonen koperen"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Copy Error Message"
+#~ msgstr "Fehlermellen koperen"
+
+#~ msgctxt "@item:intable"
+#~ msgid "No destination"
+#~ msgstr "Keen Teel"
+
+#~ msgctxt "@option:check"
+#~ msgid "Show 'Delete' command"
+#~ msgstr "Befehl \"Wegdoon\" wiesen"
+
+#~ msgctxt "@title:group"
+#~ msgid "Do not create previews for"
+#~ msgstr "Keen Vöransicht opstellen för"
+
+#~ msgctxt "@label Don't create previews for: <Local files above:> XX MByte"
+#~ msgid "Local files above:"
+#~ msgstr "Lokaal Dateien grötter as:"
+
+#~ msgctxt "@title:group"
+#~ msgid "Version Control Systems"
+#~ msgstr "Verschoonkuntrull-Systeem"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Configure and control Dolphin"
+#~ msgstr "Dolphin instellen un stüern"
+
+#~ msgctxt "@item:intable"
+#~ msgid "items"
+#~ msgstr "Indrääg"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Permissions"
+#~ msgstr "Verlöven"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Owner"
+#~ msgstr "Eegner"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Group"
+#~ msgstr "Koppel"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Destination"
+#~ msgstr "Teel"
+
+#~ msgctxt "@item:intable"
+#~ msgid "Path"
+#~ msgstr "Padd"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Name"
+#~ msgstr "Na Naam"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Size"
+#~ msgstr "Na Grött"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Permissions"
+#~ msgstr "Na Verlöven"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Owner"
+#~ msgstr "Na Eegner"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Group"
+#~ msgstr "Na Koppel"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Link Destination"
+#~ msgstr "Na Link-Teel"
+
+#~ msgctxt "@item:inlistbox Sort"
+#~ msgid "By Path"
+#~ msgstr "Na Padd"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Name"
+#~ msgstr "Naam"
+
+#~ msgctxt "@label"
+#~ msgid "Additional information"
+#~ msgstr "Anner Informatschonen"
+
+#~ msgctxt "@info:status filename (type)"
+#~ msgid "%1 (%2)"
+#~ msgstr "%1 (%2)"
+
+#~ msgctxt "@option:check"
+#~ msgid "Rename inline"
+#~ msgstr "Direktemang ümnömen"
+
+#~ msgctxt "@info:status"
+#~ msgid "<filename>%1</filename> selected (%2)"
+#~ msgstr "<filename>%1</filename> utsöcht (%2)"
+
+#~ msgid ""
+#~ "Is the application started the first time (internal setting not shown in "
+#~ "the UI)"
+#~ msgstr ""
+#~ "Gifft an, wat't Programm dat eerste Maal opropen warrt (intern Instellen, "
+#~ "nich binnen de Böversiet wiest)"
+
+#~ msgctxt "@title:tab"
+#~ msgid "Column"
+#~ msgstr "Striep"
+
+#~ msgctxt "@title:group"
+#~ msgid "Grid"
+#~ msgstr "Gadder"
+
+#~ msgctxt "@label:listbox"
+#~ msgid "Arrangement:"
+#~ msgstr "Anornen:"
+
+#~ msgctxt "@item:inlistbox Arrangement"
+#~ msgid "Columns"
+#~ msgstr "Striepen"
+
+#~ msgctxt "@item:inlistbox Arrangement"
+#~ msgid "Rows"
+#~ msgstr "Regen"
+
+#~ msgctxt "@label:listbox"
+#~ msgid "Grid spacing:"
+#~ msgstr "Gadderafstand:"
+
+#~ msgctxt "@item:inlistbox Grid spacing"
+#~ msgid "None"
+#~ msgstr "Keen"
+
+#~ msgctxt "@item:inlistbox Grid spacing"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "@item:inlistbox Grid spacing"
+#~ msgid "Medium"
+#~ msgstr "Normaal"
+
+#~ msgctxt "@item:inlistbox Grid spacing"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@item:inlistbox"
+#~ msgid "Column"
+#~ msgstr "Striep"
+
+#~ msgctxt "@option:check"
+#~ msgid "Expandable Folders"
+#~ msgstr "Ornern laat sik utfoolden"
+
+#~ msgctxt "@title:menu"
+#~ msgid "Columns"
+#~ msgstr "Striepen"
+
+#~ msgctxt "@action:inmenu View Mode"
+#~ msgid "Columns"
+#~ msgstr "Striepen"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Resize column"
+#~ msgstr "Striepgrött ännern"
+
+#~ msgctxt "@title::column"
+#~ msgid "Link Destination"
+#~ msgstr "Link-Teel"
+
+#~ msgctxt "@title::column"
+#~ msgid "Path"
+#~ msgstr "Padd"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Deselect Item"
+#~ msgstr "Indrag afkören"
+
+#~ msgctxt "@label"
+#~ msgid "Show hidden files"
+#~ msgstr "Versteken Dateien wiesen"
+
+#~ msgctxt "@label"
+#~ msgid "Show preview"
+#~ msgstr "Vöransicht wiesen"
+
+#~ msgctxt "@label"
+#~ msgid "Additional information (deprecated, use AdditionInfoV2 instead)"
+#~ msgstr "Bito-Informatschonen (överhaalt, bruuk AdditionInfoV2 ansteed)"
+
+#~ msgid "Arrangement"
+#~ msgstr "Anornen"
+
+#~ msgid "Item height"
+#~ msgstr "Hööchde"
+
+#~ msgid "Item width"
+#~ msgstr "Breed"
+
+#~ msgid "Grid spacing"
+#~ msgstr "Gadderafstand"
+
+#~ msgid "Number of textlines"
+#~ msgstr "Tall vun Textregen"
+
+#~ msgctxt "@action:button"
+#~ msgid "Configure..."
+#~ msgstr "Instellen..."
+
+#~ msgctxt "@label::textbox"
+#~ msgid "Select which data should be shown in the tooltip:"
+#~ msgstr "De Daten utsöken, de Du binnen de Kortinfo wiesen wullt:"
+
+#~ msgid "Remove folder restriction"
+#~ msgstr "Orner-Ingrenzen wegmaken"
+
+#~ msgctxt "@title:group"
+#~ msgid "Tag"
+#~ msgstr "Slötelwoort"
+
+#~ msgctxt "@action:button"
+#~ msgid "Today"
+#~ msgstr "Vundaag"
+
+#~ msgctxt "@action:button"
+#~ msgid "Yesterday"
+#~ msgstr "Güstern"
+
+#~ msgctxt "@title:group"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Open Parent Folder in New Window"
+#~ msgstr "Böverorner as nieg Finster opmaken"
+
+#~ msgctxt "@info:status"
+#~ msgid ""
+#~ "The new name is empty. A name with at least one character must be entered."
+#~ msgstr ""
+#~ "Nix för den niegen Naam ingeven. De Naam mutt tominnst een Bookstaav "
+#~ "hebben."
+
+#~ msgctxt "@info:status"
+#~ msgid "The name must contain at least one # character."
+#~ msgstr "De Naam mutt tominnst een \"#\"-Teken bargen."
+
+#~ msgctxt "@info"
+#~ msgid "Close"
+#~ msgstr "Tomaken"
+
+#~ msgctxt "@title:menu"
+#~ msgid "View Mode"
+#~ msgstr "Ansichten"
+
+#~ msgctxt "@label"
+#~ msgid "No Tags Available"
+#~ msgstr "Keen Slötelwöör verföögbor"
+
+#~ msgctxt "@label"
+#~ msgid "Byte"
+#~ msgstr "Bytes"
+
+#~ msgctxt "@label"
+#~ msgid "KByte"
+#~ msgstr "Kilobytes"
+
+#~ msgctxt "@label"
+#~ msgid "MByte"
+#~ msgstr "Megabytes"
+
+#~ msgctxt "@label"
+#~ msgid "GByte"
+#~ msgstr "Gigabytes"
+
+#~ msgctxt "@label"
+#~ msgid "All"
+#~ msgstr "All"
+
+#~ msgctxt "@label"
+#~ msgid "Text"
+#~ msgstr "Text"
+
+#~ msgctxt "@label"
+#~ msgid "Filenames"
+#~ msgstr "Dateinaams"
+
+#~ msgctxt "@label"
+#~ msgid "Search:"
+#~ msgstr "Söken:"
+
+#~ msgctxt "@label"
+#~ msgid "What:"
+#~ msgstr "Wat:"
+
+#~ msgctxt "@info"
+#~ msgid "Add search option"
+#~ msgstr "Söökoptschoon tofögen"
+
+#~ msgctxt "@action:button"
+#~ msgid "Save"
+#~ msgstr "Sekern"
+
+#~ msgctxt "@info"
+#~ msgid "Save search options"
+#~ msgstr "Söökinstellen sekern"
+
+#~ msgctxt "@action:button"
+#~ msgid "Close"
+#~ msgstr "Tomaken"
+
+#~ msgctxt "@info"
+#~ msgid "Close search options"
+#~ msgstr "Söökinstellen tomaken"
+
+#~ msgctxt "@label"
+#~ msgid "Greater Than"
+#~ msgstr "Grötter as"
+
+#~ msgctxt "@label"
+#~ msgid "Greater Than or Equal to"
+#~ msgstr "Grötter oder liek as"
+
+#~ msgctxt "@label"
+#~ msgid "Less Than"
+#~ msgstr "Lütter as"
+
+#~ msgctxt "@label"
+#~ msgid "Less Than or Equal to"
+#~ msgstr "Lütter oder liek as"
+
+#~ msgctxt "@label"
+#~ msgid "Size:"
+#~ msgstr "Grött:"
+
+#~ msgctxt "@label All (tags)"
+#~ msgid "All"
+#~ msgstr "All"
+
+#~ msgctxt "@label"
+#~ msgid "Equal to"
+#~ msgstr "Liek as"
+
+#~ msgctxt "@label"
+#~ msgid "Not Equal to"
+#~ msgstr "Nich liek as"
+
+#~ msgctxt "@label Any (rating)"
+#~ msgid "Any"
+#~ msgstr "Jichtenseen"
+
+#~ msgctxt "@label"
+#~ msgid "Rating:"
+#~ msgstr "Beweerten:"
+
+#~ msgctxt "@label"
+#~ msgid "Name:"
+#~ msgstr "Naam:"
+
+#~ msgctxt "@title:window"
+#~ msgid "Save Search Options"
+#~ msgstr "Söökinstellen sekern"
+
+#~ msgid "Criteria"
+#~ msgstr "Bedingen"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Permissions"
+#~ msgstr "Verlöven"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Owner"
+#~ msgstr "Eegner"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Group"
+#~ msgstr "Koppel"
+
+#~ msgctxt "@option:check Additional Information"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Normal"
+#~ msgstr "Normaal"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Update required"
+#~ msgstr "Opfrischen deit noot"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Locally modified"
+#~ msgstr "Lokaal ännert"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Added"
+#~ msgstr "Toföögt"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Permissions"
+#~ msgstr "Verlöven"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Owner"
+#~ msgstr "Eegner"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Group"
+#~ msgstr "Koppel"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Date"
+#~ msgstr "Datum"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Permissions"
+#~ msgstr "Verlöven"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Owner"
+#~ msgstr "Eegner"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Group"
+#~ msgstr "Koppel"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@title:menu"
+#~ msgid "Additional Information"
+#~ msgstr "Informatschonen"
+
+#~ msgctxt "@option:check"
+#~ msgid "Use thumbnails embedded in files"
+#~ msgstr "In Dateien inbett Vöransichten bruken"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "SVN Update"
+#~ msgstr "SVN-Archiev opfrischen"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "Show Local SVN Changes"
+#~ msgstr "Lokaal SVN-Ännern wiesen"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "SVN Commit..."
+#~ msgstr "Na SVN-Archiev inspelen..."
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "SVN Add"
+#~ msgstr "Na SVN-Archiev tofögen"
+
+#~ msgctxt "@item:inmenu"
+#~ msgid "SVN Delete"
+#~ msgstr "Ut SVN-Archiev wegmaken"
+
+#~ msgctxt "@info:status"
+#~ msgid "Updating SVN repository..."
+#~ msgstr "SVN-Archiev warrt opfrischt..."
+
+#~ msgctxt "@info:status"
+#~ msgid "Update of SVN repository failed."
+#~ msgstr "Opfrischen vun't SVN-Archiev is fehlslaan."
+
+#~ msgctxt "@info:status"
+#~ msgid "Updated SVN repository."
+#~ msgstr "SVN-Archiev opfrischt."
+
+#~ msgctxt "@label"
+#~ msgid "Description:"
+#~ msgstr "Beschrieven:"
+
+#~ msgctxt "@title:window"
+#~ msgid "SVN Commit"
+#~ msgstr "Na SVN-Archiev inspelen"
+
+#~ msgctxt "@action:button"
+#~ msgid "Commit"
+#~ msgstr "Inspelen"
+
+#~ msgctxt "@info:status"
+#~ msgid "Commit of SVN changes failed."
+#~ msgstr "Inspelen vun SVN-Ännern is fehlslaan."
+
+#~ msgctxt "@info:status"
+#~ msgid "Committing SVN changes..."
+#~ msgstr "SVN-Ännern warrt inspeelt..."
+
+#~ msgctxt "@info:status"
+#~ msgid "Committed SVN changes."
+#~ msgstr "SVN-Ännern inspeelt."
+
+#~ msgctxt "@info:status"
+#~ msgid "Adding files to SVN repository..."
+#~ msgstr "Dateien warrt dat SVN-Archiev toföögt..."
+
+#~ msgctxt "@info:status"
+#~ msgid "Adding of files to SVN repository failed."
+#~ msgstr "Tofögen vun Dateien na't SVN-Archiev is fehlslaan."
+
+#~ msgctxt "@info:status"
+#~ msgid "Added files to SVN repository."
+#~ msgstr "Dateien na't SVN-Archiev toföögt."
+
+#~ msgctxt "@info:status"
+#~ msgid "Removing files from SVN repository..."
+#~ msgstr "Dateien warrt ut dat SVN-Archiev wegmaakt..."
+
+#~ msgctxt "@info:status"
+#~ msgid "Removing of files from SVN repository failed."
+#~ msgstr "Wegmaken vun Dateien ut dat t SVN-Archiev is fehlslaan."
+
+#~ msgctxt "@info:status"
+#~ msgid "Removed files from SVN repository."
+#~ msgstr "Dateien ut dat SVN-Archiev wegmaakt."
+
+#~ msgctxt "@label"
+#~ msgid "Folder"
+#~ msgstr "Orner"
+
+#~ msgctxt "@label"
+#~ msgid "Total Size:"
+#~ msgstr "Heel Grött:"
+
+#~ msgctxt "@label file type"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@title:window"
+#~ msgid "Change Tags"
+#~ msgstr "Slötelwöör ännern"
+
+#~ msgctxt "@label:textbox"
+#~ msgid "Configure which tags should be applied."
+#~ msgstr "De Slötelwöör fastleggen, de Du bruken wullt"
+
+#~ msgctxt "@label"
+#~ msgid "Create new tag:"
+#~ msgstr "Nieg Slötelwoort opstellen:"
+
+#~ msgctxt "@info"
+#~ msgid "Delete tag"
+#~ msgstr "Slötelwoort wegdoon"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "Should the tag <resource>%1</resource> really be deleted for all files?"
+#~ msgstr ""
+#~ "Wullt Du dat Slötelwoort <resource>%1</resource> redig ut all Dateien "
+#~ "wegmaken?"
+
+#~ msgctxt "@title"
+#~ msgid "Delete tag"
+#~ msgstr "Slötelwoort wegdoon"
+
+#~ msgctxt "@action:button"
+#~ msgid "Delete"
+#~ msgstr "Wegdoon"
+
+#~ msgctxt "@label"
+#~ msgid "Add Tags..."
+#~ msgstr "Slötelwöör tofögen..."
+
+#~ msgctxt "@label"
+#~ msgid "Change..."
+#~ msgstr "Ännern..."
+
+#~ msgctxt "@info:progress"
+#~ msgid "Changing annotations"
+#~ msgstr "Anmarken warrt ännert"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Type"
+#~ msgstr "Typ"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Modified"
+#~ msgstr "Ännert"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Owner"
+#~ msgstr "Eegner"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Permissions"
+#~ msgstr "Verlöven"
+
+#~ msgctxt "@title:window"
+#~ msgid "Change Comment"
+#~ msgstr "Kommentar ännern"
+
+#~ msgctxt "@title:window"
+#~ msgid "Add Comment"
+#~ msgstr "Kommentar tofögen"
+
+#~ msgctxt "@label file content size"
+#~ msgid "Size"
+#~ msgstr "Grött"
+
+#~ msgctxt "@label parent directory"
+#~ msgid "Part of"
+#~ msgstr "Deel vun"
+
+#~ msgctxt "@label modified date of file"
+#~ msgid "Modified"
+#~ msgstr "Ännert"
+
+#~ msgctxt "@label"
+#~ msgid "MIME Type"
+#~ msgstr "MIME-Typ"
+
+#~ msgctxt "@label file URL"
+#~ msgid "Location"
+#~ msgstr "Steed"
+
+#~ msgctxt "@label"
+#~ msgid "Creator"
+#~ msgstr "Opsteller"
+
+#~ msgctxt "@label"
+#~ msgid "Channels"
+#~ msgstr "Kanaals"
+
+#~ msgctxt "@label number of characters"
+#~ msgid "Characters"
+#~ msgstr "Tekens"
+
+#~ msgctxt "@label"
+#~ msgid "Codec"
+#~ msgstr "Kodek"
+
+#~ msgctxt "@label"
+#~ msgid "Color Depth"
+#~ msgstr "Klöördeepde"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Lines:"
+#~ msgctxt "@label number of lines"
+#~ msgid "Lines"
+#~ msgstr "Regen:"
+
+#~ msgctxt "@label"
+#~ msgid "Programming Language"
+#~ msgstr "Programmspraak"
+
+#~ msgctxt "@label number of words"
+#~ msgid "Words"
+#~ msgstr "Wöör"
+
+#~ msgctxt "@label EXIF aperture value"
+#~ msgid "Aperture"
+#~ msgstr "Blenn"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Exposure Bias Value"
+#~ msgstr "Belichtenafwiekenweert"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Exposure Time"
+#~ msgstr "Belichtentiet"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Flash"
+#~ msgstr "Blix"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Focal Length"
+#~ msgstr "Brennwiet"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Focal Length 35 mm"
+#~ msgstr "Brennwiet 35 mm"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Make"
+#~ msgstr "Maker"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "Model"
+#~ msgstr "Modell"
+
+#~ msgctxt "@label EXIF"
+#~ msgid "White Balance"
+#~ msgstr "Wittbalangs"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Width x Height:"
+#~ msgctxt "@label image width and height"
+#~ msgid "Width x Height"
+#~ msgstr "Breed × Hööchde:"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Rating"
+#~ msgstr "Beweerten"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Tags"
+#~ msgstr "Slötelwöör"
+
+#~ msgctxt "@item::inlistbox"
+#~ msgid "Comment"
+#~ msgstr "Kommentar"
+
+#, fuzzy
+#~| msgctxt "@label"
+#~| msgid "Filenames"
+#~ msgctxt "@label"
+#~ msgid "File Name"
+#~ msgstr "Dateinaams"
+
+#~ msgctxt "@label"
+#~ msgid "Type:"
+#~ msgstr "Typ:"
+
+#~ msgctxt "@label"
+#~ msgid "Modified:"
+#~ msgstr "Ännert:"
+
+#~ msgctxt "@label"
+#~ msgid "Owner:"
+#~ msgstr "Eegner:"
+
+#~ msgctxt "@label"
+#~ msgid "Permissions:"
+#~ msgstr "Verlöven:"
+
+#~ msgctxt "@label"
+#~ msgid "Tags:"
+#~ msgstr "Slötelwöör:"
+
+#~ msgctxt "@label"
+#~ msgid "Comment:"
+#~ msgstr "Kommentar:"
+
+#~ msgctxt "@action:inmenu Settings"
+#~ msgid "Get Service Menu..."
+#~ msgstr "Deenstmenü halen..."
+
+#~ msgctxt "@title:menu"
+#~ msgid "Navigation Bar"
+#~ msgstr "Steedbalken"
+
+#~ msgctxt "@info:tooltip"
+#~ msgid "Click to begin the search"
+#~ msgstr "Klick hier, wenn Du de Söök anfangen wullt"
+
+#~ msgctxt "@label"
+#~ msgid "Date Modified"
+#~ msgstr "Ännerdatum"
+
+#~ msgctxt "@info:status"
+#~ msgid "Copy operation completed."
+#~ msgstr "Koperen afslaten."
+
+#~ msgctxt "@info:status"
+#~ msgid "Move operation completed."
+#~ msgstr "Verschuven afslaten."
+
+#~ msgctxt "@info:status"
+#~ msgid "Link operation completed."
+#~ msgstr "Linken afslaten."
+
+#~ msgctxt "@info:status"
+#~ msgid "Renaming operation completed."
+#~ msgstr "Ümnömen afslaten."
+
+#, fuzzy
+#~| msgctxt "@title:group"
+#~| msgid "Text"
+#~ msgctxt "label"
+#~ msgid "Texts"
+#~ msgstr "Text"
+
+#~ msgctxt "@title:window subtitle to previous message"
+#~ msgid "with optional icon and description"
+#~ msgstr "wahlwies mit Lüttbild un Beschrieven"
+
+#~ msgctxt "@label Indicator when no tags defined"
+#~ msgid "No Tags"
+#~ msgstr "Keen Slötelwöör"
+
+#~ msgid "Do you really want to delete tag '%1'?"
+#~ msgstr "Wullt Du dat Slötelwoort \"%1\" redig wegdoon?"
+
+#~ msgctxt "@label"
+#~ msgid "Detailed description (optional):"
+#~ msgstr "Beschrieven mit Enkelheiten (köörwies):"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Latest"
+#~ msgstr "Niegst"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Editing"
+#~ msgstr "Bewerken"
+
+#~ msgctxt "@item::intable"
+#~ msgid "Local"
+#~ msgstr "Lokaal"
+
+#~ msgctxt "@title:group Tags"
+#~ msgid "Not yet tagged"
+#~ msgstr "Noch keen Slötelwoort"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Move To Trash"
+#~ msgstr "Na de Affalltünn"
+
+#~ msgctxt "@action:inmenu File"
+#~ msgid "&Rename..."
+#~ msgstr "Ü&mnömen..."
+
+#~ msgctxt "@action:inmenu File"
+#~ msgid "&Properties"
+#~ msgstr "&Egenschappen"
+
+#~ msgctxt "@action:intoolbar"
+#~ msgid "P&review"
+#~ msgstr "&Vöransichten"
+
+#~ msgctxt "@action:inmenu Sort"
+#~ msgid "Des&cending"
+#~ msgstr "&Daalwarts"
+
+#~ msgctxt "@action:inmenu View"
+#~ msgid "Show &Hidden Files"
+#~ msgstr "&Versteken Dateien wiesen"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "&Size"
+#~ msgstr "&Grött"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "D&ate"
+#~ msgstr "&Datum"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Pe&rmissions"
+#~ msgstr "&Verlöven"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "&Owner"
+#~ msgstr "&Eegner"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "Gro&up"
+#~ msgstr "&Koppel"
+
+#~ msgctxt "@action:inmenu Additional information"
+#~ msgid "&Type"
+#~ msgstr "&Typ"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "&Size"
+#~ msgstr "&Grött"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "&Date"
+#~ msgstr "&Datum"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "Pe&rmissions"
+#~ msgstr "&Verlöven"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "&Owner"
+#~ msgstr "&Eegner"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "&Group"
+#~ msgstr "&Koppel"
+
+#~ msgctxt "@action:inmenu Sort By"
+#~ msgid "&Type"
+#~ msgstr "&Typ"
+
+#~ msgctxt "@action:inmenu View Mode"
+#~ msgid "&Icons"
+#~ msgstr "&Lüttbiller"
+
+#~ msgctxt "@action:inmenu View Mode"
+#~ msgid "Det&ails"
+#~ msgstr "&Enkelheiten"
+
+#~ msgctxt "@action:inmenu View Mode"
+#~ msgid "Col&umns"
+#~ msgstr "&Striepen"
+
+#~ msgctxt "@action:inmenu Tools"
+#~ msgid "Quick View"
+#~ msgstr "Fixansicht"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Paste One Folder"
+#~ msgstr "Een Orner infögen"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Paste One Item"
+#~ msgid_plural "Paste %1 Items"
+#~ msgstr[0] "Een Saak infögen"
+#~ msgstr[1] "%1 Saken infögen"
+
+#~ msgctxt "@option:check"
+#~ msgid "Browse through archives"
+#~ msgstr "Archiven dörkieken"
+
+#~ msgctxt "@info"
+#~ msgid ""
+#~ "All settings will be reset to default values. Do you want to continue?"
+#~ msgstr ""
+#~ "All Instellen warrt op ehr Standardweerten torüchsett. Wullt Du dat redig "
+#~ "doon?"
+
+#~ msgctxt "@title:tab General settings"
+#~ msgid "General"
+#~ msgstr "Allgemeen"
+
+#~ msgctxt "@info:status"
+#~ msgid ""
+#~ "The dropped item <filename>%1</filename> is already inside the folder "
+#~ "<filename>%2</filename>"
+#~ msgstr ""
+#~ "Dat Element <filename>%1</filename>, dat Du rintrocken hest, is al binnen "
+#~ "den Orner <filename>%2</filename>"
+
+#~ msgctxt "@info:status"
+#~ msgid ""
+#~ "The dropped items are already inside the folder <filename>%1</filename>"
+#~ msgstr ""
+#~ "De Elementen, de Du rintrocken hest, sünd al binnen den Orner <filename>"
+#~ "%1</filename>"
+
+#~ msgctxt "@info:status"
+#~ msgid "Protocol not supported"
+#~ msgstr "Protokoll nich ünnerstütt"
+
+#~ msgctxt "@action:inmenu Navigation Bar"
+#~ msgid "Show Full Location"
+#~ msgstr "Heel Padd wiesen"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Move Here\t<shortcut>%1</shortcut>"
+#~ msgstr "Hierhen &verschuven\t<shortcut>%1</shortcut>"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Copy Here\t<shortcut>%1</shortcut>"
+#~ msgstr "Hierhen koperen\t<shortcut>%1</shortcut>"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "&Link Here\t<shortcut>%1</shortcut>"
+#~ msgstr "Hierhen verlinken\t<shortcut>%1</shortcut>"
+
+#~ msgctxt "@action:inmenu"
+#~ msgid "Cancel"
+#~ msgstr "Afbreken"
+
+#~ msgctxt "@item:inlistbox Arrangement"
+#~ msgid "Left to Right"
+#~ msgstr "Vun links na rechts"
+
+#~ msgctxt "@item:inlistbox Arrangement"
+#~ msgid "Top to Bottom"
+#~ msgstr "Vun baven na nerrn"
+
+#~ msgctxt "@item:inrange Column Width"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "@item:inrange Column Width"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@option:radio Icon Size"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "@option:radio Icon Size"
+#~ msgid "Medium"
+#~ msgstr "Normaal"
+
+#~ msgctxt "@option:radio Icon Size"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@action:button"
+#~ msgid "Change Icon && Preview Size..."
+#~ msgstr "Lüttbild- un Vöransichtgrött..."
+
+#~ msgctxt "@title:window"
+#~ msgid "Change Icon & Preview Size"
+#~ msgstr "Lüttbild- un Vöransichtgrött ännern"
+
+#~ msgctxt "@item:inrange Icon Size"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "@item:inrange Icon Size"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@item:inrange Preview Size"
+#~ msgid "Small"
+#~ msgstr "Lütt"
+
+#~ msgctxt "@item:inrange Preview Size"
+#~ msgid "Large"
+#~ msgstr "Groot"
+
+#~ msgctxt "@info:status"
+#~ msgid "Getting size..."
+#~ msgstr "Grött warrt haalt..."
+
+#~ msgctxt "@action:inmenu Edit"
+#~ msgid "Properties"
+#~ msgstr "Egenschappen"
+
+#~ msgctxt "@action:inmenu Open With"
+#~ msgid "&Other..."
+#~ msgstr "&Anner..."
+
+#~ msgctxt "@title:menu"
+#~ msgid "Open With..."
+#~ msgstr "Opmaken..."

@@ -1,0 +1,3381 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Руководство пользователя &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Ольга</firstname
+><surname
+>Миронова</surname
+><affiliation
+><address
+><email
+>omiro@basealt.ru</email
+></address
+></affiliation
+><contrib
+>Перевод на русский язык</contrib
+></othercredit
+><othercredit role="reviewer"
+><firstname
+>Александр</firstname
+><surname
+>Яворский</surname
+><contrib
+>Рецензирование</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Мария</firstname
+><surname
+>Шикунова</surname
+><affiliation
+><address
+><email
+>translation-team@basealt.ru</email
+></address
+></affiliation
+><contrib
+>Обновление перевода на русский язык</contrib
+></othercredit
+><othercredit role="translator"
+><firstname
+>Олеся</firstname
+><surname
+>Герасименко</surname
+><affiliation
+><address
+><email
+>translation-team@basealt.ru</email
+></address
+></affiliation
+><contrib
+>Обновление перевода на русский язык</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>17 января 2022 г.</date>
+<releaseinfo
+>KDE Gear 22.04</releaseinfo>
+
+<abstract>
+<para
+>&dolphin; — это инструмент управления файлами в &kde;, удобный и простой в использовании. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>диспетчер файлов</keyword>
+<keyword
+>файл</keyword>
+<keyword
+>управление</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Введение</title>
+
+<para
+>&dolphin; — это стандартный диспетчер файлов &plasma;. Он создан с целью предложить пользователю максимально простой и удобный интерфейс для работы с файлами. Это приложение выполняет только функции диспетчера файлов, в то время как &konqueror;, который был стандартным диспетчером файлов в &kde; 3 и всё ещё может использоваться для управления файлами, является универсальным инструментом просмотра файлов разных типов. </para>
+
+<para
+>Благодаря такому подходу разработчикам удалось оптимизировать пользовательский интерфейс для выполнения конкретных задач управления файлами. </para>
+
+<para
+>О найденных ошибках и недостающих функциях диспетчера файлов &dolphin; сообщайте автору программы через систему отслеживания ошибок. Для этого нажмите кнопку <guibutton
+>Управление</guibutton
+>, расположенную в правой части панели инструментов, если строка меню скрыта, или выберите пункт <menuchoice
+><guimenu
+>Справка</guimenu
+><guimenuitem
+>Сообщить об ошибке...</guimenuitem
+></menuchoice
+> главного меню программы, если строка меню видна. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Использование диспетчера файлов &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>Интерфейс пользователя &dolphin;</title>
+
+<para
+>Представленный ниже снимок экрана показывает стандартный интерфейс пользователя диспетчера файлов &dolphin;. </para>
+
+<screenshot>
+<screeninfo
+>Стандартный интерфейс пользователя диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Стандартный интерфейс пользователя диспетчера файлов &dolphin;.</phrase>
+</textobject>
+<caption
+><para
+>Стандартный интерфейс пользователя диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Элементами стандартного пользовательского интерфейса являются: <itemizedlist>
+
+<listitem
+><para
+>Панель инструментов, которая предназначена для быстрого доступа к часто выполняемым действиям. Параметры панели могут быть настроены тремя способами: щелчком по ней правой кнопкой мыши и выбором пункта <menuchoice
+><guimenuitem
+>Панели инструментов...</guimenuitem
+></menuchoice
+> из контекстного меню; нажатием кнопки <guibutton
+>Управление</guibutton
+>, расположенной в правой части панели инструментов, и выбором в открывшемся меню пункта <guimenuitem 
+>Панели инструментов...</guimenuitem
+>; выбором пункта <menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Панели инструментов...</guimenuitem
+></menuchoice
+> в главном меню. </para>
+<screenshot>
+<screeninfo
+>Панель инструментов диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Стандартная панель инструментов.</phrase>
+</textobject>
+<caption>
+<para
+>Элементы панели инструментов, предназначение которых понятно из обозначающих их значков, не подписаны. Чтобы включить подписи всех знаков, следует щёлкнуть по значку правой кнопкой мыши и отметить флажком текст в пункте <guilabel
+>Подписи кнопок</guilabel
+>. Кнопка <guibutton
+>Управление</guibutton
+> в правой части панели инструментов отображается только в том случае, если строка меню скрыта. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>Строка адреса, которая всегда показывает путь к текущей папке. Она имеет два режима работы. О том, как переключаться между ними, подробнее описано в <link linkend="location-bar"
+>разделе о строке адреса</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>Панель просмотра</link
+>, в которой показаны все файлы и папки, содержащиеся в текущей папке. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="places-panel"
+>Панель <guilabel
+>Точки входа</guilabel
+></link
+>, которая предоставляет быстрый доступ к выбранным папкам, дискам или другим носителям информации. </para>
+<para
+>Если в модуле <guilabel
+>Поиск файлов</guilabel
+> приложения «Параметры системы» включены служба поиска файлов и индексирование содержимого файлов, то на панели точек входа будут показаны <guilabel
+>Недавно изменённые</guilabel
+> объекты, а также будет возможен поиск <guilabel
+>документов</guilabel
+>, <guilabel
+>изображений</guilabel
+>, <guilabel
+>аудио-</guilabel
+> и <guilabel
+>видео-</guilabel
+> файлов. </para
+></listitem>
+
+<listitem
+><para
+>Строка состояния. В строке состояния выводятся имя, размер и тип файла, на который наведён курсор мыши, или количество и размер выделенных файлов. Справа от строки состояния расположен ползунок изменения масштаба значков, видимых на панели просмотра. </para
+></listitem>
+
+<listitem
+><para
+>Строка меню (скрыта по умолчанию), которая предоставляет доступ ко всем командам и параметрам настройки диспетчера файлов. Все доступные команды перечислены в <link linkend="commands-menubar"
+>«Справочнике команд»</link
+>. Включать и отключать строку меню возможно с помощью пункта <guimenuitem
+>Показать меню</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) меню <guimenu
+>Настройка</guimenu
+> или с помощью кнопки <guibutton
+>Управление</guibutton
+> на панели инструментов. </para>
+<para
+>Если строка меню скрыта, все её пункты доступны в списке, раскрывающемся при нажатии кнопки <guibutton
+>Управление</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>Дополнительные панели <guilabel
+>Сведения</guilabel
+>, <guilabel
+>Папки</guilabel
+> и <guilabel
+>Терминал</guilabel
+> по умолчанию скрыты. Более подробно они описаны в разделе <link linkend="panels"
+><guilabel
+>«Панели»</guilabel
+>.</link
+> </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>Панель просмотра &dolphin;</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Работа с панелью просмотра</title>
+
+<para
+>На панели просмотра показаны все файлы и папки, содержащиеся в текущей папке. Возможны следующие варианты доступа к этим объектам и работы с ними: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Файл или папка могут быть открыты одинарным (или двойным, если в модуле <menuchoice
+><guimenu
+>Поведение рабочей среды</guimenu
+> <guimenuitem
+>Основные параметры</guimenuitem
+></menuchoice
+> приложения «Параметры системы» включён параметр <guilabel
+>Двойной щелчок для открытия файлов и каталогов</guilabel
+>) щелчком по ним левой кнопкой мыши. </para
+></listitem>
+
+<listitem
+><para
+>Щелчок правой кнопкой мыши по любому объекту или пустой области вокруг него открывает контекстное меню объекта или текущей папки соответственно. Через контекстное меню возможно выполнить многие наиболее часто используемые действия с объектами или текущей папкой. </para
+></listitem>
+
+<listitem
+><para
+>Если по любому объекту щёлкнуть левой кнопкой мыши и удерживать её нажатой, выбранный объект можно будет перетащить в другую папку, расположенную на той же или другой панели просмотра диспетчера файлов &dolphin; (в другое окно диспетчера файлов &dolphin; или на другую панель в том же окне, если включены две панели просмотра), при этом объект будет или перемещён, или скопирован, или на него будет создана символическая ссылка. Объекты также возможно перенести в другое приложение, в котором они будут открыты. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Диспетчер файлов &dolphin; запоминает историю просмотра папок. Для перемещения вперёд или назад по истории просмотра служат соответствующи кнопки, расположенные на панели инструментов: </para>
+
+<screenshot>
+<screeninfo
+>Панель инструментов диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Кнопки «Назад» и «Вперёд» на панели инструментов.</phrase>
+</textobject>
+<caption>
+<para
+>Кнопки <guibutton
+>Назад</guibutton
+> и <guibutton
+>Вперёд</guibutton
+> на панели инструментов используются для перехода от одного объекта в истории просмотра к другому. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Щелчок средней кнопкой мыши открывает элемент в новой вкладке, сохраняя текущую вкладку с её содержимым. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Вид панели просмотра диспетчера файлов &dolphin;</title>
+
+<para
+>На панели инструментов расположены кнопки управления внешним видом панели просмотра: </para>
+
+<screenshot>
+<screeninfo
+>Панель инструментов диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Кнопки управления внешним видом панели просмотра.</phrase>
+</textobject>
+<caption
+><para
+>Кнопки управления внешним видом панели просмотра. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Все описанные ниже параметры, а также другие функции, например, порядок сортировки файлов в текущей папке, могут быть настроены через меню <guimenu
+>Вид</guimenu
+> и диалог <link linkend="view-properties-dialog"
+>настройки режима просмотра</link
+>. По умолчанию параметры настраиваются отдельно для каждой папки, но такое поведение возможно изменить в разделе <link linkend="preferences-dialog-general"
+>«Главное»</link
+> настройки параметров диспетчера файлов. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Режимы просмотра</title>
+
+<para
+>Первые три кнопки, показанные ниже на снимке экрана, используют для переключения режимов просмотра в диспетчере файлов &dolphin;. <itemizedlist>
+
+<listitem
+><para
+>В режиме <guibutton
+>Значки</guibutton
+>, установленном по умолчанию, файлы отображаются в виде значков, зависящих от типа файлов, а вложенные папки обозначаются значком папки. Имена файлов и папок, а также сведения, выбранные в пункте меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+>Дополнительные сведения</guisubmenu
+></menuchoice
+>, отображаются под значками. </para
+></listitem>
+
+<listitem
+><para
+>В режиме просмотра <guilabel
+>Столбцы</guilabel
+> содержимое папки отображается в виде значков с указанными рядом с ними именами объектов, а сведения, выбранные в пункте меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+>Дополнительные сведения</guisubmenu
+></menuchoice
+>, отображаются под именами. Объекты объединяются в столбцы так же, как и в режиме просмотра <guilabel
+>Список</guilabel
+> диалога работы с файлами &kde;. </para
+></listitem>
+
+<listitem
+><para
+>В режиме <guibutton
+>Таблица</guibutton
+> содержимое папки отображается в виде подробного списка, в котором указаны имя, размер и время последних изменений каждого объекта. Дополнительные столбцы данных возможно добавить, щёлкнув правой кнопкой мыши по заголовку одного из столбцов. </para>
+<para
+>В контекстном меню заголовков столбцов возможно добавить или убрать боковой отступ путём включения или отключения соответствующего параметра меню, а также установить автоматическую или выборочную ширину столбцов. Автоматическая ширина подгоняет ширину всех столбцов так, чтобы самая длинная запись в столбце вмещалась в него полностью, за исключением столбца <guilabel
+>Имя</guilabel
+>, в котором часть имени, которая не помещается, заменяется символом <quote
+>...</quote
+>. </para>
+<para
+>Порядок столбцов в таблице возможно изменить посредством перетаскивания заголовков столбцов. Однако такое действие недоступно для столбца <guilabel
+>Имя</guilabel
+>, который всегда стоит первым в данном режиме просмотра. </para>
+<para
+>В режиме таблицы текущая папка может быть представлена в виде «дерева», если включён параметр <link linkend="preferences-dialog-viewmodes-details"
+><guilabel
+>Раскрываемые папки</guilabel
+></link
+>. Содержимое любой вложенной папки возможно «развернуть» или «свернуть», нажимая значок <guiicon
+>
+></guiicon
+> или <guiicon
+>v</guiicon
+>, расположенный слева от имени папки.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Просмотр сгруппированных объектов</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Просмотр сгруппированных объектов</phrase>
+</textobject>
+<caption
+><para
+>Во всех режимах просмотра возможна группировка объектов по критерию, выбранному в пункте меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+>Сортировка</guisubmenu
+></menuchoice
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Отображение сведений на панели просмотра</title>
+<para
+>Во всех режимах на панели просмотра диспетчера файлов &dolphin; показывается как минимум значок и имя каждого объекта текущей папки. Через пункт <guisubmenu
+>Дополнительные сведения</guisubmenu
+> меню <guimenu
+>Вид</guimenu
+> или через контекстное меню заголовков столбцов в режиме просмотра <guilabel
+>Таблица</guilabel
+> возможно выбрать, какая дополнительная информация о каждом объекте будет показана: </para>
+
+<para
+><guimenuitem
+>размер</guimenuitem
+>, <guimenuitem
+>дата изменения</guimenuitem
+>, <guimenuitem
+>дата создания</guimenuitem
+>,  <guimenuitem
+>дата доступа</guimenuitem
+>, <guimenuitem
+>тип</guimenuitem
+>, <guimenuitem
+>оценка</guimenuitem
+>, <guimenuitem
+>метки</guimenuitem
+> или <guimenuitem
+>комментарий</guimenuitem
+>. </para>
+
+<para
+>В зависимости от типа файлов дополнительно возможно выбрать критерии их сортировки: <simplelist>
+  <member
+><guimenuitem
+>Документ</guimenuitem
+>: сортировка по количеству слов и строк;</member>
+  <member
+><guimenuitem
+>Изображения</guimenuitem
+>: сортировка по размеру и ориентации;</member>
+  <member
+><guimenuitem
+>Звуковые файлы</guimenuitem
+>: сортировка по исполнителю, альбому, длительности и дорожке;</member>
+</simplelist>
+</para>
+
+<para
+>Во вложенном меню <guisubmenu
+>Другие</guisubmenu
+> возможно выбрать сортировку по <guimenuitem
+>полному пути</guimenuitem
+>, <guimenuitem
+>адресу ссылки</guimenuitem
+>, <guimenuitem
+>источнику в Интернете</guimenuitem
+>, <guimenuitem
+>правам доступа</guimenuitem
+>, <guimenuitem
+>владельцу</guimenuitem
+> или <guimenuitem
+>группе пользователя</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Миниатюры</title>
+
+<para
+>Если включён параметр <guibutton
+>Миниатюры</guibutton
+>, значки будут выбраны в зависимости от типа содержимого файла или папки; например, для файла с изображением вместо значка будет показана уменьшенная копия этого изображения. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Две панели</title>
+
+<para
+>Если нажать кнопку <guibutton
+>Две панели</guibutton
+> с изображённым на ней плюсом, будут показаны две панели просмотра, в которых может быть показано содержимое разных папок. Это особенно удобно при перемещении или копировании файлов. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Выделение объектов на панели просмотра</title>
+
+<para
+>Существует несколько способов выделения объектов на панели просмотра. После выделения нескольких объектов такие действия как <menuchoice
+><guimenuitem
+>Вырезать</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Копировать</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Удалить в корзину</guimenuitem
+></menuchoice
+>, а также операции перетаскивания будут применяться ко всем выделенным объектам. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Выделение объектов с использованием мыши</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Щёлкните левой кнопкой мыши в любом месте на панели просмотра и, не отпуская кнопку, выделите прямоугольную область, включив в неё объекты, которые нужно выделить. При этом предыдущее выделение будет снято. Если его необходимо сохранить, удерживайте нажатой клавишу &Shift; при выделение новых объектов. </para
+></listitem>
+
+<listitem
+><para
+>Если при выделении объекта левой кнопкой мыши нажата клавиша &Ctrl;, состояние выделения этого объекта будет меняться. Если клавиша &Ctrl; нажата при выделении прямоугольной области вокруг группы объектов, состояние выделения будет меняться для всех объектов внутри выделенной области. </para
+></listitem>
+
+<listitem
+><para
+>Если при выделении объекта левой кнопкой мыши нажата клавиша &Shift;, все объекты, расположенные между данным объектом и выделенными ранее объектами, тоже будут выделены. </para
+></listitem>
+
+<listitem
+><para
+>Если на вкладке <link linkend="preferences-dialog-general-behavior"
+>«Поведение» раздела <guilabel
+>Главное</guilabel
+> параметров приложения</link
+> включён параметр <guilabel
+>Показывать переключатель выделения на значке</guilabel
+>, при наведении указателя мыши на объект в левом верхнем углу значка, обозначающего этот объект, будет появляться маленькая кнопка <guiicon
+>+</guiicon
+> или <guiicon
+>-</guiicon
+>. Щелчок по этой кнопке будет выделять объект или снимать выделение соответственно. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Выделение объектов с использованием клавиатуры</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>При нажатии клавиш со стрелками, клавиш <keycap
+>Page Up</keycap
+>, <keycap
+>Page Down</keycap
+>, <keycap
+>Home</keycap
+>, или <keycap
+>End</keycap
+> выделение передвигается на другой файл, а предыдущее выделение снимается. </para
+></listitem>
+
+<listitem
+><para
+>Если при нажатии одной из упомянутых выше клавиш удерживать нажатой клавишу &Ctrl;, предыдущее выделение сниматься не будет. </para
+></listitem>
+
+<listitem
+><para
+>Если при нажатии одной из упомянутых выше клавиш удерживать нажатой клавишу &Shift;, все объекты между выделенным ранее и выделенным сейчас объектами тоже будут выделены. </para
+></listitem>
+
+<listitem
+><para
+>При нажатии комбинации клавиш <keycombo action="simul"
+>&Ctrl;<keysym
+>Пробел</keysym
+></keycombo
+> состояние выделения текущего объекта будет меняться. </para
+></listitem>
+
+<listitem
+><para
+>Комбинация клавиш <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> выделяет все объекты на панели просмотра. </para
+></listitem>
+
+<listitem
+><para
+>Комбинация <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> переключает состояние выделения всех объектов на панели просмотра. </para
+></listitem>
+
+<listitem
+><para
+>Набор на клавиатуре первых букв имени файла или папки будет выделять первый объект, чьё имя соответствует введённым буквам. Чтобы снять выделение и отменить поиск с клавиатуры, нажмите клавишу &Esc; или подождите 1 секунду. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Строка адреса</title>
+
+<para
+>В строке адреса, расположенной над панелью просмотра диспетчера файлов &dolphin;, показан путь до текущей папки. Строка адреса имеет два режима работы. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Режим цепочной навигации</title>
+
+<para
+>В режиме «цепочной навигации», установленном по умолчанию, имя каждой папки в пути представляет собой кнопку, при нажатии на которую будет происходить переход к соответствующей папке. Кроме того, нажатие на значок «&gt;» справа от имени папки открывает меню, которое позволяет быстро перейти к одной из вложенных папок. </para>
+
+<screenshot>
+<screeninfo
+>Строка адреса в режиме цепочной навигации</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Строка адреса в режиме цепочной навигации.</phrase>
+</textobject>
+<caption
+><para
+>Строка адреса в режиме цепочной навигации.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Текстовый вид</title>
+
+<para
+>Если щёлкнуть левой кнопкой мыши по серой области справа от пути, указанного в строке адреса в режиме цепочной навигации, строка адреса примет «текстовый вид». В этом случае путь к объекту может быть отредактирован возможно с использованием клавиатуры. Чтобы переключиться обратно на режим цепочной навигации, щёлкните левой кнопкой мыши по галочке справа от строки адреса. </para>
+
+<screenshot>
+<screeninfo
+>Строка адреса в текстовом виде</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Строка адреса в текстовом виде.</phrase>
+</textobject>
+<caption
+><para
+>Строка адреса в текстовом виде.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Поддержка протоколов</title>
+
+<para
+>Если строка адреса в текстовом виде пуста, перед строкой возможно открыть раскрывающийся список, в котором перечислены все поддерживаемые системой протоколы. Механизмы поддержки протоколов «Kioslaves» — это встроенные в &kde; программы, которые обеспечивают поддержку различных протоколов для работы диспетчера файлов &dolphin; и других приложений &kde;.</para
+> 
+
+<para
+>Например, протокол «fish» может быть использован диспетчером файлов &dolphin; для управлениям файлами и папками, хранящимися на удалённом сервере, через <acronym
+>SSH</acronym
+>. Для выполнения такого действия введите <userinput
+>fish://username@remotehost</userinput
+> в строку адреса. Подобным образом возможно управлять файлами на удалённых узлах, доступ к которым осуществляется по протоколам &FTP;, NFS, SFTP, SMB (CIFS) или webdav.</para>
+
+<para
+>Раскрывающийся список поддерживаемых протоколов также может быть использован для перехода к приложению «Параметры системы», файлам шрифтов, корзине, другим программам и устройствам, связанным с компьютером. В раскрывающемся списке приведён полный перечень поддерживаемых протоколов. </para>
+<screenshot>
+<screeninfo
+>Список протоколов</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Строка адреса со списком доступных протоколов.</phrase>
+</textobject>
+<caption
+><para
+>Список доступных протоколов.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Точки входа и контекстное меню</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Если панель <guilabel
+>Точки входа</guilabel
+> скрыта, в обоих режимах строки адреса перед указанием пути показан значок. Если щёлкнуть по этому значку левой кнопкой мыши, откроется меню, которое предоставляет быстрый доступ к «точкам входа» и устройствам хранения данных. Более подробная информация представлена в разделе <link linkend="places-panel"
+>«Точки входа»</link
+>. </para>
+
+<screenshot>
+<screeninfo
+>Строка адреса со значком точек входа</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Строка адреса со значком точек входа</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Контекстное меню строки адреса предоставляет возможность переключать режимы строки, а также копировать и вставлять путь к объекту через буфер обмена. Установите флажок в последнем пункте этого контекстного меню, чтобы в строке адреса отображался полный путь к объекту, начиная с корневой папки файловой системы, или путь, начинающийся с указания текущей точки входа. </para>
+
+<screenshot>
+<screeninfo
+>Контекстное меню строки адреса</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Контекстное меню строки адреса</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Панели</title>
+
+<para
+>Диспетчер файлов &dolphin; содержит несколько функциональных панелей, которые могут быть расположены рядом с панелью просмотра. Для показа и сокрытия панелей служит меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+>Панели</guisubmenu
+></menuchoice
+>. Если разблокировать панели и выделить заголовок одной их них, панель можно будет перетаскивать в другое место даже за пределы окна приложения. </para>
+
+<sect2 id="places-panel">
+<title
+>Точки входа</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>Панель <guilabel
+>Точки входа</guilabel
+> по умолчанию располагается в левой части окна приложения. Она содержит закладки для быстрого перехода к часто посещаемым папкам. Помимо них на этой панели показаны все диски и сменные носители информации, подключённые к компьютеру, недавно изменённые объекты, а также раздел для поиска определённых типов файлов. Порядок, в котором точки входа указаны на панели, возможно изменить перетаскиванием. </para>
+
+<para
+>Самый простой способ добавить папку на панель <guilabel
+>Точки входа</guilabel
+> — перетащить её туда. Либо щёлкнуть правой кнопкой мыши внутри панели и в открывшемся контекстном меню выбрать пункт <menuchoice
+><guimenuitem
+>Добавить запись...</guimenuitem
+></menuchoice
+>. Первый способ используется для создания системной закладки, а второй — для добавления указанного в строке адреса пути, или любой другой нужной папки или  устройства. В открывшемся при этом диалоговом окне можно будет отредактировать метку, путь, значок добавляемого объекта и ограничить использование введённых данных только диспетчером файлов &dolphin;. </para>
+
+<para
+>Контекстное меню, открываемое по щелчку правой кнопкой мыши, позволяет редактировать, добавлять, скрывать или удалять точки входа с панели, выбирать один из возможных вариантов размеров значков, а также блокировать или разблокировать панели. </para>
+<para
+>Контекстное меню позволяет открывать точку входа в новой вкладке, а также отключать подключённые устройства. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Сведения</title>
+
+<para
+>Панель <guilabel
+>Сведения</guilabel
+> показывает дополнительную информацию о выбранных объектах, текущей папке или файле, на который наведён курсор мыши, а именно: размер, тип и дату последнего изменения. Кроме того, на панели отображается содержимое выбранного объекта, и пользователь может добавить к этому объекту метку, оценку или комментарий. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Папки</title>
+
+<para
+>На панели <guilabel
+>Папки</guilabel
+> представлено дерево каталогов файловой системы компьютера. Оно содержит в себе только папки. По щелчку левой кнопкой мыши по имени папки сама папка открывается на панели просмотра приложения. </para>
+<para
+>Нажмите <guilabel
+>Ограничивать панель папок домашней папкой</guilabel
+>, чтобы скрыть все папки, кроме домашней. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Терминал</title>
+
+<para
+>В эту панель встраивается терминал. Он будет открываться в папке, которая показана на панели просмотра диспетчера файлов. Если в главном окне просмотра &dolphin; открыть другую папку, рабочая папка в терминале, также будет изменена. При изменении директории терминала будет обновляться рабочая папка на панели просмотра диспетчера файлов &dolphin;. Работа терминала возможна только с локальными носителями данных. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Советы и подсказки</title>
+
+<para
+>Ниже описаны приёмы, которые позволяют экономить время при работе с диспетчером файлов &dolphin;. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Быстрые закладки</title>
+
+<para
+>Для быстрого добавления закладки на текущую папку на панель <guilabel
+>Точек входа</guilabel
+> щёлкните правой кнопкой мыши по рабочей области и в открывшемся контекстном меню выберите пункт <menuchoice
+><guimenuitem
+>Добавить в «Точки входа»</guimenuitem
+></menuchoice
+>. </para>
+
+<note>
+    <para
+>Показ соответствующего пункта меню возможно включить или отключить с помощью <link linkend="preferences-dialog-context-menu"
+>параметров контекстного меню &dolphin;</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Фильтрация файлов</title>
+
+<para
+>В диспетчере файлов &dolphin; имеется возможность фильтрации файлов, то есть отображения на панели просмотра только тех файлов, имена которых содержат указанный текст. Например, если нужно просмотреть только <acronym
+>MP3</acronym
+> файлы, содержащиеся в папке, возможно включить фильтр <quote
+>.mp3</quote
+>. При этом все файлы, в именах которых отсутствует текст <quote
+>.mp3</quote
+>, не будут показаны на панели просмотра. </para>
+
+<para
+>Чтобы отфильтровать файлы, сначала откройте панель фильтра, нажав комбинацию клавиш <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> или выбрав пункт меню <menuchoice
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Фильтр…</guimenuitem
+> </menuchoice
+>. После этого в строке ввода укажите текст, который будет использоваться в качестве параметра фильтрации. Чтобы отключить панель фильтра, нажмите клавишу &Esc; или щёлкните левой кнопкой мыши по значку <guiicon
+>Скрыть панель фильтра</guiicon
+>. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Поиск файлов и их содержимого</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>Диспетчер файлов &dolphin; может осуществлять поиск файлов, а также любой информации по их содержимому. При нажатии комбинации клавиш <keycombo action="simul"
+> &Ctrl;<keycap
+>F</keycap
+></keycombo
+> или выборе пункта меню <menuchoice
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Найти...</guimenuitem
+> </menuchoice
+> открывается панель <guilabel
+>поиска</guilabel
+>, настроенная на поиск файлов внутри текущей папки и её вложенных папок. Поиск начинается сразу после начала ввода искомого текста в строку поиска. <screenshot>
+<screeninfo
+>Поиск файлов и их содержимого</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поиск файлов и их содержимого</phrase>
+</textobject>
+<caption
+><para
+>Поиск файлов и их содержимого с помощью диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Поиск производится без учёта регистра и не требует применения подстановочных знаков в начале и конце строки (<userinput
+>*foo*</userinput
+> и <userinput
+>foo</userinput
+> считаются эквивалентами), но допускает их использование в условиях поиска. В этом случае <userinput
+>*</userinput
+> соответствует произвольному числу символов, а <userinput
+>?</userinput
+> — только одному символу.</para>
+<para
+>Эта функция может использоваться при запуске служб «Baloo»; если они не установлены, для выполнения поиска запускается «KIOSlave».</para>
+<para
+>Если включён параметр <guilabel
+>Везде</guilabel
+>, то при активированных службах «Baloo» поиск будет выполнен во всех индексированных папках, а без использования «Baloo» поиск начнётся с <replaceable
+>Домашней папки</replaceable
+> пользователя.</para>
+<screenshot>
+<screeninfo
+>Больше параметров поиска</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Больше параметров поиска</phrase>
+</textobject>
+<caption
+><para
+>Поиск, выполняемый диспетчером файлов &dolphin; с применением большего количества параметров поиска.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Нажмите кнопку <guilabel
+>Больше вариантов</guilabel
+>, чтобы расширить панель <guilabel
+>Поиск...</guilabel
+>. Это позволяет значительно сократить область поиска.</para>
+<para
+>Чтобы начать поиск, выберите один или несколько типов файлов (<guilabel
+>Документы</guilabel
+>, <guilabel
+>Звуковые файлы</guilabel
+>, <guilabel
+>Видео</guilabel
+>, <guilabel
+>Изображения</guilabel
+>), период времени, оценку и метку (если с помощью команды <userinput
+>tag:<replaceable
+>foo</replaceable
+></userinput
+> в поле ввода были заданы какие-либо метки).</para>
+ 
+ <para
+>Выделение возможно снять с помощью кнопки <guibutton
+>Отменить выделение</guibutton
+>.</para>
+
+<para
+>Кроме того, те же параметры возможно выбрать на панели <guilabel
+>Точки входа</guilabel
+> и воспользоваться панелью фильтра, чтобы найти нужные файлы при помощи службы «Baloo» или ограничить результаты поиска файлами, отвечающими условиям фильтрации.</para>
+
+<para
+>Для сохранения параметров поиска в разделе <guilabel
+>Поиск</guilabel
+> панели <guilabel
+>Точки входа</guilabel
+> для их повторного использования служит значок «Сохранить». </para>
+
+<para
+>Инструменты поиска, отличные от Baloo, возможно выбрать в раскрывающемся списке <guilabel
+>Другие инструменты поиска</guilabel
+>. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Подключение внешних носителей информации</title>
+
+<para
+>Чтобы быстро подключить внешний носитель информации, нажмите на его имя на панели <guilabel
+>Точки входа</guilabel
+>. При этом носитель будет подключён, а его содержимое будет показано на панели просмотра диспетчера файлов &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Отмена действий</title>
+
+<para
+>В диспетчере файлов &dolphin; имеется возможность отменить выполненные с файлами изменения. Например, если файл был перемещён в корзину, его возможно восстановить и вернуть на прежнее место. Для этого нажмите комбинацию клавиш <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> или выберите пункт меню <menuchoice
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Отменить (название действия)</guimenuitem
+> </menuchoice
+>, например, <guimenuitem
+>Отменить переименование</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Переименование группы файлов</title>
+<para
+>Диспетчер файлов &dolphin; предоставляет возможность переименовывать несколько файлов одним действием. При этом каждый файл получает заданное имя и номер, например, Image1.jpg, Image2.jpg, Image3.jpg. Это может быть полезно, например, при работе с изображениями, сделанными с помощью цифровой камеры. </para>
+<!--double click-->
+<para
+>Чтобы переименовать группу файлов, сначала выделите файлы, которые нужно переименовать. Это возможно сделать щелчком левой кнопкой мыши или выделением прямоугольной области вокруг файлов, которые необходимо переименовать, или, удерживая нажатой кнопку &Ctrl;, щёлкать по каждому файлу, который необходимо переименовать (более подробно процесс выделения файлов описан в разделе <link linkend="selection"
+>«Выделение объектов на панели просмотра»</link
+>). Затем откройте диалог переименования объектов, нажав клавишу <keycap
+>F2</keycap
+> или выбрав пункт меню <menuchoice
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Переименовать...</guimenuitem
+> </menuchoice
+>. </para>
+
+<para
+>Введите имя, которое необходимо присвоить выделенным файлам. Имя должно содержать символ <userinput
+>#</userinput
+>, вместо которого в новых именах файлов будет подставляться порядковый номер. </para>
+
+<para
+>Если были выбраны файлы с разным расширением, использовать символ <userinput
+>#</userinput
+> при переименовании файлов необязательно, так как в именах файлов будут сохраняться их расширения. Это удобно, например, при переименовании видео файла и всех связанных с ним файлов с субтитрами, которые имеют то же имя, но другое расширение. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Сравнение групп файлов или папок</title>
+
+<para
+>Если установлено приложение сравнения файлов &kompare;, то оно может быть использовано для просмотра различий между двумя файлами или папками. </para>
+
+<para
+>Сначала выделите два файла или папки для сравнения. Затем запустите приложение &kompare; через меню <menuchoice
+> <guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Сравнить файлы</guimenuitem
+> </menuchoice
+>. В открывшемся окне будут показаны различия между выбранными файлами или папками. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Настройка диспетчера файлов &dolphin;</title>
+
+<para
+>В диспетчере файлов &dolphin; существует два вида параметров: <itemizedlist>
+
+<listitem
+><para
+>Параметры, которые влияют на общее поведение приложения &dolphin;. Для настройки этих параметров предназначено диалоговое окно <link linkend="preferences-dialog"
+>Настройка Dolphin</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Параметры, которые влияют на то, как содержимое папки отображается в окне диспетчера файлов. Диалог настройки этих параметров называется <link linkend="view-properties"
+>Настройка режима просмотра</link
+>. Настраивать параметры возможно с помощью кнопок панели инструментов, меню <guimenu
+>Вид</guimenu
+> и в упомянутом выше диалоге <link linkend="view-properties-dialog"
+>настройки режима просмотра</link
+>. По умолчанию параметры режима просмотра настраиваются отдельно для каждой папки, но в программе имеется возможность установки общих параметров просмотра для всех папок, а именно в разделе <link linkend="preferences-dialog-general-behavior"
+>«Главное»</link
+> диалога настройки приложения. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>Диалог настройки &dolphin;</title>
+<para
+>Диалог настройки диспетчера файлов &dolphin; открывается через меню <menuchoice
+><guimenu
+>Настройка</guimenu
+> <guimenuitem
+>Настроить &dolphin;...</guimenuitem
+></menuchoice
+>. Настраиваемые параметры разбиты на несколько групп, переход между которыми осуществляется нажатием на соответствующий значок в левой части диалогового окна. </para>
+
+<para
+>Все параметры, за исключением раздела <guilabel
+>Начальное состояние</guilabel
+> и вкладки <guilabel
+>Строка состояния</guilabel
+> раздела <guilabel
+>Главное</guilabel
+> не отличаются от параметров настройки диспетчера файлов &konqueror;. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Основное</title>
+
+<para
+>В этом разделе собраны параметры, которые определяют общее поведение диспетчера файлов &dolphin;. Параметры для удобства разбиты на четыре вкладки. <screenshot>
+<screeninfo
+>Диалог настройки основных параметров диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Основные параметры.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки основных параметров диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Вкладка «Поведение»</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>В разделе <guilabel
+>Вид</guilabel
+> возможно выбрать, нужно ли использовать индивидуальные свойства <link linkend="view-properties"
+> режима просмотра</link
+> для каждой папки или применять общие свойства для всех папок. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Режим сортировки</guilabel
+> определяет, по какому принципу будут отсортированы объекты на панели просмотра. Если включён параметр <guilabel
+>Естественная алфавитно-числовая сортировка</guilabel
+>, приведённые ниже в качестве примера файлы будут отсортированы следующим образом: <orderedlist
+> <listitem
+><para
+>Файл 1,</para
+></listitem
+> <listitem
+><para
+>Файл 2,</para
+></listitem
+> <listitem
+><para
+>Файл 10.</para
+></listitem
+> </orderedlist
+> Если этот параметр выключен, к названиям объектов будет применяться принцип сортировки по алфавиту с учётом или без учёта регистра. В этом случае файлы будут представлены в следующем порядке: <orderedlist>
+<listitem
+><para
+>Файл1,</para
+></listitem>
+<listitem
+><para
+>Файл10,</para
+></listitem>
+<listitem
+><para
+>Файл2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Если параметр <guilabel
+>Показывать всплывающие подсказки</guilabel
+> отмечен флажком, при наведении указателя мыши на файл или папку будет всплывать окно с соответствующей информацией. </para
+></listitem>
+
+<listitem
+><para
+>Если включён параметр <guilabel
+>Показывать переключатель выделения на значке</guilabel
+>, при наведении указателя мыши на объект в левом верхнем углу значка, обозначающего этот объект, будет появляться маленькая кнопка <guiicon
+>+</guiicon
+> или <guiicon
+>-</guiicon
+>. Щелчок по этой кнопке будет выделять объект или снимать выделение соответственно. </para
+></listitem>
+
+<listitem
+><para
+>Для переименования объектов по одному удобно включить параметр <guilabel
+>Не открывать отдельное окно для переименования</guilabel
+>. Если этот параметр выключен или для переименования выделено несколько объектов, будет открываться отдельное диалоговое окно. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Клавиша Tab переключает между двумя панелями</guilabel
+> позволяет выполнять переход между панелями без использования мыши. </para
+></listitem>
+
+<listitem
+><para
+>Снимите флажок с параметра <guilabel
+>Закрывать активную панель при отключении двухпанельного режима</guilabel
+>, чтобы закрывать неактивную панель при отключении двухпанельного режима, например, с помощью клавиши <keycap
+>F3</keycap
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Вкладка «Миниатюры»</title>
+
+<para
+>В этой вкладке возможно указать, для каких типов файлов будет включён предварительный просмотр. Также здесь задаётся максимальный размер удалённых и локальных файлов, для которых будет создаваться миниатюра. </para>
+<para
+>Если миниатюры включены для папок, то вместо значка папки будет показана комбинация миниатюр отдельных файлов, которые в них содержатся. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Вкладка «Подтверждения»</title>
+<para
+>В разделе о подтверждениях возможно включить вывод предупреждений на экран при выполнении потенциально опасных действий. </para>
+<para
+>Также возможно выбрать действие по умолчанию для параметра <guilabel
+>При открытии исполняемого файла:</guilabel
+>. Выбрать следует одну из трёх опций: <guimenuitem
+>Всегда спрашивать</guimenuitem
+>, <guimenuitem
+>Открывать в приложении</guimenuitem
+> или <guimenuitem
+>Запускать сценарий</guimenuitem
+>. </para>
+<warning
+><para
+>Параметры вывода запросов о подтверждении <guilabel
+>При удалении в корзину файлов и папок</guilabel
+> и <guilabel
+>При полном удалении файлов и папок</guilabel
+> влияют на выполнение действий с файлами в диспетчерах файлов &dolphin;, &konqueror;, программе просмотра изображений <application
+>Gwenview</application
+> и всех других приложениях &kde;, в которых используется стандартный диалог работы с файлами. А параметр запроса подтверждения <guilabel
+>При закрытии окон Dolphin с несколькими вкладками</guilabel
+> действует только в отношении диспетчера файлов &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Вкладка «Строка состояния»</title>
+
+<para
+>В этой вкладке возможно включить дополнительные элементы строки состояния, при условии, что её ширина достаточна для этого: <itemizedlist>
+
+<listitem
+><para
+>Пункт меню <guilabel
+>Показывать строку состояния</guilabel
+> позволяет включить или отключить показ строки состояния. </para
+></listitem>
+
+<listitem
+><para
+>Пункт меню <guilabel
+>Показывать ползунок масштаба</guilabel
+> позволяет включить или отключить показ ползунка масштаба значков. </para
+></listitem>
+
+<listitem
+><para
+>Пункт меню <guilabel
+>Показывать сведения о свободном месте</guilabel
+> позволяет включить или отключить показ строки с информацией о количестве свободного места на текущем диске. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Начальное состояние</title>
+
+<para
+>В этом разделе собраны параметры, которые влияют на то, как будет выглядеть окно диспетчера файлов &dolphin; при запуске. <screenshot>
+<screeninfo
+>Диалог настройки параметров начального состояния диспетчера файлов &dolphin;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Параметры начального состояния.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки параметров начального состояния диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Параметр <guilabel
+>Показывать при запуске</guilabel
+> позволяет выбрать папку, которая будет открываться при запуске &dolphin;. </para>
+<para
+>Если установлен флажок на параметре <guimenuitem
+>Восстанавливать состояние папок, вкладок и окон с прошлого раза</guimenuitem
+>, то </para>
+<itemizedlist>
+    <listitem>
+        <para
+>При запуске через графический интерфейс или командную строку без каких-либо &URL;-адресов &dolphin; восстанавливает предыдущую сессию.</para>
+    </listitem>
+    <listitem>
+        <para
+>При перезагрузке компьютера с открытым &dolphin; вкладки будут восстановлены.</para>
+    </listitem>
+    <listitem>
+        <para
+>При запуске с &URL;-адресами открывается окно &dolphin;, показывающее эти &URL;-адреса вместо восстановления сеанса.</para>
+    </listitem>
+    <listitem>
+        <para
+>Когда приложение уже запущено и открывается новое окно, в этом новом окне отображается одна вкладка с тем же &URL;-адресом, который был виден в ранее открытом экземпляре приложения.</para>
+    </listitem>
+</itemizedlist>
+<para
+><guilabel
+>Домашняя папка</guilabel
+> — это папка, которая открывается при запуске диспетчера файлов. Адрес папки возможно ввести вручную или выбрать в диалоговом окне, которое открывается при нажатии на значок с изображением «папки». Кроме того, при нажатии на соответствующую кнопку, в качестве папки, с которой будет открываться диспетчер файлов &dolphin;, возможно задать текущую папку или папку по умолчанию (то есть домашнюю папку пользователя). </para
+></listitem>
+
+<listitem
+><para
+>Параметр <guilabel
+>Две панели</guilabel
+> определяет, должна ли <link linkend="dolphin-view"
+>панель просмотра</link
+> при запуске диспетчера файлов &dolphin; быть разбита на две панели или нет. </para
+></listitem>
+
+<listitem
+><para
+>Параметр <guilabel
+>Панель фильтра</guilabel
+> определяет, должна ли отображаться панель фильтра при запуске диспетчера файлов или нет. Более подробно панель фильтра описана в <link linkend="filter-files"
+>разделе о панели фильтра</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Параметр <guilabel
+>Путь в текстовом формате в строке адреса</guilabel
+> задаёт режим, в котором будет показана строка адреса при запуске приложения. Альтернативой текстовому виду является режим цепочной навигации. Более подробно оба режима описаны <link linkend="location-bar"
+>в разделе о строке адреса</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Параметр <guilabel
+>Открывать новые папки во вкладках</guilabel
+> определяет, должен ли &dolphin; открывать новые папки в новой вкладке в том же окне. Если с данного параметра флажок снят, папки будут открываться в новых окнах. По умолчанию этот параметр включён. </para
+></listitem>
+
+<listitem
+><para
+>Если флажком отмечен параметр <guilabel
+>Полный путь в строке адреса</guilabel
+>, то в строке адреса в режиме цепочной навигации будет показан полный путь к текущей папке. Если флажок не установлен, будет показан короткий путь, если он начинается с одной из точек, указанных на панели <guilabel
+>Точки входа</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Параметр <guilabel
+>Полный путь в заголовке окна</guilabel
+> позволяет легко различать файлы или папки с одинаковыми именами, но расположенные в разных папках. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Режимы просмотра</title>
+
+<para
+>Этот раздел содержит параметры, которые управляют поведением режимов просмотра диспетчера файлов &dolphin;. Один из трёх возможных режимов («Значки», «Столбцы» и «Таблица») можно настроить, открыв одну из соответствующих вкладок в верхней части окна. <screenshot>
+<screeninfo
+>Параметры режима просмотра «Значки» в диалоге настройки диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Параметры режимов панели просмотра.</phrase>
+</textobject>
+<caption
+><para
+>Параметры режимов панели просмотра в диалоге настройки диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Общие параметры для всех режимов просмотра</title>
+
+<para
+>Для всех трёх режимов просмотра существуют общие параметры: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Ползунки, которые позволяют изменять размер значков. Размеры значков <guilabel
+>По умолчанию</guilabel
+> или <guilabel
+>Миниатюра</guilabel
+> используются при выключенном или включённом режиме миниатюр соответственно. Важно помнить, что размер значков легко изменить при помощи ползунка масштаба, расположенного в строке состояния, если соответствующий параметр включён в разделе <link linkend="preferences-dialog-general-statusbar"
+>«Главное»</link
+> диалога настройки приложения. </para
+></listitem>
+
+<listitem
+><para
+>В этой же вкладке возможно выбрать, какой шрифт будет использован на панели просмотра приложения в том или ином режиме: системный или пользовательский. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Другие параметры в разделе <guilabel
+>Текст</guilabel
+>, настраиваемые только для одного из режимов просмотра, описаны ниже. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Значки</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>Параметр <guilabel
+>Ширина</guilabel
+> задаёт минимальную ширину отображения имени файла. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Максимальное количество строк</guilabel
+> обозначает максимальное количество строк текста, которые могут быть показаны под значком. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Столбцы</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>Параметр <guilabel
+>Максимальная ширина</guilabel
+> задаёт максимальную ширину, которую может занимать имя файла. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Таблица</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>Если включён параметр <guilabel
+>Раскрываемые папки</guilabel
+>, все папки, имеющие вложенные папки, будут представлены в виде «дерева», и каждый вложенный элемент можно будет развернуть или свернуть щелчком левой кнопкой мыши по значку <guiicon
+>&gt;</guiicon
+> или <guiicon
+>v</guiicon
+> соответственно. </para>
+<para
+>Параметр <guilabel
+>Отображение размера папки</guilabel
+> позволяет определить используемые свойства, а затем отсортировать папки по их размеру. Папки возможно отсортировать по <guilabel
+>Количеству объектов</guilabel
+> или <guilabel
+>Размеру содержимого</guilabel
+>, а также выбрать предел рекурсивного уровня (может быть полезно для ограничения ненужных переходов в глубинных структурах папок или на медленных файловых системах). </para>
+<para
+>Параметр <guilabel
+>Формат дат</guilabel
+> возможно использовать для настройки режима показа дат в &dolphin;. Доступны следующие варианты: <guilabel
+>Относительный</guilabel
+> (например, <quote
+>Вчера, 3:00 pm</quote
+>) или <guilabel
+>Абсолютный</guilabel
+> (например, <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Навигация</title>
+
+<para
+>В этом разделе собраны параметры, которые определяют принципы перехода между объектами в файловой системе и в архивах. <screenshot>
+<screeninfo
+>Диалог настройки навигации в диспетчере файлов &dolphin;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Параметры навигации.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки навигации в диспетчере файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Использование одного или двух щелчков кнопкой мыши для открытия объектов является системным параметром и может быть настроено в модуле <menuchoice
+><guimenu
+>Поведение рабочей среды</guimenu
+> <guimenuitem
+>Основные параметры</guimenuitem
+></menuchoice
+> приложения «Параметры системы».</para>
+</listitem>
+
+<listitem
+><para
+>Если включить параметр <guilabel
+>Открывать архивы как папки</guilabel
+>, архивы будут открываться диспетчером файлов &dolphin;, а не сторонним приложением. </para
+></listitem>
+
+<listitem
+><para
+>Если включить параметр <guilabel
+>Открывать папки при перетаскивании</guilabel
+>, перетаскивание объекта при помощи мыши и удержание его в течении короткого времени над папкой, в которую будет перемещён объект, откроет соответствующую папку. Это позволяет быстро перемещать и копировать объекты в папки, которые расположены на несколько уровней ниже в иерархии папок. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>Действия</title>
+
+<para
+>В этом разделе перечислены действия, доступные во вложенном меню <guisubmenu
+>Действия</guisubmenu
+> контекстного меню, вызываемого щелчком правой кнопкой мыши по файлу или папке в диспетчере файлов &dolphin;. </para>
+
+<screenshot>
+<screeninfo
+>Диалог настройки действий диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Настройка действий.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки действий диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Нажмите кнопку <guibutton
+>Загрузить новые действия…</guibutton
+>, чтобы добавить действия в контекстное меню. </para>
+<para
+>Если из пакета «kdesdk» были установлены модули диспетчера файлов &dolphin; для таких систем контроля версий как <guilabel
+>Bazaar</guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> или <guilabel
+>Subversion</guilabel
+>, соответствующие действия будут показаны в списке действий. Если эти модули включены и указана папка, для которой будет проводиться контроль версий, состояние версии (изменена локально, актуальная и так далее) будет показано в виде значка, а в контекстном меню появятся дополнительные пункты, такие как «отправить», «обновить», «добавить», «удалить» и так далее. </para>
+<para
+>В списке действий также возможно выбрать, следует ли отображать в контекстном меню команды <guimenuitem
+>Копировать в</guimenuitem
+>, <guimenuitem
+>Переместить в</guimenuitem
+>, <guimenuitem
+>Добавить в «Точки входа»</guimenuitem
+>, <guimenuitem
+>Сортировка</guimenuitem
+>, <guimenuitem
+>Режим просмотра</guimenuitem
+>, <guimenuitem
+>Открыть в новой вкладке</guimenuitem
+>, <guimenuitem
+>Открыть в новом окне</guimenuitem
+>, <guimenuitem
+>Копировать расположение</guimenuitem
+> и <guimenuitem
+>Создать копию</guimenuitem
+>. </para>
+<para
+>Чтобы изменения вступили в силу, необходимо перезапустить диспетчер файлов &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Корзина</title>
+
+<para
+>В этой группе собраны параметры, которые влияют на поведение корзины. <screenshot>
+<screeninfo
+>Диалог настройки параметров корзины диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Параметры корзины.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки параметров корзины диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Файлы, старше указанного количества дней, могут быть удалены автоматически. </para
+></listitem>
+
+<listitem
+><para
+>Размер корзины возможно ограничить, указав процент занимаемого ей пространства жёсткого диска. При достижении этого лимита будет показано предупреждение или автоматически будут удаляться самые старые или самые большие файлы. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>Корзина</title>
+
+<para
+>В этом разделе собраны параметры, которые позволяют настроить отправку информации об использовании &dolphin; разработчикам программы. <screenshot>
+<screeninfo
+>Диалог настройки обратной связи диспетчера файлов &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Параметры обратной связи.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки обратной связи диспетчера файлов &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Возможно предоставить разработчикам &dolphin; обратную связь. Используйте ползунки для настройки её уровня. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Режимы просмотра папок</title>
+
+<para
+>Описанные ниже параметры влияют на то, как содержимое папок будет отображаться на панели просмотра диспетчера файлов &dolphin;, и по умолчанию настраиваются отдельно для каждой папки. </para>
+<itemizedlist>
+
+<listitem
+><para
+>Режим просмотра («Значки», «Столбцы», «Таблица») </para
+></listitem>
+
+<listitem
+><para
+>Сортировка объектов — возможна сортировка по одному из критериев (например, имя, размер, ...) в возрастающем или убывающем порядке. </para
+></listitem>
+
+<listitem
+><para
+>Сортировка папок и файлов — определяет, необходимо ли показывать папки перед файлами. </para
+></listitem>
+
+<listitem
+><para
+>Миниатюры — возможно отображение миниатюр вместо значков (зависит от настройки параметра на вкладке <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Миниатюры</guilabel
+> в разделе «Главное» диалога параметров приложения</link
+>). </para
+></listitem>
+
+<listitem
+><para
+>Разбивка объектов на группы на панели просмотра. </para
+></listitem>
+
+<listitem
+><para
+>Отображение скрытых файлов. </para
+></listitem>
+
+<listitem
+><para
+>Выбор дополнительных сведений (помимо имени), которые должны быть показаны в режиме «Значки» или «Таблица». </para
+></listitem>
+
+</itemizedlist>
+<para
+>Параметры режимов просмотра возможно настроить в меню <menuchoice
+><guimenu
+>Вид</guimenu
+></menuchoice
+>, а некоторые (такие как выбор режима просмотра) — с помощью кнопок на панели инструментов. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>Диалог настройки режима просмотра</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Диалог настройки режима просмотра</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Диалог настройки режима просмотра.</phrase>
+</textobject>
+<caption
+><para
+>Диалог настройки режима просмотра.</para
+></caption>
+</mediaobject>
+</screenshot
+>Диалог <guilabel
+>Настройка режима просмотра</guilabel
+> используют для быстрого изменения сразу нескольких параметров. Параметры просмотра могут быть  применены к текущей папке, к текущей папке и вложенным папкам или ко всем папкам в зависимости от того, какой пункт отмечен в разделе <guilabel
+>Применить параметры режима просмотра к</guilabel
+>. </para>
+
+<para
+>Если установить флажок <guilabel
+>Использовать эти параметры по умолчанию</guilabel
+>, выбранные параметры режима просмотра будут также применяться для всех папок, для которых не были применены пользовательские параметры. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Список команд</title>
+<para
+>По умолчанию строка меню скрыта. Выполнить описанные ниже действия возможно с помощью кнопок, расположенных на панели задач, или используя пункты меню, которое открывается при нажатии кнопки <guibutton
+>Управление</guibutton
+> на панели инструментов.</para>
+
+<sect1 id="commands-menubar">
+<title
+>Строка меню в основном окне диспетчера файлов &dolphin;</title>
+
+<sect2>
+<title
+>Меню «Файл»</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+> <guisubmenu
+>Создать</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Создаёт новый объект (например, папку или текстовый файл) в текущей папке.</action
+></para>
+<para
+>Все объекты, которые можно создать, описаны в главе <ulink url="help:/konqueror/making.html"
+>«Меню «Создать»</ulink
+> руководства пользователя &konqueror; в роли диспетчера файлов.</para>
+<note>
+    <para
+>Возможно создавать свои собственные пункты подменю <guisubmenu
+>Создать</guisubmenu
+>. Используйте файлы из <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>репозитория исходного кода KIO</ulink
+> в качестве основы, поместите получившийся файл <filename role="extension"
+>.desktop</filename
+> в каталог <filename role="directory"
+>.local/share/templates</filename
+> в своём домашнем каталоге (адрес возможно определить путём выполнения команды <userinput
+>kf5-config --path templates</userinput
+> в &konsole;), а затем перезапустите &dolphin;. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Новое окно</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает новое окно диспетчера файлов &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Новая вкладка</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает новую вкладку.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Закрыть вкладку</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Закрывает текущую вкладку.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Восстановить закрытую вкладку</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Повторно открывает закрытую вкладку.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Переименовать...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Предоставляет возможность переименования выделенного файла во встроенной строке. Если выделено два и более файлов, открывает <link linkend="batch-rename"
+>диалог переименования файлов</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Удалить в корзину</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Перемещает выделенные объекты в корзину.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Удалить</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Окончательно удаляет выделенные объекты. При этом объекты не попадают в корзину и не могут быть восстановлены.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Показать цель</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Это действие открывает новое окно &dolphin; и выделяет в нём цель ссылки. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Создать копию</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Создаёт дубликаты выделенных элементов, добавляя к именам новых файлов слово <replaceable
+>«копия»</replaceable
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Enter</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Свойства</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Показывает диалоговое окно свойств выделенных объектов.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Выход</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Закрывает диспетчер файлов &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Меню «Правка»</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Отменить действие</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отменяет последнее действие, выполненное в программе.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Вырезать</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Вырезает выделенные объекты.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Копировать</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Копирует выделенные объекты.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Вставить из буфера обмена...</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Вставить файл</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Вставить папку</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Правка</guimenu
+><guimenuitem
+>Вставить х объектов</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Вставляет скопированные или вырезанные объекты в текущую папку. Если в буфере обмена содержится не файл или папка, а, например, текст или изображение, то это содержимое будет вставлено в новый файл. Имя такого файла вводится в открывшемся диалоге. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Копировать в неактивную панель</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Копирует выделенные элементы из активной панели в неактивную.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Переместить в неактивную панель</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Перемещает текущие выделенные элементы из активной панели в неактивную. Параметр неактивен, если текущий пользователь не имеет прав редактирования выбранных элементов.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Фильтр...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Включает и отключает <link linkend="filter-files"
+>панель фильтра</link
+>.</action
+> Это действие также быть выполнено сочетанием клавиш <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Найти...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает панель поиска. Введите искомый объект в поле ввода текста и выберите, следует ли осуществлять поиск по имени файлов или по содержимому, в текущей папке или везде.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Выделить все</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Выделяет все файлы и папки в текущей папке.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Правка</guimenu
+> <guimenuitem
+>Обратить выделение</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Выделяет все невыделенные объекты и снимает выделение с выделенных объектов в текущей папке. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Меню «Вид»</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Увеличить</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Увеличивает размер значков на панели просмотра.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Уменьшить</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Уменьшает размер значков на панели просмотра.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Восстановить масштаб</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Возвращает размер значков на панели просмотра к значению по умолчанию.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guisubmenu
+>Режим просмотра</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Включает один из режимов просмотра: <guimenuitem
+>Значки</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Столбцы</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) или <guimenuitem
+>Таблица</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guisubmenu
+>Сортировка</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Сортирует объекты</action
+> по <guimenuitem
+>Имени</guimenuitem
+> или одному из других критериев, описанных в разделе <link linkend="dolphin-view-information"
+>«Отображение сведений на панели просмотра»</link
+>.</para>
+<para
+>Параметр <guimenuitem
+>По убыванию</guimenuitem
+> меняет порядок сортировки объектов на обратный. Параметр <guimenuitem
+>Сначала папки</guimenuitem
+> помещает папки перед файлами на панели просмотра. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guisubmenu
+>Дополнительные сведения</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отображает дополнительные сведения</action
+>, описанные в разделе <link linkend="dolphin-view-information"
+>«Отображение сведений на панели просмотра»</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Показывать миниатюры</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Показывает символические изображения содержимого файлов</action
+> в различных режимах просмотра.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Разбивать на группы</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Показывает</action
+> содержимое текущей папки, объединённое в группы по критерию, отмеченному в пункте меню <guimenuitem
+>Сортировка</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Показывать скрытые файлы</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Показывает все скрытые файлы и вложенные папки, содержащиеся в текущей папке.</action
+> Для выполнения этого действия также может использоваться сочетание клавиш <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Две панели</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Включает и выключает вторую панель просмотра в одном окне.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guimenuitem
+>Обновить</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Перезагружает содержимое текущей папки.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Остановить</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Останавливает загрузку или чтение содержимого текущей папки.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guisubmenu
+>Показывать панели</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Включает и отключает</action
+> различные <link linkend="panels"
+>панели</link
+>: <guimenuitem
+>Точки входа</guimenuitem
+> (<keycap
+>F9</keycap
+>), <guimenuitem
+>Сведения</guimenuitem
+> (<keycap
+>F11</keycap
+>), <guimenuitem
+>Папки</guimenuitem
+> (<keycap
+>F7</keycap
+>), <guimenuitem
+>Терминал</guimenuitem
+> (<keycap
+>F4</keycap
+>). Параметр <guimenuitem
+>Заблокировать панели</guimenuitem
+> для экономии пространства скрывает заголовок панели с надписью и две кнопки, и панели становятся неизменяемыми, а пункт <guimenuitem
+>Разблокировать панели</guimenuitem
+> делает заголовки видимыми, а панели возможно перемещать влево и вправо или выносить за пределы окна приложения. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guisubmenu
+>Строка адреса</guisubmenu
+> <guimenuitem
+>Текстовый вид</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Переключает режимы строки адреса: <link linkend="location-bar-bread-crumb"
+>режим цепочной навигации</link
+> и <link linkend="location-bar-editable"
+>текстовый вид</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Вид</guimenu
+> <guisubmenu
+>Строка адреса</guisubmenu
+> <guimenuitem
+>Изменить путь</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>При необходимости переключает режим строки адреса на <link linkend="location-bar-editable"
+>текстовый вид</link
+> и выделяет ту часть пути, которую можно быстро изменить. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Вид</guimenu
+> <guimenuitem
+>Настроить режим просмотра...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает диалог <link linkend="view-properties-dialog"
+>Настройка режима просмотра</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Меню «Переход»</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Вверх</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Переход</guimenu
+> <guimenuitem
+>Вверх</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Переходит в папку, в которой находится текущая папка.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Влево</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Переход</guimenu
+> <guimenuitem
+>Назад</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Переходит в папку, просматриваемую перед текущей.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Вправо</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Переход</guimenu
+> <guimenuitem
+>Вперёд</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отменяет</action
+> действие «Назад».</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Переход</guimenu
+> <guimenuitem
+>Домой</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Переходит в домашнюю папку пользователя, например, /home/Peter/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Переход</guimenu
+> <guisubmenu
+>Недавно закрытые вкладки</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Показывает список недавно закрытых вкладок, которые можно открыть повторно.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Меню «Сервис»</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Открыть терминал</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает эмулятор терминала &konsole; в текущей папке.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Открыть предпочитаемый инструмент поиска</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Открывает предпочитаемый инструмент поиска в текущей папке.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guimenuitem
+>Сравнить файлы</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Сравнивает выделенные файлы или папки с помощью приложения сравнения файлов &kompare;. Это действие может быть выполнено только в том случае, если выбрано два файла или две папки.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Сервис</guimenu
+> <guisubmenu
+>Кодировка сервера</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Позволяет вручную выбрать кодировку для сетевого диска.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Меню «Настройка» и «Справка»</title
+> 
+<para
+>Меню <guimenu
+>Настройка</guimenu
+> и <guimenu
+>Справка</guimenu
+> диспетчера файлов &dolphin; не отличается от тех же меню других приложений &kde;. Более подробно они описаны в разделах <ulink url="help:/fundamentals/ui.html#menus-settings"
+>«Меню «Настройка»</ulink
+> и <ulink url="help:/fundamentals/ui.html#menus-help"
+>«Меню «Справка»</ulink
+> «Основ KDE». </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Прочие вопросы</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Теперь &dolphin; будет вместо &konqueror;?</para>
+</question>
+<answer>
+<para
+>&dolphin; не является прямым конкурентом &konqueror;: &konqueror; представляет собой универсальное приложение для просмотра страниц &HTML;, текстовых документов, папок и многого другого, тогда как &dolphin; сосредоточен на задачах работы с файлами. Такой подход позволяет оптимизировать интерфейс под задачи управления файлами. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Как я могу принять участие в развитии диспетчера файлов &dolphin;?</para>
+</question>
+<answer>
+<para
+>Самый простой способ внести свой вклад в развитие &dolphin; — подписаться на список рассылки разработчиков <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> и написать по этому адресу письмо, указав, что вы умеете, столько времени можете уделять проекту и так далее. В ответ на письмо разработчики напишут, какую помощь вы можете оказать проекту. Если вы хотите принять участие в разработке документации, напишите письмо в список рассылки <ulink url="mailto:kde-doc-english@kde.org"
+>команды разработки документации &kde;</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Как я могу сообщить об обнаруженной ошибке?</para>
+</question>
+<answer>
+<para
+>Официальный канал передачи сообщений об ошибках — система отслеживания ошибок &kde;, доступная по ссылке <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Как я могу сделать запрос на добавление новых функций в приложение?</para>
+</question>
+<answer>
+<para
+>Официальный канал передачи запросов о недостающем функционале приложений — система отслеживания ошибок &kde;, доступная по ссылке <ulink url="https://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Авторские права и лицензия</title>
+
+<para
+>&dolphin; </para>
+<para
+>Программа: &copy; Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> and Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+>, 2006-2014. </para>
+<para
+>Участники: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Документация: &copy; Peter Penz <email
+>peter.penz@gmx.at</email
+>, 2005. </para>
+<para
+>Документация: &copy; &Orville.Bennett; &Orville.Bennett.mail;, 2006. </para>
+<para
+>Документация: &copy; Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+>, 2006. </para>
+<para
+>Документация: &copy; Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+>, 2009. </para>
+
+<para
+>Перевод на русский язык: Ольга Миронова, <email
+>omiro@basealt.ru</email
+>, Мария Шикунова, <email
+>translation-team@basealt.ru</email
+>.</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

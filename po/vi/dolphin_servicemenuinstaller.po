@@ -1,0 +1,148 @@
+# Copyright (C) YEAR This file is copyright:
+# This file is distributed under the same license as the dolphin package.
+#
+# Le Hoang Phuong <herophuong93@gmail.com>, 2020.
+# Phu Hung Nguyen <phu.nguyen@kdemail.net>, 2020, 2021.
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"PO-Revision-Date: 2021-02-23 21:14+0100\n"
+"Last-Translator: Phu Hung Nguyen <phu.nguyen@kdemail.net>\n"
+"Language-Team: Vietnamese <kde-l10n-vi@kde.org>\n"
+"Language: vi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Lokalize 20.08.1\n"
+
+#: servicemenuinstaller.cpp:44
+#, kde-format
+msgid "Dolphin service menu installation failed"
+msgstr "Cài đặt trình đơn dịch vụ Dolphin thất bại"
+
+#: servicemenuinstaller.cpp:72
+#, kde-format
+msgid "Failed to install \"%1\", exited with status \"%2\""
+msgstr "Cài đặt \"%1\" thất bại, kết thúc với tình trạng \"%2\""
+
+#: servicemenuinstaller.cpp:104
+#, kde-format
+msgid "Failed to uninstall \"%1\", exited with status \"%2\""
+msgstr "Gỡ cài đặt \"%1\" thất bại, kết thúc với tình trạng \"%2\""
+
+#: servicemenuinstaller.cpp:117
+#, kde-format
+msgid "The file does not exist!"
+msgstr "Tệp không tồn tại!"
+
+#: servicemenuinstaller.cpp:126
+#, kde-format
+msgid "Unknown error when installing package"
+msgstr "Lỗi không rõ khi cài gói"
+
+#: servicemenuinstaller.cpp:181
+#, kde-format
+msgid "Unsupported archive type %1: %2"
+msgstr "Kiểu kho trữ %1 không được hỗ trợ: %2"
+
+#: servicemenuinstaller.cpp:190
+#, kde-format
+msgid "Failed to run uncompressor command for %1"
+msgstr "Chạy lệnh giải nén cho %1 thất bại"
+
+#: servicemenuinstaller.cpp:195
+#, kde-format
+msgid "Process did not finish in reasonable time: %1 %2"
+msgstr "Tiến trình không kết thúc trong khoảng thời gian hợp lí: %1 %2"
+
+#: servicemenuinstaller.cpp:199
+#, kde-format
+msgid "Failed to uncompress %1"
+msgstr "Giải nén %1 thất bại"
+
+#: servicemenuinstaller.cpp:232
+#, kde-format
+msgid "Failed to run installer script %1"
+msgstr "Chạy kịch bản cài đặt %1 thất bại"
+
+#: servicemenuinstaller.cpp:255
+#, kde-format
+msgid "Failed to set permissions on %1: %2"
+msgstr "Đặt quyền truy cập cho %1 thất bại: %2"
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "%2 = comma separated list of arguments"
+msgid "Installer script %1 failed, tried arguments \"%2\"."
+msgstr "Kịch bản cài đặt %1 thất bại, các đối số đã thử \"%2\"."
+
+#: servicemenuinstaller.cpp:286
+#, kde-format
+msgid "Failed to create path %1"
+msgstr "Tạo đường dẫn %1 thất bại"
+
+#: servicemenuinstaller.cpp:300
+#, kde-format
+msgid "Failed to copy .desktop file %1 to %2: %3"
+msgstr "Chép tệp .desktop %1 đến %2 thất bại: %3"
+
+#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#, kde-format
+msgid "Failed to remove directory %1"
+msgstr "Xoá thư mục %1 thất bại"
+
+#: servicemenuinstaller.cpp:318
+#, kde-format
+msgid "Failed to create directory %1"
+msgstr "Tạo thư mục %1 thất bại"
+
+#: servicemenuinstaller.cpp:357
+#, kde-format
+msgid "Failed to find an installation script in %1"
+msgstr "Không tìm thấy kịch bản cài đặt trong %1"
+
+#: servicemenuinstaller.cpp:371
+#, kde-format
+msgid "Failed to remove .desktop file %1: %2"
+msgstr "Xoá tệp .desktop %1 thất bại: %2"
+
+#: servicemenuinstaller.cpp:416
+#, kde-format
+msgid "Failed to find an uninstallation script in %1"
+msgstr "Không tìm thấy kịch bản gỡ cài đặt trong %1"
+
+#: servicemenuinstaller.cpp:435
+#, kde-format
+msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr "Lệnh để thực thi: install hoặc uninstall."
+
+#: servicemenuinstaller.cpp:436
+#, kde-format
+msgctxt "@info:shell"
+msgid "Path to archive."
+msgstr "Đường dẫn đến kho trữ."
+
+#: servicemenuinstaller.cpp:441
+#, kde-format
+msgid "Command is required."
+msgstr "Cần phải có lệnh."
+
+#: servicemenuinstaller.cpp:444
+#, kde-format
+msgid "Path to archive is required."
+msgstr "Cần phải có đường dẫn đến kho trữ."
+
+#: servicemenuinstaller.cpp:460
+#, kde-format
+msgid "Unsupported command %1"
+msgstr "Lệnh %1 không được hỗ trợ"

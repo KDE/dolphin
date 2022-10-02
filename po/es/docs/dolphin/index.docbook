@@ -1,0 +1,3365 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Spanish "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Manual de &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Rocío</firstname
+><surname
+>Gallego</surname
+><affiliation
+><address
+><email
+>traducciones@rociogallego.com</email
+></address
+></affiliation
+><contrib
+>Traducción</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Santiago</firstname
+><surname
+>Fernández Sancho</surname
+><affiliation
+><address
+><email
+>santi@kde-es.org</email
+></address
+></affiliation
+><contrib
+>Traductor</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2022-01-17</date>
+<releaseinfo
+>KDE Gear 22.04</releaseinfo>
+
+<abstract>
+<para
+>&dolphin; es el gestor de archivos predeterminado de &kde;, diseñado con la ergonomía como principal objetivo. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>Administrador de archivos</keyword>
+<keyword
+>archivo</keyword>
+<keyword
+>administración</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introducción</title>
+
+<para
+>&dolphin; es el gestor de archivos por defecto de &plasma;, y pretende mejorar la ergonomía de la interfaz de usuario. &dolphin; está centrado únicamente en gestionar archivos, mientras que &konqueror;, que era el gestor de archivos predeterminado en &kde; 3 y que aún se puede usar para ello, es un visor universal de muchos tipos de archivo. </para>
+
+<para
+>Esta forma de diseño permite que los desarrolladores se concentrarse en optimizar la interfaz de usuario para la tarea concreta de gestionar archivos. </para>
+
+<para
+>Informe de cualquier problema o petición de funcionalidades al autor de &dolphin; a través del diálogo de informe de fallos que se encuentra accesible desde el botón <guibutton
+>Control</guibutton
+> a la derecha de la barra de herramientas en el modo predeterminado sin barra de menús o desde el menú de la aplicación <menuchoice
+><guimenu
+>Ayuda</guimenu
+> <guimenuitem
+> Informar de fallo... </guimenuitem
+></menuchoice
+> si se muestra la barra de menús. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Uso de &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>La interfaz de usuario de &dolphin;</title>
+
+<para
+>La captura de pantalla inferior muestra la interfaz de usuario predeterminada de &dolphin;: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la interfaz de usuario predeterminada de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Interfaz de usuario predeterminada de &dolphin;.</phrase>
+</textobject>
+<caption
+><para
+>Interfaz de usuario predeterminada de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Los elementos de la interfaz de usuario predeterminada son: <itemizedlist>
+
+<listitem
+><para
+>La barra de herramientas, que se puede usar para acceder de forma rápida a acciones frecuentes. Se puede personalizar haciendo clic con el &RMB; y seleccionando <menuchoice
+><guimenuitem
+>Configurar barras de herramientas... </guimenuitem
+></menuchoice
+> del menú contextual, con <guimenuitem
+> Configurar barras de herramientas...</guimenuitem
+> desde el botón <guibutton
+> Controlar</guibutton
+> a la derecha de la barra de herramientas o mediante la opción <menuchoice
+><guimenu
+>Preferencias</guimenu
+> <guimenuitem
+>Configurar barras de herramientas...</guimenuitem
+> </menuchoice
+> desde el menú principal. </para>
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de herramientas de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La barra de herramientas predeterminada.</phrase>
+</textobject>
+<caption>
+<para
+>Los elementos de la barra de herramientas no tienen texto junto a los iconos en caso de que el icono sea suficiente para reconocer la orden. Esto se puede cambiar haciendo clic con el &RMB; y seleccionando el elemento de texto de abajo <guilabel
+>Mostrar texto</guilabel
+>. El botón <guibutton
+>Control</guibutton
+> situado a la derecha de la tabla de herramientas solo se muestra si la barra de menús está oculta. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>La barra de ubicación, que siempre muestra la ruta de la carpeta actual. Puede mostrarse según dos modos distintos, para más información consulte la <link linkend="location-bar"
+>sección sobre la barra de ubicación</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>La <link linkend="dolphin-view"
+>vista</link
+>, que muestra todos los archivos y carpetas de la carpeta actual. </para
+></listitem>
+
+<listitem
+><para
+>El panel <link linkend="places-panel"
+><guilabel
+>Lugares</guilabel
+></link
+>, que proporciona acceso rápido a lugares etiquetados con marcadores y a discos u otros medios. </para>
+<para
+>Si la búsqueda de escritorio y la indexación de archivos están activadas en el módulo <guilabel
+>Búsqueda de escritorio</guilabel
+> en las &systemsettings;, el panel proporciona elementos <guilabel
+>Recientes </guilabel
+> y permite buscar <guilabel
+>Documentos</guilabel
+>, <guilabel
+>Imágenes</guilabel
+>, <guilabel
+>Archivos de audio</guilabel
+> y <guilabel
+>Vídeo</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>Barra de estado. Muestra el nombre, el tamaño y el tipo del archivo por el que está pasando el ratón o el número y tamaño de los archivos seleccionados. A la derecha, hay un deslizador de escala que permite ajustar el tamaño de los iconos en la vista. </para
+></listitem>
+
+<listitem
+><para
+>Barra de menús (oculta de manera predeterminada), la cual proporciona acceso a todas las órdenes y a las opciones de configuración. En la <link linkend="commands-menubar"
+>Referencia de órdenes</link
+>, hay una lista de todas las órdenes del menú. La barra de menús se puede mostrar u ocultar con <guimenuitem
+>Mostrar barra de menús</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) en el menú <guimenu
+> Preferencias</guimenu
+> o con el botón <guibutton
+>Control</guibutton
+>. </para>
+<para
+>Si la barra de menú está oculta, todas estas acciones están disponibles desde el botón <guibutton
+>Control</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>Los paneles adicionales <guilabel
+>Información</guilabel
+>, <guilabel
+> Carpetas</guilabel
+>, <guilabel
+>Terminal</guilabel
+> están ocultos de manera predeterminada; para obtener más información, véase <link linkend="panels"
+><guilabel
+>Paneles</guilabel
+>.</link
+> </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>La vista de &dolphin;</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Uso de la vista</title>
+
+<para
+>La vista muestra todos los archivos y carpetas de la carpeta actual. Se puede acceder a estos elementos y se les puede manipular de varias formas: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Puede abrir archivos y carpetas haciendo clic con el &LMB; del ratón (o con doble clic, si la opción <guilabel
+>Abrir con doble clic</guilabel
+> está activada en el módulo <menuchoice
+><guimenu
+>Espacio de trabajo</guimenu
+> <guimenuitem
+>Comportamiento general</guimenuitem
+></menuchoice
+> de las &systemsettings;). </para
+></listitem>
+
+<listitem
+><para
+>Al hacer clic sobre cualquier elemento o en una zona en blanco alrededor de los elementos con el &RMB;, se abre un menú de contexto que proporciona acceso a muchas acciones de uso frecuente para el elemento o la carpeta actual, respectivamente. </para
+></listitem>
+
+<listitem
+><para
+>Si se pulsa el &LMB; del ratón sobre un elemento, pero no se libera inmediatamente, el elemento se puede arrastrar y soltar en otra carpeta en la vista actual o en otra vista de &dolphin; (en otra ventana de &dolphin; o en la misma ventana si la vista está dividida; véase a continuación) para moverlo, copiarlo o crear un enlace simbólico. Los elementos pueden soltarse incluso en otra aplicación para abrirlos en dicha aplicación. </para
+></listitem>
+
+</itemizedlist>
+<para
+>&dolphin; recuerda el historial de las carpetas visitadas. Para navegar hacia atrás o hacia delante en el historial, se pueden usar los botones correspondientes de la barra de herramientas: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de herramientas de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Los botones Atrás y Adelante de la barra de herramientas.</phrase>
+</textobject>
+<caption>
+<para
+>Puede usar los botones <guibutton
+>Atrás</guibutton
+> y <guibutton
+>Adelante</guibutton
+> de la barra de herramientas para moverse por el historial. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Si hace clic con el &MMB;, el elemento del historial se abre en una nueva pestaña, manteniendo la pestaña actual con su contenido. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>La apariencia de la vista de &dolphin;</title>
+
+<para
+>La barra de herramientas contiene botones para controlar la apariencia de la vista: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de herramientas de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Los botones de la barra de herramientas que controlan la apariencia de la vista.</phrase>
+</textobject>
+<caption
+><para
+>Los botones de la barra de herramientas que controlan la apariencia de la vista. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Todas las preferencias examinadas a continuación y otras opciones relacionadas, &eg;, la ordenación de los archivos en la carpeta actual, también se pueden modificar en el menú <guimenu
+>Ver</guimenu
+> y en el cuadro de diálogo <link linkend="view-properties-dialog"
+>Estilo de visualización</link
+>. De manera predeterminada, dichas preferencias se recuerdan para cada carpeta por separado. Este comportamiento se puede cambiar en la sección<link linkend="preferences-dialog-general"
+><quote
+>General</quote
+></link
+> de las preferencias. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Modos de vista</title>
+
+<para
+>Los primeros tres botones de la captura de pantalla superior cambian entre los modos de vista de &dolphin;. <itemizedlist>
+
+<listitem
+><para
+>En la vista de <guibutton
+>Iconos</guibutton
+>, que es la predeterminada, los archivos se representan mediante un icono que muestra el tipo de archivo y las subcarpetas se representan mediante un icono de carpeta. Los nombres de las carpetas y de los archivos y los elementos activados en <menuchoice
+><guimenu
+>Ver</guimenu
+><guisubmenu
+>Información adicional</guisubmenu
+></menuchoice
+> se muestran bajo los iconos. </para
+></listitem>
+
+<listitem
+><para
+>La vista <guilabel
+>Compacta</guilabel
+> muestra los contenidos de la carpeta en forma de iconos con el nombre junto a ellos y los elementos activados en <menuchoice
+><guimenu
+>Ver</guimenu
+><guisubmenu
+>Información adicional</guisubmenu
+></menuchoice
+>. Los elementos se agrupan en columnas, de forma similar a la vista<guilabel
+>Vista resumida</guilabel
+> del cuadro de diálogo de archivo &kde;. </para
+></listitem>
+
+<listitem
+><para
+>En la vista <guibutton
+>Detalles</guibutton
+>, el contenido de la carpeta se muestra como una lista detallada con el nombre, tamaño y hora de la última modificación de cada elemento. Se pueden añadir más columnas haciendo clic en el &RMB; en la cabecera de una columna. </para>
+<para
+>En el menú de contexto de la línea de cabecera, se puede añadir o eliminar relleno lateral marcando o desmarcando el respectivo elemento del menú y elegir entre un ancho de columna personalizado o automático. El ancho automático ajusta la anchura de todas las columnas, de manera que se muestre completamente el elemento de mayor longitud que haya en la columna, excepto para la columna <guilabel
+>Nombre</guilabel
+>, en la que la parte que no cabe se visualiza como «...» </para>
+<para
+>El orden de las columnas se puede cambiar arrastrando y soltando las cabeceras de las columnas, excepto la cabecera <guilabel
+>Nombre</guilabel
+>, que siempre es la primera columna en esta vista. </para>
+<para
+>La vista de detalle permite ver la carpeta actual en forma de árbol si está activada la opción <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>Carpetas expansibles</guilabel
+></link
+>: cada una de las subcarpetas de la carpeta actual se puede «expandir» o «contraer» pulsando el icono <guiicon
+>
+></guiicon
+> o <guiicon
+>v</guiicon
+> que hay junto a ellas.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Vista agrupada</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Vista agrupada</phrase>
+</textobject>
+<caption
+><para
+>Todos los tipos de vista admiten realizar una agrupación según el tipo de ordenación seleccionado en <menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Ordenar por</guisubmenu
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Información de la vista</title>
+<para
+>En todos los modos de vista, &dolphin; muestra al menos un icono y un nombre para cada elemento. Mediante <guisubmenu
+>Información adicional</guisubmenu
+> en el menú <guimenu
+>Ver</guimenu
+> o mediante el menú de contexto de la cabecera en el modo <guilabel
+>Detalles</guilabel
+>, se puede seleccionar más información para mostrar sobre cada elemento: </para>
+
+<para
+><guimenuitem
+>Tamaño</guimenuitem
+>, <guimenuitem
+>Fecha</guimenuitem
+>, <guimenuitem
+>Tipo</guimenuitem
+>, <guimenuitem
+>Clasificación</guimenuitem
+>, <guimenuitem
+>Etiquetas</guimenuitem
+> o <guimenuitem
+>Comentarios</guimenuitem
+>. </para>
+
+<para
+>Dependiendo del tipo de archivo, se pueden seleccionar más criterios de ordenación: <simplelist>
+  <member
+><guimenuitem
+>Documento</guimenuitem
+>: número de palabras y líneas</member>
+  <member
+><guimenuitem
+>Imagen</guimenuitem
+>; tamaño y orientación</member>
+  <member
+><guimenuitem
+>Audio</guimenuitem
+>: intérprete, álbum, duración y pista</member>
+</simplelist>
+</para>
+
+<para
+>El submenú <guisubmenu
+>Otro</guisubmenu
+> permite seleccionar <guimenuitem
+>Ruta</guimenuitem
+>, <guimenuitem
+>Destino del enlace</guimenuitem
+>, <guimenuitem
+>Copiado desde</guimenuitem
+>, <guimenuitem
+>Permisos</guimenuitem
+>, <guimenuitem
+>Propietario</guimenuitem
+> o <guimenuitem
+>Grupo de usuarios</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Vista previa</title>
+
+<para
+>Si está activada la opción <guibutton
+>Vista previa </guibutton
+>, los iconos se basan en el contenido real del archivo o carpeta. Por ejemplo, para las imágenes, se muestra una vista previa reducida. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Dividir</title>
+
+<para
+>Si la opción <guibutton
+>Dividir</guibutton
+> está activada, se muestran dos vistas, las cuales pueden mostrar el contenido de diferentes carpetas. Esto puede resultar cómodo para mover o copiar archivos. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Seleccionar elementos de la vista</title>
+
+<para
+>Puede seleccionar elementos de la lista de varias formas. Una vez seleccionado un grupo de ellos, todas las acciones, como <menuchoice
+><guimenuitem
+>Cortar</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Copiar</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Mover a la papelera</guimenuitem
+></menuchoice
+>, y las operaciones de arrastrar y soltar, afectarán a todos los elementos de la selección. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Seleccionar elementos con el ratón</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Se puede pulsar el &LMB; en cualquier lugar de la vista y dibujar un rectángulo alrededor de un grupo de elementos antes de soltar el botón. De esta manera, se quedarán seleccionados todos los elementos que queden dentro del rectángulo y se anulará cualquier selección previa. Si se pulsa la tecla &Shift; durante el proceso de selección, se mantiene la selección previa. </para
+></listitem>
+
+<listitem
+><para
+>Si se pulsa la tecla &Ctrl; mientras se hace clic en un elemento con el &LMB;, se alterna el estado de la selección de dicho elemento. Si se pulsa la tecla &Ctrl; mientras se dibuja un rectángulo alrededor de un grupo de elementos tal como ha descrito anteriormente, se alternará el estado de selección de todos los elementos. </para
+></listitem>
+
+<listitem
+><para
+>Si se pulsa la tecla &Shift; mientras se hace clic en un elemento con el &LMB;, todos los elementos entre el elemento previamente seleccionado y el elemento en el que se haga clic quedarán seleccionados. </para
+></listitem>
+
+<listitem
+><para
+>Si la opción <guilabel
+>Mostrar marcador de selección</guilabel
+> está activada en la pestaña <link linkend="preferences-dialog-general-behavior"
+>«Comportamiento» de la sección <guilabel
+>General</guilabel
+> de las preferencias</link
+>, aparece un pequeño botón <guiicon
+>+</guiicon
+> o <guiicon
+>-</guiicon
+> en la esquina superior izquierda del elemento sobre el que está pasando el ratón. Haciendo clic en dicho signo, se selecciona o no el elemento, respectivamente. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Seleccionar elementos con el teclado</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Si pulsa una tecla de flecha, <keycap
+>Re Pág</keycap
+>, <keycap
+>Av Pág</keycap
+>, <keycap
+>Inicio</keycap
+>, o <keycap
+>Fin</keycap
+>, se seleccionará el nuevo elemento actual y se limpiará la selección anterior. </para
+></listitem>
+
+<listitem
+><para
+>Si mantiene pulsada la tecla &Ctrl; mientras pulsa una de las teclas superiores, la selección no se modificará. </para
+></listitem>
+
+<listitem
+><para
+>Si se mantiene pulsada la tecla &Shift; mientras se pulsa una de las teclas mencionadas, todos los elementos entre el elemento previamente seleccionado y el elemento seleccionado en último lugar quedarán seleccionados. </para
+></listitem>
+
+<listitem
+><para
+>Si pulsa <keycombo action="simul"
+>&Ctrl;<keysym
+>Espacio</keysym
+></keycombo
+>, se conmutará el estado de la selección del elemento actual. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> selecciona todos los elementos de la vista. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> conmuta la selección de todos los elementos de la vista. </para
+></listitem>
+
+<listitem
+><para
+>Seleccione un archivo o carpeta tecleando las primeras letras de su nombre; el primer elemento que coincida queda seleccionado. Para anular la selección y cancelar la búsqueda por teclado, pulse &Esc; o espere un poco más hasta que se agote el tiempo de espera de 1 segundo. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Barra de ubicación</title>
+
+<para
+>La barra de ubicación, situada en la parte superior de la vista de &dolphin;, muestra la ruta a la carpeta actual. La barra de ubicación tiene dos modos. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Modo de navegación</title>
+
+<para
+>En el modo de «navegación», que es el predeterminado, cada uno de los nombres las carpetas de la ruta a la carpeta actual es un botón que se puede pulsar para abrir dicha carpeta. Es más, al pulsar el signo «&gt;» situado a la derecha de una carpeta, se abre un menú que permite abrir rápidamente cualquier subcarpeta de dicha carpeta. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de ubicación en el modo de navegación</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de ubicación en el modo de navegación.</phrase>
+</textobject>
+<caption
+><para
+>Barra de ubicación en el modo de navegación.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Modo editable</title>
+
+<para
+>En el modo de navegación, cuando se pulsa con el &LMB; en la zona gris situada a la derecha de la ruta, se cambia la barra de ubicación al modo «editable», en el cual se puede editar la ruta usando el teclado. Para volver al modo de navegación, basta con pulsar la marca de verificación situada a la derecha de la barra de ubicación con el &LMB;. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de ubicación en el modo editable</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de ubicación en el modo editable.</phrase>
+</textobject>
+<caption
+><para
+>Barra de ubicación en el modo editable.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Uso de kioslaves</title>
+
+<para
+>Si la barra de ubicación está en modo editable, aparece una lista desplegable junto a la barra con todos los kioslaves disponibles en su sistema. Los kioslaves son programas integrados en &kde; que añaden la implementación de muchos protocolos diferentes para &dolphin; y otras aplicaciones de &kde;.</para
+> 
+
+<para
+>Por ejemplo, con el kioslave «fish», &dolphin; se puede usar para administrar archivos y carpetas en un servidor remoto al que se pueda acceder a través de <acronym
+>SSH</acronym
+>. Para hacer esto, deberá escribir <userinput
+>fish://username@remotehost</userinput
+> en la barra de ubicación. De forma similar, se puede realizar la administración de archivos en servidores remotos a los que se puede acceder a través de protocolos &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) o webdav.</para>
+
+<para
+>También se puede usar la lista desplegable de kioslaves para acceder a las &systemsettings;, a los tipos de letra a la papelera y a otros dispositivos conectados a su equipo. Observe la lista desplegable para ver toda la funcionalidades de los kioslaves disponibles en su sistema. </para>
+<screenshot>
+<screeninfo
+>Captura de pantalla de la lista de kioslaves</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La barra de ubicación con la lista de los kioslaves disponibles.</phrase>
+</textobject>
+<caption
+><para
+>Lista de kioslaves disponibles.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Lugares y contexto</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Si el panel <guilabel
+>Lugares</guilabel
+> está oculto, en ambos modos se muestra un icono adicional a la izquierda de la ruta. Este icono se puede pulsar con el &LMB; para abrir un menú que ofrece acceso rápido a <quote
+> lugares</quote
+> y a los medios de almacenamiento. Véase la <link linkend="places-panel"
+>sección sobre el panel Lugares</link
+> para obtener más información. </para>
+
+<screenshot>
+<screeninfo
+>Barra de ubicación con icono de lugares</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de ubicación con icono de lugares</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>El menú de contexto de la barra de ubicación ofrece la posibilidad de cambiar entre los modos y copiar y pegar la ruta usando el portapapeles. Si se marca la última opción de este menú de contexto, se muestra la ruta completa desde la carpeta raíz del sistema de archivos, o bien la ruta desde la ubicación actual. </para>
+
+<screenshot>
+<screeninfo
+>Menú de contexto de la barra de ubicación</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Menú de contexto de la barra de ubicación</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Paneles</title>
+
+<para
+>&dolphin; permite varios paneles que se situarán en el área de trabajo. Estos pueden activarse en <menuchoice
+><guimenu
+>Ver</guimenu
+><guisubmenu
+>Mostrar paneles</guisubmenu
+></menuchoice
+>. Los paneles se pueden mover a diferentes posiciones, incluso fuera de la ventana, desbloqueándolos y arrastrándolos pulsando en el título. </para>
+
+<sect2 id="places-panel">
+<title
+>Direcciones</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>El panel <guilabel
+>Lugares</guilabel
+> se encuentra de manera predeterminada a la izquierda de la ventana. El panel <guilabel
+>Lugares</guilabel
+> muestra todas las ubicaciones que haya guardado como marcador. También muestra todos los discos o medios conectados al equipo y los elementos a los que se ha accedido recientemente. Además, permite buscar un tipo de archivos en particular. El orden de dichas entradas se puede cambiar arrastrando y soltando. </para>
+
+<para
+>La manera más sencilla de añadir una carpeta en el panel <guilabel
+>Lugares </guilabel
+> es arrastrarla y soltarla en dicho panel. También se puede hacer clic sobre el panel con el &RMB; y seleccionar <menuchoice
+><guimenuitem
+> Añadir entrada...</guimenuitem
+></menuchoice
+> en el menú de contexto. El primer procedimiento crea un marcador en el sistema. El segundo procedimiento se puede usar para añadir la ruta actual de la barra de ubicación o cualquier carpeta o dispositivo que se desee. Se abre un diálogo en el que se puede editar la etiqueta, la ubicación y el icono y el uso de dicha entrada se puede restringir a &dolphin;. </para>
+
+<para
+>Al hacer clic con el &RMB;, se abre el menú de contexto, en el cual se puede editar, añadir, ocultar o eliminar entradas, cambiar el tamaño del icono a uno de los valores predefinidos y bloquear o desbloquear los paneles. </para>
+<para
+>El menú de contexto tiene una acción para abrir la entrada en una nueva pestaña. Se puede desmontar dispositivos mediante el menú de contexto. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Información</title>
+
+<para
+>El panel de <guilabel
+>Información</guilabel
+> muestra información ampliada sobre los elementos seleccionados, sobre la carpeta actual o sobre el archivo sobre el que esté pasando el puntero del ratón, incluido el tamaño, el tipo y la fecha de la última modificación. También incluye una amplia vista previa del elemento seleccionado y permite asignarle una puntuación, etiquetas y comentarios. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Carpetas</title>
+
+<para
+>El panel <guilabel
+>Carpetas</guilabel
+> muestra una estructura de vista de árbol del sistema de archivos. Solo muestra las carpetas. Al hacer clic con el botón izquierdo del ratón sobre una carpeta, esta se abre en la vista de &dolphin;. </para>
+<para
+>Use <guilabel
+>Limitar al directorio personal</guilabel
+> para ocultar todas las carpetas de la lista excepto su <guilabel
+>Carpeta personal</guilabel
+>. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Este panel contiene un terminal, que se abrirá en la carpeta que se esté mostrando en la vista de &dolphin;. Al cambiar la carpeta en la vista principal de &dolphin; se actualizará la carpeta de trabajo del terminal. Al cambiar de directorio en el terminal se actualizará la carpeta de trabajo en la vista de &dolphin;. El terminal solo funciona con los medios locales. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Consejos rápidos</title>
+
+<para
+>Los siguientes son varios consejos para ahorrar tiempo cuando usa &dolphin;. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Marcadores rápidos</title>
+
+<para
+>Una forma rápida de crear un marcador para la carpeta actual en el panel <guilabel
+>Lugares</guilabel
+> consiste en pulsar el &RMB; en el área de trabajo y seleccionar <menuchoice
+><guimenuitem
+>Añadir a lugares</guimenuitem
+></menuchoice
+> en el menú de contexto. </para>
+
+<note>
+    <para
+>La correspondiente visibilidad del elemento del menú se puede controlar usando las <link linkend="preferences-dialog-context-menu"
+>preferencias del menú de contexto de &dolphin;</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Filtrar archivos</title>
+
+<para
+>&dolphin; puede filtrar una selección de archivos, &ie; mostrar solamente aquellos elementos de la vista cuyos nombres contengan un texto en concreto. Por ejemplo, si un usuario desea que solo se muestren los archivos <acronym
+>MP3</acronym
+> de una carpeta, debería filtrar por «.mp3». Esto dejará fuera aquellos archivos que no contengan «.mp3» en el nombre del archivo. </para>
+
+<para
+>Para filtrar archivos, primero hay que activar la barra de filtro, bien pulsando <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+>, o bien mediante la opción de menú <menuchoice
+> <guimenu
+> Editar</guimenu
+> <guimenuitem
+>Filtrar...</guimenuitem
+> </menuchoice
+>. A continuación podrá introducir el texto a usar como filtro en la barra de texto. La barra de filtro se puede desactivar pulsando la tecla &Esc; o haciendo clic con el &LMB; en el icono <guiicon
+>Ocultar barra de filtro</guiicon
+>. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Encontrar archivos y buscar en archivos</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>&dolphin; puede buscar archivos y contenido dentro de los archivos. Si se pulsa <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> o se usa la opción del menú <menuchoice
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Buscar... </guimenuitem
+> </menuchoice
+>, se abrirá la barra <guilabel
+>Buscar</guilabel
+> ya configurada para buscar archivos en la carpeta actual y en cualquier subcarpeta que contenga. Al empezar a escribir en el campo de entrada, la búsqueda empezará inmediatamente. <screenshot>
+<screeninfo
+>Buscar archivos y contenido en los archivos</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Buscar archivos y contenido en los archivos</phrase>
+</textobject>
+<caption
+><para
+>&dolphin; busca archivos y contenido dentro de los archivos.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>La búsqueda no es sensible a las mayúsculas y las minúsculas y no es necesario usar comodines (<userinput
+>*ejemplo*</userinput
+> y <userinput
+>ejemplo</userinput
+> son equivalentes), pero se pueden usar comodines dentro del término de búsqueda. <userinput
+>*</userinput
+> corresponderá a uno o más caracteres y <userinput
+>?</userinput
+> a un único carácter.</para>
+<para
+>Esta característica se puede usar si se están ejecutando los servicios Baloo. Sin dichos servicios, se lanza un KIOSlave para proporcionar los resultados de búsqueda.</para>
+<para
+>La opción de <guilabel
+>En todo</guilabel
+> con los servicios Baloo activados realiza la búsqueda en todas las carpetas indexadas, sin dichos servicios, esta opción comienza la búsqueda desde la carpeta <replaceable
+>Carpeta personal</replaceable
+> del usuario.</para>
+<screenshot>
+<screeninfo
+>Buscar con más opciones</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Buscar con más opciones</phrase>
+</textobject>
+<caption
+><para
+>Búsqueda en &dolphin; con más opciones.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Use el botón <guilabel
+>Más opciones</guilabel
+> para ampliar la barra de <guilabel
+>Búsqueda</guilabel
+>. Esto proporciona al usuario una forma muy cómoda de reducir el número de resultados de la búsqueda.</para>
+<para
+>Para iniciar una búsqueda, seleccione uno o más tipos de archivo (<guilabel
+>Documentos</guilabel
+>, <guilabel
+>Audio</guilabel
+>, <guilabel
+>Vídeo</guilabel
+>, <guilabel
+>Imágenes</guilabel
+>), un periodo de tiempo, una puntuación y una etiqueta, si ha definido alguna usando <userinput
+>tag:<replaceable
+>etiqueta</replaceable
+></userinput
+> en el cuadro de entrada.</para>
+ 
+ <para
+>Se puede borrar la selección usando el botón <guibutton
+>Borrar la selección</guibutton
+>.</para>
+
+<para
+>De manera alternativa, se pueden usar las opciones del panel <guilabel
+>Lugares</guilabel
+> junto con la barra de <guilabel
+>Filtro</guilabel
+> para buscar archivos usando Baloo o limitar la búsqueda a los archivos que coincidan con la expresión del filtro.</para>
+
+<para
+>Usar el icon «Guardar» para guardar una búsqueda en la sección <guilabel
+>Buscar</guilabel
+> del panel <guilabel
+>Lugares</guilabel
+> para acceder a ella con facilidad en el futuro. </para>
+
+<para
+>Use la lista desplegable <guilabel
+>Más herramientas de búsqueda</guilabel
+> para seleccionar otras herramientas distintas a Baloo. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Montar medios de almacenamiento</title>
+
+<para
+>Una forma rápida de montar los medios de almacenamiento es pulsar en el dispositivo en el panel <guilabel
+>Lugares</guilabel
+>. Esto montará y abrirá el dispositivo en &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Deshacer acciones</title>
+
+<para
+>&dolphin; puede deshacer los cambios realizados a los archivos. Por ejemplo, si un usuario envió un archivo a la papelera, &dolphin; puede deshacer esta acción y volver a dejar el archivo en su ubicación original. Se puede deshacer una acción pulsando <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> o seleccionando<menuchoice
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Deshacer: (nombre de la acción)</guimenuitem
+> </menuchoice
+>en el menú, &eg; <guimenuitem
+>Deshacer: cambiar nombre</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Cambiar el nombre a un grupo de archivos</title>
+<para
+>&dolphin; puede cambiar el nombre a varios archivos simultáneamente. Cada uno de ellos tendrá el nombre especificado, seguido por un número, &eg;, Imagen 1.jpg, Imagen 2.jpg, Prueba 3.jpg. Resulta útil, &eg;, para las fotografías tomadas con una cámara digital. </para>
+<!--double click-->
+<para
+>Si se desea cambiar el nombre de un grupo de archivos, primero se deben seleccionar. Esto se puede hacer pulsando el &LMB; y dibujando un rectángulo alrededor de los archivos a los que se quiera cambiar el nombre antes de soltarlo o manteniendo la tecla &Ctrl; y pulsando sobre cada uno de los archivos (véase <link linkend="selection"
+>Selección de elementos en la vista</link
+> para obtener más información sobre la selección de elementos). A continuación, abra el cuadro de diálogo de cambiar el nombre a un grupo de archivos pulsando <keycap
+>F2</keycap
+> o mediante el menú de Archivo: <menuchoice
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Cambiar nombre...</guimenuitem
+> </menuchoice
+> </para>
+
+<para
+>A continuación, introduzca el nombre que desea dar a los archivos. El carácter # debe estar presente en el nombre. A continuación, se cambiará el nombre de los archivos de forma que el carácter <userinput
+>#</userinput
+> se sustituye por un número consecutivo diferente para cada uno de los archivos. </para>
+
+<para
+>Si todas las extensiones de los archivos de su selección son diferentes, se puede cambiar el nombre de todos los archivos sin usar un marcador de posición <userinput
+>#</userinput
+> a la vez que se mantienen las extensiones de archivos. Esto resulta útil, &eg;, para cambiar el nombre a un archivo de vídeo y a todos los archivos de subtítulos asociados, los cuales tienen todos el mismo nombre de archivo, pero diferentes extensiones. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Comparar una selección de archivos o carpetas</title>
+
+<para
+>Si está instalada la aplicación &kompare;, se puede usar para ver las diferencias entre dos archivos o carpetas. </para>
+
+<para
+>Primero, seleccione los dos archivos o carpetas que desea comparar. Después, inicie la aplicación &kompare; a través del menú <menuchoice
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Comparar archivos</guimenuitem
+> </menuchoice
+>. &kompare; se abrirá mostrando las diferencias entre los archivos o carpetas. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Configurar &dolphin;</title>
+
+<para
+>&dolphin; distingue entre dos tipos de preferencias diferentes: <itemizedlist>
+
+<listitem
+><para
+>Preferencias que afectan al comportamiento general de &dolphin;. Se pueden configurar mediante el <link linkend="preferences-dialog"
+>Diálogo preferencias</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Preferencias que determinan cómo se muestra el contenido de una carpeta en &dolphin;. Dichas preferencias se llaman <link linkend="view-properties"
+> Estilo de visualización</link
+> y se pueden controlar mediante botones de la barra de herramientas, mediante el menú <guimenu
+>Ver</guimenu
+> y mediante el diálogo de <link linkend="view-properties-dialog"
+>Estilo de visualización</link
+>. En la configuración predeterminada, las propiedades usan el mismo estilo de visualización, aunque &dolphin; también se puede configurar para que cada carpeta recuerde su estilo de visualización de forma separada en la sección <link linkend="preferences-dialog-general-behavior"
+><quote
+>General</quote
+></link
+> de las preferencias. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>Diálogo de preferencias de &dolphin;</title>
+<para
+>El diálogo Preferencias se abre mediante <menuchoice
+><guimenu
+>Preferencias </guimenu
+> <guimenuitem
+>Configurar &dolphin;...</guimenuitem
+> </menuchoice
+> en el menú de la ventana principal de &dolphin;. Las preferencias se dividen en varios grupos a los que se puede acceder pulsando el correspondiente icono a la izquierda del diálogo. </para>
+
+<para
+>Todas las preferencias, excepto la página de <guilabel
+>Iniciar</guilabel
+> y la pestaña <guilabel
+>Barra de estado</guilabel
+> en la página <guilabel
+>General</guilabel
+> son comunes a las de &konqueror; en el modo de administrador de archivos. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>General</title>
+
+<para
+>Este grupo contiene las preferencias que controlan el comportamiento general de &dolphin;. El grupo se divide en cuatro subgrupos a los que se puede acceder mediante la barra de pestañas de la parte superior. <screenshot>
+<screeninfo
+>Captura de pantalla de las preferencias generales en el diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias generales.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias generales en el diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Pestaña Comportamiento</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>En la sección <guilabel
+>Ver</guilabel
+> se puede configurar si el <link linkend="view-properties"
+>estilo de visualización</link
+> se comparte por todas las carpetas o si las carpetas recuerdan su propio estilo de visualización de forma individual. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Modo de ordenación</guilabel
+> controla cómo se ordenan los elementos en la vista. Si esta opción está activada, el orden de tres archivos de ejemplo sería <orderedlist
+><listitem
+><para
+> Archivo1,</para
+></listitem
+><listitem
+><para
+>Archivo2,</para
+> </listitem
+> <listitem
+><para
+>Archivo10.</para
+></listitem
+> </orderedlist
+> Si esta opción está desactivada, se aplicará el orden alfabético normal teniendo en cuenta o no las mayúsculas, por tanto, el orden sería el siguiente: <orderedlist>
+<listitem
+><para
+>Archivo1,</para
+></listitem>
+<listitem
+><para
+>Archivo10,</para
+></listitem>
+<listitem
+><para
+>Archivo2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Si la opción <guilabel
+>Mostrar consejos emergentes</guilabel
+> está activada, al pasar con el ratón sobre un archivo o carpeta, se mostrará una pequeña ventana con información. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostrar marcador de selección</guilabel
+> muestra un pequeño botón <guibutton
+>+</guibutton
+> o <guibutton
+>-</guibutton
+> situado sobre el icono del elemento sobre el que se está pasando con el ratón. Dicho marcador se puede usar para seleccionar o no seleccionar el elemento. </para
+></listitem>
+
+<listitem
+><para
+>Activa la opción <guilabel
+>Cambiar nombre</guilabel
+> para usarla en este modo solo si hay un único elemento seleccionado. Si esta opción se desactiva o se seleccionan varios elementos, se mostrará un diálogo para cambiar el nombre. </para
+></listitem>
+
+<listitem
+><para
+>Si activa <guilabel
+>Cambiar entre las áreas de las vistas divididas con el tabulador</guilabel
+> podrá cambiar las vistas divididas con la tecla &Tab;. </para
+></listitem>
+
+<listitem
+><para
+>Desactive <guilabel
+>Salir de la vista dividida cierra el área activa</guilabel
+> para cerrar el área inactiva cuando cierre el modo de vista dividida (por ejemplo, pulsando <keycap
+>F3</keycap
+>). </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Pestaña de vistas previas</title>
+
+<para
+>En esta pestaña, se puede configurar para qué tipos de archivo se aplica la vista previa. Además, se puede seleccionar el tamaño máximo de los archivos locales y remotos para los cuales se genera la vista previa. </para>
+<para
+>Si se ha activado la vista previa para las carpetas, se mostrará la vista previa de algunos archivos dentro de un icono de carpeta. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Pestaña de confirmaciones</title>
+<para
+>En la sección Pedir confirmación, se pueden activar diálogos de advertencia que se muestren antes de realizar acciones potencialmente perjudiciales. </para>
+<para
+>También se puede escoger la acción por omisión <guilabel
+>Al abrir un archivo ejecutable</guilabel
+>. Existen tres opciones: <guimenuitem
+>Preguntar siempre</guimenuitem
+>, <guimenuitem
+>Abrir en aplicación</guimenuitem
+> y <guimenuitem
+>Ejecutar script</guimenuitem
+>. </para>
+<warning
+><para
+>Las preferencias de confirmación para <guilabel
+>Mover archivos o carpetas a la papelera</guilabel
+> y para <guilabel
+>Borrar archivos o carpetas</guilabel
+> afectan a las operaciones de archivos en &dolphin;, &konqueror;, &gwenview; y todas las aplicaciones de &kde; que usan el diálogo de archivo predeterminado de &kde;, mientras que <guilabel
+>Cerrar ventanas de Dolphin con varias pestañas</guilabel
+> es una preferencia específica de &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Pestaña Barra de estado</title>
+
+<para
+>En esta pestaña puede activar algunos elementos adicionales en la barra de estado, suponiendo que esta sea lo bastante ancha: <itemizedlist>
+
+<listitem
+><para
+>Puede usar el elemento <guilabel
+>Mostrar la barra de estado</guilabel
+> para conmutar la visibilidad de la barra de estado. </para
+></listitem>
+
+<listitem
+><para
+>El elemento <guilabel
+>Mostrar deslizador de ampliación</guilabel
+> permite cambiar la visibilidad del elemento del tamaño de los iconos. </para
+></listitem>
+
+<listitem
+><para
+>El elemento <guilabel
+>Mostrar información de espacio</guilabel
+> se puede usar para mostrar u ocultar una barra que muestra la cantidad de espacio libre en el dispositivo actual. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Iniciar</title>
+
+<para
+>Este grupo contiene las preferencias que controlan la apariencia de &dolphin; en el inicio. <screenshot>
+<screeninfo
+>Captura de pantalla de las preferencias de inicio en el cuadro de diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de inicio.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de inicio en el cuadro de diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>La opción <guilabel
+>Mostrar al inicio</guilabel
+> permite escoger la carpeta que se abrirá cuando se inicie la aplicación. </para>
+<para
+>Si la opción <guimenuitem
+>Estado de carpetas, pestañas y ventanas del último uso</guimenuitem
+> está seleccionada: </para>
+<itemizedlist>
+    <listitem>
+        <para
+>Si se inicia desde la &GUI; o desde la CLI sin ninguna &URL;, &dolphin; restaura la sesión.</para>
+    </listitem>
+    <listitem>
+        <para
+>Si se reinicia el sistema con &dolphin; abierto, se restaura la sesión normalmente cuando el sistema se haya iniciado.</para>
+    </listitem>
+    <listitem>
+        <para
+>Si se inicia con &URL;, la ventana de &dolphin; se abre mostrando dichas &URL; en lugar de restaurar la sesión.</para>
+    </listitem>
+    <listitem>
+        <para
+>Si &dolphin; ya está en ejecución y se abre una nueva ventana, dicha ventana muestra una única pestaña con la misma &URL; que estaba visible en la instancia de &dolphin; abierta anteriormente.</para>
+    </listitem>
+</itemizedlist>
+<para
+>También puede introducir directamente la ubicación de la carpeta o puede seleccionar una en el diálogo que se muestra al pulsar el botón que tiene el icono de una «carpeta». Además, la ubicación actual o la ubicación predeterminada (que es la carpeta personal del usuario) se puede usar como carpeta de inicio pulsando el botón correspondiente. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Empezar en modo de vista dividida</guilabel
+> controla si la <link linkend="dolphin-view"
+>vista de &dolphin;</link
+> aparece dividida al inicio o no para nuevas ventanas. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostrar barra de filtros</guilabel
+> controla si la barra de filtros se muestra al inicio o no. Consulte la <link linkend="filter-files"
+>sección sobre la barra de filtros</link
+> para obtener más información. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Hacer la barra de ubicación editable</guilabel
+> controla si la barra de ubicación se encuentra en modo editable al inicio. Si no es así, se usa la barra de navegación. Consulte la <link linkend="location-bar"
+>sección sobre la barra de ubicación</link
+> para obtener más información sobre ambos modos. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Abrir nuevas carpetas en pestañas</guilabel
+> controla si &dolphin; debe abrir una nueva carpeta en una nueva pestaña de la ventana actual cuando se llama externamente. Si no está activado, las nuevas carpetas se abrirán en nuevas ventanas de &dolphin;. Esta opción está activada de forma predeterminada. </para
+></listitem>
+
+<listitem
+><para
+>Si la opción <guilabel
+>Mostrar ruta completa en la barra de ubicación </guilabel
+> está activada, en el modo de navegación, se muestra la ruta completa de la ubicación actual. Si no está marcada y la ruta empieza como alguna de las rutas de los lugares del panel <guilabel
+>Lugares</guilabel
+>, se muestra una versión acortada de la ruta. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostrar la ruta completa en la barra de título</guilabel
+> hace que sea más fácil distinguir entre archivos y carpetas con el mismo nombre en distintas carpetas. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Modos de vista</title>
+
+<para
+>Este grupo contiene las preferencias que controlan el comportamiento de los modos de visualización de &dolphin;. Se puede acceder a los tres modos de visualización (Iconos, Compacta y Detalles) en la barra de pestañas de la parte superior. <screenshot>
+<screeninfo
+>Captura de pantalla de preferencias de la Vista de iconos en el cuadro de diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de Modo de visualización.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de Modos de visualización en el diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Preferencias comunes para todos los modos de visualización</title>
+
+<para
+>Los tres modos de visualización tienen algunas preferencias en común: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Deslizadores para controlar el tamaño de los iconos. Se usan los tamaños <guilabel
+>Predeterminado</guilabel
+> o <guilabel
+>Vista previa</guilabel
+> si la vista previa está activada o desactivada, respectivamente. Tenga en cuenta que el tamaño de los iconos se puede modificar fácilmente con el deslizador de escala situado en la barra de estado si está activada la opción correspondiente en la sección <link linkend="preferences-dialog-general-statusbar"
+><quote
+>General</quote
+> de las preferencias</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Preferencias para la tipografía usada en el modo de visualización: se puede seleccionar la tipografía del sistema o una personalizada. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Las demás preferencias de la sección <guilabel
+>Texto </guilabel
+> que solo se aplican a uno de los modos de visualización se discuten a continuación. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Iconos</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Anchura</guilabel
+> controla la anchura mínima que se reserva para el texto de un elemento de archivo. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Número máximo de líneas</guilabel
+>se refiere al número máximo de líneas de texto bajo el icono. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Compacta</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Anchura máxima</guilabel
+> controla la anchura máxima que se reserva para el texto de un elemento de archivo. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Detalles</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>La opción <guilabel
+>Carpetas expansibles</guilabel
+> determina si las carpetas que tienen subcarpetas se muestran en una vista de árbol en el que los elementos se pueden expandir pulsando el icono <guiicon
+>&gt;</guiicon
+> y plegar pulsando el icono <guiicon
+>v</guiicon
+> con el &LMB;. </para>
+<para
+><guilabel
+>El tamaño de la carpeta muestra</guilabel
+> permite definir la propiedad a usar cuando se ordenan las carpetas por tamaño. Es posible ordenar las carpetas por <guilabel
+>Número de elementos</guilabel
+> o por <guilabel
+>Tamaño del contenido</guilabel
+> y escoger un límite para el nivel de recursividad (puede resultar útil para limitar iteraciones innecesarias en estructuras profundas de carpetas o en sistemas de archivos lentos). </para>
+<para
+>La opción <guilabel
+>Estilo de fechas</guilabel
+> se puede usar para configura el modo de mostrar fechas en &dolphin;. Se puede escoger entre <guilabel
+>Relativas</guilabel
+> (&eg;, <quote
+>Ayer, 3:00pm</quote
+>) o <guilabel
+>Absolutas</guilabel
+> (&eg;, <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Navegación</title>
+
+<para
+>Este grupo contiene las preferencias que controlan cómo funcionará la navegación en la estructura de la carpeta y en los archivos. <screenshot>
+<screeninfo
+>Captura de pantalla de preferencias de Navegación en el cuadro de diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de navegación.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de Navegación en el cuadro de diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>La opción de abrir elementos con un solo clic o con doble clic es una preferencia que afecta a la totalidad del sistema y se puede cambiar en las &systemsettings;, en el módulo <menuchoice
+><guimenu
+>Espacio de trabajo</guimenu
+><guimenuitem
+>Comportamiento general</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Si la opción <guilabel
+>Abrir archivos comprimidos como carpetas</guilabel
+> está activada, los archivos comprimidos se abrirán dentro de &dolphin; y no en una aplicación externa. </para
+></listitem>
+
+<listitem
+><para
+>Si la opción <guilabel
+>Abrir carpetas durante operaciones de arrastre</guilabel
+> está activada, al arrastrar un elemento con el ratón y pasar sobre una carpeta durante un momento, se abrirá dicha carpeta. Esto permite mover o copiar elementos de forma rápida a carpetas que están a varios niveles de profundidad en la jerarquía de carpetas. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>Servicios</title>
+
+<para
+>Este grupo ofrece una selección de servicios que se pueden mostrar en el submenú <guisubmenu
+>Acciones</guisubmenu
+> del menú de contexto de &dolphin;, el cual aparece cuando se hace clic en un archivo o carpeta con el &RMB;. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de preferencias del menú Servicios en el cuadro de diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de Servicios.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de Servicios en el diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Se pueden obtener más servicios para el menú de contexto mediante <guibutton
+>Descargar nuevos servicios</guibutton
+>. </para>
+<para
+>Si ha instalado los complementos de &dolphin; para <guilabel
+>Bazaar </guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> o <guilabel
+>Subversion</guilabel
+> desde el módulo kdesdk, dichos servicios se mostrarán en la lista. Si dichos servicios están activados y accede a una carpeta que se encuentra bajo el control de versiones, el estado de la versión (modificado en local, actualizado, &etc;) se mostrará mediante iconos y habrá entradas adicionales en el menú de contexto, tales como aplicar, actualizar, añadir, eliminar, &etc;. </para>
+<para
+>En la lista de servicios también puede escoger si las órdenes <guimenuitem
+>Copiar en</guimenuitem
+>, <guimenuitem
+>Mover a</guimenuitem
+>, <guimenuitem
+>Añadir a Lugares</guimenuitem
+>, <guimenuitem
+>Ordenar por</guimenuitem
+>, <guimenuitem
+>Modo de vista</guimenuitem
+>, <guimenuitem
+>Abrir en nueva pestaña</guimenuitem
+>, <guimenuitem
+>Abrir en nueva ventana</guimenuitem
+>, <guimenuitem
+>Copiar ubicación</guimenuitem
+> y <guimenuitem
+>Duplicar aquí</guimenuitem
+> se muestran en el menú de contexto. </para>
+<para
+>Hay que reiniciar &dolphin; para activar los cambios para algunos de dichas preferencias. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Papelera</title>
+
+<para
+>Este grupo incluye preferencias para controlar el comportamiento de la papelera. <screenshot>
+<screeninfo
+>Captura de pantalla de las preferencias de la papelera en el cuadro de diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de la papelera.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de la papelera en el diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Los archivos más antiguos que un número configurable de días se pueden borrar automáticamente. </para
+></listitem>
+
+<listitem
+><para
+>El tamaño de la papelera se puede limitar a un porcentaje configurable del tamaño del disco. Si se alcanza ese límite, se puede mostrar un mensaje de advertencia o se pueden borrar automáticamente los archivos más grandes o los más antiguos. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>Comentarios del usuario</title>
+
+<para
+>Este grupo contiene las preferencias que controlan la información sobre el uso de &dolphin; que decida compartir con sus desarrolladores. <screenshot>
+<screeninfo
+>Captura de pantalla de las preferencias de los comentarios del usuario en el diálogo de preferencias de &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Preferencias de los comentarios del usuario.</phrase>
+</textobject>
+<caption
+><para
+>Preferencias de los comentarios del usuario en el diálogo de preferencias de &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Si lo desea, puede colaborar con cierta información sobre &dolphin;. Use los deslizadores para configurar su nivel de participación. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Estilo de visualización de las carpetas</title>
+
+<para
+>Las siguientes preferencias controlan cómo se muestra el contenido de una carpeta en la vista &dolphin; y se guardan por carpeta de manera predeterminada: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Modo de visualización (iconos, compacto, detalles) </para
+></listitem>
+
+<listitem
+><para
+>La ordenación de los elementos, la cual viene determinada por el orden (ascendente o descendente) y el atributo (como nombre, tamaño, etc.) en que se ordenan los elementos </para
+></listitem>
+
+<listitem
+><para
+>Ordenación de las carpetas y de los archivos &ndash; ¿las carpetas se muestran primero o no? </para
+></listitem>
+
+<listitem
+><para
+>Vistas previas &ndash; ¿se muestran en lugar de los iconos (según las preferencias seleccionadas en la pestaña <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Vistas previas</guilabel
+> de las preferencias generales de &dolphin;</link
+>) o no? </para
+></listitem>
+
+<listitem
+><para
+>¿Los elementos se muestran en grupos en la vista? </para
+></listitem>
+
+<listitem
+><para
+>¿Se muestran los archivos ocultos? </para
+></listitem>
+
+<listitem
+><para
+>¿Qué otra información (además del nombre) se muestra en la vista de iconos o en la de detalles? </para
+></listitem>
+
+</itemizedlist>
+<para
+>El estilo de visualización se puede configurar en el menú <menuchoice
+><guimenu
+>Ver</guimenu
+></menuchoice
+>; algunas (como el modo de visualización) también se pueden cambiar mediante botones de la barra de herramientas. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>El diálogo del estilo de visualización</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla del diálogo del estilo de visualización</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>El diálogo del estilo de visualización.</phrase>
+</textobject>
+<caption
+><para
+>El diálogo del estilo de visualización.</para
+></caption>
+</mediaobject>
+</screenshot
+>El diálogo <guilabel
+>Estilo de visualización</guilabel
+> se puede usar para modificar el estilo de visualización de muchas carpetas a la vez. Esto se hace para la carpeta actual, para la carpeta actual incluidas sus subcarpetas o incluso para todas las carpetas, dependiendo de la selección realizada en la sección <guilabel
+>Aplicar a</guilabel
+>. </para>
+
+<para
+>Si la opción <guilabel
+>Usar como propiedades de visualización por omisión</guilabel
+> está activada, las propiedades de visualización también se usarán en todas las carpetas que aún no tienen propiedades de visualización personalizadas. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Referencia de órdenes</title>
+<para
+>De manera predeterminada, no se muestra la barra de menú. Se puede acceder a todas las acciones descritas aquí mediante botones de la barra de menús o con opciones de menú del botón <guibutton
+>Control </guibutton
+> de la barra de herramientas.</para>
+
+<sect1 id="commands-menubar">
+<title
+>La barra de menú en la ventana principal de &dolphin;</title>
+
+<sect2>
+<title
+>El menú Archivo</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Archivo</guimenu
+> <guisubmenu
+>Crear nuevo</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Crea un objeto nuevo (como una carpeta o un archivo de texto) en la carpeta actual.</action
+></para>
+<para
+>Encontrará la explicación de todos los objetos disponibles en el manual de &konqueror;, en el capítulo <ulink url="help:/konqueror/making.html"
+>Crear nuevo</ulink
+>.</para>
+<note>
+    <para
+>Puede crear sus propios elementos del submenú <guisubmenu
+>Crear nuevo...</guisubmenu
+>. Use los archivos del <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>repositorio fuente de KIO</ulink
+> como referencia y ponga el archivo <filename role="extension"
+>.desktop</filename
+> resultante en su directorio personal en <filename role="directory"
+>.local/share/templates</filename
+> (puede determinar la dirección usando la orden <userinput
+>kf5-config --path templates</userinput
+> en &konsole;), y a continuación reiniciar &dolphin;. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Ventana nueva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre una nueva ventana de &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Nueva pestaña</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre una pestaña nueva.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Cerrar pestaña</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cierra la pestaña actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Deshacer cerrar pestaña</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Vuelve a abrir la última pestaña que se haya cerrado.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Renombrar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia el nombre del elemento seleccionado. Abre el <link linkend="batch-rename"
+>diálogo cambiar nombre por grupos</link
+> si se han seleccionado varios elementos.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Supr</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Mover a la papelera</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mueve los elementos seleccionados a la papelera.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Supr</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Borrar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Borra de forma permanente los elementos seleccionados. Los archivos no se mueven a la papelera y no se pueden restaurar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Mostrar destino</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Esta acción muestra la parte más destacada del destino de un enlace en una nueva ventana de &dolphin;. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Duplicar aquí</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Crea duplicados de los elementos seleccionados anteponiendo <replaceable
+>Copia de </replaceable
+> al principio de sus nombres.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Entrar</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Propiedades</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Muestra el diálogo de propiedades de los elementos seleccionados.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Archivo</guimenu
+> <guimenuitem
+>Salir</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Sale de &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Editar</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Deshacer</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Deshace la última acción realizada por &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Cortar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Corta los elementos seleccionados.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Copiar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia los elementos seleccionados.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Pegar  contenido del portapapeles...</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Pegar un archivo</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Pegar una carpeta</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Editar</guimenu
+><guimenuitem
+>Pegar elementos</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Pega los elementos que se hayan copiado o cortado actualmente en la carpeta actual. Si el contenido del portapapeles no contiene archivos ni carpetas, dicho contenido (que puede ser datos de texto o de imagen) se copiarán en un nuevo archivo. El nombre de dicho archivo se tiene que introducir en un diálogo. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Copiar a la vista dividida inactiva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia los elementos seleccionados de la vista dividida activa a la vista dividida inactiva.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Mover a la vista dividida inactiva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mueve los elementos seleccionados de la vista dividida activa a la vista dividida inactiva. Está desactivada si el usuario actual no dispone de permiso de escritura sobre los elementos seleccionados.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edit</guimenu
+> <guimenuitem
+>Filtrar...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Activa y desactiva la <link linkend="filter-files"
+>barra de filtrado</link
+>.</action
+> También puede usar el acceso rápido de teclado alternativo <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+> para esta acción.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Buscar...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre la barra de búsqueda. Introduzca un término de búsqueda en el campo de edición y seleccione buscar por el nombre del archivo o por su contenido, empezando desde la carpeta actual o desde cualquier otro sitio.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Seleccionar todo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecciona todos los archivos y carpetas de la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Editar</guimenu
+> <guimenuitem
+>Invertir selección</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecciona todos los elementos no seleccionados y quita la selección de los elementos seleccionados de la carpeta actual. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Ver</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Ampliar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Aumenta el tamaño de los iconos en la vista.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Reducir</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Reduce el tamaño de los iconos en la vista.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Reiniciar ampliación</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Reinicia el tamaño de los iconos de la vista a su valor predeterminado.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Modo de vista</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia el modo de la vista a <guimenuitem
+>Iconos</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Compacta</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) o <guimenuitem
+>Detalles</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Ordenar por</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia la manera de ordenar los elementos</action
+>, por <guimenuitem
+>Nombre</guimenuitem
+> o por otros criterios descritos en <link linkend="dolphin-view-information"
+>Información de la vista</link
+>.</para>
+<para
+><guimenuitem
+>Descendente</guimenuitem
+> cambia el orden. <guimenuitem
+>Carpetas primero</guimenuitem
+> ordena las carpetas antes que los archivos. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Mostrar información adicional</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Muestra información adicional</action
+>, tal como se describe en <link linkend="dolphin-view-information"
+>Información de la vista</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Mostrar vistas previas</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>muestra una vista previa simbólica del contenido del archivo</action
+> en los diferentes modos de vista.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Mostrar en grupos</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Muestra</action
+> el contenido de la carpeta actual agrupado según la opción seleccionada en <guimenuitem
+>Ordenar por</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Mostrar archivos ocultos</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Muestra todos los archivos y subcarpetas ocultos que contenga la carpeta actual.</action
+> Existe un acceso rápido de teclado alternativo <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+> para esta acción.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Dividir</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Activa o desactiva el modo de vista dividida.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guimenuitem
+>Volver a cargar</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Vuelve a cargar la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Detener</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Detiene la carga/lectura del contenido de la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guisubmenu
+>Mostrar paneles</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Activa y desactiva</action
+> los diferentes <link linkend="panels"
+>paneles</link
+>: <guimenuitem
+>Lugares</guimenuitem
+> (<keycap
+>F9 </keycap
+>), <guimenuitem
+>Información</guimenuitem
+> (<keycap
+>F11 </keycap
+>), <guimenuitem
+>Carpetas</guimenuitem
+> (<keycap
+>F7</keycap
+>), <guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+>F4</keycap
+>) y <guimenuitem
+>Buscar</guimenuitem
+> (<keycap
+>F12</keycap
+>). Con <guimenuitem
+>Bloquear paneles</guimenuitem
+> la cabecera del panel con el título y dos botones se oculta para ahorrar espacio y los paneles permanecen inmutables; con <guimenuitem
+>Desbloquear paneles </guimenuitem
+> la cabecera está visible y el panel se puede mover hacia la izquierda, hacia la derecha e, incluso, fuera de la ventana principal. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guisubmenu
+>Barra de ubicación</guisubmenu
+> <guimenuitem
+>Ubicación editable</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia la barra de ubicación entre dos modos posibles; el <link linkend="location-bar-bread-crumb"
+>modo de navegación</link
+> y el <link linkend="location-bar-editable"
+>modo editable</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ver</guimenu
+> <guisubmenu
+>Barra de ubicación</guisubmenu
+> <guimenuitem
+>Remplazar ubicación</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia el modo de la barra de ubicación al <link linkend="location-bar-editable"
+>modo editable</link
+>, si es necesario, y selecciona la ubicación, de manera que se pueda remplazar de forma rápida. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ver</guimenu
+> <guimenuitem
+>Ajustar el estilo de visualización...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre el diálogo <link linkend="view-properties-dialog"
+>Estilo de visualización</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Ir</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Arriba</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ir</guimenu
+> <guimenuitem
+>Arriba</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia a la carpeta superior a la actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Izquierda</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ir</guimenu
+> <guimenuitem
+>Atrás</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia a la vista de la carpeta anteriormente mostrada.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Derecha</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ir</guimenu
+> <guimenuitem
+>Adelante</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Deshace</action
+> una acción de ir <quote
+>Atrás</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Inicio</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ir</guimenu
+> <guimenuitem
+>Carpeta personal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Cambia a la carpeta personal del usuario, &eg;, /home/Pedro/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ir</guimenu
+> <guisubmenu
+>Pestañas cerradas recientemente</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Muestra una lista de pestañas cerradas recientemente que se pueden volver a abrir.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Herramientas</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Abrir terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre &konsole; en la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Abrir la herramienta de búsqueda preferida</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Abre la herramienta de búsqueda preferida en la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guimenuitem
+>Comparar archivos</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Comparar los archivos seleccionados actualmente con &kompare;. Esta acción solo está activada si se han seleccionado dos archivos o carpetas.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Herramientas</guimenu
+> <guisubmenu
+>Seleccionar juego de caracteres remoto</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Permite seleccionar manualmente el juego de caracteres usado por una conexión remota.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Preferencias y el menú Ayuda</title
+> 
+<para
+>&dolphin; tiene las opciones de menú comunes de los menús <guimenu
+> Preferencias</guimenu
+> y <guimenu
+> Ayuda</guimenu
+> de &kde;. Para obtener más información, lea las secciones sobre <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Menú Preferencias</ulink
+> y <ulink url="help:/fundamentals/menus.html#menus-help"
+>Menú Ayuda</ulink
+> de Fundamentos de &kde;. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Cuestiones varias</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>¿Ha remplazado &dolphin; a &konqueror;?</para>
+</question>
+<answer>
+<para
+>&dolphin; no pretende ser un competidor de &konqueror;: &konqueror; actúa como visor universal siendo capaz de mostrar páginas &HTML;, documentos de texto, carpetas y mucho más, mientras que &dolphin; se centra solamente en ser un administrador de archivos. Este enfoque permite optimizar la interfaz de usuario para la tarea de administración de archivos. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>¿Cómo puedo comprometerme con el desarrollo de &dolphin;?</para>
+</question>
+<answer>
+<para
+>La forma más sencilla de colaborar en el proyecto de &dolphin; es suscribirse a la lista de correo de los desarrolladores <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> y dejar un mensaje indicando qué puede hacer, cuánto tiempo puede dedicar, &etc;; los desarrolladoresle indicarán a qué se puede dedicar en el proyecto. Si desea colaborar en la documentación, puede enviar un mensaje de correo la lista del <ulink url="mailto:kde-doc-english@kde.org"
+>Equipo de documentación de &kde;</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>¿Cómo envío informes de fallos?</para>
+</question>
+<answer>
+<para
+>El canal oficial para informar de fallos es el sistema de informe de errores de &kde;, que puede encontrarse en <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>¿Cómo envío una petición de funcionalidad?</para>
+</question>
+<answer>
+<para
+>El canal oficial para enviar solicitudes de funcionalidades es el sistema de informe de errores de &kde;, que puede encontrarse en <ulink url= "https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Créditos y licencia</title>
+
+<para
+>&dolphin; </para>
+<para
+>Copyright del programa 2006&ndash;2014 Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> y Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Colaboradores: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Derechos de autor de la documentación 2005 Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>Derechos de autor de la documentación. 2006 &Orville.Bennett; &Orville.Bennett.mail;. </para>
+<para
+>Derechos de autor de la documentación 2006 Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>Copyright de la documentación 2009 Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Traducido por Rocío Gallego <email
+>traducciones@rociogallego.com</email
+> y </para
+><para
+>por Santiago Fernández Sancho <email
+>santi@kde-es.org</email
+>.</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

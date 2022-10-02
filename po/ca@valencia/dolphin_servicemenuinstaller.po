@@ -1,0 +1,153 @@
+# Translation of dolphin_servicemenuinstaller.po to Catalan (Valencian)
+# Copyright (C) 2019-2020 This_file_is_part_of_KDE
+# This file is distributed under the license LGPL version 2.1 or
+# version 3 or later versions approved by the membership of KDE e.V.
+#
+# Josep M. Ferrer <txemaq@gmail.com>, 2019, 2020.
+# Antoni Bella Pérez <antonibella5@yahoo.com>, 2020.
+msgid ""
+msgstr ""
+"Project-Id-Version: dolphin\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-04-02 00:46+0000\n"
+"PO-Revision-Date: 2020-07-10 15:08+0200\n"
+"Last-Translator: Antoni Bella Pérez <antonibella5@yahoo.com>\n"
+"Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
+"Language: ca@valencia\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Accelerator-Marker: &\n"
+"X-Generator: Lokalize 20.07.70\n"
+
+#: servicemenuinstaller.cpp:44
+#, kde-format
+msgid "Dolphin service menu installation failed"
+msgstr "Ha fallat la instal·lació del menú de servei de Dolphin"
+
+#: servicemenuinstaller.cpp:72
+#, kde-format
+msgid "Failed to install \"%1\", exited with status \"%2\""
+msgstr "No s'ha pogut instal·lar «%1», ha eixit amb l'estat «%2»"
+
+#: servicemenuinstaller.cpp:104
+#, kde-format
+msgid "Failed to uninstall \"%1\", exited with status \"%2\""
+msgstr "No s'ha pogut desinstal·lar «%1», ha eixit amb l'estat «%2»"
+
+#: servicemenuinstaller.cpp:117
+#, kde-format
+msgid "The file does not exist!"
+msgstr "El fitxer no existix."
+
+#: servicemenuinstaller.cpp:126
+#, kde-format
+msgid "Unknown error when installing package"
+msgstr "S'ha produït un error desconegut en instal·lar el paquet"
+
+#: servicemenuinstaller.cpp:181
+#, kde-format
+msgid "Unsupported archive type %1: %2"
+msgstr "Tipus d'arxiu %1 no acceptat: %2"
+
+#: servicemenuinstaller.cpp:190
+#, kde-format
+msgid "Failed to run uncompressor command for %1"
+msgstr "No s'ha pogut executar l'ordre de descompressió per a %1"
+
+#: servicemenuinstaller.cpp:195
+#, kde-format
+msgid "Process did not finish in reasonable time: %1 %2"
+msgstr "El procés no ha finalitzat en un temps raonable: %1 %2"
+
+#: servicemenuinstaller.cpp:199
+#, kde-format
+msgid "Failed to uncompress %1"
+msgstr "No s'ha pogut descomprimir %1"
+
+#: servicemenuinstaller.cpp:232
+#, kde-format
+msgid "Failed to run installer script %1"
+msgstr "No s'ha pogut executar l'script %1 de l'instal·lador"
+
+#: servicemenuinstaller.cpp:255
+#, kde-format
+msgid "Failed to set permissions on %1: %2"
+msgstr "No s'han pogut establir els permisos a %1: %2"
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "Separator between arguments"
+msgid "\", \""
+msgstr "\", \""
+
+#: servicemenuinstaller.cpp:272
+#, kde-format
+msgctxt "%2 = comma separated list of arguments"
+msgid "Installer script %1 failed, tried arguments \"%2\"."
+msgstr ""
+"No s'ha pogut executar l'script %1 de l'instal·lador. S'han provat els "
+"arguments «%2»."
+
+#: servicemenuinstaller.cpp:286
+#, kde-format
+msgid "Failed to create path %1"
+msgstr "No s'ha pogut crear el camí %1"
+
+#: servicemenuinstaller.cpp:300
+#, kde-format
+msgid "Failed to copy .desktop file %1 to %2: %3"
+msgstr "No s'ha pogut copiar el fitxer «.desktop» %1 a %2: %3"
+
+#: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
+#, kde-format
+msgid "Failed to remove directory %1"
+msgstr "No s'ha pogut eliminar el directori %1"
+
+#: servicemenuinstaller.cpp:318
+#, kde-format
+msgid "Failed to create directory %1"
+msgstr "No s'ha pogut crear el directori %1"
+
+#: servicemenuinstaller.cpp:357
+#, kde-format
+msgid "Failed to find an installation script in %1"
+msgstr "No s'ha pogut trobar un script d'instal·lació a %1"
+
+#: servicemenuinstaller.cpp:371
+#, kde-format
+msgid "Failed to remove .desktop file %1: %2"
+msgstr "No s'ha pogut eliminar el fitxer «.desktop» %1: %2"
+
+#: servicemenuinstaller.cpp:416
+#, kde-format
+msgid "Failed to find an uninstallation script in %1"
+msgstr "No s'ha pogut trobar un script de desinstal·lació a %1"
+
+#: servicemenuinstaller.cpp:435
+#, kde-format
+msgctxt "@info:shell"
+msgid "Command to execute: install or uninstall."
+msgstr "Ordre que s'ha d'executar: instal·la o desinstal·la."
+
+#: servicemenuinstaller.cpp:436
+#, kde-format
+msgctxt "@info:shell"
+msgid "Path to archive."
+msgstr "Camí cap a l'arxiu."
+
+#: servicemenuinstaller.cpp:441
+#, kde-format
+msgid "Command is required."
+msgstr "Es requerix una ordre."
+
+#: servicemenuinstaller.cpp:444
+#, kde-format
+msgid "Path to archive is required."
+msgstr "Es requerix el camí cap a l'arxiu."
+
+#: servicemenuinstaller.cpp:460
+#, kde-format
+msgid "Unsupported command %1"
+msgstr "Ordre no admesa %1"

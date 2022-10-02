@@ -1,0 +1,3258 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Serbian-Latin "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Priručnik za <application
+>Dolphin</application
+></title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <surname
+>Penc</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orvil</firstname
+> <surname
+>Benet</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Majkl</firstname
+> <surname
+>Ostin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Dejvid</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blančflauer</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Rajninghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Časlav</firstname
+><surname
+>Ilić</surname
+><affiliation
+><address
+><email
+>caslav.ilic@gmx.net</email
+></address
+></affiliation
+><contrib
+>prevod</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penc</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>Orvil Benet</holder>
+<holder
+>Majkl Ostin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Rajninghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>1. 6. 2016.</date>
+<releaseinfo
+>Programi KDE‑a 16.04</releaseinfo>
+
+<abstract>
+<para
+><application
+>Dolphin</application
+> je KDE‑ov podrazumevani menadžer fajlova, kojem je glavna projektna vodilja upotrebljivost. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>menadžer fajlova</keyword>
+<keyword
+>fajl</keyword>
+<keyword
+>upravljanje</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Uvod</title>
+
+<para
+><application
+>Dolphin</application
+> je podrazumevani menadžer fajlova u Plasmi, koji teži poboljšanju upotrebljivosti korisničkog sučelja. <application
+>Dolphin</application
+> se ograničava samo na upravljanje fajlovima, dok je <application
+>K‑osvajač</application
+> (podrazumevani menadžer fajlova u KDE‑u 3) univerzalni pregledač i prikazivač mnogih tipova fajlova koji se može koristiti i za upravljanje fajlovima. </para>
+
+<para
+>Ovakav projektni pristup omogućava programerima da se usredsrede na optimizaciju sučelja strogo u svrhu upravljanja fajlovima. </para>
+
+<para
+>Probleme na koje naiđete, ili želje za novim mogućnostima, možete uputiti autorima preko dijaloga za prijavu grešaka. Njemu se pristupa ili dugmetom za podešavanje na desnoj strani trake alatki u podrazumevanom režimu bez trake menija, ili kroz stavku menija <menuchoice
+><guimenu
+>Pomoć</guimenu
+><guimenuitem
+>Prijavi grešku...</guimenuitem
+></menuchoice
+> kada je traka menija prikazana. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Upotreba <application
+>Dolphina</application
+></title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>Korisničko sučelje <application
+>Dolphina</application
+></title>
+
+<para
+>Naredni snimak ekrana prikazuje <application
+>Dolphinovo</application
+> podrazumevano korisničko sučelje: </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana <application
+>Dolphinovog</application
+> podrazumevanog korisničkog sučelja.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+><application
+>Dolphinovo</application
+> podrazumevano korisničko sučelje.</phrase>
+</textobject>
+<caption
+><para
+><application
+>Dolphinovo</application
+> podrazumevano korisničko sučelje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Podrazumevano korisničko sučelje čine sledeći elementi: <itemizedlist>
+
+<listitem
+><para
+>Traka alatki, preko koje se brzo pristupa često korišćenim radnjama. Može se prilagoditi klikom desnim dugmetom miša na nju pa izborom <menuchoice
+><guimenuitem
+>Podesi trake alatki...</guimenuitem
+></menuchoice
+> iz kontekstnog menija, izborom <guimenuitem
+>Podesi trake alatki...</guimenuitem
+> iz menija na dugme za podešavanje desno u traci alatki, ili preko glavnog menija <menuchoice
+><guimenu
+>Postavke</guimenu
+><guimenuitem
+>Podesi trake alatki...</guimenuitem
+></menuchoice
+>. </para>
+<screenshot>
+<screeninfo
+>Snimak ekrana <application
+>Dolphinove</application
+> trake alatki.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Podrazumevana traka alatki.</phrase>
+</textobject>
+<caption>
+<para
+>Stavke na traci alatki za koje je ikonica dovoljna za razumevanje naredbe nemaju tekst pored ikonice. Ovo se može izmeniti desnim klikom i izborom stavke pod <guilabel
+>Prikaz teksta</guilabel
+>. Dugme za podešavanje desno u traci alatki vidi se samo kada je traka menija sakrivena. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>Traka lokacije, koja u svakom trenutku prikazuje putanju tekuće fascikle. Može se prebacivati između dva režima, za detalje pogledajte <link linkend="location-bar"
+>odeljak o traci lokacije</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>Prikaz</link
+>, koji nabraja sve fajlove i fascikle u tekućoj fascikli. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="places-panel"
+>Panel <guilabel
+>Mesta</guilabel
+></link
+>, koji daje brzi pristup obeleženim lokacijama i diskovima ili drugim medijumima. </para>
+<para
+>Ako su aktivirani pretraga površi i indeksiranje fajlova (modul <guilabel
+>Pretraga</guilabel
+> u Sistemskim postavkama), ovaj panel navodi stavke koje su nedavno sačuvane i omogućava traženje dokumenata, slika, audio i video fajlova. </para
+></listitem>
+
+<listitem
+><para
+>Traka stanja. Navodi ime, veličinu i tip fajla nad kojim miš trenutno lebdi, ili broj i veličinu trenutno izabranih fajlova. Desno stoji klizač uveličanja, kojim se može podešavati veličina ikonica u prikazu. </para
+></listitem>
+
+<listitem
+><para
+>Traka menija (podrazumevano sakrivena), koja daje pristup svim naredbama i postavnim opcijama. Pogledajte <link linkend="commands-menubar"
+>pregled naredbi</link
+> za spisak svih naredbi po menijima. Traka menija se može sakriti i prikazati pomoću <guimenuitem
+>Prikaži traku menija</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>M</keycap
+></keycombo
+>) u meniju <guimenu
+>Postavke</guimenu
+> i preko dugmeta za podešavanje. </para>
+<para
+>Ako je traka menija sakrivena, sve radnje iz nje dostupne su preko dugmeta <guibutton
+>Upravljanje</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>Dodatni paneli podataka, fascikli i terminala, podrazumevano su sakriveni. Više informacija potražite u odeljku o <link linkend="panels"
+>panelima</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+><application
+>Dolphinov</application
+> prikaz</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Korišćenje prikaza</title>
+
+<para
+>Prikaz nabraja sve fajlove i fascikle u tekućoj fascikli. Njima se može pristupati i rukovati na različite načine: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Fajl ili fascikla može se otvoriti levim klikom miša (ili dvoklikom, ako je uključeno <guilabel
+>Dvostruki klik otvara fajlove i fascikle (prvi klik izabira)</guilabel
+> u Sistemskim postavkama, modul <menuchoice
+><guimenu
+>Ulazni uređaji</guimenu
+> <guimenuitem
+>Miš</guimenuitem
+></menuchoice
+>). </para
+></listitem>
+
+<listitem
+><para
+>Desni klik na stavku ili praznu oblast oko stavki poziva kontekstni meni koji nudi neke česte radnje nad stavkom ili tekućom fasciklom. </para
+></listitem>
+
+<listitem
+><para
+>Ako se levo dugme pritisne nad stavkom i zadrži, stavka se može prevući u drugu fasciklu u tekućem prikazu ili u drugi <application
+>Dolphinov</application
+> prikaz (u drugom prozoru <application
+>Dolphina</application
+> ili u istom prozoru kada je prikaz podeljen, v. niže), radi premeštanja, kopiranja ili stvaranja simboličke veze. Stavke se mogu prevući čak i u drugi program kako bi se otvorile u njemu. </para
+></listitem>
+
+</itemizedlist>
+<para
+><application
+>Dolphin</application
+> pamti istorijat posećenih fascikli. Za kretanje unazad i unapred kroz istorijat možete koristiti dugmad na traci alatki: </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana <application
+>Dolphinove</application
+> trake alatki.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Dugmad za nazad i napred na traci alatki.</phrase>
+</textobject>
+<caption>
+<para
+>Dugmad za napred i nazad u traci alatki služe za kretanje kroz istorijat. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Izgleda <application
+>Dolphinovog</application
+> prikaza</title>
+
+<para
+>Traka alatki sadrži dugmad za upravljanje izgledom prikaza: </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana <application
+>Dolphinove</application
+> trake alatki.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Dugmad trake alatki kojima se upravlja izgledom prikaza.</phrase>
+</textobject>
+<caption
+><para
+>Dugmad trake alatki kojima se upravlja izgledom prikaza. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Sve postavke opisane u narednom, kao i druge opcije koje se tiču npr. ređanja fajlova u tekućoj fascikli, mogu se izmeniti kroz meni <guimenu
+>Prikaz</guimenu
+> i u <link linkend="view-properties-dialog"
+>dijalogu svojstava prikaza</link
+>. Podrazumevano se ove postavke pamte za svaku fasciklu ponaosob; ovo ponašanje može da se izmeni u <link linkend="preferences-dialog-general"
+>odeljku <guilabel
+>Opšte</guilabel
+></link
+> u postavkama. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Režimi prikaza</title>
+
+<para
+>Prva tri dugmeta na gornjem snimku ekrana menjaju <application
+>Dolphinove</application
+> režime prikaza. <itemizedlist>
+
+<listitem
+><para
+>U prikazu sa ikonicama, koji je podrazumevan, fajlovi su predstavljeni ikonicom koja odražava tip fajla, a potfascikle ikonicom fascikle. Imena fascikli i fajlova, te stavke uključene pod <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Dopunski podaci</guisubmenu
+></menuchoice
+>, date su ispod ikonica. </para
+></listitem>
+
+<listitem
+><para
+>Sažeti prikaz predstavlja sadržaj fascikle kao ikonice sa imenom sa strane, i stavkama uključenim pod <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Dopunski podaci</guisubmenu
+></menuchoice
+> ispod imena. Stavke su grupisane u kolone nalik na sažeti prikaz u KDE fajl dijalogu. </para
+></listitem>
+
+<listitem
+><para
+>U prikazu sa detaljima, sadržaj fascikle predstavljen je spiskom koji navodi ime, veličinu i poslednju izmenu svake stavke. Još kolona se može dodati desnim klikom na zaglavlje kolona. </para>
+<para
+>U kontekstnom meniju reda zaglavlja možete izabrati između posebne i automatske širine kolona. Automatska širina znači da će svaka kolona biti široka koliko najduža stavka u njoj, osim kolona <guilabel
+>ime</guilabel
+> kod koje se nastavak zamenjuje sa „...“. </para>
+<para
+>Redosled kolona može da se izmeni prevlačenjem zaglavlja kolona. Izuzetak je zaglavlje <guilabel
+>ime</guilabel
+>, koje je uvek prva kolona u prikazu. </para>
+<para
+>Prikaz sa detaljima stavlja tekuću fasciklu u stabloliki režim (ako je uključeno <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>Proširive fascikle</guilabel
+></link
+>): svaka potfascikla se može „raširiti“ ili „sažeti“ klikom na ikonicu <guiicon
+>+</guiicon
+> ili <guiicon
+>-</guiicon
+> kraj nje.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Grupni prikaz.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Grupni prikaz.</phrase>
+</textobject>
+<caption
+><para
+>Svi režimi prikaza podržavaju grupisanje po tipu ređanja izabranom kroz <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Poređaj po</guisubmenu
+></menuchoice
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Podaci u prikazu</title>
+<para
+>U svim režimima prikaza, <application
+>Dolphin</application
+> prikazuje bar ikonicu i ime za svaku stavku. Preko <guisubmenu
+>Dopunski podaci</guisubmenu
+> iz menija <guimenu
+>Prikaz</guimenu
+>, ili preko kontekstnog menija zaglavlja u detaljnom režimu, možete izabrati još podataka koje želite da vidite uz stavke: </para>
+
+<para
+><guimenuitem
+>veličina</guimenuitem
+>, <guimenuitem
+>datum</guimenuitem
+>, <guimenuitem
+>tip</guimenuitem
+>, <guimenuitem
+>ocena</guimenuitem
+>, <guimenuitem
+>oznake</guimenuitem
+> i <guimenuitem
+>komentar</guimenuitem
+>. </para>
+
+<para
+>Po tipu fajla, mogu se dodatno zadati sledeći kriterijumi ređanja: <simplelist>
+  <member
+><guimenuitem
+>dokument</guimenuitem
+>: broj reči i redova.</member>
+  <member
+><guimenuitem
+>slika</guimenuitem
+>: veličina i orijentacija.</member>
+  <member
+><guimenuitem
+>audio</guimenuitem
+>: izvođač, album, trajanje i numera.</member>
+</simplelist>
+</para>
+
+<para
+>Podmeni <guisubmenu
+>drugo</guisubmenu
+> omogućava izbor jednog od: <guimenuitem
+>putanja</guimenuitem
+>, <guimenuitem
+>odredište veze</guimenuitem
+>, <guimenuitem
+>kopirano iz</guimenuitem
+>, <guimenuitem
+>dozvole</guimenuitem
+>, <guimenuitem
+>vlasnik</guimenuitem
+> i <guimenuitem
+>korisnička grupa</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Pregled</title>
+
+<para
+>Kada se aktivira <guibutton
+>Pregled</guibutton
+>, ikonice počinju da odražavaju konkretan sadržaj fajla ili fascikle. Na primer, slike za ikonicu imaju svoj umanjeni pregled. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Podela</title>
+
+<para
+>Klikom na <guibutton
+>Podeli</guibutton
+> dobijaju se dva prikaza, koja mogu da prikazuju sadržaje različitih fascikli. Ovo može biti zgodno za premeštanje i kopiranje fajlova. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Biranje stavki u prikazu</title>
+
+<para
+>Stavke u prikazu mogu se birati na nekoliko načina. Pošto se izabere grupa stavki, sve radnje, poput <menuchoice
+><guimenuitem
+>Iseci</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Kopiraj</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Premesti u smeće</guimenuitem
+></menuchoice
+> ili prevlačenja, odnose se na sve izabrane stavke. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Biranje stavki mišem</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Kliknite levim dugmetom miša negde u prikazu i razvucite pravougaonik oko grupe stavke pre nego što pustite dugme. Ovim ćete izabrati sve stavke unutar pravougaonika, očistivši prethodni izbor. Ako je tokom biranja pritisnut taster <keycap
+>Shift</keycap
+>, prethodni izbor se zadržava. </para
+></listitem>
+
+<listitem
+><para
+>Ako držite taster <keycap
+>Ctrl</keycap
+> kad kliknete na stavku levim dugmetom, stanje izabranosti te stavke se obrće. Ako držite <keycap
+>Ctrl</keycap
+> pri razvlačenju pravougaonika oko grupe stavki, kako je opisano iznad, obrće se stanje izabranosti svih stavki unutar pravougaonika. </para
+></listitem>
+
+<listitem
+><para
+>Ako je pritisnut taster <keycap
+>Shift</keycap
+> u trenutku kad na stavku kliknete levim dugmetom miša, biće izabrane sve stavke između tekuće i one na koju je prethodno kliknuto. </para
+></listitem>
+
+<listitem
+><para
+>Ako je uključeno <guilabel
+>Obeleživač izbora</guilabel
+> pod <link linkend="preferences-dialog-general-behavior"
+>jezičkom <guilabel
+>Ponašanje</guilabel
+></link
+> u odeljku <guilabel
+>Opšte</guilabel
+> u postavkama, pojavljuje se malo dugme <guibutton
+>+</guibutton
+> ili <guibutton
+>-</guibutton
+> u gornjem levom uglu stavke nad kojom lebdi miš. Klikom na ovaj znak, redom, birate stavku ili je isključujete iz izbora. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Biranje stavki tastaturom</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Ako pritisnete taster strelice, <keycap
+>PageUp</keycap
+>, <keycap
+>PageDown</keycap
+>, <keycap
+>Home</keycap
+> ili <keycap
+>End</keycap
+>, bira se nova tekuća stavka a prethodni izbor se čisti. </para
+></listitem>
+
+<listitem
+><para
+>Ako držite <keycap
+>Ctrl</keycap
+> dok pritiskate jedan od pomenutih tastera, izbor ostaje neizmenjen. </para
+></listitem>
+
+<listitem
+><para
+>Ako držite <keycap
+>Shift</keycap
+> dok pritiskate jedan od pomenutih tastera, biće izabrane sve stavke između prethodne i nove tekuće stavke. </para
+></listitem>
+
+<listitem
+><para
+>Ako držite <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Space</keycap
+></keycombo
+>, obrće se stanje izabranosti tekuće stavke. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>A</keycap
+></keycombo
+> izabira sve stavke u prikazu. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>A</keycap
+></keycombo
+> obrće stanje izabranosti svih stavki u prikazu. </para
+></listitem>
+
+<listitem
+><para
+>Otkucajte prvih nekoliko slova imena fajla ili fascikle, i biće izabrana prva poklopljena stavka. Da očistite izbor i otkažete traženje tastaturom, pritisnite <keycap
+>Esc</keycap
+> ili sačekajte prekovreme od jedne sekunde. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Traka lokacije</title>
+
+<para
+>Traka lokacije, koja se prostire iznad <application
+>Dolphinovog</application
+> prikaza, navodi putanju do tekuće fascikle. Traka lokacije nudi dva režima. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Režim mrvica</title>
+
+<para
+>U režimu „mrvica“, koji je podrazumevani, svako ime fascikle u putanji do tekuće fascikle predstavlja dugme na koje može da se klikne radi brzog otvaranja te fascikle. Dalje, klik na simbol „&gt;“ desno od fascikle poziva meni iz kojeg možete brzo otvoriti potfasciklu te fascikle. </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana sa trakom lokacije u režimu mrvica.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traka lokacije u režimu mrvica.</phrase>
+</textobject>
+<caption
+><para
+>Traka lokacije u režimu mrvica.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Režim uređivanja</title>
+
+<para
+>Dok je traka lokacije u režimu mrvica, levi klik na sivu oblast desno od putanje prebacuje je u režim uređivanja, u kojem se putanja može uređivati tastaturom. Nazad u režim mrvica prelazite levim klikom na simbol štikle desno od trake lokacije. </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana sa trakom lokacije u režimu uređivanja.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traka lokacije u režimu uređivanja.</phrase>
+</textobject>
+<caption
+><para
+>Traka lokacije u režimu uređivanja.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Korišćenje U/I zahvata</title>
+
+<para
+>Kada se traka lokacije u uredivom režimu isprazni, ispred nje se pojavljuje padajući spisak sa svim dostupnim U/I zahvatima na sistemu. U/I zahvati su programi ugrađeni u KDE koji dodaju podršku za mnoge protokole, u <application
+>Dolphinu</application
+> i drugim KDE programima.</para
+> 
+
+<para
+>Na primer, <application
+>Dolphin</application
+> se uz U/I zahvat FISH‑a može koristiti za upravljanje fajlovima i fasciklama na udaljenom domaćinu koji dozvoljava SSH pristup. Samo unesite <userinput
+>fish://korisnik@domacin</userinput
+> u traku lokacije. Slično upravljanje udaljenim fajlovima moguće je i na domaćinima dostupnim preko protokola FTP, NFS, SFTP, SMB (CIFS) i WebDAV.</para>
+
+<para
+>Padajući spisak U/I zahvata takođe omogućava pristup Sistemskim postavkama, fontovima, smeću, drugim programima i uređajima prikačenim na računar. Preko padajućeg spiska imate uvid u sve mogućnosti U/I zahvata na sistemu. </para>
+<screenshot>
+<screeninfo
+>Snimak ekrana sa spiskom U/I zahvata.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traka lokacije sa spiskom U/I zahvata.</phrase>
+</textobject>
+<caption
+><para
+>Spisak dostupnih U/I zahvata</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Mesta i kontekst</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Ako je panel <guilabel
+>Mesta</guilabel
+> skriven, u oba režima vidi se dodatna ikonica ispred putanje. Levim klikom na nju dobija se meni za brzi pristup „mestima“ i skladišnim medijumima. Detalje potražite u <link linkend="places-panel"
+>odeljku o panelu <guilabel
+>Mesta</guilabel
+></link
+>. </para>
+
+<screenshot>
+<screeninfo
+>Traka lokacije sa ikonicom mestâ̂.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traka lokacije sa ikonicom mestâ̂.</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Kontekstni meni trake lokacije sadrži radnje za prebacivanje režima i kopiranje i nalepljivanje putanje preko klipborda. Popunite poslednju kućicu u ovom meniju za prikaz pune putanje počev od korene fascikle fajl sistema, a ispraznite je za prikaz putanje počev od tekuće stavke mestâ̂. </para>
+
+<screenshot>
+<screeninfo
+>Kontekstni meni trake lokacije.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Kontekstni meni trake lokacije.</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Paneli</title>
+
+<para
+><application
+>Dolphin</application
+> omogućava postavljanje nekoliko panela pokraj prikaza. Mogu se uključiti kroz <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Paneli</guisubmenu
+></menuchoice
+>.  Panel možete premestiti na drugi položaj, čak i izvan prozora, klikom na njegov naslov i prevlačenjem (paneli moraju biti prethodno otključani). </para>
+
+<sect2 id="places-panel">
+<title
+>Mesta</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, with Baloo Recently Saved and Search For -->
+<para
+>Panel <guilabel
+>Mesta</guilabel
+> podrazumevano stoji na levoj strani prozora, i prikazuje sve lokacije koje ste obeležili. Takođe nabraja diskove i druge medijume prikačene na računar, stavke kojima je nedavno pristupano, a omogućava i pretragu po tipovima fajlova. Redosled ovih stavki može se izmeniti prevlačenjem. </para>
+
+<para
+>Fascikla se najlakše dodaje u panel mesta tako što je prevučete na panel. Drugačije, možete kliknuti desnim unutar panela i izabrati <menuchoice
+><guimenuitem
+>Dodaj stavku...</guimenuitem
+></menuchoice
+> iz kontekstnog menija. Prvi način stvara obeleživač širom sistema, a drugi se može upotrebiti za dodavanje trenutne putanje iz trake lokacije ili bilo koje željene fascikle ili uređaja. Pojavljuje se dijalog u kome možete urediti etiketu, lokaciju i ikonicu, ili ograničiti da se stavka vidi samo u <application
+>Dolphinu</application
+>. </para>
+
+<para
+>Klik desnim otvara kontekstni meni za uređivanje, dodavanje, sakrivanje i uklanjanje stavki, promenu veličine ikonica na jednu od predefinisanih vrednosti, te zaključavanje i otključavanje panela. </para>
+<para
+>Kontekstni meni dalje sadrži radnju za otvaranje stavke u novom jezičku, i za demontiranje uređaja. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Podaci</title>
+
+<para
+>Panel <guilabel
+>Podaci</guilabel
+> daje više podataka o izabranoj stavci (ili o stavci nad kojom trenutno lebdi miš), kao što su veličina, tip i datum poslednje izmene. Takođe sadrži veći pregled sadržaja izabrane stavke i omogućava njeno ocenjivanje, dodavanje oznaka i komentara. </para>
+
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Fascikle</title>
+
+<para
+>Panel <guilabel
+>Fascikle</guilabel
+> prikazuje strukturu fajl sistema u obliku stabla; prikaz sadrži samo fascikle. Levim klikom na fasciklu otvarate je u <application
+>Dolphinovom</application
+> prikazu. </para>
+
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Ovaj panel sadrži terminal, koji će biti otvoren na fascikli trenutno prikazanoj u <application
+>Dolphinu</application
+>. Pri promeni fascikle u aktivnom prikazu ažuriraće se i radna fascikla terminala, i obrnuto. Terminal radi samo nad lokalnim medijumima. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Brzi saveti</title>
+
+<para
+>Slede neki saveti za efikasnije korišćenje <application
+>Dolphina</application
+>. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Brzo obeležavanje</title>
+
+<para
+>Da biste brzo dodali obeleživač za tekuću fasciklu u panelu <guilabel
+>Mesta</guilabel
+>, kliknite desnim na radni prostor i izaberite <menuchoice
+><guimenuitem
+>Dodaj u Mesta</guimenuitem
+></menuchoice
+> iz kontekstnog menija. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Traženje fajlova i pretraga u fajlovima</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+><application
+>Dolphinom</application
+> se mogu tražiti fajlovi i pretraživati njihov sadržaj. Ako pritisnete <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+> ili izaberete <menuchoice
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Nađi...</guimenuitem
+> </menuchoice
+>, otvoriće se traka traženja sa postavkom da traži u tekućoj fascikli i svim potfasciklama. Pretraga će započeti čim počnete da kucate u polje za traženje. <screenshot>
+<screeninfo
+>Traženje fajlova i sadržaja u fajlovima.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traženje fajlova i sadržaja u fajlovima.</phrase>
+</textobject>
+<caption
+><para
+>Traženje fajlova i sadržaja u fajlovima u <application
+>Dolphinu</application
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Pretraga ne razlikuje veličinu slova i ne zahteva spoljašnje džokere (<userinput
+>*foo*</userinput
+> i <userinput
+>foo</userinput
+> znače isto), ali možete koristiti džokere unutar izraza za pretragu. <userinput
+>*</userinput
+> poklapa nijedan, jedan ili više znakova, a <userinput
+>?</userinput
+> tačno jedan znak.</para>
+<para
+>Ova mogućnost radi u sadejstvu sa servisima Balooa; ako oni nisu u pogonu, pokreće se U/I zahvat radi dobijanja rezultata pretrage.</para>
+<para
+>Opcija <guilabel
+>Svuda</guilabel
+>, kada su servisi Balooa aktivni, traži kroz sve indeksirane fascikle. Kada ovi servisi nisu aktivni, pretraga počinje od korisnikove domaće fascikle.</para>
+<!--FIXME 16.12
+https://git.reviewboard.kde.org/r/123883/
+Add prototype of a "More search tools..." button
+-->
+<screenshot>
+<screeninfo
+>Traženje sa više opcija.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Traženje sa više opcija.</phrase>
+</textobject>
+<caption
+><para
+>Traženje sa više opcija u <application
+>Dolphinu</application
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Upotrebite dugme <guilabel
+>Više opcija</guilabel
+> da proširite traku traženja. Time dobijate vrlo udoban način za sužavanje rezultata pretrage.</para>
+<para
+>Pretragu započinjete tako što izaberete jedan ili više tipova fajlova (dokumenti, audio, video, slike), vremenski period i ocenu.</para>
+
+<para
+>Alternativno, možete koristiti ove opcije u panelu mestâ̂ zajedno sa filterskom trakom, da potražite fajlove preko Balooa ili ograničite pretragu na fajlove poklopljene filterskim izrazom.</para>
+
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Montiranje skladišnih medijuma</title>
+
+<para
+>Skladišni medijum se brzo montira klikom na uređaj u panelu <guilabel
+>Mesta</guilabel
+>. Tada će se montirati i otvoriti u <application
+>Dolphinu</application
+>. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Opoziv radnji</title>
+
+<para
+><application
+>Dolphin</application
+> ume da opoziva izmene učinjene fajlovima. Na primer, ako pošaljete fajl u smeće, to se može opozvati i fajl vratiti na prvobitnu lokaciju. Radnju opozivate pritiskom <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Z</keycap
+></keycombo
+> ili izborom <menuchoice
+><guimenu
+>Uređivanje</guimenu
+><guimenuitem
+>Opozovi &lt;radnju&gt;</guimenuitem
+></menuchoice
+> iz menija, na primer <guimenuitem
+>Opozovi premeštanje</guimenuitem
+>. </para>
+
+</sect2>
+
+<sect2 id="batch-rename">
+<title
+>Paketno preimenovanje fajlova</title>
+<para
+><application
+>Dolphinom</application
+> je moguće preimenovati više fajlova istovremeno. Svaki fajl će dobiti zadato ime, uključujući broj, npr. <literal
+>slika‑1.jpg</literal
+>, <literal
+>slika‑2.jpg</literal
+>, <literal
+>slika‑3.jpg</literal
+>. Ovo može biti korisno npr. za slike načinjene digitalnim fotoaparatom. </para>
+
+<para
+>Da biste fajlove paketno preimenovali, prvo izaberite one koje treba preimenovati. To možete učiniti levim klikom i razvlačenjem pravougaonika oko željenih fajlova pre nego što pustite dugme, ili držanjem taster <keycap
+>Ctrl</keycap
+> i kliktanjem na svaki željeni fajl pojedinačno (za više detalja podsetite se <link linkend="selection"
+>odeljka o biranju stavki</link
+>). Potom otvorite dijalog za paketno preimenovanje pritiskom <keycap
+>F2</keycap
+> ili kroz meni <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Preimenuj...</guimenuitem
+></menuchoice
+>. </para>
+
+<para
+>Zatim unesite ime koje želite da fajlovi dobiju. U imenu mora biti prisutan znak #. Fajlovi će zatim biti preimenovani, pri čemu # biva zamenjen narednim uzastopnim brojem za svaki fajl. </para>
+
+<para
+>Ako nastavci fajlova u izboru nisu svi isti, imena fajlova se mogu izmeniti bez upotrebe mestodržača # tako da se očuvaju izvorni nastavci. Ovo korisno npr. za preimenovanje video fajla i svih pridruženih fajlova titlova, čija se imena obično razlikuju samo po nastavku. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Poređenje izabranih fajlova ili fascikli</title>
+
+<para
+>Ako je instaliran program <application
+>K‑poređenje</application
+>, možete ga upotrebiti da proučite razlike između dva fajla ili fascikle. </para>
+
+<para
+>Prvo izaberite fajlove ili fascikle koje treba uporediti, a zatim pozovite <application
+>K‑poređenje</application
+> kroz <menuchoice
+><guimenu
+>Alatke</guimenu
+><guimenuitem
+>Uporedi fajlove</guimenuitem
+></menuchoice
+>. <application
+>K‑poređenje</application
+> će se pokrenuti i prikazati razlike među fajlovima ili fasciklama. </para>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Filtriranje fajlova</title>
+
+<para
+><application
+>Dolphin</application
+> može da filtrira fajlove, tj. da prikaže samo one stavke čije ime sadrži zadati tekst. Na primer, ako želite da vidite samo MP3 fajlove u fascikli, možete uneti filter <literal
+>.mp3</literal
+>; tada će iz prikaza nestati svi fajlovi čija imena ne sadrže <literal
+>.mp3</literal
+>. </para>
+
+<para
+>Fajlove filtrirate tako što prvo aktivirate filtersku traku, ili pritiskom <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+> ili kroz meni <menuchoice
+> <guimenu
+>Alatke</guimenu
+> <guimenuitem
+>Filterska traka</guimenuitem
+> </menuchoice
+>, a zatim u nju unesete tekst po kojem se filtrira. Filterska traka se kasnije može isključiti pritiskom na <keycap
+>Esc</keycap
+> ili levim klikom na ikonicu <guiicon
+>Sakrij filtersku traku</guiicon
+>. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Podešavanje <application
+>Dolphina</application
+></title>
+
+<para
+>Postavke <application
+>Dolphina</application
+> mogu se svrstati u dve grupe: <itemizedlist>
+
+<listitem
+><para
+>Postavke koje određuju opšte ponašanje <application
+>Dolphina</application
+>. Mogu se menjati u <link linkend="preferences-dialog"
+>dijalogu za podešavanje</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Postavke koje određuju kako <application
+>Dolphin</application
+> prikazuje sadržaj fascikle. Ove postavke se nazivaju <link linkend="view-properties"
+>svojstvima prikaza</link
+> i zadaju se pomoću dugmadi trake alatke, menija <guimenu
+>Prikaz</guimenu
+> i <link linkend="view-properties-dialog"
+>dijaloga <guilabel
+>Svojstva prikaza</guilabel
+></link
+>. U podrazumevanoj postavi, svojstva prikaza se pamte po svakoj fascikli, ali se <application
+>Dolphin</application
+> može podesiti i da koristi zajednička svojstva prikaza za sve fascikle, kroz <link linkend="preferences-dialog-general-behavior"
+>odeljak <guilabel
+>Opšte</guilabel
+></link
+> u postavkama. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+><application
+>Dolphinov</application
+> dijalog za podešavanje</title>
+<para
+>Dijalog za podešavanje otvarate pomoću <menuchoice
+><guimenu
+>Postavke</guimenu
+> <guimenuitem
+>Podesi Dolphin...</guimenuitem
+></menuchoice
+> u meniju u glavnom prozoru <application
+>Dolphina</application
+>. Postavke su podeljene u nekoliko grupa, kojima pristupate kliktanjem na odgovarajuću ikonicu na levoj strani dijaloga. </para>
+
+<para
+>Sve postavke, osim stranice <guilabel
+>Pokretanje</guilabel
+> i jezička <guilabel
+>Traka stanja</guilabel
+> na stranici <guilabel
+>Opšte</guilabel
+>, dele se sa <application
+>K‑osvajačem</application
+> u režimu menadžera fajlova. </para>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Pokretanje</title>
+
+<para
+>Ova grupa sadrži postavke koje određuju izgled <application
+>Dolphina</application
+> na pokretanju. <screenshot>
+<screeninfo
+>Snimak ekrana sa opcijama pokretanja u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Postavke pokretanja.</phrase>
+</textobject>
+<caption
+><para
+>Opcije pokretanja u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+><guilabel
+>Domaća fascikla</guilabel
+> je fascikla koja se otvara po pokretanju. Lokacija ove fascikle može se neposredno uneti ili izabrati kroz dijalog koji se dobija klikom na dugme sa ikonicom fascikle. Za domaću fasciklu se može zadati i tekuća ili podrazumevana lokacija (što je korisnikova sistemska domaća fascikla) klikom na odgovarajuće dugme. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Podeljeni prikaz</guilabel
+> određuje da li je <link linkend="dolphin-view"
+><application
+>Dolphinov</application
+> prikaz</link
+> podeljen po pokretanju ili ne. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Traka lokacije se može uređivati</guilabel
+> određuje da li će traka lokacije biti u režimu uređivanja po pokretanju. U suprotnom će biti u režimu mrvica. Detalje o ovim režimima potražite u <link linkend="location-bar"
+>odeljku o traci lokacije</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Ako je popunjeno <guilabel
+>Puna putanja u traci lokacije</guilabel
+>, traka lokacije u režimu mrvica navodi potpunu putanju tekuće lokacije. Inače se navodi skraćena verzija putanje kada počinje jednim od mesta sa panela <guilabel
+>Mesta</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Filterska traka</guilabel
+> određuje da li se po pokretanju vidi filterska traka. Više detalja potražite u <link linkend="filter-files"
+>odeljku o filterskoj traci</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Režimi prikaza</title>
+
+<para
+>Ova grupa sadrži postavke kojima se utiče na ponašanje <application
+>Dolphinovih</application
+> režima prikaza. Trima režimima prikaza pristupa se preko trake jezičaka na vrhu (<guilabel
+>ikonice</guilabel
+>, <guilabel
+>sažeto</guilabel
+>, i <guilabel
+>detalji</guilabel
+>). <screenshot>
+<screeninfo
+>Snimak ekrana sa postavkama prikaza u ikonicama u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Postavke režima prikaza.</phrase>
+</textobject>
+<caption
+><para
+>Postavke režima prikaza u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Zajedničke postavke za sve režime</title>
+
+<para
+>Za sva tri režima prikaza važe neke zajedničke postavke: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Klizači kojima se određuje veličina ikonica. Veličine <guilabel
+>Podrazumevana:</guilabel
+> ili <guilabel
+>Pregled:</guilabel
+> koriste se, redom, kada su pregledi isključeni ili uključeni. Primetite da se veličina ikonica lako može menjati klizačem uveličanja u traci stanja, ako je uključena odgovarajuća opcija u <link linkend="preferences-dialog-general-statusbar"
+>odeljku <guilabel
+>Opšte</guilabel
+></link
+> u postavkama. </para
+></listitem>
+
+<listitem
+><para
+>Postavka za font korišćen u režimima prikaza: može se izabrati ili sistemski ili poseban font. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Ostale postavke u odeljku <guilabel
+>Tekst</guilabel
+> koje važe samo za pojedine režime prikaza izložene su ispod. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Ikonice</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Širina:</guilabel
+> određuje najmanju širinu koja je dopuštena za tekst stavke. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Najviše redova:</guilabel
+> zadaje najveći broj redova teksta ispod ikonice. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Sažeto</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Najveća širina:</guilabel
+> određuje najveću širinu koja je dopuštena za tekst stavke. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Detalji</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Proširive fascikle</guilabel
+> određuje da li se fascikle sa potfasciklama prikazuju u vidu stabla, tako da se podstavke mogu raširiti levim klikom na ikonicu <guiicon
+>&gt;</guiicon
+> a sažeti klikom na ikonicu <guiicon
+>v</guiicon
+>. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Navigacija</title>
+
+<para
+>Ova grupa postavki određuje kako radi kretanje kroz strukturu fascikli i kroz arhive. <screenshot>
+<screeninfo
+>Snimak ekrana sa postavkama kretanja u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Postavke kretanja.</phrase>
+</textobject>
+<caption
+><para
+>Postavke kretanja u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Opcija za otvaranje stavki jednostrukim ili dvostrukim klikom miša važi širom sistema i može se izmeniti u Sistemskim postavkama, modul <menuchoice
+><guimenu
+>Ulazni uređaji</guimenu
+> <guimenuitem
+>Miš</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Ako je uključeno <guilabel
+>Otvaraj arhive kao fascikle</guilabel
+>, arhive će biti otvarane unutar <application
+>Dolphina</application
+> umesto u spoljašnjim programima. </para
+></listitem>
+
+<listitem
+><para
+>Ako se uključi <guilabel
+>Otvaraj fascikle pri prevlačenjima</guilabel
+>, tokom prevlačenja stavke mišem kratko lebdenje nad fasciklom otvoriće tu fasciklu. Ovo omogućava brzo premeštanje i kopiranje stavki u fascikle koje su nekoliko nivoa niže u hijerarhiji fascikli. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-services">
+<title
+>Servisi</title>
+
+<para
+>Ova grupa nudi izbor servisa koji se daju u podmeniju <guisubmenu
+>Radnje</guisubmenu
+> <application
+>Dolphinovog</application
+> kontekstnog menija (koji se dobija desnim klikom na fajl ili fasciklu). </para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana sa postavkama servisa u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-services.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Postavke servisa.</phrase>
+</textobject>
+<caption
+><para
+>Postavke servisa u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Dugmetom <guibutton
+>Preuzmi nove servise...</guibutton
+> možete dobaviti još servisa za kontekstni meni. </para>
+<para
+>Ako ste instalirali <application
+>Dolphinov</application
+> priključak za Bazaar, Mercurial, <application
+>Git</application
+> ili Subversion (iz modula <literal
+>kdesdk</literal
+>), pomenuti servisi se pojavljuju na spisku. Ako su ovi priključci uključeni i uđete u fasciklu pod upravljanjem verzijama, videćete ikonice verzionog stanja (lokalno izmenjeno, ažurno, itd.), a kontekstni meni sadržaće dodatne stavke (predavanje, ažuriranje, dodavanje, uklanjanje, itd.) </para>
+<para
+>U spisku servisa možete izabrati i da li se naredbe <guimenuitem
+>Obriši</guimenuitem
+>, <guimenuitem
+>Kopiraj u</guimenuitem
+> i <guimenuitem
+>Premesti u</guimenuitem
+> javljaju u kontekstnom meniju koji se dobija desnim klikom na fajl ili fasciklu. </para>
+<para
+><application
+>Dolphin</application
+> se mora ponovo pokrenuti da bi se aktivirale izmene za neke od ovih postavki. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Smeće</title>
+
+<para
+>Ova grupa postavki određuje ponašanje smeća. <screenshot>
+<screeninfo
+>Snimak ekrana sa postavkama smeća u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Postavke smeća.</phrase>
+</textobject>
+<caption
+><para
+>Postavke smeća u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Fajlovi se mogu brisati automatski kada su stariji od podešenog broja dana. </para
+></listitem>
+
+<listitem
+><para
+>Veličina smeća može biti ograničena na podesivi udeo veličine diska. Kada se ograničenje dostigne, može se izdati upozorenje ili se automatski obrisati najstariji ili najveći fajlovi. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Opšte</title>
+
+<para
+>Ova grupa postavki određuje opšte ponašanje <application
+>Dolphina</application
+>. Podeljena je u četiri podgrupe, kojima se pristupa preko trake jezičaka na vrhu. <screenshot>
+<screeninfo
+>Snimak ekrana sa opštim postavkama u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Opšte postavke.</phrase>
+</textobject>
+<caption
+><para
+>Opšte postavke u <application
+>Dolphinovom</application
+> dijalogu za podešavanje.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Jezičak <guilabel
+>Ponašanje</guilabel
+></title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>U odeljku <guilabel
+>Prikaz</guilabel
+> možete podesiti da li se <link linkend="view-properties"
+>svojstva prikaza</link
+> skladište za svaku fasciklu posebno ili se za sve fascikle koriste ista svojstva. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Režim ređanja</guilabel
+> određuje kako se ređaju stavke u prikazu. Ako se uključi <guilabel
+>Prirodno ređanje</guilabel
+>, redosled ređanja u sledećem primeru biće <orderedlist
+> <listitem
+><para
+>fajl‑1,</para
+></listitem
+> <listitem
+><para
+>fajl‑2,</para
+></listitem
+> <listitem
+><para
+>fajl‑10.</para
+></listitem
+> </orderedlist
+> Ako se isključi, dobija se obično alfabetsko ređanje (sa ili bez razlikovanja veličine slova), odnosno <orderedlist>
+<listitem
+><para
+>fajl‑1,</para
+></listitem>
+<listitem
+><para
+>fajl‑10,</para
+></listitem>
+<listitem
+><para
+>fajl‑2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Pri lebdenju mišem nad fajlom ili fasciklom pojavljuje se mali prozor sa relevantnim podacima ako je uključeno <guilabel
+>Oblačići</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Obeleživač izbora</guilabel
+> daje malo dugme <guibutton
+>+</guibutton
+> ili <guibutton
+>-</guibutton
+> iznad ikonice stavke kada se nad njome lebdi mišem. Ovim dugmadima se stavka može izabrati ili isključiti iz izbora. </para
+></listitem>
+
+<listitem
+><para
+>Uključite <guilabel
+>Utkano preimenovanje</guilabel
+> da biste dobili ovaj režim kada je izabrana samo jedna stavka. Ako je ova opcija isključena ili je izabrano više stavki, dobićete dijalog za preimenovanje. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Jezičak <guilabel
+>Pregledi</guilabel
+></title>
+
+<para
+>Pod ovim jezičkom možete podesiti koji tipovi fajlova imaju preglede. Takođe možete zadati najveću veličinu udaljenih fajlova do koje se prave pregledi. </para>
+<para
+>Ako se pregledi uključe za fascikle, ikonica fascikle će pokazivati preglede nekoliko fajlova u njoj. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Jezičak Potvrde</title>
+<para
+>U odeljku <guilabel
+>Traži potvrdu pri:</guilabel
+> možete podesiti da li se prikazuju dijalozi upozorenja pred potencijalno štetne radnje. </para>
+<warning
+><para
+>Postavke potvrda za premeštanje fajlova u smeće i brisanje fajlova i fascikli određuju ponašanje u <application
+>Dolphinu</application
+>, <application
+>K‑osvajaču</application
+>, <application
+>GwenViewu</application
+>, kao i svim KDE programima koji koriste podrazumevane KDE fajl dijaloge. Postavka potvrde pri zatvaranju <application
+>Dolphina</application
+> kad ima više jezičaka važi samo u <application
+>Dolphinu</application
+>.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Jezičak <guilabel
+>Traka stanja</guilabel
+></title>
+
+<para
+>Pod ovim jezičkom se podešavaju neke dopunske stavke za traku stanja, pod uslovom da je dovoljno široka: <itemizedlist>
+
+<listitem
+><para
+>Klizač uveličanja, koji služi za brzu izmenu veličine ikonica. </para
+></listitem>
+
+<listitem
+><para
+>Traka koja pokazuje koliko je prostora ostalo na tekućoj jedinici. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Svojstva prikaza fascikle</title>
+
+<para
+>Naredne postavke određuju kako se sadržaj fascikle prikazuje u <application
+>Dolphinu</application
+>, i podrazumevano se skladište zasebno za svaku fasciklu: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Režim prikaza (ikonice, sažeto, detalji). </para
+></listitem>
+
+<listitem
+><para
+>Ređanje stavki, određeno redosledom (rastuće, opadajuće) i atributom (ime, veličina...) po kojem se ređa. </para
+></listitem>
+
+<listitem
+><para
+>Međusobno ređanje fajlova i fascikli — da li se fascikle ređaju ispred fajlova? </para
+></listitem>
+
+<listitem
+><para
+>Pregledi — da li se prikazuju umesto ikonica (na osnovu postavki pod <link linkend="preferences-dialog-general-previews"
+>jezičkom <guilabel
+>Pregledi</guilabel
+> u <application
+>Dolphinovom</application
+> opštim postavkama</link
+>)? </para
+></listitem>
+
+<listitem
+><para
+>Da li su stavke grupisane u prikazima? </para
+></listitem>
+
+<listitem
+><para
+>Da li se vide skriveni fajlovi? </para
+></listitem>
+
+<listitem
+><para
+>Koji se dodatni podaci (pored imena) navode u prikazu sa ikonicama i sa detaljima? </para
+></listitem>
+
+</itemizedlist>
+<para
+>Svojstva prikaza se mogu podesiti kroz meni <menuchoice
+><guimenu
+>Prikaz</guimenu
+></menuchoice
+>, a neka (poput režima prikaza) i preko dugmadi na traci alatki. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>Dijalog svojstava prikaza</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Snimak ekrana sa dijalogom svojstava prikaza.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Dijalog svojstava prikaza.</phrase>
+</textobject>
+<caption
+><para
+>Dijalog svojstava prikaza.</para
+></caption>
+</mediaobject>
+</screenshot>
+Dijalog svojstava prikaza koristi se za brzo menjanje više svojstava odjednom. Izmene mogu važiti za tekuću fasciklu, za tekuću fasciklu i sve njene potfascikle, ili čak za sve fascikle, u zavisnosti od izbora načinjenog u odeljku <guilabel
+>Primeni svojstva prikaza na</guilabel
+>. </para>
+
+<para
+>Ako se uključi <guilabel
+>Ova svojstva prikaza su podrazumevana</guilabel
+>, izabrana svojstva prikaza biće primenjivana na sve fascikle koje nemaju sopstvena prilagođena svojstva. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Pregled naredbi</title>
+<para
+>Traka menija podrazumevano nije prikazana. Sve radnje opisane ovde možete izvesti ili dugmadima trake alatki, ili stavkama u meniju koji se dobija dugmetom za podešavanje na traci alatki.</para>
+
+<sect1 id="commands-menubar">
+<title
+>Traka menija u glavnom prozoru <application
+>Dolphina</application
+></title>
+
+<sect2>
+<title
+>Meni <guimenu
+>Fajl</guimenu
+></title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Napravi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Stvara novu stavku (poput fascikle ili tekstualnog fajla) u tekućoj fascikli.</action
+></para>
+<para
+>Objašnjenja za sve raspoložive stavke možete naći u <application
+>K‑osvajačevom</application
+> priručniku, u poglavlju <ulink url="help:/konqueror/making.html"
+>o stvaranju novih stavki</ulink
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Novi prozor</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Otvara novi prozor <application
+>Dolphina</application
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Novi jezičak</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Otvara novi jezičak.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Zatvori jezičak</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Zatvara tekući jezičak.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Opozovi zatvaranje jezička</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ponovo otvara poslednji zatvoreni jezičak.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F2</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Preimenuj...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Preimenuje jednu trenutno izabranu stavku utkano. Otvara <link linkend="batch-rename"
+>dijalog za paketno preimenovanje</link
+> ako je izabrano više stavki.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Premesti u smeće</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Premešta trenutno izabrane stavke u smeće.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Shift</keycap
+><keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Obriši</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Trajno briše trenutno izabrane stavke. To znači da se ne premeštaju u smeće i ne mogu se povratiti.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Enter</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Svojstva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prikazuje dijalog sa podacima o trenutno izabranim stavkama.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Napusti</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Napušta Dolphin.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Meni <guimenu
+>Uređivanje</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Opozovi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opoziva poslednju radnju izvedenu Dolphinom.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Iseci</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Iseca trenutno izabrane stavke.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Kopiraj</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Kopira trenutno izabrane stavke.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Nalepi sadržaj klipborda...</guimenuitem
+></menuchoice
+> ili <menuchoice
+><guimenu
+>Uređivanje</guimenu
+><guimenuitem
+>Nalepi jedan fajl</guimenuitem
+></menuchoice
+> ili <menuchoice
+><guimenu
+>Uređivanje</guimenu
+><guimenuitem
+>Nalepi jednu fasciklu</guimenuitem
+></menuchoice
+> ili <menuchoice
+><guimenu
+>Uređivanje</guimenu
+><guimenuitem
+>Nalepi N stavki</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Nalepljuje kopirane ili isečene stavke u tekuću fasciklu. Ako klipbord ne sadrži fajlove ili fascikle, sadržaj klipborda (poput teksta ili slike) biće nalepljen kao novi fajl; pojaviće se dijalog za unošenje imena tog fajla. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Nađi...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Otvara traku traženja. Unesite izraz za pretragu u polje, pa izaberite traženje po imenu ili sadržaju fajla, počev od tekuće fascikle ili svuda.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Izaberi sve</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Bira sve fajlove i fascikle u tekućoj fascikli.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Uređivanje</guimenu
+> <guimenuitem
+>Izvrni izbor</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Bira sve neizabrane stavke, a poništava izbor izabranih, u tekućoj fascikli. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Meni <guimenu
+>Prikaz</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Uveličaj</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Uvećava ikonice u radnom prikazu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Umanji</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Umanjuje ikonice u prikazu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Način prikaza</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje na režim prikaz u ikonicama (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>1</keycap
+></keycombo
+>), sažeto (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>2</keycap
+></keycombo
+>) ili detaljno (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Poređaj po</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Određuje da li se stavke ređaju</action
+> po imenu ili po nekom drugom kriterijumu, kako je opisano u <xref linkend="dolphin-view-information"/>.</para>
+<para
+><guimenuitem
+>opadajuće</guimenuitem
+> obrće redosled ređanja. <guimenuitem
+>prvo fascikle</guimenuitem
+> ređa sve fascikle ispred fajlova. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guisubmenu
+>Dopunski podaci</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prikazuje dodatne podatke</action
+>, kako je opisano u <xref linkend="dolphin-view-information"/>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Pregled</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Daje simbolički pregled sadržaja fajla</action
+> u različitim režimima prikaza.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Po grupama</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prikazuje</action
+> sadržaj tekuće fascikle grupisan po atributu izabranom pod <guimenuitem
+>Poređaj po</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Skriveni fajlovi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prikazuje sve skrivene fajlove i potfascikle u tekućoj fascikli.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F3</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Podeli</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Uključuje i isključuje podeljeni prikaz.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F5</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Učitaj ponovo</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ponovo učitava tekuću fasciklu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Zaustavi</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Zaustavlja učitavanje sadržaja tekuće fascikle.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Paneli</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Uključuje i isključuje</action
+> različite <link linkend="panels"
+>panele</link
+>: <guimenuitem
+>Mesta</guimenuitem
+> (<keycap
+><keycap
+>F9</keycap
+></keycap
+>), <guimenuitem
+>Podaci</guimenuitem
+> (<keycap
+><keycap
+>F11</keycap
+></keycap
+>), <guimenuitem
+>Fascikle</guimenuitem
+> (<keycap
+><keycap
+>F7</keycap
+></keycap
+>), <guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+><keycap
+>F4</keycap
+></keycap
+>). <guimenuitem
+>Zaključaj panele</guimenuitem
+> sakriva zaglavlje panela sa natpisom i dva dugmeta, kako bi se uštedelo na prostoru, i panel se više ne može pomerati. <guimenuitem
+>Otključaj panele</guimenuitem
+> vraća zaglavlje i omogućava pomeranje panela nalevo ili nadesno, ili čak izvan glavnog prozora. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guisubmenu
+>Traka lokacije</guisubmenu
+> <guimenuitem
+>Urediva lokacija</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje traku lokacije između dva režima, <link linkend="location-bar-bread-crumb"
+>režima mrvica</link
+> i <link linkend="location-bar-editable"
+>režima uređivanja</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Prikaz</guimenu
+> <guisubmenu
+>Traka lokacije</guisubmenu
+> <guimenuitem
+>Zameni lokaciju</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje traku lokacije u <link linkend="location-bar-editable"
+>režim uređivanja</link
+> (ako već nije u njemu) i izabira celu lokaciju tako da se može brzo zameniti. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+> <guimenuitem
+>Podesi svojstva prikaza...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Otvara <link linkend="view-properties-dialog"
+>dijalog svojstava prikaza</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Meni <guimenu
+>Kretanje</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Gore</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Kretanje</guimenu
+> <guimenuitem
+>Gore</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje na fasciklu iznad tekuće.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Levo</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Kretanje</guimenu
+> <guimenuitem
+>Nazad</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje na prethodno pregledanu fasciklu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Desno</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Kretanje</guimenu
+> <guimenuitem
+>Napred</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opoziva</action
+> radnju kretanja unazad.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Kretanje</guimenu
+> <guimenuitem
+>Domaće</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Prebacuje na korisnikovu domaću fasciklu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Kretanje</guimenu
+> <guisubmenu
+>Nedavno zatvoreni jezičci</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Daje spisak nedavno zatvorenih jezičaka, odakle se mogu ponovo otvoriti.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Meni <guimenu
+>Alatke</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Alatke</guimenu
+> <guimenuitem
+>Filterska traka</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Uključuje i isključuje <link linkend="filter-files"
+>filtersku traku</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Shift</keycap
+><keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Alatke</guimenu
+> <guimenuitem
+>Otvori terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Otvara <application
+>Konsolu</application
+> u okviru tekuće fascikle.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Alatke</guimenu
+> <guimenuitem
+>Uporedi fajlove</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Poredi trenutno izabrane fajlove ili fascikle <application
+>K‑poređenjem</application
+>. Ova radnja je dostupna samo kada se izaberu dva fajla ili fascikle.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Alatke</guimenu
+> <guisubmenu
+>Udaljeno kodiranje</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Omogućava ručni izbor kodiranja koje se koristi za udaljenu vezu.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Meniji <guimenu
+>Postavke</guimenu
+> i <guimenu
+>Pomoć</guimenu
+></title
+> 
+<para
+><application
+>Dolphin</application
+> ima uobičajene KDE menije <guimenu
+>Postavke</guimenu
+> i <guimenu
+>Pomoć</guimenu
+>, za više detalja pogledajte odeljke o njima (<ulink url="help:/fundamentals/ui.html#menus-settings"
+>za podešavanje</ulink
+>, <ulink url="help:/fundamentals/ui.html#menus-help"
+>za pomoć</ulink
+>) u Osnovama KDE‑a. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Razna pitanja</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Da li je <application
+>Dolphin</application
+> zamenio <application
+>K‑osvajač</application
+>?</para>
+</question>
+<answer>
+<para
+><application
+>Dolphin</application
+> nije zamišljen kao suparnik <application
+>K‑osvajaču</application
+>. Dok je <application
+>K‑osvajač</application
+> univerzalni pregledač, koji može da prikazuje HTML stranice, tekstualne dokumente, fascikle i još puno toga, <application
+>Dolphin</application
+> se usredsređuje na funkciju menadžera fajlova. Ovakav pristup omogućava optimizaciju korisničkog sučelja za tu jednu namenu. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Kako mogu da se uključim u razvoj <application
+>Dolphina</application
+>?</para>
+</question>
+<answer>
+<para
+>Najlakši način je da se pretplatite na <application
+>Dolphinovu</application
+> razvojnu poštansku listu <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+><literal
+>kfm-devel</literal
+></ulink
+> i pošaljete poruku na nju. Napišite u čemu mislite da možete pomoći, koliko vremena možete posvetiti, itd, i neko će vam odgovoriti šta biste mogli da uradite u projektu. Za poboljšavanje dokumentacije, pišite na listu <ulink url="mailto:kde-doc-english@kde.org"
+>KDE‑ovog dokumentacionog tima</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Kako podnosim izveštaje o greškama?</para>
+</question>
+<answer>
+<para
+>Zvanični kanal za podnošenje izveštaja o greškama je KDE‑ov sistem za praćenje grešaka, kome se pristupa preko <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Kako podnosim zahteve za mogućnostima?</para>
+</question>
+<answer>
+<para
+>Zvanični kanal za podnošenje zahteva za mogućnostima je KDE‑ov sistem za praćenje grešaka, kome se pristupa preko <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Zasluge i licenca</title>
+
+<para
+><application
+>Dolphin</application
+> </para>
+<para
+>(program) © 2006–2014, Peter Penc <email
+>peter.penz@gmx.at</email
+>, Frank Rajninghaus <email
+>frank78ac@googlemail.com</email
+> i Emanuel Peskosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Doprinosioci: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ljudmilov <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Majkl Ostin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Orvil</firstname
+> <surname
+>Benet</surname
+></personname
+> &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>(dokumentacija) © 2005, Peter Penc <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>(dokumentacija) © 2006, <personname
+><firstname
+>Orvil</firstname
+> <surname
+>Benet</surname
+></personname
+> &Orville.Bennett.mail; </para>
+<para
+>(dokumentacija) © 2006, Majkl Ostin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>(dokumentacija) © 2009, Frank Rajninghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Preveo Časlav Ilić <email
+>caslav.ilic@gmx.net</email
+>.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

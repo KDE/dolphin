@@ -1,0 +1,3351 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Dutch "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Het handboek van &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+&Hannie.Lafeber-Dumoleyn;&Freek.de.Kruijf; 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2022-01-17</date>
+<releaseinfo
+>KDE Gear 22.04</releaseinfo>
+
+<abstract>
+<para
+>&dolphin; is de standaard-bestandsbeheerder door &kde;, ontwikkeld met gebruiksvriendelijkheid als primair doel. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>Bestandsbeheer</keyword>
+<keyword
+>bestand</keyword>
+<keyword
+>beheer</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inleiding</title>
+
+<para
+>&dolphin; is de standaard-bestandsbeheerder voor &plasma;, ontwikkeld met als doel de gebruiksvriendelijkheid te verbeteren op gebruikersniveau. De focus van &dolphin; ligt alleen op bestandsbeheer, terwijl &konqueror;, de standaard-bestandsbeheerder voor &kde; 3 die nog altijd te gebruiken is voor bestandsbeheer, een universele viewer voor veel bestandstypen is.  </para>
+
+<para
+>Met deze ontwerpbenadering kunnen de ontwikkelaars zich concentreren op het optimaliseren van de gebruikersinterface voor de specifieke taak van bestandsbeheer. </para>
+
+<para
+>Meld eventuele problemen of verzoeken voor nieuwe functionaliteit bij de auteur van &dolphin; via het dialoogvenster voor bugrapportage. Dit is toegankelijk ofwel via de knop <guibutton
+>Besturen</guibutton
+>, rechts van de werkbalk in de standaard modus zonder menubalk; of via de menu-optie <menuchoice
+><guimenu
+>Help</guimenu
+><guimenuitem
+>Bug rapporteren...</guimenuitem
+></menuchoice
+> van de toepassing, als de menubalk zichtbaar is. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>&dolphin; gebruiken</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>De gebruikersinterface van &dolphin;</title>
+
+<para
+>In de onderstaande schermafdruk ziet u de standaard gebruikersinterface van &dolphin;:  </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de standaard-gebruikersinterface van &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De standaard-gebruikersinterface van &dolphin;.</phrase>
+</textobject>
+<caption
+><para
+>De standaard-gebruikersinterface van &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>De onderdelen van de standaard-gebruikersinterface zijn: <itemizedlist>
+
+<listitem
+><para
+>De werkbalk geeft snel toegang tot veelgebruikte handelingen. U kunt de werkbalk aanpassen door erop te klikken met de &RMB; en <menuchoice
+><guimenuitem
+>Werkbalken instellen...</guimenuitem
+></menuchoice
+> in het contekstmenu, met <guimenuitem
+>Werkbalken instellen...</guimenuitem
+> uit de knop <guibutton
+>Besturen</guibutton
+> rechts op de werkbalk of via de menu-optie <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Werkbalken instellen...</guimenuitem
+></menuchoice
+> uit het hoofdmenu. </para>
+<screenshot>
+<screeninfo
+>Schermafdruk van de &dolphin;-werkbalk.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De standaardwerkbalk.</phrase>
+</textobject>
+<caption>
+<para
+>Werkbalkitems waar het pictogram voldoende is om het commando te weten hebben geen tekst naast de pictogrammen. Dit kan gewijzigd worden door een &RMB;-klik en de tekst van het item te selecteren onder <guilabel
+>Tekst tonen</guilabel
+>. De knop <guibutton
+>Besturen</guibutton
+> rechts op de werkbalk wordt alleen weergegeven als de menubalk verborgen is. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>De locatiebalk. Deze toont altijd het pad naar de huidige map. U kunt kiezen tussen twee verschillende modi. Zie voor meer informatie hierover de <link linkend="location-bar"
+>sectie over de locatiebalk</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>De <link linkend="dolphin-view"
+>weergave</link
+>. Hier ziet u alle bestanden en mappen in de huidige map. </para
+></listitem>
+
+<listitem
+><para
+>Het <link linkend="places-panel"
+><guilabel
+>Plaatsen</guilabel
+>-paneel</link
+>. Dit geeft snel toegang tot favoriete locaties en schijven of andere media. </para>
+<para
+>Als bureaubladzoeken en indexering van bestanden zijn ingeschakeld in de module <guilabel
+>Bureabladzoeken</guilabel
+> in het paneel &systemsettings; dan levert het paneel de items in <guilabel
+>Recent</guilabel
+> en stelt u in staat te zoeken naar <guilabel
+>Documenten</guilabel
+>, <guilabel
+>Afbeeldingen</guilabel
+>, <guilabel
+>Audio-bestanden</guilabel
+> en <guilabel
+>Video</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>De statusbalk. Deze toont de naam, grootte en type van het bestand onder de muisaanwijzer of het aantal en de grootte van de geselecteerde bestanden. Rechts bevindt zich een zoomschuifregelaar waarmee u de grootte van de pictogrammen in de weergave kunt aanpassen. </para
+></listitem>
+
+<listitem
+><para
+>De menubalk (standaard verborgen) biedt toegang tot alle commando's en configuratie-opties. Zie <link linkend="commands-menubar"
+>Overzicht van de opdrachten</link
+> voor een lijst met alle menucommando's. De menubalk kan omgeschakeld worden met <guimenuitem
+>Menubalk tonen</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) uit het menu <guimenu
+>Instellingen</guimenu
+> of de knop <guibutton
+>Besturen</guibutton
+>. </para>
+<para
+>Als de menubalk verborgen is, zijn al zijn acties beschikbaar via de knop <guibutton
+>Besturing</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>De extra panelen <guilabel
+>Informatie</guilabel
+>, <guilabel
+>Mappen</guilabel
+>en <guilabel
+>Terminal</guilabel
+> zijn standaard verborgen, voor meer informatie zie <link linkend="panels"
+><guilabel
+>Panelen</guilabel
+>.</link
+> </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>De weergave van &dolphin;</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>De weergave gebruiken</title>
+
+<para
+>De weergave toont alle bestanden en mappen in de huidige map. Deze toegang tot en het bewerken van deze items kan op verschillende manieren: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Een bestand of map kan geopend worden door er met de &LMB; op te klikken (of te dubbelklikken, als <guilabel
+>In plaats daarvan door dubbelklikken openen</guilabel
+> is ingeschakeld in de &systemsettings; in de module <menuchoice
+><guimenu
+>Werkruimte</guimenu
+> <guimenuitem
+>Algemeen gedrag</guimenuitem
+></menuchoice
+>. </para
+></listitem>
+
+<listitem
+><para
+>Klikken op elk item of het witte gebied rond de items met de &RMB; opent een contextmenu die respectievelijk toegang verschaft tot veel veelgebruikte acties voor het item of de huidige map. </para
+></listitem>
+
+<listitem
+><para
+>Als de &LMB; wordt ingedrukt op een item, maar niet onmiddellijk wordt losgelaten, kan het item versleept worden en in een andere map in de huidige weergave worden losgelaten of in een ander &dolphin;-weergave (in een ander &dolphin;-venster of in hetzelfde venster als de weergave is gesplitst, zie onder) om het te verplaatsen of te kopiëren of om een symbolische koppeling te maken. Items kunnen zelfs losgelaten worden in een andere toepassing om deze te openen in deze toepassing. </para
+></listitem>
+
+</itemizedlist>
+<para
+>&dolphin; herinnert zich de geschiedenis van bezochte mappen. Om achterwaarts of voorwaarts in de geschiedenis te navigeren kunnen de bijbehorende knoppen in de werkbalk worden gebruikt: </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de &dolphin;-werkbalk.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De knoppen Vooruit en Terug in de werkbalk.</phrase>
+</textobject>
+<caption>
+<para
+>Met de knoppen <guibutton
+>Terug</guibutton
+> en <guibutton
+>Vooruit</guibutton
+> in de werkbalk kunt u door de geschiedenis navigeren. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Als u met de &MMB; op het item in de geschiedenis klikt wordt het geopend in een nieuw tabblad waarmee het huidige tabblad met zijn inhoud bewaard blijft. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Het uiterlijk van de &dolphin;-weergave.</title>
+
+<para
+>De werkbalk bevat knoppen waarmee u het uiterlijk van de weergave kunt wijzigen: </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de &dolphin;-werkbalk.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De knoppen in de werkbalk waarmee het uiterlijk van de weergave wordt gewijzigd. </phrase>
+</textobject>
+<caption
+><para
+>De knoppen in de werkbalk waarmee het uiterlijk van de weergave wordt gewijzigd. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Alle instellingen die hieronder worden besproken en andere opties met betrekking tot, &eg; het sorteren van de bestanden in de huidige map, kunnen ook worden gewijzigd via het menu  <guimenu
+>Beeld</guimenu
+> en in het dialoogvenster <link linkend="view-properties-dialog"
+>De dialoog Weergavestijl</link
+>. Standaard worden deze instellingen voor elke map apart onthouden. Dit kunt u wijzigen in de sectie  <link linkend="preferences-dialog-general"
+><quote
+>Algemeen</quote
+></link
+> van de instellingen. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Weergavemodi</title>
+
+<para
+>Met de eerste drie knoppen in bovenstaande schermafdruk wisselt u tussen de weergavemodi van &dolphin;. <itemizedlist>
+
+<listitem
+><para
+>In de weergave <guibutton
+>Pictogrammen</guibutton
+>, als standaard ingesteld, worden bestanden weergegeven door een pictogram dat het bestandstype voorstelt, terwijl submappen getoond worden middels een mappictogram. De namen van mappen en bestanden en de items ingeschakeld in <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Extra informatie</guisubmenu
+></menuchoice
+> worden onder de pictogrammen getoond. </para
+></listitem>
+
+<listitem
+><para
+>De weergave <guilabel
+>Compact</guilabel
+> toont de mapinhoud als pictogrammen met de naam ernaast en de items ingeschakeld in <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Extra informatie</guisubmenu
+></menuchoice
+> onder de naam. De items zijn gegroepeerd in kolommen overeenkomstig de <guilabel
+>Korte weergave</guilabel
+> in de bestandsdialoog van &kde;. </para
+></listitem>
+
+<listitem
+><para
+>In de <guibutton
+>Details</guibutton
+>-weergave ziet u de inhoud van de map in de vorm van een gedetailleerde lijst met, voor elk bestand, de naam, grootte en tijdstip van de laatste wijziging. Meer kolommen kunnen worden toegevoegd door op een kolomkop te klikken met de &RMB;. </para>
+<para
+>In het contextmenu van de kopregel kunt u het opvullen van de zijkant toevoegen of verwijderen door activeren of deactiveren van het respectievelijke menu-item en kiezen tussen aangepaste of automatische kolombreedte. Automatische breedte past de breedte van alle kolommen een keer aan om het langste item volledig in de kolom te laten passen, behalve voor de <guilabel
+>Naam</guilabel
+>-kolom waar de extensie is vervangen door <quote
+>...</quote
+> </para>
+<para
+>De volgorde van kolommen kan gewijzigd worden door slepen en laten vallen van kolomkoppen, behalve de kop <guilabel
+>Naam</guilabel
+>, die altijd de de eerste kolom in de weergave is. </para>
+<para
+>In de details-weergave ziet u de huidige map in een boomstructuur als <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>Uitvouwbare mappen</guilabel
+></link
+> is ingeschakeld: elke submap van de huidige map kan worden <quote
+>uitgevouwen</quote
+> of <quote
+>ingevouwen</quote
+> door op het teken <guiicon
+>
+></guiicon
+> of <guiicon
+>v</guiicon
+> naast het pictogram te klikken.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Gegroepeerde weergave</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Gegroepeerde weergave</phrase>
+</textobject>
+<caption
+><para
+>Alle weergavemodi ondersteunen groepering per sorteertype geselecteerd in <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Sorteren met</guisubmenu
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Informatie in de weergave</title>
+<para
+>In alle weergavemodi toont &dolphin; minstens een pictogram en een naam voor elk item. Met <guisubmenu
+>Extra informatie</guisubmenu
+> in het menu <guimenu
+>Beeld</guimenu
+> of het contextmenu van de kop in modus <guilabel
+>Details</guilabel
+>, kunt u meer informatie voor elk te tonen item kiezen: </para>
+
+<para
+><guimenuitem
+>Grootte</guimenuitem
+>, <guimenuitem
+>Datum</guimenuitem
+>, <guimenuitem
+>Type</guimenuitem
+>, <guimenuitem
+>Waardering</guimenuitem
+>, <guimenuitem
+>Tags</guimenuitem
+> of <guimenuitem
+>Toelichting</guimenuitem
+>. </para>
+
+<para
+>Afhankelijk van het type bestand kunnen extra sorteringscriteria worden geselecteerd: <simplelist>
+  <member
+><guimenuitem
+>Document</guimenuitem
+>: aantal woorden en regels</member>
+  <member
+><guimenuitem
+>Afbeelding</guimenuitem
+>: Grootte en oriëntatie</member>
+  <member
+><guimenuitem
+>Audio</guimenuitem
+>: artiest, album, duur en track</member>
+</simplelist>
+</para>
+
+<para
+>Het submenu <guisubmenu
+>Overig</guisubmenu
+> stelt u in staat om <guimenuitem
+>Pad</guimenuitem
+>, <guimenuitem
+>Bestemming van koppeling</guimenuitem
+>, <guimenuitem
+>Gekopieerd van</guimenuitem
+>, <guimenuitem
+>Rechten</guimenuitem
+>, <guimenuitem
+>Eigenaar</guimenuitem
+> of <guimenuitem
+>Gebruikersgroep</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Voorbeeld</title>
+
+<para
+>Als <guibutton
+>Voorbeeld</guibutton
+> ingeschakeld is, zijn de pictogrammen gebaseerd op de werkelijke inhoud van het bestand of de map. Zo wordt bijvoorbeeld bij afbeeldingen een verkleind voorbeeld van de afbeelding getoond. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Splitsen</title>
+
+<para
+>Wanneer er op <guibutton
+>Splitsen</guibutton
+> is geklikt, worden er twee weergaven getoond met daarin de inhoud van verschillende mappen. Dit is handig bij het verplaatsen of kopiëren van bestanden. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Items selecteren in de weergave</title>
+
+<para
+>Er zijn verschillende manieren om items in de weergave te selecteren. Als er een groep items is geselecteerd, worden alle handelingen, zoals <menuchoice
+><guimenuitem
+>Knippen</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Kopiëren</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Naar prullenbak</guimenuitem
+></menuchoice
+> en slepen en neerzetten, toegepast op alle geselecteerde items. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Items selecteren met de muis</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Klik met de &LMB; ergens in de weergave en trek, voordat u de knop loslaat, een rechthoek rond de groep items. Hiermee selecteert u alle items in de rechthoek en heft u de vorige selectie op. Als u tijdens de selectieprocedure de &Shift;-toets ingedrukt houdt, wordt de vorige selectie behouden. </para
+></listitem>
+
+<listitem
+><para
+>Als u bij het klikken op een item met de &LMB; de &Ctrl;-toets ingedrukt houdt, wordt de selectie van dat item omgekeerd. Drukt u op de &Ctrl;-toets terwijl u een rechthoek trekt rond een groep items zoals hierboven beschreven, dan wordt de selectie van alle items in de rechthoek omgekeerd.  </para
+></listitem>
+
+<listitem
+><para
+>Door de &Shift;-toets in te drukken terwijl u met de &LMB; op een item klikt, selecteert u alle items tussen dit item en het hiervoor geselecteerde item. </para
+></listitem>
+
+<listitem
+><para
+>Als in de sectie <link linkend="preferences-dialog-general-behavior"
+><guilabel
+>Algemeen</guilabel
+> van de instellingen op het tabblad <quote
+>Gedrag</quote
+></link
+><guilabel
+>Selectiemarkeerder tonen</guilabel
+> is ingeschakeld, verschijnt er een klein <guiicon
+>+</guiicon
+> of <guiicon
+>-</guiicon
+>-teken in de linkerbovenhoek van het item onder de muisaanwijzer. Door op dit teken te klikken wordt het item respectievelijk geselecteerd of wordt de selectie ongedaan gemaakt. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Items selecteren met het toetsenbord</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Bij het indrukken van een pijltjestoets, <keycap
+>Page Up</keycap
+>, <keycap
+>Page Down</keycap
+>, <keycap
+>Home</keycap
+>, of <keycap
+>End</keycap
+> wordt het nieuwe item geselecteerd en de vorige selectie opgeheven.  </para
+></listitem>
+
+<listitem
+><para
+>Als u op één van bovengenoemde toetsen drukt terwijl u de &Ctrl;-toets vasthoudt, blijft de selectie onveranderd. </para
+></listitem>
+
+<listitem
+><para
+>Als u op één van bovengenoemde toetsen drukt terwijl u de &Shift;-toets vasthoudt, worden alle items tussen het vorige geselecteerde item en het nieuw geselecteerde item geselecteerd. </para
+></listitem>
+
+<listitem
+><para
+> Als u tegelijk op <keycombo action="simul"
+>&Ctrl;<keysym
+>Spatiebalk</keysym
+></keycombo
+> drukt, wordt de selectie van het huidige item omgekeerd. </para
+></listitem>
+
+<listitem
+><para
+>Met <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> selecteert u alle items in de weergave. </para
+></listitem>
+
+<listitem
+><para
+>Met <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> wisselt de selectiestatus van alle items in de weergave. </para
+></listitem>
+
+<listitem
+><para
+>Selecteer een bestand of map door de eerste paar letters van zijn naam in te voeren en het eerste overeenkomende item wordt geselecteerd. Om de selectie te wissen en te annuleren druk op de toets &Esc; of wacht langer dan de timeout van 1 seconde. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Locatiebalk</title>
+
+<para
+>De locatiebalk, boven de &dolphin;-weergave, toont het pad naar de huidige map. De locatiebalk heeft twee modi. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>De broodkruimelmodus</title>
+
+<para
+>In de als standaard ingestelde <quote
+>broodkruimelmodus</quote
+> is elke mapnaam in het pad naar de huidige map een knop; klik erop om de betreffende map snel te openen. Bovendien krijgt u, door op het <quote
+>&gt;</quote
+>-teken rechts van een map te klikken, een menu waarmee u snel een submap van die map kunt openen. </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de locatiebalk in de broodkruimelmodus</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Locatiebalk in de broodkruimelmodus.</phrase>
+</textobject>
+<caption
+><para
+>Locatiebalk in de broodkruimelmodus.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Bewerkbare modus</title>
+
+<para
+>Door in de broodkruimelmodus met de &LMB; te klikken in het grijze gebied rechts van het pad, schakelt u de locatiebalk om naar de <quote
+>bewerkbare</quote
+> modus, waarin het pad via het toetsenbord kan worden bewerkt. Om weer terug te gaan naar de broodkruimelmodus klikt u met de &LMB; op het vinkje rechts van de locatiebalk. </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de locatiebalk in de bewerkbare modus</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Locatiebalk in de bewerkbare modus.</phrase>
+</textobject>
+<caption
+><para
+>Locatiebalk in de bewerkbare modus.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Kioslaves gebruiken</title>
+
+<para
+>Als de locatiebalk leeg is in bewerkbare modus, verschijnt er een afrolvak voor de balk met een lijst van alle beschikbare kioslaves op uw systeem. Kioslaves zijn in &kde; ingebouwde programma's, die ondersteuning bieden voor veel verschillende protocollen aan &dolphin; en andere toepassingen in &kde;.</para
+> 
+
+<para
+>Met de kioslave <quote
+>fish</quote
+> bijvoorbeeld kan &dolphin; gebruikt worden om bestanden en mappen op een host op afstand, die toegankelijk is via <acronym
+>SSH</acronym
+>, te beheren. Om die te doen typt u <userinput
+>fish://gebruikersnaam@remotehost</userinput
+> in de locatiebalk. Op dezelfde manier kan bestandsbeheer op hosts op afstand, die toegankelijk zijn via de protocollen &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) of webdav, gedaan worden.</para>
+
+<para
+>Het is ook mogelijk de lijst met kioslaves in het afrolvak te benaderen via &systemsettings;, lettertypen, prullenbak, andere programma's en apparaten gekoppeld aan uw computer. Zie het afrolvak voor de volledige lijst van mogelijkheden beschikbaar via kioslaves op uw systeem. </para>
+<screenshot>
+<screeninfo
+>Schermafdruk met de lijst van kioslaves</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Locatiebalk met een lijst van beschikbare kioslaves.</phrase>
+</textobject>
+<caption
+><para
+>Lijst van beschikbare kioslaves.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Plaatsen en context</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Als het paneel <guilabel
+>Plaatsen</guilabel
+> verborgen is; in beide modi zal een extra pictogram voor het pad worden weergegeven. Op dit pictogram kan met de &LMB; worden geklikt om een menu te openen die snelle toegang biedt tot <quote
+>plaatsen</quote
+> en opslagmedia. Zie de <link linkend="places-panel"
+>sectie over het paneel Plaatsen</link
+> voor details. </para>
+
+<screenshot>
+<screeninfo
+>Locatiebalk met pictogram Plaatsen</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Locatiebalk met pictogram Plaatsen</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Het contextmenu van de locatiebalk biedt acties om te schakelen tussen de modi en om het pad te kopiëren en te plakken met het klembord. Activeer de laatste optie in dit contextmenu om ofwel het volledige pad weer te geven beginnend met de hoofdmap van het bestandssysteem of om het pad weer te geven beginnend met de huidige plaats. </para>
+
+<screenshot>
+<screeninfo
+>Contextmenu van locatiebalk</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Contextmenu van locatiebalk</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Panelen</title>
+
+<para
+>U kunt een aantal panelen in het werkgebied van &dolphin; plaatsen. U kunt die activeren via de menu-optie <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Panelen tonen</guisubmenu
+></menuchoice
+>. Door de panelen te ontgrendelen, kunnen deze binnen &dolphin; worden verplaatst door op de paneeltitel te klikken en deze te verslepen, zelfs tot buiten het venster.  </para>
+
+<sect2 id="places-panel">
+<title
+>Plaatsen</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>Het <guilabel
+>Plaatsen</guilabel
+>-paneel bevindt zich standaard aan de linkerzijde van het venster. Het <guilabel
+>Plaatsen</guilabel
+>-paneel toont de locaties waarvan u een bladwijzer hebt aangemaakt. Daarnaast vindt u de schijven en opslagmedia die met deze computer zijn verbonden, recent gebruikte items en stelt u in staat te zoeken naar bepaalde typen bestanden. De volgorde van deze items kan met slepen en neerzetten worden veranderd. </para>
+
+<para
+>De makkelijkste manier om een map toe te voegen aan het paneel <guilabel
+>Plaatsen</guilabel
+> is door deze te slepen en in het paneel neer te zetten. U kunt ook binnen het paneel met de &RMB; klikken en uit het contextmenu <menuchoice
+><guimenuitem
+>Item toevoegen...</guimenuitem
+></menuchoice
+> kiezen. De eerste procedure maakt een systeembrede bladwijzer, de tweede procedure kan worden gebruikt om het huidige pad van de locatiebalk of elke gewenste map of apparaat toe te voegen. Er opent zich een dialoogvenster waar label, locatie en pictogram kunnen worden bewerkt en het gebruik van dit item kan worden beperkt tot &dolphin;. </para>
+
+<para
+>Een &RMB;-klik opent het contextmenu om items te bewerken, toe te voegen, te verbergen of te verwijderen en wijzigt de grootte van het pictogram naar een een voorgedefinieerde waarde of vergrendeld of ontgrendeld de panelen. </para>
+<para
+>Het contextmenu heeft een actie om het item in een nieuw tabblad te openen. Apparaten kunnen in het contextmenu worden af een aangekoppeld. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Informatie</title>
+
+<para
+>Het paneel <guilabel
+>Informatie</guilabel
+> toont uitgebreide informatie over het/de geselecteerde item(en) of over de huidige map of het bestand waar de muis boven staat, inclusief grootte, type en datum van de laatste wijziging. Informatie laat ook een groot voorbeeld zien van het geselecteerde bestand en u kunt er een waardering, labels en commentaar aan toevoegen. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Mappen</title>
+
+<para
+>Het <guilabel
+>Mappen</guilabel
+>-paneel toont een boomstructuur van het bestandssysteem. Het toont alleen mappen. Door met de &LMB; op een map te klikken wordt de inhoud van die map in de &dolphin;-weergave getoond. </para>
+<para
+>Gebruik <guilabel
+>Tot persoonlijke map beperken</guilabel
+> om alle mappen in de boomstructuurweergave behalve uw <guilabel
+>Persoonlijke map</guilabel
+>. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Dit paneel bevat een terminal. De terminal zal openen in de map die in de &dolphin;-weergave wordt getoond. Wijziging van de map in de weergave van &dolphin; zal ook de werkmap van de bijbehorende terminal wijzigen. Wijzigen van de map in de terminal zal ook de werkmap in de &dolphin; weergave veranderen. De terminal werkt alleen met lokale media. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Tijdbesparende tips</title>
+
+<para
+>Hier volgen een aantal tijdbesparende tips bij het gebruik van &dolphin;. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Snel bladwijzers aanmaken</title>
+
+<para
+>Om voor de huidige map snel een bladwijzer in het <guilabel
+>Plaatsen</guilabel
+>-paneel aan te maken klikt u met &RMB; in de werkruimte. Kies in het contextmenu <menuchoice
+><guimenuitem
+>Aan plaatsen toevoegen</guimenuitem
+></menuchoice
+>. </para>
+
+<note>
+    <para
+>De zichtbaarheid van het overeenkomstig menu-item kan omgeschakeld worden via de <link linkend="preferences-dialog-context-menu"
+>instellingen van het contextmenu van &dolphin;</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Bestanden filteren</title>
+
+<para
+>&dolphin; kan bestanden filteren, &ie; alleen die items in de weergave tonend waarvan de naam een bepaalde tekst bevat. Als u bijvoorbeeld alleen de <acronym
+>MP3</acronym
+>-bestanden in een map wil zien, kunt u filteren op <quote
+>.mp3</quote
+>. Bestanden die niet <quote
+>.mp3</quote
+> in hun naam hebben worden er dan uitgefilterd. </para>
+
+<para
+>Om bestanden te filteren activeert u eerst de filterbalk door op <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> te drukken of via het menu: <menuchoice
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Filter...</guimenuitem
+> </menuchoice
+>. Daarna kunt u de te filteren tekst intypen in de filterbalk. De filterbalk kan worden gesloten door op &Esc; te drukken of met een &LMB;-klik op het pictogram <guiicon
+>Filterbalk verbergen</guiicon
+>. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Bestanden zoeken en in bestanden zoeken</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>U kunt in &dolphin; naar bestanden zoeken en naar inhoud in bestanden. Als u op <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> drukt of u kiest <menuchoice
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Zoeken...</guimenuitem
+> </menuchoice
+>, dan opent zich de <guilabel
+>Zoeken</guilabel
+>-balk, reeds ingesteld op het zoeken naar bestanden in de huidige map en elke submap. Begin met typen in het invoervak en het zoeken begint direct. <screenshot>
+<screeninfo
+>Naar bestanden zoeken en naar inhoud in bestanden</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Naar bestanden zoeken en naar inhoud in bestanden</phrase>
+</textobject>
+<caption
+><para
+>Naar bestanden zoeken en naar inhoud in bestanden met &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Het zoeken is niet gevoelig voor hoofd- en kleine letters en vereist geen jokertekens (<userinput
+>*foo*</userinput
+> en <userinput
+>foo</userinput
+> zijn equivalent), maar u kunt jokers in de zoekterm gebruiken. <userinput
+>*</userinput
+> komt overeen met nul of meer tekens, <userinput
+>?</userinput
+> alleen met één enkel teken.</para>
+<para
+>Deze functie kan worden gebruikt met actieve Baloo-services; zonder deze services wordt een KIOSlave gestart om de zoekresultaten te leveren.</para>
+<para
+>De optie uit <guilabel
+>Overal</guilabel
+> met geactiveerde Baloo-services zoekt in alle geïndexeerde mappen, zonder Baloo start deze optie het zoeken in de <replaceable
+>Persoonlijke map</replaceable
+> van de gebruiker.</para>
+<screenshot>
+<screeninfo
+>Zoeken met meer opties</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Zoeken met meer opties</phrase>
+</textobject>
+<caption
+><para
+>Zoeken met meer opties met &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Gebruik de knop <guilabel
+>Meer opties</guilabel
+> om de <guilabel
+>Zoek</guilabel
+>balk uit te breiden. Dit biedt aan de gebruiker een erg gemakkelijke manier om het aantal zoekresultaten te verminderen.</para>
+<para
+>Om zoeken te starten selecteert u een of meer bestandstypen (<guilabel
+>Documenten</guilabel
+>, <guilabel
+>Geluid</guilabel
+>, <guilabel
+>Video</guilabel
+>, <guilabel
+>Afbeeldingen</guilabel
+>), een tijdsperiode, waardering en tag, als u er een hebt gedefinieerd via <userinput
+>tag:<replaceable
+>foo</replaceable
+></userinput
+> in het invoervak..</para>
+ 
+ <para
+>Het is mogelijk om een selectie te wissen met de knop <guibutton
+>Selectie wissen</guibutton
+>.</para>
+
+<para
+>Als alternatief kunt u deze opties in het paneel <guilabel
+>Plaatsen</guilabel
+> samen met de <guilabel
+>Filter</guilabel
+>balk gebruiken om bestanden te vinden met behulp van Baloo of het zoeken te beperken tot bestanden die overeenkomen met het filter.</para>
+
+<para
+>Gebruik het pictogram Opslaan om een zoekopdracht op te slaan in de sectie <guilabel
+>Zoeken naar</guilabel
+> in het paneel <guilabel
+>Plaatsen</guilabel
+> om er in de toekomst weer toegang  tot te hebben. </para>
+
+<para
+>De afrollijst <guilabel
+>Meer zoekhulpmiddelen</guilabel
+> om andere zoekhulpmiddelen dan Baloo te gebruiken. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Koppelen van opslagmedia</title>
+
+<para
+>Een snelle manier om opslagmedia te koppelen is door op het apparaat te klikken in het <guilabel
+>Plaatsen</guilabel
+>-paneel. Hiermee wordt het apparaat gekoppeld en geopend in &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Acties ongedaan maken</title>
+
+<para
+>In &dolphin; kunt u wijzigingen die u aan bestanden hebt aangebracht ongedaan maken. Als u bijvoorbeeld een bestand naar de prullenbak hebt gestuurd, kan &dolphin; dit ongedaan maken en het terugzetten op de oorspronkelijke locatie. Om een actie ongedaan te maken drukt u op <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> of kies <menuchoice
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Ongedaan maken: (naam actie)</guimenuitem
+> </menuchoice
+> in het menu, &eg; <guimenuitem
+>Ongedaan maken: Hernoemen</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Een groep bestanden hernoemen</title>
+<para
+>&dolphin; kan een aantal bestanden tegelijk hernoemen. Elk bestand krijgt een bestandsnaam en een getal, &eg;, Image1.jpg, Image2.jpg, Image3.jpg. Dit kan handig zijn, &eg;, voor foto's genomen met een digitale camera. </para>
+<!--double click-->
+<para
+>Om een groep bestanden te hernoemen selecteert u eerst de te hernoemen bestanden. U kunt dit doen door op de &LMB; te drukken en deze vast te houden terwijl u een rechthoek rond de te hernoemen bestanden trekt, of door, met de &Ctrl;-toets ingedrukt, te klikken op elk te hernoemen bestand (zie voor meer informatie over het selecteren van een item: <link linkend="selection"
+>Items selecteren in de weergave</link
+>). Open daarna het dialoogvenster Items hernoemen door te drukken op <keycap
+>F2</keycap
+> of via het menu Bestand: <menuchoice
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Hernoemen...</guimenuitem
+> </menuchoice
+> </para>
+
+<para
+>Voer vervolgens de naam in die u aan de bestanden wilt geven. Het #-teken moet in de naam staan. De bestanden zullen hernoemd worden, waarbij het <userinput
+>#</userinput
+>-teken voor elk bestand door een ander opvolgend getal vervangen wordt. </para>
+
+<para
+>Als alle bestandsextensies in uw selectie verschillend zijn, zal de naam van alle bestanden gewijzigd worden zonder een plaatshouder <userinput
+>#</userinput
+> te gebruiken, terwijl de bestandsextensies behouden blijven. Dit is &eg; nuttig om een video-bestand te hernoemen en alle geassocieerde ondertitelingsbestanden, die dezelfde bestandsnaam hebben, maar verschillende extensies. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Een selectie bestanden of mappen vergelijken</title>
+
+<para
+>Als het programma &kompare; geïnstalleerd is, kunt u het gebruiken om de verschillen tussen twee bestanden of mappen te zien. </para>
+
+<para
+>Selecteer eerst de twee te vergelijken bestanden of mappen. Voer daarna het programma &kompare; uit via het menu Hulpmiddelen: <menuchoice
+> <guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Bestanden vergelijken</guimenuitem
+> </menuchoice
+>. &kompare; zal dan geopend worden en de verschillen tussen de bestanden of mappen tonen. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>&dolphin; aanpassen</title>
+
+<para
+>&dolphin; kent twee verschillende soorten instellingen: <itemizedlist>
+
+<listitem
+><para
+>Instellingen met betrekking tot het algemene gedrag van &dolphin;. Deze kunnen worden aangepast via het <link linkend="preferences-dialog"
+>Voorkeuren-dialoogvenster</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Instellingen waarmee bepaald wordt hoe de inhoud van een map getoond wordt in &dolphin;. Deze instellingen worden <link linkend="view-properties"
+>Weergavestijl</link
+> genoemd en kunnen worden gewijzigd via werkbalkknoppen via het menu <guimenu
+>Beeld</guimenu
+> en met <link linkend="view-properties-dialog"
+>De dialoog Weergavestijl</link
+>. In de standaard configuratie gebruiken de mappen dezelfde weergavestijl, maar &dolphin; kan ook geconfigureerd worden om de weergavestijl van elke map te herinneren in de sectie <link linkend="preferences-dialog-general-behavior"
+><quote
+>Algemeen</quote
+> van de instellingen</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>Het &dolphin;-voorkeuren dialoogvenster</title>
+<para
+>U opent het voorkeuren-dialoogvenster via het menu <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>&dolphin; instellen...</guimenuitem
+></menuchoice
+> in het hoofdvenster van &dolphin;. De instellingen zijn verdeeld in verschillende groepen die u kunt openen door te klikken op het overeenkomstige pictogram links van het dialoogvenster. </para>
+
+<para
+>Alle instellingen behalve uit de pagina <guilabel
+>Opstarten</guilabel
+> en het tabblad <guilabel
+>Statusbalk</guilabel
+> op de pagina <guilabel
+>Algemeen</guilabel
+> worden gedeeld met &konqueror; in modus bestandsbeheerder. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Algemeen</title>
+
+<para
+>Deze groep bevat instellingen die betrekking hebben op het algemene gedrag van &dolphin;. De groep is onderverdeeld in vier subgroepen die u kunt bereiken via de tabbladen bovenin. <screenshot>
+<screeninfo
+>Schermafdruk van de Algemene instellingen in het venster &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Algemene instellingen.</phrase>
+</textobject>
+<caption
+><para
+>Algemene instellingen in het venster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Het tabblad Gedrag</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>In de sectie <guilabel
+>Beeld</guilabel
+> kunt u configureren of dezelfde <link linkend="view-properties"
+> weergavestijl</link
+> gedeeld wordt tussen alle mappen of dat mappen hun eigen weergavestijl herinneren. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Sorteermodus</guilabel
+> bestuurt hoe items worden gesorteerd in de weergave. Als <guilabel
+>Natuurlijk sorteren</guilabel
+> is ingeschakeld, zal de sorteervolgorde van de volgende drie voorbeeldbestanden zijn: <orderedlist
+> <listitem
+><para
+>Bestand1,</para
+></listitem
+> <listitem
+><para
+>Bestand2,</para
+></listitem
+> <listitem
+><para
+>Bestand10.</para
+></listitem
+> </orderedlist
+> Als deze optie is uitgeschakeld, zal de normale alfabetische sortering worden gebruikt voor de sorteervolgorde al dan niet gevoelig voor hoofd- en kleine letters. <orderedlist>
+<listitem
+><para
+>Bestand1,</para
+></listitem>
+<listitem
+><para
+>Bestand10,</para
+></listitem>
+<listitem
+><para
+>Bestand2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Als <guilabel
+>Tekstballonnen tonen</guilabel
+> is ingeschakeld, zal er een venster met relevante informatie getoond worden wanneer u de muis boven een bestand of map houdt. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Selectiemarkeerder tonen</guilabel
+> toont een klein <guibutton
+>+</guibutton
+> of <guibutton
+>-</guibutton
+>-teken boven het pictogram van een item wanneer u de muis erboven houdt. U kunt deze gebruiken om een item te selecteren of de selectie ongedaan te maken. </para
+></listitem>
+
+<listitem
+><para
+>Schakel <guilabel
+>Inline hernoemen</guilabel
+> in om deze modus te gebruiken als alleen één item is geselecteerd. Als deze optie uitgeschakeld is of verschillende items zijn geselecteerd, dan zal er een dialoog verschijnen voor het hernoemen. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Schakelen tussen gesplitste panelen met tab-toets</guilabel
+> activeren stelt in staat om tussen gesplitste weergaven te schakelen met de &Tab;-toets. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Uitschakelen van gesplitste weergave sluit het actieve paneel</guilabel
+> wordt gebruikt om het inactieve paneel te sluiten wanneer u de modus gesplitste weergave uitzet, &eg; door <keycap
+>F3</keycap
+> in te drukken. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Het tabblad Voorbeelden</title>
+
+<para
+>Op dit tabblad kunt u instellen voor welk type bestand voorbeelden worden getoond. Ook kunt u de grootte van lokale en bestanden op afstand, waarvoor een voorbeeld moet worden gegenereerd, kiezen. </para>
+<para
+>Als voorbeelden voor mappen is ingeschakeld, zullen voorbeelden van sommige bestanden in die map getoond worden binnen het map-pictogram. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Tabblad Bevestigingen</title>
+<para
+>In de sectie bevestiging vragen kunt u waarschuwingsvensters inschakelen, die getoond worden voordat acties die mogelijk schade kunnen toebrengen, worden uitgevoerd. </para>
+<para
+>Het is ook mogelijk de standaard actie <guilabel
+>Bij openen van een uitvoerbaar bestand</guilabel
+> te kiezen. Er zijn drie opties, namelijk <guimenuitem
+>Altijd vragen</guimenuitem
+>, <guimenuitem
+>In toepassing openen</guimenuitem
+> en <guimenuitem
+>Script uitvoeren</guimenuitem
+>. </para>
+<warning
+><para
+>De instellingen voor bevestiging van <guilabel
+>Bestanden of mappen naar de prullenbak verplaatsen</guilabel
+> en <guilabel
+>Bestanden of mappen verwijderen</guilabel
+> hebben invloed op bewerkingen in &dolphin;, &konqueror;, &gwenview; en alle &kde; toepassingen die de standaard bestandsdialoog van &kde; gebruiken, terwijl <guilabel
+>Dolphin met meerdere tabbladen sluiten</guilabel
+> een instelling specifiek voor &dolphin; is.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Het tabblad Statusbalk</title>
+
+<para
+>Op dit tabblad kan een aantal extra items worden ingeschakeld voor de statusbalk, mits de statusbalk breed genoeg is:  <itemizedlist>
+
+<listitem
+><para
+>Het item <guilabel
+>Statusbalk tonen</guilabel
+> kan gebruikt worden om de zichtbaarheid van de statusbalk om te schakelen. </para
+></listitem>
+
+<listitem
+><para
+>Het item <guilabel
+>Zoomschuifregelaar tonen</guilabel
+> biedt het omschakelen van de zichtbaarheid van het widget pictogramgrootte. </para
+></listitem>
+
+<listitem
+><para
+>Het item <guilabel
+>Informatie over vrije ruimte tonen</guilabel
+> kan gebruikt worden om een balk in of uit te schakelen die toont hoeveel ruimte vrij is op de huidige schijf. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Opstarten</title>
+
+<para
+>Deze groep bevat instellingen die betrekking hebben op het uiterlijk van &dolphin; bij het opstarten. <screenshot>
+<screeninfo
+>Schermafdruk van de opstartinstellingen in het dialoogvenster &dolphin;-voorkeuren</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Opstartinstellingen.</phrase>
+</textobject>
+<caption
+><para
+>Opstartinstellingen in het dialoogvenster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>De optie <guilabel
+>Bij opstarten tonen</guilabel
+> biedt het kiezen van de map die wordt geopend bij opstarten. </para>
+<para
+>Als het item <guimenuitem
+>Mappen, tabbladen en vensterstatus van de laatste keer</guimenuitem
+> is geselecteerd dan </para>
+<itemizedlist>
+    <listitem>
+        <para
+>Indien gestart vanuit de &GUI; of CLI zonder een &URL;'s, za; &dolphin; de sessie herstellen</para>
+    </listitem>
+    <listitem>
+        <para
+>Bij systeemherstart met &dolphin; open, wordt de sessie normaal hersteld nadat het systeem terug is gekomen</para>
+    </listitem>
+    <listitem>
+        <para
+>Wanneer gestart met &URL;'s, zal het venster van &dolphin; worden geopend met die &URL;'s in plaats van de sessie te herstellen</para>
+    </listitem>
+    <listitem>
+        <para
+>Wanneer &dolphin; al actief is en een nieuw venster wordt geopend, zal dat nieuwe venster een enkel tabblad tonen met dezelfde &URL; als zichtbaar was in het eerder geopende exemplaar van &dolphin;</para>
+    </listitem>
+</itemizedlist>
+<para
+>De locatie van de map kan ook rechtstreeks worden ingetypt of gekozen in een venster dat verschijnt wanneer u op het <quote
+>map</quote
+>-pictogram klikt. Bovendien kan de huidige locatie of de standaardlocatie (de persoonlijke map van de gebruiker) worden gebruikt als Begin-map door op de overeenkomstige knop te drukken. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>In modus gesplitste weergave beginnen</guilabel
+> bepaalt of de <link linkend="dolphin-view"
+>&dolphin;-weergave</link
+> bij het opstarten van nieuwe vensters wel of niet gesplitst is. </para
+></listitem>
+
+<listitem
+><para
+>Met <guilabel
+>Filterbalk tonen</guilabel
+> wordt bepaald of de filterbalk wel of niet getoond wordt bij opstarten. Zie voor meer informatie hierover de <link linkend="filter-files"
+>sectie over de filterbalk</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Locatiebalk bewerkbaar maken</guilabel
+> bepaalt of de locatiebalk bewerkbaar is bij opstarten. Anders wordt de broodkruimelmodus van de locatiebalk gebruikt. Zie de <link linkend="location-bar"
+>sectie over de locatiebalk</link
+> voor verdere informatie over de twee modi. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Nieuwe mappen in tabbladen openen</guilabel
+> bestuurt of &dolphin; een nieuwe map in een nieuw tabblad van het huidige exemplaar zou moeten openen wanneer het extern wordt aangeroepen. Indien niet ingeschakeld zullen de nieuwe mappen geopend worden in nieuwe exemplaren van &dolphin;. Standaard is deze optie ingeschakeld. </para
+></listitem>
+
+<listitem
+><para
+>Als <guilabel
+>Volledig pad in locatiebalk tonen</guilabel
+> aangevinkt is, wordt het volledige pad van de huidige locatie getoond in de broodkruimelmodus van de locatiebalk. Anders wordt een verkorte versie van het pad getoond als het begint met het pad van één van de locaties in het <guilabel
+>Plaatsen</guilabel
+>-paneel. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Volledig pad in titelbalk tonen</guilabel
+> maakt het gemakkelijk om onderscheid te maken tussen bestanden of mappen met dezelfde naam in verschillende mappen. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Weergavemodi</title>
+
+<para
+>Deze groep bevat instellingen waarmee u het gedrag van de weergavemodi van &dolphin; aanpast. De drie weergavemodi zijn toegankelijk via de tabs Pictogrammen, Compact en Details bovenin het venster Weergavemodi. <screenshot>
+<screeninfo
+>Schermafdruk van de Pictogrammenweergave-instellingen in het venster &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Weergavemodi-instellingen.</phrase>
+</textobject>
+<caption
+><para
+>Weergavemodi-instellingen in het venster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Gemeenschappelijke instellingen voor alle weergavemodi.</title>
+
+<para
+>Alle drie weergavemodi hebben enige gemeenschappelijke instellingen: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Schuifregelaars waarmee de grootte van de pictogrammen wordt ingesteld. De grootte <guilabel
+>Standaard</guilabel
+> of <guilabel
+>Voorbeeld</guilabel
+> worden respectievelijk gebruikt wanneer Voorbeeld niet of wel geactiveerd is.Merk op dat de grootte van de pictogrammen eenvoudig kan worden gewijzigd via de zoomschuifregelaar in de statusbalk, mits deze optie is geactiveerd in de sectie <link linkend="preferences-dialog-general-statusbar"
+><quote
+>Algemeen</quote
+> van de instellingen</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Een instelling voor het gebruikte lettertype in de weergavemodus: ofwel het lettertype van het systeem of er kan een eigen lettertype worden gekozen. </para
+></listitem>
+
+</itemizedlist>
+<para
+>De andere instellingen in de sectie <guilabel
+>Tekst</guilabel
+> die alleen op een van de weergavemodi van toepassing zijn worden onderstaand beschreven. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Pictogrammen</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>Met <guilabel
+>Breedte</guilabel
+> stelt u de minimale breedte in die gereserveerd wordt voor de tekst van een bestandsitem. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Maximum aantal regels</guilabel
+> betekent maximum aantal tekstregels onder het pictogram. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Compact</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+>Met <guilabel
+>Maximum breedte</guilabel
+> stelt u de maximale breedte in die gereserveerd wordt voor de tekst van een bestandsitem. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Details</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Uitvouwbare mappen</guilabel
+> bepalen of een map met submappen worden getoond in een boomstructuur waar de subitems uitgevouwen kunnen worden door met de &LMB; te klikken op het pictogram <guiicon
+>&lt;</guiicon
+> en ingevouwen door te klikken op het pictogram <guiicon
+>v</guiicon
+>. </para>
+<para
+><guilabel
+>Tonen op mapgrootte</guilabel
+> biedt het definiëren van de eigenschap om mappen te sorteren op hun grootte. Het is mogelijk om mappen op <guilabel
+>Aantal items</guilabel
+> of <guilabel
+>Grootte van inhoud</guilabel
+> te sorteren en een grens aan de diepte van de submappen (kan nuttig zijn om onnodige iteraties in de diepte van de mapstructuren te beperken of op de langzame bestandssystemen). </para>
+<para
+>De optie <guilabel
+>Datumstijl</guilabel
+> kan gebruikt worden om de modus van het tonen van datums in &dolphin; te configureren. Het is mogelijk te kiezen tussen <guilabel
+>Relatief</guilabel
+> (&eg;, <quote
+>Gisteren, 15:00</quote
+>) of <guilabel
+>Absoluut</guilabel
+> (&eg;, <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>&dolphin;-navigatie</title>
+
+<para
+>Deze groep bevat instellingen die bepalen hoe navigeren in de mapstructuur en in archieven werkt. <screenshot>
+<screeninfo
+>Schermafdruk van de navigatie-instellingen in het venster &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Navigatie-instellingen.</phrase>
+</textobject>
+<caption
+><para
+>Navigatie-instellingen in het venster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>De optie om items met een enkele of dubbele muisklik te openen is een systeembrede instelling en kan gewijzigd worden in &systemsettings; in de module <menuchoice
+><guimenu
+>Werkruimte</guimenu
+> <guimenuitem
+>Algemeen gedrag</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Wanneer <guilabel
+>Open Archief als map</guilabel
+> aangevinkt is, zullen archieven geopend worden in &dolphin;, en niet in een externe toepassing. </para
+></listitem>
+
+<listitem
+><para
+>Wanneer <guilabel
+>Mappen openen tijdens verslepen</guilabel
+> is aangevinkt, zal bij het slepen van een item met de muis en daarmee even boven een map te zweven, die map geopend worden. Hierdoor kunt u snel items verplaatsen of kopiëren naar mappen die enkele niveaus lager liggen in de hiërarchie van mappen. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>Diensten</title>
+
+<para
+>Deze groep biedt een keuze aan diensten die getoond kunnen worden in het submenu <guisubmenu
+>Acties</guisubmenu
+> van het &dolphin;-contextmenu dat verschijnt wanneer u op een bestand of map klikt met de &RMB;. </para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de Services-menu-instellingen in de dialoog &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Services-instellingen.</phrase>
+</textobject>
+<caption
+><para
+>Services-instellingen in het venster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Door <guibutton
+>Nieuwe services downloaden</guibutton
+> te gebruiken kunt u extra services voor het contextmenu ophalen. </para>
+<para
+>Als u de plug-ins van &dolphin; voor <guilabel
+>Bazaar</guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> of <guilabel
+>Subversion</guilabel
+> uit de kdesdk-module hebt geïnstalleerd, dan worden deze services in de lijst getoond. Als deze plugins worden ingeschakeld en u gaat naar een map die onder versie-controle staat, dan zal de versie-status (lokaal gewijzigd, up-to-date &etc;) worden getoond door pictogrammen en hebt u extra items in het contextmenu zoals commit, update, add, remove &etc; </para>
+<para
+>In de lijst met services kunt u ook kiezen of de opdrachten <guimenuitem
+>Kopiëren naar</guimenuitem
+>, <guimenuitem
+>Verplaatsen naar</guimenuitem
+>, <guimenuitem
+>Aan plaatsen toevoegen</guimenuitem
+>, <guimenuitem
+>Sorteren op</guimenuitem
+>, <guimenuitem
+>Weergavestijl</guimenuitem
+>, <guimenuitem
+>In nieuw tabblad openen</guimenuitem
+>, <guimenuitem
+>In nieuw venster openen</guimenuitem
+>, <guimenuitem
+>Locatie kopiëren</guimenuitem
+> en <guimenuitem
+>Hier dupliceren</guimenuitem
+> getoond worden in het het contextmenu. </para>
+<para
+>&dolphin; moet opnieuw gestart worden om de wijzigingen voor enige van deze instellingen te activeren. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Prullenbak</title>
+
+<para
+>Deze groep bevat instellingen waarmee u het gedrag van de prullenbak aanpast. <screenshot>
+<screeninfo
+>Schermafdruk van de prullenbak-instellingen in het venster &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Prullenbak-instellingen.</phrase>
+</textobject>
+<caption
+><para
+>Prullenbak-instellingen in het venster &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Bestanden die ouder zijn dan een in te stellen aantal dagen, kunnen automatisch verwijderd worden. </para
+></listitem>
+
+<listitem
+><para
+>De grootte van de prullenbak kan worden beperkt tot een in te stellen percentage van de schijfcapaciteit. Als deze limiet bereikt is, kan er een waarschuwing verschijnen, of kunnen de oudste of de grootste bestanden automatisch verwijderd worden. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>Terugkoppeling van gebruiker</title>
+
+<para
+>Deze groep bevat instellingen die bepalen welke informatie u bijdraagt aan het gebruik van &dolphin; aan zijn ontwikkelaars. <screenshot>
+<screeninfo
+>Schermafdruk van de instellingen voor terugkoppeling van gebruik in de dialoog &dolphin;-voorkeuren.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Instellingen voor terugkoppeling van gebruik</phrase>
+</textobject>
+<caption
+><para
+>Instellingen voor terugkoppeling van gebruik in de dialoog &dolphin;-voorkeuren.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>U kunt enige terugkoppeling bijdragen, als u dat wilt, over &dolphin;. Gebruik schuifregelaars om uw niveau van deelnemen te configureren. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Weergavestijl van map</title>
+
+<para
+>De volgende instellingen besturen hoe de inhoud van een map wordt getoond in de weergave van &dolphin; en als standaard per map worden opgeslagen: </para>
+<itemizedlist>
+
+<listitem
+><para
+>De weergavemodus (Pictogrammen, Compact, Details) </para
+></listitem>
+
+<listitem
+><para
+>Het sorteren van items, wat wordt bepaald door de volgorde van sorteren (oplopend, aflopend) en het attribuut (zoals naam, grootte,...) waarmee de items gesorteerd worden </para
+></listitem>
+
+<listitem
+><para
+>Sorteren van mappen en bestanden &ndash; worden mappen eerst getoond of niet? </para
+></listitem>
+
+<listitem
+><para
+>Voorbeelden &ndash; worden ze getoond in plaats van pictogrammen (gebaseerd op de instellingen gemaakt in het tabblad <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Voorbeelden</guilabel
+> van de Algemene instellingen van &dolphin;</link
+>) of niet? </para
+></listitem>
+
+<listitem
+><para
+>Worden items in de weergave in groepen getoond? </para
+></listitem>
+
+<listitem
+><para
+>Worden verborgen bestanden getoond? </para
+></listitem>
+
+<listitem
+><para
+>Welke extra informatie (naast de naam) wordt er getoond in de pictogram- of detailweergave? </para
+></listitem>
+
+</itemizedlist>
+<para
+>De weergavestijl kan ingesteld worden in het menu <menuchoice
+><guimenu
+>Beeld</guimenu
+></menuchoice
+>, sommige (zoals de weergavemodus) kunnen ook gewijzigd worden met knoppen in de werkbalk. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>De dialoog Weergavestijl.</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Schermafdruk van de dialoog Weergavestijl</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>De dialoog Weergavestijl.</phrase>
+</textobject>
+<caption
+><para
+>De dialoog Weergavestijl.</para
+></caption>
+</mediaobject>
+</screenshot
+>De dialoog <guilabel
+>Weergavestijl</guilabel
+> kan worden gebruikt om snel verschillende weergavestijlen in één keer te wijzigen. Dit doet u voor de huidige map, de huidige map inclusief alle submappen of zelfs voor alle mappen, afhankelijk van de keuze die gemaakt is in de sectie <guilabel
+>Toepassen op</guilabel
+>. </para>
+
+<para
+>Wanneer <guilabel
+>Als standaard weergave-instellingen gebruiken</guilabel
+> is ingeschakeld, zullen de gekozen weergave-eigenschappen ook gebruikt worden voor alle mappen die nog geen aangepaste weergave-eigenschappen hebben. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Overzicht van de opdrachten</title>
+<para
+>Standaard wordt de menubalk niet getoond. Alle acties hier beschreven kunnen worden gedaan met knoppen op de werkbalk of met items in het menu van de werkbalkknop <guibutton
+>Besturen</guibutton
+>.</para>
+
+<sect1 id="commands-menubar">
+<title
+>De menubalk in het hoofdvenster van &dolphin;</title>
+
+<sect2>
+<title
+>Het menu Bestand</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+> <guisubmenu
+>Nieuwe aanmaken</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Maakt een nieuw object (zoals een map of een tekstbestand) aan in de huidige map.</action
+></para>
+<para
+>Een uitleg van alle beschikbare objecten vindt u in het handboek van &konqueror; in het hoofdstuk <ulink url="help:/konqueror/making.html"
+>Nieuw aanmaken</ulink
+>.</para>
+<note>
+    <para
+>Het is mogelijk om uw eigen submenu-items <guisubmenu
+>Nieuw aanmaken...</guisubmenu
+> aan te maken. U kunt bestanden uit <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>KIO opslagruimte met broncode</ulink
+> als referentie te gebruiken an het resultaatbestand <filename role="extension"
+>.desktop</filename
+> in <filename role="directory"
+>.local/share/templates</filename
+> in uw persoonlijke map (het adres kan verkregen worden met de opdracht <userinput
+>kf5-config --path templates</userinput
+> in een &konsole;), herstart daarna &dolphin;. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Nieuw venster</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent een nieuw &dolphin;-venster.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Nieuw tabblad</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent een nieuw tabblad.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Tabblad sluiten</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Sluit het huidige tabblad.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Tabblad sluiten ongedaan maken</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent het laatst gesloten tabblad opnieuw.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Hernoemen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Hernoemt een nu geselecteerd item inline. Opent de <link linkend="batch-rename"
+>Dialoog In bulk hernoemen</link
+> als verschillende items geselecteerd zijn.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Naar prullenbak</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Verplaatst het/de huidig geselecteerde item(s) naar de prullenbak.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>Del</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Verwijderen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Verwijdert het/de huidig geselecteerde item(s) definitief. De items worden niet naar de prullenbak verplaatst en kunnen niet worden teruggezet.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Doel tonen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Deze actie accentueert een koppelingsdoel in een nieuw dolphin-venster. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Duplicaat hier</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Maakt duplicaten van geselecteerde items met achtervoegen van <replaceable
+> kopie</replaceable
+> aan het eind van hun namen.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Return</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Eigenschappen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont de eigenschappen van het/de huidig geselecteerde item(s).</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Afsluiten</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Sluit &dolphin; af.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Het menu Bewerken</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Ongedaan maken</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Maakt de laatste handeling uitgevoerd door &dolphin; ongedaan.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Knippen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Knipt het/de huidig geselecteerde item(s).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Kopiëren</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Kopieert het/de huidig geselecteerde item(s).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Klembordinhoud plakken...</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Eén bestand plakken</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Eén map plakken</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>X items plakken</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Plakt de huidig gekopieerde/geknipte items in de huidige map. Als het klembord geen bestanden of mappen bevat, wordt de klembordinhoud (zoals tekst of afbeeldingen) in een nieuw bestand geplakt. De naam van dit bestand moet ingevoerd worden in een dialoogvenster. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Naar inactieve gesplitste weergave kopiëren</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Kopieert het/de nu geselecteerde item(s) van de actieve gesplitste weergave naar de inactieve gesplitste weergave.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Naar inactieve gesplitste weergave verplaatsen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Verplaatst het/de nu geselecteerde item(s) van de actieve gesplitste weergave naar de inactieve gesplitste weergave. Is uitgeschakeld als de huidige gebruiker geen schrijfrechten op de geselecteerde item(s).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Filter...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Schakelt de <link linkend="filter-files"
+>filterbalk</link
+> in of uit.</action
+> U kunt ook de alternatieve sneltoets <keycombo action="simul"
+>&Shift;<keycap
+>/</keycap
+></keycombo
+> voor deze actie gebruiken.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Zoeken...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent de zoekbalk. Voer een zoekterm in in het invoervak en selecteer het zoeken naar een bestandsnaam of in de inhoud van bestanden beginnend in de huidige map of overal vandaar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Alles selecteren</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecteert alle bestanden en mappen in de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bewerken</guimenu
+> <guimenuitem
+>Selectie omkeren</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecteert alle niet geselecteerde items en maakt alle vorige selecties ongedaan in de huidige map. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Het menu Beeld</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Inzoomen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Vergroot de pictogrammen in de weergave.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Uitzoomen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Verkleint de pictogrammen in de weergave.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Zoomen resetten</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Resets de grootte van pictogrammen in de weergave naar de standaard.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guisubmenu
+>Weergavemodus</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Wijzigt de weergavemodus naar <guimenuitem
+>Pictogrammen</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Compact</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) of <guimenuitem
+>Details</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guisubmenu
+>Sorteren op</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Verandert wanneer items gesorteerd zijn</action
+> op <guimenuitem
+>Naam</guimenuitem
+> of andere criteria beschreven in <link linkend="dolphin-view-information"
+>Informatie in de weergave</link
+>.</para>
+<para
+><guimenuitem
+>Aflopend</guimenuitem
+> keert de sorteervolgorde om. <guimenuitem
+>Mappen eerst</guimenuitem
+> sorteert eerst mappen, daarna bestanden. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>beeld</guimenu
+> <guisubmenu
+>Aanvullende informatie tonen</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont extra informatie</action
+> beschreven in <link linkend="dolphin-view-information"
+>Informatie in de weergave</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Voorbeelden tonen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont een symbolisch voorbeeld van de inhoud van een bestand </action
+> in de verschillende weergavemodi.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Gegroepeerd tonen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont</action
+> de inhoud van de huidige map, gegroepeerd per geselecteerde optie in <guimenuitem
+>Gesorteerd volgens</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Verborgen bestanden tonen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont alle verborgen bestanden en submappen in de huidige map.</action
+>Er is een alternatieve sneltoets <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+> voor deze actie.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Splitsen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Schakelt de weergavemodus splitsen in of uit.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Herladen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Herlaadt de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Stoppen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Stopt het laden/lezen van de inhoud van de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guisubmenu
+>Panelen tonen</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>In- en uitschakelen</action
+> van de verschillende <link linkend="panels"
+>panelen</link
+>: <guimenuitem
+>Plaatsen</guimenuitem
+> (<keycap
+>F9</keycap
+>), <guimenuitem
+>Informatie</guimenuitem
+> (<keycap
+>F11</keycap
+>), <guimenuitem
+>Mappen</guimenuitem
+> (<keycap
+>F7</keycap
+>), <guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+>F4</keycap
+>). Met <guimenuitem
+>Panelen vergrendelen</guimenuitem
+> wordt de paneelkop met opschrift en twee knoppen verborgen om ruimte te sparen en de panelen kunnen niet worden gewijzigd, met <guimenuitem
+>Panelen ontgrendelen</guimenuitem
+> wordt de kop weer zichtbaar en het paneel kan worden verplaatst naar rechts of links of zelfs buiten het hoofdvenster. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guisubmenu
+>Locatiebalk</guisubmenu
+> <guimenuitem
+>Bewerkbare locatie</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Schakelt de locatiebalk tussen de twee modi: de<link linkend="location-bar-bread-crumb"
+>broodkruimelmodus</link
+> en de <link linkend="location-bar-editable"
+>bewerkbare modus</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Beeld</guimenu
+> <guisubmenu
+>Locatiebalk</guisubmenu
+> <guimenuitem
+>Bewerkbare locatie</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Schakelt, indien nodig, de locatiebalk naar <link linkend="location-bar-editable"
+>bewerkbare modus</link
+> en selecteert de locatie zo dat die snel kan worden vervangen. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+> <guimenuitem
+>Weergavestijl aanpassen...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent de <link linkend="view-properties-dialog"
+>dialoog Weergavestijl</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Het menu Ga naar</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Omhoog</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ga naar</guimenu
+> <guimenuitem
+>Omhoog</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Gaat naar de map boven de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Links</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ga naar</guimenu
+> <guimenuitem
+>Terug</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Gaat naar de hiervoor weergegeven map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Rechts</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ga naar</guimenu
+> <guimenuitem
+>Vooruit</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ongedaan maken </action
+> van een <quote
+>Terug</quote
+>-actie.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ga naar</guimenu
+> <guimenuitem
+>Startpagina</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Gaat naar de startpagina van de gebruiker, &eg; /home/Peter/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ga naar</guimenu
+> <guisubmenu
+>Recent gesloten tabbladen</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Toont een lijst van recent gesloten tabbladen die opnieuw geopend kunnen worden.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Het menu Hulpmiddelen</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Shift;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Terminal openen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent &konsole; in de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Shift;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Hulpmiddel voor zoeken met voorkeur openen</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Opent het hulpmiddel voor zoeken met voorkeur in de huidige map.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+> <guimenuitem
+>Bestanden vergelijken</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Vergelijk de gekozen bestanden of mappen met behulp van &kompare;. Deze actie is alleen ingeschakeld als twee bestanden of mappen zijn geselecteerd.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Hulpmiddelen</guimenu
+> <guisubmenu
+>Externe tekenset selecteren</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Hiermee kunt u handmatig de tekenset kiezen die gebruikt wordt bij een externe verbinding.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>De menu's Instellingen en Help</title
+> 
+<para
+>&dolphin; heeft de gezamenlijke &kde; <guimenu
+>Instellingen</guimenu
+> en <guimenu
+>Help</guimenu
+> menu-items, voor meer informatie lees de secties over de <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Menu Instellingen</ulink
+> en <ulink url="help:/fundamentals/menus.html#menus-help"
+>Menu Help</ulink
+> van &kde;-fundamentals. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Overige vragen</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Is &konqueror; vervangen door &dolphin;?</para>
+</question>
+<answer>
+<para
+>&dolphin; is niet bedoeld als concurrent van &konqueror;: &konqueror; fungeert als algemene viewer waarin &HTML;-pagina's, tekstdocumenten, mappen en nog veel meer getoond kunnen worden, terwijl &dolphin; alleen dient als bestandsbeheerder. Door deze benadering kan de gebruikersinterface geoptimaliseerd worden voor de taak van bestandsbeheer. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hoe kan ik meedoen aan de ontwikkeling van &dolphin;?</para>
+</question>
+<answer>
+<para
+>De makkelijkste manier om betrokken te raken bij &dolphin; is door zich in te schrijven op de e-maillijst van de ontwikkelaars <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> en een e-mailbericht naar die lijst te sturen. Geef hierin aan wat u kunt doen, hoeveel tijd u kunt besteden &etc;, de ontwikkelaars laten u weten wat u in het project kunt doen. Als u een bijdrage wilt leveren aan de documentatie stuur dan een e-mailbericht aan de lijst van het <ulink url="mailto:kde-doc-english@kde.org"
+>&kde;-documentatieteam</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hoe kan ik een fout rapporteren?</para>
+</question>
+<answer>
+<para
+>Het officiële kanaal voor het rapporteren van fouten is via het &kde; bugvolgsysteem. U vindt het &kde; bugvolgsysteem op <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Hoe kan ik een verzoek om nieuwe functionaliteit indienen? </para>
+</question>
+<answer>
+<para
+>Het officiële kanaal voor het verzoek om nieuwe functionaliteit is via het &kde; bugvolgsysteem. U vindt het &kde; bugvolgsysteem op <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Dankbetuigingen en licentie</title>
+
+<para
+>&dolphin; </para>
+<para
+>Programma copyright 2006&ndash;2014 Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> en Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Medewerkers: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Documentatie-copyright 2005 Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>Documentatie-copyright 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
+<para
+>Documentatie-copyright 2006 Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>Documentatie-copyright 2009 Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Dit document is vertaald in het Nederlands door Hannie Lafeber-Dumoleyn.</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

@@ -1,0 +1,3258 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Serbian "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>Приручник за <application
+>Делфин</application
+></title>
+
+<authorgroup>
+<author
+><firstname
+>Петер</firstname
+> <surname
+>Пенц</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Орвил</firstname
+> <surname
+>Бенет</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Мајкл</firstname
+> <surname
+>Остин</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Дејвид</firstname
+> <surname
+>Едмундсон</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Алан</firstname
+> <surname
+>Бланчфлауер</surname
+> </author>
+<author
+><firstname
+>Франк</firstname
+> <surname
+>Рајнингхаус</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="translator"
+><firstname
+>Часлав</firstname
+><surname
+>Илић</surname
+><affiliation
+><address
+><email
+>caslav.ilic@gmx.net</email
+></address
+></affiliation
+><contrib
+>превод</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Петер Пенц</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>Орвил Бенет</holder>
+<holder
+>Мајкл Остин</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Франк Рајнингхаус</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>1. 6. 2016.</date>
+<releaseinfo
+>Програми КДЕ‑а 16.04</releaseinfo>
+
+<abstract>
+<para
+><application
+>Делфин</application
+> је КДЕ‑ов подразумевани менаџер фајлова, којем је главна пројектна водиља употребљивост. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>КДЕ</keyword>
+<keyword
+>Делфин</keyword>
+<keyword
+>менаџер фајлова</keyword>
+<keyword
+>фајл</keyword>
+<keyword
+>управљање</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Увод</title>
+
+<para
+><application
+>Делфин</application
+> је подразумевани менаџер фајлова у Плазми, који тежи побољшању употребљивости корисничког сучеља. <application
+>Делфин</application
+> се ограничава само на управљање фајловима, док је <application
+>К‑освајач</application
+> (подразумевани менаџер фајлова у КДЕ‑у 3) универзални прегледач и приказивач многих типова фајлова који се може користити и за управљање фајловима. </para>
+
+<para
+>Овакав пројектни приступ омогућава програмерима да се усредсреде на оптимизацију сучеља строго у сврху управљања фајловима. </para>
+
+<para
+>Проблеме на које наиђете, или жеље за новим могућностима, можете упутити ауторима преко дијалога за пријаву грешака. Њему се приступа или дугметом за подешавање на десној страни траке алатки у подразумеваном режиму без траке менија, или кроз ставку менија <menuchoice
+><guimenu
+>Помоћ</guimenu
+><guimenuitem
+>Пријави грешку...</guimenuitem
+></menuchoice
+> када је трака менија приказана. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Употреба <application
+>Делфина</application
+></title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>Корисничко сучеље <application
+>Делфина</application
+></title>
+
+<para
+>Наредни снимак екрана приказује <application
+>Делфиново</application
+> подразумевано корисничко сучеље: </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана <application
+>Делфиновог</application
+> подразумеваног корисничког сучеља.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+><application
+>Делфиново</application
+> подразумевано корисничко сучеље.</phrase>
+</textobject>
+<caption
+><para
+><application
+>Делфиново</application
+> подразумевано корисничко сучеље.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Подразумевано корисничко сучеље чине следећи елементи: <itemizedlist>
+
+<listitem
+><para
+>Трака алатки, преко које се брзо приступа често коришћеним радњама. Може се прилагодити кликом десним дугметом миша на њу па избором <menuchoice
+><guimenuitem
+>Подеси траке алатки...</guimenuitem
+></menuchoice
+> из контекстног менија, избором <guimenuitem
+>Подеси траке алатки...</guimenuitem
+> из менија на дугме за подешавање десно у траци алатки, или преко главног менија <menuchoice
+><guimenu
+>Поставке</guimenu
+><guimenuitem
+>Подеси траке алатки...</guimenuitem
+></menuchoice
+>. </para>
+<screenshot>
+<screeninfo
+>Снимак екрана <application
+>Делфинове</application
+> траке алатки.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Подразумевана трака алатки.</phrase>
+</textobject>
+<caption>
+<para
+>Ставке на траци алатки за које је иконица довољна за разумевање наредбе немају текст поред иконице. Ово се може изменити десним кликом и избором ставке под <guilabel
+>Приказ текста</guilabel
+>. Дугме за подешавање десно у траци алатки види се само када је трака менија сакривена. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>Трака локације, која у сваком тренутку приказује путању текуће фасцикле. Може се пребацивати између два режима, за детаље погледајте <link linkend="location-bar"
+>одељак о траци локације</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="dolphin-view"
+>Приказ</link
+>, који набраја све фајлове и фасцикле у текућој фасцикли. </para
+></listitem>
+
+<listitem
+><para
+><link linkend="places-panel"
+>Панел <guilabel
+>Места</guilabel
+></link
+>, који даје брзи приступ обележеним локацијама и дисковима или другим медијумима. </para>
+<para
+>Ако су активирани претрага површи и индексирање фајлова (модул <guilabel
+>Претрага</guilabel
+> у Системским поставкама), овај панел наводи ставке које су недавно сачуване и омогућава тражење докумената, слика, аудио и видео фајлова. </para
+></listitem>
+
+<listitem
+><para
+>Трака стања. Наводи име, величину и тип фајла над којим миш тренутно лебди, или број и величину тренутно изабраних фајлова. Десно стоји клизач увеличања, којим се може подешавати величина иконица у приказу. </para
+></listitem>
+
+<listitem
+><para
+>Трака менија (подразумевано сакривена), која даје приступ свим наредбама и поставним опцијама. Погледајте <link linkend="commands-menubar"
+>преглед наредби</link
+> за списак свих наредби по менијима. Трака менија се може сакрити и приказати помоћу <guimenuitem
+>Прикажи траку менија</guimenuitem
+> (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>M</keycap
+></keycombo
+>) у менију <guimenu
+>Поставке</guimenu
+> и преко дугмета за подешавање. </para>
+<para
+>Ако је трака менија сакривена, све радње из ње доступне су преко дугмета <guibutton
+>Управљање</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>Додатни панели података, фасцикли и терминала, подразумевано су сакривени. Више информација потражите у одељку о <link linkend="panels"
+>панелима</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+><application
+>Делфинов</application
+> приказ</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Коришћење приказа</title>
+
+<para
+>Приказ набраја све фајлове и фасцикле у текућој фасцикли. Њима се може приступати и руковати на различите начине: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Фајл или фасцикла може се отворити левим кликом миша (или двокликом, ако је укључено <guilabel
+>Двоструки клик отвара фајлове и фасцикле (први клик изабира)</guilabel
+> у Системским поставкама, модул <menuchoice
+><guimenu
+>Улазни уређаји</guimenu
+> <guimenuitem
+>Миш</guimenuitem
+></menuchoice
+>). </para
+></listitem>
+
+<listitem
+><para
+>Десни клик на ставку или празну област око ставки позива контекстни мени који нуди неке честе радње над ставком или текућом фасциклом. </para
+></listitem>
+
+<listitem
+><para
+>Ако се лево дугме притисне над ставком и задржи, ставка се може превући у другу фасциклу у текућем приказу или у други <application
+>Делфинов</application
+> приказ (у другом прозору <application
+>Делфина</application
+> или у истом прозору када је приказ подељен, в. ниже), ради премештања, копирања или стварања симболичке везе. Ставке се могу превући чак и у други програм како би се отвориле у њему. </para
+></listitem>
+
+</itemizedlist>
+<para
+><application
+>Делфин</application
+> памти историјат посећених фасцикли. За кретање уназад и унапред кроз историјат можете користити дугмад на траци алатки: </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана <application
+>Делфинове</application
+> траке алатки.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Дугмад за назад и напред на траци алатки.</phrase>
+</textobject>
+<caption>
+<para
+>Дугмад за напред и назад у траци алатки служе за кретање кроз историјат. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Изгледа <application
+>Делфиновог</application
+> приказа</title>
+
+<para
+>Трака алатки садржи дугмад за управљање изгледом приказа: </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана <application
+>Делфинове</application
+> траке алатки.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Дугмад траке алатки којима се управља изгледом приказа.</phrase>
+</textobject>
+<caption
+><para
+>Дугмад траке алатки којима се управља изгледом приказа. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Све поставке описане у наредном, као и друге опције које се тичу нпр. ређања фајлова у текућој фасцикли, могу се изменити кроз мени <guimenu
+>Приказ</guimenu
+> и у <link linkend="view-properties-dialog"
+>дијалогу својстава приказа</link
+>. Подразумевано се ове поставке памте за сваку фасциклу понаособ; ово понашање може да се измени у <link linkend="preferences-dialog-general"
+>одељку <guilabel
+>Опште</guilabel
+></link
+> у поставкама. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Режими приказа</title>
+
+<para
+>Прва три дугмета на горњем снимку екрана мењају <application
+>Делфинове</application
+> режиме приказа. <itemizedlist>
+
+<listitem
+><para
+>У приказу са иконицама, који је подразумеван, фајлови су представљени иконицом која одражава тип фајла, а потфасцикле иконицом фасцикле. Имена фасцикли и фајлова, те ставке укључене под <menuchoice
+><guimenu
+>Приказ</guimenu
+><guisubmenu
+>Допунски подаци</guisubmenu
+></menuchoice
+>, дате су испод иконица. </para
+></listitem>
+
+<listitem
+><para
+>Сажети приказ представља садржај фасцикле као иконице са именом са стране, и ставкама укљученим под <menuchoice
+><guimenu
+>Приказ</guimenu
+><guisubmenu
+>Допунски подаци</guisubmenu
+></menuchoice
+> испод имена. Ставке су груписане у колоне налик на сажети приказ у КДЕ фајл дијалогу. </para
+></listitem>
+
+<listitem
+><para
+>У приказу са детаљима, садржај фасцикле представљен је списком који наводи име, величину и последњу измену сваке ставке. Још колона се може додати десним кликом на заглавље колона. </para>
+<para
+>У контекстном менију реда заглавља можете изабрати између посебне и аутоматске ширине колона. Аутоматска ширина значи да ће свака колона бити широка колико најдужа ставка у њој, осим колона <guilabel
+>име</guilabel
+> код које се наставак замењује са „...“. </para>
+<para
+>Редослед колона може да се измени превлачењем заглавља колона. Изузетак је заглавље <guilabel
+>име</guilabel
+>, које је увек прва колона у приказу. </para>
+<para
+>Приказ са детаљима ставља текућу фасциклу у стаблолики режим (ако је укључено <link linkend="preferences-dialog-viewmodes-details"
+> <guilabel
+>Прошириве фасцикле</guilabel
+></link
+>): свака потфасцикла се може „раширити“ или „сажети“ кликом на иконицу <guiicon
+>+</guiicon
+> или <guiicon
+>-</guiicon
+> крај ње.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Групни приказ.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Групни приказ.</phrase>
+</textobject>
+<caption
+><para
+>Сви режими приказа подржавају груписање по типу ређања изабраном кроз <menuchoice
+><guimenu
+>Приказ</guimenu
+><guisubmenu
+>Поређај по</guisubmenu
+></menuchoice
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Подаци у приказу</title>
+<para
+>У свим режимима приказа, <application
+>Делфин</application
+> приказује бар иконицу и име за сваку ставку. Преко <guisubmenu
+>Допунски подаци</guisubmenu
+> из менија <guimenu
+>Приказ</guimenu
+>, или преко контекстног менија заглавља у детаљном режиму, можете изабрати још података које желите да видите уз ставке: </para>
+
+<para
+><guimenuitem
+>величина</guimenuitem
+>, <guimenuitem
+>датум</guimenuitem
+>, <guimenuitem
+>тип</guimenuitem
+>, <guimenuitem
+>оцена</guimenuitem
+>, <guimenuitem
+>ознаке</guimenuitem
+> и <guimenuitem
+>коментар</guimenuitem
+>. </para>
+
+<para
+>По типу фајла, могу се додатно задати следећи критеријуми ређања: <simplelist>
+  <member
+><guimenuitem
+>документ</guimenuitem
+>: број речи и редова.</member>
+  <member
+><guimenuitem
+>слика</guimenuitem
+>: величина и оријентација.</member>
+  <member
+><guimenuitem
+>аудио</guimenuitem
+>: извођач, албум, трајање и нумера.</member>
+</simplelist>
+</para>
+
+<para
+>Подмени <guisubmenu
+>друго</guisubmenu
+> омогућава избор једног од: <guimenuitem
+>путања</guimenuitem
+>, <guimenuitem
+>одредиште везе</guimenuitem
+>, <guimenuitem
+>копирано из</guimenuitem
+>, <guimenuitem
+>дозволе</guimenuitem
+>, <guimenuitem
+>власник</guimenuitem
+> и <guimenuitem
+>корисничка група</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Преглед</title>
+
+<para
+>Када се активира <guibutton
+>Преглед</guibutton
+>, иконице почињу да одражавају конкретан садржај фајла или фасцикле. На пример, слике за иконицу имају свој умањени преглед. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Подела</title>
+
+<para
+>Кликом на <guibutton
+>Подели</guibutton
+> добијају се два приказа, која могу да приказују садржаје различитих фасцикли. Ово може бити згодно за премештање и копирање фајлова. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Бирање ставки у приказу</title>
+
+<para
+>Ставке у приказу могу се бирати на неколико начина. Пошто се изабере група ставки, све радње, попут <menuchoice
+><guimenuitem
+>Исеци</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Копирај</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Премести у смеће</guimenuitem
+></menuchoice
+> или превлачења, односе се на све изабране ставке. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Бирање ставки мишем</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Кликните левим дугметом миша негде у приказу и развуците правоугаоник око групе ставке пре него што пустите дугме. Овим ћете изабрати све ставке унутар правоугаоника, очистивши претходни избор. Ако је током бирања притиснут тастер <keycap
+>Shift</keycap
+>, претходни избор се задржава. </para
+></listitem>
+
+<listitem
+><para
+>Ако држите тастер <keycap
+>Ctrl</keycap
+> кад кликнете на ставку левим дугметом, стање изабраности те ставке се обрће. Ако држите <keycap
+>Ctrl</keycap
+> при развлачењу правоугаоника око групе ставки, како је описано изнад, обрће се стање изабраности свих ставки унутар правоугаоника. </para
+></listitem>
+
+<listitem
+><para
+>Ако је притиснут тастер <keycap
+>Shift</keycap
+> у тренутку кад на ставку кликнете левим дугметом миша, биће изабране све ставке између текуће и оне на коју је претходно кликнуто. </para
+></listitem>
+
+<listitem
+><para
+>Ако је укључено <guilabel
+>Обележивач избора</guilabel
+> под <link linkend="preferences-dialog-general-behavior"
+>језичком <guilabel
+>Понашање</guilabel
+></link
+> у одељку <guilabel
+>Опште</guilabel
+> у поставкама, појављује се мало дугме <guibutton
+>+</guibutton
+> или <guibutton
+>-</guibutton
+> у горњем левом углу ставке над којом лебди миш. Кликом на овај знак, редом, бирате ставку или је искључујете из избора. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Бирање ставки тастатуром</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Ако притиснете тастер стрелице, <keycap
+>PageUp</keycap
+>, <keycap
+>PageDown</keycap
+>, <keycap
+>Home</keycap
+> или <keycap
+>End</keycap
+>, бира се нова текућа ставка а претходни избор се чисти. </para
+></listitem>
+
+<listitem
+><para
+>Ако држите <keycap
+>Ctrl</keycap
+> док притискате један од поменутих тастера, избор остаје неизмењен. </para
+></listitem>
+
+<listitem
+><para
+>Ако држите <keycap
+>Shift</keycap
+> док притискате један од поменутих тастера, биће изабране све ставке између претходне и нове текуће ставке. </para
+></listitem>
+
+<listitem
+><para
+>Ако држите <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Space</keycap
+></keycombo
+>, обрће се стање изабраности текуће ставке. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>A</keycap
+></keycombo
+> изабира све ставке у приказу. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>A</keycap
+></keycombo
+> обрће стање изабраности свих ставки у приказу. </para
+></listitem>
+
+<listitem
+><para
+>Откуцајте првих неколико слова имена фајла или фасцикле, и биће изабрана прва поклопљена ставка. Да очистите избор и откажете тражење тастатуром, притисните <keycap
+>Esc</keycap
+> или сачекајте прековреме од једне секунде. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Трака локације</title>
+
+<para
+>Трака локације, која се простире изнад <application
+>Делфиновог</application
+> приказа, наводи путању до текуће фасцикле. Трака локације нуди два режима. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>Режим мрвица</title>
+
+<para
+>У режиму „мрвица“, који је подразумевани, свако име фасцикле у путањи до текуће фасцикле представља дугме на које може да се кликне ради брзог отварања те фасцикле. Даље, клик на симбол „&gt;“ десно од фасцикле позива мени из којег можете брзо отворити потфасциклу те фасцикле. </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана са траком локације у режиму мрвица.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Трака локације у режиму мрвица.</phrase>
+</textobject>
+<caption
+><para
+>Трака локације у режиму мрвица.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>Режим уређивања</title>
+
+<para
+>Док је трака локације у режиму мрвица, леви клик на сиву област десно од путање пребацује је у режим уређивања, у којем се путања може уређивати тастатуром. Назад у режим мрвица прелазите левим кликом на симбол штикле десно од траке локације. </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана са траком локације у режиму уређивања.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Трака локације у режиму уређивања.</phrase>
+</textobject>
+<caption
+><para
+>Трака локације у режиму уређивања.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Коришћење У/И захвата</title>
+
+<para
+>Када се трака локације у уредивом режиму испразни, испред ње се појављује падајући списак са свим доступним У/И захватима на систему. У/И захвати су програми уграђени у КДЕ који додају подршку за многе протоколе, у <application
+>Делфину</application
+> и другим КДЕ програмима.</para
+> 
+
+<para
+>На пример, <application
+>Делфин</application
+> се уз У/И захват ФИСХ‑а може користити за управљање фајловима и фасциклама на удаљеном домаћину који дозвољава ССХ приступ. Само унесите <userinput
+>fish://korisnik@domacin</userinput
+> у траку локације. Слично управљање удаљеним фајловима могуће је и на домаћинима доступним преко протокола ФТП, НФС, СФТП, СМБ (ЦИФС) и вебДАВ.</para>
+
+<para
+>Падајући списак У/И захвата такође омогућава приступ Системским поставкама, фонтовима, смећу, другим програмима и уређајима прикаченим на рачунар. Преко падајућег списка имате увид у све могућности У/И захвата на систему. </para>
+<screenshot>
+<screeninfo
+>Снимак екрана са списком У/И захвата.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Трака локације са списком У/И захвата.</phrase>
+</textobject>
+<caption
+><para
+>Списак доступних У/И захвата</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Места и контекст</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Ако је панел <guilabel
+>Места</guilabel
+> скривен, у оба режима види се додатна иконица испред путање. Левим кликом на њу добија се мени за брзи приступ „местима“ и складишним медијумима. Детаље потражите у <link linkend="places-panel"
+>одељку о панелу <guilabel
+>Места</guilabel
+></link
+>. </para>
+
+<screenshot>
+<screeninfo
+>Трака локације са иконицом места̂.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Трака локације са иконицом места̂.</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>Контекстни мени траке локације садржи радње за пребацивање режима и копирање и налепљивање путање преко клипборда. Попуните последњу кућицу у овом менију за приказ пуне путање почев од корене фасцикле фајл система, а испразните је за приказ путање почев од текуће ставке места̂. </para>
+
+<screenshot>
+<screeninfo
+>Контекстни мени траке локације.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Контекстни мени траке локације.</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Панели</title>
+
+<para
+><application
+>Делфин</application
+> омогућава постављање неколико панела покрај приказа. Могу се укључити кроз <menuchoice
+><guimenu
+>Приказ</guimenu
+><guisubmenu
+>Панели</guisubmenu
+></menuchoice
+>.  Панел можете преместити на други положај, чак и изван прозора, кликом на његов наслов и превлачењем (панели морају бити претходно откључани). </para>
+
+<sect2 id="places-panel">
+<title
+>Места</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, with Baloo Recently Saved and Search For -->
+<para
+>Панел <guilabel
+>Места</guilabel
+> подразумевано стоји на левој страни прозора, и приказује све локације које сте обележили. Такође набраја дискове и друге медијуме прикачене на рачунар, ставке којима је недавно приступано, а омогућава и претрагу по типовима фајлова. Редослед ових ставки може се изменити превлачењем. </para>
+
+<para
+>Фасцикла се најлакше додаје у панел места тако што је превучете на панел. Другачије, можете кликнути десним унутар панела и изабрати <menuchoice
+><guimenuitem
+>Додај ставку...</guimenuitem
+></menuchoice
+> из контекстног менија. Први начин ствара обележивач широм система, а други се може употребити за додавање тренутне путање из траке локације или било које жељене фасцикле или уређаја. Појављује се дијалог у коме можете уредити етикету, локацију и иконицу, или ограничити да се ставка види само у <application
+>Делфину</application
+>. </para>
+
+<para
+>Клик десним отвара контекстни мени за уређивање, додавање, сакривање и уклањање ставки, промену величине иконица на једну од предефинисаних вредности, те закључавање и откључавање панела. </para>
+<para
+>Контекстни мени даље садржи радњу за отварање ставке у новом језичку, и за демонтирање уређаја. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Подаци</title>
+
+<para
+>Панел <guilabel
+>Подаци</guilabel
+> даје више података о изабраној ставци (или о ставци над којом тренутно лебди миш), као што су величина, тип и датум последње измене. Такође садржи већи преглед садржаја изабране ставке и омогућава њено оцењивање, додавање ознака и коментара. </para>
+
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Фасцикле</title>
+
+<para
+>Панел <guilabel
+>Фасцикле</guilabel
+> приказује структуру фајл система у облику стабла; приказ садржи само фасцикле. Левим кликом на фасциклу отварате је у <application
+>Делфиновом</application
+> приказу. </para>
+
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Терминал</title>
+
+<para
+>Овај панел садржи терминал, који ће бити отворен на фасцикли тренутно приказаној у <application
+>Делфину</application
+>. При промени фасцикле у активном приказу ажурираће се и радна фасцикла терминала, и обрнуто. Терминал ради само над локалним медијумима. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Брзи савети</title>
+
+<para
+>Следе неки савети за ефикасније коришћење <application
+>Делфина</application
+>. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Брзо обележавање</title>
+
+<para
+>Да бисте брзо додали обележивач за текућу фасциклу у панелу <guilabel
+>Места</guilabel
+>, кликните десним на радни простор и изаберите <menuchoice
+><guimenuitem
+>Додај у Места</guimenuitem
+></menuchoice
+> из контекстног менија. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Тражење фајлова и претрага у фајловима</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+><application
+>Делфином</application
+> се могу тражити фајлови и претраживати њихов садржај. Ако притиснете <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+> или изаберете <menuchoice
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Нађи...</guimenuitem
+> </menuchoice
+>, отвориће се трака тражења са поставком да тражи у текућој фасцикли и свим потфасциклама. Претрага ће започети чим почнете да куцате у поље за тражење. <screenshot>
+<screeninfo
+>Тражење фајлова и садржаја у фајловима.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Тражење фајлова и садржаја у фајловима.</phrase>
+</textobject>
+<caption
+><para
+>Тражење фајлова и садржаја у фајловима у <application
+>Делфину</application
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>Претрага не разликује величину слова и не захтева спољашње џокере (<userinput
+>*foo*</userinput
+> и <userinput
+>foo</userinput
+> значе исто), али можете користити џокере унутар израза за претрагу. <userinput
+>*</userinput
+> поклапа ниједан, један или више знакова, а <userinput
+>?</userinput
+> тачно један знак.</para>
+<para
+>Ова могућност ради у садејству са сервисима Балуа; ако они нису у погону, покреће се У/И захват ради добијања резултата претраге.</para>
+<para
+>Опција <guilabel
+>Свуда</guilabel
+>, када су сервиси Балуа активни, тражи кроз све индексиране фасцикле. Када ови сервиси нису активни, претрага почиње од корисникове домаће фасцикле.</para>
+<!--FIXME 16.12
+https://git.reviewboard.kde.org/r/123883/
+Add prototype of a "More search tools..." button
+-->
+<screenshot>
+<screeninfo
+>Тражење са више опција.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="nepomuk-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Тражење са више опција.</phrase>
+</textobject>
+<caption
+><para
+>Тражење са више опција у <application
+>Делфину</application
+>.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Употребите дугме <guilabel
+>Више опција</guilabel
+> да проширите траку тражења. Тиме добијате врло удобан начин за сужавање резултата претраге.</para>
+<para
+>Претрагу започињете тако што изаберете један или више типова фајлова (документи, аудио, видео, слике), временски период и оцену.</para>
+
+<para
+>Алтернативно, можете користити ове опције у панелу места̂ заједно са филтерском траком, да потражите фајлове преко Балуа или ограничите претрагу на фајлове поклопљене филтерским изразом.</para>
+
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Монтирање складишних медијума</title>
+
+<para
+>Складишни медијум се брзо монтира кликом на уређај у панелу <guilabel
+>Места</guilabel
+>. Тада ће се монтирати и отворити у <application
+>Делфину</application
+>. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Опозив радњи</title>
+
+<para
+><application
+>Делфин</application
+> уме да опозива измене учињене фајловима. На пример, ако пошаљете фајл у смеће, то се може опозвати и фајл вратити на првобитну локацију. Радњу опозивате притиском <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Z</keycap
+></keycombo
+> или избором <menuchoice
+><guimenu
+>Уређивање</guimenu
+><guimenuitem
+>Опозови &lt;радњу&gt;</guimenuitem
+></menuchoice
+> из менија, на пример <guimenuitem
+>Опозови премештање</guimenuitem
+>. </para>
+
+</sect2>
+
+<sect2 id="batch-rename">
+<title
+>Пакетно преименовање фајлова</title>
+<para
+><application
+>Делфином</application
+> је могуће преименовати више фајлова истовремено. Сваки фајл ће добити задато име, укључујући број, нпр. <literal
+>слика‑1.jpg</literal
+>, <literal
+>слика‑2.jpg</literal
+>, <literal
+>слика‑3.jpg</literal
+>. Ово може бити корисно нпр. за слике начињене дигиталним фотоапаратом. </para>
+
+<para
+>Да бисте фајлове пакетно преименовали, прво изаберите оне које треба преименовати. То можете учинити левим кликом и развлачењем правоугаоника око жељених фајлова пре него што пустите дугме, или држањем тастер <keycap
+>Ctrl</keycap
+> и кликтањем на сваки жељени фајл појединачно (за више детаља подсетите се <link linkend="selection"
+>одељка о бирању ставки</link
+>). Потом отворите дијалог за пакетно преименовање притиском <keycap
+>F2</keycap
+> или кроз мени <menuchoice
+><guimenu
+>Фајл</guimenu
+><guimenuitem
+>Преименуј...</guimenuitem
+></menuchoice
+>. </para>
+
+<para
+>Затим унесите име које желите да фајлови добију. У имену мора бити присутан знак #. Фајлови ће затим бити преименовани, при чему # бива замењен наредним узастопним бројем за сваки фајл. </para>
+
+<para
+>Ако наставци фајлова у избору нису сви исти, имена фајлова се могу изменити без употребе местодржача # тако да се очувају изворни наставци. Ово корисно нпр. за преименовање видео фајла и свих придружених фајлова титлова, чија се имена обично разликују само по наставку. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Поређење изабраних фајлова или фасцикли</title>
+
+<para
+>Ако је инсталиран програм <application
+>К‑поређење</application
+>, можете га употребити да проучите разлике између два фајла или фасцикле. </para>
+
+<para
+>Прво изаберите фајлове или фасцикле које треба упоредити, а затим позовите <application
+>К‑поређење</application
+> кроз <menuchoice
+><guimenu
+>Алатке</guimenu
+><guimenuitem
+>Упореди фајлове</guimenuitem
+></menuchoice
+>. <application
+>К‑поређење</application
+> ће се покренути и приказати разлике међу фајловима или фасциклама. </para>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Филтрирање фајлова</title>
+
+<para
+><application
+>Делфин</application
+> може да филтрира фајлове, тј. да прикаже само оне ставке чије име садржи задати текст. На пример, ако желите да видите само МП3 фајлове у фасцикли, можете унети филтер <literal
+>.mp3</literal
+>; тада ће из приказа нестати сви фајлови чија имена не садрже <literal
+>.mp3</literal
+>. </para>
+
+<para
+>Фајлове филтрирате тако што прво активирате филтерску траку, или притиском <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+> или кроз мени <menuchoice
+> <guimenu
+>Алатке</guimenu
+> <guimenuitem
+>Филтерска трака</guimenuitem
+> </menuchoice
+>, а затим у њу унесете текст по којем се филтрира. Филтерска трака се касније може искључити притиском на <keycap
+>Esc</keycap
+> или левим кликом на иконицу <guiicon
+>Сакриј филтерску траку</guiicon
+>. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Подешавање <application
+>Делфина</application
+></title>
+
+<para
+>Поставке <application
+>Делфина</application
+> могу се сврстати у две групе: <itemizedlist>
+
+<listitem
+><para
+>Поставке које одређују опште понашање <application
+>Делфина</application
+>. Могу се мењати у <link linkend="preferences-dialog"
+>дијалогу за подешавање</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Поставке које одређују како <application
+>Делфин</application
+> приказује садржај фасцикле. Ове поставке се називају <link linkend="view-properties"
+>својствима приказа</link
+> и задају се помоћу дугмади траке алатке, менија <guimenu
+>Приказ</guimenu
+> и <link linkend="view-properties-dialog"
+>дијалога <guilabel
+>Својства приказа</guilabel
+></link
+>. У подразумеваној постави, својства приказа се памте по свакој фасцикли, али се <application
+>Делфин</application
+> може подесити и да користи заједничка својства приказа за све фасцикле, кроз <link linkend="preferences-dialog-general-behavior"
+>одељак <guilabel
+>Опште</guilabel
+></link
+> у поставкама. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+><application
+>Делфинов</application
+> дијалог за подешавање</title>
+<para
+>Дијалог за подешавање отварате помоћу <menuchoice
+><guimenu
+>Поставке</guimenu
+> <guimenuitem
+>Подеси Делфин...</guimenuitem
+></menuchoice
+> у менију у главном прозору <application
+>Делфина</application
+>. Поставке су подељене у неколико група, којима приступате кликтањем на одговарајућу иконицу на левој страни дијалога. </para>
+
+<para
+>Све поставке, осим странице <guilabel
+>Покретање</guilabel
+> и језичка <guilabel
+>Трака стања</guilabel
+> на страници <guilabel
+>Опште</guilabel
+>, деле се са <application
+>К‑освајачем</application
+> у режиму менаџера фајлова. </para>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Покретање</title>
+
+<para
+>Ова група садржи поставке које одређују изглед <application
+>Делфина</application
+> на покретању. <screenshot>
+<screeninfo
+>Снимак екрана са опцијама покретања у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поставке покретања.</phrase>
+</textobject>
+<caption
+><para
+>Опције покретања у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+><guilabel
+>Домаћа фасцикла</guilabel
+> је фасцикла која се отвара по покретању. Локација ове фасцикле може се непосредно унети или изабрати кроз дијалог који се добија кликом на дугме са иконицом фасцикле. За домаћу фасциклу се може задати и текућа или подразумевана локација (што је корисникова системска домаћа фасцикла) кликом на одговарајуће дугме. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Подељени приказ</guilabel
+> одређује да ли је <link linkend="dolphin-view"
+><application
+>Делфинов</application
+> приказ</link
+> подељен по покретању или не. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Трака локације се може уређивати</guilabel
+> одређује да ли ће трака локације бити у режиму уређивања по покретању. У супротном ће бити у режиму мрвица. Детаље о овим режимима потражите у <link linkend="location-bar"
+>одељку о траци локације</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Ако је попуњено <guilabel
+>Пуна путања у траци локације</guilabel
+>, трака локације у режиму мрвица наводи потпуну путању текуће локације. Иначе се наводи скраћена верзија путање када почиње једним од места са панела <guilabel
+>Места</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Филтерска трака</guilabel
+> одређује да ли се по покретању види филтерска трака. Више детаља потражите у <link linkend="filter-files"
+>одељку о филтерској траци</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Режими приказа</title>
+
+<para
+>Ова група садржи поставке којима се утиче на понашање <application
+>Делфинових</application
+> режима приказа. Трима режимима приказа приступа се преко траке језичака на врху (<guilabel
+>иконице</guilabel
+>, <guilabel
+>сажето</guilabel
+>, и <guilabel
+>детаљи</guilabel
+>). <screenshot>
+<screeninfo
+>Снимак екрана са поставкама приказа у иконицама у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поставке режима приказа.</phrase>
+</textobject>
+<caption
+><para
+>Поставке режима приказа у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Заједничке поставке за све режиме</title>
+
+<para
+>За сва три режима приказа важе неке заједничке поставке: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Клизачи којима се одређује величина иконица. Величине <guilabel
+>Подразумевана:</guilabel
+> или <guilabel
+>Преглед:</guilabel
+> користе се, редом, када су прегледи искључени или укључени. Приметите да се величина иконица лако може мењати клизачем увеличања у траци стања, ако је укључена одговарајућа опција у <link linkend="preferences-dialog-general-statusbar"
+>одељку <guilabel
+>Опште</guilabel
+></link
+> у поставкама. </para
+></listitem>
+
+<listitem
+><para
+>Поставка за фонт коришћен у режимима приказа: може се изабрати или системски или посебан фонт. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Остале поставке у одељку <guilabel
+>Текст</guilabel
+> које важе само за поједине режиме приказа изложене су испод. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Иконице</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Ширина:</guilabel
+> одређује најмању ширину која је допуштена за текст ставке. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Највише редова:</guilabel
+> задаје највећи број редова текста испод иконице. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Сажето</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Највећа ширина:</guilabel
+> одређује највећу ширину која је допуштена за текст ставке. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Детаљи</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Прошириве фасцикле</guilabel
+> одређује да ли се фасцикле са потфасциклама приказују у виду стабла, тако да се подставке могу раширити левим кликом на иконицу <guiicon
+>&gt;</guiicon
+> а сажети кликом на иконицу <guiicon
+>v</guiicon
+>. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Навигација</title>
+
+<para
+>Ова група поставки одређује како ради кретање кроз структуру фасцикли и кроз архиве. <screenshot>
+<screeninfo
+>Снимак екрана са поставкама кретања у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поставке кретања.</phrase>
+</textobject>
+<caption
+><para
+>Поставке кретања у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Опција за отварање ставки једноструким или двоструким кликом миша важи широм система и може се изменити у Системским поставкама, модул <menuchoice
+><guimenu
+>Улазни уређаји</guimenu
+> <guimenuitem
+>Миш</guimenuitem
+></menuchoice
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Ако је укључено <guilabel
+>Отварај архиве као фасцикле</guilabel
+>, архиве ће бити отваране унутар <application
+>Делфина</application
+> уместо у спољашњим програмима. </para
+></listitem>
+
+<listitem
+><para
+>Ако се укључи <guilabel
+>Отварај фасцикле при превлачењима</guilabel
+>, током превлачења ставке мишем кратко лебдење над фасциклом отвориће ту фасциклу. Ово омогућава брзо премештање и копирање ставки у фасцикле које су неколико нивоа ниже у хијерархији фасцикли. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-services">
+<title
+>Сервиси</title>
+
+<para
+>Ова група нуди избор сервиса који се дају у подменију <guisubmenu
+>Радње</guisubmenu
+> <application
+>Делфиновог</application
+> контекстног менија (који се добија десним кликом на фајл или фасциклу). </para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана са поставкама сервиса у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-services.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поставке сервиса.</phrase>
+</textobject>
+<caption
+><para
+>Поставке сервиса у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Дугметом <guibutton
+>Преузми нове сервисе...</guibutton
+> можете добавити још сервиса за контекстни мени. </para>
+<para
+>Ако сте инсталирали <application
+>Делфинов</application
+> прикључак за Базар, Меркјуријал, <application
+>Гит</application
+> или Субверзију (из модула <literal
+>kdesdk</literal
+>), поменути сервиси се појављују на списку. Ако су ови прикључци укључени и уђете у фасциклу под управљањем верзијама, видећете иконице верзионог стања (локално измењено, ажурно, итд.), а контекстни мени садржаће додатне ставке (предавање, ажурирање, додавање, уклањање, итд.) </para>
+<para
+>У списку сервиса можете изабрати и да ли се наредбе <guimenuitem
+>Обриши</guimenuitem
+>, <guimenuitem
+>Копирај у</guimenuitem
+> и <guimenuitem
+>Премести у</guimenuitem
+> јављају у контекстном менију који се добија десним кликом на фајл или фасциклу. </para>
+<para
+><application
+>Делфин</application
+> се мора поново покренути да би се активирале измене за неке од ових поставки. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Смеће</title>
+
+<para
+>Ова група поставки одређује понашање смећа. <screenshot>
+<screeninfo
+>Снимак екрана са поставкама смећа у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Поставке смећа.</phrase>
+</textobject>
+<caption
+><para
+>Поставке смећа у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Фајлови се могу брисати аутоматски када су старији од подешеног броја дана. </para
+></listitem>
+
+<listitem
+><para
+>Величина смећа може бити ограничена на подесиви удео величине диска. Када се ограничење достигне, може се издати упозорење или се аутоматски обрисати најстарији или највећи фајлови. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-general">
+<title
+>Опште</title>
+
+<para
+>Ова група поставки одређује опште понашање <application
+>Делфина</application
+>. Подељена је у четири подгрупе, којима се приступа преко траке језичака на врху. <screenshot>
+<screeninfo
+>Снимак екрана са општим поставкама у <application
+>Делфиновом</application
+> дијалогу за подешавање.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Опште поставке.</phrase>
+</textobject>
+<caption
+><para
+>Опште поставке у <application
+>Делфиновом</application
+> дијалогу за подешавање.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>Језичак <guilabel
+>Понашање</guilabel
+></title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>У одељку <guilabel
+>Приказ</guilabel
+> можете подесити да ли се <link linkend="view-properties"
+>својства приказа</link
+> складиште за сваку фасциклу посебно или се за све фасцикле користе иста својства. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Режим ређања</guilabel
+> одређује како се ређају ставке у приказу. Ако се укључи <guilabel
+>Природно ређање</guilabel
+>, редослед ређања у следећем примеру биће <orderedlist
+> <listitem
+><para
+>фајл‑1,</para
+></listitem
+> <listitem
+><para
+>фајл‑2,</para
+></listitem
+> <listitem
+><para
+>фајл‑10.</para
+></listitem
+> </orderedlist
+> Ако се искључи, добија се обично алфабетско ређање (са или без разликовања величине слова), односно <orderedlist>
+<listitem
+><para
+>фајл‑1,</para
+></listitem>
+<listitem
+><para
+>фајл‑10,</para
+></listitem>
+<listitem
+><para
+>фајл‑2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>При лебдењу мишем над фајлом или фасциклом појављује се мали прозор са релевантним подацима ако је укључено <guilabel
+>Облачићи</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Обележивач избора</guilabel
+> даје мало дугме <guibutton
+>+</guibutton
+> или <guibutton
+>-</guibutton
+> изнад иконице ставке када се над њоме лебди мишем. Овим дугмадима се ставка може изабрати или искључити из избора. </para
+></listitem>
+
+<listitem
+><para
+>Укључите <guilabel
+>Уткано преименовање</guilabel
+> да бисте добили овај режим када је изабрана само једна ставка. Ако је ова опција искључена или је изабрано више ставки, добићете дијалог за преименовање. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>Језичак <guilabel
+>Прегледи</guilabel
+></title>
+
+<para
+>Под овим језичком можете подесити који типови фајлова имају прегледе. Такође можете задати највећу величину удаљених фајлова до које се праве прегледи. </para>
+<para
+>Ако се прегледи укључе за фасцикле, иконица фасцикле ће показивати прегледе неколико фајлова у њој. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>Језичак Потврде</title>
+<para
+>У одељку <guilabel
+>Тражи потврду при:</guilabel
+> можете подесити да ли се приказују дијалози упозорења пред потенцијално штетне радње. </para>
+<warning
+><para
+>Поставке потврда за премештање фајлова у смеће и брисање фајлова и фасцикли одређују понашање у <application
+>Делфину</application
+>, <application
+>К‑освајачу</application
+>, <application
+>Гвенвјуу</application
+>, као и свим КДЕ програмима који користе подразумеване КДЕ фајл дијалоге. Поставка потврде при затварању <application
+>Делфина</application
+> кад има више језичака важи само у <application
+>Делфину</application
+>.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>Језичак <guilabel
+>Трака стања</guilabel
+></title>
+
+<para
+>Под овим језичком се подешавају неке допунске ставке за траку стања, под условом да је довољно широка: <itemizedlist>
+
+<listitem
+><para
+>Клизач увеличања, који служи за брзу измену величине иконица. </para
+></listitem>
+
+<listitem
+><para
+>Трака која показује колико је простора остало на текућој јединици. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Својства приказа фасцикле</title>
+
+<para
+>Наредне поставке одређују како се садржај фасцикле приказује у <application
+>Делфину</application
+>, и подразумевано се складиште засебно за сваку фасциклу: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Режим приказа (иконице, сажето, детаљи). </para
+></listitem>
+
+<listitem
+><para
+>Ређање ставки, одређено редоследом (растуће, опадајуће) и атрибутом (име, величина...) по којем се ређа. </para
+></listitem>
+
+<listitem
+><para
+>Међусобно ређање фајлова и фасцикли — да ли се фасцикле ређају испред фајлова? </para
+></listitem>
+
+<listitem
+><para
+>Прегледи — да ли се приказују уместо иконица (на основу поставки под <link linkend="preferences-dialog-general-previews"
+>језичком <guilabel
+>Прегледи</guilabel
+> у <application
+>Делфиновом</application
+> општим поставкама</link
+>)? </para
+></listitem>
+
+<listitem
+><para
+>Да ли су ставке груписане у приказима? </para
+></listitem>
+
+<listitem
+><para
+>Да ли се виде скривени фајлови? </para
+></listitem>
+
+<listitem
+><para
+>Који се додатни подаци (поред имена) наводе у приказу са иконицама и са детаљима? </para
+></listitem>
+
+</itemizedlist>
+<para
+>Својства приказа се могу подесити кроз мени <menuchoice
+><guimenu
+>Приказ</guimenu
+></menuchoice
+>, а нека (попут режима приказа) и преко дугмади на траци алатки. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>Дијалог својстава приказа</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Снимак екрана са дијалогом својстава приказа.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Дијалог својстава приказа.</phrase>
+</textobject>
+<caption
+><para
+>Дијалог својстава приказа.</para
+></caption>
+</mediaobject>
+</screenshot>
+Дијалог својстава приказа користи се за брзо мењање више својстава одједном. Измене могу важити за текућу фасциклу, за текућу фасциклу и све њене потфасцикле, или чак за све фасцикле, у зависности од избора начињеног у одељку <guilabel
+>Примени својства приказа на</guilabel
+>. </para>
+
+<para
+>Ако се укључи <guilabel
+>Ова својства приказа су подразумевана</guilabel
+>, изабрана својства приказа биће примењивана на све фасцикле које немају сопствена прилагођена својства. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Преглед наредби</title>
+<para
+>Трака менија подразумевано није приказана. Све радње описане овде можете извести или дугмадима траке алатки, или ставкама у менију који се добија дугметом за подешавање на траци алатки.</para>
+
+<sect1 id="commands-menubar">
+<title
+>Трака менија у главном прозору <application
+>Делфина</application
+></title>
+
+<sect2>
+<title
+>Мени <guimenu
+>Фајл</guimenu
+></title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Направи</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Ствара нову ставку (попут фасцикле или текстуалног фајла) у текућој фасцикли.</action
+></para>
+<para
+>Објашњења за све расположиве ставке можете наћи у <application
+>К‑освајачевом</application
+> приручнику, у поглављу <ulink url="help:/konqueror/making.html"
+>о стварању нових ставки</ulink
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Нови прозор</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отвара нови прозор <application
+>Делфина</application
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Нови језичак</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отвара нови језичак.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Затвори језичак</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Затвара текући језичак.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Опозови затварање језичка</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Поново отвара последњи затворени језичак.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F2</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Преименуј...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Преименује једну тренутно изабрану ставку уткано. Отвара <link linkend="batch-rename"
+>дијалог за пакетно преименовање</link
+> ако је изабрано више ставки.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Премести у смеће</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Премешта тренутно изабране ставке у смеће.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Shift</keycap
+><keycap
+>Delete</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Обриши</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Трајно брише тренутно изабране ставке. То значи да се не премештају у смеће и не могу се повратити.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Enter</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Својства</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Приказује дијалог са подацима о тренутно изабраним ставкама.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Фајл</guimenu
+> <guimenuitem
+>Напусти</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Напушта Делфин.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Мени <guimenu
+>Уређивање</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Опозови</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Опозива последњу радњу изведену Делфином.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Исеци</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Исеца тренутно изабране ставке.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Копирај</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Копира тренутно изабране ставке.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Налепи садржај клипборда...</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Уређивање</guimenu
+><guimenuitem
+>Налепи један фајл</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Уређивање</guimenu
+><guimenuitem
+>Налепи једну фасциклу</guimenuitem
+></menuchoice
+> или <menuchoice
+><guimenu
+>Уређивање</guimenu
+><guimenuitem
+>Налепи N ставки</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Налепљује копиране или исечене ставке у текућу фасциклу. Ако клипборд не садржи фајлове или фасцикле, садржај клипборда (попут текста или слике) биће налепљен као нови фајл; појавиће се дијалог за уношење имена тог фајла. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Нађи...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отвара траку тражења. Унесите израз за претрагу у поље, па изаберите тражење по имену или садржају фајла, почев од текуће фасцикле или свуда.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Изабери све</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Бира све фајлове и фасцикле у текућој фасцикли.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>Shift</keycap
+><keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Уређивање</guimenu
+> <guimenuitem
+>Изврни избор</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Бира све неизабране ставке, а поништава избор изабраних, у текућој фасцикли. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Мени <guimenu
+>Приказ</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Увеличај</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Увећава иконице у радном приказу.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Умањи</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Умањује иконице у приказу.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Начин приказа</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује на режим приказ у иконицама (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>1</keycap
+></keycombo
+>), сажето (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>2</keycap
+></keycombo
+>) или детаљно (<keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Поређај по</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Одређује да ли се ставке ређају</action
+> по имену или по неком другом критеријуму, како је описано у <xref linkend="dolphin-view-information"/>.</para>
+<para
+><guimenuitem
+>опадајуће</guimenuitem
+> обрће редослед ређања. <guimenuitem
+>прво фасцикле</guimenuitem
+> ређа све фасцикле испред фајлова. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guisubmenu
+>Допунски подаци</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Приказује додатне податке</action
+>, како је описано у <xref linkend="dolphin-view-information"/>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Преглед</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Даје симболички преглед садржаја фајла</action
+> у различитим режимима приказа.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>По групама</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Приказује</action
+> садржај текуће фасцикле груписан по атрибуту изабраном под <guimenuitem
+>Поређај по</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Скривени фајлови</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Приказује све скривене фајлове и потфасцикле у текућој фасцикли.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F3</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Подели</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Укључује и искључује подељени приказ.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+><keycap
+>F5</keycap
+></keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Учитај поново</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Поново учитава текућу фасциклу.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Заустави</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Зауставља учитавање садржаја текуће фасцикле.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Панели</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Укључује и искључује</action
+> различите <link linkend="panels"
+>панеле</link
+>: <guimenuitem
+>Места</guimenuitem
+> (<keycap
+><keycap
+>F9</keycap
+></keycap
+>), <guimenuitem
+>Подаци</guimenuitem
+> (<keycap
+><keycap
+>F11</keycap
+></keycap
+>), <guimenuitem
+>Фасцикле</guimenuitem
+> (<keycap
+><keycap
+>F7</keycap
+></keycap
+>), <guimenuitem
+>Терминал</guimenuitem
+> (<keycap
+><keycap
+>F4</keycap
+></keycap
+>). <guimenuitem
+>Закључај панеле</guimenuitem
+> сакрива заглавље панела са натписом и два дугмета, како би се уштедело на простору, и панел се више не може померати. <guimenuitem
+>Откључај панеле</guimenuitem
+> враћа заглавље и омогућава померање панела налево или надесно, или чак изван главног прозора. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guisubmenu
+>Трака локације</guisubmenu
+> <guimenuitem
+>Уредива локација</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује траку локације између два режима, <link linkend="location-bar-bread-crumb"
+>режима мрвица</link
+> и <link linkend="location-bar-editable"
+>режима уређивања</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Приказ</guimenu
+> <guisubmenu
+>Трака локације</guisubmenu
+> <guimenuitem
+>Замени локацију</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује траку локације у <link linkend="location-bar-editable"
+>режим уређивања</link
+> (ако већ није у њему) и изабира целу локацију тако да се може брзо заменити. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Приказ</guimenu
+> <guimenuitem
+>Подеси својства приказа...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отвара <link linkend="view-properties-dialog"
+>дијалог својстава приказа</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>Мени <guimenu
+>Кретање</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>горе</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Кретање</guimenu
+> <guimenuitem
+>Горе</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује на фасциклу изнад текуће.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>лево</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Кретање</guimenu
+> <guimenuitem
+>Назад</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује на претходно прегледану фасциклу.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>десно</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Кретање</guimenu
+> <guimenuitem
+>Напред</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Опозива</action
+> радњу кретања уназад.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Alt</keycap
+><keycap
+>Home</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Кретање</guimenu
+> <guimenuitem
+>Домаће</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пребацује на корисникову домаћу фасциклу.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Кретање</guimenu
+> <guisubmenu
+>Недавно затворени језичци</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Даје списак недавно затворених језичака, одакле се могу поново отворити.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Мени <guimenu
+>Алатке</guimenu
+></title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Алатке</guimenu
+> <guimenuitem
+>Филтерска трака</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Укључује и искључује <link linkend="filter-files"
+>филтерску траку</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Shift</keycap
+><keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Алатке</guimenu
+> <guimenuitem
+>Отвори терминал</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Отвара <application
+>Конзолу</application
+> у оквиру текуће фасцикле.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Алатке</guimenu
+> <guimenuitem
+>Упореди фајлове</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Пореди тренутно изабране фајлове или фасцикле <application
+>К‑поређењем</application
+>. Ова радња је доступна само када се изаберу два фајла или фасцикле.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Алатке</guimenu
+> <guisubmenu
+>Удаљено кодирање</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Омогућава ручни избор кодирања које се користи за удаљену везу.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Менији <guimenu
+>Поставке</guimenu
+> и <guimenu
+>Помоћ</guimenu
+></title
+> 
+<para
+><application
+>Делфин</application
+> има уобичајене КДЕ меније <guimenu
+>Поставке</guimenu
+> и <guimenu
+>Помоћ</guimenu
+>, за више детаља погледајте одељке о њима (<ulink url="help:/fundamentals/ui.html#menus-settings"
+>за подешавање</ulink
+>, <ulink url="help:/fundamentals/ui.html#menus-help"
+>за помоћ</ulink
+>) у Основама КДЕ‑а. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Разна питања</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>Да ли је <application
+>Делфин</application
+> заменио <application
+>К‑освајач</application
+>?</para>
+</question>
+<answer>
+<para
+><application
+>Делфин</application
+> није замишљен као супарник <application
+>К‑освајачу</application
+>. Док је <application
+>К‑освајач</application
+> универзални прегледач, који може да приказује ХТМЛ странице, текстуалне документе, фасцикле и још пуно тога, <application
+>Делфин</application
+> се усредсређује на функцију менаџера фајлова. Овакав приступ омогућава оптимизацију корисничког сучеља за ту једну намену. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Како могу да се укључим у развој <application
+>Делфина</application
+>?</para>
+</question>
+<answer>
+<para
+>Најлакши начин је да се претплатите на <application
+>Делфинову</application
+> развојну поштанску листу <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+><literal
+>kfm-devel</literal
+></ulink
+> и пошаљете поруку на њу. Напишите у чему мислите да можете помоћи, колико времена можете посветити, итд, и неко ће вам одговорити шта бисте могли да урадите у пројекту. За побољшавање документације, пишите на листу <ulink url="mailto:kde-doc-english@kde.org"
+>КДЕ‑овог документационог тима</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Како подносим извештаје о грешкама?</para>
+</question>
+<answer>
+<para
+>Званични канал за подношење извештаја о грешкама је КДЕ‑ов систем за праћење грешака, коме се приступа преко <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Како подносим захтеве за могућностима?</para>
+</question>
+<answer>
+<para
+>Званични канал за подношење захтева за могућностима је КДЕ‑ов систем за праћење грешака, коме се приступа преко <ulink url="http://bugs.kde.org"
+>http://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Заслуге и лиценца</title>
+
+<para
+><application
+>Делфин</application
+> </para>
+<para
+>(програм) © 2006–2014, Петер Пенц <email
+>peter.penz@gmx.at</email
+>, Франк Рајнингхаус <email
+>frank78ac@googlemail.com</email
+> и Емануел Пескоста <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Доприносиоци: <itemizedlist>
+<listitem
+><para
+>Цветослав Људмилов <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Стефан Монов <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Мајкл Остин <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+><personname
+><firstname
+>Орвил</firstname
+> <surname
+>Бенет</surname
+></personname
+> &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>(документација) © 2005, Петер Пенц <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>(документација) © 2006, <personname
+><firstname
+>Орвил</firstname
+> <surname
+>Бенет</surname
+></personname
+> &Orville.Bennett.mail; </para>
+<para
+>(документација) © 2006, Мајкл Остин <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>(документација) © 2009, Франк Рајнингхаус <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Превео Часлав Илић <email
+>caslav.ilic@gmx.net</email
+>.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->

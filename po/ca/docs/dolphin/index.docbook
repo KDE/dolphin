@@ -1,0 +1,3355 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Catalan  "INCLUDE"
+><!-- change language only here -->
+]>
+
+<book id="dolphin" lang="&language;">
+
+<bookinfo>
+<title
+>El manual del &dolphin;</title>
+
+<authorgroup>
+<author
+><firstname
+>Peter</firstname
+> <othername
+></othername
+> <surname
+>Penz</surname
+> <affiliation
+> <address
+><email
+>peter.penz@gmx.at</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Orville</firstname
+> <surname
+>Bennett</surname
+> <affiliation
+> <address
+>&Orville.Bennett.mail;</address>
+</affiliation>
+</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Austin</surname
+> <affiliation
+> <address
+><email
+>tuxedup@users.sourceforge.net</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>David</firstname
+> <surname
+>Edmundson</surname
+> <affiliation
+> <address
+><email
+>kde@davidedmundson.co.uk</email
+></address>
+</affiliation>
+</author>
+<author
+><firstname
+>Alan</firstname
+> <surname
+>Blanchflower</surname
+> </author>
+<author
+><firstname
+>Frank</firstname
+> <surname
+>Reininghaus</surname
+> <affiliation
+> <address
+><email
+>frank78ac@googlemail.com</email
+></address>
+</affiliation>
+</author>
+
+&traductor.Antoni.Bella; 
+</authorgroup>
+
+<copyright>
+<year
+>2006</year>
+<holder
+>Peter Penz</holder>
+</copyright>
+<copyright>
+<year
+>2006</year>
+<holder
+>&Orville.Bennett;</holder>
+<holder
+>Michael Austin</holder>
+</copyright>
+<copyright>
+<year
+>2009</year>
+<holder
+>Frank Reininghaus</holder>
+</copyright>
+
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>17 de gener de 2022</date>
+<releaseinfo
+>KDE Gear 22.04</releaseinfo>
+
+<abstract>
+<para
+>El &dolphin; és el gestor de fitxers predeterminat per al &kde;, dissenyat amb la facilitat d'ús com a focus principal. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>Dolphin</keyword>
+<keyword
+>Gestor de fitxers</keyword>
+<keyword
+>fitxer</keyword>
+<keyword
+>gestió</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introducció</title>
+
+<para
+>El &dolphin; és el gestor de fitxers predeterminat del &plasma;. El seu objectiu és millorar la usabilitat en l'àmbit de la interfície d'usuari. El &dolphin; se centra només a ser un gestor de fitxers, mentre que el &konqueror;, que en el &kde; 3 era el gestor de fitxers predeterminat, i encara es pot utilitzar per a la gestió de fitxers, és un visualitzador universal per a molts tipus de fitxer. </para>
+
+<para
+>Aquest enfocament del disseny permet als desenvolupadors concentrar-se en l'optimització de la interfície d'usuari per a la tasca específica de la gestió de fitxers. </para>
+
+<para
+>Si us plau, podeu informar de qualsevol problema o peticions de noves funcionalitats a l'autor del &dolphin; a través del diàleg d'informe d'error. Aquest és accessible des del botó <guibutton
+>Control</guibutton
+> a la dreta de la barra d'eines en el mode predeterminat, sense la barra de menús; o des del menú <menuchoice
+><guimenu
+>Ajuda</guimenu
+><guimenuitem
+>Informa d'un error...</guimenuitem
+></menuchoice
+> de l'aplicació, si s'està mostrant la barra de menús. </para>
+
+</chapter>
+
+<chapter id="using-dolphin">
+<title
+>Ús del &dolphin;</title>
+
+<sect1 id="dolphin-user-interface">
+<title
+>La interfície d'usuari del &dolphin;</title>
+
+<para
+>La següent captura de pantalla mostra la interfície d'usuari predeterminada del &dolphin;: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la interfície d'usuari predeterminada del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="default-ui.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Interfície d'usuari predeterminada del &dolphin;.</phrase>
+</textobject>
+<caption
+><para
+>Interfície d'usuari predeterminada del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Els elements de la interfície d'usuari predeterminada són: <itemizedlist>
+
+<listitem
+><para
+>La barra d'eines es pot utilitzar per a un ràpid accés a les accions d'ús freqüent. Aquesta es pot personalitzar fent clic amb el &BDR; i escollint <menuchoice
+><guimenuitem
+>Configura les barres d'eines...</guimenuitem
+></menuchoice
+> al menú contextual, amb <guimenuitem
+>Configura les barres d'eines...</guimenuitem
+> des del botó <guibutton
+>Control</guibutton
+> a la dreta de la barra d'eines o mitjançant <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Configura les barres d'eines...</guimenuitem
+></menuchoice
+> des del menú principal. </para>
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra d'eines del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>La barra d'eines predeterminada.</phrase>
+</textobject>
+<caption>
+<para
+>Elements de la barra d'eines on la icona és suficient per a conèixer l'ordre, ja que no disposa de text al costat de les icones. Això es pot canviar fent clic del &BDR; i seleccionant el text de l'element <guilabel
+>Mostra el text</guilabel
+>. El botó <guibutton
+>Control</guibutton
+> a la dreta de la barra d'eines només es mostra si la barra de menús està oculta. </para>
+</caption>
+</mediaobject>
+</screenshot>
+</listitem>
+
+<listitem
+><para
+>La barra de localització, sempre mostrarà el camí cap a la carpeta actual. Es pot canviar entre dos modes diferents. Per a més detalls, vegeu la <link linkend="location-bar"
+>secció sobre la barra de localització</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>La <link linkend="dolphin-view"
+>vista</link
+>, mostra tots els fitxers i carpetes a la carpeta actual. </para
+></listitem>
+
+<listitem
+><para
+>El <link linkend="places-panel"
+>plafó <guilabel
+>Llocs</guilabel
+></link
+>, proporciona un ràpid accés a les ubicacions preferides i discs o altres suports. </para>
+<para
+>Si la cerca d'escriptori i la indexació de fitxers estan habilitades al mòdul <guilabel
+>Cerca a l'escriptori</guilabel
+> en &systemsettings;, el plafó proporcionarà els elements <guilabel
+>Recents</guilabel
+> i permetrà cercar per <guilabel
+>Documents</guilabel
+>, <guilabel
+>Imatges</guilabel
+>, <guilabel
+>Fitxers d'àudio</guilabel
+> i <guilabel
+>Vídeo</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+>La barra d'estat. On es mostra el nom, la mida i el tipus de fitxer que es troba actualment sota el punter del ratolí, o el nombre i grandària dels fitxers que estan seleccionats. A la dreta, hi ha un control lliscant de zoom que permet ajustar la mida de les icones a la vista. </para
+></listitem>
+
+<listitem
+><para
+>La barra de menús (oculta de manera predeterminada), la qual proporciona accés a totes les ordres i opcions de configuració. Per a una llista de totes les ordres de menú, vegeu la <link linkend="commands-menubar"
+>Referència d'ordres</link
+>. La barra de menús es pot alternar amb <guimenuitem
+>Mostra la barra de menús</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>M</keycap
+></keycombo
+>) des del menú <guimenu
+>Arranjament</guimenu
+> o des del botó <guibutton
+>Control</guibutton
+>. </para>
+<para
+>Si la barra de menús està oculta, totes les seves accions estaran disponibles des del botó <guibutton
+>Control</guibutton
+>. </para
+></listitem>
+
+<listitem
+><para
+>De manera predeterminada, els plafons addicionals <guilabel
+>Informació</guilabel
+>, <guilabel
+>Carpetes</guilabel
+> i <guilabel
+>Terminal</guilabel
+> estan ocults. Per a més informació, vegeu <link linkend="panels"
+><guilabel
+>Plafons</guilabel
+></link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect1>
+
+<sect1 id="dolphin-view">
+<title
+>La vista del &dolphin;</title>
+
+<sect2 id="dolphin-view-using">
+<title
+>Ús de la vista</title>
+
+<para
+>La vista mostra tots els fitxers i carpetes a la carpeta actual. Aquests elements són accessibles o manipulats de maneres diferents: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Un fitxer o carpeta es pot obrir fent-hi clic amb el &BER; o fent-hi doble clic, si està habilitada l'opció <guilabel
+>Obre fent doble clic</guilabel
+> al mòdul <menuchoice
+><guimenu
+>Espai de treball</guimenu
+> <guimenuitem
+>Comportament general</guimenuitem
+></menuchoice
+> a &systemsettings;. </para
+></listitem>
+
+<listitem
+><para
+>En fer clic a qualsevol element o l'àrea blanca al voltant dels elements amb el &BDR; s'obrirà un menú contextual que permet accedir a moltes de les accions d'ús freqüent per a l'element o la carpeta actual, respectivament. </para
+></listitem>
+
+<listitem
+><para
+>Si es prem el &BER; sobre un element, però no es deixa anar immediatament, l'element es podrà arrossegar i deixar anar en una altra carpeta a la vista actual o en una altra vista del &dolphin; (en una altra finestra del &dolphin; o en la mateixa finestra si la vista està dividida, veure a sota) per a moure, copiar o crear un enllaç simbòlic. Els elements fins i tot es poden deixar anar en una altra aplicació per a obrir-los des d'aquesta. </para
+></listitem>
+
+</itemizedlist>
+<para
+>El &dolphin; recordarà l'historial de les carpetes visitades. Per a navegar cap enrere o cap endavant en l'historial, es poden utilitzar els botons corresponents a la barra d'eines: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra d'eines del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Els botons enrere i endavant a la barra d'eines.</phrase>
+</textobject>
+<caption>
+<para
+>Els botons <guibutton
+>Enrere</guibutton
+> i <guibutton
+>Endavant</guibutton
+> a la barra d'eines es poden utilitzar per a navegar en l'historial. </para>
+</caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Si feu clic amb el &BMR;, s'obrirà l'element a l'historial en una pestanya nova, mantenint així la pestanya actual amb el seu contingut. </para>
+</sect2>
+
+<sect2 id="dolphin-view-appearance">
+<title
+>Aparença de la vista del &dolphin;</title>
+
+<para
+>La barra d'eines conté botons per a controlar l'aparença de la vista: </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra d'eines del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="toolbar-view-appearance.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Els botons de la barra d'eines que controlen l'aparença de la vista.</phrase>
+</textobject>
+<caption
+><para
+>Els botons de la barra d'eines que controlen l'aparença de la vista. </para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Tota la configuració i altres opcions concernents es debaten a continuació, &ead;, l'ordenació dels fitxers a la carpeta actual també es pot modificar en el menú <guimenu
+>Visualitza</guimenu
+> i en el <link linkend="view-properties-dialog"
+>diàleg Estil de presentació de la vista</link
+>. De manera predeterminada, aquestes opcions seran recordades per a cada carpeta per separat. Aquest comportament es pot canviar a la secció <link linkend="preferences-dialog-general"
+><quote
+>General</quote
+></link
+> de la configuració. </para>
+
+<sect3 id="dolphin-view-modes">
+<title
+>Modes de vista</title>
+
+<para
+>Els primers tres botons a la captura de pantalla de sobre canvien entre els modes de vista del &dolphin;. <itemizedlist>
+
+<listitem
+><para
+>A la vista <guibutton
+>Icones</guibutton
+>, la qual és la predeterminada, els fitxers estaran representats per una icona que mostra el tipus de fitxer, i una icona de carpeta mostrant les subcarpetes. Els noms de les carpetes, dels fitxers i dels elements s'habiliten a <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Informació addicional</guisubmenu
+></menuchoice
+>, i es mostren a sota de les icones. </para
+></listitem>
+
+<listitem
+><para
+>La vista <guilabel
+>Compacte</guilabel
+>, mostra el contingut de la carpeta com a icones amb el nom al seu costat i els elements habilitats a <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Informació addicional</guisubmenu
+></menuchoice
+> sota el nom. Els elements estan agrupats en columnes similars a la <guilabel
+>Vista breu</guilabel
+> en el diàleg de fitxers del &kde;. </para
+></listitem>
+
+<listitem
+><para
+>A la vista <guibutton
+>Detalls</guibutton
+>, el contingut de la carpeta es mostra com una llista detallada que conté el nom, la mida i la data de la darrera modificació de cada element. S'hi poden afegir columnes addicionals fent clic a la capçalera d'una columna amb el &BDR;. </para>
+<para
+>Al menú contextual de la línia de capçalera, podeu afegir o eliminar el farciment lateral marcant o desmarcant l'element corresponent del menú i podeu escollir entre una amplada de columna personalitzada o automàtica. L'amplada automàtica ajustarà totes les columnes una vegada per a mostrar l'element més llarg a tota la columna, a excepció de la columna <guilabel
+>Nom</guilabel
+> on l'extensió se substitueix per <quote
+>...</quote
+>. </para>
+<para
+>L'ordre de les columnes es pot canviar arrossegant i deixant anar sobre les capçaleres de la columna, a excepció de la capçalera <guilabel
+>Nom</guilabel
+>, la qual sempre serà la primera columna en aquesta vista. </para>
+<para
+>La vista Detalls permet veure la carpeta actual en forma d'arbre si s'habilita <link linkend="preferences-dialog-viewmodes-details"
+><guilabel
+>Carpetes expansibles</guilabel
+></link
+>: Cada subcarpeta de la carpeta actual es pot <quote
+>expandir</quote
+> o <quote
+>plegar</quote
+> fent clic a les icones <guiicon
+>
+></guiicon
+> o <guiicon
+>v</guiicon
+> al seu costat.</para
+></listitem>
+</itemizedlist>
+</para>
+
+<screenshot>
+<screeninfo
+>Vista per grups</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="grouping-view.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Vista per grups</phrase>
+</textobject>
+<caption
+><para
+>Tots els modes de vista tenen suport per a ordenar segons el tipus seleccionat a <menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Ordena per</guisubmenu
+></menuchoice
+></para
+></caption>
+</mediaobject>
+</screenshot>
+<!-- end copy to konqueror filemanager.docbook -->
+
+</sect3>
+
+<sect3 id="dolphin-view-information">
+<title
+>Informació a la vista</title>
+<para
+>En tots els modes de vista, el &dolphin; almenys mostrarà una icona i un nom per a cada element. Utilitzant <guisubmenu
+>Informació addicional</guisubmenu
+> al menú <guimenu
+>Visualitza</guimenu
+> o al menú contextual de la capçalera en el mode <guilabel
+>Detalls</guilabel
+>, podreu seleccionar mostrar més informació per a cada element: </para>
+
+<para
+><guimenuitem
+>Mida</guimenuitem
+>, <guimenuitem
+>Data</guimenuitem
+>, <guimenuitem
+>Tipus</guimenuitem
+>, <guimenuitem
+>Puntuació</guimenuitem
+>, <guimenuitem
+>Etiquetes</guimenuitem
+> o <guimenuitem
+>Comentari</guimenuitem
+>. </para>
+
+<para
+>Depenent del tipus de fitxer es poden seleccionar criteris d'ordenació addicionals: <simplelist>
+  <member
+><guimenuitem
+>Document</guimenuitem
+>: Nombre de paraules i línies</member>
+  <member
+><guimenuitem
+>Imatge</guimenuitem
+>: Mida i orientació</member>
+  <member
+><guimenuitem
+>Àudio</guimenuitem
+>: Artista, àlbum, durada i pista</member>
+</simplelist>
+</para>
+
+<para
+>El submenú <guisubmenu
+>Altres</guisubmenu
+> permet seleccionar <guimenuitem
+>Camí</guimenuitem
+>, <guimenuitem
+>Destinació de l'enllaç</guimenuitem
+>, <guimenuitem
+>Copiat des de</guimenuitem
+>, <guimenuitem
+>Permisos</guimenuitem
+>, <guimenuitem
+>Propietari</guimenuitem
+> o <guimenuitem
+>Grup d'usuari</guimenuitem
+>. </para>
+
+</sect3>
+
+<sect3 id="preview">
+<title
+>Vista prèvia</title>
+
+<para
+>Si la <guibutton
+>Vista prèvia</guibutton
+> està habilitada, les icones es basaran en el contingut real del fitxer o de la carpeta, &pex;, per a les imatges es mostrarà una vista prèvia reduïda de la imatge. </para>
+
+</sect3>
+
+<sect3 id="split-view">
+<title
+>Divideix</title>
+
+<para
+>Si es fa clic a <guibutton
+>Divideix</guibutton
+>, es mostraran dues vistes que poden mostrar el contingut de carpetes diferents. Això pot ser còmode per a moure o copiar fitxers. </para>
+
+</sect3>
+
+</sect2>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect2 id="selection">
+<title
+>Selecció de múltiples elements a la vista</title>
+
+<para
+>Hi ha diverses maneres de seleccionar elements en la vista. Una vegada se selecciona un grup d'elements, totes les accions, com ara <menuchoice
+><guimenuitem
+>Retalla</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Copia</guimenuitem
+></menuchoice
+>, <menuchoice
+><guimenuitem
+>Mou a la paperera</guimenuitem
+></menuchoice
+>, i les operacions arrossega i deixa anar, afectaran a tots els elements seleccionats. </para>
+
+<sect3 id="selection-mouse">
+<title
+>Selecció d'elements emprant el ratolí</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Podeu prémer el &BER; en algun lloc de la vista i dibuixar un rectangle al voltant d'un grup d'elements abans de deixar anar el botó. Això seleccionarà tots els elements del rectangle i netejarà la selecció anterior. Si es prem la tecla &Maj; durant el procés de selecció, es mantindrà la selecció anterior. </para
+></listitem>
+
+<listitem
+><para
+>Si es prem la tecla &Ctrl; mentre es fa clic sobre un element amb el &BER;, es canviarà l'estat de selecció d'aquest. Si es prem la tecla &Ctrl; mentre es dibuixa un rectangle al voltant d'un grup d'elements com s'ha descrit anteriorment, es canviarà l'estat de la selecció de tots els elements en el rectangle. </para
+></listitem>
+
+<listitem
+><para
+>Si es prem la tecla &Maj; mentre es fa clic sobre un element amb el &BER;, se seleccionaran tots els elements entre l'element actual anterior i l'element on feu clic. </para
+></listitem>
+
+<listitem
+><para
+>Si <guilabel
+>Mostra un marcador de selecció</guilabel
+> està habilitada a la pestanya <link linkend="preferences-dialog-general-behavior"
+><quote
+>Comportament</quote
+> de la secció <guilabel
+>General</guilabel
+> de la configuració</link
+>, apareixeran uns petits botons <guiicon
+>+</guiicon
+> o <guiicon
+>-</guiicon
+> a la cantonada superior esquerra de l'element que es trobi actualment sota el punter del ratolí. Fent clic en aquest signe se seleccionarà o desseleccionarà l'element, respectivament. </para
+></listitem>
+
+</itemizedlist>
+
+</sect3>
+
+<sect3 id="selection-keyboard">
+<title
+>Selecció d'elements emprant el teclat</title>
+
+<itemizedlist>
+
+<listitem
+><para
+>Si es prem una tecla de fletxa, <keycap
+>Re Pàg</keycap
+>, <keycap
+>Av Pàg</keycap
+>, <keycap
+>Inici</keycap
+>, <keycap
+>Fi</keycap
+>, el nou element actual serà seleccionat, i la selecció anterior es netejarà. </para
+></listitem>
+
+<listitem
+><para
+>Si es manté premuda la tecla &Ctrl; mentre es prem una de les tecles anteriors, la selecció romandrà sense canvis. </para
+></listitem>
+
+<listitem
+><para
+>Si es manté premuda la tecla &Maj; mentre es prem una de les tecles anteriors, tots els elements entre l'element actual anterior i el nou element actual seran seleccionats. </para
+></listitem>
+
+<listitem
+><para
+>Si es prem <keycombo action="simul"
+>&Ctrl;<keycap
+>Espai</keycap
+></keycombo
+>, es canviarà l'estat de selecció de l'element actual. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> seleccionarà tots els elements en la vista. </para
+></listitem>
+
+<listitem
+><para
+><keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>A</keycap
+></keycombo
+> canviarà l'estat de selecció de tots els elements en la vista. </para
+></listitem>
+
+<listitem
+><para
+>Seleccioneu un fitxer o carpeta, escriviu les primeres lletres del seu nom i l'element coincident serà seleccionat primer. Per a netejar la selecció i cancel·lar, premeu la tecla &Esc; o espereu el temps d'espera d'1 segon. </para
+></listitem>
+</itemizedlist>
+<!-- END copy to konqueror filemanager.docbook -->
+</sect3>
+
+</sect2>
+
+</sect1>
+
+<!--FIXME replace with links to KDE Fundamentals when location bar in file dialog
+has all features from dolphin ?-->
+
+<sect1 id="location-bar">
+<title
+>Barra de localització</title>
+
+<para
+>La barra de localització, la qual es troba a la part superior de la vista del &dolphin;, mostra el camí cap a la carpeta actual. La barra de localització té dos modes. </para>
+
+<sect2 id="location-bar-bread-crumb">
+<title
+>El mode navega</title>
+
+<para
+>En el mode <quote
+>navega</quote
+>, el qual és el predeterminat, el nom de cada carpeta al camí per a la carpeta actual és un botó sobre el qual es pot fer clic per a obrir ràpidament la carpeta. D'altra banda, fer clic al signe <quote
+>&gt;</quote
+> a l'esquerra d'una carpeta, obrirà un menú que permet obrir ràpidament una subcarpeta d'aquesta. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de localització en el mode navega</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-breadcrumb.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de localització en el mode navega.</phrase>
+</textobject>
+<caption
+><para
+>Barra de localització en el mode navega.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+<sect2 id="location-bar-editable">
+<title
+>El mode edita</title>
+
+<para
+>En el mode navega, en fer clic a l'àrea grisa a la dreta del camí amb el &BER; canviarà la barra de localització al mode <quote
+>edita</quote
+>, en el qual es pot editar el camí utilitzant el teclat. Per a tornar al mode navega, feu clic a la marca de selecció a la dreta de la barra de localització amb el &BER;. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la barra de localització en el mode edita</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-editable.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de localització en el mode edita.</phrase>
+</textobject>
+<caption
+><para
+>Barra de localització en el mode edita.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<sect3 id="location-bar-editable-kioslaves">
+<title
+>Ús dels kioslaves</title>
+
+<para
+>Si la barra de localització està buida en el mode edita, apareixerà una llista desplegable al davant de la barra de llista amb tots els kioslaves disponibles al sistema. Els kioslaves són programes integrats en el &kde;, els quals afegeixen suport per a molts protocols diferents al &dolphin; i altres aplicacions del &kde;.</para
+> 
+
+<para
+>Per exemple, amb el kioslave <quote
+>fish</quote
+>, es pot emprar el &dolphin; per a gestionar fitxers i carpetes en una màquina remota que sigui accessible a través de <acronym
+>SSH</acronym
+>. Per a fer-ho, haureu d'escriure <userinput
+>nom_usuari@maquina_remota</userinput
+> dins la barra de localització. La gestió remota de fitxers es pot fer de forma similar sobre les màquines accessibles remotament mitjançant els protocols &FTP;, &NFS;, SFTP, &SMB; (&CIFS;) o webdav.</para>
+
+<para
+>També és possible emprar la llista desplegable dels kioslaves per a accedir a l'&systemsettings;, els tipus de lletra, la paperera, altres programes i als dispositius connectats. Vegeu la llista desplegable per a veure la llista completa de les capacitats disponibles dels kioslaves al vostre sistema. </para>
+<screenshot>
+<screeninfo
+>Captura de pantalla de la llista de kioslaves</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-kioslaves-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de localització mostrant els kioslaves disponibles.</phrase>
+</textobject>
+<caption
+><para
+>Llista dels kioslaves disponibles.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</sect3>
+</sect2>
+
+<sect2 id="location-place-context">
+<title
+>Llocs i context</title>
+<!--FIXME this is now in file dialog in 4.11-->
+<para
+>Si el plafó <guilabel
+>Llocs</guilabel
+> està ocult. En ambdós modes es mostrarà una icona addicional al davant del camí. Es pot fer clic a la icona amb el &BER; per a obrir un menú que ofereixi ràpid accés als <quote
+>llocs</quote
+> i suports d'emmagatzematge. Per a més detalls, vegeu la <link linkend="places-panel"
+>secció sobre el plafó Llocs</link
+>. </para>
+
+<screenshot>
+<screeninfo
+>Barra de localització amb la icona Llocs</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-places-icon.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Barra de localització amb la icona Llocs</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+<para
+>El menú contextual de la barra de localització ofereix accions per a canviar entre els modes, i per a copiar i enganxar el camí utilitzant el porta-retalls. Marqueu l'última opció en aquest menú contextual per a veure el camí d'accés complet partint des de la carpeta arrel del sistema de fitxers o per a mostrar el camí partint des de l'entrada actual a Llocs. </para>
+
+<screenshot>
+<screeninfo
+>Menú contextual de la barra de localització</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="locationbar-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Menú contextual de la barra de localització</phrase>
+</textobject>
+</mediaobject>
+</screenshot>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="panels">
+<title
+>Plafons</title>
+
+<para
+>El &dolphin; permet una sèrie de plafons que es col·loquen al costat de la vista. Aquests poden habilitar-se en el menú <menuchoice
+><guimenu
+>Visualitza</guimenu
+><guisubmenu
+>Mostra els plafons</guisubmenu
+></menuchoice
+>. Per a desancorar els plafons, feu clic i arrossegueu un títol de plafó, aquest es pot moure a una posició diferent, fins i tot fora de la finestra. </para>
+
+<sect2 id="places-panel">
+<title
+>Llocs</title>
+<!--FIXME difference between places panel in dolphin + kde filedialog + konqueror:
+context menu Icon Size? No different entries ?-->
+<!--Four groups: Places = Folders, Devices, Recent and with Baloo Search For -->
+<para
+>El plafó <guilabel
+>Llocs</guilabel
+> es troba a l'esquerra de la finestra predeterminada. El plafó <guilabel
+>Llocs</guilabel
+> mostra les ubicacions que heu marcat. També mostra qualsevol disc o suport connectat a l'ordinador, els elements utilitzats recentment i permet cercar certs tipus de fitxers. L'ordre d'aquestes entrades es pot canviar arrossegant i deixant anar. </para>
+
+<para
+>La manera més fàcil d'afegir una carpeta al plafó <guilabel
+>Llocs</guilabel
+> és arrossegant i deixant anar en aquest. D'altra banda, podeu fer-hi clic dins amb el &BDR; i escollir <menuchoice
+><guimenuitem
+>Afegeix una entrada...</guimenuitem
+></menuchoice
+> des del menú contextual. El primer procediment crea un ampli sistema d'adreces d'interès, el segon procediment es pot utilitzar per a afegir el camí actual de la barra de localització, qualsevol carpeta o dispositiu desitjat. S'obrirà un diàleg on es podran editar l'etiqueta, la ubicació i la icona, i l'ús d'aquesta entrada es pot restringir al &dolphin;. </para>
+
+<para
+>Un clic del &BDR; obrirà el menú contextual per a editar, afegir, ocultar o eliminar les entrades i canviar la mida de les icones a un dels valors predefinits o bloquejar/desbloquejar els plafons. </para>
+<para
+>El menú contextual conté una acció per a obrir l'entrada en una pestanya nova. Els dispositius es poden desmuntar emprant el menú contextual. </para>
+</sect2>
+
+<sect2 id="information-panel">
+<title
+>Informació</title>
+
+<para
+>El plafó <guilabel
+>Informació</guilabel
+> mostra informació ampliada sobre el/s element/s seleccionat/s, sobre la carpeta actual o el fitxer que actualment restava sota el ratolí, incloent-hi la mida, el tipus i la data de l'última modificació. També compta amb una gran vista prèvia de l'element seleccionat i permet assignar una puntuació, marques i comentaris a aquest. </para>
+<!--FIXME panel context menu-->
+</sect2>
+
+<sect2 id="folders-panel">
+<title
+>Carpetes</title>
+
+<para
+>El plafó <guilabel
+>Carpetes</guilabel
+> mostra una estructura de vista en arbre del sistema de fitxers. Només mostra les carpetes. En fer clic sobre una carpeta amb el &BER; s'obrirà aquesta a la vista del &dolphin;. </para>
+<para
+>Utilitzeu <guilabel
+>Limita al directori d'inici</guilabel
+> per a ocultar totes les carpetes a la vista en arbre, excepte el vostre <guilabel
+>Inici</guilabel
+>. </para>
+</sect2>
+
+<sect2 id="terminal-panel">
+<title
+>Terminal</title>
+
+<para
+>Aquest plafó conté un terminal. El terminal s'obrirà a la carpeta que es mostra a la vista del &dolphin;. Canviar la carpeta a la vista activa del &dolphin; actualitzarà la carpeta de treball del terminal. Canviar el directori en el terminal actualitzarà la carpeta de treball a la vista del &dolphin;. El terminal funciona únicament amb suports locals. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="quick-tips">
+<title
+>Consells ràpids</title>
+
+<para
+>A continuació s'enumeren uns quants consells per a estalviar temps utilitzant el &dolphin;. </para>
+
+<sect2 id="quick-bookmarking">
+<title
+>Adreces d'interès ràpides</title>
+
+<para
+>Per a crear ràpidament una adreça d'interès al plafó <guilabel
+>Llocs</guilabel
+> per a la carpeta actual, feu clic amb el &BDR; en l'espai de treball i feu clic a l'opció <menuchoice
+><guimenuitem
+>Afegeix a Llocs</guimenuitem
+></menuchoice
+> en el menú contextual. </para>
+
+<note>
+    <para
+>La visibilitat de l'element del menú corresponent es pot alternar mitjançant la <link linkend="preferences-dialog-context-menu"
+>configuració del menú contextual del &dolphin;</link
+>. </para>
+</note>
+
+</sect2>
+
+<sect2 id="filter-files">
+<title
+>Filtrar els fitxers</title>
+
+<para
+>El &dolphin; és capaç de filtrar fitxers, &ead;, només mostrarà a la vista els elements en què el nom contingui un text donat. Per exemple, si només es volen mostrar els fitxers <acronym
+>MP3</acronym
+> d'una carpeta, podeu filtrar per <quote
+>.mp3</quote
+>. Això farà fora tots els fitxers en què el nom no contingui <quote
+>.mp3</quote
+>. </para>
+
+<para
+>Per a filtrar fitxers, en primer lloc cal habilitar la barra de filtres, sigui prement <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> o a través del menú: <menuchoice
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Filtre...</guimenuitem
+> </menuchoice
+>. A continuació, podeu introduir el text a filtrar a la barra de filtres. Aquesta es pot inhabilitar prement &Esc;, o amb un clic del &BER; sobre la icona <guiicon
+>Oculta la barra de filtres</guiicon
+>. </para>
+
+</sect2>
+
+<sect2 id="finding-searching-in-file">
+<title
+>Trobar fitxers i cercar en els fitxers</title>
+<!-- FIXME search in hidden files + folders View -> Show Hidden Files has to be enabled ? -->
+<!-- https://bugs.kde.org/show_bug.cgi?id=361557 No clear way to open configuration dialog for Baloo search engine -->
+<para
+>El &dolphin; és capaç de cercar fitxers i en el seu contingut. Si premeu <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> o s'utilitza el menú <menuchoice
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Cerca...</guimenuitem
+> </menuchoice
+>, s'obrirà la barra <guilabel
+>Cerca</guilabel
+> ja configurada per a cercar fitxers dintre de la carpeta i qualsevol subcarpeta actual. Comenceu a escriure al quadre d'entrada i s'iniciarà la cerca immediatament. <screenshot>
+<screeninfo
+>Cerca fitxers i en els fitxers</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Cerca fitxers i en els fitxers</phrase>
+</textobject>
+<caption
+><para
+>El &dolphin; cerca fitxers i en els fitxers.</para
+></caption>
+</mediaobject>
+</screenshot>
+</para>
+<para
+>La cerca no distingeix majúscules i minúscules, i no requereix comodins (<userinput
+>*foo*</userinput
+> i <userinput
+>foo</userinput
+> són equivalents), però es poden utilitzar comodins dins el terme de cerca. <quote
+><userinput
+>*</userinput
+></quote
+> coincidirà amb zero o més caràcters, <quote
+><userinput
+>?</userinput
+></quote
+> només coincidirà amb un únic caràcter.</para>
+<para
+>Aquesta característica es pot utilitzar amb el funcionament dels serveis del Baloo, sense aquests serveis, es llançarà un KIOSlave per a proporcionar els resultats de la cerca.</para>
+<para
+>L'opció d'activar <guilabel
+>Pertot arreu</guilabel
+> amb els serveis de cerca del Baloo en totes les carpetes indexades, sense el Baloo, aquesta opció iniciarà la cerca des de la carpeta <replaceable
+>Inici</replaceable
+> de l'usuari.</para>
+<screenshot>
+<screeninfo
+>Cercant amb Més opcions</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="baloo-search-more-options.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Cercant amb Més opcions</phrase>
+</textobject>
+<caption
+><para
+>El &dolphin; cercant amb Més opcions.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Utilitzeu el botó <guilabel
+>Més opcions</guilabel
+> per a estendre la barra de <guilabel
+>Cerca</guilabel
+>. Proporciona una manera molt còmoda per a l'usuari per a reduir el nombre de resultats de la cerca.</para>
+<para
+>Per a iniciar una cerca, seleccioneu un o més tipus de fitxer (<guilabel
+>Documents</guilabel
+>, <guilabel
+>Àudio</guilabel
+>, <guilabel
+>Vídeo</guilabel
+>, <guilabel
+>Imatges</guilabel
+>), un període de temps, puntuació i etiqueta (si heu definit alguna <userinput
+>tag:<replaceable
+>foo</replaceable
+></userinput
+> al quadre d'entrada.</para>
+ 
+ <para
+>És possible netejar la selecció mitjançant el botó <guibutton
+>Neteja la selecció</guibutton
+>.</para>
+
+<para
+>De manera alternativa, podeu utilitzar aquestes opcions al plafó <guilabel
+>Llocs</guilabel
+> juntament amb la barra de <guilabel
+>Filtre</guilabel
+> per a cercar fitxers utilitzant el Baloo o limitar la cerca als fitxers que coincideixin amb l'expressió de filtratge.</para>
+
+<para
+>Utilitzeu la icona Desa per a desar una cerca a la secció <guilabel
+>Cerca per</guilabel
+> del plafó <guilabel
+>Llocs</guilabel
+> per a tornar-hi a entrar de nou ràpidament en el futur. </para>
+
+<para
+>Utilitzeu la llista desplegable <guilabel
+>Més eines de cerca</guilabel
+> per a seleccionar altres eines de cerca diferents de Baloo. </para>
+</sect2>
+
+<sect2 id="mounting-storage-media">
+<title
+>Muntar els suports d'emmagatzematge</title>
+
+<para
+>Una forma ràpida per a muntar un suport d'emmagatzematge és fer clic al dispositiu en el plafó <guilabel
+>Llocs</guilabel
+>. Això muntarà i obrirà el dispositiu al &dolphin;. </para>
+
+</sect2>
+
+<sect2 id="undo-actions">
+<title
+>Desfer les accions</title>
+
+<para
+>El &dolphin; és capaç de desfer els canvis que heu realitzat en els fitxers. Per exemple, si moveu un fitxer a la paperera, el &dolphin; podrà desfer-ho i moure'l a la seva ubicació original. Per a desfer una acció, premeu <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> o seleccioneu <menuchoice
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Desfés: (nom de l'acció)</guimenuitem
+> </menuchoice
+> en el menú, &pex;, <guimenuitem
+>Desfés: Canvia el nom</guimenuitem
+>. </para>
+
+</sect2>
+<!-- FIXME https://phabricator.kde.org/D10698-->
+<sect2 id="batch-rename">
+<title
+>Canviar el nom d'un lot de fitxers</title>
+<para
+>El &dolphin; és capaç de canviar el nom de diversos fitxers alhora. Cada fitxer tindrà el nom de fitxer especificat, incloent-hi un número, &pex;, imatge_1.jpg, imatge_2.jpg, imatge_3.jpg. Això pot ser útil, &pex;, per a les fotografies preses amb una càmera digital. </para>
+<!--double click-->
+<para
+>Si voleu canviar el nom d'un lot de fitxers, primer seleccioneu-los. Es pot fer prement el &BER; i dibuixant un rectangle al voltant d'aquests abans de deixar anar, o mantenint premuda la tecla &Ctrl; i fent clic a cada fitxer (per a obtenir més detalls sobre la selecció d'elements, vegeu <link linkend="selection"
+>Seleccionar elements a la vista</link
+>). A continuació, obriu el diàleg per a canviar el nom per lots prement <keycap
+>F2</keycap
+> o a través del menú: <menuchoice
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Reanomena...</guimenuitem
+> </menuchoice
+>. </para>
+
+<para
+>A continuació, introduïu el nom que voleu donar als fitxers. El caràcter # haurà d'estar present en el nom. A continuació els fitxers passaran a reanomenar-se, on el caràcter <userinput
+>#</userinput
+> se substituirà per un número consecutiu diferent per a cada fitxer. </para>
+
+<para
+>Si totes les extensions de fitxer a la selecció són diferents, el nom de tots els fitxers es podrà canviar sense necessitat d'utilitzar un marcador de posició <userinput
+>#</userinput
+> preservant alhora les extensions de fitxer. Això és útil, &pex;, per a canviar el nom d'un fitxer de vídeo i tots els fitxers de subtítols associats, de manera que tinguin el mateix nom de fitxer, però amb extensions diferents. </para>
+</sect2>
+
+<sect2 id="compare-files">
+<title
+>Comparar una selecció de fitxers o de carpetes</title>
+
+<para
+>Si l'aplicació &kompare; està instal·lada, podreu utilitzar-la per a veure les diferències entre dos fitxers o carpetes. </para>
+
+<para
+>Primer, seleccioneu els dos fitxers o carpetes a comparar. A continuació, llanceu l'aplicació &kompare; a través del menú: <menuchoice
+> <guimenu
+>Eines</guimenu
+> <guimenuitem
+>Compara els fitxers</guimenuitem
+> </menuchoice
+>. A continuació, s'obrirà el &kompare; mostrant les diferències entre els fitxers o carpetes. </para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="configuring-dolphin">
+<title
+>Configuració del &dolphin;</title>
+
+<para
+>El &dolphin; distingeix dos tipus de configuració diferents: <itemizedlist>
+
+<listitem
+><para
+>Les opcions que afecten el comportament general del &dolphin;. Aquestes es poden configurar amb el <link linkend="preferences-dialog"
+>diàleg de Preferències</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Les opcions que determinen la forma en què es mostra el contingut d'una carpeta al &dolphin;. Aquestes opcions es coneixen com a <link linkend="view-properties"
+>Estil de presentació de la vista</link
+> i es poden controlar amb els botons de la barra d'eines, a través del menú <guimenu
+>Visualitza</guimenu
+>, i amb el <link linkend="view-properties-dialog"
+>diàleg Estil de presentació de la vista</link
+>. En la configuració predeterminada, totes les carpetes empren el mateix estil de presentació de la vista, però el &dolphin; també es pot configurar per a recordar un estil de presentació per carpeta a la <link linkend="preferences-dialog-general-behavior"
+>secció <quote
+>General</quote
+> de la configuració</link
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+<sect1 id="preferences-dialog">
+<title
+>El diàleg de Preferències del &dolphin;</title>
+<para
+>El diàleg Preferències s'obre a través d'<menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guimenuitem
+>Configura el &dolphin;...</guimenuitem
+></menuchoice
+> al menú de la finestra principal del &dolphin;. Les opcions estan dividides en diversos grups als quals es pot accedir fent clic a la icona corresponent a l'esquerra del diàleg. </para>
+
+<para
+>Totes les opcions, a excepció de la pàgina <guilabel
+>Inici</guilabel
+> i la pestanya <guilabel
+>Barra d'estat</guilabel
+> a la pàgina <guilabel
+>General</guilabel
+> són compartides amb el &konqueror; en el mode gestor de fitxers. </para>
+
+<sect2 id="preferences-dialog-general">
+<title
+>General</title>
+
+<para
+>Aquest grup conté les opcions que controlen el comportament general del &dolphin;. El grup està dividit en quatre subgrups als quals es pot accedir utilitzant la barra de pestanyes a la part superior. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració General al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-general-behavior.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració general.</phrase>
+</textobject>
+<caption
+><para
+>Configuració general al diàleg preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-general-behavior">
+<title
+>La pestanya Comportament</title>
+
+<para>
+
+<itemizedlist>
+
+<listitem
+><para
+>A la secció <guilabel
+>Vista</guilabel
+>, podreu configurar si l'<link linkend="view-properties"
+>estil de presentació de la vista</link
+> serà compartit entre les carpetes o si les carpetes recordaran el seu propi estil. </para
+></listitem>
+
+<listitem
+><para
+>El <guilabel
+>Mode d'ordenació</guilabel
+> controla com s'ordenaran els elements a la vista. Si s'habilita <guilabel
+>Ordenació natural</guilabel
+>, l'ordre dels tres fitxers d'exemple serà: <orderedlist
+> <listitem
+><para
+>Fitxer_1,</para
+></listitem
+> <listitem
+><para
+>Fitxer_2,</para
+></listitem
+> <listitem
+><para
+>Fitxer_10.</para
+></listitem
+> </orderedlist
+> Si aquesta opció està inhabilitada, s'utilitzarà l'ordenació alfabètica normal, el qual donarà el següent ordre: <orderedlist>
+<listitem
+><para
+>Fitxer_1,</para
+></listitem>
+<listitem
+><para
+>Fitxer_10,</para
+></listitem>
+<listitem
+><para
+>Fitxer_2.</para
+></listitem>
+</orderedlist>
+</para
+></listitem>
+
+<listitem
+><para
+>Quan es passa per sobre d'un fitxer o carpeta amb el ratolí, apareixerà una petita finestra amb informació sobre aquest/a al seu costat si <guilabel
+>Mostra els consells</guilabel
+> està habilitat. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostra un marcador de selecció</guilabel
+> mostra un petit botó <guibutton
+>+</guibutton
+> o <guibutton
+>-</guibutton
+> situat sobre la icona d'un element, si es manté aquest sota el ratolí. Es pot utilitzar per a seleccionar o desseleccionar l'element. </para
+></listitem>
+
+<listitem
+><para
+>Habiliteu <guilabel
+>Reanomena en línia</guilabel
+> per a utilitzar aquest mode si hi ha seleccionat un sol element. Si aquesta opció està inhabilitada o se seleccionen més elements, es mostrarà un diàleg durant el canvi de nom. </para
+></listitem>
+
+<listitem
+><para
+>Habiliteu <guilabel
+>Commuta entre subfinestres dividides amb la tecla de tabulació</guilabel
+> permet canviar entre les vistes dividides amb la tecla &Tab;. </para
+></listitem>
+
+<listitem
+><para
+>Inhabiliteu <guilabel
+>En treure la vista dividida es tanca la subfinestra activa</guilabel
+> per a tancar la subfinestra activa quan estigui desactivat el mode de vista dividida, &pex;, prement <keycap
+>F3</keycap
+>. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-general-previews">
+<title
+>La pestanya Vistes prèvies</title>
+
+<para
+>En aquesta pestanya, podreu configurar per a quins tipus de fitxer es mostraran vistes prèvies. D'altra banda, podeu triar la mida màxima dels fitxers locals i remots per als quals es generaran vistes prèvies. </para>
+<para
+>Si les vistes prèvies estan habilitades per a les carpetes, es mostraran les vistes prèvies d'alguns fitxers a la carpeta dintre d'una icona de carpeta. </para>
+</sect3>
+
+<sect3 id="preferences-dialog-general-confirmations">
+<title
+>La pestanya Confirmacions</title>
+<para
+>A la secció <guilabel
+>Demana confirmació</guilabel
+>, es poden habilitar els diàlegs d'avís que es mostren abans de les accions potencialment perjudicials. </para>
+<para
+>També és possible triar l'acció predeterminada per a <guilabel
+>En obrir un fitxer executable</guilabel
+>. Hi ha tres opcions, les quals s'anomenen <guimenuitem
+>Pregunta sempre</guimenuitem
+>, <guimenuitem
+>Obre a l'aplicació</guimenuitem
+> i <guimenuitem
+>Executa un script</guimenuitem
+>. </para>
+<warning
+><para
+>Les opcions de confirmació per a <guilabel
+>Es moguin fitxers o carpetes a la paperera</guilabel
+> i <guilabel
+>Se suprimeixin fitxers o carpetes</guilabel
+> afecten les operacions de fitxers en el &dolphin;, &konqueror;, &gwenview; i totes les aplicacions del &kde; que empren el diàleg de fitxers predeterminat del &kde;, mentre que <guilabel
+>Es tanquin finestres del Dolphin amb múltiples pestanyes</guilabel
+> és una opció específica del &dolphin;.</para
+></warning>
+</sect3>
+
+<sect3 id="preferences-dialog-general-statusbar">
+<title
+>La pestanya Barra d'estat</title>
+
+<para
+>En aquesta pestanya, es poden habilitar alguns elements addicionals per a la barra d'estat, sempre que la barra d'estat sigui prou àmplia: <itemizedlist>
+
+<listitem
+><para
+>L'element <guilabel
+>Mostra la barra d'estat</guilabel
+> es pot utilitzar per a canviar la visibilitat de la barra d'estat. </para
+></listitem>
+
+<listitem
+><para
+>L'element <guilabel
+>Mostra el control lliscant de zoom</guilabel
+> permet canviar la visibilitat del giny de mida de la icona. </para
+></listitem>
+
+<listitem
+><para
+>L'element <guilabel
+>Mostra la informació sobre l'espai</guilabel
+> es pot utilitzar per a activar i desactivar una barra que mostra la quantitat d'espai lliure a la unitat actual. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-startup">
+<title
+>Inici</title>
+
+<para
+>Aquest grup conté les opcions que controlen l'aparença del &dolphin; durant l'inici. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració d'Inici al diàleg preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-startup.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració d'Inici.</phrase>
+</textobject>
+<caption
+><para
+>Configuració d'Inici al diàleg de preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>L'opció <guilabel
+>Mostra en iniciar:</guilabel
+> permet triar la carpeta que s'obrirà a l'inici. </para>
+<para
+>Si se selecciona l'element <guimenuitem
+>Carpetes, pestanyes i estat de la finestra de la darrera vegada</guimenuitem
+>, llavors: </para>
+<itemizedlist>
+    <listitem>
+        <para
+>Quan es llança des de la &IGU; o CLI sense cap &URL;, el &dolphin; restablirà la sessió</para>
+    </listitem>
+    <listitem>
+        <para
+>Quan es torna a arrencar amb el &dolphin; obert, es tornarà a iniciar la sessió amb normalitat una vegada torni el sistema</para>
+    </listitem>
+    <listitem>
+        <para
+>Quan es llança amb algun &URL;, s'obrirà la finestra del &dolphin; mostrant els &URL; en lloc de restaurar la sessió</para>
+    </listitem>
+    <listitem>
+        <para
+>Quan el &dolphin; ja s'està executant i s'obre una finestra nova, aquesta només mostrarà una sola pestanya amb el mateix &URL; com era visible en una instància prèviament oberta del &dolphin;</para>
+    </listitem>
+</itemizedlist>
+<para
+>La ubicació d'aquesta també es pot introduir directament o triar en un diàleg que s'obre fent clic al botó que mostra una icona de <quote
+>carpeta</quote
+>. D'altra banda, la ubicació actual o la ubicació predeterminada (la qual és la carpeta de l'usuari) es pot utilitzar com a carpeta d'inici fent clic al botó corresponent. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Comença en el mode de vista dividida</guilabel
+> controla si la <link linkend="dolphin-view"
+>vista del &dolphin;</link
+> serà o no dividida en les finestres noves. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostra la barra de filtres</guilabel
+> controla si apareixerà o no la barra de filtres a l'inici. Per a més detalls, vegeu la <link linkend="filter-files"
+>secció sobre la barra de filtres</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Fes editable la barra de localització</guilabel
+> controla si la barra de localització restarà en el mode edita a l'inici. El mode navega de la barra de localització s'utilitza d'una altra manera. Per a obtenir més informació sobre els dos modes, vegeu la <link linkend="location-bar"
+>secció sobre la barra de localització</link
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Obre les carpetes noves en pestanyes</guilabel
+> controla si el &dolphin; hauria d'obrir una carpeta nova en una pestanya nova de la instància actual quan es crida externament. Si no està habilitada, les carpetes noves s'obriran en instàncies noves del &dolphin;. De manera predeterminada, aquesta opció està habilitada. </para
+></listitem>
+
+<listitem
+><para
+>Si <guilabel
+>Mostra el camí sencer a la barra de localització</guilabel
+> està habilitada, es mostrarà el camí sencer de la ubicació actual en el mode navega de la barra de localització. D'altra manera, es mostrarà una versió curta del camí, començant-lo des d'un dels llocs en el plafó <guilabel
+>Llocs</guilabel
+>. </para
+></listitem>
+
+<listitem
+><para
+><guilabel
+>Mostra el camí sencer a la barra de títol</guilabel
+> fa que sigui fàcil distingir entre fitxers o carpetes amb el mateix nom en carpetes diferents. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-viewmodes">
+<title
+>Modes de vista</title>
+
+<para
+>Aquest grup conté les opcions que controlen el comportament dels modes de vista del &dolphin;. Els tres modes de vista (Icones, Compacte i Detalls) són accessibles a través de la barra amb pestanyes a la part superior. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració de la Vista d'icones al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-viewmodes-icons.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració dels modes de vista.</phrase>
+</textobject>
+<caption
+><para
+>Configuració dels Modes de vista al diàleg de preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+</para>
+
+<sect3 id="preferences-dialog-viewmodes-common">
+<title
+>Opcions comunes per a tots els modes de vista</title>
+
+<para
+>Els tres modes de vista tenen algunes opcions comunes: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Els controls lliscants que controlen la mida de les icones. Les mides <guilabel
+>Predeterminada</guilabel
+> o <guilabel
+>Vista prèvia</guilabel
+> s'utilitzen si les vistes prèvies estan habilitades o inhabilitades, respectivament. Cal tenir en compte que la mida de la icona es pot canviar fàcilment amb el control lliscant de zoom a la barra d'estat si l'opció corresponent està habilitada a la secció <link linkend="preferences-dialog-general-statusbar"
+><quote
+>General</quote
+> de la configuració</link
+>. </para
+></listitem>
+
+<listitem
+><para
+>Una opció per al tipus de lletra utilitzat en el mode de vista: es pot triar o bé el tipus de lletra del sistema o un tipus de lletra personalitzat. </para
+></listitem>
+
+</itemizedlist>
+<para
+>Les altres opcions a la secció <guilabel
+>Text</guilabel
+> només s'aplicaran a un dels modes de vista que es discuteixen a continuació. </para>
+
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-icons">
+<title
+>Icones</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Amplada</guilabel
+> controla l'amplada màxima que està reservada per al text d'un element de fitxer. </para
+></listitem>
+<listitem
+><para
+><guilabel
+>Màxim de línies</guilabel
+> significa el nombre màxim de línies de text sota la icona. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-compact">
+<title
+>Compacte</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Amplada màxima</guilabel
+> controla l'amplada màxima que està reservada per al text d'un element de fitxer. </para
+></listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+<sect3 id="preferences-dialog-viewmodes-details">
+<title
+>Detalls</title>
+<para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Carpetes expansibles</guilabel
+> determina si cap carpeta que contingui subcarpetes es mostrarà en una vista en arbre, on els subelements es poden desplegar fent clic amb el &BER; sobre la icona <guiicon
+>&gt;</guiicon
+> i plegar fent clic sobre la icona <guiicon
+>v</guiicon
+>. </para>
+<para
+><guilabel
+>La mida de la carpeta mostra:</guilabel
+> permet definir la propietat a emprar i després ordenar les carpetes per la seva mida. És possible ordenar les carpetes per <guilabel
+>Nombre d'elements</guilabel
+> o la <guilabel
+>Mida del contingut</guilabel
+> i triar un límit per al nivell de recursivitat (pot ser útil per a restringir les iteracions innecessàries en les estructures profundes de carpetes o en els sistemes de fitxers lents). </para>
+<para
+>L'opció <guilabel
+>Estil de la data</guilabel
+> es pot utilitzar per a configurar el mode per a mostrar les dates en el &dolphin;. És possible triar entre <guilabel
+>Relativa</guilabel
+> (&pex;, <quote
+>Ahir, 3:00pm</quote
+>) o <guilabel
+>Absoluta</guilabel
+> (&pex;, <quote
+>2020-12-23 15:00</quote
+>). </para>
+</listitem>
+</itemizedlist>
+</para>
+</sect3>
+
+</sect2>
+
+<sect2 id="preferences-dialog-navigation">
+<title
+>Navegació</title>
+
+<para
+>Aquest grup conté les opcions que controlen com es navega en l'estructura de carpetes i es treballa amb els arxius. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració de la Navegació al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-navigation.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració de la Navegació.</phrase>
+</textobject>
+<caption
+><para
+>Configuració de la Navegació al diàleg de preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>L'opció per a obrir elements amb un o doble clic del ratolí és una opció de tot el sistema i es pot canviar en el mòdul <menuchoice
+><guimenu
+>Espai de treball</guimenu
+> <guimenuitem
+>Comportament general</guimenuitem
+></menuchoice
+> a &systemsettings;.</para>
+</listitem>
+
+<listitem
+><para
+>Els arxius seran oberts a l'interior del &dolphin;, i no en una aplicació externa, si <guilabel
+>Obre els arxius com a carpetes</guilabel
+> està habilitat. </para
+></listitem>
+
+<listitem
+><para
+>Si <guilabel
+>Obre les carpetes en les operacions d'arrossegat</guilabel
+> està habilitada, si s'arrossega un element amb el ratolí i es manté al damunt d'una carpeta per un curt període de temps s'obrirà aquesta carpeta. Això permet moure o copiar elements ràpidament a les carpetes que estan diversos nivells més profunds a la jerarquia de carpetes. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-context-menu">
+<title
+>Serveis</title>
+
+<para
+>Aquest grup ofereix una selecció dels serveis que es poden mostrar en el submenú <guisubmenu
+>Accions</guisubmenu
+> del menú contextual del &dolphin; que apareix en fer clic en un fitxer o carpeta amb el &BDR;. </para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla de la configuració del Menú de Serveis al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-context-menu.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració dels serveis.</phrase>
+</textobject>
+<caption
+><para
+>Configuració dels Serveis al diàleg de preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Utilitzant l'opció <guibutton
+>Baixa serveis nous</guibutton
+> podreu obtenir serveis addicionals per al menú contextual. </para>
+<para
+>Si teniu instal·lats els connectors del &dolphin; per a <guilabel
+>Bazaar</guilabel
+>, <guilabel
+>Mercurial</guilabel
+>, <guilabel
+>Git</guilabel
+> o <guilabel
+>Subversion</guilabel
+> del mòdul kdesdk, aquests seran mostrats a la llista. Si aquests connectors estan habilitats i entreu en una carpeta que es troba sota el control de versions, l'estat de la versió (ha canviat localment, actualitzada, &etc;) s'indicarà mitjançant icones i tindreu entrades addicionals en el menú contextual com publica, actualitza, afegeix, suprimeix, &etc; </para>
+<para
+>A la llista de serveis podreu triar si es mostraran les ordres <guimenuitem
+>Copia a</guimenuitem
+>, <guimenuitem
+>Mou a</guimenuitem
+>, <guimenuitem
+>Afegeix a Llocs</guimenuitem
+>, <guimenuitem
+>Ordena per</guimenuitem
+>, <guimenuitem
+>Mode de vista</guimenuitem
+>, <guimenuitem
+>Obre en una pestanya nova</guimenuitem
+>, <guimenuitem
+>Obre en una finestra nova</guimenuitem
+>, <guimenuitem
+>Copia la ubicació</guimenuitem
+> i <guimenuitem
+>Duplica aquí</guimenuitem
+> en el menú contextual. </para>
+<para
+>El &dolphin; s'haurà de reiniciar per a activar els canvis d'algunes d'aquestes opcions. </para>
+
+</sect2>
+
+<sect2 id="preferences-dialog-trash">
+<title
+>Paperera</title>
+
+<para
+>Aquest grup conté les opcions que controlen el comportament de la paperera. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració de la Paperera al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-trash.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració de la paperera.</phrase>
+</textobject>
+<caption
+><para
+>Configuració de la Paperera al diàleg de preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Els fitxers antics tenen un nombre configurable de dies després dels quals es poden eliminar de forma automàtica. </para
+></listitem>
+
+<listitem
+><para
+>La mida de la paperera es pot limitar a un percentatge configurable a la mida del disc. Si s'arriba a aquest límit, es pot emetre un avís, o es poden eliminar de forma automàtica els fitxers més antics o més grans. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2 id="preferences-user-feedback">
+<title
+>Comentaris de l'usuari</title>
+
+<para
+>Aquest grup conté les opcions de configuració que controlen la vostra informació de contribució sobre l'ús del &dolphin; que compartiu amb els seus desenvolupadors. <screenshot>
+<screeninfo
+>Captura de pantalla de la configuració Comentaris de l'usuari al diàleg de preferències del &dolphin;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="preferences-user-feedback.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>Configuració dels comentaris de l'usuari.</phrase>
+</textobject>
+<caption
+><para
+>Configuració Comentaris de l'usuari al diàleg preferències del &dolphin;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<itemizedlist>
+
+<listitem
+><para
+>Si ho voleu, podeu contribuir amb alguns comentaris sobre el &dolphin;. Utilitzeu els controls lliscants per a configurar el vostre nivell de participació. </para
+></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+</sect1>
+<!-- begin copy to konqueror filemanager.docbook -->
+<sect1 id="view-properties">
+<title
+>Estil de presentació de la vista de les carpetes</title>
+
+<para
+>Les opcions següents controlen com es mostrarà el contingut d'una carpeta a la vista del &dolphin;, i s'emmagatzemen de manera predeterminada per a cada carpeta: </para>
+<itemizedlist>
+
+<listitem
+><para
+>Els modes de vista (Icones, Compacte, Detalls) </para
+></listitem>
+
+<listitem
+><para
+>L'ordenació dels elements, la qual es determina per l'ordre d'ordenació (ascendent, descendent) i l'atribut (com el nom, la mida...) en el que s'ordenen els elements </para
+></listitem>
+
+<listitem
+><para
+>Ordenació de carpetes i fitxers: les carpetes es mostraran primer? </para
+></listitem>
+
+<listitem
+><para
+>Vistes prèvies: es mostren en comptes de les icones (d'acord amb les opcions efectuades a la pestanya <link linkend="preferences-dialog-general-previews"
+><guilabel
+>Vistes prèvies</guilabel
+> a la configuració General del &dolphin;</link
+>) o no? </para
+></listitem>
+
+<listitem
+><para
+>Els elements es mostren en grups en les vistes? </para
+></listitem>
+
+<listitem
+><para
+>Es mostren els fitxers ocults? </para
+></listitem>
+
+<listitem
+><para
+>Quina informació addicional (a més del nom) es mostra a les vistes Icones o Detalls? </para
+></listitem>
+
+</itemizedlist>
+<para
+>L'estil de presentació de la vista es pot configurar al menú <menuchoice
+><guimenu
+>Visualitza</guimenu
+></menuchoice
+>, algunes (com el mode de vista) també es poden canviar utilitzant els botons de la barra d'eines. </para>
+
+<sect2 id="view-properties-dialog">
+<title
+>El diàleg Estil de presentació de la vista</title>
+
+<para>
+
+<screenshot>
+<screeninfo
+>Captura de pantalla del diàleg Estil de presentació de la vista</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata fileref="viewproperties-dialog.png" format="PNG"/>
+</imageobject>
+<textobject>
+<phrase
+>El diàleg Estil de presentació de la vista.</phrase>
+</textobject>
+<caption
+><para
+>El diàleg Estil de presentació de la vista.</para
+></caption>
+</mediaobject>
+</screenshot
+>El diàleg <guilabel
+>Estil de presentació de la vista</guilabel
+> es pot utilitzar per a modificar ràpidament l'estil de presentació per a moltes carpetes alhora. Això es fa per a la carpeta actual, per a la carpeta actual incloent totes les subcarpetes, o fins i tot per a totes les carpetes, depenent de l'opció escollida a la secció <guilabel
+>Aplica a</guilabel
+>. </para>
+
+<para
+>Si <guilabel
+>Usa com a configuració predeterminada de visualització</guilabel
+> està habilitat, les propietats de la vista escollides també s'utilitzaran per a totes les carpetes que encara no tenen propietats de vista personalitzades. </para>
+
+</sect2>
+
+</sect1>
+<!-- end copy to konqueror filemanager.docbook -->
+</chapter>
+
+<chapter id="command-reference">
+<title
+>Referència d'ordres</title>
+<para
+>De manera predeterminada, la barra de menús no és mostrada. Totes les accions descrites aquí són accessibles amb els botons de la barra d'eines o amb els elements al menú del botó <guibutton
+>Control</guibutton
+> de la barra d'eines.</para>
+
+<sect1 id="commands-menubar">
+<title
+>La barra de menús a la finestra principal del &dolphin;</title>
+
+<sect2>
+<title
+>El menú Fitxer</title>
+<para>
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fitxer</guimenu
+> <guisubmenu
+>Crea nou</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Crea un nou objecte (com una carpeta o un fitxer de text) a la carpeta actual.</action
+></para>
+<para
+>Trobareu una explicació de tots els objectes disponibles en el manual del &konqueror; al capítol <ulink url="help:/konqueror/making.html"
+>Crea nou</ulink
+>.</para>
+<note>
+    <para
+>És possible crear els vostres propis elements de submenú <guisubmenu
+>Crea nou...</guisubmenu
+>. Utilitzeu els fitxers des del <ulink url="https://invent.kde.org/frameworks/kio/-/tree/master/src/new_file_templates"
+>repositori del codi font del KIO</ulink
+> com a referència i poseu el fitxer <filename role="extension"
+>.desktop</filename
+> resultant a <filename role="directory"
+>.local/share/templates</filename
+> en la vostra carpeta d'inici (l'adreça es pot determinar utilitzant l'ordre <userinput
+>kf5-config --path templates</userinput
+> en el &konsole;), després torneu a iniciar el &dolphin;. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Finestra nova</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre una finestra nova del &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Pestanya nova</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre una pestanya nova.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>W</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Tanca la pestanya</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Tanca la pestanya actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Desfés el tancament de la pestanya</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Torna a obrir l'última pestanya tancada.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F2</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Reanomena</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia el nom d'un element inclòs seleccionat. Obre el <link linkend="batch-rename"
+>diàleg Reanomena per lots</link
+> quan se seleccionen diversos elements.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Supr</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Mou a la paperera</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mou l'element o elements seleccionats a la paperera.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Maj;<keycap
+>Supr</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Suprimeix</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Suprimeix permanentment l'element o elements seleccionats. Els elements que no es mouen a la paperera no es podran restaurar.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Mostra la destinació</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+>Aquesta acció ressalta un enllaç de destinació en una finestra nova del &dolphin;. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Duplica aquí</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Crea duplicats dels elements seleccionats i adjunta una <replaceable
+>còpia</replaceable
+> al final dels seus noms.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;&Intro;</keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Propietats</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mostra el diàleg de propietats per a l'element o elements seleccionats.</action
+></para
+></listitem>
+</varlistentry>
+<!--FIXME http://www.aelog.org/checksums-made-easy in fundamentals? -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fitxer</guimenu
+> <guimenuitem
+>Surt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Surt del &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Edita</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>Z</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Desfés</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Desfà l'última acció realitzada pel &dolphin;.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>X</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Retalla</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Retalla l'element o els elements seleccionats.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Copia</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia l'element o elements seleccionats.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+> <shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>V</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Enganxa el contingut del porta-retalls...</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Edita</guimenu
+><guimenuitem
+>Enganxa un fitxer</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Edita</guimenu
+><guimenuitem
+>Enganxa una carpeta</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Edita</guimenu
+><guimenuitem
+>Enganxa x elements</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Enganxa els elements actualment copiats/tallats a la carpeta actual. Si el porta-retalls no conté fitxers o carpetes, el contingut del porta-retalls (com les dades de text o d'imatge) s'enganxarà en un fitxer nou. El nom d'aquest fitxer s'introduirà en un diàleg. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Copia a la vista dividida inactiva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Copia els elements actualment seleccionats des de la vista dividida activa a la vista dividida inactiva.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F6</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Mou a la vista dividida inactiva</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mou els elements actualment seleccionats des de la vista dividida activa a la vista dividida inactiva. Estarà inhabilitada si l'usuari actual no té permís d'escriptura sobre els elements seleccionats.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Filtre...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Habilita i inhabilita la <link linkend="filter-files"
+>barra de filtres</link
+>.</action
+> També podeu utilitzar la drecera alternativa <keycombo action="simul"
+>&Maj;<keycap
+>/</keycap
+></keycombo
+> per a aquesta acció.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Cerca...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre la barra de cerca. Introduïu un terme de cerca al quadre d'edició i seleccioneu la cerca per al nom de fitxer o al contingut dels fitxers des de la carpeta actual o per tot arreu.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Selecciona-ho tot</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecciona tots els fitxers i carpetes a la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>A</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Edita</guimenu
+> <guimenuitem
+>Inverteix la selecció</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Selecciona tots els elements no seleccionats i desselecciona tots els elements seleccionats a la carpeta actual. </action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Visualitza</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>+</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Apropa</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Augmenta la mida de les icones a la vista.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>-</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Redueix</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Disminueix la mida de les icones a la vista.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>0</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Reinicia el zoom</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Reinicia la mida de les icones a la vista predeterminada.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Mode de vista</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia el mode de vista a <guimenuitem
+>Icones</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>1</keycap
+></keycombo
+>), <guimenuitem
+>Compacte</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>2</keycap
+></keycombo
+>) o <guimenuitem
+>Detalls</guimenuitem
+> (<keycombo action="simul"
+>&Ctrl;<keycap
+>3</keycap
+></keycombo
+>).</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Ordena per</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia si els elements estan ordenats </action
+> per <guimenuitem
+>Nom</guimenuitem
+> o un altre criteri descrit a <link linkend="dolphin-view-information"
+>Informació de la vista</link
+>.</para>
+<para
+><guimenuitem
+>Descendent</guimenuitem
+> inverteix l'ordre d'ordenació. <guimenuitem
+>Primer les carpetes</guimenuitem
+> ordena les carpetes abans que els fitxers. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Mostra la informació addicional</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mostra la informació addicional</action
+> descrita a <link linkend="dolphin-view-information"
+>Informació de la vista</link
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+><guimenuitem
+>Mostra les vistes prèvies</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mostra una vista prèvia simbòlica del contingut del fitxer</action
+> en els diferents modes de vista.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Mostra en grups</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mostra</action
+> el contingut de la carpeta actual agrupat per l'opció seleccionada a <guimenuitem
+>Ordena per</guimenuitem
+>. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>.</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Mostra els fitxers ocults</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+> Mostra tots els fitxers i subcarpetes ocults dins de la carpeta actual.</action
+>Aquesta és una drecera alternativa <keycombo action="simul"
+>&Ctrl;<keycap
+>H</keycap
+></keycombo
+> per a aquesta acció.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F3</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Divideix</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Habilita i inhabilita el mode de vista dividida.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>F5</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Actualitza</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Torna a carregar la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Atura</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Atura la càrrega/lectura del contingut de la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Mostra els plafons</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Habilita i inhabilita</action
+> els diferents <link linkend="panels"
+>plafons</link
+>: <guimenuitem
+>Llocs</guimenuitem
+> (<keycap
+>F9</keycap
+>), <guimenuitem
+>Informació</guimenuitem
+> (<keycap
+>F11</keycap
+>), <guimenuitem
+>Carpetes</guimenuitem
+> (<keycap
+>F7</keycap
+>),<guimenuitem
+>Terminal</guimenuitem
+> (<keycap
+>F4</keycap
+>). Amb <guimenuitem
+>Bloqueja els plafons</guimenuitem
+>, la capçalera, la llegenda i dos botons restaran ocults per a estalviar espai, i els plafons seran immutables, amb <guimenuitem
+>Desbloqueja els plafons</guimenuitem
+>, la capçalera serà visible i el plafó es podrà moure a la dreta o esquerra, o fins i tot fora de la finestra principal. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycap
+>F6</keycap
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Barra de localització</guisubmenu
+> <guimenuitem
+>Ubicació editable</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia la barra de localització entre els dos modes, el <link linkend="location-bar-bread-crumb"
+>mode navega</link
+> i el <link linkend="location-bar-editable"
+>mode editable</link
+>. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>L</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Visualitza</guimenu
+> <guisubmenu
+>Barra de localització</guisubmenu
+> <guimenuitem
+>Substitueix la ubicació</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia la barra de localització al <link linkend="location-bar-editable"
+>mode editable</link
+>, si és necessari, i selecciona la ubicació de tal manera que es pot substituir ràpidament. </action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualitza</guimenu
+> <guimenuitem
+>Ajusta l'estil de presentació de la vista...</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre el <link linkend="view-properties-dialog"
+>diàleg Estil de presentació de la vista</link
+>.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Ves</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keysym
+>Fletxa amunt</keysym
+></keycombo
+> </shortcut
+> <guimenu
+>Ves</guimenu
+> <guimenuitem
+>Amunt</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia a la carpeta per sobre de la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keysym
+>Fletxa esquerra</keysym
+></keycombo
+> </shortcut
+> <guimenu
+>Ves</guimenu
+> <guimenuitem
+>Enrere</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia a la carpeta vista prèviament.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keysym
+>Fletxa dreta</keysym
+></keycombo
+> </shortcut
+> <guimenu
+>Ves</guimenu
+> <guimenuitem
+>Endavant</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Desfà</action
+> una acció <quote
+>Enrere</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Alt;<keycap
+>Inici</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Ves</guimenu
+> <guimenuitem
+>Inici</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Canvia a la carpeta d'inici de l'usuari, &ead;, /home/Pere/.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ves</guimenu
+> <guisubmenu
+>Pestanyes tancades recentment</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Mostra una llista de les pestanyes tancades recentment que es poden tornar a obrir.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>El menú Eines</title>
+<para>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Maj;<keycap
+>F4</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Eines</guimenu
+> <guimenuitem
+>Obre un terminal</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre el &konsole; dintre de la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;&Maj;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Eines</guimenu
+> <guimenuitem
+>Obre l'eina de cerca preferida</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Obre l'eina de cerca preferida a la carpeta actual.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Eines</guimenu
+> <guimenuitem
+>Compara els fitxers</guimenuitem
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Compara els fitxers o carpetes actualment seleccionats amb el &kompare;. Aquesta acció només s'habilitarà si hi ha seleccionats dos fitxers o carpetes.</action
+></para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Eines</guimenu
+> <guisubmenu
+>Selecciona el joc de caràcters remot</guisubmenu
+> </menuchoice
+></term>
+<listitem
+><para
+><action
+>Permet triar de forma manual el joc de caràcters utilitzat per a una connexió remota.</action
+></para
+></listitem>
+</varlistentry>
+</variablelist>
+</para>
+</sect2>
+
+<sect2>
+<title
+>Els menús Arranjament i Ajuda</title
+> 
+<para
+>El &dolphin; té la configuració comuna al &kde; i els elements dels menús <guimenu
+>Arranjament</guimenu
+> i <guimenu
+>Ajuda</guimenu
+>. Per a obtenir més informació, vegeu les seccions sobre <ulink url="help:/fundamentals/menus.html#menus-settings"
+>El menú Arranjament</ulink
+> i <ulink url="help:/fundamentals/menus.html#menus-help"
+>El menú Ajuda</ulink
+> en els Fonaments del &kde;. </para>
+</sect2>
+
+</sect1>
+</chapter>
+
+<chapter id="misc-questions">
+<title
+>Preguntes diverses</title>
+
+<qandaset id="misclist">
+<qandaentry>
+<question>
+<para
+>El &dolphin; substitueix al &konqueror;?</para>
+</question>
+<answer>
+<para
+>El &dolphin; no pretén ser un competidor del &konqueror;: El &konqueror; actua com un visualitzador universal, capaç de mostrar pàgines &HTML;, documents de text, carpetes i molt més, mentre que el &dolphin; pretén ser únicament un gestor de fitxers. Aquest enfocament permet optimitzar la interfície d'usuari per a la tasca de la gestió de fitxers. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Com puc participar en el desenvolupament del &dolphin;?</para>
+</question>
+<answer>
+<para
+>La forma més fàcil d'involucrar-se amb el &dolphin; és subscrivint-se a la llista de correu dels desenvolupadors <ulink url="https://mail.kde.org/mailman/listinfo/kfm-devel"
+>kfm-devel</ulink
+> i enviant-hi un correu electrònic. Indicant què podeu fer, quant de temps hi podeu dedicar, &etc; Els desenvolupadors us faran saber què podeu fer en el projecte. Si desitgeu contribuir a la documentació podeu enviar un correu electrònic a la llista de l'<ulink url="mailto:kde-doc-english@kde.org"
+>equip de documentació del &kde;</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Com puc enviar informes d'error?</para>
+</question>
+<answer>
+<para
+>El canal oficial per a la presentació d'informes d'errors és a través del sistema de seguiment d'errors del &kde;. El seguidor d'errors del &kde; es pot trobar a <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+</answer>
+</qandaentry>
+
+<qandaentry>
+<question>
+<para
+>Com puc enviar automàticament peticions de característiques?</para>
+</question>
+<answer>
+<para
+>El canal oficial per a la presentació de peticions de característiques es realitza a través del sistema de seguiment d'errors del &kde;. El seguidor d'errors del &kde; es pot trobar a <ulink url="https://bugs.kde.org"
+>https://bugs.kde.org</ulink
+>. </para>
+
+</answer>
+
+</qandaentry>
+</qandaset>
+</chapter>
+
+<chapter id="credits">
+
+<title
+>Crèdits i llicència</title>
+
+<para
+>&dolphin; </para>
+<para
+>Copyright del programa 2006&ndash;2014 Peter Penz <email
+>peter.penz@gmx.at</email
+>, Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> i Emmanuel Pescosta <email
+>emmanuelpescosta099@gmail.com</email
+> </para>
+<para
+>Col·laboradors: <itemizedlist>
+<listitem
+><para
+>Cvetoslav Ludmiloff <email
+>ludmiloff@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Stefan Monov <email
+>logixoul@gmail.com</email
+></para
+></listitem>
+<listitem
+><para
+>Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+></para
+></listitem>
+<listitem
+><para
+>&Orville.Bennett; &Orville.Bennett.mail;</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Copyright de la documentació 2005 Peter Penz <email
+>peter.penz@gmx.at</email
+> </para>
+<para
+>Copyright de la documentació 2006 &Orville.Bennett; &Orville.Bennett.mail; </para>
+<para
+>Copyright de la documentació 2006 Michael Austin <email
+>tuxedup@users.sourceforge.net</email
+> </para>
+<para
+>Copyright de la documentació 2009 Frank Reininghaus <email
+>frank78ac@googlemail.com</email
+> </para>
+
+<para
+>Traductor/Revisor de la documentació: &credits.Antoni.Bella;</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+</book>
+
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab 
+-->
