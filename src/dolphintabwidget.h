@@ -29,6 +29,15 @@ public:
     explicit DolphinTabWidget(DolphinNavigatorsWidgetAction *navigatorsWidget, QWidget *parent);
 
     /**
+     * Where a newly opened tab should be placed.
+     */
+    enum class NewTabPosition {
+        FollowSetting, ///< Honor openNewTabAfterLastTab setting
+        AfterCurrent, ///< After the current tab
+        AtEnd, ///< At the end of the tab bar
+    };
+
+    /**
      * @return Tab page at the current index (can be 0 if tabs count is smaller than 1)
      */
     DolphinTabPage* currentTabPage() const;
@@ -113,7 +122,7 @@ public Q_SLOTS:
      * Opens a new tab in the background showing the URL \a primaryUrl and the
      * optional URL \a secondaryUrl.
      */
-    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl());
+    void openNewTab(const QUrl &primaryUrl, const QUrl &secondaryUrl = QUrl(), NewTabPosition position = NewTabPosition::FollowSetting);
 
     /**
      * Opens each directory in \p dirs in a separate tab unless it is already open.

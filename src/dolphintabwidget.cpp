@@ -157,7 +157,7 @@ void DolphinTabWidget::openNewActivatedTab(const QUrl& primaryUrl, const QUrl& s
     }
 }
 
-void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl)
+void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryUrl, DolphinTabWidget::NewTabPosition position)
 {
     QWidget* focusWidget = QApplication::focusWidget();
 
@@ -173,8 +173,16 @@ void DolphinTabWidget::openNewTab(const QUrl& primaryUrl, const QUrl& secondaryU
         tabBar()->setTabText(tabIndex, tabName(tabPage));
     });
 
+    if (position == NewTabPosition::FollowSetting) {
+        if (GeneralSettings::openNewTabAfterLastTab()) {
+            position = NewTabPosition::AtEnd;
+        } else {
+            position = NewTabPosition::AfterCurrent;
+        }
+    }
+
     int newTabIndex = -1;
-    if (!GeneralSettings::openNewTabAfterLastTab()) {
+    if (position == NewTabPosition::AfterCurrent || (position == NewTabPosition::FollowSetting && !GeneralSettings::openNewTabAfterLastTab())) {
         newTabIndex = currentIndex() + 1;
     }
 
