@@ -1042,8 +1042,6 @@ void KItemListController::tapTriggered(QTapGesture* tap, const QTransform& trans
         m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
         if (m_dragActionOrRightClick) {
-            onPress(tap->hotSpot().toPoint(), tap->position().toPoint(), Qt::NoModifier, Qt::RightButton);
-            onRelease(transform.map(tap->position()), Qt::NoModifier, Qt::RightButton, false);
             m_dragActionOrRightClick = false;
         }
         else {
@@ -1074,6 +1072,9 @@ void KItemListController::tapAndHoldTriggered(QGestureEvent* event, const QTrans
         if (m_pressedIndex.has_value() && !m_selectionManager->isSelected(m_pressedIndex.value())) {
             m_selectionManager->clearSelection();
             m_selectionManager->setSelected(m_pressedIndex.value());
+            if (!m_selectionMode) {
+                Q_EMIT selectionModeChangeRequested(true);
+            }
         } else if (!m_pressedIndex.has_value()) {
             m_selectionManager->clearSelection();
             startRubberBand();
