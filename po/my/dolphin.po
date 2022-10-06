@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-03 00:51+0000\n"
-"PO-Revision-Date: 2021-09-24 16:56+0630\n"
+"PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
 "Language: my\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.1.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -183,21 +183,17 @@ msgid "Open Preferred Search Tool"
 msgstr "နှစ်သက်သောရှာဖွေကိရိယာဖွင့်မည်"
 
 #: dolphinmainwindow.cpp:1167
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "အိုင်တမ် %1ခုကို တကယ်ဖွင့်တော့မှာလား။"
+msgstr[0] "တာမီနယ်ဝင်းဒိုး%1ခုကို တကယ်ဖွင့်တော့မှာလား"
 
 #: dolphinmainwindow.cpp:1170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "တာမီနယ်ဖွင့်မည်"
+msgstr[0] "တာမီနယ် %1ခုဖွင့်မည်"
 
 #: dolphinmainwindow.cpp:1380
 #, kde-format
@@ -289,7 +285,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "ဖြတ်ယူ…"
 
 #: dolphinmainwindow.cpp:1587
 #, kde-kuit-format
@@ -302,12 +298,10 @@ msgid ""
 msgstr ""
 
 #: dolphinmainwindow.cpp:1593
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "ကူးယူရန်"
+msgstr "ကူးယူ…"
 
 #: dolphinmainwindow.cpp:1594
 #, kde-kuit-format
@@ -340,12 +334,10 @@ msgid "Copy to Inactive Split View"
 msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ကူးယူမည်"
 
 #: dolphinmainwindow.cpp:1610
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ကူးယူမည်"
+msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ကူးယူမည်…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -368,12 +360,10 @@ msgid "Move to Inactive Split View"
 msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ရွေ့ပြောင်းမည်"
 
 #: dolphinmainwindow.cpp:1620
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ရွေ့ပြောင်းမည်"
+msgstr "သက်ဝင်မှုမရှိသော သီးခြားမြင်ကွင်းသို့ ရွေ့ပြောင်းမည်…"
 
 #: dolphinmainwindow.cpp:1621
 #, kde-kuit-format
@@ -396,9 +386,7 @@ msgid "Filter..."
 msgstr "စစ်ထုတ်မည်..."
 
 #: dolphinmainwindow.cpp:1630
-#, fuzzy, kde-format
-#| msgctxt "@option:check Startup Settings"
-#| msgid "Show filter bar"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "စစ်ထုတ်တန်း ပြမည်"
@@ -460,19 +448,15 @@ msgstr "ရှာမည်"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1674
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ရှာဖွေမည်"
+msgstr "ဖိုင်လ်နှင့်ဖိုလ်ဒါရွေးမည်"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1677
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "ရွေးချယ်မည်"
@@ -641,12 +625,10 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1863
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "တာမီနယ်ဖွင့်မည်"
+msgstr "ဤတွင်တာမီနယ်ဖွင့်မည်"
 
 #: dolphinmainwindow.cpp:1865
 #, kde-kuit-format
@@ -1429,39 +1411,27 @@ msgid "\"%1\""
 msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:27
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are "
-#| "names of files/folders."
-#| msgid "Actions for \"%1\" and \"%2\""
+#, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "\"%1\" နှင့် \"%2\" အတွက် လုပ်ဆောင်ချက်များ"
+msgstr "\"%1\" နှင့် \"%2\""
 
 #: kitemviews/kfileitemlisttostring.cpp:31
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "\"%1\"၊ \"%2\" နှင့် \"%3\" အတွက် လုပ်ဆောင်ချက်များ"
+msgstr "\"%1\"၊ \"%2\" နှင့် \"%3\""
 
 #: kitemviews/kfileitemlisttostring.cpp:36
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "\"%1\"၊ \"%2\" နှင့် \"%3\" အတွက် လုပ်ဆောင်ချက်များ"
+msgstr "\"%1\"၊ \"%2\"၊ \"%3\" နှင့် \"%4\""
 
 #: kitemviews/kfileitemlisttostring.cpp:41
 #, kde-format
@@ -1472,59 +1442,38 @@ msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
 msgstr ""
 
 #: kitemviews/kfileitemlisttostring.cpp:58
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected File"
-#| msgid_plural "Actions for %1 Selected Files"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "ရွေးချယ်ထားသော ဖိုင်လ် %1ခု အတွက် လုပ်ဆောင်ချက်များ"
+msgstr[0] "ရွေးချယ်ထားသော ဖိုင်လ် %1ခု"
 
 #: kitemviews/kfileitemlisttostring.cpp:61
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected Folder"
-#| msgid_plural "Actions for %1 Selected Folders"
+#, kde-format
 msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "ရွေးချယ်ထားသော ဖိုလ်ဒါ %1ခု အတွက် လုပ်ဆောင်ချက်များ"
+msgstr[0] "ရွေးချယ်ထားသော ဖိုလ်ဒါ %1ခု"
 
 #: kitemviews/kfileitemlisttostring.cpp:64
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected Item"
-#| msgid_plural "Actions for %1 Selected Items"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "ရွေးချယ်ထားသော အိုင်တမ် %1ခု အတွက် လုပ်ဆောင်ချက်များ"
+msgstr[0] "ရွေးချယ်ထားသောအိုင်တမ် %1ခု"
 
 #: kitemviews/kfileitemlisttostring.cpp:74
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
 msgstr[0] "ဖိုင်လ် %1ခု"
 
 #: kitemviews/kfileitemlisttostring.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
@@ -1549,7 +1498,7 @@ msgstr[0] "အိုင်တမ် %1ခု"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2245
 #, kde-format
@@ -1603,7 +1552,7 @@ msgstr "မနေ့"
 #, kde-format
 msgctxt "@title:group Date: The week day name: dddd"
 msgid "dddd"
-msgstr ""
+msgstr "dddd"
 
 #: kitemviews/kfileitemmodel.cpp:2343
 #, kde-format
@@ -1660,7 +1609,7 @@ msgctxt ""
 "@title:group Date: The week day name: dddd, MMMM is full month name in "
 "current locale, and yyyy is full year number."
 msgid "dddd (MMMM, yyyy)"
-msgstr ""
+msgstr "dddd (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2389
 #, kde-format
@@ -1678,7 +1627,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'One Week Ago' (MMMM, yyyy)"
-msgstr ""
+msgstr "'လွန်ခဲ့သောတစ်ပါတ်က' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2399
 #, kde-format
@@ -1696,7 +1645,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Two Weeks Ago' (MMMM, yyyy)"
-msgstr ""
+msgstr "'လွန်ခဲ့သောနှစ်ပါတ်က' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2414
 #, kde-format
@@ -1714,7 +1663,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Three Weeks Ago' (MMMM, yyyy)"
-msgstr ""
+msgstr "'လွန်ခဲ့သောသုံးပါတ်က' (MMMM, yyyy)"
 
 #: kitemviews/kfileitemmodel.cpp:2429
 #, kde-format
@@ -1732,7 +1681,7 @@ msgctxt ""
 "similar. The ' is not shown to the user, it's there to mark a part of the "
 "text that should not be formatted as a date"
 msgid "'Earlier on' MMMM, yyyy"
-msgstr ""
+msgstr "'အစောတုန်းက' MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2444
 #, kde-format
@@ -1748,7 +1697,7 @@ msgctxt ""
 "@title:group The month and year: MMMM is full month name in current locale, "
 "and yyyy is full year number"
 msgid "MMMM, yyyy"
-msgstr ""
+msgstr "MMMM, yyyy"
 
 #: kitemviews/kfileitemmodel.cpp:2457
 #, kde-format
@@ -1790,7 +1739,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group Files and folders by permissions"
 msgid "User: %1 | Group: %2 | Others: %3"
-msgstr ""
+msgstr "အသုံးပြုသူ- %1 | အုပ်စု- %2 | အခြား- %3"
 
 #: kitemviews/kfileitemmodel.cpp:2621
 msgctxt "@label"
@@ -1851,7 +1800,7 @@ msgstr "မှတ်တမ်းပုံနှိပ်မူ"
 #: kitemviews/kfileitemmodel.cpp:2631
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "ရေးသားသူ"
 
 #: kitemviews/kfileitemmodel.cpp:2632
 msgctxt "@label"
@@ -1878,7 +1827,7 @@ msgstr "ပုံရိပ်"
 #: kitemviews/kfileitemmodel.cpp:2635
 msgctxt "@label width x height"
 msgid "Dimensions"
-msgstr ""
+msgstr "အတိုင်းအတာ"
 
 #: kitemviews/kfileitemmodel.cpp:2636
 msgctxt "@label"
@@ -1931,7 +1880,7 @@ msgstr "ဘစ်နှုန်း"
 #: kitemviews/kfileitemmodel.cpp:2644
 msgctxt "@label"
 msgid "Track"
-msgstr "သံစဥ်"
+msgstr "သံစဉ်"
 
 #: kitemviews/kfileitemmodel.cpp:2645
 msgctxt "@label"
@@ -1941,7 +1890,7 @@ msgstr "ထုတ်ဝေသည့်နှစ်"
 #: kitemviews/kfileitemmodel.cpp:2646
 msgctxt "@label"
 msgid "Aspect Ratio"
-msgstr ""
+msgstr "အချိုးအစား"
 
 #: kitemviews/kfileitemmodel.cpp:2646 kitemviews/kfileitemmodel.cpp:2647
 msgctxt "@label"
@@ -1969,7 +1918,7 @@ msgstr "အခြား"
 #: kitemviews/kfileitemmodel.cpp:2649
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "ဖိုင်လ်တိုးချဲ့အမည်"
 
 #: kitemviews/kfileitemmodel.cpp:2650
 msgctxt "@label"
@@ -2022,35 +1971,31 @@ msgstr "ဖိုင်လ်မန်နေဂျာ"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) ၁၉၉၈-၂၀၂၂ လင်းပိုင်းဒက်ဗ်ဗလော့ပါများ"
 
 #: main.cpp:91
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "ဖီလစ်အွန်းနက်စ်"
 
 #: main.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "ထိန်းသိမ်းသူ (၂၀၁၈ကတည်းက) နှင့် ပရိုဂရမ်မာ"
+msgstr "ထိန်းသိမ်းသူ (၂၀၂၁ကတည်းက) နှင့် ပရိုဂရမ်မာ"
 
 #: main.cpp:94
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "မီဗန်ကား"
 
 #: main.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "ထိန်းသိမ်းသူ (၂၀၁၈ကတည်းက) နှင့် ပရိုဂရမ်မာ"
+msgstr "ထိန်းသိမ်းသူ (၂၀၂၁ကတည်းက) နှင့် ပရိုဂရမ်မာ (၂၀၁၉ ကတည်းက)"
 
 #: main.cpp:97
 #, kde-format
@@ -2059,12 +2004,10 @@ msgid "Elvis Angelaccio"
 msgstr "အယ်ဗစ်အန်ဂျလာဆီယို"
 
 #: main.cpp:98
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "ထိန်းသိမ်းသူ (၂၀၁၄-၂၀၁၈) နှင့် ပရိုဂရမ်မာ"
+msgstr "ထိန်းသိမ်းသူ (၂၀၁၈-၂၀၂၁) နှင့် ပရိုဂရမ်မာ"
 
 #: main.cpp:100
 #, kde-format
@@ -2337,12 +2280,10 @@ msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
 msgstr ""
 
 #: panels/places/placespanel.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure Trash..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "အမှိုက်ပုံဆိုင်ရာ ပြင်ဆင်မည်..."
+msgstr "အမှိုက်ပုံဆိုင်ရာ ပြင်ဆင်မည်…"
 
 #: panels/places/placespanel.cpp:243
 #, kde-format
@@ -2590,12 +2531,10 @@ msgid "Query Results from '%1'"
 msgstr "'%1' မှ စုံးစမ်းမှုရလဒ်များ"
 
 #: selectionmode/bottombarcontentscontainer.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သော ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ကိုရွေးချယ်မည်"
+msgstr "ကူးယူမည့်ဖိုင်လ်နှင့်ဖိုလ်ဒါများကိုရွေးချယ်ပါ"
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2605,43 +2544,39 @@ msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သ�
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "ကူးယူခြင်းပယ်ဖျက်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:187
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "တည်နေရာကူးယူရမည့် ဖိုင်လ် သို့ ဖိုလ်ဒါတစ်ခုရွေးချယ်ပါ။"
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:206
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr ""
+msgstr "ကူးယူမည့် ဖိုင်လ် သို့ ဖိုလ်ဒါတစ်ခုရွေးချယ်ပါ။"
 
 #: selectionmode/bottombarcontentscontainer.cpp:224
-#, fuzzy, kde-format
-#| msgctxt "@label"
-#| msgid "Show hidden files and folders last"
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "ဖွက်ထားသောဖိုင်လ်နှင့်ဖိုလ်ဒါများနောက်ဆုံးတွင် ပြမည်"
+msgstr "ဖြတ်ယူမည့်ဖိုင်လ်နှင့်ဖိုလ်ဒါများကိုရွေးချယ်ပါ"
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:230
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "ရွှေ့ယူခြင်းပယ်ဖျက်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:257
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သော ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ကိုရွေးချယ်မည်"
+msgstr "အမြဲတမ်းအတွက်ဖြတ်မည့်ဖိုင်လ်နှင့်ဖိုလ်ဒါများကိုရွေးချယ်ပါ"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2650,22 +2585,20 @@ msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သ�
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "ပယ်ဖျက်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:275
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "ပေးချက်များအဖြစ် ပေးခဲ့သော ဖိုင််လ်နှင့်ဖိုလ်ဒါများ ကိုရွေးချယ်မည်"
+msgstr "ဤတွင်ပုံတူပွားယူမည့်ဖိုင်လ်နှင့်ဖိုလ်ဒါများကိုရွေးချယ်ပါ"
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:281
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "ပွားယူခြင်းပယ်ဖျက်"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2673,27 +2606,27 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "ပိုမို"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:340
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "ရွှေ့ယူမည့် ဖိုင်လ် သို့ ဖိုလ်ဒါတစ်ခုရွေးချယ်ပါ။"
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:346
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "ရွှေ့ပြောင်းခြင်းပယ်ဖျက်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:358
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "အမှိုက်ပုံးသို့ ရွှေ့ယူမည့် ဖိုင်လ် သို့ ဖိုလ်ဒါတစ်ခုရွေးချယ်ပါ။"
 
 #: selectionmode/bottombarcontentscontainer.cpp:376
 #, kde-kuit-format
@@ -2710,19 +2643,19 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "ကလစ်ဘုတ်မှပွားထည့်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "ဤအသိပေးချက်ကိုပယ်ချမည်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:403
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "ထပ်မမေးပါနှင့်"
 
 #: selectionmode/bottombarcontentscontainer.cpp:419
 #, kde-format
@@ -2731,13 +2664,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"အမည်ပြောင်းမည့် ဖိုင်လ်သို့ဖိုလ်ဒါရွေးပါ။\n"
+"တစ်ပြိုင်တည်းအများကြီးရွေး၍အမည်ပြောင်းနိုင်သည်။"
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:425
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "အမည်ပြောင်းခြင်းပယ်ဖျက်"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2749,7 +2684,7 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2ကို ကလစ်ဘုတ်သို့ကူးယူ"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2761,7 +2696,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2၏တည်နေရာကို ကလစ်ဘုတ်သို့ကူးယူ"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2773,7 +2708,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
+msgstr[0] "%2ကို ကလစ်ဘုတ်သို့ ရွှေ့ယူ"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2785,7 +2720,7 @@ msgstr[0] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
+msgstr[0] "%2ကိုထာဝရဖျက်"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2793,13 +2728,11 @@ msgstr[0] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:603
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "ဤတွင် ပုံတူပွားမည်"
+msgstr[0] "%2ပုံတူပွား"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2807,13 +2740,11 @@ msgstr[0] "ဤတွင် ပုံတူပွားမည်"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:611
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "အမှိုက်ပုံးသို့ရွေ့ယူရန်"
+msgstr[0] "%2 အမှိုက်ပုံးသို့ရွှေ့မည်"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2821,13 +2752,11 @@ msgstr[0] "အမှိုက်ပုံးသို့ရွေ့ယူရန
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Rename..."
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "အမည်ပြောင်းမည်..."
+msgstr[0] "%2 အမည်ပြောင်းမည်"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -2847,23 +2776,19 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
-msgstr ""
+msgstr "ရွေးချယ်မှုစနစ်- ဖိုင်လ်နှင့်ဖိုလ်ဒါများကို ရွေးရန် သို့ မရွေးရန် ကလစ်မည်။"
 
 #: selectionmode/topbar.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "ရွေးချယ်မှု"
+msgstr "ရွေးချယ်စနစ်"
 
 #: selectionmode/topbar.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "ရွေးချယ်မှု"
+msgstr "ရွေးချယ်စနစ်မှထွက်မည်"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:65
 #, kde-format
@@ -2895,7 +2820,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
-msgstr ""
+msgstr "အခုပြန်စတင်မလား"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:244
 #, kde-format
@@ -2973,19 +2898,19 @@ msgstr "ဆက်စပ်မီနူးတွင် 'ဖြင့်စီမ�
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr ""
+msgstr "ဆက်စပ်မီနူးတွင် 'မြင်းကွင်းစနစ်' ကိုပြမည်။"
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
-msgstr ""
+msgstr "ဆက်စပ်မီနူးတွင် 'တပ်ဘ်အသစ်တွင်ဖွင့်မည်' နှင့် 'တပ်ဘ်အသစ်များတွင်ဖွင့်မည်' ကိုပြမည်"
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr ""
+msgstr "ဆက်စပ်မီနူးတွင် 'ဝင်းဒိုးအသစ်တွင်ဖွင့်မည်' ကိုပြမည်"
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
@@ -2997,13 +2922,13 @@ msgstr ""
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr ""
+msgstr "ဆက်စပ်မီနူးတွင် 'ဤတွင်ပုံတူပွားမည်' ကိုပြမည်"
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr ""
+msgstr "ဆက်စပ်မီနူးတွင် 'တာမီနယ်ဖွင့်မည်' ကိုပြမည်"
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
@@ -3139,14 +3064,14 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
-msgstr "ဖိုင်လ်စီရမည့်အစဥ်"
+msgstr "ဖိုင်လ်စီရမည့်အစဉ်"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr ""
+msgstr "ဖိုင်လ်နှင့်ဖိုလ်ဒါစဉ်ရာတွင် ဖိုလ်ဒါအရင်ပြမည်"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
@@ -3261,7 +3186,7 @@ msgstr "မြင်ကွင်းကို နှစ်ခုခွဲမည�
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr ""
+msgstr "စစ်ထုတ်တန်း ပြ၊မပြ"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -3402,9 +3327,7 @@ msgid "Enabled plugins"
 msgstr "ဖွင့်ထားသောပလပ်ဂင်များ"
 
 #: settings/dolphinsettingsdialog.cpp:41
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu menu for configure actions"
-#| msgid "Configure"
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "ပြင်ဆင်မည်"
@@ -3498,13 +3421,13 @@ msgstr "သဘာဝ"
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case insensitive"
-msgstr ""
+msgstr "အက္ခရာစဉ်၊ စာလုံးအကြီးအသေးသတိမပြု"
 
 #: settings/general/behaviorsettingspage.cpp:54
 #, kde-format
 msgctxt "option:radio"
 msgid "Alphabetical, case sensitive"
-msgstr "အက္ခရာစဥ်၊ စာလုံးအကြီးအသေး သတိပြုမည်"
+msgstr "အက္ခရာစဉ်၊ စာလုံးအကြီးအသေး သတိပြုမည်"
 
 #: settings/general/behaviorsettingspage.cpp:60
 #, kde-format
@@ -3654,7 +3577,7 @@ msgstr "အခြေအနေပြတန်း"
 #, kde-format
 msgctxt "@title:group"
 msgid "Show previews in the view for:"
-msgstr ""
+msgstr "အောက်ပါအတွက် မြင်ကွင်းတွင် အကြိုမြင်ကွင်းများ ပြမည်"
 
 #: settings/general/previewssettingspage.cpp:64
 #, kde-format
@@ -3834,7 +3757,7 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "ခေါင်းစဥ်တန်းတွင် လမ်းကြောင်းအပြည့်အစုံပြမည်"
+msgstr "ခေါင်းစဉ်တန်းတွင် လမ်းကြောင်းအပြည့်အစုံပြမည်"
 
 #: settings/startup/startupsettingspage.cpp:235
 #, kde-format
@@ -4374,9 +4297,7 @@ msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "အိုင်တမ် %1ခုကို တကယ်ဖွင့်တော့မှာလား။"
 
 #: views/dolphinview.cpp:1021
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
@@ -4460,11 +4381,9 @@ msgid "Loading..."
 msgstr "တွန်းတင်နေသည်..."
 
 #: views/dolphinview.cpp:2196
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "ဖိုလ်ဒါတွန်းတင်နေသည်..."
+msgstr "တွန်းတင်ခြင်းပယ်ဖျက်ခဲ့သည်"
 
 #: views/dolphinview.cpp:2198
 #, kde-format
@@ -4593,36 +4512,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "အမှိုက်ပုံးသို့ရွေ့ယူရန်"
+msgstr "အမှိုက်ပုံးသို့ရွေ့ယူရန်…"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "ဖျက်မည်"
+msgstr "ဖျက်မည်…"
 
 #: views/dolphinviewactionhandler.cpp:172
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "ဤတွင် ပုံတူပွားမည်"
+msgstr "ဤတွင်ပုံတူပွားမည်…"
 
 #: views/dolphinviewactionhandler.cpp:173
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "တည်နေရာကူးယူမည်"
+msgstr "တည်နေရာကူးယူမည်…"
 
 #: views/dolphinviewactionhandler.cpp:202
 #, kde-kuit-format
@@ -4837,37 +4748,37 @@ msgstr "က-အ"
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
-msgstr "ကြီးစဥ်ငယ်လိုက်"
+msgstr "ကြီးစဉ်ငယ်လိုက်"
 
 #: views/dolphinviewactionhandler.cpp:698
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
-msgstr "ငယ်စဥ်ကြီးလိုက်"
+msgstr "ငယ်စဉ်ကြီးလိုက်"
 
 #: views/dolphinviewactionhandler.cpp:700
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
-msgstr "သက်တမ်းငယ်စဥ်ကြီးလိုက်"
+msgstr "သက်တမ်းငယ်စဉ်ကြီးလိုက်"
 
 #: views/dolphinviewactionhandler.cpp:701
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
-msgstr "သက်တမ်းကြီးစဥ်ငယ်လိုက်"
+msgstr "သက်တမ်းကြီးစဉ်ငယ်လိုက်"
 
 #: views/dolphinviewactionhandler.cpp:703
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
-msgstr "ကြီးစဥ်ငယ်လိုက်"
+msgstr "ကြီးစဉ်ငယ်လိုက်"
 
 #: views/dolphinviewactionhandler.cpp:704
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
-msgstr "ငယ်စဥ်ကြီးလိုက်"
+msgstr "ငယ်စဉ်ကြီးလိုက်"
 
 #: views/dolphinviewactionhandler.cpp:706
 #, kde-format
@@ -4895,13 +4806,9 @@ msgstr "လက်ရှိမြင်ကွင်းအတွက်လုပ်
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: views/dolphinviewactionhandler.cpp:814
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the name "
-#| "of the singular selected file/folder."
-#| msgid "Actions for \"%1\""
+#, kde-format
 msgid "Actions for %1"
-msgstr "\"%1\" အတွက် လုပ်ဆောင်ချက်များ"
+msgstr "%1အတွက် လုပ်ဆောင်ချက်များ"
 
 #: views/dolphinviewactionhandler.cpp:821
 #, kde-format

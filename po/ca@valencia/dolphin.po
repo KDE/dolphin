@@ -1452,7 +1452,7 @@ msgstr "Selecció"
 #: dolphinpart.rc:24
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (go)
 #: dolphinpart.rc:33
