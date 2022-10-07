@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:51+0000\n"
+"POT-Creation-Date: 2022-10-07 00:49+0000\n"
 "PO-Revision-Date: 2009-10-13 23:57+0200\n"
 "Last-Translator: Mashrab Kuvatov <kmashrab@uni-bremen.de>\n"
 "Language-Team: Uzbek <floss-uz-l10n@googlegroups.com>\n"
@@ -1346,13 +1346,13 @@ msgstr "Табни ёпиш"
 msgid "Empty Recently Closed Tabs"
 msgstr "Табни ёпиш"
 
-#: dolphintabbar.cpp:139
+#: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Янги таб"
 
-#: dolphintabbar.cpp:140
+#: dolphintabbar.cpp:129
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Search Bar"
@@ -1360,13 +1360,13 @@ msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Қидириш панели"
 
-#: dolphintabbar.cpp:141
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Бошқа табларни ёпиш"
 
-#: dolphintabbar.cpp:142
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

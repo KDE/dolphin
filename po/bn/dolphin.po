@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:51+0000\n"
+"POT-Creation-Date: 2022-10-07 00:49+0000\n"
 "PO-Revision-Date: 2010-05-30 01:46-0700\n"
 "Last-Translator: Deepayan Sarkar <deepayan.sarkar@gmail.com>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -1331,25 +1331,25 @@ msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 msgid "Empty Recently Closed Tabs"
 msgstr "সম্প্রতি বন্ধ করা ট্যাব"
 
-#: dolphintabbar.cpp:139
+#: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "নতুন ট্যাব"
 
-#: dolphintabbar.cpp:140
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "ট্যাব আলাদা করো"
 
-#: dolphintabbar.cpp:141
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "অন্যান্য ট্যাব বন্ধ করো"
 
-#: dolphintabbar.cpp:142
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"

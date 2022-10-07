@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-03 00:51+0000\n"
+"POT-Creation-Date: 2022-10-07 00:49+0000\n"
 "PO-Revision-Date: 2022-08-20 21:42+0200\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
@@ -1477,25 +1477,25 @@ msgstr "Nedavno zaprti zavihki"
 msgid "Empty Recently Closed Tabs"
 msgstr "Izbriši nedavno zaprte zavihke"
 
-#: dolphintabbar.cpp:139
+#: dolphintabbar.cpp:128
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "New Tab"
 msgstr "Nov zavihek"
 
-#: dolphintabbar.cpp:140
+#: dolphintabbar.cpp:129
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Detach Tab"
 msgstr "Odpni zavihek"
 
-#: dolphintabbar.cpp:141
+#: dolphintabbar.cpp:130
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Other Tabs"
 msgstr "Zapri druge zavihke"
 
-#: dolphintabbar.cpp:142
+#: dolphintabbar.cpp:131
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Close Tab"
