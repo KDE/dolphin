@@ -1047,7 +1047,7 @@ msgid ""
 msgstr ""
 "<para>Va a la carpeta que conté la visualitzada actualment.</para><para>Tots "
 "els fitxers i carpetes estan organitzats en un <emphasis>sistema de fitxers</"
-"emphasis> jeràrquic. A la part superior d'esta jerarquia hi ha un directori "
+"emphasis> jeràrquic. En la part superior d'esta jerarquia hi ha un directori "
 "que conté totes les dades connectades a este ordinador - el "
 "<emphasis>directori arrel</emphasis>.</para>"
 
