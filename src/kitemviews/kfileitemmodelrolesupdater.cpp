@@ -32,6 +32,9 @@
 #include <QPainter>
 #include <QPluginLoader>
 #include <QTimer>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 // #define KFILEITEMMODELROLESUPDATER_DEBUG
 
@@ -105,7 +108,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
     // resolving of the roles. Postpone the resolving until no update has been done for 100 ms.
     m_recentlyChangedItemsTimer = new QTimer(this);
-    m_recentlyChangedItemsTimer->setInterval(100);
+    m_recentlyChangedItemsTimer->setInterval(100ms);
     m_recentlyChangedItemsTimer->setSingleShot(true);
     connect(m_recentlyChangedItemsTimer, &QTimer::timeout, this, &KFileItemModelRolesUpdater::resolveRecentlyChangedItems);
 
