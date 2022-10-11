@@ -185,7 +185,7 @@ QPixmap KFileItemListView::createDragPixmap(const KItemSet& indexes) const
         if (pixmap.isNull()) {
             QIcon icon = QIcon::fromTheme(model()->data(index).value("iconName").toString());
             if (icon.isNull()) {
-                icon = QIcon::fromTheme("unknown");
+                icon = QIcon::fromTheme(QStringLiteral("unknown"));
             }
             if (!icon.isNull()) {
                 pixmap = icon.pixmap(size, size);
