@@ -14,8 +14,6 @@
 #include "search/dolphinsearchbox.h"
 #include "selectionmode/topbar.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "views/viewmodecontroller.h"
-#include "views/viewproperties.h"
 #include "dolphin_detailsmodesettings.h"
 
 #include <KActionCollection>
