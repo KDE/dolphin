@@ -456,7 +456,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
     }
 }
 
-void KFileItemModelRolesUpdater::slotItemsMoved(const KItemRange& itemRange, const QList<int> &movedToIndexes)
+void KFileItemModelRolesUpdater::slotItemsMoved(KItemRange itemRange, const QList<int> &movedToIndexes)
 {
     Q_UNUSED(itemRange)
     Q_UNUSED(movedToIndexes)
