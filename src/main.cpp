@@ -23,6 +23,7 @@
 #include <KLocalizedString>
 #include <KConfigGui>
 #include <KIO/PreviewJob>
+#include <KWindowSystem>
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <Kdelibs4ConfigMigrator>
@@ -171,7 +172,14 @@ int main(int argc, char **argv)
     }
 
     if (!parser.isSet(QStringLiteral("new-window"))) {
-        if (Dolphin::attachToExistingInstance(urls, openFiles, splitView)) {
+
+        QString token;
+        if (KWindowSystem::isPlatformWayland()) {
+            token = qEnvironmentVariable("XDG_ACTIVATION_TOKEN");
+            qunsetenv("XDG_ACTIVATION_TOKEN");
+        }
+
+        if (Dolphin::attachToExistingInstance(urls, openFiles, splitView, QString(), token)) {
             // Successfully attached to existing instance of Dolphin
             return 0;
         }

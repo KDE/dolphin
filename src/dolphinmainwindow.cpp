@@ -278,11 +278,17 @@ void DolphinMainWindow::openFiles(const QStringList& files, bool splitView)
     openFiles(QUrl::fromStringList(files), splitView);
 }
 
-void DolphinMainWindow::activateWindow()
+void DolphinMainWindow::activateWindow(const QString &activationToken)
 {
     window()->setAttribute(Qt::WA_NativeWindow, true);
-    KStartupInfo::setNewStartupId(window()->windowHandle(), KStartupInfo::startupId());
-    KWindowSystem::activateWindow(window()->effectiveWinId());
+
+    if (KWindowSystem::isPlatformWayland()) {
+        KWindowSystem::setCurrentXdgActivationToken(activationToken);
+    } else {
+        KStartupInfo::setNewStartupId(window()->windowHandle(), KStartupInfo::startupId());
+    }
+
+    KWindowSystem::activateWindow(window()->windowHandle());
 }
 
 bool DolphinMainWindow::isActiveWindow()

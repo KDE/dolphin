@@ -136,7 +136,7 @@ public Q_SLOTS:
     /**
      * Tries to raise/activate the Dolphin window.
      */
-    void activateWindow();
+    void activateWindow(const QString &activationToken);
 
     bool isActiveWindow();
 
