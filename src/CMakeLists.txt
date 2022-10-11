@@ -103,6 +103,60 @@ target_sources(dolphinprivate PRIVATE
     dolphinremoveaction.cpp
     middleclickactioneventfilter.cpp
     dolphinnewfilemenu.cpp
+
+    kitemviews/kfileitemlistview.h
+    kitemviews/kfileitemlistwidget.h
+    kitemviews/kfileitemlisttostring.h
+    kitemviews/kfileitemmodel.h
+    kitemviews/kfileitemmodelrolesupdater.h
+    kitemviews/kitemlistcontainer.h
+    kitemviews/kitemlistcontroller.h
+    kitemviews/kitemlistgroupheader.h
+    kitemviews/kitemlistheader.h
+    kitemviews/kitemlistselectionmanager.h
+    kitemviews/kitemliststyleoption.h
+    kitemviews/kitemlistview.h
+    kitemviews/kitemlistviewaccessible.h
+    kitemviews/kitemlistwidget.h
+    kitemviews/kitemmodelbase.h
+    kitemviews/kitemset.h
+    kitemviews/kstandarditemlistgroupheader.h
+    kitemviews/kstandarditemlistwidget.h
+    kitemviews/kstandarditemlistview.h
+    kitemviews/private/kdirectorycontentscounter.h
+    kitemviews/private/kdirectorycontentscounterworker.h
+    kitemviews/private/kfileitemclipboard.h
+    kitemviews/private/kfileitemmodelfilter.h
+    kitemviews/private/kitemlistheaderwidget.h
+    kitemviews/private/kitemlistkeyboardsearchmanager.h
+    kitemviews/private/kitemlistroleeditor.h
+    kitemviews/private/kitemlistrubberband.h
+    kitemviews/private/kitemlistselectiontoggle.h
+    kitemviews/private/kitemlistsizehintresolver.h
+    kitemviews/private/kitemlistsmoothscroller.h
+    kitemviews/private/kitemlistviewanimation.h
+    kitemviews/private/kitemlistviewlayouter.h
+    kitemviews/private/kpixmapmodifier.h
+    settings/applyviewpropsjob.h
+    settings/viewmodes/viewmodesettings.h
+    settings/viewpropertiesdialog.h
+    settings/viewpropsprogressinfo.h
+    selectionmode/actiontexthelper.h
+    views/dolphinfileitemlistwidget.h
+    views/dolphinitemlistview.h
+    views/dolphinnewfilemenuobserver.h
+    views/dolphinremoteencoding.h
+    views/dolphinview.h
+    views/dolphinviewactionhandler.h
+    views/draganddrophelper.h
+    views/versioncontrol/updateitemstatesthread.h
+    views/versioncontrol/versioncontrolobserver.h
+    views/viewmodecontroller.h
+    views/viewproperties.h
+    views/zoomlevelinfo.h
+    dolphinremoveaction.h
+    middleclickactioneventfilter.h
+    dolphinnewfilemenu.h
 )
 
 ecm_qt_declare_logging_category(dolphinprivate
@@ -118,6 +172,9 @@ if(HAVE_BALOO)
         views/tooltips/dolphinfilemetadatawidget.cpp
         views/tooltips/tooltipmanager.cpp
         kitemviews/private/kbaloorolesprovider.cpp
+        views/tooltips/dolphinfilemetadatawidget.h
+        views/tooltips/tooltipmanager.h
+        kitemviews/private/kbaloorolesprovider.h
     )
 endif()
 
@@ -179,6 +236,9 @@ target_sources(dolphinpart PRIVATE
     dolphinpart.cpp
     dolphinpart_ext.cpp
     dolphindebug.cpp
+    dolphinpart.h
+    dolphinpart_ext.h
+    dolphindebug.h
 
     dolphinpart.qrc
 )
@@ -253,6 +313,64 @@ target_sources(dolphinstatic PRIVATE
     dolphindebug.cpp
     global.cpp
     dolphin.qrc
+
+    dolphinbookmarkhandler.h
+    dolphindockwidget.h
+    dolphinmainwindow.h
+    dolphinviewcontainer.h
+    dolphincontextmenu.h
+    dolphinnavigatorswidgetaction.h
+    dolphintabbar.h
+    dolphinplacesmodelsingleton.h
+    dolphinrecenttabsmenu.h
+    dolphintabpage.h
+    dolphintabwidget.h
+    dolphinurlnavigator.h
+    dolphinurlnavigatorscontroller.h
+    trash/dolphintrash.h
+    filterbar/filterbar.h
+    kitemviews/kfileitemlisttostring.h
+    panels/places/placespanel.h
+    panels/panel.h
+    panels/folders/foldersitemlistwidget.h
+    panels/folders/treeviewcontextmenu.h
+    panels/folders/folderspanel.h
+    panels/terminal/terminalpanel.h
+    search/dolphinfacetswidget.h
+    search/dolphinquery.h
+    search/dolphinsearchbox.h
+    selectionmode/actiontexthelper.h
+    selectionmode/actionwithwidget.h
+    selectionmode/backgroundcolorhelper.h
+    selectionmode/bottombar.h
+    selectionmode/bottombarcontentscontainer.h
+    selectionmode/topbar.h
+    settings/general/behaviorsettingspage.h
+    settings/general/configurepreviewplugindialog.h
+    settings/general/confirmationssettingspage.h
+    settings/general/generalsettingspage.h
+    settings/general/previewssettingspage.h
+    settings/general/statusbarsettingspage.h
+    settings/dolphinsettingsdialog.h
+    settings/navigation/navigationsettingspage.h
+    settings/contextmenu/contextmenusettingspage.h
+    settings/settingspagebase.h
+    settings/serviceitemdelegate.h
+    settings/servicemodel.h
+    settings/startup/startupsettingspage.h
+    settings/trash/trashsettingspage.h
+    settings/viewmodes/dolphinfontrequester.h
+    settings/viewmodes/viewsettingspage.h
+    settings/viewmodes/viewmodesettings.h
+    settings/viewmodes/viewsettingstab.h
+    statusbar/dolphinstatusbar.h
+    statusbar/mountpointobserver.h
+    statusbar/mountpointobservercache.h
+    statusbar/spaceinfoobserver.h
+    statusbar/statusbarspaceinfo.h
+    views/zoomlevelinfo.h
+    dolphindebug.h
+    global.h
 )
 
 if(HAVE_BALOO)
@@ -261,6 +379,10 @@ if(HAVE_BALOO)
         panels/information/informationpanelcontent.cpp
         panels/information/pixmapviewer.cpp
         panels/information/phononwidget.cpp
+        panels/information/informationpanel.h
+        panels/information/informationpanelcontent.h
+        panels/information/pixmapviewer.h
+        panels/information/phononwidget.h
     )
 endif()
 
@@ -270,6 +392,10 @@ if(HAVE_KUSERFEEDBACK)
         userfeedback/settingsdatasource.cpp
         userfeedback/placesdatasource.cpp
         settings/userfeedback/userfeedbacksettingspage.cpp
+        userfeedback/dolphinfeedbackprovider.h
+        userfeedback/settingsdatasource.h
+        userfeedback/placesdatasource.h
+        settings/userfeedback/userfeedbacksettingspage.h
     )
 endif()
 
@@ -326,6 +452,7 @@ add_executable(dolphin)
 
 target_sources(dolphin PRIVATE
     dbusinterface.cpp
+    dbusinterface.h
     main.cpp
 )
 
@@ -368,12 +495,21 @@ if(NOT WIN32)
         settings/viewmodes/dolphinfontrequester.cpp
         settings/viewmodes/viewmodesettings.cpp
         settings/viewmodes/viewsettingstab.cpp
-        views/zoomlevelinfo.cpp)
+        views/zoomlevelinfo.cpp
+        settings/kcm/kcmdolphinviewmodes.h
+        settings/viewmodes/dolphinfontrequester.h
+        settings/viewmodes/viewmodesettings.h
+        settings/viewmodes/viewsettingstab.h
+        views/zoomlevelinfo.h)
 
     target_sources(kcm_dolphinnavigation PRIVATE
         settings/kcm/kcmdolphinnavigation.cpp
         settings/navigation/navigationsettingspage.cpp
-        settings/settingspagebase.cpp)
+        settings/settingspagebase.cpp
+        settings/kcm/kcmdolphinnavigation.h
+        settings/navigation/navigationsettingspage.h
+        settings/settingspagebase.h
+    )
 
     target_sources(kcm_dolphingeneral PRIVATE
         settings/kcm/kcmdolphingeneral.cpp
@@ -383,7 +519,16 @@ if(NOT WIN32)
         settings/general/confirmationssettingspage.cpp
         settings/settingspagebase.cpp
         settings/serviceitemdelegate.cpp
-        settings/servicemodel.cpp)
+        settings/servicemodel.cpp
+        settings/kcm/kcmdolphingeneral.h
+        settings/general/behaviorsettingspage.h
+        settings/general/previewssettingspage.h
+        settings/general/configurepreviewplugindialog.h
+        settings/general/confirmationssettingspage.h
+        settings/settingspagebase.h
+        settings/serviceitemdelegate.h
+        settings/servicemodel.h
+    )
 
     kconfig_add_kcfg_files(kcm_dolphinviewmodes
         settings/dolphin_compactmodesettings.kcfgc
