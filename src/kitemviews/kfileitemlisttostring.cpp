@@ -14,7 +14,7 @@
 #include <QFontMetrics>
 #include <QString>
 
-QString fileItemListToString(KFileItemList items, int maximumTextWidth, QFontMetrics fontMetrics, ItemsState itemsState)
+QString fileItemListToString(KFileItemList items, int maximumTextWidth, const QFontMetrics &fontMetrics, ItemsState itemsState)
 {
     QString text;
     switch (items.count()) {

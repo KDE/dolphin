@@ -51,6 +51,6 @@ enum ItemsState {
  *          Otherwise returns something like "5 Files", "8 Selected Folders" or "60 Items"
  *          while being as specific as possible.
  */
-QString fileItemListToString(KFileItemList items, int maximumTextWidth, QFontMetrics fontMetrics, ItemsState itemsState = ItemsState::None);
+QString fileItemListToString(KFileItemList items, int maximumTextWidth, const QFontMetrics &fontMetrics, ItemsState itemsState = ItemsState::None);
 
 #endif // KFILEITEMLISTTOSTRING_H
