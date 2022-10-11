@@ -8,7 +8,6 @@
 #include "viewpropertiesdialog.h"
 
 #include "dolphin_generalsettings.h"
-#include "dolphin_iconsmodesettings.h"
 #include "global.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "viewpropsprogressinfo.h"
