@@ -15,6 +15,7 @@
 #include <KDialogJobUiDelegate>
 #include <KIO/ApplicationLauncherJob>
 #include <KService>
+#include <KWindowSystem>
 
 #include <QApplication>
 
@@ -56,7 +57,7 @@ void Dolphin::openNewWindow(const QList<QUrl> &urls, QWidget *window, const Open
     job->start();
 }
 
-bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService)
+bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFiles, bool splitView, const QString& preferredService, const QString &activationToken)
 {
     bool attached = false;
 
@@ -121,7 +122,7 @@ bool Dolphin::attachToExistingInstance(const QList<QUrl>& inputUrls, bool openFi
                     interface.first->openDirectories(interface.second, splitView);
         reply.waitForFinished();
         if (!reply.isError()) {
-            interface.first->activateWindow();
+            interface.first->activateWindow(activationToken);
             attached = true;
         }
     }
