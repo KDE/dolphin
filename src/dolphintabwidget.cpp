@@ -204,13 +204,13 @@ void DolphinTabWidget::openDirectories(const QList<QUrl>& dirs, bool splitView)
     QList<QUrl>::const_iterator it = dirs.constBegin();
     while (it != dirs.constEnd()) {
         const QUrl& primaryUrl = *(it++);
-        const std::optional<ViewIndex> alreadyOpenDirectory = viewOpenAtDirectory(primaryUrl);
+        const std::optional<ViewIndex> viewIndexAtDirectory = viewOpenAtDirectory(primaryUrl);
 
         // When the user asks for a URL that's already open,
         // activate it instead of opening a new tab
-        if (alreadyOpenDirectory.has_value()) {
+        if (viewIndexAtDirectory.has_value()) {
             somethingWasAlreadyOpen = true;
-            activateViewContainerAt(alreadyOpenDirectory.value());
+            activateViewContainerAt(viewIndexAtDirectory.value());
         } else if (splitView && (it != dirs.constEnd())) {
             const QUrl& secondaryUrl = *(it++);
             if (somethingWasAlreadyOpen) {
