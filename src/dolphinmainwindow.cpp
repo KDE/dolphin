@@ -42,7 +42,12 @@
 #include <KDualAction>
 #include <KFileItemListProperties>
 #include <KIO/CommandLauncherJob>
+#include <kio_version.h>
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+#include <KIO/JobUiDelegateFactory>
+#else
 #include <KIO/JobUiDelegate>
+#endif
 #include <KIO/OpenFileManagerWindowJob>
 #include <KIO/OpenUrlJob>
 #include <KJobWidgets>
@@ -1241,7 +1246,11 @@ void DolphinMainWindow::handleUrl(const QUrl& url)
         activeViewContainer()->setUrl(url);
     } else {
         m_lastHandleUrlOpenJob = new KIO::OpenUrlJob(url);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 98, 0)
+        m_lastHandleUrlOpenJob->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#else
         m_lastHandleUrlOpenJob->setUiDelegate(new KIO::JobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+#endif
         m_lastHandleUrlOpenJob->setShowOpenOrExecuteDialog(true);
 
         connect(m_lastHandleUrlOpenJob, &KIO::OpenUrlJob::mimeTypeFound, this,
