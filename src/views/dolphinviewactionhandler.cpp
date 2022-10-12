@@ -7,13 +7,11 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include "dolphindebug.h"
 #include "kitemviews/kfileitemlisttostring.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "selectionmode/actiontexthelper.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/zoomlevelinfo.h"
-#include "kconfig_version.h"
 
 #if HAVE_BALOO
 #include <Baloo/IndexerConfig>

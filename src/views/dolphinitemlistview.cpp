@@ -11,10 +11,7 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphinfileitemlistwidget.h"
-#include "kitemviews/kfileitemmodel.h"
-#include "kitemviews/kitemlistcontroller.h"
 #include "settings/viewmodes/viewmodesettings.h"
-#include "views/viewmodecontroller.h"
 #include "zoomlevelinfo.h"
 
 #include <KIO/PreviewJob>
