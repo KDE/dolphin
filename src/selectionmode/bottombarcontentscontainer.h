@@ -74,7 +74,7 @@ Q_SIGNALS:
 
     /**
      * When it does not make sense to show any specific contents, this signal is emitted and the receiver hides the bar.
-     * Later it might sense to show it again e.g. because the user selected items. Then this signal is used to request showing of the bar.
+     * Later it might make sense to show it again e.g. because the user selected items. Then this signal is used to request showing of the bar.
      */
     void barVisibilityChangeRequested(bool visible);
 

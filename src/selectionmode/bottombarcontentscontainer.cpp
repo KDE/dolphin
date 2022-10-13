@@ -388,7 +388,7 @@ void BottomBarContentsContainer::addPasteContents()
      * So we first have to claim that we have different contents before requesting to leave selection mode. */
     auto actuallyLeaveSelectionMode = [this]() {
         m_contents = BottomBar::Contents::CopyLocationContents;
-        Q_EMIT selectionModeLeavingRequested();
+        Q_EMIT barVisibilityChangeRequested(false);
     };
 
     auto *pasteButton = new QPushButton(this);
