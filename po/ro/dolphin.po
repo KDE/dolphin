@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-12 00:49+0000\n"
+"POT-Creation-Date: 2022-10-13 00:49+0000\n"
 "PO-Revision-Date: 2022-08-14 15:53+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian <kde-i18n-ro@kde.org>\n"
@@ -4866,13 +4866,13 @@ msgstr "Niciun dispozitiv Bluetooth găsit"
 msgid "Folder is empty"
 msgstr "Dosarul e gol"
 
-#: views/dolphinviewactionhandler.cpp:93
+#: views/dolphinviewactionhandler.cpp:91
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder..."
 msgstr "Creează dosar..."
 
-#: views/dolphinviewactionhandler.cpp:102
+#: views/dolphinviewactionhandler.cpp:100
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4882,7 +4882,7 @@ msgstr ""
 "Aceasta redenumește elementele alese momentan.<nl/>Redenumirea multor "
 "elemente odată rezultă în denumiri noi ce diferă doar printr-un număr."
 
-#: views/dolphinviewactionhandler.cpp:112
+#: views/dolphinviewactionhandler.cpp:110
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4894,7 +4894,7 @@ msgstr ""
 ">Gunoiul e o stocare temporară din care puteți șterge elemente când e nevoie "
 "de spațiu suplimentar pe disc."
 
-#: views/dolphinviewactionhandler.cpp:123
+#: views/dolphinviewactionhandler.cpp:121
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -4904,25 +4904,25 @@ msgstr ""
 "Aceasta șterge complet elementele alese momentan. Acestea nu vor putea fi "
 "recuperate pe căi normale."
 
-#: views/dolphinviewactionhandler.cpp:133
+#: views/dolphinviewactionhandler.cpp:131
 #, kde-format
 msgctxt "@action \"Move to Trash\" for non-local files, etc."
 msgid "Delete (using shortcut for Trash)"
 msgstr "Șterge (utilizând scurtătura pentru gunoi)"
 
-#: views/dolphinviewactionhandler.cpp:139
+#: views/dolphinviewactionhandler.cpp:137
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here"
 msgstr "Duplică aici"
 
-#: views/dolphinviewactionhandler.cpp:147
+#: views/dolphinviewactionhandler.cpp:145
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Properties"
 msgstr "Proprietăți"
 
-#: views/dolphinviewactionhandler.cpp:149
+#: views/dolphinviewactionhandler.cpp:147
 #, kde-kuit-format
 msgctxt "@info:whatsthis properties"
 msgid ""
@@ -4936,19 +4936,19 @@ msgstr ""
 "dosarul vizualizat acum.<nl/>Acolo puteți configura opțiuni avansate, cum ar "
 "fi gestionarea permisiunilor de citire și scriere."
 
-#: views/dolphinviewactionhandler.cpp:159
+#: views/dolphinviewactionhandler.cpp:157
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location"
 msgstr "Copiază amplasarea"
 
-#: views/dolphinviewactionhandler.cpp:161
+#: views/dolphinviewactionhandler.cpp:159
 #, kde-format
 msgctxt "@info:whatsthis copy_location"
 msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Aceasta va copia calea primului element ales în clipboard."
 
-#: views/dolphinviewactionhandler.cpp:170
+#: views/dolphinviewactionhandler.cpp:168
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Move to Trash"
@@ -4956,7 +4956,7 @@ msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
 msgstr "Mută la gunoi"
 
-#: views/dolphinviewactionhandler.cpp:171
+#: views/dolphinviewactionhandler.cpp:169
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Delete"
@@ -4964,7 +4964,7 @@ msgctxt "@action:inmenu File"
 msgid "Delete…"
 msgstr "Șterge"
 
-#: views/dolphinviewactionhandler.cpp:172
+#: views/dolphinviewactionhandler.cpp:170
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Duplicate Here"
@@ -4972,7 +4972,7 @@ msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
 msgstr "Duplică aici"
 
-#: views/dolphinviewactionhandler.cpp:173
+#: views/dolphinviewactionhandler.cpp:171
 #, fuzzy, kde-format
 #| msgctxt "@action:incontextmenu"
 #| msgid "Copy Location"
@@ -4980,7 +4980,7 @@ msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
 msgstr "Copiază amplasarea"
 
-#: views/dolphinviewactionhandler.cpp:202
+#: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
 msgctxt "@info:whatsthis Icons view mode"
 msgid ""
@@ -4997,7 +4997,7 @@ msgstr ""
 "pozelor când opțiunea de <interface>previzualizare</interface> e activă.</"
 "para>"
 
-#: views/dolphinviewactionhandler.cpp:209
+#: views/dolphinviewactionhandler.cpp:207
 #, kde-kuit-format
 msgctxt "@info:whatsthis Compact view mode"
 msgid ""
@@ -5010,7 +5010,7 @@ msgstr ""
 "para><para>Aceasta ajută la păstrarea privirii generale în dosarele cu multe "
 "elemente.</para>"
 
-#: views/dolphinviewactionhandler.cpp:213
+#: views/dolphinviewactionhandler.cpp:211
 #, kde-kuit-format
 msgctxt "@info:whatsthis Details view mode"
 msgid ""
@@ -5030,60 +5030,60 @@ msgstr ""
 "părăsi amplasarea actuală apăsând la stânga acestuia. Astfel, puteți vedea "
 "conținuturile mai multor dosare în aceeași listă.</para>"
 
-#: views/dolphinviewactionhandler.cpp:223
+#: views/dolphinviewactionhandler.cpp:221
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "View Mode"
 msgstr "Regim de vizualizare"
 
-#: views/dolphinviewactionhandler.cpp:233
+#: views/dolphinviewactionhandler.cpp:231
 #, kde-format
 msgctxt "@info:whatsthis zoom in"
 msgid "This increases the icon size."
 msgstr "Aceasta crește dimensiunea pictogramelor."
 
-#: views/dolphinviewactionhandler.cpp:236
+#: views/dolphinviewactionhandler.cpp:234
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Reset Zoom Level"
 msgstr "Reinițializează nivelul de apropiere"
 
-#: views/dolphinviewactionhandler.cpp:237
+#: views/dolphinviewactionhandler.cpp:235
 #, kde-format
 msgid "Zoom To Default"
 msgstr "Apropiere implicită"
 
-#: views/dolphinviewactionhandler.cpp:238
+#: views/dolphinviewactionhandler.cpp:236
 #, kde-format
 msgctxt "@info:whatsthis zoom reset"
 msgid "This resets the icon size to default."
 msgstr "Reinițializează dimensiunea pictogramelor la cea implicită."
 
-#: views/dolphinviewactionhandler.cpp:246
+#: views/dolphinviewactionhandler.cpp:244
 #, kde-format
 msgctxt "@info:whatsthis zoom out"
 msgid "This reduces the icon size."
 msgstr "Aceasta descrește dimensiunea pictogramelor."
 
-#: views/dolphinviewactionhandler.cpp:249
+#: views/dolphinviewactionhandler.cpp:247
 #, kde-format
 msgctxt "@action:inmenu menu of zoom actions"
 msgid "Zoom"
 msgstr "Apropiere"
 
-#: views/dolphinviewactionhandler.cpp:257
+#: views/dolphinviewactionhandler.cpp:255
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Show Previews"
 msgstr "Arată previzualizări"
 
-#: views/dolphinviewactionhandler.cpp:258
+#: views/dolphinviewactionhandler.cpp:256
 #, kde-format
 msgctxt "@info"
 msgid "Show preview of files and folders"
 msgstr "Arată previzualizarea fișierelor și dosarelor"
 
-#: views/dolphinviewactionhandler.cpp:259
+#: views/dolphinviewactionhandler.cpp:257
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5095,49 +5095,49 @@ msgstr ""
 "fișierului sau dosarului.<nl/>De exemplu, pictogramele imaginilor devin "
 "versiuni micșorate ale imaginilor propriu-zise."
 
-#: views/dolphinviewactionhandler.cpp:267
+#: views/dolphinviewactionhandler.cpp:265
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Folders First"
 msgstr "Întâi dosarele"
 
-#: views/dolphinviewactionhandler.cpp:271
+#: views/dolphinviewactionhandler.cpp:269
 #, kde-format
 msgctxt "@action:inmenu Sort"
 msgid "Hidden Files Last"
 msgstr "Fișierele ascunse la urmă"
 
-#: views/dolphinviewactionhandler.cpp:279
+#: views/dolphinviewactionhandler.cpp:277
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Sort By"
 msgstr "Sortare după"
 
-#: views/dolphinviewactionhandler.cpp:314
+#: views/dolphinviewactionhandler.cpp:312
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Additional Information"
 msgstr "Arată informații suplimentare"
 
-#: views/dolphinviewactionhandler.cpp:325
+#: views/dolphinviewactionhandler.cpp:323
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show in Groups"
 msgstr "Arată în grupuri"
 
-#: views/dolphinviewactionhandler.cpp:326
+#: views/dolphinviewactionhandler.cpp:324
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid "This groups files and folders by their first letter."
 msgstr "Aceasta grupează fișierele și dosarele după prima literă."
 
-#: views/dolphinviewactionhandler.cpp:331
+#: views/dolphinviewactionhandler.cpp:329
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Hidden Files"
 msgstr "Arată fișierele ascunse"
 
-#: views/dolphinviewactionhandler.cpp:332
+#: views/dolphinviewactionhandler.cpp:330
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5153,13 +5153,13 @@ msgstr ""
 "denumirea acestora începe cu „.”. În general, utilizatorii nu au nevoie să "
 "le acceseze, de aceea sunt ascunse.</para>"
 
-#: views/dolphinviewactionhandler.cpp:342
+#: views/dolphinviewactionhandler.cpp:340
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
 msgstr "Ajustează stilul de afișare a vizualizării…"
 
-#: views/dolphinviewactionhandler.cpp:344
+#: views/dolphinviewactionhandler.cpp:342
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -5168,103 +5168,103 @@ msgstr ""
 "Aceasta deschide o fereastră în care pot fi ajustate proprietățile tuturor "
 "vizualizărilor de dosare."
 
-#: views/dolphinviewactionhandler.cpp:648
+#: views/dolphinviewactionhandler.cpp:646
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Icons"
 msgstr "Pictograme"
 
-#: views/dolphinviewactionhandler.cpp:649
+#: views/dolphinviewactionhandler.cpp:647
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
 msgstr "Regim vizualizare pictograme"
 
-#: views/dolphinviewactionhandler.cpp:659
+#: views/dolphinviewactionhandler.cpp:657
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Compact"
 msgstr "Compact"
 
-#: views/dolphinviewactionhandler.cpp:660
+#: views/dolphinviewactionhandler.cpp:658
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
 msgstr "Regim de vizualizare compact"
 
-#: views/dolphinviewactionhandler.cpp:670
+#: views/dolphinviewactionhandler.cpp:668
 #, kde-format
 msgctxt "@action:inmenu View Mode"
 msgid "Details"
 msgstr "Detalii"
 
-#: views/dolphinviewactionhandler.cpp:671
+#: views/dolphinviewactionhandler.cpp:669
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
 msgstr "Regim vizualizare detalii"
 
-#: views/dolphinviewactionhandler.cpp:694
+#: views/dolphinviewactionhandler.cpp:692
 #, kde-format
 msgctxt "Sort descending"
 msgid "Z-A"
 msgstr "Z-A"
 
-#: views/dolphinviewactionhandler.cpp:695
+#: views/dolphinviewactionhandler.cpp:693
 #, kde-format
 msgctxt "Sort ascending"
 msgid "A-Z"
 msgstr "A-Z"
 
-#: views/dolphinviewactionhandler.cpp:697
+#: views/dolphinviewactionhandler.cpp:695
 #, kde-format
 msgctxt "Sort descending"
 msgid "Largest First"
 msgstr "Întâi cele mai mari"
 
-#: views/dolphinviewactionhandler.cpp:698
+#: views/dolphinviewactionhandler.cpp:696
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Smallest First"
 msgstr "Întâi cele mai mici"
 
-#: views/dolphinviewactionhandler.cpp:700
+#: views/dolphinviewactionhandler.cpp:698
 #, kde-format
 msgctxt "Sort descending"
 msgid "Newest First"
 msgstr "Întâi cele mai noi"
 
-#: views/dolphinviewactionhandler.cpp:701
+#: views/dolphinviewactionhandler.cpp:699
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Oldest First"
 msgstr "Întâi cele mai vechi"
 
-#: views/dolphinviewactionhandler.cpp:703
+#: views/dolphinviewactionhandler.cpp:701
 #, kde-format
 msgctxt "Sort descending"
 msgid "Highest First"
 msgstr "Întâi cele mai apreciate"
 
-#: views/dolphinviewactionhandler.cpp:704
+#: views/dolphinviewactionhandler.cpp:702
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Lowest First"
 msgstr "Întâi cele mai puțin apreciate"
 
-#: views/dolphinviewactionhandler.cpp:706
+#: views/dolphinviewactionhandler.cpp:704
 #, kde-format
 msgctxt "Sort descending"
 msgid "Descending"
 msgstr "Descrescător"
 
-#: views/dolphinviewactionhandler.cpp:707
+#: views/dolphinviewactionhandler.cpp:705
 #, kde-format
 msgctxt "Sort ascending"
 msgid "Ascending"
 msgstr "Crescător"
 
-#: views/dolphinviewactionhandler.cpp:806
+#: views/dolphinviewactionhandler.cpp:804
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. The user's "
@@ -5277,12 +5277,12 @@ msgstr "Acțiuni pentru vizualizarea actuală"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: views/dolphinviewactionhandler.cpp:814
+#: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgid "Actions for %1"
 msgstr "Acțiuni pentru %1"
 
-#: views/dolphinviewactionhandler.cpp:821
+#: views/dolphinviewactionhandler.cpp:819
 #, kde-format
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
