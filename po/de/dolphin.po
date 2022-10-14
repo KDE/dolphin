@@ -8,20 +8,21 @@
 # Rolf Eike Beer <kde@opensource.sf-tec.de>, 2012.
 # Jonas Schürmann <jonasschuermann@aol.de>, 2012.
 # Frank Steinmetzger <dev@felsenfleischer.de>, 2021.
+# Alois Spitzbart <spitz234@hotmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-13 00:49+0000\n"
-"PO-Revision-Date: 2022-07-23 23:05+0200\n"
-"Last-Translator: Frederik Schwarzer <schwarzer@kde.org>\n"
+"PO-Revision-Date: 2022-09-09 11:45+0200\n"
+"Last-Translator: Alois Spitzbart <spitz234@hotmail.com>\n"
 "Language-Team: German <kde-i18n-de@kde.org>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.07.70\n"
+"X-Generator: Lokalize 22.08.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -311,7 +312,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Ausschneiden ..."
 
 #: dolphinmainwindow.cpp:1596
 #, kde-kuit-format
@@ -328,12 +329,10 @@ msgstr ""
 "Die Einträge werden dabei vom ursprünglichen Ort gelöscht."
 
 #: dolphinmainwindow.cpp:1602
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopieren"
+msgstr "Kopieren ..."
 
 #: dolphinmainwindow.cpp:1603
 #, kde-kuit-format
@@ -373,12 +372,10 @@ msgid "Copy to Inactive Split View"
 msgstr "In die inaktive Seite der geteilten Ansicht kopieren"
 
 #: dolphinmainwindow.cpp:1619
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "In die inaktive Seite der geteilten Ansicht kopieren"
+msgstr "In die inaktive Seite der geteilten Ansicht kopieren ..."
 
 #: dolphinmainwindow.cpp:1620
 #, kde-kuit-format
@@ -403,12 +400,10 @@ msgid "Move to Inactive Split View"
 msgstr "In die inaktive Seite der geteilten Ansicht verschieben"
 
 #: dolphinmainwindow.cpp:1629
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "In die inaktive Seite der geteilten Ansicht verschieben"
+msgstr "In die inaktive Seite der geteilten Ansicht verschieben ..."
 
 #: dolphinmainwindow.cpp:1630
 #, kde-kuit-format
@@ -506,19 +501,15 @@ msgstr "Suche"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1683
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Nach Dateien und Ordnern suchen"
+msgstr "Dateien und Ordnern auswählen"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1686
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Auswählen"
@@ -859,18 +850,14 @@ msgstr "Informationen"
 # Weiß einer, von welchem "Controls" hier der Autor spricht? Der "Control button" bei ausgeblendeter Menüleiste heißt "Show menu", nicht "Control".
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
 #: dolphinmainwindow.cpp:2028
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
 "<para>Um Seitenleisten wie diese auszublenden oder anzuzeigen, gehen Sie zu "
-"<interface>Einstellungen|Seitenleisten</interface> oder <interface>Ansicht|"
+"<interface>Menü|Seitenleisten anzeigen</interface> oder <interface>Ansicht|"
 "Seitenleisten anzeigen</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2033
@@ -1110,15 +1097,7 @@ msgstr "Ansicht teilen"
 
 # Auch hier wieder dieser „Control button“
 #: dolphinmainwindow.cpp:2486
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1133,8 +1112,8 @@ msgstr ""
 "beliebigen Eintrag der Leiste, um seinen Inhalt anzuzeigen.</para><para>Die "
 "Menüleiste kann durch Abwählen der Option <interface>Einstellungen|"
 "Menüleiste anzeigen</interface> ausgeblendet werden. Dadurch wird der größte "
-"Teil der Menüleiste über einen <interface>Einstellungen</interface>-Knopf in "
-"der <emphasis>Werkzeugleiste</emphasis> erreichbar.</para>"
+"Teil der Menüleiste über einen <interface>Menü</interface>-Knopf in der "
+"<emphasis>Werkzeugleiste</emphasis> erreichbar.</para>"
 
 #: dolphinmainwindow.cpp:2493
 #, fuzzy, kde-kuit-format
@@ -2292,35 +2271,31 @@ msgstr "Dateiverwaltung"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "Copyright 2006–2022, die KDE-Entwickler"
 
 #: main.cpp:91
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:92
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Betreuer (seit 2018) und Entwickler"
+msgstr "Betreuer (seit 2021) und Entwickler"
 
 #: main.cpp:94
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:95
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Betreuer (seit 2018) und Entwickler"
+msgstr "Betreuer (seit 2021) und Entwickler (seit 2019)"
 
 #: main.cpp:97
 #, kde-format
@@ -2329,12 +2304,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:98
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Betreuer (2014-2018) und Entwickler"
+msgstr "Betreuer (2018-2021) und Entwickler"
 
 #: main.cpp:100
 #, kde-format
@@ -2884,18 +2857,17 @@ msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
 #: selectionmode/bottombarcontentscontainer.cpp:160
 #: selectionmode/bottombarcontentscontainer.cpp:193
 #: selectionmode/bottombarcontentscontainer.cpp:212
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr "Abbrechen"
+msgstr "Kopieren abbrechen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:187
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
+"Wählen Sie eine Datei oder einen Ordner, deren Speicherort kopiert wird."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:206
@@ -2916,12 +2888,10 @@ msgstr "Dies wählt alle Dateien und Ordner in der aktuellen Ansicht aus."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:230
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr "Abbrechen"
+msgstr "Ausschneiden abbrechen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:257
 #, fuzzy, kde-format
@@ -2935,7 +2905,7 @@ msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:263
 #: selectionmode/bottombarcontentscontainer.cpp:364
-#, fuzzy, kde-format
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Abbrechen"
@@ -2950,12 +2920,10 @@ msgstr "Die übergebenen Dateien und Ordner werden ausgewählt."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:281
-#, fuzzy, kde-format
-#| msgctxt "@item::intable"
-#| msgid "Conflicting"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr "Kollidierend"
+msgstr "Duplizieren abbrechen"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2963,7 +2931,7 @@ msgstr "Kollidierend"
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Mehr"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:340
@@ -2974,12 +2942,10 @@ msgstr ""
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:346
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr "Abbrechen"
+msgstr "Verschieben abbrechen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:358
 #, kde-format
@@ -3002,19 +2968,19 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Aus Zwischenablage einfügen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Diesen Hinweis ausblenden"
 
 #: selectionmode/bottombarcontentscontainer.cpp:403
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Diesen Hinweis nicht mehr anzeigen"
 
 #: selectionmode/bottombarcontentscontainer.cpp:419
 #, kde-format
@@ -3023,13 +2989,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Die Datei oder den Ordner auswählen, die umzubenennen sind.\n"
+"Mehrfachumbenennung ist möglich indem mehrere Elemente ausgewählt werden."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:425
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Umbenennen abbrechen"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3041,8 +3009,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 in die Zwischenablage kopieren"
+msgstr[1] "%2 in die Zwischenablage kopieren"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3054,8 +3022,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Den Speicherort von %2 in die Zwischenablage kopieren"
+msgstr[1] "Den Speicherort von %2 in die Zwischenablage kopieren"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3067,8 +3035,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 in die Zwischenablage ausschneiden"
+msgstr[1] "%2 in die Zwischenablage ausschneiden"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3080,8 +3048,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2 endgültig löschen"
+msgstr[1] "%2 endgültig löschen"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3104,14 +3072,12 @@ msgstr[1] "Hier duplizieren"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:611
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "In den Papierkorb verschieben"
-msgstr[1] "In den Papierkorb verschieben"
+msgstr[0] "%2 in den Papierkorb verschieben"
+msgstr[1] "%2 in den Papierkorb verschieben"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3119,14 +3085,12 @@ msgstr[1] "In den Papierkorb verschieben"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:619
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "&Umbenennen"
-msgstr[1] "&Umbenennen"
+msgstr[0] "%2 umbenennen"
+msgstr[1] "%2 umbenennen"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3141,28 +3105,35 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Auswahlmodus</title><para>Dateien oder Ordner auswählen, um diese zu "
+"verwalten oder zu verändern.<list><item>Auf eine Datei oder einen Ordner "
+"drücken, um sie auszuwählen.</item><item>Auf eine ausgewählte Datei oder "
+"einen ausgewählten Ordner drücken um die Auswahl aufzuheben.</item><item>Auf "
+"eine leere Fläche drücken hebt die Auswahl <emphasis>nicht</emphasis> auf.</"
+"item><item>Rechteck-Auswahl (erstellt durch ziehen auf einer leeren Fläche) "
+"kehrt den Auswahlstatus der Elemente um.</item></list></para><para>Die "
+"Knöpfe der verfügbaren Aktionen am unteren Rand verändern sich und sind von "
+"der aktuellen Auswahl abhängig.</para>"
 
 #: selectionmode/topbar.cpp:59
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Auswahlmodus: Auf Dateien oder Ordner klicken, um sie auszuwählen oder die "
+"Auswahl aufzuheben."
 
 #: selectionmode/topbar.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Auswahl"
+msgstr "Auswahlmodus"
 
 #: selectionmode/topbar.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Auswahl"
+msgstr "Auswahlmodus beenden"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:65
 #, kde-format
@@ -3319,7 +3290,7 @@ msgstr "Position der Spalten"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Seitlicher Randabstand"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
@@ -4741,7 +4712,7 @@ msgstr[1] "%1 Elemente öffnen"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Seitlicher Randabstand"
 
 #: views/dolphinview.cpp:1154
 #, kde-format
@@ -4821,11 +4792,9 @@ msgid "Loading..."
 msgstr "Laden ..."
 
 #: views/dolphinview.cpp:2206
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Ordner wird geladen ..."
+msgstr "Ladevorgang abgebrochen"
 
 #: views/dolphinview.cpp:2208
 #, kde-format
@@ -4850,7 +4819,7 @@ msgstr "Keine Stichwörter"
 #: views/dolphinview.cpp:2218
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr ""
+msgstr "Keine Dateien mit „%1“ markiert"
 
 #: views/dolphinview.cpp:2222
 #, kde-format
@@ -4969,36 +4938,28 @@ msgstr ""
 "Zwischenablage."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "In den Papierkorb werfen"
+msgstr "In den Papierkorb verschieben ..."
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Löschen"
+msgstr "Löschen ..."
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Hier duplizieren"
+msgstr "Hier duplizieren ..."
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Adresse kopieren"
+msgstr "Adresse kopieren ..."
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
