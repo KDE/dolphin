@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 86ff119b1606fcaa910d6b44fc14b611\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-15 00:49+0000\n"
+"POT-Creation-Date: 2022-10-16 00:50+0000\n"
 "PO-Revision-Date: 2022-09-10 11:11+0300\n"
 "Last-Translator: Zmicier <zmicerturok@gmail.com>\n"
 "Language-Team: Belarusian <kde-i18n-doc@kde.org>\n"
@@ -45,7 +45,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Аднавіць"
 
-#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1547
+#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1556
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -69,106 +69,106 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Адкрыць шлях у новай укладцы"
 
-#: dolphinmainwindow.cpp:307
+#: dolphinmainwindow.cpp:308
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Паспяхова скапіявана."
 
-#: dolphinmainwindow.cpp:310
+#: dolphinmainwindow.cpp:311
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Паспяхова перамешчана."
 
-#: dolphinmainwindow.cpp:313
+#: dolphinmainwindow.cpp:314
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Спасылка паспяхова створаная."
 
-#: dolphinmainwindow.cpp:316
+#: dolphinmainwindow.cpp:317
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Паспяхова перамешчана ў сметніцу."
 
-#: dolphinmainwindow.cpp:319
+#: dolphinmainwindow.cpp:320
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Назва паспяхова змененая."
 
-#: dolphinmainwindow.cpp:323
+#: dolphinmainwindow.cpp:324
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Каталог створаны."
 
-#: dolphinmainwindow.cpp:396
+#: dolphinmainwindow.cpp:397
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Назад"
 
-#: dolphinmainwindow.cpp:397
+#: dolphinmainwindow.cpp:398
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Вярнуцца да папярэдняга прагледжанага каталога."
 
-#: dolphinmainwindow.cpp:403
+#: dolphinmainwindow.cpp:404
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Наперад"
 
-#: dolphinmainwindow.cpp:405
+#: dolphinmainwindow.cpp:406
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr "Гэта скасуе дзеянне <interface>Наперад|Назад</interface>."
 
-#: dolphinmainwindow.cpp:524
+#: dolphinmainwindow.cpp:525
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Could not access <filename>%1</filename>."
 msgstr "Не ўдалося атрымаць доступ да <filename>%1</filename>."
 
-#: dolphinmainwindow.cpp:557 dolphinmainwindow.cpp:601
+#: dolphinmainwindow.cpp:558 dolphinmainwindow.cpp:602
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Пацвярджэнне"
 
-#: dolphinmainwindow.cpp:560
+#: dolphinmainwindow.cpp:561
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "&Выйсці з %1"
 
-#: dolphinmainwindow.cpp:561
+#: dolphinmainwindow.cpp:562
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "Закрыць &бягучую ўкладку"
 
-#: dolphinmainwindow.cpp:570
+#: dolphinmainwindow.cpp:571
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
 msgstr "У гэтым акне адкрыта некалькі ўкладак. Сапраўды хочаце выйсці?"
 
-#: dolphinmainwindow.cpp:572 dolphinmainwindow.cpp:624
+#: dolphinmainwindow.cpp:573 dolphinmainwindow.cpp:625
 #, kde-format
 msgid "Do not ask again"
 msgstr "Больш не пытацца"
 
-#: dolphinmainwindow.cpp:612
+#: dolphinmainwindow.cpp:613
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Паказваць панэль &тэрмінала"
 
-#: dolphinmainwindow.cpp:622
+#: dolphinmainwindow.cpp:623
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -176,19 +176,19 @@ msgid ""
 msgstr ""
 "Праграма \"%1\" усё яшчэ працуе ў панэлі тэрмінала. Сапраўды хочаце выйсці?"
 
-#: dolphinmainwindow.cpp:1130
+#: dolphinmainwindow.cpp:1131
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Адкрыць %1"
 
-#: dolphinmainwindow.cpp:1139 dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1867
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Адкрыць пераважны інструмент пошуку"
 
-#: dolphinmainwindow.cpp:1178
+#: dolphinmainwindow.cpp:1179
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
@@ -197,7 +197,7 @@ msgstr[1] "Сапраўды хочаце адкрыць %1 вокны тэрмі
 msgstr[2] "Сапраўды хочаце адкрыць %1 акон тэрмінала?"
 msgstr[3] "Сапраўды хочаце адкрыць %1 вокны тэрмінала?"
 
-#: dolphinmainwindow.cpp:1181
+#: dolphinmainwindow.cpp:1186
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
@@ -207,25 +207,25 @@ msgstr[1] "Адкрыць %1 тэрміналы"
 msgstr[2] "Адкрыць %1 тэрміналаў"
 msgstr[3] "Адкрыць %1 тэрміналы"
 
-#: dolphinmainwindow.cpp:1395
+#: dolphinmainwindow.cpp:1404
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Наладжванне"
 
-#: dolphinmainwindow.cpp:1554
+#: dolphinmainwindow.cpp:1563
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Новае &акно"
 
-#: dolphinmainwindow.cpp:1555
+#: dolphinmainwindow.cpp:1564
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Адкрыць новае акно Dolphin"
 
-#: dolphinmainwindow.cpp:1556
+#: dolphinmainwindow.cpp:1565
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -235,13 +235,13 @@ msgstr ""
 "Гэтае дзеянне адкрывае новае акно, падобнае да гэтага, з бягучым "
 "размяшчэннем і выглядам.<nl/>Вы можаце перацягваць элементы паміж вокнамі."
 
-#: dolphinmainwindow.cpp:1563
+#: dolphinmainwindow.cpp:1572
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Новая ўкладка"
 
-#: dolphinmainwindow.cpp:1564
+#: dolphinmainwindow.cpp:1573
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -252,25 +252,25 @@ msgstr ""
 "Гэтае дзеянне адкрывае новую <emphasis>укладку</emphasis> з бягучым "
 "размяшчэннем і выглядам.<nl/> Вы можаце перацягваць элементы паміж укладкамі."
 
-#: dolphinmainwindow.cpp:1573
+#: dolphinmainwindow.cpp:1582
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Дадаць у размяшчэнні"
 
-#: dolphinmainwindow.cpp:1574
+#: dolphinmainwindow.cpp:1583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Гэтае дзеянне дадае абраны каталог на панэль размяшчэнняў."
 
-#: dolphinmainwindow.cpp:1579
+#: dolphinmainwindow.cpp:1588
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Закрыць укладку"
 
-#: dolphinmainwindow.cpp:1580
+#: dolphinmainwindow.cpp:1589
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -280,7 +280,7 @@ msgstr ""
 "Гэтае дзеянне закрывае бягучую ўкладку. Калі ўкладак больш не застанецца, "
 "закрыецца акно."
 
-#: dolphinmainwindow.cpp:1585
+#: dolphinmainwindow.cpp:1594
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
@@ -288,7 +288,7 @@ msgstr "Гэтае дзеянне закрывае акно."
 
 #. i18n: This will be the last paragraph for the whatsthis for all three:
 #. Cut, Copy and Paste
-#: dolphinmainwindow.cpp:1594
+#: dolphinmainwindow.cpp:1603
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -304,13 +304,13 @@ msgstr ""
 "клавіятуры: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</shortcut> і "
 "<shortcut>Ctrl +V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1601
+#: dolphinmainwindow.cpp:1610
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr "Выразаць…"
 
-#: dolphinmainwindow.cpp:1602
+#: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -324,13 +324,13 @@ msgstr ""
 "скапіяваць іх з буфера абмену ў новае месца. Элементы будуць выдаленыя са "
 "свайго першапачатковага месца."
 
-#: dolphinmainwindow.cpp:1608
+#: dolphinmainwindow.cpp:1617
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
 msgstr "Капіяваць…"
 
-#: dolphinmainwindow.cpp:1609
+#: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -342,13 +342,13 @@ msgstr ""
 "<nl/>Пасля гэтага скарыстайцеся дзеяннем <emphasis>Уставіць</emphasis>, каб "
 "скапіяваць іх з буфера абмену ў новае месца."
 
-#: dolphinmainwindow.cpp:1617
+#: dolphinmainwindow.cpp:1626
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Уставіць"
 
-#: dolphinmainwindow.cpp:1618
+#: dolphinmainwindow.cpp:1627
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -361,19 +361,19 @@ msgstr ""
 "абмену дзеяннем <emphasis>Выразаць</emphasis>, яны выдаляюцца са свайго "
 "старога месца."
 
-#: dolphinmainwindow.cpp:1624
+#: dolphinmainwindow.cpp:1633
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
 msgstr "Скапіяваць у неактыўную аддзеленую панэль"
 
-#: dolphinmainwindow.cpp:1625
+#: dolphinmainwindow.cpp:1634
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
 msgstr "Скапіяваць у неактыўную аддзеленую панэль…"
 
-#: dolphinmainwindow.cpp:1626
+#: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -383,25 +383,25 @@ msgstr ""
 "Гэтае дзеянне капіюе абраныя элементы з <emphasis>актыўнай</emphasis> панэлі "
 "ў неактыўныю, калі панэль падзеленая."
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1638
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Скапіяваць у неактыўную аддзеленую панэль"
 
-#: dolphinmainwindow.cpp:1634
+#: dolphinmainwindow.cpp:1643
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
 msgstr "Перамясціць у неактыўную аддзеленую панэль"
 
-#: dolphinmainwindow.cpp:1635
+#: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
 msgstr "Перамясціць у неактыўную аддзеленую панэль…"
 
-#: dolphinmainwindow.cpp:1636
+#: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -411,25 +411,25 @@ msgstr ""
 "Гэтае дзеянне перамяшчае абраныя элементы з <emphasis>актыўнай</emphasis> "
 "панэлі ў неактыўныю, калі панэль падзеленая."
 
-#: dolphinmainwindow.cpp:1639
+#: dolphinmainwindow.cpp:1648
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Перамясціць у неактыўную аддзеленую панэль"
 
-#: dolphinmainwindow.cpp:1644
+#: dolphinmainwindow.cpp:1653
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Фільтр..."
 
-#: dolphinmainwindow.cpp:1645
+#: dolphinmainwindow.cpp:1654
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Паказваць панэль фільтра"
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1655
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -442,30 +442,30 @@ msgstr ""
 "акна.<nl/>Там вы можаце ўвесці тэкст для фільтравання файлаў і каталогаў. "
 "Паказвацца будуць толькі тыя, у назве якіх ёсць уведзены тэкст."
 
-#: dolphinmainwindow.cpp:1658
+#: dolphinmainwindow.cpp:1667
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Паказаць або схаваць панэль фільтра"
 
-#: dolphinmainwindow.cpp:1659
+#: dolphinmainwindow.cpp:1668
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Фільтр"
 
-#: dolphinmainwindow.cpp:1667 search/dolphinsearchbox.cpp:332
+#: dolphinmainwindow.cpp:1676 search/dolphinsearchbox.cpp:332
 #, kde-format
 msgid "Search..."
 msgstr "Пошук..."
 
-#: dolphinmainwindow.cpp:1668
+#: dolphinmainwindow.cpp:1677
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Пошук файлаў і каталогаў"
 
-#: dolphinmainwindow.cpp:1669
+#: dolphinmainwindow.cpp:1678
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -480,20 +480,20 @@ msgstr ""
 "даведкай яшчэ раз на панэлі пошуку, каб бачыць яе, пакуль тлумачацца налады."
 "</para> >"
 
-#: dolphinmainwindow.cpp:1680
+#: dolphinmainwindow.cpp:1689
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Паказаць або схаваць панэль пошуку"
 
-#: dolphinmainwindow.cpp:1681
+#: dolphinmainwindow.cpp:1690
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Пошук"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1689
+#: dolphinmainwindow.cpp:1698
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
@@ -501,13 +501,13 @@ msgstr "Абраць файлы і каталогі"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1692
+#: dolphinmainwindow.cpp:1701
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Абраць"
 
-#: dolphinmainwindow.cpp:1693
+#: dolphinmainwindow.cpp:1702
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -525,19 +525,19 @@ msgstr ""
 "para><para>У гэтым рэжыме панэль хуткага доступу ўнізе паказвае даступныя "
 "дзеянні для абраных элементаў.</para>"
 
-#: dolphinmainwindow.cpp:1714
+#: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Гэтае дзеянне абірае ўсе файлы і каталогі ў бягучым размяшчэнні."
 
-#: dolphinmainwindow.cpp:1718 dolphinpart.cpp:185
+#: dolphinmainwindow.cpp:1727 dolphinpart.cpp:185
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Інвертаваць выбар"
 
-#: dolphinmainwindow.cpp:1719
+#: dolphinmainwindow.cpp:1728
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -547,7 +547,7 @@ msgstr ""
 "Гэтае дзеянне абірае ўсе элементы, якія вы зараз <emphasis>не</emphasis> "
 "абралі."
 
-#: dolphinmainwindow.cpp:1734
+#: dolphinmainwindow.cpp:1743
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -560,43 +560,43 @@ msgstr ""
 "перамяшчаць элементы паміж імі.</para>Пстрыкніце яшчэ раз, каб вярнуць "
 "выгляд адной панэлі."
 
-#: dolphinmainwindow.cpp:1743
+#: dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Часовы буфер"
 
-#: dolphinmainwindow.cpp:1744
+#: dolphinmainwindow.cpp:1753
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Адкрывае віртуальны каталог часовага буферу ў асобным акне"
 
-#: dolphinmainwindow.cpp:1754
+#: dolphinmainwindow.cpp:1763
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Спыніць"
 
-#: dolphinmainwindow.cpp:1755
+#: dolphinmainwindow.cpp:1764
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Спыніць загрузку"
 
-#: dolphinmainwindow.cpp:1756
+#: dolphinmainwindow.cpp:1765
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Гэтае дзеянне спыняе загрузку змесціва бягучага каталога."
 
-#: dolphinmainwindow.cpp:1761
+#: dolphinmainwindow.cpp:1770
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Рэдагавальнае размяшчэнне"
 
-#: dolphinmainwindow.cpp:1763
+#: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -609,13 +609,13 @@ msgstr ""
 "вы мелі магчымасць увесці адрас, па якім хочаце перайсці.<nl/>Вы таксама "
 "можаце рэдагаваць размяшчэнне, пстрыкнуўшы справа ад яго."
 
-#: dolphinmainwindow.cpp:1771
+#: dolphinmainwindow.cpp:1780
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Замяніць адрас размяшчэння"
 
-#: dolphinmainwindow.cpp:1776
+#: dolphinmainwindow.cpp:1785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -625,19 +625,19 @@ msgstr ""
 "Гэты параметр робіць адрас размяшчэння рэдагавальным і абірае яго, каб вы "
 "маглі хутка ўвесці іншы адрас."
 
-#: dolphinmainwindow.cpp:1808
+#: dolphinmainwindow.cpp:1817
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Адрабіць закрыццё ўкладкі"
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1819
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Гэтае дзеянне верне вас на папярэднюю закрытую ўкладку."
 
-#: dolphinmainwindow.cpp:1817
+#: dolphinmainwindow.cpp:1826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -652,7 +652,7 @@ msgstr ""
 "<filename>сметніцу</filename>. <nl/>Змены, якія нельга скасаваць, будуць "
 "патрабаваць пацвярджэння."
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1854
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -665,13 +665,13 @@ msgstr ""
 "змяшчаюцца даныя карыстальніка, у тым ліку каталогі, якія змяшчаюць "
 "асабістыя даныя для праграм."
 
-#: dolphinmainwindow.cpp:1852
+#: dolphinmainwindow.cpp:1861
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Параўнаць файлы"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1869
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -683,13 +683,13 @@ msgstr ""
 "para><para>Наладзіць яго можна ў меню <emphasis>Дадатковыя інструменты "
 "пошуку</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Адкрыць тэрмінал"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1879
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -702,13 +702,13 @@ msgstr ""
 "скарыстайцеся даведкай у праграме тэрмінала.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1887
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Адкрыць тэрмінал"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1889
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -720,19 +720,19 @@ msgstr ""
 "размяшчэння абраных элементаў.</para><para>Каб даведацца больш пра "
 "тэрміналы, скарыстайцеся даведкай у праграме тэрмінала.</para>"
 
-#: dolphinmainwindow.cpp:1888 dolphinmainwindow.cpp:2653
+#: dolphinmainwindow.cpp:1897 dolphinmainwindow.cpp:2662
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Перайсці на панэль тэрмінала"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1905
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Закладкі"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1915
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -751,79 +751,79 @@ msgstr ""
 "больш простая і маленькая, што робіць выпуск дадатковых дзеянняў больш "
 "працяглым.</para>"
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1944
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Перайсці да ўкладкі %1"
 
-#: dolphinmainwindow.cpp:1946
+#: dolphinmainwindow.cpp:1955
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Перайсці да апошняй укладкі"
 
-#: dolphinmainwindow.cpp:1952
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Наступная ўкладка"
 
-#: dolphinmainwindow.cpp:1953
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Перайсці да наступнай укладкі"
 
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1968
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Папярэдняя ўкладка"
 
-#: dolphinmainwindow.cpp:1960
+#: dolphinmainwindow.cpp:1969
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Перайсці да папярэдняй укладкі"
 
-#: dolphinmainwindow.cpp:1967
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Паказаць мэту"
 
-#: dolphinmainwindow.cpp:1973
+#: dolphinmainwindow.cpp:1982
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Адкрыць у новай укладцы"
 
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1987
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Адкрыць у новых укладках"
 
-#: dolphinmainwindow.cpp:1983
+#: dolphinmainwindow.cpp:1992
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Адкрыць у новым акне"
 
-#: dolphinmainwindow.cpp:1995
+#: dolphinmainwindow.cpp:2004
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Разблакаваць панэлі"
 
-#: dolphinmainwindow.cpp:1997
+#: dolphinmainwindow.cpp:2006
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Заблакаваць панэлі"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2008
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -837,14 +837,14 @@ msgstr ""
 "можна перамясціць на іншы бок акна, яны маюць кнопку закрыцця.<nl/"
 ">Заблакаваныя панэлі ўбудоўваюцца больш акуратна."
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2017
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Звесткі"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
-#: dolphinmainwindow.cpp:2034
+#: dolphinmainwindow.cpp:2043
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -854,7 +854,7 @@ msgstr ""
 "<para>Каб паказаць або схаваць такія панэлі, перайдзіце ў <interface>Меню|"
 "Панэлі</interface> або <interface>Выгляд|Панэлі</interface>.</para>"
 
-#: dolphinmainwindow.cpp:2039
+#: dolphinmainwindow.cpp:2048
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -871,7 +871,7 @@ msgstr ""
 "праглядаеце.<nl/>Для асобных элементаў прадугледжаны папярэдні прагляд іх "
 "змесціва.</para>"
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2055
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -888,13 +888,13 @@ msgstr ""
 "можаце наладзіць, якія звесткі будуць паказвацца, пстрыкнуўшы правай кнопкай "
 "мышы.</para >"
 
-#: dolphinmainwindow.cpp:2054
+#: dolphinmainwindow.cpp:2063
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Каталогі"
 
-#: dolphinmainwindow.cpp:2078
+#: dolphinmainwindow.cpp:2087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -906,7 +906,7 @@ msgstr ""
 "левай частцы акна.<nl/><nl/>На ёй паказваюцца каталогі <emphasis>файлавай "
 "сістэмы</emphasis> у <emphasis>выглядзе дрэва</emphasis>."
 
-#: dolphinmainwindow.cpp:2082
+#: dolphinmainwindow.cpp:2091
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -921,13 +921,13 @@ msgstr ""
 "убачыць укладзеныя ў яго каталогі. Гэта дазваляе хутка пераключацца паміж "
 "каталогамі.</para>"
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2100
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Тэрмінал"
 
-#: dolphinmainwindow.cpp:2117
+#: dolphinmainwindow.cpp:2126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -945,7 +945,7 @@ msgstr ""
 "даведацца больш пра тэрміналы, скарыстайцеся даведкай праграмы тэрмінала "
 "накшталт Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2124
+#: dolphinmainwindow.cpp:2133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -962,19 +962,19 @@ msgstr ""
 "карыснай для выканання дадатковых задач. Каб даведацца больш пра тэрміналы, "
 "скарыстайцеся даведкай праграмы тэрмінала накшталт Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2149
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Размяшчэнні"
 
-#: dolphinmainwindow.cpp:2176
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Паказваць схаваныя размяшчэнні"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2188
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -985,7 +985,7 @@ msgstr ""
 "схаваныя. Яны будуць выглядаць напаўпразрыстымі, калі вы не прыбераце "
 "адзнаку з уласцівасці хавання."
 
-#: dolphinmainwindow.cpp:2189
+#: dolphinmainwindow.cpp:2198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1002,7 +1002,7 @@ msgstr ""
 "ёсць раздзелы для пошуку нядаўна захаваных файлаў або файлаў пэўнага тыпу.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2195
+#: dolphinmainwindow.cpp:2204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1028,13 +1028,13 @@ msgstr ""
 "панэлі і абярыце <interface>Паказваць схаваныя размяшчэнні</interface>, каб "
 "паказваць яго зноў.</para>"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2217
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Паказваць панэлі"
 
-#: dolphinmainwindow.cpp:2320
+#: dolphinmainwindow.cpp:2329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1049,43 +1049,43 @@ msgstr ""
 "emphasis>. Наверсе гэтай іерархіі знаходзіцца каталог, які змяшчае ўсе даныя "
 "гэтага камп'ютара - <emphasis>каранёвы каталог(root)</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2438
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Закрыць"
 
-#: dolphinmainwindow.cpp:2430
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Закрыць левую панэль"
 
-#: dolphinmainwindow.cpp:2433
+#: dolphinmainwindow.cpp:2442
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Закрыць"
 
-#: dolphinmainwindow.cpp:2434
+#: dolphinmainwindow.cpp:2443
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Закрыць правую панэль"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2447
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Падзяліць"
 
-#: dolphinmainwindow.cpp:2439
+#: dolphinmainwindow.cpp:2448
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Падзяліць"
 
-#: dolphinmainwindow.cpp:2492
+#: dolphinmainwindow.cpp:2501
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1104,7 +1104,7 @@ msgstr ""
 "панэлі будзе даступна праз кнопку <interface>Меню</interface> на "
 "<emphasis>Панэлі інструментаў</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2499
+#: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1127,7 +1127,7 @@ msgstr ""
 "стыль таксама можна змяніць пстрыкнуўшы правай кнопкай мышы. Пстрыкніце па "
 "кнопцы правай кнопкай мышы, калі хочаце паказаць ці схаваць тэкст.</para>"
 
-#: dolphinmainwindow.cpp:2511
+#: dolphinmainwindow.cpp:2520
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1155,7 +1155,7 @@ msgstr ""
 "html'>націсніце сюды</link>. Адкрыецца старонка з <emphasis>Даведніка</"
 "emphasis>, дзе апісваюцца асноўныя функцыі.</para>"
 
-#: dolphinmainwindow.cpp:2527
+#: dolphinmainwindow.cpp:2536
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1169,7 +1169,7 @@ msgstr ""
 "дзеяння. Для ўсіх загадаў гэтай праграмы можна прызначыць спалучэнне клавіш."
 "</para>"
 
-#: dolphinmainwindow.cpp:2533
+#: dolphinmainwindow.cpp:2542
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1182,7 +1182,7 @@ msgstr ""
 "бачыце ў <interface>Меню</interface>, можна размясціць на панэлі "
 "інструментаў.</para>"
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1201,7 +1201,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2558
 #, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
@@ -1218,7 +1218,7 @@ msgstr ""
 "File_Management'>націсніце сюды</link>. Адкрыецца старонка з Базы "
 "карыстальніка KDE.</para>"
 
-#: dolphinmainwindow.cpp:2554
+#: dolphinmainwindow.cpp:2563
 #, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
@@ -1240,7 +1240,7 @@ msgstr ""
 "para><para>Функцыі \"Што гэта?\" няма ў большасці іншых вокнаў, таму не "
 "прывыкайце да гэтага.</para>"
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2574
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1257,7 +1257,7 @@ msgstr ""
 "url='https://community.kde.org/Get_Involved/Bug_Reporting'>націсніце сюды</"
 "link>.</para>"
 
-#: dolphinmainwindow.cpp:2574
+#: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1279,7 +1279,7 @@ msgstr ""
 "ўдзельнікаў і г.д.</para><para><emphasis>KDE e.V.</emphasis> - некамерцыйная "
 "арганізацыя, якая выступае ад імя KDE.</para>"
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2596
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1291,7 +1291,7 @@ msgstr ""
 "можаце ўсталяваць дадатковыя мовы, якія будуць выкарыстоўвацца, калі няма "
 "тэксту на вашай пераважнай мове."
 
-#: dolphinmainwindow.cpp:2592
+#: dolphinmainwindow.cpp:2601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1301,7 +1301,7 @@ msgstr ""
 "Гэтае дзеянне адкрывае акно са звесткамі пра версіі, ліцэнзіі, бібліятэкі і "
 "суправаджальнікаў гэтай праграмы."
 
-#: dolphinmainwindow.cpp:2597
+#: dolphinmainwindow.cpp:2606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1315,7 +1315,7 @@ msgstr ""
 "забеспячэнне.<nl/>Калі вам падабаецца карыстацца гэтай праграмай, але вы не "
 "ведаеце пра KDE або хочаце ўбачыць прыгожага цмока, паглядзіце!"
 
-#: dolphinmainwindow.cpp:2656 dolphinmainwindow.cpp:2660
+#: dolphinmainwindow.cpp:2665 dolphinmainwindow.cpp:2669
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -3112,25 +3112,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Выйсці з рэжыму выбару"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:65
+#: settings/contextmenu/contextmenusettingspage.cpp:66
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Абярыце, якія службы трэба паказваць у кантэкстным меню:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:70
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Пошук..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:97
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Спампаваць новыя службы..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:203
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3140,25 +3140,25 @@ msgstr ""
 "Каб ужыць абноўленыя налады сістэмы кантролю версій, Dolphin трэба "
 "перазапусціць."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:205
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Перазапусціць?"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:244
+#: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Выдаліць"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:250
+#: settings/contextmenu/contextmenusettingspage.cpp:259
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "Загады \"Скапіяваць у\" і \"Перамясціць у\""
 
-#: settings/contextmenu/contextmenusettingspage.cpp:300
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3677,61 +3677,61 @@ msgstr "Максімальная колькасць тэкставых радк�
 msgid "Enabled plugins"
 msgstr "Уключаныя ўбудовы"
 
-#: settings/dolphinsettingsdialog.cpp:41
+#: settings/dolphinsettingsdialog.cpp:43
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Наладжванне"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:57
 #, kde-format
 msgctxt "@title:group General settings"
 msgid "General"
 msgstr "Асноўныя налады"
 
-#: settings/dolphinsettingsdialog.cpp:62
+#: settings/dolphinsettingsdialog.cpp:64
 #, kde-format
 msgctxt "@title:group"
 msgid "Startup"
 msgstr "Запуск"
 
-#: settings/dolphinsettingsdialog.cpp:69
+#: settings/dolphinsettingsdialog.cpp:71
 #, kde-format
 msgctxt "@title:group"
 msgid "View Modes"
 msgstr "Рэжым выгляду"
 
-#: settings/dolphinsettingsdialog.cpp:76
+#: settings/dolphinsettingsdialog.cpp:78
 #, kde-format
 msgctxt "@title:group"
 msgid "Navigation"
 msgstr "Навігацыя"
 
-#: settings/dolphinsettingsdialog.cpp:92
+#: settings/dolphinsettingsdialog.cpp:94
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Кантэкстнае меню"
 
-#: settings/dolphinsettingsdialog.cpp:103
+#: settings/dolphinsettingsdialog.cpp:105
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Сметніца"
 
-#: settings/dolphinsettingsdialog.cpp:113
+#: settings/dolphinsettingsdialog.cpp:115
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Зваротная сувязь"
 
-#: settings/dolphinsettingsdialog.cpp:183
+#: settings/dolphinsettingsdialog.cpp:189
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr "Ёсць незахаваныя змены. Хочаце ўжыць іх або адкінуць?"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:190
 #, kde-format
 msgid "Warning"
 msgstr "Увага"
@@ -4328,131 +4328,131 @@ msgstr[1] "Памер: %1 пікселі"
 msgstr[2] "Памер: %1 пікселяў"
 msgstr[3] "Памер: %1 пікселі"
 
-#: settings/viewpropertiesdialog.cpp:58
+#: settings/viewpropertiesdialog.cpp:60
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "Стыль выгляду"
 
-#: settings/viewpropertiesdialog.cpp:70
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "Значкі"
 
-#: settings/viewpropertiesdialog.cpp:71
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "Сціслы выгляд"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "Падрабязы выгляд"
 
-#: settings/viewpropertiesdialog.cpp:75
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "Па павелічэнні"
 
-#: settings/viewpropertiesdialog.cpp:76
+#: settings/viewpropertiesdialog.cpp:78
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "Па памяншэнні"
 
-#: settings/viewpropertiesdialog.cpp:84
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "Спачатку паказваць каталогі"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "Паказваць схаваныя файлы ў канцы"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "Паказваць мініяцюры"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "Паказваць у групах"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:90
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "Паказваць схаваныя файлы"
 
-#: settings/viewpropertiesdialog.cpp:91
+#: settings/viewpropertiesdialog.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Дадатковая інфармацыя"
 
-#: settings/viewpropertiesdialog.cpp:131
+#: settings/viewpropertiesdialog.cpp:133
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Абярыце, што бачыць у кожным файле або каталозе:"
 
-#: settings/viewpropertiesdialog.cpp:141
+#: settings/viewpropertiesdialog.cpp:143
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Рэжым выгляду:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:144
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Сартаванне:"
 
-#: settings/viewpropertiesdialog.cpp:146
+#: settings/viewpropertiesdialog.cpp:148
 #, kde-format
 msgid "View options:"
 msgstr "Параметры выгляду:"
 
-#: settings/viewpropertiesdialog.cpp:174
+#: settings/viewpropertiesdialog.cpp:176
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Бягучы каталог"
 
-#: settings/viewpropertiesdialog.cpp:177
+#: settings/viewpropertiesdialog.cpp:179
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Бягучы каталог і ўкладзеныя каталогі"
 
-#: settings/viewpropertiesdialog.cpp:179
+#: settings/viewpropertiesdialog.cpp:181
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Усе каталогі"
 
-#: settings/viewpropertiesdialog.cpp:188
+#: settings/viewpropertiesdialog.cpp:190
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Ужыць да:"
 
-#: settings/viewpropertiesdialog.cpp:193
+#: settings/viewpropertiesdialog.cpp:195
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Выкарыстоўваць як прадвызначаныя налады"
 
-#: settings/viewpropertiesdialog.cpp:349
+#: settings/viewpropertiesdialog.cpp:351
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4460,7 +4460,7 @@ msgid ""
 "continue?"
 msgstr "Уласцівасці для ўсіх укладзеных каталогаў будуць змененыя. Працягнуць?"
 
-#: settings/viewpropertiesdialog.cpp:383
+#: settings/viewpropertiesdialog.cpp:391
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4606,7 +4606,7 @@ msgstr "Прадвызначана"
 msgid "Reload"
 msgstr "Перазагрузіць"
 
-#: views/dolphinview.cpp:630
+#: views/dolphinview.cpp:632
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4616,7 +4616,7 @@ msgstr[1] "Абрана %1 каталогі"
 msgstr[2] "Абрана %1 каталогаў"
 msgstr[3] "Абрана %1 каталогі"
 
-#: views/dolphinview.cpp:631
+#: views/dolphinview.cpp:633
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4626,7 +4626,7 @@ msgstr[1] "Абрана %1 файлы"
 msgstr[2] "Абрана %1 файлаў"
 msgstr[3] "Абрана %1 файлы"
 
-#: views/dolphinview.cpp:633
+#: views/dolphinview.cpp:635
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4636,7 +4636,7 @@ msgstr[1] "%1 каталогі"
 msgstr[2] "%1 каталогаў"
 msgstr[3] "%1 каталогі"
 
-#: views/dolphinview.cpp:634
+#: views/dolphinview.cpp:636
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4646,31 +4646,31 @@ msgstr[1] "%1 файлы"
 msgstr[2] "%1 файлаў"
 msgstr[3] "%1 файлы"
 
-#: views/dolphinview.cpp:638
+#: views/dolphinview.cpp:640
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:644
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 каталогаў, 0 файлаў"
 
-#: views/dolphinview.cpp:851 views/dolphinview.cpp:860
+#: views/dolphinview.cpp:853 views/dolphinview.cpp:862
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 копія"
 
-#: views/dolphinview.cpp:1019
+#: views/dolphinview.cpp:1021
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4679,7 +4679,7 @@ msgstr[1] "Сапраўды хочаце адкрыць %1 элементы?"
 msgstr[2] "Сапраўды хочаце адкрыць %1 элементаў?"
 msgstr[3] "Сапраўды хочаце адкрыць %1 элементы?"
 
-#: views/dolphinview.cpp:1021
+#: views/dolphinview.cpp:1027
 #, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
@@ -4689,43 +4689,43 @@ msgstr[1] "Адкрыць %1 элементы"
 msgstr[2] "Адкрыць %1 элементаў"
 msgstr[3] "Адкрыць %1 элементы"
 
-#: views/dolphinview.cpp:1150
+#: views/dolphinview.cpp:1160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr "Бакавы водступ"
 
-#: views/dolphinview.cpp:1154
+#: views/dolphinview.cpp:1164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Аўтаматычная шырыня слупкоў"
 
-#: views/dolphinview.cpp:1159
+#: views/dolphinview.cpp:1169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Адвольная шырыня слупкоў"
 
-#: views/dolphinview.cpp:1735
+#: views/dolphinview.cpp:1745
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Аперацыя перамяшчэння ў сметніцу завершаная."
 
-#: views/dolphinview.cpp:1744
+#: views/dolphinview.cpp:1754
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Выдаленне скончана."
 
-#: views/dolphinview.cpp:1880
+#: views/dolphinview.cpp:1890
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Змяніць назву і схаваць"
 
-#: views/dolphinview.cpp:1883
+#: views/dolphinview.cpp:1897
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4734,7 +4734,7 @@ msgstr ""
 "Калі ў пачатку назвы гэтага файла дадаць кропку, то гэта схавае яго ад "
 "прагляду. Усё яшчэ хочаце змяніць назву?"
 
-#: views/dolphinview.cpp:1885
+#: views/dolphinview.cpp:1899
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4743,89 +4743,89 @@ msgstr ""
 "Калі ў пачатку назвы гэтага каталога дадаць кропку, то гэта схавае яго ад "
 "прагляду. Усё яшчэ хочаце змяніць назву?"
 
-#: views/dolphinview.cpp:1887
+#: views/dolphinview.cpp:1901
 #, kde-format
 msgid "Hide this File?"
 msgstr "Схаваць гэты файл?"
 
-#: views/dolphinview.cpp:1887
+#: views/dolphinview.cpp:1901
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Схаваць гэты каталог?"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1957
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Размяшчэнне пустое."
 
-#: views/dolphinview.cpp:1941
+#: views/dolphinview.cpp:1959
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Размяшчэнне \"%1\" хібнае."
 
-#: views/dolphinview.cpp:2187
+#: views/dolphinview.cpp:2205
 #, kde-format
 msgid "Loading..."
 msgstr "Загрузка..."
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2224
 #, kde-format
 msgid "Loading canceled"
 msgstr "Загрузка скасаваная"
 
-#: views/dolphinview.cpp:2208
+#: views/dolphinview.cpp:2226
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Няма элементаў, якія адпавядаюць фільтру"
 
-#: views/dolphinview.cpp:2210
+#: views/dolphinview.cpp:2228
 #, kde-format
 msgid "No items matching the search"
 msgstr "Няма элементаў, якія адпавядаюць пошуку"
 
-#: views/dolphinview.cpp:2212
+#: views/dolphinview.cpp:2230
 #, kde-format
 msgid "Trash is empty"
 msgstr "Сметніца пустая"
 
-#: views/dolphinview.cpp:2215
+#: views/dolphinview.cpp:2233
 #, kde-format
 msgid "No tags"
 msgstr "Няма пазнак"
 
-#: views/dolphinview.cpp:2218
+#: views/dolphinview.cpp:2236
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr "Няма файлаў з пазнакай \"%1\""
 
-#: views/dolphinview.cpp:2222
+#: views/dolphinview.cpp:2240
 #, kde-format
 msgid "No recently used items"
 msgstr "Няма элементаў, якія нядаўна выкарыстоўваліся"
 
-#: views/dolphinview.cpp:2224
+#: views/dolphinview.cpp:2242
 #, kde-format
 msgid "No shared folders found"
 msgstr "Не знойдзена абагуленых каталогаў"
 
-#: views/dolphinview.cpp:2226
+#: views/dolphinview.cpp:2244
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Не знойдзена адпаведных сеткавых рэсурсаў"
 
-#: views/dolphinview.cpp:2228
+#: views/dolphinview.cpp:2246
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Не знойдзена MTP-сумяшчальных прылад"
 
-#: views/dolphinview.cpp:2230
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Не знойдзена прылад Bluetooth"
 
-#: views/dolphinview.cpp:2232
+#: views/dolphinview.cpp:2250
 #, kde-format
 msgid "Folder is empty"
 msgstr "Каталог пусты"

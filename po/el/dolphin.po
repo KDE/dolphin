@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-15 00:49+0000\n"
+"POT-Creation-Date: 2022-10-16 00:50+0000\n"
 "PO-Revision-Date: 2021-10-17 09:57+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -50,7 +50,7 @@ msgctxt "@action:inmenu"
 msgid "Restore"
 msgstr "Επαναφορά"
 
-#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1547
+#: dolphincontextmenu.cpp:185 dolphinmainwindow.cpp:1556
 #, kde-format
 msgctxt "@title:menu Create new folder, file, link, etc."
 msgid "Create New"
@@ -74,91 +74,91 @@ msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
 msgstr "Άνοιγμα διαδρομής σε νέα καρτέλα"
 
-#: dolphinmainwindow.cpp:307
+#: dolphinmainwindow.cpp:308
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully copied."
 msgstr "Επιτυχής αντιγραφή."
 
-#: dolphinmainwindow.cpp:310
+#: dolphinmainwindow.cpp:311
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved."
 msgstr "Επιτυχής μετακίνηση."
 
-#: dolphinmainwindow.cpp:313
+#: dolphinmainwindow.cpp:314
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully linked."
 msgstr "Επιτυχής σύνδεση."
 
-#: dolphinmainwindow.cpp:316
+#: dolphinmainwindow.cpp:317
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully moved to trash."
 msgstr "Επιτυχής μετακίνηση στα απορρίμματα."
 
-#: dolphinmainwindow.cpp:319
+#: dolphinmainwindow.cpp:320
 #, kde-format
 msgctxt "@info:status"
 msgid "Successfully renamed."
 msgstr "Επιτυχής μετονομασία."
 
-#: dolphinmainwindow.cpp:323
+#: dolphinmainwindow.cpp:324
 #, kde-format
 msgctxt "@info:status"
 msgid "Created folder."
 msgstr "Ο φάκελος δημιουργήθηκε."
 
-#: dolphinmainwindow.cpp:396
+#: dolphinmainwindow.cpp:397
 #, kde-format
 msgctxt "@info"
 msgid "Go back"
 msgstr "Μετάβαση πίσω"
 
-#: dolphinmainwindow.cpp:397
+#: dolphinmainwindow.cpp:398
 #, kde-format
 msgctxt "@info:whatsthis go back"
 msgid "Return to the previously viewed folder."
 msgstr "Επιστροφή στην προηγούμενη προβολή φακέλου"
 
-#: dolphinmainwindow.cpp:403
+#: dolphinmainwindow.cpp:404
 #, kde-format
 msgctxt "@info"
 msgid "Go forward"
 msgstr "Μετάβαση εμπρός"
 
-#: dolphinmainwindow.cpp:405
+#: dolphinmainwindow.cpp:406
 #, kde-kuit-format
 msgctxt "@info:whatsthis go forward"
 msgid "This undoes a <interface>Go|Back</interface> action."
 msgstr ""
 "Έτσι αναιρείται η ενέργεια μετάβασης <interface>εμπρός|πίσω</interface>."
 
-#: dolphinmainwindow.cpp:524
+#: dolphinmainwindow.cpp:525
 #, kde-kuit-format
 msgctxt "@info"
 msgid "Could not access <filename>%1</filename>."
 msgstr "Αδυναμία πρόσβασης στο <filename>%1</filename>."
 
-#: dolphinmainwindow.cpp:557 dolphinmainwindow.cpp:601
+#: dolphinmainwindow.cpp:558 dolphinmainwindow.cpp:602
 #, kde-format
 msgctxt "@title:window"
 msgid "Confirmation"
 msgstr "Επιβεβαίωση"
 
-#: dolphinmainwindow.cpp:560
+#: dolphinmainwindow.cpp:561
 #, kde-format
 msgctxt "@action:button 'Quit Dolphin' button"
 msgid "&Quit %1"
 msgstr "Έ&ξοδος %1"
 
-#: dolphinmainwindow.cpp:561
+#: dolphinmainwindow.cpp:562
 #, kde-format
 msgid "C&lose Current Tab"
 msgstr "&Κλείσιμο τρέχουσας καρτέλας"
 
-#: dolphinmainwindow.cpp:570
+#: dolphinmainwindow.cpp:571
 #, kde-format
 msgid ""
 "You have multiple tabs open in this window, are you sure you want to quit?"
@@ -166,17 +166,17 @@ msgstr ""
 "Έχετε πολλαπλές καρτέλες ανοιχτές σε αυτό το παράθυρο, σίγουρα επιθυμείτε το "
 "κλείσιμό του;"
 
-#: dolphinmainwindow.cpp:572 dolphinmainwindow.cpp:624
+#: dolphinmainwindow.cpp:573 dolphinmainwindow.cpp:625
 #, kde-format
 msgid "Do not ask again"
 msgstr "Να μην ξαναγίνει η ερώτηση"
 
-#: dolphinmainwindow.cpp:612
+#: dolphinmainwindow.cpp:613
 #, kde-format
 msgid "Show &Terminal Panel"
 msgstr "Εμφάνιση πίνακα &τερματικού"
 
-#: dolphinmainwindow.cpp:622
+#: dolphinmainwindow.cpp:623
 #, kde-format
 msgid ""
 "The program '%1' is still running in the Terminal panel. Are you sure you "
@@ -185,19 +185,19 @@ msgstr ""
 "Το πρόγραμμα'%1' ακόμη εκτελείται στον πίνακα τερματικού. Είστε βέβαιοι ότι "
 "θέλετε να το κλείσετε;"
 
-#: dolphinmainwindow.cpp:1130
+#: dolphinmainwindow.cpp:1131
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
 msgstr "Άνοιγμα %1"
 
-#: dolphinmainwindow.cpp:1139 dolphinmainwindow.cpp:1858
+#: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1867
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Preferred Search Tool"
 msgstr "Άνοιγμα προτιμώμενου εργαλείου αναζήτησης"
 
-#: dolphinmainwindow.cpp:1178
+#: dolphinmainwindow.cpp:1179
 #, fuzzy, kde-format
 #| msgid "Are you sure you want to open 1 item?"
 #| msgid_plural "Are you sure you want to open %1 items?"
@@ -206,7 +206,7 @@ msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα αντικείμενο;"
 msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 αντικείμενα;"
 
-#: dolphinmainwindow.cpp:1181
+#: dolphinmainwindow.cpp:1186
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open Terminal"
@@ -216,25 +216,25 @@ msgid_plural "Open %1 Terminals"
 msgstr[0] "Άνοιγμα τερματικού"
 msgstr[1] "Άνοιγμα τερματικού"
 
-#: dolphinmainwindow.cpp:1395
+#: dolphinmainwindow.cpp:1404
 #, kde-format
 msgctxt "@action:inmenu menu for configure actions"
 msgid "Configure"
 msgstr "Διαμόρφωση"
 
-#: dolphinmainwindow.cpp:1554
+#: dolphinmainwindow.cpp:1563
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
 msgstr "Νέο &παράθυρο"
 
-#: dolphinmainwindow.cpp:1555
+#: dolphinmainwindow.cpp:1564
 #, kde-format
 msgctxt "@info"
 msgid "Open a new Dolphin window"
 msgstr "Άνοιγμα ενός νέου παραθύρου Dolphin"
 
-#: dolphinmainwindow.cpp:1556
+#: dolphinmainwindow.cpp:1565
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -244,13 +244,13 @@ msgstr ""
 "Έτσι ανοίγει ένα ίδιο παράθυρο με την τρέχουσα θέση και προβολή.<nl/"
 ">Μπορείτε να σύρετε και να αφήσετε αντικείμενα ανάμεσα σε παράθυρα."
 
-#: dolphinmainwindow.cpp:1563
+#: dolphinmainwindow.cpp:1572
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New Tab"
 msgstr "Νέα καρτέλα"
 
-#: dolphinmainwindow.cpp:1564
+#: dolphinmainwindow.cpp:1573
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -262,25 +262,25 @@ msgstr ""
 "προβολή.<nl/>Μια καρτέλα είναι μια επιπλέον προβολή σε αυτό το παράθυρο."
 "Μπορείτε να σύρετε και να αφήσετε αντικείμενα ανάμεσα σε καρτέλες."
 
-#: dolphinmainwindow.cpp:1573
+#: dolphinmainwindow.cpp:1582
 #, kde-format
 msgctxt "@action:inmenu Add current folder to places"
 msgid "Add to Places"
 msgstr "Προσθήκη στον πίνακα θέσεων"
 
-#: dolphinmainwindow.cpp:1574
+#: dolphinmainwindow.cpp:1583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This adds the selected folder to the Places panel."
 msgstr "Προσθέτει τον επιλεγμένο φάκελο στον πίνακα Places."
 
-#: dolphinmainwindow.cpp:1579
+#: dolphinmainwindow.cpp:1588
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Close Tab"
 msgstr "Κλείσιμο καρτέλας"
 
-#: dolphinmainwindow.cpp:1580
+#: dolphinmainwindow.cpp:1589
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -290,7 +290,7 @@ msgstr ""
 "Έτσι κλείνει η τρέχουσα προβολή καρτέλας. Αν δεν έχουν μείνει ανοιχτές "
 "καρτέλες, το παράθυρο θα κλείσει."
 
-#: dolphinmainwindow.cpp:1585
+#: dolphinmainwindow.cpp:1594
 #, kde-format
 msgctxt "@info:whatsthis quit"
 msgid "This closes this window."
@@ -298,7 +298,7 @@ msgstr "Έτσι κλείνει αυτό το παράθυρο."
 
 #. i18n: This will be the last paragraph for the whatsthis for all three:
 #. Cut, Copy and Paste
-#: dolphinmainwindow.cpp:1594
+#: dolphinmainwindow.cpp:1603
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -315,13 +315,13 @@ msgstr ""
 "πληκτρολόγιο: <shortcut>Ctrl+X</shortcut>, <shortcut>Ctrl+C</shortcut> και "
 "<shortcut>Ctrl+V</shortcut>.</para>"
 
-#: dolphinmainwindow.cpp:1601
+#: dolphinmainwindow.cpp:1610
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1602
+#: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
 msgctxt "@info:whatsthis cut"
 msgid ""
@@ -335,7 +335,7 @@ msgstr ""
 "emphasis> έπειτα για να τα αντιγράψετε από το πρόχειρο σε μια νέα θέση. Τα "
 "αντικείμενα θα μετακινηθούν από την αρχική τους θέση."
 
-#: dolphinmainwindow.cpp:1608
+#: dolphinmainwindow.cpp:1617
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy"
@@ -343,7 +343,7 @@ msgctxt "@action"
 msgid "Copy…"
 msgstr "Αντιγραφή"
 
-#: dolphinmainwindow.cpp:1609
+#: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
 msgctxt "@info:whatsthis copy"
 msgid ""
@@ -355,13 +355,13 @@ msgstr ""
 "<emphasis>πρόχειρο</emphasis>.<nl/>Χρησιμοποιήστε την <emphasis>Επικόλληση</"
 "emphasis> έπειτα για να τα αντιγράψετε από το πρόχειρο σε μια νέα θέση."
 
-#: dolphinmainwindow.cpp:1617
+#: dolphinmainwindow.cpp:1626
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Paste"
 msgstr "Επικόλληση"
 
-#: dolphinmainwindow.cpp:1618
+#: dolphinmainwindow.cpp:1627
 #, kde-kuit-format
 msgctxt "@info:whatsthis paste"
 msgid ""
@@ -373,13 +373,13 @@ msgstr ""
 "τρέχουσα προβολή φακέλου.<nl/>Αν τα αντικείμενα προστίθενται στο πρόχειρο με "
 "την <emphasis>Αποκοπή</emphasis> μετακινούνται από την παλιά τους θέση."
 
-#: dolphinmainwindow.cpp:1624
+#: dolphinmainwindow.cpp:1633
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
 msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1625
+#: dolphinmainwindow.cpp:1634
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Copy to Inactive Split View"
@@ -387,7 +387,7 @@ msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
 msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1626
+#: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
 msgctxt "@info:whatsthis Copy"
 msgid ""
@@ -397,19 +397,19 @@ msgstr ""
 "Αντιγράφει το επιλεγμένο αντικείμενο από την <emphasis>ενεργή</emphasis> "
 "προβολή στην αδρανή διαιρεμένη προβολή."
 
-#: dolphinmainwindow.cpp:1629
+#: dolphinmainwindow.cpp:1638
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
 msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1634
+#: dolphinmainwindow.cpp:1643
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1635
+#: dolphinmainwindow.cpp:1644
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Inactive Split View"
@@ -417,7 +417,7 @@ msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1636
+#: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
 msgctxt "@info:whatsthis Move"
 msgid ""
@@ -427,19 +427,19 @@ msgstr ""
 "Μετακινεί το επιλεγμένο αντικείμενο από την <emphasis>ενεργή</emphasis> "
 "προβολή στην αδρανή διαιρεμένη προβολή."
 
-#: dolphinmainwindow.cpp:1639
+#: dolphinmainwindow.cpp:1648
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
-#: dolphinmainwindow.cpp:1644
+#: dolphinmainwindow.cpp:1653
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Filter..."
 msgstr "Φιλτράρισμα..."
 
-#: dolphinmainwindow.cpp:1645
+#: dolphinmainwindow.cpp:1654
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Show Filter Bar"
@@ -447,7 +447,7 @@ msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Εμφάνιση γραμμής φίλτρου"
 
-#: dolphinmainwindow.cpp:1646
+#: dolphinmainwindow.cpp:1655
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -461,30 +461,30 @@ msgstr ""
 "εμφανίζονται. Μόνο όσα περιέχουν το κείμενο στο όνομά τους θα παραμείνουν "
 "στην προβολή."
 
-#: dolphinmainwindow.cpp:1658
+#: dolphinmainwindow.cpp:1667
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Filter Bar"
 msgstr "Εναλλαγή γραμμής φίλτρου"
 
-#: dolphinmainwindow.cpp:1659
+#: dolphinmainwindow.cpp:1668
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Filter"
 msgstr "Φιλτράρισμα"
 
-#: dolphinmainwindow.cpp:1667 search/dolphinsearchbox.cpp:332
+#: dolphinmainwindow.cpp:1676 search/dolphinsearchbox.cpp:332
 #, kde-format
 msgid "Search..."
 msgstr "Αναζήτηση..."
 
-#: dolphinmainwindow.cpp:1668
+#: dolphinmainwindow.cpp:1677
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Search for files and folders"
 msgstr "Αναζήτηση για αρχεία και φακέλους"
 
-#: dolphinmainwindow.cpp:1669
+#: dolphinmainwindow.cpp:1678
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -500,20 +500,20 @@ msgstr ""
 "ανεύρεσης ώστε να μπορείτε να ρίξετε μια ματιά ταυτόχρονα με την επεξήγηση "
 "των ρυθμίσεων.</para>"
 
-#: dolphinmainwindow.cpp:1680
+#: dolphinmainwindow.cpp:1689
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Toggle Search Bar"
 msgstr "Εναλλαγή γραμμής αναζήτησης"
 
-#: dolphinmainwindow.cpp:1681
+#: dolphinmainwindow.cpp:1690
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Search"
 msgstr "Αναζήτηση"
 
 #. i18n: This action toggles a selection mode.
-#: dolphinmainwindow.cpp:1689
+#: dolphinmainwindow.cpp:1698
 #, fuzzy, kde-format
 #| msgctxt "@info:tooltip"
 #| msgid "Search for files and folders"
@@ -523,7 +523,7 @@ msgstr "Αναζήτηση για αρχεία και φακέλους"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
-#: dolphinmainwindow.cpp:1692
+#: dolphinmainwindow.cpp:1701
 #, fuzzy, kde-format
 #| msgctxt "@title:window"
 #| msgid "Select"
@@ -531,7 +531,7 @@ msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Επιλογή"
 
-#: dolphinmainwindow.cpp:1693
+#: dolphinmainwindow.cpp:1702
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -543,19 +543,19 @@ msgid ""
 "items.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1714
+#: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid "This selects all files and folders in the current location."
 msgstr "Έτσι επιλέγονται όλα τα αρχεία και οι φάκελοι στην τρέχουσα θέση."
 
-#: dolphinmainwindow.cpp:1718 dolphinpart.cpp:185
+#: dolphinmainwindow.cpp:1727 dolphinpart.cpp:185
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Invert Selection"
 msgstr "Αντιστροφή επιλογής"
 
-#: dolphinmainwindow.cpp:1719
+#: dolphinmainwindow.cpp:1728
 #, kde-kuit-format
 msgctxt "@info:whatsthis invert"
 msgid ""
@@ -565,7 +565,7 @@ msgstr ""
 "Έτσι επιλέγονται όλα τα αντικείμενα που <emphasis>δεν</emphasis> έχετε "
 "επιλέξει εσείς."
 
-#: dolphinmainwindow.cpp:1734
+#: dolphinmainwindow.cpp:1743
 #, kde-kuit-format
 msgctxt "@info:whatsthis find"
 msgid ""
@@ -578,43 +578,43 @@ msgstr ""
 "μετακινήσετε αντικείμενα γρήγορα.</para>Με κλικ σε αυτό και πάλι, γίνεται "
 "ανασύνθεση των προβολών."
 
-#: dolphinmainwindow.cpp:1743
+#: dolphinmainwindow.cpp:1752
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
 msgstr "Εκκρεμότητα"
 
-#: dolphinmainwindow.cpp:1744
+#: dolphinmainwindow.cpp:1753
 #, kde-format
 msgctxt "@info"
 msgid "Opens the stash virtual directory in a split window"
 msgstr "Ανοίγει τον εικονικό κατάλογο εκκρεμοτήτων σε χωριστό παράθυρο"
 
-#: dolphinmainwindow.cpp:1754
+#: dolphinmainwindow.cpp:1763
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Stop"
 msgstr "Διακοπή"
 
-#: dolphinmainwindow.cpp:1755
+#: dolphinmainwindow.cpp:1764
 #, kde-format
 msgctxt "@info"
 msgid "Stop loading"
 msgstr "Διακοπή φόρτωσης"
 
-#: dolphinmainwindow.cpp:1756
+#: dolphinmainwindow.cpp:1765
 #, kde-format
 msgctxt "@info"
 msgid "This stops the loading of the contents of the current folder."
 msgstr "Έτσι διακόπτεται η φόρτωση του περιεχομένου του τρέχοντος φακέλου."
 
-#: dolphinmainwindow.cpp:1761
+#: dolphinmainwindow.cpp:1770
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Editable Location"
 msgstr "Επεξεργάσιμη τοποθεσία"
 
-#: dolphinmainwindow.cpp:1763
+#: dolphinmainwindow.cpp:1772
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -628,13 +628,13 @@ msgstr ""
 "επίσης να αλλάξετε σε επεξεργασία με κλικ στα δεξιά της θέσης και να πάτε "
 "πίσω επιβεβαιώνοντας την επεξεργασμένη θέση."
 
-#: dolphinmainwindow.cpp:1771
+#: dolphinmainwindow.cpp:1780
 #, kde-format
 msgctxt "@action:inmenu Navigation Bar"
 msgid "Replace Location"
 msgstr "Αντικατάσταση τοποθεσίας"
 
-#: dolphinmainwindow.cpp:1776
+#: dolphinmainwindow.cpp:1785
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -644,19 +644,19 @@ msgstr ""
 "Έτσι γίνεται εναλλαγή σε επεξεργασία της θέσης και επιλέγεται ώστε να "
 "μπορείτε γρήγορα να δώσετε μια διαφορετική θέση."
 
-#: dolphinmainwindow.cpp:1808
+#: dolphinmainwindow.cpp:1817
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Undo close tab"
 msgstr "Αναίρεση κλεισίματος καρτέλας"
 
-#: dolphinmainwindow.cpp:1810
+#: dolphinmainwindow.cpp:1819
 #, kde-format
 msgctxt "@info:whatsthis undo close tab"
 msgid "This returns you to the previously closed tab."
 msgstr "Έτσι επιστρέφετε στην καρτέλα που έκλεισε προηγουμένως."
 
-#: dolphinmainwindow.cpp:1817
+#: dolphinmainwindow.cpp:1826
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -671,7 +671,7 @@ msgstr ""
 "στα <filename>Απορρίμματα</filename>. <nl/>Για αλλαγές που δεν γίνεται να "
 "αναιρεθούν θα ζητηθεί η επιβεβαίωσή σας."
 
-#: dolphinmainwindow.cpp:1845
+#: dolphinmainwindow.cpp:1854
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -683,13 +683,13 @@ msgstr ""
 "χρήστη έχει το δικό του <filename>Προσωπικό φάκελο</filename> που περιέχει "
 "τα δεδομένα του και φακέλους που περιέχουν προσωπικά δεδομένα εφαρμογών."
 
-#: dolphinmainwindow.cpp:1852
+#: dolphinmainwindow.cpp:1861
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Compare Files"
 msgstr "Σύγκριση αρχείων"
 
-#: dolphinmainwindow.cpp:1860
+#: dolphinmainwindow.cpp:1869
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -701,13 +701,13 @@ msgstr ""
 "θέσης.</para><para>Χρησιμοποιήστε το μενού <emphasis>Περισσότερα εργαλεία "
 "αναζήτησης</emphasis> για να το διαμορφώσετε.</para>"
 
-#: dolphinmainwindow.cpp:1868
+#: dolphinmainwindow.cpp:1877
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal"
 msgstr "Άνοιγμα τερματικού"
 
-#: dolphinmainwindow.cpp:1870
+#: dolphinmainwindow.cpp:1879
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -720,7 +720,7 @@ msgstr ""
 "χρησιμοποιήστε τη Βοήθεια στην εφαρμογή του τερματικού.</para>"
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
-#: dolphinmainwindow.cpp:1878
+#: dolphinmainwindow.cpp:1887
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open Terminal"
@@ -728,7 +728,7 @@ msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
 msgstr "Άνοιγμα τερματικού"
 
-#: dolphinmainwindow.cpp:1880
+#: dolphinmainwindow.cpp:1889
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -745,19 +745,19 @@ msgstr ""
 "προβολή της θέσης.</para><para>Για να μάθετε περισσότερα για τα τερματικά "
 "χρησιμοποιήστε τη Βοήθεια στην εφαρμογή του τερματικού.</para>"
 
-#: dolphinmainwindow.cpp:1888 dolphinmainwindow.cpp:2653
+#: dolphinmainwindow.cpp:1897 dolphinmainwindow.cpp:2662
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
 msgstr "Εστίαση στον πίνακα τερματικού"
 
-#: dolphinmainwindow.cpp:1896
+#: dolphinmainwindow.cpp:1905
 #, kde-format
 msgctxt "@title:menu"
 msgid "&Bookmarks"
 msgstr "&Σελιδοδείκτες"
 
-#: dolphinmainwindow.cpp:1906
+#: dolphinmainwindow.cpp:1915
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -769,79 +769,79 @@ msgid ""
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
 
-#: dolphinmainwindow.cpp:1935
+#: dolphinmainwindow.cpp:1944
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Tab %1"
 msgstr "Ενεργοποίηση καρτέλας %1"
 
-#: dolphinmainwindow.cpp:1946
+#: dolphinmainwindow.cpp:1955
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Last Tab"
 msgstr "Ενεργοποίηση τελευταίας καρτέλας"
 
-#: dolphinmainwindow.cpp:1952
+#: dolphinmainwindow.cpp:1961
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Next Tab"
 msgstr "Επόμενη καρτέλα"
 
-#: dolphinmainwindow.cpp:1953
+#: dolphinmainwindow.cpp:1962
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Next Tab"
 msgstr "Ενεργοποίηση επόμενης καρτέλας"
 
-#: dolphinmainwindow.cpp:1959
+#: dolphinmainwindow.cpp:1968
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Previous Tab"
 msgstr "Προηγούμενη καρτέλα"
 
-#: dolphinmainwindow.cpp:1960
+#: dolphinmainwindow.cpp:1969
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Activate Previous Tab"
 msgstr "Ενεργοποίηση προηγούμενης καρτέλας"
 
-#: dolphinmainwindow.cpp:1967
+#: dolphinmainwindow.cpp:1976
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Show Target"
 msgstr "Εμφάνιση προορισμού"
 
-#: dolphinmainwindow.cpp:1973
+#: dolphinmainwindow.cpp:1982
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tab"
 msgstr "Άνοιγμα σε νέα καρτέλα"
 
-#: dolphinmainwindow.cpp:1978
+#: dolphinmainwindow.cpp:1987
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Tabs"
 msgstr "Άνοιγμα σε νέες καρτέλες"
 
-#: dolphinmainwindow.cpp:1983
+#: dolphinmainwindow.cpp:1992
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
 msgstr "Άνοιγμα σε νέο παράθυρο"
 
-#: dolphinmainwindow.cpp:1995
+#: dolphinmainwindow.cpp:2004
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
 msgstr "Ξεκλείδωμα πινάκων"
 
-#: dolphinmainwindow.cpp:1997
+#: dolphinmainwindow.cpp:2006
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Lock Panels"
 msgstr "Κλείδωμα πινάκων"
 
-#: dolphinmainwindow.cpp:1999
+#: dolphinmainwindow.cpp:2008
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -855,14 +855,14 @@ msgstr ""
 "συρθούν στην άλλη πλευρά του παραθύρου και να έχουν ένα κουμπί για κλείσιμο."
 "<nl/>Οι κλειδωμένοι πίνακες ενσωματώνονται με μεγαλύτερη σαφήνεια."
 
-#: dolphinmainwindow.cpp:2008
+#: dolphinmainwindow.cpp:2017
 #, kde-format
 msgctxt "@title:window"
 msgid "Information"
 msgstr "Πληροφορίες"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
-#: dolphinmainwindow.cpp:2034
+#: dolphinmainwindow.cpp:2043
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -877,7 +877,7 @@ msgstr ""
 "<interface>Κουμπί ελέγχου|Πίνακες</interface> ή <interface>Προβολή|Πίνακες</"
 "interface>.</para>"
 
-#: dolphinmainwindow.cpp:2039
+#: dolphinmainwindow.cpp:2048
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -894,7 +894,7 @@ msgstr ""
 "την τρέχουσα προβολή φακέλου.<nl/>Για απλά αντικείμενα παρέχεται "
 "προεπισκόπηση του περιεχομένου τους.</para>"
 
-#: dolphinmainwindow.cpp:2046
+#: dolphinmainwindow.cpp:2055
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -911,13 +911,13 @@ msgstr ""
 "para><para>Μπορείτε να διαμορφώσετε εδώ ποιες λεπτομέρειες δίνονται και πώς "
 "με δεξί κλικ.</para>"
 
-#: dolphinmainwindow.cpp:2054
+#: dolphinmainwindow.cpp:2063
 #, kde-format
 msgctxt "@title:window"
 msgid "Folders"
 msgstr "Φάκελοι"
 
-#: dolphinmainwindow.cpp:2078
+#: dolphinmainwindow.cpp:2087
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -929,7 +929,7 @@ msgstr ""
 "του παραθύρου.<nl/><nl/>Εμφανίζει τους φακέλους του <emphasis>συστήματος "
 "αρχείων</emphasis> σε <emphasis>δενδρική προβολή</emphasis>."
 
-#: dolphinmainwindow.cpp:2082
+#: dolphinmainwindow.cpp:2091
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -944,13 +944,13 @@ msgstr ""
 "στα αριστερά του φακέλου εμφανίζονται οι υποφάκελοι. Αυτό επιτρέπει γρήγορη "
 "εναλλαγή ανάμεσα στους φακέλους.</para>"
 
-#: dolphinmainwindow.cpp:2091
+#: dolphinmainwindow.cpp:2100
 #, kde-format
 msgctxt "@title:window Shell terminal"
 msgid "Terminal"
 msgstr "Τερματικό"
 
-#: dolphinmainwindow.cpp:2117
+#: dolphinmainwindow.cpp:2126
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -969,7 +969,7 @@ msgstr ""
 "μάθετε περισσότερα για τα τερματικά χρησιμοποιήστε τη βοήθεια σε μια "
 "εφαρμογή τερματικού όπως την Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2124
+#: dolphinmainwindow.cpp:2133
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -988,19 +988,19 @@ msgstr ""
 "για τα τερματικά χρησιμοποιήστε τη βοήθεια σε μια εφαρμογή τερματικού όπως "
 "την Konsole.</para>"
 
-#: dolphinmainwindow.cpp:2140
+#: dolphinmainwindow.cpp:2149
 #, kde-format
 msgctxt "@title:window"
 msgid "Places"
 msgstr "Πίνακας θέσεων"
 
-#: dolphinmainwindow.cpp:2176
+#: dolphinmainwindow.cpp:2185
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "Show Hidden Places"
 msgstr "Εμφάνιση κρυφών θέσεων"
 
-#: dolphinmainwindow.cpp:2179
+#: dolphinmainwindow.cpp:2188
 #, kde-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1010,7 +1010,7 @@ msgstr ""
 "Εμφανίζει όλες τις κρυμμένες τοποθεσίες στον πίνακα. Θα παρουσιάζονται "
 "ημιδιαφανείς εκτός αν αναιρέσετε την επιλογή της ιδιότητας απόκρυψης."
 
-#: dolphinmainwindow.cpp:2189
+#: dolphinmainwindow.cpp:2198
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1027,7 +1027,7 @@ msgstr ""
 "ενότητες για την ανεύρεση πρόσφατα αποθηκευμένων αρχείων ή αρχείων ορισμένου "
 "τύπου.</para>"
 
-#: dolphinmainwindow.cpp:2195
+#: dolphinmainwindow.cpp:2204
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1052,13 +1052,13 @@ msgstr ""
 "εγγραφή γίνεται με δεξί κλικ και με επιλογή της <interface>Εμφάνισης "
 "Κρυμμένων Τοποθεσιών</interface> γίνεται επανεμφάνιση.</para>"
 
-#: dolphinmainwindow.cpp:2208
+#: dolphinmainwindow.cpp:2217
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Show Panels"
 msgstr "Εμφάνιση πινάκων"
 
-#: dolphinmainwindow.cpp:2320
+#: dolphinmainwindow.cpp:2329
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1074,43 +1074,43 @@ msgstr ""
 "κατάλογος που περιέχει όλα τα δεδομένα που σχετίζονται με αυτόν τον "
 "υπολογιστή—ο <emphasis>κατάλογος ρίζα (root)</emphasis>.</para>"
 
-#: dolphinmainwindow.cpp:2429
+#: dolphinmainwindow.cpp:2438
 #, kde-format
 msgctxt "@action:intoolbar Close left view"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: dolphinmainwindow.cpp:2430
+#: dolphinmainwindow.cpp:2439
 #, kde-format
 msgctxt "@info"
 msgid "Close left view"
 msgstr "Κλείσιμο αριστερής προβολής"
 
-#: dolphinmainwindow.cpp:2433
+#: dolphinmainwindow.cpp:2442
 #, kde-format
 msgctxt "@action:intoolbar Close right view"
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: dolphinmainwindow.cpp:2434
+#: dolphinmainwindow.cpp:2443
 #, kde-format
 msgctxt "@info"
 msgid "Close right view"
 msgstr "Κλείσιμο δεξιάς προβολής"
 
-#: dolphinmainwindow.cpp:2438
+#: dolphinmainwindow.cpp:2447
 #, kde-format
 msgctxt "@action:intoolbar Split view"
 msgid "Split"
 msgstr "Διαίρεση"
 
-#: dolphinmainwindow.cpp:2439
+#: dolphinmainwindow.cpp:2448
 #, kde-format
 msgctxt "@info"
 msgid "Split view"
 msgstr "Διαίρεση προβολής"
 
-#: dolphinmainwindow.cpp:2492
+#: dolphinmainwindow.cpp:2501
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1138,7 +1138,7 @@ msgstr ""
 "<interface>Ελέγχου</interface> στη <emphasis>Γραμμή εργαλείων</emphasis>.</"
 "para>"
 
-#: dolphinmainwindow.cpp:2499
+#: dolphinmainwindow.cpp:2508
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1174,7 +1174,7 @@ msgstr ""
 "κλικ. Κάνετε δεξί κλικ σε ένα κουμπί για να εμφανίσετε ή να αποκρύψετε το "
 "κείμενό του.</para>"
 
-#: dolphinmainwindow.cpp:2511
+#: dolphinmainwindow.cpp:2520
 #, kde-kuit-format
 msgctxt "@info:whatsthis main view"
 msgid ""
@@ -1203,7 +1203,7 @@ msgstr ""
 "html'>κάνετε κλικ εδώ</link>. Θα ανοίξει μια σελίδα από το "
 "<emphasis>Εγχειρίδιο</emphasis> που καλύπτει τα βασικά.</para>"
 
-#: dolphinmainwindow.cpp:2527
+#: dolphinmainwindow.cpp:2536
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1218,7 +1218,7 @@ msgstr ""
 "ενέργεια. Όλες οι εντολές σε αυτήν την εφαρμογή μπορούν να ενεργοποιηθούν με "
 "αυτόν τον τρόπο.</para>"
 
-#: dolphinmainwindow.cpp:2533
+#: dolphinmainwindow.cpp:2542
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis"
 #| msgid ""
@@ -1238,7 +1238,7 @@ msgstr ""
 "<interface>Γραμμή μενού</interface> μπορεί επίσης να τοποθετηθεί στη Γραμμή "
 "εργαλείων.</para>"
 
-#: dolphinmainwindow.cpp:2537
+#: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1257,7 +1257,7 @@ msgstr ""
 #. frustrate the user. If there are multiple languages that the user might
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
-#: dolphinmainwindow.cpp:2549
+#: dolphinmainwindow.cpp:2558
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of handbook text with link"
 #| msgid ""
@@ -1278,7 +1278,7 @@ msgstr ""
 "File_Management'>κάνετε κλικ εδώ</link>. Θα ανοίξει μια ειδική σελίδα στο "
 "KDE UserBase Wiki.</para>"
 
-#: dolphinmainwindow.cpp:2554
+#: dolphinmainwindow.cpp:2563
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of whatsthis button text with link"
 #| msgid ""
@@ -1304,7 +1304,7 @@ msgstr ""
 "\"Τι είναι αυτό;\" λείπει από τα πιο πολλά παράθυρα, γι' αυτό μη σας γίνει "
 "συνήθεια.</para>"
 
-#: dolphinmainwindow.cpp:2565
+#: dolphinmainwindow.cpp:2574
 #, fuzzy, kde-kuit-format
 #| msgctxt "@info:whatsthis second half of reportbug text with link"
 #| msgid ""
@@ -1324,7 +1324,7 @@ msgstr ""
 "αποτελεσματικά <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>κάνετε κλικ εδώ</link>.</para>"
 
-#: dolphinmainwindow.cpp:2574
+#: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1347,7 +1347,7 @@ msgstr ""
 "emphasis> είναι ο μη κερδοσκοπικός οργανισμός πίσω από την κοινότητα του KDE."
 "</para>"
 
-#: dolphinmainwindow.cpp:2587
+#: dolphinmainwindow.cpp:2596
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1359,7 +1359,7 @@ msgstr ""
 "μπορείτε να ορίσετε δευτερεύουσες γλώσσες που θα χρησιμοποιηθούν αν τα "
 "κείμενα δεν είναι διαθέσιμα στη γλώσσα της προτίμησής σας."
 
-#: dolphinmainwindow.cpp:2592
+#: dolphinmainwindow.cpp:2601
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1370,7 +1370,7 @@ msgstr ""
 "χρήσης, τις χρησιμοποιούμενες βιβλιοθήκες και τους συντηρητές αυτής της "
 "εφαρμογής."
 
-#: dolphinmainwindow.cpp:2597
+#: dolphinmainwindow.cpp:2606
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -1384,7 +1384,7 @@ msgstr ""
 "λογισμικό.<nl/>Αν σας αρέσει αυτή η εφαρμογή αλλά δεν γνωρίζετε για το KDE ή "
 "θέλετε να δείτε έναν χαριτωμένο δράκο, ρίξτε μια ματιά!"
 
-#: dolphinmainwindow.cpp:2656 dolphinmainwindow.cpp:2660
+#: dolphinmainwindow.cpp:2665 dolphinmainwindow.cpp:2669
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
@@ -3205,25 +3205,25 @@ msgctxt "@action:button"
 msgid "Exit Selection Mode"
 msgstr "Επιλογή"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:65
+#: settings/contextmenu/contextmenusettingspage.cpp:66
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Select which services should be shown in the context menu:"
 msgstr "Επιλέξτε ποιες υπηρεσίες θα εμφανίζονται στο σχετικό μενού:"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:69
+#: settings/contextmenu/contextmenusettingspage.cpp:70
 #, kde-format
 msgctxt "@label:textbox"
 msgid "Search..."
 msgstr "Αναζήτηση..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:96
+#: settings/contextmenu/contextmenusettingspage.cpp:97
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
 msgstr "Λήψη νέων υπηρεσιών..."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:203
+#: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -3233,25 +3233,25 @@ msgstr ""
 "Πρέπει να γίνει επανεκκίνηση του Dolphin για να εφαρμοστούν οι ενημερωμένες "
 "ρυθμίσεων του συστήματος ελέγχου έκδοσης."
 
-#: settings/contextmenu/contextmenusettingspage.cpp:205
+#: settings/contextmenu/contextmenusettingspage.cpp:210
 #, kde-format
 msgctxt "@info"
 msgid "Restart now?"
 msgstr "Επανεκκίνηση τώρα;"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:244
+#: settings/contextmenu/contextmenusettingspage.cpp:253
 #, kde-format
 msgctxt "@option:check"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:250
+#: settings/contextmenu/contextmenusettingspage.cpp:259
 #, kde-format
 msgctxt "@option:check"
 msgid "'Copy To' and 'Move To' commands"
 msgstr "'Αντιγραφή σε' και 'Μετακίνηση σε' εντολές"
 
-#: settings/contextmenu/contextmenusettingspage.cpp:300
+#: settings/contextmenu/contextmenusettingspage.cpp:309
 #, kde-format
 msgctxt "@item:inmenu"
 msgid "%1: %2"
@@ -3770,62 +3770,62 @@ msgstr "Μέγιστο πλήθος γραμμών κειμένου (0 σημα�
 msgid "Enabled plugins"
 msgstr "Ενεργοποιημένα πρόσθετα"
 
-#: settings/dolphinsettingsdialog.cpp:41
+#: settings/dolphinsettingsdialog.cpp:43
 #, kde-format
 msgctxt "@title:window"
 msgid "Configure"
 msgstr "Διαμόρφωση"
 
-#: settings/dolphinsettingsdialog.cpp:55
+#: settings/dolphinsettingsdialog.cpp:57
 #, kde-format
 msgctxt "@title:group General settings"
 msgid "General"
 msgstr "Γενικά"
 
-#: settings/dolphinsettingsdialog.cpp:62
+#: settings/dolphinsettingsdialog.cpp:64
 #, kde-format
 msgctxt "@title:group"
 msgid "Startup"
 msgstr "Εκκίνηση"
 
-#: settings/dolphinsettingsdialog.cpp:69
+#: settings/dolphinsettingsdialog.cpp:71
 #, kde-format
 msgctxt "@title:group"
 msgid "View Modes"
 msgstr "Τρόποι προβολής"
 
-#: settings/dolphinsettingsdialog.cpp:76
+#: settings/dolphinsettingsdialog.cpp:78
 #, kde-format
 msgctxt "@title:group"
 msgid "Navigation"
 msgstr "Πλοήγηση"
 
-#: settings/dolphinsettingsdialog.cpp:92
+#: settings/dolphinsettingsdialog.cpp:94
 #, kde-format
 msgctxt "@title:group"
 msgid "Context Menu"
 msgstr "Σχετικό μενού"
 
-#: settings/dolphinsettingsdialog.cpp:103
+#: settings/dolphinsettingsdialog.cpp:105
 #, kde-format
 msgctxt "@title:group"
 msgid "Trash"
 msgstr "Απορρίμματα"
 
-#: settings/dolphinsettingsdialog.cpp:113
+#: settings/dolphinsettingsdialog.cpp:115
 #, kde-format
 msgctxt "@title:group"
 msgid "User Feedback"
 msgstr "Σχολιασμός χρήστη"
 
-#: settings/dolphinsettingsdialog.cpp:183
+#: settings/dolphinsettingsdialog.cpp:189
 #, kde-format
 msgid ""
 "You have unsaved changes. Do you want to apply the changes or discard them?"
 msgstr ""
 "Έχετε μη αποθηκευμένες αλλαγές. Θέλετε να εφαρμοστούν ή να απορριφθούν;"
 
-#: settings/dolphinsettingsdialog.cpp:184
+#: settings/dolphinsettingsdialog.cpp:190
 #, kde-format
 msgid "Warning"
 msgstr "Προειδοποίηση"
@@ -4421,131 +4421,131 @@ msgid_plural "Size: %1 pixels"
 msgstr[0] "Μέγεθος: 1 εικονοστοιχείο"
 msgstr[1] "Μέγεθος: %1 εικονοστοιχεία"
 
-#: settings/viewpropertiesdialog.cpp:58
+#: settings/viewpropertiesdialog.cpp:60
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
 msgstr "Στιλ εμφάνισης προβολής"
 
-#: settings/viewpropertiesdialog.cpp:70
+#: settings/viewpropertiesdialog.cpp:72
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Icons"
 msgstr "Εικονίδια"
 
-#: settings/viewpropertiesdialog.cpp:71
+#: settings/viewpropertiesdialog.cpp:73
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Compact"
 msgstr "Σύμπτυξη"
 
-#: settings/viewpropertiesdialog.cpp:72
+#: settings/viewpropertiesdialog.cpp:74
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "Details"
 msgstr "Λεπτομέρειες"
 
-#: settings/viewpropertiesdialog.cpp:75
+#: settings/viewpropertiesdialog.cpp:77
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Ascending"
 msgstr "Αύξουσα"
 
-#: settings/viewpropertiesdialog.cpp:76
+#: settings/viewpropertiesdialog.cpp:78
 #, kde-format
 msgctxt "@item:inlistbox Sort"
 msgid "Descending"
 msgstr "Φθίνουσα"
 
-#: settings/viewpropertiesdialog.cpp:84
+#: settings/viewpropertiesdialog.cpp:86
 #, kde-format
 msgctxt "@option:check"
 msgid "Show folders first"
 msgstr "Εμφάνιση φακέλων πρώτα"
 
-#: settings/viewpropertiesdialog.cpp:85
+#: settings/viewpropertiesdialog.cpp:87
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files last"
 msgstr "Να εμφανίζονται τα κρυφά αρχεία τελευταία"
 
-#: settings/viewpropertiesdialog.cpp:86
+#: settings/viewpropertiesdialog.cpp:88
 #, kde-format
 msgctxt "@option:check"
 msgid "Show preview"
 msgstr "Εμφάνιση προεπισκόπησης"
 
-#: settings/viewpropertiesdialog.cpp:87
+#: settings/viewpropertiesdialog.cpp:89
 #, kde-format
 msgctxt "@option:check"
 msgid "Show in groups"
 msgstr "Εμφάνιση σε ομάδες"
 
-#: settings/viewpropertiesdialog.cpp:88
+#: settings/viewpropertiesdialog.cpp:90
 #, kde-format
 msgctxt "@option:check"
 msgid "Show hidden files"
 msgstr "Εμφάνιση κρυφών αρχείων"
 
-#: settings/viewpropertiesdialog.cpp:91
+#: settings/viewpropertiesdialog.cpp:93
 #, kde-format
 msgctxt "@title:group"
 msgid "Additional Information"
 msgstr "Πρόσθετες πληροφορίες"
 
-#: settings/viewpropertiesdialog.cpp:131
+#: settings/viewpropertiesdialog.cpp:133
 #, kde-format
 msgid "Choose what to see on each file or folder:"
 msgstr "Επιλέξτε τι θα βλέπετε σε κάθε αρχείο ή φάκελο:"
 
-#: settings/viewpropertiesdialog.cpp:141
+#: settings/viewpropertiesdialog.cpp:143
 #, kde-format
 msgctxt "@label:listbox"
 msgid "View mode:"
 msgstr "Τρόπος προβολής:"
 
-#: settings/viewpropertiesdialog.cpp:142
+#: settings/viewpropertiesdialog.cpp:144
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Sorting:"
 msgstr "Ταξινόμηση:"
 
-#: settings/viewpropertiesdialog.cpp:146
+#: settings/viewpropertiesdialog.cpp:148
 #, kde-format
 msgid "View options:"
 msgstr "Επιλογές προβολής:"
 
-#: settings/viewpropertiesdialog.cpp:174
+#: settings/viewpropertiesdialog.cpp:176
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder"
 msgstr "Τρέχοντα φάκελο"
 
-#: settings/viewpropertiesdialog.cpp:177
+#: settings/viewpropertiesdialog.cpp:179
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "Current folder and sub-folders"
 msgstr "Τρέχοντα φάκελο και υποφακέλους"
 
-#: settings/viewpropertiesdialog.cpp:179
+#: settings/viewpropertiesdialog.cpp:181
 #, kde-format
 msgctxt "@option:radio Apply View Properties To"
 msgid "All folders"
 msgstr "Όλους τους φακέλους"
 
-#: settings/viewpropertiesdialog.cpp:188
+#: settings/viewpropertiesdialog.cpp:190
 #, kde-format
 msgctxt "@title:group"
 msgid "Apply to:"
 msgstr "Εφαρμόζεται σε:"
 
-#: settings/viewpropertiesdialog.cpp:193
+#: settings/viewpropertiesdialog.cpp:195
 #, kde-format
 msgctxt "@option:check"
 msgid "Use as default view settings"
 msgstr "Χρήση ως προκαθορισμένο για ρυθμίσεις προβολής"
 
-#: settings/viewpropertiesdialog.cpp:349
+#: settings/viewpropertiesdialog.cpp:351
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4555,7 +4555,7 @@ msgstr ""
 "Οι ιδιότητες προβολής όλων των υποφακέλων θα τροποποιηθούν. Επιθυμείτε τη "
 "συνέχεια;"
 
-#: settings/viewpropertiesdialog.cpp:383
+#: settings/viewpropertiesdialog.cpp:391
 #, kde-format
 msgctxt "@info"
 msgid ""
@@ -4704,7 +4704,7 @@ msgstr "Προκαθορισμένο"
 msgid "Reload"
 msgstr "Επαναφόρτωση"
 
-#: views/dolphinview.cpp:630
+#: views/dolphinview.cpp:632
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4712,7 +4712,7 @@ msgid_plural "%1 Folders selected"
 msgstr[0] "1 επιλεγμένος φάκελος"
 msgstr[1] "%1 επιλεγμένοι φάκελοι"
 
-#: views/dolphinview.cpp:631
+#: views/dolphinview.cpp:633
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4720,7 +4720,7 @@ msgid_plural "%1 Files selected"
 msgstr[0] "1 επιλεγμένο αρχείο"
 msgstr[1] "%1 επιλεγμένα αρχεία"
 
-#: views/dolphinview.cpp:633
+#: views/dolphinview.cpp:635
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4728,7 +4728,7 @@ msgid_plural "%1 Folders"
 msgstr[0] "1 φάκελος"
 msgstr[1] "%1 φάκελοι"
 
-#: views/dolphinview.cpp:634
+#: views/dolphinview.cpp:636
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4736,38 +4736,38 @@ msgid_plural "%1 Files"
 msgstr[0] "1 Αρχείο"
 msgstr[1] "%1 Αρχεία"
 
-#: views/dolphinview.cpp:638
+#: views/dolphinview.cpp:640
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:644
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:648
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 φάκελοι, 0 αρχεία"
 
-#: views/dolphinview.cpp:851 views/dolphinview.cpp:860
+#: views/dolphinview.cpp:853 views/dolphinview.cpp:862
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr "%1 αντίγραφο"
 
-#: views/dolphinview.cpp:1019
+#: views/dolphinview.cpp:1021
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
 msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα αντικείμενο;"
 msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 αντικείμενα;"
 
-#: views/dolphinview.cpp:1021
+#: views/dolphinview.cpp:1027
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Tools"
 #| msgid "Open %1"
@@ -4777,43 +4777,43 @@ msgid_plural "Open %1 Items"
 msgstr[0] "Άνοιγμα %1"
 msgstr[1] "Άνοιγμα %1"
 
-#: views/dolphinview.cpp:1150
+#: views/dolphinview.cpp:1160
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1154
+#: views/dolphinview.cpp:1164
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Αυτόματο πλάτος στηλών"
 
-#: views/dolphinview.cpp:1159
+#: views/dolphinview.cpp:1169
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Προσαρμοσμένο πλάτος στηλών"
 
-#: views/dolphinview.cpp:1735
+#: views/dolphinview.cpp:1745
 #, kde-format
 msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Η διαδικασία απόρριψης ολοκληρώθηκε."
 
-#: views/dolphinview.cpp:1744
+#: views/dolphinview.cpp:1754
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Η διαδικασία διαγραφής ολοκληρώθηκε."
 
-#: views/dolphinview.cpp:1880
+#: views/dolphinview.cpp:1890
 #, kde-format
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Μετονομασία και απόκρυψη"
 
-#: views/dolphinview.cpp:1883
+#: views/dolphinview.cpp:1897
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
@@ -4823,7 +4823,7 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να το μετονομάσετε;"
 
-#: views/dolphinview.cpp:1885
+#: views/dolphinview.cpp:1899
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
@@ -4833,91 +4833,91 @@ msgstr ""
 "εμφανίζεται στην προβολή.\n"
 "Επιμένετε να τον μετονομάσετε;"
 
-#: views/dolphinview.cpp:1887
+#: views/dolphinview.cpp:1901
 #, kde-format
 msgid "Hide this File?"
 msgstr "Να γίνει απόκρυψη αυτού του αρχείου;"
 
-#: views/dolphinview.cpp:1887
+#: views/dolphinview.cpp:1901
 #, kde-format
 msgid "Hide this Folder?"
 msgstr "Να γίνει απόκρυψη αυτού του φακέλου;"
 
-#: views/dolphinview.cpp:1939
+#: views/dolphinview.cpp:1957
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Η τοποθεσία είναι κενή."
 
-#: views/dolphinview.cpp:1941
+#: views/dolphinview.cpp:1959
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Η τοποθεσία «%1» δεν είναι έγκυρη."
 
-#: views/dolphinview.cpp:2187
+#: views/dolphinview.cpp:2205
 #, kde-format
 msgid "Loading..."
 msgstr "Φόρτωση..."
 
-#: views/dolphinview.cpp:2206
+#: views/dolphinview.cpp:2224
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Φόρτωση φακέλου..."
 
-#: views/dolphinview.cpp:2208
+#: views/dolphinview.cpp:2226
 #, kde-format
 msgid "No items matching the filter"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με το φίλτρο"
 
-#: views/dolphinview.cpp:2210
+#: views/dolphinview.cpp:2228
 #, kde-format
 msgid "No items matching the search"
 msgstr "Τα αντικείμενα δεν ταιριάζουν με την αναζήτηση"
 
-#: views/dolphinview.cpp:2212
+#: views/dolphinview.cpp:2230
 #, kde-format
 msgid "Trash is empty"
 msgstr "Ο κάδος απορριμμάτων είναι άδειος"
 
-#: views/dolphinview.cpp:2215
+#: views/dolphinview.cpp:2233
 #, kde-format
 msgid "No tags"
 msgstr "Χωρίς ετικέτες"
 
-#: views/dolphinview.cpp:2218
+#: views/dolphinview.cpp:2236
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2222
+#: views/dolphinview.cpp:2240
 #, kde-format
 msgid "No recently used items"
 msgstr "Χωρίς πρόσφατα αντικείμενα σε χρήση"
 
-#: views/dolphinview.cpp:2224
+#: views/dolphinview.cpp:2242
 #, kde-format
 msgid "No shared folders found"
 msgstr "Δεν βρέθηκαν κοινόχρηστοι φάκελοι"
 
-#: views/dolphinview.cpp:2226
+#: views/dolphinview.cpp:2244
 #, kde-format
 msgid "No relevant network resources found"
 msgstr "Δεν βρέθηκαν σχετικοί δικτυακοί πόροι"
 
-#: views/dolphinview.cpp:2228
+#: views/dolphinview.cpp:2246
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr "Δεν βρέθηκαν MTP-συμβατές συσκευές"
 
-#: views/dolphinview.cpp:2230
+#: views/dolphinview.cpp:2248
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Δεν βρέθηκαν συσκευές bluetooth"
 
-#: views/dolphinview.cpp:2232
+#: views/dolphinview.cpp:2250
 #, kde-format
 msgid "Folder is empty"
 msgstr "Ο φάκελος είναι άδειος"
