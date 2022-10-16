@@ -103,7 +103,7 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
     } else {
         filters |= QDir::AllEntries;
     }
-    return {dir.entryList(filters).count(), 0};
+    return {static_cast<int>(dir.entryList(filters).count()), 0};
 #else
 
     const uint maxRecursiveLevel = DetailsModeSettings::directorySizeCount() ? 1 : DetailsModeSettings::recursiveDirectorySizeLimit();
