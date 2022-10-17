@@ -30,6 +30,7 @@
   <name xml:lang="is">Dolphin</name>
   <name xml:lang="it">Dolphin</name>
   <name xml:lang="ja">Dolphin</name>
+  <name xml:lang="ka">Dolphin</name>
   <name xml:lang="ko">Dolphin</name>
   <name xml:lang="lt">Dolphin</name>
   <name xml:lang="ml">ഡോൾഫിൻ</name>
@@ -85,6 +86,7 @@
   <summary xml:lang="is">Skráastjóri</summary>
   <summary xml:lang="it">Gestore file</summary>
   <summary xml:lang="ja">ファイルマネージャ</summary>
+  <summary xml:lang="ka">ფაილების მმართველი</summary>
   <summary xml:lang="ko">파일 관리자</summary>
   <summary xml:lang="lt">Failų tvarkytuvė</summary>
   <summary xml:lang="ml">ഫയല്‍ കാര്യസ്ഥന്‍</summary>
@@ -327,6 +329,7 @@
       <caption xml:lang="is">Skráastjórnun með Dolphin</caption>
       <caption xml:lang="it">Gestione dei file in Dolphin</caption>
       <caption xml:lang="ja">Dolphin でのファイル管理</caption>
+      <caption xml:lang="ka">ფაილების მართვა Dolhin-ში</caption>
       <caption xml:lang="ko">Dolphin의 파일 관리</caption>
       <caption xml:lang="lt">Failų tvarkymas Dolphin programoje</caption>
       <caption xml:lang="ml">ഡോൾഫിനിലെ ഫയൽ കൈകാര്യം ചെയ്യൽ</caption>
@@ -373,6 +376,7 @@
       <caption xml:lang="is">Ívafinn skjáhermir í Dolphin</caption>
       <caption xml:lang="it">Terminale integrato in Dolphin</caption>
       <caption xml:lang="ja">Dolphin の組み込みターミナル</caption>
+      <caption xml:lang="ka">Dolphin-ის ჩადგმული ტერმინალი</caption>
       <caption xml:lang="ko">Dolphin에 내장된 터미널</caption>
       <caption xml:lang="my">လင်းပိုင်တွင် မြှပ်သွင်း-တာမီနယ်</caption>
       <caption xml:lang="nl">Ingebedde terminal in Dolphin</caption>
