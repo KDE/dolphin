@@ -170,6 +170,9 @@ void DolphinContextMenu::addDirectoryItemContextMenu()
 
     // set up 'Create New' menu
     DolphinNewFileMenu *newFileMenu = new DolphinNewFileMenu(m_mainWindow->actionCollection(), m_mainWindow);
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    newFileMenu->setNewFolderShortcutAction(m_mainWindow->actionCollection()->action("create_dir"));
+#endif
     newFileMenu->checkUpToDate();
 #if KIO_VERSION >= QT_VERSION_CHECK(5, 97, 0)
     newFileMenu->setWorkingDirectory(m_fileInfo.url());

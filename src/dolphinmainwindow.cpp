@@ -163,6 +163,10 @@ DolphinMainWindow::DolphinMainWindow()
     connect(m_actionHandler, &DolphinViewActionHandler::createDirectoryTriggered, this, &DolphinMainWindow::createDirectory);
     connect(m_actionHandler, &DolphinViewActionHandler::selectionModeChangeTriggered, this, &DolphinMainWindow::slotSetSelectionMode);
 
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action("create_dir"));
+#endif
+
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, &DolphinMainWindow::urlChanged, m_remoteEncoding, &DolphinRemoteEncoding::slotAboutToOpenUrl);
 
