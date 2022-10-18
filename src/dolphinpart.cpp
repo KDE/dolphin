@@ -159,6 +159,9 @@ void DolphinPart::createActions()
 
     m_newFileMenu = new DolphinNewFileMenu(actionCollection(), this);
     m_newFileMenu->setParentWidget(widget());
+#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+    m_newFileMenu->setNewFolderShortcutAction(actionCollection()->action("create_dir"));
+#endif
     connect(m_newFileMenu->menu(), &QMenu::aboutToShow,
             this, &DolphinPart::updateNewMenu);
 
