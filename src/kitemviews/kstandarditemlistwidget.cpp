@@ -241,6 +241,7 @@ KStandardItemListWidget::KStandardItemListWidget(KItemListWidgetInformant* infor
     m_customizedFont(),
     m_customizedFontMetrics(m_customizedFont),
     m_isExpandable(false),
+    m_highlightEntireRow(false),
     m_supportsItemExpanding(false),
     m_dirtyLayout(true),
     m_dirtyContent(true),

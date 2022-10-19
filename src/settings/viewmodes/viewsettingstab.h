@@ -56,6 +56,7 @@ private:
     DolphinFontRequester* m_fontRequester;
     QComboBox* m_widthBox;
     QComboBox* m_maxLinesBox;
+    QCheckBox* m_highlightEntireRow;
     QCheckBox* m_expandableFolders;
     QRadioButton* m_numberOfItems;
     QRadioButton* m_sizeOfContents;

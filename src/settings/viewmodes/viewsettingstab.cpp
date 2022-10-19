@@ -101,6 +101,10 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable"));
         topLayout->addRow(i18nc("@label:checkbox", "Folders:"), m_expandableFolders);
 
+        m_highlightEntireRow = new QCheckBox(i18nc("@option:check", "Highlight entire row"));
+        topLayout->addRow(i18nc("@label:checkbox", "Selection effect:"), m_highlightEntireRow);
+
+
 #ifndef Q_OS_WIN
         // Sorting properties
         m_numberOfItems = new QRadioButton(i18nc("option:radio", "Number of items"));
@@ -161,6 +165,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
+        connect(m_highlightEntireRow, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
 #ifndef Q_OS_WIN
         connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &ViewSettingsTab::changed);
@@ -195,6 +200,22 @@ void ViewSettingsTab::applySettings()
         CompactModeSettings::setMaximumTextWidthIndex(m_widthBox->currentIndex());
         break;
     case DetailsMode:
+        // We need side-padding when the full row is a click target to still be able to not click items.
+        // So here the default padding is enabled when the full row highlight is enabled.
+        if (m_highlightEntireRow->isChecked() && !DetailsModeSettings::highlightEntireRow()) {
+            auto detailsModeSettings = DetailsModeSettings::self();
+            const bool usedDefaults = detailsModeSettings->useDefaults(true);
+            const int defaultSidePadding = detailsModeSettings->sidePadding();
+            detailsModeSettings->useDefaults(usedDefaults);
+            if (DetailsModeSettings::sidePadding() < defaultSidePadding) {
+                DetailsModeSettings::setSidePadding(defaultSidePadding);
+            }
+        } else if (!m_highlightEntireRow->isChecked() && DetailsModeSettings::highlightEntireRow()) {
+            // The full row click target is disabled so now most of the view area can be used to interact
+            // with the view background. Having an extra side padding has no usability benefit in this case.
+            DetailsModeSettings::setSidePadding(0);
+        }
+        DetailsModeSettings::setHighlightEntireRow(m_highlightEntireRow->isChecked());
         DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
 #ifndef Q_OS_WIN
         DetailsModeSettings::setDirectorySizeCount(m_numberOfItems->isChecked());
@@ -238,6 +259,7 @@ void ViewSettingsTab::loadSettings()
         m_widthBox->setCurrentIndex(CompactModeSettings::maximumTextWidthIndex());
         break;
     case DetailsMode:
+        m_highlightEntireRow->setChecked(DetailsModeSettings::highlightEntireRow());
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
         #ifndef Q_OS_WIN
             if (DetailsModeSettings::directorySizeCount()) {

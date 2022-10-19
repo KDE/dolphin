@@ -36,7 +36,7 @@ void KStandardItemListView::setItemLayout(ItemLayout layout)
     m_itemLayout = layout;
 
     // keep the leading padding option unchanged here
-    setHighlightEntireRow(layout == DetailsLayout);
+    setHighlightEntireRow(itemLayoutHighlightEntireRow(layout));
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(layout));
     setScrollOrientation(layout == CompactLayout ? Qt::Horizontal : Qt::Vertical);
 
@@ -91,6 +91,11 @@ bool KStandardItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& c
         }
     }
     return false;
+}
+
+bool KStandardItemListView::itemLayoutHighlightEntireRow(ItemLayout layout) const
+{
+    return layout == DetailsLayout;
 }
 
 bool KStandardItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const

@@ -83,7 +83,7 @@ void DolphinItemListView::readSettings()
     beginTransaction();
 
     setEnabledSelectionToggles(m_selectionTogglesEnabled);
-    setHighlightEntireRow(DetailsModeSettings::sidePadding());
+    setHighlightEntireRow(itemLayoutHighlightEntireRow(itemLayout()));
     setSupportsItemExpanding(itemLayoutSupportsItemExpanding(itemLayout()));
 
     updateFont();
@@ -105,6 +105,11 @@ void DolphinItemListView::writeSettings()
 KItemListWidgetCreatorBase* DolphinItemListView::defaultWidgetCreator() const
 {
     return new KItemListWidgetCreator<DolphinFileItemListWidget>();
+}
+
+bool DolphinItemListView::itemLayoutHighlightEntireRow(ItemLayout layout) const
+{
+    return layout == DetailsLayout && DetailsModeSettings::highlightEntireRow();
 }
 
 bool DolphinItemListView::itemLayoutSupportsItemExpanding(ItemLayout layout) const

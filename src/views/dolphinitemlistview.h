@@ -47,6 +47,9 @@ public:
 
 protected:
     KItemListWidgetCreatorBase* defaultWidgetCreator() const override;
+    /** Overwriting in the Dolphin-specific class because we want this to be user-configurable.
+     * @see KStandardItemListView::itemLayoutHighlightEntireRow */
+    bool itemLayoutHighlightEntireRow(ItemLayout layout) const override;
     bool itemLayoutSupportsItemExpanding(ItemLayout layout) const override;
     void onItemLayoutChanged(ItemLayout current, ItemLayout previous) override;
     void onPreviewsShownChanged(bool shown) override;

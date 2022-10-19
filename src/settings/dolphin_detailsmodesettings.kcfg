@@ -31,6 +31,10 @@
             <label>Side Padding</label>
             <default>20</default>
         </entry>
+        <entry name="HighlightEntireRow" type="Bool">
+            <label>Highlight entire row</label>
+            <default>true</default>
+        </entry>
         <entry name="ExpandableFolders" type="Bool">
             <label>Expandable folders</label>
             <default>true</default>
