@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-17 00:49+0000\n"
-"PO-Revision-Date: 2022-08-19 11:17+0300\n"
+"PO-Revision-Date: 2022-10-18 05:54+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 22.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -656,9 +656,9 @@ msgid ""
 "their own <filename>Home</filename> that contains their data including "
 "folders that contain personal application data."
 msgstr ""
-"<filename>Ev</filename> klasörünüze gidin.<nl/>Her kullanıcı hesabının, "
+"<filename>Ana</filename> klasörünüze gidin.<nl/>Her kullanıcı hesabının, "
 "kişisel uygulama verilerini içeren klasörler de dahil olmak üzere verilerini "
-"içeren kendi <filename>Ev</filename>'i bulunur."
+"içeren kendi <filename>Ana</filename> klasörü bulunur."
 
 #: dolphinmainwindow.cpp:1861
 #, kde-format
@@ -2387,7 +2387,7 @@ msgstr "Gösterilen gizli dosyalar"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
 #, kde-format
 msgid "Limit folders panel to home directory if inside home"
-msgstr "Ev dizini içindeyse klasörler panelini ev dizinine sınırla"
+msgstr "Ana dizin içindeyse klasörler panelini ana dizine sınırla"
 
 #. i18n: ectx: label, entry (AutoScrolling), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
@@ -2435,7 +2435,7 @@ msgstr "Gizli Dosyaları Göster"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Limit to Home Directory"
-msgstr "Ev Dizinine Sınırla"
+msgstr "Ana Dizine Sınırla"
 
 #: panels/folders/treeviewcontextmenu.cpp:132
 #, kde-format
@@ -2765,7 +2765,7 @@ msgstr "Dosyalarınız"
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
-msgstr "Ev dizininizde arayın"
+msgstr "Ana dizininizde arayın"
 
 #: search/dolphinsearchbox.cpp:399
 #, kde-format
@@ -3460,7 +3460,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:46
 #, kde-format
 msgid "Home URL"
-msgstr "Ev URL'si"
+msgstr "Ana Dizin URL'si"
 
 #. i18n: ectx: label, entry (RememberOpenedTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:50
@@ -3997,7 +3997,7 @@ msgstr "Son kullanlıan klasörler, sekmeler ve pencere durumu"
 #, kde-format
 msgctxt "@action:button"
 msgid "Select Home Location"
-msgstr "Ev Konumunu Seç"
+msgstr "Ana Dizin Konumunu Seç"
 
 #: settings/startup/startupsettingspage.cpp:78
 #, kde-format
@@ -4070,7 +4070,7 @@ msgctxt "@info"
 msgid ""
 "The location for the home folder is invalid or does not exist, it will not "
 "be applied."
-msgstr "Ev klasörünün konumu geçersiz veya yok; uygulanmayacak."
+msgstr "Ana klasörünün konumu geçersiz veya yok; uygulanmayacak."
 
 #: settings/viewmodes/dolphinfontrequester.cpp:28
 #, kde-format
