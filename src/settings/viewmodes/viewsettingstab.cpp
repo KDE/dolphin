@@ -101,8 +101,17 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable"));
         topLayout->addRow(i18nc("@label:checkbox", "Folders:"), m_expandableFolders);
 
-        m_highlightEntireRow = new QCheckBox(i18nc("@option:check", "Highlight entire row"));
-        topLayout->addRow(i18nc("@label:checkbox", "Selection effect:"), m_highlightEntireRow);
+        // Item activation area
+        m_entireRow = new QRadioButton(i18nc("@option:radio how files/folders are opened", "By clicking anywhere on the row"));
+        m_iconAndNameOnly = new QRadioButton(i18nc("@option:radio how files/folders are opened", "By clicking on icon or name"));
+
+        auto itemActivationAreaGroup = new QButtonGroup(this);
+        itemActivationAreaGroup->addButton(m_entireRow);
+        itemActivationAreaGroup->addButton(m_iconAndNameOnly);
+
+        // i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
+        topLayout->addRow(i18nc("@title:group", "Open files and folders:"), m_entireRow);
+        topLayout->addRow(QString(), m_iconAndNameOnly);
 
 
 #ifndef Q_OS_WIN
@@ -165,7 +174,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         connect(m_widthBox, &QComboBox::currentIndexChanged, this, &ViewSettingsTab::changed);
         break;
     case DetailsMode:
-        connect(m_highlightEntireRow, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
+        connect(m_entireRow, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
         connect(m_expandableFolders, &QCheckBox::toggled, this, &ViewSettingsTab::changed);
 #ifndef Q_OS_WIN
         connect(m_recursiveDirectorySizeLimit, &QSpinBox::valueChanged, this, &ViewSettingsTab::changed);
@@ -202,20 +211,20 @@ void ViewSettingsTab::applySettings()
     case DetailsMode:
         // We need side-padding when the full row is a click target to still be able to not click items.
         // So here the default padding is enabled when the full row highlight is enabled.
-        if (m_highlightEntireRow->isChecked() && !DetailsModeSettings::highlightEntireRow()) {
+        if (m_entireRow->isChecked() && !DetailsModeSettings::highlightEntireRow()) {
             auto detailsModeSettings = DetailsModeSettings::self();
             const bool usedDefaults = detailsModeSettings->useDefaults(true);
-            const int defaultSidePadding = detailsModeSettings->sidePadding();
+            const uint defaultSidePadding = detailsModeSettings->sidePadding();
             detailsModeSettings->useDefaults(usedDefaults);
             if (DetailsModeSettings::sidePadding() < defaultSidePadding) {
                 DetailsModeSettings::setSidePadding(defaultSidePadding);
             }
-        } else if (!m_highlightEntireRow->isChecked() && DetailsModeSettings::highlightEntireRow()) {
+        } else if (!m_entireRow->isChecked() && DetailsModeSettings::highlightEntireRow()) {
             // The full row click target is disabled so now most of the view area can be used to interact
             // with the view background. Having an extra side padding has no usability benefit in this case.
             DetailsModeSettings::setSidePadding(0);
         }
-        DetailsModeSettings::setHighlightEntireRow(m_highlightEntireRow->isChecked());
+        DetailsModeSettings::setHighlightEntireRow(m_entireRow->isChecked());
         DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
 #ifndef Q_OS_WIN
         DetailsModeSettings::setDirectorySizeCount(m_numberOfItems->isChecked());
@@ -259,7 +268,8 @@ void ViewSettingsTab::loadSettings()
         m_widthBox->setCurrentIndex(CompactModeSettings::maximumTextWidthIndex());
         break;
     case DetailsMode:
-        m_highlightEntireRow->setChecked(DetailsModeSettings::highlightEntireRow());
+        m_entireRow->setChecked(DetailsModeSettings::highlightEntireRow());
+        m_iconAndNameOnly->setChecked(!m_entireRow->isChecked());
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
         #ifndef Q_OS_WIN
             if (DetailsModeSettings::directorySizeCount()) {
