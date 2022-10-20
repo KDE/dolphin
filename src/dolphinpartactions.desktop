@@ -8,7 +8,6 @@ Actions=icons;details;compact;
 [Desktop Action icons]
 Name=Icons
 Name[ar]=الأيقونات
-Name[ast]=Iconos
 Name[az]=İkonlar
 Name[bg]=Икони
 Name[ca]=Icones
@@ -69,7 +68,6 @@ Exec=dolphin
 [Desktop Action compact]
 Name=Compact
 Name[ar]=متراصّ
-Name[ast]=Compauta
 Name[az]=Yığcam
 Name[bg]=Компактен
 Name[ca]=Compacta
@@ -129,7 +127,6 @@ Exec=dolphin
 [Desktop Action details]
 Name=Details
 Name[ar]=التّفاصيل
-Name[ast]=Detalles
 Name[az]=Ətraflı
 Name[bg]=Подробности
 Name[ca]=Detalls
