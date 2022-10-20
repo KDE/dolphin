@@ -3846,7 +3846,7 @@ msgstr "Se suprimisquen fitxers o carpetes"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "Demana confirmació a Dolphin quan:"
+msgstr "Demana confirmació en Dolphin quan:"
 
 #: settings/general/confirmationssettingspage.cpp:62
 #, kde-format
