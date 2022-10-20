@@ -5,7 +5,6 @@
   <project_license>GPL-2.0-or-later</project_license>
   <name>Dolphin</name>
   <name xml:lang="ar">دولفين</name>
-  <name xml:lang="ast">Dolphin</name>
   <name xml:lang="az">Dolphin</name>
   <name xml:lang="bg">Dolphin</name>
   <name xml:lang="bs">Dolphin</name>
@@ -61,7 +60,6 @@
   <name xml:lang="zh-TW">Dolphin</name>
   <summary>File Manager</summary>
   <summary xml:lang="ar">مدير ملفات</summary>
-  <summary xml:lang="ast">Xestor de ficheros</summary>
   <summary xml:lang="az">Fayl meneceri</summary>
   <summary xml:lang="bg">Файлов мениджър</summary>
   <summary xml:lang="bs">Upravitelj datoteka</summary>
@@ -305,11 +303,10 @@
     <screenshot type="default">
       <caption>File management in Dolphin</caption>
       <caption xml:lang="ar">إدارة الملفات في دولفين</caption>
-      <caption xml:lang="ast">Xestión de ficheros en Dolphin</caption>
       <caption xml:lang="az">Dolphində faylların idarə edilməsi</caption>
       <caption xml:lang="bg">Управление на файлове в Dolphin</caption>
       <caption xml:lang="ca">Gestió de fitxers al Dolphin</caption>
-      <caption xml:lang="ca-valencia">Gestió de fitxers a Dolphin</caption>
+      <caption xml:lang="ca-valencia">Gestió de fitxers en Dolphin</caption>
       <caption xml:lang="cs">Správa souborů v Dolphinu</caption>
       <caption xml:lang="da">Filhåndtering i Dolphin</caption>
       <caption xml:lang="de">Dateiverwaltung mit Dolphin</caption>
