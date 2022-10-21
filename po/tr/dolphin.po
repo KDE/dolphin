@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-17 00:49+0000\n"
-"PO-Revision-Date: 2022-10-18 05:54+0300\n"
+"PO-Revision-Date: 2022-10-20 12:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1967,7 +1967,7 @@ msgstr "Yaz,"
 #, kde-format
 msgctxt "@item:intext Access permission, concatenated"
 msgid "Execute, "
-msgstr "Çalıştır,"
+msgstr "Yürüt,"
 
 #: kitemviews/kfileitemmodel.cpp:2504 kitemviews/kfileitemmodel.cpp:2517
 #: kitemviews/kfileitemmodel.cpp:2530
@@ -3834,7 +3834,7 @@ msgstr "Uçbirim panelinde çalışan bir programı olan pencereler kapatılırk
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
-msgstr "Çalıştırılabilir bir dosyayı açarken:"
+msgstr "Yürütülebilir bir dosyayı açarken:"
 
 #: settings/general/confirmationssettingspage.cpp:75
 #, kde-format
