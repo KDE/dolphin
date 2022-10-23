@@ -77,8 +77,10 @@ void DolphinItemListView::setEnabledSelectionToggles(DolphinItemListView::Select
 
 void DolphinItemListView::readSettings()
 {
-    ViewModeSettings settings(itemLayout());
-    settings.readConfig();
+    // We load the settings for all view modes now because we don't load them when the view mode changes.
+    IconsModeSettings::self()->load();
+    CompactModeSettings::self()->load();
+    DetailsModeSettings::self()->load();
 
     beginTransaction();
 
