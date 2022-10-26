@@ -3043,8 +3043,8 @@ msgstr[1] "Mou %2 a la paperera"
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Canvia el nom %2"
-msgstr[1] "Canvia el nom %2"
+msgstr[0] "Canvia el nom de %2"
+msgstr[1] "Canvia el nom de %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
