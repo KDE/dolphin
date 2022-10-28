@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-17 00:49+0000\n"
+"POT-Creation-Date: 2022-10-28 00:48+0000\n"
 "PO-Revision-Date: 2022-02-26 11:47+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: Hindi <kde-l10n-hi@kde.org>\n"
@@ -3119,26 +3119,32 @@ msgstr "स्तम्भों की स्थिति"
 msgid "Side Padding"
 msgstr ""
 
-#. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
+#. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
+#, kde-format
+msgid "Highlight entire row"
+msgstr ""
+
+#. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
+#: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Expandable folders"
 msgstr "फैलाए जा सकने वाले फ़ोल्डर"
 
 #. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:39
+#: settings/dolphin_detailsmodesettings.kcfg:43
 #, kde-format
 msgid "Whether or not content count is used as directory size"
 msgstr ""
 
 #. i18n: ectx: label, entry (RecursiveDirectorySizeLimit), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:43
+#: settings/dolphin_detailsmodesettings.kcfg:47
 #, kde-format
 msgid "Recursive directory size limit"
 msgstr "पुनरावर्ती निर्देशिका आकार सीमा"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
-#: settings/dolphin_detailsmodesettings.kcfg:47
+#: settings/dolphin_detailsmodesettings.kcfg:51
 #, kde-format
 msgid "if true we use short relative dates, if not short dates"
 msgstr ""
@@ -4102,50 +4108,71 @@ msgctxt "@label:checkbox"
 msgid "Folders:"
 msgstr "फ़ोल्डर :"
 
+#: settings/viewmodes/viewsettingstab.cpp:105
+#, kde-format
+msgctxt "@option:radio how files/folders are opened"
+msgid "By clicking anywhere on the row"
+msgstr ""
+
 #: settings/viewmodes/viewsettingstab.cpp:106
+#, kde-format
+msgctxt "@option:radio how files/folders are opened"
+msgid "By clicking on icon or name"
+msgstr ""
+
+#. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
+#: settings/viewmodes/viewsettingstab.cpp:113
+#, fuzzy, kde-format
+#| msgctxt "@info:tooltip"
+#| msgid "Search for files and folders"
+msgctxt "@title:group"
+msgid "Open files and folders:"
+msgstr "फ़इल व फोल्डरों के लिए खोजें"
+
+#: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
 msgstr "वस्तुओं की संख्या"
 
-#: settings/viewmodes/viewsettingstab.cpp:107
+#: settings/viewmodes/viewsettingstab.cpp:120
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
 msgstr "सामग्री का आकार, इस तक "
 
-#: settings/viewmodes/viewsettingstab.cpp:115
+#: settings/viewmodes/viewsettingstab.cpp:128
 #, kde-format
 msgid " level deep"
 msgid_plural " levels deep"
 msgstr[0] " स्तर गहरा"
 msgstr[1] " स्तर गहरा"
 
-#: settings/viewmodes/viewsettingstab.cpp:124
+#: settings/viewmodes/viewsettingstab.cpp:137
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
 msgstr "फ़ोल्डर आकार प्रदर्शन :"
 
-#: settings/viewmodes/viewsettingstab.cpp:133
+#: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
 msgctxt "option:radio as in relative date"
 msgid "Relative (e.g. '%1')"
 msgstr "सापेक्ष (जैसे '%1')"
 
-#: settings/viewmodes/viewsettingstab.cpp:136
+#: settings/viewmodes/viewsettingstab.cpp:149
 #, kde-format
 msgctxt "option:radio as in absolute date"
 msgid "Absolute (e.g. '%1')"
 msgstr "निरपेक्ष (जैसे '%1')"
 
-#: settings/viewmodes/viewsettingstab.cpp:143
+#: settings/viewmodes/viewsettingstab.cpp:156
 #, kde-format
 msgctxt "@title:group"
 msgid "Date style:"
 msgstr "दिनांक शैलि :"
 
-#: settings/viewmodes/viewsettingstab.cpp:288
+#: settings/viewmodes/viewsettingstab.cpp:320
 #: statusbar/dolphinstatusbar.cpp:320
 #, kde-format
 msgctxt "@info:tooltip"
