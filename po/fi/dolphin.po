@@ -22,16 +22,16 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-09-06 16:35+0300\n"
-"Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
-"Language-Team: KDE\n"
+"PO-Revision-Date: 2022-10-28 00:48+0300\n"
+"Last-Translator: Lasse Liehu <lasse.liehu@iki.fi>\n"
+"Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2013-01-13 20:43:20+0000\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -320,7 +320,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Leikkaa…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -336,12 +336,10 @@ msgstr ""
 "toisaalle. Alkuperäiset kohteet poistetaan."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopioi"
+msgstr "Kopioi…"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -380,12 +378,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopioi passiiviseen jakonäkymään"
 
 #: dolphinmainwindow.cpp:1634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Kopioi passiiviseen jakonäkymään"
+msgstr "Kopioi passiiviseen jakonäkymään…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -411,12 +407,10 @@ msgid "Move to Inactive Split View"
 msgstr "Siirrä passiiviseen jakonäkymään"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Siirrä passiiviseen jakonäkymään"
+msgstr "Siirrä passiiviseen jakonäkymään…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -511,19 +505,15 @@ msgstr "Etsi"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Etsi tiedostoja ja kansioita"
+msgstr "Valitse tiedostot ja kansiot"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Valitse"
@@ -4949,36 +4939,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Kopioi ensimmäisen valitun kohteen sijainnin leikepöydälle."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Siirrä roskakoriin"
+msgstr "Siirrä roskakoriin…"
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Poista"
+msgstr "Poista…"
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Monista tähän"
+msgstr "Monista tähän…"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopioi sijainti"
+msgstr "Kopioi sijainti…"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format

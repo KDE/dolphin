@@ -1198,7 +1198,7 @@ context menu Icon Size? No different entries ?-->
 <para
 >Si totes les extensions de fitxer a la selecció són diferents, el nom de tots els fitxers es podrà canviar sense necessitat d'utilitzar un marcador de posició <userinput
 >#</userinput
-> preservant alhora les extensions de fitxer. Això és útil, &pex;, per a canviar el nom d'un fitxer de vídeo i tots els fitxers de subtítols associats, de manera que tinguin el mateix nom de fitxer, però amb extensions diferents. </para>
+> conservant alhora les extensions de fitxer. Això és útil, &pex;, per a canviar el nom d'un fitxer de vídeo i tots els fitxers de subtítols associats, de manera que tinguin el mateix nom de fitxer, però amb extensions diferents. </para>
 </sect2>
 
 <sect2 id="compare-files">

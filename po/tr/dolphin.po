@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-10-20 12:06+0300\n"
+"PO-Revision-Date: 2022-10-28 13:25+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -54,19 +54,19 @@ msgstr "Yeni Oluştur"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path"
-msgstr "Konumu Aç"
+msgstr "Yolu Aç"
 
 #: dolphincontextmenu.cpp:218
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Window"
-msgstr "Adresi Yeni Pencerede Aç"
+msgstr "Yolu Yeni Pencerede Aç"
 
 #: dolphincontextmenu.cpp:225
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open Path in New Tab"
-msgstr "Adresi Yeni Sekmede Aç"
+msgstr "Yolu Yeni Sekmede Aç"
 
 #: dolphinmainwindow.cpp:308
 #, kde-format
@@ -1182,7 +1182,7 @@ msgid ""
 msgstr ""
 "Bu, bu uygulama için çok sayıda ayarı değiştirebileceğiniz bir pencere açar. "
 "Çeşitli ayarların açıklaması için <interface>Yardım|Dolphin El Kitabı</"
-"interface> içinde <emphasis>Dolphin Yapılandırması</emphasis> bölümüne gidin."
+"interface> içinde <emphasis>Dolphin Yapılandırması</emphasis> faslına gidin."
 
 #. i18n: If the external link isn't available in your language it might make
 #. sense to state the external link's language in brackets to not
@@ -1529,7 +1529,7 @@ msgstr ""
 "sağa izlemek buraya götürür.</para><para>Bu etkileşimli yol, beklenenden "
 "daha güçlüdür. Konum çubuğunun temel ve gelişmiş özellikleri hakkında daha "
 "fazla bilgi edinmek için <link url='help: /dolphin/location-bar.html'>burayı "
-"tıklayın</link>. Bu, El Kitabındaki özel sayfayı açacaktır.</para>"
+"tıklayın</link>. Bu, El Kitabı'ndaki özel sayfayı açacaktır.</para>"
 
 #: dolphinviewcontainer.cpp:90
 #, kde-kuit-format
@@ -3221,7 +3221,7 @@ msgstr "Kenar Dolgusu"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Tüm satırı vurgula"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4062,13 +4062,13 @@ msgstr "Genel:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path inside location bar"
-msgstr "Konum çubuğunda tam adresi göster"
+msgstr "Konum çubuğunda tam yolu göster"
 
 #: settings/startup/startupsettingspage.cpp:113
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Show full path in title bar"
-msgstr "Başlık çubuğunda tam adresi göster"
+msgstr "Başlık çubuğunda tam yolu göster"
 
 #: settings/startup/startupsettingspage.cpp:235
 #, kde-format
@@ -4232,22 +4232,20 @@ msgstr "Klasörler:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Satırda herhangi bir yere tıklayarak"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Simgeye veya ada tıklayarak"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Dosyaları ve klasörleri ara"
+msgstr "Dosyaları ve klasörleri aç:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
