@@ -15,6 +15,7 @@
 #include <kio/global.h>
 #include <KIO/CommandLauncherJob>
 #include <KAcceleratorManager>
+#include <KLocalizedString>
 
 #include <QApplication>
 #include <QDropEvent>
@@ -496,7 +497,22 @@ QString DolphinTabWidget::tabName(DolphinTabPage* tabPage) const
     if (!tabPage) {
         return QString();
     }
-    QString name = tabPage->activeViewContainer()->caption();
+
+    QString name;
+    if (tabPage->splitViewEnabled()) {
+        if (tabPage->primaryViewActive()) {
+            // i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
+            // left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
+            name = i18nc("@title:tab Active primary view | (Inactive secondary view)", "%1 | (%2)", tabPage->primaryViewContainer()->caption(), tabPage->secondaryViewContainer()->caption());
+        } else {
+            // i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
+            // left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
+            name = i18nc("@title:tab (Inactive primary view) | Active secondary view", "(%1) | %2", tabPage->primaryViewContainer()->caption(), tabPage->secondaryViewContainer()->caption());
+        }
+    } else {
+        name = tabPage->activeViewContainer()->caption();
+    }
+
     // Make sure that a '&' inside the directory name is displayed correctly
     // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
     return name.replace('&', QLatin1String("&&"));
