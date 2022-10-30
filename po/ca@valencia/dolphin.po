@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-08-19 18:56+0200\n"
+"PO-Revision-Date: 2022-10-28 08:51+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -836,8 +836,8 @@ msgid ""
 msgstr ""
 "Canvia entre tindre quadros <emphasis>blocats</emphasis> o "
 "<emphasis>desblocats</emphasis>. <nl/>Els quadros desblocats es poden "
-"arrossegar a l'altra banda de la finestra i tenen un botó de tancament. <nl/"
-">Els quadros blocats estan incrustats de manera més neta."
+"arrossegar fins a l'altra banda de la finestra i tenen un botó de tancament. "
+"<nl/>Els quadros blocats estan incrustats de manera més neta."
 
 #: dolphinmainwindow.cpp:2017
 #, kde-format
@@ -998,7 +998,7 @@ msgid ""
 "type.</para>"
 msgstr ""
 "<para>Canvia el quadro de <emphasis>llocs</emphasis> de la banda esquerra de "
-"la finestra.</para><para>Permet anar a les ubicacions que heu indicat a les "
+"la finestra.</para><para>Permet anar a les ubicacions que heu indicat en les "
 "adreces d'interés i accedir al disc o suport connectat amb l'ordinador o a "
 "la xarxa. També conté seccions per a buscar els fitxers guardats recentment "
 "o els fitxers d'un tipus determinat.</para>"
@@ -1018,7 +1018,7 @@ msgid ""
 "interface> to display it again.</para>"
 msgstr ""
 "<para>Este és el quadro <emphasis>Llocs</emphasis>. Permet anar a les "
-"ubicacions que heu indicat a les adreces d'interés i accedir al disc o "
+"ubicacions que heu indicat en les adreces d'interés i accedir al disc o "
 "suport connectat amb l'ordinador o a la xarxa. També conté seccions per a "
 "buscar els fitxers guardats recentment o els fitxers d'un tipus determinat.</"
 "para><para>Feu clic en una entrada per a anar-hi. De manera alternativa, feu "
@@ -3248,7 +3248,7 @@ msgstr "Farciment lateral"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Ressalta la fila sencera"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4265,22 +4265,20 @@ msgstr "Carpetes:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Fent clic en qualsevol lloc de la fila"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Fent clic en la icona o el nom"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Busca de fitxers i carpetes"
+msgstr "Obri fitxers i carpetes:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format

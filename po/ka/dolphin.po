@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-09-20 08:46+0200\n"
+"PO-Revision-Date: 2022-10-29 05:23+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1140,13 +1140,13 @@ msgstr "&ფაილის ტიპის ჩასწორება..."
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching..."
-msgstr ""
+msgstr "მონიშვნა ელემენტებისა, რომლებიც ემთხვევა..."
 
 #: dolphinpart.cpp:175
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching..."
-msgstr ""
+msgstr "დამთხვეული პასუხების მონიშვნა..."
 
 #: dolphinpart.cpp:181
 #, kde-format
@@ -1158,13 +1158,13 @@ msgstr "მონიშვნის ყველაფერზე მოხს�
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "App&lications"
-msgstr ""
+msgstr "&აპლიკაციები"
 
 #: dolphinpart.cpp:201
 #, kde-format
 msgctxt "@action:inmenu Go"
 msgid "&Network Folders"
-msgstr ""
+msgstr "&ქსელურ საქაღალდეები"
 
 #: dolphinpart.cpp:204
 #, kde-format
@@ -1182,7 +1182,7 @@ msgstr "ავტოსტარტი"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File..."
-msgstr ""
+msgstr "ფაილის ძებნა..."
 
 #: dolphinpart.cpp:218
 #, kde-format
@@ -1254,12 +1254,12 @@ msgstr "Dolphin -ის ხელსაწყოების პანელი"
 #: dolphinrecenttabsmenu.cpp:16
 #, kde-format
 msgid "Recently Closed Tabs"
-msgstr ""
+msgstr "ახლახანს დახურული ჩანართები"
 
 #: dolphinrecenttabsmenu.cpp:21
 #, kde-format
 msgid "Empty Recently Closed Tabs"
-msgstr ""
+msgstr "ახლახანს დახურული ჩანართების გასუფთავება"
 
 #: dolphintabbar.cpp:128
 #, kde-format
@@ -2236,7 +2236,7 @@ msgstr ""
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
 #, kde-format
 msgid "Date display format"
-msgstr ""
+msgstr "თარიღის ჩვენების ფორმატი"
 
 #: panels/information/informationpanel.cpp:153
 #, kde-format
@@ -3958,12 +3958,10 @@ msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "ფაილებისა და საქაღალდეების ძებნა"
+msgstr "ფაილები და საქაღალდეების გახსნა:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
