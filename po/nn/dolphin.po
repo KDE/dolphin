@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-09-11 19:37+0200\n"
+"PO-Revision-Date: 2022-10-30 10:17+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
 "Language: nn\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -3156,7 +3156,7 @@ msgstr "Luft før første kolonne"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Marker heile rada"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3468,6 +3468,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Vis ei linje for enkel innliming etter kopiering/utklipping via merkjemodus-"
+"linja."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -4050,7 +4052,7 @@ msgstr "Skrift:"
 #, kde-format
 msgctxt "@item:inlistbox Label width"
 msgid "Small"
-msgstr "Liten"
+msgstr "Lita"
 
 #: settings/viewmodes/viewsettingstab.cpp:76
 #, kde-format
@@ -4080,7 +4082,7 @@ msgstr "Skriftbreidd:"
 #, kde-format
 msgctxt "@item:inlistbox Maximum lines"
 msgid "Unlimited"
-msgstr "Uavgrensa"
+msgstr "Inga grense"
 
 #: settings/viewmodes/viewsettingstab.cpp:83
 #, kde-format
@@ -4116,19 +4118,19 @@ msgstr "5"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
-msgstr "Største tal linjer:"
+msgstr "Maks så mange linjer:"
 
 #: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Unlimited"
-msgstr "Uavgrensa"
+msgstr "Inga grense"
 
 #: settings/viewmodes/viewsettingstab.cpp:94
 #, kde-format
 msgctxt "@item:inlistbox Maximum width"
 msgid "Small"
-msgstr "Liten"
+msgstr "Lita"
 
 #: settings/viewmodes/viewsettingstab.cpp:95
 #, kde-format
@@ -4152,7 +4154,7 @@ msgstr "Største breidd:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Expandable"
-msgstr "Utvidbare"
+msgstr "Gjer utvidbare"
 
 #: settings/viewmodes/viewsettingstab.cpp:102
 #, kde-format
@@ -4164,20 +4166,20 @@ msgstr "Mapper:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Ved å trykkja kor som helst i rada"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Ved å trykkja på ikonet eller namnet"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
 #, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr ""
+msgstr "Opna filer og mapper:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4202,7 +4204,7 @@ msgstr[1] " nivå ned"
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
-msgstr "Vising av mappestorleik:"
+msgstr "Vis mappestorleik som:"
 
 #: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
