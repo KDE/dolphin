@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-08-23 19:46+0530\n"
+"PO-Revision-Date: 2022-11-03 21:41+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.07.90\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2038,7 +2038,7 @@ msgstr "ஒளிக்காட்சி"
 #: kitemviews/kfileitemmodel.cpp:2647
 msgctxt "@label"
 msgid "Frame Rate"
-msgstr ""
+msgstr "சட்டக விகிதம்"
 
 #: kitemviews/kfileitemmodel.cpp:2648
 msgctxt "@label"
@@ -3110,7 +3110,7 @@ msgstr "ஓரத்திலுள்ள காலியிடம்"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "முழு வரியை முன்னிலைப்படுத்து"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3271,7 +3271,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
-msgstr ""
+msgstr "தலைப்பு நெடுவரிசைகளின் அகலங்கள்"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:76
@@ -4114,22 +4114,20 @@ msgstr "அடைவுகள்:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "வரியில் எங்கேயேனும் கிளிக் செய்து"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "சின்னத்திலோ பெயரிலோ கிளிக் செய்து"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "அடைவுகள் மற்றும் கோப்புகளுக்காக தேடு"
+msgstr "அடைவுகளையும் கோப்புகளையும் திறப்பது:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
