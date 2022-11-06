@@ -26,6 +26,7 @@
   <name xml:lang="hu">Dolphin</name>
   <name xml:lang="ia">Dolphin</name>
   <name xml:lang="id">Dolphin</name>
+  <name xml:lang="ie">Dolphin</name>
   <name xml:lang="is">Dolphin</name>
   <name xml:lang="it">Dolphin</name>
   <name xml:lang="ja">Dolphin</name>
@@ -81,6 +82,7 @@
   <summary xml:lang="hu">Fájlkezelő</summary>
   <summary xml:lang="ia">Gerente de File</summary>
   <summary xml:lang="id">Pengelola File</summary>
+  <summary xml:lang="ie">Gerente de files</summary>
   <summary xml:lang="is">Skráastjóri</summary>
   <summary xml:lang="it">Gestore file</summary>
   <summary xml:lang="ja">ファイルマネージャ</summary>
