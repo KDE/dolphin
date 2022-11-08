@@ -3449,13 +3449,13 @@ msgstr "Mode de compleció del text del navegador d'URL"
 #: settings/dolphin_generalsettings.kcfg:26
 #, kde-format
 msgid "Should the full path be shown inside the location bar"
-msgstr "El camí sencer s'hauria de visualitzar en la barra d'ubicació"
+msgstr "El camí sencer s'hauria de mostrar en la barra d'ubicació"
 
 #. i18n: ectx: label, entry (ShowFullPathInTitlebar), group (General)
 #: settings/dolphin_generalsettings.kcfg:30
 #, kde-format
 msgid "Should the full path be shown in the title bar"
-msgstr "El camí sencer s'hauria de visualitzar en la barra de títol"
+msgstr "El camí sencer s'hauria de mostrar en la barra de títol"
 
 #. i18n: ectx: label, entry (OpenExternallyCalledFolderInNewTab), group (General)
 #: settings/dolphin_generalsettings.kcfg:34
