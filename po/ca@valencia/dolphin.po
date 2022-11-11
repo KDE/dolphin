@@ -1099,12 +1099,12 @@ msgid ""
 "<emphasis>Toolbar</emphasis>.</para>"
 msgstr ""
 "<para>Esta és la <emphasis>Barra de menús</emphasis>. Proporciona accés a "
-"les ordres i a les opcions de configuració. Feu un clic esquerre a qualsevol "
-"dels menús d'esta barra per a veure el seu contingut.</para><para>La barra "
-"de menús es pot ocultar desmarcant <interface>Configuració|Mostra la barra "
-"de menús</interface>. La majoria del seu contingut esdevé disponible a "
-"través del botó <interface>Menú</interface> de la <emphasis>Barra d'eines</"
-"emphasis>.</para>"
+"les ordres i a les opcions de configuració. Feu un clic esquerre en "
+"qualsevol dels menús d'esta barra per a veure el seu contingut.</"
+"para><para>La barra de menús es pot ocultar desmarcant "
+"<interface>Configuració|Mostra la barra de menús</interface>. La majoria del "
+"seu contingut esdevé disponible a través del botó <interface>Menú</"
+"interface> de la <emphasis>Barra d'eines</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2508
 #, kde-kuit-format
