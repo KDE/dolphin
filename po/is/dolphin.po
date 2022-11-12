@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-09-22 10:25+0000\n"
+"PO-Revision-Date: 2022-11-11 18:42+0000\n"
 "Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
 "Language-Team: Icelandic\n"
 "Language: is\n"
@@ -2748,8 +2748,8 @@ msgstr "Hætta við endurnefningu"
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Afrita %2 á klippispjaldið"
+msgstr[1] "Afrita %2 á klippispjaldið"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2761,8 +2761,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Afrita staðsetningu %2 á klippispjaldið"
+msgstr[1] "Afrita staðsetningu %2 á klippispjaldið"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2774,8 +2774,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Klippa %2 á klippispjaldið"
+msgstr[1] "Klippa %2 á klippispjaldið"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2787,8 +2787,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Eyða %2 endanlega"
+msgstr[1] "Eyða %2 endanlega"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3019,7 +3019,7 @@ msgstr "Fylling til hliðar"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Áherslulita heila röð"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4013,22 +4013,20 @@ msgstr "Möppur"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Með því að smella hvar sem er á röðina"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Með því að smella á táknmynd eða heiti"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Leita að skrám og möppum"
+msgstr "Opna skrár og möppur:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
