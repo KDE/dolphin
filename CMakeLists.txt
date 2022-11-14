@@ -8,7 +8,7 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(Dolphin VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION "5.15.2")
-set(KF5_MIN_VERSION "5.92.0")
+set(KF5_MIN_VERSION "5.101.0")
 
 # ECM setup
 find_package(ECM ${KF5_MIN_VERSION} CONFIG REQUIRED)
@@ -205,6 +205,8 @@ ki18n_install(po)
 if(KF5DocTools_FOUND)
     kdoctools_install(po)
 endif()
+
+install(FILES completions/dolphin.zsh RENAME _dolphin DESTINATION ${KDE_INSTALL_ZSHAUTOCOMPLETEDIR})
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
