@@ -4,20 +4,20 @@
 #
 # Marek Laane <bald@smail.ee>, 2007-2009.
 # Marek Laane <bald@smail.ee>, 2009, 2010, 2011, 2012, 2013, 2014, 2016, 2019, 2020.
-# Mihkel Tõnnov <mihhkel@gmail.com>, 2020, 2021.
+# Mihkel Tõnnov <mihhkel@gmail.com>, 2020, 2021, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2021-09-07 23:04+0200\n"
+"PO-Revision-Date: 2022-10-19 22:46+0200\n"
 "Last-Translator: Mihkel Tõnnov <mihhkel@gmail.com>\n"
 "Language-Team: Estonian <>\n"
 "Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -178,7 +178,7 @@ msgstr "Terminalis töötab veel '%1'. Kas tõesti väljuda?"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open %1"
-msgstr "%1 avamine"
+msgstr "Ava %1"
 
 #: dolphinmainwindow.cpp:1140 dolphinmainwindow.cpp:1867
 #, kde-format
@@ -187,23 +187,19 @@ msgid "Open Preferred Search Tool"
 msgstr "Eelistatud otsingutööriista avamine"
 
 #: dolphinmainwindow.cpp:1179
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Kas tõesti avada 1 element?"
-msgstr[1] "Kas tõesti avada %1 elementi?"
+msgstr[0] "Kas tõesti avada 1 terminaliaken?"
+msgstr[1] "Kas tõesti avada %1 terminaliakent?"
 
 #: dolphinmainwindow.cpp:1186
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Ava terminal"
-msgstr[1] "Ava terminal"
+msgstr[0] "Ava %1 terminal"
+msgstr[1] "Ava %1 terminali"
 
 #: dolphinmainwindow.cpp:1404
 #, kde-format
@@ -307,7 +303,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Lõika…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -324,12 +320,10 @@ msgstr ""
 "algsest asukohast."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopeeri"
+msgstr "Kopeeri…"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -368,12 +362,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopeeri mitteaktiivsesse poolitatud vaatesse"
 
 #: dolphinmainwindow.cpp:1634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Kopeeri mitteaktiivsesse poolitatud vaatesse"
+msgstr "Kopeeri mitteaktiivsesse poolitatud vaatesse…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -398,12 +390,10 @@ msgid "Move to Inactive Split View"
 msgstr "Liiguta mitteaktiivsesse poolitatud vaatesse"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Liiguta mitteaktiivsesse poolitatud vaatesse"
+msgstr "Liiguta mitteaktiivsesse poolitatud vaatesse…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -428,12 +418,10 @@ msgid "Filter..."
 msgstr "Filter ..."
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "Näita filtririba"
+msgstr "Filtririba näitamine"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-kuit-format
@@ -501,19 +489,15 @@ msgstr "Otsing"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Failide ja kataloogide otsimine"
+msgstr "Failide ja kataloogide valimine"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Valimine"
@@ -706,29 +690,22 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1887
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Ava terminal"
+msgstr "Ava siin terminal"
 
 #: dolphinmainwindow.cpp:1889
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
-"<para>See avab <emphasis>terminalirakenduse</emphasis> vaadatavas asukohas.</"
-"para><para>Terminalide kohta leiab täpsemat teavet terminalirakenduse "
-"abimaterjalis.</para>"
+"<para>See avab <emphasis>terminalirakenduse</emphasis> valitud elementide "
+"asukohas.</para><para>Terminalide kohta leiab täpsemat teavet "
+"terminalirakenduse abimaterjalis.</para>"
 
 #: dolphinmainwindow.cpp:1897 dolphinmainwindow.cpp:2662
 #, kde-format
@@ -848,17 +825,13 @@ msgstr "Teave"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
 #: dolphinmainwindow.cpp:2043
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Paneelide nägemiseks või varjamiseks kasuta kas <interface>Juhtimine|"
+"<para>Paneelide nägemiseks või varjamiseks kasuta kas <interface>Menüü|"
 "Paneelid</interface> või <interface>Vaade|Paneelid</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2048
@@ -1092,15 +1065,7 @@ msgid "Split view"
 msgstr "Poolita vaade"
 
 #: dolphinmainwindow.cpp:2501
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1115,21 +1080,10 @@ msgstr ""
 "selle sisu.</para><para>Menüüriba saab peita, kui eemaldada märge "
 "kastikesest <interface>Seadistused|Menüüriba näitamine</interface>. Sel "
 "juhul näeb enamikku selle sisust <emphasis>tööriistariba</emphasis> nupu "
-"<interface>Juhtimine</interface> all.</para>"
+"<interface>Menüü</interface> all.</para>"
 
 #: dolphinmainwindow.cpp:2508
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1143,13 +1097,13 @@ msgid ""
 msgstr ""
 "<para>See on <emphasis>tööriistariba</emphasis>. See võimaldab kasutada "
 "sagedamini tarvis minevaid toiminguid.</para><para>See on äärmiselt "
-"kohandatav. Kõiki kirjeid, mida näeb menüüs <interface>Juhtimine</interface> "
-"või <interface>menüüriba</interface>l, saab asetada ka tööriistaribale. Tee "
+"kohandatav. Kõiki kirjeid, mida näeb <interface>menüü</interface>s või "
+"<interface>menüüriba</interface>l, saab asetada ka tööriistaribale. Tee "
 "sellel lihtsalt paremklõps ja vali <interface>Tööriistaribade "
-"seadistamine ...</interface> või leia sama nimega kirje menüüst "
-"<interface>Seadistused</interface> või <interface>Juhtimine</interface>.</"
-"para><para>Riba asukohta ja selle nuppude stiili saab samuti muuta "
-"paremklõpsuga. Nupul paremklõpsu tehes saab teksti näidata või peita.</para>"
+"seadistamine ...</interface> või leia sama nimega kirje <interface>menüü</"
+"interface>st.</para><para>Riba asukohta ja selle nuppude stiili saab samuti "
+"muuta paremklõpsuga. Nupul paremklõpsu tehes saab teksti näidata või peita.</"
+"para>"
 
 #: dolphinmainwindow.cpp:2520
 #, kde-kuit-format
@@ -1193,13 +1147,7 @@ msgstr ""
 "toimingu. Kõiki selle rakenduse käske saab sel moel käivitada.</para>"
 
 #: dolphinmainwindow.cpp:2542
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1208,8 +1156,7 @@ msgid ""
 msgstr ""
 "<para>See avab akna, kus saab muuta, millised nupud on näha "
 "<emphasis>tööriistaribal</emphasis>.</para><para>Samuti saab tööriistaribale "
-"asetada kõiki kirjeid, mida näeb menüüs <interface>Juhtimine</interface> või "
-"<interface>menüüribal</interface>.</para>"
+"asetada kõiki kirjeid, mida näeb <interface>menüüs</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
@@ -1230,13 +1177,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2558
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1245,10 +1186,11 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Kui soovid põhjalikumat sissejuhatust <emphasis>Dolphin</emphasis>i "
-"omaduste kohta, <link url='https://userbase.kde.org/Dolphin/"
-"File_Management'>klõpsa siia</link>. See avab vastava lehekülje KDE UserBase "
-"wikis.</para>"
+"<para>See avab selle rakenduse käsiraamatu, mis <emphasis>Dolphin</"
+"emphasis>it põhjalikult selgitab.</para><para>Kui soovid põhjalikumat "
+"sissejuhatust <emphasis>Dolphin</emphasis>i omaduste kohta, <link "
+"url='https://userbase.kde.org/Dolphin/File_Management'>klõpsa siia</link>. "
+"See avab vastava lehekülje KDE UserBase wikis.</para>"
 
 #: dolphinmainwindow.cpp:2563
 #, fuzzy, kde-kuit-format
@@ -1691,42 +1633,30 @@ msgstr "Peida filtririba"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "elemendi \"%1\""
 
 #: kitemviews/kfileitemlisttostring.cpp:27
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are "
-#| "names of files/folders."
-#| msgid "Actions for \"%1\" and \"%2\""
+#, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "Toimingud elementide \"%1\" ja \"%2\" jaoks"
+msgstr "elementide \"%1\" ja \"%2\""
 
 #: kitemviews/kfileitemlisttostring.cpp:31
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "Toimingud elementide \"%1\", \"%2\" ja \"%3\" jaoks"
+msgstr "elementide \"%1\", \"%2\" ja \"%3\""
 
 #: kitemviews/kfileitemlisttostring.cpp:36
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "Toimingud elementide \"%1\", \"%2\" ja \"%3\" jaoks"
+msgstr "elementide \"%1\", \"%2\", \"%3\" ja \"%4\""
 
 #: kitemviews/kfileitemlisttostring.cpp:41
 #, kde-format
@@ -1734,46 +1664,34 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "elementide \"%1\", \"%2\", \"%3\", \"%4\" ja \"%5\""
 
 #: kitemviews/kfileitemlisttostring.cpp:58
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected File"
-#| msgid_plural "Actions for %1 Selected Files"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Toimingud ühe valitud faili jaoks"
-msgstr[1] "Toimingud %1 valitud faili jaoks"
+msgstr[0] "ühe valitud faili"
+msgstr[1] "%1 valitud faili"
 
 #: kitemviews/kfileitemlisttostring.cpp:61
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected Folder"
-#| msgid_plural "Actions for %1 Selected Folders"
+#, kde-format
 msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "Toimingud ühe valitud kataloogi jaoks"
-msgstr[1] "Toimingud %1 valitud kataloogi jaoks"
+msgstr[0] "ühe valitud kataloogi"
+msgstr[1] "%1 valitud kataloogi"
 
 #: kitemviews/kfileitemlisttostring.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Select Item"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "Vali element"
-msgstr[1] "Vali element"
+msgstr[0] "ühe valitud elemendi"
+msgstr[1] "%1 valitud elemendi"
 
 #: kitemviews/kfileitemlisttostring.cpp:74
 #, fuzzy, kde-format
@@ -1782,8 +1700,8 @@ msgstr[1] "Vali element"
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
-msgstr[0] "Aseta üks fail"
-msgstr[1] "Aseta üks fail"
+msgstr[0] "Üks fail"
+msgstr[1] "%1 faili"
 
 #: kitemviews/kfileitemlisttostring.cpp:77
 #, fuzzy, kde-format
@@ -1793,7 +1711,7 @@ msgstr[1] "Aseta üks fail"
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 kataloog"
+msgstr[0] "Üks kataloog"
 msgstr[1] "%1 kataloogi"
 
 #: kitemviews/kfileitemlisttostring.cpp:80
@@ -1804,8 +1722,8 @@ msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Elemendi ümbernimetamine"
-msgstr[1] "Elemendi ümbernimetamine"
+msgstr[0] "Üks element"
+msgstr[1] "%1 elementi"
 
 #: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
@@ -1819,7 +1737,7 @@ msgstr[1] "%1 elementi"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2245
 #, kde-format
@@ -2121,7 +2039,7 @@ msgstr "Dokument"
 #: kitemviews/kfileitemmodel.cpp:2631
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Autor"
 
 #: kitemviews/kfileitemmodel.cpp:2632
 msgctxt "@label"
@@ -2148,7 +2066,7 @@ msgstr "Pilt"
 #: kitemviews/kfileitemmodel.cpp:2635
 msgctxt "@label width x height"
 msgid "Dimensions"
-msgstr ""
+msgstr "Mõõtmed"
 
 #: kitemviews/kfileitemmodel.cpp:2636
 msgctxt "@label"
@@ -2239,7 +2157,7 @@ msgstr "Muu"
 #: kitemviews/kfileitemmodel.cpp:2649
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "Faililaiend"
 
 #: kitemviews/kfileitemmodel.cpp:2650
 msgctxt "@label"
@@ -2292,35 +2210,31 @@ msgstr "Failihaldur"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022: Dolphini arendajad"
 
 #: main.cpp:92
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Hooldaja (alates 2018) ja arendaja"
+msgstr "Hooldaja (alates 2021) ja arendaja"
 
 #: main.cpp:95
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Hooldaja (alates 2018) ja arendaja"
+msgstr "Hooldaja (alates 2021) ja arendaja (alates 2019)"
 
 #: main.cpp:98
 #, kde-format
@@ -2329,12 +2243,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Hooldaja (2014-2018) ja arendaja"
+msgstr "Hooldaja (2018-2021) ja arendaja"
 
 #: main.cpp:101
 #, kde-format
@@ -2604,18 +2516,12 @@ msgstr "paus"
 
 #. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
 #: panels/places/dolphin_placespanelsettings.kcfg:11
-#, fuzzy, kde-format
-#| msgid ""
-#| "Size of icons in the Places Panel (-1 means \"use the style's small size"
-#| "\")"
+#, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
-msgstr ""
-"Ikoonide suurus asukohtade paneelil (-1 tähendab stiili väikseimat suurust)"
+msgstr "Ikoonide suurus asukohtade paneelil (-1 tähendab automaatset suurust)"
 
 #: panels/places/placespanel.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure Trash..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
 msgstr "Seadista prügikasti ..."
@@ -3730,12 +3636,10 @@ msgid "Enabled plugins"
 msgstr "Lubatud pluginad"
 
 #: settings/dolphinsettingsdialog.cpp:43
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure..."
+#, kde-format
 msgctxt "@title:window"
 msgid "Configure"
-msgstr "Seadista..."
+msgstr "Seadistamine"
 
 #: settings/dolphinsettingsdialog.cpp:57
 #, kde-format
@@ -4626,7 +4530,7 @@ msgstr "%1 vaba"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr ""
+msgstr "%1 vaba, kokku %2 (kasutusel %3%)"
 
 #: trash/dolphintrash.cpp:56
 #, kde-format
@@ -4741,14 +4645,12 @@ msgstr[0] "Kas tõesti avada 1 element?"
 msgstr[1] "Kas tõesti avada %1 elementi?"
 
 #: views/dolphinview.cpp:1047
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "%1 avamine"
-msgstr[1] "%1 avamine"
+msgstr[0] "Ava %1 element"
+msgstr[1] "Ava %1 elementi"
 
 #: views/dolphinview.cpp:1180
 #, kde-format
@@ -4976,36 +4878,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "See kopeerib esimese valitud elemendi asukoha lõikepuhvrisse."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Viska prügikasti"
+msgstr "Viska prügikasti …"
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Kustuta"
+msgstr "Kustuta …"
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Klooni siin"
+msgstr "Klooni siin …"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopeeri asukoht"
+msgstr "Kopeeri asukoht …"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5306,7 +5200,7 @@ msgstr "Toimingud aktiivse vaate jaoks"
 #| "of the singular selected file/folder."
 #| msgid "Actions for \"%1\""
 msgid "Actions for %1"
-msgstr "Toimingud elemendi \"%1\" jaoks"
+msgstr "Toimingud %1 jaoks"
 
 #: views/dolphinviewactionhandler.cpp:819
 #, kde-format
