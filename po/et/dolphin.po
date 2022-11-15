@@ -187,9 +187,7 @@ msgid "Open Preferred Search Tool"
 msgstr "Eelistatud otsingutööriista avamine"
 
 #: dolphinmainwindow.cpp:1179
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
 msgstr[0] "Kas tõesti avada 1 element?"
@@ -428,9 +426,7 @@ msgid "Filter..."
 msgstr "Filter ..."
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
 msgstr "Näita filtririba"
@@ -4832,11 +4828,9 @@ msgid "Loading..."
 msgstr "Laadimine ..."
 
 #: views/dolphinview.cpp:2244
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Kataloogi laadimine..."
+msgstr "Laadimine ..."
 
 #: views/dolphinview.cpp:2246
 #, kde-format
@@ -5309,7 +5303,13 @@ msgid "Actions for %1"
 msgstr "Toimingud elemendi \"%1\" jaoks"
 
 #: views/dolphinviewactionhandler.cpp:819
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt ""
+#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
+#| "amount @action:inmenu menu with actions like copy, paste, rename. %1 is "
+#| "the amount of selected files/folders."
+#| msgid "Actions for One Selected Item"
+#| msgid_plural "Actions for %1 Selected Items"
 msgctxt ""
 "@action:inmenu menu with actions like copy, paste, rename. %1 is the amount "
 "of selected files/folders."
