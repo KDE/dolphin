@@ -142,7 +142,7 @@ int main(int argc, char **argv)
                                                                                         "will be selected.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("split"), i18nc("@info:shell", "Dolphin will get started with a split view.")));
     parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("new-window"), i18nc("@info:shell", "Dolphin will explicitly open in a new window.")));
-    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface)")));
+    parser.addOption(QCommandLineOption(QStringList() << QStringLiteral("daemon"), i18nc("@info:shell", "Start Dolphin Daemon (only required for DBus Interface).")));
     parser.addPositionalArgument(QStringLiteral("+[Url]"), i18nc("@info:shell", "Document to open"));
 
     parser.process(app);
