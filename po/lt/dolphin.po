@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2021-12-19 02:17+0200\n"
-"Last-Translator: Moo\n"
+"PO-Revision-Date: 2022-11-18 21:25+0200\n"
+"Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.0\n"
+"X-Generator: Poedit 3.2.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -202,16 +202,14 @@ msgstr[2] "Ar tikrai norite atverti %1 elementų?"
 msgstr[3] "Ar tikrai norite atverti %1 elementą?"
 
 #: dolphinmainwindow.cpp:1186
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Atverti terminalą"
-msgstr[1] "Atverti terminalą"
-msgstr[2] "Atverti terminalą"
-msgstr[3] "Atverti terminalą"
+msgstr[0] "Atverti %1 terminalą"
+msgstr[1] "Atverti %1 terminalus"
+msgstr[2] "Atverti %1 terminalų"
+msgstr[3] "Atverti %1 terminalą"
 
 #: dolphinmainwindow.cpp:1404
 #, kde-format
@@ -315,7 +313,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Iškirpti…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -332,12 +330,10 @@ msgstr ""
 "savo pradinės vietos."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopijuoti"
+msgstr "Kopijuoti…"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -374,13 +370,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View"
-msgstr ""
+msgstr "Kopijuoti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1634
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr ""
+msgstr "Kopijuoti į neaktyvų padalytą rodinį…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -394,19 +390,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
-msgstr ""
+msgstr "Kopijuoti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1643
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "Perkelti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr ""
+msgstr "Perkelti į neaktyvų padalytą rodinį…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -420,7 +416,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "Perkelti į neaktyvų padalytą rodinį"
 
 #: dolphinmainwindow.cpp:1653
 #, kde-format
@@ -693,12 +689,10 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1887
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Atverti terminalą"
+msgstr "Atverti čia terminalą"
 
 #: dolphinmainwindow.cpp:1889
 #, fuzzy, kde-kuit-format
@@ -1202,7 +1196,7 @@ msgstr "Nebefokusuoti terminalo skydelį"
 #: dolphinnavigatorswidgetaction.cpp:205
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr ""
+msgstr "Įveskite serverio URL (pvz., smb://[ip adresas])"
 
 #: dolphinnavigatorswidgetaction.cpp:232
 #, kde-format
@@ -1213,7 +1207,7 @@ msgstr "Išvalyti šiukšlinę"
 #: dolphinnavigatorswidgetaction.cpp:233
 #, kde-format
 msgid "Empties Trash to create free space"
-msgstr ""
+msgstr "Išvalo šiukšlinę, kad būtų atlaisvinta vieta"
 
 #: dolphinnavigatorswidgetaction.cpp:260
 #, kde-format
@@ -1517,14 +1511,14 @@ msgstr "Slėpti filtro juostą"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "„%1“"
 
 #: kitemviews/kfileitemlisttostring.cpp:27
 #, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr ""
+msgstr "„%1“ ir „%2“"
 
 #: kitemviews/kfileitemlisttostring.cpp:31
 #, kde-format
@@ -1532,7 +1526,7 @@ msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr ""
+msgstr "„%1“, „%2“ ir „%3“"
 
 #: kitemviews/kfileitemlisttostring.cpp:36
 #, kde-format
@@ -1540,7 +1534,7 @@ msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr ""
+msgstr "„%1“, „%2“, „%3“ ir „%4“"
 
 #: kitemviews/kfileitemlisttostring.cpp:41
 #, kde-format
@@ -1548,7 +1542,7 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "„%1“, „%2“, „%3“, „%4“ ir „%5“"
 
 #: kitemviews/kfileitemlisttostring.cpp:58
 #, fuzzy, kde-format
@@ -1638,7 +1632,7 @@ msgstr[3] "%1 elementas"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 × %2"
 
 #: kitemviews/kfileitemmodel.cpp:2245
 #, kde-format
@@ -1940,7 +1934,7 @@ msgstr "Dokumentai"
 #: kitemviews/kfileitemmodel.cpp:2631
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Autorius"
 
 #: kitemviews/kfileitemmodel.cpp:2632
 msgctxt "@label"
@@ -1967,7 +1961,7 @@ msgstr "Paveikslai"
 #: kitemviews/kfileitemmodel.cpp:2635
 msgctxt "@label width x height"
 msgid "Dimensions"
-msgstr ""
+msgstr "Matmenys"
 
 #: kitemviews/kfileitemmodel.cpp:2636
 msgctxt "@label"
@@ -2111,13 +2105,13 @@ msgstr "Failų tvarkytuvė"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022 Dolphin programuotojai"
 
 #: main.cpp:92
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:93
 #, fuzzy, kde-format
@@ -2131,7 +2125,7 @@ msgstr "Prižiūrėtojas (nuo 2018) ir programuotojas"
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:96
 #, fuzzy, kde-format
@@ -2434,12 +2428,10 @@ msgstr ""
 "dydį“)"
 
 #: panels/places/placespanel.cpp:48
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure Trash..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Konfigūruoti šiukšlinę..."
+msgstr "Konfigūruoti šiukšlinę…"
 
 #: panels/places/placespanel.cpp:243
 #, kde-format
@@ -2720,7 +2712,7 @@ msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Atsisakyti kopijavimo"
 
 #: selectionmode/bottombarcontentscontainer.cpp:187
 #, kde-format
@@ -2750,7 +2742,7 @@ msgstr "Tai pažymi visus, esamoje vietoje esančius, failus ir aplankus."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Atsisakyti iškirpimo"
 
 #: selectionmode/bottombarcontentscontainer.cpp:257
 #, fuzzy, kde-format
@@ -2767,7 +2759,7 @@ msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Atsisakyti"
 
 #: selectionmode/bottombarcontentscontainer.cpp:275
 #, fuzzy, kde-format
@@ -2782,7 +2774,7 @@ msgstr "Bus pažymėti failai ir katalogai, kurie nurodyti kaip argumentai."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Atsisakyti dubliavimo"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2790,7 +2782,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Daugiau"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:340
@@ -2804,7 +2796,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Atsisakyti perkėlimo"
 
 #: selectionmode/bottombarcontentscontainer.cpp:358
 #, kde-format
@@ -2854,7 +2846,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Atsisakyti pervadinimo"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2866,10 +2858,10 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Kopijuoti %2 į iškarpinę"
+msgstr[1] "Kopijuoti %2 į iškarpinę"
+msgstr[2] "Kopijuoti %2 į iškarpinę"
+msgstr[3] "Kopijuoti %2 į iškarpinę"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2881,10 +2873,10 @@ msgstr[3] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Kopijuoti %2 vietą į iškarpinę"
+msgstr[1] "Kopijuoti %2 vietą į iškarpinę"
+msgstr[2] "Kopijuoti %2 vietą į iškarpinę"
+msgstr[3] "Kopijuoti %2 vietą į iškarpinę"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2896,10 +2888,10 @@ msgstr[3] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Iškirpti %2 į iškarpinę"
+msgstr[1] "Iškirpti %2 į iškarpinę"
+msgstr[2] "Iškirpti %2 į iškarpinę"
+msgstr[3] "Iškirpti %2 į iškarpinę"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2911,10 +2903,10 @@ msgstr[3] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Ištrinti visam laikui %2"
+msgstr[1] "Ištrinti visam laikui %2"
+msgstr[2] "Ištrinti visam laikui %2"
+msgstr[3] "Ištrinti visam laikui %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2922,16 +2914,14 @@ msgstr[3] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:603
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Dubliuoti čia"
-msgstr[1] "Dubliuoti čia"
-msgstr[2] "Dubliuoti čia"
-msgstr[3] "Dubliuoti čia"
+msgstr[0] "Dubliuoti %2"
+msgstr[1] "Dubliuoti %2"
+msgstr[2] "Dubliuoti %2"
+msgstr[3] "Dubliuoti %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2939,16 +2929,14 @@ msgstr[3] "Dubliuoti čia"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:611
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Perkelti į šiukšlinę"
-msgstr[1] "Perkelti į šiukšlinę"
-msgstr[2] "Perkelti į šiukšlinę"
-msgstr[3] "Perkelti į šiukšlinę"
+msgstr[0] "Perkelti %2 į šiukšlinę"
+msgstr[1] "Perkelti %2 į šiukšlinę"
+msgstr[2] "Perkelti %2 į šiukšlinę"
+msgstr[3] "Perkelti %2 į šiukšlinę"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2956,16 +2944,14 @@ msgstr[3] "Perkelti į šiukšlinę"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:619
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "Pe&rvadinti"
-msgstr[1] "Pe&rvadinti"
-msgstr[2] "Pe&rvadinti"
-msgstr[3] "Pe&rvadinti"
+msgstr[0] "Pervadinti %2"
+msgstr[1] "Pervadinti %2"
+msgstr[2] "Pervadinti %2"
+msgstr[3] "Pervadinti %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3932,7 +3918,7 @@ msgstr "Tempimo operacijų metu, atverti aplankus"
 #, kde-format
 msgctxt "@title:group"
 msgid "General: "
-msgstr "Bendros:"
+msgstr "Bendra: "
 
 #: settings/startup/startupsettingspage.cpp:45
 #, kde-format
@@ -4184,12 +4170,10 @@ msgstr ""
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Ieškoti failų ir aplankų"
+msgstr "Atverti failus ir aplankus:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4467,7 +4451,7 @@ msgstr "%1 laisva"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr ""
+msgstr "%1 laisva iš %2 (%3% panaudota)"
 
 #: trash/dolphintrash.cpp:56
 #, kde-format
@@ -4592,16 +4576,14 @@ msgstr[2] "Ar tikrai norite atverti %1 elementų?"
 msgstr[3] "Ar tikrai norite atverti %1 elementą?"
 
 #: views/dolphinview.cpp:1047
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "Atverti %1"
-msgstr[1] "Atverti %1"
-msgstr[2] "Atverti %1"
-msgstr[3] "Atverti %1"
+msgstr[0] "Atverti %1 elementą"
+msgstr[1] "Atverti %1 elementus"
+msgstr[2] "Atverti %1 elementų"
+msgstr[3] "Atverti %1 elementą"
 
 #: views/dolphinview.cpp:1180
 #, kde-format
@@ -4687,11 +4669,9 @@ msgid "Loading..."
 msgstr "Įkeliama..."
 
 #: views/dolphinview.cpp:2244
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Įkeliamas aplankas..."
+msgstr "Įkėlimo atsisakyta"
 
 #: views/dolphinview.cpp:2246
 #, kde-format
@@ -4822,36 +4802,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr ""
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Perkelti į šiukšlinę"
+msgstr "Perkelti į šiukšlinę…"
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Trinti"
+msgstr "Ištrinti…"
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Dubliuoti čia"
+msgstr "Dubliuoti čia…"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopijuoti vietą"
+msgstr "Kopijuoti vietą…"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
