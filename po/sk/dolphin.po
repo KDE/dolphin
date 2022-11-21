@@ -12,14 +12,14 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-07-19 10:04+0200\n"
+"PO-Revision-Date: 2022-11-20 15:24+0100\n"
 "Last-Translator: Matej Mrenica <matejm98mthw@gmail.com>\n"
 "Language-Team: Slovak <kde-i18n-doc@kde.org>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.07.80\n"
+"X-Generator: Lokalize 22.11.80\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 #, kde-format
@@ -308,7 +308,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Vystrihnúť…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -324,12 +324,10 @@ msgstr ""
 "umiestnenia. Položky sa odstránia z pôvodného umiestnenia."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopírovať"
+msgstr "Kopírovať..."
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -368,12 +366,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Kopírovať do neaktívneho pohľadu"
 
 #: dolphinmainwindow.cpp:1634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Kopírovať do neaktívneho pohľadu"
+msgstr "Kopírovať do neaktívneho pohľadu..."
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -398,12 +394,10 @@ msgid "Move to Inactive Split View"
 msgstr "Presunúť do neaktívneho pohľadu"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Presunúť do neaktívneho pohľadu"
+msgstr "Presunúť do neaktívneho pohľadu..."
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -498,19 +492,15 @@ msgstr "Hľadať"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Hľadať súbory a priečinky"
+msgstr "Vybrať súbory a priečinky"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Vybrať"
@@ -839,17 +829,13 @@ msgstr "Informácie"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
 #: dolphinmainwindow.cpp:2043
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Na zobrazenie alebo skrytie panelov prejdite do <interface>Ovládanie|"
+"<para>Na zobrazenie alebo skrytie panelov prejdite do <interface>Ponuka|"
 "Panely</interface> alebo <interface>Zobraziť|Panely</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2048
@@ -1081,15 +1067,7 @@ msgid "Split view"
 msgstr "Rozdelené zobrazenie"
 
 #: dolphinmainwindow.cpp:2501
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1103,7 +1081,7 @@ msgstr ""
 "možnostiam nastavení. Kliknite na niektorú z ponúk na zobrazenie jej obsahu."
 "</para><para>Ponuka môže byť skrytá zrušením možnosti<interface>Nastavenie|"
 "Zobraziť menu</interface>. Potom sa vačšina obsahu stane dostupným cez "
-"tlačidlo <interface>Ovládanie</interface> na <emphasis>Paneli nástrojov</"
+"tlačidlo <interface>Ponuka</interface> na <emphasis>Paneli nástrojov</"
 "emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2508
@@ -1183,13 +1161,7 @@ msgstr ""
 "stlačia naraz. Všetky príkazy aplikácie môžu byť takto spustené.</para>"
 
 #: dolphinmainwindow.cpp:2542
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1198,8 +1170,8 @@ msgid ""
 msgstr ""
 "<para>Toto otvorí okno, v ktorom môžete zmeniť aké tlačidlá sa objavia na "
 "<emphasis>paneli nástrojov</emphasis>.</para><para>Všetky položky v "
-"ponuke<interface>Ovládanie</interface>  alebo v <interface>Ponuke</"
-"interface> Tiež môžu byť umiestnené na Paneli nástrojov.</para>"
+"<interface>ponuke</interface> tiež môžu byť umiestnené na Paneli nástrojov.</"
+"para>"
 
 #: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
@@ -1220,13 +1192,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2558
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1235,10 +1201,11 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Ak chcete podrobnejšie pokyny pre rôzne funkcie z <emphasis>Dolphin</"
-"emphasis> <link url='https://userbase.kde.org/Dolphin/"
-"File_Management'>kliknite sem</link>. Toto otvorí vyhradenú stránku v KDE "
-"UserBase Wiki.</para>"
+"<para>Týmto sa otvorí príručka pre túto aplikáciu. Poskytuje vysvetlenia pre "
+"každú časť <emphasis>Dolphinu</emphasis>.</para><para>Ak chcete podrobnejšie "
+"pokyny pre rôzne funkcie z <emphasis>Dolphin</emphasis> <link url='https://"
+"userbase.kde.org/Dolphin/File_Management'>kliknite sem</link>. Toto otvorí "
+"vyhradenú stránku v KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2563
 #, fuzzy, kde-kuit-format
@@ -1267,12 +1234,7 @@ msgstr ""
 "na ňu moc nezvykajte.</para>"
 
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1283,7 +1245,10 @@ msgid ""
 msgstr ""
 "<para>Vysoko-kvalitné hlásenia chýb si veľmi vážime. Ak sa chcete naučiť ako "
 "urobiť vaše hlásenia o chybách čo najlepšie <link url='https://community.kde."
-"org/Get_Involved/Bug_Reporting'>kliknite sem</link>.</para>"
+"org/Get_Involved/Bug_Reporting'>kliknite sem</link>.</"
+"para><para>Vysokokvalitné hlásenia chýb sú veľmi cenené. Ak sa chcete "
+"dozvedieť, ako čo najefektívnejšie nahlásiť chybu <link url='https://"
+"community.kde.org/Get_Involved/ Bug_Reporting'>kliknite sem</link>.</para>"
 
 #: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
@@ -2259,35 +2224,31 @@ msgstr "Správca súborov"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022 Dolphin vývojári"
 
 #: main.cpp:92
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Správca (od 2018) a vývojár"
+msgstr "Správca (od 2021) a vývojár"
 
 #: main.cpp:95
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Správca (od 2018) a vývojár"
+msgstr "Správca (od 2021) a vývojár (od 2019)"
 
 #: main.cpp:98
 #, kde-format
@@ -2296,12 +2257,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Správca (2014-2018) a vývojár"
+msgstr "Správca (2018-2021) a vývojár"
 
 #: main.cpp:101
 #, kde-format
@@ -2839,12 +2798,10 @@ msgid "Query Results from '%1'"
 msgstr "Výsledky dotazu pre '%1'"
 
 #: selectionmode/bottombarcontentscontainer.cpp:154
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Budú vybrané súbory a adresáre poslané ako argumenty."
+msgstr "Vyberte súbory a priečinky, ktoré sa majú skopírovať."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
@@ -2854,45 +2811,40 @@ msgstr "Budú vybrané súbory a adresáre poslané ako argumenty."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Zrušiť kopírovanie"
 
 #: selectionmode/bottombarcontentscontainer.cpp:187
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
+"Vyberte jeden súbor alebo priečinok, ktorého umiestnenie sa má skopírovať."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:206
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Toto vyberie všetky súbory a priečinky v aktuálnom umiestnení."
+msgstr "Vyberte súbory a priečinky, ktoré sa majú skopírovať."
 
 #: selectionmode/bottombarcontentscontainer.cpp:224
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Toto vyberie všetky súbory a priečinky v aktuálnom umiestnení."
+msgstr "Vyberte súbory a priečinky, ktoré sa majú vystrihnúť."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:230
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Zrušiť vystrihovanie"
 
 #: selectionmode/bottombarcontentscontainer.cpp:257
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Budú vybrané súbory a adresáre poslané ako argumenty."
+msgstr "Vyberte súbory a priečinky, ktoré sa majú trvalo odstrániť."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2901,22 +2853,20 @@ msgstr "Budú vybrané súbory a adresáre poslané ako argumenty."
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušiť"
 
 #: selectionmode/bottombarcontentscontainer.cpp:275
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Budú vybrané súbory a adresáre poslané ako argumenty."
+msgstr "Vyberte súbory a priečinky, ktoré sa majú duplikovať sem."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:281
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Zrušiť duplikáciu"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2924,27 +2874,27 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Viac"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:340
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Vyberte súbory a priečinky, ktoré sa majú presunúť."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:346
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Zrušiť presúvanie"
 
 #: selectionmode/bottombarcontentscontainer.cpp:358
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
-msgstr ""
+msgstr "Vyberte súbory a priečinky, ktoré sa majú presunúť do koša."
 
 #: selectionmode/bottombarcontentscontainer.cpp:376
 #, kde-kuit-format
@@ -2961,19 +2911,19 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Vložiť zo schránky"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Zrušiť pripomienku"
 
 #: selectionmode/bottombarcontentscontainer.cpp:403
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Viac mi nepripomínať"
 
 #: selectionmode/bottombarcontentscontainer.cpp:419
 #, kde-format
@@ -2988,7 +2938,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Zrušiť premenovávanie"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3000,9 +2950,9 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopírovať %2 do schránky"
+msgstr[1] "Kopírovať %2 do schránky"
+msgstr[2] "Kopírovať %2 do schránky"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3014,9 +2964,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Kopírovať umiestnenie %2 do schránky"
+msgstr[1] "Kopírovať umiestnenie %2 do schránky"
+msgstr[2] "Kopírovať umiestnenie %2 do schránky"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3028,9 +2978,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Vystrihnúť %2 do schránky"
+msgstr[1] "Vystrihnúť %2 do schránky"
+msgstr[2] "Vystrihnúť %2 do schránky"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3042,9 +2992,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Natrvalo odstrániť %2"
+msgstr[1] "Natrvalo odstrániť %2"
+msgstr[2] "Natrvalo odstrániť %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3052,15 +3002,13 @@ msgstr[2] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:603
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Duplikovať sem"
-msgstr[1] "Duplikovať sem"
-msgstr[2] "Duplikovať sem"
+msgstr[0] "Duplikovať %2"
+msgstr[1] "Duplikovať %2"
+msgstr[2] "Duplikovať %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3068,15 +3016,13 @@ msgstr[2] "Duplikovať sem"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:611
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Presunúť do koša"
-msgstr[1] "Presunúť do koša"
-msgstr[2] "Presunúť do koša"
+msgstr[0] "Presunúť %2 do koša"
+msgstr[1] "Presunúť %2 do koša"
+msgstr[2] "Presunúť %2 do koša"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3084,15 +3030,13 @@ msgstr[2] "Presunúť do koša"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:619
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "P&remenovať"
-msgstr[1] "P&remenovať"
-msgstr[2] "P&remenovať"
+msgstr[0] "Premenovať %2"
+msgstr[1] "Premenovať %2"
+msgstr[2] "Premenovať %2"
 
 #: selectionmode/topbar.cpp:33
 #, kde-kuit-format
@@ -3113,22 +3057,20 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Režim výberu: Kliknite na súbory alebo priečinky na ich vybratie alebo "
+"nevybratie."
 
 #: selectionmode/topbar.cpp:61
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Výber"
+msgstr "Režim výberu"
 
 #: selectionmode/topbar.cpp:67
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Výber"
+msgstr "Zatvoriť režim výberu"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:66
 #, kde-format
@@ -3288,7 +3230,7 @@ msgstr "Bočná výplň"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Zvýrazniť celý riadok"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3598,6 +3540,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Zobraziť lištu na jednoduché vkladanie po vystrihnutí alebo kopírovaní "
+"pomocou spodnej lišty režimu výberu."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -4293,22 +4237,20 @@ msgstr "Priečinky:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Kliknutím niekde na riadok"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Kliknutím na ikonu alebo názov"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Hľadať súbory a priečinky"
+msgstr "Otvoriť súbory a priečinky:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4945,36 +4887,28 @@ msgid "This will copy the path of the first selected item into the clipboard."
 msgstr "Týmto sa skopíruje cesta prvej vybranej položky do schránky."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Presunúť do koša"
+msgstr "Presunúť do koša..."
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Odstrániť"
+msgstr "Odstrániť..."
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Duplikovať sem"
+msgstr "Duplikovať sem..."
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopírovať umiestnenie"
+msgstr "Kopírovať umiestnenie..."
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
