@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-08-18 20:28+0200\n"
+"PO-Revision-Date: 2022-11-23 20:45+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -743,6 +743,13 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Przełącza to pomiędzy posiadaniem <emphasis>Paska menu</emphasis> a "
+"przycisku <interface>%1</interface>. Oba zawierają zasadniczo te same "
+"działania i ustawienia.</para><para>Pasek menu zajmuje więcej miejsca, ale "
+"dzięki temu umożliwia szybszy i bardziej sprawny dostęp do wszystkich "
+"działań, które daje aplikacja.</para><para>Przycisk <interface>%1</"
+"interface> jest prostszy i mały, co powoduje, że wywoływanie rozbudowanych "
+"działań zajmuje więcej czasu.</para>"
 
 #: dolphinmainwindow.cpp:1944
 #, kde-format
@@ -838,17 +845,13 @@ msgstr "Szczegóły"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
 #: dolphinmainwindow.cpp:2043
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Aby pokazać lub ukryć panele jak ten przejdź do <interface>Obsługa|"
+"<para>Aby pokazać lub ukryć panele jak ten przejdź do <interface>Menu|"
 "Panele</interface> lub <interface>Widok|Panele</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2048
@@ -1079,15 +1082,7 @@ msgid "Split view"
 msgstr "Podziel widok"
 
 #: dolphinmainwindow.cpp:2501
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1101,22 +1096,11 @@ msgstr ""
 "ustawień. Naciśnięcie lewym na dowolnym menu tego paska wyświetli jego "
 "zawartość.</para><para>Pasek menu można pokazać odznaczając "
 "<interface>Ustawienia|Pokaż pasek menu</interface>. Większość z jego treści "
-"staje się widoczna po naciśnięciu przycisku <interface>Obsługa</interface> "
-"na <emphasis>pasku narzędzi</emphasis>.</para>"
+"staje się widoczna po naciśnięciu przycisku <interface>Menu</interface> na "
+"<emphasis>Pasku narzędzi</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2508
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1130,13 +1114,13 @@ msgid ""
 msgstr ""
 "<para>To jest <emphasis>pasek narzędzi</emphasis>. Umożliwia szybki dostęp "
 "do najczęściej używanych działań.</para><para>Jest wysoce edytowalny. "
-"Wszystkie elementy w menu <interface>Obsługa</interface> lub "
-"na<interface>pasku menu</interface> można umieścić na pasku narzędzi. "
-"Wystarczy nacisnąć na nim prawym i wybrać <interface>Ustawienia pasków "
-"narzędzi…</interface> lub znaleźć to działanie w menu <interface>Obsługa</"
-"interface> lub <interface>Ustawienia</interface>.</para><para>Można także "
-"zmienić położenie tego paska i wygląd jego przycisków w menu podręcznym. "
-"Naciśnięcie prawym na przycisku, pokaże lub ukryje jego tekst.</para>"
+"Wszystkie elementy w menu <interface>Menu</interface> lub na<interface>pasku "
+"menu</interface> można umieścić na pasku narzędzi. Wystarczy nacisnąć na nim "
+"prawym i wybrać <interface>Ustawienia pasków narzędzi…</interface> lub "
+"znaleźć to działanie w <interface>Menu</interface> lub "
+"<interface>Ustawieniach</interface>.</para><para>Można także zmienić "
+"położenie tego paska i wygląd jego przycisków w menu podręcznym. Naciśnięcie "
+"prawym na przycisku, pokaże lub ukryje jego tekst.</para>"
 
 #: dolphinmainwindow.cpp:2520
 #, kde-kuit-format
@@ -1181,13 +1165,7 @@ msgstr ""
 "wydać w ten sposób.</para>"
 
 #: dolphinmainwindow.cpp:2542
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1196,8 +1174,8 @@ msgid ""
 msgstr ""
 "<para>To otwiera okna, w którym można określić, które przyciski pojawią się "
 "na <emphasis>pasku narzędzi</emphasis>.</para><para>Można tam umieścić "
-"wszystkie elementy, które widać w menu <interface>obsługa</interface> lub na "
-"<interface>pasku menu</interface>.</para>"
+"wszystkie rzeczy, które widać w <interface>Menu</interface> lub na pasku "
+"narzędzi.</para>"
 
 #: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
@@ -1218,13 +1196,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2558
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1233,20 +1205,15 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Bardziej opisowe wyjaśnienia do różnych możliwości <emphasis>Dolphina</"
-"emphasis> znajdują się <link url='https://userbase.kde.org/Dolphin/"
+"<para>Otworzy to podręcznik dla tej aplikacji. Zawiera on wyjaśnienia do "
+"wszystkich części <emphasis>Dolphina</emphasis>.</para><para>Bardziej "
+"opisowe wyjaśnienia do różnych możliwości <emphasis>Dolphina</emphasis> "
+"znajdują się <link url='https://userbase.kde.org/Dolphin/"
 "File_Management'>tutaj</link>. Zostanie otwarta osobna strona w Wiki bazy "
 "użytkowników KDE.</para>"
 
 #: dolphinmainwindow.cpp:2563
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1258,20 +1225,18 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Są dwa sposoby na uzyskanie pomocy dla tej aplikacji: <link url='help:/"
-"dolphin/index.html'>Podręcznik Dolphina</link> w menu <interface>Pomoc</"
-"interface> oraz artykuł <link url='https://userbase.kde.org/Dolphin/"
-"File_Management'>Wiki bazy użytkowników KDE</link> o<emphasis>Zarządzaniu "
-"plikami</emphasis>.</para><para>Pomoc \"Co to?\" brakuje w wielu innych "
-"oknach, więc nie ma co na niej polegać.</para>"
+"<para>Ten przycisk przywoła pomoc do części aplikacji, której teraz używasz! "
+"Naciśnij go, następnie dowolną część aplikacji, aby zapytać \"Co to?\". "
+"Wygląd wskaźnika myszy ulegnie zmianie, jeśli pomoc nie jest dostępna dla "
+"danego miejsca.</para><para>Są dwa sposoby na uzyskanie pomocy dla tej "
+"aplikacji: <link url='help:/dolphin/index.html'>Podręcznik Dolphina</link> w "
+"menu <interface>Pomoc</interface> oraz artykuł <link url='https://userbase."
+"kde.org/Dolphin/File_Management'>Wiki bazy użytkowników KDE</link> "
+"o<emphasis>Zarządzaniu plikami</emphasis>.</para><para>Pomocy \"Co to?\" "
+"brakuje w wielu innych oknach, więc nie ma co na niej polegać.</para>"
 
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1280,9 +1245,11 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Zgłoszenia wysokiej jakości są wysoce cenione. Opis tego jak dobrze "
-"zgłosić błąd znajduje się <link url='https://community.kde.org/Get_Involved/"
-"Bug_Reporting'>tutaj</link>.</para>"
+"<para>Otworzy to okno, które pomoże zgłosić błąd lub niedociągnięcie w tej "
+"aplikacji lub innym programie od KDE.</para><para>Zgłoszenia dobrej jakości "
+"są wysoce cenione. Opis tego jak dobrze zgłosić błąd można znaleźć <link "
+"url='https://community.kde.org/Get_Involved/Bug_Reporting'>tutaj</link>.</"
+"para>"
 
 #: dolphinmainwindow.cpp:2583
 #, kde-kuit-format
@@ -3284,7 +3251,7 @@ msgstr "Wypełnianie boków"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Podświetl cały wiersz"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4292,28 +4259,26 @@ msgstr "Katalogi:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Po naciśnięciu gdziekolwiek w wierszu"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Po naciśnięciu na ikonę lub nazwę"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Szukaj plików i katalogów"
+msgstr "Otwórz plik lub katalog:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
 msgctxt "option:radio"
 msgid "Number of items"
-msgstr "Liczbę jego elementów"
+msgstr "Liczbę jego rzeczy"
 
 #: settings/viewmodes/viewsettingstab.cpp:120
 #, kde-format
