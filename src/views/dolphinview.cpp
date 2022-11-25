@@ -1906,8 +1906,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, con
 #ifndef Q_OS_WIN
             //Confirm hiding file/directory by renaming inline
             if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
-                KGuiItem yesGuiItem(KStandardGuiItem::yes());
-                yesGuiItem.setText(i18nc("@action:button", "Rename and Hide"));
+                KGuiItem yesGuiItem(i18nc("@action:button", "Rename and Hide"), QStringLiteral("view-hidden"));
 
 #if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
                 const auto code = KMessageBox::questionTwoActions(this,
