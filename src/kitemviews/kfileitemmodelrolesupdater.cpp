@@ -984,37 +984,9 @@ void KFileItemModelRolesUpdater::startPreviewJob()
     // cache sizes are requested.
     const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128) ? QSize(256, 256) : QSize(128, 128);
 
-    // KIO::filePreview() will request the MIME-type of all passed items, which (in the
-    // worst case) might block the application for several seconds. To prevent such
-    // a blocking, we only pass items with known mime type to the preview job.
-    const int count = m_pendingPreviewItems.count();
-    KFileItemList itemSubSet;
-    itemSubSet.reserve(count);
-
-    if (m_pendingPreviewItems.first().isMimeTypeKnown()) {
-        // Some mime types are known already, probably because they were
-        // determined when loading the icons for the visible items. Start
-        // a preview job for all items at the beginning of the list which
-        // have a known mime type.
-        do {
-            itemSubSet.append(m_pendingPreviewItems.takeFirst());
-        } while (!m_pendingPreviewItems.isEmpty() && m_pendingPreviewItems.first().isMimeTypeKnown());
-    } else {
-        // Determine mime types for MaxBlockTimeout ms, and start a preview
-        // job for the corresponding items.
-        QElapsedTimer timer;
-        timer.start();
-
-        do {
-            const KFileItem item = m_pendingPreviewItems.takeFirst();
-            item.determineMimeType();
-            itemSubSet.append(item);
-        } while (!m_pendingPreviewItems.isEmpty() && timer.elapsed() < MaxBlockTimeout);
-    }
-
-    KIO::PreviewJob *job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob *job = new KIO::PreviewJob(m_pendingPreviewItems, cacheSize, &m_enabledPlugins);
+    job->setIgnoreMaximumSize(m_pendingPreviewItems.first().isLocalFile() && !m_pendingPreviewItems.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     job->setDevicePixelRatio(m_devicePixelRatio);
-    job->setIgnoreMaximumSize(itemSubSet.first().isLocalFile() && !itemSubSet.first().isSlow() && m_localFileSizePreviewLimit <= 0);
     if (job->uiDelegate()) {
         KJobWidgets::setWindow(job, qApp->activeWindow());
     }
