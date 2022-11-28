@@ -238,7 +238,11 @@ bool KFileItemModel::sortHiddenLast() const
 
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
+#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
     m_dirLister->setShowingDotFiles(show);
+#else
+    m_dirLister->setShowHiddenFiles(show);
+#endif
     m_dirLister->emitChanges();
     if (show) {
         dispatchPendingItemsToInsert();
@@ -247,7 +251,11 @@ void KFileItemModel::setShowHiddenFiles(bool show)
 
 bool KFileItemModel::showHiddenFiles() const
 {
+#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
     return m_dirLister->showingDotFiles();
+#else
+    return m_dirLister->showHiddenFiles();
+#endif
 }
 
 void KFileItemModel::setShowDirectoriesOnly(bool enabled)
