@@ -2264,6 +2264,8 @@ void DolphinView::updatePlaceholderLabel()
         m_placeholderLabel->setText(i18n("No relevant network resources found"));
     } else if (m_url.scheme() == QLatin1String("mtp") && m_url.path() == QLatin1String("/")) {
         m_placeholderLabel->setText(i18n("No MTP-compatible devices found"));
+    } else if (m_url.scheme() == QLatin1String("afc") && m_url.path() == QLatin1String("/")) {
+        m_placeholderLabel->setText(i18n("No Apple devices found"));
     } else if (m_url.scheme() == QLatin1String("bluetooth")) {
         m_placeholderLabel->setText(i18n("No Bluetooth devices found"));
     } else {
