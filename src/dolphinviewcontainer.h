@@ -400,6 +400,7 @@ private Q_SLOTS:
 
     void slotHiddenFilesShownChanged(bool showHiddenFiles);
     void slotSortHiddenLastChanged(bool hiddenLast);
+    void slotCurrentDirectoryRemoved();
 
     void slotOpenUrlFinished(KJob* job);
 
@@ -420,6 +421,11 @@ private:
      * non-empty location state.
      */
     void tryRestoreViewState();
+
+    /**
+     * @return Path of nearest existing ancestor directory.
+     */
+    QString getNearestExistingAncestorOfPath(const QString& path) const;
 
 private:
     QGridLayout *m_topLayout;

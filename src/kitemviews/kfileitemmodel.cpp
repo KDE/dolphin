@@ -1150,7 +1150,14 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     indexesToRemove.reserve(items.count());
     KFileItemList dirsChanged;
 
+    const auto currentDir = directory();
+
     for (const KFileItem& item : items) {
+        if (item.url() == currentDir) {
+            Q_EMIT currentDirectoryRemoved();
+            return;
+        }
+
         const int indexForItem = index(item);
         if (indexForItem >= 0) {
             indexesToRemove.append(indexForItem);

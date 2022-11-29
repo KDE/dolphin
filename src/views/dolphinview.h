@@ -637,6 +637,11 @@ Q_SIGNALS:
 
     void fileItemsChanged(const KFileItemList &changedFileItems);
 
+    /**
+     * Emitted when the current directory of the model was removed.
+     */
+    void currentDirectoryRemoved();
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     void wheelEvent(QWheelEvent* event) override;

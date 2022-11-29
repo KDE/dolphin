@@ -172,6 +172,8 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
             this, &DolphinViewContainer::slotHiddenFilesShownChanged);
     connect(m_view, &DolphinView::sortHiddenLastChanged,
             this, &DolphinViewContainer::slotSortHiddenLastChanged);
+    connect(m_view, &DolphinView::currentDirectoryRemoved,
+            this, &DolphinViewContainer::slotCurrentDirectoryRemoved);
 
     // Initialize status bar
     m_statusBar = new DolphinStatusBar(this);
@@ -939,6 +941,19 @@ void DolphinViewContainer::slotSortHiddenLastChanged(bool hiddenLast)
     }
 }
 
+void DolphinViewContainer::slotCurrentDirectoryRemoved()
+{
+    const QString location(url().toDisplayString(QUrl::PreferLocalFile));
+    if (url().isLocalFile()) {
+        const QString dirPath = url().toLocalFile();
+        const QString newPath = getNearestExistingAncestorOfPath(dirPath);
+        const QUrl newUrl = QUrl::fromLocalFile(newPath);
+        setUrl(newUrl);
+    }
+
+    showMessage(xi18n("Current location changed, <filename>%1</filename> is no longer accessible.", location), Warning);
+}
+
 void DolphinViewContainer::slotOpenUrlFinished(KJob *job)
 {
     if (job->error() && job->error() != KIO::ERR_USER_CANCELED) {
@@ -966,4 +981,15 @@ void DolphinViewContainer::tryRestoreViewState()
         QDataStream stream(&locationState, QIODevice::ReadOnly);
         m_view->restoreState(stream);
     }
+}
+
+QString DolphinViewContainer::getNearestExistingAncestorOfPath(const QString& path) const
+{
+    QDir dir(path);
+    do {
+        dir.setPath(QDir::cleanPath(dir.filePath(QStringLiteral(".."))));
+    }
+    while (!dir.exists() && !dir.isRoot());
+
+    return dir.exists() ? dir.path() : QString{};
 }

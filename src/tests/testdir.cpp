@@ -96,6 +96,17 @@ void TestDir::removeFile(const QString& path)
     QFile::remove(absolutePath);
 }
 
+void TestDir::removeDir(const QString& path)
+{
+    QString absolutePath = path;
+    QFileInfo fileInfo(absolutePath);
+    if (!fileInfo.isAbsolute()) {
+        absolutePath = TestDir::path() + QLatin1Char('/') + path;
+    }
+    QDir dirToRemove = QDir(absolutePath);
+    dirToRemove.removeRecursively();
+}
+
 void TestDir::makePathAbsoluteAndCreateParents(QString& path)
 {
     QFileInfo fileInfo(path);

@@ -263,6 +263,11 @@ Q_SIGNALS:
      */
     void fileItemsChanged(const KFileItemList &changedFileItems);
 
+    /**
+     * It is emitted when the parent directory was removed.
+     */
+    void currentDirectoryRemoved();
+
 protected:
     void onGroupedSortingChanged(bool current) override;
     void onSortRoleChanged(const QByteArray& current, const QByteArray& previous, bool resortItems = true) override;

@@ -37,6 +37,7 @@ public:
 
     void removeFile(const QString& path);
     void removeFiles(const QStringList& files);
+    void removeDir(const QString& path);
 
 private:
     void makePathAbsoluteAndCreateParents(QString& path);

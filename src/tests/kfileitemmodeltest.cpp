@@ -93,6 +93,7 @@ private Q_SLOTS:
     void testCreateMimeData();
     void testDeleteFileMoreThanOnce();
     void testInsertAfterExpand();
+    void testCurrentDirRemoved();
 
 private:
     QStringList itemsInModel() const;
@@ -2122,6 +2123,32 @@ void KFileItemModelTest::testInsertAfterExpand()
     QCOMPARE(m_model->expandedParentsCount(2), 2); // a/b/1
     QCOMPARE(m_model->expandedParentsCount(3), 2) ;// a/b/2
 
+}
+
+void KFileItemModelTest::testCurrentDirRemoved()
+{
+    m_model->m_dirLister->setAutoUpdate(true);
+    QSignalSpy currentDirectoryRemovedSpy(m_model, &KFileItemModel::currentDirectoryRemoved);
+    QVERIFY(currentDirectoryRemovedSpy.isValid());
+    QSignalSpy loadingCompletedSpy(m_model, &KFileItemModel::directoryLoadingCompleted);
+    QVERIFY(loadingCompletedSpy.isValid());
+    QSignalSpy dirListerClearSpy(m_model->m_dirLister, &KCoreDirLister::clear);
+    QVERIFY(dirListerClearSpy.isValid());
+
+    m_testDir->createFiles({"dir/a.txt", "dir/b.txt"});
+    m_model->loadDirectory(QUrl::fromLocalFile(m_testDir->path() + "/dir/"));
+    QVERIFY(loadingCompletedSpy.wait());
+    QCOMPARE(m_model->count(), 2);
+    QVERIFY(m_model->isConsistent());
+
+    m_testDir->removeDir("dir");
+    QVERIFY(currentDirectoryRemovedSpy.wait());
+
+    // dirLister calls clear
+    QCOMPARE(dirListerClearSpy.count(), 2);
+    QVERIFY(m_model->isConsistent());
+    QVERIFY(m_model->m_itemData.isEmpty());
+    QCOMPARE(m_model->count(), 0);
 }
 
 QStringList KFileItemModelTest::itemsInModel() const
