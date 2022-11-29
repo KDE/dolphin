@@ -62,7 +62,7 @@ private Q_SLOTS:
     void slotContextMenuAboutToShow(const QModelIndex &index, QMenu *menu);
     void slotTearDownRequested(const QModelIndex &index);
     void slotTearDownRequestedExternally(const QString &udi);
-    void slotTearDownDone(Solid::ErrorType error, const QVariant& errorData);
+    void slotTearDownDone(const QModelIndex &index, Solid::ErrorType error, const QVariant &errorData);
     void slotRowsInserted(const QModelIndex &parent, int first, int last);
     void slotRowsAboutToBeRemoved(const QModelIndex &parent, int first, int last);
 
@@ -72,7 +72,7 @@ private:
     QUrl m_url; // only used for initial setUrl
     QList<QAction*> m_customContextMenuActions;
 
-    Solid::StorageAccess *m_deviceToTearDown = nullptr;
+    QPersistentModelIndex m_indexToTearDown;
 
     QAction *m_configureTrashAction;
     QAction *m_lockPanelsAction;

@@ -21,7 +21,6 @@
 #include <KFilePlacesModel>
 #include <KIO/DropJob>
 #include <KIO/Job>
-#include <KListOpenFilesJob>
 #include <KLocalizedString>
 #include <KProtocolManager>
 
@@ -86,11 +85,12 @@ void PlacesPanel::setCustomContextMenuActions(const QList<QAction *> &actions)
 
 void PlacesPanel::proceedWithTearDown()
 {
-    Q_ASSERT(m_deviceToTearDown);
-
-    connect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
-            this, &PlacesPanel::slotTearDownDone);
-    m_deviceToTearDown->teardown();
+    if (m_indexToTearDown.isValid()) {
+        auto *placesModel = static_cast<KFilePlacesModel *>(model());
+        placesModel->requestTeardown(m_indexToTearDown);
+    } else {
+        qWarning() << "Places entry to tear down is no longer valid";
+    }
 }
 
 void PlacesPanel::readSettings()
@@ -114,6 +114,7 @@ void PlacesPanel::showEvent(QShowEvent* event)
         setModel(placesModel);
 
         connect(placesModel, &KFilePlacesModel::errorMessage, this, &PlacesPanel::errorMessage);
+        connect(placesModel, &KFilePlacesModel::teardownDone, this, &PlacesPanel::slotTearDownDone);
 
         connect(placesModel, &QAbstractItemModel::rowsInserted, this, &PlacesPanel::slotRowsInserted);
         connect(placesModel, &QAbstractItemModel::rowsAboutToBeRemoved, this, &PlacesPanel::slotRowsAboutToBeRemoved);
@@ -212,7 +213,7 @@ void PlacesPanel::slotTearDownRequested(const QModelIndex &index)
         return;
     }
 
-    m_deviceToTearDown = storageAccess;
+    m_indexToTearDown = QPersistentModelIndex(index);
 
     // disconnect the Solid::StorageAccess::teardownRequested
     // to prevent emitting PlacesPanel::storageTearDownExternallyRequested
@@ -229,41 +230,17 @@ void PlacesPanel::slotTearDownRequestedExternally(const QString &udi)
     Q_EMIT storageTearDownExternallyRequested(storageAccess->filePath());
 }
 
-void PlacesPanel::slotTearDownDone(Solid::ErrorType error, const QVariant& errorData)
+void PlacesPanel::slotTearDownDone(const QModelIndex &index, Solid::ErrorType error, const QVariant &errorData)
 {
-    if (error && errorData.isValid()) {
-        if (error == Solid::ErrorType::UserCanceled) {
-            // No need to tell the user what they just did.
-        } else if (error == Solid::ErrorType::DeviceBusy) {
-            KListOpenFilesJob* listOpenFilesJob = new KListOpenFilesJob(m_deviceToTearDown->filePath());
-            connect(listOpenFilesJob, &KIO::Job::result, this, [this, listOpenFilesJob](KJob*) {
-                const KProcessList::KProcessInfoList blockingProcesses = listOpenFilesJob->processInfoList();
-                QString errorString;
-                if (blockingProcesses.isEmpty()) {
-                    errorString = i18n("One or more files on this device are open within an application.");
-                } else {
-                    QStringList blockingApps;
-                    for (const auto& process : blockingProcesses) {
-                        blockingApps << process.name();
-                    }
-                    blockingApps.removeDuplicates();
-                    errorString = xi18np("One or more files on this device are opened in application <application>\"%2\"</application>.",
-                            "One or more files on this device are opened in following applications: <application>%2</application>.",
-                            blockingApps.count(), blockingApps.join(i18nc("separator in list of apps blocking device unmount", ", ")));
-                }
-                Q_EMIT errorMessage(errorString);
-            });
-            listOpenFilesJob->start();
-        } else {
-            Q_EMIT errorMessage(errorData.toString());
+    Q_UNUSED(errorData); // All error handling is currently done in frameworks.
+
+    if (index == m_indexToTearDown) {
+        if (error == Solid::ErrorType::NoError) {
+            // No error; it must have been unmounted successfully
+            Q_EMIT storageTearDownSuccessful();
         }
-    } else {
-        // No error; it must have been unmounted successfully
-        Q_EMIT storageTearDownSuccessful();
+        m_indexToTearDown = QPersistentModelIndex();
     }
-    disconnect(m_deviceToTearDown, &Solid::StorageAccess::teardownDone,
-               this, &PlacesPanel::slotTearDownDone);
-    m_deviceToTearDown = nullptr;
 }
 
 void PlacesPanel::slotRowsInserted(const QModelIndex &parent, int first, int last)
