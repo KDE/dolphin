@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-11-14 15:36+0100\n"
+"PO-Revision-Date: 2022-11-28 14:55+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -515,6 +515,13 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Iste application cognosce solmente qual files o dossieres deberea "
+"esser subjecto de action si illos es <emphasis>selegite</emphasis> "
+"primemente. Pressa isto per commutar a  <emphasis>Modo de Selection</"
+"emphasis> que rense selectionar e deselectionar facile como pressar un "
+"elemento un vice.</para><para>Durante que il es in iste modo, un rapide "
+"barra de accesss a basso monstra le actiones disponibile per le elementos "
+"currentemente seligite</para>"
 
 #: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
@@ -734,6 +741,13 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Isto commuta inter haver un <emphasis>Barra de Menu</emphasis> e "
+"haverun <interface>%1</interface> button. Ambes contine plus o minus le "
+"mesme actiones e optiones de configuration.</para><para>Le Barra de Menu "
+"orende plus spatio ma permitte accesso plus rapide e organisate a omne "
+"action qua un application poteofferer.</para><para>Le button  <interface>%1</"
+"interface> es plus simple e parve  le qual rende actiones discatenante "
+"avantiate plus dispendiose in tempore.</para>"
 
 #: dolphinmainwindow.cpp:1944
 #, kde-format
@@ -2890,6 +2904,11 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Le files e dossiere seligite esseva addite al Area de Transferentia. "
+"Nunc le  action de <emphasis>Colla</emphasis> pote esser usate per transfer "
+"illos ab le Area de Transferentia e ulle altere location. Illos anque pote "
+"esser transferite a altere applicationes per usar le lor respective actiones "
+"de <emphasis>Cola</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:396
 #, kde-format
@@ -3031,6 +3050,14 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Modo de Selection</title><para>Selige files o dossieres per gerer o "
+"manear los.<list><item>Pressa sur un file o unb dossier per selectionar lo.</"
+"item><item>Pressa sur un file o dossier ja seligite per deselectionar lo.</"
+"item><item>Pressar un area vacue  <emphasis>non</emphasis> clara le "
+"selection.</item><item>Rectangulos de Selection  (create per traher ex un "
+"area vacue) inverte l stato de selection del elementos in su interior.</"
+"item></list></para><para>Le buttones de actiones disponibile a basso cambia "
+"in dependentia  del selection currente.</para>"
 
 #: selectionmode/topbar.cpp:59
 #, kde-format
