@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
 "PO-Revision-Date: 2022-10-05 19:49+0630\n"
 "Last-Translator: ဇေယျာလွင် <lw1nzayar@yandex.com>\n"
 "Language-Team: Burmese <kde-i18n-doc@kde.org>\n"
@@ -4443,11 +4443,17 @@ msgid "No MTP-compatible devices found"
 msgstr ""
 
 #: views/dolphinview.cpp:2268
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
+msgid "No Apple devices found"
+msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
+
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "မည်သည့်ဘလူးတုစက်မှ မတွေ့ပါ"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2272
 #, kde-format
 msgid "Folder is empty"
 msgstr "ဖိုလ်ဒါသည် ဗလာဖြစ်နေသည်"

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: KDE 4.3\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
 "PO-Revision-Date: 2022-02-01 10:13+0100\n"
 "Last-Translator: Kristof Kiszel <ulysses@fsf.hu>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -4857,11 +4857,17 @@ msgid "No MTP-compatible devices found"
 msgstr "Nem találhatók MTP kompatibilis eszközök"
 
 #: views/dolphinview.cpp:2268
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
+msgid "No Apple devices found"
+msgstr "Nem találhatók Bluetooth eszközök"
+
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "Nem találhatók Bluetooth eszközök"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2272
 #, kde-format
 msgid "Folder is empty"
 msgstr "A mappa üres"

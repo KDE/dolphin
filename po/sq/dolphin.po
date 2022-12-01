@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
 "PO-Revision-Date: 2022-02-22 05:17-0500\n"
 "Last-Translator: Agron Selimaj <as9902613@gmail.com>\n"
 "Language-Team: sq\n"
@@ -4765,10 +4765,15 @@ msgstr ""
 
 #: views/dolphinview.cpp:2268
 #, kde-format
-msgid "No Bluetooth devices found"
+msgid "No Apple devices found"
 msgstr ""
 
 #: views/dolphinview.cpp:2270
+#, kde-format
+msgid "No Bluetooth devices found"
+msgstr ""
+
+#: views/dolphinview.cpp:2272
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

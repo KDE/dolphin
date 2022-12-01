@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
 "PO-Revision-Date: 2011-05-30 08:10+0530\n"
 "Last-Translator: Danishka Navin <danishka@gmail.com>\n"
 "Language-Team: Sinhala <danishka@gmail.com>\n"
@@ -4910,11 +4910,18 @@ msgid "No MTP-compatible devices found"
 msgstr ""
 
 #: views/dolphinview.cpp:2268
+#, fuzzy, kde-format
+#| msgctxt "@info:status"
+#| msgid "No items found."
+msgid "No Apple devices found"
+msgstr "අයිතම කිසිකක් හමු නොවිණි."
+
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2272
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"

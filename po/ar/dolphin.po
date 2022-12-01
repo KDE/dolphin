@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
 "PO-Revision-Date: 2022-10-29 19:04+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
@@ -4824,11 +4824,17 @@ msgid "No MTP-compatible devices found"
 msgstr "لم يعثر على جهاز متوافق مع MTP"
 
 #: views/dolphinview.cpp:2268
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
+msgid "No Apple devices found"
+msgstr "لم يعثر على جهاز بلوتوث"
+
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "لم يعثر على جهاز بلوتوث"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2272
 #, kde-format
 msgid "Folder is empty"
 msgstr "المجلد فارغ"

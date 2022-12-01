@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-11-30 00:50+0000\n"
-"PO-Revision-Date: 2022-10-28 08:51+0200\n"
+"POT-Creation-Date: 2022-12-01 00:49+0000\n"
+"PO-Revision-Date: 2022-11-30 09:51+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca@valencia\n"
@@ -1641,6 +1641,8 @@ msgstr "Protocol no vàlid"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"La ubicació actual ha canviat, ja no es pot accedir a <filename>%1</"
+"filename>."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -4799,11 +4801,17 @@ msgid "No MTP-compatible devices found"
 msgstr "No s'ha trobat cap dispositiu que admeta MTP"
 
 #: views/dolphinview.cpp:2268
+#, fuzzy, kde-format
+#| msgid "No Bluetooth devices found"
+msgid "No Apple devices found"
+msgstr "No s'ha trobat cap dispositiu Bluetooth"
+
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr "No s'ha trobat cap dispositiu Bluetooth"
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2272
 #, kde-format
 msgid "Folder is empty"
 msgstr "La carpeta està buida"
@@ -5230,23 +5238,3 @@ msgstr[1] "Accions per a %1 elements seleccionats"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "S'està actualitzant la informació de la versió..."
-
-#~ msgid "One or more files on this device are open within an application."
-#~ msgstr "Un o més fitxers d'este dispositiu estan oberts a una aplicació."
-
-#~ msgid ""
-#~ "One or more files on this device are opened in application <application>"
-#~ "\"%2\"</application>."
-#~ msgid_plural ""
-#~ "One or more files on this device are opened in following applications: "
-#~ "<application>%2</application>."
-#~ msgstr[0] ""
-#~ "Un o més fitxers d'este dispositiu estan oberts en l'aplicació "
-#~ "<application>%2</application>."
-#~ msgstr[1] ""
-#~ "Un o més fitxers d'este dispositiu estan oberts en les aplicacions "
-#~ "següents: <application>%2</application>."
-
-#~ msgctxt "separator in list of apps blocking device unmount"
-#~ msgid ", "
-#~ msgstr ", "
