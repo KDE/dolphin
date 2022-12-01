@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-28 00:48+0000\n"
-"PO-Revision-Date: 2022-11-21 21:55+0300\n"
+"PO-Revision-Date: 2022-11-30 17:18+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2661,25 +2661,25 @@ msgstr "Herhangi Bir Derecelendirme"
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "1 or more"
-msgstr "1 veya daha fazla"
+msgstr "1 veya daha çok"
 
 #: search/dolphinfacetswidget.cpp:51
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "2 or more"
-msgstr "2 veya daha fazla"
+msgstr "2 veya daha çok"
 
 #: search/dolphinfacetswidget.cpp:52
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "3 or more"
-msgstr "3 veya daha fazla"
+msgstr "3 veya daha çok"
 
 #: search/dolphinfacetswidget.cpp:53
 #, kde-format
 msgctxt "@item:inlistbox"
 msgid "4 or more"
-msgstr "4 veya daha fazla"
+msgstr "4 veya daha çok"
 
 #: search/dolphinfacetswidget.cpp:54
 #, kde-format
@@ -4184,7 +4184,7 @@ msgstr "5"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum lines:"
-msgstr "En fazla satır sayısı:"
+msgstr "En çok satır sayısı:"
 
 #: settings/viewmodes/viewsettingstab.cpp:93
 #, kde-format
@@ -4214,7 +4214,7 @@ msgstr "Büyük"
 #, kde-format
 msgctxt "@label:listbox"
 msgid "Maximum width:"
-msgstr "En fazla genişlik:"
+msgstr "En büyük genişlik:"
 
 #: settings/viewmodes/viewsettingstab.cpp:101
 #, kde-format
@@ -4257,7 +4257,7 @@ msgstr "Öge sayısı"
 #, kde-format
 msgctxt "option:radio"
 msgid "Size of contents, up to "
-msgstr "İçeriğin boyutu, en fazla "
+msgstr "İçeriğin boyutu, en çok "
 
 #: settings/viewmodes/viewsettingstab.cpp:128
 #, kde-format
