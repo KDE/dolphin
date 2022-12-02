@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-01 00:49+0000\n"
-"PO-Revision-Date: 2022-11-03 21:41+0530\n"
+"PO-Revision-Date: 2022-12-01 21:59+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
 "Language: ta\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1522,7 +1522,7 @@ msgstr "செல்லுபடியாகாத நெறிமுறை"
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
-msgstr ""
+msgstr "இருப்பிடம் மாறியது, <filename>%1</filename> தனை அணுக முடியவில்லை."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -4635,10 +4635,9 @@ msgid "No MTP-compatible devices found"
 msgstr "MTP சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Bluetooth சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
+msgstr "ஆப்பிள் சாதனங்கள் எதுவும் கண்டுபிடிக்கப்படவில்லை"
 
 #: views/dolphinview.cpp:2270
 #, kde-format

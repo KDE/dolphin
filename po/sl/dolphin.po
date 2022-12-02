@@ -12,15 +12,15 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-01 00:49+0000\n"
-"PO-Revision-Date: 2022-10-29 08:20+0200\n"
+"PO-Revision-Date: 2022-12-01 08:37+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
-"%100==4 ? 3 : 0);\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100>=3 && n"
+"%100<=4 ? 2 : 3);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
 "X-Generator: Poedit 3.1.1\n"
 
@@ -1632,6 +1632,7 @@ msgstr "Neveljaven protokol"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Trenutna lokacija je spremenjena, <filename>%1</filename> ni več dostopna."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -4809,10 +4810,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Ni nadene nobene MTP združljive naprave"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Ni najdene nobene Bluetooth naprave"
+msgstr "Ni najdenih Applovih naprav"
 
 #: views/dolphinview.cpp:2270
 #, kde-format

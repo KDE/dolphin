@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-01 00:49+0000\n"
-"PO-Revision-Date: 2022-11-30 06:54+0200\n"
+"PO-Revision-Date: 2022-12-01 10:43+0200\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
 "Language: uk\n"
@@ -4857,10 +4857,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Сумісних із MTP пристроїв не знайдено"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Не знайдено пристроїв Bluetooth"
+msgstr "Не знайдено пристроїв Apple"
 
 #: views/dolphinview.cpp:2270
 #, kde-format

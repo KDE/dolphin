@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-01 00:49+0000\n"
-"PO-Revision-Date: 2022-11-02 22:31+0100\n"
+"PO-Revision-Date: 2022-12-01 23:43+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 22.08.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1643,6 +1643,8 @@ msgstr "Невалиден протокол"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Текущото местоположение е променено, <filename>%1</filename> не е вече "
+"достъпен."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -4784,10 +4786,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Не са намерени устройства, съвместими с MTP"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Няма намерени Bluetooth устройства"
+msgstr "Няма намерени устройства на Apple"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
