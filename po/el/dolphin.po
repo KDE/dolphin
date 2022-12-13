@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-01 00:49+0000\n"
+"POT-Creation-Date: 2022-12-13 01:00+0000\n"
 "PO-Revision-Date: 2021-10-17 09:57+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -2494,9 +2494,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Το Dolphin θα ανοίξει σε ένα νέο παράθυρο."
 
 #: main.cpp:145
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
 msgctxt "@info:shell"
-msgid "Start Dolphin Daemon (only required for DBus Interface)"
+msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "Εκκίνηση του δαίμονα Dolphin (απαιτείται μόνο για το DBus)"
 
 #: main.cpp:146

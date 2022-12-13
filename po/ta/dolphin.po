@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-01 00:49+0000\n"
+"POT-Creation-Date: 2022-12-13 01:00+0000\n"
 "PO-Revision-Date: 2022-12-01 21:59+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -2269,9 +2269,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "டால்பின் ஒரு புதிய சாளரத்தில் திறக்கும்."
 
 #: main.cpp:145
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
 msgctxt "@info:shell"
-msgid "Start Dolphin Daemon (only required for DBus Interface)"
+msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "டால்பின் பின்னணி சேவையைத் துவக்கு (DBus இடைமுகப்புக்கு மட்டும் தேவை)"
 
 #: main.cpp:146

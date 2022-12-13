@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-01 00:49+0000\n"
+"POT-Creation-Date: 2022-12-13 01:00+0000\n"
 "PO-Revision-Date: 2022-12-01 06:51\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -2294,9 +2294,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin 将明确地在新窗口中打开。"
 
 #: main.cpp:145
-#, kde-format
+#, fuzzy, kde-format
+#| msgctxt "@info:shell"
+#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
 msgctxt "@info:shell"
-msgid "Start Dolphin Daemon (only required for DBus Interface)"
+msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr "启动 Dolphin 守护进程 (只在使用 DBus 接口时需要)"
 
 #: main.cpp:146
