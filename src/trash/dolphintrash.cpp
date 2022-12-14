@@ -7,19 +7,14 @@
 
 #include "dolphintrash.h"
 
+#include <KIO/JobUiDelegate>
+#include <kio_version.h>
+#include <KJobWidgets>
 #include <QList>
 #include <KNotification>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KLocalizedString>
-
-#include <kio_version.h>
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-#include <KIO/DeleteOrTrashJob>
-#else
-#include <KIO/JobUiDelegate>
-#include <KJobWidgets>
-#endif
 
 Trash::Trash()
     : m_trashDirLister(new KDirLister())
@@ -49,25 +44,8 @@ Trash &Trash::instance()
     return result;
 }
 
-static void notifyEmptied()
+KIO::Job *Trash::empty(QWidget *window)
 {
-    // As long as KIO doesn't do this, do it ourselves
-    KNotification::event(QStringLiteral("Trash: emptied"),
-                         i18n("Trash Emptied"),
-                         i18n("The Trash was emptied."),
-                         QStringLiteral("user-trash"),
-                         nullptr,
-                         KNotification::DefaultEvent);
-}
-
-void Trash::empty(QWidget *window)
-{
-#if KIO_VERSION >= QT_VERSION_CHECK(5, 100, 0)
-    using Iface = KIO::AskUserActionInterface;
-    auto *emptyJob = new KIO::DeleteOrTrashJob(QList<QUrl>{}, Iface::EmptyTrash, Iface::DefaultConfirmation, window);
-    QObject::connect(emptyJob, &KIO::Job::result, notifyEmptied);
-    emptyJob->start();
-#else
     KIO::JobUiDelegate uiDelegate;
     uiDelegate.setWindow(window);
     bool confirmed = uiDelegate.askDeleteConfirmation(QList<QUrl>(), KIO::JobUiDelegate::EmptyTrash, KIO::JobUiDelegate::DefaultConfirmation);
@@ -75,9 +53,15 @@ void Trash::empty(QWidget *window)
         KIO::Job* job = KIO::emptyTrash();
         KJobWidgets::setWindow(job, window);
         job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-        QObject::connect(emptyJob, &KIO::Job::result, notifyEmptied);
+         // as long as KIO doesn't do this, do it ourselves
+        connect(job, &KIO::Job::result, []() {
+            KNotification::event(QStringLiteral("Trash: emptied"), i18n("Trash Emptied"),
+                                 i18n("The Trash was emptied."), QStringLiteral("user-trash"),
+                                 nullptr, KNotification::DefaultEvent);
+        });
+        return job;
     }
-#endif
+    return nullptr;
 }
 
 bool Trash::isEmpty()
