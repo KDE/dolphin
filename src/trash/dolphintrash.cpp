@@ -75,7 +75,7 @@ void Trash::empty(QWidget *window)
         KIO::Job* job = KIO::emptyTrash();
         KJobWidgets::setWindow(job, window);
         job->uiDelegate()->setAutoErrorHandlingEnabled(true);
-        QObject::connect(job, &KIO::Job::result, notifyEmptied);
+        QObject::connect(emptyJob, &KIO::Job::result, notifyEmptied);
     }
 #endif
 }
