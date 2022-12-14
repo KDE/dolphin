@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 01:00+0000\n"
-"PO-Revision-Date: 2022-12-01 12:37+0100\n"
+"PO-Revision-Date: 2022-12-13 14:55+0100\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -2398,13 +2398,11 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "El Dolphin s'obrirà explícitament a una finestra nova."
 
 #: main.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
-"Inici del dimoni Dolphin (només és requerit per la interfície de D-Bus)"
+"Inici del dimoni del Dolphin (només és requerit per la interfície de D-Bus)."
 
 #: main.cpp:146
 #, kde-format

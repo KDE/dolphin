@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 01:00+0000\n"
-"PO-Revision-Date: 2022-12-01 06:51\n"
+"PO-Revision-Date: 2022-12-13 12:20\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -4631,10 +4631,9 @@ msgid "No MTP-compatible devices found"
 msgstr "没有找到 MTP 兼容设备"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "没有找到蓝牙设备"
+msgstr "未发现苹果设备"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
