@@ -289,7 +289,7 @@ void DolphinMainWindow::activateWindow(const QString &activationToken)
     if (KWindowSystem::isPlatformWayland()) {
         KWindowSystem::setCurrentXdgActivationToken(activationToken);
     } else {
-        KStartupInfo::setNewStartupId(window()->windowHandle(), KStartupInfo::startupId());
+        KStartupInfo::setNewStartupId(window()->windowHandle(), activationToken.toUtf8());
     }
 
     KWindowSystem::activateWindow(window()->windowHandle());

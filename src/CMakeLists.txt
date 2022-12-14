@@ -471,6 +471,14 @@ target_link_libraries(dolphin
     KF5::Crash
 )
 
+if (HAVE_X11)
+    if (QT_MAJOR_VERSION STREQUAL "5")
+        target_link_libraries(dolphin PRIVATE Qt5::X11Extras)
+    else()
+        target_link_libraries(dolphin PRIVATE Qt::GuiPrivate)
+    endif()
+endif()
+
 include(DbusInterfaceMacros)
 
 generate_and_install_dbus_interface(

@@ -35,6 +35,14 @@
 #include <QDBusConnectionInterface>
 #include <QSessionManager>
 
+#if HAVE_X11
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <private/qtx11extras_p.h>
+#else
+#include <QX11Info>
+#endif
+#endif
+
 #ifndef Q_OS_WIN
 #include <unistd.h>
 #endif
@@ -181,6 +189,10 @@ int main(int argc, char **argv)
         if (KWindowSystem::isPlatformWayland()) {
             token = qEnvironmentVariable("XDG_ACTIVATION_TOKEN");
             qunsetenv("XDG_ACTIVATION_TOKEN");
+        } else if (KWindowSystem::isPlatformX11()) {
+#if HAVE_X11
+            token = QX11Info::nextStartupId();
+#endif
         }
 
         if (Dolphin::attachToExistingInstance(urls, openFiles, splitView, QString(), token)) {

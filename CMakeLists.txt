@@ -50,6 +50,14 @@ find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} CONFIG REQUIRED COMPONENTS
     DBus
 )
 
+if (UNIX AND NOT APPLE)
+    set(HAVE_X11 TRUE)
+
+    if (QT_MAJOR_VERSION STREQUAL "5")
+        find_package(Qt5X11Extras REQUIRED)
+    endif()
+endif()
+
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     KCMUtils
     NewStuff
