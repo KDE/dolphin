@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 01:00+0000\n"
-"PO-Revision-Date: 2022-12-01 23:43+0100\n"
+"PO-Revision-Date: 2022-12-14 20:09+0100\n"
 "Last-Translator: Mincho Kondarev <mkondarev@yahoo.de>\n"
 "Language-Team: Bulgarian <kde-i18n-doc@kde.org>\n"
 "Language: bg\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2391,12 +2391,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin изрично ще се отвори в нов прозорец."
 
 #: main.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Стартиране на демон на Dolphin (необходимо е само за DBus интерфейс)"
+msgstr "Стартиране на демон на Dolphin (необходимо е само за DBus интерфейс)."
 
 #: main.cpp:146
 #, kde-format
@@ -5225,25 +5223,3 @@ msgstr[1] "Действия за %1 избрани елемента"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Обновяване данните за версията..."
-
-#~ msgid "One or more files on this device are open within an application."
-#~ msgstr ""
-#~ "Един или повече файлове на това устройство са отворени в дадено "
-#~ "приложение."
-
-#~ msgid ""
-#~ "One or more files on this device are opened in application <application>"
-#~ "\"%2\"</application>."
-#~ msgid_plural ""
-#~ "One or more files on this device are opened in following applications: "
-#~ "<application>%2</application>."
-#~ msgstr[0] ""
-#~ "Един или повече файлове на това устройство се отварят в приложение "
-#~ "<application> \"%2\"</application>."
-#~ msgstr[1] ""
-#~ "Един или повече файлове на това устройство се отварят в следните "
-#~ "приложения <application> \"%2\"</application>."
-
-#~ msgctxt "separator in list of apps blocking device unmount"
-#~ msgid ", "
-#~ msgstr ", "
