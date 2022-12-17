@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-13 01:00+0000\n"
-"PO-Revision-Date: 2022-12-01 14:17+0100\n"
+"PO-Revision-Date: 2022-12-16 11:03+0100\n"
 "Last-Translator: Vincenzo Reale <smart2128vr@gmail.com>\n"
 "Language-Team: Italian <kde-i18n-it@kde.org>\n"
 "Language: it\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -2391,12 +2391,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin si aprirà esplicitamente in una nuova finestra."
 
 #: main.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Avvia il demone di Dolphin (richiesto solo per l'interfaccia DBus)"
+msgstr "Avvia il demone di Dolphin (richiesto solo per l'interfaccia DBus)."
 
 #: main.cpp:146
 #, kde-format
