@@ -15,7 +15,6 @@
 
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QPropertyAnimation>
 #include <QPushButton>
 #include <QScrollArea>
 #include <QStyle>

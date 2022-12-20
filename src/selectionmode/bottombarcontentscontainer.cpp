@@ -18,7 +18,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMenu>
-#include <QPushButton>
 #include <QToolButton>
 #include <QVBoxLayout>
 

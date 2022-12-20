@@ -9,7 +9,6 @@
 
 #include "bottombarcontentscontainer.h"
 #include "backgroundcolorhelper.h"
-#include "global.h"
 
 #include <QGridLayout>
 #include <QResizeEvent>
