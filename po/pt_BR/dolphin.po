@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 01:00+0000\n"
-"PO-Revision-Date: 2022-07-14 09:21-0300\n"
+"POT-Creation-Date: 2022-12-21 00:49+0000\n"
+"PO-Revision-Date: 2022-12-20 09:48-0300\n"
 "Last-Translator: Luiz Fernando Ranghetti <elchevive@opensuse.org>\n"
 "Language-Team: Portuguese <kde-i18n-pt_BR@kde.org>\n"
 "Language: pt_BR\n"
@@ -309,7 +309,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Recortar…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -326,12 +326,10 @@ msgstr ""
 "serão removidos da sua localização inicial."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Copiar"
+msgstr "Copiar…"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -371,12 +369,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Copiar para a visualização dividida inativa"
 
 #: dolphinmainwindow.cpp:1634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Copiar para a visualização dividida inativa"
+msgstr "Copiar para a visualização dividida inativa…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -401,12 +397,10 @@ msgid "Move to Inactive Split View"
 msgstr "Mover para a visualização dividida inativa"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Mover para a visualização dividida inativa"
+msgstr "Mover para a visualização dividida inativa…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -502,9 +496,7 @@ msgstr "Pesquisar"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
 msgstr "Pesquisa por arquivos e pastas"
@@ -512,9 +504,7 @@ msgstr "Pesquisa por arquivos e pastas"
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Selecionar"
@@ -2275,35 +2265,31 @@ msgstr "Gerenciador de arquivos"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(c) 2006-2022, Os desenvolvedores do Dolphin"
 
 #: main.cpp:92
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Mantenedor (desde 2018) e desenvolvedor"
+msgstr "Mantenedor (desde 2021) e desenvolvedor"
 
 #: main.cpp:95
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Mantenedor (desde 2018) e desenvolvedor"
+msgstr "Mantenedor (desde 2021) e desenvolvedor (desde 2019)"
 
 #: main.cpp:98
 #, kde-format
@@ -2312,12 +2298,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Mantenedor (2014-2018) e desenvolvedor"
+msgstr "Mantenedor (2018-2021) e desenvolvedor"
 
 #: main.cpp:101
 #, kde-format
@@ -2826,7 +2810,7 @@ msgctxt ""
 msgid "Query Results from '%1'"
 msgstr "Resultados da consulta de '%1'"
 
-#: selectionmode/bottombarcontentscontainer.cpp:154
+#: selectionmode/bottombarcontentscontainer.cpp:153
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "The files and folders passed as arguments will be selected."
@@ -2836,22 +2820,22 @@ msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:160
-#: selectionmode/bottombarcontentscontainer.cpp:193
-#: selectionmode/bottombarcontentscontainer.cpp:212
+#: selectionmode/bottombarcontentscontainer.cpp:159
+#: selectionmode/bottombarcontentscontainer.cpp:192
+#: selectionmode/bottombarcontentscontainer.cpp:211
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Cancelar cópia"
 
-#: selectionmode/bottombarcontentscontainer.cpp:187
+#: selectionmode/bottombarcontentscontainer.cpp:186
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:206
+#: selectionmode/bottombarcontentscontainer.cpp:205
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "This selects all files and folders in the current location."
@@ -2859,7 +2843,7 @@ msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr "Isto seleciona todos os arquivos e pastas na localização atual."
 
-#: selectionmode/bottombarcontentscontainer.cpp:224
+#: selectionmode/bottombarcontentscontainer.cpp:223
 #, fuzzy, kde-format
 #| msgctxt "@info:whatsthis"
 #| msgid "This selects all files and folders in the current location."
@@ -2868,13 +2852,13 @@ msgid "Select the files and folders that should be cut."
 msgstr "Isto seleciona todos os arquivos e pastas na localização atual."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:230
+#: selectionmode/bottombarcontentscontainer.cpp:229
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:257
+#: selectionmode/bottombarcontentscontainer.cpp:256
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "The files and folders passed as arguments will be selected."
@@ -2884,14 +2868,14 @@ msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:263
-#: selectionmode/bottombarcontentscontainer.cpp:364
+#: selectionmode/bottombarcontentscontainer.cpp:262
+#: selectionmode/bottombarcontentscontainer.cpp:363
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
-#: selectionmode/bottombarcontentscontainer.cpp:275
+#: selectionmode/bottombarcontentscontainer.cpp:274
 #, fuzzy, kde-format
 #| msgctxt "@info:shell"
 #| msgid "The files and folders passed as arguments will be selected."
@@ -2900,7 +2884,7 @@ msgid "Select the files and folders that should be duplicated here."
 msgstr "Os arquivos e pastas usados como argumentos serão selecionados."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:281
+#: selectionmode/bottombarcontentscontainer.cpp:280
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -2908,33 +2892,33 @@ msgstr ""
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:296
+#: selectionmode/bottombarcontentscontainer.cpp:295
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Mais"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:340
+#: selectionmode/bottombarcontentscontainer.cpp:339
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:346
+#: selectionmode/bottombarcontentscontainer.cpp:345
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:358
+#: selectionmode/bottombarcontentscontainer.cpp:357
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:376
+#: selectionmode/bottombarcontentscontainer.cpp:375
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -2944,26 +2928,26 @@ msgid ""
 "para>"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:396
+#: selectionmode/bottombarcontentscontainer.cpp:395
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Colar da área de transferência"
 
-#: selectionmode/bottombarcontentscontainer.cpp:401
+#: selectionmode/bottombarcontentscontainer.cpp:400
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Descartar lembrete"
 
-#: selectionmode/bottombarcontentscontainer.cpp:403
+#: selectionmode/bottombarcontentscontainer.cpp:402
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Não perguntar novamente"
 
-#: selectionmode/bottombarcontentscontainer.cpp:419
+#: selectionmode/bottombarcontentscontainer.cpp:418
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -2972,7 +2956,7 @@ msgid ""
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:425
+#: selectionmode/bottombarcontentscontainer.cpp:424
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -2983,7 +2967,7 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:568
+#: selectionmode/bottombarcontentscontainer.cpp:567
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -2996,7 +2980,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:579
+#: selectionmode/bottombarcontentscontainer.cpp:578
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -3009,7 +2993,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:587
+#: selectionmode/bottombarcontentscontainer.cpp:586
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -3022,7 +3006,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:595
+#: selectionmode/bottombarcontentscontainer.cpp:594
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -3035,7 +3019,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:603
+#: selectionmode/bottombarcontentscontainer.cpp:602
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu File"
 #| msgid "Duplicate Here"
@@ -3050,7 +3034,7 @@ msgstr[1] "Duplicar aqui"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:611
+#: selectionmode/bottombarcontentscontainer.cpp:610
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Move to Trash"
@@ -3065,7 +3049,7 @@ msgstr[1] "Mover para a Lixeira"
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:619
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu"
 #| msgid "Rename..."
@@ -3075,7 +3059,7 @@ msgid_plural "Rename %2"
 msgstr[0] "Renomear..."
 msgstr[1] "Renomear..."
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:32
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -3089,13 +3073,13 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:61
+#: selectionmode/topbar.cpp:60
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -3103,7 +3087,7 @@ msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr "Seleção"
 
-#: selectionmode/topbar.cpp:67
+#: selectionmode/topbar.cpp:66
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Selection"
@@ -4933,36 +4917,28 @@ msgstr ""
 "transferência."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Mover para a Lixeira"
+msgstr "Mover para a Lixeira…"
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Excluir"
+msgstr "Excluir…"
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Duplicar aqui"
+msgstr "Duplicar aqui…"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Copiar localização"
+msgstr "Copiar localização…"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
