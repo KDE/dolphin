@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:49+0000\n"
-"PO-Revision-Date: 2022-10-29 19:04+0400\n"
+"PO-Revision-Date: 2022-12-22 09:01+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -1618,7 +1618,7 @@ msgstr "ميفاق غير صالح"
 #, kde-kuit-format
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
-msgstr ""
+msgstr "تغير الموقع الحالي، لم يعد <filename>%1</filename> قابلا للوصول."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2393,12 +2393,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "سيفتح دولفين صراحة في نافذة جديدة"
 
 #: main.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "ابدأ عفريت «دولفين» (مطلوب فقط لواجهة DBus)"
+msgstr "ابدأ خدمة «دولفين» (مطلوب فقط لواجهة DBus)."
 
 #: main.cpp:146
 #, kde-format
@@ -4826,10 +4824,9 @@ msgid "No MTP-compatible devices found"
 msgstr "لم يعثر على جهاز متوافق مع MTP"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "لم يعثر على جهاز بلوتوث"
+msgstr "لم يعثر على أجهزة أبل"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
