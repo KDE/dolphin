@@ -3140,7 +3140,7 @@ msgstr "Usar o tipo de letra do sistema"
 #: settings/dolphin_iconsmodesettings.kcfg:19
 #, kde-format
 msgid "Icon size"
-msgstr "Tamanho dos ícones"
+msgstr "Tamanho do ícone"
 
 #. i18n: ectx: label, entry (PreviewSize), group (IconsMode)
 #. i18n: ectx: label, entry (PreviewSize), group (DetailsMode)
