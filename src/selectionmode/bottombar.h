@@ -17,7 +17,6 @@
 
 class KActionCollection;
 class KFileItemList;
-class QAction;
 class QPushButton;
 class QResizeEvent;
 class QScrollArea;

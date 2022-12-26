@@ -16,7 +16,6 @@
 
 class QAction;
 class DolphinMainWindow;
-class KFileItemActions;
 class KFileItemListProperties;
 class DolphinRemoveAction;
 
