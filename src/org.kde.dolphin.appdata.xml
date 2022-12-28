@@ -6,6 +6,7 @@
   <name>Dolphin</name>
   <name xml:lang="ar">دولفين</name>
   <name xml:lang="az">Dolphin</name>
+  <name xml:lang="be">Dolphin</name>
   <name xml:lang="bg">Dolphin</name>
   <name xml:lang="bs">Dolphin</name>
   <name xml:lang="ca">Dolphin</name>
@@ -62,6 +63,7 @@
   <summary>File Manager</summary>
   <summary xml:lang="ar">مدير ملفات</summary>
   <summary xml:lang="az">Fayl meneceri</summary>
+  <summary xml:lang="be">Кіраўнік файлаў</summary>
   <summary xml:lang="bg">Файлов мениджър</summary>
   <summary xml:lang="bs">Upravitelj datoteka</summary>
   <summary xml:lang="ca">Gestor de fitxers</summary>
@@ -119,6 +121,7 @@
     <p>Dolphin is KDE's file manager that lets you navigate and browse the contents of your hard drives, USB sticks, SD cards, and more. Creating, moving, or deleting files and folders is simple and fast.</p>
     <p xml:lang="ar">دولفين هو مدير ملفات كدي الذي يتيح لك التنقل وتصفح محتويات محركات الأقراص الثابتة و USB وبطاقات SD والمزيد. يعد إنشاء الملفات والمجلدات أو نقلها أو حذفها أمرًا بسيطًا وسريعًا.</p>
     <p xml:lang="az">Dolphin sizin sərt disklərinizin, USB yaddaş qurğularınızın, SD katlarınızın və s. tərkibindəkiləri nəzərdən keçirmənizə imkan verən fayl meneceridir. Faylların və qovluqların yaradılması, Köçürülməsi və ya silinməsi sadə, rahat və cəld icra edilir.</p>
+    <p xml:lang="be">Dolphin - гэта кіраўнік файлаў KDE, які дазваляе вам перамяшчацца і праглядаць змесціва вашых цвёрдых дыскаў, USB-назапашвальнікаў, SD-картак і інш. Ствараць, перамяшчаць або выдаляць файлы і каталогі проста і хутка.</p>
     <p xml:lang="bg">Dolphin e файловият мениджър на KDE, който ви позволява да навигирате и да преглеждате съдържанието на вашите твърди дискове, USB, SD карти и др. Създаването, преместването или изтриването на файлове и папки е просто и бързо.</p>
     <p xml:lang="ca">El Dolphin és el gestor de fitxers del KDE que permet navegar i explorar el contingut dels discs durs, memòries USB, targetes SD i més. Crear, moure o suprimir fitxers i carpetes és senzill i ràpid.</p>
     <p xml:lang="ca-valencia">Dolphin és el gestor de fitxers de KDE que permet navegar i explorar el contingut dels discs durs, memòries USB, targetes SD i més. Crear, moure o suprimir fitxers i carpetes és senzill i ràpid.</p>
@@ -155,6 +158,7 @@
     <p>Dolphin contains plenty of productivity features that will save you time. The multiple tabs and split view features allow navigating multiple folders at the same time, and you can easily drag and drop files between views to move or copy them. Dolphin's right-click menu provides with many quick actions that let you compress, share, and duplicate files, among many other things. You can also add your own custom actions.</p>
     <p xml:lang="ar">يحتوي دولفين على الكثير من ميزات الإنتاجية التي ستوفر لك الوقت.تسمح علامات التبويب المتعددة وميزات العرض المقسم بالتنقل في مجلدات متعددة في نفس الوقت ، ويمكنك بسهولة سحب الملفات وإفلاتها بين طرق العرض لنقلها أو نسخها. توفر قائمة النقر بزر الفأرة الأيمن في دولفين العديد من الإجراءات السريعة التي تتيح لك ضغط الملفات ومشاركتها وتكرارها ، من بين أشياء أخرى كثيرة. يمكنك أيضًا إضافة الإجراءات المخصصة الخاصة بك.</p>
     <p xml:lang="az">Dolphin, səmərəliyi artıracaq bir çox funksiyalardan ibarətdir və bu da sizə vaxtınıza qənaət edəcəkdir. Birdən çox vərəq və bölünmə funksiyaları, qovluqlar arasında rahat hərəkət etməyə imkan verir, həmçinin, siz faylları, həmin görünən qovluqlar arasında tutub yerini dəyişməklə köçürə və kopyalaya bilərsiniz. Siçanın sağ düyməsi ilə açılan Dolpin menyusunda faylları sıxmağa, paylaşmağa, yeni surətini yaratmağa və bu kimi başqa bir çox cəld əməlləri təqdim edir. Bundan başqa siz həmçinin öz fərdi əməlinizi də bu menyuya daxil edə bilərsiniz.</p>
+    <p xml:lang="be">Dolphin змяшчае мноства функцый для павышэння прадукцыйнасці, якія дапамогуць захаваць ваш час. Некалькі ўкладак і функцыя падзеленага выгляду дазваляюць перамяшчацца па некалькіх каталогах адначасова, і вы можаце перацягваць файлы паміж размяшчэннямі, каб перамяшчаць або капіяваць іх. Меню пры націсканні правай кнопкі мышы ў Dolphin змяшчае мноства хуткіх дзеянняў, якія дазваляюць сціскаць, абагульваць і дубляваць файлы. Вы таксама можаце дадаць свае ўласныя дзеянні.</p>
     <p xml:lang="bg">Dolphin съдържа много функции за производителност, които ще ви спестят време. Възможността за множество раздели и разделянето на подпрозорците ви позволява да навигирате в няколко папки едновременно. Така лесно можете да влачите файлове между подпрозорците, за да ги преместите или копирате. Менюто с десния бутон предоставя бърз достъп до много действия, като компресиране, споделяне, дублиране на файлове и др. Можете също да добавите собствени потребителски действия.</p>
     <p xml:lang="ca">El Dolphin conté moltes característiques de productivitat que us estalviaran temps. Les característiques de múltiples pestanyes i de vista dividida permeten navegar per diverses carpetes al mateix temps, i poder arrossegar i deixar anar els fitxers amb facilitat entre les vistes per a moure'ls o copiar-los. El menú contextual del Dolphin ofereix moltes accions ràpides que us permeten comprimir, compartir i duplicar els fitxers, entre moltes altres coses. També podreu afegir-hi les vostres pròpies accions personalitzades.</p>
     <p xml:lang="ca-valencia">Dolphin conté moltes característiques de productivitat que vos estalviaran temps. Les característiques de múltiples pestanyes i de vista dividida permeten navegar per diverses carpetes al mateix temps, i poder arrossegar i deixar anar els fitxers amb facilitat entre les vistes per a moure'ls o copiar-los. El menú contextual de Dolphin oferix moltes accions ràpides que vos permeten comprimir, compartir i duplicar els fitxers, entre moltes altres coses. També podreu afegir-hi les vostres pròpies accions personalitzades.</p>
@@ -191,6 +195,7 @@
     <p>Dolphin is very lightweight, but at the same time, you can adapt it to your specific needs. This means that you can carry out your file management exactly the way you want to. Dolphin supports three different view modes: a classic grid view of all the files, a more detailed view, and a tree view. You can also configure most of Dolphin's behavior.</p>
     <p xml:lang="ar">دولفين خفيف للغاية ، ولكن في نفس الوقت، يمكنك تكييفه مع احتياجاتك الخاصة. هذا يعني أنه يمكنك تنفيذ إدارة الملفات بالطريقة التي تريدها بالضبط. يدعم دولفين ثلاثة أوضاع عرض مختلفة: عرض الشبكة الكلاسيكي لجميع الملفات ، وعرض أكثر تفصيلاً ، وعرض شجرة. يمكنك أيضًا ضبط معظم سلوك دولفين. </p>
     <p xml:lang="az">Dolphin çox yüngüldür, bununla belə siz onu öz ehtiyaclarınıza uyğunlaşdıra bilərsiniz. Bu o deməkdir ki, siz fayllarınızı istədiyiniz kimi idarə edə bilərsiniz. Dolphin üç müxtəlif baxış rejimini dəstəkləyir: bütün faylları üçün şəbəkə formasında klassik görünüş, budaqlanan şəkildə daha təfərrüatlı baxış forması. Siz həmçinin daha çox Dolphin davranışlarını tənzimləyə bilərsiniz.</p>
+    <p xml:lang="be">Dolphin лёгкаважны, але вы можаце падладзіць яго пад свае патрэбы. Гэта азначае, што вы можаце кіраваць файламі менавіта так, як хочаце. Dolphin падтрымлівае тры розныя рэжымы выгляду: класічную сетку, падрабязны выгляд, выгляд дрэва. Вы таксама можаце наладзіць большасць паводзін Dolphin.</p>
     <p xml:lang="bg">Dolphin е много лек, но в същото време можете да го адаптирате към вашите специфични нужди. Това означава, че можете да извършите управлението на файловете точно така, както искате. Dolphin поддържа три различни вида режима: класически изглед , по-подробен изглед и дървовиден - йерархичен изглед. Можете също така да настроите повечето опции на поведение на Dolphin.</p>
     <p xml:lang="ca">El Dolphin és molt lleuger, però al mateix temps, podreu adaptar-lo a les vostres necessitats específiques. Això significa que podreu realitzar la gestió de fitxers exactament de la manera que vulgueu. El Dolphin admet tres modes de vista diferents: una vista de quadrícula clàssica amb tots els fitxers, una vista més detallada i una vista en arbre. També podreu configurar la major part del comportament del Dolphin.</p>
     <p xml:lang="ca-valencia">Dolphin és molt lleuger, però al mateix temps, podreu adaptar-lo a les vostres necessitats específiques. Açò significa que podreu realitzar la gestió de fitxers exactament de la manera que vulgueu. Dolphin admet tres modes de vista diferents: una vista de quadrícula clàssica amb tots els fitxers, una vista més detallada i una vista en arbre. També podreu configurar la major part del comportament de Dolphin.</p>
@@ -227,6 +232,7 @@
     <p>Dolphin can display files and folders from many Internet cloud services and other remote machines as if they were right there on your desktop.</p>
     <p xml:lang="ar">يمكن لدولفين عرض الملفات والمجلدات من العديد من خدمات الإنترنت السحابية والأجهزة البعيدة الأخرى كما لو كانت موجودة على سطح المكتب.</p>
     <p xml:lang="az">Dolphin, bir çox İnternet və digər uzaq maşınların bulud xidmətindən faylları və qovluqları birbaşa sizin İş Masanızdakı kimi göstərəcəkdir.</p>
+    <p xml:lang="be">Dolphin можа паказваць файлы і каталогі з многіх воблачных сэрвісаў і іншых адлеглых машын, нібыта яны знаходзяцца на вашым працоўным стале.</p>
     <p xml:lang="bg">Dolphin може да показва файлове и папки от много интернет облачни услуги и други отдалечени машини, сякаш са там на вашия работен плот.</p>
     <p xml:lang="ca">El Dolphin pot mostrar els fitxers i carpetes de molts serveis en el núvol d'Internet i altres màquines remotes com si hi estiguessin al vostre escriptori.</p>
     <p xml:lang="ca-valencia">Dolphin pot mostrar els fitxers i carpetes de molts serveis en el núvol d'Internet i altres màquines remotes com si estigueren al vostre escriptori.</p>
@@ -263,6 +269,7 @@
     <p>Dolphin also comes with an integrated terminal that allows you to run commands on the current folder. You can extend the capabilities of Dolphin even further with powerful plugins to adapt it to your workflow. You can use the git integration plugin to interact with git repositories, or the Nextcloud plugin to synchronize your files online, and much more.</p>
     <p xml:lang="ar">يأتي دولفين أيضًا مع محطة طرفية متكاملة تتيح لك تشغيل الأوامر في المجلد الحالي. يمكنك توسيع إمكانيات دولفين إلى أبعد من ذلك باستخدام المكونات الإضافية القوية لتكييفها مع سير عملك. يمكنك استخدام المكون الإضافي git للتكامل للتفاعل مع مستودعات git ، أو المكون الإضافي Nextcloud لمزامنة ملفاتك عبر الإنترنت ، وغير ذلك الكثير.</p>
     <p xml:lang="az">Dolphin həmçinin daxilə quraşdırılmış terminalla təmin olunur ki, bu da cari qovluqda əmrləri başlatmağa imkan verir. Siz, Dolphinin imkanlarını iş prosesinizə uyğunlaşdıracaq, güclü qoşmaların köməyi ilə daha da genişləndirə bilərsiniz. Sİz git repazitoriyaları ilə işləmək üçün, qoşulmuş git inteqrasiya modulundan və ya fayllarınızı internet üzərindən sinxronlaşdırmaq üçün Nextcloud qoşmasından və s. istifadə edə bilərsiniz.</p>
+    <p xml:lang="be">Dolphin пастаўляецца з убудаваным тэрміналам, які дазваляе запускаць загады ў бягучым каталозе. Вы можаце яшчэ больш пашырыць магчымасці Dolphin з дапамогай магутных убудоў, каб падладзіць праграму да вашага працоўнага працэсу. Вы можаце выкарыстоўваць убудову інтэграцыі з git для ўзаемадзеяння са сховішчамі git або ўбудову Nextcloud для сінхранізацыі вашых файлаў у інтэрнэце і многае іншае.</p>
     <p xml:lang="bg">Също така Dolphin идва с вграден терминал, който ви позволява да стартирате команди в текущата папка. Можете да разширите възможностите на Dolphin още повече с мощни приставки, за да го адаптирате към работния процес. Можете да използвате приставката за интеграция с git, за да си взаимодействате с git хранилищата, или приставката Nextcloud, за да синхронизирате файловете си онлайн.</p>
     <p xml:lang="ca">El Dolphin també ve amb un terminal integrat que permet executar ordres a la carpeta actual. Podreu estendre encara més les capacitats de Dolphin amb potents connectors perquè s'adapti al vostre flux de treball. Podreu utilitzar el connector d'integració amb el Git per a interactuar amb els repositoris de Git, o el connector de Nextcloud per a sincronitzar els vostres fitxers en línia, i molt més.</p>
     <p xml:lang="ca-valencia">Dolphin també ve amb un terminal integrat que permet executar ordres en la carpeta actual. Podreu estendre encara més les capacitats de Dolphin amb potents connectors perquè s'adapte al vostre flux de treball. Podreu utilitzar el connector d'integració amb Git per a interactuar amb els repositoris de Git, o el connector de Nextcloud per a sincronitzar els vostres fitxers en línia, i molt més.</p>
@@ -306,6 +313,7 @@
       <caption>File management in Dolphin</caption>
       <caption xml:lang="ar">إدارة الملفات في دولفين</caption>
       <caption xml:lang="az">Dolphində faylların idarə edilməsi</caption>
+      <caption xml:lang="be">Кіраванне файламі ў Dolphin</caption>
       <caption xml:lang="bg">Управление на файлове в Dolphin</caption>
       <caption xml:lang="ca">Gestió de fitxers al Dolphin</caption>
       <caption xml:lang="ca-valencia">Gestió de fitxers en Dolphin</caption>
@@ -357,6 +365,7 @@
       <caption>Embedded Terminal in Dolphin</caption>
       <caption xml:lang="ar">طرفية مضمنة في دولفين</caption>
       <caption xml:lang="az">Dolphin daxilinə yerləşdirilmiş Terminal</caption>
+      <caption xml:lang="be">Убудаваны тэрмінал у Dolphin</caption>
       <caption xml:lang="bg">Вграден терминал в Dolphin</caption>
       <caption xml:lang="ca">Terminal incrustat en el Dolphin</caption>
       <caption xml:lang="ca-valencia">Terminal incrustat en Dolphin</caption>
@@ -400,6 +409,7 @@
       <caption>Dolphin lets you configure your file manager exactly how you want</caption>
       <caption xml:lang="ar">يتيح لك دولفين ضبط مدير الملفات الخاص بك بالطريقة التي تريدها بالضبط</caption>
       <caption xml:lang="az">Dolphin, fayl bələdçisini tam istədiyiniz kimi tənzimləməyə imkan verir</caption>
+      <caption xml:lang="be">Dolphin дазваляе наладзіць ваш кіраўнік файлаў менавіта так, як вы хочаце</caption>
       <caption xml:lang="bg">Dolphin ви позволява да настроите вашия файлов мениджър точно както го желаете</caption>
       <caption xml:lang="ca">El Dolphin permet configurar el gestor de fitxers exactament com es vol</caption>
       <caption xml:lang="ca-valencia">Dolphin permet configurar el gestor de fitxers exactament com es vol</caption>
