@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:49+0000\n"
-"PO-Revision-Date: 2022-11-18 21:25+0200\n"
+"PO-Revision-Date: 2022-12-28 01:48+0200\n"
 "Last-Translator: Moo <<>>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
 "Language: lt\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10>=2 && (n%100<10 || n"
 "%100>=20) ? 1 : n%10==0 || (n%100>10 && n%100<20) ? 2 : 3);\n"
-"X-Generator: Poedit 3.2.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -191,15 +191,13 @@ msgid "Open Preferred Search Tool"
 msgstr "Atverti pageidaujamą paieškos įrankį"
 
 #: dolphinmainwindow.cpp:1179
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Ar tikrai norite atverti 1 elementą?"
-msgstr[1] "Ar tikrai norite atverti %1 elementus?"
-msgstr[2] "Ar tikrai norite atverti %1 elementų?"
-msgstr[3] "Ar tikrai norite atverti %1 elementą?"
+msgstr[0] "Ar tikrai norite atverti 1 terminalo langą?"
+msgstr[1] "Ar tikrai norite atverti %1 terminalo langus?"
+msgstr[2] "Ar tikrai norite atverti %1 terminalo langų?"
+msgstr[3] "Ar tikrai norite atverti %1 terminalo langą?"
 
 #: dolphinmainwindow.cpp:1186
 #, kde-format
@@ -492,19 +490,15 @@ msgstr "Ieškoti"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Ieškoti failų ir aplankų"
+msgstr "Žymėti failus ir aplankus"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Žymėti"
@@ -1551,16 +1545,14 @@ msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
 msgstr "„%1“, „%2“, „%3“, „%4“ ir „%5“"
 
 #: kitemviews/kfileitemlisttostring.cpp:58
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Edit"
-#| msgid "Invert Selection"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Invertuoti žymėjimą"
-msgstr[1] "Invertuoti žymėjimą"
-msgstr[2] "Invertuoti žymėjimą"
-msgstr[3] "Invertuoti žymėjimą"
+msgstr[0] "Pažymėtas 1 failas"
+msgstr[1] "Pažymėti %1 failai"
+msgstr[2] "Pažymėta %1 failų"
+msgstr[3] "Pažymėtas %1 failas"
 
 #: kitemviews/kfileitemlisttostring.cpp:61
 #, kde-format
@@ -1586,10 +1578,7 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: kitemviews/kfileitemlisttostring.cpp:74
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 File"
-#| msgid_plural "%1 Files"
+#, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
@@ -1599,10 +1588,7 @@ msgstr[2] "%1 failų"
 msgstr[3] "%1 failas"
 
 #: kitemviews/kfileitemlisttostring.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
@@ -1612,17 +1598,15 @@ msgstr[2] "%1 aplankų"
 msgstr[3] "%1 aplankas"
 
 #: kitemviews/kfileitemlisttostring.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Rename Item"
+#, kde-format
 msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Pervadinti elementą"
-msgstr[1] "Pervadinti elementą"
-msgstr[2] "Pervadinti elementą"
-msgstr[3] "Pervadinti elementą"
+msgstr[0] "1 elementas"
+msgstr[1] "%1 elementai"
+msgstr[2] "%1 elementų"
+msgstr[3] "%1 elementas"
 
 #: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
@@ -2120,12 +2104,10 @@ msgid "Felix Ernst"
 msgstr "Felix Ernst"
 
 #: main.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Prižiūrėtojas (nuo 2018) ir programuotojas"
+msgstr "Prižiūrėtojas (nuo 2021) ir programuotojas"
 
 #: main.cpp:95
 #, kde-format
@@ -2134,12 +2116,10 @@ msgid "Méven Car"
 msgstr "Méven Car"
 
 #: main.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Prižiūrėtojas (nuo 2018) ir programuotojas"
+msgstr "Prižiūrėtojas (nuo 2021) ir programuotojas (nuo 2019)"
 
 #: main.cpp:98
 #, kde-format
@@ -2148,12 +2128,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Prižiūrėtojas (2014-2018) ir programuotojas"
+msgstr "Prižiūrėtojas (2018–2021) ir programuotojas"
 
 #: main.cpp:101
 #, kde-format
@@ -2947,22 +2925,20 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Žymėjimo veiksena: Spustelėkite ant failų ar aplankų, norėdami juos pažymėti "
+"ar nuimti žymėjimą."
 
 #: selectionmode/topbar.cpp:60
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Žymėjimas"
+msgstr "Žymėjimo veiksena"
 
 #: selectionmode/topbar.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Žymėjimas"
+msgstr "Išeiti iš žymėjimo veiksenos"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:66
 #, kde-format
@@ -4694,10 +4670,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Nerasta jokių su MTP suderinamų įrenginių"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Nerasta jokių Bluetooth įrenginių"
+msgstr "Nerasta jokių „Apple“ įrenginių"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
@@ -5088,7 +5063,7 @@ msgstr ""
 #: views/dolphinviewactionhandler.cpp:812
 #, kde-format
 msgid "Actions for %1"
-msgstr ""
+msgstr "Veiksmai, skirti %1"
 
 #: views/dolphinviewactionhandler.cpp:819
 #, kde-format
@@ -5097,10 +5072,10 @@ msgctxt ""
 "of selected files/folders."
 msgid "Actions for One Selected Item"
 msgid_plural "Actions for %1 Selected Items"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
+msgstr[0] "Veiksmai, skirti 1 pažymėtam elementui"
+msgstr[1] "Veiksmai, skirti %1 pažymėtiems elementams"
+msgstr[2] "Veiksmai, skirti %1 pažymėtų elementų"
+msgstr[3] "Veiksmai, skirti %1 pažymėtam elementui"
 
 #: views/versioncontrol/versioncontrolobserver.cpp:228
 #, kde-format
