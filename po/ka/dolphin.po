@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:49+0000\n"
-"PO-Revision-Date: 2022-12-29 08:18+0100\n"
+"PO-Revision-Date: 2022-12-30 06:14+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -188,8 +188,9 @@ msgstr "სასურველი ძებნის ხელსაწყო�
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] ""
+msgstr[0] "დარწმუნებული ბრძანდებით, რომ გნებავთ, გახსნათ 1 ტერმინალის ფანჯარა?"
 msgstr[1] ""
+"დარწმუნებული ბრძანდებით, რომ გნებავთ, გახსნათ %1 ტერმინალის ფანჯარა?"
 
 #: dolphinmainwindow.cpp:1186
 #, kde-format
@@ -361,13 +362,13 @@ msgstr "არააქტიურ გაყოფილ ხედზე კო
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა"
 
 #: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -381,7 +382,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა"
 
 #: dolphinmainwindow.cpp:1653
 #, kde-format
@@ -1098,7 +1099,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr ""
+msgstr "ტერმინალის პანელიდან ფოკუსის მოხსნა"
 
 #: dolphinnavigatorswidgetaction.cpp:205
 #, kde-format
@@ -2519,7 +2520,7 @@ msgstr "თქვენს საწყის საქაღალდეში 
 #: search/dolphinsearchbox.cpp:399
 #, kde-format
 msgid "More Search Tools"
-msgstr ""
+msgstr "მეტი ძებნის ხელსაწყო"
 
 #: search/dolphinsearchbox.cpp:461
 #, kde-format
@@ -2950,13 +2951,13 @@ msgstr ""
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "მთელი მწკრივის გამოკვეთა"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Expandable folders"
-msgstr ""
+msgstr "გაშლადი საქაღალდეები"
 
 #. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:43
@@ -2968,7 +2969,7 @@ msgstr ""
 #: settings/dolphin_detailsmodesettings.kcfg:47
 #, kde-format
 msgid "Recursive directory size limit"
-msgstr ""
+msgstr "რეკურსიული საქაღალდის ზომის ლიმიტი"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:51
@@ -3074,21 +3075,21 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
-msgstr ""
+msgstr "ფაილების დალაგების მიმდევრობა"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr ""
+msgstr "ფაილებისა და საქაღალდეების დალაგებისას საქაღალდეების ჩვენება"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
-msgstr ""
+msgstr "დამალული ფაილებისა და საქაღალდეების ბოლოს ჩვენება"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:66
@@ -3196,7 +3197,7 @@ msgstr "ხედის ორ ნაწილად დაყოფა"
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr ""
+msgstr "ნაჩვენები იქნება ფილტრის პანელი, თუ არა"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -3208,7 +3209,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:67
 #, kde-format
 msgid "Browse through archives"
-msgstr ""
+msgstr "არქივებში ძებნა"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:71
@@ -3503,19 +3504,19 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr ""
+msgstr "ფაილების გადაადგილება ნაგვის ურნაში"
 
 #: settings/general/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
-msgstr ""
+msgstr "სანაგვე ყუთის დაცარიელება"
 
 #: settings/general/confirmationssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
-msgstr ""
+msgstr "ფაილების და საქაღალდეების წაშლა"
 
 #: settings/general/confirmationssettingspage.cpp:58
 #, kde-format
