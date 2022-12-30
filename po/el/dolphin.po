@@ -11,14 +11,14 @@
 # Dimitrios Glentadakis <dglent@gmail.com>, 2010, 2011, 2012, 2013.
 # nikos, 2011.
 # Antonis Geralis <capoiosct@gmail.com>, 2011.
-# Stelios <sstavra@gmail.com>, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
+# Stelios <sstavra@gmail.com>, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
 # Dimitris Kardarakos <dimkard@gmail.com>, 2014, 2016.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:49+0000\n"
-"PO-Revision-Date: 2021-10-17 09:57+0300\n"
+"PO-Revision-Date: 2022-12-29 13:25+0200\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
 "Language: el\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 20.04.2\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -198,23 +198,19 @@ msgid "Open Preferred Search Tool"
 msgstr "Άνοιγμα προτιμώμενου εργαλείου αναζήτησης"
 
 #: dolphinmainwindow.cpp:1179
-#, fuzzy, kde-format
-#| msgid "Are you sure you want to open 1 item?"
-#| msgid_plural "Are you sure you want to open %1 items?"
+#, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα αντικείμενο;"
-msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 αντικείμενα;"
+msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα παράθυρο τερματικού;"
+msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 παράθυρα τερματικού;"
 
 #: dolphinmainwindow.cpp:1186
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Terminal"
 msgid_plural "Open %1 Terminals"
-msgstr[0] "Άνοιγμα τερματικού"
-msgstr[1] "Άνοιγμα τερματικού"
+msgstr[0] "Άνοιγμα %1 τερματικού"
+msgstr[1] "Άνοιγμα %1 τερματικών"
 
 #: dolphinmainwindow.cpp:1404
 #, kde-format
@@ -319,7 +315,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr ""
+msgstr "Αποκοπή…"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -336,12 +332,10 @@ msgstr ""
 "αντικείμενα θα μετακινηθούν από την αρχική τους θέση."
 
 #: dolphinmainwindow.cpp:1617
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy"
+#, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Αντιγραφή"
+msgstr "Αντιγραφή…"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -380,12 +374,10 @@ msgid "Copy to Inactive Split View"
 msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
 
 #: dolphinmainwindow.cpp:1634
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Copy to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή"
+msgstr "Αντιγραφή σε αδρανή διαιρεμένη προβολή…"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -410,12 +402,10 @@ msgid "Move to Inactive Split View"
 msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
 
 #: dolphinmainwindow.cpp:1644
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Inactive Split View"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή"
+msgstr "Μετακίνηση σε αδρανή διαιρεμένη προβολή…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -440,12 +430,10 @@ msgid "Filter..."
 msgstr "Φιλτράρισμα..."
 
 #: dolphinmainwindow.cpp:1654
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Show Filter Bar"
+#, kde-format
 msgctxt "@info:tooltip"
 msgid "Show Filter Bar"
-msgstr "Εμφάνιση γραμμής φίλτρου"
+msgstr "Εμφάνιση γραμμής φίλτρων"
 
 #: dolphinmainwindow.cpp:1655
 #, kde-kuit-format
@@ -514,19 +502,15 @@ msgstr "Αναζήτηση"
 
 #. i18n: This action toggles a selection mode.
 #: dolphinmainwindow.cpp:1698
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr "Αναζήτηση για αρχεία και φακέλους"
+msgstr "Επιλογή αρχείων και φακέλων"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
 #: dolphinmainwindow.cpp:1701
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Select"
+#, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
 msgstr "Επιλογή"
@@ -542,6 +526,12 @@ msgid ""
 "access bar at the bottom shows available actions for the currently selected "
 "items.</para>"
 msgstr ""
+"<para>Η εφαρμογή αυτή γνωρίζει μόνο σε ποια αντικείμενα (αρχεία ή φακέλους) "
+"θα επενεργήσει αν αυτά <emphasis>επιλεγούν</emphasis> αρχικά. Πιέστε το για "
+"εναλλαγή στη <emphasis>Λειτουργία Επιλογής</emphasis> η οποία διευκολύνει "
+"την (απο)επιλογή με το πάτημα ενός αντικειμένου.</para><para>Ενώ είστε στη "
+"λειτουργία αυτή, μια γραμμή γρήγορης πρόσβασης στη βάση εμφανίζει τις "
+"διαθέσιμες ενέργειες για τα αντικείμενα που έχουν επιλεγεί.</para>"
 
 #: dolphinmainwindow.cpp:1723
 #, kde-kuit-format
@@ -721,29 +711,23 @@ msgstr ""
 
 #. i18n: "Here" refers to the location(s) of the currently selected item(s) or the currently viewed location if nothing is selected.
 #: dolphinmainwindow.cpp:1887
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open Terminal"
+#, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Open Terminal Here"
-msgstr "Άνοιγμα τερματικού"
+msgstr "Άνοιγμα τερματικού εδώ"
 
 #: dolphinmainwindow.cpp:1889
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a <emphasis>terminal</emphasis> application for the "
-#| "viewed location.</para><para>To learn more about terminals use the help "
-#| "in the terminal application.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens <emphasis>terminal</emphasis> applications for the selected "
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
-"<para>Έτσι ανοίγει μια εφαρμογή <emphasis>τερματικού</emphasis> για την "
-"προβολή της θέσης.</para><para>Για να μάθετε περισσότερα για τα τερματικά "
-"χρησιμοποιήστε τη Βοήθεια στην εφαρμογή του τερματικού.</para>"
+"<para>Έτσι ανοίγουν οι εφαρμογές <emphasis>τερματικού</emphasis> για τις "
+"θέσεις των επιλεγμένων αντικειμένων</para><para>Για να μάθετε περισσότερα "
+"για τα τερματικά χρησιμοποιήστε τη Βοήθεια στην εφαρμογή του τερματικού.</"
+"para>"
 
 #: dolphinmainwindow.cpp:1897 dolphinmainwindow.cpp:2662
 #, kde-format
@@ -768,6 +752,14 @@ msgid ""
 "offer.</para><para>The <interface>%1</interface> button is simpler and small "
 "which makes triggering advanced actions more time consuming.</para>"
 msgstr ""
+"<para>Με αυτό γίνεται η εναλλαγή ανάμεσα στο να υπάρχει μια <emphasis>Γραμμή "
+"Μενού</emphasis> και ένα κουμπί <interface>%1</interface>. Και τα δύο "
+"περιέχουν εν πολλοίς τις ίδιες ενέργειες και τις ίδιες επιλογές διαμόρφωσης."
+"</para><para>Η γραμμή μενού καταλαμβάνει περισσότερο χώρο, αλλά επιτρέπει "
+"γρήγορη και οργανωμένη πρόσβαση σε όλες τις ενέργειες που προσφέρει μια "
+"εφαρμογή.</para><para>Το κουμπί <interface>%1</interface> είναι απλούστερο "
+"και μικρό, ωστόσο με αυτό η εκτέλεση προηγμένων ενεργειών γίνεται χρονοβόρα."
+"</para>"
 
 #: dolphinmainwindow.cpp:1944
 #, kde-format
@@ -863,19 +855,14 @@ msgstr "Πληροφορίες"
 
 #. i18n: This is the last paragraph for the "What's This"-texts of all four panels.
 #: dolphinmainwindow.cpp:2043
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>To show or hide panels like this go to <interface>Control|Panels</"
-#| "interface> or <interface>View|Panels</interface>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>To show or hide panels like this go to <interface>Menu|Panels</"
 "interface> or <interface>View|Panels</interface>.</para>"
 msgstr ""
-"<para>Για να εμφανίσετε ή να αποκρύψετε πίνακες πηγαίνετε στο "
-"<interface>Κουμπί ελέγχου|Πίνακες</interface> ή <interface>Προβολή|Πίνακες</"
-"interface>.</para>"
+"<para>Εμφανίστε ή να αποκρύψτε πίνακες από το <interface>Μενού|Πίνακες</"
+"interface> ή το <interface>Προβολή|Πίνακες</interface>.</para>"
 
 #: dolphinmainwindow.cpp:2048
 #, kde-kuit-format
@@ -1111,15 +1098,7 @@ msgid "Split view"
 msgstr "Διαίρεση προβολής"
 
 #: dolphinmainwindow.cpp:2501
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
-#| "commands and configuration options. Left-click on any of the menus on "
-#| "this bar to see its contents.</para><para>The Menubar can be hidden by "
-#| "unchecking <interface>Settings|Show Menubar</interface>. Then most of its "
-#| "contents become available through a <interface>Control</interface> button "
-#| "on the <emphasis>Toolbar</emphasis>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Menubar</emphasis>. It provides access to "
@@ -1134,23 +1113,11 @@ msgstr ""
 "μενού σε αυτήν τη γραμμή βλέπετε τα περιεχόμενά του.</para><para>Μπορεί να "
 "γίνει απόκρυψη της Γραμμής μενού με αναίρεση της επιλογής "
 "<interface>Ρυθμίσεις|Εμφάνιση Γραμμής μενού</interface>. Τότε τα περισσότερα "
-"από τα περιεχόμενα γίνονται διαθέσιμα μέσα από ένα κουμπί "
-"<interface>Ελέγχου</interface> στη <emphasis>Γραμμή εργαλείων</emphasis>.</"
-"para>"
+"από τα περιεχόμενα γίνονται διαθέσιμα μέσα από ένα κουμπί <interface>Μενού</"
+"interface> στη <emphasis>Γραμμή εργαλείων</emphasis>.</para>"
 
 #: dolphinmainwindow.cpp:2508
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
-#| "frequently used actions.</para><para>It is highly customizable. All items "
-#| "you see in the <interface>Control</interface> menu or in the "
-#| "<interface>Menubar</interface> can be placed on the Toolbar. Just right-"
-#| "click on it and select <interface>Configure Toolbars…</interface> or find "
-#| "this action in the <interface>Control</interface> or <interface>Settings</"
-#| "interface> menu.</para><para>The location of the bar and the style of its "
-#| "buttons can also be changed in the right-click menu. Right-click a button "
-#| "if you want to show or hide its text.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This is the <emphasis>Toolbar</emphasis>. It allows quick access to "
@@ -1164,15 +1131,14 @@ msgid ""
 msgstr ""
 "<para>Αυτή είναι η <emphasis>Γραμμή εργαλείων</emphasis>. Επιτρέπει τη "
 "γρήγορη πρόσβαση σε συχνές ενέργειες.</para><para>Είναι πολύ προσαρμόσιμη. "
-"Όλα τα αντικείμενα που βλέπετε στο μενού του <interface>Ελέγχου</interface> "
-"ή στη <interface>Γραμμή μενού</interface> μπορούν να τοποθετηθούν στη Γραμμή "
+"Όλα τα αντικείμενα που βλέπετε στο <interface>Μενού</interface> ή στη "
+"<interface>Γραμμή μενού</interface> μπορούν να τοποθετηθούν στη Γραμμή "
 "εργαλείων. Απλώς κάνετε δεξί κλικ πάνω της και επιλέξτε "
 "<interface>Διαμόρφωση Γραμμής εργαλείων…</interface> ή δείτε αυτήν την "
-"ενέργεια στο μενού του <interface>Ελέγχου</interface> ή των "
-"<interface>Ρυθμίσεων</interface>.</para><para>Η προσαρμογή της θέσης της "
-"γραμμής και του στιλ των κουμπιών γίνεται με το μενού που προκύπτει με δεξί "
-"κλικ. Κάνετε δεξί κλικ σε ένα κουμπί για να εμφανίσετε ή να αποκρύψετε το "
-"κείμενό του.</para>"
+"ενέργεια στο <interface>Μενού</interface>.</para><para>Η προσαρμογή της "
+"θέσης της γραμμής και του στιλ των κουμπιών γίνεται με το μενού που "
+"προκύπτει με δεξί κλικ. Κάνετε δεξί κλικ σε ένα κουμπί για να εμφανίσετε ή "
+"να αποκρύψετε το κείμενό του.</para>"
 
 #: dolphinmainwindow.cpp:2520
 #, kde-kuit-format
@@ -1219,13 +1185,7 @@ msgstr ""
 "αυτόν τον τρόπο.</para>"
 
 #: dolphinmainwindow.cpp:2542
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1234,9 +1194,8 @@ msgid ""
 msgstr ""
 "<para>Αυτό ανοίγει ένα παράθυρο στο οποίο μπορείτε να αλλάξετε τα κουμπιά "
 "που εμφανίζονται στη <emphasis>Γραμμή εργαλείων</emphasis>.</para><para>Όλα "
-"τα αντικείμενα που βλέπετε στο μενού <interface>Ελέγχου</interface> ή στη "
-"<interface>Γραμμή μενού</interface> μπορεί επίσης να τοποθετηθεί στη Γραμμή "
-"εργαλείων.</para>"
+"τα αντικείμενα που βλέπετε στο <interface>Μενού</interface> μπορούν επίσης "
+"να τοποθετηθούν στη Γραμμή εργαλείων.</para>"
 
 #: dolphinmainwindow.cpp:2546
 #, kde-kuit-format
@@ -1258,13 +1217,7 @@ msgstr ""
 #. know with a reasonable chance you might want to have 2 external links.
 #. The same might be true for any external link you translate.
 #: dolphinmainwindow.cpp:2558
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of handbook text with link"
-#| msgid ""
-#| "<para>If you want more elaborate introductions to the different features "
-#| "of <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/"
-#| "Dolphin/File_Management'>click here</link>. It will open the dedicated "
-#| "page in the KDE UserBase Wiki.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis handbook"
 msgid ""
 "<para>This opens the Handbook for this application. It provides explanations "
@@ -1273,20 +1226,15 @@ msgid ""
 "emphasis> <link url='https://userbase.kde.org/Dolphin/File_Management'>click "
 "here</link>. It will open the dedicated page in the KDE UserBase Wiki.</para>"
 msgstr ""
-"<para>Αν θέλετε πιο εμπεριστατωμένη εισαγωγή στις διαφορετικές λειτουργίες "
-"του <emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/"
+"<para>Με αυτό ανοίγει το εγχειρίδιο για την εφαρμογή αυτή. Παρέχει εξηγήσεις "
+"για κάθε λειτουργία του <emphasis>Dolphin</emphasis>.</para><para>Αν θέλετε "
+"πιο αναλυτικές οδηγίες για τα διαφορετικά χαρακτηριστικάτου "
+"<emphasis>Dolphin</emphasis> <link url='https://userbase.kde.org/Dolphin/"
 "File_Management'>κάνετε κλικ εδώ</link>. Θα ανοίξει μια ειδική σελίδα στο "
 "KDE UserBase Wiki.</para>"
 
 #: dolphinmainwindow.cpp:2563
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of whatsthis button text with link"
-#| msgid ""
-#| "<para>There are two other ways to get help: The <link url='help:/dolphin/"
-#| "index.html'>Dolphin Handbook</link> and the <link url='https://userbase."
-#| "kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</"
-#| "para><para>The \"What's this?\" help is missing in most other windows so "
-#| "don't get too used to this.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis whatsthis button"
 msgid ""
 "<para>This is the button that invokes the help feature you are using right "
@@ -1298,19 +1246,18 @@ msgid ""
 "link>.</para><para>The \"What's this?\" help is missing in most other "
 "windows so don't get too used to this.</para>"
 msgstr ""
-"<para>Υπάρχουν δύο άλλοι τρόποι βοήθειας: Το <link url='help:/dolphin/index."
-"html'>Εγχειρίδιο του Dolphin</link> και το <link url='https://userbase.kde."
-"org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>Η βοήθεια "
-"\"Τι είναι αυτό;\" λείπει από τα πιο πολλά παράθυρα, γι' αυτό μη σας γίνει "
-"συνήθεια.</para>"
+"<para>Αυτό είναι το κουμπί που εκτελεί τη λειτουργία βοήθειας που τώρα "
+"χρησιμοποιείτε! Κάνετε κλικ σε αυτό και έπειτα κλικ σε κάθε τμήμα αυτής της "
+"εφαρμογής για να ρωτήσετε «Τι είναι αυτό;». Ο δρομέας του ποντικιού θα "
+"αλλάξει εμφάνιση αν δεν υπάρχει σχετική διαθέσιμη βοήθεια.</"
+"para><para>Υπάρχουν δύο άλλοι τρόποι βοήθειας: Το <link url='help:/dolphin/"
+"index.html'>Εγχειρίδιο του Dolphin</link> και το <link url='https://userbase."
+"kde.org/Dolphin/File_Management'>KDE UserBase Wiki</link>.</para><para>Η "
+"βοήθεια «Τι είναι αυτό;» λείπει από τα πιο πολλά παράθυρα, γι' αυτό μη σας "
+"γίνει συνήθεια.</para>"
 
 #: dolphinmainwindow.cpp:2574
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis second half of reportbug text with link"
-#| msgid ""
-#| "<para>High-quality bug reports are much appreciated. To learn how to make "
-#| "your bug report as effective as possible <link url='https://community.kde."
-#| "org/Get_Involved/Bug_Reporting'>click here</link>.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window that will guide you through reporting errors or "
@@ -1319,8 +1266,10 @@ msgid ""
 "effective as possible <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>click here</link>.</para>"
 msgstr ""
-"<para>Οι υψηλής ποιότητας αναφορές σφαλμάτων εκτιμούνται ιδιαίτερα. Για να "
-"μάθετε πώς να δημιουργείτε τις δικές σας αναφορές σφαλμάτων όσο γίνεται πιο "
+"<para>Αυτό ανοίγει ένα παράθυρο καθοδήγησης για την αναφορά σφαλμάτων ή "
+"ελαττωμάτων αυτής της εφαρμογής ή άλλου λογισμικού του KDET.</para><para>Οι "
+"υψηλής ποιότητας αναφορές σφαλμάτων εκτιμούνται ιδιαίτερα. Για να μάθετε πώς "
+"να δημιουργείτε τις δικές σας αναφορές σφαλμάτων όσο γίνεται πιο "
 "αποτελεσματικά <link url='https://community.kde.org/Get_Involved/"
 "Bug_Reporting'>κάνετε κλικ εδώ</link>.</para>"
 
@@ -1711,6 +1660,7 @@ msgstr "Μη έγκυρο πρωτόκολλο"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Η τρέχουσα θέση άλλαξε, το <filename>%1</filename> δεν είναι πλέον διαθέσιμο."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -1733,42 +1683,30 @@ msgstr "Απόκρυψη γραμμής φίλτρου"
 #, kde-format
 msgctxt "Textual representation of a file. %1 is the name of the file/folder."
 msgid "\"%1\""
-msgstr ""
+msgstr "«%1»"
 
 #: kitemviews/kfileitemlisttostring.cpp:27
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 and %2 are "
-#| "names of files/folders."
-#| msgid "Actions for \"%1\" and \"%2\""
+#, kde-format
 msgctxt ""
 "Textual representation of two files. %1 and %2 are names of files/folders."
 msgid "\"%1\" and \"%2\""
-msgstr "Ενέργειες για «%1» και «%2»"
+msgstr "«%1» και «%2»"
 
 #: kitemviews/kfileitemlisttostring.cpp:31
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of three files. %1, %2 and %3 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\" and \"%3\""
-msgstr "Ενέργειες για «%1», «%2» και «%3»"
+msgstr "«%1», «%2» και «%3»"
 
 #: kitemviews/kfileitemlisttostring.cpp:36
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1, %2 and %3 "
-#| "are names of files/folders."
-#| msgid "Actions for \"%1\", \"%2\" and \"%3\""
+#, kde-format
 msgctxt ""
 "Textual representation of four files. %1, %2, %3 and %4 are names of files/"
 "folders."
 msgid "\"%1\", \"%2\", \"%3\" and \"%4\""
-msgstr "Ενέργειες για «%1», «%2» και «%3»"
+msgstr "«%1», «%2», «%3» και «%4»"
 
 #: kitemviews/kfileitemlisttostring.cpp:41
 #, kde-format
@@ -1776,78 +1714,59 @@ msgctxt ""
 "Textual representation of five files. %1, %2, %3, %4 and %5 are names of "
 "files/folders."
 msgid "\"%1\", \"%2\", \"%3\", \"%4\" and \"%5\""
-msgstr ""
+msgstr "«%1», «%2», «%3», «%4» και «%5»"
 
 #: kitemviews/kfileitemlisttostring.cpp:58
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected File"
-#| msgid_plural "Actions for %1 Selected Files"
+#, kde-format
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Ενέργειες για ένα επιλεγμένο αρχείο"
-msgstr[1] "Ενέργειες για %1 επιλεγμένα αρχεία"
+msgstr[0] "Ένα επιλεγμένο αρχείο"
+msgstr[1] "%1 επιλεγμένα αρχεία"
 
 #: kitemviews/kfileitemlisttostring.cpp:61
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the "
-#| "amount of selected files/folders."
-#| msgid "Actions for One Selected Folder"
-#| msgid_plural "Actions for %1 Selected Folders"
+#, kde-format
 msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "Ενέργειες για έναν επιλεγμένο φάκελο"
-msgstr[1] "Ενέργειες για %1 επιλεγμένους φακέλους"
+msgstr[0] "Ένας επιλεγμένος φάκελος"
+msgstr[1] "%1 επιλεγμένοι φάκελοι"
 
 #: kitemviews/kfileitemlisttostring.cpp:64
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Select Item"
+#, kde-format
 msgctxt ""
 "Textual representation of selected fileitems. %1 is the number of files/"
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "Επιλογή αντικειμένου"
-msgstr[1] "Επιλογή αντικειμένου"
+msgstr[0] "Ένα επιλεγμένο αντικείμενο"
+msgstr[1] "%1 επιλεγμένα αντικείμενα"
 
 #: kitemviews/kfileitemlisttostring.cpp:74
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Paste One File"
+#, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
-msgstr[0] "Επικόλληση ενός αρχείου"
-msgstr[1] "Επικόλληση ενός αρχείου"
+msgstr[0] "Ένα αρχείο"
+msgstr[1] "%1 αρχεία"
 
 #: kitemviews/kfileitemlisttostring.cpp:77
-#, fuzzy, kde-format
-#| msgctxt "@info:status"
-#| msgid "1 Folder"
-#| msgid_plural "%1 Folders"
+#, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "1 φάκελος"
+msgstr[0] "Ένας φάκελος"
 msgstr[1] "%1 φάκελοι"
 
 #: kitemviews/kfileitemlisttostring.cpp:80
-#, fuzzy, kde-format
-#| msgctxt "@title:window"
-#| msgid "Rename Item"
+#, kde-format
 msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Μετονομασία αντικειμένου"
-msgstr[1] "Μετονομασία αντικειμένου"
+msgstr[0] "Ένα αντικείμενοικειμένου"
+msgstr[1] "%1 αντικείμενα"
 
 #: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
@@ -1861,7 +1780,7 @@ msgstr[1] "%1 αντικείμενα"
 #, kde-format
 msgctxt "width × height"
 msgid "%1 × %2"
-msgstr ""
+msgstr "%1 x %2"
 
 #: kitemviews/kfileitemmodel.cpp:2260
 #, kde-format
@@ -2163,7 +2082,7 @@ msgstr "Έγγραφο"
 #: kitemviews/kfileitemmodel.cpp:2646
 msgctxt "@label"
 msgid "Author"
-msgstr ""
+msgstr "Συγγραφέας"
 
 #: kitemviews/kfileitemmodel.cpp:2647
 msgctxt "@label"
@@ -2190,7 +2109,7 @@ msgstr "Εικόνα"
 #: kitemviews/kfileitemmodel.cpp:2650
 msgctxt "@label width x height"
 msgid "Dimensions"
-msgstr ""
+msgstr "Διαστάσεις"
 
 #: kitemviews/kfileitemmodel.cpp:2651
 msgctxt "@label"
@@ -2281,7 +2200,7 @@ msgstr "Άλλο"
 #: kitemviews/kfileitemmodel.cpp:2664
 msgctxt "@label"
 msgid "File Extension"
-msgstr ""
+msgstr "Επέκταση αρχείου"
 
 #: kitemviews/kfileitemmodel.cpp:2665
 msgctxt "@label"
@@ -2301,7 +2220,7 @@ msgstr "Έγινε λήψη από"
 #: kitemviews/kfileitemmodel.cpp:2668
 msgctxt "@label"
 msgid "Permissions"
-msgstr "Άδειες"
+msgstr "Δικαιώματα"
 
 #: kitemviews/kfileitemmodel.cpp:2669
 msgctxt "@label"
@@ -2334,35 +2253,31 @@ msgstr "Διαχειριστής αρχείων"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(C) 2006-2022 Οι προγραμματιστές του Dolphin"
 
 #: main.cpp:92
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:93
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
-msgstr "Συντηρητής (από το 2018) και προγραμματιστής"
+msgstr "Συντηρητής (από το 2021) και προγραμματιστής"
 
 #: main.cpp:95
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:96
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (since 2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
-msgstr "Συντηρητής (από το 2018) και προγραμματιστής"
+msgstr "Συντηρητής (από το 2021) και προγραμματιστής (από το 2019)"
 
 #: main.cpp:98
 #, kde-format
@@ -2371,12 +2286,10 @@ msgid "Elvis Angelaccio"
 msgstr "Elvis Angelaccio"
 
 #: main.cpp:99
-#, fuzzy, kde-format
-#| msgctxt "@info:credit"
-#| msgid "Maintainer (2014-2018) and developer"
+#, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
-msgstr "Συντηρητής (2014-2018) και προγραμματιστής"
+msgstr "Συντηρητής (2018-2021) και προγραμματιστής"
 
 #: main.cpp:101
 #, kde-format
@@ -2494,12 +2407,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Το Dolphin θα ανοίξει σε ένα νέο παράθυρο."
 
 #: main.cpp:145
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Εκκίνηση του δαίμονα Dolphin (απαιτείται μόνο για το DBus)"
+msgstr "Εκκίνηση του δαίμονα Dolphin (απαιτείται μόνο για το DBus)."
 
 #: main.cpp:146
 #, kde-format
@@ -2649,22 +2560,15 @@ msgstr "παύση"
 
 #. i18n: ectx: label, entry (IconSize), group (PlacesPanel)
 #: panels/places/dolphin_placespanelsettings.kcfg:11
-#, fuzzy, kde-format
-#| msgid ""
-#| "Size of icons in the Places Panel (-1 means \"use the style's small size"
-#| "\")"
+#, kde-format
 msgid "Size of icons in the Places Panel (-1 means \"automatic\")"
-msgstr ""
-"Μέγεθος εικονιδίων στον πίνακα θέσεων (-1 σημαίνει «χρήση στιλ σε μικρό "
-"μέγεθος»)"
+msgstr "Μέγεθος εικονιδίων στον πίνακα θέσεων (-1 σημαίνει «αυτόματο»)"
 
 #: panels/places/placespanel.cpp:47
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Configure Trash..."
+#, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Διαμόρφωση κάδου ανακύκλωσης..."
+msgstr "Διαμόρφωση κάδου απορριμμάτων…"
 
 #: panels/terminal/terminalpanel.cpp:177
 #, kde-format
@@ -2894,64 +2798,52 @@ msgid "Query Results from '%1'"
 msgstr "Αποτελέσματα ερωτήματος '%1'"
 
 #: selectionmode/bottombarcontentscontainer.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
-msgstr "Τα αρχεία και οι φάκελοι δοσμένοι ως παράμετροι θα επιλεγούν."
+msgstr "Επιλέξτε Τα αρχεία και τους φακέλους που πρέπει να αντιγραφούν."
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:159
 #: selectionmode/bottombarcontentscontainer.cpp:192
 #: selectionmode/bottombarcontentscontainer.cpp:211
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr "Ακύρωση"
+msgstr "Ακύρωση αντιγραφής"
 
 #: selectionmode/bottombarcontentscontainer.cpp:186
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
-msgstr ""
+msgstr "Επιλέξτε ένα αρχείο ή φάκελο η θέση του οποίου πρέπει να αντιγραφεί."
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:205
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
-msgstr "Έτσι επιλέγονται όλα τα αρχεία και οι φάκελοι στην τρέχουσα θέση."
+msgstr "Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να αντιγραφούν δίπλα."
 
 #: selectionmode/bottombarcontentscontainer.cpp:223
-#, fuzzy, kde-format
-#| msgctxt "@info:whatsthis"
-#| msgid "This selects all files and folders in the current location."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
-msgstr "Έτσι επιλέγονται όλα τα αρχεία και οι φάκελοι στην τρέχουσα θέση."
+msgstr "Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να αποκοπούν."
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:229
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr "Ακύρωση"
+msgstr "Ακύρωση αποκοπής"
 
 #: selectionmode/bottombarcontentscontainer.cpp:256
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
-msgstr "Τα αρχεία και οι φάκελοι δοσμένοι ως παράμετροι θα επιλεγούν."
+msgstr "Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να διαγραφούν μόνιμα."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
@@ -2963,21 +2855,17 @@ msgid "Cancel"
 msgstr "Ακύρωση"
 
 #: selectionmode/bottombarcontentscontainer.cpp:274
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "The files and folders passed as arguments will be selected."
+#, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
-msgstr "Τα αρχεία και οι φάκελοι δοσμένοι ως παράμετροι θα επιλεγούν."
+msgstr "Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να διπλοτυπηθούν εδώ."
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:280
-#, fuzzy, kde-format
-#| msgctxt "@item::intable"
-#| msgid "Conflicting"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr "Συγκρουόμενο"
+msgstr "Ακύρωση διπλοτύπησης"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2985,29 +2873,29 @@ msgstr "Συγκρουόμενο"
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Άλλα"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:339
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
-msgstr ""
+msgstr "Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να μετακινηθούν δίπλα."
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:345
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "Cancel"
+#, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr "Ακύρωση"
+msgstr "Ακύρωση μετακίνησης"
 
 #: selectionmode/bottombarcontentscontainer.cpp:357
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
+"Επιλέξτε τα αρχεία και τους φακέλους που πρέπει να μεταφερθούν στα "
+"απορρίμματα."
 
 #: selectionmode/bottombarcontentscontainer.cpp:375
 #, kde-kuit-format
@@ -3018,25 +2906,30 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Τα επιλεγμένα αντικείμενα (αρχεία και φάκελοι) προστέθηκαν στο "
+"Πρόχειρο. Τώρα με την ενέργεια <emphasis>Επικόλληση</emphasis> θα "
+"μεταφερθούν από το Πρόχειρο σε οποιαδήποτε άλλη θέση. Ακόμη και σε άλλες "
+"εφαρμογές με χρήση των δικών τους ενεργειών <emphasis>Επικόλλησης</emphasis>."
+"</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:395
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "Επικόλληση από το πρόχειρο"
 
 #: selectionmode/bottombarcontentscontainer.cpp:400
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Αφαίρεση αυτής της υπενθύμισης"
 
 #: selectionmode/bottombarcontentscontainer.cpp:402
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
-msgstr ""
+msgstr "Να μην ξαναγίνει υπενθύμιση"
 
 #: selectionmode/bottombarcontentscontainer.cpp:418
 #, kde-format
@@ -3045,13 +2938,15 @@ msgid ""
 "Select the file or folder that should be renamed.\n"
 "Bulk renaming is possible when multiple items are selected."
 msgstr ""
+"Επιλέξτε αρχείο ή φάκελο για μετονομασία.\n"
+"Η μετονομασία δέσμης είναι εφικτή με την επιλογή πολλών αντικειμένων."
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:424
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Ακύρωση μετονομασίας"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3063,8 +2958,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Αντιγραφή του %2 στο Πρόχειρο"
+msgstr[1] "Αντιγραφή των %2 στο Πρόχειρο"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3076,8 +2971,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Αντιγραφή της θέσης του %2 στο Πρόχειρο"
+msgstr[1] "Αντιγραφή της θέσης των %2 στο Πρόχειρο"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3089,8 +2984,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Αποκοπή του %2 στο Πρόχειρο"
+msgstr[1] "Αποκοπή των %2 στο Πρόχειρο"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3102,8 +2997,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Μόνιμη διαγραφή του %2"
+msgstr[1] "Μόνιμη διαγραφή των %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3111,14 +3006,12 @@ msgstr[1] ""
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:602
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] "Δημιουργία αντιγράφου εδώ"
-msgstr[1] "Δημιουργία αντιγράφου εδώ"
+msgstr[0] "Δημιουργία διπλοτύπου του %2"
+msgstr[1] "Δημιουργία διπλοτύπου των %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3126,14 +3019,12 @@ msgstr[1] "Δημιουργία αντιγράφου εδώ"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:610
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] "Μετακίνηση στα απορρίμματα"
-msgstr[1] "Μετακίνηση στα απορρίμματα"
+msgstr[0] "Μετακίνηση του %2 στα απορρίμματα"
+msgstr[1] "Μετακίνηση των %2 στα απορρίμματα"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -3141,14 +3032,12 @@ msgstr[1] "Μετακίνηση στα απορρίμματα"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: selectionmode/bottombarcontentscontainer.cpp:618
-#, fuzzy, kde-format
-#| msgctxt "@action:button"
-#| msgid "&Rename"
+#, kde-format
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] "&Μετονομασία"
-msgstr[1] "&Μετονομασία"
+msgstr[0] "Μετονομασία του %2"
+msgstr[1] "Μετονομασία των %2"
 
 #: selectionmode/topbar.cpp:32
 #, kde-kuit-format
@@ -3163,28 +3052,33 @@ msgid ""
 "para><para>The available action buttons at the bottom change depending on "
 "the current selection.</para>"
 msgstr ""
+"<title>Λειτουργία επιλογής</title><para>Επιλέξτε αρχεία ή φακέλους για να τα "
+"διαχειριστείτε.<list><item>Πιέστε σε ένα αντικείμενο (αρχείο ή φάκελο) για "
+"να το επιλέξετε.</item><item>Πιέστε σε ένα ήδη επιλεγμένο αντικείμενο για να "
+"αναιρέσετε την επιλογή.</item><item>Με πίεση σε μια κενή "
+"περιοχή<emphasis>δεν</emphasis> αναιρείται η επιλογή.</item><item>Τα "
+"ορθογώνια (δημιουργούνται έλκοντας από μια κενή περιοχή) αντιστρέφουν την "
+"κατάσταση επιλογής των αντικειμένων που εμπεριέχουν.</item></list></"
+"para><para>Τα διαθέσιμα κουμπιά ενεργειών στη βάση αλλάζουν ανάλογα με την "
+"τρέχουσα επιλογή.</para>"
 
 #: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
-msgstr ""
+msgstr "Λειτουργία επιλογής: Με κλικ σε αρχεία ή φακέλους τα (απο)επιλέγετε."
 
 #: selectionmode/topbar.cpp:60
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr "Επιλογή"
+msgstr "Λειτουργία επιλογής"
 
 #: selectionmode/topbar.cpp:66
-#, fuzzy, kde-format
-#| msgctxt "@title:menu"
-#| msgid "Selection"
+#, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
-msgstr "Επιλογή"
+msgstr "Έξοδος από λειτουργία επιλογής"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:66
 #, kde-format
@@ -3341,13 +3235,13 @@ msgstr "Θέση στηλών"
 #: settings/dolphin_detailsmodesettings.kcfg:31
 #, kde-format
 msgid "Side Padding"
-msgstr ""
+msgstr "Πλευρική ενίσχυση"
 
 #. i18n: ectx: label, entry (HighlightEntireRow), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Τονισμός ολόκληρης γραμμής"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3578,6 +3472,9 @@ msgid ""
 "updated version of Dolphin is running, so as to migrate config entries that "
 "were removed/renamed ...etc"
 msgstr ""
+"Εσωτερική έκδοση διαμόρφωσης του Dolphin, χρησιμοποείται κυρίως για να "
+"αποφασίσει αν εκτελείται μια ενημερωμένη έκδοση του Dolphin, ώστε να "
+"μεταφέρει εγγραφές διαμόρφωσης που είχαν διαγραφεί/μετονομαστεί ...κλπ"
 
 #. i18n: ectx: label, entry (ModifiedStartupSettings), group (General)
 #: settings/dolphin_generalsettings.kcfg:42
@@ -3662,6 +3559,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Εμφάνιση μιας γραμμής για εύκολη επικόλληση μετά από αποκοπή ή αντιγραφή που "
+"έγινε με χρήση της γραμμής στη βάση για τη λειτουργία επιλογής."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
@@ -4360,22 +4259,20 @@ msgstr "Φάκελοι:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Με κλικ οπουδήποτε πάνω στη γραμμή"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Με κλικ πάνω στο εικονίδιο ή στο όνομα"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Αναζήτηση για αρχεία και φακέλους"
+msgstr "Άνοιγμα αρχείων και φακέλων:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4661,7 +4558,7 @@ msgstr "%1 ελεύθερα"
 #, kde-format
 msgctxt "tooltip:status Free disk space"
 msgid "%1 free out of %2 (%3% used)"
-msgstr ""
+msgstr "%1 ελεύθερο από %2 (%3% σε χρήση)"
 
 #: trash/dolphintrash.cpp:56
 #, kde-format
@@ -4776,20 +4673,18 @@ msgstr[0] "Θέλετε σίγουρα να ανοίξετε ένα αντικε
 msgstr[1] "Θέλετε σίγουρα να ανοίξετε %1 αντικείμενα;"
 
 #: views/dolphinview.cpp:1048
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu Tools"
-#| msgid "Open %1"
+#, kde-format
 msgctxt "@action:button"
 msgid "Open %1 Item"
 msgid_plural "Open %1 Items"
-msgstr[0] "Άνοιγμα %1"
-msgstr[1] "Άνοιγμα %1"
+msgstr[0] "Άνοιγμα %1 αντικειμένου"
+msgstr[1] "Άνοιγμα %1 αντικειμένων"
 
 #: views/dolphinview.cpp:1181
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
-msgstr ""
+msgstr "Πλευρική ενίσχυση"
 
 #: views/dolphinview.cpp:1185
 #, kde-format
@@ -4869,11 +4764,9 @@ msgid "Loading..."
 msgstr "Φόρτωση..."
 
 #: views/dolphinview.cpp:2244
-#, fuzzy, kde-format
-#| msgctxt "@info:progress"
-#| msgid "Loading folder..."
+#, kde-format
 msgid "Loading canceled"
-msgstr "Φόρτωση φακέλου..."
+msgstr "Η φόρτωση ακυρώθηκε"
 
 #: views/dolphinview.cpp:2246
 #, kde-format
@@ -4898,7 +4791,7 @@ msgstr "Χωρίς ετικέτες"
 #: views/dolphinview.cpp:2256
 #, kde-format
 msgid "No files tagged with \"%1\""
-msgstr ""
+msgstr "Κανένα αρχείο με ετικέτα «%1»"
 
 #: views/dolphinview.cpp:2260
 #, kde-format
@@ -4921,10 +4814,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Δεν βρέθηκαν MTP-συμβατές συσκευές"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Δεν βρέθηκαν συσκευές bluetooth"
+msgstr "Δεν βρέθηκαν συσκευές Apple"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
@@ -5022,36 +4914,28 @@ msgstr ""
 "πρόχειρο."
 
 #: views/dolphinviewactionhandler.cpp:168
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Move to Trash"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Μετακίνηση στα απορρίμματα"
+msgstr "Μετακίνηση στα απορρίμματα…"
 
 #: views/dolphinviewactionhandler.cpp:169
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Delete"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Διαγραφή"
+msgstr "Διαγραφή…"
 
 #: views/dolphinviewactionhandler.cpp:170
-#, fuzzy, kde-format
-#| msgctxt "@action:inmenu File"
-#| msgid "Duplicate Here"
+#, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Δημιουργία αντιγράφου εδώ"
+msgstr "Δημιουργία διπλοτύπου εδώ…"
 
 #: views/dolphinviewactionhandler.cpp:171
-#, fuzzy, kde-format
-#| msgctxt "@action:incontextmenu"
-#| msgid "Copy Location"
+#, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Αντιγραφή τοποθεσίας"
+msgstr "Αντιγραφή τοποθεσίας…"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5352,13 +5236,9 @@ msgstr "Ενέργειες για την τρέχουσα προβολή"
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
 #: views/dolphinviewactionhandler.cpp:812
-#, fuzzy, kde-format
-#| msgctxt ""
-#| "@action:inmenu menu with actions like copy, paste, rename. %1 is the name "
-#| "of the singular selected file/folder."
-#| msgid "Actions for \"%1\""
+#, kde-format
 msgid "Actions for %1"
-msgstr "Ενέργειες για «%1»"
+msgstr "Ενέργειες για το %1"
 
 #: views/dolphinviewactionhandler.cpp:819
 #, kde-format

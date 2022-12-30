@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-04-02 00:46+0000\n"
-"PO-Revision-Date: 2022-09-19 20:32+0200\n"
+"PO-Revision-Date: 2022-12-29 08:14+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,22 +16,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #: servicemenuinstaller.cpp:44
 #, kde-format
 msgid "Dolphin service menu installation failed"
-msgstr ""
+msgstr "Dolphin-ის სერვისული მენიუს დაყენების შეცდომა"
 
 #: servicemenuinstaller.cpp:72
 #, kde-format
 msgid "Failed to install \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "\"%1\"-ის დაყენების შეცდომა. დასრულდა სტატუსით \"%2\""
 
 #: servicemenuinstaller.cpp:104
 #, kde-format
 msgid "Failed to uninstall \"%1\", exited with status \"%2\""
-msgstr ""
+msgstr "\"%1\"-ისწაშლის შეცდომა. დასრულდა სტატუსით \"%2\""
 
 #: servicemenuinstaller.cpp:117
 #, kde-format
@@ -51,27 +51,27 @@ msgstr "არქივის მხარდაუჭერელი ტიპ�
 #: servicemenuinstaller.cpp:190
 #, kde-format
 msgid "Failed to run uncompressor command for %1"
-msgstr ""
+msgstr "%1-სთვის გაშლის ბრძანების გაშვება შეუძლებელია"
 
 #: servicemenuinstaller.cpp:195
 #, kde-format
 msgid "Process did not finish in reasonable time: %1 %2"
-msgstr ""
+msgstr "პროცესი ნორმალურ დროში არ დასრულდა: %1 %2"
 
 #: servicemenuinstaller.cpp:199
 #, kde-format
 msgid "Failed to uncompress %1"
-msgstr ""
+msgstr "%1-ის გაშლის შეცდომა"
 
 #: servicemenuinstaller.cpp:232
 #, kde-format
 msgid "Failed to run installer script %1"
-msgstr ""
+msgstr "%1-ის დაყენების სკრიპტის გაშვების შეცდომა"
 
 #: servicemenuinstaller.cpp:255
 #, kde-format
 msgid "Failed to set permissions on %1: %2"
-msgstr ""
+msgstr "%1-ზე წვდომების დაყენების შეცდომა: %2"
 
 #: servicemenuinstaller.cpp:272
 #, kde-format
@@ -84,41 +84,42 @@ msgstr "\", \""
 msgctxt "%2 = comma separated list of arguments"
 msgid "Installer script %1 failed, tried arguments \"%2\"."
 msgstr ""
+"დაყენების სკრიპტი %1 ავარიულად დასრულდა. გამოყენებული არგუმენტები \"%2\"."
 
 #: servicemenuinstaller.cpp:286
 #, kde-format
 msgid "Failed to create path %1"
-msgstr ""
+msgstr "შეცდომა ბილიკის %1 შექმნისას"
 
 #: servicemenuinstaller.cpp:300
 #, kde-format
 msgid "Failed to copy .desktop file %1 to %2: %3"
-msgstr ""
+msgstr "შეცდომა .desktop ფაილის (%1) %2-ში კოპირებისას: %3"
 
 #: servicemenuinstaller.cpp:312 servicemenuinstaller.cpp:422
 #, kde-format
 msgid "Failed to remove directory %1"
-msgstr ""
+msgstr "შეცდომა საქაღალდის (%1) წაშლისას"
 
 #: servicemenuinstaller.cpp:318
 #, kde-format
 msgid "Failed to create directory %1"
-msgstr ""
+msgstr "შეცდომა საქაღალდის (%1) შექმნისას"
 
 #: servicemenuinstaller.cpp:357
 #, kde-format
 msgid "Failed to find an installation script in %1"
-msgstr ""
+msgstr "%1-ში დაყენების სკრიპტი ვერ ვიპოვე"
 
 #: servicemenuinstaller.cpp:371
 #, kde-format
 msgid "Failed to remove .desktop file %1: %2"
-msgstr ""
+msgstr "%1 .desktop ფაილის წაშლის შეცდომა: %2"
 
 #: servicemenuinstaller.cpp:416
 #, kde-format
 msgid "Failed to find an uninstallation script in %1"
-msgstr ""
+msgstr "%1-ში წაშლის სკრიპტი ვერ ვიპოვე"
 
 #: servicemenuinstaller.cpp:435
 #, kde-format
