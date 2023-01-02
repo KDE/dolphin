@@ -4253,7 +4253,7 @@ msgstr "Fent clic en qualsevol lloc de la fila"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr "Fent clic en la icona o el nom"
+msgstr "Fent clic damunt de la icona o el nom"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113

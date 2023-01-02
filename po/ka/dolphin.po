@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-01 01:02+0000\n"
-"PO-Revision-Date: 2022-12-30 06:14+0100\n"
+"PO-Revision-Date: 2023-01-01 06:43+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1403,7 +1403,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr ""
+msgstr "საქაღალდეების შეცვლისას ფილტრის შენარჩუნება"
 
 #: filterbar/filterbar.cpp:34
 #, kde-format
@@ -2267,13 +2267,13 @@ msgstr "მორგება..."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
-msgstr ""
+msgstr "თარიღის მოკლე ფორმატი"
 
 #: panels/information/informationpanelcontent.cpp:109
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr ""
+msgstr "აირჩიეთ საჩვენებელი მონაცემები:"
 
 #: panels/information/informationpanelcontent.cpp:303
 #, kde-format
@@ -2473,7 +2473,7 @@ msgstr "აქედან (%1)"
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
-msgstr ""
+msgstr "ძებნის '%1'-ზე და მის ქვესაქაღალდეებზე შეზღუდვა"
 
 #: search/dolphinsearchbox.cpp:345
 #, kde-format
@@ -2897,49 +2897,51 @@ msgstr ""
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'დალაგების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ხედის რეჟიმის' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
 msgstr ""
+"კონტექსტურ მენიუში 'ახალ ჩანართში გახსნა' და 'ახალ ჩანართებში გახსნა'-ის "
+"ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ახალ ფანჯარაში გახსნის' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'მდებარეობის კოპირების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'აქ დუბლირების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ტერმინალის გახსნის' ჩვენება."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
 #, kde-format
 msgid "Position of columns"
-msgstr ""
+msgstr "სვეტების მდებარეობა"
 
 #. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
@@ -3469,7 +3471,7 @@ msgstr "მონიშვნის მაჩვენებლის ჩვე�
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr ""
+msgstr "ხაზშივე გადარქმევა"
 
 #: settings/general/behaviorsettingspage.cpp:87
 #, kde-format
