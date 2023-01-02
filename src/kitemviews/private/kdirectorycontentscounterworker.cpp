@@ -62,21 +62,15 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
             }
 
             if (allowedRecursiveLevel > 0) {
-
-                bool linkFound = false;
                 QString nameBuf = QStringLiteral("%1/%2").arg(dirPath, dirEntry->d_name);
 
-                if (dirEntry->d_type == DT_REG || dirEntry->d_type == DT_LNK) {
+                if (dirEntry->d_type == DT_REG) {
                     if (QT_STAT(nameBuf.toLocal8Bit(), &buf) == 0) {
-                        if (S_ISDIR(buf.st_mode)) {
-                            // was a dir link, recurse
-                            linkFound = true;
-                        }
                         size += buf.st_size;
                     }
                 }
-                if (dirEntry->d_type == DT_DIR || linkFound) {
-                    // recursion for dirs and dir links
+                if (dirEntry->d_type == DT_DIR) {
+                    // recursion for dirs
                     size += walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, dirEntry, allowedRecursiveLevel - 1).size;
                 }
             }
