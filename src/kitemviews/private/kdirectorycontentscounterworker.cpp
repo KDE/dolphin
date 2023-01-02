@@ -71,7 +71,10 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
                 }
                 if (dirEntry->d_type == DT_DIR) {
                     // recursion for dirs
-                    size += walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, dirEntry, allowedRecursiveLevel - 1).size;
+                    auto subdirResult = walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, dirEntry, allowedRecursiveLevel - 1);
+                    if (subdirResult.size > 0) {
+                        size += subdirResult.size;
+                    }
                 }
             }
         }
