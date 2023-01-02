@@ -35,6 +35,11 @@ public:
      * Add \a keys to the text buffer used for searching.
      */
     void addKeys(const QString& keys);
+    /**
+     * @returns true if the next call to addKeys() will trigger a new search.
+     *          Returns false if the next added key char will be added to the search string that was used previously.
+     */
+    bool addKeyBeginsNewSearch() const;
 
     /**
      * Sets the delay after which the search is cancelled to \a milliseconds.
@@ -46,7 +51,6 @@ public:
     qint64 timeout() const;
 
     void cancelSearch();
-    bool shouldClearSearchIfInputTimeReached();
 
 public Q_SLOTS:
 
@@ -66,9 +70,14 @@ Q_SIGNALS:
     void changeCurrentItem(const QString& string, bool searchFromNextItem);
 
 private:
+    bool shouldClearSearchIfInputTimeReached();
+
+private:
     QString m_searchedString;
     bool m_isSearchRestarted;
+    /** Measures the time since the last key press. */
     QElapsedTimer m_keyboardInputTime;
+    /** Time in milliseconds in which a key press is considered as a continuation of the previous search input. */
     qint64 m_timeout;
 };
 
