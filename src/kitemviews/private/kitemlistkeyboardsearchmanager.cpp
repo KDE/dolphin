@@ -63,6 +63,11 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
     m_keyboardInputTime.start();
 }
 
+bool KItemListKeyboardSearchManager::addKeyBeginsNewSearch() const
+{
+    return m_keyboardInputTime.hasExpired(m_timeout) || m_searchedString.isEmpty();
+}
+
 void KItemListKeyboardSearchManager::setTimeout(qint64 milliseconds)
 {
     m_timeout = milliseconds;

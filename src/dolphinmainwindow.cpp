@@ -1705,7 +1705,6 @@ void DolphinMainWindow::setupActions()
         "</para>"));
     toggleSelectionModeAction->setIcon(QIcon::fromTheme(QStringLiteral("quickwizard")));
     toggleSelectionModeAction->setCheckable(true);
-    actionCollection()->setDefaultShortcut(toggleSelectionModeAction, Qt::Key_Space );
     connect(toggleSelectionModeAction, &QAction::triggered, this, &DolphinMainWindow::toggleSelectionMode);
 
     // A special version of the toggleSelectionModeAction for the toolbar that also contains a menu
