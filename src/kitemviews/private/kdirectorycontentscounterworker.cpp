@@ -27,7 +27,6 @@ KDirectoryContentsCounterWorker::KDirectoryContentsCounterWorker(QObject* parent
 KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
                                                      const bool countHiddenFiles,
                                                      const bool countDirectoriesOnly,
-                                                     QT_DIRENT *dirEntry,
                                                      const uint allowedRecursiveLevel)
 {
     int count = -1;
@@ -36,6 +35,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
     if (dir) {
         count = 0;
         size = 0;
+        QT_DIRENT *dirEntry;
         QT_STATBUF buf;
 
         while ((dirEntry = QT_READDIR(dir))) {
@@ -71,7 +71,7 @@ KDirectoryContentsCounterWorker::CountResult walkDir(const QString &dirPath,
                 }
                 if (dirEntry->d_type == DT_DIR) {
                     // recursion for dirs
-                    auto subdirResult = walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, dirEntry, allowedRecursiveLevel - 1);
+                    auto subdirResult = walkDir(nameBuf, countHiddenFiles, countDirectoriesOnly, allowedRecursiveLevel - 1);
                     if (subdirResult.size > 0) {
                         size += subdirResult.size;
                     }
@@ -105,9 +105,7 @@ KDirectoryContentsCounterWorker::CountResult KDirectoryContentsCounterWorker::su
 
     const uint maxRecursiveLevel = DetailsModeSettings::directorySizeCount() ? 1 : DetailsModeSettings::recursiveDirectorySizeLimit();
 
-    QT_DIRENT *dirEntry = nullptr;
-
-    auto res = walkDir(path, countHiddenFiles, countDirectoriesOnly, dirEntry, maxRecursiveLevel);
+    auto res = walkDir(path, countHiddenFiles, countDirectoriesOnly, maxRecursiveLevel);
 
     return res;
 #endif
