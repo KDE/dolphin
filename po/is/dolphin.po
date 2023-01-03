@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # íslensk þýðing Dolphin
 # þýðing byggð á eldri þýðingum Konqueror og KDE
-# Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Sveinn í Felli <sveinki@nett.is>, 2008, 2009, 2010, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Guðmundur Erlingsson <gudmundure@gmail.com>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-01 01:02+0000\n"
-"PO-Revision-Date: 2022-12-12 20:40+0000\n"
-"Last-Translator: gummi <gudmundure@gmail.com>\n"
-"Language-Team: Icelandic <kde-i18n-doc@kde.org>\n"
+"PO-Revision-Date: 2023-01-02 13:48+0000\n"
+"Last-Translator: Sveinn í Felli <sv1@fellsnet.is>\n"
+"Language-Team: Icelandic\n"
 "Language: is\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,17 +29,17 @@ msgstr ""
 "\n"
 "\n"
 "\n"
-"X-Generator: Lokalize 22.08.3\n"
+"X-Generator: Lokalize 21.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Sveinn í Felli,Guðmundur Erlingsson"
+msgstr "Sveinn í Felli, Guðmundur Erlingsson"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "sv1@fellsnet.is,gudmundure@gmail.com"
+msgstr "sv1@fellsnet.is, gudmundure@gmail.com"
 
 #: dolphincontextmenu.cpp:125
 #, kde-format
@@ -1639,6 +1639,8 @@ msgstr "Ógild samskiptaregla"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Núverandi staðsetning breyttist, <filename>%1</filename> er ekki lengur "
+"tiltækt."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2385,12 +2387,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin mun opnast sérstaklega í nýjum glugga."
 
 #: main.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Ræsa Dolphin miðlarann (aðeins nauðsynlegt fyrir DBus-viðmótið)"
+msgstr "Ræsa Dolphin Daemon púkann (aðeins nauðsynlegt fyrir DBus-viðmótið)."
 
 #: main.cpp:154
 #, kde-format
@@ -3212,7 +3212,7 @@ msgstr "Fylling til hliðar"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Áherslulita heila röð"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4219,22 +4219,20 @@ msgstr "Möppur:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Með því að smella hvar sem er á röðina"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Með því að smella á táknmynd eða heiti"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Leita að skrám og möppum"
+msgstr "Opna skrár og möppur:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4770,10 +4768,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Engin MTP-samhæfð tæki fundust"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Engin Bluetooth-tæki fundust"
+msgstr "Engin Apple-tæki fundust"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
