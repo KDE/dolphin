@@ -4,22 +4,22 @@
 # Lukáš Tinkl <lukas@kde.org>, 2010, 2011, 2012.
 # Jan Holíček <jan.holicek@gmail.com>, 2010.
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
-# Vit Pelcak <vpelcak@suse.cz>, 2017, 2018, 2019, 2020, 2021, 2022.
+# Vit Pelcak <vit@pelcak.org>, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-01 01:02+0000\n"
-"PO-Revision-Date: 2022-07-14 14:22+0200\n"
-"Last-Translator: Vit Pelcak <vpelcak@suse.cz>\n"
+"PO-Revision-Date: 2023-01-03 17:15+0100\n"
+"Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 22.12.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -350,7 +350,7 @@ msgstr "Kopírovat do neaktivního rozděleného pohledu"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr ""
+msgstr "Kopírovat do neaktivního rozděleného pohledu..."
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -376,7 +376,7 @@ msgstr "Přesunout do neaktivního rozděleného pohledu"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr ""
+msgstr "Přesunout do neaktivního rozděleného pohledu..."
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -464,7 +464,7 @@ msgstr "Hledat"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Select Files and Folders"
-msgstr ""
+msgstr "Vybrat soubory a složky"
 
 #. i18n: Opens a selection mode for selecting files/folders.
 #. The text is kept so unspecific because it will be shown on the toolbar where space is at a premium.
@@ -472,7 +472,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:intoolbar"
 msgid "Select"
-msgstr ""
+msgstr "Vybrat"
 
 #: dolphinmainwindow.cpp:1702
 #, kde-kuit-format
@@ -656,7 +656,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Focus Terminal Panel"
-msgstr ""
+msgstr "Přepnout na panel terminálu"
 
 #: dolphinmainwindow.cpp:1905
 #, kde-format
@@ -1107,7 +1107,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr ""
+msgstr "Zaměřit se mimo panel terminálu"
 
 #: dolphinnavigatorswidgetaction.cpp:205
 #, kde-format
@@ -2007,13 +2007,13 @@ msgstr "Správce souborů"
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
-msgstr ""
+msgstr "(c) 2006-2022, Vývojáři Dolphinu"
 
 #: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
-msgstr ""
+msgstr "Felix Ernst"
 
 #: main.cpp:101
 #, kde-format
@@ -2025,7 +2025,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
-msgstr ""
+msgstr "Méven Car"
 
 #: main.cpp:104
 #, kde-format
@@ -2161,12 +2161,10 @@ msgid "Dolphin will explicitly open in a new window."
 msgstr "Dolphin se explicitně otevře v novém okně."
 
 #: main.cpp:153
-#, fuzzy, kde-format
-#| msgctxt "@info:shell"
-#| msgid "Start Dolphin Daemon (only required for DBus Interface)"
+#, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
-msgstr "Spustit démona aplikace Dolphin (potřebný pro rozhraní DBus)"
+msgstr ""
 
 #: main.cpp:154
 #, kde-format
@@ -2559,6 +2557,7 @@ msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
 msgstr ""
 
+# cancel button label
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:159
@@ -2567,7 +2566,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
-msgstr ""
+msgstr "Zrušit kopírování"
 
 #: selectionmode/bottombarcontentscontainer.cpp:186
 #, kde-format
@@ -2588,12 +2587,13 @@ msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr ""
 
+# cancel button label
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:229
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
-msgstr ""
+msgstr "Zrušit vyjmutí"
 
 #: selectionmode/bottombarcontentscontainer.cpp:256
 #, kde-format
@@ -2621,7 +2621,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
-msgstr ""
+msgstr "Zrušit duplikování"
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
@@ -2629,7 +2629,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
-msgstr ""
+msgstr "Více"
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
 #: selectionmode/bottombarcontentscontainer.cpp:339
@@ -2638,12 +2638,13 @@ msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr ""
 
+# cancel button label
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
 #: selectionmode/bottombarcontentscontainer.cpp:345
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
-msgstr ""
+msgstr "Zrušit přesun"
 
 #: selectionmode/bottombarcontentscontainer.cpp:357
 #, kde-format
@@ -2693,7 +2694,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "Zrušit přejmenování"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2747,9 +2748,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Permanently Delete %2"
 msgid_plural "Permanently Delete %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Trvale smazat %2"
+msgstr[1] "Trvale smazat %2"
+msgstr[2] "Trvale smazat %2"
 
 #. i18n: A more elaborate and clearly worded version of the Duplicate action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2761,9 +2762,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Duplicate %2"
 msgid_plural "Duplicate %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Duplikovat %2"
+msgstr[1] "Duplikovat %2"
+msgstr[2] "Duplikovat %2"
 
 #. i18n: A more elaborate and clearly worded version of the Trash action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2775,9 +2776,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Move %2 to the Trash"
 msgid_plural "Move %2 to the Trash"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Přesunout %2 do koše"
+msgstr[1] "Přesunout %2 do koše"
+msgstr[2] "Přesunout %2 do koše"
 
 #. i18n: A more elaborate and clearly worded version of the Rename action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2789,9 +2790,9 @@ msgstr[2] ""
 msgctxt "@action"
 msgid "Rename %2"
 msgid_plural "Rename %2"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Přejmenovat %2"
+msgstr[1] "Přejmenovat %2"
+msgstr[2] "Přejmenovat %2"
 
 #: selectionmode/topbar.cpp:32
 #, kde-kuit-format
@@ -2817,7 +2818,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
-msgstr ""
+msgstr "Režim výběru"
 
 #: selectionmode/topbar.cpp:66
 #, kde-format
@@ -2985,7 +2986,7 @@ msgstr ""
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Zvýraznit celou řadu"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -3444,13 +3445,13 @@ msgstr "Varování"
 #, kde-format
 msgctxt "@option:radio"
 msgid "Use common display style for all folders"
-msgstr ""
+msgstr "Použít společný styl zobrazení pro všechny složky"
 
 #: settings/general/behaviorsettingspage.cpp:38
 #, kde-format
 msgctxt "@option:radio"
 msgid "Remember display style for each folder"
-msgstr ""
+msgstr "Zapamatovat si styl zobrazení každé složky"
 
 #: settings/general/behaviorsettingspage.cpp:39
 #, kde-format
@@ -3519,13 +3520,13 @@ msgstr "Přejmenovat na místě"
 #, kde-format
 msgctxt "option:check"
 msgid "Switch between split views panes with tab key"
-msgstr ""
+msgstr "Přepínat mezi rozdělenými panely Tabulátorem"
 
 #: settings/general/behaviorsettingspage.cpp:91
 #, kde-format
 msgctxt "option:check"
 msgid "Turning off split view closes active pane"
-msgstr ""
+msgstr "Vypnutí rozděleného pohledu ukončí aktivní panel"
 
 #: settings/general/behaviorsettingspage.cpp:93
 #, kde-format
@@ -3566,7 +3567,7 @@ msgstr "Mazání souborů nebo složek"
 #, kde-format
 msgctxt "@title:group"
 msgid "Ask for confirmation in Dolphin when:"
-msgstr "Dotazovat se na potvrzení v Dolphinu když:"
+msgstr "Dotazovat se na potvrzení v Dolphinu při:"
 
 #: settings/general/confirmationssettingspage.cpp:62
 #, kde-format
@@ -3578,7 +3579,7 @@ msgstr "Zavírání oken s více kartami"
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Closing windows with a program running in the Terminal panel"
-msgstr ""
+msgstr "Zavírání oken s běžící aplikací v panelu terminálu"
 
 #: settings/general/confirmationssettingspage.cpp:70
 #, kde-format
@@ -3741,7 +3742,7 @@ msgstr "Obecné: "
 #, kde-format
 msgctxt "@option:radio Startup Settings"
 msgid "Folders, tabs, and window state from last time"
-msgstr ""
+msgstr "Složky, karty a stav okna jako naposled"
 
 #: settings/startup/startupsettingspage.cpp:68
 #, kde-format
@@ -3771,7 +3772,7 @@ msgstr "Zobrazovat při spuštění:"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Begin in split view mode"
-msgstr ""
+msgstr "Začít v režimu rozděleného pohledu"
 
 #: settings/startup/startupsettingspage.cpp:101
 #, kde-format
@@ -3788,7 +3789,7 @@ msgstr "Zobrazit panel pro filtrování"
 #, kde-format
 msgctxt "@option:check Startup Settings"
 msgid "Make location bar editable"
-msgstr ""
+msgstr "Povolit úpravy pruhu umístění"
 
 #: settings/startup/startupsettingspage.cpp:109
 #, kde-format
@@ -3976,22 +3977,20 @@ msgstr "Složky:"
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking anywhere on the row"
-msgstr ""
+msgstr "Kliknutím kdekoliv v řádku"
 
 #: settings/viewmodes/viewsettingstab.cpp:106
 #, kde-format
 msgctxt "@option:radio how files/folders are opened"
 msgid "By clicking on icon or name"
-msgstr ""
+msgstr "Kliknutím na ikonu nebo název"
 
 #. i18n: Users can choose here if items are opened by clicking on their name/icon or by clicking in the row.
 #: settings/viewmodes/viewsettingstab.cpp:113
-#, fuzzy, kde-format
-#| msgctxt "@info:tooltip"
-#| msgid "Search for files and folders"
+#, kde-format
 msgctxt "@title:group"
 msgid "Open files and folders:"
-msgstr "Hledat soubory a složky"
+msgstr "Otevřít soubory a složky:"
 
 #: settings/viewmodes/viewsettingstab.cpp:119
 #, kde-format
@@ -4017,7 +4016,7 @@ msgstr[2] ""
 #, kde-format
 msgctxt "@title:group"
 msgid "Folder size displays:"
-msgstr ""
+msgstr "Zobrazení velikosti složky:"
 
 #: settings/viewmodes/viewsettingstab.cpp:146
 #, kde-format
@@ -4524,10 +4523,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Nebylo nalezeno zařízení kompatibilní s MTP"
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Nebyla nalezena žádná zařízení Bluetooth"
+msgstr "Nebyla nalezena žádná zařízení Apple"
 
 #: views/dolphinview.cpp:2270
 #, kde-format
@@ -4614,25 +4612,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr ""
+msgstr "Přesunout do koše..."
 
 #: views/dolphinviewactionhandler.cpp:169
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr ""
+msgstr "Smazat..."
 
 #: views/dolphinviewactionhandler.cpp:170
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr ""
+msgstr "Zde duplikovat..."
 
 #: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr ""
+msgstr "Kopírovat umístění..."
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -4925,27 +4923,3 @@ msgstr[2] "Činnosti pro %1 vybraných položek"
 msgctxt "@info:status"
 msgid "Updating version information..."
 msgstr "Aktualizuji informace o verzi..."
-
-#~ msgid "One or more files on this device are open within an application."
-#~ msgstr ""
-#~ "Jeden nebo více souborů z toho zařízení je používáno některou aplikací."
-
-#~ msgid ""
-#~ "One or more files on this device are opened in application <application>"
-#~ "\"%2\"</application>."
-#~ msgid_plural ""
-#~ "One or more files on this device are opened in following applications: "
-#~ "<application>%2</application>."
-#~ msgstr[0] ""
-#~ "Jeden nebo více souborů z toho zařízení je používáno aplikací "
-#~ "<application>\"%2\"</application>."
-#~ msgstr[1] ""
-#~ "Jeden nebo více souborů z toho zařízení je používáno těmito aplikacemi: "
-#~ "<application>%2</application>."
-#~ msgstr[2] ""
-#~ "Jeden nebo více souborů z toho zařízení je používáno těmito aplikacemi: "
-#~ "<application>%2</application>."
-
-#~ msgctxt "separator in list of apps blocking device unmount"
-#~ msgid ", "
-#~ msgstr ", "
