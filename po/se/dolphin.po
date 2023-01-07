@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-13 01:00+0000\n"
+"POT-Creation-Date: 2023-01-01 01:02+0000\n"
 "PO-Revision-Date: 2007-12-15 22:47+0100\n"
 "Last-Translator: Børre Gaup <boerre@skolelinux.no>\n"
 "Language-Team: Northern Sami <l10n-no@lister.huftis.org>\n"
@@ -1980,181 +1980,181 @@ msgctxt "@info:status"
 msgid "Unknown error."
 msgstr ""
 
-#: main.cpp:87
+#: main.cpp:95
 #, kde-format
 msgid "Dolphin"
 msgstr ""
 
-#: main.cpp:88
+#: main.cpp:96
 #, kde-format
 msgctxt "@title"
 msgid "File Manager"
 msgstr "Fiilagieđahalli"
 
-#: main.cpp:90
+#: main.cpp:98
 #, kde-format
 msgctxt "@info:credit"
 msgid "(C) 2006-2022 The Dolphin Developers"
 msgstr ""
 
-#: main.cpp:92
+#: main.cpp:100
 #, kde-format
 msgctxt "@info:credit"
 msgid "Felix Ernst"
 msgstr ""
 
-#: main.cpp:93
+#: main.cpp:101
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer"
 msgstr ""
 
-#: main.cpp:95
+#: main.cpp:103
 #, kde-format
 msgctxt "@info:credit"
 msgid "Méven Car"
 msgstr ""
 
-#: main.cpp:96
+#: main.cpp:104
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (since 2021) and developer (since 2019)"
 msgstr ""
 
-#: main.cpp:98
+#: main.cpp:106
 #, kde-format
 msgctxt "@info:credit"
 msgid "Elvis Angelaccio"
 msgstr ""
 
-#: main.cpp:99
+#: main.cpp:107
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2018-2021) and developer"
 msgstr ""
 
-#: main.cpp:101
+#: main.cpp:109
 #, kde-format
 msgctxt "@info:credit"
 msgid "Emmanuel Pescosta"
 msgstr ""
 
-#: main.cpp:102
+#: main.cpp:110
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2014-2018) and developer"
 msgstr ""
 
-#: main.cpp:104
+#: main.cpp:112
 #, kde-format
 msgctxt "@info:credit"
 msgid "Frank Reininghaus"
 msgstr ""
 
-#: main.cpp:105
+#: main.cpp:113
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer (2012-2014) and developer"
 msgstr ""
 
-#: main.cpp:107
+#: main.cpp:115
 #, kde-format
 msgctxt "@info:credit"
 msgid "Peter Penz"
 msgstr "Peter Penz"
 
-#: main.cpp:108
+#: main.cpp:116
 #, kde-format
 msgctxt "@info:credit"
 msgid "Maintainer and developer (2006-2012)"
 msgstr ""
 
-#: main.cpp:110
+#: main.cpp:118
 #, kde-format
 msgctxt "@info:credit"
 msgid "Sebastian Trüg"
 msgstr ""
 
-#: main.cpp:111 main.cpp:114 main.cpp:117 main.cpp:120 main.cpp:123
-#: main.cpp:126 main.cpp:129
+#: main.cpp:119 main.cpp:122 main.cpp:125 main.cpp:128 main.cpp:131
+#: main.cpp:134 main.cpp:137
 #, kde-format
 msgctxt "@info:credit"
 msgid "Developer"
 msgstr "Ovdánahtti"
 
-#: main.cpp:113
+#: main.cpp:121
 #, kde-format
 msgctxt "@info:credit"
 msgid "David Faure"
 msgstr "David Faure"
 
-#: main.cpp:116
+#: main.cpp:124
 #, kde-format
 msgctxt "@info:credit"
 msgid "Aaron J. Seigo"
 msgstr "Aaron J. Seigo"
 
-#: main.cpp:119
+#: main.cpp:127
 #, kde-format
 msgctxt "@info:credit"
 msgid "Rafael Fernández López"
 msgstr "Rafael Fernández López"
 
-#: main.cpp:122
+#: main.cpp:130
 #, kde-format
 msgctxt "@info:credit"
 msgid "Kevin Ottens"
 msgstr "Kevin Ottens"
 
-#: main.cpp:125
+#: main.cpp:133
 #, kde-format
 msgctxt "@info:credit"
 msgid "Holger Freyther"
 msgstr "Holger Freyther"
 
-#: main.cpp:128
+#: main.cpp:136
 #, kde-format
 msgctxt "@info:credit"
 msgid "Max Blazejak"
 msgstr "Max Blazejak"
 
-#: main.cpp:131
+#: main.cpp:139
 #, kde-format
 msgctxt "@info:credit"
 msgid "Michael Austin"
 msgstr "Michael Austin"
 
-#: main.cpp:132
+#: main.cpp:140
 #, kde-format
 msgctxt "@info:credit"
 msgid "Documentation"
 msgstr "Dokumentašuvdna"
 
-#: main.cpp:141
+#: main.cpp:149
 #, kde-format
 msgctxt "@info:shell"
 msgid "The files and folders passed as arguments will be selected."
 msgstr ""
 
-#: main.cpp:143
+#: main.cpp:151
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will get started with a split view."
 msgstr ""
 
-#: main.cpp:144
+#: main.cpp:152
 #, kde-format
 msgctxt "@info:shell"
 msgid "Dolphin will explicitly open in a new window."
 msgstr ""
 
-#: main.cpp:145
+#: main.cpp:153
 #, kde-format
 msgctxt "@info:shell"
 msgid "Start Dolphin Daemon (only required for DBus Interface)."
 msgstr ""
 
-#: main.cpp:146
+#: main.cpp:154
 #, kde-format
 msgctxt "@info:shell"
 msgid "Document to open"
@@ -2536,7 +2536,7 @@ msgctxt ""
 msgid "Query Results from '%1'"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:154
+#: selectionmode/bottombarcontentscontainer.cpp:153
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied."
@@ -2544,41 +2544,41 @@ msgstr ""
 
 #. i18n: Aborts the current step-by-step process to copy files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:160
-#: selectionmode/bottombarcontentscontainer.cpp:193
-#: selectionmode/bottombarcontentscontainer.cpp:212
+#: selectionmode/bottombarcontentscontainer.cpp:159
+#: selectionmode/bottombarcontentscontainer.cpp:192
+#: selectionmode/bottombarcontentscontainer.cpp:211
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Copying"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:187
+#: selectionmode/bottombarcontentscontainer.cpp:186
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select one file or folder whose location should be copied."
 msgstr ""
 
 #. i18n: "Copy over" refers to copying to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:206
+#: selectionmode/bottombarcontentscontainer.cpp:205
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be copied over."
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:224
+#: selectionmode/bottombarcontentscontainer.cpp:223
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be cut."
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to cut files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:230
+#: selectionmode/bottombarcontentscontainer.cpp:229
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Cutting"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:257
+#: selectionmode/bottombarcontentscontainer.cpp:256
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be permanently deleted."
@@ -2587,21 +2587,21 @@ msgstr ""
 # unreviewed-context
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
 #. i18n: Aborts the current step-by-step process of moving files to the trash by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:263
-#: selectionmode/bottombarcontentscontainer.cpp:364
+#: selectionmode/bottombarcontentscontainer.cpp:262
+#: selectionmode/bottombarcontentscontainer.cpp:363
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel"
 msgstr "Gaskkalduhte"
 
-#: selectionmode/bottombarcontentscontainer.cpp:275
+#: selectionmode/bottombarcontentscontainer.cpp:274
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be duplicated here."
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to duplicate files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:281
+#: selectionmode/bottombarcontentscontainer.cpp:280
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Duplicating"
@@ -2609,33 +2609,33 @@ msgstr ""
 
 #. i18n: This button appears in a bar if there isn't enough horizontal space to fit all the other buttons so please keep it short.
 #. The small button opens a menu that contains the actions that didn't fit on the bar.
-#: selectionmode/bottombarcontentscontainer.cpp:296
+#: selectionmode/bottombarcontentscontainer.cpp:295
 #, kde-format
 msgctxt "@action keep short"
 msgid "More"
 msgstr ""
 
 #. i18n: "Move over" refers to moving to the other split view area that is currently visible to the user.
-#: selectionmode/bottombarcontentscontainer.cpp:340
+#: selectionmode/bottombarcontentscontainer.cpp:339
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved over."
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to copy the location of files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:346
+#: selectionmode/bottombarcontentscontainer.cpp:345
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Moving"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:358
+#: selectionmode/bottombarcontentscontainer.cpp:357
 #, kde-format
 msgctxt "@info explaining the next step in a process"
 msgid "Select the files and folders that should be moved to the Trash."
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:376
+#: selectionmode/bottombarcontentscontainer.cpp:375
 #, kde-kuit-format
 msgid ""
 "<para>The selected files and folders were added to the Clipboard. Now the "
@@ -2645,26 +2645,26 @@ msgid ""
 "para>"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:396
+#: selectionmode/bottombarcontentscontainer.cpp:395
 #, kde-format
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:401
+#: selectionmode/bottombarcontentscontainer.cpp:400
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:403
+#: selectionmode/bottombarcontentscontainer.cpp:402
 #, kde-format
 msgctxt "@action Dismisses an explanatory area and never shows it again"
 msgid "Don't Remind Me Again"
 msgstr ""
 
-#: selectionmode/bottombarcontentscontainer.cpp:419
+#: selectionmode/bottombarcontentscontainer.cpp:418
 #, kde-format
 msgctxt "@info explains the next step in a process"
 msgid ""
@@ -2673,7 +2673,7 @@ msgid ""
 msgstr ""
 
 #. i18n: Aborts the current step-by-step process to delete files by leaving the selection mode.
-#: selectionmode/bottombarcontentscontainer.cpp:425
+#: selectionmode/bottombarcontentscontainer.cpp:424
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
@@ -2684,7 +2684,7 @@ msgstr ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:568
+#: selectionmode/bottombarcontentscontainer.cpp:567
 #, kde-format
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
@@ -2697,7 +2697,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:579
+#: selectionmode/bottombarcontentscontainer.cpp:578
 #, kde-format
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
@@ -2710,7 +2710,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:587
+#: selectionmode/bottombarcontentscontainer.cpp:586
 #, kde-format
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
@@ -2723,7 +2723,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:595
+#: selectionmode/bottombarcontentscontainer.cpp:594
 #, kde-format
 msgctxt "@action"
 msgid "Permanently Delete %2"
@@ -2736,7 +2736,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:603
+#: selectionmode/bottombarcontentscontainer.cpp:602
 #, kde-format
 msgctxt "@action"
 msgid "Duplicate %2"
@@ -2749,7 +2749,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:611
+#: selectionmode/bottombarcontentscontainer.cpp:610
 #, kde-format
 msgctxt "@action"
 msgid "Move %2 to the Trash"
@@ -2762,7 +2762,7 @@ msgstr[1] ""
 #. the file/files like "file1" or "file1, file2 and file3" or an aggregate like "8 Selected Folders".
 #. If this sort of word puzzle can not be correctly translated in your language, translate it as "NULL" (without the quotes)
 #. and a fallback will be used.
-#: selectionmode/bottombarcontentscontainer.cpp:619
+#: selectionmode/bottombarcontentscontainer.cpp:618
 #, kde-format
 msgctxt "@action"
 msgid "Rename %2"
@@ -2770,7 +2770,7 @@ msgid_plural "Rename %2"
 msgstr[0] ""
 msgstr[1] ""
 
-#: selectionmode/topbar.cpp:33
+#: selectionmode/topbar.cpp:32
 #, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
@@ -2784,19 +2784,19 @@ msgid ""
 "the current selection.</para>"
 msgstr ""
 
-#: selectionmode/topbar.cpp:59
+#: selectionmode/topbar.cpp:58
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
 
-#: selectionmode/topbar.cpp:61
+#: selectionmode/topbar.cpp:60
 #, kde-format
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode"
 msgstr ""
 
-#: selectionmode/topbar.cpp:67
+#: selectionmode/topbar.cpp:66
 #, kde-format
 msgctxt "@action:button"
 msgid "Exit Selection Mode"
