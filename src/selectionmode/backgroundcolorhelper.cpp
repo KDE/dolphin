@@ -56,7 +56,7 @@ void BackgroundColorHelper::slotPaletteChanged()
         while (!*i) {
             i = m_colorControlledWidgets.erase(i);
             if (i == m_colorControlledWidgets.end()) {
-                break;
+                return;
             }
         }
         setBackgroundColorForWidget(*i, m_backgroundColor);
