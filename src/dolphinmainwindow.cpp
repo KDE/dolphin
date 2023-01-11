@@ -2342,6 +2342,8 @@ void DolphinMainWindow::refreshViews()
         updateWindowTitle();
     }
 
+    updateSplitAction();
+
     Q_EMIT settingsChanged();
 }
 
