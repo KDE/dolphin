@@ -5,7 +5,7 @@
 # Youssef Chahibi <chahibi@gmail.com>, 2007.
 # محمد الحرقان <imksa@hotmail.com>, 2008.
 # Anas Husseini <linux.anas@gmail.com>, 2008.
-# zayed <zayed.alsaidi@gmail.com>, 2008, 2012, 2021, 2022.
+# zayed <zayed.alsaidi@gmail.com>, 2008, 2012, 2021, 2022, 2023.
 # OsamaKhalid <osamak.wfm@gmail.com>, 2009.
 # Abdalrahim G. Fakhouri <abdilra7eem@yahoo.com>, 2012.
 # Safa Alfulaij <safaalfulaij@hotmail.con>, 2013, 2014, ٢٠١٦, 2017.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:59+0000\n"
-"PO-Revision-Date: 2022-12-22 09:01+0400\n"
+"PO-Revision-Date: 2023-01-14 16:27+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: ar\n"
 "Language: ar\n"
@@ -816,7 +816,7 @@ msgstr "افتح في نافذة جديدة"
 #, kde-format
 msgctxt "@action:inmenu Panels"
 msgid "Unlock Panels"
-msgstr "أزر قفل اللوحات"
+msgstr "فكّ قُفْل اللوحات"
 
 #: dolphinmainwindow.cpp:2005
 #, kde-format
