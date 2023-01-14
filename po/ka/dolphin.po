@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2022-10-29 05:23+0200\n"
+"PO-Revision-Date: 2023-01-14 04:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -188,8 +188,9 @@ msgstr "სასურველი ძებნის ხელსაწყო�
 #, kde-format
 msgid "Are you sure you want to open 1 terminal window?"
 msgid_plural "Are you sure you want to open %1 terminal windows?"
-msgstr[0] ""
+msgstr[0] "დარწმუნებული ბრძანდებით, რომ გნებავთ, გახსნათ 1 ტერმინალის ფანჯარა?"
 msgstr[1] ""
+"დარწმუნებული ბრძანდებით, რომ გნებავთ, გახსნათ %1 ტერმინალის ფანჯარა?"
 
 #: dolphinmainwindow.cpp:1186
 #, kde-format
@@ -355,19 +356,19 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Copy to Inactive Split View"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე კოპირება"
 
 #: dolphinmainwindow.cpp:1643
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა"
 
 #: dolphinmainwindow.cpp:1644
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა…"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -381,7 +382,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Move to Inactive Split View"
-msgstr ""
+msgstr "არააქტიურ გაყოფილ ხედზე გადასვლა"
 
 #: dolphinmainwindow.cpp:1653
 #, kde-format
@@ -510,7 +511,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:intoolbar Stash"
 msgid "Stash"
-msgstr ""
+msgstr "შენახვა საკუჭნაოში"
 
 #: dolphinmainwindow.cpp:1752
 #, kde-format
@@ -1098,12 +1099,12 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Defocus Terminal Panel"
-msgstr ""
+msgstr "ტერმინალის პანელიდან ფოკუსის მოხსნა"
 
 #: dolphinnavigatorswidgetaction.cpp:205
 #, kde-format
 msgid "Enter server URL (e.g. smb://[ip address])"
-msgstr ""
+msgstr "შეიყვანეთ სერვერის URL (მაგ: smb://[ip address])"
 
 #: dolphinnavigatorswidgetaction.cpp:232
 #, kde-format
@@ -1114,7 +1115,7 @@ msgstr "ნაგვის დაცარიელება"
 #: dolphinnavigatorswidgetaction.cpp:233
 #, kde-format
 msgid "Empties Trash to create free space"
-msgstr ""
+msgstr "ნაგვის გასუფთავება მეტი ადგილის მისაღებად"
 
 #: dolphinnavigatorswidgetaction.cpp:260
 #, kde-format
@@ -1371,7 +1372,7 @@ msgstr "ძებნა..."
 #, kde-format
 msgctxt "@info:status"
 msgid "No items found."
-msgstr ""
+msgstr "ჩანაწერები ნაპოვნი არაა."
 
 #: dolphinviewcontainer.cpp:835
 #, kde-format
@@ -1396,7 +1397,7 @@ msgstr "არასწორი პროტოკოლი"
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Keep Filter When Changing Folders"
-msgstr ""
+msgstr "საქაღალდეების შეცვლისას ფილტრის შენარჩუნება"
 
 #: filterbar/filterbar.cpp:34
 #, kde-format
@@ -2152,7 +2153,7 @@ msgstr "გასახსნელი დოკუმენტი"
 #: panels/folders/dolphin_folderspanelsettings.kcfg:10
 #, kde-format
 msgid "Hidden files shown"
-msgstr ""
+msgstr "დამალული ფაილების ჩვენება"
 
 #. i18n: ectx: label, entry (LimitFoldersPanelToHome), group (FoldersPanel)
 #: panels/folders/dolphin_folderspanelsettings.kcfg:14
@@ -2164,7 +2165,7 @@ msgstr ""
 #: panels/folders/dolphin_folderspanelsettings.kcfg:18
 #, kde-format
 msgid "Automatic scrolling"
-msgstr ""
+msgstr "ავტომატური გადახვევა"
 
 #: panels/folders/treeviewcontextmenu.cpp:53
 #, kde-format
@@ -2230,7 +2231,7 @@ msgstr "გადახედვები ნაჩვენებია"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr ""
+msgstr "მედია ფაილების ავტომატური დაკვრა"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -2260,13 +2261,13 @@ msgstr "მორგება..."
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Condensed Date"
-msgstr ""
+msgstr "თარიღის მოკლე ფორმატი"
 
 #: panels/information/informationpanelcontent.cpp:109
 #, kde-format
 msgctxt "@label::textbox"
 msgid "Select which data should be shown:"
-msgstr ""
+msgstr "აირჩიეთ საჩვენებელი მონაცემები:"
 
 #: panels/information/informationpanelcontent.cpp:303
 #, kde-format
@@ -2488,7 +2489,7 @@ msgstr "აქედან (%1)"
 #, kde-format
 msgctxt "action:button"
 msgid "Limit search to '%1' and its subfolders"
-msgstr ""
+msgstr "ძებნის '%1'-ზე და მის ქვესაქაღალდეებზე შეზღუდვა"
 
 #: search/dolphinsearchbox.cpp:345
 #, kde-format
@@ -2535,7 +2536,7 @@ msgstr "თქვენს საწყის საქაღალდეში 
 #: search/dolphinsearchbox.cpp:399
 #, kde-format
 msgid "More Search Tools"
-msgstr ""
+msgstr "მეტი ძებნის ხელსაწყო"
 
 #: search/dolphinsearchbox.cpp:461
 #, kde-format
@@ -2658,7 +2659,7 @@ msgstr ""
 msgctxt ""
 "@action A more elaborate and clearly worded version of the Paste action"
 msgid "Paste from Clipboard"
-msgstr ""
+msgstr "გაცვლის ბუფერიდან ჩასმა"
 
 #: selectionmode/bottombarcontentscontainer.cpp:401
 #, kde-format
@@ -2685,7 +2686,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:button"
 msgid "Cancel Renaming"
-msgstr ""
+msgstr "სახელის გადარქმევის გაუქმება"
 
 #. i18n: A more elaborate and clearly worded version of the Copy action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2697,8 +2698,8 @@ msgstr ""
 msgctxt "@action"
 msgid "Copy %2 to the Clipboard"
 msgid_plural "Copy %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2-ის ბუფერში კოპირება"
+msgstr[1] "%2-ის ბუფერში კოპირება"
 
 #. i18n: A more elaborate and clearly worded version of the Copy Location action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2710,8 +2711,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Copy the Location of %2 to the Clipboard"
 msgid_plural "Copy the Location of %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2-ის მდებარეობის ბუფერში კოპირება"
+msgstr[1] "%2-ის მდებარეობის ბუფერში კოპირება"
 
 #. i18n: A more elaborate and clearly worded version of the Cut action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2723,8 +2724,8 @@ msgstr[1] ""
 msgctxt "@action"
 msgid "Cut %2 to the Clipboard"
 msgid_plural "Cut %2 to the Clipboard"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%2-ის ბუფერში ამოჭრა"
+msgstr[1] "%2-ის ბუფერში ამოჭრა"
 
 #. i18n: A more elaborate and clearly worded version of the Delete action
 #. %2 is a textual representation of the currently selected files or folders. This can be the name of
@@ -2826,7 +2827,7 @@ msgstr "ძებნა..."
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
-msgstr ""
+msgstr "ახალი სერვისის გადმოწერა..."
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -2912,49 +2913,51 @@ msgstr ""
 #: settings/dolphin_contextmenusettings.kcfg:18
 #, kde-format
 msgid "Show 'Sort By' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'დალაგების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowViewMode), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:22
 #, kde-format
 msgid "Show 'View Mode' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ხედის რეჟიმის' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenInNewTab), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:26
 #, kde-format
 msgid "Show 'Open in New Tab' and 'Open in New Tabs' in context menu."
 msgstr ""
+"კონტექსტურ მენიუში 'ახალ ჩანართში გახსნა' და 'ახალ ჩანართებში გახსნა'-ის "
+"ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenInNewWindow), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ახალ ფანჯარაში გახსნის' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
 #, kde-format
 msgid "Show 'Copy Location' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'მდებარეობის კოპირების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowDuplicateHere), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:38
 #, kde-format
 msgid "Show 'Duplicate Here' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'აქ დუბლირების' ჩვენება."
 
 #. i18n: ectx: label, entry (ShowOpenTerminal), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:42
 #, kde-format
 msgid "Show 'Open Terminal' in context menu."
-msgstr ""
+msgstr "კონტექსტურ მენიუში 'ტერმინალის გახსნის' ჩვენება."
 
 #. i18n: ectx: label, entry (ColumnPositions), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:27
 #, kde-format
 msgid "Position of columns"
-msgstr ""
+msgstr "სვეტების მდებარეობა"
 
 #. i18n: ectx: label, entry (SidePadding), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:31
@@ -2966,13 +2969,13 @@ msgstr ""
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "მთელი მწკრივის გამოკვეთა"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
 #, kde-format
 msgid "Expandable folders"
-msgstr ""
+msgstr "გაშლადი საქაღალდეები"
 
 #. i18n: ectx: label, entry (DirectorySizeCount), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:43
@@ -2984,7 +2987,7 @@ msgstr ""
 #: settings/dolphin_detailsmodesettings.kcfg:47
 #, kde-format
 msgid "Recursive directory size limit"
-msgstr ""
+msgstr "რეკურსიული საქაღალდის ზომის ლიმიტი"
 
 #. i18n: ectx: label, entry (UseShortRelativeDates), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:51
@@ -2997,7 +3000,7 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Hidden files shown"
-msgstr ""
+msgstr "დამალული ფაილების ჩვენება"
 
 #. i18n: ectx: whatsthis, entry (HiddenFilesShown), group (Settings)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:12
@@ -3090,42 +3093,42 @@ msgstr ""
 #, kde-format
 msgctxt "@label"
 msgid "Order in which to sort files"
-msgstr ""
+msgstr "ფაილების დალაგების მიმდევრობა"
 
 #. i18n: ectx: label, entry (SortFoldersFirst), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:56
 #, kde-format
 msgctxt "@label"
 msgid "Show folders first when sorting files and folders"
-msgstr ""
+msgstr "ფაილებისა და საქაღალდეების დალაგებისას საქაღალდეების ჩვენება"
 
 #. i18n: ectx: label, entry (SortHiddenLast), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:61
 #, kde-format
 msgctxt "@label"
 msgid "Show hidden files and folders last"
-msgstr ""
+msgstr "დამალული ფაილებისა და საქაღალდეების ბოლოს ჩვენება"
 
 #. i18n: ectx: label, entry (VisibleRoles), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:66
 #, kde-format
 msgctxt "@label"
 msgid "Visible roles"
-msgstr ""
+msgstr "ხილული როლები"
 
 #. i18n: ectx: label, entry (HeaderColumnWidths), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:71
 #, kde-format
 msgctxt "@label"
 msgid "Header column widths"
-msgstr ""
+msgstr "თავსართის სვეტის სიგანეები"
 
 #. i18n: ectx: label, entry (Timestamp), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:76
 #, kde-format
 msgctxt "@label"
 msgid "Properties last changed"
-msgstr ""
+msgstr "ბოლოს შეცვლილი თვისებები"
 
 #. i18n: ectx: whatsthis, entry (Timestamp), group (Dolphin)
 #: settings/dolphin_directoryviewpropertysettings.kcfg:77
@@ -3212,7 +3215,7 @@ msgstr "ხედის ორ ნაწილად დაყოფა"
 #: settings/dolphin_generalsettings.kcfg:59
 #, kde-format
 msgid "Should the filter bar be shown"
-msgstr ""
+msgstr "ნაჩვენები იქნება ფილტრის პანელი, თუ არა"
 
 #. i18n: ectx: label, entry (GlobalViewProps), group (General)
 #: settings/dolphin_generalsettings.kcfg:63
@@ -3224,7 +3227,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:67
 #, kde-format
 msgid "Browse through archives"
-msgstr ""
+msgstr "არქივებში ძებნა"
 
 #. i18n: ectx: label, entry (ConfirmClosingMultipleTabs), group (General)
 #: settings/dolphin_generalsettings.kcfg:71
@@ -3244,7 +3247,7 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:79
 #, kde-format
 msgid "Rename inline"
-msgstr ""
+msgstr "ხაზშივე გადარქმევა"
 
 #. i18n: ectx: label, entry (ShowSelectionToggle), group (General)
 #: settings/dolphin_generalsettings.kcfg:83
@@ -3318,13 +3321,13 @@ msgstr ""
 #: settings/dolphin_generalsettings.kcfg:127
 #, kde-format
 msgid "Lock the layout of the panels"
-msgstr ""
+msgstr "პანელების განლაგების დაბლოკვა"
 
 #. i18n: ectx: label, entry (EnlargeSmallPreviews), group (General)
 #: settings/dolphin_generalsettings.kcfg:131
 #, kde-format
 msgid "Enlarge Small Previews"
-msgstr ""
+msgstr "პატარა მინიატურების გადიდება"
 
 #. i18n: ectx: label, entry (SortingChoice), group (General)
 #: settings/dolphin_generalsettings.kcfg:140
@@ -3484,7 +3487,7 @@ msgstr "მონიშვნის მაჩვენებლის ჩვე�
 #, kde-format
 msgctxt "option:check"
 msgid "Rename inline"
-msgstr ""
+msgstr "ხაზშივე გადარქმევა"
 
 #: settings/general/behaviorsettingspage.cpp:87
 #, kde-format
@@ -3519,19 +3522,19 @@ msgstr ""
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Moving files or folders to trash"
-msgstr ""
+msgstr "ფაილების გადაადგილება ნაგვის ურნაში"
 
 #: settings/general/confirmationssettingspage.cpp:54
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Emptying trash"
-msgstr ""
+msgstr "სანაგვე ყუთის დაცარიელება"
 
 #: settings/general/confirmationssettingspage.cpp:56
 #, kde-format
 msgctxt "@option:check Ask for confirmation when"
 msgid "Deleting files or folders"
-msgstr ""
+msgstr "ფაილების და საქაღალდეების წაშლა"
 
 #: settings/general/confirmationssettingspage.cpp:58
 #, kde-format
@@ -4421,13 +4424,13 @@ msgstr ""
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
-msgstr ""
+msgstr "მდებარეობა ცარიელია."
 
 #: views/dolphinview.cpp:1956
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
-msgstr ""
+msgstr "მდებარეობა\"%1\" არასწორია."
 
 #: views/dolphinview.cpp:2202
 #, kde-format
@@ -4437,7 +4440,7 @@ msgstr "იტვირთება..."
 #: views/dolphinview.cpp:2221
 #, kde-format
 msgid "Loading canceled"
-msgstr ""
+msgstr "ჩატვირთვა გაუქმდა"
 
 #: views/dolphinview.cpp:2223
 #, kde-format
@@ -4760,7 +4763,7 @@ msgstr "ხატულები"
 #, kde-format
 msgctxt "@info"
 msgid "Icons view mode"
-msgstr ""
+msgstr "ხატულების ხედის რეჟიმი"
 
 #: views/dolphinviewactionhandler.cpp:657
 #, kde-format
@@ -4772,7 +4775,7 @@ msgstr "დაპატარავება"
 #, kde-format
 msgctxt "@info"
 msgid "Compact view mode"
-msgstr ""
+msgstr "კომპაქტური ხედის რეჟიმი"
 
 #: views/dolphinviewactionhandler.cpp:668
 #, kde-format
@@ -4784,7 +4787,7 @@ msgstr ""
 #, kde-format
 msgctxt "@info"
 msgid "Details view mode"
-msgstr ""
+msgstr "დეტალების ჩვენების რეჟიმი"
 
 #: views/dolphinviewactionhandler.cpp:692
 #, kde-format
