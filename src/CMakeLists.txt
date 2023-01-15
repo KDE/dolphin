@@ -208,6 +208,7 @@ target_link_libraries(
     KF5::Parts
     KF5::WindowSystem
     KF5::WidgetsAddons
+    KF5::Codecs
 )
 
 if(HAVE_BALOO)

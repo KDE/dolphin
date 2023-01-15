@@ -76,6 +76,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     Crash
     WindowSystem
     WidgetsAddons
+    Codecs
 )
 
 find_package(KUserFeedback 1.2.0)

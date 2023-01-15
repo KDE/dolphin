@@ -25,6 +25,7 @@ Dependencies:
     'frameworks/kdoctools': '@stable'
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kfilemetadata': '@stable'
+    'frameworks/kcodecs': '@stable'
     'libraries/kuserfeedback': '@stable'
     'libraries/phonon': '@stable'
 
