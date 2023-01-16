@@ -100,7 +100,7 @@ static void merge(RandomAccessIterator begin,
 
     if (len1 + len2 == 2) {
         if (lessThan(*(begin + 1), *(begin))) {
-            qSwap(*begin, *(begin + 1));
+            std::swap(*begin, *(begin + 1));
         }
         return;
     }

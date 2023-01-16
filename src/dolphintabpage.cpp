@@ -120,7 +120,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
 
                     // If the primary view is active, we have to swap the pointers
                     // because the secondary view will be the new primary view.
-                    qSwap(m_primaryViewContainer, m_secondaryViewContainer);
+                    std::swap(m_primaryViewContainer, m_secondaryViewContainer);
                     m_primaryViewActive = false;
                 }
             } else {
@@ -132,7 +132,7 @@ void DolphinTabPage::setSplitViewEnabled(bool enabled, Animated animated, const 
 
                     // If the secondary view is active, we have to swap the pointers
                     // because the secondary view will be the new primary view.
-                    qSwap(m_primaryViewContainer, m_secondaryViewContainer);
+                    std::swap(m_primaryViewContainer, m_secondaryViewContainer);
                     m_primaryViewActive = true;
                 }
             }
