@@ -1196,7 +1196,7 @@ msgid ""
 msgstr ""
 "Obri una finestra a on es poden canviar moltes opcions d'esta aplicació. Per "
 "a una explicació de les diverses opcions aneu al capítol "
-"<emphasis>Configuració de Dolphin</emphasis> a <interface>Ajuda|Manual de "
+"<emphasis>Configureu Dolphin</emphasis> a <interface>Ajuda|Manual de "
 "Dolphin</interface>."
 
 #. i18n: If the external link isn't available in your language it might make
