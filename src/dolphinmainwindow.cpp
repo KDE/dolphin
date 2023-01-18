@@ -1781,7 +1781,7 @@ void DolphinMainWindow::setupActions()
     toggleFilter->setToolTip(showFilterBar->toolTip());
     toggleFilter->setWhatsThis(showFilterBar->whatsThis());
     toggleFilter->setCheckable(true);
-    connect(toggleFilter, &QAction::triggered, this, &DolphinMainWindow::toggleFilterBar);
+    connect(toggleFilter, &QAction::toggled, this, &DolphinMainWindow::toggleFilterBar);
 
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search…"));
@@ -2563,9 +2563,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
 
+    
     const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
-
+    
     // Make the toggled state of the selection mode actions visually follow the selection mode state of the view.
     auto toggleSelectionModeAction = actionCollection()->action(QStringLiteral("toggle_selection_mode"));
     toggleSelectionModeAction->setChecked(m_activeViewContainer->isSelectionModeEnabled());

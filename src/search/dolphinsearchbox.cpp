@@ -348,6 +348,7 @@ void DolphinSearchBox::init()
     // Create search box
     m_searchInput = new QLineEdit(contentsContainer);
     m_searchInput->setPlaceholderText(i18n("Search…"));
+    m_searchInput->setObjectName(QStringLiteral("searchField"));
     m_searchInput->installEventFilter(this);
     m_searchInput->setClearButtonEnabled(true);
     m_searchInput->setFont(QFontDatabase::systemFont(QFontDatabase::GeneralFont));
