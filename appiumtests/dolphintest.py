@@ -58,19 +58,24 @@ class DolphinTests(unittest.TestCase):
         locationBar.send_keys("{}/testDir".format(os.environ["HOME"]))
         editButton.click()
 
-        print(self.driver.page_source, file=sys.stderr)
         elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
         print("Cells: {}".format(elements), file=sys.stderr)
-
-        time.sleep(3)
+        self.assertEqual(len(elements), 2)
+        self.assertEqual(elements[0].text, "test2.txt")
+        self.assertEqual(elements[1].text, "test1.txt")
 
     def test_search_bar(self):
         self.driver.find_element(by=AppiumBy.NAME, value="Search").click()
         searchField = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="searchField")
         searchField.send_keys("test1.txt")
         self.assertEqual(searchField.text, "test1.txt")
-        #self.assertEqual(searchField.text, "bah")
-        time.sleep(2)
+        time.sleep(1)
+        #FIXME: this still crashes
+        #wait = WebDriverWait(self.driver, 50)
+        #wait.until(lambda x: len(self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")) == 1)
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
+        self.assertEqual(len(elements), 1)
+        self.assertEqual(elements[0].text, "test1.txt")
 
 
         #wait = WebDriverWait(self.driver, 50)
