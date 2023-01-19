@@ -48,11 +48,21 @@ class DolphinTests(unittest.TestCase):
         self.assertEqual(self.getresults(), expected)
 
     def test_location(self):
-        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="KUrlNavigatorToggleButton").click()
-        locationBar = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="DolphinUrlNavigator.KUrlComboBox")
-        print("AAAAAAAAAAAAAAA {}".format(locationBar), file=sys.stderr)
+        editButton = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="KUrlNavigatorToggleButton")
+        editButton.click()
+
+        # clear contents
+        self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="DolphinUrlNavigator.KUrlComboBox.KLineEdit.QLineEditIconButton").click()
+
+        locationBar = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="DolphinUrlNavigator.KUrlComboBox.KLineEdit")
         locationBar.send_keys("{}/testDir".format(os.environ["HOME"]))
-        time.sleep(8)
+        editButton.click()
+
+        print(self.driver.page_source, file=sys.stderr)
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
+        print("Cells: {}".format(elements), file=sys.stderr)
+
+        time.sleep(3)
 
     def test_search_bar(self):
         self.driver.find_element(by=AppiumBy.NAME, value="Search").click()
