@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 00:59+0000\n"
-"PO-Revision-Date: 2023-01-11 17:48+0300\n"
+"PO-Revision-Date: 2023-01-13 17:48+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -3303,7 +3303,7 @@ msgstr "Отступ перед столбцом"
 #: settings/dolphin_detailsmodesettings.kcfg:35
 #, kde-format
 msgid "Highlight entire row"
-msgstr ""
+msgstr "Выделять всю строку"
 
 #. i18n: ectx: label, entry (ExpandableFolders), group (DetailsMode)
 #: settings/dolphin_detailsmodesettings.kcfg:39
@@ -4876,10 +4876,9 @@ msgid "No MTP-compatible devices found"
 msgstr "Не найдено ни одного MTP-совместимого устройства."
 
 #: views/dolphinview.cpp:2268
-#, fuzzy, kde-format
-#| msgid "No Bluetooth devices found"
+#, kde-format
 msgid "No Apple devices found"
-msgstr "Не найдено ни одного устройства Bluetooth."
+msgstr "Не найдено ни одного устройства Apple."
 
 #: views/dolphinview.cpp:2270
 #, kde-format
