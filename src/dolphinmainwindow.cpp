@@ -1781,7 +1781,7 @@ void DolphinMainWindow::setupActions()
     toggleFilter->setToolTip(showFilterBar->toolTip());
     toggleFilter->setWhatsThis(showFilterBar->whatsThis());
     toggleFilter->setCheckable(true);
-    connect(toggleFilter, &QAction::toggled, this, &DolphinMainWindow::toggleFilterBar);
+    connect(toggleFilter, &QAction::triggered, this, &DolphinMainWindow::toggleFilterBar);
 
     QAction *searchAction = KStandardAction::find(this, &DolphinMainWindow::find, actionCollection());
     searchAction->setText(i18n("Search…"));
@@ -2563,7 +2563,6 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer *container)
     connect(container, &DolphinViewContainer::tabRequested, this, &DolphinMainWindow::openNewTab);
     connect(container, &DolphinViewContainer::activeTabRequested, this, &DolphinMainWindow::openNewTabAndActivate);
 
-    
     const QAction *toggleSearchAction = actionCollection()->action(QStringLiteral("toggle_search"));
     connect(toggleSearchAction, &QAction::triggered, container, &DolphinViewContainer::setSearchModeEnabled);
     
