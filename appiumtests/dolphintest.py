@@ -40,6 +40,9 @@ class DolphinTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        os.remove("{}/testDir/test1.txt".format(os.environ["HOME"]))
+        os.remove("{}/testDir/test2.txt".format(os.environ["HOME"]))
+        os.rmdir("{}/testDir".format(os.environ["HOME"]))
         self.driver.quit()
 
     def assertResult(self, actual, expected):
@@ -47,7 +50,7 @@ class DolphinTests(unittest.TestCase):
         wait.until(lambda x: self.getresults() == expected)
         self.assertEqual(self.getresults(), expected)
 
-    def test_location(self):
+    def test_1_location(self):
         editButton = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="KUrlNavigatorToggleButton")
         editButton.click()
 
@@ -59,7 +62,22 @@ class DolphinTests(unittest.TestCase):
         editButton.click()
 
         elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
-        print("Cells: {}".format(elements), file=sys.stderr)
+        self.assertEqual(len(elements), 2)
+        self.assertEqual(elements[0].text, "test2.txt")
+        self.assertEqual(elements[1].text, "test1.txt")
+
+    def test_2_filter_bar(self):
+        self.driver.find_element(by=AppiumBy.NAME, value="Filter").click()
+        searchField = self.driver.find_element(by=AppiumBy.ACCESSIBILITY_ID, value="FilterBar.QLineEdit")
+        searchField.send_keys("test2.txt")
+        self.assertEqual(searchField.text, "test2.txt")
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
+        self.assertEqual(len(elements), 1)
+        self.assertEqual(elements[0].text, "test2.txt")
+
+        # should see both files now
+        self.driver.find_element(by=AppiumBy.NAME, value="Filter").click()
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
         self.assertEqual(len(elements), 2)
         self.assertEqual(elements[0].text, "test2.txt")
         self.assertEqual(elements[1].text, "test1.txt")
@@ -77,10 +95,13 @@ class DolphinTests(unittest.TestCase):
         self.assertEqual(len(elements), 1)
         self.assertEqual(elements[0].text, "test1.txt")
 
+        # should see both files now
+        self.driver.find_element(by=AppiumBy.NAME, value="Search").click()
+        elements = self.driver.find_elements(by=AppiumBy.XPATH, value="//table_cell")
+        self.assertEqual(len(elements), 2)
+        self.assertEqual(elements[0].text, "test2.txt")
+        self.assertEqual(elements[1].text, "test1.txt")
 
-        #wait = WebDriverWait(self.driver, 50)
-        #wait.until(lambda x: self.compareMonthLabel(nextMonthDate))
-        #self.assertEqual(self.compareMonthLabel(nextMonthDate), True)
 
 if __name__ == '__main__':
     suite = unittest.TestLoader().loadTestsFromTestCase(DolphinTests)
