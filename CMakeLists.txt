@@ -157,6 +157,7 @@ ecm_set_disabled_deprecation_versions(
 
 add_subdirectory(src)
 add_subdirectory(doc)
+add_subdirectory(appiumtests)
 
 # CMake files
 set(CMAKECONFIG_INSTALL_DIR "${KDE_INSTALL_CMAKEPACKAGEDIR}/DolphinVcs")
