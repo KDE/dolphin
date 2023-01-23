@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 01:00+0000\n"
-"PO-Revision-Date: 2023-01-13 17:48+0300\n"
+"PO-Revision-Date: 2023-01-22 14:41+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -1179,13 +1179,7 @@ msgstr ""
 "настроить комбинации клавиш для всех возможных действий.</para>"
 
 #: dolphinmainwindow.cpp:2543
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1194,9 +1188,8 @@ msgid ""
 msgstr ""
 "<para>Этот пункт меню служит для открытия диалога, позволяющего настроить "
 "набор кнопок, расположенных на <emphasis>Панели инструментов</emphasis>.</"
-"para> <para>Все пункты, которые содержатся в меню <interface>Управление</"
-"interface> или в <interface>Строке меню</interface>, также могут быть "
-"размещены на панели инструментов. </para>"
+"para> <para>Все пункты, которые содержатся в <interface>меню</interface>, "
+"также могут быть размещены на панели инструментов. </para>"
 
 #: dolphinmainwindow.cpp:2547
 #, kde-kuit-format
@@ -1538,12 +1531,10 @@ msgstr "Закрыть вкладку"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:506
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1551,7 +1542,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
@@ -1690,6 +1681,8 @@ msgstr "Неверный протокол"
 msgid ""
 "Current location changed, <filename>%1</filename> is no longer accessible."
 msgstr ""
+"Текущее расположение было изменено, файл <filename>%1</filename> более "
+"недоступен."
 
 #: filterbar/filterbar.cpp:26
 #, kde-format
@@ -2987,6 +2980,10 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Выбранные файлы и папки были скопированы в буфер обмена. С помощью "
+"действия <emphasis>Вставить</emphasis> их можно вставить из буфера обмена в "
+"любое другое место. Также поддерживается передача файлов в другие приложения "
+"с помощью действия <emphasis>Вставить</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:395
 #, kde-format
@@ -2999,7 +2996,7 @@ msgstr "Вставить из буфера обмена"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Скрыть напоминание"
 
 #: selectionmode/bottombarcontentscontainer.cpp:402
 #, kde-format
@@ -3148,6 +3145,8 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Режим выделения: нажимайте на файлы и папки для их добавления в выделение "
+"или удаления из него"
 
 #: selectionmode/topbar.cpp:60
 #, kde-format
@@ -3633,6 +3632,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Открывать панель вставки файлов при копировании или вырезании в режиме "
+"выделения с использованием нижней панели."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91

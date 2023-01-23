@@ -6,13 +6,13 @@
 # Muhammet Kara <muhammet.k@gmail.com>, 2011.
 # obsoleteman <tulliana@gmail.com>, 2007-2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2017, 2018, 2020, 2021.
-# Emir SARI <emir_sari@icloud.com>, 2022.
+# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-22 01:00+0000\n"
-"PO-Revision-Date: 2022-12-13 19:39+0300\n"
+"PO-Revision-Date: 2023-01-22 19:11+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1497,12 +1497,10 @@ msgstr "Sekmeyi Kapat"
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
 #: dolphintabwidget.cpp:506
-#, fuzzy, kde-format
-#| msgctxt "@info:status files (size)"
-#| msgid "%1 (%2)"
+#, kde-format
 msgctxt "@title:tab Active primary view | (Inactive secondary view)"
 msgid "%1 | (%2)"
-msgstr "%1 (%2)"
+msgstr "%1 | (%2)"
 
 #. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
 #. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
@@ -1510,7 +1508,7 @@ msgstr "%1 (%2)"
 #, kde-format
 msgctxt "@title:tab (Inactive primary view) | Active secondary view"
 msgid "(%1) | %2"
-msgstr ""
+msgstr "(%1) | %2"
 
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
