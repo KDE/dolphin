@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2023-01-13 17:48+0300\n"
+"PO-Revision-Date: 2023-01-22 14:41+0300\n"
 "Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
 "Language: ru\n"
@@ -1179,13 +1179,7 @@ msgstr ""
 "настроить комбинации клавиш для всех возможных действий.</para>"
 
 #: dolphinmainwindow.cpp:2541
-#, fuzzy, kde-kuit-format
-#| msgctxt "@info:whatsthis"
-#| msgid ""
-#| "<para>This opens a window in which you can change which buttons appear on "
-#| "the <emphasis>Toolbar</emphasis>.</para><para>All items you see in the "
-#| "<interface>Control</interface> menu or in the <interface>Menubar</"
-#| "interface> can also be placed on the Toolbar.</para>"
+#, kde-kuit-format
 msgctxt "@info:whatsthis"
 msgid ""
 "<para>This opens a window in which you can change which buttons appear on "
@@ -1194,9 +1188,8 @@ msgid ""
 msgstr ""
 "<para>Этот пункт меню служит для открытия диалога, позволяющего настроить "
 "набор кнопок, расположенных на <emphasis>Панели инструментов</emphasis>.</"
-"para> <para>Все пункты, которые содержатся в меню <interface>Управление</"
-"interface> или в <interface>Строке меню</interface>, также могут быть "
-"размещены на панели инструментов. </para>"
+"para> <para>Все пункты, которые содержатся в <interface>меню</interface>, "
+"также могут быть размещены на панели инструментов. </para>"
 
 #: dolphinmainwindow.cpp:2545
 #, kde-kuit-format
@@ -2995,6 +2988,10 @@ msgid ""
 "applications by using their respective <emphasis>Paste</emphasis> actions.</"
 "para>"
 msgstr ""
+"<para>Выбранные файлы и папки были скопированы в буфер обмена. С помощью "
+"действия <emphasis>Вставить</emphasis> их можно вставить из буфера обмена в "
+"любое другое место. Также поддерживается передача файлов в другие приложения "
+"с помощью действия <emphasis>Вставить</emphasis>.</para>"
 
 #: selectionmode/bottombarcontentscontainer.cpp:396
 #, kde-format
@@ -3007,7 +3004,7 @@ msgstr "Вставить из буфера обмена"
 #, kde-format
 msgctxt "@action Dismisses a bar explaining how to use the Paste action"
 msgid "Dismiss This Reminder"
-msgstr ""
+msgstr "Скрыть напоминание"
 
 #: selectionmode/bottombarcontentscontainer.cpp:403
 #, kde-format
@@ -3156,6 +3153,8 @@ msgstr ""
 msgctxt "@info label above the view explaining the state"
 msgid "Selection Mode: Click on files or folders to select or deselect them."
 msgstr ""
+"Режим выделения: нажимайте на файлы и папки для их добавления в выделение "
+"или удаления из него"
 
 #: selectionmode/topbar.cpp:61
 #, kde-format
@@ -3641,6 +3640,8 @@ msgid ""
 "Show a bar for easy pasting after a cut or copy was done using the selection "
 "mode bottom bar."
 msgstr ""
+"Открывать панель вставки файлов при копировании или вырезании в режиме "
+"выделения с использованием нижней панели."
 
 #. i18n: ectx: label, entry (UseTabForSwitchingSplitView), group (General)
 #: settings/dolphin_generalsettings.kcfg:91
