@@ -125,7 +125,7 @@ DolphinViewContainer::DolphinViewContainer(const QUrl& url, QWidget* parent) :
     // Initialize the main view
     m_view = new DolphinView(url, this);
     connect(m_view, &DolphinView::urlChanged,
-            m_filterBar, &FilterBar::slotUrlChanged);
+            m_filterBar, &FilterBar::clearIfUnlocked);
     connect(m_view, &DolphinView::urlChanged,
             m_messageWidget, &KMessageWidget::hide);
     // m_urlNavigator stays in sync with m_view's location changes and
@@ -795,6 +795,11 @@ void DolphinViewContainer::closeFilterBar()
     m_filterBar->closeFilterBar();
     m_view->setFocus();
     Q_EMIT showFilterBarChanged(false);
+}
+
+void DolphinViewContainer::clearFilterBar()
+{
+    m_filterBar->clearIfUnlocked();
 }
 
 void DolphinViewContainer::setNameFilter(const QString& nameFilter)

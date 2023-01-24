@@ -204,6 +204,7 @@ public:
      */
     void disableUrlNavigatorSelectionRequests();
     void enableUrlNavigatorSelectionRequests();
+    void clearFilterBar();
 
 public Q_SLOTS:
     /**

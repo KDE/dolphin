@@ -39,7 +39,7 @@ public Q_SLOTS:
     /** Clears the input field. */
     void clear();
     /** Clears the input field if the "lock button" is disabled. */
-    void slotUrlChanged();
+    void clearIfUnlocked();
     /** The input field is cleared also if the "lock button" is released. */
     void slotToggleLockButton(bool checked);
 

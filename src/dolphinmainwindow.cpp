@@ -1414,6 +1414,8 @@ void DolphinMainWindow::slotPlaceActivated(const QUrl& url)
     DolphinViewContainer* view = activeViewContainer();
 
     if (view->url() == url) {
+        view->clearFilterBar(); // Fixes bug 259382.
+
         // We can end up here if the user clicked a device in the Places Panel
         // which had been unmounted earlier, see https://bugs.kde.org/show_bug.cgi?id=161385.
         reloadView();

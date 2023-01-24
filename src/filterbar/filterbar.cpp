@@ -74,7 +74,7 @@ void FilterBar::clear()
     m_filterInput->clear();
 }
 
-void FilterBar::slotUrlChanged()
+void FilterBar::clearIfUnlocked()
 {
     if (!m_lockButton || !(m_lockButton->isChecked())) {
         clear();
