@@ -161,6 +161,10 @@ DolphinView::DolphinView(const QUrl& url, QWidget* parent) :
     auto *centeringLayout = new QVBoxLayout(m_container);
     centeringLayout->addWidget(m_placeholderLabel);
     centeringLayout->setAlignment(m_placeholderLabel, Qt::AlignCenter);
+    m_placeholderLabel->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_placeholderLabel, &QWidget::customContextMenuRequested, this, [this](const QPoint& pos){
+        slotViewContextMenuRequested(m_placeholderLabel->mapToGlobal(pos));
+    });
 
     controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, &KItemListController::itemActivated, this, &DolphinView::slotItemActivated);
