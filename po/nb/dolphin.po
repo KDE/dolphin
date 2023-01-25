@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-13 00:59+0000\n"
-"PO-Revision-Date: 2023-01-21 14:42+0100\n"
+"POT-Creation-Date: 2023-01-22 01:00+0000\n"
+"PO-Revision-Date: 2023-01-24 16:58+0100\n"
 "Last-Translator: John Ivar Eriksen <jieriksen@runbox.com>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
 "Language: nb\n"
@@ -310,7 +310,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Cut…"
-msgstr "Klipp ut…"
+msgstr "Klipp ut …"
 
 #: dolphinmainwindow.cpp:1611
 #, kde-kuit-format
@@ -330,7 +330,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action"
 msgid "Copy…"
-msgstr "Kopier…"
+msgstr "Kopier …"
 
 #: dolphinmainwindow.cpp:1618
 #, kde-kuit-format
@@ -372,7 +372,7 @@ msgstr "Kopier til inaktiv delt visning"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Copy to Inactive Split View…"
-msgstr "Kopier til inaktiv delt visning…"
+msgstr "Kopier til inaktiv delt visning …"
 
 #: dolphinmainwindow.cpp:1635
 #, kde-kuit-format
@@ -400,7 +400,7 @@ msgstr "Flytt til inaktiv delt visning"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Move to Inactive Split View…"
-msgstr "Flytt til inaktiv delt visning…"
+msgstr "Flytt til inaktiv delt visning …"
 
 #: dolphinmainwindow.cpp:1645
 #, kde-kuit-format
@@ -716,7 +716,7 @@ msgid ""
 "items' locations.</para><para>To learn more about terminals use the help in "
 "the terminal application.</para>"
 msgstr ""
-"<para>Dette åpner <emphasis>terminal</emphasis>-programmet til de markterte "
+"<para>Dette åpner <emphasis>terminal</emphasis>-programmet til de markerte "
 "filenes plassering.</para><para>For å lære mer om terminalen, bruk Hjelp-"
 "funksjonen i terminalprogrammet.</para>"
 
@@ -1113,7 +1113,7 @@ msgstr ""
 "ofte brukte handlinger.</para><para>Den kan tilpasses. Alle elementene du "
 "finner i <interface>Meny</interface> eller i <interface>Menylinje</"
 "interface> kan plasseres på verktøylinja. Høyre-klikk på det og velg "
-"<interface>Konfigurer verktøylinjer…</interface> eller finn handlingen inne "
+"<interface>Konfigurer verktøylinjer …</interface> eller finn handlingen inne "
 "i <interface>menyen</interface>.</para><para>Plasseringen av verktøylinja og "
 "tilpassing av knapper kan også endres i høyre-klikkmenyen. Høyre-klikk en "
 "knapp om du vil vise eller gjemme tekst.</para> "
@@ -1344,19 +1344,19 @@ msgstr[1] "Adresselinjer"
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "&Edit File Type..."
-msgstr "&Rediger filtype…"
+msgstr "&Rediger filtype …"
 
 #: dolphinpart.cpp:170
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Select Items Matching..."
-msgstr "Velg elementer som passer med…"
+msgstr "Velg elementer som passer med …"
 
 #: dolphinpart.cpp:175
 #, kde-format
 msgctxt "@action:inmenu Edit"
 msgid "Unselect Items Matching..."
-msgstr "Fravelg elementer som passer med…"
+msgstr "Fravelg elementer som passer med …"
 
 #: dolphinpart.cpp:181
 #, kde-format
@@ -1392,7 +1392,7 @@ msgstr "Autostart"
 #, kde-format
 msgctxt "@action:inmenu Tools"
 msgid "Find File..."
-msgstr "Finn fil…"
+msgstr "Finn fil …"
 
 #: dolphinpart.cpp:218
 #, kde-format
@@ -1495,6 +1495,22 @@ msgctxt "@action:inmenu"
 msgid "Close Tab"
 msgstr "Lukk fane"
 
+#. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
+#. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
+#: dolphintabwidget.cpp:506
+#, kde-format
+msgctxt "@title:tab Active primary view | (Inactive secondary view)"
+msgid "%1 | (%2)"
+msgstr ""
+
+#. i18n: %1 is the primary view and %2 the secondary view. For left to right languages the primary view is on the left so we also want it to be on the
+#. left in the tab name. In right to left languages the primary view would be on the right so the tab name should match.
+#: dolphintabwidget.cpp:510
+#, kde-format
+msgctxt "@title:tab (Inactive primary view) | Active secondary view"
+msgid "(%1) | %2"
+msgstr ""
+
 #. i18n: ectx: Menu (location_bar)
 #: dolphinui.rc:59
 #, kde-format
@@ -1581,19 +1597,19 @@ msgstr "Søk etter %1"
 #, kde-format
 msgctxt "@info:progress"
 msgid "Loading folder..."
-msgstr "Laster inn mappe…"
+msgstr "Laster inn mappe …"
 
 #: dolphinviewcontainer.cpp:679
 #, kde-format
 msgctxt "@info:progress"
 msgid "Sorting..."
-msgstr "Sortering…"
+msgstr "Sortering …"
 
 #: dolphinviewcontainer.cpp:690
 #, kde-format
 msgctxt "@info"
 msgid "Searching..."
-msgstr "Søker…"
+msgstr "Søker …"
 
 #: dolphinviewcontainer.cpp:711
 #, kde-format
@@ -2419,7 +2435,7 @@ msgstr "Kopier"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Rename..."
-msgstr "Endre navn…"
+msgstr "Endre navn …"
 
 #: panels/folders/treeviewcontextmenu.cpp:93
 #, kde-format
@@ -2467,7 +2483,7 @@ msgstr "Forhåndsvisninger vises"
 #: panels/information/dolphin_informationpanelsettings.kcfg:14
 #, kde-format
 msgid "Auto-Play media files"
-msgstr "Spill av mediafiler automatisk"
+msgstr "Spill av mediefiler automatisk"
 
 #. i18n: ectx: label, entry (dateFormat), group (InformationPanel)
 #: panels/information/dolphin_informationpanelsettings.kcfg:18
@@ -2485,13 +2501,13 @@ msgstr "Forhåndsvisning"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Auto-Play media files"
-msgstr "Spill av mediafiler automatisk"
+msgstr "Spill av mediefiler automatisk"
 
 #: panels/information/informationpanel.cpp:163
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure..."
-msgstr "Sett opp…"
+msgstr "Sett opp …"
 
 #: panels/information/informationpanel.cpp:169
 #, kde-format
@@ -2533,7 +2549,7 @@ msgstr "Ikonstørrelse i Steder-ruta (-1 = automatisk)"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Configure Trash…"
-msgstr "Konfigurer papirkurv…"
+msgstr "Konfigurer papirkurv …"
 
 #: panels/terminal/terminalpanel.cpp:177
 #, kde-format
@@ -3060,7 +3076,7 @@ msgstr "Søk..."
 #, kde-format
 msgctxt "@action:button"
 msgid "Download New Services..."
-msgstr "Last ned nye tjenester…"
+msgstr "Last ned nye tjenester …"
 
 #: settings/contextmenu/contextmenusettingspage.cpp:208
 #, kde-format
@@ -4073,7 +4089,7 @@ msgstr "Selvvalgt skrifttype"
 #, kde-format
 msgctxt "@action:button Choose font"
 msgid "Choose..."
-msgstr "Velg…"
+msgstr "Velg …"
 
 #: settings/viewmodes/viewsettingstab.cpp:54
 #, kde-format
@@ -4782,7 +4798,7 @@ msgstr "Mappa er tom"
 #, kde-format
 msgctxt "@action"
 msgid "Create Folder..."
-msgstr "Lag mappe…"
+msgstr "Lag mappe …"
 
 #: views/dolphinviewactionhandler.cpp:100
 #, kde-kuit-format
@@ -4865,25 +4881,25 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Move to Trash…"
-msgstr "Flytt til papirkurven…"
+msgstr "Flytt til papirkurven …"
 
 #: views/dolphinviewactionhandler.cpp:169
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Delete…"
-msgstr "Slett…"
+msgstr "Slett …"
 
 #: views/dolphinviewactionhandler.cpp:170
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "Duplicate Here…"
-msgstr "Lag kopi her…"
+msgstr "Lag kopi her …"
 
 #: views/dolphinviewactionhandler.cpp:171
 #, kde-format
 msgctxt "@action:incontextmenu"
 msgid "Copy Location…"
-msgstr "Kopier adresse…"
+msgstr "Kopier adresse …"
 
 #: views/dolphinviewactionhandler.cpp:200
 #, kde-kuit-format
@@ -5060,7 +5076,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
-msgstr "Endre visningsinnstillinge"
+msgstr "Juster visningsstil ..."
 
 #: views/dolphinviewactionhandler.cpp:342
 #, kde-format
@@ -5199,4 +5215,4 @@ msgstr[1] "Handlinger for %1 valgte elementer"
 #, kde-format
 msgctxt "@info:status"
 msgid "Updating version information..."
-msgstr "Oppdaterer versjonsinformasjon…"
+msgstr "Oppdaterer versjonsinformasjon …"
