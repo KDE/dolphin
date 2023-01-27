@@ -60,6 +60,9 @@ private:
     QSpinBox *m_recursiveDirectorySizeLimit;
     QRadioButton *m_useRelatetiveDates;
     QRadioButton *m_useShortDates;
+    QRadioButton *m_useSymbolicPermissions;
+    QRadioButton *m_useNumericPermissions;
+    QRadioButton *m_useCombinedPermissions;
 };
 
 #endif

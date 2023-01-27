@@ -186,6 +186,7 @@ public:
         QByteArray role;
         QString translation;
         QString group;
+        QString tooltip;
         bool requiresBaloo;
         bool requiresIndexer;
     };
@@ -481,6 +482,7 @@ private:
         const RoleType roleType;
         const KLazyLocalizedString roleTranslation;
         const KLazyLocalizedString groupTranslation;
+        const KLazyLocalizedString tooltipTranslation;
         const bool requiresBaloo;
         const bool requiresIndexer;
     };

@@ -98,6 +98,20 @@ QString KFileItemListWidgetInformant::roleText(const QByteArray &role, const QHa
         if (dimensions.isValid()) {
             text = i18nc("width × height", "%1 × %2", dimensions.width(), dimensions.height());
         }
+    } else if (role == "permissions") {
+        const auto permissions = roleValue.value<QVariantList>();
+
+        switch (DetailsModeSettings::usePermissionsFormat()) {
+        case DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat:
+            text = permissions.at(0).toString();
+            break;
+        case DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat:
+            text = QString::number(permissions.at(1).toInt(), 8);
+            break;
+        case DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat:
+            text = QString("%1 (%2)").arg(permissions.at(0).toString()).arg(permissions.at(1).toInt(), 0, 8);
+            break;
+        }
     } else {
         text = KStandardItemListWidgetInformant::roleText(role, values);
     }
@@ -129,7 +143,7 @@ KItemListWidgetInformant *KFileItemListWidget::createInformant()
 
 bool KFileItemListWidget::isRoleRightAligned(const QByteArray &role) const
 {
-    return role == "size";
+    return role == "size" || role == "permissions";
 }
 
 bool KFileItemListWidget::isHidden() const

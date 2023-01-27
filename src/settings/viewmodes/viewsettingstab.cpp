@@ -38,6 +38,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
     , m_recursiveDirectorySizeLimit(nullptr)
     , m_useRelatetiveDates(nullptr)
     , m_useShortDates(nullptr)
+    , m_useSymbolicPermissions(nullptr)
+    , m_useNumericPermissions(nullptr)
+    , m_useCombinedPermissions(nullptr)
 {
     QFormLayout *topLayout = new QFormLayout(this);
 
@@ -151,6 +154,20 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
         topLayout->addRow(i18nc("@title:group", "Date style:"), m_useRelatetiveDates);
         topLayout->addRow(QString(), m_useShortDates);
 
+        m_useSymbolicPermissions = new QRadioButton(i18nc("option:radio as symbolic style ", "Symbolic (e.g. 'drwxr-xr-x')"));
+
+        m_useNumericPermissions = new QRadioButton(i18nc("option:radio as numeric style", "Numeric (Octal) (e.g. '755')"));
+
+        m_useCombinedPermissions = new QRadioButton(i18nc("option:radio as combined style", "Combined (e.g. 'drwxr-xr-x (755)')"));
+
+        topLayout->addRow(i18nc("@title:group", "Permissions style:"), m_useSymbolicPermissions);
+        topLayout->addRow(QString(), m_useNumericPermissions);
+        topLayout->addRow(QString(), m_useCombinedPermissions);
+
+        QButtonGroup *permissionsFormatGroup = new QButtonGroup(this);
+        permissionsFormatGroup->addButton(m_useSymbolicPermissions);
+        permissionsFormatGroup->addButton(m_useNumericPermissions);
+        permissionsFormatGroup->addButton(m_useCombinedPermissions);
         break;
     }
 
@@ -180,6 +197,9 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget *parent)
 #endif
         connect(m_useRelatetiveDates, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
         connect(m_useShortDates, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
+        connect(m_useSymbolicPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
+        connect(m_useNumericPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
+        connect(m_useCombinedPermissions, &QRadioButton::toggled, this, &ViewSettingsTab::changed);
         break;
     default:
         break;
@@ -226,6 +246,14 @@ void ViewSettingsTab::applySettings()
         DetailsModeSettings::setRecursiveDirectorySizeLimit(m_recursiveDirectorySizeLimit->value());
 #endif
         DetailsModeSettings::setUseShortRelativeDates(m_useRelatetiveDates->isChecked());
+
+        if (m_useSymbolicPermissions->isChecked()) {
+            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat);
+        } else if (m_useNumericPermissions->isChecked()) {
+            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat);
+        } else if (m_useCombinedPermissions->isChecked()) {
+            DetailsModeSettings::setUsePermissionsFormat(DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat);
+        }
         break;
     default:
         break;
@@ -278,6 +306,9 @@ void ViewSettingsTab::loadSettings()
 #endif
         m_useRelatetiveDates->setChecked(DetailsModeSettings::useShortRelativeDates());
         m_useShortDates->setChecked(!DetailsModeSettings::useShortRelativeDates());
+        m_useSymbolicPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::SymbolicFormat);
+        m_useNumericPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::NumericFormat);
+        m_useCombinedPermissions->setChecked(DetailsModeSettings::usePermissionsFormat() == DetailsModeSettings::EnumUsePermissionsFormat::CombinedFormat);
         break;
     default:
         break;

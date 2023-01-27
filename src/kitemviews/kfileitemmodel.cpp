@@ -784,9 +784,8 @@ void KFileItemModel::applyFilters()
 
             // If this is a child of an expanded folder, we must make sure that its whole parental chain will also be shown.
             // We will go up through its parental chain until we either:
-            // 1 - reach the "root item" of the current view, i.e the currently opened folder on Dolphin. Their children have their ItemData::parent set to nullptr.
-            // or
-            // 2 - we reach an unfiltered parent or a previously discovered ancestor.
+            // 1 - reach the "root item" of the current view, i.e the currently opened folder on Dolphin. Their children have their ItemData::parent set to
+            // nullptr. or 2 - we reach an unfiltered parent or a previously discovered ancestor.
             for (ItemData *parent = it.value()->parent; parent && !ancestorsOfNewVisibleItems.contains(parent->item) && m_filteredItems.contains(parent->item);
                  parent = parent->parent) {
                 // We wish we could remove this parent from m_filteredItems right now, but we are iterating over it
@@ -863,6 +862,11 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
                 }
                 info.requiresBaloo = map[i].requiresBaloo;
                 info.requiresIndexer = map[i].requiresIndexer;
+                if (!map[i].tooltipTranslation.isEmpty()) {
+                    info.tooltip = map[i].tooltipTranslation.toString();
+                } else {
+                    info.tooltip = QString();
+                }
                 rolesInfo.append(info);
             }
         }
@@ -1852,7 +1856,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem &item, 
     }
 
     if (m_requestRole[PermissionsRole]) {
-        data.insert(sharedValue("permissions"), item.permissionsString());
+        data.insert(sharedValue("permissions"), QVariantList() << item.permissionsString() << item.permissions());
     }
 
     if (m_requestRole[OwnerRole]) {
@@ -2671,46 +2675,48 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
 const KFileItemModel::RoleInfoMap *KFileItemModel::rolesInfoMap(int &count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
-    //  |         role           |        roleType        |                role translation         |         group translation                     | requires Baloo | requires indexer
-        { nullptr,               NoRole,                  KLazyLocalizedString(),                    KLazyLocalizedString(),                            false,           false },
-        { "text",                NameRole,                kli18nc("@label", "Name"),                 KLazyLocalizedString(),                            false,           false },
-        { "size",                SizeRole,                kli18nc("@label", "Size"),                 KLazyLocalizedString(),                            false,           false },
-        { "modificationtime",    ModificationTimeRole,    kli18nc("@label", "Modified"),             KLazyLocalizedString(),                            false,           false },
-        { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),                            false,           false },
-        { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),                            false,           false },
-        { "type",                TypeRole,                kli18nc("@label", "Type"),                 KLazyLocalizedString(),                            false,           false },
-        { "rating",              RatingRole,              kli18nc("@label", "Rating"),               KLazyLocalizedString(),                            true,            false },
-        { "tags",                TagsRole,                kli18nc("@label", "Tags"),                 KLazyLocalizedString(),                            true,            false },
-        { "comment",             CommentRole,             kli18nc("@label", "Comment"),              KLazyLocalizedString(),                            true,            false },
-        { "title",               TitleRole,               kli18nc("@label", "Title"),                kli18nc("@label", "Document"),                     true,            true  },
-        { "author",              AuthorRole,              kli18nc("@label", "Author"),               kli18nc("@label", "Document"),                     true,            true  },
-        { "publisher",           PublisherRole,           kli18nc("@label", "Publisher"),            kli18nc("@label", "Document"),                     true,            true  },
-        { "pageCount",           PageCountRole,           kli18nc("@label", "Page Count"),           kli18nc("@label", "Document"),                     true,            true  },
-        { "wordCount",           WordCountRole,           kli18nc("@label", "Word Count"),           kli18nc("@label", "Document"),                     true,            true  },
-        { "lineCount",           LineCountRole,           kli18nc("@label", "Line Count"),           kli18nc("@label", "Document"),                     true,            true  },
-        { "imageDateTime",       ImageDateTimeRole,       kli18nc("@label", "Date Photographed"),    kli18nc("@label", "Image"),                        true,            true  },
-        { "dimensions",          DimensionsRole,          kli18nc("@label width x height", "Dimensions"), kli18nc("@label", "Image"),                   true,            true  },
-        { "width",               WidthRole,               kli18nc("@label", "Width"),                kli18nc("@label", "Image"),                        true,            true  },
-        { "height",              HeightRole,              kli18nc("@label", "Height"),               kli18nc("@label", "Image"),                        true,            true  },
-        { "orientation",         OrientationRole,         kli18nc("@label", "Orientation"),          kli18nc("@label", "Image"),                        true,            true  },
-        { "artist",              ArtistRole,              kli18nc("@label", "Artist"),               kli18nc("@label", "Audio"),                        true,            true  },
-        { "genre",               GenreRole,               kli18nc("@label", "Genre"),                kli18nc("@label", "Audio"),                        true,            true  },
-        { "album",               AlbumRole,               kli18nc("@label", "Album"),                kli18nc("@label", "Audio"),                        true,            true  },
-        { "duration",            DurationRole,            kli18nc("@label", "Duration"),             kli18nc("@label", "Audio"),                        true,            true  },
-        { "bitrate",             BitrateRole,             kli18nc("@label", "Bitrate"),              kli18nc("@label", "Audio"),                        true,            true  },
-        { "track",               TrackRole,               kli18nc("@label", "Track"),                kli18nc("@label", "Audio"),                        true,            true  },
-        { "releaseYear",         ReleaseYearRole,         kli18nc("@label", "Release Year"),         kli18nc("@label", "Audio"),                        true,            true  },
-        { "aspectRatio",         AspectRatioRole,         kli18nc("@label", "Aspect Ratio"),         kli18nc("@label", "Video"),                        true,            true  },
-        { "frameRate",           FrameRateRole,           kli18nc("@label", "Frame Rate"),           kli18nc("@label", "Video"),                        true,            true  },
-        { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),                        false,           false },
-        { "extension",           ExtensionRole,           kli18nc("@label", "File Extension"),       kli18nc("@label", "Other"),                        false,           false },
-        { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),                        false,           false },
-        { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),                        false,           false },
-        { "originUrl",           OriginUrlRole,           kli18nc("@label", "Downloaded From"),      kli18nc("@label", "Other"),                        true,            false },
-        { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),                        false,           false },
-        { "owner",               OwnerRole,               kli18nc("@label", "Owner"),                kli18nc("@label", "Other"),                        false,           false },
-        { "group",               GroupRole,               kli18nc("@label", "User Group"),           kli18nc("@label", "Other"),                        false,           false },
+        // clang-format off
+    //  |         role           |        roleType        |                role translation          |         group translation                                        | requires Baloo | requires indexer
+        { nullptr,               NoRole,                  KLazyLocalizedString(),                    KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
+        { "text",                NameRole,                kli18nc("@label", "Name"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
+        { "size",                SizeRole,                kli18nc("@label", "Size"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
+        { "modificationtime",    ModificationTimeRole,    kli18nc("@label", "Modified"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "creationtime",        CreationTimeRole,        kli18nc("@label", "Created"),              KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "accesstime",          AccessTimeRole,          kli18nc("@label", "Accessed"),             KLazyLocalizedString(),        kli18nc("@tooltip", "The date format can be selected in settings."),                    false,           false },
+        { "type",                TypeRole,                kli18nc("@label", "Type"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    false,           false },
+        { "rating",              RatingRole,              kli18nc("@label", "Rating"),               KLazyLocalizedString(),        KLazyLocalizedString(),                    true,            false },
+        { "tags",                TagsRole,                kli18nc("@label", "Tags"),                 KLazyLocalizedString(),        KLazyLocalizedString(),                    true,            false },
+        { "comment",             CommentRole,             kli18nc("@label", "Comment"),              KLazyLocalizedString(),        KLazyLocalizedString(),                    true,            false },
+        { "title",               TitleRole,               kli18nc("@label", "Title"),                kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "author",              AuthorRole,              kli18nc("@label", "Author"),               kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "publisher",           PublisherRole,           kli18nc("@label", "Publisher"),            kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "pageCount",           PageCountRole,           kli18nc("@label", "Page Count"),           kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "wordCount",           WordCountRole,           kli18nc("@label", "Word Count"),           kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "lineCount",           LineCountRole,           kli18nc("@label", "Line Count"),           kli18nc("@label", "Document"), KLazyLocalizedString(),                    true,            true  },
+        { "imageDateTime",       ImageDateTimeRole,       kli18nc("@label", "Date Photographed"),    kli18nc("@label", "Image"),    KLazyLocalizedString(),                    true,            true  },
+        { "dimensions",          DimensionsRole,          kli18nc("@label width x height", "Dimensions"), kli18nc("@label", "Image"), KLazyLocalizedString(),                  true,            true  },
+        { "width",               WidthRole,               kli18nc("@label", "Width"),                kli18nc("@label", "Image"),    KLazyLocalizedString(),                    true,            true  },
+        { "height",              HeightRole,              kli18nc("@label", "Height"),               kli18nc("@label", "Image"),    KLazyLocalizedString(),                    true,            true  },
+        { "orientation",         OrientationRole,         kli18nc("@label", "Orientation"),          kli18nc("@label", "Image"),    KLazyLocalizedString(),                    true,            true  },
+        { "artist",              ArtistRole,              kli18nc("@label", "Artist"),               kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "genre",               GenreRole,               kli18nc("@label", "Genre"),                kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "album",               AlbumRole,               kli18nc("@label", "Album"),                kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "duration",            DurationRole,            kli18nc("@label", "Duration"),             kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "bitrate",             BitrateRole,             kli18nc("@label", "Bitrate"),              kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "track",               TrackRole,               kli18nc("@label", "Track"),                kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "releaseYear",         ReleaseYearRole,         kli18nc("@label", "Release Year"),         kli18nc("@label", "Audio"),    KLazyLocalizedString(),                    true,            true  },
+        { "aspectRatio",         AspectRatioRole,         kli18nc("@label", "Aspect Ratio"),         kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
+        { "frameRate",           FrameRateRole,           kli18nc("@label", "Frame Rate"),           kli18nc("@label", "Video"),    KLazyLocalizedString(),                    true,            true  },
+        { "path",                PathRole,                kli18nc("@label", "Path"),                 kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "extension",           ExtensionRole,           kli18nc("@label", "File Extension"),       kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "deletiontime",        DeletionTimeRole,        kli18nc("@label", "Deletion Time"),        kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "destination",         DestinationRole,         kli18nc("@label", "Link Destination"),     kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "originUrl",           OriginUrlRole,           kli18nc("@label", "Downloaded From"),      kli18nc("@label", "Other"),    KLazyLocalizedString(),                    true,            false },
+        { "permissions",         PermissionsRole,         kli18nc("@label", "Permissions"),          kli18nc("@label", "Other"),    kli18nc("@tooltip", "The permission format can be changed in settings. Options are Textual, Numeric (Octal) or Combined formats"),        false,           false },
+        { "owner",               OwnerRole,               kli18nc("@label", "Owner"),                kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
+        { "group",               GroupRole,               kli18nc("@label", "User Group"),           kli18nc("@label", "Other"),    KLazyLocalizedString(),                    false,           false },
     };
+    // clang-format on
 
     count = sizeof(rolesInfoMap) / sizeof(RoleInfoMap);
     return rolesInfoMap;

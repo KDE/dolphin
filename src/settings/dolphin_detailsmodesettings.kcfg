@@ -51,5 +51,14 @@
             <label>if true we use short relative dates, if not short dates</label>
             <default>true</default>
         </entry>
+        <entry name="UsePermissionsFormat" type="Enum">
+            <label>Permissions style format</label>
+            <choices>
+                <choice name="SymbolicFormat" />
+                <choice name="NumericFormat" />
+                <choice name="CombinedFormat" />
+            </choices>
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

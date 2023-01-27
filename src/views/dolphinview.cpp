@@ -1167,6 +1167,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF &pos)
         action->setCheckable(true);
         action->setChecked(visibleRolesSet.contains(info.role));
         action->setData(info.role);
+        action->setToolTip(info.tooltip);
 
         const bool enable = (!info.requiresBaloo && !info.requiresIndexer) || (info.requiresBaloo) || (info.requiresIndexer && indexingEnabled);
         action->setEnabled(enable);
@@ -1776,7 +1777,7 @@ void DolphinView::slotDeleteFileFinished(KJob *job)
 void DolphinView::selectNextItem()
 {
     if (m_active && m_selectNextItem) {
-        KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+        KItemListSelectionManager *selectionManager = m_container->controller()->selectionManager();
         if (selectedItems().isEmpty()) {
             Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
             return;
@@ -1921,7 +1922,7 @@ void DolphinView::slotRoleEditingFinished(int index, const QByteArray &role, con
             newUrl.setPath(newUrl.path() + KIO::encodeFileName(newName));
 
 #ifndef Q_OS_WIN
-            //Confirm hiding file/directory by renaming inline
+            // Confirm hiding file/directory by renaming inline
             if (!hiddenFilesShown() && newName.startsWith(QLatin1Char('.')) && !oldItem.name().startsWith(QLatin1Char('.'))) {
                 KGuiItem yesGuiItem(i18nc("@action:button", "Rename and Hide"), QStringLiteral("view-hidden"));
 
