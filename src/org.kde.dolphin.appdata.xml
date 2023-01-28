@@ -256,6 +256,7 @@
     <p xml:lang="is">Dolphin getur birt skrár og möppur frá mörgum skýjaþjónustum á netinu og öðrum fjartengdum vélum rétt eins og þær væru í tölvunni þinni.</p>
     <p xml:lang="it">Dolphin può visualizzare file e cartelle da molti servizi cloud Internet e altre macchine remote come se fossero direttamente sul tuo desktop.</p>
     <p xml:lang="ja">Dolphin は、多くのインターネット上のクラウドサービスや他のリモートマシンのファイルやフォルダを、あたかもデスクトップ上にあるかのように表示することができます。</p>
+    <p xml:lang="ka">Dolphin-ს ფაილებისა და საქაღალდეების ჩვენება ბევრი ღრუბლოვანი სერვისიდან და სხვა დაშორებული მანქანებიდან ისე შეუძლია, თითქოს ისინი თქვენს სამუშაო მაგიდაზე იყვნენ.</p>
     <p xml:lang="ko">Dolphin은 인터넷 클라우드 서비스나 원격지에 있는 파일이나 폴더를 내 데스크톱에 있는 것처럼 표시할 수 있습니다.</p>
     <p xml:lang="nb">Dolphin kan vise filer og mapper fra mange skytjenester og andre eksterne maskiner, som om de var lokale filer og mapper.</p>
     <p xml:lang="nl">Dolphin kan bestanden en mappen uit vele Internet-cloudservices en andere machines op afstand tonen alsof ze direct op uw bureaublad staan.</p>
@@ -440,6 +441,7 @@
       <caption xml:lang="is">Dolphin gerir þér kleift að grunnstilla skráastjórann eins og þér hentar</caption>
       <caption xml:lang="it">Dolphin ti consente di configurare il tuo gestore file esattamente come desideri</caption>
       <caption xml:lang="ja">Dolphin では、ファイルマネージャを思いどおりに設定することができます。</caption>
+      <caption xml:lang="ka">Dolphin-ი საშუალებას გაძლევთ ფაილების მმართველი ზუსტად ისე მოირგოთ, როგორც თქვენ გნებვთ</caption>
       <caption xml:lang="ko">Dolphin은 사용하고 싶은 대로 설정할 수 있습니다</caption>
       <caption xml:lang="my">လင်းပိုင်သည် ဖိုင်လ်မန်နေဂျာကို သင်ကြိုက်သလို ပြင်ဆင်ခွင့်ပေးထားသည်</caption>
       <caption xml:lang="nb">Dolphin lar deg sette opp filbehandleren akkurat slik du vil</caption>
