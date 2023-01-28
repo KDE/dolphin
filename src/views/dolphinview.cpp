@@ -87,6 +87,7 @@ DolphinView::DolphinView(const QUrl &url, QWidget *parent)
     , m_view(nullptr)
     , m_container(nullptr)
     , m_toolTipManager(nullptr)
+    , m_selectNextItem(false)
     , m_selectionChangedTimer(nullptr)
     , m_currentItemUrl()
     , m_scrollToCurrentItem(false)
@@ -749,6 +750,7 @@ void DolphinView::trashSelectedItems()
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Trash, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
+    m_selectNextItem = true;
     trashJob->start();
 #else
     KIO::JobUiDelegate uiDelegate;
@@ -770,6 +772,7 @@ void DolphinView::deleteSelectedItems()
     using Iface = KIO::AskUserActionInterface;
     auto *trashJob = new KIO::DeleteOrTrashJob(list, Iface::Delete, Iface::DefaultConfirmation, this);
     connect(trashJob, &KJob::result, this, &DolphinView::slotTrashFileFinished);
+    m_selectNextItem = true;
     trashJob->start();
 #else
     KIO::JobUiDelegate uiDelegate;
@@ -1389,6 +1392,7 @@ void DolphinView::slotJobResult(KJob *job)
 
 void DolphinView::slotSelectionChanged(const KItemSet &current, const KItemSet &previous)
 {
+    m_selectNextItem = false;
     const int currentCount = current.count();
     const int previousCount = previous.count();
     const bool selectionStateChanged = (currentCount == 0 && previousCount > 0) || (currentCount > 0 && previousCount == 0);
@@ -1741,6 +1745,7 @@ void DolphinView::slotTwoClicksRenamingTimerTimeout()
 void DolphinView::slotTrashFileFinished(KJob *job)
 {
     if (job->error() == 0) {
+        selectNextItem(); // Fixes BUG: 419914 via selecting next item
         Q_EMIT operationCompletedMessage(i18nc("@info:status", "Trash operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
@@ -1750,9 +1755,34 @@ void DolphinView::slotTrashFileFinished(KJob *job)
 void DolphinView::slotDeleteFileFinished(KJob *job)
 {
     if (job->error() == 0) {
+        selectNextItem(); // Fixes BUG: 419914 via selecting next item
         Q_EMIT operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
         Q_EMIT errorMessage(job->errorString());
+    }
+}
+
+void DolphinView::selectNextItem()
+{
+    if (m_active && m_selectNextItem) {
+        KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+        if (selectedItems().isEmpty()) {
+            Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
+            return;
+        }
+        const auto lastSelectedIndex = m_model->index(selectedItems().last());
+        if (lastSelectedIndex < 0) {
+            Q_ASSERT_X(false, "DolphinView", "Selecting the next item failed.");
+            return;
+        }
+        auto nextItem = lastSelectedIndex + 1;
+        if (nextItem >= itemsCount()) {
+            nextItem = lastSelectedIndex - selectedItemsCount();
+        }
+        if (nextItem >= 0) {
+            selectionManager->setSelected(nextItem, 1);
+        }
+        m_selectNextItem = false;
     }
 }
 

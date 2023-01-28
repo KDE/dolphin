@@ -93,6 +93,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
 
     auto trashAction = KStandardAction::moveToTrash(this, &DolphinViewActionHandler::slotTrashActivated, m_actionCollection);
     auto trashShortcuts = trashAction->shortcuts();
+    trashAction->setAutoRepeat(false);
     if (!trashShortcuts.contains(QKeySequence::Delete)) {
         trashShortcuts.append(QKeySequence::Delete);
         m_actionCollection->setDefaultShortcuts(trashAction, trashShortcuts);
@@ -105,6 +106,7 @@ void DolphinViewActionHandler::createActions(SelectionMode::ActionTextHelper *ac
 
     auto deleteAction = KStandardAction::deleteFile(this, &DolphinViewActionHandler::slotDeleteItems, m_actionCollection);
     auto deleteShortcuts = deleteAction->shortcuts();
+    deleteAction->setAutoRepeat(false);
     if (!deleteShortcuts.contains(Qt::SHIFT | Qt::Key_Delete)) {
         deleteShortcuts.append(Qt::SHIFT | Qt::Key_Delete);
         m_actionCollection->setDefaultShortcuts(deleteAction, deleteShortcuts);
