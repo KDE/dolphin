@@ -4,7 +4,7 @@
 # Andhika Padmawan <andhika.padmawan@gmail.com>, 2010-2014.
 # Arif Budiman <arif@kangarif.com>, 2014.
 # Wantoyo <wantoyek@gmail.com>, 2017, 2018, 2019, 2020, 2021, 2022.
-# Linerly <linerly@protonmail.com>, 2022.
+# Linerly <linerly@protonmail.com>, 2022, 2023.
 # Aziz Adam Adrian <4.adam.adrian@gmail.com>, 2022.
 #
 msgid ""
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-26 01:00+0000\n"
-"PO-Revision-Date: 2022-09-25 20:06+0700\n"
+"PO-Revision-Date: 2023-01-12 09:43+0700\n"
 "Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -219,7 +219,7 @@ msgstr "Konfigurasikan..."
 #, kde-format
 msgctxt "@action:inmenu File"
 msgid "New &Window"
-msgstr "jendela &Baru"
+msgstr "Jendela &Baru"
 
 #: dolphinmainwindow.cpp:1566
 #, kde-format
@@ -811,7 +811,7 @@ msgstr "Buka di Tab Baru"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Open in New Window"
-msgstr "Buka di jendela Baru"
+msgstr "Buka di Jendela Baru"
 
 #: dolphinmainwindow.cpp:2005
 #, kde-format
@@ -3237,7 +3237,7 @@ msgstr "Tampilkan perintah 'Buka di Tab Baru' di menu konteks."
 #: settings/dolphin_contextmenusettings.kcfg:30
 #, kde-format
 msgid "Show 'Open in New Window' in context menu."
-msgstr "Tampilkan perintah 'Buka di jendela Baru' di menu konteks."
+msgstr "Tampilkan perintah 'Buka di Jendela Baru' di menu konteks."
 
 #. i18n: ectx: label, entry (ShowCopyLocation), group (ContextMenu)
 #: settings/dolphin_contextmenusettings.kcfg:34
@@ -4082,7 +4082,7 @@ msgstr "Mulai di mode tampilan belah"
 #: settings/startup/startupsettingspage.cpp:101
 #, kde-format
 msgid "New windows:"
-msgstr "jendela baru:"
+msgstr "Jendela baru:"
 
 #: settings/startup/startupsettingspage.cpp:102
 #, kde-format
