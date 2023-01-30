@@ -6,13 +6,13 @@
 # Muhammet Kara <muhammet.k@gmail.com>, 2011.
 # obsoleteman <tulliana@gmail.com>, 2007-2012.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2017, 2018, 2020, 2021.
-# Emir SARI <emir_sari@icloud.com>, 2022.
+# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2022-12-11 19:57+0300\n"
+"PO-Revision-Date: 2023-01-29 14:04+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 22.12.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1680,8 +1680,8 @@ msgstr "\"%1\", \"%2\", \"%3\", \"%4\" ve \"%5\""
 msgctxt "Textual representation of selected files. %1 is the number of files."
 msgid "One Selected File"
 msgid_plural "%1 Selected Files"
-msgstr[0] "Bir Seçili Dosya"
-msgstr[1] "%1 Seçili Dosya"
+msgstr[0] "Bir dosya seçili"
+msgstr[1] "%1 dosya seçili"
 
 #: kitemviews/kfileitemlisttostring.cpp:61
 #, kde-format
@@ -1689,8 +1689,8 @@ msgctxt ""
 "Textual representation of selected folders. %1 is the number of folders."
 msgid "One Selected Folder"
 msgid_plural "%1 Selected Folders"
-msgstr[0] "Bir Seçili Klasör"
-msgstr[1] "%1 Seçili Klasör"
+msgstr[0] "Bir klasör seçili"
+msgstr[1] "%1 klasör seçili"
 
 #: kitemviews/kfileitemlisttostring.cpp:64
 #, kde-format
@@ -1699,24 +1699,24 @@ msgctxt ""
 "folders."
 msgid "One Selected Item"
 msgid_plural "%1 Selected Items"
-msgstr[0] "Bir Seçili Öge"
-msgstr[1] "%1 Seçili Öge"
+msgstr[0] "Bir öge seçili"
+msgstr[1] "%1 öge seçili"
 
 #: kitemviews/kfileitemlisttostring.cpp:74
 #, kde-format
 msgctxt "Textual representation of files. %1 is the number of files."
 msgid "One File"
 msgid_plural "%1 Files"
-msgstr[0] "Bir Dosya"
-msgstr[1] "%1 Dosya"
+msgstr[0] "Bir dosya"
+msgstr[1] "%1 dosya"
 
 #: kitemviews/kfileitemlisttostring.cpp:77
 #, kde-format
 msgctxt "Textual representation of folders. %1 is the number of folders."
 msgid "One Folder"
 msgid_plural "%1 Folders"
-msgstr[0] "Bir Klasör"
-msgstr[1] "%1 Klasör"
+msgstr[0] "Bir klasör"
+msgstr[1] "%1 klasör"
 
 #: kitemviews/kfileitemlisttostring.cpp:80
 #, kde-format
@@ -1724,8 +1724,8 @@ msgctxt ""
 "Textual representation of fileitems. %1 is the number of files/folders."
 msgid "One Item"
 msgid_plural "%1 Items"
-msgstr[0] "Bir Öge"
-msgstr[1] "%1 Öge"
+msgstr[0] "Bir öge"
+msgstr[1] "%1 öge"
 
 #: kitemviews/kfileitemlistwidget.cpp:74
 #, kde-format
