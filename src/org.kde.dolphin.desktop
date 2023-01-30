@@ -163,6 +163,7 @@ Keywords[uk]=files;file management;file browsing;samba;network shares;Explorer;F
 Keywords[vi]=files;file management;file browsing;samba;network shares;Explorer;Finder;tệp;quản lí tệp;duyệt tệp;chia sẻ mạng;
 Keywords[x-test]=xxfilesxx;xxfile managementxx;xxfile browsingxx;xxsambaxx;xxnetwork sharesxx;xxExplorerxx;xxFinderxx;
 Keywords[zh_CN]=files;file management;file browsing;samba;network shares;文件;文件管理;文件浏览;共享;共享文件夹;网络共享;浏览器;访达;查找器;
+Keywords[zh_TW]=files;file management;file browsing;samba;network shares;Explorer;Finder;檔案總管;檔案管理員;檔案;
 X-DBUS-ServiceName=org.kde.dolphin
 X-KDE-Shortcuts=Meta+E
 StartupWMClass=dolphin
