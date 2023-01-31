@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-30 01:00+0000\n"
-"PO-Revision-Date: 2023-01-29 14:04+0300\n"
+"PO-Revision-Date: 2023-01-31 00:58+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2556,13 +2556,13 @@ msgid ""
 "Terminal cannot be shown because Konsole is not installed. Please install it "
 "and then reopen the panel."
 msgstr ""
-"Konsole kurulu olmadığı için uçbirim gösterilemiyor. Lütfen yükleyin ve "
+"Konsole kurulu olmadığı için uçbirim gösterilemiyor. Lütfen onu kurun ve "
 "ardından paneli yeniden açın."
 
 #: panels/terminal/terminalpanel.cpp:183
 #, kde-format
 msgid "Install Konsole"
-msgstr "Konsole'u Yükle"
+msgstr "Konsole'u Kur"
 
 #. i18n: ectx: label, entry (Location), group (Search)
 #: search/dolphin_searchsettings.kcfg:10

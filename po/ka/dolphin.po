@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-30 01:00+0000\n"
-"PO-Revision-Date: 2023-01-27 07:10+0100\n"
+"PO-Revision-Date: 2023-01-30 10:32+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -3560,7 +3560,7 @@ msgstr ""
 #, kde-format
 msgctxt "@title:group"
 msgid "When opening an executable file:"
-msgstr ""
+msgstr "გამშვები ფაილის გახსნისას:"
 
 #: settings/general/confirmationssettingspage.cpp:75
 #, kde-format
@@ -4372,13 +4372,13 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
-msgstr ""
+msgstr "სვეტის ავტომატური სიგანეები"
 
 #: views/dolphinview.cpp:1190
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
-msgstr ""
+msgstr "სვეტის სიგანის ხელით მითითება"
 
 #: views/dolphinview.cpp:1766
 #, kde-format
@@ -4751,7 +4751,7 @@ msgstr ""
 #, kde-format
 msgctxt "@action:inmenu View"
 msgid "Adjust View Display Style..."
-msgstr ""
+msgstr "ხედის ჩვენების სტილის სწორება..."
 
 #: views/dolphinviewactionhandler.cpp:342
 #, kde-format
