@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdebase/dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-30 01:00+0000\n"
+"POT-Creation-Date: 2023-02-02 01:01+0000\n"
 "PO-Revision-Date: 2007-04-15 19:05-0500\n"
 "Last-Translator: Kevin Scannell <kscanne@gmail.com>\n"
 "Language-Team: Irish <gaeilge-gnulinux@lists.sourceforge.net>\n"
@@ -4704,7 +4704,7 @@ msgstr "Réamhshocrú"
 msgid "Reload"
 msgstr "Athluchtaigh"
 
-#: views/dolphinview.cpp:638
+#: views/dolphinview.cpp:642
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder selected"
@@ -4715,7 +4715,7 @@ msgstr[2] "Roghnaíodh %1 Fhillteán"
 msgstr[3] "Roghnaíodh %1 bhFillteán"
 msgstr[4] "Roghnaíodh %1 Fillteán"
 
-#: views/dolphinview.cpp:639
+#: views/dolphinview.cpp:643
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File selected"
@@ -4726,7 +4726,7 @@ msgstr[2] "Roghnaíodh %1 Chomhad"
 msgstr[3] "Roghnaíodh %1 gComhad"
 msgstr[4] "Roghnaíodh %1 Comhad"
 
-#: views/dolphinview.cpp:641
+#: views/dolphinview.cpp:645
 #, kde-format
 msgctxt "@info:status"
 msgid "1 Folder"
@@ -4737,7 +4737,7 @@ msgstr[2] "%1 Fhillteán"
 msgstr[3] "%1 bhFillteán"
 msgstr[4] "%1 Fillteán"
 
-#: views/dolphinview.cpp:642
+#: views/dolphinview.cpp:646
 #, kde-format
 msgctxt "@info:status"
 msgid "1 File"
@@ -4748,31 +4748,31 @@ msgstr[2] "%1 Chomhad"
 msgstr[3] "%1 gComhad"
 msgstr[4] "%1 Comhad"
 
-#: views/dolphinview.cpp:646
+#: views/dolphinview.cpp:650
 #, kde-format
 msgctxt "@info:status folders, files (size)"
 msgid "%1, %2 (%3)"
 msgstr "%1, %2 (%3)"
 
-#: views/dolphinview.cpp:650
+#: views/dolphinview.cpp:654
 #, kde-format
 msgctxt "@info:status files (size)"
 msgid "%1 (%2)"
 msgstr "%1 (%2)"
 
-#: views/dolphinview.cpp:656
+#: views/dolphinview.cpp:660
 #, kde-format
 msgctxt "@info:status"
 msgid "0 Folders, 0 Files"
 msgstr "0 Fillteán, 0 Comhad"
 
-#: views/dolphinview.cpp:874 views/dolphinview.cpp:883
+#: views/dolphinview.cpp:878 views/dolphinview.cpp:887
 #, kde-format
 msgctxt "<filename> copy"
 msgid "%1 copy"
 msgstr ""
 
-#: views/dolphinview.cpp:1042
+#: views/dolphinview.cpp:1046
 #, kde-format
 msgid "Are you sure you want to open 1 item?"
 msgid_plural "Are you sure you want to open %1 items?"
@@ -4782,7 +4782,7 @@ msgstr[2] ""
 msgstr[3] ""
 msgstr[4] ""
 
-#: views/dolphinview.cpp:1048
+#: views/dolphinview.cpp:1052
 #, fuzzy, kde-format
 #| msgctxt "@title:menu"
 #| msgid "Open With"
@@ -4795,25 +4795,25 @@ msgstr[2] "Oscail Le"
 msgstr[3] "Oscail Le"
 msgstr[4] "Oscail Le"
 
-#: views/dolphinview.cpp:1181
+#: views/dolphinview.cpp:1185
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Side Padding"
 msgstr ""
 
-#: views/dolphinview.cpp:1185
+#: views/dolphinview.cpp:1189
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
 msgstr "Leithid Uathoibríocha Colún"
 
-#: views/dolphinview.cpp:1190
+#: views/dolphinview.cpp:1194
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Custom Column Widths"
 msgstr "Leithid Saincheaptha Colún"
 
-#: views/dolphinview.cpp:1766
+#: views/dolphinview.cpp:1770
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "Move to trash operation completed."
@@ -4821,136 +4821,136 @@ msgctxt "@info:status"
 msgid "Trash operation completed."
 msgstr "Oibríocht bhruscair curtha i gcrích."
 
-#: views/dolphinview.cpp:1775
+#: views/dolphinview.cpp:1779
 #, kde-format
 msgctxt "@info:status"
 msgid "Delete operation completed."
 msgstr "Oibríocht scriosta curtha i gcrích."
 
-#: views/dolphinview.cpp:1910
+#: views/dolphinview.cpp:1914
 #, fuzzy, kde-format
 #| msgid "Rename inline"
 msgctxt "@action:button"
 msgid "Rename and Hide"
 msgstr "Athainmnigh inlíne"
 
-#: views/dolphinview.cpp:1917
+#: views/dolphinview.cpp:1921
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this file's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1919
+#: views/dolphinview.cpp:1923
 #, kde-format
 msgid ""
 "Adding a dot to the beginning of this folder's name will hide it from view.\n"
 "Do you still want to rename it?"
 msgstr ""
 
-#: views/dolphinview.cpp:1921
+#: views/dolphinview.cpp:1925
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu View"
 #| msgid "Show Hidden Files"
 msgid "Hide this File?"
 msgstr "Taispeáin Comhaid Fholaithe"
 
-#: views/dolphinview.cpp:1921
+#: views/dolphinview.cpp:1925
 #, fuzzy, kde-format
 #| msgctxt "@title:group"
 #| msgid "Home Folder"
 msgid "Hide this Folder?"
 msgstr "Fillteán Baile"
 
-#: views/dolphinview.cpp:1977
+#: views/dolphinview.cpp:1981
 #, kde-format
 msgctxt "@info:status"
 msgid "The location is empty."
 msgstr "Tá an suíomh folamh."
 
-#: views/dolphinview.cpp:1979
+#: views/dolphinview.cpp:1983
 #, kde-format
 msgctxt "@info:status"
 msgid "The location '%1' is invalid."
 msgstr "Tá suíomh '%1' neamhbhailí."
 
-#: views/dolphinview.cpp:2225
+#: views/dolphinview.cpp:2229
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading..."
 msgstr "Fillteán á luchtú..."
 
-#: views/dolphinview.cpp:2244
+#: views/dolphinview.cpp:2248
 #, fuzzy, kde-format
 #| msgctxt "@info:progress"
 #| msgid "Loading folder..."
 msgid "Loading canceled"
 msgstr "Fillteán á luchtú..."
 
-#: views/dolphinview.cpp:2246
+#: views/dolphinview.cpp:2250
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the filter"
 msgstr "Roghnaigh gach mír comhoiriúnach don phatrún seo:"
 
-#: views/dolphinview.cpp:2248
+#: views/dolphinview.cpp:2252
 #, fuzzy, kde-format
 #| msgid "Select all items matching this pattern:"
 msgid "No items matching the search"
 msgstr "Roghnaigh gach mír comhoiriúnach don phatrún seo:"
 
-#: views/dolphinview.cpp:2250
+#: views/dolphinview.cpp:2254
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "The location is empty."
 msgid "Trash is empty"
 msgstr "Tá an suíomh folamh."
 
-#: views/dolphinview.cpp:2253
+#: views/dolphinview.cpp:2257
 #, kde-format
 msgid "No tags"
 msgstr ""
 
-#: views/dolphinview.cpp:2256
+#: views/dolphinview.cpp:2260
 #, kde-format
 msgid "No files tagged with \"%1\""
 msgstr ""
 
-#: views/dolphinview.cpp:2260
+#: views/dolphinview.cpp:2264
 #, fuzzy, kde-format
 #| msgid "Recently Closed Tabs"
 msgid "No recently used items"
 msgstr "Cluaisíní a Dúnadh le Déanaí"
 
-#: views/dolphinview.cpp:2262
+#: views/dolphinview.cpp:2266
 #, kde-format
 msgid "No shared folders found"
 msgstr ""
 
-#: views/dolphinview.cpp:2264
+#: views/dolphinview.cpp:2268
 #, kde-format
 msgid "No relevant network resources found"
 msgstr ""
 
-#: views/dolphinview.cpp:2266
+#: views/dolphinview.cpp:2270
 #, kde-format
 msgid "No MTP-compatible devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2268
+#: views/dolphinview.cpp:2272
 #, fuzzy, kde-format
 #| msgctxt "@info:status"
 #| msgid "No items found."
 msgid "No Apple devices found"
 msgstr "Níor aimsíodh mír ar bith."
 
-#: views/dolphinview.cpp:2270
+#: views/dolphinview.cpp:2274
 #, kde-format
 msgid "No Bluetooth devices found"
 msgstr ""
 
-#: views/dolphinview.cpp:2272
+#: views/dolphinview.cpp:2276
 #, fuzzy, kde-format
 #| msgctxt "@action:inmenu Sort"
 #| msgid "Folders First"
