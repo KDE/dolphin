@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-13 03:57+0000\n"
-"PO-Revision-Date: 2023-01-31 00:58+0300\n"
+"PO-Revision-Date: 2023-02-01 20:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1636,7 +1636,7 @@ msgstr "Süz..."
 #, kde-format
 msgctxt "@info:tooltip"
 msgid "Hide Filter Bar"
-msgstr "Süzgeç Araç Çubuğunu Gizle"
+msgstr "Süzgeç Çubuğunu Gizle"
 
 #: kitemviews/kfileitemlisttostring.cpp:23
 #, kde-format
@@ -2759,18 +2759,18 @@ msgstr "Buradan"
 #, kde-format
 msgctxt "action:button"
 msgid "Your files"
-msgstr "Dosyalarınız"
+msgstr "Dosyaların"
 
 #: search/dolphinsearchbox.cpp:385
 #, kde-format
 msgctxt "action:button"
 msgid "Search in your home directory"
-msgstr "Ana dizininizde arayın"
+msgstr "Ana dizininde ara"
 
 #: search/dolphinsearchbox.cpp:399
 #, kde-format
 msgid "More Search Tools"
-msgstr "Daha Fazla Arama Aracı"
+msgstr "Diğer Arama Araçları"
 
 #: search/dolphinsearchbox.cpp:461
 #, kde-format
@@ -4662,7 +4662,7 @@ msgstr "Kenar Dolgusu"
 #, kde-format
 msgctxt "@action:inmenu"
 msgid "Automatic Column Widths"
-msgstr "Otomatik Sütun Genişlikleri"
+msgstr "Otomatik Sütun Genişliği"
 
 #: views/dolphinview.cpp:1166
 #, kde-format
