@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: dolphin-plugins\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-02 01:01+0000\n"
-"PO-Revision-Date: 2023-02-01 20:02+0300\n"
+"PO-Revision-Date: 2023-02-02 19:56+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -3758,7 +3758,7 @@ msgstr "Çeşitli:"
 #, kde-format
 msgctxt "@option:check"
 msgid "Show selection marker"
-msgstr "Seçim işaretleyicisini göster"
+msgstr "Seçim işaretçisini göster"
 
 #: settings/general/behaviorsettingspage.cpp:83
 #, kde-format
@@ -3852,7 +3852,7 @@ msgstr "Uygulamada aç"
 #: settings/general/confirmationssettingspage.cpp:75
 #, kde-format
 msgid "Run script"
-msgstr "Komut dosyasını çalıştır"
+msgstr "Betiği çalıştır"
 
 #: settings/general/generalsettingspage.cpp:30
 #: settings/kcm/kcmdolphingeneral.cpp:35
@@ -4300,7 +4300,7 @@ msgstr[1] "Boyut: %1 piksel"
 #, kde-format
 msgctxt "@title:window"
 msgid "View Display Style"
-msgstr "Görünüm Gösterge Biçemi"
+msgstr "Görünüm Gösterim Biçemi"
 
 #: settings/viewpropertiesdialog.cpp:72
 #, kde-format

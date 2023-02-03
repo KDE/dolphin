@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: dolphin\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-02-02 01:01+0000\n"
-"PO-Revision-Date: 2023-01-30 10:32+0100\n"
+"PO-Revision-Date: 2023-02-02 08:38+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1202,7 +1202,7 @@ msgstr "Select"
 #: dolphinpart.cpp:488
 #, kde-format
 msgid "Select all items matching this pattern:"
-msgstr ""
+msgstr "ყველა ელემენტის, რომლებიც ამ შაბლონს ემთხვევა, მონიშვნა:"
 
 #: dolphinpart.cpp:494
 #, kde-format
@@ -1213,7 +1213,7 @@ msgstr "მონიშვნის მოხსნა"
 #: dolphinpart.cpp:495
 #, kde-format
 msgid "Unselect all items matching this pattern:"
-msgstr ""
+msgstr "ყველა ელემენტზე, რომლებიც ამ შაბლონს ემთხვევა, მონიშვნის მოხსნა:"
 
 #. i18n: ectx: Menu (edit)
 #: dolphinpart.rc:5
@@ -1351,7 +1351,7 @@ msgstr ""
 #: dolphinviewcontainer.cpp:110
 #, kde-format
 msgid "Running Dolphin as root can be dangerous. Please be careful."
-msgstr ""
+msgstr "Dolphin-ის root მომხმარებლით გაშვება შეიძლება საშიში იყოს. ფრთხილად."
 
 #: dolphinviewcontainer.cpp:549 search/dolphinsearchbox.cpp:290
 #, kde-format
@@ -3255,7 +3255,7 @@ msgstr "ხაზშივე გადარქმევა"
 #: settings/dolphin_generalsettings.kcfg:83
 #, kde-format
 msgid "Show selection toggle"
-msgstr ""
+msgstr "მონიშვნის გადართვის ჩვენება"
 
 #. i18n: ectx: label, entry (ShowPasteBarAfterCopying), group (General)
 #: settings/dolphin_generalsettings.kcfg:87
